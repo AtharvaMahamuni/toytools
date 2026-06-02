@@ -1,0 +1,361 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ToolLayout from '@layouts/ToolLayout.astro';
+import ToolCard from '@components/ToolCard.astro';
+import { tools } from '@data/tools';
+import { categories } from '@data/categories';
+
+export const getStaticPaths = (() => {
+  return tools.map(tool => {
+    const category = categories.find(c => c.slug === tool.categorySlug)!;
+    return { params: { slug: tool.slug }, props: { tool, category } };
+  });
+}) satisfies GetStaticPaths;
+
+const { tool, category } = Astro.props;
+const relatedTools = tools.filter(t => t.categorySlug === tool.categorySlug && t.slug !== tool.slug).slice(0, 3);
+const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
+  tool.slug === 'case-converter' ? 'Convert text' :
+  tool.slug === 'base64-encoder' ? 'Convert text' :
+  'Calculate';
+---
+
+<ToolLayout tool={tool} category={category}>
+  <Fragment slot="inputs">
+    {tool.slug === 'word-counter' && (
+      <section class="tool-panel" data-tool="word-counter">
+        <label for="word-counter-input">Text</label>
+        <textarea id="word-counter-input" rows="10" placeholder="Paste or type text here"></textarea>
+      </section>
+    )}
+
+    {tool.slug === 'case-converter' && (
+      <section class="tool-panel" data-tool="case-converter">
+        <label for="case-input">Text</label>
+        <textarea id="case-input" rows="8" placeholder="Paste or type text here"></textarea>
+        <label for="case-mode">Conversion</label>
+        <select id="case-mode">
+          <option value="lower">lowercase</option>
+          <option value="upper">UPPERCASE</option>
+          <option value="title">Title Case</option>
+          <option value="sentence">Sentence case</option>
+        </select>
+      </section>
+    )}
+
+    {tool.slug === 'percentage-calculator' && (
+      <section class="tool-panel" data-tool="percentage-calculator">
+        <label for="percentage-mode">Calculation</label>
+        <select id="percentage-mode">
+          <option value="of">What is A% of B?</option>
+          <option value="change">Percentage change from A to B</option>
+          <option value="is">A is what percent of B?</option>
+        </select>
+        <label for="percentage-a">A</label>
+        <input id="percentage-a" type="number" inputmode="decimal" placeholder="Example: 20" />
+        <label for="percentage-b">B</label>
+        <input id="percentage-b" type="number" inputmode="decimal" placeholder="Example: 150" />
+      </section>
+    )}
+
+    {tool.slug === 'base64-encoder' && (
+      <section class="tool-panel" data-tool="base64-encoder">
+        <label for="base64-input">Text</label>
+        <textarea id="base64-input" rows="8" placeholder="Enter text or Base64"></textarea>
+        <label for="base64-mode">Mode</label>
+        <select id="base64-mode">
+          <option value="encode">Encode to Base64</option>
+          <option value="decode">Decode from Base64</option>
+        </select>
+      </section>
+    )}
+  </Fragment>
+
+  <Fragment slot="action">
+    <div class="tool-action">
+      <button class="primary-action" type="button" data-run-tool={tool.slug}>{actionLabel}</button>
+    </div>
+  </Fragment>
+
+  <Fragment slot="result">
+    <section class="result-panel" aria-live="polite">
+      {tool.slug === 'word-counter' && (
+        <div class="metric-grid" id="word-counter-result">
+          <div><span class="metric-value">0</span><span class="metric-label">Words</span></div>
+          <div><span class="metric-value">0</span><span class="metric-label">Characters</span></div>
+          <div><span class="metric-value">0</span><span class="metric-label">Sentences</span></div>
+          <div><span class="metric-value">0</span><span class="metric-label">Paragraphs</span></div>
+        </div>
+      )}
+
+      {tool.slug !== 'word-counter' && (
+        <div>
+          <h2>Result</h2>
+          <output id="tool-output">Enter values and run the tool.</output>
+        </div>
+      )}
+    </section>
+  </Fragment>
+
+  <Fragment slot="explanation">
+    <section class="content-section">
+      <h2>How it works</h2>
+      {tool.slug === 'word-counter' && <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>}
+      {tool.slug === 'case-converter' && <p>The converter transforms the provided text locally using the selected casing rule.</p>}
+      {tool.slug === 'percentage-calculator' && <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>}
+      {tool.slug === 'base64-encoder' && <p>The encoder converts plain text to Base64, or decodes valid Base64 back to readable text, in your browser.</p>}
+    </section>
+  </Fragment>
+
+  <Fragment slot="faq">
+    <section class="content-section">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Does this tool upload my data?</summary>
+        <p>No. The calculation runs in your browser.</p>
+      </details>
+      <details>
+        <summary>Can I use it on mobile?</summary>
+        <p>Yes. Inputs are stacked and the primary action remains reachable on small screens.</p>
+      </details>
+    </section>
+  </Fragment>
+
+  {relatedTools.length > 0 && (
+    <Fragment slot="related">
+      <section class="content-section">
+        <h2>Related tools</h2>
+        <div class="related-grid">
+          {relatedTools.map(related => <ToolCard tool={related} />)}
+        </div>
+      </section>
+    </Fragment>
+  )}
+</ToolLayout>
+
+<style>
+  .tool-panel,
+  .result-panel,
+  .content-section {
+    padding-block: var(--space-8);
+    border-bottom: var(--border);
+  }
+
+  .tool-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  label {
+    font-weight: var(--font-weight-medium);
+  }
+
+  textarea,
+  input,
+  select {
+    width: 100%;
+    min-height: 52px;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  textarea {
+    resize: vertical;
+    line-height: var(--leading-relaxed);
+  }
+
+  .tool-action {
+    padding-block: var(--space-4) var(--space-8);
+    border-bottom: var(--border);
+  }
+
+  .primary-action {
+    width: 100%;
+    min-height: 52px;
+    border: var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .primary-action:hover {
+    border-color: var(--color-accent);
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .metric-grid > div {
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .metric-value,
+  .metric-label {
+    display: block;
+  }
+
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .metric-label {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  output {
+    display: block;
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    min-height: 52px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+
+  h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  details {
+    border-top: var(--border);
+    padding-block: var(--space-4);
+  }
+
+  details:last-child {
+    border-bottom: var(--border);
+  }
+
+  summary {
+    min-height: var(--touch-target);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 720px) {
+    .metric-grid,
+    .related-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tool-action {
+      position: sticky;
+      bottom: 0;
+      z-index: var(--z-raised);
+      margin-inline: calc(var(--space-4) * -1);
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-bg);
+      border-top: var(--border);
+    }
+  }
+</style>
+
+<script is:inline>
+  function textValue(id) {
+    return document.getElementById(id)?.value || '';
+  }
+
+  function writeOutput(value) {
+    var output = document.getElementById('tool-output');
+    if (output) output.textContent = value;
+  }
+
+  function sentenceCase(text) {
+    var lower = text.toLowerCase();
+    return lower.replace(/(^\s*\w|[.!?]\s+\w)/g, function (match) {
+      return match.toUpperCase();
+    });
+  }
+
+  function titleCase(text) {
+    return text.toLowerCase().replace(/\b\w/g, function (match) {
+      return match.toUpperCase();
+    });
+  }
+
+  function runWordCounter() {
+    var text = textValue('word-counter-input').trim();
+    var words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+    var characters = textValue('word-counter-input').length;
+    var sentences = text ? (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).length : 0;
+    var paragraphs = text ? text.split(/\n\s*\n/).filter(Boolean).length : 0;
+    var values = [words, characters, sentences, paragraphs];
+    document.querySelectorAll('#word-counter-result .metric-value').forEach(function (node, index) {
+      node.textContent = String(values[index]);
+    });
+  }
+
+  function runCaseConverter() {
+    var text = textValue('case-input');
+    var mode = document.getElementById('case-mode')?.value;
+    var result = mode === 'upper' ? text.toUpperCase() :
+      mode === 'title' ? titleCase(text) :
+      mode === 'sentence' ? sentenceCase(text) :
+      text.toLowerCase();
+    writeOutput(result || 'Enter text to convert.');
+  }
+
+  function runPercentageCalculator() {
+    var mode = document.getElementById('percentage-mode')?.value;
+    var a = Number(textValue('percentage-a'));
+    var b = Number(textValue('percentage-b'));
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+      writeOutput('Enter valid numbers.');
+      return;
+    }
+    if (mode === 'change' && a === 0) {
+      writeOutput('The first value cannot be zero for percentage change.');
+      return;
+    }
+    if (mode === 'is' && b === 0) {
+      writeOutput('The second value cannot be zero for this calculation.');
+      return;
+    }
+    var result = mode === 'of' ? (a / 100) * b :
+      mode === 'change' ? ((b - a) / a) * 100 :
+      (a / b) * 100;
+    writeOutput(Number(result.toFixed(6)).toString());
+  }
+
+  function runBase64() {
+    var text = textValue('base64-input');
+    var mode = document.getElementById('base64-mode')?.value;
+    try {
+      var result = mode === 'decode' ? decodeURIComponent(escape(atob(text))) : btoa(unescape(encodeURIComponent(text)));
+      writeOutput(result || 'Enter text to convert.');
+    } catch (_error) {
+      writeOutput('Enter valid Base64 input.');
+    }
+  }
+
+  document.querySelector('[data-run-tool]')?.addEventListener('click', function (event) {
+    var slug = event.currentTarget.getAttribute('data-run-tool');
+    if (slug === 'word-counter') runWordCounter();
+    if (slug === 'case-converter') runCaseConverter();
+    if (slug === 'percentage-calculator') runPercentageCalculator();
+    if (slug === 'base64-encoder') runBase64();
+  });
+</script>

@@ -1,0 +1,74 @@
+---
+import type { Category } from '@data/types';
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+---
+
+<a href={`/categories/${category.slug}`} class="category-card">
+  <div class="category-body">
+    <span class="category-name">{category.name}</span>
+    <span class="category-description">{category.description}</span>
+    <span class="category-count">
+      <span class="count-number">{category.toolCount}</span>
+      <span class="count-label"> tools</span>
+    </span>
+  </div>
+</a>
+
+<style>
+  .category-card {
+    display: block;
+    padding: var(--space-5);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    min-height: var(--touch-target);
+    overflow: hidden;
+    transition: var(--transition-color);
+  }
+
+  .category-card:hover {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-border-strong);
+    text-decoration: none;
+  }
+
+
+  .category-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .category-name {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+  }
+
+  .category-description {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    max-width: unset;
+    overflow-wrap: break-word;
+  }
+
+  .category-count {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    margin-top: var(--space-2);
+  }
+
+  .count-number {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+</style>
