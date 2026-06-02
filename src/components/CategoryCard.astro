@@ -1,5 +1,6 @@
 ---
 import type { Category } from '@data/types';
+import { withBase } from '../lib/paths';
 
 interface Props {
   category: Category;
@@ -8,7 +9,7 @@ interface Props {
 const { category } = Astro.props;
 ---
 
-<a href={`/categories/${category.slug}`} class="category-card">
+<a href={withBase(`/categories/${category.slug}/`)} class="category-card">
   <div class="category-body">
     <span class="category-name">{category.name}</span>
     <span class="category-description">{category.description}</span>

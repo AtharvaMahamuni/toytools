@@ -1,10 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
+const base = process.env.ASTRO_BASE_PATH;
+
 export default defineConfig({
-  site: 'https://toytools.app',
+  site: process.env.ASTRO_SITE ?? 'https://toytools.app',
+  base,
   output: 'static',
-  trailingSlash: 'never',
+  trailingSlash: base ? 'always' : 'never',
   compressHTML: true,
   build: {
     assets: '_assets',

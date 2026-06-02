@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/tools';
+import { withBase } from '../lib/paths';
 
 function getCategoryName(slug: string): string {
   return categories.find(c => c.slug === slug)?.name ?? slug;
@@ -16,7 +17,7 @@ function getCategoryName(slug: string): string {
 >
   <section class="search-header">
     <h1>Search tools</h1>
-    <form class="search-page-form" action="/search" method="get" role="search">
+    <form class="search-page-form" action={withBase('/search/')} method="get" role="search">
       <label class="sr-only" for="search-page-query">Search tools</label>
       <input id="search-page-query" type="search" name="q" placeholder="Search by name, category, or tag" autocomplete="off" />
       <button type="submit">Search</button>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
 ---
 
 <BaseLayout
@@ -10,7 +11,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
   <div class="not-found">
     <h1>Page not found</h1>
     <p>The page you're looking for doesn't exist or has been moved.</p>
-    <a href="/" class="home-link">Go to homepage</a>
+    <a href={withBase('/')} class="home-link">Go to homepage</a>
   </div>
 </BaseLayout>
 

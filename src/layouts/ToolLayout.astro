@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import type { Tool, Category } from '@data/types';
+import { withBase } from '../lib/paths';
 
 interface Props {
   tool: Tool;
@@ -13,9 +14,9 @@ const { tool, category } = Astro.props;
 <BaseLayout title={tool.name} description={tool.description} maxWidth="tool">
   <div class="tool-header">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
+      <a href={withBase('/')}>Home</a>
       <span aria-hidden="true">/</span>
-      <a href={`/categories/${category.slug}`}>{category.name}</a>
+      <a href={withBase(`/categories/${category.slug}/`)}>{category.name}</a>
       <span aria-hidden="true">/</span>
       <span aria-current="page">{tool.name}</span>
     </nav>

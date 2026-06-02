@@ -1,5 +1,6 @@
 ---
 import type { Tool } from '@data/types';
+import { withBase } from '../lib/paths';
 
 interface Props {
   tool: Tool;
@@ -9,7 +10,7 @@ interface Props {
 const { tool, categoryName } = Astro.props;
 ---
 
-<a href={`/tools/${tool.slug}`} class="tool-card">
+<a href={withBase(`/tools/${tool.slug}/`)} class="tool-card">
   <div class="tool-header">
     <span class="tool-name">{tool.name}</span>
     {tool.isNew && <span class="tool-badge">New</span>}

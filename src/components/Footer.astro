@@ -5,11 +5,6 @@ const year = new Date().getFullYear();
 <footer>
   <div class="footer-inner">
     <p>&copy; {year} ToyTools</p>
-    <nav aria-label="Footer navigation">
-      <a href="/about">About</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-    </nav>
   </div>
 </footer>
 
@@ -32,17 +27,4 @@ const year = new Date().getFullYear();
     color: var(--color-text-muted);
   }
 
-  nav {
-    display: flex;
-    gap: var(--space-6);
-  }
-
-  a {
-    color: var(--color-text-muted);
-    transition: var(--transition-color);
-  }
-
-  a:hover {
-    color: var(--color-text);
-  }
 </style>

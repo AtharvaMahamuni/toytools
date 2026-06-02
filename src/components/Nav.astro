@@ -1,10 +1,11 @@
 ---
 import SearchBar from './SearchBar.astro';
+import { withBase } from '../lib/paths';
 ---
 
 <header role="banner">
   <div class="nav-inner">
-    <a href="/" class="nav-logo">ToyTools</a>
+    <a href={withBase('/')} class="nav-logo">ToyTools</a>
     <div class="nav-search">
       <SearchBar />
     </div>
