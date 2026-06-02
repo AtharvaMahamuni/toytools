@@ -1,0 +1,76 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Tool, Category } from '@data/types';
+
+interface Props {
+  tool: Tool;
+  category: Category;
+}
+
+const { tool, category } = Astro.props;
+---
+
+<BaseLayout title={tool.name} description={tool.description} maxWidth="tool">
+  <div class="tool-header">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href={`/categories/${category.slug}`}>{category.name}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{tool.name}</span>
+    </nav>
+    <h1>{tool.name}</h1>
+    <p class="tool-description">{tool.description}</p>
+  </div>
+
+  <slot name="inputs" />
+  <slot name="action" />
+  <slot name="result" />
+
+
+  <slot name="explanation" />
+  <slot name="faq" />
+  <slot name="related" />
+</BaseLayout>
+
+<style>
+  .tool-header {
+    padding-bottom: var(--space-8);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-8);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-text);
+  }
+
+  .breadcrumb span[aria-hidden] {
+    color: var(--color-border-strong);
+  }
+
+  h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 55ch;
+  }
+
+</style>

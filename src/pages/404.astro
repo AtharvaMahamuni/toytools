@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist."
+  maxWidth="tool"
+>
+  <div class="not-found">
+    <h1>Page not found</h1>
+    <p>The page you're looking for doesn't exist or has been moved.</p>
+    <a href="/" class="home-link">Go to homepage</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: var(--space-20) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .not-found h1 {
+    font-size: var(--text-3xl);
+  }
+
+  .not-found p {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .home-link {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-size: var(--text-base);
+  }
+</style>

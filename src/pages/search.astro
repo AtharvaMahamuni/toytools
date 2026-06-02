@@ -1,0 +1,130 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ToolCard from '@components/ToolCard.astro';
+import { categories } from '@data/categories';
+import { tools } from '@data/tools';
+
+function getCategoryName(slug: string): string {
+  return categories.find(c => c.slug === slug)?.name ?? slug;
+}
+---
+
+<BaseLayout
+  title="Search"
+  description="Search ToyTools utilities by name, category, or tag."
+  maxWidth="category"
+>
+  <section class="search-header">
+    <h1>Search tools</h1>
+    <form class="search-page-form" action="/search" method="get" role="search">
+      <label class="sr-only" for="search-page-query">Search tools</label>
+      <input id="search-page-query" type="search" name="q" placeholder="Search by name, category, or tag" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+  </section>
+
+  <section class="search-results" aria-live="polite">
+    <p class="result-count" id="result-count"></p>
+    <div class="tool-grid" id="search-results">
+      {tools.map(tool => (
+        <article
+          data-search-item
+          data-search={`${tool.name} ${tool.description} ${tool.tags.join(' ')} ${getCategoryName(tool.categorySlug)}`.toLowerCase()}
+        >
+          <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
+        </article>
+      ))}
+    </div>
+    <p class="empty-state" id="empty-state" hidden>No matching tools found.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .search-header {
+    padding: var(--space-12) 0 var(--space-8);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-8);
+  }
+
+  h1 {
+    margin-bottom: var(--space-6);
+  }
+
+  .search-page-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: var(--width-tool);
+  }
+
+  input,
+  button {
+    min-height: 52px;
+    border-radius: var(--radius-md);
+    font: inherit;
+  }
+
+  input {
+    width: 100%;
+    padding: 0 var(--space-4);
+    border: var(--border);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  button {
+    border: var(--border-strong);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .result-count {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .empty-state {
+    padding: var(--space-8) 0;
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 720px) {
+    .search-page-form {
+      flex-direction: row;
+    }
+
+    button {
+      min-width: 140px;
+    }
+  }
+</style>
+
+<script is:inline>
+  var params = new URLSearchParams(window.location.search);
+  var query = (params.get('q') || '').trim().toLowerCase();
+  var input = document.getElementById('search-page-query');
+  var count = document.getElementById('result-count');
+  var empty = document.getElementById('empty-state');
+  var items = Array.from(document.querySelectorAll('[data-search-item]'));
+
+  if (input) input.value = query;
+
+  var visible = 0;
+  items.forEach(function (item) {
+    var matches = !query || item.getAttribute('data-search').includes(query);
+    item.hidden = !matches;
+    if (matches) visible += 1;
+  });
+
+  if (count) count.textContent = query ? visible + ' matching tools' : items.length + ' tools available';
+  if (empty) empty.hidden = visible !== 0;
+</script>

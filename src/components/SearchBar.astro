@@ -1,0 +1,75 @@
+---
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = 'Search tools…' } = Astro.props;
+---
+
+<form class="search-form" action="/search" method="get" role="search">
+  <label class="sr-only" for="q">Search tools</label>
+  <input
+    type="search"
+    id="q"
+    name="q"
+    placeholder={placeholder}
+    autocomplete="off"
+  />
+  <button type="submit">Search</button>
+</form>
+
+<style>
+  .search-form {
+    display: flex;
+    align-items: center;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    overflow: hidden;
+    transition: var(--transition-color);
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .search-form:focus-within {
+    border-color: var(--color-accent);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  input {
+    flex: 1;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-3);
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+  }
+
+  input::placeholder {
+    color: var(--color-text-subtle);
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-3);
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  button:hover {
+    color: var(--color-text);
+  }
+</style>
