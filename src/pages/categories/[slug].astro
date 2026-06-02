@@ -1,0 +1,103 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ToolCard from '@components/ToolCard.astro';
+import { categories } from '@data/categories';
+import { tools } from '@data/tools';
+
+export const getStaticPaths = (() => {
+  return categories.map(category => {
+    const categoryTools = tools.filter(t => t.categorySlug === category.slug);
+    return { params: { slug: category.slug }, props: { category, tools: categoryTools } };
+  });
+}) satisfies GetStaticPaths;
+
+const { category, tools: categoryTools } = Astro.props;
+---
+
+<BaseLayout
+  title={category.name}
+  description={category.description}
+  maxWidth="category"
+>
+  <div class="category-header">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{category.name}</span>
+    </nav>
+    <div class="category-title">
+      <h1>{category.name}</h1>
+    </div>
+    <p class="category-description">{category.description}</p>
+    <p class="tool-count">
+      <span class="count-number">{categoryTools.length}</span>
+      {categoryTools.length === 1 ? ' tool' : ' tools'}
+    </p>
+  </div>
+
+  <div class="tool-grid">
+    {categoryTools.map(tool => (
+      <ToolCard tool={tool} />
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .category-header {
+    padding-bottom: var(--space-8);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-8);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-text);
+  }
+
+  .breadcrumb span[aria-hidden] {
+    color: var(--color-border-strong);
+  }
+
+  .category-title {
+    margin-bottom: var(--space-3);
+  }
+
+  .category-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 55ch;
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    max-width: unset;
+  }
+
+  .count-number {
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+</style>
