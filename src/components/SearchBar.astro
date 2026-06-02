@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/paths';
+
 interface Props {
   placeholder?: string;
 }
@@ -6,7 +8,7 @@ interface Props {
 const { placeholder = 'Search tools…' } = Astro.props;
 ---
 
-<form class="search-form" action="/search" method="get" role="search">
+<form class="search-form" action={withBase('/search/')} method="get" role="search">
   <label class="sr-only" for="q">Search tools</label>
   <input
     type="search"
