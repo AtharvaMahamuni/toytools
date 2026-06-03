@@ -1,0 +1,125 @@
+---
+interface Props {
+  targetId: string;
+}
+const { targetId } = Astro.props;
+---
+
+<button
+  class="copy-btn"
+  type="button"
+  data-copy-target={targetId}
+  aria-label="Copy to clipboard"
+>
+  <span class="copy-label">Copy</span>
+  <!-- Checkmark — shown for 2s after copy -->
+  <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+</button>
+
+<style>
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    min-width: var(--touch-target);
+    height: var(--touch-target);
+    padding-inline: var(--space-3);
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-color);
+  }
+
+  .copy-btn:not([data-copied]):hover {
+    color: var(--color-text);
+    background: var(--color-bg-tertiary);
+  }
+
+  .icon-check {
+    display: none;
+  }
+
+  .copy-btn[data-copied] .copy-label {
+    display: none;
+  }
+
+  .copy-btn[data-copied] .icon-check {
+    display: block;
+    color: #22c55e;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var toastTimer;
+    function showToast(msg) {
+      var toast = document.getElementById('tt-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'tt-toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      clearTimeout(toastTimer);
+      toast.classList.add('tt-visible');
+      toastTimer = setTimeout(function () { toast.classList.remove('tt-visible'); }, 2000);
+    }
+
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    if (btn.dataset.copyInit) return;
+    btn.dataset.copyInit = '1';
+    btn.addEventListener('click', function () {
+      var targetId = btn.getAttribute('data-copy-target');
+      var el = document.getElementById(targetId);
+      var text = el ? (el.value || el.textContent || '').trim() : '';
+      if (!text || el.hasAttribute('data-empty')) {
+        showToast('Nothing to copy!');
+        return;
+      }
+      if (el.hasAttribute('data-error')) {
+        showToast(el.getAttribute('data-error').replace(/\.$/, ''));
+        return;
+      }
+
+      // Show checkmark + highlight bar + toast immediately
+      btn.setAttribute('data-copied', '');
+      var bar = btn.closest('[data-copy-bar]');
+      if (bar) bar.setAttribute('data-copy-active', '');
+      showToast('Copied!');
+      setTimeout(function () {
+        btn.removeAttribute('data-copied');
+        if (bar) bar.removeAttribute('data-copy-active');
+      }, 2000);
+
+      // Copy — modern API with legacy fallback
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).catch(function () { legacyCopy(text); });
+      } else {
+        legacyCopy(text);
+      }
+
+      function legacyCopy(t) {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = t;
+          ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (_) {}
+      }
+    });
+  });
+  })();
+</script>

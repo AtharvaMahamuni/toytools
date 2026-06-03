@@ -2,6 +2,8 @@
 import type { GetStaticPaths } from 'astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
 import ToolCard from '@components/ToolCard.astro';
+import CompareLayout from '@components/CompareLayout.astro';
+import CopyButton from '@components/CopyButton.astro';
 import { tools } from '@data/tools';
 import { categories } from '@data/categories';
 
@@ -13,14 +15,22 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { tool, category } = Astro.props;
-const relatedTools = tools.filter(t => t.categorySlug === tool.categorySlug && t.slug !== tool.slug).slice(0, 3);
-const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
-  tool.slug === 'case-converter' ? 'Convert text' :
-  tool.slug === 'base64-encoder' ? 'Convert text' :
+const relatedTools = tools
+  .filter(t => t.categorySlug === tool.categorySlug && t.slug !== tool.slug)
+  .slice(0, 3);
+
+const isBase64 = tool.slug === 'base64-encoder';
+
+const actionLabel =
+  tool.slug === 'word-counter' ? 'Count' :
+  tool.slug === 'case-converter' ? 'Convert' :
   'Calculate';
 ---
 
 <ToolLayout tool={tool} category={category}>
+
+  <!-- ── Inputs ─────────────────────────────────────────────── -->
+
   <Fragment slot="inputs">
     {tool.slug === 'word-counter' && (
       <section class="tool-panel" data-tool="word-counter">
@@ -58,44 +68,77 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
       </section>
     )}
 
-    {tool.slug === 'base64-encoder' && (
-      <section class="tool-panel" data-tool="base64-encoder">
-        <label for="base64-input">Text</label>
-        <textarea id="base64-input" rows="8" placeholder="Enter text or Base64"></textarea>
-        <label for="base64-mode">Mode</label>
-        <select id="base64-mode">
-          <option value="encode">Encode to Base64</option>
-          <option value="decode">Decode from Base64</option>
-        </select>
-      </section>
+    {isBase64 && (
+      <CompareLayout>
+        <!-- Left: input panel -->
+        <div slot="left" class="b64-panel">
+          <div class="b64-header">
+            <label class="b64-label" for="base64-input">
+              Input <span id="b64-input-type" class="b64-type">Text</span>
+            </label>
+            <select id="base64-mode" aria-label="Conversion mode">
+              <option value="encode">Encode → Base64</option>
+              <option value="decode">Decode ← Base64</option>
+            </select>
+          </div>
+          <textarea
+            id="base64-input"
+            placeholder="Enter text or Base64"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+        </div>
+
+        <!-- Right: output panel -->
+        <div slot="right" class="b64-panel">
+          <div class="b64-header" data-copy-bar>
+            <span class="b64-label">
+              Output <span id="b64-output-type" class="b64-type">Base64</span>
+            </span>
+            <CopyButton targetId="base64-output" />
+          </div>
+          <output id="base64-output" aria-live="polite" data-empty>Output will appear here</output>
+        </div>
+      </CompareLayout>
     )}
   </Fragment>
 
-  <Fragment slot="action">
-    <div class="tool-action">
-      <button class="primary-action" type="button" data-run-tool={tool.slug}>{actionLabel}</button>
-    </div>
-  </Fragment>
+  <!-- ── Action (not used for base64 — live updates replace the button) ── -->
 
-  <Fragment slot="result">
-    <section class="result-panel" aria-live="polite">
-      {tool.slug === 'word-counter' && (
-        <div class="metric-grid" id="word-counter-result">
-          <div><span class="metric-value">0</span><span class="metric-label">Words</span></div>
-          <div><span class="metric-value">0</span><span class="metric-label">Characters</span></div>
-          <div><span class="metric-value">0</span><span class="metric-label">Sentences</span></div>
-          <div><span class="metric-value">0</span><span class="metric-label">Paragraphs</span></div>
-        </div>
-      )}
+  {!isBase64 && (
+    <Fragment slot="action">
+      <div class="tool-action">
+        <button class="primary-action" type="button" data-run-tool={tool.slug}>{actionLabel}</button>
+      </div>
+    </Fragment>
+  )}
 
-      {tool.slug !== 'word-counter' && (
-        <div>
-          <h2>Result</h2>
-          <output id="tool-output">Enter values and run the tool.</output>
-        </div>
-      )}
-    </section>
-  </Fragment>
+  <!-- ── Result (not used for base64 — output is inline in the compare panel) ── -->
+
+  {!isBase64 && (
+    <Fragment slot="result">
+      <section class="result-panel" aria-live="polite">
+        {tool.slug === 'word-counter' && (
+          <div class="metric-grid" id="word-counter-result">
+            <div><span class="metric-value">0</span><span class="metric-label">Words</span></div>
+            <div><span class="metric-value">0</span><span class="metric-label">Characters</span></div>
+            <div><span class="metric-value">0</span><span class="metric-label">Sentences</span></div>
+            <div><span class="metric-value">0</span><span class="metric-label">Paragraphs</span></div>
+          </div>
+        )}
+        {tool.slug !== 'word-counter' && (
+          <div>
+            <h2>Result</h2>
+            <output id="tool-output">Enter values and run the tool.</output>
+          </div>
+        )}
+      </section>
+    </Fragment>
+  )}
+
+  <!-- ── Explanation ────────────────────────────────────────── -->
 
   <Fragment slot="explanation">
     <section class="content-section">
@@ -103,23 +146,27 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
       {tool.slug === 'word-counter' && <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>}
       {tool.slug === 'case-converter' && <p>The converter transforms the provided text locally using the selected casing rule.</p>}
       {tool.slug === 'percentage-calculator' && <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>}
-      {tool.slug === 'base64-encoder' && <p>The encoder converts plain text to Base64, or decodes valid Base64 back to readable text, in your browser.</p>}
+      {isBase64 && <p>The encoder converts plain text to Base64, or decodes valid Base64 back to readable text, entirely in your browser. Nothing is sent to a server.</p>}
     </section>
   </Fragment>
+
+  <!-- ── FAQ ───────────────────────────────────────────────── -->
 
   <Fragment slot="faq">
     <section class="content-section">
       <h2>FAQ</h2>
       <details>
         <summary>Does this tool upload my data?</summary>
-        <p>No. The calculation runs in your browser.</p>
+        <p>No. Everything runs in your browser.</p>
       </details>
       <details>
         <summary>Can I use it on mobile?</summary>
-        <p>Yes. Inputs are stacked and the primary action remains reachable on small screens.</p>
+        <p>Yes. Inputs are stacked and reachable on small screens.</p>
       </details>
     </section>
   </Fragment>
+
+  <!-- ── Related ────────────────────────────────────────────── -->
 
   {relatedTools.length > 0 && (
     <Fragment slot="related">
@@ -131,9 +178,12 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
       </section>
     </Fragment>
   )}
+
 </ToolLayout>
 
 <style>
+  /* ── Shared panel / form styles ───────────────────────────── */
+
   .tool-panel,
   .result-panel,
   .content-section {
@@ -186,7 +236,7 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
   }
 
   .primary-action:hover {
-    border-color: var(--color-accent);
+    opacity: 0.9;
   }
 
   .metric-grid {
@@ -253,14 +303,14 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
     gap: var(--space-4);
   }
 
-  @media (min-width: 720px) {
+  @media (min-width: 640px) {
     .metric-grid,
     .related-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 639px) {
     .tool-action {
       position: sticky;
       bottom: 0;
@@ -271,50 +321,138 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
       border-top: var(--border);
     }
   }
+
+  /* ── Base64 compare layout ────────────────────────────────── */
+
+  .b64-panel {
+    border: var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+    overflow: hidden;
+  }
+
+  .b64-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding-left: var(--space-3);
+    border-bottom: var(--border);
+    min-height: var(--touch-target);
+    flex-shrink: 0;
+  }
+
+  .b64-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  .b64-type {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-subtle);
+  }
+
+  /* Mode selector — compact, lives inside the panel header */
+  #base64-mode {
+    min-height: unset;
+    width: auto;
+    border: none;
+    border-left: var(--border);
+    border-radius: 0;
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    align-self: stretch;
+  }
+
+  /* Input textarea — fills the panel, no redundant border */
+  #base64-input {
+    flex: 1;
+    resize: none;
+    width: 100%;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    padding: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  /* Output element — same visual weight as the input */
+  #base64-output {
+    flex: 1;
+    display: block;
+    margin: 0;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    padding: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    color: var(--color-text);
+  }
+
+  /* Empty state — muted placeholder colour */
+  #base64-output[data-empty] {
+    color: var(--color-text-subtle);
+  }
 </style>
 
 <script is:inline>
+  /* ── Shared helpers ───────────────────────────────────────── */
+
   function textValue(id) {
     return document.getElementById(id)?.value || '';
   }
 
   function writeOutput(value) {
-    var output = document.getElementById('tool-output');
-    if (output) output.textContent = value;
+    var el = document.getElementById('tool-output');
+    if (el) el.textContent = value;
   }
 
   function sentenceCase(text) {
-    var lower = text.toLowerCase();
-    return lower.replace(/(^\s*\w|[.!?]\s+\w)/g, function (match) {
-      return match.toUpperCase();
-    });
+    return text.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g, function (m) { return m.toUpperCase(); });
   }
 
   function titleCase(text) {
-    return text.toLowerCase().replace(/\b\w/g, function (match) {
-      return match.toUpperCase();
-    });
+    return text.toLowerCase().replace(/\b\w/g, function (m) { return m.toUpperCase(); });
   }
+
+  /* ── Button-triggered tools ───────────────────────────────── */
 
   function runWordCounter() {
     var text = textValue('word-counter-input').trim();
-    var words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+    var words      = text ? text.split(/\s+/).filter(Boolean).length : 0;
     var characters = textValue('word-counter-input').length;
-    var sentences = text ? (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).length : 0;
+    var sentences  = text ? (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).length : 0;
     var paragraphs = text ? text.split(/\n\s*\n/).filter(Boolean).length : 0;
     var values = [words, characters, sentences, paragraphs];
-    document.querySelectorAll('#word-counter-result .metric-value').forEach(function (node, index) {
-      node.textContent = String(values[index]);
+    document.querySelectorAll('#word-counter-result .metric-value').forEach(function (node, i) {
+      node.textContent = String(values[i]);
     });
   }
 
   function runCaseConverter() {
     var text = textValue('case-input');
     var mode = document.getElementById('case-mode')?.value;
-    var result = mode === 'upper' ? text.toUpperCase() :
-      mode === 'title' ? titleCase(text) :
-      mode === 'sentence' ? sentenceCase(text) :
-      text.toLowerCase();
+    var result = mode === 'upper'    ? text.toUpperCase()  :
+                 mode === 'title'    ? titleCase(text)      :
+                 mode === 'sentence' ? sentenceCase(text)   :
+                                      text.toLowerCase();
     writeOutput(result || 'Enter text to convert.');
   }
 
@@ -322,40 +460,87 @@ const actionLabel = tool.slug === 'word-counter' ? 'Count text' :
     var mode = document.getElementById('percentage-mode')?.value;
     var a = Number(textValue('percentage-a'));
     var b = Number(textValue('percentage-b'));
-    if (!Number.isFinite(a) || !Number.isFinite(b)) {
-      writeOutput('Enter valid numbers.');
-      return;
-    }
-    if (mode === 'change' && a === 0) {
-      writeOutput('The first value cannot be zero for percentage change.');
-      return;
-    }
-    if (mode === 'is' && b === 0) {
-      writeOutput('The second value cannot be zero for this calculation.');
-      return;
-    }
-    var result = mode === 'of' ? (a / 100) * b :
-      mode === 'change' ? ((b - a) / a) * 100 :
-      (a / b) * 100;
+    if (!Number.isFinite(a) || !Number.isFinite(b)) { writeOutput('Enter valid numbers.'); return; }
+    if (mode === 'change' && a === 0) { writeOutput('First value cannot be zero.'); return; }
+    if (mode === 'is'     && b === 0) { writeOutput('Second value cannot be zero.'); return; }
+    var result = mode === 'of'     ? (a / 100) * b :
+                 mode === 'change' ? ((b - a) / a) * 100 :
+                                     (a / b) * 100;
     writeOutput(Number(result.toFixed(6)).toString());
   }
 
-  function runBase64() {
-    var text = textValue('base64-input');
-    var mode = document.getElementById('base64-mode')?.value;
-    try {
-      var result = mode === 'decode' ? decodeURIComponent(escape(atob(text))) : btoa(unescape(encodeURIComponent(text)));
-      writeOutput(result || 'Enter text to convert.');
-    } catch (_error) {
-      writeOutput('Enter valid Base64 input.');
-    }
+  var runBtn = document.querySelector('[data-run-tool]');
+  if (runBtn) {
+    runBtn.addEventListener('click', function (event) {
+      var slug = event.currentTarget.getAttribute('data-run-tool');
+      if (slug === 'word-counter')          runWordCounter();
+      if (slug === 'case-converter')        runCaseConverter();
+      if (slug === 'percentage-calculator') runPercentageCalculator();
+    });
   }
 
-  document.querySelector('[data-run-tool]')?.addEventListener('click', function (event) {
-    var slug = event.currentTarget.getAttribute('data-run-tool');
-    if (slug === 'word-counter') runWordCounter();
-    if (slug === 'case-converter') runCaseConverter();
-    if (slug === 'percentage-calculator') runPercentageCalculator();
-    if (slug === 'base64-encoder') runBase64();
-  });
+  /* ── Base64 — live updates + localStorage persistence ─────── */
+
+  (function () {
+    var input  = document.getElementById('base64-input');
+    var modeEl = document.getElementById('base64-mode');
+    var output = document.getElementById('base64-output');
+    if (!input || !modeEl || !output) return;
+
+    var STORAGE_KEY = 'toytools.base64.input';
+    var MAX_STORE   = 50000;
+
+    function setOutput(text, empty, error) {
+      output.textContent = text;
+      if (empty) output.setAttribute('data-empty', '');
+      else       output.removeAttribute('data-empty');
+      if (error) output.setAttribute('data-error', text);
+      else       output.removeAttribute('data-error');
+    }
+
+    function convert() {
+      var text = input.value;
+      if (!text) { setOutput('Output will appear here', true, false); return; }
+      var mode = modeEl.value;
+      try {
+        var result = mode === 'decode'
+          ? decodeURIComponent(escape(atob(text.trim())))
+          : btoa(unescape(encodeURIComponent(text)));
+        setOutput(result, false, false);
+      } catch (_) {
+        var msg = mode === 'decode' ? 'Invalid Base64 input.' : 'Unable to encode.';
+        setOutput(msg, false, true);
+      }
+    }
+
+    function updateLabels() {
+      var encode = modeEl.value === 'encode';
+      var inputType  = document.getElementById('b64-input-type');
+      var outputType = document.getElementById('b64-output-type');
+      if (inputType)  inputType.textContent  = encode ? 'Text'   : 'Base64';
+      if (outputType) outputType.textContent = encode ? 'Base64' : 'Text';
+    }
+
+    /* Restore from localStorage */
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) { input.value = saved; convert(); }
+    } catch (_) {}
+
+    updateLabels();
+
+    /* Live update on input */
+    input.addEventListener('input', function () {
+      convert();
+      try {
+        if (input.value.length < MAX_STORE) localStorage.setItem(STORAGE_KEY, input.value);
+        else if (!input.value)              localStorage.removeItem(STORAGE_KEY);
+      } catch (_) {}
+    });
+
+    modeEl.addEventListener('change', function () {
+      convert();
+      updateLabels();
+    });
+  })();
 </script>

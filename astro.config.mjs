@@ -7,7 +7,7 @@ export default defineConfig({
   site: process.env.ASTRO_SITE ?? 'https://toytools.app',
   base,
   output: 'static',
-  trailingSlash: base ? 'always' : 'never',
+  trailingSlash: 'always',
   compressHTML: true,
   build: {
     assets: '_assets',
