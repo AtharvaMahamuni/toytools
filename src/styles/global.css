@@ -100,6 +100,18 @@ a:hover {
   display: none;
 }
 
+/* Gold dot brand motif */
+.gold-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-gold-highlight) 0%, var(--color-gold) 100%);
+  animation: dot-breathe 7s ease-in-out infinite;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 /* Copy bar highlight — appears for 2s after clicking Copy */
 [data-copy-bar] {
   transition: background-color var(--duration-fast) ease;

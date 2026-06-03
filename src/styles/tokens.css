@@ -3,10 +3,17 @@
   --color-accent:         #2563eb;
   --color-accent-subtle:  #dbeafe;
 
+  /* Gold brand tokens */
+  --color-gold:           #C89B3C;
+  --color-gold-highlight: #E6C15A;
+  --color-gold-subtle:    rgba(200, 155, 60, 0.15);
+
+  /* Semantic status */
+  --color-success:        #22c55e;
+
   /* Grayscale surfaces */
   --color-bg:             #ffffff;
-  --color-bg-secondary:   #f9f9f9;
-  --color-bg-tertiary:    #f3f3f3;
+  --color-bg-tertiary:    #F5F5F5;
   --color-border:         #e5e5e5;
   --color-border-strong:  #c0c0c0;
 
@@ -25,11 +32,9 @@
   --space-5:  20px;
   --space-6:  24px;
   --space-8:  32px;
-  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
   --space-20: 80px;
-  --space-24: 96px;
 
   /* Typography */
   --font-sans: 'Geist Variable', system-ui, sans-serif;
@@ -54,12 +59,10 @@
   --font-weight-bold:     700;
 
   /* Borders */
-  --border-width:  1px;
   --border:        1px solid var(--color-border);
   --border-strong: 1px solid var(--color-border-strong);
   --radius-sm:     4px;
   --radius-md:     6px;
-  --radius-lg:     8px;
 
   /* Motion — fade/opacity/color only */
   --duration-fast:   150ms;
@@ -69,7 +72,6 @@
     color var(--duration-fast) var(--ease-default),
     background-color var(--duration-fast) var(--ease-default),
     border-color var(--duration-fast) var(--ease-default);
-  --transition-opacity: opacity var(--duration-normal) var(--ease-default);
 
   /* Layout widths */
   --width-tool:     800px;
@@ -80,10 +82,15 @@
   --touch-target: 48px;
 
   /* Z-index */
-  --z-base:    0;
   --z-raised:  10;
   --z-nav:     100;
   --z-overlay: 200;
+}
+
+/* Gold dot breathing animation */
+@keyframes dot-breathe {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1.0; }
 }
 
 /* System dark preference, no explicit user override */
@@ -92,16 +99,21 @@
     --color-accent:        #3b82f6;
     --color-accent-subtle: #1e3a5f;
 
-    --color-bg:            #0a0a0a;
-    --color-bg-secondary:  #111111;
-    --color-bg-tertiary:   #1a1a1a;
-    --color-border:        #2a2a2a;
-    --color-border-strong: #3d3d3d;
+    --color-gold:           #D4A017;
+    --color-gold-highlight: #F2C94C;
+    --color-gold-subtle:    rgba(212, 160, 23, 0.18);
 
-    --color-text:          #f0f0f0;
-    --color-text-muted:    #9ca3af;
+    --color-success:       #4ade80;
+
+    --color-bg:            #0F1115;
+    --color-bg-tertiary:   #1E2028;
+    --color-border:        #252830;
+    --color-border-strong: #353840;
+
+    --color-text:          #F4F4F4;
+    --color-text-muted:    #A0A0A0;
     --color-text-subtle:   #6b7280;
-    --color-text-inverse:  #0a0a0a;
+    --color-text-inverse:  #0F1115;
   }
 }
 
@@ -110,16 +122,21 @@
   --color-accent:        #3b82f6;
   --color-accent-subtle: #1e3a5f;
 
-  --color-bg:            #0a0a0a;
-  --color-bg-secondary:  #111111;
-  --color-bg-tertiary:   #1a1a1a;
-  --color-border:        #2a2a2a;
-  --color-border-strong: #3d3d3d;
+  --color-gold:           #D4A017;
+  --color-gold-highlight: #F2C94C;
+  --color-gold-subtle:    rgba(212, 160, 23, 0.18);
 
-  --color-text:          #f0f0f0;
-  --color-text-muted:    #9ca3af;
+  --color-success:       #4ade80;
+
+  --color-bg:            #0F1115;
+  --color-bg-tertiary:   #1E2028;
+  --color-border:        #252830;
+  --color-border-strong: #353840;
+
+  --color-text:          #F4F4F4;
+  --color-text-muted:    #A0A0A0;
   --color-text-subtle:   #6b7280;
-  --color-text-inverse:  #0a0a0a;
+  --color-text-inverse:  #0F1115;
 }
 
 /* Override fontsource default font-display: swap → optional */

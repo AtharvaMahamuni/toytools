@@ -4,7 +4,15 @@ const year = new Date().getFullYear();
 
 <footer>
   <div class="footer-inner">
-    <p>&copy; {year} ToyTools</p>
+    <p class="footer-brand">
+      &copy; {year} ToyTools
+      <span class="gold-dot" aria-hidden="true"></span>
+      Lightweight
+      <span class="gold-dot" aria-hidden="true"></span>
+      Private
+      <span class="gold-dot" aria-hidden="true"></span>
+      Free
+    </p>
   </div>
 </footer>
 
@@ -25,6 +33,13 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    max-width: unset;
   }
 
 </style>

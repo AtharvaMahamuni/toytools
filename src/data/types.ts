@@ -3,6 +3,7 @@ export interface Category {
   name: string;
   description: string;
   toolCount: number;
+  accent?: string;
 }
 
 export interface Tool {

@@ -9,7 +9,8 @@ import { categories } from '@data/categories';
 
 export const getStaticPaths = (() => {
   return tools.map(tool => {
-    const category = categories.find(c => c.slug === tool.categorySlug)!;
+    const category = categories.find(c => c.slug === tool.categorySlug);
+    if (!category) throw new Error(`Category "${tool.categorySlug}" not found for tool "${tool.slug}"`);
     return { params: { slug: tool.slug }, props: { tool, category } };
   });
 }) satisfies GetStaticPaths;
@@ -21,10 +22,12 @@ const relatedTools = tools
 
 const isBase64 = tool.slug === 'base64-encoder';
 
-const actionLabel =
-  tool.slug === 'word-counter' ? 'Count' :
-  tool.slug === 'case-converter' ? 'Convert' :
-  'Calculate';
+const actionLabels: Record<string, string> = {
+  'word-counter': 'Count',
+  'case-converter': 'Convert',
+  'percentage-calculator': 'Calculate',
+};
+const actionLabel = actionLabels[tool.slug] ?? 'Run';
 ---
 
 <ToolLayout tool={tool} category={category}>
@@ -437,7 +440,7 @@ const actionLabel =
   function runWordCounter() {
     var text = textValue('word-counter-input').trim();
     var words      = text ? text.split(/\s+/).filter(Boolean).length : 0;
-    var characters = textValue('word-counter-input').length;
+    var characters = text.length;
     var sentences  = text ? (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).length : 0;
     var paragraphs = text ? text.split(/\n\s*\n/).filter(Boolean).length : 0;
     var values = [words, characters, sentences, paragraphs];
@@ -488,7 +491,7 @@ const actionLabel =
     if (!input || !modeEl || !output) return;
 
     var STORAGE_KEY = 'toytools.base64.input';
-    var MAX_STORE   = 50000;
+    var MAX_STORE   = 50000; /* matches MAX_STORE_BYTES in src/lib/storage.ts */
 
     function setOutput(text, empty, error) {
       output.textContent = text;

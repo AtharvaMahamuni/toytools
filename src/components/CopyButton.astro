@@ -13,7 +13,7 @@ const { targetId } = Astro.props;
 >
   <span class="copy-label">Copy</span>
   <!-- Checkmark — shown for 2s after copy -->
-  <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
     <polyline points="20 6 9 17 4 12"/>
   </svg>
 </button>
@@ -53,7 +53,7 @@ const { targetId } = Astro.props;
 
   .copy-btn[data-copied] .icon-check {
     display: block;
-    color: #22c55e;
+    color: var(--color-success);
   }
 </style>
 
@@ -93,11 +93,13 @@ const { targetId } = Astro.props;
 
       // Show checkmark + highlight bar + toast immediately
       btn.setAttribute('data-copied', '');
+      btn.setAttribute('aria-label', 'Copied!');
       var bar = btn.closest('[data-copy-bar]');
       if (bar) bar.setAttribute('data-copy-active', '');
       showToast('Copied!');
       setTimeout(function () {
         btn.removeAttribute('data-copied');
+        btn.setAttribute('aria-label', 'Copy to clipboard');
         if (bar) bar.removeAttribute('data-copy-active');
       }, 2000);
 
