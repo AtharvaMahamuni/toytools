@@ -1,0 +1,158 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import EcosystemLinks from '@components/EcosystemLinks.astro';
+import type { FAQItem, EcosystemEntry } from '@data/types';
+import { categories } from '@data/categories';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  title: string;
+  description: string;
+  toolSlug: string;
+  toolName: string;
+  toolCategorySlug: string;
+  items: FAQItem[];
+  entry: EcosystemEntry;
+}
+
+const {
+  title,
+  description,
+  toolSlug,
+  toolName,
+  toolCategorySlug,
+  items,
+  entry,
+} = Astro.props;
+
+const category = categories.find(c => c.slug === toolCategorySlug);
+const toolCategorySegment = category?.segment ?? toolCategorySlug;
+const toolCategoryName = category?.name ?? toolCategorySlug;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map(item => ({
+    '@type': 'Question',
+    '@id': `#${item.id}`,
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} maxWidth="tool">
+  <div class="faq-header">
+    <p class="faq-label">FAQ</p>
+    <Breadcrumb items={[
+      { label: 'Home', href: withBase('/') },
+      { label: toolCategoryName, href: withBase(`/categories/${toolCategorySlug}/`) },
+      { label: toolName, href: withBase(`/tools/${toolCategorySegment}/${toolSlug}/`) },
+      { label: 'FAQ' },
+    ]} />
+    <h1>{title}</h1>
+    <p class="faq-description">{description}</p>
+  </div>
+
+  <section class="faq-items">
+    {items.map(item => (
+      <details id={item.id} class="faq-item">
+        <summary class="faq-question">{item.question}</summary>
+        <p class="faq-answer">{item.answer}</p>
+      </details>
+    ))}
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <EcosystemLinks
+    currentType="faq"
+    toolSlug={toolSlug}
+    toolCategorySegment={toolCategorySegment}
+    toolName={toolName}
+    entry={entry}
+  />
+</BaseLayout>
+
+<style>
+  .faq-header {
+    padding-bottom: var(--space-8);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-8);
+  }
+
+  .faq-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    max-width: unset;
+    margin-bottom: var(--space-2);
+  }
+
+  h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .faq-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 55ch;
+  }
+
+  .faq-items {
+    padding-bottom: var(--space-4);
+  }
+
+  .faq-item {
+    border-top: var(--border);
+    padding-block: var(--space-4);
+  }
+
+  .faq-item:last-child {
+    border-bottom: var(--border);
+  }
+
+  .faq-question {
+    min-height: var(--touch-target);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    color: var(--color-text);
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::before {
+    content: '+';
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-subtle);
+    margin-right: var(--space-3);
+    flex-shrink: 0;
+    transition: var(--transition-color);
+  }
+
+  details[open] .faq-question::before {
+    content: '−';
+    color: var(--color-text-muted);
+  }
+
+  .faq-answer {
+    padding-top: var(--space-3);
+    padding-left: calc(var(--space-3) + 1ch + var(--space-3));
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    max-width: 65ch;
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+import type { EcosystemEntry } from '@data/types';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  currentType: 'tool' | 'guide' | 'faq';
+  toolSlug: string;
+  toolCategorySegment: string;
+  toolName: string;
+  entry: EcosystemEntry;
+}
+
+const { currentType, toolSlug, toolCategorySegment, toolName, entry } = Astro.props;
+
+const toolHref = withBase(`/tools/${toolCategorySegment}/${toolSlug}/`);
+const guideHref = entry.guide
+  ? withBase(`/guide/${entry.guide.categorySlug}/${entry.guide.slug}/`)
+  : null;
+const faqHref = entry.faq
+  ? withBase(`/faq/${entry.faq.categorySlug}/${entry.faq.slug}/`)
+  : null;
+
+const links = [
+  { type: 'tool' as const, label: toolName, href: toolHref },
+  ...(guideHref ? [{ type: 'guide' as const, label: entry.guide!.title, href: guideHref }] : []),
+  ...(faqHref ? [{ type: 'faq' as const, label: 'FAQ', href: faqHref }] : []),
+];
+---
+
+<nav class="ecosystem-links" aria-label="Related pages">
+  {links.map((link, i) => (
+    <>
+      {i > 0 && <span class="gold-dot" aria-hidden="true"></span>}
+      {link.type === currentType
+        ? <span class="eco-current" aria-current="page">{link.label}</span>
+        : <a href={link.href} class="eco-link">{link.label}</a>
+      }
+    </>
+  ))}
+</nav>
+
+<style>
+  .ecosystem-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-block: var(--space-6);
+    border-top: var(--border);
+    margin-top: var(--space-8);
+    font-size: var(--text-sm);
+  }
+
+  .eco-link {
+    color: var(--color-text-accent);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-color);
+  }
+
+  .eco-link:hover {
+    text-decoration: underline;
+  }
+
+  .eco-current {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

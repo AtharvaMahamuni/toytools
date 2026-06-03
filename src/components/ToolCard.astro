@@ -1,16 +1,20 @@
 ---
 import type { Tool } from '@data/types';
+import { categories } from '@data/categories';
 import { withBase } from '../lib/paths';
 
 interface Props {
   tool: Tool;
   categoryName?: string;
+  categorySegment?: string;
 }
 
-const { tool, categoryName } = Astro.props;
+const { tool, categoryName, categorySegment: segmentProp } = Astro.props;
+const segment = segmentProp ?? categories.find(c => c.slug === tool.categorySlug)?.segment ?? tool.categorySlug;
+const toolHref = withBase(`/tools/${segment}/${tool.slug}/`);
 ---
 
-<a href={withBase(`/tools/${tool.slug}/`)} class="tool-card">
+<a href={toolHref} class="tool-card">
   <div class="tool-header">
     <span class="tool-name">{tool.name}</span>
     {tool.isNew && <span class="tool-badge">New</span>}

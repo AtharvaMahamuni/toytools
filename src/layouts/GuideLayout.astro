@@ -1,0 +1,438 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import EcosystemLinks from '@components/EcosystemLinks.astro';
+import type { EcosystemEntry } from '@data/types';
+import { categories } from '@data/categories';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  toolSlug: string;
+  toolName: string;
+  toolCategorySlug: string;
+  entry: EcosystemEntry;
+}
+
+const {
+  title,
+  description,
+  readMinutes,
+  updatedAt,
+  toolSlug,
+  toolName,
+  toolCategorySlug,
+  entry,
+} = Astro.props;
+
+const category = categories.find(c => c.slug === toolCategorySlug);
+const toolCategorySegment = category?.segment ?? toolCategorySlug;
+const toolCategoryName = category?.name ?? toolCategorySlug;
+---
+
+<BaseLayout
+  title={`${title} — Complete Reference Guide`}
+  description={description}
+  maxWidth="category"
+>
+  <div class="guide-page">
+
+    <!-- Header — fixed, never scrolls -->
+    <div class="guide-header">
+      <p class="guide-label">Reference Guide</p>
+      <Breadcrumb items={[
+        { label: 'Home', href: withBase('/') },
+        { label: toolCategoryName, href: withBase(`/categories/${toolCategorySlug}/`) },
+        { label: title },
+      ]} />
+      <h1>{title}</h1>
+      <p class="guide-description">{description}</p>
+      <p class="guide-meta">
+        {readMinutes} min read
+        <span class="gold-dot" aria-hidden="true"></span>
+        Updated {updatedAt}
+      </p>
+    </div>
+
+    <!-- Two-column body: TOC (fixed) + content (scrollable) -->
+    <div class="guide-body">
+
+      <aside class="toc-column" aria-label="Table of contents">
+        <!-- Mobile: collapsible accordion -->
+        <details class="toc-mobile">
+          <summary class="toc-summary">Contents</summary>
+          <ul id="toc-list-mobile" class="toc-list"></ul>
+        </details>
+        <!-- Desktop: always visible -->
+        <nav class="toc-desktop" aria-label="Table of contents">
+          <p class="toc-heading">Contents</p>
+          <ul id="toc-list-desktop" class="toc-list"></ul>
+        </nav>
+      </aside>
+
+      <!-- Only this div scrolls on desktop -->
+      <div class="guide-content" id="guide-content-pane">
+        <slot />
+
+        <div class="guide-content-footer">
+          <EcosystemLinks
+            currentType="guide"
+            toolSlug={toolSlug}
+            toolCategorySegment={toolCategorySegment}
+            toolName={toolName}
+            entry={entry}
+          />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<!-- Desktop only: disable page scroll, make only .guide-content scroll -->
+<style is:global>
+  @media (min-width: 901px) {
+    body:has(.guide-page) {
+      overflow: hidden;
+      scrollbar-width: none;
+    }
+
+    body:has(.guide-page)::-webkit-scrollbar {
+      display: none;
+    }
+
+    html:has(.guide-page) {
+      scrollbar-gutter: auto;
+    }
+
+    body:has(.guide-page) main {
+      height: calc(100vh - calc(var(--touch-target) + var(--space-4)));
+      overflow: hidden;
+    }
+
+    body:has(.guide-page) .page-content {
+      height: 100%;
+      padding-block: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+</style>
+
+<style>
+  .guide-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Guide header ─────────────────────────────────────────── */
+
+  .guide-header {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border);
+    flex-shrink: 0;
+  }
+
+  .guide-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    max-width: unset;
+    margin-bottom: var(--space-2);
+  }
+
+  h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .guide-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin-bottom: var(--space-3);
+  }
+
+  .guide-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    max-width: unset;
+  }
+
+  /* ── Two-column body ──────────────────────────────────────── */
+
+  .guide-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-8);
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 900px) {
+    .guide-body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── TOC — desktop ────────────────────────────────────────── */
+
+  .toc-desktop {
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    .toc-desktop {
+      display: none;
+    }
+  }
+
+  .toc-heading {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+    margin-bottom: var(--space-3);
+    max-width: unset;
+  }
+
+  /* ── TOC — mobile ─────────────────────────────────────────── */
+
+  .toc-mobile {
+    display: none;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-6);
+    overflow: hidden;
+  }
+
+  @media (max-width: 900px) {
+    .toc-mobile {
+      display: block;
+    }
+  }
+
+  .toc-summary {
+    list-style: none;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-4);
+    display: flex;
+    align-items: center;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-muted);
+  }
+
+  .toc-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-mobile[open] .toc-summary {
+    border-bottom: var(--border);
+  }
+
+  .toc-mobile .toc-list {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  /* ── TOC list (shared) ────────────────────────────────────── */
+
+  :global(.toc-list) {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  :global(.toc-list a) {
+    display: block;
+    padding: var(--space-2) var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-color);
+    line-height: var(--leading-relaxed);
+  }
+
+  :global(.toc-list a:hover) {
+    color: var(--color-text);
+    background: var(--color-bg-tertiary);
+    text-decoration: none;
+  }
+
+  :global(.toc-list a[aria-current]) {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* ── Guide content sections ───────────────────────────────── */
+
+  :global(.guide-content section) {
+    padding-block: var(--space-8);
+    border-bottom: var(--border);
+  }
+
+  :global(.guide-content section:last-child) {
+    border-bottom: none;
+    padding-bottom: var(--space-4);
+  }
+
+  :global(.guide-content h2) {
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  :global(.guide-content p + p) {
+    margin-top: var(--space-4);
+  }
+
+  :global(.guide-content ul) {
+    list-style: disc;
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  :global(.guide-content li) {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  :global(.guide-content .encoding-example) {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    padding: var(--space-4);
+    background: var(--color-bg-tertiary);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    max-width: unset;
+  }
+
+  /* ── Desktop split-pane overrides ────────────────────────── */
+
+  @media (min-width: 901px) {
+    .guide-page {
+      height: 100%;
+    }
+
+    .guide-body {
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+      margin-top: 0;
+      overflow: hidden;
+    }
+
+    .toc-column {
+      overflow-y: auto;
+      padding-top: var(--space-6);
+      padding-bottom: var(--space-6);
+      scrollbar-width: none;
+    }
+
+    .toc-column::-webkit-scrollbar {
+      display: none;
+    }
+
+    .guide-content {
+      overflow-y: scroll;
+      padding-top: var(--space-6);
+      padding-bottom: var(--space-8);
+      scrollbar-width: none;
+    }
+
+    .guide-content::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .guide-content-footer {
+    padding-top: var(--space-4);
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    var contentPane = document.getElementById('guide-content-pane');
+    var sections = document.querySelectorAll('.guide-content section[id]');
+    var listM = document.getElementById('toc-list-mobile');
+    var listD = document.getElementById('toc-list-desktop');
+
+    /* Build TOC entries */
+    sections.forEach(function (sec) {
+      var h2 = sec.querySelector('h2');
+      if (!h2) return;
+      var text = h2.textContent.replace(/[●•·]/g, '').trim();
+      [listM, listD].forEach(function (ul) {
+        if (!ul) return;
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + sec.id;
+        a.textContent = text;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+    });
+
+    /* Active section highlight — use content pane as root on desktop */
+    if ('IntersectionObserver' in window && sections.length > 0) {
+      var isDesktop = window.matchMedia('(min-width: 901px)').matches;
+      var ioOptions = isDesktop && contentPane
+        ? { root: contentPane, rootMargin: '-10% 0% -60% 0%' }
+        : { rootMargin: '-15% 0% -70% 0%' };
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var id = e.target.id;
+          document.querySelectorAll('#toc-list-desktop a, #toc-list-mobile a').forEach(function (a) {
+            a.removeAttribute('aria-current');
+          });
+          var sel = '#toc-list-desktop a[href="#' + id + '"], #toc-list-mobile a[href="#' + id + '"]';
+          document.querySelectorAll(sel).forEach(function (a) {
+            a.setAttribute('aria-current', 'true');
+          });
+        });
+      }, ioOptions);
+
+      sections.forEach(function (s) { io.observe(s); });
+    }
+
+    /* Smooth scroll within content pane for desktop TOC links */
+    if (contentPane && window.matchMedia('(min-width: 901px)').matches) {
+      document.querySelectorAll('#toc-list-desktop a').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = a.getAttribute('href').replace('#', '');
+          var target = document.getElementById(id);
+          if (target && contentPane) {
+            e.preventDefault();
+            contentPane.scrollTo({ top: target.offsetTop - 24, behavior: 'smooth' });
+          }
+        });
+      });
+    }
+  });
+</script>
