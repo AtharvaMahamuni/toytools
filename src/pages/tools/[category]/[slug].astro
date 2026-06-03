@@ -4,14 +4,22 @@ import ToolLayout from '@layouts/ToolLayout.astro';
 import ToolCard from '@components/ToolCard.astro';
 import CompareLayout from '@components/CompareLayout.astro';
 import CopyButton from '@components/CopyButton.astro';
+import EcosystemLinks from '@components/EcosystemLinks.astro';
+import FAQPreview from '@components/FAQPreview.astro';
 import { tools } from '@data/tools';
 import { categories } from '@data/categories';
+import { ecosystem } from '@data/ecosystem';
+import { toolFAQs } from '@data/faqs';
+import { withBase } from '../../../lib/paths';
 
 export const getStaticPaths = (() => {
   return tools.map(tool => {
     const category = categories.find(c => c.slug === tool.categorySlug);
     if (!category) throw new Error(`Category "${tool.categorySlug}" not found for tool "${tool.slug}"`);
-    return { params: { slug: tool.slug }, props: { tool, category } };
+    return {
+      params: { category: category.segment, slug: tool.slug },
+      props: { tool, category },
+    };
   });
 }) satisfies GetStaticPaths;
 
@@ -20,7 +28,8 @@ const relatedTools = tools
   .filter(t => t.categorySlug === tool.categorySlug && t.slug !== tool.slug)
   .slice(0, 3);
 
-const isBase64 = tool.slug === 'base64-encoder';
+const isBase64 = tool.slug === 'base64-encoder-decoder';
+const ecosystemEntry = ecosystem[tool.slug];
 
 const actionLabels: Record<string, string> = {
   'word-counter': 'Count',
@@ -28,6 +37,13 @@ const actionLabels: Record<string, string> = {
   'percentage-calculator': 'Calculate',
 };
 const actionLabel = actionLabels[tool.slug] ?? 'Run';
+
+const guideHref = ecosystemEntry?.guide
+  ? withBase(`/guide/${ecosystemEntry.guide.categorySlug}/${ecosystemEntry.guide.slug}/`)
+  : null;
+const faqHref = ecosystemEntry?.faq
+  ? withBase(`/faq/${ecosystemEntry.faq.categorySlug}/${ecosystemEntry.faq.slug}/`)
+  : null;
 ---
 
 <ToolLayout tool={tool} category={category}>
@@ -149,7 +165,24 @@ const actionLabel = actionLabels[tool.slug] ?? 'Run';
       {tool.slug === 'word-counter' && <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>}
       {tool.slug === 'case-converter' && <p>The converter transforms the provided text locally using the selected casing rule.</p>}
       {tool.slug === 'percentage-calculator' && <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>}
-      {isBase64 && <p>The encoder converts plain text to Base64, or decodes valid Base64 back to readable text, entirely in your browser. Nothing is sent to a server.</p>}
+      {isBase64 && (
+        <>
+          <p>
+            Base64 converts text or binary data into a text-safe format that can be transmitted
+            through systems that primarily support text — such as email servers, URLs, and API
+            payloads. The encoder and decoder run entirely in your browser. Nothing is sent to a server.
+          </p>
+          <p>
+            Base64 is encoding, not encryption. Anyone who sees the encoded output can decode it
+            instantly without a key.
+          </p>
+          {guideHref && (
+            <p class="guide-callout">
+              <a href={guideHref}>Learn more → What Is Base64? Complete Reference Guide</a>
+            </p>
+          )}
+        </>
+      )}
     </section>
   </Fragment>
 
@@ -158,29 +191,52 @@ const actionLabel = actionLabels[tool.slug] ?? 'Run';
   <Fragment slot="faq">
     <section class="content-section">
       <h2>FAQ</h2>
-      <details>
-        <summary>Does this tool upload my data?</summary>
-        <p>No. Everything runs in your browser.</p>
-      </details>
-      <details>
-        <summary>Can I use it on mobile?</summary>
-        <p>Yes. Inputs are stacked and reachable on small screens.</p>
-      </details>
+      {isBase64 && faqHref ? (
+        <FAQPreview
+          items={toolFAQs['base64-encoder-decoder']!.slice(0, 3)}
+          faqHref={faqHref}
+        />
+      ) : (
+        <>
+          <details>
+            <summary>Does this tool upload my data?</summary>
+            <p>No. Everything runs in your browser.</p>
+          </details>
+          <details>
+            <summary>Can I use it on mobile?</summary>
+            <p>Yes. Inputs are stacked and reachable on small screens.</p>
+          </details>
+        </>
+      )}
     </section>
   </Fragment>
 
   <!-- ── Related ────────────────────────────────────────────── -->
 
-  {relatedTools.length > 0 && (
-    <Fragment slot="related">
+  <Fragment slot="related">
+    {isBase64 && ecosystemEntry && (
+      <section class="content-section">
+        <h2>Reference &amp; Learning</h2>
+        <EcosystemLinks
+          currentType="tool"
+          toolSlug={tool.slug}
+          toolCategorySegment={category.segment}
+          toolName={tool.name}
+          entry={ecosystemEntry}
+        />
+      </section>
+    )}
+    {relatedTools.length > 0 && (
       <section class="content-section">
         <h2>Related tools</h2>
         <div class="related-grid">
-          {relatedTools.map(related => <ToolCard tool={related} />)}
+          {relatedTools.map(related => (
+            <ToolCard tool={related} categorySegment={category.segment} />
+          ))}
         </div>
       </section>
-    </Fragment>
-  )}
+    )}
+  </Fragment>
 
 </ToolLayout>
 
@@ -304,6 +360,11 @@ const actionLabel = actionLabels[tool.slug] ?? 'Run';
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-4);
+  }
+
+  .guide-callout {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
   }
 
   @media (min-width: 640px) {
