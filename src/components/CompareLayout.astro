@@ -1,0 +1,24 @@
+---
+// Two-panel side-by-side layout for transform tools (e.g. Base64, URL encoder, JSON formatter).
+// Desktop: two equal columns. Mobile (< 640px): single stacked column.
+// Use named slots "left" and "right" for panel content.
+---
+<div class="compare-layout">
+  <slot name="left" />
+  <slot name="right" />
+</div>
+
+<style>
+  .compare-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: stretch;
+  }
+
+  @media (max-width: 639px) {
+    .compare-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
