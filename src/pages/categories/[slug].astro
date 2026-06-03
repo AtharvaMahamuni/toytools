@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
 import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/tools';
@@ -22,11 +23,10 @@ const { category, tools: categoryTools } = Astro.props;
   maxWidth="category"
 >
   <div class="category-header">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href={withBase('/')}>Home</a>
-      <span aria-hidden="true">/</span>
-      <span aria-current="page">{category.name}</span>
-    </nav>
+    <Breadcrumb items={[
+      { label: 'Home', href: withBase('/') },
+      { label: category.name },
+    ]} />
     <div class="category-title">
       <h1>{category.name}</h1>
     </div>
@@ -49,29 +49,6 @@ const { category, tools: categoryTools } = Astro.props;
     padding-bottom: var(--space-8);
     border-bottom: var(--border);
     margin-bottom: var(--space-8);
-  }
-
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
-  }
-
-  .breadcrumb a {
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: var(--transition-color);
-  }
-
-  .breadcrumb a:hover {
-    color: var(--color-text);
-  }
-
-  .breadcrumb span[aria-hidden] {
-    color: var(--color-border-strong);
   }
 
   .category-title {

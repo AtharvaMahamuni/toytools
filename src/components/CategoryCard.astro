@@ -9,7 +9,11 @@ interface Props {
 const { category } = Astro.props;
 ---
 
-<a href={withBase(`/categories/${category.slug}/`)} class="category-card">
+<a
+  href={withBase(`/categories/${category.slug}/`)}
+  class="category-card"
+  style={category.accent ? `--card-accent: ${category.accent}` : ''}
+>
   <div class="category-body">
     <span class="category-name">{category.name}</span>
     <span class="category-description">{category.description}</span>
@@ -25,6 +29,7 @@ const { category } = Astro.props;
     display: block;
     padding: var(--space-5);
     border: var(--border);
+    border-top: 3px solid var(--card-accent, var(--color-border));
     border-radius: var(--radius-md);
     text-decoration: none;
     color: var(--color-text);

@@ -5,7 +5,7 @@ import { withBase } from '../lib/paths';
 
 <header role="banner">
   <div class="nav-inner">
-    <a href={withBase('/')} class="nav-logo">ToyTools</a>
+    <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span></a>
     <div class="nav-search">
       <SearchBar />
     </div>
@@ -59,6 +59,10 @@ import { withBase } from '../lib/paths';
   .nav-logo:hover {
     color: var(--color-text-muted);
     text-decoration: none;
+  }
+
+  .nav-dot {
+    margin-left: 5px;
   }
 
   .nav-search {

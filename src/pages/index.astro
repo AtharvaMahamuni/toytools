@@ -5,8 +5,6 @@ import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/tools';
 
-const newTools = tools.filter(t => t.isNew);
-
 function getCategoryName(slug: string): string {
   return categories.find(c => c.slug === slug)?.name ?? slug;
 }
@@ -14,12 +12,21 @@ function getCategoryName(slug: string): string {
 
 <BaseLayout
   title="ToyTools"
-  description="Free, fast utility tools for everyday tasks. No login required."
+  description="Simple tools for everyday work. Lightweight, private, and free."
   maxWidth="category"
 >
   <section class="hero">
-    <h1>Fast, free utility tools</h1>
-    <p>No login. No ads. Just tools that work.</p>
+    <h1>Find the right tool in seconds.</h1>
+    <p>Simple tools for everyday work. Lightweight, private, and free.</p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-heading">Popular tools</h2>
+    <div class="tool-grid">
+      {tools.map(tool => (
+        <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
+      ))}
+    </div>
   </section>
 
   <section class="section">
@@ -31,16 +38,11 @@ function getCategoryName(slug: string): string {
     </div>
   </section>
 
-  {newTools.length > 0 && (
-    <section class="section">
-      <h2 class="section-heading">Recently added</h2>
-      <div class="tool-grid">
-        {newTools.map(tool => (
-          <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
-        ))}
-      </div>
-    </section>
-  )}
+  <p class="ecosystem-row">
+    <span>{categories.length} Categories</span>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <span>{tools.length} Tools</span>
+  </p>
 </BaseLayout>
 
 <style>
@@ -65,7 +67,7 @@ function getCategoryName(slug: string): string {
     margin-bottom: var(--space-12);
   }
 
-  .section:last-child {
+  .section:last-of-type {
     border-bottom: none;
     margin-bottom: 0;
   }
@@ -79,5 +81,15 @@ function getCategoryName(slug: string): string {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-4);
+  }
+
+  .ecosystem-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    padding-top: var(--space-8);
+    max-width: unset;
   }
 </style>
