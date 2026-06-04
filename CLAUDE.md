@@ -15,6 +15,10 @@ ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run b
 
 `npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There are no separate lint or test scripts.
 
+## Git workflow
+
+Always rebase against `origin/main`: `git rebase origin/main`
+
 ## Architecture
 
 **Data-driven static site.** All pages are pre-rendered at build time. No server, no database, no client-side framework.
