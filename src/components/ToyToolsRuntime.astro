@@ -9,7 +9,13 @@
 
   TT.toast = function (msg, ms) {
     var el = document.getElementById('tt-toast');
-    if (!el) return;
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'tt-toast';
+      el.setAttribute('role', 'status');
+      el.setAttribute('aria-live', 'polite');
+      document.body.appendChild(el);
+    }
     el.textContent = msg;
     clearTimeout(_toastTimer);
     el.classList.add('tt-visible');
