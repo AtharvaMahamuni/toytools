@@ -1,0 +1,18 @@
+---
+import FAQLayout from '@layouts/FAQLayout.astro';
+import { toolFAQs } from '@data/faqs';
+import { ecosystem } from '@data/ecosystem';
+
+const items = toolFAQs['notepad']!;
+const entry = ecosystem['notepad']!;
+---
+
+<FAQLayout
+  title="Notepad FAQ"
+  description="Answers to common questions about browser-based note-taking, privacy, storage, and note management."
+  toolSlug="notepad"
+  toolName="Notepad"
+  toolCategorySlug="productivity"
+  items={items}
+  entry={entry}
+/>

@@ -16,6 +16,21 @@ export const ecosystem: Record<string, EcosystemEntry> = {
       categorySlug: 'productivity',
     },
   },
+  'notepad': {
+    guide: {
+      slug: 'how-to-take-better-notes',
+      categorySlug: 'productivity',
+      title: 'How To Take Better Notes',
+      description:
+        'Learn why writing things down improves memory, reduces mental load, and helps organize information more effectively.',
+      readMinutes: 5,
+      updatedAt: 'Jun 2026',
+    },
+    faq: {
+      slug: 'notepad',
+      categorySlug: 'productivity',
+    },
+  },
   'base64-encoder-decoder': {
     guide: {
       slug: 'what-is-base64',

@@ -30,6 +30,7 @@ const relatedTools = tools
 
 const isBase64 = tool.slug === 'base64-encoder-decoder';
 const isTodoList = tool.slug === 'todo-list';
+const isNotepad = tool.slug === 'notepad';
 const ecosystemEntry = ecosystem[tool.slug];
 
 const actionLabels: Record<string, string> = {
@@ -108,6 +109,40 @@ const faqHref = ecosystemEntry?.faq
       </section>
     )}
 
+    {isNotepad && (
+      <section class="tool-panel notepad-panel" data-tool="notepad">
+        <p class="notepad-storage-note">
+          Stored locally <span class="gold-dot" aria-hidden="true"></span> Auto-saved
+        </p>
+        <div class="notepad-toolbar">
+          <button id="notepad-paste" type="button">Paste</button>
+          <span class="gold-dot" aria-hidden="true"></span>
+          <button id="notepad-copy" type="button">Copy</button>
+          <span class="gold-dot" aria-hidden="true"></span>
+          <button id="notepad-download" type="button">Download TXT</button>
+          <span class="gold-dot" aria-hidden="true"></span>
+          <button id="notepad-clear" type="button">Clear</button>
+          <span id="notepad-clear-confirm" hidden class="notepad-clear-confirm">
+            Clear all notes?
+            <button id="notepad-clear-cancel" type="button">Cancel</button>
+            <span class="gold-dot" aria-hidden="true"></span>
+            <button id="notepad-clear-do" type="button">Clear</button>
+          </span>
+        </div>
+        <textarea
+          id="notepad-input"
+          placeholder={"Start typing...\nYour notes are automatically saved in this browser."}
+          spellcheck="true"
+          autocomplete="off"
+        ></textarea>
+        <div class="notepad-stats" aria-live="polite">
+          <span id="notepad-words">0 Words</span>
+          <span class="gold-dot" aria-hidden="true"></span>
+          <span id="notepad-chars">0 Characters</span>
+        </div>
+      </section>
+    )}
+
     {isBase64 && (
       <CompareLayout>
         <!-- Left: input panel -->
@@ -147,7 +182,7 @@ const faqHref = ecosystemEntry?.faq
 
   <!-- ── Action (not used for base64 — live updates replace the button) ── -->
 
-  {!isBase64 && !isTodoList && (
+  {!isBase64 && !isTodoList && !isNotepad && (
     <Fragment slot="action">
       <div class="tool-action">
         <button class="primary-action" type="button" data-run-tool={tool.slug}>{actionLabel}</button>
@@ -157,7 +192,7 @@ const faqHref = ecosystemEntry?.faq
 
   <!-- ── Result (not used for base64 — output is inline in the compare panel) ── -->
 
-  {!isBase64 && !isTodoList && (
+  {!isBase64 && !isTodoList && !isNotepad && (
     <Fragment slot="result">
       <section class="result-panel" aria-live="polite">
         {tool.slug === 'word-counter' && (
@@ -193,6 +228,16 @@ const faqHref = ecosystemEntry?.faq
           )}
         </>
       )}
+      {isNotepad && (
+        <>
+          <p>Your notes are saved directly in this browser using localStorage. Nothing is sent to a server. Notes survive page refreshes and browser restarts.</p>
+          {guideHref && (
+            <p class="guide-callout">
+              <a href={guideHref}>Learn more → How To Take Better Notes</a>
+            </p>
+          )}
+        </>
+      )}
       {tool.slug === 'word-counter' && <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>}
       {tool.slug === 'case-converter' && <p>The converter transforms the provided text locally using the selected casing rule.</p>}
       {tool.slug === 'percentage-calculator' && <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>}
@@ -222,7 +267,12 @@ const faqHref = ecosystemEntry?.faq
   <Fragment slot="faq">
     <section class="content-section">
       <h2>FAQ</h2>
-      {isTodoList && faqHref ? (
+      {isNotepad && faqHref ? (
+        <FAQPreview
+          items={toolFAQs['notepad']!.slice(0, 3)}
+          faqHref={faqHref}
+        />
+      ) : isTodoList && faqHref ? (
         <FAQPreview
           items={toolFAQs['todo-list']!.slice(0, 3)}
           faqHref={faqHref}
@@ -250,7 +300,7 @@ const faqHref = ecosystemEntry?.faq
   <!-- ── Related ────────────────────────────────────────────── -->
 
   <Fragment slot="related">
-    {(isBase64 || isTodoList) && ecosystemEntry && (
+    {(isBase64 || isTodoList || isNotepad) && ecosystemEntry && (
       <section class="content-section">
         <h2>Reference &amp; Learning</h2>
         <EcosystemLinks
@@ -420,6 +470,69 @@ const faqHref = ecosystemEntry?.faq
       background: var(--color-bg);
       border-top: var(--border);
     }
+  }
+
+  /* ── Notepad ─────────────────────────────────────────────── */
+
+  .notepad-storage-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  .notepad-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+  }
+
+  .notepad-toolbar button {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    background: transparent;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .notepad-toolbar button:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-muted);
+  }
+
+  .notepad-clear-confirm {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .notepad-clear-confirm[hidden] {
+    display: none;
+  }
+
+  .notepad-panel textarea {
+    min-height: 400px;
+    line-height: 1.7;
+    font-size: var(--text-base);
+    padding: var(--space-4);
+    resize: vertical;
+  }
+
+  .notepad-stats {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    padding-top: var(--space-2);
   }
 
   /* ── Todo List ────────────────────────────────────────────── */
@@ -803,6 +916,105 @@ const faqHref = ecosystemEntry?.faq
       if (slug === 'percentage-calculator') runPercentageCalculator();
     });
   }
+
+  /* ── Notepad — auto-save + toolbar actions ───────────────── */
+
+  (function () {
+    var textarea = document.getElementById('notepad-input');
+    if (!textarea) return;
+
+    var STORAGE_KEY = 'toytools.notepad.note';
+    var MAX_STORE   = 50000;
+
+    function updateStats() {
+      var text    = textarea.value;
+      var words   = text.trim() ? text.trim().split(/\s+/).filter(Boolean).length : 0;
+      var wordsEl = document.getElementById('notepad-words');
+      var charsEl = document.getElementById('notepad-chars');
+      if (wordsEl) wordsEl.textContent = words + (words === 1 ? ' Word' : ' Words');
+      if (charsEl) charsEl.textContent = text.length + (text.length === 1 ? ' Character' : ' Characters');
+    }
+
+    /* Restore from localStorage */
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) textarea.value = saved;
+    } catch (_) {}
+    updateStats();
+
+    /* Auto-save on input */
+    textarea.addEventListener('input', function () {
+      updateStats();
+      try {
+        if (textarea.value.length < MAX_STORE) localStorage.setItem(STORAGE_KEY, textarea.value);
+        else if (!textarea.value)              localStorage.removeItem(STORAGE_KEY);
+      } catch (_) {}
+    });
+
+    /* Paste — insert at cursor position */
+    var pasteBtn = document.getElementById('notepad-paste');
+    if (pasteBtn) {
+      pasteBtn.addEventListener('click', function () {
+        navigator.clipboard.readText().then(function (text) {
+          var pos = textarea.selectionStart;
+          textarea.value = textarea.value.slice(0, pos) + text + textarea.value.slice(textarea.selectionEnd);
+          textarea.selectionStart = textarea.selectionEnd = pos + text.length;
+          textarea.dispatchEvent(new Event('input'));
+        }).catch(function () {
+          pasteBtn.textContent = 'No permission';
+          setTimeout(function () { pasteBtn.textContent = 'Paste'; }, 2000);
+        });
+      });
+    }
+
+    /* Copy */
+    var copyBtn = document.getElementById('notepad-copy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        if (!textarea.value) return;
+        navigator.clipboard.writeText(textarea.value).then(function () {
+          copyBtn.textContent = 'Copied';
+          setTimeout(function () { copyBtn.textContent = 'Copy'; }, 2000);
+        }).catch(function () {});
+      });
+    }
+
+    /* Download TXT */
+    var dlBtn = document.getElementById('notepad-download');
+    if (dlBtn) {
+      dlBtn.addEventListener('click', function () {
+        var blob = new Blob([textarea.value], { type: 'text/plain' });
+        var url  = URL.createObjectURL(blob);
+        var a    = document.createElement('a');
+        a.href = url; a.download = 'note.txt'; a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    /* Clear with inline confirmation */
+    var clearBtn     = document.getElementById('notepad-clear');
+    var clearConfirm = document.getElementById('notepad-clear-confirm');
+    var cancelBtn    = document.getElementById('notepad-clear-cancel');
+    var doBtn        = document.getElementById('notepad-clear-do');
+
+    if (clearBtn && clearConfirm) {
+      clearBtn.addEventListener('click', function () {
+        clearConfirm.hidden = false;
+        clearBtn.hidden = true;
+      });
+      cancelBtn.addEventListener('click', function () {
+        clearConfirm.hidden = true;
+        clearBtn.hidden = false;
+      });
+      doBtn.addEventListener('click', function () {
+        textarea.value = '';
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        clearConfirm.hidden = true;
+        clearBtn.hidden = false;
+        updateStats();
+      });
+    }
+  })();
 
   /* ── Base64 — live updates + localStorage persistence ─────── */
 
