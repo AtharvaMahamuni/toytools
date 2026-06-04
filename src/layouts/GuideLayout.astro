@@ -48,7 +48,10 @@ const articleSchema = {
   '@type': 'Article',
   headline: title,
   description: description,
+  datePublished: updatedAt,
   dateModified: updatedAt,
+  url: Astro.url.href,
+  inLanguage: 'en',
   author: { '@type': 'Organization', name: 'ToyTools' },
 };
 ---

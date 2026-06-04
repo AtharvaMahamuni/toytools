@@ -37,7 +37,6 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 
   {(tool.guide || tool.faq) && (
     <section class="content-section">
-      <h2>Reference &amp; Learning <span class="gold-dot" aria-hidden="true"></span></h2>
       <EcosystemLinks
         currentType="tool"
         toolSlug={tool.slug}
@@ -62,6 +61,12 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 </ToolLayout>
 
 <style>
+  .content-section {
+    padding-top: var(--space-10);
+    border-top: var(--border);
+    margin-top: var(--space-8);
+  }
+
   .related-grid {
     display: grid;
     grid-template-columns: 1fr;

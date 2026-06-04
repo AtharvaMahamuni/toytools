@@ -11,6 +11,8 @@ export const config: ToolConfig = {
     'stop screen turning off', 'keep display awake', 'wake lock',
     'screen timeout', 'keep phone screen awake', 'keep laptop screen awake',
     'prevent auto lock', 'screen on', 'productivity',
+    'prevent screen lock', 'keep display on', 'keep screen on browser',
+    'screen wake lock', 'stop screen from turning off',
   ],
   isNew: true,
   updatedAt: '2026-06-04',
