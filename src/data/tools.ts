@@ -52,6 +52,21 @@ export const tools: Tool[] = [
     updatedAt: '2026-06-04',
   },
   {
+    slug: 'keep-screen-awake',
+    name: 'Keep Screen Awake',
+    seoTitle: 'Keep Screen Awake — Prevent Screen Sleep Online',
+    description: 'Prevent your device from sleeping while this page remains open.',
+    categorySlug: 'productivity',
+    tags: [
+      'keep screen awake', 'prevent screen sleep', 'screen always on',
+      'stop screen turning off', 'keep display awake', 'wake lock',
+      'screen timeout', 'keep phone screen awake', 'keep laptop screen awake',
+      'prevent auto lock', 'screen on', 'productivity',
+    ],
+    isNew: true,
+    updatedAt: '2026-06-04',
+  },
+  {
     slug: 'base64-encoder-decoder',
     name: 'Base64 Encoder & Decoder',
     seoTitle: 'Base64 Encoder & Decoder — Free Online Tool',

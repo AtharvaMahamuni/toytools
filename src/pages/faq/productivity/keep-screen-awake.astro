@@ -1,0 +1,18 @@
+---
+import FAQLayout from '@layouts/FAQLayout.astro';
+import { toolFAQs } from '@data/faqs';
+import { ecosystem } from '@data/ecosystem';
+
+const items = toolFAQs['keep-screen-awake']!;
+const entry = ecosystem['keep-screen-awake']!;
+---
+
+<FAQLayout
+  title="Keep Screen Awake FAQ"
+  description="Answers to common questions about keeping your screen awake, browser wake locks, battery impact, and device compatibility."
+  toolSlug="keep-screen-awake"
+  toolName="Keep Screen Awake"
+  toolCategorySlug="productivity"
+  items={items}
+  entry={entry}
+/>
