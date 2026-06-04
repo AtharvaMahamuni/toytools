@@ -2,25 +2,31 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import FAQPreview from '@components/FAQPreview.astro';
-import { toolFAQs } from '@data/faqs';
-import { ecosystem } from '@data/ecosystem';
-import { withBase } from '../../../lib/paths';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
 
-const entry = ecosystem['base64-encoder-decoder']!;
-const faqItems = toolFAQs['base64-encoder-decoder']!;
-const toolHref = withBase('/tools/developer/base64-encoder-decoder/');
-const faqHref = withBase('/faq/developer/base64-encoder-decoder/');
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tools/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
-  title="What Is Base64?"
-  description="Understand how Base64 encoding works, why it exists, where it is used, and common mistakes developers make."
-  readMinutes={6}
-  updatedAt="Jun 2026"
-  toolSlug="base64-encoder-decoder"
-  toolName="Base64 Encoder & Decoder"
-  toolCategorySlug="developer-tools"
-  entry={entry}
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
 >
 
   <section id="quick-answer">
@@ -182,7 +188,7 @@ const faqHref = withBase('/faq/developer/base64-encoder-decoder/');
 
   <section id="faq">
     <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
   </section>
 
 </GuideLayout>
@@ -206,5 +212,13 @@ const faqHref = withBase('/faq/developer/base64-encoder-decoder/');
   .cta-link:hover {
     opacity: 0.9;
     text-decoration: none;
+  }
+
+  .encoding-example {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
   }
 </style>

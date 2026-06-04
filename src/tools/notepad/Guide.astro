@@ -2,25 +2,31 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import FAQPreview from '@components/FAQPreview.astro';
-import { toolFAQs } from '@data/faqs';
-import { ecosystem } from '@data/ecosystem';
-import { withBase } from '../../../lib/paths';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
 
-const entry = ecosystem['notepad']!;
-const faqItems = toolFAQs['notepad']!;
-const toolHref = withBase('/tools/productivity/notepad/');
-const faqHref = withBase('/faq/productivity/notepad/');
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tools/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
-  title="How To Take Better Notes"
-  description="Learn why writing things down improves memory, reduces mental load, and helps organize information more effectively."
-  readMinutes={5}
-  updatedAt="Jun 2026"
-  toolSlug="notepad"
-  toolName="Notepad"
-  toolCategorySlug="productivity"
-  entry={entry}
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
 >
 
   <section id="quick-answer">
@@ -160,7 +166,7 @@ const faqHref = withBase('/faq/productivity/notepad/');
 
   <section id="faq">
     <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
   </section>
 
 </GuideLayout>

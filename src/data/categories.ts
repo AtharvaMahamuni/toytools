@@ -1,5 +1,5 @@
 import type { Category } from './types';
-import { tools } from './tools';
+import { tools } from './registry';
 
 const categoryDefs: Omit<Category, 'toolCount'>[] = [
   {

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumb from '@components/Breadcrumb.astro';
+import BackButton from '@components/BackButton.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
 import type { EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
@@ -67,6 +68,7 @@ const articleSchema = {
       { label: toolCategoryName, href: withBase(`/categories/${toolCategorySlug}/`) },
       { label: title },
     ]} />
+    <BackButton />
     <h1>{title}</h1>
     <p class="guide-description">{description}</p>
     <p class="guide-meta">

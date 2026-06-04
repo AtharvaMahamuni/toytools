@@ -1,0 +1,42 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'Back' } = Astro.props;
+---
+
+<button class="back-btn" type="button" onclick="history.back()" aria-label={label}>
+  <span aria-hidden="true">←</span>
+  <span>{label}</span>
+</button>
+
+<style>
+  .back-btn {
+    display: none;
+    align-items: center;
+    gap: var(--space-2);
+    background: transparent;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: color var(--duration-fast), border-color var(--duration-fast);
+    margin-bottom: var(--space-4);
+    font-family: inherit;
+  }
+
+  .back-btn:hover {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
+
+  @media (max-width: 639px) {
+    .back-btn {
+      display: inline-flex;
+    }
+  }
+</style>

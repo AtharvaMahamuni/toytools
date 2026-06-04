@@ -2,6 +2,7 @@
 @import '@fontsource-variable/geist-mono/index.css';
 @import './reset.css';
 @import './tokens.css';
+@import './tool-widget.css';
 
 html {
   font-family: var(--font-sans);

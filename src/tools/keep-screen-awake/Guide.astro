@@ -2,25 +2,31 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import FAQPreview from '@components/FAQPreview.astro';
-import { toolFAQs } from '@data/faqs';
-import { ecosystem } from '@data/ecosystem';
-import { withBase } from '../../../lib/paths';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
 
-const entry = ecosystem['keep-screen-awake']!;
-const faqItems = toolFAQs['keep-screen-awake']!;
-const toolHref = withBase('/tools/productivity/keep-screen-awake/');
-const faqHref = withBase('/faq/productivity/keep-screen-awake/');
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tools/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
-  title="How to Keep Your Screen Awake"
-  description="Understand wake locks, browser support, battery impact, and when to use device settings instead."
-  readMinutes={6}
-  updatedAt="Jun 2026"
-  toolSlug="keep-screen-awake"
-  toolName="Keep Screen Awake"
-  toolCategorySlug="productivity"
-  entry={entry}
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
 >
 
   <section id="quick-answer">
@@ -191,8 +197,29 @@ const faqHref = withBase('/faq/productivity/keep-screen-awake/');
       <li><a href={withBase('/tools/productivity/todo-list/')}>Todo List</a> — Track tasks while keeping your screen on.</li>
       <li><a href={withBase('/tools/productivity/notepad/')}>Notepad</a> — Take notes during a session without losing your place.</li>
     </ul>
-
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+    {faqHref && <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />}
   </section>
 
 </GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

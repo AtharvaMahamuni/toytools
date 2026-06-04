@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumb from '@components/Breadcrumb.astro';
+import BackButton from '@components/BackButton.astro';
 import type { Tool, Category } from '@data/types';
 import { withBase } from '../lib/paths';
 
@@ -31,16 +32,12 @@ const breadcrumbSchema = {
       { label: category.name, href: withBase(`/categories/${category.slug}/`) },
       { label: tool.name },
     ]} />
+    <BackButton />
     <h1>{tool.name}</h1>
     <p class="tool-description">{tool.description}</p>
   </div>
 
-  <slot name="inputs" />
-  <slot name="action" />
-  <slot name="result" />
-  <slot name="explanation" />
-  <slot name="faq" />
-  <slot name="related" />
+  <slot />
 </BaseLayout>
 
 <style>

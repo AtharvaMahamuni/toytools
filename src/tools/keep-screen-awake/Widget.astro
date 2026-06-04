@@ -1,0 +1,575 @@
+---
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { config } from './config';
+import { items as faqItems } from './faq';
+import { withBase } from '@lib/paths';
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<div class="wl-inputs">
+  <div id="wl-unsupported" hidden class="wl-unsupported">
+    Screen Wake Lock is not supported in this browser.
+    <span class="wl-unsupported-hint">You can still prevent sleep using your device settings.</span>
+  </div>
+  <button id="wl-time-toggle" type="button" class="wl-text-action">
+    Tool Settings ▾
+  </button>
+  <div id="wl-time-options" hidden class="wl-time-options-panel">
+    <div class="wl-duration-grid">
+      <button data-duration="0"    class="wl-dur selected wl-dur-inf" type="button">∞</button>
+      <button data-duration="900"  class="wl-dur" type="button">15 min</button>
+      <button data-duration="1800" class="wl-dur" type="button">30 min</button>
+      <button data-duration="3600" class="wl-dur" type="button">1 hour</button>
+      <button data-duration="7200" class="wl-dur" type="button">2 hours</button>
+      <input id="wl-custom-min" type="number" min="1" max="480" placeholder="Custom Time in Min" class="wl-custom-input" />
+    </div>
+    <div class="wl-format-row">
+      <button data-format="12" class="wl-fmt selected" type="button">12h</button>
+      <button data-format="24" class="wl-fmt" type="button">24h</button>
+    </div>
+  </div>
+</div>
+
+<div class="wl-status">
+  <div class="wl-status-row">
+    <button id="wl-toggle" type="button" class="wl-toggle-switch" role="switch" aria-checked="false" aria-label="Keep screen awake">
+      <span class="wl-toggle-knob"></span>
+    </button>
+    <span id="wl-label" class="wl-status-label wl-fade">Sleeping</span>
+  </div>
+  <div id="wl-timer" class="wl-timer wl-off">
+    <span id="wl-timer-label" class="wl-timer-meta">Awake From</span>
+    <span id="wl-timer-value" class="wl-timer-value" aria-live="polite" aria-atomic="true">00h 00m 00s</span>
+  </div>
+  <div class="wl-meta-block wl-off">
+    <span id="wl-started-label" class="wl-timer-meta">Started At</span>
+    <span id="wl-started-value" class="wl-ends-value"></span>
+    <span id="wl-ends-label"   class="wl-timer-meta wl-fade wl-off">Ends At</span>
+    <span id="wl-ends-value"   class="wl-ends-value wl-fade wl-off"></span>
+  </div>
+  <p id="wl-msg" class="wl-msg wl-fade">Ready when you are.</p>
+  <div class="wl-view-actions">
+    <button id="wl-fs-btn" type="button" class="wl-fs-btn" aria-label="Enter full screen">Full Screen</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="wl-rd-btn" type="button" class="wl-fs-btn" aria-label="Remove distractions">Remove Distractions</button>
+  </div>
+</div>
+
+<ToolSection heading="How it works">
+  <p>
+    This tool uses the browser Wake Lock API to ask your operating system to keep the display on.
+    When active, the screen will not dim or turn off on its own. The lock is released automatically
+    when you stop the tool, switch tabs, or close the page. Nothing is sent to a server.
+  </p>
+  <p>
+    Wake locks apply only to the display — they do not prevent your computer from entering system
+    sleep if you close the lid or trigger it manually.
+  </p>
+  {guideHref && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → How to Keep Your Screen Awake</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}
+
+<div id="wl-fullscreen" class="wl-fullscreen" data-state="inactive" hidden>
+  <div class="wl-fs-content">
+    <div class="wl-fs-status-row">
+      <span id="wl-fs-dot" class="wl-dot wl-fs-dot" data-state="inactive" aria-hidden="true"></span>
+      <span id="wl-fs-label" class="wl-fs-label">Sleeping</span>
+    </div>
+    <div id="wl-fs-timer" hidden class="wl-fs-timer">
+      <span id="wl-fs-timer-label" class="wl-fs-timer-meta">Awake From</span>
+      <span id="wl-fs-timer-value" class="wl-fs-timer-value">00h 00m 00s</span>
+    </div>
+    <div class="wl-fs-meta-block">
+      <div id="wl-fs-started" hidden class="wl-fs-meta-row">
+        <span class="wl-fs-timer-meta">Started At</span>
+        <span id="wl-fs-started-value" class="wl-fs-meta-value"></span>
+      </div>
+      <div id="wl-fs-ends" hidden class="wl-fs-meta-row">
+        <span class="wl-fs-timer-meta">Ends At</span>
+        <span id="wl-fs-ends-value" class="wl-fs-meta-value"></span>
+      </div>
+    </div>
+  </div>
+  <button id="wl-fs-exit" type="button" class="wl-fs-exit" aria-label="Exit full screen">✕</button>
+</div>
+
+<style is:global>
+  .wl-fade { transition: opacity 200ms ease; }
+  .wl-off  { opacity: 0; pointer-events: none; }
+
+  .wl-inputs {
+    padding-block: var(--space-8);
+    padding-inline: var(--space-6);
+    border-bottom: var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .wl-unsupported {
+    padding: var(--space-4);
+    background: var(--color-bg-tertiary);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .wl-unsupported[hidden] { display: none; }
+
+  .wl-unsupported-hint { color: var(--color-text-subtle); }
+
+  .wl-text-action {
+    background: none; border: none; padding: 0;
+    color: var(--color-text-muted); font-size: var(--text-sm); font-family: inherit;
+    cursor: pointer; text-align: left;
+    transition: color var(--duration-fast) ease; width: fit-content;
+  }
+  .wl-text-action:hover { color: var(--color-text); }
+
+  .wl-time-options-panel { display: flex; flex-direction: column; gap: var(--space-3); }
+  .wl-time-options-panel[hidden] { display: none; }
+
+  .wl-duration-grid { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .wl-format-row { display: flex; gap: var(--space-2); align-items: center; }
+
+  .wl-fmt, .wl-dur {
+    min-height: 36px; padding-inline: var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: transparent; color: var(--color-text-muted);
+    font-size: var(--text-xs); font-family: inherit; cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .wl-fmt:hover, .wl-dur:hover { color: var(--color-text); border-color: var(--color-text-muted); }
+  .wl-fmt.selected, .wl-dur.selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  .wl-dur:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+  .wl-dur-inf { font-size: var(--text-2xl); line-height: 1; }
+
+  .wl-custom-input {
+    min-height: 36px; width: 140px; padding-inline: var(--space-2);
+    border: var(--border); border-radius: var(--radius-md);
+    background: transparent; color: var(--color-text-muted);
+    font-size: var(--text-xs); font-family: inherit; text-align: center;
+    transition: var(--transition-color);
+  }
+  .wl-custom-input:focus { outline: none; border-color: var(--color-text-muted); color: var(--color-text); }
+  .wl-custom-input.selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  .wl-custom-input:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+  .wl-toggle-switch {
+    display: inline-flex; align-items: center; flex-shrink: 0;
+    width: 32px; height: 18px; border-radius: 9px;
+    border: 1.5px solid var(--color-text-subtle); background: transparent;
+    cursor: pointer; padding: 3px;
+    transition: background-color var(--duration-normal) ease, border-color var(--duration-normal) ease;
+  }
+  .wl-toggle-switch:disabled { opacity: 0.4; cursor: not-allowed; }
+  .wl-toggle-knob {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--color-text-subtle); flex-shrink: 0;
+    transition: transform var(--duration-normal) ease, background-color var(--duration-normal) ease;
+  }
+  .wl-toggle-switch[aria-checked="true"] { border-color: var(--color-gold); background: var(--color-gold-subtle); }
+  .wl-toggle-switch[aria-checked="true"] .wl-toggle-knob {
+    transform: translateX(14px); background: var(--color-gold);
+    animation: dot-breathe 5s ease-in-out infinite;
+  }
+
+  .wl-status {
+    padding-block: var(--space-8); padding-inline: var(--space-6);
+    border-bottom: var(--border); text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+    gap: var(--space-3); min-height: 260px; justify-content: flex-start;
+  }
+  .wl-status-row { display: flex; align-items: center; gap: var(--space-3); }
+
+  .wl-dot {
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .wl-dot[data-state="inactive"] { background: transparent; border: 2px solid var(--color-text-subtle); }
+  .wl-dot[data-state="active"] { background: var(--color-gold); border: none; animation: dot-breathe 5s ease-in-out infinite; }
+  .wl-dot[data-state="completed"] { background: var(--color-success); border: none; }
+
+  .wl-status-label {
+    font-size: var(--text-xl); font-weight: var(--font-weight-semibold);
+    min-width: 110px; text-align: left;
+  }
+
+  .wl-timer {
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-1);
+    overflow: hidden; max-height: 80px;
+    transition: max-height 250ms ease, opacity 200ms ease;
+  }
+  .wl-timer.wl-off { max-height: 0; opacity: 0; pointer-events: none; }
+
+  .wl-timer-meta {
+    font-size: var(--text-xs); color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .wl-timer-value {
+    font-family: var(--font-mono); font-size: var(--text-xl);
+    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold);
+  }
+
+  .wl-meta-block {
+    display: grid; grid-template-columns: max-content 1fr;
+    column-gap: var(--space-3); row-gap: var(--space-2); align-items: baseline;
+    overflow: hidden; max-height: 80px;
+    transition: max-height 250ms ease, opacity 200ms ease;
+  }
+  .wl-meta-block.wl-off { max-height: 0; opacity: 0; pointer-events: none; }
+
+  .wl-ends-value { color: var(--color-text); font-weight: var(--font-weight-medium); }
+
+  .wl-msg { font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; transition: opacity 200ms ease; }
+
+  .wl-view-actions { display: flex; align-items: center; gap: var(--space-2); }
+
+  .wl-fs-btn {
+    background: none; border: none; padding: 0;
+    color: var(--color-text-subtle); font-size: var(--text-xs); font-family: inherit;
+    cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+    transition: color var(--duration-fast) ease;
+  }
+  .wl-fs-btn:hover { color: var(--color-text-muted); }
+
+  .wl-fullscreen {
+    position: fixed; inset: 0; z-index: 9999; background: #0F1115;
+    transition: background-color 600ms ease;
+    display: flex; align-items: flex-end; justify-content: flex-start; padding: var(--space-8);
+  }
+  .wl-fullscreen[hidden] { display: none; }
+  .wl-fullscreen[data-state="active"]    { background: #16100A; }
+  .wl-fullscreen[data-state="completed"] { background: #071A0D; }
+
+  .wl-fs-content { display: flex; flex-direction: column; gap: var(--space-3); }
+  .wl-fs-status-row { display: flex; align-items: center; gap: var(--space-3); }
+  .wl-fs-dot { width: 12px; height: 12px; }
+
+  .wl-fs-label { font-size: var(--text-xl); font-weight: var(--font-weight-semibold); color: #F4F4F4; }
+
+  .wl-fs-timer { display: flex; flex-direction: column; gap: var(--space-1); }
+  .wl-fs-timer[hidden] { display: none; }
+
+  .wl-fs-timer-meta { font-size: var(--text-xs); color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; }
+  .wl-fs-timer-value {
+    font-family: var(--font-mono); font-size: var(--text-xl);
+    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: #F4F4F4;
+  }
+
+  .wl-fs-meta-block {
+    display: grid; grid-template-columns: max-content auto;
+    column-gap: var(--space-3); row-gap: var(--space-2); align-items: baseline;
+  }
+  .wl-fs-meta-row { display: contents; }
+  .wl-fs-meta-row[hidden] { display: none; }
+  .wl-fs-meta-value { font-size: var(--text-sm); color: #A0A0A0; font-weight: var(--font-weight-medium); }
+
+  .wl-fs-exit {
+    position: absolute; top: var(--space-6); right: var(--space-6);
+    background: none; border: none; padding: var(--space-2);
+    color: #6b7280; font-size: var(--text-lg); font-family: inherit;
+    cursor: pointer; transition: color var(--duration-fast) ease; line-height: 1;
+  }
+  .wl-fs-exit:hover { color: #F4F4F4; }
+</style>
+
+<script is:inline>
+  (function () {
+    var toggleBtn = document.getElementById('wl-toggle');
+    if (!toggleBtn) return;
+
+    var STORAGE_KEY = 'toytools.keep-screen-awake.duration';
+    var FORMAT_KEY  = 'toytools.keep-screen-awake.timeformat';
+    var label        = document.getElementById('wl-label');
+    var msg          = document.getElementById('wl-msg');
+    var timerEl      = document.getElementById('wl-timer');
+    var timerLabel   = document.getElementById('wl-timer-label');
+    var timerValue   = document.getElementById('wl-timer-value');
+    var endsLabel    = document.getElementById('wl-ends-label');
+    var endsValue    = document.getElementById('wl-ends-value');
+    var startedValue = document.getElementById('wl-started-value');
+    var metaBlock    = document.querySelector('.wl-meta-block');
+    var timeToggle   = document.getElementById('wl-time-toggle');
+    var timeOptions  = document.getElementById('wl-time-options');
+    var customInput  = document.getElementById('wl-custom-min');
+    var unsupported  = document.getElementById('wl-unsupported');
+    var fsBtn        = document.getElementById('wl-fs-btn');
+    var rdBtn        = document.getElementById('wl-rd-btn');
+    var fsOverlay    = document.getElementById('wl-fullscreen');
+    var fsExit       = document.getElementById('wl-fs-exit');
+    var fsDot        = document.getElementById('wl-fs-dot');
+    var fsLabel      = document.getElementById('wl-fs-label');
+    var fsTimer      = document.getElementById('wl-fs-timer');
+    var fsTimerLabel = document.getElementById('wl-fs-timer-label');
+    var fsTimerValue = document.getElementById('wl-fs-timer-value');
+    var fsStarted    = document.getElementById('wl-fs-started');
+    var fsStartedVal = document.getElementById('wl-fs-started-value');
+    var fsEnds       = document.getElementById('wl-fs-ends');
+    var fsEndsVal    = document.getElementById('wl-fs-ends-value');
+
+    if (!('wakeLock' in navigator)) {
+      if (unsupported) unsupported.hidden = false;
+      toggleBtn.disabled = true;
+      return;
+    }
+
+    var wakeLock = null, tickInterval = null, startTime = null, endTime = null;
+    var sessionRunning = false, selectedDuration = 0, timeFormat = '12';
+    var origTitle = document.title;
+
+    function showEl(el) { if (el) el.classList.remove('wl-off'); }
+    function hideEl(el) { if (el) el.classList.add('wl-off'); }
+
+    function setLabelText(text) {
+      if (!label) return;
+      hideEl(label);
+      setTimeout(function () { label.textContent = text; showEl(label); }, 150);
+    }
+
+    function setSelectedDuration(dur) {
+      selectedDuration = dur;
+      document.querySelectorAll('.wl-dur').forEach(function (btn) {
+        btn.classList.toggle('selected', btn.getAttribute('data-duration') === String(dur));
+      });
+      if (customInput) customInput.classList.remove('selected');
+    }
+
+    document.querySelectorAll('.wl-dur').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var val = btn.getAttribute('data-duration');
+        setSelectedDuration(parseInt(val, 10));
+        try { localStorage.setItem(STORAGE_KEY, val); } catch (_) {}
+      });
+    });
+
+    if (customInput) {
+      customInput.addEventListener('input', function () {
+        var mins = parseInt(customInput.value, 10);
+        if (mins > 0) {
+          selectedDuration = mins * 60;
+          document.querySelectorAll('.wl-dur').forEach(function (b) { b.classList.remove('selected'); });
+          customInput.classList.add('selected');
+          try { localStorage.setItem(STORAGE_KEY, String(selectedDuration)); } catch (_) {}
+        }
+      });
+    }
+
+    if (timeToggle && timeOptions) {
+      timeToggle.addEventListener('click', function () {
+        timeOptions.hidden = !timeOptions.hidden;
+        timeToggle.textContent = timeOptions.hidden ? 'Tool Settings ▾' : 'Tool Settings ▴';
+      });
+    }
+
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved !== null) { var sn = parseInt(saved, 10); if (!isNaN(sn)) setSelectedDuration(sn); }
+    } catch (_) {}
+
+    function setTimeFormat(fmt) {
+      timeFormat = fmt;
+      document.querySelectorAll('.wl-fmt').forEach(function (btn) {
+        btn.classList.toggle('selected', btn.getAttribute('data-format') === fmt);
+      });
+      try { localStorage.setItem(FORMAT_KEY, fmt); } catch (_) {}
+      if (startTime) { var s = formatTime(new Date(startTime)); if (startedValue) startedValue.textContent = s; if (fsStartedVal) fsStartedVal.textContent = s; }
+      if (endTime)   { var e = formatTime(new Date(endTime));   if (endsValue)    endsValue.textContent    = e; if (fsEndsVal)    fsEndsVal.textContent    = e; }
+    }
+
+    document.querySelectorAll('.wl-fmt').forEach(function (btn) {
+      btn.addEventListener('click', function () { setTimeFormat(btn.getAttribute('data-format')); });
+    });
+
+    try {
+      var sf = localStorage.getItem(FORMAT_KEY);
+      if (sf === '12' || sf === '24') setTimeFormat(sf);
+    } catch (_) {}
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function formatDuration(s) {
+      var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+      return pad(h) + 'h ' + pad(m) + 'm ' + pad(sec) + 's';
+    }
+
+    function formatTime(date) {
+      if (timeFormat === '24') return pad(date.getHours()) + ':' + pad(date.getMinutes());
+      return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function lockDuration() {
+      document.querySelectorAll('.wl-dur').forEach(function (b) { b.disabled = true; });
+      if (customInput) customInput.disabled = true;
+    }
+
+    function unlockDuration() {
+      document.querySelectorAll('.wl-dur').forEach(function (b) { b.disabled = false; });
+      if (customInput) customInput.disabled = false;
+    }
+
+    function syncFullscreen(state) {
+      if (!fsOverlay) return;
+      fsOverlay.dataset.state = state;
+      if (fsDot)   fsDot.dataset.state = state;
+      if (fsLabel) fsLabel.textContent = state === 'active' ? 'Awake' : state === 'completed' ? 'Completed' : 'Sleeping';
+      if (fsTimer) fsTimer.hidden      = (state === 'inactive');
+      if (fsTimerLabel) fsTimerLabel.textContent = state === 'active' ? (endTime ? 'Remaining' : 'Awake From') : 'Session Ended';
+      if (fsTimerValue && state !== 'active') fsTimerValue.textContent = '';
+      if (fsStarted) fsStarted.hidden = (state === 'inactive');
+      if (fsEnds)    fsEnds.hidden    = !(state === 'active' && endTime);
+    }
+
+    function setInactiveState() {
+      sessionRunning = false; toggleBtn.setAttribute('aria-checked', 'false');
+      setLabelText('Sleeping');
+      if (msg) { msg.textContent = 'Ready when you are.'; showEl(msg); }
+      hideEl(timerEl); hideEl(metaBlock); unlockDuration();
+      document.title = origTitle; syncFullscreen('inactive');
+    }
+
+    function setActiveState() {
+      lockDuration(); toggleBtn.setAttribute('aria-checked', 'true');
+      setLabelText('Awake'); hideEl(msg); showEl(timerEl);
+      if (timerLabel) timerLabel.textContent = endTime ? 'Remaining' : 'Awake From';
+      showEl(metaBlock);
+      var startedStr = formatTime(new Date(startTime));
+      if (startedValue) startedValue.textContent = startedStr;
+      if (endTime) {
+        showEl(endsLabel);
+        if (endsValue) { endsValue.textContent = formatTime(new Date(endTime)); showEl(endsValue); }
+      } else {
+        hideEl(endsLabel); hideEl(endsValue);
+      }
+      if (fsStartedVal) fsStartedVal.textContent = startedStr;
+      if (fsEndsVal)    fsEndsVal.textContent    = endTime ? formatTime(new Date(endTime)) : '';
+      document.title = '● Awake — Keep Screen Awake'; syncFullscreen('active');
+    }
+
+    function setCompletedState() {
+      sessionRunning = false; toggleBtn.setAttribute('aria-checked', 'false');
+      setLabelText('Completed'); showEl(timerEl);
+      if (timerLabel) timerLabel.textContent = 'Session Ended';
+      if (timerValue) timerValue.textContent = '';
+      hideEl(endsLabel); hideEl(endsValue);
+      if (msg) {
+        if (endTime) {
+          var mins = Math.round((endTime - startTime) / 60000);
+          msg.textContent = 'Session completed after ' + mins + ' minute' + (mins === 1 ? '' : 's') + '.';
+        } else { msg.textContent = 'Session ended.'; }
+        showEl(msg);
+      }
+      unlockDuration(); document.title = origTitle; syncFullscreen('completed');
+    }
+
+    function tick() {
+      var now = Date.now();
+      if (endTime && now >= endTime) {
+        clearInterval(tickInterval); tickInterval = null;
+        if (wakeLock) { wakeLock.release(); wakeLock = null; }
+        setCompletedState(); return;
+      }
+      if (!timerValue) return;
+      var display = endTime
+        ? formatDuration(Math.max(0, Math.floor((endTime - now) / 1000)))
+        : formatDuration(Math.floor((now - startTime) / 1000));
+      timerValue.textContent = display;
+      if (fsTimerValue) fsTimerValue.textContent = display;
+    }
+
+    function reacquireOnVisible() {
+      if (document.visibilityState === 'visible' && sessionRunning && wakeLock === null) {
+        document.removeEventListener('visibilitychange', reacquireOnVisible);
+        requestWakeLock();
+      }
+    }
+
+    function requestWakeLock() {
+      navigator.wakeLock.request('screen').then(function (lock) {
+        wakeLock = lock;
+        lock.addEventListener('release', function () {
+          wakeLock = null;
+          if (sessionRunning) document.addEventListener('visibilitychange', reacquireOnVisible);
+        });
+      }).catch(function () { setInactiveState(); });
+    }
+
+    function activate() {
+      var dur = selectedDuration;
+      if (timeOptions) timeOptions.hidden = true;
+      if (timeToggle)  timeToggle.textContent = 'Tool Settings ▾';
+      startTime = Date.now(); endTime = dur > 0 ? startTime + dur * 1000 : null;
+      sessionRunning = true;
+      requestWakeLock(); setActiveState(); tick();
+      tickInterval = setInterval(tick, 1000);
+    }
+
+    function deactivate() {
+      sessionRunning = false; clearInterval(tickInterval); tickInterval = null;
+      document.removeEventListener('visibilitychange', reacquireOnVisible);
+      if (wakeLock) { wakeLock.release(); wakeLock = null; }
+      setInactiveState();
+    }
+
+    toggleBtn.addEventListener('click', function () {
+      if (sessionRunning) deactivate(); else activate();
+    });
+
+    function showOverlay() {
+      if (!fsOverlay) return;
+      fsOverlay.hidden = false;
+      syncFullscreen(sessionRunning ? 'active' : label && label.textContent === 'Completed' ? 'completed' : 'inactive');
+      if (sessionRunning && fsTimerValue && timerValue) fsTimerValue.textContent = timerValue.textContent;
+    }
+
+    function hideOverlay() { if (fsOverlay) fsOverlay.hidden = true; }
+
+    function exitNativeFullscreen() {
+      var exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+      if (exit && (document.fullscreenElement || document.webkitFullscreenElement)) exit.call(document);
+    }
+
+    if (fsBtn && fsOverlay) {
+      fsBtn.addEventListener('click', function () {
+        var el = document.documentElement;
+        var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        if (req) req.call(el).then(showOverlay).catch(showOverlay);
+        else showOverlay();
+      });
+    }
+
+    if (fsExit && fsOverlay) {
+      fsExit.addEventListener('click', function () { hideOverlay(); exitNativeFullscreen(); });
+    }
+
+    if (rdBtn) rdBtn.addEventListener('click', showOverlay);
+
+    document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement) hideOverlay(); });
+    document.addEventListener('webkitfullscreenchange', function () { if (!document.webkitFullscreenElement) hideOverlay(); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && fsOverlay && !fsOverlay.hidden &&
+          !document.fullscreenElement && !document.webkitFullscreenElement) hideOverlay();
+    });
+  })();
+</script>
