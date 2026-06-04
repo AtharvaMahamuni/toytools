@@ -10,9 +10,21 @@ interface Props {
 }
 
 const { tool, category } = Astro.props;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site ? new URL(withBase('/'), Astro.site).href : withBase('/') },
+    { '@type': 'ListItem', position: 2, name: category.name, item: Astro.site ? new URL(withBase(`/categories/${category.slug}/`), Astro.site).href : withBase(`/categories/${category.slug}/`) },
+    { '@type': 'ListItem', position: 3, name: tool.name },
+  ],
+};
 ---
 
-<BaseLayout title={tool.name} description={tool.description} maxWidth="tool">
+<BaseLayout title={tool.seoTitle ?? tool.name} description={tool.description} maxWidth="tool">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
   <div class="tool-header">
     <Breadcrumb items={[
       { label: 'Home', href: withBase('/') },

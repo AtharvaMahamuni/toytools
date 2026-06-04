@@ -10,6 +10,7 @@ export interface Category {
 export interface Tool {
   slug: string;
   name: string;
+  seoTitle?: string;
   description: string;
   categorySlug: string;
   tags: string[];

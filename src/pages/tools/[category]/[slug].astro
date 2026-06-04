@@ -161,7 +161,7 @@ const faqHref = ecosystemEntry?.faq
 
   <Fragment slot="explanation">
     <section class="content-section">
-      <h2>How it works</h2>
+      <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
       {tool.slug === 'word-counter' && <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>}
       {tool.slug === 'case-converter' && <p>The converter transforms the provided text locally using the selected casing rule.</p>}
       {tool.slug === 'percentage-calculator' && <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>}
@@ -450,6 +450,7 @@ const faqHref = ecosystemEntry?.faq
     line-height: var(--leading-relaxed);
     background: var(--color-bg);
     color: var(--color-text);
+    font-variant-ligatures: none;
   }
 
   /* Output element — same visual weight as the input */
@@ -468,6 +469,7 @@ const faqHref = ecosystemEntry?.faq
     overflow-wrap: break-word;
     overflow-y: auto;
     color: var(--color-text);
+    font-variant-ligatures: none;
   }
 
   /* Empty state — muted placeholder colour */

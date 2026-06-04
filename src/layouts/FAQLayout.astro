@@ -43,6 +43,17 @@ const faqSchema = {
     },
   })),
 };
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site ? new URL(withBase('/'), Astro.site).href : withBase('/') },
+    { '@type': 'ListItem', position: 2, name: toolCategoryName, item: Astro.site ? new URL(withBase(`/categories/${toolCategorySlug}/`), Astro.site).href : withBase(`/categories/${toolCategorySlug}/`) },
+    { '@type': 'ListItem', position: 3, name: toolName, item: Astro.site ? new URL(withBase(`/tools/${toolCategorySegment}/${toolSlug}/`), Astro.site).href : withBase(`/tools/${toolCategorySegment}/${toolSlug}/`) },
+    { '@type': 'ListItem', position: 4, name: 'FAQ' },
+  ],
+};
 ---
 
 <BaseLayout title={title} description={description} maxWidth="tool">
@@ -68,6 +79,7 @@ const faqSchema = {
   </section>
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <EcosystemLinks
     currentType="faq"
