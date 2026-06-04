@@ -1,0 +1,42 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { toolsWithGuide } from '@data/registry';
+import { categories }     from '@data/categories';
+
+// Static imports — one per tool with a guide
+import TodoListGuide         from '../../tools/todo-list/Guide.astro';
+import NotepadGuide          from '../../tools/notepad/Guide.astro';
+import KeepScreenAwakeGuide  from '../../tools/keep-screen-awake/Guide.astro';
+import Base64Guide           from '../../tools/base64-encoder-decoder/Guide.astro';
+
+const guidesBySlug: Record<string, any> = {
+  'todo-list':              TodoListGuide,
+  'notepad':                NotepadGuide,
+  'keep-screen-awake':      KeepScreenAwakeGuide,
+  'base64-encoder-decoder': Base64Guide,
+};
+
+export const getStaticPaths = (() => {
+  return toolsWithGuide.map(tool => {
+    const guide    = tool.guide!;
+    const category = categories.find(c => c.slug === tool.categorySlug)!;
+    return {
+      params: { slug: `${guide.categorySlug}/${guide.slug}` },
+      props:  { tool, category },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { tool } = Astro.props;
+const GuideComp = guidesBySlug[tool.slug];
+---
+
+{GuideComp && (
+  <GuideComp
+    title={tool.guide!.title}
+    description={tool.guide!.description}
+    readMinutes={tool.guide!.readMinutes}
+    updatedAt={tool.guide!.updatedAt}
+    entry={tool}
+  />
+)}

@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import CategoryCard from '@components/CategoryCard.astro';
 import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
-import { tools } from '@data/tools';
+import { tools } from '@data/registry';
 
 function getCategoryName(slug: string): string {
   return categories.find(c => c.slug === slug)?.name ?? slug;

@@ -1,6 +1,7 @@
 ---
 import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
+import ToyToolsRuntime from '@components/ToyToolsRuntime.astro';
 import { withBase } from '../lib/paths';
 import '../styles/global.css';
 
@@ -50,6 +51,7 @@ const maxWidthVar =
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
   </head>
   <body>
+    <ToyToolsRuntime />
     <Nav />
     <main>
       <div class="page-content" style={`max-width: ${maxWidthVar};`}>

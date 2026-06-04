@@ -1,0 +1,55 @@
+---
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import ToolAction from '@tools/_shared/ToolAction.astro';
+---
+
+<section class="tool-panel" data-tool="word-counter">
+  <label class="widget-label" for="word-counter-input">Text</label>
+  <textarea
+    id="word-counter-input"
+    class="widget-textarea"
+    rows="10"
+    placeholder="Paste or type text here"
+  ></textarea>
+</section>
+
+<ToolAction label="Count" toolSlug="word-counter" />
+
+<section class="result-panel" aria-live="polite">
+  <div class="metric-grid" id="word-counter-result">
+    <div><span class="metric-value">0</span><span class="metric-label">Words</span></div>
+    <div><span class="metric-value">0</span><span class="metric-label">Characters</span></div>
+    <div><span class="metric-value">0</span><span class="metric-label">Sentences</span></div>
+    <div><span class="metric-value">0</span><span class="metric-label">Paragraphs</span></div>
+  </div>
+</section>
+
+<ToolSection heading="How it works">
+  <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>
+</ToolSection>
+
+<section class="content-section">
+  <h2>FAQ</h2>
+  <details class="widget-details">
+    <summary>Does this tool upload my data?</summary>
+    <p>No. Everything runs in your browser.</p>
+  </details>
+  <details class="widget-details">
+    <summary>Can I use it on mobile?</summary>
+    <p>Yes. Inputs are stacked and reachable on small screens.</p>
+  </details>
+</section>
+
+<script is:inline>
+  document.querySelector('[data-run-tool="word-counter"]')?.addEventListener('click', function () {
+    var text = (document.getElementById('word-counter-input')?.value || '').trim();
+    var words      = text ? text.split(/\s+/).filter(Boolean).length : 0;
+    var characters = text.length;
+    var sentences  = text ? (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).length : 0;
+    var paragraphs = text ? text.split(/\n\s*\n/).filter(Boolean).length : 0;
+    var values = [words, characters, sentences, paragraphs];
+    document.querySelectorAll('#word-counter-result .metric-value').forEach(function (node, i) {
+      node.textContent = String(values[i]);
+    });
+  });
+</script>

@@ -19,12 +19,67 @@ ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run b
 
 **Data-driven static site.** All pages are pre-rendered at build time. No server, no database, no client-side framework.
 
-### How a tool gets rendered
+### Adding a tool (2 steps)
 
-1. Add a `Tool` entry to `src/data/tools.ts` (typed by `src/data/types.ts`).
-2. `src/pages/tools/[slug].astro` picks it up via `getStaticPaths`, which maps every tool to `{ params, props }` including the resolved `Category`.
-3. The page renders into `ToolLayout.astro`, which wraps `BaseLayout.astro` and exposes named slots in the frozen page-flow order: `inputs → action → result → explanation → faq → related`.
-4. Category pages and the search page update automatically — they read from the same data arrays.
+1. Create `src/tools/<slug>/` with two required files:
+   - `config.ts` — exports a named `const config: ToolConfig` with all tool metadata
+   - `Widget.astro` — self-contained Astro component: HTML + `<style is:global>` + `<script is:inline>`
+2. Add one import line and one array entry in `src/data/registry.ts` — **this is the only other file that changes**.
+
+All tool pages, category pages, search, and homepage update automatically at build time.
+
+### Removing a tool (2 steps)
+
+1. Delete `src/tools/<slug>/`
+2. Remove the import and array entry from `src/data/registry.ts`
+
+Nothing else needs to change.
+
+### Adding a guide or FAQ to a tool
+
+In `config.ts`, add a `guide: GuideConfig` and/or `faq: FaqConfig` object.
+Then create `Guide.astro` and/or `faq.ts` in the same tool directory.
+
+For a new guide, also add a static import to `src/pages/guide/[...slug].astro`.
+For a new FAQ, also add an import to `src/data/faq-registry.ts`.
+
+### Tool directory structure
+
+```
+src/tools/<slug>/
+├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, faq?
+├── Widget.astro     # Self-contained tool UI (required)
+├── faq.ts           # exports: const items: FAQItem[] (optional — only if tool has FAQ)
+└── Guide.astro      # Wraps GuideLayout with full guide content (optional)
+```
+
+Shared sub-components for widgets: `src/tools/_shared/ToolSection.astro`, `ToolAction.astro`.
+
+### Data layer
+
+```
+src/data/
+├── types.ts          # ToolConfig, GuideConfig, FaqConfig, FAQItem, Category, EcosystemEntry
+├── categories.ts     # Category definitions (accent colors, segments)
+├── registry.ts       # Single source of truth — imports all tool configs
+└── faq-registry.ts   # Imports all faq.ts files by tool slug
+```
+
+### Widget JavaScript rules
+
+All tool scripts use `<script is:inline>` inside `Widget.astro`:
+- No TypeScript, no imports, no `import.meta.env`
+- Access shared helpers via `ToyTools.*` global (from `ToyToolsRuntime.astro` in BaseLayout):
+  - `ToyTools.toast(msg)` — show the global toast notification
+  - `ToyTools.storage.get/set/clear(key)` — localStorage with 50 KB cap
+  - `ToyTools.copy(text)` — clipboard copy with toast feedback
+- localStorage key convention: `toytools.<slug>.<field>`, 50 KB cap
+
+### BackButton
+
+`src/components/BackButton.astro` renders a mobile-only ← Back button (hidden above 640px).
+It is automatically included in `ToolLayout`, `FAQLayout`, and `GuideLayout`.
+Do not add it manually in widgets.
 
 ### Path/URL handling — always use `withBase`
 
@@ -47,13 +102,6 @@ Two CSS layers in `src/styles/tokens.css`:
 
 The user's choice is stored in `localStorage` and applied before first paint by an inline script in `BaseLayout.astro`'s `<head>`. Toggle logic lives in `Nav.astro`.
 
-### JavaScript rules
-
-All scripts use `<script is:inline>` (not Astro module scripts), which means:
-- No TypeScript, no imports, no `import.meta.env`
-- Each script is output verbatim into the HTML
-- `src/lib/storage.ts` documents the localStorage key convention (`toytools.<slug>.<field>`, 50 KB cap) but cannot be imported — copy the pattern inline
-
 ### CopyButton protocol
 
 `CopyButton.astro` reads two data attributes on its target element:
@@ -69,10 +117,11 @@ All values come from `src/styles/tokens.css` custom properties. Key constraints:
 - Transitions: only `color`, `background-color`, `border-color`. Durations: `150ms` or `200ms` only.
 - Touch targets: minimum `var(--touch-target)` (48px).
 - Widths: tool pages `var(--width-tool)` (800px), category/nav `var(--width-category)` / `var(--width-nav)` (1200px). Applied via `BaseLayout`'s `maxWidth` prop on an inner `.page-content` div — `<main>` itself always spans nav width to keep left-edge alignment consistent.
+- Shared widget CSS lives in `src/styles/tool-widget.css` (imported by `global.css`).
 
 ### TypeScript path aliases
 
-`@components/*`, `@data/*`, `@layouts/*`, `@styles/*` — configured in `tsconfig.json`, auto-synced to Vite by Astro.
+`@components/*`, `@data/*`, `@layouts/*`, `@styles/*`, `@tools/*`, `@lib/*` — configured in `tsconfig.json`, auto-synced to Vite by Astro.
 
 ## Deployment
 

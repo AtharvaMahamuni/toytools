@@ -1,0 +1,56 @@
+---
+// Shared client-side runtime — inlined once in BaseLayout.
+// Exposes window.ToyTools global so all Widget inline scripts can call
+// ToyTools.toast(), ToyTools.storage.get/set/clear(), ToyTools.copy().
+---
+<script is:inline>
+(function (TT) {
+  var _toastTimer;
+
+  TT.toast = function (msg, ms) {
+    var el = document.getElementById('tt-toast');
+    if (!el) return;
+    el.textContent = msg;
+    clearTimeout(_toastTimer);
+    el.classList.add('tt-visible');
+    _toastTimer = setTimeout(function () { el.classList.remove('tt-visible'); }, ms || 2000);
+  };
+
+  TT.storage = {
+    MAX: 50000,
+    get: function (key) {
+      try { return localStorage.getItem(key) || ''; } catch (_) { return ''; }
+    },
+    set: function (key, val, max) {
+      try {
+        if (val.length < (max || TT.storage.MAX)) localStorage.setItem(key, val);
+      } catch (_) {}
+    },
+    clear: function (key) {
+      try { localStorage.removeItem(key); } catch (_) {}
+    }
+  };
+
+  TT.copy = function (text, emptyMsg) {
+    if (!text || !text.trim()) { TT.toast(emptyMsg || 'Nothing to copy!'); return; }
+    function legacy(t) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = t;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch (_) {}
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).catch(function () { legacy(text); });
+    } else {
+      legacy(text);
+    }
+    TT.toast('Copied!');
+  };
+
+})(window.ToyTools = window.ToyTools || {});
+</script>

@@ -7,7 +7,27 @@ export interface Category {
   segment: string; // short URL path segment used in /tools/[segment]/[slug]/
 }
 
-export interface Tool {
+export interface FAQItem {
+  id: string;       // anchor-safe slug, e.g. "b64-faq-1"
+  question: string;
+  answer: string;
+}
+
+export interface GuideConfig {
+  slug: string;
+  categorySlug: string; // URL segment, e.g. "productivity"
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;    // display string, e.g. "Jun 2026"
+}
+
+export interface FaqConfig {
+  slug: string;
+  categorySlug: string;
+}
+
+export interface ToolConfig {
   slug: string;
   name: string;
   seoTitle?: string;
@@ -16,25 +36,15 @@ export interface Tool {
   tags: string[];
   isNew?: boolean;
   updatedAt?: string;
+  guide?: GuideConfig;
+  faq?: FaqConfig;
 }
 
-export interface FAQItem {
-  id: string;       // anchor-safe slug, e.g. "b64-faq-1"
-  question: string;
-  answer: string;
-}
+// Backward-compat alias — existing consumers (ToolCard, ToolLayout, search, etc.) use Tool with no changes
+export type Tool = ToolConfig;
 
+// Backward-compat structural alias for FAQLayout/GuideLayout entry props
 export interface EcosystemEntry {
-  guide?: {
-    slug: string;
-    categorySlug: string; // URL segment, e.g. "developer"
-    title: string;
-    description: string;
-    readMinutes: number;
-    updatedAt: string;    // display string, e.g. "Jun 2026"
-  };
-  faq?: {
-    slug: string;
-    categorySlug: string;
-  };
+  guide?: GuideConfig;
+  faq?: FaqConfig;
 }

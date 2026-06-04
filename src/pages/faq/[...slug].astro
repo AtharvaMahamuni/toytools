@@ -1,0 +1,38 @@
+---
+import type { GetStaticPaths } from 'astro';
+import FAQLayout from '@layouts/FAQLayout.astro';
+import { toolsWithFaq }   from '@data/registry';
+import { faqsByToolSlug } from '@data/faq-registry';
+import { categories }     from '@data/categories';
+
+export const getStaticPaths = (() => {
+  return toolsWithFaq.map(tool => {
+    const faq      = tool.faq!;
+    const category = categories.find(c => c.slug === tool.categorySlug)!;
+    const items    = faqsByToolSlug[tool.slug] ?? [];
+    return {
+      params: { slug: `${faq.categorySlug}/${faq.slug}` },
+      props:  { tool, category, items },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { tool, category, items } = Astro.props;
+
+const faqDescriptions: Record<string, string> = {
+  'todo-list':              'Answers to common questions about task lists, subtasks, productivity, and organization.',
+  'notepad':                'Answers to common questions about the online notepad, storage, and privacy.',
+  'keep-screen-awake':      'Answers to common questions about wake locks, browser support, and battery usage.',
+  'base64-encoder-decoder': 'Answers to common questions about Base64 encoding, decoding, and common use cases.',
+};
+---
+
+<FAQLayout
+  title={`${tool.name} FAQ`}
+  description={faqDescriptions[tool.slug] ?? `Answers to common questions about ${tool.name.toLowerCase()}.`}
+  toolSlug={tool.slug}
+  toolName={tool.name}
+  toolCategorySlug={tool.categorySlug}
+  items={items}
+  entry={tool}
+/>

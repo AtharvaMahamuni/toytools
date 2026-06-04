@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  id?: string;
+  toolSlug: string;
+}
+const { label, id, toolSlug } = Astro.props;
+---
+
+<div class="tool-action">
+  <button
+    class="primary-action"
+    type="button"
+    id={id}
+    data-run-tool={toolSlug}
+  >
+    {label}
+  </button>
+</div>
