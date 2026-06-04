@@ -11,10 +11,17 @@ function getCategoryName(slug: string): string {
 ---
 
 <BaseLayout
-  title="ToyTools"
-  description="Simple tools for everyday work. Lightweight, private, and free."
+  title="ToyTools — Free Online Tools"
+  description="Free, private, browser-based tools for everyday tasks. No sign-up, no tracking."
   maxWidth="category"
 >
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'ToyTools',
+    url: 'https://toytools.app/',
+    description: 'Free, private, browser-based tools for everyday tasks. No sign-up, no tracking.',
+  })} />
   <section class="hero">
     <h1>Find the right tool in seconds.</h1>
     <p>Simple tools for everyday work. Lightweight, private, and free.</p>
