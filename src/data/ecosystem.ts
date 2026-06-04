@@ -31,6 +31,20 @@ export const ecosystem: Record<string, EcosystemEntry> = {
       categorySlug: 'productivity',
     },
   },
+  'keep-screen-awake': {
+    guide: {
+      slug: 'how-to-keep-your-screen-awake',
+      categorySlug: 'productivity',
+      title: 'How to Keep Your Screen Awake',
+      description: 'Understand wake locks, browser support, battery impact, and when to use device settings instead.',
+      readMinutes: 6,
+      updatedAt: 'Jun 2026',
+    },
+    faq: {
+      slug: 'keep-screen-awake',
+      categorySlug: 'productivity',
+    },
+  },
   'base64-encoder-decoder': {
     guide: {
       slug: 'what-is-base64',

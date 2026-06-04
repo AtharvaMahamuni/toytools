@@ -1,0 +1,198 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { toolFAQs } from '@data/faqs';
+import { ecosystem } from '@data/ecosystem';
+import { withBase } from '../../../lib/paths';
+
+const entry = ecosystem['keep-screen-awake']!;
+const faqItems = toolFAQs['keep-screen-awake']!;
+const toolHref = withBase('/tools/productivity/keep-screen-awake/');
+const faqHref = withBase('/faq/productivity/keep-screen-awake/');
+---
+
+<GuideLayout
+  title="How to Keep Your Screen Awake"
+  description="Understand wake locks, browser support, battery impact, and when to use device settings instead."
+  readMinutes={6}
+  updatedAt="Jun 2026"
+  toolSlug="keep-screen-awake"
+  toolName="Keep Screen Awake"
+  toolCategorySlug="productivity"
+  entry={entry}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You can keep your screen awake directly from a browser tab using the Wake Lock API.
+      Open the tool, press the button, and your display will stay on for as long as the tab
+      is visible and active — no app download, no account, no settings change required.
+    </p>
+    <a href={toolHref} class="cta-link">Try Keep Screen Awake →</a>
+  </section>
+
+  <section id="why-screens-turn-off">
+    <h2>Why Screens Turn Off Automatically <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every operating system ships with an automatic screen timeout. After a set period of
+      inactivity — typically 30 seconds to a few minutes — the display dims and then turns off.
+      This behavior exists for several practical reasons:
+    </p>
+    <ul>
+      <li><strong>Battery conservation.</strong> The display is the largest power draw on most laptops and phones. Turning it off when idle extends battery life significantly.</li>
+      <li><strong>Heat reduction.</strong> Keeping a high-brightness display on continuously generates heat, especially on mobile devices.</li>
+      <li><strong>Security.</strong> An unattended screen showing your content is a privacy risk in public spaces. Auto-lock after timeout is a default security measure.</li>
+      <li><strong>OLED burn-in prevention.</strong> Displaying static content at high brightness for extended periods can cause permanent image retention on OLED screens.</li>
+    </ul>
+    <p>
+      These defaults make sense for most situations. They become inconvenient when you are
+      actively using the screen but not touching it — reading, watching, following instructions,
+      or monitoring something.
+    </p>
+  </section>
+
+  <section id="how-wake-locks-work">
+    <h2>How Screen Wake Locks Work <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A wake lock is a request to the operating system to suppress automatic sleep. Here is the chain:
+    </p>
+    <ol>
+      <li><strong>Your browser</strong> exposes the Wake Lock API — a standard JavaScript interface available in Chrome, Edge, and other Chromium-based browsers.</li>
+      <li><strong>The web page</strong> calls <code>navigator.wakeLock.request('screen')</code> when you activate the tool.</li>
+      <li><strong>The browser</strong> forwards this request to the operating system's power management layer.</li>
+      <li><strong>The OS</strong> suppresses the display timeout for as long as the lock is held.</li>
+      <li>When you stop the tool, close the tab, or switch away, the lock is released and normal timeout behavior resumes.</li>
+    </ol>
+    <ReferenceBlock type="note" heading="Display vs. system sleep">
+      <p>Wake locks control the <em>display</em> only. They do not prevent your computer from sleeping when the lid closes or when the system sleep timer fires. Those are controlled at the OS level, outside the browser's reach.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-situations">
+    <h2>Common Situations Where People Use It <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <h3>Following Recipes</h3>
+    <p>
+      Reading a recipe while cooking means your hands are often wet or occupied. Tapping the
+      screen repeatedly to keep it lit is frustrating. Activating the wake lock before you
+      start cooking means the recipe stays visible until you are done.
+    </p>
+
+    <h3>Reading Long Articles</h3>
+    <p>
+      Long reads — research papers, long-form journalism, documentation — can take ten or
+      twenty minutes to get through. If your screen times out while you are reading, you lose
+      your place and have to unlock the device. The wake lock removes this interruption.
+    </p>
+
+    <h3>Online Classes and Tutorials</h3>
+    <p>
+      Following a video tutorial or written walkthrough often means watching the screen
+      without interacting with it. The wake lock keeps the lesson visible without requiring
+      you to touch the trackpad or keyboard periodically.
+    </p>
+
+    <h3>Presentations</h3>
+    <p>
+      If you are presenting from a browser window on a laptop, the screen turning off mid-sentence
+      is a disruptive experience. Activating the wake lock before you start keeps the display
+      on throughout your talk.
+    </p>
+
+    <h3>Workout Sessions</h3>
+    <p>
+      Following a workout routine, timer, or exercise video while exercising means your phone
+      or tablet is stationary. The wake lock keeps the instructions visible so you can glance
+      at them without touching the screen between sets.
+    </p>
+
+    <h3>Monitoring Dashboards</h3>
+    <p>
+      Developers and analysts often leave dashboards or log output on a second screen for
+      passive monitoring. The wake lock prevents the monitor from going dark, ensuring
+      alerts and status changes stay visible.
+    </p>
+  </section>
+
+  <section id="battery-considerations">
+    <h2>Battery Considerations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Keeping the screen on continuously will drain your battery faster than allowing it to
+      dim and sleep. The impact depends on your display size, brightness setting, and device.
+      On a typical laptop at medium brightness, expect battery life to decrease by 20–40%
+      compared to allowing normal sleep behavior.
+    </p>
+    <p>
+      On phones, the display is responsible for a majority of power consumption. A one-hour
+      session with the screen fully awake could consume the equivalent of 15–25% additional
+      battery compared to a session where the display sleeps between interactions.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Simple mitigation">
+      <p>Lower your screen brightness before activating the wake lock. A display at 30% brightness uses a fraction of the power of one at 100%, while still being fully readable in most environments.</p>
+    </ReferenceBlock>
+    <p>
+      The wake lock tool itself — the web page and its JavaScript — uses negligible CPU or
+      memory. The battery impact is entirely from the display staying on.
+    </p>
+  </section>
+
+  <section id="device-compatibility">
+    <h2>Device Compatibility <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The Wake Lock API is a web standard, but not all browsers have implemented it yet:
+    </p>
+    <ul>
+      <li><strong>Chrome on Android</strong> — Supported. Open this page in Chrome on your Android phone or tablet.</li>
+      <li><strong>Chrome on desktop (Windows, macOS, Linux)</strong> — Supported.</li>
+      <li><strong>Microsoft Edge</strong> — Supported. Edge is Chromium-based and includes the API.</li>
+      <li><strong>Samsung Internet</strong> — Supported on recent versions.</li>
+      <li><strong>Safari on iOS and macOS</strong> — Limited or no support. Apple has not yet fully implemented the Wake Lock API in Safari.</li>
+      <li><strong>Firefox</strong> — Not supported. Mozilla has not yet implemented the API.</li>
+    </ul>
+    <p>
+      If your browser does not support the API, the tool will display a message and suggest
+      using your device settings instead.
+    </p>
+  </section>
+
+  <section id="limitations">
+    <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Wake locks are released when you switch tabs">
+      <p>The moment you navigate away from this tab or switch to another app, the browser releases the wake lock automatically. This is by design — browsers release locks on hidden tabs to conserve battery. When you return to the tab, you can reactivate the tool manually, or it will attempt to reacquire the lock automatically.</p>
+    </ReferenceBlock>
+    <ul>
+      <li><strong>Battery saver mode.</strong> Enabling battery saver or low-power mode on some devices causes the OS to override or reject wake lock requests.</li>
+      <li><strong>Display sleep vs. system sleep.</strong> The wake lock only controls the display. System sleep (triggered by lid closure or OS power settings) is separate and not controllable by a browser.</li>
+      <li><strong>Lock revocation.</strong> The OS can revoke a wake lock at any time for system reasons. The tool listens for this event and will attempt to reacquire the lock when the tab becomes visible again.</li>
+      <li><strong>Private browsing.</strong> Some browsers restrict API access in private or incognito mode. If the tool does not work in a private window, try a regular browser session.</li>
+    </ul>
+  </section>
+
+  <section id="when-you-dont-need-this">
+    <h2>When You Probably Don't Need This Tool <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This tool is designed for situations where you need a temporary, no-configuration solution.
+      There are cases where other options are more appropriate:
+    </p>
+    <ul>
+      <li><strong>Watching videos.</strong> Most video players — YouTube, Netflix, local media players — already request a wake lock automatically. Your screen will stay on during playback without needing this tool.</li>
+      <li><strong>Long-term preference.</strong> If you consistently want a longer screen timeout, changing your device's auto-lock setting is the better solution. This tool is useful when you want the behavior temporarily, not permanently.</li>
+      <li><strong>Using a screensaver.</strong> If you need the screen on but want to protect it during idle periods, setting a screensaver in your OS settings achieves this without any browser tool.</li>
+      <li><strong>Full-screen apps.</strong> Many native apps (games, presentation software, media players) suppress screen sleep on their own when running full screen.</li>
+    </ul>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Other productivity tools that work well alongside Keep Screen Awake:</p>
+    <ul>
+      <li><a href={withBase('/tools/productivity/todo-list/')}>Todo List</a> — Track tasks while keeping your screen on.</li>
+      <li><a href={withBase('/tools/productivity/notepad/')}>Notepad</a> — Take notes during a session without losing your place.</li>
+    </ul>
+
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+
+</GuideLayout>
