@@ -1,6 +1,21 @@
 import type { EcosystemEntry } from './types';
 
 export const ecosystem: Record<string, EcosystemEntry> = {
+  'todo-list': {
+    guide: {
+      slug: 'how-to-use-a-todo-list',
+      categorySlug: 'productivity',
+      title: 'How To Use A Todo List',
+      description:
+        'Learn how simple task lists reduce mental load, improve focus, and help you finish work more consistently.',
+      readMinutes: 5,
+      updatedAt: 'Jun 2026',
+    },
+    faq: {
+      slug: 'todo-list',
+      categorySlug: 'productivity',
+    },
+  },
   'base64-encoder-decoder': {
     guide: {
       slug: 'what-is-base64',
