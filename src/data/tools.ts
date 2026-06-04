@@ -27,6 +27,18 @@ export const tools: Tool[] = [
     updatedAt: '2026-06-02',
   },
   {
+    slug: 'todo-list',
+    name: 'Todo List',
+    seoTitle: 'Todo List - Free Online Task Tracker',
+    description: 'Create tasks, organize subtasks, and track progress directly in your browser. Private, lightweight, and free.',
+    categorySlug: 'productivity',
+    tags: ['todo list', 'task list', 'checklist', 'task tracker', 'online todo list',
+           'simple todo list', 'free todo list', 'private todo list', 'browser todo list',
+           'daily task list', 'subtasks', 'organize tasks', 'productivity'],
+    isNew: true,
+    updatedAt: '2026-06-04',
+  },
+  {
     slug: 'base64-encoder-decoder',
     name: 'Base64 Encoder & Decoder',
     seoTitle: 'Base64 Encoder & Decoder — Free Online Tool',

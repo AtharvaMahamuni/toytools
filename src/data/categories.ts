@@ -23,6 +23,13 @@ const categoryDefs: Omit<Category, 'toolCount'>[] = [
     accent: '#6366F1',
     segment: 'developer',
   },
+  {
+    slug: 'productivity',
+    name: 'Productivity',
+    description: 'Simple tools to help you focus, plan, and finish.',
+    accent: '#16A34A',
+    segment: 'productivity',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({
