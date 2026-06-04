@@ -1,0 +1,131 @@
+<div class="mii-wrap" aria-label="Made in India" role="button" tabindex="0">
+  <div class="mii-capsule">
+    <div class="mii-flag" aria-hidden="true">
+      <svg width="18" height="12" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="0" y="0" width="18" height="4" fill="#E59A3A"/>
+        <rect x="0" y="4" width="18" height="4" fill="#FFFFFF"/>
+        <rect x="0" y="8" width="18" height="4" fill="#2E8B57"/>
+        <circle cx="9" cy="6" r="1.5" fill="#1A3A6E"/>
+      </svg>
+    </div>
+  </div>
+  <div class="mii-tooltip" role="tooltip">Made in India ❤️</div>
+</div>
+
+<style>
+  .mii-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: default;
+    outline: none;
+  }
+
+  .mii-capsule {
+    display: flex;
+    align-items: center;
+  }
+
+  .mii-flag {
+    display: flex;
+    align-items: center;
+  }
+
+  .mii-flag svg {
+    display: block;
+    border-radius: 1px;
+  }
+
+  @media (max-width: 639px) {
+    .mii-tooltip {
+      display: none;
+    }
+  }
+
+  /* Tooltip */
+  .mii-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Desktop: show tooltip and animate flag on hover/focus */
+  .mii-wrap:hover .mii-tooltip,
+  .mii-wrap:focus-visible .mii-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Mobile tap: show tooltip via JS-added class */
+  .mii-wrap.mii-show .mii-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Focus ring for keyboard nav */
+  .mii-wrap:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Flag wave animation — only on hover */
+  @keyframes mii-wave {
+    0%   { transform: rotate(-1deg); }
+    50%  { transform: rotate(1deg); }
+    100% { transform: rotate(-1deg); }
+  }
+
+  .mii-wrap:hover .mii-flag,
+  .mii-wrap:focus-visible .mii-flag {
+    animation: mii-wave 6s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .mii-wrap:hover .mii-flag,
+    .mii-wrap:focus-visible .mii-flag {
+      animation: none;
+    }
+  }
+
+  /* Dark mode — system preference */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .mii-tooltip {
+      background: #0F1115;
+      color: #F4F4F4;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  /* Dark mode — explicit override */
+  :root[data-theme="dark"] .mii-tooltip {
+    background: #0F1115;
+    color: #F4F4F4;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var wrap = document.querySelector('.mii-wrap');
+    if (!wrap) return;
+    wrap.addEventListener('click', function () {
+      if (window.matchMedia('(hover: hover)').matches) return;
+      if (window.ToyTools) window.ToyTools.toast('Made in India ❤️');
+    });
+  })();
+</script>

@@ -1,10 +1,11 @@
 ---
+import MadeInIndia from '@components/MadeInIndia.astro';
 const year = new Date().getFullYear();
 ---
 
 <footer>
   <div class="footer-inner">
-    <p class="footer-brand">
+    <div class="footer-brand">
       &copy; {year} ToyTools
       <span class="gold-dot" aria-hidden="true"></span>
       Lightweight
@@ -12,7 +13,9 @@ const year = new Date().getFullYear();
       Private
       <span class="gold-dot" aria-hidden="true"></span>
       Free
-    </p>
+      <span class="gold-dot" aria-hidden="true"></span>
+      <MadeInIndia />
+    </div>
   </div>
 </footer>
 
@@ -27,10 +30,7 @@ const year = new Date().getFullYear();
     max-width: var(--width-nav);
     margin-inline: auto;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
     align-items: center;
-    justify-content: space-between;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
@@ -39,7 +39,16 @@ const year = new Date().getFullYear();
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    max-width: unset;
+  }
+
+  @media (max-width: 639px) {
+    .footer-inner {
+      font-size: var(--text-xs);
+    }
+
+    .footer-brand {
+      gap: var(--space-2);
+    }
   }
 
 </style>
