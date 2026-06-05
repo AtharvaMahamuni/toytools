@@ -25,6 +25,7 @@ export interface GuideConfig {
 export interface FaqConfig {
   slug: string;
   categorySlug: string;
+  description?: string;
 }
 
 export interface ToolConfig {

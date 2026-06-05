@@ -6,26 +6,15 @@ import { APP_VERSION } from '../lib/version';
 
 <header role="banner">
   <div class="nav-inner">
-    <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span><span class="nav-version" aria-label={`ToyTools alpha version 0.02`}>{APP_VERSION}<span class="nav-version-tooltip" role="tooltip"><strong>Alpha Version</strong>ToyTools is under active development.<br/>Features may change as the platform evolves.</span></span></a>
+    <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span><span class="nav-version" aria-label={`ToyTools alpha version 0.02`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Alpha Version</strong>ToyTools is under active development.<br/>Features may change as the platform evolves.</span></span></a>
     <div class="nav-search">
       <SearchBar />
     </div>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">
-      <svg class="theme-toggle-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2" />
-        <path d="M12 20v2" />
-        <path d="m4.93 4.93 1.41 1.41" />
-        <path d="m17.66 17.66 1.41 1.41" />
-        <path d="M2 12h2" />
-        <path d="M20 12h2" />
-        <path d="m6.34 17.66-1.41 1.41" />
-        <path d="m19.07 4.93-1.41 1.41" />
-      </svg>
-      <svg class="theme-toggle-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M20.9 13.5A8 8 0 1 1 10.5 3.1 6 6 0 0 0 20.9 13.5Z" />
-      </svg>
-    </button>
+    <div class="theme-segmented" role="group" aria-label="Theme">
+      <button class="theme-seg-btn" data-theme-btn="light" type="button">Light</button>
+      <button class="theme-seg-btn" data-theme-btn="dark" type="button">Dark</button>
+      <button class="theme-seg-btn" data-theme-btn="system" type="button">System</button>
+    </div>
   </div>
 </header>
 
@@ -136,34 +125,103 @@ import { APP_VERSION } from '../lib/version';
     min-width: 0;
   }
 
-  .theme-toggle {
+  .theme-segmented {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .theme-seg-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    width: var(--touch-target);
     height: var(--touch-target);
-    border: var(--border);
-    background: var(--color-bg);
+    padding: 0 var(--space-3);
+    border: none;
+    border-left: var(--border);
+    background: transparent;
     color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
     cursor: pointer;
-    border-radius: var(--radius-md);
     transition: var(--transition-color);
+    white-space: nowrap;
   }
 
-  .theme-toggle:hover {
+  .theme-seg-btn:first-child {
+    border-left: none;
+  }
+
+  .theme-seg-btn:hover {
     color: var(--color-text);
-    background: var(--color-bg-tertiary);
+    background: var(--color-surface-hover);
+  }
+
+  .theme-seg-btn[data-active] {
+    color: var(--color-gold);
+    background: var(--color-surface);
+    font-weight: var(--font-weight-medium);
+  }
+
+  @media (max-width: 480px) {
+    .theme-seg-btn {
+      padding: 0 var(--space-2);
+      font-size: var(--text-xs);
+    }
   }
 </style>
 
 <script is:inline>
-  document.getElementById('theme-toggle').addEventListener('click', function () {
+  (function () {
     var html = document.documentElement;
-    var current = html.dataset.theme ||
-      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    var next = current === 'dark' ? 'light' : 'dark';
-    html.dataset.theme = next;
-    localStorage.setItem('theme', next);
-  });
+    var mq = matchMedia('(prefers-color-scheme: dark)');
+    var mqListener = null;
+
+    function applyTheme(mode) {
+      if (mode === 'dark') {
+        html.dataset.theme = 'dark';
+        if (mqListener) { mq.removeEventListener('change', mqListener); mqListener = null; }
+      } else if (mode === 'light') {
+        html.dataset.theme = 'light';
+        if (mqListener) { mq.removeEventListener('change', mqListener); mqListener = null; }
+      } else {
+        delete html.dataset.theme;
+        if (!mqListener) {
+          mqListener = function () { markActive('system'); };
+          mq.addEventListener('change', mqListener);
+        }
+      }
+      markActive(mode);
+    }
+
+    function markActive(mode) {
+      document.querySelectorAll('[data-theme-btn]').forEach(function (btn) {
+        if (btn.dataset.themeBtn === mode) {
+          btn.dataset.active = '';
+        } else {
+          delete btn.dataset.active;
+        }
+      });
+    }
+
+    var stored = localStorage.getItem('toytools.theme') || 'system';
+    applyTheme(stored);
+
+    var versionEl = document.querySelector('.nav-version');
+    if (versionEl && window.ToyTools) ToyTools.mobileTooltip(versionEl, 'Alpha version — features may change');
+
+    document.querySelectorAll('[data-theme-btn]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var mode = btn.dataset.themeBtn;
+        localStorage.setItem('toytools.theme', mode);
+        applyTheme(mode);
+        var labels = { light: 'Light theme', dark: 'Dark theme', system: 'Using system appearance' };
+        if (window.ToyTools) ToyTools.toast(labels[mode] || 'Theme updated');
+      });
+    });
+  })();
 </script>

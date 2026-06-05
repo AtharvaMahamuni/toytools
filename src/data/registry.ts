@@ -6,6 +6,7 @@ import { config as todoList }             from '@tools/todo-list/config';
 import { config as notepad }              from '@tools/notepad/config';
 import { config as keepScreenAwake }      from '@tools/keep-screen-awake/config';
 import { config as base64 }              from '@tools/base64-encoder-decoder/config';
+import { config as pomodoroTimer }        from '@tools/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
@@ -16,6 +17,7 @@ export const tools: ToolConfig[] = [
   notepad,
   keepScreenAwake,
   base64,
+  pomodoroTimer,
 ];
 
 export const toolsWithGuide = tools.filter(t => t.guide !== undefined);

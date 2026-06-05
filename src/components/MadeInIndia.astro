@@ -9,7 +9,7 @@
       </svg>
     </div>
   </div>
-  <div class="mii-tooltip" role="tooltip">Made in India ❤️</div>
+  <div class="mii-tooltip tt-tooltip" role="tooltip">Made in India ❤️</div>
 </div>
 
 <style>
@@ -34,12 +34,6 @@
   .mii-flag svg {
     display: block;
     border-radius: 1px;
-  }
-
-  @media (max-width: 639px) {
-    .mii-tooltip {
-      display: none;
-    }
   }
 
   /* Tooltip */
@@ -122,10 +116,6 @@
 <script is:inline>
   (function () {
     var wrap = document.querySelector('.mii-wrap');
-    if (!wrap) return;
-    wrap.addEventListener('click', function () {
-      if (window.matchMedia('(hover: hover)').matches) return;
-      if (window.ToyTools) window.ToyTools.toast('Made in India ❤️');
-    });
+    if (wrap && window.ToyTools) ToyTools.mobileTooltip(wrap, 'Made in India ❤️');
   })();
 </script>
