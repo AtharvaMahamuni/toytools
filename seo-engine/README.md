@@ -90,11 +90,21 @@ npx playwright install chromium
 All commands can be run from the **root** of the ToyTools repo:
 
 ```sh
-npm run seo:research -- <tool-slug>
+npm run seo:research -- <tool-slug>   # discover + fetch competitor pages
+npm run seo:fetch    -- <tool-slug>   # fetch from a curated search-results.json (no discovery)
 npm run seo:extract  -- <tool-slug>
 npm run seo:validate
 npm run seo:audit
 ```
+
+### When discovery is blocked
+
+`seo:research` discovers competitor URLs via DuckDuckGo (GET) with a Bing
+fallback. Search engines aggressively bot-block datacenter/VPN IPs, so discovery
+may return zero results in some environments. When that happens, curate the
+competitor set by hand: write a `research/raw/<slug>/search-results.json` with a
+`results` array of `{ "url": "..." }` objects, then run `seo:fetch -- <slug>`
+to fetch and cache those pages. Continue with `seo:extract` as normal.
 
 Or from inside `seo-engine/`:
 

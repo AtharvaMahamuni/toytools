@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "seo:research": "npm --prefix seo-engine run seo:research --",
+    "seo:fetch": "npm --prefix seo-engine run seo:fetch --",
     "seo:extract": "npm --prefix seo-engine run seo:extract --",
     "seo:validate": "npm --prefix seo-engine run seo:validate",
     "seo:audit": "npm --prefix seo-engine run seo:audit",

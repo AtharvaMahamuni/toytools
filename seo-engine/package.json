@@ -8,6 +8,7 @@
   },
   "scripts": {
     "seo:research": "tsx scripts/research.ts",
+    "seo:fetch": "tsx scripts/fetch.ts",
     "seo:extract": "tsx scripts/extract.ts",
     "seo:validate": "tsx scripts/validate.ts",
     "seo:audit": "tsx scripts/audit.ts",

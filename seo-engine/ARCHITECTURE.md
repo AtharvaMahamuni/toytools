@@ -51,7 +51,8 @@ disk, so any stage can be re-run independently as long as its inputs exist.
 
 | File | Command | Responsibility |
 |------|---------|----------------|
-| `research.ts` | `seo:research <slug>` | Generate queries → collect SERP → fetch top-N competitor pages. Opens one shared browser and closes it via `closeBrowser()`. |
+| `research.ts` | `seo:research <slug>` | Generate queries → collect SERP (DuckDuckGo GET → Bing fallback) → fetch top-N competitor pages. Opens one shared browser and closes it via `closeBrowser()`. |
+| `fetch.ts` | `seo:fetch <slug>` | Fetch competitor pages from a hand-curated `search-results.json`, skipping discovery. The reliable path when search engines bot-block the host. |
 | `extract.ts` | `seo:extract <slug>` | Parse cached HTML, derive entities/questions/intents/gaps, write `research.json`. |
 | `validate.ts` | `seo:validate` | Score every `research.json`, write per-tool `validation-<slug>.json`. |
 | `audit.ts` | `seo:audit` | Render all research into a single `reports/audit.md`. |
@@ -151,10 +152,13 @@ These are deliberate current limitations, not bugs:
   more same-type competitors or semantic (embedding) grouping, which is out of
   scope for the deterministic, no-AI design. Entity extraction is also still
   frequency-based and will surface the occasional generic word.
-- **Single SERP source.** Only the DuckDuckGo HTML endpoint is scraped, via
-  brittle CSS selectors. A selector change upstream silently yields zero
-  results. Multi-source collection (Google Suggest, Related Searches, People
-  Also Ask, Reddit/StackOverflow) is on the V2 roadmap.
+- **SERP discovery is IP-sensitive.** Discovery uses DuckDuckGo (GET) with a
+  Bing fallback, but both engines bot-block datacenter/VPN IPs (DDG returns a
+  `202` "anomaly" challenge; Bing serves a captcha), so discovery can return
+  zero results depending on where it runs. The reliable workaround is
+  `seo:fetch` over a hand-curated `search-results.json`. Richer multi-source
+  collection (Google Suggest, People Also Ask, Reddit/StackOverflow) is on the
+  V2 roadmap.
 - **Sequential fetches.** Pages are fetched one at a time. The shared browser
   now makes concurrent contexts cheap; batched fetching is a straightforward
   future optimization.

@@ -1,4 +1,4 @@
-import { chromium, type Browser } from 'playwright';
+import { chromium, type Browser, type Page } from 'playwright';
 import { load } from 'cheerio';
 import { getCached, setCached, getCachedData, setCachedData } from './cache.js';
 import { TOP_PAGES } from './config.js';
@@ -35,9 +35,69 @@ export async function closeBrowser(): Promise<void> {
   }
 }
 
+type SerpEngine = { name: string; search: (page: Page, query: string) => Promise<SearchResult[]> };
+
 /**
- * Fetches SERP results from DuckDuckGo HTML endpoint (no JS bot detection).
- * Cache-first (keyed by `serp:<query>`). Returns up to TOP_PAGES organic results.
+ * DuckDuckGo HTML endpoint via a direct GET (`?q=`), avoiding the search form —
+ * the form-fill step is what trips DDG's bot challenge.
+ */
+async function searchDuckDuckGo(page: Page, query: string): Promise<SearchResult[]> {
+  await page.goto(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`, {
+    waitUntil: 'domcontentloaded', timeout: 30000,
+  });
+  await randomDelay();
+  const $ = load(await page.content());
+  const results: SearchResult[] = [];
+
+  $('.result__body, .result').each((_, el) => {
+    const titleEl = $(el).find('.result__title a, .result__a');
+    const rawUrl = $(el).find('a.result__url, .result__a').attr('href') ?? titleEl.attr('href') ?? '';
+    const title = titleEl.text().trim();
+    const description = $(el).find('.result__snippet').text().trim();
+
+    // DuckDuckGo redirect URLs look like //duckduckgo.com/l/?uddg=https%3A%2F%2F...
+    let url = rawUrl;
+    try {
+      const parsed = new URL(rawUrl.startsWith('//') ? `https:${rawUrl}` : rawUrl);
+      const uddg = parsed.searchParams.get('uddg');
+      if (uddg) url = decodeURIComponent(uddg);
+    } catch { /* use raw url as-is */ }
+
+    if (url && title && !url.includes('duckduckgo.com')) results.push({ url, title, description });
+  });
+  return results;
+}
+
+/** Bing HTML results — a fallback when DuckDuckGo returns nothing. */
+async function searchBing(page: Page, query: string): Promise<SearchResult[]> {
+  await page.goto(`https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=en`, {
+    waitUntil: 'domcontentloaded', timeout: 30000,
+  });
+  await randomDelay();
+  const $ = load(await page.content());
+  const results: SearchResult[] = [];
+
+  $('li.b_algo').each((_, el) => {
+    const a = $(el).find('h2 a').first();
+    const url = a.attr('href') ?? '';
+    const title = a.text().trim();
+    const description = $(el).find('.b_caption p, p').first().text().trim();
+    if (url && title && /^https?:\/\//.test(url) && !url.includes('bing.com')) {
+      results.push({ url, title, description });
+    }
+  });
+  return results;
+}
+
+const SERP_ENGINES: SerpEngine[] = [
+  { name: 'duckduckgo', search: searchDuckDuckGo },
+  { name: 'bing', search: searchBing },
+];
+
+/**
+ * Fetches SERP results, trying each engine in order until one yields results.
+ * Cache-first (keyed by `serp:<query>`); empty result sets are not cached so a
+ * blocked run doesn't poison the cache. Returns up to TOP_PAGES organic results.
  */
 export async function fetchSerpResults(query: string): Promise<SearchResult[]> {
   const cacheKey = `serp:${query}`;
@@ -48,53 +108,27 @@ export async function fetchSerpResults(query: string): Promise<SearchResult[]> {
   }
 
   const browser = await getBrowser();
-  const context = await browser.newContext({ userAgent: UA });
-  const page = await context.newPage();
+  let results: SearchResult[] = [];
 
-  const results: SearchResult[] = [];
-
-  try {
-    // DuckDuckGo HTML endpoint — POST form with q= param
-    await page.goto('https://html.duckduckgo.com/html/', { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await page.fill('input[name="q"]', query);
-    await randomDelay();
-    await page.keyboard.press('Enter');
-    await page.waitForLoadState('domcontentloaded');
-    await randomDelay();
-
-    const html = await page.content();
-    const $ = load(html);
-
-    // DuckDuckGo HTML result selectors
-    $('.result__body, .result').each((_, el) => {
-      const titleEl = $(el).find('.result__title a, .result__a');
-      const snippetEl = $(el).find('.result__snippet');
-      const linkEl = $(el).find('a.result__url, .result__a');
-
-      const rawUrl = linkEl.attr('href') ?? titleEl.attr('href') ?? '';
-      const title = titleEl.text().trim();
-      const description = snippetEl.text().trim();
-
-      // DuckDuckGo redirect URLs look like //duckduckgo.com/l/?uddg=https%3A%2F%2F...
-      let url = rawUrl;
-      try {
-        const parsed = new URL(rawUrl.startsWith('//') ? `https:${rawUrl}` : rawUrl);
-        const uddg = parsed.searchParams.get('uddg');
-        if (uddg) url = decodeURIComponent(uddg);
-      } catch {
-        // use raw url as-is
+  for (const engine of SERP_ENGINES) {
+    const context = await browser.newContext({ userAgent: UA });
+    const page = await context.newPage();
+    try {
+      results = await engine.search(page, query);
+      if (results.length > 0) {
+        console.log(`  [${engine.name}] ${results.length} results`);
+        break;
       }
-
-      if (url && title && !url.includes('duckduckgo.com')) {
-        results.push({ url, title, description });
-      }
-    });
-  } finally {
-    await context.close();
+      console.log(`  [${engine.name}] 0 results — trying next engine`);
+    } catch (err) {
+      console.warn(`  [${engine.name}] failed: ${(err as Error).message}`);
+    } finally {
+      await context.close();
+    }
   }
 
   const top = results.slice(0, TOP_PAGES);
-  setCachedData(cacheKey, top);
+  if (top.length > 0) setCachedData(cacheKey, top);
   return top;
 }
 
