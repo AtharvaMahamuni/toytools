@@ -19,5 +19,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'case-converter',
     categorySlug: 'text',
+    description: 'Answers to common questions about text case styles, when to use them, and how to convert text online.',
   },
 };

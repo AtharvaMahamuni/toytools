@@ -20,5 +20,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'base64-encoder-decoder',
     categorySlug: 'developer',
+    description: 'Answers to common questions about Base64 encoding, decoding, and common use cases.',
   },
 };
