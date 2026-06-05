@@ -1,0 +1,28 @@
+{
+  "name": "seo-engine",
+  "version": "1.0.0",
+  "description": "Local-first SEO + GEO research engine for ToyTools content generation",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "seo:research": "tsx scripts/research.ts",
+    "seo:fetch": "tsx scripts/fetch.ts",
+    "seo:extract": "tsx scripts/extract.ts",
+    "seo:validate": "tsx scripts/validate.ts",
+    "seo:audit": "tsx scripts/audit.ts",
+    "seo:scaffold": "tsx scripts/scaffold.ts",
+    "seo:generate": "tsx scripts/generate.ts",
+    "seo:typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "playwright": "^1.44.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  }
+}
