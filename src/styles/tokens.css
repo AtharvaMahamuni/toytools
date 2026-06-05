@@ -13,9 +13,11 @@
 
   /* Grayscale surfaces */
   --color-bg:             #ffffff;
+  --color-surface:        #FAFAFA;
+  --color-surface-hover:  #F5F5F5;
   --color-bg-tertiary:    #F5F5F5;
-  --color-border:         #e5e5e5;
-  --color-border-strong:  #c0c0c0;
+  --color-border:         #E5E7EB;
+  --color-border-strong:  #C8CBD0;
 
   /* Text */
   --color-text:           #111111;
@@ -105,15 +107,17 @@
 
     --color-success:       #4ade80;
 
-    --color-bg:            #0F1115;
-    --color-bg-tertiary:   #1E2028;
-    --color-border:        #252830;
-    --color-border-strong: #353840;
+    --color-bg:             #14161A;
+    --color-surface:        #1A1D22;
+    --color-surface-hover:  #20242B;
+    --color-bg-tertiary:    #20242B;
+    --color-border:         #303641;
+    --color-border-strong:  #404754;
 
     --color-text:          #F4F4F4;
-    --color-text-muted:    #A0A0A0;
+    --color-text-muted:    #A0A6AF;
     --color-text-subtle:   #6b7280;
-    --color-text-inverse:  #0F1115;
+    --color-text-inverse:  #14161A;
   }
 }
 
@@ -128,15 +132,17 @@
 
   --color-success:       #4ade80;
 
-  --color-bg:            #0F1115;
-  --color-bg-tertiary:   #1E2028;
-  --color-border:        #252830;
-  --color-border-strong: #353840;
+  --color-bg:             #14161A;
+  --color-surface:        #1A1D22;
+  --color-surface-hover:  #20242B;
+  --color-bg-tertiary:    #20242B;
+  --color-border:         #303641;
+  --color-border-strong:  #404754;
 
   --color-text:          #F4F4F4;
-  --color-text-muted:    #A0A0A0;
+  --color-text-muted:    #A0A6AF;
   --color-text-subtle:   #6b7280;
-  --color-text-inverse:  #0F1115;
+  --color-text-inverse:  #14161A;
 }
 
 /* Override fontsource default font-display: swap → optional */
