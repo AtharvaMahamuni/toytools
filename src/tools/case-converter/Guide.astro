@@ -1,0 +1,211 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tools/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Text case refers to the capitalization pattern applied to letters in a string.
+      Converting text case means changing that pattern — turning "hello world" into
+      "Hello World", "HELLO_WORLD", or "helloWorld" — without changing the words themselves.
+    </p>
+    <p>
+      Writers use case styles for readability and consistency. Developers use them because
+      programming languages and systems have strict naming conventions that must be followed
+      exactly for code to work correctly.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Case Converter →</a>
+  </section>
+
+  <section id="the-main-case-styles">
+    <h2>The Main Case Styles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>UPPERCASE.</strong> Every letter is capitalized: "HELLO WORLD". Used for
+      constants in many programming languages, acronyms, and emphasis. In body text,
+      all-caps is hard to read at length and is often interpreted as shouting.
+    </p>
+    <p>
+      <strong>lowercase.</strong> Every letter is lowercase: "hello world". Common for
+      URL slugs, email addresses, and code identifiers in some languages like Python module names.
+    </p>
+    <p>
+      <strong>Title Case.</strong> The first letter of each major word is capitalized:
+      "The Quick Brown Fox". Used for headings, book titles, film titles, and article
+      titles. Style guides differ on which small words (prepositions, articles) to capitalize.
+    </p>
+    <p>
+      <strong>Sentence case.</strong> Only the first letter of the first word is
+      capitalized, along with proper nouns: "The quick brown fox". This is the default
+      for body text, UI labels, and button text because it mirrors natural speech.
+    </p>
+    <p>
+      <strong>camelCase.</strong> The first word is lowercase; subsequent words begin
+      with a capital letter, with no separators: "quickBrownFox". Widely used for variable
+      and function names in JavaScript, TypeScript, Java, and Swift.
+    </p>
+    <p>
+      <strong>PascalCase.</strong> Every word begins with a capital letter, with no
+      separators: "QuickBrownFox". Also called UpperCamelCase. Standard for class names,
+      React components, TypeScript interfaces, and constructor functions.
+    </p>
+    <p>
+      <strong>snake_case.</strong> All lowercase, words separated by underscores:
+      "quick_brown_fox". The dominant convention in Python for variables and functions,
+      and in SQL for column and table names. Easy to read and sort alphabetically.
+    </p>
+    <p>
+      <strong>kebab-case.</strong> All lowercase, words separated by hyphens:
+      "quick-brown-fox". Standard for CSS class names, HTML element IDs, URL slugs,
+      and command-line flags. Cannot be used as-is in most programming languages because
+      hyphens are interpreted as minus operators.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One pattern per context">
+      <p>Each environment tends to use one case style consistently. Mixing styles in the same context — camelCase class names alongside PascalCase class names — creates inconsistency that makes code harder to read and tooling harder to apply.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="when-each-style-is-used">
+    <h2>When Each Style Is Used <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>In programming.</strong> Most languages have documented conventions.
+      JavaScript and TypeScript use camelCase for variables and functions, PascalCase for
+      classes and components, and SCREAMING_SNAKE_CASE for constants. Python uses snake_case
+      for almost everything except class names (PascalCase). Go uses camelCase, with
+      capitalization also controlling visibility (exported vs. unexported identifiers).
+    </p>
+    <p>
+      <strong>In CSS and HTML.</strong> Class names and IDs use kebab-case by convention:
+      ".nav-item", "#main-content". CSS custom properties follow the same pattern:
+      "--color-primary". This convention exists because CSS is not case-sensitive
+      and hyphens read well in stylesheet syntax.
+    </p>
+    <p>
+      <strong>In databases.</strong> SQL column and table names traditionally use
+      snake_case because SQL keywords are case-insensitive and database identifiers are
+      often stored and compared in lowercase. An identifier like "user_created_at" is
+      unambiguous and easy to query.
+    </p>
+    <p>
+      <strong>In writing.</strong> Title Case appears in headings, headlines, and titles.
+      Sentence case is standard for body text, UI copy, and most digital writing. UPPERCASE
+      is reserved for abbreviations (HTML, CSS, API) and very emphatic short phrases.
+    </p>
+    <p>
+      <strong>In URLs and file names.</strong> kebab-case is preferred for both:
+      "/how-to-count-words/" reads better than "/HowToCountWords/" and avoids issues
+      with case-sensitive file systems and SEO. Spaces are never valid in URLs.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Using Title Case for body text">
+      <p>
+        Title Case in body paragraphs looks formal to the point of being hard to read.
+        It is designed for short titles and headings, not for sentences. Using sentence
+        case for body copy and UI labels is almost always the better choice.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Mixing case styles in code">
+      <p>
+        Using camelCase for some variables and snake_case for others in the same codebase
+        creates inconsistency. Linters like ESLint and Prettier enforce naming conventions
+        for this reason. Pick one style per context and apply it everywhere.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Forgetting that case can break code">
+      <p>
+        Many programming languages and systems are case-sensitive. "MyClass" and "myClass"
+        are different identifiers in JavaScript. A renamed variable in one place but not
+        another will cause a runtime error. Case conversion tools are useful for preparing
+        display text — be careful when applying them to identifiers already used in code.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="history">
+    <h2>History <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The distinction between uppercase and lowercase letters dates to the handwritten
+      manuscripts of medieval Europe, where scribes used large decorative letters to
+      open paragraphs and smaller letters for the text that followed. When Gutenberg
+      introduced movable type in the 1440s, the two sizes of letters were stored in
+      separate wooden cases in the print shop — capitals in the upper case, smaller
+      letters in the lower case. Those physical terms survived into the digital age.
+    </p>
+    <p>
+      Programming naming conventions emerged independently in the late 20th century
+      as each language community developed its own idioms. camelCase became dominant
+      in C-derived languages partly because early editors had no autocomplete and long
+      names needed to be readable without spaces. snake_case emerged in Unix and Python
+      communities where readability and grep-friendliness were prioritized. The POSIX
+      standard solidified lowercase naming for command-line tools and system identifiers.
+    </p>
+    <p>
+      CSS introduced kebab-case as the standard for property names in the late 1990s,
+      and the web development community adopted it for class names and IDs by convention.
+      Today, automated tools — linters, formatters, code generators — enforce case styles
+      in large codebases so that conventions do not depend on individual discipline.
+      Case conversion tools became common utilities for developers moving data between
+      systems with different naming expectations.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

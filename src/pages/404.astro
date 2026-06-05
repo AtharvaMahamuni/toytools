@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../lib/titles';
 import { withBase } from '../lib/paths';
 
 const homeUrl = withBase('/');
 ---
 
 <BaseLayout
-  title="Page Not Found"
+  title={generatePageTitle('notFound')}
   description="The page you're looking for doesn't exist."
   maxWidth="tool"
 >

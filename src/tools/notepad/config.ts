@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'notepad',
   name: 'Notepad',
-  seoTitle: 'Notepad - Free Online Notes',
+  seoTitle: 'Online Notepad — Free, Private, No Sign-up',
   description: 'Simple notes stored in your browser. Auto-saved, private, and free.',
   categorySlug: 'productivity',
   tags: [
@@ -11,6 +11,7 @@ export const config: ToolConfig = {
     'simple notes', 'notes online', 'private notepad', 'text editor online',
     'scratchpad', 'note taking', 'quick notes', 'browser notes',
     'lightweight notes', 'online notebook',
+    'temporary notepad online', 'quick notes online', 'notepad no login', 'online text editor free',
   ],
   isNew: true,
   updatedAt: '2026-06-04',
@@ -25,5 +26,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'notepad',
     categorySlug: 'productivity',
+    description: 'Answers to common questions about the online notepad, storage, and privacy.',
   },
 };

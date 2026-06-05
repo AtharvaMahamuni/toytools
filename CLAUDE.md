@@ -15,6 +15,10 @@ ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run b
 
 `npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There are no separate lint or test scripts.
 
+## Git workflow
+
+Always rebase against `origin/main`: `git rebase origin/main`
+
 ## Architecture
 
 **Data-driven static site.** All pages are pre-rendered at build time. No server, no database, no client-side framework.
@@ -27,6 +31,8 @@ ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run b
 2. Add one import line and one array entry in `src/data/registry.ts` — **this is the only other file that changes**.
 
 All tool pages, category pages, search, and homepage update automatically at build time.
+
+**Browser title** is handled automatically by `ToolLayout` via `generatePageTitle('tool', ...)` in `src/lib/titles.ts`. Do not set titles manually inside tool files. If adding a new page type (not a tool), add a new case to `generatePageTitle` and call it from the layout or page.
 
 ### Removing a tool (2 steps)
 

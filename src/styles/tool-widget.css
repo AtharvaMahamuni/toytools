@@ -25,7 +25,7 @@
   padding: var(--space-3);
   border: var(--border);
   border-radius: var(--radius-md);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
 }
@@ -129,7 +129,7 @@
     z-index: var(--z-raised);
     margin-inline: calc(var(--space-4) * -1);
     padding: var(--space-3) var(--space-4);
-    background: var(--color-bg);
+    background: var(--color-surface);
     border-top: var(--border);
   }
 }

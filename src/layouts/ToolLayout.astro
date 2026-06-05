@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import BackButton from '@components/BackButton.astro';
 import type { Tool, Category } from '@data/types';
@@ -23,7 +24,7 @@ const breadcrumbSchema = {
 };
 ---
 
-<BaseLayout title={tool.seoTitle ?? tool.name} description={tool.description} maxWidth="tool">
+<BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="tool">
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <div class="tool-header">

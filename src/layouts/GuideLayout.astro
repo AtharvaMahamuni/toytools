@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import BackButton from '@components/BackButton.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
@@ -48,13 +49,16 @@ const articleSchema = {
   '@type': 'Article',
   headline: title,
   description: description,
+  datePublished: updatedAt,
   dateModified: updatedAt,
+  url: Astro.url.href,
+  inLanguage: 'en',
   author: { '@type': 'Organization', name: 'ToyTools' },
 };
 ---
 
 <BaseLayout
-  title={`${title} — Complete Reference Guide`}
+  title={generatePageTitle('guide', title)}
   description={description}
   maxWidth="category"
 >

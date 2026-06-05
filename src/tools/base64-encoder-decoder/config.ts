@@ -6,7 +6,7 @@ export const config: ToolConfig = {
   seoTitle: 'Base64 Encoder & Decoder — Free Online Tool',
   description: 'Encode and decode Base64 strings instantly in your browser. Fast, private, and free.',
   categorySlug: 'developer-tools',
-  tags: ['base64', 'encode', 'decode', 'developer', 'base64 encoder', 'base64 decoder', 'base64 converter', 'online base64'],
+  tags: ['base64', 'encode', 'decode', 'developer', 'base64 encoder', 'base64 decoder', 'base64 converter', 'online base64', 'base64 to text', 'text to base64', 'decode base64 string', 'base64 converter online', 'base64 encode decode'],
   isNew: true,
   updatedAt: '2026-06-02',
   guide: {
@@ -20,5 +20,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'base64-encoder-decoder',
     categorySlug: 'developer',
+    description: 'Answers to common questions about Base64 encoding, decoding, and common use cases.',
   },
 };
