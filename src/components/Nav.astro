@@ -6,7 +6,7 @@ import { APP_VERSION } from '../lib/version';
 
 <header role="banner">
   <div class="nav-inner">
-    <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span><span class="nav-version" aria-label={`ToyTools alpha version 0.02`}>{APP_VERSION}<span class="nav-version-tooltip" role="tooltip"><strong>Alpha Version</strong>ToyTools is under active development.<br/>Features may change as the platform evolves.</span></span></a>
+    <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span><span class="nav-version" aria-label={`ToyTools alpha version 0.02`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Alpha Version</strong>ToyTools is under active development.<br/>Features may change as the platform evolves.</span></span></a>
     <div class="nav-search">
       <SearchBar />
     </div>
@@ -210,6 +210,9 @@ import { APP_VERSION } from '../lib/version';
 
     var stored = localStorage.getItem('toytools.theme') || 'system';
     applyTheme(stored);
+
+    var versionEl = document.querySelector('.nav-version');
+    if (versionEl && window.ToyTools) ToyTools.mobileTooltip(versionEl, 'Alpha version — features may change');
 
     document.querySelectorAll('[data-theme-btn]').forEach(function (btn) {
       btn.addEventListener('click', function () {

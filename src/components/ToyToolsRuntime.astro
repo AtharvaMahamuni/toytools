@@ -37,6 +37,15 @@
     }
   };
 
+  TT.mobileTooltip = function (triggerEl, message) {
+    triggerEl.addEventListener('click', function (e) {
+      if (window.matchMedia('(hover: hover)').matches) return;
+      e.preventDefault();
+      e.stopPropagation();
+      TT.toast(message);
+    });
+  };
+
   TT.copy = function (text, emptyMsg) {
     if (!text || !text.trim()) { TT.toast(emptyMsg || 'Nothing to copy!'); return; }
     function legacy(t) {
