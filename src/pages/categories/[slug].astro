@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../../lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
@@ -18,7 +19,7 @@ const { category, tools: categoryTools } = Astro.props;
 ---
 
 <BaseLayout
-  title={category.name}
+  title={generatePageTitle('category', category.name)}
   description={category.description}
   maxWidth="category"
 >
