@@ -32,6 +32,8 @@ Always rebase against `origin/main`: `git rebase origin/main`
 
 All tool pages, category pages, search, and homepage update automatically at build time.
 
+**Browser title** is handled automatically by `ToolLayout` via `generatePageTitle('tool', ...)` in `src/lib/titles.ts`. Do not set titles manually inside tool files. If adding a new page type (not a tool), add a new case to `generatePageTitle` and call it from the layout or page.
+
 ### Removing a tool (2 steps)
 
 1. Delete `src/tools/<slug>/`
