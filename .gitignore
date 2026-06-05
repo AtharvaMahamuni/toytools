@@ -22,3 +22,21 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# seo-engine
+seo-engine/node_modules/
+seo-engine/dist/
+# generated research artifacts (regenerable from the pipeline).
+# Ignore the *contents* (not the dirs) so the .gitkeep placeholders below
+# still re-include — a negation can't rescue a file under an ignored dir.
+seo-engine/cache/*
+seo-engine/research/raw/*
+seo-engine/research/processed/*
+seo-engine/research/snapshots/*
+seo-engine/reports/*
+# keep the .gitkeep placeholders so the folder structure is tracked
+!seo-engine/cache/.gitkeep
+!seo-engine/research/raw/.gitkeep
+!seo-engine/research/processed/.gitkeep
+!seo-engine/research/snapshots/.gitkeep
+!seo-engine/reports/.gitkeep

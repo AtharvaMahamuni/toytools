@@ -9,7 +9,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "seo:research": "npm --prefix seo-engine run seo:research --",
+    "seo:extract": "npm --prefix seo-engine run seo:extract --",
+    "seo:validate": "npm --prefix seo-engine run seo:validate",
+    "seo:audit": "npm --prefix seo-engine run seo:audit",
+    "seo:typecheck": "npm --prefix seo-engine run seo:typecheck"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
