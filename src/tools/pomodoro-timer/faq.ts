@@ -47,6 +47,11 @@ export const items: FAQItem[] = [
     answer: 'It depends on the task. Pomodoro works well for writing new code, reviewing pull requests, or debugging known issues. It can disrupt flow state during complex problem-solving — some programmers prefer 50/10 or 90/20 schedules that allow longer uninterrupted blocks.',
   },
   {
+    id: 'pt-faq-14',
+    question: 'Who is the Pomodoro Technique for?',
+    answer: 'It suits anyone doing focused, task-based work: students revising or working through problem sets, knowledge workers clearing email and admin, developers writing or reviewing code, and writers drafting. It is especially helpful if you procrastinate, lose track of time, or find long stretches of work mentally draining — the fixed intervals and scheduled breaks impose structure. It fits less well for work that depends on uninterrupted flow, where longer 50/10 or 90/20 cycles tend to work better.',
+  },
+  {
     id: 'pt-faq-10',
     question: 'Does this timer work offline?',
     answer: 'Yes. Once the page has loaded, it works entirely in your browser. There is no server communication, no API calls, and no internet required for the timer to run.',
@@ -65,5 +70,10 @@ export const items: FAQItem[] = [
     id: 'pt-faq-13',
     question: 'Does the timer work on mobile devices?',
     answer: 'Yes. The interface is designed mobile-first. The timer is visible immediately without scrolling on most phone screens. All buttons meet minimum touch target sizes. Note that mobile browsers may suspend JavaScript when the screen locks — open the timer in your browser\'s foreground to keep it active.',
+  },
+  {
+    id: 'pt-faq-15',
+    question: 'Can I add the timer to my home screen or use it across devices?',
+    answer: 'Yes — open it in your mobile browser and use "Add to Home Screen" to launch it like an app; on desktop you can bookmark or pin the tab. Because your settings and session stats are stored in your browser\'s localStorage, they stay on that one device and do not sync. If you switch phones or computers you start fresh with the default 25/5 setup.',
   },
 ];
