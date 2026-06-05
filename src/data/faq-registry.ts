@@ -6,6 +6,7 @@ import { items as base64Faqs }              from '@tools/base64-encoder-decoder/
 import { items as caseConverterFaqs }       from '@tools/case-converter/faq';
 import { items as percentageCalculatorFaqs } from '@tools/percentage-calculator/faq';
 import { items as wordCounterFaqs }         from '@tools/word-counter/faq';
+import { items as pomodoroTimerFaqs }        from '@tools/pomodoro-timer/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'todo-list':              todoFaqs,
@@ -15,4 +16,5 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'case-converter':         caseConverterFaqs,
   'percentage-calculator':  percentageCalculatorFaqs,
   'word-counter':           wordCounterFaqs,
+  'pomodoro-timer':         pomodoroTimerFaqs,
 };

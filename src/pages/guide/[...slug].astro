@@ -11,6 +11,7 @@ import Base64Guide             from '../../tools/base64-encoder-decoder/Guide.as
 import CaseConverterGuide      from '../../tools/case-converter/Guide.astro';
 import PercentageCalculatorGuide from '../../tools/percentage-calculator/Guide.astro';
 import WordCounterGuide        from '../../tools/word-counter/Guide.astro';
+import PomodoroTimerGuide      from '../../tools/pomodoro-timer/Guide.astro';
 
 const guidesBySlug: Record<string, any> = {
   'todo-list':              TodoListGuide,
@@ -20,6 +21,7 @@ const guidesBySlug: Record<string, any> = {
   'case-converter':         CaseConverterGuide,
   'percentage-calculator':  PercentageCalculatorGuide,
   'word-counter':           WordCounterGuide,
+  'pomodoro-timer':         PomodoroTimerGuide,
 };
 
 export const getStaticPaths = (() => {
