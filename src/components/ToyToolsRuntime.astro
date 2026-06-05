@@ -37,6 +37,107 @@
     }
   };
 
+  // Focus controls — Full Screen, Remove Distractions, Keep Awake (Wake Lock).
+  // Shared by notepad, todo-list. Promotes the existing .tool-panel in place via
+  // the .tt-focus class so the live tool stays interactive.
+  TT.focus = (function () {
+    var wakeSupported = ('wakeLock' in navigator);
+
+    function nativeRequest(el) {
+      var r = el.requestFullscreen || el.webkitRequestFullscreen ||
+              el.mozRequestFullScreen || el.msRequestFullscreen;
+      return r ? r.call(el) : null;
+    }
+    function nativeExit() {
+      var x = document.exitFullscreen || document.webkitExitFullscreen ||
+              document.mozCancelFullScreen || document.msExitFullscreen;
+      if (x && (document.fullscreenElement || document.webkitFullscreenElement)) x.call(document);
+    }
+    function inNativeFs() {
+      return !!(document.fullscreenElement || document.webkitFullscreenElement);
+    }
+
+    function attach(opts) {
+      var panel = opts.panel;
+      if (!panel) return null;
+      var active = false, usedNative = false;
+      var wakeLock = null, wakeOn = false;
+
+      function setPressed(btn, on) { if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+
+      function enter(useNative) {
+        if (active) return;
+        active = true; usedNative = !!useNative;
+        panel.classList.add('tt-focus');
+        document.body.classList.add('tt-focus-lock');
+        setPressed(opts.fsBtn, useNative);
+        setPressed(opts.rdBtn, !useNative);
+        if (opts.exitBtn) opts.exitBtn.hidden = false;
+        if (useNative) { var p = nativeRequest(document.documentElement); if (p && p.catch) p.catch(function () {}); }
+        if (typeof opts.onEnter === 'function') opts.onEnter();
+      }
+
+      function exit() {
+        if (!active) return;
+        active = false;
+        panel.classList.remove('tt-focus');
+        document.body.classList.remove('tt-focus-lock');
+        setPressed(opts.fsBtn, false);
+        setPressed(opts.rdBtn, false);
+        if (opts.exitBtn) opts.exitBtn.hidden = true;
+        if (usedNative) nativeExit();
+        usedNative = false;
+      }
+
+      // Wake Lock — independent of focus mode.
+      function reacquire() {
+        if (document.visibilityState === 'visible' && wakeOn && wakeLock === null) {
+          document.removeEventListener('visibilitychange', reacquire);
+          requestWake();
+        }
+      }
+      function requestWake() {
+        navigator.wakeLock.request('screen').then(function (lock) {
+          wakeLock = lock;
+          lock.addEventListener('release', function () {
+            wakeLock = null;
+            if (wakeOn) document.addEventListener('visibilitychange', reacquire);
+          });
+        }).catch(function () { wakeOn = false; setPressed(opts.wakeBtn, false); });
+      }
+      function toggleWake() {
+        if (wakeOn) {
+          wakeOn = false; setPressed(opts.wakeBtn, false);
+          document.removeEventListener('visibilitychange', reacquire);
+          if (wakeLock) { wakeLock.release(); wakeLock = null; }
+          TT.toast('Screen wake released');
+        } else {
+          wakeOn = true; setPressed(opts.wakeBtn, true);
+          requestWake();
+          TT.toast('Keeping screen awake');
+        }
+      }
+
+      if (opts.fsBtn) opts.fsBtn.addEventListener('click', function () { active ? exit() : enter(true); });
+      if (opts.rdBtn) opts.rdBtn.addEventListener('click', function () { active ? exit() : enter(false); });
+      if (opts.exitBtn) opts.exitBtn.addEventListener('click', exit);
+      if (opts.wakeBtn) {
+        if (!wakeSupported) opts.wakeBtn.hidden = true;
+        else opts.wakeBtn.addEventListener('click', toggleWake);
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && active && !inNativeFs()) exit();
+      });
+      function onFsChange() { if (active && usedNative && !inNativeFs()) exit(); }
+      document.addEventListener('fullscreenchange', onFsChange);
+      document.addEventListener('webkitfullscreenchange', onFsChange);
+
+      return { enter: enter, exit: exit, isActive: function () { return active; } };
+    }
+
+    return { attach: attach, wakeSupported: wakeSupported };
+  })();
   TT.mobileTooltip = function (triggerEl, message) {
     triggerEl.addEventListener('click', function (e) {
       if (window.matchMedia('(hover: hover)').matches) return;

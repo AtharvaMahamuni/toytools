@@ -31,6 +31,11 @@ const faqHref = config.faq
       <span class="gold-dot" aria-hidden="true"></span>
       <button id="notepad-clear-do" type="button">Clear</button>
     </span>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="notepad-fullscreen" type="button" aria-pressed="false">Full Screen</button>
+    <button id="notepad-distraction" type="button" aria-pressed="false">Remove Distractions</button>
+    <button id="notepad-wake" type="button" aria-pressed="false">Keep Awake</button>
+    <button id="notepad-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
   </div>
   <textarea
     id="notepad-input"
@@ -92,6 +97,11 @@ const faqHref = config.faq
   .notepad-toolbar button:hover {
     color: var(--color-text);
     border-color: var(--color-text-muted);
+  }
+
+  .notepad-toolbar button[aria-pressed="true"] {
+    color: var(--color-text);
+    border-color: var(--color-accent);
   }
 
   .notepad-clear-confirm {
@@ -216,5 +226,14 @@ const faqHref = config.faq
         updateStats();
       });
     }
+
+    ToyTools.focus.attach({
+      panel: document.querySelector('.notepad-panel'),
+      fsBtn: document.getElementById('notepad-fullscreen'),
+      rdBtn: document.getElementById('notepad-distraction'),
+      wakeBtn: document.getElementById('notepad-wake'),
+      exitBtn: document.getElementById('notepad-focus-exit'),
+      onEnter: function () { textarea.focus(); }
+    });
   })();
 </script>
