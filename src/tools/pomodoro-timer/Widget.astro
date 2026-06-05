@@ -71,6 +71,7 @@ const faqHref = config.faq
 
   <div class="pt-controls">
     <button id="pt-start" type="button" class="pt-btn-primary">Start</button>
+    <button id="pt-pause" type="button" class="pt-btn-primary" hidden>Pause</button>
     <button id="pt-reset" type="button" class="pt-btn-secondary">Reset</button>
   </div>
 
@@ -466,6 +467,7 @@ const faqHref = config.faq
       getState:     function () { return state; },
       getRemaining: getRemaining,
       getDuration:  function () { return initialMs; },
+      cancel:       function () { clearInterval(tickRef); tickRef = null; state = 'idle'; },
     };
   }
 
@@ -483,6 +485,7 @@ const faqHref = config.faq
     }
 
     function buildCountdown() {
+      if (countdown) countdown.cancel();
       var dur = phaseDurationMs();
       countdown = createCountdown(dur, function (left) {
         ui.renderTimer(left, dur);
@@ -583,6 +586,7 @@ const faqHref = config.faq
   var timeEl        = document.getElementById('pt-time');
   var ringProgress  = document.getElementById('pt-ring-progress');
   var startBtn      = document.getElementById('pt-start');
+  var pauseBtn      = document.getElementById('pt-pause');
   var resetBtn      = document.getElementById('pt-reset');
   var transMsg      = document.getElementById('pt-transition-msg');
   var dotsEl        = document.getElementById('pt-dots');
@@ -751,11 +755,10 @@ const faqHref = config.faq
     },
     setRunningState: function (running) {
       isRunning = running;
-      if (startBtn) startBtn.textContent = running ? 'Pause' : 'Start';
+      if (startBtn) startBtn.hidden = running;
+      if (pauseBtn) pauseBtn.hidden = !running;
       if (fsStartBtn) fsStartBtn.textContent = running ? 'Pause' : 'Start';
-      if (!running && pom) {
-        document.title = origTitle;
-      }
+      if (!running) document.title = origTitle;
     },
     onFocusComplete: function (focusMins) {
       playBeep();
@@ -816,19 +819,24 @@ const faqHref = config.faq
   }, 1000);
 
   // ── Controls ──────────────────────────────────────────────────────────
-  function handleStartPause() {
+  function handleStart() {
     if (!pom) return;
     var state = pom.getState();
-    if (state === 'running') {
-      pom.pause();
-      uiCallbacks.setRunningState(false);
-    } else {
-      pom.start();
-      uiCallbacks.setRunningState(true);
-    }
+    if (state !== 'running') { pom.start(); uiCallbacks.setRunningState(true); }
   }
 
-  if (startBtn) startBtn.addEventListener('click', handleStartPause);
+  function handlePause() {
+    if (!pom) return;
+    if (pom.getState() === 'running') { pom.pause(); uiCallbacks.setRunningState(false); }
+  }
+
+  function handleStartPause() {
+    if (!pom) return;
+    if (pom.getState() === 'running') handlePause(); else handleStart();
+  }
+
+  if (startBtn)  startBtn.addEventListener('click', handleStart);
+  if (pauseBtn)  pauseBtn.addEventListener('click', handlePause);
   if (fsStartBtn) fsStartBtn.addEventListener('click', handleStartPause);
 
   if (resetBtn) {
