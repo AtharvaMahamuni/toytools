@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import FAQLayout from '@layouts/FAQLayout.astro';
+import { generatePageTitle } from '../../lib/titles';
 import { toolsWithFaq }   from '@data/registry';
 import { faqsByToolSlug } from '@data/faq-registry';
 import { categories }     from '@data/categories';
@@ -28,7 +29,7 @@ const faqDescriptions: Record<string, string> = {
 ---
 
 <FAQLayout
-  title={`${tool.name} FAQ`}
+  title={generatePageTitle('faq', tool.name)}
   description={faqDescriptions[tool.slug] ?? `Answers to common questions about ${tool.name.toLowerCase()}.`}
   toolSlug={tool.slug}
   toolName={tool.name}

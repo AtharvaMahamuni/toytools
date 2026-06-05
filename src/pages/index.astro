@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../lib/titles';
 import CategoryCard from '@components/CategoryCard.astro';
 import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
@@ -11,7 +12,7 @@ function getCategoryName(slug: string): string {
 ---
 
 <BaseLayout
-  title="ToyTools — Free Online Tools"
+  title={generatePageTitle('home')}
   description="Free, private, browser-based tools for everyday tasks. No sign-up, no tracking."
   maxWidth="category"
 >

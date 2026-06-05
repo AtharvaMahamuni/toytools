@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../lib/titles';
 import ToolCard from '@components/ToolCard.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
@@ -11,7 +12,7 @@ function getCategoryName(slug: string): string {
 ---
 
 <BaseLayout
-  title="Search"
+  title={generatePageTitle('search')}
   description="Search ToyTools utilities by name, category, or tag."
   maxWidth="category"
 >
