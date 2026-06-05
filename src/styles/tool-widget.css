@@ -133,3 +133,51 @@
     border-top: var(--border);
   }
 }
+
+/* Focus / takeover mode — shared by notepad, todo-list.
+   The live .tool-panel is promoted to a fixed, opaque overlay so the tool
+   stays interactive while covering page chrome. Toast (--z-overlay) stays above. */
+body.tt-focus-lock {
+  overflow: hidden;
+}
+
+.tool-panel.tt-focus {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-focus);
+  margin: 0;
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-bg);
+  overflow: auto;
+  border-bottom: none;
+}
+
+.notepad-panel.tt-focus textarea {
+  min-height: 70vh;
+}
+
+.tool-panel.tt-focus[data-tool="todo-list"] #todo-list-container {
+  min-height: 50vh;
+}
+
+.tt-focus-exit {
+  min-height: var(--touch-target);
+  padding-inline: var(--space-4);
+  background: transparent;
+  border: var(--border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition-color);
+}
+
+.tt-focus-exit:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.tt-focus-exit[hidden] {
+  display: none;
+}

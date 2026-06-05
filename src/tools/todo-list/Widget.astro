@@ -21,6 +21,14 @@ const faqHref = config.faq
     <input id="todo-new-task" type="text" placeholder="Add a task..." autocomplete="off" />
     <button id="todo-add-btn" type="button">Add</button>
   </div>
+  <div class="todo-toolbar">
+    <button id="todo-fullscreen" type="button" aria-pressed="false">Full Screen</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="todo-distraction" type="button" aria-pressed="false">Remove Distractions</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="todo-wake" type="button" aria-pressed="false">Keep Awake</button>
+    <button id="todo-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
+  </div>
   <div id="todo-list-container" aria-live="polite"></div>
   <div class="todo-footer">
     <div id="todo-progress" class="todo-progress" aria-live="polite"></div>
@@ -86,6 +94,37 @@ const faqHref = config.faq
   }
 
   .todo-add button:hover { opacity: 0.9; }
+
+  .todo-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+  }
+
+  .todo-toolbar button {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    background: transparent;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .todo-toolbar button:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-muted);
+  }
+
+  .todo-toolbar button[aria-pressed="true"] {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
 
   #todo-list-container {
     display: flex;
@@ -417,5 +456,14 @@ const faqHref = config.faq
     document.getElementById('todo-hide-completed')?.addEventListener('change', render);
 
     loadTasks(); render();
+
+    ToyTools.focus.attach({
+      panel: document.querySelector('.tool-panel[data-tool="todo-list"]'),
+      fsBtn: document.getElementById('todo-fullscreen'),
+      rdBtn: document.getElementById('todo-distraction'),
+      wakeBtn: document.getElementById('todo-wake'),
+      exitBtn: document.getElementById('todo-focus-exit'),
+      onEnter: function () { newTaskInput.focus(); }
+    });
   })();
 </script>

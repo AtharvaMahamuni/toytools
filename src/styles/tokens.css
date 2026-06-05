@@ -84,6 +84,7 @@
   /* Z-index */
   --z-raised:  10;
   --z-nav:     100;
+  --z-focus:   150;
   --z-overlay: 200;
 }
 
