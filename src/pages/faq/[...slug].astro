@@ -22,7 +22,7 @@ const { tool, category, items } = Astro.props;
 ---
 
 <FAQLayout
-  title={`${tool.name} FAQ`}
+  title={generatePageTitle('faq', tool.name)}
   description={tool.faq!.description ?? `Answers to common questions about ${tool.name.toLowerCase()}.`}
   toolSlug={tool.slug}
   toolName={tool.name}
