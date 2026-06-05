@@ -34,9 +34,13 @@ seo-engine/research/raw/*
 seo-engine/research/processed/*
 seo-engine/research/snapshots/*
 seo-engine/reports/*
+seo-engine/output/*/*
 # keep the .gitkeep placeholders so the folder structure is tracked
 !seo-engine/cache/.gitkeep
 !seo-engine/research/raw/.gitkeep
 !seo-engine/research/processed/.gitkeep
 !seo-engine/research/snapshots/.gitkeep
 !seo-engine/reports/.gitkeep
+!seo-engine/output/tool/.gitkeep
+!seo-engine/output/guide/.gitkeep
+!seo-engine/output/faq/.gitkeep

@@ -95,6 +95,7 @@ npm run seo:fetch    -- <tool-slug>   # fetch from a curated search-results.json
 npm run seo:extract  -- <tool-slug>
 npm run seo:validate
 npm run seo:audit
+npm run seo:scaffold -- <tool-slug>   # turn the brief into content stubs for an agent
 ```
 
 ### When discovery is blocked

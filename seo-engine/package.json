@@ -12,6 +12,7 @@
     "seo:extract": "tsx scripts/extract.ts",
     "seo:validate": "tsx scripts/validate.ts",
     "seo:audit": "tsx scripts/audit.ts",
+    "seo:scaffold": "tsx scripts/scaffold.ts",
     "seo:generate": "tsx scripts/generate.ts",
     "seo:typecheck": "tsc --noEmit"
   },

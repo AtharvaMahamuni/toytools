@@ -56,7 +56,8 @@ disk, so any stage can be re-run independently as long as its inputs exist.
 | `extract.ts` | `seo:extract <slug>` | Parse cached HTML, derive entities/questions/intents/gaps, write `research.json`. |
 | `validate.ts` | `seo:validate` | Score every `research.json`, write per-tool `validation-<slug>.json`. |
 | `audit.ts` | `seo:audit` | Render all research into a single `reports/audit.md`. |
-| `generate.ts` | `seo:generate` | **Stub** — V3 content generation, not yet implemented. |
+| `scaffold.ts` | `seo:scaffold <slug>` | Bridge: turn a `research.json` brief into agent-ready stubs under `output/<slug>/` (`faq.draft.ts`, `guide.outline.md`, `PROMPT.md`). Never touches `src/`. |
+| `generate.ts` | `seo:generate` | **Stub** — automated content generation, superseded by the `scaffold` + coding-agent flow. |
 
 ### Shared utilities — `scripts/utils/`
 
@@ -140,10 +141,12 @@ This makes runs reproducible, cheap to repeat, and friendly to version control
 
 These are deliberate current limitations, not bugs:
 
-- **The pipeline is a dead end.** `research.json` is the stated "source of
-  truth," but nothing in the ToyTools site (`src/`) consumes it yet, and
-  `seo:generate` (V3) is a stub. Wiring research into generated tool/guide/FAQ
-  content (into `src/tools/<slug>/`) is the next major milestone.
+- **Generation is agent-driven, not automated.** `research.json` is the
+  "source of truth"; `seo:scaffold` turns it into content stubs + a prompt under
+  `output/<slug>/`, which a coding agent (Claude Code) or a human completes into
+  real `src/tools/<slug>/` files. There is intentionally no automated prose
+  generator — the deterministic engine decides *what to cover*, the agent writes
+  *how*. (`seo:generate` remains a stub from the original V3 plan.)
 - **Heading consensus needs similar pages.** `competitorHeadings` requires a
   heading to appear (after normalization) on ≥70% of pages. Across a
   heterogeneous mix — a few tool pages, Wikipedia, two blog guides — almost no
