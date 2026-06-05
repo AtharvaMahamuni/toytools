@@ -25,5 +25,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'todo-list',
     categorySlug: 'productivity',
+    description: 'Answers to common questions about task lists, subtasks, productivity, and organization.',
   },
 };

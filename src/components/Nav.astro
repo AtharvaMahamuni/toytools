@@ -164,6 +164,6 @@ import { APP_VERSION } from '../lib/version';
       (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     var next = current === 'dark' ? 'light' : 'dark';
     html.dataset.theme = next;
-    localStorage.setItem('theme', next);
+    localStorage.setItem('toytools.theme', next);
   });
 </script>

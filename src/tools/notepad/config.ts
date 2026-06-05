@@ -26,5 +26,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'notepad',
     categorySlug: 'productivity',
+    description: 'Answers to common questions about the online notepad, storage, and privacy.',
   },
 };

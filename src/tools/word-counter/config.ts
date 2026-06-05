@@ -20,5 +20,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'word-counter',
     categorySlug: 'text',
+    description: 'Answers to common questions about word counts, character limits, and reading time estimates.',
   },
 };

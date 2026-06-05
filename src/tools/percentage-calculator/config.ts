@@ -19,5 +19,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'percentage-calculator',
     categorySlug: 'number',
+    description: 'Answers to common questions about percentage calculations, formulas, and common use cases.',
   },
 };
