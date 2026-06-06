@@ -155,6 +155,70 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
+  <section id="pomodoro-adhd">
+    <h2>Pomodoro and ADHD <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The Pomodoro Technique is one of the most commonly recommended time management approaches
+      for people with ADHD — and for good structural reasons, not just anecdote.
+    </p>
+    <p>
+      ADHD affects executive function: the brain's ability to initiate tasks, maintain attention,
+      and regulate when to stop. Pomodoro's fixed intervals work directly against two of the most
+      common failure modes:
+    </p>
+    <ul>
+      <li>
+        <strong>Task initiation.</strong> "Work on this project" is an open-ended demand the
+        ADHD brain resists. "Work on this project for 25 minutes" is a finite commitment that is
+        significantly easier to start. The timer converts intention into a specific, bounded action.
+      </li>
+      <li>
+        <strong>Hyperfocus without recovery.</strong> ADHD brains can lock into a task for hours
+        without noticing fatigue or hunger — and then crash. Scheduled breaks interrupt hyperfocus
+        before it depletes, which tends to extend the productive day rather than shorten it.
+      </li>
+    </ul>
+    <ReferenceBlock type="key-idea" heading="The interruption is the feature, not the bug">
+      <p>
+        Many people with ADHD report that the 25-minute interrupt — which frustrates
+        neurotypical users in flow — feels natural rather than disruptive. An ADHD brain
+        interrupts itself constantly anyway; the timer just makes the interruptions predictable
+        and scheduled, which reduces their randomness and cost.
+      </p>
+    </ReferenceBlock>
+    <h3>Adapting the technique for ADHD</h3>
+    <p>
+      The standard 25/5 works for many people, but ADHD brains often benefit from adjustments:
+    </p>
+    <ul>
+      <li>
+        <strong>Start shorter.</strong> If 25 minutes feels overwhelming, try 15 or 20. The goal
+        is to build the habit of stopping and starting, not to maximize session length immediately.
+        Use the Customize panel to set any focus duration you need.
+      </li>
+      <li>
+        <strong>Pair with a task list.</strong> Write down exactly what you will work on before
+        pressing Start. Decision overhead at the start of a session — "what should I do now?" —
+        is a common derailment point. Removing it makes the session easier to enter.
+      </li>
+      <li>
+        <strong>Use the break actively.</strong> During short breaks, move physically: stand,
+        walk a lap, stretch. Physical movement helps regulate dopamine and norepinephrine levels,
+        which tend to reset attention more effectively than passive rest.
+      </li>
+      <li>
+        <strong>Don't punish incomplete sessions.</strong> If an interruption breaks a session,
+        reset the timer and start again. Treating an interrupted session as a failure creates an
+        avoidance loop. An incomplete Pomodoro is still useful work — it is not wasted.
+      </li>
+    </ul>
+    <p>
+      The technique works poorly for ADHD when sessions are too long, objectives are vague, or
+      the break activity is itself stimulating (games, social media) — which makes returning
+      to work harder, not easier.
+    </p>
+  </section>
+
   <section id="popular-variations">
     <h2>Popular Variations <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
@@ -208,11 +272,16 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       </p>
     </ReferenceBlock>
 
-    <ReferenceBlock type="common-mistake" heading="Skipping breaks">
+    <ReferenceBlock type="common-mistake" heading="Skipping breaks because of flow state">
       <p>
-        "I'm in the zone, I'll skip the break" seems logical but is counterproductive.
-        The break is what makes the next session possible. Skipping it to squeeze more output
-        from the current session typically produces diminishing returns within 30–40 minutes.
+        "I'm in the zone, I'll skip the break" is a real tension, not a user error. Flow state
+        is genuinely valuable and an abrupt 25-minute interrupt can cost more than it saves —
+        especially during complex reasoning tasks. If you find yourself regularly fighting the
+        timer rather than working with it, that is a signal to adjust, not to push through. Try
+        50/10 or 90/20 instead: longer sessions with longer breaks, which still enforce recovery
+        but give flow work more room to develop. The mistake is not skipping breaks occasionally
+        when deep in a hard problem — it is using "I'm in the zone" as a blanket justification
+        that gradually removes all recovery from the day.
       </p>
     </ReferenceBlock>
 
@@ -251,10 +320,21 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       stop or switch, and the mandatory breaks limit fatigue buildup.
     </p>
     <p>
-      The research specifically on Pomodoro is thin — most studies look at time-boxing and
-      structured breaks in general, which show moderate positive effects on focus and output.
-      Anecdotal evidence across developer, writer, and student communities is broadly positive
-      for certain task types.
+      The research base specifically on Pomodoro is thin — it has not been tested in large
+      controlled trials. But the mechanisms it relies on are well-supported. Studies on
+      time-boxing and structured rest consistently find moderate positive effects on sustained
+      attention and output quality. The mandatory breaks align with the brain's ultradian
+      rhythm: roughly 90-minute cycles of higher and lower cognitive alertness, within which
+      shorter work-rest oscillations reduce cumulative fatigue. Attention Restoration Theory
+      suggests that even brief mental disengagement — looking out a window, standing up — partly
+      replenishes the directed-attention capacity that focus depletes. The timer's bounded
+      commitment also reduces task-initiation friction by making an abstract obligation feel
+      finite: "work on this for exactly 25 minutes" is easier to start than "work on this until
+      it's done."
+    </p>
+    <p>
+      The honest summary: not a placebo, not a miracle. A well-supported structural intervention
+      that works best for task types with clear, bounded objectives.
     </p>
     <p>
       The main limitations:

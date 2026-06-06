@@ -47,6 +47,21 @@ export const items: FAQItem[] = [
     answer: 'It depends on the task. Pomodoro works well for writing new code, reviewing pull requests, or debugging known issues. It can disrupt flow state during complex problem-solving — some programmers prefer 50/10 or 90/20 schedules that allow longer uninterrupted blocks.',
   },
   {
+    id: 'pt-faq-16',
+    question: 'Does the Pomodoro Technique work for ADHD?',
+    answer: 'For many people with ADHD, yes — with caveats. The technique\'s external structure addresses two common ADHD challenges directly: it makes an open-ended task feel bounded ("just 25 minutes"), which lowers the barrier to starting, and it enforces breaks that prevent the hyperfocus burnout that follows long uninterrupted sessions. The scheduled interruptions, which frustrate neurotypical users in flow, can actually feel natural to an ADHD brain that interrupts itself anyway. That said, 25 minutes may be too long or too short depending on the individual. Shorter 15-minute sessions often work better early on; longer 40–50-minute blocks suit people who take time to settle in. Experiment with the Customize panel to find your interval. The technique is most effective for ADHD when combined with a written task list — knowing exactly what you\'re doing for the next 25 minutes removes the decision overhead that often derails a session before it starts.',
+  },
+  {
+    id: 'pt-faq-17',
+    question: 'Pomodoro vs time blocking — which is better?',
+    answer: 'They solve different problems and work well together. Time blocking reserves calendar slots for categories of work ("2–4 pm: deep coding"). Pomodoro structures the work within those slots into focused intervals with mandatory recovery breaks. Time blocking answers "when will I work on what"; Pomodoro answers "how will I sustain focus while I do it". If you struggle to start tasks or drift during long stretches, Pomodoro\'s countdown is the better lever. If you struggle with scattered days and reactive scheduling, time blocking is the fix. Many people use both: block the time in advance, then run Pomodoro sessions inside each block.',
+  },
+  {
+    id: 'pt-faq-18',
+    question: 'Does the Pomodoro Technique actually work? Is there evidence?',
+    answer: 'Yes, for most people and most task types. The honest picture: the research base specifically on Pomodoro is thin — it has not been studied in large controlled trials the way some productivity interventions have. But the mechanisms it relies on are well-supported. Structured work intervals with scheduled breaks consistently show moderate positive effects on sustained attention and output quality in time-on-task research. The forced breaks align with the brain\'s ultradian rhythm — roughly 90-minute cycles of higher and lower cognitive readiness — meaning the rest is functional, not arbitrary. The timer\'s bounded commitment also reduces procrastination by making the task feel finite. The most credible evidence is the breadth of adoption: millions of developers, students, and knowledge workers have used it for decades, across very different working styles, with largely positive reported results. It is not a productivity myth or placebo. It does, however, work better for some task types than others — see "What is Pomodoro good for?" for specifics.',
+  },
+  {
     id: 'pt-faq-14',
     question: 'Who is the Pomodoro Technique for?',
     answer: 'It suits anyone doing focused, task-based work: students revising or working through problem sets, knowledge workers clearing email and admin, developers writing or reviewing code, and writers drafting. It is especially helpful if you procrastinate, lose track of time, or find long stretches of work mentally draining — the fixed intervals and scheduled breaks impose structure. It fits less well for work that depends on uninterrupted flow, where longer 50/10 or 90/20 cycles tend to work better.',

@@ -44,3 +44,18 @@ export const LIMITS = {
   competitorHeadings: 30,
   relatedTopics: 20,
 };
+
+/* ---- Reddit Intelligence -------------------------------------------------- */
+
+/** Max posts kept (highest-engagement first) for analysis. */
+export const REDDIT_MAX_POSTS = 20;
+/** Max Reddit-specific search queries generated per tool slug. */
+export const REDDIT_MAX_QUERIES = 6;
+/** Titles shorter than this (chars) are discarded as noise. */
+export const REDDIT_MIN_TITLE_LEN = 5;
+/** Points awarded per non-empty intent axis in redditIntentScore (cap 100). */
+export const REDDIT_INTENT_AXIS = 20;
+/** Extra entity slots reserved for terminology injected from Reddit. */
+export const REDDIT_ENTITY_BONUS = 5;
+/** Number of ranked content opportunities kept. */
+export const REDDIT_OPPORTUNITY_COUNT = 10;

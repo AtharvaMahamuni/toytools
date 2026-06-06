@@ -23,9 +23,9 @@ This engine collects that knowledge deterministically and stores it as `research
 ```
 Tool Name
 ↓
-Research Collection     ← seo:research
+Research Collection     ← seo:research   (SERP + competitor pages + Reddit posts)
 ↓
-Knowledge Extraction    ← seo:extract
+Knowledge Extraction    ← seo:extract    (entities, questions, gaps, Reddit signals)
 ↓
 Research JSON           ← source of truth
 ↓
@@ -35,6 +35,20 @@ Audit Report            ← seo:audit
 ↓
 Content Generation      ← V3 (not yet implemented)
 ```
+
+### Reddit Intelligence — intent discovery, not a content source
+
+`seo:research` also collects Reddit **post titles** (via Reddit's public search
+JSON, with a `site:reddit.com` SERP fallback) and `seo:extract` distils them into
+research signals: real user questions, pain points, use cases, comparisons,
+misconceptions, and terminology — each clustered and ranked by **frequency** and
+**engagement** (score + comments).
+
+**Hard rule:** Reddit is an *intent discovery* source. The engine never copies,
+paraphrases, rewrites, or publishes Reddit text. Only classified, normalized
+phrases and counts flow into `research.json`; downstream content must be written
+as original prose. Raw titles persist only in the research tier (`research/reddit/`
+and cluster `examples`) for transparency — never in generated `src/` content.
 
 ---
 
@@ -60,6 +74,7 @@ seo-engine/
 ├── cache/                          # Cached HTML pages (30-day TTL)
 ├── research/
 │   ├── raw/<tool>/                 # SERP results + raw HTML
+│   ├── reddit/<tool>-posts.json    # Collected Reddit posts (intent discovery)
 │   ├── processed/<tool>/           # Extracted data + research.json
 │   └── snapshots/                  # Future: versioned research diffs
 ├── output/
@@ -147,6 +162,16 @@ Playwright fetches each competitor page. Cache-first (30-day TTL). Stores raw HT
 
 Output: `research/raw/base64-encoder-decoder/result-1.html` … `result-N.html`
 
+### Step 3b: Reddit Collection (intent discovery)
+
+Generates Reddit-specific queries (`base64`, `base64 vs`, `base64 problem`, …),
+fetches `reddit.com/search.json` per query (falling back to `site:reddit.com`
+SERP if Reddit blocks), filters out deleted/removed/NSFW/spam posts, and keeps
+the **top 20 by engagement**. Non-fatal: a blocked Reddit run never breaks the
+rest of research.
+
+Output: `research/reddit/base64-encoder-decoder-posts.json`
+
 ---
 
 ## Extraction Flow
@@ -192,7 +217,20 @@ Builds heading frequency map across all competitor pages.
 - Appears in < 30% of pages → `contentGaps` (opportunity)
 - Appears in ≥ 2 pages but < 70% → `relatedTopics`
 
-### Step 9: Research JSON
+### Step 9: Reddit Signal Extraction + Research JSON
+
+Reads `research/reddit/<tool>-posts.json` and classifies each title into six
+buckets — questions, pain points, use cases, comparisons, misconceptions,
+terminology. Near-duplicate phrasings are **clustered** (so "what is base64" and
+"what exactly is base64" merge), then ranked by engagement and frequency.
+Questions are tagged with a category (definition / comparison / troubleshooting /
+security / example / usage / implementation). Validated Reddit terminology is
+**injected into the entity list** so the brief reflects real user vocabulary.
+
+Composite metrics are added: `redditIntentScore` (5-axis, +20 each), a blended
+`redditDemandScore`, ranked `contentOpportunities` (frequency + engagement +
+competitor-gap bonus), `subredditBreakdown`, inferred `audienceTypes`, and a
+`dataConfidence` that scales with sample size (halved on the SERP fallback path).
 
 Output: `research/processed/base64-encoder-decoder/research.json`
 
@@ -207,6 +245,21 @@ Output: `research/processed/base64-encoder-decoder/research.json`
   "competitorHeadings": ["How Base64 Works", "Examples", ...],
   "competitorFaqs": ["Is Base64 encryption?", ...],
   "relatedTopics": ["Base64 vs Hex", "Binary encoding formats", ...],
+
+  "redditQuestions": [{ "topic": "Is Base64 encryption", "frequency": 7, "engagement": 412, "examples": ["..."], "category": "security" }],
+  "redditPainPoints": [{ "topic": "Base64 invalid padding error", "frequency": 5, "engagement": 230, "examples": ["..."] }],
+  "redditUseCases": [{ "topic": "Base64 in JWT tokens", "frequency": 3, "engagement": 88, "examples": ["..."] }],
+  "redditComparisons": [{ "topic": "Base64 vs Hex", "frequency": 4, "engagement": 150, "examples": ["..."] }],
+  "redditTerminology": [{ "topic": "Jwt", "frequency": 6, "engagement": 300, "examples": [] }],
+  "redditMisconceptions": [{ "topic": "Can Base64 secure passwords", "frequency": 4, "engagement": 510, "examples": ["..."] }],
+  "subredditBreakdown": { "programming": 8, "webdev": 5, "learnprogramming": 4 },
+  "audienceTypes": ["developer", "student"],
+  "redditDemandScore": 78,
+  "contentOpportunities": [{ "topic": "Base64 vs Encryption", "score": 94 }],
+  "sampleSize": 20,
+  "dataConfidence": 1,
+  "redditIntentScore": 100,
+
   "generatedAt": "2026-06-06T..."
 }
 ```
@@ -245,6 +298,10 @@ LLM snippet readiness — can an AI extract a useful answer from this research?
 | entities ≥ 5 | 20 |
 | competitorFaqs ≥ 3 | 15 |
 | relatedTopics set | 10 |
+| Reddit demand blend (scaled from `redditDemandScore`) | up to +10 |
+
+The Reddit blend rewards pages backed by real user intent the competitor set
+under-serves, capped so tools without Reddit data don't regress.
 
 ---
 
@@ -308,7 +365,7 @@ TTL: **30 days**. If cached and fresh, Playwright is not launched. Re-running th
 - Google Suggestions (autocomplete API)
 - Related Searches extraction
 - People Also Ask scraping
-- Reddit thread analysis (`site:reddit.com <tool>`)
+- Reddit subreddit-targeted search (`r/<sub>/search.json`) + top-comment mining
 - StackOverflow question extraction
 - GitHub README analysis for technical tools
 
