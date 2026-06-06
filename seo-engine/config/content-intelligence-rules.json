@@ -1,0 +1,122 @@
+{
+  "toolIntents": {
+    "base64-encoder-decoder": {
+      "intents": [
+        "What is Base64?",
+        "Is Base64 encryption?",
+        "Base64 example",
+        "Base64 vs encoding",
+        "Why does Base64 end with ="
+      ],
+      "entities": ["ASCII", "UTF-8", "MIME", "binary", "email attachments", "JWT", "data URI"]
+    },
+    "case-converter": {
+      "intents": [
+        "What is camelCase?",
+        "camelCase vs snake_case",
+        "How to convert text case",
+        "Title case rules",
+        "What is PascalCase?"
+      ],
+      "entities": ["camelCase", "snake_case", "PascalCase", "kebab-case", "SCREAMING_SNAKE_CASE", "Title Case"]
+    },
+    "word-counter": {
+      "intents": [
+        "How to count words",
+        "Word count for essays",
+        "Character count vs word count",
+        "Reading time calculator"
+      ],
+      "entities": ["word count", "character count", "reading time", "whitespace", "sentence count"]
+    },
+    "percentage-calculator": {
+      "intents": [
+        "How to calculate percentage",
+        "What is X percent of Y",
+        "Percentage increase formula",
+        "Percentage difference"
+      ],
+      "entities": ["percentage", "ratio", "fraction", "percent change", "base value"]
+    },
+    "notepad": {
+      "intents": [
+        "Browser notepad",
+        "Where are notes stored?",
+        "Does notepad save automatically?",
+        "Private notes in browser"
+      ],
+      "entities": ["localStorage", "browser storage", "auto-save", "privacy", "offline"]
+    },
+    "pomodoro-timer": {
+      "intents": [
+        "What is the Pomodoro technique?",
+        "25 minute work timer",
+        "How does Pomodoro work?",
+        "Pomodoro for productivity"
+      ],
+      "entities": ["Pomodoro", "focus session", "break", "productivity", "time management", "Francesco Cirillo"]
+    },
+    "todo-list": {
+      "intents": [
+        "Browser to-do list",
+        "Does my list save?",
+        "Simple task manager",
+        "Private to-do list"
+      ],
+      "entities": ["localStorage", "task", "checkbox", "persistence", "browser storage"]
+    },
+    "keep-screen-awake": {
+      "intents": [
+        "How to keep screen awake",
+        "Prevent screen from turning off",
+        "Wake Lock API",
+        "Keep monitor on without software"
+      ],
+      "entities": ["Wake Lock API", "screen timeout", "idle", "battery", "browser API"]
+    }
+  },
+
+  "genericIntents": [
+    "What is [tool name]?",
+    "How to use [tool name]",
+    "[tool name] example",
+    "[tool name] vs alternatives"
+  ],
+
+  "genericEntities": [
+    "browser", "privacy", "free", "online", "instant"
+  ],
+
+  "thinContentPhrases": [
+    "this tool helps you",
+    "this calculator lets you",
+    "this converter allows you",
+    "use this tool to",
+    "simply enter",
+    "just type",
+    "easily convert",
+    "quick and easy",
+    "simple and easy",
+    "fast and free",
+    "free online",
+    "no sign up required",
+    "works in your browser"
+  ],
+
+  "firstPrinciplesKeywords": {
+    "whatItIs": ["what is", "what are", "is a", "is an", "refers to", "means", "defined as"],
+    "whyItMatters": ["why", "because", "reason", "important", "useful", "benefit", "purpose", "matter"],
+    "howItWorks": ["how it works", "how does", "works by", "process", "steps", "algorithm", "mechanism"],
+    "examples": ["for example", "example:", "input:", "output:", "such as", "e.g.", "instance:", "sample:"],
+    "commonMistakes": ["common mistake", "mistake", "pitfall", "avoid", "do not", "warning", "caution", "gotcha", "confusion"],
+    "comparisons": ["vs", "versus", "compared to", "difference between", "unlike", "instead of", "alternative", "rather than"]
+  },
+
+  "compositeWeights": {
+    "writingQuality": 0.20,
+    "usefulness": 0.30,
+    "seoCompleteness": 0.20,
+    "topicClusterCompleteness": 0.15,
+    "toyToolsStyleScore": 0.15
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "sentenceLength": {
+    "ideal_min": 10,
+    "ideal_max": 18,
+    "acceptable_max": 25,
+    "long_max": 35
+  },
+  "maxParagraphSentences": 4,
+  "exampleEveryWords": 300,
+  "readability": {
+    "excellent_min": 60,
+    "excellent_max": 80,
+    "acceptable_min": 50
+  },
+  "minimumQuestionHeadingsPerSection": 1,
+  "minimumExamples": 1,
+  "minWordsForAnalysis": 150,
+
+  "scoreWeights": {
+    "clarity": 0.15,
+    "readability": 0.10,
+    "scannability": 0.10,
+    "examples": 0.08,
+    "teaching": 0.10,
+    "rhythm": 0.04,
+    "jargon": 0.07,
+    "flow": 0.05,
+    "confidence": 0.08,
+    "interestingness": 0.07,
+    "repetition": 0.06,
+    "passiveVoice": 0.05,
+    "comparisonCoverage": 0.03,
+    "mistakeCoverage": 0.02
+  },
+
+  "toyToolsStyleCriteria": {
+    "directAnswers": 0.15,
+    "shortParagraphs": 0.10,
+    "examples": 0.12,
+    "commonMistakes": 0.10,
+    "comparisons": 0.10,
+    "lowJargon": 0.12,
+    "lowFluff": 0.10,
+    "highClarity": 0.11,
+    "highTeaching": 0.10
+  },
+
+  "jargonWords": [
+    "utilize", "leverage", "facilitate", "optimize", "robust", "comprehensive",
+    "advanced", "powerful", "synergy", "ecosystem", "streamline"
+  ],
+  "jargonReplacements": {
+    "utilize": "use",
+    "leverage": "use",
+    "facilitate": "help",
+    "streamline": "simplify"
+  },
+
+  "fluffPhrases": [
+    "in today's digital world",
+    "it is important to note",
+    "there are many reasons",
+    "as we all know",
+    "needless to say",
+    "without a doubt",
+    "in conclusion"
+  ],
+  "boringPhrases": [
+    "in today's world",
+    "benefits of",
+    "it is important to understand",
+    "there are many reasons",
+    "this article will explain",
+    "in this guide"
+  ],
+
+  "hedgingWords": [
+    "generally", "typically", "usually", "often", "may", "might", "perhaps",
+    "can sometimes", "in many cases"
+  ],
+
+  "transitionWords": [
+    "however", "instead", "for example", "in contrast", "because", "as a result",
+    "meanwhile", "therefore", "but", "although", "whereas", "additionally",
+    "furthermore", "nevertheless", "consequently", "hence", "thus"
+  ],
+
+  "interestingPatterns": [
+    "many people think", "common misconception", "surprisingly", "it isn't",
+    "unlike", "the difference is", "compare", "versus", "vs", "myth"
+  ],
+
+  "mistakeKeywords": [
+    "common mistake", "mistakes", "pitfall", "pitfalls", "avoid", "don't", "do not",
+    "warning", "caution", "gotcha"
+  ],
+
+  "comparisonKeywords": [
+    "versus", "vs", "compare", "comparison", "difference between", "unlike", "instead of"
+  ],
+
+  "passiveVoicePatterns": [
+    "is encoded", "was created", "are generated", "were processed", "been converted",
+    "is used", "was used", "are used", "were used", "is returned", "was returned",
+    "is sent", "was sent", "is stored", "was stored", "is built", "was built",
+    "is called", "was called", "is known", "was known"
+  ],
+
+  "directAnswerHedgeOpeners": [
+    "there are many", "there are several", "this can be", "one of the",
+    "in general", "it depends", "various"
+  ]
+}

@@ -247,3 +247,283 @@ src/
         ├── Guide.astro     (optional)
         └── faq.ts          (optional)
 ```
+
+---
+
+## ToyTools Golden Rule
+
+The fastest interface is the one that does not exist.
+
+Before adding any new UI element, ask:
+
+1. Does this help the user complete the task faster?
+2. Can the same outcome be achieved with fewer controls?
+3. Can the same outcome be achieved with plain text?
+4. Can the same outcome be achieved without JavaScript?
+5. Would removing this element make the tool worse?
+
+If the answer to #5 is **no**, do not add the element.
+
+---
+
+## UI Decision Framework
+
+Before creating new UI, follow this order:
+
+1. Reuse an existing shared component.
+2. Reuse an existing layout pattern.
+3. Extend a shared component.
+4. Create a new component only if all previous options fail.
+
+Favor consistency over creativity. Users should learn ToyTools once.
+
+---
+
+## Performance Budget
+
+Strict per-tool targets:
+
+- **JavaScript:** under 10 KB (inline script content)
+- **CSS:** under 5 KB (tool-scoped styles)
+- **Runtime dependencies:** zero
+- **External UI libraries:** none
+- **Framework hydration:** none
+- **Blocking requests:** none
+
+Performance is a feature. Prefer deleting code over adding code.
+
+---
+
+## Accessibility Standards
+
+Every widget must:
+
+- Be fully keyboard accessible
+- Have visible focus states
+- Meet WCAG AA contrast requirements
+- Provide labels for all form controls
+- Avoid color-only communication
+- Respect minimum touch target size (`var(--touch-target)` = 48px)
+- Support screen readers
+
+**Required checklist before shipping:**
+
+- [ ] Tab navigation works end-to-end
+- [ ] Focus order is logical
+- [ ] All inputs have visible labels or `aria-label`
+- [ ] All buttons have accessible names
+- [ ] No interaction relies on color alone
+
+---
+
+## Empty State Standards
+
+Empty states should:
+
+- Explain what to do
+- Explain what happens next
+- Be concise
+- Avoid humor
+- Avoid illustrations
+
+**Good:** "Enter text above to generate output."
+
+**Bad:** "Oops! Nothing here yet."
+
+---
+
+## Error Message Standards
+
+Use a consistent three-part format:
+
+1. **Problem** — what went wrong
+2. **Reason** — why it happened
+3. **Fix** — what the user should do
+
+**Example:**
+```
+Invalid date
+The date format could not be parsed.
+Use YYYY-MM-DD.
+```
+
+Avoid vague errors: "Something went wrong." tells the user nothing actionable.
+
+---
+
+## Loading State Standards
+
+Most ToyTools operations are instant. If loading is required:
+
+- Prefer text indicators (`"Generating output..."`)
+- Avoid spinners when possible
+- Never block the entire interface during loading
+- Keep all controls visible and interactive
+
+Do not use a fullscreen loader for any operation.
+
+---
+
+## Information Hierarchy Rules
+
+Every tool page should immediately answer:
+
+1. What is this?
+2. What can I do here?
+3. Where do I start?
+4. What happened? (after user action)
+5. What should I do next?
+
+UI should communicate this order visually. Avoid explanatory clutter — if the interface requires a paragraph of instructions, simplify the interface first.
+
+---
+
+## SEO-Aware Layout Rules
+
+Tool pages are utility pages, not landing pages.
+
+**Preferred content order:**
+
+1. Tool (interactive widget)
+2. Short explanation
+3. Guide
+4. FAQ
+5. Related tools
+6. Related guides
+
+**Avoid:**
+
+- Hero banners
+- Marketing copy sections
+- Large decorative elements
+- Excessive introductory text
+
+The tool must remain above the fold on mobile (375px viewport).
+
+---
+
+## AI Agent Rules
+
+When generating or modifying UI for a new tool:
+
+- Use existing shared components from `src/tools/_shared/`
+- Use existing CSS tokens from `src/styles/tokens.css`
+- Use existing layout patterns from `ToolLayout`, `GuideLayout`, `FAQLayout`
+- Do not invent new spacing values — use `var(--space-N)`
+- Do not invent new colors — use `var(--color-*)`
+- Do not create new button styles — use existing `.btn-*` classes
+- Do not create new interaction patterns without checking if one exists
+
+If unsure between two approaches: choose the simpler one.
+
+---
+
+## Component Creation Policy
+
+Creating a new shared component requires:
+
+- Clear reuse potential across **multiple** (3+) tools
+- A measurable benefit over composing existing components
+- No functional overlap with any existing shared component
+
+Do not create shared components for one-off use cases. Inline the markup instead.
+
+---
+
+## Interaction Philosophy
+
+ToyTools is utility-first. Interactions should be:
+
+- **Predictable** — no surprises
+- **Fast** — respond instantly or near-instantly
+- **Lightweight** — minimal JavaScript
+- **Optional** — the tool should degrade gracefully without JS where possible
+
+Avoid:
+
+- Animations used purely for decoration
+- Complex multi-step transitions
+- Multi-step workflows (prefer single-screen tools)
+- Controls hidden behind hover or other indirect triggers
+
+---
+
+## Mobile-First Validation Checklist
+
+Every new widget must be verified at approximately **375px width** before shipping.
+
+- [ ] No horizontal scrolling
+- [ ] All touch targets are at least 48px
+- [ ] Primary action remains visible without scrolling
+- [ ] Tool is usable with one hand
+- [ ] No overlapping or clipped controls
+
+Mobile is the primary experience. Desktop is the enhanced experience.
+
+---
+
+## Dark Mode Validation Checklist
+
+Every component must be tested in three states:
+
+- [ ] Light mode (explicit `data-theme="light"`)
+- [ ] Dark mode (explicit `data-theme="dark"`)
+- [ ] OS preference mode (no `data-theme` attribute)
+
+Rules:
+
+- No hardcoded hex or RGB color values in widget CSS
+- All colors must come from `var(--color-*)` tokens
+- Check both text contrast and border/background contrast
+
+---
+
+## ToyTools Smell Test
+
+If a proposed feature introduces any of the following, stop and re-evaluate:
+
+- User accounts or authentication
+- Teams or workspaces
+- Dashboards or analytics views
+- Notification systems
+- Onboarding flows or tutorials
+- Multi-page workflows
+- Persistent server-side state
+
+ToyTools exists to help users complete a task and leave. Complexity must justify itself against this purpose. If it cannot, remove it.
+
+---
+
+## Visual Density Guidelines
+
+Prefer:
+
+- More whitespace between elements
+- Fewer borders (use spacing to separate, not lines)
+- Fewer visual layers (flat over nested)
+
+Avoid:
+
+- Card inside card inside card
+- Heavy drop shadows on interactive elements
+- Decorative horizontal rules or separators
+- Multiple competing visual focal points on one screen
+
+Visual simplicity improves usability and reduces cognitive load.
+
+---
+
+## Design Review Checklist
+
+Before merging any new tool or UI change:
+
+- [ ] Uses shared CSS tokens (no hardcoded values)
+- [ ] Uses shared components where applicable
+- [ ] Passes mobile validation (375px, one-hand usable)
+- [ ] Passes accessibility checklist (keyboard, labels, contrast)
+- [ ] Passes dark mode validation (light + dark + OS)
+- [ ] Meets performance budget (JS < 10 KB, CSS < 5 KB, zero deps)
+- [ ] Contains no unnecessary UI elements (Golden Rule applied)
+- [ ] Follows ToyTools philosophy (utility-first, no accounts/dashboards/onboarding)
+
+A tool that fails any checklist item should be revised before release.

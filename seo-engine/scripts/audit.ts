@@ -7,6 +7,7 @@ import { existsSync, readdirSync, readFileSync, mkdirSync, writeFileSync } from 
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { calculateSeoScore, calculateGeoScore } from './utils/scoring.js';
+import { calculateWritingScore } from './writing.js';
 import type { ResearchDocument } from '../types/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -75,10 +76,22 @@ for (const toolSlug of toolDirs) {
 
   const toolDisplay = toolSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
+  // Writing score — analyze guide outline if available
+  const outlinePath = join(ROOT, 'output', toolSlug, 'guide.outline.md');
+  let writing = null;
+  if (existsSync(outlinePath)) {
+    const md = readFileSync(outlinePath, 'utf-8');
+    const ws = calculateWritingScore(md);
+    if (ws.score > 0) writing = ws;
+  }
+
   lines.push(`## ${toolDisplay}`);
   lines.push('');
   lines.push(`**SEO Score:** ${seo.score}/100`);
   lines.push(`**GEO Score:** ${geo.score}/100`);
+  if (writing) {
+    lines.push(`**Writing Score:** ${writing.score}/100  |  **ToyTools Style Match:** ${writing.toyToolsStyleScore}/100`);
+  }
   lines.push(`**Primary Intent:** ${doc.primaryIntent}`);
   lines.push(`**Secondary Intent:** ${doc.secondaryIntent}`);
   lines.push(`**Entities:** ${doc.entities.length} | **Questions:** ${doc.questions.length} | **Competitor FAQs:** ${doc.competitorFaqs.length}`);
@@ -109,6 +122,16 @@ for (const toolSlug of toolDirs) {
     lines.push('');
   }
 
+  if (writing && writing.issues.length > 0) {
+    lines.push('### Writing Issues');
+    writing.issues.forEach(i => lines.push(`- ${i}`));
+    lines.push('');
+  }
+
+  if (writing && writing.recommendations.length > 0) {
+    lines.push('### Writing Recommendations');
+    writing.recommendations.forEach(r => lines.push(`- ${r}`));
+    lines.push('');
   // Reddit Intelligence — only when posts were collected for this tool.
   if ((doc.sampleSize ?? 0) > 0) {
     const sig = (s: { topic: string; frequency: number; engagement: number; category?: string }) =>
@@ -157,7 +180,8 @@ for (const toolSlug of toolDirs) {
   lines.push('---');
   lines.push('');
   audited++;
-  console.log(`  Audited: ${toolSlug} (SEO: ${seo.score} | GEO: ${geo.score})`);
+  const writingInfo = writing ? ` | Writing: ${writing.score} | Style: ${writing.toyToolsStyleScore}` : '';
+  console.log(`  Audited: ${toolSlug} (SEO: ${seo.score} | GEO: ${geo.score}${writingInfo})`);
 }
 
 const auditPath = join(REPORTS_DIR, 'audit.md');
