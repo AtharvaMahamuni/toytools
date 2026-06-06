@@ -132,6 +132,49 @@ for (const toolSlug of toolDirs) {
     lines.push('### Writing Recommendations');
     writing.recommendations.forEach(r => lines.push(`- ${r}`));
     lines.push('');
+  // Reddit Intelligence — only when posts were collected for this tool.
+  if ((doc.sampleSize ?? 0) > 0) {
+    const sig = (s: { topic: string; frequency: number; engagement: number; category?: string }) =>
+      `- ${s.topic} — freq ×${s.frequency}, eng ${s.engagement}${s.category ? ` · ${s.category}` : ''}`;
+
+    lines.push('### Reddit Intelligence');
+    lines.push(
+      `Questions: ${doc.redditQuestions.length} · Pain Points: ${doc.redditPainPoints.length} · ` +
+        `Use Cases: ${doc.redditUseCases.length} · Comparisons: ${doc.redditComparisons.length} · ` +
+        `Misconceptions: ${doc.redditMisconceptions.length}`,
+    );
+    lines.push(
+      `**Reddit Intent Score:** ${doc.redditIntentScore}/100 · **Demand Score:** ${doc.redditDemandScore}/100 · ` +
+        `**Confidence:** ${doc.dataConfidence} (n=${doc.sampleSize})`,
+    );
+    if (doc.audienceTypes.length > 0) lines.push(`**Audience:** ${doc.audienceTypes.join(', ')}`);
+    const subs = Object.entries(doc.subredditBreakdown)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([s, n]) => `${s} (${n})`);
+    if (subs.length > 0) lines.push(`**Top Subreddits:** ${subs.join(', ')}`);
+    lines.push('');
+
+    if (doc.redditQuestions.length > 0) {
+      lines.push('**Top User Questions** (by engagement)');
+      doc.redditQuestions.slice(0, 5).forEach(q => lines.push(sig(q)));
+      lines.push('');
+    }
+    if (doc.redditPainPoints.length > 0) {
+      lines.push('**Top Pain Points**');
+      doc.redditPainPoints.slice(0, 5).forEach(p => lines.push(sig(p)));
+      lines.push('');
+    }
+    if (doc.redditMisconceptions.length > 0) {
+      lines.push('**Top Misconceptions**');
+      doc.redditMisconceptions.slice(0, 5).forEach(m => lines.push(sig(m)));
+      lines.push('');
+    }
+    if (doc.contentOpportunities.length > 0) {
+      lines.push('**Recommended Sections** (ranked content opportunities)');
+      doc.contentOpportunities.slice(0, 8).forEach(o => lines.push(`- ${o.topic} — opportunity ${o.score}`));
+      lines.push('');
+    }
   }
 
   lines.push('---');

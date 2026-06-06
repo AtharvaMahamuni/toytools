@@ -24,10 +24,14 @@ SERP results  ──────────────────────
    │  fetchPage()  (Playwright, cached)               scripts/utils/scraper.ts
    ▼                                                                  │ │
 raw HTML  ──►  research/raw/<slug>/result-N.html                      │ │   ◄── seo:research
+   │  collectRedditPosts()  (Reddit JSON → SERP fallback)  scripts/reddit.ts │
+   ▼                                                                  │ │
+RedditPost[]  ──►  research/reddit/<slug>-posts.json                   │ │   ◄── seo:research
    │  extractCompetitorPage()  (Cheerio)             scripts/utils/extractor.ts
    ▼
 CompetitorPage[]  ──►  research/processed/<slug>/competitors.json
    │  entity / question / intent / gap extraction    scripts/extract.ts
+   │  + extractRedditResearch()  (cluster/rank/score) scripts/reddit.ts
    ▼
 ResearchDocument  ──►  research/processed/<slug>/research.json         ◄── seo:extract
    │  calculateSeoScore() / calculateGeoScore()      scripts/utils/scoring.ts
@@ -51,7 +55,8 @@ disk, so any stage can be re-run independently as long as its inputs exist.
 
 | File | Command | Responsibility |
 |------|---------|----------------|
-| `research.ts` | `seo:research <slug>` | Generate queries → collect SERP (DuckDuckGo GET → Bing fallback) → fetch top-N competitor pages. Opens one shared browser and closes it via `closeBrowser()`. |
+| `research.ts` | `seo:research <slug>` | Generate queries → collect SERP (DuckDuckGo GET → Bing fallback) → fetch top-N competitor pages → collect Reddit posts (non-fatal). Opens one shared browser and closes it via `closeBrowser()`. |
+| `reddit.ts` | (called by research + extract) | Reddit Intelligence. `collectRedditPosts()` (Reddit search JSON → `site:reddit.com` SERP fallback) + `extractRedditResearch()` (pure: classify/cluster/rank titles into intent signals + composite scores). Intent discovery only — never reproduces Reddit content. |
 | `fetch.ts` | `seo:fetch <slug>` | Fetch competitor pages from a hand-curated `search-results.json`, skipping discovery. The reliable path when search engines bot-block the host. |
 | `extract.ts` | `seo:extract <slug>` | Parse cached HTML, derive entities/questions/intents/gaps, write `research.json`. |
 | `validate.ts` | `seo:validate` | Score every `research.json`, write per-tool `validation-<slug>.json`. |
@@ -103,6 +108,9 @@ disk, so any stage can be re-run independently as long as its inputs exist.
 | `contentGaps` | headings on < `gap` share of pages (opportunities) |
 | `relatedTopics` | headings between the two thresholds, seen on ≥ 2 pages |
 | `competitorFaqs` | union of all pages' `faqQuestions` |
+| `reddit*` signals | post titles classified into 6 buckets, clustered, ranked by engagement + frequency (`extractRedditResearch()`) |
+| `redditTerminology` | injected into `entities` so the brief reflects real user vocabulary |
+| `redditIntentScore` / `redditDemandScore` / `contentOpportunities` / `dataConfidence` | composite metrics over the Reddit signals; `dataConfidence` halves on the SERP fallback path |
 
 ---
 
@@ -159,9 +167,9 @@ These are deliberate current limitations, not bugs:
   Bing fallback, but both engines bot-block datacenter/VPN IPs (DDG returns a
   `202` "anomaly" challenge; Bing serves a captcha), so discovery can return
   zero results depending on where it runs. The reliable workaround is
-  `seo:fetch` over a hand-curated `search-results.json`. Richer multi-source
-  collection (Google Suggest, People Also Ask, Reddit/StackOverflow) is on the
-  V2 roadmap.
+  `seo:fetch` over a hand-curated `search-results.json`. Reddit Intelligence is
+  implemented (`reddit.ts`); richer multi-source collection (Google Suggest,
+  People Also Ask, subreddit-targeted Reddit, StackOverflow) is on the V2 roadmap.
 - **Sequential fetches.** Pages are fetched one at a time. The shared browser
   now makes concurrent contexts cheap; batched fetching is a straightforward
   future optimization.

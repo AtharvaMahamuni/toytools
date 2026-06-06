@@ -133,6 +133,37 @@ export async function fetchSerpResults(query: string): Promise<SearchResult[]> {
 }
 
 /**
+ * Fetches a URL that returns JSON (e.g. Reddit's `*.json` endpoints) and parses
+ * it. Navigates via the shared browser so it shares the same UA/network path as
+ * page fetches. Returns null on any failure (block, rate-limit, non-JSON) so
+ * callers can fall back gracefully. Not cached here — callers cache the parsed,
+ * normalized result.
+ */
+export async function fetchJson<T = unknown>(url: string): Promise<T | null> {
+  const browser = await getBrowser();
+  const context = await browser.newContext({ userAgent: UA });
+  const page = await context.newPage();
+
+  try {
+    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await randomDelay();
+    if (!response || !response.ok()) {
+      console.warn(`  [warn] JSON fetch ${url}: HTTP ${response?.status() ?? 'no response'}`);
+      return null;
+    }
+    // Read the raw response body rather than document text — Reddit returns the
+    // JSON as the page body, which the browser may wrap in <pre>.
+    const text = await response.text();
+    return JSON.parse(text) as T;
+  } catch (err) {
+    console.warn(`  [warn] JSON fetch ${url}: ${(err as Error).message}`);
+    return null;
+  } finally {
+    await context.close();
+  }
+}
+
+/**
  * Fetches a page's HTML. Checks cache first; if miss, fetches via the shared
  * browser and caches.
  */

@@ -8,8 +8,9 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { generateQueries } from './utils/queries.js';
 import { fetchSerpResults, fetchPage, closeBrowser } from './utils/scraper.js';
+import { generateRedditQueries, collectRedditPosts } from './reddit.js';
 import { TOP_PAGES } from './utils/config.js';
-import type { SearchResult } from '../types/index.js';
+import type { SearchResult, RedditPost } from '../types/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -25,11 +26,11 @@ console.log(`\n=== SEO Research: ${toolSlug} ===\n`);
 
 // Step 1: Generate queries
 const queries = generateQueries(toolSlug);
-console.log(`[1/3] Generated ${queries.length} search queries:`);
+console.log(`[1/4] Generated ${queries.length} search queries:`);
 queries.forEach(q => console.log(`  - "${q}"`));
 
 // Step 2: Collect SERP results
-console.log('\n[2/3] Collecting SERP results...');
+console.log('\n[2/4] Collecting SERP results...');
 const allResults: SearchResult[] = [];
 const seenUrls = new Set<string>();
 
@@ -61,7 +62,7 @@ writeFileSync(
 console.log(`  Wrote: research/raw/${toolSlug}/search-results.json`);
 
 // Step 3: Fetch competitor pages (top 10)
-console.log('\n[3/3] Fetching competitor pages...');
+console.log('\n[3/4] Fetching competitor pages...');
 const topUrls = allResults.slice(0, TOP_PAGES);
 let fetched = 0;
 
@@ -81,10 +82,37 @@ for (let i = 0; i < topUrls.length; i++) {
   }
 }
 
+// Step 4: Reddit Intelligence — collect post titles for intent discovery.
+// Non-fatal by design: a blocked/rate-limited Reddit run must never break
+// competitor research. Signals are extracted later in seo:extract.
+console.log('\n[4/4] Reddit intelligence (collecting posts)...');
+let redditPosts: RedditPost[] = [];
+let redditSource: 'json' | 'serp' = 'json';
+const redditQueries = generateRedditQueries(toolSlug);
+try {
+  redditPosts = await collectRedditPosts(toolSlug);
+  // SERP fallback leaves engagement undefined on every post; use that to label source.
+  redditSource = redditPosts.length > 0 && redditPosts.every(p => p.score === undefined) ? 'serp' : 'json';
+  const redditDir = join(ROOT, 'research', 'reddit');
+  mkdirSync(redditDir, { recursive: true });
+  writeFileSync(
+    join(redditDir, `${toolSlug}-posts.json`),
+    JSON.stringify(
+      { tool: toolSlug, queries: redditQueries, source: redditSource, posts: redditPosts, collectedAt: new Date().toISOString() },
+      null,
+      2,
+    ),
+  );
+  console.log(`  Collected ${redditPosts.length} posts (${redditSource}) → research/reddit/${toolSlug}-posts.json`);
+} catch (err) {
+  console.warn(`  [warn] Reddit collection failed (non-fatal): ${(err as Error).message}`);
+}
+
 await closeBrowser();
 
 console.log(`\n=== Research complete ===`);
 console.log(`  Queries: ${queries.length}`);
 console.log(`  URLs found: ${allResults.length}`);
 console.log(`  Pages fetched: ${fetched}`);
+console.log(`  Reddit posts: ${redditPosts.length}`);
 console.log(`  Output: research/raw/${toolSlug}/\n`);

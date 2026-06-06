@@ -1,4 +1,6 @@
-export interface ResearchDocument {
+import type { RedditResearch } from './reddit.js';
+
+export interface ResearchDocument extends RedditResearch {
   tool: string;
 
   primaryIntent: string;
