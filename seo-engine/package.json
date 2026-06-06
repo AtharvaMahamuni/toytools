@@ -14,6 +14,8 @@
     "seo:audit": "tsx scripts/audit.ts",
     "seo:scaffold": "tsx scripts/scaffold.ts",
     "seo:generate": "tsx scripts/generate.ts",
+    "seo:writing": "tsx scripts/writing.ts",
+    "seo:writing-tool": "tsx scripts/analyze-tool.ts",
     "seo:typecheck": "tsc --noEmit"
   },
   "dependencies": {
