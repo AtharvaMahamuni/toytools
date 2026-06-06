@@ -25,5 +25,6 @@ export const config: ToolConfig = {
   faq: {
     slug: 'pomodoro-timer',
     categorySlug: 'productivity',
+    description: 'Answers to common questions about the Pomodoro Timer and technique.',
   },
 };

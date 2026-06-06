@@ -46,3 +46,9 @@ seo-engine/output/*/*
 !seo-engine/output/tool/.gitkeep
 !seo-engine/output/guide/.gitkeep
 !seo-engine/output/faq/.gitkeep
+
+# quality-guardian
+quality-guardian/node_modules/
+quality-guardian/dist-ts/
+quality-guardian/reports/*
+!quality-guardian/reports/.gitkeep

@@ -5,6 +5,23 @@ import sitemap from '@astrojs/sitemap';
 const base = process.env.ASTRO_BASE_PATH;
 
 /** @type {import('astro/config').AstroIntegration} */
+const routeManifest = {
+  name: 'route-manifest',
+  hooks: {
+    'astro:build:done': async ({ dir, pages }) => {
+      const { writeFileSync } = await import('node:fs');
+      const routes = pages.map(p => {
+        // 404 page is generated as 404.html, not 404/index.html
+        if (p.pathname === '404' || p.pathname === '404/') return '/404.html';
+        return `/${p.pathname}`.replace(/\/{2,}/g, '/');
+      });
+      const manifest = { generated: new Date().toISOString(), routes };
+      writeFileSync(new URL('route-manifest.json', dir), JSON.stringify(manifest, null, 2));
+    },
+  },
+};
+
+/** @type {import('astro/config').AstroIntegration} */
 const seoValidator = {
   name: 'seo-validator',
   hooks: {
@@ -19,6 +36,7 @@ const seoValidator = {
 
 export default defineConfig({
   integrations: [
+    routeManifest,
     sitemap({
       filter: (page) => !page.includes('/404'),
       serialize(item) {
