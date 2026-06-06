@@ -22,10 +22,22 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 3, name: tool.name },
   ],
 };
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: tool.name,
+  description: tool.description,
+  url: Astro.url.href,
+  applicationCategory: 'WebApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
 ---
 
 <BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="tool">
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
 
   <div class="tool-header">
     <Breadcrumb items={[
