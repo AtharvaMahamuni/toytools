@@ -107,14 +107,24 @@ export function extractFaqText(faqContent: string): string {
 
 // ─── Intelligence modules ─────────────────────────────────────────────────────
 
-export function scoreFirstPrinciples(combinedText: string, rules: CIRules): FirstPrinciplesCoverage {
+export function scoreFirstPrinciples(combinedText: string, rules: CIRules, headings: string[] = []): FirstPrinciplesCoverage {
   const lower = combinedText.toLowerCase();
   const kw = rules.firstPrinciplesKeywords;
 
+  // Heading-based detection — catches descriptive section headings that don't match text keywords.
+  // Examples: "How Screen Wake Locks Work" → howItWorks; "Real Examples" / "Common Situations" → examples.
+  const howItWorksFromHeading = headings.some(h => /\bhow\b.{0,30}\bworks?\b/i.test(h));
+  const examplesFromHeading = headings.some(h =>
+    /\breal\s+examples?\b/i.test(h) ||
+    /\buse\s+cases?\b/i.test(h) ||
+    /\bcommon\s+situations?\b/i.test(h) ||
+    /\bwhen\s+(to\s+)?use\b/i.test(h)
+  );
+
   const whatItIs = kw.whatItIs.some(k => lower.includes(k));
   const whyItMatters = kw.whyItMatters.some(k => lower.includes(k));
-  const howItWorks = kw.howItWorks.some(k => lower.includes(k));
-  const examples = kw.examples.some(k => lower.includes(k));
+  const howItWorks = kw.howItWorks.some(k => lower.includes(k)) || howItWorksFromHeading;
+  const examples = kw.examples.some(k => lower.includes(k)) || examplesFromHeading;
   const commonMistakes = kw.commonMistakes.some(k => lower.includes(k));
   const comparisons = kw.comparisons.some(k => lower.includes(k));
 
@@ -412,7 +422,7 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
   const fp = generateWritingFingerprint(combinedText);
 
   // Intelligence modules
-  const firstPrinciples = scoreFirstPrinciples(combinedText, RULES);
+  const firstPrinciples = scoreFirstPrinciples(combinedText, RULES, headings);
   const searchIntent = scoreSearchIntent(combinedText, headings, slug, RULES);
   const entityCoverage = scoreEntityCoverage(combinedText, slug, RULES);
   const topicCluster = scoreTopicCluster(guideContent, faqContent, configContent);

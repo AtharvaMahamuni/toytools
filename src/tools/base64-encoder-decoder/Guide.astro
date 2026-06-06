@@ -84,6 +84,9 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       Today, Base64 is used far beyond email — it appears in APIs, web tokens, HTML data URIs,
       and many other contexts where binary data needs to travel through text-based channels.
+      When you encode a UTF-8 string containing non-ASCII characters — Japanese text, Arabic,
+      emoji — Base64 converts the byte sequence into a safe ASCII representation that any
+      system can transmit without corruption.
     </p>
   </section>
 

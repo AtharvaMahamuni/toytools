@@ -106,8 +106,8 @@
   "firstPrinciplesKeywords": {
     "whatItIs": ["what is", "what are", "is a", "is an", "refers to", "means", "defined as"],
     "whyItMatters": ["why", "because", "reason", "important", "useful", "benefit", "purpose", "matter"],
-    "howItWorks": ["how it works", "how does", "works by", "process", "steps", "algorithm", "mechanism"],
-    "examples": ["for example", "example:", "input:", "output:", "such as", "e.g.", "instance:", "sample:"],
+    "howItWorks": ["how it works", "how does", "works by", "process", "steps", "algorithm", "mechanism", "formula"],
+    "examples": ["for example", "example:", "input:", "output:", "such as", "e.g.", "instance:", "sample:", "real examples"],
     "commonMistakes": ["common mistake", "mistake", "pitfall", "avoid", "do not", "warning", "caution", "gotcha", "confusion"],
     "comparisons": ["vs", "versus", "compared to", "difference between", "unlike", "instead of", "alternative", "rather than"]
   },
