@@ -1,8 +1,8 @@
 import type { ResearchDocument, SeoScore, GeoScore } from '../../types/index.js';
 
-const COMPARISON_RE = /\bvs\.?\b|\bversus\b|\bdifference\b|\bcompare(d|s)?\b|\bcomparison\b|\bvariation|\balternative/i;
-const TROUBLESHOOT_RE = /\bnot working\b|\berror\b|\bfix\b|\btroubleshoot\b|\bfailed\b|\bissue\b|\bmistake|\bavoid\b|\bproblem|\bpitfall|\bwrong\b/i;
-const DEFINITION_RE = /^(what is|what are|what does|define|definition)/i;
+export const COMPARISON_RE = /\bvs\.?\b|\bversus\b|\bdifference\b|\bcompare(d|s)?\b|\bcomparison\b|\bvariation|\balternative/i;
+export const TROUBLESHOOT_RE = /\bnot working\b|\berror\b|\bfix\b|\btroubleshoot\b|\bfailed\b|\bissue\b|\bmistake|\bavoid\b|\bproblem|\bpitfall|\bwrong\b/i;
+export const DEFINITION_RE = /^(what is|what are|what does|define|definition)/i;
 
 export function calculateSeoScore(doc: ResearchDocument): SeoScore {
   let score = 0;
@@ -100,5 +100,17 @@ export function calculateGeoScore(doc: ResearchDocument): GeoScore {
     issues.push('No related topics identified');
   }
 
-  return { score: Math.min(score, 100), issues };
+  // Reddit demand blend: reward pages backed by real user intent the competitor
+  // set under-serves, without double-counting. Scaled to ≤10 so existing tools
+  // (no Reddit data → bonus 0) don't regress.
+  const redditDemandScore = doc.redditDemandScore ?? 0;
+  const redditIntentScore = doc.redditIntentScore ?? 0;
+  const redditBonus = Math.round((redditDemandScore / 100) * 10);
+  if (redditBonus > 0) {
+    score += redditBonus;
+  } else if (redditIntentScore === 0) {
+    issues.push('No Reddit intent signals (run seo:research to collect user-intent data)');
+  }
+
+  return { score: Math.min(score, 100), issues, redditIntentScore, redditDemandScore };
 }

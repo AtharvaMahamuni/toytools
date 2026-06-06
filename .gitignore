@@ -32,6 +32,7 @@ seo-engine/dist/
 seo-engine/cache/*
 seo-engine/research/raw/*
 seo-engine/research/processed/*
+seo-engine/research/reddit/*
 seo-engine/research/snapshots/*
 seo-engine/reports/*
 seo-engine/output/*/*
@@ -39,6 +40,7 @@ seo-engine/output/*/*
 !seo-engine/cache/.gitkeep
 !seo-engine/research/raw/.gitkeep
 !seo-engine/research/processed/.gitkeep
+!seo-engine/research/reddit/.gitkeep
 !seo-engine/research/snapshots/.gitkeep
 !seo-engine/reports/.gitkeep
 !seo-engine/output/tool/.gitkeep

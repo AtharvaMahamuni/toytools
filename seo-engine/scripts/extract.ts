@@ -7,35 +7,14 @@ import { existsSync, readdirSync, readFileSync, mkdirSync, writeFileSync } from 
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { extractCompetitorPage } from './utils/extractor.js';
-import { ENTITY_WEIGHTS, ENTITY_COUNT, GAP_THRESHOLDS, LIMITS } from './utils/config.js';
+import { ENTITY_WEIGHTS, ENTITY_COUNT, GAP_THRESHOLDS, LIMITS, REDDIT_ENTITY_BONUS } from './utils/config.js';
 import { normalizeHeading, isJunkHeading, titleCase } from './utils/text.js';
-import type { CompetitorPage, ResearchDocument } from '../types/index.js';
+import { isMeaningful } from './utils/terms.js';
+import { extractRedditResearch } from './reddit.js';
+import type { CompetitorPage, RedditPost, RedditResearch, ResearchDocument } from '../types/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
-
-const STOP_WORDS = new Set([
-  'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with',
-  'by', 'from', 'up', 'about', 'into', 'through', 'during', 'is', 'are', 'was', 'were',
-  'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
-  'could', 'should', 'may', 'might', 'shall', 'can', 'need', 'this', 'that', 'these',
-  'those', 'it', 'its', 'as', 'if', 'then', 'than', 'so', 'yet', 'both', 'either',
-  'each', 'all', 'any', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'not',
-  'only', 'same', 'also', 'just', 'how', 'what', 'when', 'where', 'which', 'who', 'why',
-  'you', 'your', 'we', 'our', 'they', 'their', 'i', 'my', 'he', 'she', 'his', 'her',
-]);
-
-// Generic SEO/marketing filler that pollutes entity extraction without adding
-// topical signal. Layered on top of STOP_WORDS.
-const SEO_JUNK = new Set([
-  'online', 'free', 'best', 'top', 'easy', 'simple', 'fast', 'quick', 'instant',
-  'tool', 'tools', 'app', 'apps', 'website', 'site', 'web', 'click', 'use', 'using',
-  'get', 'guide', 'review', 'reviews', 'home', 'page', 'welcome', 'new', 'now',
-  '2023', '2024', '2025', '2026',
-  // generic verbs/nouns that survive document-frequency gating but aren't entities
-  'set', 'list', 'helps', 'help', 'select', 'tips', 'tip', 'want', 'need', 'make',
-  'way', 'ways', 'step', 'steps', 'thing', 'things', 'part', 'like', 'via',
-]);
 
 const QUESTION_STARTERS = /^(what|why|how|when|where|can|should|does|is|are|do|which|who)\b/i;
 
@@ -105,6 +84,23 @@ mkdirSync(processedDir, { recursive: true });
 writeFileSync(join(processedDir, 'competitors.json'), JSON.stringify(competitors, null, 2));
 console.log(`  Wrote: research/processed/${toolSlug}/competitors.json`);
 
+// Reddit Intelligence — load posts collected by seo:research (if any) and distil
+// signals. Absent file → empty research (never an error); competitor analysis
+// stands on its own.
+const redditPostsPath = join(ROOT, 'research', 'reddit', `${toolSlug}-posts.json`);
+let redditPosts: RedditPost[] = [];
+if (existsSync(redditPostsPath)) {
+  try {
+    redditPosts = (JSON.parse(readFileSync(redditPostsPath, 'utf-8')).posts ?? []) as RedditPost[];
+  } catch {
+    console.warn(`  [warn] Could not parse ${toolSlug}-posts.json — skipping Reddit signals`);
+  }
+}
+const reddit: RedditResearch = extractRedditResearch(redditPosts, competitors);
+console.log(`  Reddit: ${redditPosts.length} posts → ${reddit.redditQuestions.length} questions, ` +
+  `${reddit.redditPainPoints.length} pain points, ${reddit.redditMisconceptions.length} misconceptions ` +
+  `(intent ${reddit.redditIntentScore}, demand ${reddit.redditDemandScore})`);
+
 // Step 5: Entity extraction (deterministic, frequency-weighted)
 console.log('\n[5/9] Extracting entities...');
 
@@ -115,10 +111,6 @@ const termScores = new Map<string, number>();
 // that only appears on one page is almost always a site-specific tagline
 // ("Get More Done in Less Time"), not a topic entity — so we gate on this.
 const termDocs = new Map<string, Set<number>>();
-
-function isMeaningful(w: string): boolean {
-  return w.length > 2 && !/^\d+$/.test(w) && !STOP_WORDS.has(w) && !SEO_JUNK.has(w);
-}
 
 function record(term: string, weight: number, docId: number): void {
   termScores.set(term, (termScores.get(term) ?? 0) + weight);
@@ -184,6 +176,19 @@ for (const { term } of sortedTerms) {
   if (!term.includes(' ') && bigramWords.has(term)) continue;
   // Title-case for display
   entities.push(term.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '));
+}
+
+// Entity injection [#9]: fold in the vocabulary real users actually use (from
+// Reddit terminology) so the entity graph reflects user language — JWT, padding —
+// not just competitor SEO jargon. Deduped case-insensitively against existing
+// entities; capped with a small bonus over ENTITY_COUNT.
+const entityKeys = new Set(entities.map(e => e.toLowerCase()));
+for (const term of reddit.redditTerminology) {
+  if (entities.length >= ENTITY_COUNT + REDDIT_ENTITY_BONUS) break;
+  const key = term.topic.toLowerCase();
+  if (entityKeys.has(key)) continue;
+  entityKeys.add(key);
+  entities.push(term.topic);
 }
 
 console.log(`  Found ${entities.length} entities`);
@@ -298,6 +303,7 @@ const research: ResearchDocument = {
   competitorHeadings: competitorHeadings.slice(0, LIMITS.competitorHeadings),
   competitorFaqs,
   relatedTopics: relatedTopics.slice(0, LIMITS.relatedTopics),
+  ...reddit,
   generatedAt: new Date().toISOString(),
 };
 
