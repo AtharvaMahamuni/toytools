@@ -78,11 +78,30 @@ Each section must have:
 - 3–6 paragraphs of educational content
 - At least one `<ReferenceBlock>` per guide (can be in any section)
 
+**At least 3 of the guide's `<h2>` headings must be phrased as questions** (ending with `?`). Questions improve scannability, SEO, and GEO snippet extraction.
+
+Good question heading examples:
+- "Why Was Base64 Created?"
+- "How Does It Work?"
+- "Is Base64 Secure?"
+- "When Should You Use Title Case?"
+
 Good section topics to cover:
 - How the tool/concept works mechanically
 - When and why to use it (real-world contexts)
 - Variations or sub-types (e.g. different case styles, different calculation types)
 - Comparison with alternatives
+
+**Section writing formula — apply to every conceptual section:**
+
+1. **Direct answer first.** The opening sentence must directly state the answer or core fact. Keep it under 20 words. Do not start with "There are many…", "This can be…", "One of the…", or similar openers.
+2. **Explain in 2–4 short paragraphs.** Each paragraph covers one idea. Max 4 sentences per paragraph.
+3. **Include at least one example.** Use a concrete before/after, input/output, or real-world scenario. Mark it clearly:
+   ```astro
+   <p>For example: [specific scenario with real values, not hypothetical X or Y]</p>
+   ```
+4. **Add a comparison or contrast** where natural. "Unlike X, this approach does Y." Comparisons improve the interestingness score.
+5. **Use a `<ReferenceBlock>`** for the most important takeaway or a common mistake in this section.
 
 ### 3. Common Mistakes (required)
 ```astro
@@ -173,6 +192,149 @@ Always include the `heading` prop. The content should be 1–3 sentences inside 
 - **Concrete examples**: use specific numbers, names, and scenarios (not hypothetical "X" or "Y")
 - **Word count target**: 1,800–2,600 words across all sections
 - **No comments in the output**: do not add HTML or Astro comments explaining your choices
+
+---
+
+## Sentence and paragraph rules
+
+These are enforced by the Writing Intelligence Engine. Writing that violates them will score poorly in the audit.
+
+**Sentences:**
+- Ideal length: 10–18 words
+- Acceptable: up to 25 words
+- Never exceed 35 words. Split into two sentences instead.
+- Vary sentence length across paragraphs. Do not write 4 sentences of identical length in a row.
+
+**Paragraphs:**
+- Maximum 4 sentences per paragraph
+- One idea per paragraph
+- Always leave a blank line between paragraphs in the Astro source
+
+**Opening sentences after every `<h2>`:**
+- Must directly state the answer or core fact
+- Must be under 25 words
+- Must NOT start with: "There are many…", "There are several…", "This can be…", "One of the…", "In general…", "It depends…"
+
+**Flow between paragraphs:**
+- Use transition words at least once every 3 paragraphs: however, therefore, because, as a result, for example, in contrast, additionally, whereas, consequently, instead
+
+---
+
+## Words never to write
+
+The Writing Intelligence Engine penalises these. Avoid them entirely.
+
+**Jargon** (use the plain replacement):
+| Avoid | Use instead |
+|-------|------------|
+| utilize | use |
+| leverage | use |
+| facilitate | help |
+| streamline | simplify |
+| robust | reliable / solid |
+| comprehensive | complete / full |
+| synergy | (delete it) |
+| advanced | (be specific instead) |
+| powerful | (be specific instead) |
+| optimize | improve / tune |
+| ecosystem | (be specific: "tools", "libraries", "services") |
+
+**Hedging** (replace with direct statements when the claim is factual):
+- generally, typically, usually, often
+- may, might, perhaps, can sometimes, in many cases
+
+Exception: keep "may" or "might" only when the outcome is genuinely uncertain.
+
+**Fluff and boring openers** (delete on sight):
+- "In today's digital world…"
+- "It is important to note…"
+- "There are many reasons…"
+- "As we all know…"
+- "Without a doubt…"
+- "This guide will explain…"
+- "Benefits of…" (as a heading or opener)
+- "It is important to understand…"
+
+**Passive voice** (convert to active):
+- is encoded → [subject] encodes
+- was created → [subject] created
+- are generated → [subject] generates
+- is used → [subject] uses
+- is known → developers know / [subject] recognises
+
+Exception: leave passive voice when it is the natural idiom for a historical fact, e.g. "Base64 was defined in RFC 1341."
+
+---
+
+## First principles coverage checklist
+
+Every guide must cover all six. Check before finishing:
+
+- [ ] **What it is** — define the concept clearly in the Quick Answer or first conceptual section
+- [ ] **Why it matters** — explain the real-world problem it solves (not "it is useful because…")
+- [ ] **How it works** — explain the mechanism, not just the outcome
+- [ ] **Examples** — at least one concrete, worked example with real values (Input → Output or Before → After)
+- [ ] **Common mistakes** — at least one `<ReferenceBlock type="common-mistake">` per guide
+- [ ] **Comparisons** — at least one sentence comparing this with an alternative, variant, or related concept
+
+---
+
+## Entity and concept coverage
+
+Guides score higher when they naturally mention the key technical concepts users search alongside this tool. Cover these inline — not as a list, but woven into the prose.
+
+For developer tools (encoding, hashing, conversion):
+- Mention the underlying standard or RFC if one exists
+- Mention the data formats involved (ASCII, UTF-8, binary, hex, etc.)
+- Mention real-world contexts (APIs, JWTs, email, URLs, HTML, JSON)
+
+For text utilities (case conversion, counting, formatting):
+- Mention the naming conventions or style guides that define usage
+- Mention the programming languages or systems where each form appears
+
+For productivity tools (timers, notes, to-do):
+- Mention the research or technique the tool is based on (e.g. Pomodoro technique, cognitive offloading)
+- Mention browser storage mechanisms if the tool saves data (localStorage, sessionStorage)
+
+For number utilities (calculators, converters):
+- Mention the formula explicitly in prose or in an example
+- Mention the units and edge cases (zero, negative values, very large numbers)
+
+---
+
+## Interestingness — write at least one of these per guide
+
+The engine rewards content that teaches memorable concepts. Include at least one:
+
+- A common misconception that the guide corrects: "Many people think X. In fact, Y."
+- A surprising fact: "Surprisingly, Base64 makes data 33% larger, not smaller."
+- A comparison that reveals insight: "Unlike encryption, Base64 requires no key — anyone can reverse it."
+- A "myth vs. reality" framing inside a `<ReferenceBlock type="key-idea">`
+
+---
+
+## Built-in quality targets
+
+A guide written following this skill should score approximately:
+
+| Metric | Target |
+|--------|--------|
+| Overall Content Intelligence | ≥ 80/100 |
+| Writing Quality | ≥ 78/100 |
+| Usefulness | ≥ 85/100 |
+| SEO Completeness | ≥ 80/100 |
+| Clarity | ≥ 85/100 |
+| Teaching | ≥ 70/100 |
+| Confidence (low hedging) | ≥ 90/100 |
+| Jargon | ≥ 95/100 |
+| ToyTools Style Match | ≥ 82/100 |
+
+After writing, run the audit to verify:
+```bash
+cd seo-engine && npm run seo:writing-tool -- <slug>
+```
+
+If any category scores below its target, review the relevant section of this skill and apply the fix before finishing.
 
 ---
 
