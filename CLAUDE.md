@@ -15,6 +15,19 @@ ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run b
 
 `npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There are no separate lint or test scripts.
 
+## SEO Engine
+
+Local-first pipeline for researching and improving tool content quality. All commands run from the project root.
+
+| Command | Purpose |
+|---------|---------|
+| `npm run seo:research -- <slug>` | Fetch SERP + competitor pages + Reddit signals |
+| `npm run seo:extract -- <slug>` | Parse into structured `research/<slug>.json` |
+| `npm --prefix seo-engine run seo:writing-tool -- <slug>` | Audit Guide.astro + faq.ts quality (20 dimensions) |
+| `npm --prefix seo-engine run seo:writing -- <slug>` | Writing-only quality scan |
+
+See `.claude/skills/seo-engine.md` for the full pipeline, score interpretation, reddit workflow, and runbooks.
+
 ## Git workflow
 
 Always rebase against `origin/main`: `git rebase origin/main`
