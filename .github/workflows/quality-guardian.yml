@@ -1,0 +1,78 @@
+name: Quality Guardian
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 0'  # Sunday 3am UTC — weekly full audit
+
+env:
+  ASTRO_SITE: https://toytoolsapp.com
+
+jobs:
+  pr-quality-check:
+    name: PR Quality Check
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install quality-guardian dependencies
+        run: npm ci --prefix quality-guardian
+
+      - name: Build site
+        run: npm run build
+
+      - name: Run quality PR check
+        run: npm run quality:pr
+
+      - name: Upload quality report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-report-pr
+          path: quality-guardian/reports/
+
+  weekly-full-audit:
+    name: Weekly Full Audit
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install quality-guardian dependencies
+        run: npm ci --prefix quality-guardian
+
+      - name: Install Lighthouse (weekly only)
+        run: npm install --prefix quality-guardian lighthouse
+
+      - name: Build site
+        run: npm run build
+
+      - name: Run weekly full audit
+        run: npm run quality:weekly
+        continue-on-error: true  # never fail deployment on weekly audit
+
+      - name: Upload quality report
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-report-weekly
+          path: quality-guardian/reports/

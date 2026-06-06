@@ -12,7 +12,7 @@ const categoryDefs: Omit<Category, 'toolCount'>[] = [
   {
     slug: 'number-utilities',
     name: 'Number Utilities',
-    description: 'Convert, format, and calculate numeric values.',
+    description: 'Convert, format, and calculate numeric values quickly.',
     accent: '#C89B3C',
     segment: 'number',
   },
@@ -26,7 +26,7 @@ const categoryDefs: Omit<Category, 'toolCount'>[] = [
   {
     slug: 'productivity',
     name: 'Productivity',
-    description: 'Simple tools to help you focus, plan, and finish.',
+    description: 'Simple tools to help you focus, plan, and get things done.',
     accent: '#16A34A',
     segment: 'productivity',
   },

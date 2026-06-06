@@ -16,7 +16,9 @@
     "seo:validate": "npm --prefix seo-engine run seo:validate",
     "seo:audit": "npm --prefix seo-engine run seo:audit",
     "seo:scaffold": "npm --prefix seo-engine run seo:scaffold --",
-    "seo:typecheck": "npm --prefix seo-engine run seo:typecheck"
+    "seo:typecheck": "npm --prefix seo-engine run seo:typecheck",
+    "quality:pr": "npm --prefix quality-guardian run quality:pr",
+    "quality:weekly": "npm --prefix quality-guardian run quality:weekly"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",

@@ -1,0 +1,22 @@
+{
+  "name": "quality-guardian",
+  "version": "1.0.0",
+  "description": "Post-build quality validation engine for ToyTools",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "quality:pr": "tsx index.ts pr",
+    "quality:weekly": "tsx index.ts weekly",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  }
+}
