@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://atharvamahamuni.github.io/toytools/sitemap-index.xml
