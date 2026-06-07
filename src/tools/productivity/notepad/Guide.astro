@@ -18,7 +18,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tools/${category.segment}/${config.slug}/`);
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 

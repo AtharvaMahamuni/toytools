@@ -15,6 +15,10 @@ ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run b
 
 `npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There are no separate lint or test scripts.
 
+## Analytics
+
+Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.astro`. The tag ID is `G-WHD7CL44MX`. Since all pages go through `BaseLayout`, no further action is needed when adding new pages or tool types — the tag is inherited automatically. Do **not** add a second `gtag` snippet to individual pages or layouts.
+
 ## SEO Engine
 
 Local-first pipeline for researching and improving tool content quality. All commands run from the project root.
