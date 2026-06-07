@@ -1,0 +1,39 @@
+# ToyTools Changelog
+
+All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
+
+## [alpha-v1.0] - 2026-06-07
+
+### Changed
+- Major UI revamp under progress — comprehensive design system updates
+
+### Info
+- New text utilities now available
+
+## [alpha-v0.2.0] - 2026-06-08
+
+### Added
+- Text processor system for transform/cleanup operations
+- Per-case converter tools (uppercase, lowercase, title-case, sentence-case, camel-case, snake-case, kebab-case)
+- Text cleanup tools (remove extra spaces, blank lines, duplicates, trim, normalize whitespace, remove tabs)
+- Shared `TextProcessorWidget` component for consistent UI
+
+### Fixed
+- WCAG AA contrast failures across text tokens, navigation, and badges
+- Improved color token compliance with accessibility standards
+
+### Changed
+- Lengthened 4 tool meta descriptions to meet 50-character minimum for SEO
+
+## [alpha-v0.1.0] - 2026-01-15
+
+### Added
+- Initial public release
+- Text analysis tools (word counter, character counter, sentence counter, paragraph counter, reading time)
+- Developer tools (Base64 encoder/decoder)
+- Productivity tools (todo list, notepad, keep-screen-awake, pomodoro timer)
+- Number utilities (percentage calculator)
+- Dark mode support
+- Analytics integration (GA4)
+- Responsive design with mobile-first approach
+- SEO pipeline (research, extraction, auditing)

@@ -11,6 +11,8 @@
     "test": "vitest run",
     "preview": "astro preview",
     "astro": "astro",
+    "version:bump": "npx tsx scripts/bump-version.ts",
+    "version:show": "node -e \"console.log(require('./src/lib/version.ts').APP_VERSION)\"",
     "seo:research": "npm --prefix seo-engine run seo:research --",
     "seo:fetch": "npm --prefix seo-engine run seo:fetch --",
     "seo:extract": "npm --prefix seo-engine run seo:extract --",
