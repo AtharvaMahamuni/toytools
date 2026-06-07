@@ -28,6 +28,8 @@ export interface FaqConfig {
   description?: string;
 }
 
+export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';
+
 export interface ToolConfig {
   slug: string;
   name: string;
@@ -39,6 +41,20 @@ export interface ToolConfig {
   updatedAt?: string;
   guide?: GuideConfig;
   faq?: FaqConfig;
+  // Platform metadata — drives related tools, patterns, and future discovery
+  engine?: string;           // e.g. 'text-analysis'
+  pattern?: string;          // e.g. 'text-metric' | 'text-transform'
+  family?: string;           // e.g. 'text-counting' | 'text-case'
+  keywords?: string[];       // extra search/command-palette terms (architecture metadata, not SEO copy)
+  inputs?: string[];         // descriptor of input types, e.g. ['text'] | ['number','number']
+  outputs?: string[];        // descriptor of output types, e.g. ['metric'] | ['text']
+  primaryMetric?: {
+    metric: string;
+    label: string;
+    formatter: MetricFormatter;
+  };
+  status?: 'stable' | 'beta';
+  relatedPriority?: number;  // manual sort override for related tools
 }
 
 // Backward-compat alias — existing consumers (ToolCard, ToolLayout, search, etc.) use Tool with no changes

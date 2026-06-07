@@ -1,0 +1,44 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { config } from './config';
+import { items as faqItems } from './faq';
+import { withBase } from '@lib/paths';
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<TextMetricWidget
+  slug="word-counter"
+  emptyMessage="Paste or type text to count words."
+  stats={[
+    { metric: 'words',            label: 'Words',                formatter: 'integer' },
+    { metric: 'characters',       label: 'Characters',           formatter: 'integer' },
+    { metric: 'sentences',        label: 'Sentences',            formatter: 'integer' },
+    { metric: 'paragraphs',       label: 'Paragraphs',           formatter: 'integer' },
+    { metric: 'readingTime',      label: 'Reading Time',         formatter: 'duration' },
+    { metric: 'uniqueWords',      label: 'Unique Words',         formatter: 'integer' },
+  ]}
+/>
+
+<ToolSection heading="How it works">
+  <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>
+  {guideHref && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → How To Count Words In Your Writing</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}

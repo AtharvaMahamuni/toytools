@@ -48,11 +48,16 @@ function getCategoryName(slug: string): string {
 
   <section class="section">
     <h2 class="section-heading">Popular tools</h2>
-    <div class="tool-grid">
+    <div class="tool-grid" id="popular-grid">
       {tools.map(tool => (
         <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
       ))}
     </div>
+  </section>
+
+  <section class="section" id="recent-section" hidden>
+    <h2 class="section-heading">Recent tools</h2>
+    <div class="tool-grid" id="recent-grid"></div>
   </section>
 
   <section class="section">
@@ -69,6 +74,24 @@ function getCategoryName(slug: string): string {
     <span class="gold-dot" aria-hidden="true"></span>
     <span>{tools.length} Tools</span>
   </p>
+
+  <script is:inline>
+    (function () {
+      var recent = (window.ToyTools && ToyTools.getRecent) ? ToyTools.getRecent() : [];
+      if (!recent.length) return;
+      var popular = document.getElementById('popular-grid');
+      var grid = document.getElementById('recent-grid');
+      var section = document.getElementById('recent-section');
+      if (!popular || !grid || !section) return;
+      var added = 0;
+      recent.forEach(function (entry) {
+        if (added >= 5 || !entry || !entry.slug) return;
+        var card = popular.querySelector('.tool-card[data-slug="' + entry.slug + '"]');
+        if (card) { grid.appendChild(card.cloneNode(true)); added++; }
+      });
+      if (added > 0) section.hidden = false;
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -105,7 +128,7 @@ function getCategoryName(slug: string): string {
   .category-grid,
   .tool-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: var(--space-4);
   }
 

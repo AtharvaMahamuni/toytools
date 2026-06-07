@@ -66,16 +66,40 @@ Spacing scale uses `--space-{n}` where n is 1–16. Common values:
 
 ### Layout widths
 ```css
---width-tool      /* 800px — tool and FAQ pages */
---width-category  /* 1200px — category pages, homepage */
---width-nav       /* Navigation max-width */
+--width-shell     /* 1440px — chrome (nav/footer), home, category, <main> ceiling */
+--width-content   /* 1100px — tool pages and 2-column splits */
+--width-prose     /* 72ch  — guide reading measure */
+--width-tool      /* 820px  — FAQ pages and narrow forms */
+--width-category  /* alias of --width-shell (legacy) */
+--width-nav       /* alias of --width-shell (chrome) */
 ```
 
-Set via `maxWidth` prop on `BaseLayout`:
+Set via `maxWidth` prop on `BaseLayout` (`'shell' | 'content' | 'tool' | 'full'`; `'category'` aliases shell):
 ```astro
-<BaseLayout maxWidth="tool">    <!-- 800px -->
-<BaseLayout maxWidth="category"> <!-- 1200px -->
+<BaseLayout maxWidth="shell">    <!-- 1440px — home, category, chrome -->
+<BaseLayout maxWidth="content">  <!-- 1100px — tool pages, guides -->
+<BaseLayout maxWidth="tool">     <!-- 820px  — FAQ, narrow forms -->
 ```
+
+**Wide ≠ unreadable:** the shell widens to fill side gutters, but prose stays at `--width-prose`
+(~72ch) and `p { max-width: 65ch }` caps raw text. Only the *interactive* surface uses full width.
+
+### Two-column tools (`ToolSplit`)
+`src/tools/_shared/ToolSplit.astro` — desktop input-left / output-right, sticky output, stacks at
+**1024px**. Props `ratio` (`1-1|3-2|3-1`), `stackOrder` (`input-first|output-first`), `stickyOutput`.
+Answer-first tools (text metrics) stack output-first on mobile; transform tools stack input-first.
+Live tools (case, percentage) update on input — no submit button.
+
+### Action buttons & state colour
+All tool buttons (`.action-btn`, defined in `tool-widget.css`) are transparent utility controls.
+Colour communicates **state only**: Copy → `--color-success(-bg)` "✓ Copied" (2s); Clear → two-click
+`--color-danger(-bg)` "Confirm Clear" (3s auto-revert). Never fill a button with accent for emphasis.
+
+### Persistence & platform globals
+`ToyTools.state.save/load/clear(toolId, data)` — versioned `toytools:{toolId}` JSON, never throws,
+restore on load. `ToyTools.recordRecent/getRecent` — recent-tools list. Global shortcuts: `/` search,
+`Esc` blur, `Ctrl/Cmd+Shift+C/X` copy/clear. `CategoryDiscovery.astro` cross-links each output to its
+category. See `ARCHITECTURE.md` for the full reference.
 
 ### Interaction
 ```css

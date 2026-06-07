@@ -9,7 +9,7 @@ interface Props {
   title: string;
   description: string;
   canonicalUrl?: string;
-  maxWidth?: 'tool' | 'category' | 'full';
+  maxWidth?: 'tool' | 'content' | 'shell' | 'category' | 'full';
   robots?: string;
 }
 
@@ -26,7 +26,8 @@ const canonical = canonicalUrl ?? Astro.url.href;
 
 const maxWidthVar =
   maxWidth === 'tool' ? 'var(--width-tool)' :
-  maxWidth === 'category' ? 'var(--width-category)' :
+  maxWidth === 'content' ? 'var(--width-content)' :
+  maxWidth === 'shell' || maxWidth === 'category' ? 'var(--width-shell)' :
   'none';
 ---
 

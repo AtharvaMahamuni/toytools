@@ -1,0 +1,145 @@
+---
+interface Props {
+  copyTarget?: string;
+  clearTarget?: string;
+  pasteTarget?: string;
+  downloadFilename?: string;
+}
+
+const { copyTarget, clearTarget, pasteTarget, downloadFilename } = Astro.props;
+const hasAny = copyTarget || clearTarget || pasteTarget;
+---
+
+{hasAny && (
+  <div class="tool-actions">
+    {pasteTarget && (
+      <button
+        class="action-btn action-btn--paste"
+        data-action="paste"
+        data-target={pasteTarget}
+        data-label="Paste"
+        aria-label="Paste from clipboard"
+      >
+        Paste
+      </button>
+    )}
+    {copyTarget && (
+      <button
+        class="action-btn action-btn--copy"
+        data-action="copy"
+        data-target={copyTarget}
+        data-label="Copy"
+        aria-label="Copy text to clipboard"
+      >
+        Copy
+      </button>
+    )}
+    {clearTarget && (
+      <button
+        class="action-btn action-btn--clear"
+        data-action="clear"
+        data-target={clearTarget}
+        data-label="Clear"
+        aria-label="Clear text"
+      >
+        Clear
+      </button>
+    )}
+    {downloadFilename && clearTarget && (
+      <button
+        class="action-btn action-btn--download"
+        data-action="download"
+        data-target={clearTarget}
+        data-filename={downloadFilename}
+        data-label="Download"
+        aria-label={`Download as ${downloadFilename}`}
+      >
+        Download
+      </button>
+    )}
+  </div>
+)}
+
+<script>
+  const timers = new WeakMap<HTMLElement, number>();
+
+  function resetButton(btn: HTMLElement) {
+    const existing = timers.get(btn);
+    if (existing) { clearTimeout(existing); timers.delete(btn); }
+    btn.classList.remove('is-success', 'is-confirming');
+    const label = btn.dataset.label;
+    if (label) btn.textContent = label;
+  }
+
+  function arm(btn: HTMLElement, cls: string, text: string, ms: number) {
+    const existing = timers.get(btn);
+    if (existing) clearTimeout(existing);
+    btn.classList.add(cls);
+    btn.textContent = text;
+    timers.set(btn, window.setTimeout(() => resetButton(btn), ms));
+  }
+
+  document.addEventListener('click', (e: MouseEvent) => {
+    const btn = (e.target as Element)?.closest<HTMLElement>('[data-action]');
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const targetId = btn.dataset.target;
+    const target = targetId
+      ? (document.getElementById(targetId) as HTMLTextAreaElement | null)
+      : null;
+    const TT = (window as any).ToyTools;
+
+    if (action === 'clear') {
+      if (!btn.classList.contains('is-confirming')) {
+        arm(btn, 'is-confirming', 'Confirm Clear', 3000);
+        return;
+      }
+      resetButton(btn);
+      if (target) {
+        target.value = '';
+        target.dispatchEvent(new Event('input'));
+        target.focus();
+      }
+      return;
+    }
+
+    if (action === 'copy' && target) {
+      if (!target.value.trim()) { TT?.toast('Nothing to copy!'); return; }
+      TT?.copy(target.value);
+      arm(btn, 'is-success', '✓ Copied', 2000);
+      return;
+    }
+
+    if (action === 'paste' && target) {
+      if (!navigator.clipboard?.readText) { TT?.toast('Paste not supported here'); return; }
+      navigator.clipboard.readText().then((text) => {
+        target.value = text;
+        target.dispatchEvent(new Event('input'));
+        target.focus();
+      }).catch(() => TT?.toast('Paste failed — check clipboard permissions'));
+      return;
+    }
+
+    if (action === 'download' && target) {
+      const text = target.value;
+      if (!text.trim()) { TT?.toast('Nothing to download!'); return; }
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = btn.dataset.filename ?? 'text.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  });
+
+  // Disarm a confirming Clear button when clicking elsewhere
+  document.addEventListener('click', (e: MouseEvent) => {
+    const armed = document.querySelector<HTMLElement>('.action-btn--clear.is-confirming');
+    if (!armed) return;
+    if (!(e.target as Element)?.closest('.action-btn--clear')) resetButton(armed);
+  });
+</script>

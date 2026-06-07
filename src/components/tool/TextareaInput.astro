@@ -1,0 +1,18 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  placeholder?: string;
+}
+
+const { id, label, placeholder = 'Paste or type text here…' } = Astro.props;
+---
+
+<label class="widget-label" for={id}>{label}</label>
+<textarea
+  id={id}
+  class="widget-textarea"
+  rows="10"
+  placeholder={placeholder}
+  oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"
+></textarea>

@@ -1,0 +1,17 @@
+---
+import type { MetricFormatter } from '@data/types';
+
+interface Props {
+  metric: string;
+  label: string;
+  formatter?: MetricFormatter;
+  initialValue?: string;
+}
+
+const { metric, label, formatter = 'integer', initialValue = '0' } = Astro.props;
+---
+
+<div>
+  <span class="metric-value" data-metric={metric} data-formatter={formatter}>{initialValue}</span>
+  <span class="metric-label">{label}</span>
+</div>

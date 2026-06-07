@@ -1,8 +1,19 @@
 ---
 // Shared client-side runtime — inlined once in BaseLayout.
 // Exposes window.ToyTools global so all Widget inline scripts can call
-// ToyTools.toast(), ToyTools.storage.get/set/clear(), ToyTools.copy().
+// ToyTools.toast(), ToyTools.storage.get/set/clear(), ToyTools.copy(),
+// ToyTools.analyze(), ToyTools.formatMetric().
 ---
+
+<!-- Bundled: attaches text engine to the ToyTools global (single source of truth) -->
+<script>
+  import { analyzeText } from '@lib/text/analysis';
+  import { formatMetric } from '@lib/text/formatters';
+  const TT = ((window as any).ToyTools ??= {});
+  TT.analyze = analyzeText;
+  TT.formatMetric = formatMetric;
+</script>
+
 <script is:inline>
 (function (TT) {
   var _toastTimer;
@@ -35,6 +46,48 @@
     clear: function (key) {
       try { localStorage.removeItem(key); } catch (_) {}
     }
+  };
+
+  // Versioned per-tool state: one JSON envelope per tool under "toytools:{toolId}".
+  // Never throws; corruption or a version mismatch yields null (caller uses defaults).
+  TT.state = {
+    PREFIX: 'toytools:',
+    VERSION: 1,
+    save: function (toolId, data) {
+      try { localStorage.setItem(TT.state.PREFIX + toolId, JSON.stringify({ v: TT.state.VERSION, data: data })); } catch (_) {}
+    },
+    load: function (toolId) {
+      try {
+        var raw = localStorage.getItem(TT.state.PREFIX + toolId);
+        if (!raw) return null;
+        var parsed = JSON.parse(raw);
+        if (parsed && parsed.v === TT.state.VERSION) return parsed.data;
+        return null;
+      } catch (_) { return null; }
+    },
+    clear: function (toolId) {
+      try { localStorage.removeItem(TT.state.PREFIX + toolId); } catch (_) {}
+    }
+  };
+
+  // Recent tools — deduped, most-recent-first, capped at 10.
+  TT.recordRecent = function (slug, category) {
+    try {
+      var KEY = 'toytools:recent-tools';
+      var list = [];
+      try { list = JSON.parse(localStorage.getItem(KEY)) || []; } catch (_) {}
+      if (!Array.isArray(list)) list = [];
+      list = list.filter(function (e) { return e && e.slug !== slug; });
+      list.unshift({ slug: slug, category: category, lastUsed: Date.now() });
+      if (list.length > 10) list = list.slice(0, 10);
+      localStorage.setItem(KEY, JSON.stringify(list));
+    } catch (_) {}
+  };
+  TT.getRecent = function () {
+    try {
+      var list = JSON.parse(localStorage.getItem('toytools:recent-tools')) || [];
+      return Array.isArray(list) ? list : [];
+    } catch (_) { return []; }
   };
 
   // Focus controls — Full Screen, Remove Distractions, Keep Awake (Wake Lock).
@@ -167,6 +220,36 @@
     }
     TT.toast('Copied!');
   };
+
+  // ── Global keyboard shortcuts ─────────────────────────────────────────
+  // "/" focuses search; Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the
+  // primary Copy/Clear actions. Never hijacks normal typing (except Esc-to-blur).
+  function isTyping(el) {
+    if (!el) return false;
+    var tag = el.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && !isTyping(document.activeElement) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      var q = document.getElementById('q');
+      if (q) { e.preventDefault(); q.focus(); }
+      return;
+    }
+    if (e.key === 'Escape' && isTyping(document.activeElement)) {
+      document.activeElement.blur();
+      return;
+    }
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey) {
+      var k = (e.key || '').toLowerCase();
+      if (k === 'c') {
+        var copyBtn = document.querySelector('[data-action="copy"], #pct-copy');
+        if (copyBtn) { e.preventDefault(); copyBtn.click(); }
+      } else if (k === 'x') {
+        var clearBtn = document.querySelector('[data-action="clear"], #pct-clear');
+        if (clearBtn) { e.preventDefault(); clearBtn.click(); clearBtn.click(); }
+      }
+    }
+  });
 
 })(window.ToyTools = window.ToyTools || {});
 </script>

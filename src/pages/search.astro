@@ -32,7 +32,7 @@ function getCategoryName(slug: string): string {
       {tools.map(tool => (
         <article
           data-search-item
-          data-search={`${tool.name} ${tool.description} ${tool.tags.join(' ')} ${getCategoryName(tool.categorySlug)}`.toLowerCase()}
+          data-search={`${tool.name} ${tool.description} ${tool.tags.join(' ')} ${(tool.keywords ?? []).join(' ')} ${tool.family ?? ''} ${getCategoryName(tool.categorySlug)}`.toLowerCase()}
         >
           <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
         </article>
@@ -91,7 +91,7 @@ function getCategoryName(slug: string): string {
 
   .tool-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: var(--space-4);
   }
 

@@ -1,0 +1,17 @@
+---
+interface Props {
+  message?: string;
+}
+
+const { message = 'Paste or type text to begin.' } = Astro.props;
+---
+
+<p class="empty-state">{message}</p>
+
+<style>
+  .empty-state {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    padding-block: var(--space-4);
+  }
+</style>

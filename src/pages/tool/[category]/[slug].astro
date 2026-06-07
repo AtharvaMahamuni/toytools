@@ -1,0 +1,57 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ToolLayout from '@layouts/ToolLayout.astro';
+import EcosystemLinks from '@components/EcosystemLinks.astro';
+import RelatedTools from '@components/tool/RelatedTools.astro';
+import { tools }      from '@data/registry';
+import { categories } from '@data/categories';
+import { getRelatedTools } from '@lib/tools/related';
+
+export const getStaticPaths = (() => {
+  return tools.map(tool => {
+    const category = categories.find(c => c.slug === tool.categorySlug);
+    if (!category) throw new Error(`Category "${tool.categorySlug}" not found for tool "${tool.slug}"`);
+    return {
+      params: { category: category.segment, slug: tool.slug },
+      props:  { tool, category },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { tool, category } = Astro.props;
+
+const relatedTools = getRelatedTools(tool, tools);
+
+// Discover all Widget.astro files — glob resolves at build time, key lookup picks the right one
+const widgets = import.meta.glob<{ default: unknown }>('../../../tools/*/*/Widget.astro');
+const widgetPath = `../../../tools/${category.segment}/${tool.slug}/Widget.astro`;
+const WidgetModule = await widgets[widgetPath]?.();
+const Widget = WidgetModule?.default as any;
+if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"`);
+---
+
+<ToolLayout tool={tool} category={category}>
+  <Widget />
+
+  {(tool.guide || tool.faq) && (
+    <section class="content-section">
+      <EcosystemLinks
+        currentType="tool"
+        toolSlug={tool.slug}
+        toolCategorySegment={category.segment}
+        toolName={tool.name}
+        entry={tool}
+      />
+    </section>
+  )}
+
+  <RelatedTools tools={relatedTools} category={category} />
+</ToolLayout>
+
+<style>
+  .content-section {
+    padding-top: var(--space-10);
+    border-top: var(--border);
+    margin-top: var(--space-8);
+  }
+</style>

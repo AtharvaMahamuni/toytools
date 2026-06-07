@@ -1,0 +1,22 @@
+---
+import type { MetricFormatter } from '@data/types';
+import StatCard from './StatCard.astro';
+
+interface StatDef {
+  metric: string;
+  label: string;
+  formatter?: MetricFormatter;
+}
+
+interface Props {
+  stats: StatDef[];
+}
+
+const { stats } = Astro.props;
+---
+
+<div class="metric-grid" aria-live="polite">
+  {stats.map(s => (
+    <StatCard metric={s.metric} label={s.label} formatter={s.formatter} />
+  ))}
+</div>

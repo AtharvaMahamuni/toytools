@@ -10,7 +10,7 @@ const { category } = Astro.props;
 ---
 
 <a
-  href={withBase(`/categories/${category.slug}/`)}
+  href={withBase(`/category/${category.slug}/`)}
   class="category-card"
   style={category.accent ? `--card-accent: ${category.accent}` : ''}
 >

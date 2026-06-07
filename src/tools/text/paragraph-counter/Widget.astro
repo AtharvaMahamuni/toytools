@@ -1,0 +1,19 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+---
+
+<TextMetricWidget
+  slug="paragraph-counter"
+  emptyMessage="Paste or type text to count paragraphs."
+  stats={[
+    { metric: 'paragraphs', label: 'Paragraphs', formatter: 'integer' },
+    { metric: 'sentences',  label: 'Sentences',  formatter: 'integer' },
+    { metric: 'words',      label: 'Words',      formatter: 'integer' },
+    { metric: 'lines',      label: 'Lines',      formatter: 'integer' },
+  ]}
+/>
+
+<ToolSection heading="How it works">
+  <p>Paragraphs are separated by one or more blank lines. Lines are counted individually. All calculations run locally in your browser without sending content anywhere.</p>
+</ToolSection>

@@ -1,0 +1,189 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import TrustNotice from '@components/tool/TrustNotice.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { config } from './config';
+import { items as faqItems } from './faq';
+import { withBase } from '@lib/paths';
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<TrustNotice variant="private" />
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={true}>
+  <div slot="input" data-tool="percentage-calculator">
+    <label class="widget-label" for="percentage-mode">Calculation</label>
+    <select id="percentage-mode" class="widget-select">
+      <option value="of">What is A% of B?</option>
+      <option value="change">Percentage change from A to B</option>
+      <option value="is">A is what percent of B?</option>
+    </select>
+    <label class="widget-label" for="percentage-a">A</label>
+    <input id="percentage-a" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 20" />
+    <label class="widget-label" for="percentage-b">B</label>
+    <input id="percentage-b" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 150" />
+    <div class="tool-actions">
+      <button class="action-btn action-btn--clear" id="pct-clear" data-label="Clear" type="button">Clear</button>
+    </div>
+  </div>
+
+  <div slot="output">
+    <div class="hero-panel">
+      <span class="hero-value" id="pct-value">0</span>
+      <span class="hero-label">Result</span>
+      <p class="empty-hint" id="pct-hint">Enter values to calculate.</p>
+      <p class="pct-formula" id="pct-formula" hidden></p>
+    </div>
+    <div class="tool-actions">
+      <button class="action-btn action-btn--copy" id="pct-copy" data-label="Copy" type="button">Copy</button>
+    </div>
+  </div>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug="percentage-calculator" />
+
+<ToolSection heading="How it works">
+  <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>
+  {guideHref && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → How To Calculate Percentages</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}
+
+<script is:inline>
+  (function () {
+    var modeEl = document.getElementById('percentage-mode');
+    var aEl = document.getElementById('percentage-a');
+    var bEl = document.getElementById('percentage-b');
+    var valueEl = document.getElementById('pct-value');
+    var hintEl = document.getElementById('pct-hint');
+    var formulaEl = document.getElementById('pct-formula');
+    var copyBtn = document.getElementById('pct-copy');
+    var clearBtn = document.getElementById('pct-clear');
+    if (!modeEl || !aEl || !bEl || !valueEl) return;
+
+    var TT = window.ToyTools;
+    var lastResult = '';
+
+    function show(value, formula) {
+      lastResult = value;
+      valueEl.textContent = value;
+      if (hintEl) hintEl.hidden = true;
+      if (formulaEl) {
+        formulaEl.textContent = formula || '';
+        formulaEl.hidden = !formula;
+      }
+    }
+
+    function showEmpty(message) {
+      lastResult = '';
+      valueEl.textContent = '0';
+      if (hintEl) { hintEl.textContent = message || 'Enter values to calculate.'; hintEl.hidden = false; }
+      if (formulaEl) formulaEl.hidden = true;
+    }
+
+    function calc() {
+      var mode = modeEl.value;
+      var aRaw = aEl.value, bRaw = bEl.value;
+      if (aRaw === '' || bRaw === '') { showEmpty('Enter values to calculate.'); return; }
+      var a = Number(aRaw), b = Number(bRaw);
+      if (!Number.isFinite(a) || !Number.isFinite(b)) { showEmpty('Enter valid numbers.'); return; }
+      if (mode === 'change' && a === 0) { showEmpty('First value cannot be zero.'); return; }
+      if (mode === 'is' && b === 0) { showEmpty('Second value cannot be zero.'); return; }
+
+      var result, formula;
+      if (mode === 'of') {
+        result = (a / 100) * b;
+        formula = a + '% of ' + b;
+      } else if (mode === 'change') {
+        result = ((b - a) / a) * 100;
+        formula = 'Change from ' + a + ' to ' + b + ' (%)';
+      } else {
+        result = (a / b) * 100;
+        formula = a + ' is this % of ' + b;
+      }
+      show(Number(result.toFixed(6)).toString() + (mode === 'of' ? '' : '%'), formula);
+    }
+
+    function persist() {
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save('percentage-calculator', { mode: modeEl.value, values: { a: aEl.value, b: bEl.value } });
+    }
+
+    // Restore
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('percentage-calculator');
+      if (saved) {
+        if (saved.mode) modeEl.value = saved.mode;
+        if (saved.values) { if (saved.values.a != null) aEl.value = saved.values.a; if (saved.values.b != null) bEl.value = saved.values.b; }
+      }
+    } catch (_) {}
+
+    modeEl.addEventListener('change', function () { calc(); persist(); });
+    aEl.addEventListener('input', function () { calc(); persist(); });
+    bEl.addEventListener('input', function () { calc(); persist(); });
+
+    // Copy with success state
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(lastResult);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+
+    // Two-click confirm clear (both fields)
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      resetClear();
+      aEl.value = ''; bEl.value = '';
+      calc(); persist();
+      aEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#pct-clear')) resetClear();
+    });
+
+    calc();
+  })();
+</script>
+
+<style>
+  .pct-formula {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    margin-top: var(--space-3);
+    max-width: unset;
+  }
+</style>

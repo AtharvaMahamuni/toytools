@@ -1,0 +1,111 @@
+---
+interface Props {
+  variant?: 'private' | 'offline' | 'local';
+}
+
+const { variant = 'private' } = Astro.props;
+
+const notices = {
+  private: {
+    badge: 'Private ● Runs entirely in your browser',
+    toast: 'Your text never leaves your device — no account, no upload.',
+  },
+  offline: {
+    badge: 'Offline ● Works without internet after loading',
+    toast: 'Works offline after the first page load.',
+  },
+  local: {
+    badge: 'Local ● Data stored only on this device',
+    toast: 'No sync, no cloud. Your data stays on this device.',
+  },
+} as const;
+
+const notice = notices[variant];
+
+const tooltipLines: Record<string, string[]> = {
+  private: [
+    'Your text never leaves your device.',
+    'No account required.',
+    'No data uploaded.',
+    'Nothing stored unless you choose to save it.',
+  ],
+  offline: ['After the first page load, no network connection is needed.'],
+  local:   ['No sync, no cloud. Your data stays on this device.'],
+};
+
+const lines = tooltipLines[variant];
+---
+
+<span class="trust-wrap" data-toast={notice.toast} tabindex="0" role="note" aria-label={notice.badge}>
+  <span class="trust-badge">{notice.badge}</span>
+  <span class="trust-tooltip" role="tooltip">
+    {lines.map(l => <span class="trust-tooltip-line">{l}</span>)}
+  </span>
+</span>
+
+<style>
+  .trust-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    cursor: default;
+    outline: none;
+  }
+
+  .trust-wrap:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .trust-badge {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .trust-tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: var(--z-raised);
+    width: max-content;
+    max-width: min(280px, 90vw);
+    padding: 8px 12px;
+    background: var(--color-bg);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    font-size: 12px;
+    color: var(--color-text);
+    line-height: 1.5;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+    white-space: normal;
+  }
+
+  .trust-tooltip-line {
+    display: block;
+  }
+
+  /* Only reveal the card on true pointer devices. Touch devices get the
+     toast instead (via ToyTools.mobileTooltip) — this prevents the CSS
+     :hover state from sticking open after a tap on mobile. */
+  @media (hover: hover) and (pointer: fine) {
+    .trust-wrap:hover .trust-tooltip,
+    .trust-wrap:focus-visible .trust-tooltip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    if (!window.ToyTools) return;
+    document.querySelectorAll('.trust-wrap').forEach(function (wrap) {
+      ToyTools.mobileTooltip(wrap, wrap.dataset.toast);
+    });
+  })();
+</script>
