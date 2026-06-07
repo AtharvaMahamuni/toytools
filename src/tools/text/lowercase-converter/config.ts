@@ -1,0 +1,28 @@
+import type { ToolConfig } from '@data/types';
+
+export const config: ToolConfig = {
+  slug: 'lowercase-converter',
+  name: 'Lowercase Converter',
+  seoTitle: 'Lowercase Converter — Convert Text To lowercase Online',
+  description: 'Convert any text to lowercase instantly in your browser — paste, convert, and copy with no uploads.',
+  categorySlug: 'text-utilities',
+  tags: ['lowercase', 'lowercase converter', 'convert to lowercase', 'small letters', 'text to lowercase', 'make text lowercase', 'uncapitalize text'],
+  updatedAt: '2026-06-07',
+  engine: 'text-processor',
+  pattern: 'text-transform',
+  family: 'transform',
+  processorId: 'lowercase',
+  guide: {
+    slug: 'how-to-convert-text-to-lowercase',
+    categorySlug: 'text',
+    title: 'How To Convert Text To Lowercase',
+    description: 'Learn what lowercase means, where lowercase text is required, and how to convert text to lowercase in one step.',
+    readMinutes: 3,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'lowercase-converter',
+    categorySlug: 'text',
+    description: 'Answers to common questions about converting text to lowercase.',
+  },
+};

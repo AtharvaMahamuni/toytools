@@ -9,9 +9,11 @@
 <script>
   import { analyzeText } from '@lib/text/analysis';
   import { formatMetric } from '@lib/text/formatters';
+  import { runProcessor } from '@lib/text/processors/registry';
   const TT = ((window as any).ToyTools ??= {});
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
+  TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
 </script>
 
 <script is:inline>

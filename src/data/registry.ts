@@ -4,7 +4,21 @@ import { config as characterCounter }      from '@tools/text/character-counter/c
 import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
 import { config as sentenceCounter }       from '@tools/text/sentence-counter/config';
 import { config as paragraphCounter }      from '@tools/text/paragraph-counter/config';
-import { config as caseConverter }         from '@tools/text/case-converter/config';
+// Text processor engine — transform family
+import { config as uppercaseConverter }    from '@tools/text/uppercase-converter/config';
+import { config as lowercaseConverter }    from '@tools/text/lowercase-converter/config';
+import { config as titleCaseConverter }    from '@tools/text/title-case-converter/config';
+import { config as sentenceCaseConverter } from '@tools/text/sentence-case-converter/config';
+import { config as camelCaseConverter }    from '@tools/text/camel-case-converter/config';
+import { config as snakeCaseConverter }    from '@tools/text/snake-case-converter/config';
+import { config as kebabCaseConverter }    from '@tools/text/kebab-case-converter/config';
+// Text processor engine — cleanup family
+import { config as removeExtraSpaces }     from '@tools/text/remove-extra-spaces/config';
+import { config as removeBlankLines }      from '@tools/text/remove-blank-lines/config';
+import { config as removeDuplicateLines }  from '@tools/text/remove-duplicate-lines/config';
+import { config as trimText }              from '@tools/text/trim-text/config';
+import { config as normalizeWhitespace }   from '@tools/text/normalize-whitespace/config';
+import { config as removeTabs }            from '@tools/text/remove-tabs/config';
 import { config as percentageCalculator }  from '@tools/number/percentage-calculator/config';
 import { config as todoList }              from '@tools/productivity/todo-list/config';
 import { config as notepad }              from '@tools/productivity/notepad/config';
@@ -19,7 +33,19 @@ export const tools: ToolConfig[] = [
   readingTimeCalculator,
   sentenceCounter,
   paragraphCounter,
-  caseConverter,
+  uppercaseConverter,
+  lowercaseConverter,
+  titleCaseConverter,
+  sentenceCaseConverter,
+  camelCaseConverter,
+  snakeCaseConverter,
+  kebabCaseConverter,
+  removeExtraSpaces,
+  removeBlankLines,
+  removeDuplicateLines,
+  trimText,
+  normalizeWhitespace,
+  removeTabs,
   percentageCalculator,
   todoList,
   notepad,

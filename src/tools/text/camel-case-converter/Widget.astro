@@ -1,0 +1,7 @@
+---
+import TextProcessorWidget from '@tools/_shared/TextProcessorWidget.astro';
+import { config } from './config';
+import { items as faqItems } from './faq';
+---
+
+<TextProcessorWidget slug={config.slug} processorId={config.processorId!} config={config} faqItems={faqItems} />

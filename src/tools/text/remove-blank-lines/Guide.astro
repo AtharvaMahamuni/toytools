@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Removing blank lines deletes every empty or whitespace-only line, pulling the remaining
+      lines together while keeping their order. A double-spaced list becomes a compact one.
+    </p>
+    <a href={toolHref} class="cta-link">Try Remove Blank Lines →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>When Blank Lines Get In The Way <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Empty lines accumulate when you paste between apps, export data with trailing rows, or write
+      with generous spacing. They are harmless in prose but become a problem when you need a clean
+      list, want to import data that rejects blank rows, or are pasting into a field with a tight
+      length limit.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Content lines are never touched">
+      <p>
+        Only blank lines are removed. Every line with visible text keeps its place and its line
+        break, so you never lose real content.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool splits your text into lines, drops any line that is empty or contains only spaces
+      and tabs, and rejoins the rest. For example, a list with blank rows between every item
+      becomes a compact, contiguous list with no gaps.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Removing the blank lines that separate paragraphs">
+      <p>
+        In Markdown and HTML, blank lines between paragraphs are meaningful — they tell the
+        renderer where one paragraph ends and another begins. If you remove all blank lines from
+        Markdown, your paragraphs will merge into a single block. Use this tool on plain lists and
+        data, not on Markdown or HTML source.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Whitespace-only lines survive if you expect them to be removed">
+      <p>
+        A line that contains a single space or tab looks blank but is not empty. This tool removes
+        those too — any line whose only content is spaces or tabs is treated as blank and deleted.
+        If you want to keep those lines, use a different approach.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="remove-blank-lines-vs-alternatives">
+    <h2>Remove Blank Lines vs Other Cleanup Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Remove Blank Lines targets empty rows only and never touches lines that have content.
+      The closest alternatives are <strong>Remove Duplicate Lines</strong>, which removes
+      repeated lines (including repeated blank lines) while keeping unique ones, and
+      <strong>Trim Text</strong>, which strips leading and trailing whitespace from each line.
+      Running Trim Text first can convert near-blank lines (those with only spaces) into truly
+      blank ones, making them eligible for removal. <strong>Normalize Whitespace</strong> is a
+      more aggressive alternative that also removes all line breaks, merging the text into a
+      single line.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

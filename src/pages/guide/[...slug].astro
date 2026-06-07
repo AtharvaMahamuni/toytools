@@ -8,20 +8,55 @@ import TodoListGuide           from '../../tools/productivity/todo-list/Guide.as
 import NotepadGuide            from '../../tools/productivity/notepad/Guide.astro';
 import KeepScreenAwakeGuide    from '../../tools/productivity/keep-screen-awake/Guide.astro';
 import Base64Guide             from '../../tools/developer/base64-encoder-decoder/Guide.astro';
-import CaseConverterGuide      from '../../tools/text/case-converter/Guide.astro';
 import PercentageCalculatorGuide from '../../tools/number/percentage-calculator/Guide.astro';
 import WordCounterGuide        from '../../tools/text/word-counter/Guide.astro';
 import PomodoroTimerGuide      from '../../tools/productivity/pomodoro-timer/Guide.astro';
+// Text processor engine — transform family
+import UppercaseConverterGuide    from '../../tools/text/uppercase-converter/Guide.astro';
+import LowercaseConverterGuide    from '../../tools/text/lowercase-converter/Guide.astro';
+import TitleCaseConverterGuide    from '../../tools/text/title-case-converter/Guide.astro';
+import SentenceCaseConverterGuide from '../../tools/text/sentence-case-converter/Guide.astro';
+import CamelCaseConverterGuide    from '../../tools/text/camel-case-converter/Guide.astro';
+import SnakeCaseConverterGuide    from '../../tools/text/snake-case-converter/Guide.astro';
+import KebabCaseConverterGuide    from '../../tools/text/kebab-case-converter/Guide.astro';
+// Text processor engine — cleanup family
+import RemoveExtraSpacesGuide     from '../../tools/text/remove-extra-spaces/Guide.astro';
+import RemoveBlankLinesGuide      from '../../tools/text/remove-blank-lines/Guide.astro';
+import RemoveDuplicateLinesGuide  from '../../tools/text/remove-duplicate-lines/Guide.astro';
+import TrimTextGuide              from '../../tools/text/trim-text/Guide.astro';
+import NormalizeWhitespaceGuide   from '../../tools/text/normalize-whitespace/Guide.astro';
+import RemoveTabsGuide            from '../../tools/text/remove-tabs/Guide.astro';
+// Text analysis tools
+import CharacterCounterGuide      from '../../tools/text/character-counter/Guide.astro';
+import ReadingTimeCalculatorGuide from '../../tools/text/reading-time-calculator/Guide.astro';
+import SentenceCounterGuide       from '../../tools/text/sentence-counter/Guide.astro';
+import ParagraphCounterGuide      from '../../tools/text/paragraph-counter/Guide.astro';
 
 const guidesBySlug: Record<string, any> = {
   'todo-list':              TodoListGuide,
   'notepad':                NotepadGuide,
   'keep-screen-awake':      KeepScreenAwakeGuide,
   'base64-encoder-decoder': Base64Guide,
-  'case-converter':         CaseConverterGuide,
   'percentage-calculator':  PercentageCalculatorGuide,
   'word-counter':           WordCounterGuide,
   'pomodoro-timer':         PomodoroTimerGuide,
+  'uppercase-converter':    UppercaseConverterGuide,
+  'lowercase-converter':    LowercaseConverterGuide,
+  'title-case-converter':   TitleCaseConverterGuide,
+  'sentence-case-converter': SentenceCaseConverterGuide,
+  'camel-case-converter':   CamelCaseConverterGuide,
+  'snake-case-converter':   SnakeCaseConverterGuide,
+  'kebab-case-converter':   KebabCaseConverterGuide,
+  'remove-extra-spaces':    RemoveExtraSpacesGuide,
+  'remove-blank-lines':     RemoveBlankLinesGuide,
+  'remove-duplicate-lines': RemoveDuplicateLinesGuide,
+  'trim-text':              TrimTextGuide,
+  'normalize-whitespace':   NormalizeWhitespaceGuide,
+  'remove-tabs':            RemoveTabsGuide,
+  'character-counter':      CharacterCounterGuide,
+  'reading-time-calculator': ReadingTimeCalculatorGuide,
+  'sentence-counter':       SentenceCounterGuide,
+  'paragraph-counter':      ParagraphCounterGuide,
 };
 
 export const getStaticPaths = (() => {

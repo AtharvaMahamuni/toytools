@@ -1,0 +1,171 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A character counter is a tool that counts every individual symbol in a piece of text —
+      letters, numbers, spaces, punctuation, and special characters. It typically shows two
+      counts: characters with spaces (the total length) and characters without spaces (letters
+      and symbols only). For example, "Hello, World!" is 13 characters with spaces and 11
+      without.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Character Counter →</a>
+  </section>
+
+  <section id="why-character-count-matters">
+    <h2>Why Character Count Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Social media.</strong> Twitter/X allows 280 characters per post. LinkedIn posts
+      cap at 3,000 characters. Instagram captions allow up to 2,200 characters. These limits
+      are hard: posts that exceed the limit cannot be published. Character count is the right
+      metric for social writing, not word count.
+    </p>
+    <p>
+      <strong>SEO meta descriptions.</strong> Google displays meta descriptions up to about
+      155 to 160 characters before truncating. Keeping your meta description between 120 and
+      158 characters ensures it appears in full in search results. Meta titles are similarly
+      limited to 50 to 60 characters.
+    </p>
+    <p>
+      <strong>SMS and messaging.</strong> Standard SMS messages are limited to 160 characters
+      in GSM-7 encoding. Messages with special characters (emoji, accented letters, non-Latin
+      scripts) switch to Unicode encoding, reducing the limit to 70 characters per message
+      segment.
+    </p>
+    <p>
+      <strong>Database and form fields.</strong> Database columns and web form inputs often
+      have character limits enforced by validation. Knowing the length of a value in advance
+      prevents unexpected truncation or validation errors.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Character Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The counter measures the length of your text string — every character, including spaces,
+      tabs, punctuation, and newline characters. Characters without spaces subtracts all
+      whitespace characters from the total.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your
+      device, protecting your privacy — nothing is uploaded to a server, and results appear
+      instantly as you type or paste.
+    </p>
+  </section>
+
+  <section id="characters-vs-words-vs-bytes">
+    <h2>Characters vs Words vs Bytes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Character count</strong> counts every individual symbol including spaces. It is
+      the right metric for platform character limits and database field lengths.
+    </p>
+    <p>
+      <strong>Word count</strong> counts discrete words separated by whitespace. It is the
+      right metric for academic essays, articles, and writing assignments.
+    </p>
+    <p>
+      <strong>Byte count</strong> measures storage size. For ASCII text (English letters and
+      punctuation), one character equals one byte. For Unicode characters — emoji, accented
+      letters, Chinese, Arabic, or other non-Latin scripts — each character may require 2 to
+      4 bytes in UTF-8 encoding. Some APIs and databases have byte limits rather than character
+      limits, which matters when your content includes international characters.
+    </p>
+    <ReferenceBlock type="note" heading="Emoji count as more than one character on Twitter">
+      <p>
+        Twitter/X uses UTF-16 encoding. Most standard emoji (such as 😊) require two UTF-16
+        code units and therefore count as 2 characters against the 280-character limit. Combined
+        sequences (family emoji, skin tone modifiers) count as even more.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Confusing character limits with word limits">
+      <p>
+        When a platform specifies "280 characters," that is not 280 words — it is roughly 40
+        to 50 words of typical prose. Avoid writing to a word count when the platform enforces
+        a character limit. This tool shows both, so you can monitor whichever limit applies.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Ignoring the difference between with-spaces and without-spaces counts">
+      <p>
+        Most platform limits count characters with spaces. The without-spaces count is useful
+        for estimating content density but is not the number to check against a platform limit.
+        Always use the with-spaces count for compliance checking.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="character-counter-vs-alternatives">
+    <h2>Character Counter vs Other Text Metrics <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A character counter is one of several alternatives for measuring text. A <strong>word
+      counter</strong> is better for measuring depth — essays, articles, and assignments
+      typically have word limits rather than character limits. A <strong>reading time
+      calculator</strong> is better for estimating how long readers will engage with content.
+      A <strong>sentence counter</strong> and <strong>paragraph counter</strong> are better
+      for analysing structure. Use character count when your constraint comes from a platform
+      character limit, an API field length, or an SMS budget.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text analysis utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
+      including Word Counter, Reading Time Calculator, Sentence Counter, and Paragraph Counter.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

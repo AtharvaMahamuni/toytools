@@ -1,7 +1,8 @@
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
+import { PROCESSORS } from '../src/lib/text/processors/registry';
 
-const KNOWN_ENGINES = new Set(['text-analysis']);
+const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor']);
 const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup']);
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
@@ -35,6 +36,15 @@ for (const tool of tools) {
   // Valid pattern (when provided)
   if (tool.pattern && !KNOWN_PATTERNS.has(tool.pattern)) {
     errors.push(`Tool "${tool.slug}" uses unknown pattern "${tool.pattern}" — add it to KNOWN_PATTERNS in validate-registry.ts`);
+  }
+
+  // text-processor tools must reference a registered processor
+  if (tool.engine === 'text-processor') {
+    if (!tool.processorId) {
+      errors.push(`Tool "${tool.slug}" uses engine "text-processor" but is missing processorId`);
+    } else if (!PROCESSORS[tool.processorId]) {
+      errors.push(`Tool "${tool.slug}" references unknown processorId "${tool.processorId}" — register it in src/lib/text/processors/registry.ts`);
+    }
   }
 }
 

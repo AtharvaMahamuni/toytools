@@ -10,6 +10,19 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-06-07',
   engine: 'text-analysis',
+  guide: {
+    slug: 'character-counter',
+    categorySlug: 'text-utilities',
+    title: 'Character Counter: How to Count Characters in Text',
+    description: 'Learn how character counting works, why character limits matter for social media and SEO, and the difference between characters with and without spaces.',
+    readMinutes: 4,
+    updatedAt: '2026-06-07',
+  },
+  faq: {
+    slug: 'character-counter',
+    categorySlug: 'text-utilities',
+    description: 'Answers to common questions about character counting, platform limits, spaces, emoji, and bytes.',
+  },
   pattern: 'text-metric',
   family: 'text-counting',
   primaryMetric: {

@@ -1,0 +1,132 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Sentence case capitalizes only the first letter of each sentence, along with proper
+      nouns — exactly like ordinary writing: "the quick brown fox" becomes "The quick brown fox".
+      It is the default style for body text, UI labels, and button copy.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Sentence Case Converter →</a>
+  </section>
+
+  <section id="why-sentence-case">
+    <h2>Why Sentence Case Is The Default <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Sentence case mirrors how we actually speak and read, so it feels natural and is easy to
+      scan. That is why most digital style guides recommend it for headings, microcopy, and
+      especially long-form text — it reads more smoothly than Title Case and carries less visual
+      noise.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Fixing inconsistent capitalization">
+      <p>
+        Sentence case is the quickest way to clean up text that arrived with random
+        capitalization — pasted chat logs, OCR output, or all-caps notes. Convert to sentence
+        case first, then fix any proper nouns by hand.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How The Conversion Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool lowercases the entire text, then capitalizes the first letter of the passage and the
+      first letter after each sentence-ending mark (<code>.</code>, <code>!</code>, or
+      <code>?</code>). For example, "HELLO WORLD. THE FOX RUNS FAST!" becomes "Hello world. The
+      fox runs fast!" Because software cannot reliably detect names and places, proper nouns are
+      left lowercase — give them a quick manual pass if needed.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Proper nouns become lowercase">
+      <p>
+        The converter cannot tell that "london" should be "London" or that "apple" is the
+        company name "Apple". After converting, scan for any proper nouns — people's names,
+        places, brands — and re-capitalise them by hand.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Abbreviations trigger false sentence breaks">
+      <p>
+        A period after an abbreviation (such as "Dr." or "e.g.") is treated the same as a
+        sentence-ending period, which capitalises the next word incorrectly. Fix these cases
+        manually after conversion.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="sentence-case-vs-alternatives">
+    <h2>Sentence Case vs Other Capitalisation Styles <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Sentence case is the most natural alternative to Title Case for headings and UI copy.
+      <strong>Title Case</strong> capitalises every major word and is favoured for book titles,
+      article headlines, and formal headings. <strong>Uppercase</strong> (ALL CAPS) is reserved
+      for acronyms and emphasis. <strong>Lowercase</strong> is used for code identifiers and
+      normalisation. Sentence case is the modern default for digital interfaces: Google, Apple,
+      and most web style guides recommend it over Title Case for everything from navigation
+      labels to error messages.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

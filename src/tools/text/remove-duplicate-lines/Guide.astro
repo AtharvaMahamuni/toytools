@@ -1,0 +1,128 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Removing duplicate lines keeps the first time each line appears and deletes every later
+      copy, anywhere in the text, while preserving the order of the lines that remain. A messy
+      list becomes a clean set of unique entries.
+    </p>
+    <a href={toolHref} class="cta-link">Try Remove Duplicate Lines →</a>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When To Deduplicate <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Deduplicating is handy for cleaning email lists, merging exported records, tidying log files,
+      and preparing data for import where repeated rows would create errors or skew counts. Because
+      the first occurrence wins, the earliest version of each entry is the one you keep.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Matching is exact">
+      <p>
+        Lines must match exactly to count as duplicates — comparison is case-sensitive and
+        whitespace-sensitive. Run the lowercase or Trim Text tools first if you want near-matches
+        to be treated as duplicates.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool walks through your lines once, remembering which it has already seen. The first
+      appearance of a line is kept; any exact repeat is skipped. For example, a list of 100 email
+      addresses with 20 duplicates becomes a clean list of 80 unique addresses in the original order.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Case-sensitive matching means near-duplicates survive">
+      <p>
+        "Apple" and "apple" are treated as different lines because matching is case-sensitive.
+        If you want case-insensitive deduplication, convert everything to lowercase first using
+        the Lowercase Converter, deduplicate, then re-capitalise where needed.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Trailing spaces create invisible duplicates">
+      <p>
+        "hello " (with a trailing space) and "hello" are different strings, so both survive even
+        though they look identical on screen. Run the Trim Text tool first to strip trailing
+        whitespace, then deduplicate for reliable results.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="remove-duplicate-lines-vs-alternatives">
+    <h2>Remove Duplicate Lines vs Other Cleanup Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This tool removes repeated lines while keeping the original order — the first occurrence wins.
+      The closest alternatives are <strong>Remove Blank Lines</strong>, which removes empty rows
+      (including repeated blank lines) but keeps all non-empty content even if it repeats, and
+      <strong>Trim Text</strong>, which strips leading and trailing whitespace so near-duplicate
+      lines become true duplicates before you deduplicate. A common workflow combines all three:
+      Trim Text → Remove Blank Lines → Remove Duplicate Lines — for the cleanest possible list.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

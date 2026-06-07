@@ -53,6 +53,16 @@ All tool pages, category pages, search, and homepage update automatically at bui
 
 **Browser title** is handled automatically by `ToolLayout` via `generatePageTitle('tool', ...)` in `src/lib/titles.ts`. Do not set titles manually inside tool files. If adding a new page type (not a tool), add a new case to `generatePageTitle` and call it from the layout or page.
 
+### Adding a text processor tool (transform/cleanup)
+
+For any `text → process(text) → text` tool, use the **Text Processor System** instead of hand-writing a widget — it's the processor equivalent of the text-analysis engine. See `ARCHITECTURE.md` → "Text Processor System".
+
+1. Create the processor in `src/lib/text/processors/transform/` or `cleanup/` — one object implementing `TextProcessor` (`{ id, family, process }`).
+2. Register it in `src/lib/text/processors/registry.ts` (one import + one `PROCESSORS` entry). It becomes available in the browser as `ToyTools.process(id, text)`.
+3. Create `config.ts` (`engine: 'text-processor'`, `family`, `processorId`) + a **3-line** `Widget.astro` that renders `TextProcessorWidget` (do **not** write processing logic in the widget) + optional `Guide.astro`/`faq.ts`. Then the usual registry/guide/faq registration.
+
+The shared `TextProcessorWidget.astro` is generic and must never be edited to add a tool or a new processor family (`extract`/`compare`/`validate`/`format` register the same way). `validate-registry.ts` enforces that each `text-processor` tool's `processorId` resolves in the registry.
+
 ### Removing a tool (2 steps)
 
 1. Delete `src/tools/<segment>/<slug>/`
@@ -74,14 +84,26 @@ Tools are organized by URL segment under `src/tools/`:
 
 ```
 src/tools/
-├── _shared/             # Shared widget components (TextMetricWidget, ToolSection, ToolAction)
+├── _shared/             # Shared widget components (TextMetricWidget, TextProcessorWidget, ToolSection, ToolAction)
 ├── text/                # text-utilities category (URL segment: text)
-│   ├── word-counter/
+│   ├── word-counter/                # text-metric tools (text-analysis engine)
 │   ├── character-counter/
 │   ├── sentence-counter/
 │   ├── paragraph-counter/
 │   ├── reading-time-calculator/
-│   └── case-converter/
+│   ├── uppercase-converter/         # text-processor tools (transform family)
+│   ├── lowercase-converter/
+│   ├── title-case-converter/
+│   ├── sentence-case-converter/
+│   ├── camel-case-converter/
+│   ├── snake-case-converter/
+│   ├── kebab-case-converter/
+│   ├── remove-extra-spaces/         # text-processor tools (cleanup family)
+│   ├── remove-blank-lines/
+│   ├── remove-duplicate-lines/
+│   ├── trim-text/
+│   ├── normalize-whitespace/
+│   └── remove-tabs/
 ├── number/              # number-utilities category
 │   └── percentage-calculator/
 ├── developer/           # developer-tools category

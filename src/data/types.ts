@@ -42,9 +42,10 @@ export interface ToolConfig {
   guide?: GuideConfig;
   faq?: FaqConfig;
   // Platform metadata — drives related tools, patterns, and future discovery
-  engine?: string;           // e.g. 'text-analysis'
+  engine?: string;           // e.g. 'text-analysis' | 'text-processor'
   pattern?: string;          // e.g. 'text-metric' | 'text-transform'
-  family?: string;           // e.g. 'text-counting' | 'text-case'
+  family?: string;           // e.g. 'text-counting' | 'text-case' | 'transform' | 'cleanup'
+  processorId?: string;      // text-processor engine: id resolved via ToyTools.process()
   keywords?: string[];       // extra search/command-palette terms (architecture metadata, not SEO copy)
   inputs?: string[];         // descriptor of input types, e.g. ['text'] | ['number','number']
   outputs?: string[];        // descriptor of output types, e.g. ['metric'] | ['text']
