@@ -4,7 +4,7 @@
   --color-accent-subtle:  #dbeafe;
 
   /* Gold brand tokens */
-  --color-gold:           #C89B3C;
+  --color-gold:           #906620;
   --color-gold-highlight: #E6C15A;
   --color-gold-subtle:    rgba(200, 155, 60, 0.15);
 
@@ -24,8 +24,8 @@
 
   /* Text */
   --color-text:           #111111;
-  --color-text-muted:     #6b7280;
-  --color-text-subtle:    #9ca3af;
+  --color-text-muted:     #5c636f;
+  --color-text-subtle:    #676d7c;
   --color-text-inverse:   #ffffff;
   --color-text-accent:    var(--color-accent);
 
@@ -127,7 +127,7 @@
 
     --color-text:          #F4F4F4;
     --color-text-muted:    #A0A6AF;
-    --color-text-subtle:   #6b7280;
+    --color-text-subtle:   #8c9099;
     --color-text-inverse:  #14161A;
   }
 }
@@ -155,7 +155,7 @@
 
   --color-text:          #F4F4F4;
   --color-text-muted:    #A0A6AF;
-  --color-text-subtle:   #6b7280;
+  --color-text-subtle:   #8c9099;
   --color-text-inverse:  #14161A;
 }
 

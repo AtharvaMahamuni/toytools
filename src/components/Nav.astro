@@ -60,24 +60,10 @@ import { APP_VERSION } from '../lib/version';
     font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.03em;
-    color: rgba(17, 17, 17, 0.5);
+    color: var(--color-text-subtle);
     margin-left: 8px;
     white-space: nowrap;
     cursor: default;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .nav-version {
-      color: rgba(244, 244, 244, 0.5);
-    }
-  }
-
-  :root[data-theme="dark"] .nav-version {
-    color: rgba(244, 244, 244, 0.5);
-  }
-
-  :root[data-theme="light"] .nav-version {
-    color: rgba(17, 17, 17, 0.5);
   }
 
   @media (max-width: 640px) {
