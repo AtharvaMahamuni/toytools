@@ -185,6 +185,13 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
   <section id="faq">
     <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
     {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}

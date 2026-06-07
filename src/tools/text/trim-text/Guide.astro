@@ -1,0 +1,128 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Trimming removes spaces and tabs from the start and end of every line: "  hello world  "
+      becomes "hello world". The words and the spacing between them stay exactly as they were.
+    </p>
+    <a href={toolHref} class="cta-link">Try Trim Text →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Trailing Whitespace Causes Bugs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Whitespace at the ends of a line is invisible but consequential. It breaks exact comparisons,
+      causes coupon codes and passwords to fail validation, misaligns data in spreadsheet columns,
+      and trips linters in source code. Trimming is one of the most common normalisation steps
+      before storing or comparing text.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Pair it with other cleanups">
+      <p>
+        Trimming handles the ends of each line. To collapse repeated spaces inside a line use
+        Remove Extra Spaces, and to delete lines that become empty after trimming use Remove Blank
+        Lines.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool processes each line independently, stripping leading and trailing whitespace and
+      leaving the interior of the line alone. For example, "&nbsp; &nbsp;hello world&nbsp; &nbsp;"
+      becomes "hello world" — the interior spacing is preserved, only the ends are cleaned.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Trim does not collapse interior spaces">
+      <p>
+        Trimming only affects the start and end of each line. If your text has double spaces
+        or extra spaces between words in the middle of a line, those are untouched. Use the
+        Remove Extra Spaces tool to collapse those as well.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Lines that become empty after trimming stay in the output">
+      <p>
+        If a line contains only spaces, trimming it produces an empty line — it does not delete
+        the line. Follow up with Remove Blank Lines if you want those resulting empty lines removed.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="trim-text-vs-alternatives">
+    <h2>Trim Text vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Trim Text is the most targeted of the whitespace cleanup alternatives — it only touches the
+      edges of each line and preserves everything else. <strong>Remove Extra Spaces</strong> is
+      more thorough: it also collapses runs of spaces inside each line. <strong>Normalize
+      Whitespace</strong> is the most aggressive alternative: it removes all whitespace runs and
+      line breaks, collapsing the entire text to a single space-separated line. <strong>Remove
+      Blank Lines</strong> deletes empty rows but leaves line content alone. A common pattern is
+      to run Trim Text first to clean the edges, then Remove Extra Spaces to clean the interior.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

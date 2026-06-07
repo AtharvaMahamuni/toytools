@@ -1,0 +1,129 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Removing tabs replaces every tab character with a single space, so tab-indented or
+      tab-separated text becomes consistently space-separated without gluing words together.
+    </p>
+    <a href={toolHref} class="cta-link">Try Remove Tabs →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Tabs Cause Trouble <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Tabs are invisible and their width changes from one program to another, so text that looks
+      aligned in one editor falls apart in another. They also clash with tools and formats that
+      expect spaces — pasting tab-indented code into a spaces-only project, or feeding
+      tab-separated text into a parser that wants single spaces.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Replace, don't delete">
+      <p>
+        Each tab becomes one space rather than disappearing, which keeps adjacent words and columns
+        separate. To then squeeze runs of spaces down to one, follow up with Remove Extra Spaces.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool finds every tab character in your text and swaps it for a single space, leaving all
+      other characters and your line breaks untouched. For example, a tab-separated list like
+      "Name\tEmail\tCity" becomes "Name Email City" — each tab replaced with one space, so fields
+      remain clearly separated.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Collapsing TSV data into unreadable output">
+      <p>
+        If your text is a tab-separated values (TSV) file, replacing every tab with a space will
+        make the fields indistinguishable from words within a field. Use a spreadsheet or CSV
+        import tool instead of a tab-removal tool when working with structured TSV data.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Running it on indented source code">
+      <p>
+        Tab-indented code will lose its indentation structure when every leading tab becomes one
+        space. The indentation depth collapses and nested blocks become unreadable. Use your
+        editor's built-in tab-to-space conversion for code, which replaces each tab with the
+        correct number of spaces for your indentation setting.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="remove-tabs-vs-alternatives">
+    <h2>Remove Tabs vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Remove Tabs converts tab characters to spaces but does not collapse runs of spaces or remove
+      line breaks. The natural follow-up alternative is <strong>Remove Extra Spaces</strong>, which
+      collapses any runs of spaces created by the tab replacement. <strong>Normalize Whitespace</strong>
+      is a more aggressive alternative: it removes tabs, extra spaces, and line breaks all in one pass.
+      <strong>Trim Text</strong> strips leading and trailing whitespace from each line, which helps
+      clean up any tab-indented lines after the tabs have been replaced with spaces.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

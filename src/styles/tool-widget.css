@@ -240,6 +240,33 @@
   gap: var(--space-3);
 }
 
+/* Desktop: the result column stretches to the input's height so the textarea
+   and result card read as one balanced row. Without this the short hero card
+   floats at the top of a tall column, leaving an empty void beside the textarea.
+   When no secondary stats are visible (zero state, or single-metric tools), the
+   hero card fills the column and centers its content; once stats populate, they
+   flow naturally below at their own height. */
+@media (min-width: 1024px) {
+  .tool-split .ts-output:has(.tm-output) {
+    align-self: stretch;
+  }
+
+  .tm-output {
+    height: 100%;
+  }
+
+  .tm-output:not(:has(.tm-secondary:not([hidden]))) .tm-result {
+    flex: 1 1 auto;
+  }
+
+  .tm-output:not(:has(.tm-secondary:not([hidden]))) .hero-panel {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 639px) {
   .tool-action {
     position: sticky;

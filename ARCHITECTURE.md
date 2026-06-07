@@ -96,13 +96,14 @@ Component: `src/tools/_shared/ToolSplit.astro`. Named slots `input` (left) and `
 
 - `ratio`: `'1-1' | '3-2' | '3-1'`. `stackOrder`: `'input-first' | 'output-first'` (mobile order).
 - Breakpoint **1024px** — stacks to one column below it. `stickyOutput` pins the output column on desktop.
-- Used by: text metrics (3-1), case-converter (1-1), percentage-calculator (3-2), base64 (1-1),
-  keep-screen-awake (1-1), pomodoro-timer (3-2). Single-column (no split): notepad, todo-list.
+- Used by: text metrics (3-1), text-processor tools (1-1, via `TextProcessorWidget`),
+  percentage-calculator (3-2), base64 (1-1), keep-screen-awake (1-1), pomodoro-timer (3-2).
+  Single-column (no split): notepad, todo-list.
 - Generalizes the former `CompareLayout`; transform tools use `input-first`, answer-first tools
   (metrics) use `output-first`.
 
-**Live tools:** case-converter and percentage-calculator update on input/option change — no
-Convert/Calculate buttons. Keep Copy/Clear only.
+**Live tools:** text-processor tools (see Text Processor System below) and percentage-calculator
+update on input/option change — no Convert/Calculate buttons. Keep Copy/Clear only.
 
 ---
 
@@ -178,6 +179,82 @@ All design values in `src/styles/tokens.css`. Never hardcode colors or sizes.
 `BaseLayout` `maxWidth` prop: `'shell' | 'content' | 'tool' | 'full'` (`'category'` kept as a shell alias).
 
 Dark mode: both `@media (prefers-color-scheme: dark)` and `:root[data-theme="dark"]` override the same tokens.
+
+---
+
+## Text Processor System
+
+The transform/cleanup engine — the processor equivalent of the text-analysis engine behind the
+metric tools. **Engine first, tool second:** every transform/cleanup tool is the same
+`text → process(text) → text` shape with identical UI, so they share **one** widget and a single
+processor registry. Adding a tool is a processor file + a config + a 3-line wrapper — never a widget,
+runtime, or routing edit.
+
+**Flow:**
+
+```
+Text → Processor Registry → Processor → Output → Shared Widget
+        (src/lib/text/processors/registry.ts)      (TextProcessorWidget.astro)
+```
+
+**Processor interface** (`src/lib/text/processors/types.ts`):
+
+```ts
+export interface TextProcessor {
+  id: string;                       // lookup id, referenced by a config's processorId
+  family: 'transform' | 'cleanup';  // grouping for future discovery systems
+  process(text: string): string;    // pure, synchronous, O(n) where possible, no deps
+}
+```
+
+**Registry as single source of truth** (`src/lib/text/processors/registry.ts`): imports every
+processor into `PROCESSORS` (keyed by id, holding the rich object so metadata like `title`/
+`description` can be added later without changing the API) and exposes
+`runProcessor(id, text)` — which resolves the processor and runs it, returning the input unchanged
+(with a `console.warn`) for an unknown id. It **never throws**.
+
+**Runtime exposure:** `ToyToolsRuntime.astro` bundles the registry and attaches
+`ToyTools.process = runProcessor` — exactly how `ToyTools.analyze` is bundled from the text-analysis
+engine. Widget inline scripts (which cannot import TS) call `ToyTools.process(processorId, text)`.
+
+**Shared widget** (`src/tools/_shared/TextProcessorWidget.astro`, `pattern: 'text-processor'`):
+generic input → output. `ToolSplit ratio="1-1"` (50/50 desktop, stacks <1024px), live update on
+input, `TrustNotice` + `ToolActions` (paste/clear/copy) + `CategoryDiscovery` + guide/FAQ previews,
+state via `ToyTools.state`. It reads `processorId` from a data attribute and **never names a
+processor** — no `switch`, no `if/else`. The per-tool `Widget.astro` is only a 3-line wrapper:
+
+```astro
+---
+import TextProcessorWidget from '@tools/_shared/TextProcessorWidget.astro';
+import { config } from './config';
+import { items as faqItems } from './faq';
+---
+<TextProcessorWidget slug={config.slug} processorId={config.processorId!} config={config} faqItems={faqItems} />
+```
+
+**Tool config metadata:** `engine: 'text-processor'`, `family: 'transform' | 'cleanup'`,
+`processorId`. Mirrors `engine: 'text-analysis'` on the metric tools, so discovery systems can query
+by engine + family + category with no parallel metadata.
+
+**Adding a processor tool** — and nothing else is required:
+
+1. Create the processor file in `transform/` or `cleanup/`.
+2. Register it in `registry.ts` (one import + one `PROCESSORS` entry).
+3. Add `config.ts` (`engine: 'text-processor'`, `family`, `processorId`) + the 3-line `Widget.astro`.
+4. Optional: `Guide.astro` (+ static import in the guide route) and `faq.ts` (+ entry in
+   `faq-registry.ts`).
+
+`validate-registry.ts` enforces that every `text-processor` tool has a `processorId` that resolves
+in the registry.
+
+**Future families** (`extract/`, `compare/`, `validate/`, `format/`) register the same way — same
+interface, same registry, same widget, same `ToyTools.process`. The widget must never learn family
+names. **If a new family requires editing the widget, the architecture has failed.**
+
+**Current processors** — transform: `uppercase`, `lowercase`, `titleCase`, `sentenceCase`,
+`camelCase`, `snakeCase`, `kebabCase`; cleanup: `removeExtraSpaces`, `removeBlankLines`,
+`removeDuplicateLines`, `trimLines`, `normalizeWhitespace`, `removeTabs`. (The former multi-mode
+`case-converter` was retired in favor of single-purpose transform tools.)
 
 ---
 

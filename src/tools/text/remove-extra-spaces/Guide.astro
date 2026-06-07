@@ -1,0 +1,131 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Removing extra spaces collapses any run of two or more spaces or tabs into a single space:
+      "hello     world" becomes "hello world". Line breaks are preserved, so your paragraph
+      structure stays intact.
+    </p>
+    <a href={toolHref} class="cta-link">Try Remove Extra Spaces →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Extra Spaces Cause Problems <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Double spaces creep in from copy-pasting, the old habit of typing two spaces after a period,
+      and text exported from PDFs or spreadsheets. They are usually invisible until they break
+      something — uneven justification in print, mismatched search results, or inconsistent data
+      in a column that should contain single-spaced values.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Spacing vs. whitespace tools">
+      <p>
+        This tool only touches spaces and tabs and keeps your line breaks. To also flatten line
+        breaks into single spaces, use Normalize Whitespace; to trim the ends of each line, use
+        Trim Text.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool scans your text and replaces every sequence of consecutive spaces and tabs with a
+      single space, leaving newlines and all other characters untouched. For example,
+      "hello&nbsp;&nbsp;&nbsp;world" becomes "hello world" — the extra spaces collapse, but the
+      line break between paragraphs stays.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Expecting it to remove blank lines">
+      <p>
+        This tool only collapses spaces and tabs within a line — it does not remove empty lines.
+        If your text has blank rows you want deleted, use the Remove Blank Lines tool instead.
+        The two tools complement each other: run Remove Extra Spaces first, then Remove Blank Lines.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Intentional indentation gets collapsed">
+      <p>
+        If your text uses multiple spaces at the start of a line for indentation (such as code or
+        a formatted outline), those leading spaces will be collapsed to one. Use this tool on
+        prose and data, not on indented source code or structured text.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="remove-extra-spaces-vs-alternatives">
+    <h2>Remove Extra Spaces vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This tool is one of several whitespace cleanup alternatives. <strong>Trim Text</strong> removes
+      leading and trailing whitespace from each line but leaves interior spaces alone — it is the right
+      alternative when you only need to clean the edges. <strong>Normalize Whitespace</strong> is more
+      aggressive: it collapses all whitespace (including line breaks) into a single space, flattening
+      multi-line text to one line. <strong>Remove Tabs</strong> converts tab characters to spaces rather
+      than collapsing runs. Use Remove Extra Spaces when you want to clean up interior spacing while
+      preserving your paragraph structure.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

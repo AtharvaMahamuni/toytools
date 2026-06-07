@@ -1,0 +1,112 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      kebab-case writes everything in lowercase and joins words with hyphens:
+      "User Profile Image" becomes "user-profile-image". It is the standard for CSS class names,
+      HTML IDs, URL slugs, and command-line flags.
+    </p>
+    <a href={toolHref} class="cta-link">Try The kebab-case Converter →</a>
+  </section>
+
+  <section id="where-its-used">
+    <h2>Where kebab-case Is Used <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The web favors kebab-case: CSS selectors (<code>.nav-item</code>), custom properties
+      (<code>--color-primary</code>), URL slugs, and filenames all read well with hyphens. Search
+      engines also split hyphenated slugs into separate words, which helps readability and SEO.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Not for code identifiers">
+      <p>
+        Most programming languages interpret a hyphen as subtraction, so kebab-case can't be used
+        for variable or function names. Reserve it for CSS, HTML, URLs, and filenames.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How The Conversion Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The converter splits your text into words at spaces, underscores, punctuation, and camelCase
+      humps, lowercases each word, and joins them with hyphens — producing a clean slug.
+      For example: "getUserProfile", "get_user_profile", and "Get User Profile" all become
+      "get-user-profile". Each line is converted on its own.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="kebab-case-vs-alternatives">
+    <h2>kebab-case vs Other Naming Conventions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      kebab-case is the standard for web-facing identifiers but has some specific limitations compared
+      to alternatives. <strong>snake_case</strong> uses underscores instead of hyphens and is widely
+      used in Python and SQL — it works as a variable name in any programming language.
+      <strong>camelCase</strong> uses no separator and capitalises each word, making it the standard
+      for JavaScript and Java variables. <strong>PascalCase</strong> is like camelCase but capitalises
+      even the first letter, used for class names. Unlike these alternatives, kebab-case cannot be used
+      for variable or function names in most languages because hyphens are interpreted as subtraction
+      operators — so kebab-case stays in the domain of CSS, HTML, URLs, and filenames.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

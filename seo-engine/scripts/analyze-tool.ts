@@ -5,7 +5,7 @@
 //   tsx scripts/analyze-tool.ts <slug>
 //   Example: tsx scripts/analyze-tool.ts base64-encoder-decoder
 
-import { existsSync, readFileSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, mkdirSync, writeFileSync, readdirSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import {
@@ -26,6 +26,22 @@ import type { WritingScore, WritingFingerprint } from '../types/index.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const SRC_ROOT = join(ROOT, '..', 'src', 'tools');
+
+function findToolDir(slug: string): string | null {
+  // Check direct path first
+  const direct = join(SRC_ROOT, slug);
+  if (existsSync(direct)) return direct;
+  // Search one level deep (category subdirectories)
+  try {
+    for (const entry of readdirSync(SRC_ROOT, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        const nested = join(SRC_ROOT, entry.name, slug);
+        if (existsSync(nested)) return nested;
+      }
+    }
+  } catch {}
+  return null;
+}
 
 const RULES = JSON.parse(
   readFileSync(join(ROOT, 'config', 'content-intelligence-rules.json'), 'utf-8')
@@ -152,16 +168,19 @@ export function scoreSearchIntent(
   const lower = combinedText.toLowerCase();
   const headingsLower = headings.map(h => h.toLowerCase());
 
+  // Resolve [tool name] placeholder to the human-readable slug name
+  const toolName = toolSlug.replace(/-/g, ' ');
   const intents = intentList.map(query => {
+    const resolvedQuery = query.replace(/\[tool name\]/gi, toolName);
     // Check if the key terms of this intent appear in headings or text
-    const keyTerms = query.toLowerCase()
+    const keyTerms = resolvedQuery.toLowerCase()
       .replace(/[?]/g, '')
       .split(/\s+/)
       .filter(w => w.length > 3 && !['what', 'does', 'with', 'from', 'that', 'this', 'have', 'will'].includes(w));
 
     const inHeading = headingsLower.some(h => keyTerms.every(t => h.includes(t)));
     const inText = keyTerms.every(t => lower.includes(t));
-    return { query, covered: inHeading || inText };
+    return { query: resolvedQuery, covered: inHeading || inText };
   });
 
   const covered = intents.filter(i => i.covered).length;
@@ -398,7 +417,7 @@ export function buildActions(
 // ─── Main orchestrator ────────────────────────────────────────────────────────
 
 export function calculateContentIntelligenceScore(slug: string): ContentIntelligenceScore {
-  const toolDir = join(SRC_ROOT, slug);
+  const toolDir = findToolDir(slug) ?? join(SRC_ROOT, slug);
   const guidePath = join(toolDir, 'Guide.astro');
   const faqPath = join(toolDir, 'faq.ts');
   const configPath = join(toolDir, 'config.ts');
@@ -603,9 +622,9 @@ async function main() {
     process.exit(1);
   }
 
-  const toolDir = join(SRC_ROOT, slug);
-  if (!existsSync(toolDir)) {
-    console.error(`Tool not found: src/tools/${slug}/`);
+  const toolDir = findToolDir(slug);
+  if (!toolDir) {
+    console.error(`Tool not found: src/tools/${slug}/ (also searched category subdirectories)`);
     process.exit(1);
   }
 
@@ -615,8 +634,8 @@ async function main() {
 
   const score = calculateContentIntelligenceScore(slug);
   const combinedText = [
-    extractGuideText(existsSync(join(SRC_ROOT, slug, 'Guide.astro')) ? readFileSync(join(SRC_ROOT, slug, 'Guide.astro'), 'utf-8') : ''),
-    extractFaqText(existsSync(join(SRC_ROOT, slug, 'faq.ts')) ? readFileSync(join(SRC_ROOT, slug, 'faq.ts'), 'utf-8') : ''),
+    extractGuideText(existsSync(join(toolDir, 'Guide.astro')) ? readFileSync(join(toolDir, 'Guide.astro'), 'utf-8') : ''),
+    extractFaqText(existsSync(join(toolDir, 'faq.ts')) ? readFileSync(join(toolDir, 'faq.ts'), 'utf-8') : ''),
   ].join('\n\n');
   const fp = generateWritingFingerprint(combinedText);
 

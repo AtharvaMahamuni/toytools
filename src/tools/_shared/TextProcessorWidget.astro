@@ -1,0 +1,101 @@
+---
+// Generic text-processor widget — powers every transform/cleanup tool (and any future
+// processor family). It knows nothing about specific processors: it reads a processorId,
+// runs `text → ToyTools.process(processorId, text) → output` live, and renders shared
+// chrome. Per-tool Widget.astro files are 3-line wrappers passing config + faqItems.
+//
+// If a new processor family ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import TrustNotice from '@components/tool/TrustNotice.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { withBase } from '@lib/paths';
+import type { ToolConfig, FAQItem } from '@data/types';
+
+interface Props {
+  slug: string;
+  processorId: string;
+  config: ToolConfig;
+  faqItems?: FAQItem[];
+}
+
+const { slug, processorId, config, faqItems = [] } = Astro.props;
+
+const inputId = `${slug}-input`;
+const outputId = `${slug}-output`;
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<TrustNotice variant="private" />
+
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={true}>
+  <div slot="input" data-tool={slug} data-processor={processorId} data-slug={slug}>
+    <label class="widget-label" for={inputId}>Text</label>
+    <textarea id={inputId} class="widget-textarea" rows="8" placeholder="Paste or type text here"></textarea>
+    <ToolActions clearTarget={inputId} pasteTarget={inputId} />
+  </div>
+
+  <div slot="output">
+    <label class="widget-label" for={outputId}>Result</label>
+    <textarea id={outputId} class="widget-textarea" rows="8" readonly placeholder="Result appears here" aria-label="Result"></textarea>
+    <ToolActions copyTarget={outputId} />
+  </div>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug={slug} />
+
+<ToolSection heading="How it works">
+  <p>{config.description} Everything runs locally in your browser — your text never leaves your device.</p>
+  {guideHref && config.guide && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → {config.guide.title}</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && faqItems.length > 0 && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-processor][data-slug]');
+    if (!root) return;
+    var pid = root.getAttribute('data-processor');
+    var slug = root.getAttribute('data-slug');
+    var input = document.getElementById(slug + '-input');
+    var out = document.getElementById(slug + '-output');
+    if (!input || !out) return;
+
+    function run() {
+      // Registry lookup only — the widget never names a processor.
+      out.value = (window.ToyTools && ToyTools.process)
+        ? ToyTools.process(pid, input.value)
+        : input.value;
+    }
+
+    function persist() {
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value });
+    }
+
+    // Restore prior input.
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      if (saved && typeof saved.input === 'string') input.value = saved.input;
+    } catch (_) {}
+
+    input.addEventListener('input', function () { run(); persist(); });
+    run();
+  })();
+</script>
