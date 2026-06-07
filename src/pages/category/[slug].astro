@@ -1,0 +1,82 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../../lib/titles';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import ToolCard from '@components/ToolCard.astro';
+import { categories } from '@data/categories';
+import { tools } from '@data/registry';
+import { withBase } from '../../lib/paths';
+
+export const getStaticPaths = (() => {
+  return categories.map(category => {
+    const categoryTools = tools.filter(t => t.categorySlug === category.slug);
+    return { params: { slug: category.slug }, props: { category, tools: categoryTools } };
+  });
+}) satisfies GetStaticPaths;
+
+const { category, tools: categoryTools } = Astro.props;
+---
+
+<BaseLayout
+  title={generatePageTitle('category', category.name)}
+  description={category.description}
+  maxWidth="category"
+>
+  <div class="category-header">
+    <Breadcrumb items={[
+      { label: 'Home', href: withBase('/') },
+      { label: category.name },
+    ]} />
+    <div class="category-title">
+      <h1>{category.name}</h1>
+    </div>
+    <p class="category-description">{category.description}</p>
+    <p class="tool-count">
+      <span class="count-number">{categoryTools.length}</span>
+      {categoryTools.length === 1 ? ' tool' : ' tools'}
+    </p>
+  </div>
+
+  <div class="tool-grid">
+    {categoryTools.map(tool => (
+      <ToolCard tool={tool} />
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .category-header {
+    padding-bottom: var(--space-8);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-8);
+  }
+
+  .category-title {
+    margin-bottom: var(--space-3);
+  }
+
+  .category-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 55ch;
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-count {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    max-width: unset;
+  }
+
+  .count-number {
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+</style>

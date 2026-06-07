@@ -68,6 +68,51 @@
   overflow-wrap: break-word;
 }
 
+/* Hero metric — primary stat, presented as a prominent card */
+.hero-panel {
+  padding: var(--space-8) var(--space-6);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.hero-value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+  transition: color var(--duration-normal) var(--ease-default);
+}
+
+/* Subtle state cue when the value changes (Phase 2) */
+.hero-value.is-updated {
+  color: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-value { transition: none; }
+  .hero-value.is-updated { color: var(--color-text); }
+}
+
+.hero-label {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.empty-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  margin-top: var(--space-4);
+  max-width: unset;
+}
+
+/* Secondary metrics — symmetrical grid of boxed stat cards */
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -75,9 +120,21 @@
 }
 
 .metric-grid > div {
-  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-3);
   border: var(--border);
   border-radius: var(--radius-md);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+/* A lone trailing card (odd count) spans the row so the grid stays symmetrical */
+.metric-grid > div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .metric-value,
@@ -89,11 +146,55 @@
   font-family: var(--font-mono);
   font-size: var(--text-2xl);
   font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .metric-label {
   color: var(--color-text-muted);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
+}
+
+/* Tool action buttons — transparent utility controls, reusable by any widget.
+   State tints (success/danger) communicate state only, never hierarchy. */
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+}
+
+.action-btn {
+  min-height: var(--touch-target);
+  padding-inline: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-color);
+}
+
+.action-btn:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+
+.action-btn--copy.is-success,
+.action-btn--copy.is-success:hover {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.action-btn--clear.is-confirming,
+.action-btn--clear.is-confirming:hover {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
 }
 
 .widget-details {
@@ -116,10 +217,27 @@
   font-size: var(--text-sm);
 }
 
-@media (min-width: 640px) {
-  .metric-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+/* Tool split: input/output panels shed dividers and outer block padding;
+   spacing comes from the split gap and the output column's own gap instead.
+   (The hero/metric cards keep their own borders.) */
+.tool-split .tool-panel,
+.tool-split .result-panel {
+  border-bottom: none;
+  padding-block: 0;
+}
+
+.tm-output {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Label + hero card grouped with the same label→box gap as the input column,
+   so the result card top lines up with the textarea top. */
+.tm-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 @media (max-width: 639px) {

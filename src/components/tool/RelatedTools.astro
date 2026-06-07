@@ -1,0 +1,68 @@
+---
+import type { Tool, Category } from '@data/types';
+import { categories } from '@data/categories';
+import ToolCard from '@components/ToolCard.astro';
+import { withBase } from '@lib/paths';
+
+interface Props {
+  tools: Tool[];
+  category?: Category;
+}
+
+const { tools, category } = Astro.props;
+const categoryHref = category ? withBase(`/category/${category.slug}/`) : null;
+---
+
+{tools.length > 0 && (
+  <section class="content-section">
+    <h2 class="related-heading">
+      <span>Related tools <span class="gold-dot" aria-hidden="true"></span></span>
+      {categoryHref && <a class="related-see-all" href={categoryHref}>See all {category!.name} →</a>}
+    </h2>
+    <div class="related-grid">
+      {tools.map(t => {
+        const cat = categories.find(c => c.slug === t.categorySlug)!;
+        return <ToolCard tool={t} categoryName={cat.name} categorySegment={cat.segment} />;
+      })}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .related-see-all {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-accent);
+    text-decoration: none;
+  }
+
+  .related-see-all:hover {
+    text-decoration: underline;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .related-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .related-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

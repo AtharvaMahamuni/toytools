@@ -4,6 +4,7 @@ import { generatePageTitle } from '@lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import BackButton from '@components/BackButton.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import type { EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
 import { withBase } from '../lib/paths';
@@ -39,7 +40,7 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site ? new URL(withBase('/'), Astro.site).href : withBase('/') },
-    { '@type': 'ListItem', position: 2, name: toolCategoryName, item: Astro.site ? new URL(withBase(`/categories/${toolCategorySlug}/`), Astro.site).href : withBase(`/categories/${toolCategorySlug}/`) },
+    { '@type': 'ListItem', position: 2, name: toolCategoryName, item: Astro.site ? new URL(withBase(`/category/${toolCategorySlug}/`), Astro.site).href : withBase(`/category/${toolCategorySlug}/`) },
     { '@type': 'ListItem', position: 3, name: title },
   ],
 };
@@ -60,7 +61,7 @@ const articleSchema = {
 <BaseLayout
   title={generatePageTitle('guide', title)}
   description={description}
-  maxWidth="category"
+  maxWidth="content"
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -69,7 +70,7 @@ const articleSchema = {
     <p class="guide-label"><span class="gold-dot" aria-hidden="true"></span> Reference Guide</p>
     <Breadcrumb items={[
       { label: 'Home', href: withBase('/') },
-      { label: toolCategoryName, href: withBase(`/categories/${toolCategorySlug}/`) },
+      { label: toolCategoryName, href: withBase(`/category/${toolCategorySlug}/`) },
       { label: title },
     ]} />
     <BackButton />
@@ -100,6 +101,8 @@ const articleSchema = {
       <slot />
     </div>
   </div>
+
+  <CategoryDiscovery toolSlug={toolSlug} />
 
   <EcosystemLinks
     currentType="guide"
@@ -301,7 +304,7 @@ const articleSchema = {
   }
 
   :global(.guide-content p) {
-    max-width: 70ch;
+    max-width: var(--width-prose);
   }
 
   :global(.guide-content p + p) {
@@ -315,7 +318,7 @@ const articleSchema = {
     flex-direction: column;
     gap: var(--space-3);
     margin-top: var(--space-5);
-    max-width: 70ch;
+    max-width: var(--width-prose);
   }
 
   :global(.guide-content li) {

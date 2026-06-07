@@ -1,0 +1,241 @@
+---
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { config } from './config';
+import { items as faqItems } from './faq';
+import { withBase } from '@lib/paths';
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<section class="tool-panel notepad-panel" data-tool="notepad">
+  <p class="notepad-storage-note">
+    Stored locally <span class="gold-dot" aria-hidden="true"></span> Auto-saved
+  </p>
+  <div class="notepad-toolbar">
+    <button id="notepad-paste" type="button">Paste</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="notepad-copy" type="button" class="action-btn action-btn--copy" data-label="Copy">Copy</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="notepad-download" type="button">Download TXT</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="notepad-clear" type="button" class="action-btn action-btn--clear" data-label="Clear">Clear</button>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <button id="notepad-fullscreen" type="button" aria-pressed="false">Full Screen</button>
+    <button id="notepad-distraction" type="button" aria-pressed="false">Remove Distractions</button>
+    <button id="notepad-wake" type="button" aria-pressed="false">Keep Awake</button>
+    <button id="notepad-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
+  </div>
+  <textarea
+    id="notepad-input"
+    placeholder={"Start typing...\nYour notes are automatically saved in this browser."}
+    spellcheck="true"
+    autocomplete="off"
+  ></textarea>
+  <div class="notepad-stats" aria-live="polite">
+    <span id="notepad-words">0 Words</span>
+    <span class="gold-dot" aria-hidden="true"></span>
+    <span id="notepad-chars">0 Characters</span>
+  </div>
+</section>
+
+<CategoryDiscovery toolSlug="notepad" />
+
+<ToolSection heading="How it works">
+  <p>Your notes are saved directly in this browser using localStorage. Nothing is sent to a server. Notes survive page refreshes and browser restarts.</p>
+  {guideHref && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → How To Take Better Notes</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}
+
+<style is:global>
+  .notepad-storage-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  .notepad-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+  }
+
+  .notepad-toolbar button {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    background: transparent;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .notepad-toolbar button:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-muted);
+  }
+
+  .notepad-toolbar button[aria-pressed="true"] {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+
+  .notepad-panel textarea {
+    min-height: 400px;
+    line-height: 1.7;
+    font-size: var(--text-base);
+    padding: var(--space-4);
+    resize: vertical;
+    width: 100%;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: inherit;
+  }
+
+  .notepad-stats {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    padding-top: var(--space-2);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var textarea = document.getElementById('notepad-input');
+    if (!textarea) return;
+
+    var STORAGE_KEY = 'toytools.notepad.note';
+
+    function updateStats() {
+      var text    = textarea.value;
+      var words   = text.trim() ? text.trim().split(/\s+/).filter(Boolean).length : 0;
+      var wordsEl = document.getElementById('notepad-words');
+      var charsEl = document.getElementById('notepad-chars');
+      if (wordsEl) wordsEl.textContent = words + (words === 1 ? ' Word' : ' Words');
+      if (charsEl) charsEl.textContent = text.length + (text.length === 1 ? ' Character' : ' Characters');
+    }
+
+    try {
+      var saved = ToyTools.storage.get(STORAGE_KEY);
+      if (saved) textarea.value = saved;
+    } catch (_) {}
+    updateStats();
+
+    textarea.addEventListener('input', function () {
+      updateStats();
+      ToyTools.storage.set(STORAGE_KEY, textarea.value);
+    });
+
+    var pasteBtn = document.getElementById('notepad-paste');
+    if (pasteBtn) {
+      pasteBtn.addEventListener('click', function () {
+        navigator.clipboard.readText().then(function (text) {
+          var pos = textarea.selectionStart;
+          textarea.value = textarea.value.slice(0, pos) + text + textarea.value.slice(textarea.selectionEnd);
+          textarea.selectionStart = textarea.selectionEnd = pos + text.length;
+          textarea.dispatchEvent(new Event('input'));
+        }).catch(function () {
+          pasteBtn.textContent = 'No permission';
+          setTimeout(function () { pasteBtn.textContent = 'Paste'; }, 2000);
+        });
+      });
+    }
+
+    var copyBtn = document.getElementById('notepad-copy');
+    var copyTimer;
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        if (!textarea.value) { ToyTools.toast('Nothing to copy!'); return; }
+        ToyTools.copy(textarea.value);
+        copyBtn.classList.add('is-success');
+        copyBtn.textContent = '✓ Copied';
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(function () {
+          copyBtn.classList.remove('is-success');
+          copyBtn.textContent = 'Copy';
+        }, 2000);
+      });
+    }
+
+    var dlBtn = document.getElementById('notepad-download');
+    if (dlBtn) {
+      dlBtn.addEventListener('click', function () {
+        var blob = new Blob([textarea.value], { type: 'text/plain' });
+        var url  = URL.createObjectURL(blob);
+        var a    = document.createElement('a');
+        a.href = url; a.download = 'note.txt'; a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    // Ctrl/Cmd+S exports the note instead of triggering the browser save dialog
+    document.addEventListener('keydown', function (e) {
+      if ((e.metaKey || e.ctrlKey) && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        if (dlBtn) dlBtn.click();
+      }
+    });
+
+    // Two-click confirm clear — matches the shared ToolActions pattern
+    var clearBtn  = document.getElementById('notepad-clear');
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (!clearBtn.classList.contains('is-confirming')) {
+          clearBtn.classList.add('is-confirming');
+          clearBtn.textContent = 'Confirm Clear';
+          clearTimeout(clearTimer);
+          clearTimer = setTimeout(resetClear, 3000);
+          return;
+        }
+        resetClear();
+        textarea.value = '';
+        ToyTools.storage.clear(STORAGE_KEY);
+        updateStats();
+        textarea.focus();
+      });
+      document.addEventListener('click', function (e) {
+        if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#notepad-clear')) resetClear();
+      });
+    }
+
+    ToyTools.focus.attach({
+      panel: document.querySelector('.notepad-panel'),
+      fsBtn: document.getElementById('notepad-fullscreen'),
+      rdBtn: document.getElementById('notepad-distraction'),
+      wakeBtn: document.getElementById('notepad-wake'),
+      exitBtn: document.getElementById('notepad-focus-exit'),
+      onEnter: function () { textarea.focus(); }
+    });
+  })();
+</script>

@@ -1,0 +1,19 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+---
+
+<TextMetricWidget
+  slug="reading-time-calculator"
+  emptyMessage="Paste or type text to estimate reading time."
+  stats={[
+    { metric: 'readingTime',          label: 'Reading Time',   formatter: 'duration' },
+    { metric: 'speakingTime',         label: 'Speaking Time',  formatter: 'duration' },
+    { metric: 'words',                label: 'Words',          formatter: 'integer' },
+    { metric: 'averageSentenceLength',label: 'Avg Sentence',   formatter: 'decimal' },
+  ]}
+/>
+
+<ToolSection heading="How it works">
+  <p>Reading time is estimated at 200 words per minute — the average adult silent reading speed. Speaking time uses 130 words per minute, suitable for presentations and podcasts. All calculations happen locally in your browser.</p>
+</ToolSection>

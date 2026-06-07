@@ -10,6 +10,9 @@
 
   /* Semantic status */
   --color-success:        #22c55e;
+  --color-success-bg:     rgba(34, 197, 94, 0.10);
+  --color-danger:         #dc2626;
+  --color-danger-bg:      rgba(220, 38, 38, 0.10);
 
   /* Grayscale surfaces */
   --color-bg:             #ffffff;
@@ -50,6 +53,7 @@
   --text-2xl:  1.5rem;
   --text-3xl:  1.875rem;
   --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
 
   --leading-tight:   1.25;
   --leading-normal:  1.5;
@@ -76,9 +80,12 @@
     border-color var(--duration-fast) var(--ease-default);
 
   /* Layout widths */
-  --width-tool:     800px;
-  --width-category: 1200px;
-  --width-nav:      1200px;
+  --width-shell:    1440px;  /* nav, footer, main ceiling, home, category */
+  --width-content:  1100px;  /* tool interactive area / 2-col splits */
+  --width-prose:    72ch;    /* guide/FAQ/marketing reading measure */
+  --width-tool:     820px;   /* single-column tools + narrow forms */
+  --width-category: var(--width-shell);  /* alias — existing refs keep working */
+  --width-nav:      var(--width-shell);  /* alias — nav/footer chrome */
 
   /* Touch targets */
   --touch-target: 48px;
@@ -92,8 +99,8 @@
 
 /* Gold dot breathing animation */
 @keyframes dot-breathe {
-  0%, 100% { opacity: 0.85; }
-  50%       { opacity: 1.0; }
+  0%, 100% { opacity: 0.65; }
+  50%       { opacity: 0.72; }
 }
 
 /* System dark preference, no explicit user override */
@@ -107,6 +114,9 @@
     --color-gold-subtle:    rgba(212, 160, 23, 0.18);
 
     --color-success:       #4ade80;
+    --color-success-bg:    rgba(74, 222, 128, 0.14);
+    --color-danger:        #ef4444;
+    --color-danger-bg:     rgba(239, 68, 68, 0.14);
 
     --color-bg:             #14161A;
     --color-surface:        #1A1D22;
@@ -132,6 +142,9 @@
   --color-gold-subtle:    rgba(212, 160, 23, 0.18);
 
   --color-success:       #4ade80;
+  --color-success-bg:    rgba(74, 222, 128, 0.14);
+  --color-danger:        #ef4444;
+  --color-danger-bg:     rgba(239, 68, 68, 0.14);
 
   --color-bg:             #14161A;
   --color-surface:        #1A1D22;

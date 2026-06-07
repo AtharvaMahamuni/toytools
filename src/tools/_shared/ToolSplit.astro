@@ -1,0 +1,56 @@
+---
+// Canonical two-column tool layout. Desktop (≥1024px): input slot left, output slot right
+// with the output column sticky so the answer stays in view as the input grows. Below 1024px
+// it stacks to one column; `stackOrder` controls whether the answer or the input comes first.
+// Named slots: "input" and "output".
+interface Props {
+  ratio?: '1-1' | '3-2' | '2-1' | '3-1';
+  stackOrder?: 'input-first' | 'output-first';
+  stickyOutput?: boolean;
+}
+
+const { ratio = '1-1', stackOrder = 'input-first', stickyOutput = true } = Astro.props;
+const classes = [
+  'tool-split',
+  `ratio-${ratio}`,
+  `stack-${stackOrder}`,
+  stickyOutput ? 'sticky-output' : '',
+].filter(Boolean).join(' ');
+---
+
+<div class={classes}>
+  <div class="ts-input"><slot name="input" /></div>
+  <div class="ts-output"><slot name="output" /></div>
+</div>
+
+<style>
+  .tool-split {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  /* Mobile/tablet only: optionally lead with the answer. Scoped to <1024px so it can
+     never leak onto desktop, where DOM order (input-left / output-right) must win. */
+  @media (max-width: 1023px) {
+    .tool-split.stack-output-first .ts-output {
+      order: -1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .tool-split {
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .tool-split.ratio-1-1 { grid-template-columns: 1fr 1fr; }
+    .tool-split.ratio-3-2 { grid-template-columns: 3fr 2fr; }
+    .tool-split.ratio-2-1 { grid-template-columns: 2fr 1fr; }
+    .tool-split.ratio-3-1 { grid-template-columns: 3fr 1fr; }
+
+    .tool-split.sticky-output .ts-output {
+      position: sticky;
+      top: var(--space-6);
+    }
+  }
+</style>

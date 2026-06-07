@@ -1,0 +1,125 @@
+---
+// Shared widget for all simple text measurement tools.
+// Scope: Word Counter, Character Counter, Sentence Counter, Paragraph Counter, Reading Time.
+// Complex tools requiring custom analysis logic should NOT use this component.
+import type { MetricFormatter } from '@data/types';
+import TrustNotice from '@components/tool/TrustNotice.astro';
+import TextareaInput from '@components/tool/TextareaInput.astro';
+import HeroMetric from '@components/tool/HeroMetric.astro';
+import StatGrid from '@components/tool/StatGrid.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+
+interface StatDef {
+  metric: string;
+  label: string;
+  formatter?: MetricFormatter;
+}
+
+interface Props {
+  slug: string;
+  stats: StatDef[];
+  emptyMessage?: string;
+}
+
+const { slug, stats } = Astro.props;
+const [primaryStat, ...secondaryStats] = stats;
+const inputId = `${slug}-input`;
+---
+
+<TrustNotice variant="private" />
+
+<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={true}>
+  <div slot="input">
+    <section class="tool-panel">
+      <TextareaInput id={inputId} label="Your text" />
+    </section>
+    <ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId} />
+  </div>
+
+  <div slot="output" class="tm-output">
+    <div class="tm-result">
+      <span class="widget-label">Result</span>
+      <HeroMetric
+        metric={primaryStat.metric}
+        label={primaryStat.label}
+        formatter={primaryStat.formatter}
+      />
+    </div>
+    {secondaryStats.length > 0 && (
+      <section class="result-panel tm-secondary" hidden>
+        <StatGrid stats={secondaryStats} />
+      </section>
+    )}
+  </div>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline define:vars={{ slug }}>
+(function () {
+  var inputId = slug + '-input';
+  var textarea = document.getElementById(inputId);
+  var hint = document.querySelector('.empty-hint');
+  var secondary = document.querySelector('.tm-secondary');
+  var hero = document.querySelector('.hero-value');
+  if (!textarea) return;
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pulseTimer;
+
+  function pulse() {
+    if (reduceMotion || !hero) return;
+    hero.classList.add('is-updated');
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(function () { hero.classList.remove('is-updated'); }, 200);
+  }
+
+  function setMetric(el, value) {
+    var fmt = el.dataset.formatter || 'integer';
+    var next = ToyTools.formatMetric(value, fmt);
+    if (el.textContent !== next) {
+      el.textContent = next;
+      if (el === hero) pulse();
+    }
+  }
+
+  function update() {
+    var text = textarea.value;
+    if (!text.trim()) {
+      // Empty state: hero shows zero-format, secondary metrics hidden, hint shown.
+      if (hero) setMetric(hero, 0);
+      if (secondary) secondary.hidden = true;
+      if (hint) hint.hidden = false;
+      return;
+    }
+    if (hint) hint.hidden = true;
+    if (secondary) secondary.hidden = false;
+    var r = ToyTools.analyze(text);
+    document.querySelectorAll('[data-metric]').forEach(function (el) {
+      var key = el.dataset.metric;
+      setMetric(el, r[key] !== undefined ? r[key] : 0);
+    });
+  }
+
+  // Restore saved text (versioned per-tool state)
+  try {
+    var saved = ToyTools.state && ToyTools.state.load(slug);
+    if (saved && typeof saved.text === 'string') {
+      textarea.value = saved.text;
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  } catch (_) {}
+
+  textarea.addEventListener('input', function () {
+    update();
+    if (ToyTools.state) ToyTools.state.save(slug, { text: textarea.value });
+  });
+  update();
+
+  // Desktop only — let users start typing immediately without popping a mobile keyboard.
+  if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
+})();
+</script>

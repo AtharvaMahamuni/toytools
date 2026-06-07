@@ -1,16 +1,24 @@
 import type { ToolConfig } from './types';
-import { config as wordCounter }          from '@tools/word-counter/config';
-import { config as caseConverter }        from '@tools/case-converter/config';
-import { config as percentageCalculator } from '@tools/percentage-calculator/config';
-import { config as todoList }             from '@tools/todo-list/config';
-import { config as notepad }              from '@tools/notepad/config';
-import { config as keepScreenAwake }      from '@tools/keep-screen-awake/config';
-import { config as base64 }              from '@tools/base64-encoder-decoder/config';
-import { config as pomodoroTimer }        from '@tools/pomodoro-timer/config';
+import { config as wordCounter }           from '@tools/text/word-counter/config';
+import { config as characterCounter }      from '@tools/text/character-counter/config';
+import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
+import { config as sentenceCounter }       from '@tools/text/sentence-counter/config';
+import { config as paragraphCounter }      from '@tools/text/paragraph-counter/config';
+import { config as caseConverter }         from '@tools/text/case-converter/config';
+import { config as percentageCalculator }  from '@tools/number/percentage-calculator/config';
+import { config as todoList }              from '@tools/productivity/todo-list/config';
+import { config as notepad }              from '@tools/productivity/notepad/config';
+import { config as keepScreenAwake }       from '@tools/productivity/keep-screen-awake/config';
+import { config as base64 }               from '@tools/developer/base64-encoder-decoder/config';
+import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
   wordCounter,
+  characterCounter,
+  readingTimeCalculator,
+  sentenceCounter,
+  paragraphCounter,
   caseConverter,
   percentageCalculator,
   todoList,

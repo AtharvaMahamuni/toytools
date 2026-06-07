@@ -1,0 +1,215 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A word counter scans text and counts the number of discrete words it contains,
+      along with related metrics like character count, sentence count, and estimated
+      reading time. It is the fastest way to check whether your writing meets a
+      word limit or falls within a target range.
+    </p>
+    <p>
+      Word counts matter for academic submissions, publication guidelines, SEO content
+      targets, and character-limited platforms. Knowing your count before you submit
+      prevents last-minute cutting or padding.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Word Counter →</a>
+  </section>
+
+  <section id="why-word-count-matters">
+    <h2>Why Word Count Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Academic writing.</strong> Universities and examination boards set word
+      limits for a reason: they calibrate how much depth is expected for a given task.
+      Most institutions count a 10% margin as acceptable (so a 2,000-word essay can run
+      1,800–2,200 words), but going significantly over or under can affect grades.
+      Dissertations, theses, and journal articles have strict upper limits enforced
+      at submission.
+    </p>
+    <p>
+      <strong>Publishing and journalism.</strong> News articles have column-inch constraints.
+      Magazine features are commissioned at specific word counts — 1,500 words for a
+      short feature, 4,000 for a cover story. Editors cut to fit, so knowing your count
+      helps you control where the cuts happen.
+    </p>
+    <p>
+      <strong>SEO and content marketing.</strong> Search engine optimization practitioners
+      track word count because longer, detailed content tends to rank well for
+      informational queries. Most SEO guidelines suggest 1,500–2,500 words for a
+      competitive blog post, though quality and relevance matter far more than raw length.
+    </p>
+    <p>
+      <strong>Social media.</strong> Platforms impose hard character limits. Twitter/X
+      allows 280 characters per post. LinkedIn posts cap at 3,000 characters.
+      Instagram captions allow up to 2,200 characters. These are character limits,
+      not word limits — but a word counter that also tracks characters handles both.
+    </p>
+  </section>
+
+  <section id="how-words-are-counted">
+    <h2>How Words Are Counted <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most word counters use whitespace as the delimiter. The text is split on spaces,
+      tabs, and newlines, and the resulting non-empty tokens are counted as words.
+      "Hello, world!" splits into two tokens — "Hello," and "world!" — giving a word
+      count of 2, even though punctuation is attached.
+    </p>
+    <p>
+      Edge cases cause the small differences you may notice between tools:
+    </p>
+    <ul>
+      <li><strong>Hyphenated words:</strong> "well-known" is 1 word in most counters, 2 in some.</li>
+      <li><strong>Contractions:</strong> "don't" and "it's" are each 1 word.</li>
+      <li><strong>Numbers:</strong> "42" and "3.14" each count as 1 word.</li>
+      <li><strong>URLs:</strong> "https://example.com/path" typically counts as 1 word.</li>
+      <li><strong>Multiple spaces:</strong> Consecutive spaces are treated as a single delimiter.</li>
+    </ul>
+    <p>
+      These differences are small — 1–3 words for typical prose — but they
+      explain why your word processor and an online counter may not agree exactly.
+    </p>
+    <ReferenceBlock type="note" heading="For academic submissions">
+      <p>Many universities specify which software to use for word count verification. If in doubt, use the counter built into Microsoft Word or Google Docs, as these are most commonly referenced in submission guidelines. Online tools are reliable for estimates and drafting.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="characters-words-reading-time">
+    <h2>Characters, Words, and Reading Time <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Characters</strong> count every individual symbol in the text, including
+      spaces, punctuation, and numbers. Character count is the right metric for
+      platform character limits (SMS, tweets, form fields). "Hello!" is 6 characters.
+    </p>
+    <p>
+      <strong>Words</strong> count discrete units of meaning. Word count is the right
+      metric for essays, articles, and writing assignments. "Hello, world, how are you?"
+      is 5 words but 28 characters (with spaces).
+    </p>
+    <p>
+      <strong>Reading time</strong> is an estimate based on average adult reading speed.
+      Most tools use 200–250 words per minute as the baseline for prose. At 200 wpm,
+      a 1,000-word article takes 5 minutes; at 250 wpm, it takes 4 minutes. Technical
+      documentation with specialized vocabulary is typically read at 100–150 wpm,
+      so these estimates are deliberately conservative.
+    </p>
+    <p>
+      The reading time metric is most useful for content creators writing for the web.
+      For example, a 1,500-word blog post reads in about 7 minutes at 200 wpm — displaying
+      that estimate helps readers decide whether to read now or save it for later.
+      Use this tool as a reading time calculator: paste any text to instantly see how long
+      it takes to read at average adult speed.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Padding to hit a word count">
+      <p>
+        Adding filler sentences to reach a word limit produces weaker writing and usually
+        reads as padding to anyone grading or editing it. A better approach is to identify
+        areas where the argument could be expanded with evidence, examples, or analysis.
+        If you genuinely cannot reach the limit, the topic may need to be broadened.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Confusing character count with word count">
+      <p>
+        When a platform says "280 characters," that is not 280 words — it is roughly
+        40–50 words of typical prose. Double-check which metric applies before writing.
+        This tool shows both so you can monitor whichever limit applies to your context.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Headings and titles are usually included">
+      <p>Academic word count guidelines typically include all text — headings, footnotes, in-text citations, and titles — unless the instructions specifically state otherwise. Check your specific guidelines before assuming any section is excluded.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="history">
+    <h2>History <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Before word processors, counting words was a manual, time-consuming task. Editors
+      at newspapers and publishing houses counted words by marking every tenth word with
+      a pencil, then multiplying by ten and adjusting. Writers were paid by the word
+      for much of the 19th and early 20th centuries — a practice that shaped the verbose
+      style of serial fiction in that era, as authors like Charles Dickens had a direct
+      financial incentive to write longer. Word count as a professional constraint
+      became embedded in journalism through the invention of the telegraph, where
+      brevity had a literal cost per transmitted word.
+    </p>
+    <p>
+      The first word processor, IBM's MT/ST in 1964, did not include automated word
+      counting. That feature arrived with personal computer word processors in the late
+      1970s and early 1980s. WordStar and later WordPerfect added word count as a
+      utility function. Microsoft Word made it a status bar staple from its earliest
+      versions. By the 1990s, automatic word counting had become a standard expectation
+      in any writing software.
+    </p>
+    <p>
+      The SEO industry elevated word count to a strategic metric in the 2000s as
+      studies showed correlations between article length and search ranking positions.
+      This created a brief era of "word stuffing" — artificially long articles padded
+      to hit target counts — before search algorithms improved to measure content quality
+      and relevance rather than raw length. Today, word count remains a useful proxy
+      for completeness, but it is one signal among many rather than an end in itself.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

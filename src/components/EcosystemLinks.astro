@@ -12,7 +12,7 @@ interface Props {
 
 const { currentType, toolSlug, toolCategorySegment, toolName, entry } = Astro.props;
 
-const toolHref = withBase(`/tools/${toolCategorySegment}/${toolSlug}/`);
+const toolHref = withBase(`/tool/${toolCategorySegment}/${toolSlug}/`);
 const guideHref = entry.guide
   ? withBase(`/guide/${entry.guide.categorySlug}/${entry.guide.slug}/`)
   : null;

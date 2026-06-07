@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npx tsx scripts/validate-registry.ts && astro build",
+    "test": "vitest run",
     "preview": "astro preview",
     "astro": "astro",
     "seo:research": "npm --prefix seo-engine run seo:research --",
@@ -27,6 +28,8 @@
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "playwright": "^1.60.0"
+    "playwright": "^1.60.0",
+    "tsx": "^4.22.4",
+    "vitest": "^4.1.8"
   }
 }
