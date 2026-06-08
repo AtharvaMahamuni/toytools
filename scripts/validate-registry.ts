@@ -2,9 +2,10 @@ import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
 import { ENCODERS } from '../src/lib/engines/encoding/registry';
+import { HASHERS } from '../src/lib/engines/hashing/registry';
 
-const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor', 'encoding']);
-const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup', 'encode-decode']);
+const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor', 'encoding', 'hashing']);
+const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'hash']);
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
 const slugsSeen = new Set<string>();
@@ -54,6 +55,15 @@ for (const tool of tools) {
       errors.push(`Tool "${tool.slug}" uses engine "encoding" but is missing processorId`);
     } else if (!ENCODERS[tool.processorId]) {
       errors.push(`Tool "${tool.slug}" references unknown encoder "${tool.processorId}" — register it in src/lib/engines/encoding/registry.ts`);
+    }
+  }
+
+  // hashing tools must reference a registered hasher
+  if (tool.engine === 'hashing') {
+    if (!tool.processorId) {
+      errors.push(`Tool "${tool.slug}" uses engine "hashing" but is missing processorId`);
+    } else if (!HASHERS[tool.processorId]) {
+      errors.push(`Tool "${tool.slug}" references unknown hasher "${tool.processorId}" — register it in src/lib/engines/hashing/registry.ts`);
     }
   }
 }

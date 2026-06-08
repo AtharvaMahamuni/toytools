@@ -26,6 +26,9 @@ import { config as keepScreenAwake }       from '@tools/productivity/keep-screen
 import { config as base64 }               from '@tools/developer/base64-encoder-decoder/config';
 import { config as urlEncoderDecoder }     from '@tools/developer/url-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer/html-entity-encoder-decoder/config';
+import { config as md5HashGenerator }     from '@tools/developer/md5-hash-generator/config';
+import { config as sha1HashGenerator }    from '@tools/developer/sha1-hash-generator/config';
+import { config as sha256HashGenerator }  from '@tools/developer/sha256-hash-generator/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
@@ -55,6 +58,9 @@ export const tools: ToolConfig[] = [
   base64,
   urlEncoderDecoder,
   htmlEntityEncoderDecoder,
+  md5HashGenerator,
+  sha1HashGenerator,
+  sha256HashGenerator,
   pomodoroTimer,
 ];
 
