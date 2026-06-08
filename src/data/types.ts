@@ -5,6 +5,7 @@ export interface Category {
   toolCount: number;
   accent?: string;
   segment: string; // short URL path segment used in /tools/[segment]/[slug]/
+  engines: string[]; // engine ids this category owns (enables future auto-generated category pages)
 }
 
 export interface FAQItem {

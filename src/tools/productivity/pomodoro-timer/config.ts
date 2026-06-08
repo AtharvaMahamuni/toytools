@@ -14,6 +14,9 @@ export const config: ToolConfig = {
   ],
   isNew: true,
   updatedAt: '2026-06-05',
+  engine: 'productivity',
+  pattern: 'stateful',
+  family: 'timer',
   guide: {
     slug: 'pomodoro-technique',
     categorySlug: 'productivity',

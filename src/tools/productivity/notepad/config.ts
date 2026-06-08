@@ -15,6 +15,9 @@ export const config: ToolConfig = {
   ],
   isNew: true,
   updatedAt: '2026-06-04',
+  engine: 'productivity',
+  pattern: 'stateful',
+  family: 'note',
   guide: {
     slug: 'how-to-take-better-notes',
     categorySlug: 'productivity',
