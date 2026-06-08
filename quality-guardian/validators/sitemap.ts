@@ -29,11 +29,17 @@ export const sitemapValidator: Validator = {
       return { issues };
     }
 
-    // Collect full content of all sitemap files in dist/
-    const sitemapFiles = readdirSync(ctx.distDir)
-      .filter(f => f.startsWith('sitemap') && f.endsWith('.xml'));
-    const allSitemapContent = sitemapFiles
-      .map(f => readFileSync(join(ctx.distDir, f), 'utf-8'))
+    // Collect full content of all sitemap files: the index at dist/ root plus the
+    // semantic buckets under dist/sitemaps/ (registry-driven sitemap).
+    const rootFiles = readdirSync(ctx.distDir)
+      .filter(f => f.startsWith('sitemap') && f.endsWith('.xml'))
+      .map(f => join(ctx.distDir, f));
+    const bucketDir = join(ctx.distDir, 'sitemaps');
+    const bucketFiles = existsSync(bucketDir)
+      ? readdirSync(bucketDir).filter(f => f.endsWith('.xml')).map(f => join(bucketDir, f))
+      : [];
+    const allSitemapContent = [...rootFiles, ...bucketFiles]
+      .map(f => readFileSync(f, 'utf-8'))
       .join('\n');
 
     // Check each manifest route (excluding /404.html) appears in the sitemap
