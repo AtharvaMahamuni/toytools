@@ -12,12 +12,14 @@
   import { runProcessor } from '@lib/text/processors/registry';
   import { runEncoding } from '@lib/engines/encoding/registry';
   import { runHash } from '@lib/engines/hashing/registry';
+  import { runStructuredData } from '@lib/engines/structured-data/registry';
   const TT = ((window as any).ToyTools ??= {});
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
   TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
   TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
   TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
+  TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
 </script>
 
 <script is:inline>

@@ -1,0 +1,212 @@
+---
+// Generic structured-data widget — powers json-formatter / json-minifier / json-validator
+// (and any future structured-data tool). It knows nothing about a specific tool: it reads a
+// structuredId and runs `input → ToyTools.runStructuredData(id, input) → { ok, output, error }`
+// live, rendering a ✓/✗ status line. Per-tool Widget.astro files are 3-line wrappers.
+//
+// If a new structured-data tool ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import CopyButton from '@components/CopyButton.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import TrustNotice from '@components/tool/TrustNotice.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { withBase } from '@lib/paths';
+import type { ToolConfig, FAQItem } from '@data/types';
+
+interface Props {
+  slug: string;
+  structuredId: string;
+  config: ToolConfig;
+  faqItems?: FAQItem[];
+  // Validator-style tools show only the status line, no output textarea.
+  showOutput?: boolean;
+}
+
+const { slug, structuredId, config, faqItems = [], showOutput = true } = Astro.props;
+
+const inputId = `${slug}-input`;
+const outputId = `${slug}-output`;
+const statusId = `${slug}-status`;
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<TrustNotice variant="private" />
+
+<div class="sd-container">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <div slot="input" class="sd-panel" data-structured={structuredId} data-slug={slug}>
+      <div class="sd-header">
+        <label class="sd-label" for={inputId}>Input</label>
+      </div>
+      <textarea
+        id={inputId}
+        placeholder="Paste JSON here"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"></textarea>
+      <ToolActions clearTarget={inputId} pasteTarget={inputId} />
+    </div>
+
+    <div slot="output" class="sd-panel">
+      <div class="sd-header" data-copy-bar>
+        <span class="sd-label">{showOutput ? 'Output' : 'Status'}</span>
+        {showOutput && <CopyButton targetId={outputId} />}
+      </div>
+      <p id={statusId} class="sd-status" data-ok="" aria-live="polite"></p>
+      {showOutput && (
+        <output id={outputId} aria-live="polite" data-empty>Output will appear here</output>
+      )}
+    </div>
+  </ToolSplit>
+</div>
+
+<CategoryDiscovery toolSlug={slug} />
+
+<ToolSection heading="How it works">
+  <p>{config.description} Everything runs locally in your browser — your data never leaves your device.</p>
+  {guideHref && config.guide && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → {config.guide.title}</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && faqItems.length > 0 && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}
+
+<style is:global>
+  .sd-container {
+    padding-block: var(--space-8);
+    border-bottom: var(--border);
+  }
+  .sd-panel {
+    border: var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+    overflow: hidden;
+  }
+  .sd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding-left: var(--space-3);
+    border-bottom: var(--border);
+    min-height: var(--touch-target);
+    flex-shrink: 0;
+  }
+  .sd-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+  }
+  .sd-panel textarea {
+    flex: 1;
+    resize: none;
+    width: 100%;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    padding: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-variant-ligatures: none;
+  }
+  .sd-status {
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+  }
+  .sd-status:empty { display: none; }
+  .sd-status[data-ok='true'] { color: var(--color-success); }
+  .sd-status[data-ok='false'] { color: var(--color-danger); }
+  .sd-panel output {
+    flex: 1;
+    display: block;
+    margin: 0;
+    min-height: 0;
+    border: none;
+    border-top: var(--border);
+    border-radius: 0;
+    padding: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    color: var(--color-text);
+    font-variant-ligatures: none;
+  }
+  .sd-panel output[data-empty] {
+    color: var(--color-text-subtle);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-structured][data-slug]');
+    if (!root) return;
+    var sid = root.getAttribute('data-structured');
+    var slug = root.getAttribute('data-slug');
+    var input = document.getElementById(slug + '-input');
+    var output = document.getElementById(slug + '-output');
+    var status = document.getElementById(slug + '-status');
+    if (!input || !status) return;
+
+    function setOutput(text, empty) {
+      if (!output) return;
+      output.textContent = text;
+      if (empty) output.setAttribute('data-empty', '');
+      else output.removeAttribute('data-empty');
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.runStructuredData)) return;
+      var res = ToyTools.runStructuredData(sid, input.value);
+      if (!input.value.trim()) {
+        status.textContent = '';
+        status.setAttribute('data-ok', '');
+        setOutput('Output will appear here', true);
+        return;
+      }
+      status.setAttribute('data-ok', res.ok ? 'true' : 'false');
+      status.textContent = res.ok ? '✓ Valid' : '✗ ' + (res.error || 'Invalid');
+      setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);
+    }
+
+    function persist() {
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value });
+    }
+
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      if (saved && typeof saved.input === 'string') input.value = saved.input;
+    } catch (_) {}
+
+    input.addEventListener('input', function () { run(); persist(); });
+    run();
+  })();
+</script>

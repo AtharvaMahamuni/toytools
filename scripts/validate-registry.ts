@@ -3,9 +3,10 @@ import { categories } from '../src/data/categories';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
 import { ENCODERS } from '../src/lib/engines/encoding/registry';
 import { HASHERS } from '../src/lib/engines/hashing/registry';
+import { STRUCTURED_TOOLS } from '../src/lib/engines/structured-data/registry';
 
-const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor', 'encoding', 'hashing']);
-const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'hash']);
+const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data']);
+const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'hash', 'structured-transform', 'structured-validate']);
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
 const slugsSeen = new Set<string>();
@@ -64,6 +65,15 @@ for (const tool of tools) {
       errors.push(`Tool "${tool.slug}" uses engine "hashing" but is missing processorId`);
     } else if (!HASHERS[tool.processorId]) {
       errors.push(`Tool "${tool.slug}" references unknown hasher "${tool.processorId}" — register it in src/lib/engines/hashing/registry.ts`);
+    }
+  }
+
+  // structured-data tools must reference a registered tool
+  if (tool.engine === 'structured-data') {
+    if (!tool.processorId) {
+      errors.push(`Tool "${tool.slug}" uses engine "structured-data" but is missing processorId`);
+    } else if (!STRUCTURED_TOOLS[tool.processorId]) {
+      errors.push(`Tool "${tool.slug}" references unknown structured-data tool "${tool.processorId}" — register it in src/lib/engines/structured-data/registry.ts`);
     }
   }
 }
