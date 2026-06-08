@@ -24,6 +24,8 @@ import { config as todoList }              from '@tools/productivity/todo-list/c
 import { config as notepad }              from '@tools/productivity/notepad/config';
 import { config as keepScreenAwake }       from '@tools/productivity/keep-screen-awake/config';
 import { config as base64 }               from '@tools/developer/base64-encoder-decoder/config';
+import { config as urlEncoderDecoder }     from '@tools/developer/url-encoder-decoder/config';
+import { config as htmlEntityEncoderDecoder } from '@tools/developer/html-entity-encoder-decoder/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
@@ -51,6 +53,8 @@ export const tools: ToolConfig[] = [
   notepad,
   keepScreenAwake,
   base64,
+  urlEncoderDecoder,
+  htmlEntityEncoderDecoder,
   pomodoroTimer,
 ];
 

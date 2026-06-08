@@ -9,6 +9,11 @@ export const config: ToolConfig = {
   tags: ['base64', 'encode', 'decode', 'developer', 'base64 encoder', 'base64 decoder', 'base64 converter', 'online base64', 'base64 to text', 'text to base64', 'decode base64 string', 'base64 converter online', 'base64 encode decode'],
   isNew: true,
   updatedAt: '2026-06-02',
+  engine: 'encoding',
+  pattern: 'encode-decode',
+  family: 'binary-text',
+  processorId: 'base64',
+  relatedTools: ['url-encoder-decoder', 'html-entity-encoder-decoder'],
   guide: {
     slug: 'what-is-base64',
     categorySlug: 'developer',

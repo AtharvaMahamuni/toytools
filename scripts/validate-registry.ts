@@ -1,9 +1,10 @@
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
+import { ENCODERS } from '../src/lib/engines/encoding/registry';
 
-const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor']);
-const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup']);
+const KNOWN_ENGINES = new Set(['text-analysis', 'text-processor', 'encoding']);
+const KNOWN_PATTERNS = new Set(['text-metric', 'text-transform', 'text-cleanup', 'encode-decode']);
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
 const slugsSeen = new Set<string>();
@@ -44,6 +45,15 @@ for (const tool of tools) {
       errors.push(`Tool "${tool.slug}" uses engine "text-processor" but is missing processorId`);
     } else if (!PROCESSORS[tool.processorId]) {
       errors.push(`Tool "${tool.slug}" references unknown processorId "${tool.processorId}" — register it in src/lib/text/processors/registry.ts`);
+    }
+  }
+
+  // encoding tools must reference a registered encoder
+  if (tool.engine === 'encoding') {
+    if (!tool.processorId) {
+      errors.push(`Tool "${tool.slug}" uses engine "encoding" but is missing processorId`);
+    } else if (!ENCODERS[tool.processorId]) {
+      errors.push(`Tool "${tool.slug}" references unknown encoder "${tool.processorId}" — register it in src/lib/engines/encoding/registry.ts`);
     }
   }
 }

@@ -45,7 +45,8 @@ export interface ToolConfig {
   engine?: string;           // e.g. 'text-analysis' | 'text-processor'
   pattern?: string;          // e.g. 'text-metric' | 'text-transform'
   family?: string;           // e.g. 'text-counting' | 'text-case' | 'transform' | 'cleanup'
-  processorId?: string;      // text-processor engine: id resolved via ToyTools.process()
+  processorId?: string;      // engine lookup key — resolved via the engine's registry (process/encode/hash/structured)
+  relatedTools?: string[];   // explicit curated related-tool slugs (computed getRelatedTools is the fallback)
   keywords?: string[];       // extra search/command-palette terms (architecture metadata, not SEO copy)
   inputs?: string[];         // descriptor of input types, e.g. ['text'] | ['number','number']
   outputs?: string[];        // descriptor of output types, e.g. ['metric'] | ['text']

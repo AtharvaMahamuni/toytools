@@ -10,10 +10,12 @@
   import { analyzeText } from '@lib/text/analysis';
   import { formatMetric } from '@lib/text/formatters';
   import { runProcessor } from '@lib/text/processors/registry';
+  import { runEncoding } from '@lib/engines/encoding/registry';
   const TT = ((window as any).ToyTools ??= {});
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
   TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
+  TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
 </script>
 
 <script is:inline>
