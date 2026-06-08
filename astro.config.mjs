@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import partytown from '@astrojs/partytown';
 
 const base = process.env.ASTRO_BASE_PATH;
 
@@ -55,6 +56,11 @@ export default defineConfig({
       },
     }),
     seoValidator,
+    partytown({
+      config: {
+        forward: ['dataLayer.push'],
+      },
+    }),
   ],
   site: process.env.ASTRO_SITE ?? 'https://toytoolsapp.com',
   base,
