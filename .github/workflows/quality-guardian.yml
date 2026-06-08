@@ -27,6 +27,12 @@ jobs:
       - name: Install root dependencies
         run: npm ci
 
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Check coverage thresholds
+        run: npm run test:coverage
+
       - name: Install quality-guardian dependencies
         run: npm ci --prefix quality-guardian
 

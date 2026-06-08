@@ -9,6 +9,8 @@
     "dev": "astro dev",
     "build": "npx tsx scripts/validate-registry.ts && astro build",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
     "preview": "astro preview",
     "astro": "astro",
     "version:bump": "npx tsx scripts/bump-version.ts",
@@ -29,7 +31,9 @@
     "astro": "^6.4.3"
   },
   "devDependencies": {
+    "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.3",
+    "@vitest/coverage-v8": "^4.1.8",
     "playwright": "^1.60.0",
     "tsx": "^4.22.4",
     "vitest": "^4.1.8"

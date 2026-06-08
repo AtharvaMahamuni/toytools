@@ -57,9 +57,10 @@ const maxWidthVar =
     <meta name="twitter:image" content={withBase('/favicon.svg')} />
     <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WHD7CL44MX" is:inline></script>
-    <script is:inline>
+    <!-- Google tag (gtag.js) — runs in a web worker via Partytown (off main thread) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-WHD7CL44MX"></script>
+    <script type="text/partytown">
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
