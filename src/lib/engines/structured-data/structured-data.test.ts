@@ -10,6 +10,10 @@ describe('runStructuredData', () => {
       output: '',
       error: 'Unknown tool',
     }));
+  it('resolves and runs a known tool', () =>
+    expect(runStructuredData('json-minifier', '{ "a": 1 }')).toEqual({ ok: true, output: '{"a":1}' }));
+  it('surfaces a tool error through the resolver', () =>
+    expect(runStructuredData('json-validator', '{bad}').ok).toBe(false));
 });
 
 describe('json-formatter', () => {
@@ -37,6 +41,7 @@ describe('json-minifier', () => {
     expect(run(formatted).output).toBe(JSON.stringify(JSON.parse(MESSY)));
   });
   it('reports an error for invalid JSON', () => expect(run('[1,2,').ok).toBe(false));
+  it('returns empty output for empty input', () => expect(run('   ')).toEqual({ ok: true, output: '' }));
 });
 
 describe('json-validator', () => {

@@ -63,6 +63,24 @@ For any `text → process(text) → text` tool, use the **Text Processor System*
 
 The shared `TextProcessorWidget.astro` is generic and must never be edited to add a tool or a new processor family (`extract`/`compare`/`validate`/`format` register the same way). `validate-registry.ts` enforces that each `text-processor` tool's `processorId` resolves in the registry.
 
+### Adding a developer-engine tool (encoding / hashing / structured-data)
+
+The Developer category has three more engines under `src/lib/engines/`, each with the same shape as the text-processor system: `types.ts` + a never-throwing `registry.ts` resolver + per-impl files + a colocated `*.test.ts`, bundled into `ToyToolsRuntime` and consumed by **one generic widget per engine**. See `ARCHITECTURE.md` → "Developer Engines" for the full table.
+
+| Engine | Runtime | Widget | `engine` / `pattern` |
+|--------|---------|--------|----------------------|
+| Encoding | `ToyTools.runEncoding(id, mode, text)` → `{ok,output,error}` | `EncodingWidget.astro` | `encoding` / `encode-decode` |
+| Hashing | `ToyTools.runHash(id, text)` → `Promise<string>` | `HashWidget.astro` | `hashing` / `hash` |
+| Structured-Data | `ToyTools.runStructuredData(id, input)` → `{ok,output,error}` | `StructuredDataWidget.astro` | `structured-data` / `structured-transform`\|`structured-validate` |
+
+1. Add the impl in the engine's lib dir + one `registry.ts` entry. Keep browser APIs (`btoa`/`atob`/`crypto.subtle`) **inside** methods — never at module top-level.
+2. Create `config.ts` (`engine`, `pattern`, `family`, `processorId`, and curated `relatedTools`) + a **3-line** `Widget.astro` rendering the engine widget. Add the registry import + array entry.
+3. Extend the engine's `*.test.ts` (test the engine, not the tool). Optional guide/faq register as usual.
+
+`processorId` is the universal config→engine lookup key. `KNOWN_ENGINES`/`KNOWN_PATTERNS` in `validate-registry.ts` derive from `engineRegistry` (`src/data/engines.ts`) — **register a new engine/pattern there**, not in the validator. `validate-registry` also checks metadata completeness, category/engine/pattern/relatedTools resolution, and duplicate slugs/URLs. Run `npm run health` for the post-build platform integrity superset.
+
+The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides/faqs appear automatically; never hand-edit a sitemap.
+
 ### Removing a tool (2 steps)
 
 1. Delete `src/tools/<segment>/<slug>/`

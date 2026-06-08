@@ -114,7 +114,7 @@ function md5bytes(bytes: Uint8Array): number[] {
 
   let i: number;
   for (i = 0; i + 64 <= n; i += 64) {
-    md5cycle(state, bytesToWords(bytes, i, 64));
+    md5cycle(state, bytesToWords(bytes, i));
   }
 
   // Final block(s) with padding.
@@ -134,21 +134,18 @@ function md5bytes(bytes: Uint8Array): number[] {
   tail[last - 1] = (bitLenHigh >>> 24) & 0xff;
 
   for (let j = 0; j < tail.length; j += 64) {
-    md5cycle(state, bytesToWords(tail, j, 64));
+    md5cycle(state, bytesToWords(tail, j));
   }
   return state;
 }
 
-// Read 16 little-endian 32-bit words from a byte offset.
-function bytesToWords(bytes: Uint8Array, offset: number, len: number): number[] {
+// Read 16 little-endian 32-bit words from a byte offset. Always called on a complete
+// 64-byte block (full blocks of the message, or the padded tail), so no bounds guards.
+function bytesToWords(bytes: Uint8Array, offset: number): number[] {
   const words: number[] = new Array(16);
   for (let i = 0; i < 16; i++) {
     const b = offset + i * 4;
-    words[i] =
-      (b < offset + len ? bytes[b] : 0) |
-      ((b + 1 < offset + len ? bytes[b + 1] : 0) << 8) |
-      ((b + 2 < offset + len ? bytes[b + 2] : 0) << 16) |
-      ((b + 3 < offset + len ? bytes[b + 3] : 0) << 24);
+    words[i] = bytes[b] | (bytes[b + 1] << 8) | (bytes[b + 2] << 16) | (bytes[b + 3] << 24);
   }
   return words;
 }

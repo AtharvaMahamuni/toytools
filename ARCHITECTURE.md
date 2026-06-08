@@ -258,6 +258,65 @@ names. **If a new family requires editing the widget, the architecture has faile
 
 ---
 
+## Developer Engines (`src/lib/engines/`)
+
+The Developer category is built from three more engines, each following the *same* pattern as the
+Text Processor System — `types.ts` + a never-throwing `registry.ts` resolver + per-impl files +
+colocated `*.test.ts` — bundled into `ToyToolsRuntime` and consumed by **one generic widget per
+engine**. New engines live under `src/lib/engines/`; the original two text engines remain under
+`src/lib/text/` (relocating them would break many imports for no functional gain).
+
+Each engine has a different runtime signature — that is **why there are three widgets, not one**:
+
+| Engine | Lib | Runtime global | Signature | Widget | Tools |
+|--------|-----|----------------|-----------|--------|-------|
+| Encoding | `engines/encoding/` | `ToyTools.runEncoding(id, mode, text)` | → `{ ok, output, error }` (decode can fail) | `EncodingWidget.astro` (mode/swap/sample/error) | base64, url, html-entity |
+| Hashing | `engines/hashing/` | `ToyTools.runHash(id, text)` | → `Promise<string>` (async; SHA via `crypto.subtle`, MD5 pure-JS) | `HashWidget.astro` (Generate button, awaits) | md5, sha1, sha256 |
+| Structured-Data | `engines/structured-data/` | `ToyTools.runStructuredData(id, input)` | → `{ ok, output, error }` (✓/✗ status line) | `StructuredDataWidget.astro` | json-formatter, json-minifier, json-validator |
+
+Every resolver **never throws** on an unknown id (encoding passes input through; hashing returns `''`;
+structured-data returns a result error). Browser-only APIs (`btoa`/`atob`/`crypto.subtle`) stay
+*inside* methods so importing a registry under `tsx`/vitest is side-effect-free. The universal
+config→engine lookup key is `processorId`. base64 was migrated from a bespoke widget onto the encoding
+engine with byte-parity and a one-time fallback from its legacy `toytools.base64.input` storage key.
+
+**Adding a tool to an existing engine:** impl file + one `registry.ts` entry + `config.ts`
+(`engine`/`pattern`/`family`/`processorId`) + a 3-line `Widget.astro` wrapping the engine widget +
+optional guide/faq. `validate-registry.ts` enforces that the `processorId` resolves in the matching
+registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashing.test.ts`,
+`structured-data.test.ts`) — tools are configuration, engines are behavior.
+
+## Platform Metadata & Manifests
+
+- **Engine manifest** (`src/data/engines.ts`) — `engineRegistry` is the platform-level list of every
+  engine: declared `patterns` (the authoritative allow-list) plus `supportedFamilies`/`toolCount`
+  derived from the registry. `validate-registry` derives its KNOWN engines/patterns from here; a
+  category's `engines` are derived from it too. Categories own engines; engines own tools.
+- **Metadata contract** (`src/data/metadata.ts`) — `BaseToolMetadata` is the engine-agnostic view of
+  a tool. `getToolMetadata()` **derives** it from `ToolConfig` (mapping `categorySlug → category`,
+  `guide?.slug → guideSlug`, etc.) so configs are never rewritten and there is no second metadata
+  system. Every tool — including the legacy productivity/calculator tools — exposes the full contract.
+- **Content manifest** (`src/lib/content/manifest.ts`) — `buildContentManifest()` is the canonical
+  registry-derived list of every indexable surface (home/tool/guide/faq/category/language). It is the
+  single source the sitemap derives from; search and related-content can derive from it next.
+- **Search prep** (`src/lib/search/`) — `buildSearchIndex()` produces a serializable index from the
+  metadata contract. Architecture only; no UI yet.
+- **Analytics contract** (`src/lib/analytics/events.ts`) — a frozen `AnalyticsEvents` vocabulary so
+  engine interactions share event names instead of fragmenting per tool.
+
+## Sitemap (`src/lib/sitemap/` + `src/pages/sitemaps/`)
+
+Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**
+(filename preserved so `robots.txt`, the astro.config `seoValidator`, and quality-guardian
+build-integrity keep working), referencing five semantic buckets under `src/pages/sitemaps/`:
+`tools.xml`, `guides.xml`, `faqs.xml`, `categories.xml` (+ home), `languages.xml`. Each endpoint
+filters `buildContentManifest()` by type and renders via `src/lib/sitemap/render.ts`, building
+absolute, trailing-slashed `<loc>`s as `new URL(withBase(path), Astro.site)`. `quality-guardian`'s
+sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/faqs appear in the
+sitemap automatically — no sitemap edits.
+
+---
+
 ## Registration Pattern
 
 Every tool requires exactly two registration steps:
@@ -273,7 +332,9 @@ For FAQs: add an import in `src/data/faq-registry.ts`.
 ## Build & Verification
 
 ```sh
-npm run build    # Astro + TypeScript strict — must pass before any PR
+npm run build    # validate-registry (metadata + reference integrity) + Astro + TS strict — must pass before any PR
+npm run health   # post-build platform integrity superset (metadata, manifests, search index, sitemap output)
+npm run test     # vitest — engine-level tests (encoding/hashing/structured-data/manifest/metadata/search/sitemap)
 npm run dev      # dev server at localhost:4321
 ```
 

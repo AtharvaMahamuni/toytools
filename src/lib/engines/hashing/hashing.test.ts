@@ -17,6 +17,8 @@ describe('md5', () => {
     const long = 'a'.repeat(200);
     expect(md5hex(long)).toBe('887f30b43b2867f4a9accceee7d16e6c');
   });
+  it('handles a length needing a two-block padding tail (56..63 remainder)', () =>
+    expect(md5hex('a'.repeat(60))).toBe('cc7ed669cf88f201c3297c6a91e1d18d'));
 });
 
 describe('sha1', () => {
