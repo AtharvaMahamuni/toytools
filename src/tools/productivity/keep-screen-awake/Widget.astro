@@ -215,6 +215,10 @@ const faqHref = config.faq
   .wl-dot[data-state="inactive"] { background: transparent; border: 2px solid var(--color-text-subtle); }
   .wl-dot[data-state="active"] { background: var(--color-gold); border: none; animation: dot-breathe 5s ease-in-out infinite; }
   .wl-dot[data-state="completed"] { background: var(--color-success); border: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .wl-toggle-switch[aria-checked="true"] .wl-toggle-knob { animation: none; }
+    .wl-dot[data-state="active"] { animation: none; }
+  }
 
   .wl-status-label {
     font-size: var(--text-xl); font-weight: var(--font-weight-semibold);
