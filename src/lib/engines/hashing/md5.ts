@@ -29,8 +29,11 @@ function ii(a: number, b: number, c: number, d: number, x: number, s: number, t:
   return cmn(c ^ (b | ~d), a, b, x, s, t);
 }
 
+type State = [number, number, number, number];
+
 // Process the message (as 32-bit little-endian words) into the four state words.
-function md5cycle(state: number[], k: number[]): void {
+// `k` is a Uint32Array and `state` a fixed 4-tuple so indexed reads are typed `number`.
+function md5cycle(state: State, k: Uint32Array): void {
   let [a, b, c, d] = state;
 
   a = ff(a, b, c, d, k[0], 7, -680876936);
@@ -108,9 +111,9 @@ function md5cycle(state: number[], k: number[]): void {
 }
 
 // Pad bytes per MD5 spec and run the compression function block by block.
-function md5bytes(bytes: Uint8Array): number[] {
+function md5bytes(bytes: Uint8Array): State {
   const n = bytes.length;
-  const state = [1732584193, -271733879, -1732584194, 271733878];
+  const state: State = [1732584193, -271733879, -1732584194, 271733878];
 
   let i: number;
   for (i = 0; i + 64 <= n; i += 64) {
@@ -141,23 +144,23 @@ function md5bytes(bytes: Uint8Array): number[] {
 
 // Read 16 little-endian 32-bit words from a byte offset. Always called on a complete
 // 64-byte block (full blocks of the message, or the padded tail), so no bounds guards.
-function bytesToWords(bytes: Uint8Array, offset: number): number[] {
-  const words: number[] = new Array(16);
+function bytesToWords(bytes: Uint8Array, offset: number): Uint32Array {
+  const words = new Uint32Array(16);
   for (let i = 0; i < 16; i++) {
     const b = offset + i * 4;
-    words[i] = bytes[b] | (bytes[b + 1] << 8) | (bytes[b + 2] << 16) | (bytes[b + 3] << 24);
+    // Always a complete 64-byte block, so every index is in-bounds (compile-time assert only).
+    words[i] =
+      bytes[b]! | (bytes[b + 1]! << 8) | (bytes[b + 2]! << 16) | (bytes[b + 3]! << 24);
   }
   return words;
 }
 
-function wordsToHex(state: number[]): string {
-  const hexChars = '0123456789abcdef';
+function wordsToHex(state: State): string {
   let out = '';
-  for (let i = 0; i < 4; i++) {
-    const word = state[i];
+  for (const word of state) {
     for (let j = 0; j < 4; j++) {
       const byte = (word >>> (j * 8)) & 0xff;
-      out += hexChars[(byte >>> 4) & 0x0f] + hexChars[byte & 0x0f];
+      out += byte.toString(16).padStart(2, '0');
     }
   }
   return out;

@@ -5,10 +5,9 @@ import type { HashTool } from './types';
 // inside hash() so importing this module is side-effect-free (safe under tsx/vitest).
 
 function toHex(buffer: ArrayBuffer): string {
-  const bytes = new Uint8Array(buffer);
   let out = '';
-  for (let i = 0; i < bytes.length; i++) {
-    out += bytes[i].toString(16).padStart(2, '0');
+  for (const byte of new Uint8Array(buffer)) {
+    out += byte.toString(16).padStart(2, '0');
   }
   return out;
 }
