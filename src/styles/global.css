@@ -93,6 +93,9 @@ a:hover {
   vertical-align: middle;
   flex-shrink: 0;
 }
+@media (prefers-reduced-motion: reduce) {
+  .gold-dot { animation: none; }
+}
 
 /* Copy bar highlight — appears for 2s after clicking Copy */
 [data-copy-bar] {
