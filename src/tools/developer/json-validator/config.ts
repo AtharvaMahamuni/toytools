@@ -14,4 +14,17 @@ export const config: ToolConfig = {
   family: 'json',
   processorId: 'json-validator',
   relatedTools: ['json-formatter', 'json-minifier'],
+  guide: {
+    slug: 'how-to-validate-json',
+    categorySlug: 'developer',
+    title: 'How to Validate JSON',
+    description: 'Understand JSON syntax rules, the most common errors like trailing commas and single quotes, and the difference between syntax validation and JSON Schema validation.',
+    readMinutes: 5,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'json-validator',
+    categorySlug: 'developer',
+    description: 'Answers to common questions about JSON validation, syntax errors, JSONC vs JSON, and JSON Schema.',
+  },
 };

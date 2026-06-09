@@ -14,4 +14,17 @@ export const config: ToolConfig = {
   family: 'json',
   processorId: 'json-minifier',
   relatedTools: ['json-formatter', 'json-validator'],
+  guide: {
+    slug: 'what-is-json-minification',
+    categorySlug: 'developer',
+    title: 'What Is JSON Minification?',
+    description: 'Understand how JSON minification reduces payload size, when to minify vs format, and how minification stacks with gzip compression.',
+    readMinutes: 4,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'json-minifier',
+    categorySlug: 'developer',
+    description: 'Answers to common questions about JSON minification, file size savings, reversibility, and when not to minify.',
+  },
 };

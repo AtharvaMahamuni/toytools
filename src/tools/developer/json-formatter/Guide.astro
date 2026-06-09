@@ -1,0 +1,178 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { items as faqItems } from './faq';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
+
+const exampleData = { user: { id: 1, name: 'Alice', roles: ['admin', 'editor'], active: true } };
+const compactJsonExample    = JSON.stringify(exampleData);
+const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON formatting — also called pretty-printing — rewrites compact JSON with indentation and
+      line breaks so it's easy to read. The data doesn't change. Only the whitespace does.
+    </p>
+    <p>
+      If you have JSON you want to format right now, use the tool directly.
+    </p>
+    <a href={toolHref} class="cta-link">Try the JSON Formatter →</a>
+  </section>
+
+  <section id="what-is-json-formatting">
+    <h2>What Is JSON Formatting? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON (JavaScript Object Notation) is a text format for structured data. It's valid as a
+      compact single line or spread across hundreds of lines — the parser treats both the same way.
+      Most APIs and data pipelines produce compact JSON because smaller means faster to transmit.
+    </p>
+    <p>
+      That's fine for machines. For humans, a single-line response like
+      <code>{compactJsonExample}</code>
+      requires careful scanning to understand. A formatter parses the JSON and re-serializes it with
+      consistent indentation, turning that into:
+    </p>
+    <pre class="json-example"><code>{formattedJsonExample}</code></pre>
+    <p>
+      Same data. Different whitespace. The structure is immediately readable.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Whitespace is not significant in JSON">
+      <p>JSON parsers ignore whitespace between tokens. A formatted and a minified version of the same JSON are semantically identical — any parser reads them as the same data.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Formatted JSON is a debugging tool. When an API returns unexpected data, formatting the
+      response is often the first thing you do. When a config file isn't behaving as expected,
+      formatting it reveals nesting errors and misplaced values that are invisible in a compact string.
+    </p>
+    <p>
+      It also matters for code review. A diff of well-formatted JSON shows exactly what changed.
+      A diff of minified JSON often shows a single enormous line change, which makes review pointless.
+    </p>
+    <p>
+      Most source control conventions store JSON config files formatted. Minification is a build
+      step for delivery — not for storage or review.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When You'd Use a JSON Formatter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Debugging API responses</strong> — Copy the raw response from a network request,
+        paste it into the formatter, and read the actual structure. Saves time compared to
+        counting braces by hand.
+      </li>
+      <li>
+        <strong>Reading config files</strong> — Minified <code>package-lock.json</code>,
+        <code>tsconfig.json</code> output, or bundled configs are often hard to navigate without
+        proper indentation.
+      </li>
+      <li>
+        <strong>Checking webhook payloads</strong> — When building integrations, you usually
+        receive raw JSON payloads in logs. Formatting them is the fastest way to understand
+        what fields were sent.
+      </li>
+      <li>
+        <strong>Before committing config changes</strong> — Formatted JSON in source control
+        keeps diffs clean and reviewable. Tools like <code>JSON.stringify(data, null, 2)</code>
+        or <code>prettier</code> automate this in CI.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Trying to format invalid JSON">
+      <p>
+        A formatter parses the JSON before re-serializing it. If the input has a syntax error —
+        a trailing comma, an unquoted key, a single-quoted string — the parse fails and the
+        formatter can't proceed. Fix the syntax error first. Use a validator to pinpoint exactly
+        where the problem is.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Storing formatted JSON in performance-sensitive paths">
+      <p>
+        Formatting is for humans, not production output. If your service writes JSON to a high-traffic
+        API response or a hot cache path, write it compact. Use a formatter for local debugging and
+        development tooling, not for the payload your servers send millions of times a day.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="JSON.stringify does the same thing">
+      <p>
+        In JavaScript, <code>JSON.stringify(obj, null, 2)</code> produces two-space-indented JSON.
+        The third argument controls indentation. This is what runs under the hood of every JSON
+        formatter, including this one.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .json-example {
+    background: var(--color-surface-2);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+    font-size: var(--text-sm);
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+</style>
