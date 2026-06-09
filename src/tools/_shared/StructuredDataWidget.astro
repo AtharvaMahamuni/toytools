@@ -138,6 +138,7 @@ const faqHref = config.faq
     } catch (_) {}
 
     input.addEventListener('input', function () { run(); persist(); });
-    run();
+    // runStructuredData attaches via a deferred module; wait so restored input validates on load.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>

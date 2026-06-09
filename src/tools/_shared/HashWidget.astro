@@ -141,6 +141,7 @@ const faqHref = config.faq
       run(); persist();
     });
 
-    run();
+    // runHash attaches via a deferred module; wait so restored input hashes on load.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>

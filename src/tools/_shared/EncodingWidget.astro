@@ -161,6 +161,7 @@ const faqHref = config.faq
       run(); persist();
     });
 
-    run();
+    // runEncoding attaches via a deferred module; wait so restored input computes on load.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>
