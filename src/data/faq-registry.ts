@@ -3,6 +3,8 @@ import { items as todoFaqs }               from '@tools/productivity/todo-list/f
 import { items as notepadFaqs }             from '@tools/productivity/notepad/faq';
 import { items as keepScreenAwakeFaqs }     from '@tools/productivity/keep-screen-awake/faq';
 import { items as base64Faqs }              from '@tools/developer/base64-encoder-decoder/faq';
+import { items as urlEncoderDecoderFaqs }   from '@tools/developer/url-encoder-decoder/faq';
+import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer/html-entity-encoder-decoder/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as wordCounterFaqs }         from '@tools/text/word-counter/faq';
 import { items as pomodoroTimerFaqs }        from '@tools/productivity/pomodoro-timer/faq';
@@ -32,6 +34,8 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'notepad':                notepadFaqs,
   'keep-screen-awake':      keepScreenAwakeFaqs,
   'base64-encoder-decoder': base64Faqs,
+  'url-encoder-decoder':    urlEncoderDecoderFaqs,
+  'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'percentage-calculator':  percentageCalculatorFaqs,
   'word-counter':           wordCounterFaqs,
   'pomodoro-timer':         pomodoroTimerFaqs,
