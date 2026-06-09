@@ -4,6 +4,10 @@ dist/
 .astro/
 # test coverage output
 coverage/
+# playwright e2e artifacts
+playwright-report/
+test-results/
+.playwright/
 
 # dependencies
 node_modules/

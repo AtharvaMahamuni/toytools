@@ -13,7 +13,17 @@ npm run preview  # serve dist/ locally
 ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run build
 ```
 
-`npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There are no separate lint or test scripts.
+`npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There is no separate lint script.
+
+```sh
+npm run test            # vitest — engine-level unit tests
+npm run test:e2e        # Playwright — browser E2E (builds + serves dist, runs chromium + pixel5)
+npm run test:e2e:headed # watch the real browser run
+npm run test:e2e:ui     # interactive time-travel dashboard
+npm run test:e2e:report # open the saved interactive HTML report (with traces)
+```
+
+E2E is a registry-driven platform framework (every tool gets generic smoke coverage; the developer tools are the pilot deep suite) and is **not** wired into `npm run build`. See `ARCHITECTURE.md` → "E2E Testing". Mobile-first: every spec runs on desktop **and** Pixel 5.
 
 ## Analytics
 

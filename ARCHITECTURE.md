@@ -347,3 +347,34 @@ npm run dev      # dev server at localhost:4321
 ```
 
 No separate lint or test command. The build is the single verification step.
+
+## E2E Testing (`tests/e2e/`)
+
+Browser-level verification with **Playwright Test** (`@playwright/test`). This is a
+**unified, registry-driven platform framework**, not a per-tool script — the developer
+tools are the pilot deep suite, and every current and future tool gets generic smoke
+coverage for free. E2E is a local/CI layer, deliberately **not** wired into `npm run build`.
+
+```sh
+npm run test:e2e          # headless; webServer builds + serves dist, runs all projects
+npm run test:e2e:headed   # watch the real browser run
+npm run test:e2e:ui       # interactive time-travel dashboard (pick/step tests)
+npm run test:e2e:report   # open the saved interactive HTML report (with traces)
+```
+
+- **Config** (`playwright.config.ts`): `webServer` runs `npm run build && npm run preview`
+  and waits, so the command is turnkey. Two projects — **chromium** (Desktop Chrome) and
+  **pixel5** (Pixel 5); ToyTools is mobile-first, so every spec runs on both. Reporters:
+  `html` (interactive dashboard) + `list` (console) + `json` (`playwright-report/results.json`,
+  archivable). `trace: 'retain-on-failure'` → replay failures in the Trace Viewer.
+- **Helpers** (`tests/e2e/helpers/tools.ts`): `toolPaths()` reads the **built** sitemap
+  (`dist/sitemaps/tools.xml`) for every tool's path — decoupling tests from source path-aliases
+  (`@tools`) so coverage tracks the registry automatically. `DevTool` is a viewport-agnostic
+  page object (locates by role/label/id) for the developer-engine widgets.
+- **Specs**: `smoke.spec.ts` (every tool — render + accessibility + interaction + console/page-error
+  hardening), `dev-tools.spec.ts` (the 9 developer tools — functional assertions), `performance.spec.ts`
+  (navigation-timing guardrails), `integrity.spec.ts` (registry/sitemap structural integrity).
+- **Non-goals**: no screenshot/visual-regression/pixel-diff tooling (Percy/Chromatic/image-snapshot) —
+  behavior, accessibility, and metadata integrity deliver higher ROI at this scale.
+
+Chromium is already cached locally, so no `npx playwright install` browser download is needed.
