@@ -258,6 +258,73 @@ names. **If a new family requires editing the widget, the architecture has faile
 
 ---
 
+## Developer Engines (`src/lib/engines/`)
+
+The Developer category is built from three more engines, each following the *same* pattern as the
+Text Processor System — `types.ts` + a never-throwing `registry.ts` resolver + per-impl files +
+colocated `*.test.ts` — bundled into `ToyToolsRuntime` and consumed by **one generic widget per
+engine**. New engines live under `src/lib/engines/`; the original two text engines remain under
+`src/lib/text/` (relocating them would break many imports for no functional gain).
+
+Each engine has a different runtime signature — that is **why there are three widgets, not one**:
+
+| Engine | Lib | Runtime global | Signature | Widget | Tools |
+|--------|-----|----------------|-----------|--------|-------|
+| Encoding | `engines/encoding/` | `ToyTools.runEncoding(id, mode, text)` | → `{ ok, output, error }` (decode can fail) | `EncodingWidget.astro` (mode/swap/sample/error) | base64, url, html-entity |
+| Hashing | `engines/hashing/` | `ToyTools.runHash(id, text)` | → `Promise<string>` (async; SHA via `crypto.subtle`, MD5 pure-JS) | `HashWidget.astro` (Generate button, awaits) | md5, sha1, sha256 |
+| Structured-Data | `engines/structured-data/` | `ToyTools.runStructuredData(id, input)` | → `{ ok, output, error }` (✓/✗ status line) | `StructuredDataWidget.astro` | json-formatter, json-minifier, json-validator |
+
+Every resolver **never throws** on an unknown id (encoding passes input through; hashing returns `''`;
+structured-data returns a result error). Browser-only APIs (`btoa`/`atob`/`crypto.subtle`) stay
+*inside* methods so importing a registry under `tsx`/vitest is side-effect-free. The universal
+config→engine lookup key is `processorId`. base64 was migrated from a bespoke widget onto the encoding
+engine with byte-parity and a one-time fallback from its legacy `toytools.base64.input` storage key.
+
+**Shared widget conventions.** All three widgets use the two-pane `.io-panel`/`.io-header`/`.io-label`/
+`.io-mode`/`.io-status` classes in `src/styles/tool-widget.css` (one source of truth — never re-declare
+per widget). All updates are **live on input** (no Generate/Convert button), matching percentage-calculator
+and the text tools; hashing runs `await ToyTools.runHash` race-guarded by a monotonic token so out-of-order
+async results can't clobber a newer one. Extra controls (Encode/Decode select in the header; Swap/Sample)
+go in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`, so paste/clear/swap/sample
+share one aligned row driven by `ToolActions`' delegated `[data-action]` handler.
+
+**Adding a tool to an existing engine:** impl file + one `registry.ts` entry + `config.ts`
+(`engine`/`pattern`/`family`/`processorId`) + a 3-line `Widget.astro` wrapping the engine widget +
+optional guide/faq. `validate-registry.ts` enforces that the `processorId` resolves in the matching
+registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashing.test.ts`,
+`structured-data.test.ts`) — tools are configuration, engines are behavior.
+
+## Platform Metadata & Manifests
+
+- **Engine manifest** (`src/data/engines.ts`) — `engineRegistry` is the platform-level list of every
+  engine: declared `patterns` (the authoritative allow-list) plus `supportedFamilies`/`toolCount`
+  derived from the registry. `validate-registry` derives its KNOWN engines/patterns from here; a
+  category's `engines` are derived from it too. Categories own engines; engines own tools.
+- **Metadata contract** (`src/data/metadata.ts`) — `BaseToolMetadata` is the engine-agnostic view of
+  a tool. `getToolMetadata()` **derives** it from `ToolConfig` (mapping `categorySlug → category`,
+  `guide?.slug → guideSlug`, etc.) so configs are never rewritten and there is no second metadata
+  system. Every tool — including the legacy productivity/calculator tools — exposes the full contract.
+- **Content manifest** (`src/lib/content/manifest.ts`) — `buildContentManifest()` is the canonical
+  registry-derived list of every indexable surface (home/tool/guide/faq/category/language). It is the
+  single source the sitemap derives from; search and related-content can derive from it next.
+- **Search prep** (`src/lib/search/`) — `buildSearchIndex()` produces a serializable index from the
+  metadata contract. Architecture only; no UI yet.
+- **Analytics contract** (`src/lib/analytics/events.ts`) — a frozen `AnalyticsEvents` vocabulary so
+  engine interactions share event names instead of fragmenting per tool.
+
+## Sitemap (`src/lib/sitemap/` + `src/pages/sitemaps/`)
+
+Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**
+(filename preserved so `robots.txt`, the astro.config `seoValidator`, and quality-guardian
+build-integrity keep working), referencing five semantic buckets under `src/pages/sitemaps/`:
+`tools.xml`, `guides.xml`, `faqs.xml`, `categories.xml` (+ home), `languages.xml`. Each endpoint
+filters `buildContentManifest()` by type and renders via `src/lib/sitemap/render.ts`, building
+absolute, trailing-slashed `<loc>`s as `new URL(withBase(path), Astro.site)`. `quality-guardian`'s
+sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/faqs appear in the
+sitemap automatically — no sitemap edits.
+
+---
+
 ## Registration Pattern
 
 Every tool requires exactly two registration steps:
@@ -273,8 +340,41 @@ For FAQs: add an import in `src/data/faq-registry.ts`.
 ## Build & Verification
 
 ```sh
-npm run build    # Astro + TypeScript strict — must pass before any PR
+npm run build    # validate-registry (metadata + reference integrity) + Astro + TS strict — must pass before any PR
+npm run health   # post-build platform integrity superset (metadata, manifests, search index, sitemap output)
+npm run test     # vitest — engine-level tests (encoding/hashing/structured-data/manifest/metadata/search/sitemap)
 npm run dev      # dev server at localhost:4321
 ```
 
 No separate lint or test command. The build is the single verification step.
+
+## E2E Testing (`tests/e2e/`)
+
+Browser-level verification with **Playwright Test** (`@playwright/test`). This is a
+**unified, registry-driven platform framework**, not a per-tool script — the developer
+tools are the pilot deep suite, and every current and future tool gets generic smoke
+coverage for free. E2E is a local/CI layer, deliberately **not** wired into `npm run build`.
+
+```sh
+npm run test:e2e          # headless; webServer builds + serves dist, runs all projects
+npm run test:e2e:headed   # watch the real browser run
+npm run test:e2e:ui       # interactive time-travel dashboard (pick/step tests)
+npm run test:e2e:report   # open the saved interactive HTML report (with traces)
+```
+
+- **Config** (`playwright.config.ts`): `webServer` runs `npm run build && npm run preview`
+  and waits, so the command is turnkey. Two projects — **chromium** (Desktop Chrome) and
+  **pixel5** (Pixel 5); ToyTools is mobile-first, so every spec runs on both. Reporters:
+  `html` (interactive dashboard) + `list` (console) + `json` (`playwright-report/results.json`,
+  archivable). `trace: 'retain-on-failure'` → replay failures in the Trace Viewer.
+- **Helpers** (`tests/e2e/helpers/tools.ts`): `toolPaths()` reads the **built** sitemap
+  (`dist/sitemaps/tools.xml`) for every tool's path — decoupling tests from source path-aliases
+  (`@tools`) so coverage tracks the registry automatically. `DevTool` is a viewport-agnostic
+  page object (locates by role/label/id) for the developer-engine widgets.
+- **Specs**: `smoke.spec.ts` (every tool — render + accessibility + interaction + console/page-error
+  hardening), `dev-tools.spec.ts` (the 9 developer tools — functional assertions), `performance.spec.ts`
+  (navigation-timing guardrails), `integrity.spec.ts` (registry/sitemap structural integrity).
+- **Non-goals**: no screenshot/visual-regression/pixel-diff tooling (Percy/Chromatic/image-snapshot) —
+  behavior, accessibility, and metadata integrity deliver higher ROI at this scale.
+
+Chromium is already cached locally, so no `npx playwright install` browser download is needed.

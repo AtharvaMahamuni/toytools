@@ -10,15 +10,40 @@
   import { analyzeText } from '@lib/text/analysis';
   import { formatMetric } from '@lib/text/formatters';
   import { runProcessor } from '@lib/text/processors/registry';
+  import { runEncoding } from '@lib/engines/encoding/registry';
+  import { runHash } from '@lib/engines/hashing/registry';
+  import { runStructuredData } from '@lib/engines/structured-data/registry';
   const TT = ((window as any).ToyTools ??= {});
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
   TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
+  TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
+  TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
+  TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
+
+  // These engine fns attach via this *deferred module*, but widget inline scripts run
+  // during parse — so a widget's first render can't call them yet. Flush onReady() now.
+  TT.ready = true;
+  if (TT._readyCbs) {
+    TT._readyCbs.forEach((fn: () => void) => { try { fn(); } catch (_) { /* ignore */ } });
+    TT._readyCbs = [];
+  }
 </script>
 
 <script is:inline>
 (function (TT) {
   var _toastTimer;
+
+  // Engine readiness: this inline script runs during parse (so state/toast/copy are
+  // available immediately), but analyze/formatMetric/runEncoding/etc. attach via a
+  // deferred module. Widgets that compute on load schedule via onReady() so their
+  // first render waits for the engine functions instead of throwing.
+  TT.ready = TT.ready || false;
+  TT._readyCbs = TT._readyCbs || [];
+  TT.onReady = function (fn) {
+    if (TT.ready) { try { fn(); } catch (_) {} return; }
+    TT._readyCbs.push(fn);
+  };
 
   TT.toast = function (msg, ms) {
     var el = document.getElementById('tt-toast');

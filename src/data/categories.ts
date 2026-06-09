@@ -1,7 +1,8 @@
 import type { Category } from './types';
 import { tools } from './registry';
+import { engineRegistry } from './engines';
 
-const categoryDefs: Omit<Category, 'toolCount'>[] = [
+const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   {
     slug: 'text-utilities',
     name: 'Text Utilities',
@@ -35,4 +36,5 @@ const categoryDefs: Omit<Category, 'toolCount'>[] = [
 export const categories: Category[] = categoryDefs.map(c => ({
   ...c,
   toolCount: tools.filter(t => t.categorySlug === c.slug).length,
+  engines: engineRegistry.filter(e => e.category === c.slug).map(e => e.id),
 }));

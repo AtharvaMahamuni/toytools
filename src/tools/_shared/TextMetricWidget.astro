@@ -117,7 +117,9 @@ const inputId = `${slug}-input`;
     update();
     if (ToyTools.state) ToyTools.state.save(slug, { text: textarea.value });
   });
-  update();
+  // analyze()/formatMetric() attach via a deferred module — wait for them before the
+  // first render so the hero metric initialises instead of throwing on load.
+  ToyTools.onReady(update);
 
   // Desktop only — let users start typing immediately without popping a mobile keyboard.
   if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();

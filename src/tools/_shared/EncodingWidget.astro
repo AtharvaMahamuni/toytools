@@ -1,0 +1,167 @@
+---
+// Generic encoding widget — powers every encode/decode tool (base64, url, html-entity,
+// and any future encoder family). It knows nothing about a specific encoder: it reads an
+// encodingId + mode and runs `text → ToyTools.runEncoding(id, mode, text) → output` live.
+// Per-tool Widget.astro files are 3-line wrappers passing config + faqItems.
+//
+// If a new encoder family ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import CopyButton from '@components/CopyButton.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSection from '@tools/_shared/ToolSection.astro';
+import TrustNotice from '@components/tool/TrustNotice.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import FAQPreview from '@components/FAQPreview.astro';
+import { ENCODERS } from '@lib/engines/encoding/registry';
+import { withBase } from '@lib/paths';
+import type { ToolConfig, FAQItem } from '@data/types';
+
+interface Props {
+  slug: string;
+  encodingId: string;
+  config: ToolConfig;
+  faqItems?: FAQItem[];
+}
+
+const { slug, encodingId, config, faqItems = [] } = Astro.props;
+
+const inputId = `${slug}-input`;
+const outputId = `${slug}-output`;
+const modeId = `${slug}-mode`;
+const sample = ENCODERS[encodingId]?.sample ?? '';
+
+const guideHref = config.guide
+  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
+  : null;
+const faqHref = config.faq
+  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
+  : null;
+---
+
+<TrustNotice variant="private" />
+
+<div class="io-container">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <div slot="input" class="io-panel" data-encoding={encodingId} data-slug={slug} data-sample={sample}>
+      <div class="io-header">
+        <label class="io-label" for={inputId}>Input</label>
+        <select id={modeId} class="io-mode" aria-label="Conversion mode">
+          <option value="encode">Encode →</option>
+          <option value="decode">Decode ←</option>
+        </select>
+      </div>
+      <textarea
+        id={inputId}
+        aria-label="Text to encode or decode"
+        placeholder="Type or paste here"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"></textarea>
+    </div>
+
+    <div slot="output" class="io-panel">
+      <div class="io-header" data-copy-bar>
+        <span class="io-label">Output</span>
+        <CopyButton targetId={outputId} />
+      </div>
+      <output id={outputId} aria-live="polite" data-empty>Output will appear here</output>
+    </div>
+  </ToolSplit>
+</div>
+
+<ToolActions clearTarget={inputId} pasteTarget={inputId}>
+  <button type="button" class="action-btn" data-enc-swap aria-label="Swap input and output">Swap</button>
+  <button type="button" class="action-btn" data-enc-sample aria-label="Load sample input">Sample</button>
+</ToolActions>
+
+<CategoryDiscovery toolSlug={slug} />
+
+<ToolSection heading="How it works">
+  <p>{config.description} Everything runs locally in your browser — your text never leaves your device.</p>
+  {guideHref && config.guide && (
+    <p class="guide-callout">
+      <a href={guideHref}>Learn more → {config.guide.title}</a>
+    </p>
+  )}
+</ToolSection>
+
+{faqHref && faqItems.length > 0 && (
+  <section class="content-section">
+    <h2>FAQ</h2>
+    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
+  </section>
+)}
+
+<style is:global>
+  .io-container {
+    padding-block: var(--space-8);
+    border-bottom: var(--border);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-encoding][data-slug]');
+    if (!root) return;
+    var eid = root.getAttribute('data-encoding');
+    var slug = root.getAttribute('data-slug');
+    var sample = root.getAttribute('data-sample') || '';
+    var input = document.getElementById(slug + '-input');
+    var modeEl = document.getElementById(slug + '-mode');
+    var output = document.getElementById(slug + '-output');
+    if (!input || !modeEl || !output) return;
+
+    function setOutput(text, empty, error) {
+      output.textContent = text;
+      if (empty) output.setAttribute('data-empty', '');
+      else output.removeAttribute('data-empty');
+      if (error) output.setAttribute('data-error', text);
+      else output.removeAttribute('data-error');
+    }
+
+    function run() {
+      if (!input.value) { setOutput('Output will appear here', true, false); return; }
+      if (!(window.ToyTools && ToyTools.runEncoding)) { setOutput(input.value, false, false); return; }
+      var res = ToyTools.runEncoding(eid, modeEl.value, input.value);
+      setOutput(res.ok ? res.output : (res.error || 'Error'), false, !res.ok);
+    }
+
+    function persist() {
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value, mode: modeEl.value });
+    }
+
+    // Restore prior state; fall back to the legacy base64 key once for that tool.
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      if (saved && typeof saved.input === 'string') {
+        input.value = saved.input;
+        if (saved.mode === 'encode' || saved.mode === 'decode') modeEl.value = saved.mode;
+      } else if (slug === 'base64-encoder-decoder' && window.ToyTools && ToyTools.storage) {
+        var legacy = ToyTools.storage.get('toytools.base64.input');
+        if (legacy) input.value = legacy;
+      }
+    } catch (_) {}
+
+    input.addEventListener('input', function () { run(); persist(); });
+    modeEl.addEventListener('change', function () { run(); persist(); });
+
+    var swapBtn = document.querySelector('[data-enc-swap]');
+    if (swapBtn) swapBtn.addEventListener('click', function () {
+      if (output.hasAttribute('data-empty') || output.hasAttribute('data-error')) return;
+      input.value = output.textContent || '';
+      modeEl.value = modeEl.value === 'encode' ? 'decode' : 'encode';
+      run(); persist();
+    });
+
+    var sampleBtn = document.querySelector('[data-enc-sample]');
+    if (sampleBtn) sampleBtn.addEventListener('click', function () {
+      input.value = sample;
+      modeEl.value = 'encode';
+      run(); persist();
+    });
+
+    // runEncoding attaches via a deferred module; wait so restored input computes on load.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>

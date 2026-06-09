@@ -8,6 +8,9 @@ export const config: ToolConfig = {
   categorySlug: 'number-utilities',
   tags: ['numbers', 'percentage', 'math', 'calculate', 'calculate percentage online', 'percent calculator', 'percentage of a number', 'percentage increase calculator', 'how to calculate percentage', 'online percent calculator', 'percentage change', 'discount calculator'],
   updatedAt: '2026-06-02',
+  engine: 'calculator',
+  pattern: 'calculate',
+  family: 'arithmetic',
   guide: {
     slug: 'how-to-calculate-percentages',
     categorySlug: 'number',
