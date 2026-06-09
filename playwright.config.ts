@@ -9,7 +9,9 @@ import { defineConfig, devices } from '@playwright/test';
 //
 // Mobile-first platform → both Desktop Chrome and Pixel 5 projects ship now, and
 // helpers must locate by role/label (never desktop-only positions).
-const PORT = 4321;
+// Dedicated preview port (not Astro's default 4321) so E2E always exercises the
+// production build and never collides with a running `astro dev` server.
+const PORT = 4331;
 const baseURL = `http://localhost:${PORT}`;
 
 export default defineConfig({
@@ -28,7 +30,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'npm run build && npm run preview',
+    command: `npm run build && npm run preview -- --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
