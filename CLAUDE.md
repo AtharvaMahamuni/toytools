@@ -77,6 +77,8 @@ The Developer category has three more engines under `src/lib/engines/`, each wit
 2. Create `config.ts` (`engine`, `pattern`, `family`, `processorId`, and curated `relatedTools`) + a **3-line** `Widget.astro` rendering the engine widget. Add the registry import + array entry.
 3. Extend the engine's `*.test.ts` (test the engine, not the tool). Optional guide/faq register as usual.
 
+**Widget conventions** (apply if you ever touch the shared engine widgets): the two-pane look comes from the shared `.io-*` classes in `src/styles/tool-widget.css` (don't re-declare per widget); widgets update **live on input** (no Generate/Convert button); extra controls (mode select, Swap, Sample) live in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`. Verify in a real browser with `npm run test:e2e` (Playwright, runs desktop + mobile).
+
 `processorId` is the universal config→engine lookup key. `KNOWN_ENGINES`/`KNOWN_PATTERNS` in `validate-registry.ts` derive from `engineRegistry` (`src/data/engines.ts`) — **register a new engine/pattern there**, not in the validator. `validate-registry` also checks metadata completeness, category/engine/pattern/relatedTools resolution, and duplicate slugs/URLs. Run `npm run health` for the post-build platform integrity superset.
 
 The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides/faqs appear automatically; never hand-edit a sitemap.

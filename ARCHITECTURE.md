@@ -280,6 +280,14 @@ structured-data returns a result error). Browser-only APIs (`btoa`/`atob`/`crypt
 config→engine lookup key is `processorId`. base64 was migrated from a bespoke widget onto the encoding
 engine with byte-parity and a one-time fallback from its legacy `toytools.base64.input` storage key.
 
+**Shared widget conventions.** All three widgets use the two-pane `.io-panel`/`.io-header`/`.io-label`/
+`.io-mode`/`.io-status` classes in `src/styles/tool-widget.css` (one source of truth — never re-declare
+per widget). All updates are **live on input** (no Generate/Convert button), matching percentage-calculator
+and the text tools; hashing runs `await ToyTools.runHash` race-guarded by a monotonic token so out-of-order
+async results can't clobber a newer one. Extra controls (Encode/Decode select in the header; Swap/Sample)
+go in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`, so paste/clear/swap/sample
+share one aligned row driven by `ToolActions`' delegated `[data-action]` handler.
+
 **Adding a tool to an existing engine:** impl file + one `registry.ts` entry + `config.ts`
 (`engine`/`pattern`/`family`/`processorId`) + a 3-line `Widget.astro` wrapping the engine widget +
 optional guide/faq. `validate-registry.ts` enforces that the `processorId` resolves in the matching

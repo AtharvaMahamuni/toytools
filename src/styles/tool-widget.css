@@ -197,6 +197,118 @@
   color: var(--color-danger);
 }
 
+/* Two-pane I/O panels — shared by the developer-engine widgets (encoding, hashing,
+   structured-data). One source of truth so the panes stay visually consistent. */
+.io-panel {
+  border: var(--border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+  overflow: hidden;
+}
+
+.io-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-left: var(--space-3);
+  border-bottom: var(--border);
+  min-height: var(--touch-target);
+  flex-shrink: 0;
+}
+
+.io-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.io-mode {
+  min-height: unset;
+  width: auto;
+  border: none;
+  border-left: var(--border);
+  border-radius: 0;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  cursor: pointer;
+  align-self: stretch;
+}
+
+.io-panel textarea {
+  flex: 1;
+  resize: none;
+  width: 100%;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  padding: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-variant-ligatures: none;
+}
+
+.io-panel output {
+  flex: 1;
+  display: block;
+  margin: 0;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  padding: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+  color: var(--color-text);
+  font-variant-ligatures: none;
+}
+
+.io-panel output[data-empty] {
+  color: var(--color-text-subtle);
+}
+
+.io-panel output[data-error] {
+  color: var(--color-danger);
+}
+
+.io-panel output.io-output--bordered {
+  border-top: var(--border);
+}
+
+/* Structured-data validity status line (✓ Valid / ✗ error) */
+.io-status {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+}
+
+.io-status:empty {
+  display: none;
+}
+
+.io-status[data-ok='true'] {
+  color: var(--color-success);
+}
+
+.io-status[data-ok='false'] {
+  color: var(--color-danger);
+}
+
 .widget-details {
   border-top: var(--border);
   padding-block: var(--space-4);

@@ -40,34 +40,36 @@ const faqHref = config.faq
 
 <TrustNotice variant="private" />
 
-<div class="sd-container">
+<div class="io-container">
   <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-    <div slot="input" class="sd-panel" data-structured={structuredId} data-slug={slug}>
-      <div class="sd-header">
-        <label class="sd-label" for={inputId}>Input</label>
+    <div slot="input" class="io-panel" data-structured={structuredId} data-slug={slug}>
+      <div class="io-header">
+        <label class="io-label" for={inputId}>Input</label>
       </div>
       <textarea
         id={inputId}
+        aria-label="JSON input"
         placeholder="Paste JSON here"
         spellcheck="false"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"></textarea>
-      <ToolActions clearTarget={inputId} pasteTarget={inputId} />
     </div>
 
-    <div slot="output" class="sd-panel">
-      <div class="sd-header" data-copy-bar>
-        <span class="sd-label">{showOutput ? 'Output' : 'Status'}</span>
+    <div slot="output" class="io-panel">
+      <div class="io-header" data-copy-bar>
+        <span class="io-label">{showOutput ? 'Output' : 'Status'}</span>
         {showOutput && <CopyButton targetId={outputId} />}
       </div>
-      <p id={statusId} class="sd-status" data-ok="" aria-live="polite"></p>
+      <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
       {showOutput && (
-        <output id={outputId} aria-live="polite" data-empty>Output will appear here</output>
+        <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
       )}
     </div>
   </ToolSplit>
 </div>
+
+<ToolActions clearTarget={inputId} pasteTarget={inputId} />
 
 <CategoryDiscovery toolSlug={slug} />
 
@@ -88,80 +90,9 @@ const faqHref = config.faq
 )}
 
 <style is:global>
-  .sd-container {
+  .io-container {
     padding-block: var(--space-8);
     border-bottom: var(--border);
-  }
-  .sd-panel {
-    border: var(--border);
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    min-height: 320px;
-    overflow: hidden;
-  }
-  .sd-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-    padding-left: var(--space-3);
-    border-bottom: var(--border);
-    min-height: var(--touch-target);
-    flex-shrink: 0;
-  }
-  .sd-label {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-muted);
-  }
-  .sd-panel textarea {
-    flex: 1;
-    resize: none;
-    width: 100%;
-    min-height: 0;
-    border: none;
-    border-radius: 0;
-    padding: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: var(--leading-relaxed);
-    background: var(--color-bg);
-    color: var(--color-text);
-    font-variant-ligatures: none;
-  }
-  .sd-status {
-    margin: 0;
-    padding: var(--space-2) var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    min-height: var(--touch-target);
-    display: flex;
-    align-items: center;
-  }
-  .sd-status:empty { display: none; }
-  .sd-status[data-ok='true'] { color: var(--color-success); }
-  .sd-status[data-ok='false'] { color: var(--color-danger); }
-  .sd-panel output {
-    flex: 1;
-    display: block;
-    margin: 0;
-    min-height: 0;
-    border: none;
-    border-top: var(--border);
-    border-radius: 0;
-    padding: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: var(--leading-relaxed);
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    overflow-y: auto;
-    color: var(--color-text);
-    font-variant-ligatures: none;
-  }
-  .sd-panel output[data-empty] {
-    color: var(--color-text-subtle);
   }
 </style>
 
@@ -185,13 +116,13 @@ const faqHref = config.faq
 
     function run() {
       if (!(window.ToyTools && ToyTools.runStructuredData)) return;
-      var res = ToyTools.runStructuredData(sid, input.value);
       if (!input.value.trim()) {
         status.textContent = '';
         status.setAttribute('data-ok', '');
         setOutput('Output will appear here', true);
         return;
       }
+      var res = ToyTools.runStructuredData(sid, input.value);
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
       status.textContent = res.ok ? '✓ Valid' : '✗ ' + (res.error || 'Invalid');
       setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);

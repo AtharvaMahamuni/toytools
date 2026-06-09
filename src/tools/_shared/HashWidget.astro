@@ -1,8 +1,8 @@
 ---
 // Generic hashing widget — powers every hash-generator tool (md5, sha1, sha256, and any
 // future hasher). It knows nothing about a specific hasher: it reads a hashId and runs
-// `text → await ToyTools.runHash(id, text) → hex` on demand. Per-tool Widget.astro files
-// are 3-line wrappers passing config + faqItems.
+// `text → await ToyTools.runHash(id, text) → hex` LIVE on input (race-guarded). Per-tool
+// Widget.astro files are 3-line wrappers passing config + faqItems.
 //
 // If a new hasher family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
@@ -26,6 +26,7 @@ const { slug, hashId, config, faqItems = [] } = Astro.props;
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
+const sample = 'The quick brown fox jumps over the lazy dog';
 
 const guideHref = config.guide
   ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
@@ -37,34 +38,35 @@ const faqHref = config.faq
 
 <TrustNotice variant="private" />
 
-<div class="hash-container">
+<div class="io-container">
   <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-    <div slot="input" class="hash-panel" data-hash={hashId} data-slug={slug}>
-      <div class="hash-header">
-        <label class="hash-label" for={inputId}>Input</label>
+    <div slot="input" class="io-panel" data-hash={hashId} data-slug={slug} data-sample={sample}>
+      <div class="io-header">
+        <label class="io-label" for={inputId}>Input</label>
       </div>
       <textarea
         id={inputId}
+        aria-label="Text to hash"
         placeholder="Type or paste text to hash"
         spellcheck="false"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"></textarea>
-      <ToolActions clearTarget={inputId} pasteTarget={inputId} />
-      <div class="hash-extra-actions">
-        <button type="button" class="action-btn action-btn--primary" data-hash-generate>Generate</button>
-      </div>
     </div>
 
-    <div slot="output" class="hash-panel">
-      <div class="hash-header" data-copy-bar>
-        <span class="hash-label">Digest (hex)</span>
+    <div slot="output" class="io-panel">
+      <div class="io-header" data-copy-bar>
+        <span class="io-label">Digest (hex)</span>
         <CopyButton targetId={outputId} />
       </div>
       <output id={outputId} aria-live="polite" data-empty>Hash will appear here</output>
     </div>
   </ToolSplit>
 </div>
+
+<ToolActions clearTarget={inputId} pasteTarget={inputId}>
+  <button type="button" class="action-btn" data-hash-sample aria-label="Load sample input">Sample</button>
+</ToolActions>
 
 <CategoryDiscovery toolSlug={slug} />
 
@@ -85,72 +87,9 @@ const faqHref = config.faq
 )}
 
 <style is:global>
-  .hash-container {
+  .io-container {
     padding-block: var(--space-8);
     border-bottom: var(--border);
-  }
-  .hash-panel {
-    border: var(--border);
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    min-height: 240px;
-    overflow: hidden;
-  }
-  .hash-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-    padding-left: var(--space-3);
-    border-bottom: var(--border);
-    min-height: var(--touch-target);
-    flex-shrink: 0;
-  }
-  .hash-label {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-muted);
-  }
-  .hash-panel textarea {
-    flex: 1;
-    resize: none;
-    width: 100%;
-    min-height: 0;
-    border: none;
-    border-radius: 0;
-    padding: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: var(--leading-relaxed);
-    background: var(--color-bg);
-    color: var(--color-text);
-    font-variant-ligatures: none;
-  }
-  .hash-panel output {
-    flex: 1;
-    display: block;
-    margin: 0;
-    min-height: 0;
-    border: none;
-    border-radius: 0;
-    padding: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: var(--leading-relaxed);
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    overflow-y: auto;
-    color: var(--color-text);
-    font-variant-ligatures: none;
-  }
-  .hash-panel output[data-empty] {
-    color: var(--color-text-subtle);
-  }
-  .hash-extra-actions {
-    display: flex;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-3) var(--space-3);
   }
 </style>
 
@@ -160,10 +99,12 @@ const faqHref = config.faq
     if (!root) return;
     var hid = root.getAttribute('data-hash');
     var slug = root.getAttribute('data-slug');
+    var sample = root.getAttribute('data-sample') || '';
     var input = document.getElementById(slug + '-input');
     var output = document.getElementById(slug + '-output');
-    var genBtn = document.querySelector('[data-hash-generate]');
-    if (!input || !output || !genBtn) return;
+    if (!input || !output) return;
+
+    var seq = 0;
 
     function setOutput(text, empty) {
       output.textContent = text;
@@ -171,15 +112,15 @@ const faqHref = config.faq
       else output.removeAttribute('data-empty');
     }
 
-    function generate() {
+    // Live, race-guarded: only the newest input's result is applied.
+    function run() {
+      var token = ++seq;
+      if (!input.value) { setOutput('Hash will appear here', true); return; }
       if (!(window.ToyTools && ToyTools.runHash)) return;
-      genBtn.disabled = true;
       ToyTools.runHash(hid, input.value).then(function (hex) {
-        setOutput(hex, false);
+        if (token === seq) setOutput(hex, false);
       }).catch(function () {
-        setOutput('Unable to hash input.', false);
-      }).then(function () {
-        genBtn.disabled = false;
+        if (token === seq) setOutput('Unable to hash input.', false);
       });
     }
 
@@ -192,7 +133,14 @@ const faqHref = config.faq
       if (saved && typeof saved.input === 'string') input.value = saved.input;
     } catch (_) {}
 
-    genBtn.addEventListener('click', function () { generate(); });
-    input.addEventListener('input', persist);
+    input.addEventListener('input', function () { run(); persist(); });
+
+    var sampleBtn = document.querySelector('[data-hash-sample]');
+    if (sampleBtn) sampleBtn.addEventListener('click', function () {
+      input.value = sample;
+      run(); persist();
+    });
+
+    run();
   })();
 </script>
