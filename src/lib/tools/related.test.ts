@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getRelatedTools } from './related';
+import { getRelatedTools, getRelatedGuides, getRelatedFaqs, relationTier, tierStrength } from './related';
 import type { ToolConfig } from '@data/types';
 
 function tool(overrides: Partial<ToolConfig> & Pick<ToolConfig, 'slug'>): ToolConfig {
@@ -108,5 +108,51 @@ describe('getRelatedTools', () => {
     const others = [tool({ slug: 'b', categorySlug: 'text' }), tool({ slug: 'c', categorySlug: 'text' })];
     const result = getRelatedTools(current, [current, ...others], 10);
     expect(result.length).toBe(2);
+  });
+});
+
+describe('relationTier / tierStrength', () => {
+  it('ranks pattern+engine match as tier 1', () => {
+    const a = tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const b = tool({ slug: 'b', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    expect(relationTier(a, b)).toBe(1);
+  });
+
+  it('returns 0 for self and for unrelated tools', () => {
+    const a = tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const z = tool({ slug: 'z', engine: 'x', pattern: 'y', family: 'w', categorySlug: 'other' });
+    expect(relationTier(a, a)).toBe(0);
+    expect(relationTier(a, z)).toBe(0);
+  });
+
+  it('maps tiers to descending strengths', () => {
+    expect(tierStrength(1)).toBe(0.9);
+    expect(tierStrength(2)).toBe(0.6);
+    expect(tierStrength(3)).toBe(0.4);
+    expect(tierStrength(4)).toBe(0.2);
+    expect(tierStrength(0)).toBe(0);
+  });
+});
+
+describe('getRelatedGuides / getRelatedFaqs', () => {
+  const withGuide = (slug: string, extra: Partial<ToolConfig> = {}) =>
+    tool({ slug, guide: { slug, categorySlug: 'developer', title: slug, description: '', readMinutes: 3, updatedAt: 'x' }, ...extra });
+  const withFaq = (slug: string, extra: Partial<ToolConfig> = {}) =>
+    tool({ slug, faq: { slug, categorySlug: 'developer' }, ...extra });
+
+  it('only returns tools that have a guide', () => {
+    const current = tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const hasGuide = withGuide('b', { engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const noGuide = tool({ slug: 'd', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const result = getRelatedGuides(current, [current, hasGuide, noGuide]).map(t => t.slug);
+    expect(result).toContain('b');
+    expect(result).not.toContain('d');
+  });
+
+  it('only returns tools that have a faq', () => {
+    const current = tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const hasFaq = withFaq('b', { engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
+    const result = getRelatedFaqs(current, [current, hasFaq]).map(t => t.slug);
+    expect(result).toEqual(['b']);
   });
 });

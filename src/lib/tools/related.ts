@@ -40,3 +40,42 @@ export function getRelatedTools(
 
   return [...tier1, ...tier2, ...tier3, ...tier4].slice(0, max);
 }
+
+/** Tier rank (1 best) of how `other` relates to `current`, or 0 if unrelated. */
+export function relationTier(current: ToolConfig, other: ToolConfig): number {
+  if (other.slug === current.slug) return 0;
+  if (other.pattern && other.engine && other.pattern === current.pattern && other.engine === current.engine) return 1;
+  if (other.engine && other.engine === current.engine) return 2;
+  if (other.family && other.family === current.family) return 3;
+  if (other.categorySlug === current.categorySlug) return 4;
+  return 0;
+}
+
+/** Default relationship strength for a derived edge, by tier (pattern→category). */
+export function tierStrength(tier: number): number {
+  switch (tier) {
+    case 1: return 0.9;
+    case 2: return 0.6;
+    case 3: return 0.4;
+    case 4: return 0.2;
+    default: return 0;
+  }
+}
+
+/** Related tools that have a guide, ranked by the same 4-tier hierarchy. */
+export function getRelatedGuides(
+  currentTool: ToolConfig,
+  allTools: ToolConfig[],
+  max = 6,
+): ToolConfig[] {
+  return getRelatedTools(currentTool, allTools.filter(t => t.guide !== undefined), max);
+}
+
+/** Related tools that have a FAQ, ranked by the same 4-tier hierarchy. */
+export function getRelatedFaqs(
+  currentTool: ToolConfig,
+  allTools: ToolConfig[],
+  max = 6,
+): ToolConfig[] {
+  return getRelatedTools(currentTool, allTools.filter(t => t.faq !== undefined), max);
+}
