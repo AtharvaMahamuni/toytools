@@ -6,11 +6,29 @@
 
 import type { Knowledge } from './types';
 
-// Knowledge imports are added here as tools gain a knowledge.ts (Phase D pilot: developer tools).
-// (none yet — appended in the pilot-content commit)
+// --- Developer tools (Phase D pilot) ---
+import { knowledge as base64 }        from '@tools/developer/base64-encoder-decoder/knowledge';
+import { knowledge as urlCodec }      from '@tools/developer/url-encoder-decoder/knowledge';
+import { knowledge as htmlEntity }    from '@tools/developer/html-entity-encoder-decoder/knowledge';
+import { knowledge as md5 }           from '@tools/developer/md5-hash-generator/knowledge';
+import { knowledge as sha1 }          from '@tools/developer/sha1-hash-generator/knowledge';
+import { knowledge as sha256 }        from '@tools/developer/sha256-hash-generator/knowledge';
+import { knowledge as jsonFormatter } from '@tools/developer/json-formatter/knowledge';
+import { knowledge as jsonMinifier }  from '@tools/developer/json-minifier/knowledge';
+import { knowledge as jsonValidator } from '@tools/developer/json-validator/knowledge';
 
 /** Every authored knowledge entry. */
-export const KNOWLEDGE_ENTRIES: Knowledge[] = [];
+export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  base64,
+  urlCodec,
+  htmlEntity,
+  md5,
+  sha1,
+  sha256,
+  jsonFormatter,
+  jsonMinifier,
+  jsonValidator,
+];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */
 export function buildKnowledgeMap(entries: Knowledge[]): Map<string, Knowledge> {
