@@ -13,6 +13,7 @@ import { engineIds } from '../src/data/engines';
 import { getAllMetadata } from '../src/data/metadata';
 import { buildContentManifest, contentByType } from '../src/lib/content/manifest';
 import { buildSearchIndex } from '../src/lib/search';
+import { KNOWLEDGE_ENTRIES } from '../src/lib/knowledge/registry';
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -97,5 +98,7 @@ if (errors.length > 0) {
   console.error(`\n${errors.length} failure(s).\n`);
   process.exit(1);
 } else {
-  console.log(`\n[platform-health] OK — ${tools.length} tools, ${engineIds.size} engines, ${manifest.length} content entries, all references resolve.\n`);
+  const knowledgeCovered = KNOWLEDGE_ENTRIES.length;
+  console.log(`\n[platform-health] OK — ${tools.length} tools, ${engineIds.size} engines, ${manifest.length} content entries, all references resolve.`);
+  console.log(`[platform-health] Knowledge coverage: ${knowledgeCovered}/${tools.length} tools have knowledge files.\n`);
 }

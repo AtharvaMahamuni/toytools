@@ -4,6 +4,9 @@ import Breadcrumb from '@components/Breadcrumb.astro';
 import BackButton from '@components/BackButton.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import RelatedContent from '@components/knowledge/RelatedContent.astro';
+import YouMayAlsoNeed from '@components/knowledge/YouMayAlsoNeed.astro';
+import ContinueLearning from '@components/knowledge/ContinueLearning.astro';
 import type { FAQItem, EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
 import { withBase } from '../lib/paths';
@@ -84,6 +87,10 @@ const breadcrumbSchema = {
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <RelatedContent toolSlug={toolSlug} />
+  <YouMayAlsoNeed toolSlug={toolSlug} />
+  <ContinueLearning toolSlug={toolSlug} />
 
   <CategoryDiscovery toolSlug={toolSlug} />
 

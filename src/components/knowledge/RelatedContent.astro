@@ -1,0 +1,61 @@
+---
+// Related Tools — derived sibling tools from the knowledge graph (engine→pattern→family→category).
+// Typography-first, capped, semantic headings, keyboard/screen-reader accessible. Renders nothing
+// when there are no related tools. Self-resolves from toolSlug; no per-page wiring needed.
+import { getRelatedTools } from '@lib/knowledge/queries';
+import { withBase } from '@lib/paths';
+
+interface Props {
+  toolSlug: string;
+  max?: number;
+}
+
+const { toolSlug, max = 5 } = Astro.props;
+const related = getRelatedTools(toolSlug, max);
+---
+
+{related.length > 0 && (
+  <section class="kg-section" aria-labelledby="kg-related-tools">
+    <h2 id="kg-related-tools" class="kg-heading">
+      Related Tools <span class="gold-dot" aria-hidden="true"></span>
+    </h2>
+    <ul class="kg-list">
+      {related.map(r => (
+        <li>
+          <a class="kg-link" href={withBase(r.node.url)}>{r.node.title}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .kg-section {
+    padding-block: var(--space-8);
+    border-top: var(--border);
+  }
+  .kg-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-4);
+  }
+  .kg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .kg-link {
+    color: var(--color-text-accent);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+  }
+  .kg-link:hover {
+    text-decoration: underline;
+  }
+</style>

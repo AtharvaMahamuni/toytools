@@ -1,0 +1,90 @@
+---
+// You May Also Need — task-oriented recommendation blocks (used-with / next-steps / alternatives)
+// built from a tool's CURATED knowledge relationships. Each item shows the relationship `reason`
+// as a one-line subtitle when present. Renders nothing for tools without authored knowledge.
+import { getRecommendations } from '@lib/knowledge/recommendations';
+import { withBase } from '@lib/paths';
+
+interface Props {
+  toolSlug: string;
+  max?: number;
+}
+
+const { toolSlug, max = 4 } = Astro.props;
+const blocks = getRecommendations(toolSlug, max);
+---
+
+{blocks.length > 0 && (
+  <section class="kg-section" aria-labelledby="kg-you-may-need">
+    <h2 id="kg-you-may-need" class="kg-heading">
+      You May Also Need <span class="gold-dot" aria-hidden="true"></span>
+    </h2>
+    {blocks.map(block => (
+      <div class="kg-block">
+        <h3 class="kg-subheading">{block.heading}</h3>
+        <ul class="kg-list">
+          {block.items.map(item => (
+            <li class="kg-item">
+              <a class="kg-link" href={withBase(item.node.url)}>{item.node.title}</a>
+              {item.reason && <span class="kg-reason">{item.reason}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+)}
+
+<style>
+  .kg-section {
+    padding-block: var(--space-8);
+    border-top: var(--border);
+  }
+  .kg-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-5);
+  }
+  .kg-block {
+    margin-bottom: var(--space-6);
+  }
+  .kg-block:last-child {
+    margin-bottom: 0;
+  }
+  .kg-subheading {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+  .kg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .kg-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .kg-link {
+    color: var(--color-text-accent);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+  }
+  .kg-link:hover {
+    text-decoration: underline;
+  }
+  .kg-reason {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>
