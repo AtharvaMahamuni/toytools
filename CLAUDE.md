@@ -63,6 +63,8 @@ Always rebase against `origin/main`: `git rebase origin/main`
 
 See `ARCHITECTURE.md` at the project root for system-level patterns, widget conventions, and URL structure.
 
+For a live bird's-eye view, the deployed **`/architecture/`** page (`src/pages/architecture.astro`) renders an interactive Mermaid map of Categories → Engines + cross-cutting layers, derived from the registries at build time (click any block to drill in). It self-updates as tools/engines are added — see `ARCHITECTURE.md` → "Architecture Diagram".
+
 ### Adding a tool (2 steps)
 
 1. Create `src/tools/<segment>/<slug>/` with two required files:

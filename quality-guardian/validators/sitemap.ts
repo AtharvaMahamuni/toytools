@@ -43,10 +43,10 @@ export const sitemapValidator: Validator = {
       .join('\n');
 
     // Check each manifest route (excluding /404.html) appears in the sitemap
-    const excluded = new Set(['/404.html', '/search/']);
+    const excluded = new Set(['/404.html', '/search/', '/architecture/']);
     for (const route of ctx.manifestRoutes) {
       if (excluded.has(route)) continue;
-      // noindex pages are excluded from sitemap by design (search, 404)
+      // noindex pages are excluded from sitemap by design (search, 404, architecture)
       // Language stubs ARE expected in sitemap
 
       const encodedRoute = route.replace(/&/g, '&amp;');

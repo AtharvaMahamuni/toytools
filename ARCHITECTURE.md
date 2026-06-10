@@ -417,6 +417,24 @@ absolute, trailing-slashed `<loc>`s as `new URL(withBase(path), Astro.site)`. `q
 sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/faqs appear in the
 sitemap automatically — no sitemap edits.
 
+## Architecture Diagram (`/architecture/`)
+
+`src/pages/architecture.astro` is a deployed, **registry-derived** interactive map of the whole
+platform — built entirely at build time from `categories`, `engineRegistry`, `tools`, and the
+knowledge `graph`, so adding a tool or engine updates it with **zero hand-maintenance** (same ethos
+as the sitemap). The canvas is a clean overview (Platform → Categories → Engines, plus the
+cross-cutting layers Registry / Runtime / Knowledge Graph / Content Intelligence / Sitemap); the
+dotted **engine↔engine links are aggregated from the knowledge-graph edges** (a tool in one engine
+referencing a tool in another). Per-tool detail is intentionally kept off the canvas and surfaced in
+a click-to-reveal side panel (description, source path, patterns/families, tools, related engines).
+
+- Rendered client-side with **Mermaid** (a dependency, bundled only on this page — no runtime CDN),
+  `securityLevel: 'loose'` so `click <node> call archClick(...)` drives the panel. The diagram source
+  and a `nodeInfo` JSON payload are embedded in the page; the script re-renders on dark-mode toggle.
+- `noindex,follow`, `maxWidth="full"`, mobile-first (panel stacks below the canvas under 1024px),
+  token-driven. Not in the nav or sitemap (internal overview, reached by URL) — same posture as
+  `/search`. Mermaid class names must stay hyphen-free (category slugs are mapped via `catClass()`).
+
 ---
 
 ## Registration Pattern

@@ -1,0 +1,399 @@
+---
+// Interactive, registry-derived architecture diagram. Everything on this page is built at
+// build time from the same single-source registries the rest of the platform uses — add a tool
+// or engine and this diagram updates itself. The canvas stays a clean overview (Platform →
+// Categories → Engines + cross-cutting layers); per-tool detail lives in the click-to-reveal panel.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../lib/titles';
+import { categories } from '@data/categories';
+import { engineRegistry } from '@data/engines';
+import { tools } from '@data/registry';
+import { graph } from '@lib/knowledge/graph';
+import { RELATION_TYPES } from '@lib/knowledge/types';
+import { withBase } from '../lib/paths';
+
+// --- id helpers — mermaid node ids must be hyphen-free, so slugs map to underscores ----------
+const catId = (slug: string) => `cat_${slug.replace(/-/g, '_')}`;
+const engId = (id: string) => `eng_${id.replace(/-/g, '_')}`;
+// Mermaid classDef/`:::` class names must be hyphen-free.
+const catClass = (slug: string) => `c_${slug.replace(/-/g, '_')}`;
+
+// Where each engine's behaviour actually lives (for the panel's "source" line).
+const ENGINE_PATHS: Record<string, string> = {
+  'text-analysis': 'src/lib/text/analysis.ts',
+  'text-processor': 'src/lib/text/processors/',
+  'encoding': 'src/lib/engines/encoding/',
+  'hashing': 'src/lib/engines/hashing/',
+  'structured-data': 'src/lib/engines/structured-data/',
+  'calculator': 'src/tools/number/*/Widget.astro (self-contained)',
+  'productivity': 'src/tools/productivity/*/Widget.astro (self-contained)',
+};
+
+const segmentFor = (categorySlug: string) =>
+  categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
+
+// --- cross-engine relationships — aggregated from the knowledge graph ------------------------
+// An edge between two tools in *different* engines is a real engine↔engine relationship. We map
+// each tool slug to its engine, then count distinct engine pairs (one dotted link per pair).
+const slugToEngine = new Map(tools.map(t => [t.slug, t.engine]));
+const CROSS_TYPES = new Set<string>([
+  RELATION_TYPES.RELATED_TOOL,
+  RELATION_TYPES.USED_WITH,
+  RELATION_TYPES.ALTERNATIVE,
+  RELATION_TYPES.NEXT_STEP,
+]);
+const slugOf = (nodeId: string) => nodeId.slice(nodeId.indexOf(':') + 1);
+
+const pairCounts = new Map<string, number>(); // "engA|engB" (sorted) → count
+for (const e of graph.edges) {
+  if (!CROSS_TYPES.has(e.type)) continue;
+  if (!e.from.startsWith('tool:') || !e.to.startsWith('tool:')) continue;
+  const a = slugToEngine.get(slugOf(e.from));
+  const b = slugToEngine.get(slugOf(e.to));
+  if (!a || !b || a === b) continue;
+  const key = [a, b].sort().join('|');
+  pairCounts.set(key, (pairCounts.get(key) ?? 0) + 1);
+}
+
+// engine id → [{ engine, count }] for the panel's "related engines" list.
+const relatedEngines = new Map<string, Array<{ engine: string; count: number }>>();
+for (const [key, count] of pairCounts) {
+  const [a, b] = key.split('|');
+  (relatedEngines.get(a) ?? relatedEngines.set(a, []).get(a)!).push({ engine: b, count });
+  (relatedEngines.get(b) ?? relatedEngines.set(b, []).get(b)!).push({ engine: a, count });
+}
+
+// --- mermaid definition ----------------------------------------------------------------------
+const lines: string[] = ['flowchart TB'];
+lines.push('  platform["🧰 ToyTools Platform"]:::platform');
+
+// Cross-cutting layers feed the platform.
+const infra = [
+  ['infra_registry', 'Registry'],
+  ['infra_runtime', 'Runtime'],
+  ['infra_knowledge', 'Knowledge Graph'],
+  ['infra_intel', 'Content Intelligence'],
+  ['infra_sitemap', 'Sitemap'],
+];
+for (const [id, label] of infra) lines.push(`  ${id}(["${label}"]):::infra`);
+for (const [id] of infra) lines.push(`  ${id} -.-> platform`);
+
+// Platform → Category → Engine.
+for (const cat of categories) {
+  const cid = catId(cat.slug);
+  const engineCount = cat.engines.length;
+  lines.push(`  ${cid}["${cat.name}<br/><small>${cat.toolCount} tools · ${engineCount} engines</small>"]:::${catClass(cat.slug)}`);
+  lines.push(`  platform --> ${cid}`);
+  for (const eng of engineRegistry.filter(e => e.category === cat.slug)) {
+    const eid = engId(eng.id);
+    lines.push(`  ${eid}["${eng.name}<br/><small>${eng.toolCount} tools</small>"]:::${catClass(cat.slug)}`);
+    lines.push(`  ${cid} --> ${eid}`);
+  }
+}
+
+// Cross-engine dotted links (one per engine pair).
+for (const [key, count] of pairCounts) {
+  const [a, b] = key.split('|');
+  lines.push(`  ${engId(a)} -. "${count} link${count === 1 ? '' : 's'}" .-> ${engId(b)}`);
+}
+
+// Category accent colours.
+for (const cat of categories) {
+  lines.push(`  classDef ${catClass(cat.slug)} fill:${cat.accent}22,stroke:${cat.accent},stroke-width:2px;`);
+}
+lines.push('  classDef platform fill:#6366F133,stroke:#6366F1,stroke-width:3px;');
+lines.push('  classDef infra fill:#88888822,stroke:#888,stroke-dasharray:4 3;');
+
+// Clickable nodes.
+lines.push('  click platform call archClick("platform")');
+for (const [id] of infra) lines.push(`  click ${id} call archClick("${id}")`);
+for (const cat of categories) {
+  lines.push(`  click ${catId(cat.slug)} call archClick("${catId(cat.slug)}")`);
+  for (const eng of engineRegistry.filter(e => e.category === cat.slug)) {
+    lines.push(`  click ${engId(eng.id)} call archClick("${engId(eng.id)}")`);
+  }
+}
+const mermaidDef = lines.join('\n');
+
+// --- nodeInfo — the side-panel payload, keyed by the same node ids ---------------------------
+interface NodeInfo {
+  kind: 'platform' | 'category' | 'engine' | 'infra';
+  title: string;
+  subtitle?: string;
+  description: string;
+  file?: string;
+  chips?: string[];
+  tools?: Array<{ name: string; url: string }>;
+  related?: Array<{ id: string; label: string }>;
+}
+const nodeInfo: Record<string, NodeInfo> = {};
+
+nodeInfo.platform = {
+  kind: 'platform',
+  title: 'ToyTools Platform',
+  subtitle: 'Data-driven static site',
+  description:
+    'A pre-rendered Astro site with no server, database, or client framework. Everything below is ' +
+    'derived from registries at build time: Categories own Engines, Engines own Tools.',
+  chips: [`${categories.length} categories`, `${engineRegistry.length} engines`, `${tools.length} tools`],
+};
+
+const INFRA_INFO: Record<string, NodeInfo> = {
+  infra_registry: {
+    kind: 'infra', title: 'Registry', file: 'src/data/registry.ts',
+    description: 'The single source of truth. Every tool is one import + one array entry here; all ' +
+      'pages, categories, search, sitemaps, and this diagram derive from it.',
+  },
+  infra_runtime: {
+    kind: 'infra', title: 'ToyToolsRuntime', file: 'src/components/ToyToolsRuntime.astro',
+    description: 'Bundles each engine into the browser global (ToyTools.analyze / process / ' +
+      'runEncoding / runHash / runStructuredData) plus shared helpers (toast, copy, storage, state).',
+  },
+  infra_knowledge: {
+    kind: 'infra', title: 'Knowledge Graph', file: 'src/lib/knowledge/',
+    description: 'Build-time relationship layer (Phase D). Derives related tools/guides/FAQs from ' +
+      'engine→pattern→family→category and overlays curated usedWith / alternatives / nextSteps edges. ' +
+      'The cross-engine links on this diagram come from here.',
+  },
+  infra_intel: {
+    kind: 'infra', title: 'Content Intelligence', file: 'src/lib/content-intelligence/  ·  npm run intel',
+    description: 'Ecosystem analysis (Phase E1): coverage gaps, category health, engine opportunities, ' +
+      'topic clusters, and a ranked roadmap — written to dist/content-intelligence/ on demand.',
+  },
+  infra_sitemap: {
+    kind: 'infra', title: 'Sitemap', file: 'src/pages/sitemaps/',
+    description: 'Registry-driven sitemap index + semantic buckets (tools/guides/faqs/categories/' +
+      'languages). New content appears automatically — never hand-edited.',
+  },
+};
+Object.assign(nodeInfo, INFRA_INFO);
+
+const engineNameOf = (id: string) => engineRegistry.find(e => e.id === id)?.name ?? id;
+
+for (const cat of categories) {
+  nodeInfo[catId(cat.slug)] = {
+    kind: 'category',
+    title: cat.name,
+    subtitle: `${cat.toolCount} tools · ${cat.engines.length} engines`,
+    description: cat.description,
+    file: 'src/data/categories.ts',
+    chips: cat.engines.map(engineNameOf),
+    related: cat.engines.map(e => ({ id: engId(e), label: engineNameOf(e) })),
+  };
+
+  for (const eng of engineRegistry.filter(e => e.category === cat.slug)) {
+    const engTools = tools
+      .filter(t => t.engine === eng.id)
+      .map(t => ({ name: t.name, url: withBase(`/tool/${segmentFor(t.categorySlug)}/${t.slug}/`) }));
+    const chips = [
+      ...eng.patterns.map(p => `pattern: ${p}`),
+      ...eng.supportedFamilies.map(f => `family: ${f}`),
+    ];
+    if (eng.runtimeGlobal) chips.push(`ToyTools.${eng.runtimeGlobal}()`);
+    nodeInfo[engId(eng.id)] = {
+      kind: 'engine',
+      title: eng.name,
+      subtitle: `${cat.name} · ${eng.toolCount} tools`,
+      description:
+        `Tools are configuration; the engine is behaviour. All ${eng.toolCount} tools below share one ` +
+        `resolver and one generic widget — adding a tool never edits the engine.`,
+      file: ENGINE_PATHS[eng.id] ?? '',
+      chips,
+      tools: engTools,
+      related: (relatedEngines.get(eng.id) ?? [])
+        .sort((a, b) => b.count - a.count)
+        .map(r => ({ id: engId(r.engine), label: `${engineNameOf(r.engine)} · ${r.count} link${r.count === 1 ? '' : 's'}` })),
+    };
+  }
+}
+
+const description = 'Interactive bird’s-eye view of the ToyTools architecture — categories, engines, tools, and how they relate.';
+---
+
+<BaseLayout
+  title={generatePageTitle('architecture')}
+  description={description}
+  maxWidth="full"
+  robots="noindex,follow"
+>
+  <section class="arch-head">
+    <h1>Architecture</h1>
+    <p>A live, registry-derived map of the platform. <strong>Click any block</strong> to see what it is, where it lives, and what it connects to.</p>
+  </section>
+
+  <div class="arch-grid">
+    <div class="arch-canvas">
+      <div id="arch-diagram" aria-label="ToyTools architecture diagram"></div>
+      <ul class="arch-legend" aria-label="Legend">
+        {categories.map(c => (
+          <li><span class="swatch" style={`--swatch:${c.accent}`}></span>{c.name}</li>
+        ))}
+        <li><span class="swatch swatch--platform"></span>Platform</li>
+        <li><span class="swatch swatch--infra"></span>Cross-cutting layer</li>
+      </ul>
+    </div>
+
+    <aside id="arch-panel" class="arch-panel" aria-live="polite">
+      <div class="arch-panel__empty">
+        <h2>Explore the platform</h2>
+        <p>Select a category, engine, or layer in the diagram to drill in. Engines list every tool they power and which other engines they relate to.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Diagram source (kept so we can re-render on theme change) -->
+  <script type="text/plain" id="arch-src" set:html={mermaidDef}></script>
+  <!-- Panel metadata for every clickable node -->
+  <script type="application/json" id="arch-data" set:html={JSON.stringify(nodeInfo)}></script>
+</BaseLayout>
+
+<script>
+  import mermaid from 'mermaid';
+
+  type NodeInfo = {
+    kind: string; title: string; subtitle?: string; description: string;
+    file?: string; chips?: string[];
+    tools?: Array<{ name: string; url: string }>;
+    related?: Array<{ id: string; label: string }>;
+  };
+
+  const data: Record<string, NodeInfo> = JSON.parse(
+    document.getElementById('arch-data')?.textContent || '{}',
+  );
+  const src = document.getElementById('arch-src')?.textContent || '';
+  const canvas = document.getElementById('arch-diagram')!;
+  const panel = document.getElementById('arch-panel')!;
+
+  const esc = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  function renderPanel(id: string) {
+    const info = data[id];
+    if (!info) return;
+    const parts: string[] = [];
+    parts.push(`<div class="arch-panel__kind">${esc(info.kind)}</div>`);
+    parts.push(`<h2>${esc(info.title)}</h2>`);
+    if (info.subtitle) parts.push(`<p class="arch-panel__sub">${esc(info.subtitle)}</p>`);
+    parts.push(`<p>${esc(info.description)}</p>`);
+    if (info.file) parts.push(`<p class="arch-panel__file"><code>${esc(info.file)}</code></p>`);
+    if (info.chips?.length) {
+      parts.push('<ul class="arch-chips">' +
+        info.chips.map(c => `<li>${esc(c)}</li>`).join('') + '</ul>');
+    }
+    if (info.tools?.length) {
+      parts.push(`<h3>Tools (${info.tools.length})</h3>`);
+      parts.push('<ul class="arch-links">' +
+        info.tools.map(t => `<li><a href="${t.url}">${esc(t.name)}</a></li>`).join('') + '</ul>');
+    }
+    if (info.related?.length) {
+      parts.push('<h3>Related engines</h3>');
+      parts.push('<ul class="arch-links">' +
+        info.related.map(r => `<li><button type="button" data-node="${esc(r.id)}">${esc(r.label)}</button></li>`).join('') + '</ul>');
+    }
+    panel.innerHTML = `<div class="arch-panel__body">${parts.join('')}</div>`;
+    panel.querySelectorAll<HTMLButtonElement>('button[data-node]').forEach(btn =>
+      btn.addEventListener('click', () => renderPanel(btn.dataset.node!)),
+    );
+    panel.scrollTop = 0;
+  }
+  // Mermaid click directives call this global.
+  (window as any).archClick = renderPanel;
+
+  function currentTheme(): 'dark' | 'default' {
+    const attr = document.documentElement.dataset.theme;
+    if (attr === 'dark') return 'dark';
+    if (attr === 'light') return 'default';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+  }
+
+  async function render() {
+    canvas.innerHTML = `<div class="mermaid">${src}</div>`;
+    mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', theme: currentTheme() });
+    await mermaid.run({ nodes: [canvas.querySelector('.mermaid')!] });
+  }
+
+  render();
+
+  // Re-theme the canvas when the user toggles dark mode.
+  const observer = new MutationObserver(() => render());
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (!document.documentElement.dataset.theme) render();
+  });
+</script>
+
+<style is:global>
+  .arch-head { margin-bottom: var(--space-6); }
+  .arch-head h1 { margin: 0 0 var(--space-2); }
+  .arch-head p { color: var(--color-text-muted); max-width: var(--width-prose); }
+
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  @media (min-width: 1024px) {
+    .arch-grid { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; }
+  }
+
+  .arch-canvas {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 12px);
+    background: var(--color-surface);
+    padding: var(--space-4);
+    overflow: auto;
+  }
+  .arch-canvas .mermaid { display: flex; justify-content: center; }
+  .arch-canvas svg { max-width: 100%; height: auto; }
+  .arch-canvas svg .node { cursor: pointer; }
+
+  .arch-legend {
+    list-style: none; margin: var(--space-4) 0 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4);
+    font-size: var(--text-xs); color: var(--color-text-muted);
+  }
+  .arch-legend li { display: flex; align-items: center; gap: var(--space-2); }
+  .arch-legend .swatch {
+    width: 14px; height: 14px; border-radius: 3px;
+    background: color-mix(in srgb, var(--swatch) 20%, transparent);
+    border: 2px solid var(--swatch);
+  }
+  .arch-legend .swatch--platform { --swatch: #6366F1; }
+  .arch-legend .swatch--infra { --swatch: #888; border-style: dashed; }
+
+  .arch-panel {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 12px);
+    background: var(--color-surface);
+    padding: var(--space-5);
+    min-height: 200px;
+  }
+  @media (min-width: 1024px) { .arch-panel { position: sticky; top: var(--space-4); } }
+  .arch-panel h2 { margin: var(--space-1) 0 0; font-size: var(--text-xl); }
+  .arch-panel h3 { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .arch-panel p { color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.55; }
+  .arch-panel__empty h2 { font-size: var(--text-lg); }
+  .arch-panel__kind {
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-size: var(--text-xs); color: var(--color-accent); font-weight: 600;
+  }
+  .arch-panel__sub { font-weight: 600; color: var(--color-text) !important; margin: var(--space-1) 0 var(--space-3); }
+  .arch-panel__file code { font-size: var(--text-xs); word-break: break-all; }
+
+  .arch-chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .arch-chips li {
+    font-size: var(--text-xs); font-family: var(--font-mono);
+    padding: 2px 8px; border-radius: 999px;
+    background: var(--color-surface-hover); border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .arch-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+  .arch-links a, .arch-links button {
+    display: block; width: 100%; text-align: left;
+    font-size: var(--text-sm); color: var(--color-accent);
+    background: none; border: none; padding: var(--space-1) 0; cursor: pointer;
+    min-height: var(--touch-target);
+  }
+  .arch-links a:hover, .arch-links button:hover { text-decoration: underline; }
+</style>
