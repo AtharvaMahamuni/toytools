@@ -2,10 +2,14 @@
 import type { GetStaticPaths } from 'astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
+import GuideTeaser from '@components/tool/GuideTeaser.astro';
+import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import RelatedTools from '@components/tool/RelatedTools.astro';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
+import { faqsByToolSlug } from '@data/faq-registry';
 import { getRelatedTools } from '@lib/tools/related';
+import { withBase } from '@lib/paths';
 
 export const getStaticPaths = (() => {
   return tools.map(tool => {
@@ -22,6 +26,11 @@ const { tool, category } = Astro.props;
 
 const relatedTools = getRelatedTools(tool, tools);
 
+const faqItems = tool.faq ? (faqsByToolSlug[tool.slug] ?? []) : [];
+const guideHref = tool.guide
+  ? withBase(`/guide/${tool.guide.categorySlug}/${tool.guide.slug}/`)
+  : null;
+
 // Discover all Widget.astro files — glob resolves at build time, key lookup picks the right one
 const widgets = import.meta.glob<{ default: unknown }>('../../../tools/*/*/Widget.astro');
 const widgetPath = `../../../tools/${category.segment}/${tool.slug}/Widget.astro`;
@@ -33,16 +42,33 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 <ToolLayout tool={tool} category={category}>
   <Widget />
 
-  {(tool.guide || tool.faq) && (
+  {tool.guide && guideHref && (
     <section class="content-section">
-      <EcosystemLinks
-        currentType="tool"
-        toolSlug={tool.slug}
-        toolCategorySegment={category.segment}
-        toolName={tool.name}
-        entry={tool}
+      <GuideTeaser
+        href={guideHref}
+        title={tool.guide.title}
+        description={tool.guide.description}
+        readMinutes={tool.guide.readMinutes}
+        updatedAt={tool.guide.updatedAt}
       />
     </section>
+  )}
+
+  {faqItems.length > 0 && (
+    <section class="content-section">
+      <h2 class="faq-section-heading">Frequently asked questions <span class="gold-dot" aria-hidden="true"></span></h2>
+      <FaqAccordion items={faqItems} />
+    </section>
+  )}
+
+  {(tool.guide || tool.faq) && (
+    <EcosystemLinks
+      currentType="tool"
+      toolSlug={tool.slug}
+      toolCategorySegment={category.segment}
+      toolName={tool.name}
+      entry={tool}
+    />
   )}
 
   <RelatedTools tools={relatedTools} category={category} />
@@ -53,5 +79,12 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
     padding-top: var(--space-10);
     border-top: var(--border);
     margin-top: var(--space-8);
+  }
+
+  .faq-section-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
   }
 </style>

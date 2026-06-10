@@ -116,8 +116,18 @@ Nothing else needs to change.
 In `config.ts`, add a `guide: GuideConfig` and/or `faq: FaqConfig` object.
 Then create `Guide.astro` and/or `faq.ts` in the same tool directory.
 
-For a new guide, also add a static import to `src/pages/guide/[...slug].astro`.
-For a new FAQ, also add an import to `src/data/faq-registry.ts`.
+For a new guide, add **two** entries: a static import in `src/pages/guide/[...slug].astro`
+(its `guidesBySlug` map) **and** the tool's slug in `registeredGuideSlugs` (`src/data/guide-registry.ts`).
+For a new FAQ, add an import + `faqsByToolSlug` entry in `src/data/faq-registry.ts`.
+
+`validate-registry.ts` enforces this: a tool that declares `guide:`/`faq:` in `config.ts` but is **not**
+registered (missing from `guide-registry.ts` or with no `faqsByToolSlug` entries) **fails the build** —
+otherwise the tool page would link to a guide/FAQ page that renders empty with no error.
+
+Guide/FAQ content is surfaced **on the tool page itself**, not only as a backlink: the tool page renders
+a compact `GuideTeaser` card (links to the full guide) and the full `FaqAccordion` (shared with the
+canonical `/faq/` page). The `FAQPage` JSON-LD stays only on the `/faq/` page to avoid duplicate
+structured data — do **not** add it to the tool page.
 
 ### Adding a knowledge file (Knowledge Graph — Phase D)
 

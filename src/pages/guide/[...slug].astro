@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
+import type { RegisteredGuideSlug } from '@data/guide-registry';
 
 // Static imports — one per tool with a guide
 import TodoListGuide           from '../../tools/productivity/todo-list/Guide.astro';
@@ -42,7 +43,9 @@ import ReadingTimeCalculatorGuide from '../../tools/text/reading-time-calculator
 import SentenceCounterGuide       from '../../tools/text/sentence-counter/Guide.astro';
 import ParagraphCounterGuide      from '../../tools/text/paragraph-counter/Guide.astro';
 
-const guidesBySlug: Record<string, any> = {
+// Typed against the registry's slug union — TS fails the build if this map and
+// `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
+const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'todo-list':              TodoListGuide,
   'notepad':                NotepadGuide,
   'keep-screen-awake':      KeepScreenAwakeGuide,

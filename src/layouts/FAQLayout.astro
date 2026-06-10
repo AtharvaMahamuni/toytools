@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import BackButton from '@components/BackButton.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
+import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import RelatedContent from '@components/knowledge/RelatedContent.astro';
 import YouMayAlsoNeed from '@components/knowledge/YouMayAlsoNeed.astro';
@@ -76,14 +77,7 @@ const breadcrumbSchema = {
     <p class="faq-description">{description}</p>
   </div>
 
-  <section class="faq-items">
-    {items.map(item => (
-      <details id={item.id} class="faq-item">
-        <summary class="faq-question">{item.question}</summary>
-        <p class="faq-answer">{item.answer}</p>
-      </details>
-    ))}
-  </section>
+  <FaqAccordion items={items} />
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
@@ -128,56 +122,5 @@ const breadcrumbSchema = {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     max-width: 55ch;
-  }
-
-  .faq-items {
-    padding-bottom: var(--space-4);
-  }
-
-  .faq-item {
-    border-top: var(--border);
-    padding-block: var(--space-4);
-  }
-
-  .faq-item:last-child {
-    border-bottom: var(--border);
-  }
-
-  .faq-question {
-    min-height: var(--touch-target);
-    cursor: pointer;
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-base);
-    display: flex;
-    align-items: center;
-    list-style: none;
-    color: var(--color-text);
-  }
-
-  .faq-question::-webkit-details-marker {
-    display: none;
-  }
-
-  .faq-question::before {
-    content: '+';
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    color: var(--color-text-subtle);
-    margin-right: var(--space-3);
-    flex-shrink: 0;
-    transition: var(--transition-color);
-  }
-
-  details[open] .faq-question::before {
-    content: '−';
-    color: var(--color-text-muted);
-  }
-
-  .faq-answer {
-    padding-top: var(--space-3);
-    padding-left: calc(var(--space-3) + 1ch + var(--space-3));
-    color: var(--color-text-muted);
-    line-height: var(--leading-relaxed);
-    max-width: 65ch;
   }
 </style>
