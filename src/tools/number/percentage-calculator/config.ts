@@ -18,10 +18,4 @@ export const config: ToolConfig = {
     description: 'Understand what percentages mean, how the three core percentage formulas work, and where percentages come up in everyday life.',
     readMinutes: 5,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'percentage-calculator',
-    categorySlug: 'number',
-    description: 'Answers to common questions about percentage calculations, formulas, and common use cases.',
-  },
-};
+  },};

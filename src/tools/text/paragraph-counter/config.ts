@@ -17,13 +17,7 @@ export const config: ToolConfig = {
     description: 'Learn how paragraph counting works, paragraph length norms for web and academic writing, and when to use paragraph count vs sentence count or word count.',
     readMinutes: 4,
     updatedAt: '2026-06-07',
-  },
-  faq: {
-    slug: 'paragraph-counter',
-    categorySlug: 'text-utilities',
-    description: 'Answers to common questions about paragraph counting, blank-line detection, paragraph length guidelines, and how paragraph count differs from sentence count.',
-  },
-  pattern: 'text-metric',
+  },  pattern: 'text-metric',
   family: 'text-counting',
   primaryMetric: {
     metric: 'paragraphs',

@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn what uppercase means, when all-caps text is appropriate, and how to convert text to uppercase without retyping it.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'uppercase-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about converting text to uppercase.',
-  },
-};
+  },};

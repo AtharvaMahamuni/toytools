@@ -25,9 +25,5 @@ export const config: ToolConfig = {
     readMinutes: 6,
     updatedAt: 'Jun 2026',
   },
-  faq: {
-    slug: 'pomodoro-timer',
-    categorySlug: 'productivity',
-    description: 'Answers to common questions about the Pomodoro Timer and technique.',
-  },
+  trustVariant: 'local',
 };

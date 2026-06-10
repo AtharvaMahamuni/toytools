@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn how to deduplicate a list, what "first occurrence wins" means, and when to clean duplicates before importing data.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'remove-duplicate-lines',
-    categorySlug: 'text',
-    description: 'Answers to common questions about removing duplicate lines.',
-  },
-};
+  },};

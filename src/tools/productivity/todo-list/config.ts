@@ -25,9 +25,5 @@ export const config: ToolConfig = {
     readMinutes: 5,
     updatedAt: 'Jun 2026',
   },
-  faq: {
-    slug: 'todo-list',
-    categorySlug: 'productivity',
-    description: 'Answers to common questions about task lists, subtasks, productivity, and organization.',
-  },
+  trustVariant: 'local',
 };

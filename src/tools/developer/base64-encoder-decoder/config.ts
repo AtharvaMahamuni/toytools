@@ -21,10 +21,4 @@ export const config: ToolConfig = {
     description: 'Understand how Base64 encoding works, why it exists, where it is used, and common mistakes developers make.',
     readMinutes: 6,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'base64-encoder-decoder',
-    categorySlug: 'developer',
-    description: 'Answers to common questions about Base64 encoding, decoding, and common use cases.',
-  },
-};
+  },};

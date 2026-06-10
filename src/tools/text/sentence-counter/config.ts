@@ -17,13 +17,7 @@ export const config: ToolConfig = {
     description: 'Learn how sentence counting works, how abbreviations affect the count, sentence length norms for different writing types, and when to use a sentence counter.',
     readMinutes: 4,
     updatedAt: '2026-06-07',
-  },
-  faq: {
-    slug: 'sentence-counter',
-    categorySlug: 'text-utilities',
-    description: 'Answers to common questions about sentence detection, abbreviations, average sentence length, and readability formulas.',
-  },
-  pattern: 'text-metric',
+  },  pattern: 'text-metric',
   family: 'text-counting',
   primaryMetric: {
     metric: 'sentences',

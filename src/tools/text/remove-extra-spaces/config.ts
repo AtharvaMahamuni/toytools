@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn why double spaces creep into text, when extra spaces cause problems, and how to collapse them in one step.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'remove-extra-spaces',
-    categorySlug: 'text',
-    description: 'Answers to common questions about removing extra spaces from text.',
-  },
-};
+  },};

@@ -27,9 +27,5 @@ export const config: ToolConfig = {
     readMinutes: 6,
     updatedAt: 'Jun 2026',
   },
-  faq: {
-    slug: 'keep-screen-awake',
-    categorySlug: 'productivity',
-    description: 'Answers to common questions about wake locks, browser support, and battery usage.',
-  },
+  trustVariant: 'offline',
 };

@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn what Title Case is, the rules for which words to capitalize, and when to use it for headings and titles.',
     readMinutes: 4,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'title-case-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about Title Case and capitalizing headings.',
-  },
-};
+  },};

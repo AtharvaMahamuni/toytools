@@ -21,10 +21,4 @@ export const config: ToolConfig = {
     description: 'Understand what SHA-1 is, why it was deprecated after the SHAttered collision attack in 2017, and where it still appears today.',
     readMinutes: 5,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'sha1-hash-generator',
-    categorySlug: 'developer',
-    description: 'Answers to common questions about SHA-1, the SHAttered attack, HMAC-SHA1, and when to use SHA-256 instead.',
-  },
-};
+  },};

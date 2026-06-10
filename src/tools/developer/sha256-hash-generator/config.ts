@@ -21,10 +21,4 @@ export const config: ToolConfig = {
     description: 'Understand how SHA-256 works, why it\'s considered secure, and where it\'s used — from TLS certificates to Bitcoin to HMAC API authentication.',
     readMinutes: 5,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'sha256-hash-generator',
-    categorySlug: 'developer',
-    description: 'Answers to common questions about SHA-256, collision resistance, password hashing, the SHA-2 family, and real-world uses.',
-  },
-};
+  },};

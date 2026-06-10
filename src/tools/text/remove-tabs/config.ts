@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn why tab characters cause alignment and paste problems, and how to replace them with spaces in one step.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'remove-tabs',
-    categorySlug: 'text',
-    description: 'Answers to common questions about removing tab characters from text.',
-  },
-};
+  },};

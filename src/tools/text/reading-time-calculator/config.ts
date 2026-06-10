@@ -17,13 +17,7 @@ export const config: ToolConfig = {
     description: 'Learn how reading time is calculated, what research says about average reading speed, and when to use reading time vs word count or character count.',
     readMinutes: 4,
     updatedAt: '2026-06-07',
-  },
-  faq: {
-    slug: 'reading-time-calculator',
-    categorySlug: 'text-utilities',
-    description: 'Answers to common questions about reading time calculation, reading speed, speaking time, and how different calculators differ.',
-  },
-  pattern: 'text-metric',
+  },  pattern: 'text-metric',
   family: 'text-counting',
   primaryMetric: {
     metric: 'readingTime',

@@ -23,12 +23,6 @@ export interface GuideConfig {
   updatedAt: string;    // display string, e.g. "Jun 2026"
 }
 
-export interface FaqConfig {
-  slug: string;
-  categorySlug: string;
-  description?: string;
-}
-
 export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';
 
 export interface ToolConfig {
@@ -41,7 +35,7 @@ export interface ToolConfig {
   isNew?: boolean;
   updatedAt?: string;
   guide?: GuideConfig;
-  faq?: FaqConfig;
+  trustVariant?: 'private' | 'offline' | 'local';
   // Platform metadata — drives related tools, patterns, and future discovery
   engine?: string;           // e.g. 'text-analysis' | 'text-processor'
   pattern?: string;          // e.g. 'text-metric' | 'text-transform'
@@ -66,5 +60,4 @@ export type Tool = ToolConfig;
 // Backward-compat structural alias for FAQLayout/GuideLayout entry props
 export interface EcosystemEntry {
   guide?: GuideConfig;
-  faq?: FaqConfig;
 }

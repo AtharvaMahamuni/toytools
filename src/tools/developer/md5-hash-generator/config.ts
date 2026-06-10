@@ -21,10 +21,4 @@ export const config: ToolConfig = {
     description: 'Understand how MD5 hashing works, what a 32-character digest means, why MD5 is broken for security, and what it\'s still safe for.',
     readMinutes: 5,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'md5-hash-generator',
-    categorySlug: 'developer',
-    description: 'Answers to common questions about MD5 hashes, collision attacks, password security, and when to use MD5 vs SHA-256.',
-  },
-};
+  },};
