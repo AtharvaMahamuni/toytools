@@ -312,6 +312,52 @@ registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashin
 - **Analytics contract** (`src/lib/analytics/events.ts`) — a frozen `AnalyticsEvents` vocabulary so
   engine interactions share event names instead of fragmenting per tool.
 
+## Knowledge Graph & Relationship Engine (`src/lib/knowledge/`)
+
+Phase D. A build-time relationship layer that lets every content item know what it relates to,
+what it's used with, what comes next, and what alternatives exist — and auto-generates internal-
+linking sections with zero per-page wiring. Built **on top of** the metadata contract and the
+proven `getRelatedTools()` algorithm, not a second system.
+
+- **Schema** (`types.ts`) — the `Knowledge` interface. Relationships are typed
+  `RelationshipReference` objects (`slug` + optional `reason` + `strength`/`priority`), never bare
+  slugs, so each edge carries a human reason (UI + semantic SEO) and a ranking weight. Concepts split
+  into `primaryConcepts`/`secondaryConcepts`; `ContentType`/`RelationType` are **open** string models
+  (constants, not closed unions) so new node/relation types need no code change; each tool declares a
+  `workflowStage`. Every file carries `schemaVersion` (`KNOWLEDGE_SCHEMA_VERSION`) so V1/V2 coexist.
+- **Co-located source** — each tool's `knowledge.ts` sits beside its `config.ts` and exports
+  `const knowledge: Knowledge`. `src/lib/knowledge/registry.ts` is the explicit-import hub (mirrors
+  `data/registry.ts`; not `import.meta.glob`, so tsx scripts + vitest + Astro all consume it).
+- **Derive + overlay** (`graph.ts`) — `buildGraph()` produces tool/guide/faq/category nodes and edges.
+  `relatedTools/Guides/Faqs` are **derived** from engine→pattern→family→category (reusing
+  `getRelatedTools` + new `getRelatedGuides`/`getRelatedFaqs` in `src/lib/tools/related.ts`) with
+  tier-based strength. `usedWith`/`alternatives`/`nextSteps` are **overlaid** from the knowledge file
+  with their reason/strength/priority. So a new tool gets related content for free; authors add only
+  the curated, non-derivable workflow edges.
+- **Query APIs** (`queries.ts`) — `getKnowledgeFor`, `getRelatedTools|Guides|Faqs`, `getUsedWith`,
+  `getAlternatives`, `getNextSteps`, `getTopicCluster`, `getWorkflow`. O(1) over a prebuilt adjacency
+  map; sort = priority asc → strength desc → declared order; unknown slug → empty (never throws).
+- **EntityMatcher** (`entity-matcher.ts`) — config-driven surface-form index (no hardcoded keyword
+  lists) from primaryConcepts (100) / secondary+aliases (60) / name (80) / keywords (40).
+  `getEntityMatches()` uses `\b` token-boundary matching with longest-match-then-highest-score
+  disambiguation. **Returns matches only** — inline prose rewriting is deferred to Phase E.
+- **Recommendations** (`recommendations.ts`) — task-oriented You-May-Also-Need / Next-Steps /
+  Alternatives blocks from the overlay edges, with reason subtitles.
+- **Components** (`src/components/knowledge/`) — `RelatedContent` (derived tools), `YouMayAlsoNeed`
+  (curated workflow, only when a knowledge file exists), `ContinueLearning` (derived guides + FAQs).
+  Wired once into `GuideLayout`/`FAQLayout`; they self-resolve from `toolSlug`. Id-less `<section>`s
+  stay out of the guide TOC. Typography-first, capped, accessible — no cards/sidebars/spam.
+- **Validation** (`scripts/validate-knowledge.ts`, in the build after `validate-registry`) — ERRORs
+  on invalid shape, `schemaVersion` mismatch, slug/category mismatch, unresolved relationship target,
+  or duplicate slug. WARNs on missing knowledge file (→ ERROR when `KNOWLEDGE_REQUIRED=true`), empty
+  workflow links, and single-family recommendation bubbles (`diversity.ts`).
+- **Diagnostics** — `scripts/knowledge-diagnostics.ts` writes `dist/knowledge-graph.json`
+  (nodes/edges/coverage/density/orphans/brokenLinks) after build — "Search Console for the internal
+  graph". `npm run health` prints a knowledge-coverage line.
+- **Reserved Phase E (Semantic Discovery Engine)** — search suggestions, related searches, Typical
+  Workflow blocks, topic hubs, collections, popular paths, and the deferred inline prose auto-linking
+  will consume this layer with no schema migration.
+
 ## Sitemap (`src/lib/sitemap/` + `src/pages/sitemaps/`)
 
 Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**
@@ -334,6 +380,10 @@ Every tool requires exactly two registration steps:
 
 For guides: add a static import in `src/pages/guide/[...slug].astro`.
 For FAQs: add an import in `src/data/faq-registry.ts`.
+For knowledge: add `knowledge.ts` beside `config.ts` and one import + entry in
+`src/lib/knowledge/registry.ts`. Derived related tools/guides/FAQs are automatic; author only the
+overlay fields (`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`). Missing knowledge
+WARNs; invalid knowledge fails the build.
 
 ---
 

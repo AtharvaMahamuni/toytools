@@ -108,6 +108,25 @@ Then create `Guide.astro` and/or `faq.ts` in the same tool directory.
 For a new guide, also add a static import to `src/pages/guide/[...slug].astro`.
 For a new FAQ, also add an import to `src/data/faq-registry.ts`.
 
+### Adding a knowledge file (Knowledge Graph — Phase D)
+
+Every tool should also have a co-located `knowledge.ts` exporting `const knowledge: Knowledge`
+(`@lib/knowledge/types`), registered with one import + one entry in `src/lib/knowledge/registry.ts`.
+This powers the auto-generated Related Tools / You May Also Need / Continue Learning sections,
+topic clusters, the EntityMatcher, and `dist/knowledge-graph.json` diagnostics.
+
+- **Derived for free** (do NOT author): related tools/guides/FAQs come from engine→pattern→family→
+  category via the graph. You only author the **overlay** fields: `primaryConcepts`/`secondaryConcepts`,
+  `intentGroups`, `realWorldUseCases`, `commonMistakes`, `commonQuestions`, and the curated
+  relationships `usedWith` / `alternatives` / `nextSteps` (typed `RelationshipReference`:
+  `{ slug, reason?, strength?, priority? }`), plus `workflowStage`, `keywords`, `entityAliases`.
+- `slug` must equal the tool slug, `category` must equal `categorySlug`, `summary` ≤160 chars,
+  `schemaVersion: KNOWLEDGE_SCHEMA_VERSION`.
+- `seo:scaffold <slug>` emits a `knowledge.draft.ts` stub (concepts/intents pre-filled, relations TODO).
+- Build gating: a **missing** knowledge file WARNs; an **invalid** one (bad shape, unresolved
+  relationship target, slug/category mismatch) **fails the build** via `scripts/validate-knowledge.ts`.
+  `KNOWLEDGE_REQUIRED=true` promotes the missing-file WARN to an ERROR.
+
 ### Tool directory structure
 
 Tools are organized by URL segment under `src/tools/`:

@@ -34,7 +34,7 @@ All commands run from the **project root**:
 | `npm run seo:extract -- <slug>` | Parse HTML → entities/questions/gaps, merge Reddit | raw HTML files | `research/<slug>.json` |
 | `npm run seo:validate` | Score all research.json files | all research JSONs | validation output |
 | `npm run seo:audit` | Render full audit report | all research JSONs | `reports/audit.md` |
-| `npm run seo:scaffold -- <slug>` | Convert research.json → agent-ready stubs | `research/<slug>.json` | `faq.draft.ts`, `guide.outline.md`, `PROMPT.md` |
+| `npm run seo:scaffold -- <slug>` | Convert research.json → agent-ready stubs | `research/<slug>.json` | `faq.draft.ts`, `knowledge.draft.ts`, `guide.outline.md`, `PROMPT.md` |
 | `npm --prefix seo-engine run seo:writing-tool -- <slug>` | Audit real source files | Guide.astro, faq.ts, config.ts | `reports/tool-content-intelligence-<slug>.md/.json` |
 | `npm --prefix seo-engine run seo:writing -- <slug>` | Writing quality analysis | Guide.astro content | score report |
 
@@ -53,6 +53,7 @@ npm run seo:validate                # confirm scores
 npm run seo:scaffold -- <slug>      # generate content stubs
 # → then use write-guide skill to write Guide.astro from guide.outline.md
 # → then use write-faq skill to write faq.ts from faq.draft.ts
+# → then author knowledge.ts from knowledge.draft.ts (fill relations) + register in src/lib/knowledge/registry.ts
 npm --prefix seo-engine run seo:writing-tool -- <slug>   # baseline audit
 # → then use writing-audit skill to apply High Impact actions
 npm run build                       # verify

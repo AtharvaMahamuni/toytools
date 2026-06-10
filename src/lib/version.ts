@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 2,
-  minor: 1,
+  minor: 2,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-06-10',
-  description: 'guides & FAQs for all developer tools — encoding, hashing & JSON',
+  description: 'knowledge graph & relationship engine — auto related content + topic clusters',
 };
 
 export function formatVersion(config: VersionConfig): string {
