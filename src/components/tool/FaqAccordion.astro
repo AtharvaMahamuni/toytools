@@ -1,0 +1,71 @@
+---
+import type { FAQItem } from '@data/types';
+
+interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="faq-items">
+  {items.map(item => (
+    <details id={item.id} class="faq-item">
+      <summary class="faq-question">{item.question}</summary>
+      <p class="faq-answer">{item.answer}</p>
+    </details>
+  ))}
+</section>
+
+<style>
+  .faq-items {
+    padding-bottom: var(--space-4);
+  }
+
+  .faq-item {
+    border-top: var(--border);
+    padding-block: var(--space-4);
+  }
+
+  .faq-item:last-child {
+    border-bottom: var(--border);
+  }
+
+  .faq-question {
+    min-height: var(--touch-target);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    color: var(--color-text);
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::before {
+    content: '+';
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-subtle);
+    margin-right: var(--space-3);
+    flex-shrink: 0;
+    transition: var(--transition-color);
+  }
+
+  details[open] .faq-question::before {
+    content: '−';
+    color: var(--color-text-muted);
+  }
+
+  .faq-answer {
+    padding-top: var(--space-3);
+    padding-left: calc(var(--space-3) + 1ch + var(--space-3));
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    max-width: 65ch;
+  }
+</style>
