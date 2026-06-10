@@ -1,10 +1,8 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
-import EcosystemLinks from '@components/EcosystemLinks.astro';
-import GuideTeaser from '@components/tool/GuideTeaser.astro';
-import FaqAccordion from '@components/tool/FaqAccordion.astro';
-import RelatedTools from '@components/tool/RelatedTools.astro';
+import FaqDrawer from '@components/tool/FaqDrawer.astro';
+import ToolNavRow from '@components/tool/ToolNavRow.astro';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
@@ -26,10 +24,20 @@ const { tool, category } = Astro.props;
 
 const relatedTools = getRelatedTools(tool, tools);
 
-const faqItems = tool.faq ? (faqsByToolSlug[tool.slug] ?? []) : [];
+const faqItems = faqsByToolSlug[tool.slug] ?? [];
 const guideHref = tool.guide
   ? withBase(`/guide/${tool.guide.categorySlug}/${tool.guide.slug}/`)
   : null;
+
+const faqSchema = faqItems.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+} : null;
 
 // Discover all Widget.astro files — glob resolves at build time, key lookup picks the right one
 const widgets = import.meta.glob<{ default: unknown }>('../../../tools/*/*/Widget.astro');
@@ -40,51 +48,19 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 ---
 
 <ToolLayout tool={tool} category={category}>
+  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+
   <Widget />
 
-  {tool.guide && guideHref && (
-    <section class="content-section">
-      <GuideTeaser
-        href={guideHref}
-        title={tool.guide.title}
-        description={tool.guide.description}
-        readMinutes={tool.guide.readMinutes}
-        updatedAt={tool.guide.updatedAt}
-      />
-    </section>
-  )}
+  {/* FAQ content rendered in DOM for SEO — visually hidden until drawer opens */}
+  {faqItems.length > 0 && <FaqDrawer items={faqItems} toolName={tool.name} />}
 
-  {faqItems.length > 0 && (
-    <section class="content-section">
-      <h2 class="faq-section-heading">Frequently asked questions <span class="gold-dot" aria-hidden="true"></span></h2>
-      <FaqAccordion items={faqItems} />
-    </section>
-  )}
-
-  {(tool.guide || tool.faq) && (
-    <EcosystemLinks
-      currentType="tool"
-      toolSlug={tool.slug}
-      toolCategorySegment={category.segment}
-      toolName={tool.name}
-      entry={tool}
-    />
-  )}
-
-  <RelatedTools tools={relatedTools} category={category} />
+  <ToolNavRow
+    faqItems={faqItems}
+    guideHref={guideHref}
+    guideTitle={tool.guide?.title}
+    guideReadMinutes={tool.guide?.readMinutes}
+    relatedTools={relatedTools}
+    toolName={tool.name}
+  />
 </ToolLayout>
-
-<style>
-  .content-section {
-    padding-top: var(--space-10);
-    border-top: var(--border);
-    margin-top: var(--space-8);
-  }
-
-  .faq-section-heading {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-  }
-</style>
