@@ -1,5 +1,4 @@
 ---
-import SearchBar from './SearchBar.astro';
 import { withBase } from '../lib/paths';
 import { APP_VERSION } from '../lib/version';
 ---
@@ -7,14 +6,10 @@ import { APP_VERSION } from '../lib/version';
 <header role="banner">
   <div class="nav-inner">
     <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span><span class="nav-version" aria-label={`ToyTools alpha version 2.0`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Alpha Version</strong>Major UI revamp under progress.<br/>Try out the new developer tools!</span></span></a>
-    <div class="nav-search">
-      <SearchBar />
-    </div>
-    <div class="theme-segmented" role="group" aria-label="Theme">
-      <button class="theme-seg-btn" data-theme-btn="light" type="button">Light</button>
-      <button class="theme-seg-btn" data-theme-btn="dark" type="button">Dark</button>
-      <button class="theme-seg-btn" data-theme-btn="system" type="button">System</button>
-    </div>
+    <button class="theme-toggle" aria-label="Toggle theme" type="button" data-theme-toggle>
+      <span class="theme-icon theme-icon-moon" aria-hidden="true">🌙</span>
+      <span class="theme-icon theme-icon-sun" aria-hidden="true">☀️</span>
+    </button>
   </div>
 </header>
 
@@ -34,6 +29,7 @@ import { APP_VERSION } from '../lib/version';
     min-height: calc(var(--touch-target) + var(--space-4));
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--space-4);
   }
 
@@ -106,58 +102,39 @@ import { APP_VERSION } from '../lib/version';
     opacity: 1;
   }
 
-  .nav-search {
-    flex: 1;
-    min-width: 0;
-  }
+  /* ── Theme toggle ─────────────────────────────────────────── */
 
-  .theme-segmented {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    border: var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-bg);
-  }
-
-  .theme-seg-btn {
+  .theme-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: var(--touch-target);
     height: var(--touch-target);
-    padding: 0 var(--space-3);
     border: none;
-    border-left: var(--border);
     background: transparent;
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    font-family: var(--font-sans);
     cursor: pointer;
-    transition: var(--transition-color);
-    white-space: nowrap;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+    transition: background-color 150ms ease;
+    font-size: var(--text-base);
+    line-height: 1;
   }
 
-  .theme-seg-btn:first-child {
-    border-left: none;
-  }
-
-  .theme-seg-btn:hover {
-    color: var(--color-text);
+  .theme-toggle:hover {
     background: var(--color-surface-hover);
   }
 
-  .theme-seg-btn[data-active] {
-    color: var(--color-gold);
-    background: var(--color-surface);
-    font-weight: var(--font-weight-medium);
-  }
+  /* Show moon in light mode (click → go dark), sun in dark mode (click → go light) */
+  .theme-icon-moon { display: inline; }
+  .theme-icon-sun  { display: none;   }
 
-  @media (max-width: 480px) {
-    .theme-seg-btn {
-      padding: 0 var(--space-2);
-      font-size: var(--text-xs);
-    }
+  :root[data-theme="dark"] .theme-icon-moon { display: none;   }
+  :root[data-theme="dark"] .theme-icon-sun  { display: inline; }
+
+  /* When system preference is dark and no override is set */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-icon-moon { display: none;   }
+    :root:not([data-theme="light"]) .theme-icon-sun  { display: inline; }
   }
 </style>
 
@@ -177,21 +154,10 @@ import { APP_VERSION } from '../lib/version';
       } else {
         delete html.dataset.theme;
         if (!mqListener) {
-          mqListener = function () { markActive('system'); };
+          mqListener = function () {};
           mq.addEventListener('change', mqListener);
         }
       }
-      markActive(mode);
-    }
-
-    function markActive(mode) {
-      document.querySelectorAll('[data-theme-btn]').forEach(function (btn) {
-        if (btn.dataset.themeBtn === mode) {
-          btn.dataset.active = '';
-        } else {
-          delete btn.dataset.active;
-        }
-      });
     }
 
     var stored = localStorage.getItem('toytools.theme') || 'system';
@@ -200,14 +166,16 @@ import { APP_VERSION } from '../lib/version';
     var versionEl = document.querySelector('.nav-version');
     if (versionEl && window.ToyTools) ToyTools.mobileTooltip(versionEl, 'Alpha version — features may change');
 
-    document.querySelectorAll('[data-theme-btn]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var mode = btn.dataset.themeBtn;
-        localStorage.setItem('toytools.theme', mode);
-        applyTheme(mode);
-        var labels = { light: 'Light theme', dark: 'Dark theme', system: 'Using system appearance' };
-        if (window.ToyTools) ToyTools.toast(labels[mode] || 'Theme updated');
+    var toggleBtn = document.querySelector('[data-theme-toggle]');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+        var current = localStorage.getItem('toytools.theme') || 'system';
+        var isDark = current === 'dark' || (current === 'system' && mq.matches);
+        var next = isDark ? 'light' : 'dark';
+        localStorage.setItem('toytools.theme', next);
+        applyTheme(next);
+        if (window.ToyTools) ToyTools.toast(next === 'dark' ? 'Dark theme' : 'Light theme');
       });
-    });
+    }
   })();
 </script>
