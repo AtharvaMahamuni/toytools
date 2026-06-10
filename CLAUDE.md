@@ -25,6 +25,17 @@ npm run test:e2e:report # open the saved interactive HTML report (with traces)
 
 E2E is a registry-driven platform framework (every tool gets generic smoke coverage; the developer tools are the pilot deep suite) and is **not** wired into `npm run build`. See `ARCHITECTURE.md` → "E2E Testing". Mobile-first: every spec runs on desktop **and** Pixel 5.
 
+```sh
+npm run health  # post-build platform integrity superset (registry/manifest/sitemap/knowledge coverage)
+npm run intel   # Content Intelligence: ecosystem analysis → dist/content-intelligence/ (on demand, not in build)
+```
+
+`npm run intel` generates coverage/gap/category-health/engine-opportunity/topic-cluster/roadmap/
+ecosystem reports from the registries (no external data). Expansion opportunities come from the
+declarative `src/lib/content-intelligence/taxonomy.ts` (`engine → family → expected[]`) — add
+expected tools there as data; never hardcode topics in analyzer logic. See `ARCHITECTURE.md` →
+"Content Intelligence Layer".
+
 ## Analytics
 
 Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.astro`. The tag ID is `G-WHD7CL44MX`. Since all pages go through `BaseLayout`, no further action is needed when adding new pages or tool types — the tag is inherited automatically. Do **not** add a second `gtag` snippet to individual pages or layouts.

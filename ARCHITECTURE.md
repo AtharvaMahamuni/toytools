@@ -358,6 +358,33 @@ proven `getRelatedTools()` algorithm, not a second system.
   Workflow blocks, topic hubs, collections, popular paths, and the deferred inline prose auto-linking
   will consume this layer with no schema migration.
 
+## Content Intelligence Layer (`src/lib/content-intelligence/`)
+
+Phase E1. Build-time, registry-driven analysis of the **whole content ecosystem** — coverage
+gaps, category health, engine expansion opportunities, topic clusters, and a ranked roadmap. No
+Search Console / Analytics / external APIs / UI; output is a set of generated JSON reports. Run
+on demand via **`npm run intel`** (NOT in `npm run build`, so builds stay fast at scale).
+
+- **Pure, injectable analyzers** — every analyzer is `fn(inputs: AnalyzerInputs)`, never reading
+  module globals (same discipline as `buildGraph()`). `AnalyzerInputs` bundles tools, categories,
+  engines, the knowledge graph, knowledge map, and the expansion taxonomy — plus an optional
+  **`signals?: ExternalSignals`** seam (undefined in E1) so Search Console / Analytics can plug in
+  later with no redesign. `index.ts` `defaultInputs()` wires the real registries; tests pass fixtures.
+- **Expansion taxonomy** (`taxonomy.ts`) — the ONLY place tools are named: a hierarchical
+  `engine → family → expected[]` registry. Analyzers derive `missing = expected − existing`; the
+  analyzer logic itself is topic-agnostic ("no hardcoded topics"). Editing it is pure data work.
+- **Analyzers** — `coverage.ts` (per-topic tool/guide/faq/related), `gaps.ts` (missing pieces +
+  taxonomy missing-tools + category-missing-engine), `category-health.ts` (counts, avg
+  relationships, 0–100 score), `engine-opportunities.ts` (taxonomy missing members + structural
+  signals with no taxonomy), `clusters.ts` (cluster size, related topics, missing/non-reciprocal
+  connections), `priorities.ts` (weighted `score` + `confidence` + machine `reasons[]` + human
+  `explanation[]`), `ecosystem-health.ts` (platform-wide `ecosystemScore`).
+- **Reports** → `dist/content-intelligence/latest/*.json` (gitignored, regenerated) + a versioned
+  `index.json` (`INTELLIGENCE_SCHEMA_VERSION`) + a dated `snapshots/<YYYY-MM-DD>.json` for trend
+  analysis. `scripts/content-intelligence.ts` is the writer (mirrors `knowledge-diagnostics.ts`).
+- **Reserved Phase E2** — feed `ExternalSignals` (impressions/clicks/CTR/position) into
+  `priorities.ts`; the branch already exists, dormant.
+
 ## Sitemap (`src/lib/sitemap/` + `src/pages/sitemaps/`)
 
 Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**
