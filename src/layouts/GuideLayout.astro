@@ -70,7 +70,6 @@ const articleSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
   <div class="guide-header">
-    <p class="guide-label"><span class="gold-dot" aria-hidden="true"></span> Reference Guide</p>
     <Breadcrumb items={[
       { label: 'Home', href: withBase('/') },
       { label: toolCategoryName, href: withBase(`/category/${toolCategorySlug}/`) },
@@ -102,9 +101,11 @@ const articleSchema = {
 
     <div class="guide-content">
       <slot />
-      <RelatedContent toolSlug={toolSlug} />
-      <YouMayAlsoNeed toolSlug={toolSlug} />
-      <ContinueLearning toolSlug={toolSlug} />
+      <div class="kg-group">
+        <RelatedContent toolSlug={toolSlug} />
+        <YouMayAlsoNeed toolSlug={toolSlug} />
+        <ContinueLearning toolSlug={toolSlug} />
+      </div>
     </div>
   </div>
 
@@ -127,19 +128,6 @@ const articleSchema = {
     padding-bottom: var(--space-12);
     border-bottom: var(--border);
     margin-bottom: var(--space-12);
-  }
-
-  .guide-label {
-    font-size: var(--text-xs);
-    color: var(--color-text-subtle);
-    font-weight: var(--font-weight-medium);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    max-width: unset;
-    margin-bottom: var(--space-3);
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
   }
 
   h1 {
@@ -331,6 +319,24 @@ const articleSchema = {
     font-size: var(--text-base);
     color: var(--color-text-muted);
     line-height: var(--leading-relaxed);
+  }
+
+  /* ── KG sections — single shared border ──────────────────── */
+
+  .kg-group {
+    border-top: var(--border);
+    padding-top: var(--space-8);
+    margin-top: var(--space-4);
+  }
+
+  .kg-group :global(.kg-section) {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .kg-group :global(.kg-section + .kg-section) {
+    margin-top: var(--space-8);
+    border-top: none;
   }
 
   :global(.guide-content .encoding-example) {
