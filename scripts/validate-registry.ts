@@ -2,6 +2,8 @@ import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { engineIds, knownPatterns, getEngine } from '../src/data/engines';
 import { getToolMetadata } from '../src/data/metadata';
+import { faqsByToolSlug } from '../src/data/faq-registry';
+import { registeredGuideSlugSet } from '../src/data/guide-registry';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
 import { ENCODERS } from '../src/lib/engines/encoding/registry';
 import { HASHERS } from '../src/lib/engines/hashing/registry';
@@ -82,6 +84,15 @@ for (const tool of tools) {
   // guide/faq slugs must be present when declared (resolution is by route at build)
   if (tool.guide && !m.guideSlug) errors.push(`Tool "${m.slug}" has a guide config without a slug`);
   if (tool.faq && !m.faqSlug) errors.push(`Tool "${m.slug}" has a faq config without a slug`);
+
+  // A declared guide/faq must actually be wired into its route — otherwise the tool page links to
+  // a guide/FAQ page that renders empty (no build error without this check).
+  if (tool.guide && !registeredGuideSlugSet.has(m.slug)) {
+    errors.push(`Tool "${m.slug}" declares a guide but is not registered in src/data/guide-registry.ts (add its slug + Guide.astro import in src/pages/guide/[...slug].astro)`);
+  }
+  if (tool.faq && !(faqsByToolSlug[m.slug]?.length)) {
+    errors.push(`Tool "${m.slug}" declares a faq but has no entries in src/data/faq-registry.ts (add its faq.ts import)`);
+  }
 
   // Engine-specific processorId must resolve in that engine's registry
   const registry = ENGINE_REGISTRIES[m.engine];
