@@ -137,6 +137,27 @@ heading.
 
 ---
 
+### Tool-page guide/FAQ embedding
+
+Guide and FAQ content is surfaced **on the tool page itself**, not only as a backlink. Below the
+widget, `src/pages/tool/[category]/[slug].astro` renders, in order: a `GuideTeaser`
+(`src/components/tool/GuideTeaser.astro` — a compact card linking to the full long-form guide), the
+full `FaqAccordion` (`src/components/tool/FaqAccordion.astro` — the shared `<details>` accordion), then
+the existing `EcosystemLinks` and `RelatedTools`. `FaqAccordion` is the single source of the accordion
+markup/styles, reused by both the tool page and the canonical `FAQLayout`. **SEO:** the `FAQPage`
+JSON-LD lives only on the `/faq/` page; the tool page shows the FAQ visually but emits no second
+structured-data block (avoids duplicate schema across two URLs).
+
+**Registration-drift guard.** A tool can declare `guide:`/`faq:` in `config.ts` (so a teaser/accordion
+is attempted) yet be missing from the route's import map, rendering empty with no build error.
+`src/data/guide-registry.ts` exports `registeredGuideSlugs` (a `.astro`-free slug list so `tsx` can
+import it from the validator; the `guidesBySlug` component map in the guide route is typed
+`Record<RegisteredGuideSlug, …>`, so TS catches drift between the two). `scripts/validate-registry.ts`
+fails the build when a tool declares a guide/faq but isn't registered in `guide-registry.ts` /
+`faqsByToolSlug`.
+
+---
+
 ### Platform foundation (persistence, continuity, scalability)
 
 - **Persistence** — `ToyTools.state.save/load/clear(toolId, data)` (on the runtime global in
