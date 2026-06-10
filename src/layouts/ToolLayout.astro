@@ -1,8 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import Breadcrumb from '@components/Breadcrumb.astro';
-import BackButton from '@components/BackButton.astro';
+import TrustNotice from '@components/tool/TrustNotice.astro';
 import type { Tool, Category } from '@data/types';
 import { withBase } from '../lib/paths';
 
@@ -40,14 +39,9 @@ const softwareSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
 
   <div class="tool-header">
-    <Breadcrumb items={[
-      { label: 'Home', href: withBase('/') },
-      { label: category.name, href: withBase(`/category/${category.slug}/`) },
-      { label: tool.name },
-    ]} />
-    <BackButton />
     <h1>{tool.name}</h1>
     <p class="tool-description">{tool.description}</p>
+    <TrustNotice variant={tool.trustVariant ?? 'private'} />
   </div>
 
   <slot />

@@ -3,7 +3,6 @@
 // Scope: Word Counter, Character Counter, Sentence Counter, Paragraph Counter, Reading Time.
 // Complex tools requiring custom analysis logic should NOT use this component.
 import type { MetricFormatter } from '@data/types';
-import TrustNotice from '@components/tool/TrustNotice.astro';
 import TextareaInput from '@components/tool/TextareaInput.astro';
 import HeroMetric from '@components/tool/HeroMetric.astro';
 import StatGrid from '@components/tool/StatGrid.astro';
@@ -27,8 +26,6 @@ const { slug, stats } = Astro.props;
 const [primaryStat, ...secondaryStats] = stats;
 const inputId = `${slug}-input`;
 ---
-
-<TrustNotice variant="private" />
 
 <ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={true}>
   <div slot="input">

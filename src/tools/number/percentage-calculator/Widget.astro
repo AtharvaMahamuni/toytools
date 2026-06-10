@@ -1,22 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
-import TrustNotice from '@components/tool/TrustNotice.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { config } from './config';
-import { items as faqItems } from './faq';
-import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
-const faqHref = config.faq
-  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
-  : null;
 ---
-
-<TrustNotice variant="private" />
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={true}>
   <div slot="input" data-tool="percentage-calculator">
@@ -49,22 +34,6 @@ const faqHref = config.faq
 </ToolSplit>
 
 <CategoryDiscovery toolSlug="percentage-calculator" />
-
-<ToolSection heading="How it works">
-  <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → How To Calculate Percentages</a>
-    </p>
-  )}
-</ToolSection>
-
-{faqHref && (
-  <section class="content-section">
-    <h2>FAQ</h2>
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
-  </section>
-)}
 
 <script is:inline>
   (function () {
