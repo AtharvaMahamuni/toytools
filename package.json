@@ -34,7 +34,8 @@
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
     "@fontsource-variable/geist-mono": "^5.2.8",
-    "astro": "^6.4.3"
+    "astro": "^6.4.3",
+    "mermaid": "^11.15.0"
   },
   "devDependencies": {
     "@astrojs/partytown": "^2.1.7",

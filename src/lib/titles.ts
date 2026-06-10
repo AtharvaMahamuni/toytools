@@ -1,4 +1,4 @@
-export type PageType = 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'language' | 'search' | 'notFound';
+export type PageType = 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'language' | 'search' | 'architecture' | 'notFound';
 
 export function generatePageTitle(type: PageType, name?: string): string {
   switch (type) {
@@ -9,6 +9,7 @@ export function generatePageTitle(type: PageType, name?: string): string {
     case 'category': return `${name} ● ToyTools`;
     case 'language': return `ToyTools ${name}`;
     case 'search':   return 'Search ● ToyTools';
+    case 'architecture': return 'Architecture ● ToyTools';
     case 'notFound': return 'Page Not Found ● ToyTools';
   }
 }
