@@ -90,4 +90,50 @@ describe('validateKnowledge', () => {
   it('uses the current schema version constant', () => {
     expect(makeKnowledge({ slug: 'a' }).schemaVersion).toBe(KNOWLEDGE_SCHEMA_VERSION);
   });
+
+  it('flags a relationship field that is not an array', () => {
+    const k = { ...makeKnowledge({ slug: 'a' }), usedWith: 'nope' as never };
+    const result = validateKnowledge(k);
+    expect(result.errors.some(e => e.includes('usedWith must be an array'))).toBe(true);
+  });
+
+  it('flags a relationship entry that is not an object', () => {
+    const k = makeKnowledge({ slug: 'a', alternatives: ['just-a-string' as never] });
+    const result = validateKnowledge(k);
+    expect(result.errors.some(e => e.includes('must be an object with a slug'))).toBe(true);
+  });
+
+  it('flags a non-string reason', () => {
+    const k = makeKnowledge({ slug: 'a', nextSteps: [{ slug: 'b', reason: 42 as never }] });
+    const result = validateKnowledge(k);
+    expect(result.errors.some(e => e.includes('reason must be a string'))).toBe(true);
+  });
+
+  it('flags a negative strength', () => {
+    const k = makeKnowledge({ slug: 'a', usedWith: [{ slug: 'b', strength: -0.5 }] });
+    expect(validateKnowledge(k).ok).toBe(false);
+  });
+
+  it('flags each non-array string field', () => {
+    for (const field of ['secondaryConcepts', 'keywords', 'entityAliases', 'realWorldUseCases', 'commonMistakes', 'commonQuestions']) {
+      const k = { ...makeKnowledge({ slug: 'a' }), [field]: 'nope' } as never;
+      const result = validateKnowledge(k);
+      expect(result.errors.some(e => e.includes(`${field} must be a string array`)), field).toBe(true);
+    }
+  });
+
+  it('flags intentGroups that is not an object', () => {
+    const k = { ...makeKnowledge({ slug: 'a' }), intentGroups: null as never };
+    expect(validateKnowledge(k).errors.some(e => e.includes('intentGroups must be an object'))).toBe(true);
+  });
+
+  it('flags workflowStage that is not an array', () => {
+    const k = { ...makeKnowledge({ slug: 'a' }), workflowStage: 'transform' as never };
+    expect(validateKnowledge(k).errors.some(e => e.includes('workflowStage must be a non-empty array'))).toBe(true);
+  });
+
+  it('flags a missing primaryConcepts that is not even an array', () => {
+    const k = { ...makeKnowledge({ slug: 'a' }), primaryConcepts: 'json' as never };
+    expect(validateKnowledge(k).ok).toBe(false);
+  });
 });

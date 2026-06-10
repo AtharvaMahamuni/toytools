@@ -127,7 +127,11 @@ export function getTopicCluster(slug: string, max = 5, graph = defaultGraph): To
  * so a future "Typical Workflow" block can render with no schema change. Falls back to
  * relationship sort order for tools without authored knowledge.
  */
-export function getWorkflow(slug: string, graph = defaultGraph): ResolvedRelation[] {
+export function getWorkflow(
+  slug: string,
+  graph = defaultGraph,
+  knowledgeOf: (s: string) => Knowledge | undefined = getKnowledge,
+): ResolvedRelation[] {
   const neighbours = [...getUsedWith(slug, 10, graph), ...getNextSteps(slug, 10, graph)];
   const seen = new Set<string>();
   const unique = neighbours.filter(r => {
@@ -136,7 +140,7 @@ export function getWorkflow(slug: string, graph = defaultGraph): ResolvedRelatio
     return true;
   });
   const stageOf = (s: string): number => {
-    const kn = getKnowledge(s);
+    const kn = knowledgeOf(s);
     const stage = kn?.workflowStage?.[0] as WorkflowStage | undefined;
     const idx = stage ? WORKFLOW_STAGES.indexOf(stage) : -1;
     return idx === -1 ? WORKFLOW_STAGES.length : idx;

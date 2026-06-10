@@ -40,6 +40,23 @@ describe('buildEntityIndex', () => {
     const idx = buildEntityIndex([makeKnowledge({ slug: 'ghost', primaryConcepts: ['ghost'] })], tools);
     expect(idx.has('ghost')).toBe(false);
   });
+
+  it('keeps the highest score when a surface form appears at multiple weights', () => {
+    // "json" as both a primary concept (100) and a keyword (40) — primary must win.
+    const idx = buildEntityIndex(
+      [makeKnowledge({ slug: 'json-formatter', primaryConcepts: ['json'], keywords: ['json'] })],
+      tools,
+    );
+    expect(idx.get('json')?.score).toBe(100);
+  });
+
+  it('skips empty/whitespace surface forms', () => {
+    const idx = buildEntityIndex(
+      [makeKnowledge({ slug: 'json-formatter', primaryConcepts: ['json', '   '] })],
+      tools,
+    );
+    expect(idx.has('')).toBe(false);
+  });
 });
 
 describe('getEntityMatches', () => {

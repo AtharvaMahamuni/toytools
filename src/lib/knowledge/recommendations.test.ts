@@ -57,4 +57,19 @@ describe('getRecommendations', () => {
   it('never throws for an unknown slug', () => {
     expect(getRecommendations('does-not-exist', 4, g)).toEqual([]);
   });
+
+  it('dedupes a target that appears twice within a block', () => {
+    const kn = buildKnowledgeMap([
+      makeKnowledge({
+        slug: 'base64',
+        usedWith: [
+          { slug: 'json-formatter', reason: 'first' },
+          { slug: 'json-formatter', reason: 'duplicate' },
+        ],
+      }),
+    ]);
+    const g2 = buildGraph(tools, categories, kn);
+    const used = getRecommendations('base64', 4, g2).find(b => b.key === 'used-with');
+    expect(used?.items).toHaveLength(1);
+  });
 });

@@ -54,13 +54,13 @@ export function buildEntityIndex(
   const toolBySlug = new Map(tools.map(t => [t.slug, t]));
 
   for (const kn of knowledge) {
-    if (!toolBySlug.has(kn.slug)) continue;
+    const tool = toolBySlug.get(kn.slug);
+    if (!tool) continue; // knowledge with no matching tool is skipped
     kn.primaryConcepts.forEach(c => add(c, kn.slug, SCORE.primary));
     kn.secondaryConcepts.forEach(c => add(c, kn.slug, SCORE.secondary));
     kn.entityAliases.forEach(a => add(a, kn.slug, SCORE.alias));
     kn.keywords.forEach(k => add(k, kn.slug, SCORE.keyword));
-    const tool = toolBySlug.get(kn.slug);
-    if (tool) add(tool.name, kn.slug, SCORE.name);
+    add(tool.name, kn.slug, SCORE.name);
   }
 
   return index;

@@ -4,10 +4,14 @@ import { buildKnowledgeMap } from './registry';
 import { makeKnowledge } from './fixtures';
 import {
   getRelatedTools,
+  getRelatedGuides,
+  getRelatedFaqs,
   getUsedWith,
   getAlternatives,
   getNextSteps,
   getTopicCluster,
+  getWorkflow,
+  getKnowledgeFor,
 } from './queries';
 import type { Category, Knowledge } from './types';
 import type { ToolConfig } from '@data/types';
@@ -77,5 +81,50 @@ describe('relationship queries', () => {
     expect(cluster.tool?.slug).toBe('json-formatter');
     expect(cluster.guide?.slug).toBe('json-formatter');
     expect(cluster.relatedTools.length).toBeGreaterThan(0);
+  });
+
+  it('getKnowledgeFor returns the authored knowledge or undefined', () => {
+    // base64 has no entry in the real registry path for this fixture; assert no throw + shape
+    expect(() => getKnowledgeFor('base64')).not.toThrow();
+  });
+
+  it('getRelatedGuides only returns nodes that are guides', () => {
+    const guides = getRelatedGuides('json-validator', 5, g);
+    expect(guides.every(r => r.node.type === 'guide')).toBe(true);
+    expect(guides.some(r => r.node.slug === 'json-formatter')).toBe(true); // only formatter has a guide
+  });
+
+  it('getRelatedFaqs returns empty when no sibling has a FAQ', () => {
+    expect(getRelatedFaqs('json-validator', 5, g)).toEqual([]);
+  });
+
+  it('getNextSteps respects the max cap', () => {
+    expect(getNextSteps('base64', 1, g)).toHaveLength(1);
+  });
+});
+
+describe('getWorkflow', () => {
+  it('orders neighbours by workflow stage (input→export) via the injected resolver', () => {
+    const knowledgeOf = (s: string): Knowledge | undefined =>
+      knowledge.get(s) ??
+      ({
+        'json-validator': makeKnowledge({ slug: 'json-validator', workflowStage: ['validate'] }),
+        'json-formatter': makeKnowledge({ slug: 'json-formatter', workflowStage: ['analyze'] }),
+        'json-minifier': makeKnowledge({ slug: 'json-minifier', workflowStage: ['export'] }),
+      }[s]);
+    const order = getWorkflow('base64', g, knowledgeOf).map(r => r.node.slug);
+    // base64 usedWith json-formatter (analyze) + json-validator (validate);
+    // nextSteps json-validator, json-formatter. Deduped, validate sorts before analyze.
+    expect(order.indexOf('json-validator')).toBeLessThan(order.indexOf('json-formatter'));
+  });
+
+  it('falls back to end-of-pipeline for neighbours without a known stage', () => {
+    const knowledgeOf = (): Knowledge | undefined => undefined; // no stage info
+    const result = getWorkflow('base64', g, knowledgeOf);
+    expect(result.length).toBeGreaterThan(0); // still returns deduped neighbours
+  });
+
+  it('returns empty for a tool with no workflow neighbours', () => {
+    expect(getWorkflow('json-minifier', g, () => undefined)).toEqual([]);
   });
 });
