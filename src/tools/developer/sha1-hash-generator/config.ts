@@ -14,4 +14,17 @@ export const config: ToolConfig = {
   family: 'cryptographic',
   processorId: 'sha1',
   relatedTools: ['md5-hash-generator', 'sha256-hash-generator'],
+  guide: {
+    slug: 'what-is-sha1',
+    categorySlug: 'developer',
+    title: 'What Is SHA-1?',
+    description: 'Understand what SHA-1 is, why it was deprecated after the SHAttered collision attack in 2017, and where it still appears today.',
+    readMinutes: 5,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'sha1-hash-generator',
+    categorySlug: 'developer',
+    description: 'Answers to common questions about SHA-1, the SHAttered attack, HMAC-SHA1, and when to use SHA-256 instead.',
+  },
 };

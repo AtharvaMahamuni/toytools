@@ -14,4 +14,17 @@ export const config: ToolConfig = {
   family: 'json',
   processorId: 'json-formatter',
   relatedTools: ['json-minifier', 'json-validator'],
+  guide: {
+    slug: 'what-is-json-formatting',
+    categorySlug: 'developer',
+    title: 'What Is JSON Formatting?',
+    description: 'Understand what JSON pretty-printing does, why formatted and minified JSON are identical in meaning, and when to use each.',
+    readMinutes: 4,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'json-formatter',
+    categorySlug: 'developer',
+    description: 'Answers to common questions about JSON formatting, indentation, pretty-printing, and what formatters can and can\'t fix.',
+  },
 };

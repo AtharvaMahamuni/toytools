@@ -14,4 +14,17 @@ export const config: ToolConfig = {
   family: 'web',
   processorId: 'html-entity',
   relatedTools: ['base64-encoder-decoder', 'url-encoder-decoder'],
+  guide: {
+    slug: 'what-is-html-entity-encoding',
+    categorySlug: 'developer',
+    title: 'What Is HTML Entity Encoding?',
+    description: 'Understand what HTML entities are, which characters must be escaped, when entities are still necessary in a UTF-8 world, and how to avoid XSS.',
+    readMinutes: 5,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'html-entity-encoder-decoder',
+    categorySlug: 'developer',
+    description: 'Answers to common questions about HTML entities, character escaping, &amp;amp; vs &amp;#38;, and why &amp;nbsp; behaves differently.',
+  },
 };

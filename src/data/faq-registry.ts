@@ -3,6 +3,16 @@ import { items as todoFaqs }               from '@tools/productivity/todo-list/f
 import { items as notepadFaqs }             from '@tools/productivity/notepad/faq';
 import { items as keepScreenAwakeFaqs }     from '@tools/productivity/keep-screen-awake/faq';
 import { items as base64Faqs }              from '@tools/developer/base64-encoder-decoder/faq';
+import { items as urlEncoderDecoderFaqs }   from '@tools/developer/url-encoder-decoder/faq';
+import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer/html-entity-encoder-decoder/faq';
+// Developer tools — hashing engine
+import { items as md5HashGeneratorFaqs }   from '@tools/developer/md5-hash-generator/faq';
+import { items as sha1HashGeneratorFaqs }  from '@tools/developer/sha1-hash-generator/faq';
+import { items as sha256HashGeneratorFaqs } from '@tools/developer/sha256-hash-generator/faq';
+// Developer tools — structured-data engine
+import { items as jsonFormatterFaqs }  from '@tools/developer/json-formatter/faq';
+import { items as jsonMinifierFaqs }   from '@tools/developer/json-minifier/faq';
+import { items as jsonValidatorFaqs }  from '@tools/developer/json-validator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as wordCounterFaqs }         from '@tools/text/word-counter/faq';
 import { items as pomodoroTimerFaqs }        from '@tools/productivity/pomodoro-timer/faq';
@@ -32,6 +42,14 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'notepad':                notepadFaqs,
   'keep-screen-awake':      keepScreenAwakeFaqs,
   'base64-encoder-decoder': base64Faqs,
+  'url-encoder-decoder':    urlEncoderDecoderFaqs,
+  'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
+  'md5-hash-generator':          md5HashGeneratorFaqs,
+  'sha1-hash-generator':         sha1HashGeneratorFaqs,
+  'sha256-hash-generator':       sha256HashGeneratorFaqs,
+  'json-formatter':              jsonFormatterFaqs,
+  'json-minifier':               jsonMinifierFaqs,
+  'json-validator':              jsonValidatorFaqs,
   'percentage-calculator':  percentageCalculatorFaqs,
   'word-counter':           wordCounterFaqs,
   'pomodoro-timer':         pomodoroTimerFaqs,

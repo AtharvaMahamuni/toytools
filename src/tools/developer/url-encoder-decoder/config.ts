@@ -14,4 +14,17 @@ export const config: ToolConfig = {
   family: 'web',
   processorId: 'url',
   relatedTools: ['base64-encoder-decoder', 'html-entity-encoder-decoder'],
+  guide: {
+    slug: 'what-is-url-encoding',
+    categorySlug: 'developer',
+    title: 'What Is URL Encoding?',
+    description: 'Understand how percent-encoding works, why URLs need it, what characters get encoded, and the mistakes that cause silent bugs.',
+    readMinutes: 5,
+    updatedAt: 'Jun 2026',
+  },
+  faq: {
+    slug: 'url-encoder-decoder',
+    categorySlug: 'developer',
+    description: 'Answers to common questions about URL encoding, percent-encoding, and how to encode query parameters correctly.',
+  },
 };

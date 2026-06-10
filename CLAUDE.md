@@ -137,7 +137,15 @@ src/tools/
 ├── number/              # number-utilities category
 │   └── percentage-calculator/
 ├── developer/           # developer-tools category
-│   └── base64-encoder-decoder/
+│   ├── base64-encoder-decoder/      # encoding engine (encode-decode pattern)
+│   ├── url-encoder-decoder/         # encoding engine
+│   ├── html-entity-encoder-decoder/ # encoding engine
+│   ├── md5-hash-generator/          # hashing engine (hash pattern)
+│   ├── sha1-hash-generator/         # hashing engine
+│   ├── sha256-hash-generator/       # hashing engine
+│   ├── json-formatter/              # structured-data engine (structured-transform pattern)
+│   ├── json-minifier/               # structured-data engine
+│   └── json-validator/              # structured-data engine (structured-validate pattern)
 └── productivity/        # productivity category
     ├── todo-list/
     ├── notepad/
