@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npx tsx scripts/validate-registry.ts && astro build",
+    "build": "npx tsx scripts/validate-registry.ts && npx tsx scripts/validate-knowledge.ts && astro build && npx tsx scripts/knowledge-diagnostics.ts",
     "health": "npx tsx scripts/platform-health.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
