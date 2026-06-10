@@ -1,0 +1,100 @@
+---
+import { withBase } from '../lib/paths';
+---
+
+<form class="hero-search" action={withBase('/search/')} method="get" role="search">
+  <label class="sr-only" for="hero-q">Search tools</label>
+  <div class="hero-search-inner">
+    <span class="hero-search-icon" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input
+      type="search"
+      id="hero-q"
+      name="q"
+      class="hero-search-input"
+      placeholder="Search tools…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button type="submit" class="hero-search-btn">Search</button>
+  </div>
+</form>
+
+<style>
+  .hero-search {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .hero-search-inner {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+    overflow: hidden;
+  }
+
+  .hero-search-inner:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+
+  .hero-search-icon {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-3) 0 var(--space-4);
+    color: var(--color-text-subtle);
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .hero-search-input {
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    border: none;
+    background: transparent;
+    font-size: var(--text-base);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    outline: none;
+  }
+
+  .hero-search-input::placeholder {
+    color: var(--color-text-subtle);
+  }
+
+  .hero-search-btn {
+    height: 52px;
+    padding: 0 var(--space-5);
+    border: none;
+    border-left: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 150ms ease, color 150ms ease;
+    flex-shrink: 0;
+  }
+
+  .hero-search-btn:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 480px) {
+    .hero-search-btn {
+      padding: 0 var(--space-3);
+      font-size: var(--text-xs);
+    }
+  }
+</style>

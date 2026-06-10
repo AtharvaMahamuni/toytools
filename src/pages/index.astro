@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../lib/titles';
 import CategoryCard from '@components/CategoryCard.astro';
 import ToolCard from '@components/ToolCard.astro';
+import HeroSearch from '@components/HeroSearch.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 
@@ -41,9 +42,16 @@ function getCategoryName(slug: string): string {
       },
     ],
   })} />
+
   <section class="hero">
-    <h1>Find the right tool in seconds.</h1>
-    <p>Simple tools for everyday work. Lightweight, private, and free.</p>
+    <h1>ToyTools<span class="gold-dot hero-dot" aria-hidden="true"></span></h1>
+    <p class="hero-tagline">The simplest place on the internet to get things done.</p>
+    <HeroSearch />
+    <p class="hero-sub">
+      <span>Lightweight</span>
+      <span class="gold-dot" aria-hidden="true"></span>
+      <span>Private</span>
+    </p>
   </section>
 
   <section class="section">
@@ -96,18 +104,40 @@ function getCategoryName(slug: string): string {
 
 <style>
   .hero {
-    padding: var(--space-16) 0 var(--space-12);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding: var(--space-16) 0 var(--space-16);
   }
 
   .hero h1 {
-    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
-    margin-bottom: var(--space-4);
+    font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+    line-height: 1;
   }
 
-  .hero p {
-    font-size: var(--text-xl);
+  .hero-dot {
+    margin-left: 6px;
+  }
+
+  .hero-tagline {
+    font-size: clamp(var(--text-base), 2.5vw, var(--text-xl));
     color: var(--color-text-muted);
+    max-width: 44ch;
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero-sub {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
     max-width: unset;
+    margin: 0;
   }
 
   .section {
