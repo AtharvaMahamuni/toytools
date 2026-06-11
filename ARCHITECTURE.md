@@ -279,6 +279,44 @@ names. **If a new family requires editing the widget, the architecture has faile
 
 ---
 
+## Tool Groups (`src/data/tool-groups.ts`)
+
+A **tool group** turns a set of sibling tools sharing one engine + experience into a unified
+workspace, without sacrificing per-tool SEO. The pilot group is `case-converters` (the 7 case
+tools). Architecture: `Tool → Engine → Experience → Content` — the engine converts, the shared
+widget renders, per-tool content ranks, and the group makes them feel like one tool.
+
+**What stays per-tool (SEO surface, never merged):** URL, `seoTitle`, meta description, canonical,
+JSON-LD, guide, FAQ, sitemap entry. Do **not** create a merged `/case-converter/` URL.
+
+**What the group adds:**
+
+- **Manifest** — `src/data/tool-groups.ts` declares `{ id, name, members: [{ slug, label }] }`;
+  member order defines switcher order, `label` is the short mode name (`camelCase`, `snake_case`).
+  Each member's `config.ts` declares `toolGroup: '<id>'` back.
+- **`GroupSwitcher.astro`** (`src/components/tool/`) — pill-row `<nav>` of real `<a>` links rendered
+  above the widget by the tool page when `tool.toolGroup` is set. Active pill = `aria-current="page"`.
+  Real links = crawlable internal links with exact-match anchors (the switcher doubles as the
+  "related variants" block; the tool page filters group siblings out of the Related strip to avoid
+  duplication). Sibling pages get body-level `<link rel="prefetch">`.
+- **Shared input state** — `TextProcessorWidget` derives its persistence key from the config:
+  `group:{toolGroup}` instead of the slug (old per-slug state is read once as a migration fallback).
+  Typing on one member and clicking another restores the same input and recomputes in the new mode.
+- **Instant feel without a router** — navigation stays MPA (every URL self-consistent, zero
+  pushState/JS routing). `global.css` opts into CSS cross-document View Transitions
+  (`@view-transition { navigation: auto; }`, disabled under `prefers-reduced-motion`) so supported
+  browsers cross-fade; prefetch makes the swap near-instant.
+
+**Validation** (`validate-registry.ts`): a `toolGroup` must resolve in the manifest; membership is
+bidirectional (manifest ↔ config); members are unique; all members share the same `engine` +
+`pattern` (a group is one experience). `src/data/tool-groups.test.ts` mirrors these as unit tests;
+`tests/e2e/group-switcher.spec.ts` covers the cross-page input-preservation flow on both viewports.
+
+**Adding a group:** define it in `tool-groups.ts`, add `toolGroup` to each member config — done.
+The switcher, shared state, prefetch, and validation all derive from the manifest.
+
+---
+
 ## Developer Engines (`src/lib/engines/`)
 
 The Developer category is built from three more engines, each following the *same* pattern as the

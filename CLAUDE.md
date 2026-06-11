@@ -86,6 +86,10 @@ For any `text → process(text) → text` tool, use the **Text Processor System*
 
 The shared `TextProcessorWidget.astro` is generic and must never be edited to add a tool or a new processor family (`extract`/`compare`/`validate`/`format` register the same way). `validate-registry.ts` enforces that each `text-processor` tool's `processorId` resolves in the registry.
 
+### Tool Groups (unified workspaces)
+
+Sibling tools sharing one engine + experience (e.g. the 7 case converters) can form a **tool group**: each member keeps its own URL/metadata/guide/FAQ/sitemap entry (never merge URLs), but the tool page renders a `GroupSwitcher` pill row above the widget and `TextProcessorWidget` persists input under the shared key `group:{id}` so text survives mode switches. Declare the group in `src/data/tool-groups.ts` (ordered members + switcher labels) and set `toolGroup: '<id>'` in each member's `config.ts` — `validate-registry.ts` enforces bidirectional membership and same engine/pattern across members. Switching is real `<a>` navigation (sibling pages are prefetched; `@view-transition` in `global.css` gives a CSS-only cross-fade). See `ARCHITECTURE.md` → "Tool Groups".
+
 ### Adding a developer-engine tool (encoding / hashing / structured-data)
 
 The Developer category has three more engines under `src/lib/engines/`, each with the same shape as the text-processor system: `types.ts` + a never-throwing `registry.ts` resolver + per-impl files + a colocated `*.test.ts`, bundled into `ToyToolsRuntime` and consumed by **one generic widget per engine**. See `ARCHITECTURE.md` → "Developer Engines" for the full table.

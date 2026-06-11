@@ -1,0 +1,90 @@
+---
+// GroupSwitcher — mode pills for tools that belong to a tool group (src/data/tool-groups.ts).
+// Each pill is a real link to the sibling tool's own page: crawlable internal links, works
+// without JS. Sibling pages are prefetched so switching feels instant; input text survives
+// via the shared group state key in TextProcessorWidget.
+import type { ToolConfig } from '@data/types';
+import { getToolGroup } from '@data/tool-groups';
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+
+interface Props {
+  tool: ToolConfig;
+}
+
+const { tool } = Astro.props;
+
+const group = tool.toolGroup ? getToolGroup(tool.toolGroup) : undefined;
+
+const members = (group?.members ?? []).map(member => {
+  const memberTool = tools.find(t => t.slug === member.slug);
+  const segment = categories.find(c => c.slug === memberTool?.categorySlug)?.segment;
+  return {
+    ...member,
+    href: segment ? withBase(`/tool/${segment}/${member.slug}/`) : null,
+    active: member.slug === tool.slug,
+  };
+}).filter(m => m.href !== null);
+
+const siblings = members.filter(m => !m.active);
+---
+
+{group && members.length > 1 && (
+  <>
+    <nav class="group-switcher" aria-label={`${group.name} modes`}>
+      {members.map(m => (
+        <a
+          class="group-pill"
+          href={m.href}
+          aria-current={m.active ? 'page' : undefined}
+        >{m.label}</a>
+      ))}
+    </nav>
+    {siblings.map(m => <link rel="prefetch" href={m.href} />)}
+  </>
+)}
+
+<style>
+  .group-switcher {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .group-switcher::-webkit-scrollbar {
+    display: none;
+  }
+
+  .group-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: var(--transition-color);
+  }
+
+  .group-pill:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+    text-decoration: none;
+  }
+
+  .group-pill[aria-current='page'] {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+    cursor: default;
+  }
+</style>

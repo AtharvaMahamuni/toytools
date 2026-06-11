@@ -17,14 +17,17 @@ interface Props {
   faqItems?: FAQItem[];
 }
 
-const { slug, processorId } = Astro.props;
+const { slug, processorId, config } = Astro.props;
+
+// Tools in a group share one state envelope so input survives mode switches.
+const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={true}>
-  <div slot="input" data-tool={slug} data-processor={processorId} data-slug={slug}>
+  <div slot="input" data-tool={slug} data-processor={processorId} data-slug={slug} data-state-key={stateKey}>
     <label class="widget-label" for={inputId}>Text</label>
     <textarea id={inputId} class="widget-textarea" rows="8" placeholder="Paste or type text here"></textarea>
     <ToolActions clearTarget={inputId} pasteTarget={inputId} />
@@ -45,6 +48,7 @@ const outputId = `${slug}-output`;
     if (!root) return;
     var pid = root.getAttribute('data-processor');
     var slug = root.getAttribute('data-slug');
+    var stateKey = root.getAttribute('data-state-key') || slug;
     var input = document.getElementById(slug + '-input');
     var out = document.getElementById(slug + '-output');
     if (!input || !out) return;
@@ -57,16 +61,19 @@ const outputId = `${slug}-output`;
     }
 
     function persist() {
-      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value });
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(stateKey, { input: input.value });
     }
 
-    // Restore prior input.
+    // Restore prior input — group key first, then the tool's old per-slug key (migration).
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state
+        && (ToyTools.state.load(stateKey) || ToyTools.state.load(slug));
       if (saved && typeof saved.input === 'string') input.value = saved.input;
     } catch (_) {}
 
     input.addEventListener('input', function () { run(); persist(); });
-    run();
+    // ToyTools.process attaches via the deferred runtime module — wait for it so
+    // restored input renders converted on load (matches the other engine widgets).
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>

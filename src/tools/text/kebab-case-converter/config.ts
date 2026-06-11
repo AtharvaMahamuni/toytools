@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'kebabCase',
+  toolGroup: 'case-converters',
   guide: {
     slug: 'how-to-convert-text-to-kebab-case',
     categorySlug: 'text',

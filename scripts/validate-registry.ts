@@ -2,8 +2,8 @@ import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { engineIds, knownPatterns, getEngine } from '../src/data/engines';
 import { getToolMetadata } from '../src/data/metadata';
-import { faqsByToolSlug } from '../src/data/faq-registry';
 import { registeredGuideSlugSet } from '../src/data/guide-registry';
+import { toolGroups, getToolGroup } from '../src/data/tool-groups';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
 import { ENCODERS } from '../src/lib/engines/encoding/registry';
 import { HASHERS } from '../src/lib/engines/hashing/registry';
@@ -81,17 +81,23 @@ for (const tool of tools) {
     }
   }
 
-  // guide/faq slugs must be present when declared (resolution is by route at build)
+  // guide slug must be present when declared (resolution is by route at build)
   if (tool.guide && !m.guideSlug) errors.push(`Tool "${m.slug}" has a guide config without a slug`);
-  if (tool.faq && !m.faqSlug) errors.push(`Tool "${m.slug}" has a faq config without a slug`);
 
-  // A declared guide/faq must actually be wired into its route — otherwise the tool page links to
-  // a guide/FAQ page that renders empty (no build error without this check).
+  // A declared guide must actually be wired into its route — otherwise the tool page links to
+  // a guide page that renders empty (no build error without this check).
   if (tool.guide && !registeredGuideSlugSet.has(m.slug)) {
     errors.push(`Tool "${m.slug}" declares a guide but is not registered in src/data/guide-registry.ts (add its slug + Guide.astro import in src/pages/guide/[...slug].astro)`);
   }
-  if (tool.faq && !(faqsByToolSlug[m.slug]?.length)) {
-    errors.push(`Tool "${m.slug}" declares a faq but has no entries in src/data/faq-registry.ts (add its faq.ts import)`);
+
+  // toolGroup must resolve, and membership must be declared on both sides
+  if (tool.toolGroup) {
+    const group = getToolGroup(tool.toolGroup);
+    if (!group) {
+      errors.push(`Tool "${m.slug}" references unknown toolGroup "${tool.toolGroup}" — define it in src/data/tool-groups.ts`);
+    } else if (!group.members.some(member => member.slug === m.slug)) {
+      errors.push(`Tool "${m.slug}" declares toolGroup "${tool.toolGroup}" but is not listed in that group's members`);
+    }
   }
 
   // Engine-specific processorId must resolve in that engine's registry
@@ -101,6 +107,36 @@ for (const tool of tools) {
       errors.push(`Tool "${m.slug}" uses engine "${m.engine}" but is missing processorId`);
     } else if (!registry[tool.processorId]) {
       errors.push(`Tool "${m.slug}" references unknown processorId "${tool.processorId}" for engine "${m.engine}"`);
+    }
+  }
+}
+
+// Tool-group integrity: every member resolves, declares the group back, and the group
+// is one experience (same engine + pattern across members).
+for (const group of toolGroups) {
+  const memberSlugsSeen = new Set<string>();
+  let groupEngine: string | undefined;
+  let groupPattern: string | undefined;
+
+  for (const member of group.members) {
+    if (memberSlugsSeen.has(member.slug)) {
+      errors.push(`Tool group "${group.id}" lists member "${member.slug}" more than once`);
+    }
+    memberSlugsSeen.add(member.slug);
+
+    const memberTool = tools.find(t => t.slug === member.slug);
+    if (!memberTool) {
+      errors.push(`Tool group "${group.id}" member "${member.slug}" does not exist in the registry`);
+      continue;
+    }
+    if (memberTool.toolGroup !== group.id) {
+      errors.push(`Tool group "${group.id}" member "${member.slug}" does not declare toolGroup: '${group.id}' in its config`);
+    }
+
+    groupEngine ??= memberTool.engine;
+    groupPattern ??= memberTool.pattern;
+    if (memberTool.engine !== groupEngine || memberTool.pattern !== groupPattern) {
+      errors.push(`Tool group "${group.id}" member "${member.slug}" has engine/pattern "${memberTool.engine}/${memberTool.pattern}" — all members must share "${groupEngine}/${groupPattern}" (a group is one experience)`);
     }
   }
 }

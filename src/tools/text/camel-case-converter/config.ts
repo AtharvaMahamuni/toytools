@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'camelCase',
+  toolGroup: 'case-converters',
   guide: {
     slug: 'how-to-convert-text-to-camel-case',
     categorySlug: 'text',

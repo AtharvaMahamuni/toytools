@@ -40,6 +40,7 @@ export interface ToolConfig {
   engine?: string;           // e.g. 'text-analysis' | 'text-processor'
   pattern?: string;          // e.g. 'text-metric' | 'text-transform'
   family?: string;           // e.g. 'text-counting' | 'text-case' | 'transform' | 'cleanup'
+  toolGroup?: string;        // unified-workspace group id (src/data/tool-groups.ts) — members share a GroupSwitcher + input state
   processorId?: string;      // engine lookup key — resolved via the engine's registry (process/encode/hash/structured)
   relatedTools?: string[];   // explicit curated related-tool slugs (computed getRelatedTools is the fallback)
   keywords?: string[];       // extra search/command-palette terms (architecture metadata, not SEO copy)

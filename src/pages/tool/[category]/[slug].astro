@@ -2,10 +2,12 @@
 import type { GetStaticPaths } from 'astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
 import FaqAccordion from '@components/tool/FaqAccordion.astro';
+import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
 import ToolNavRow from '@components/tool/ToolNavRow.astro';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
+import { getToolGroup } from '@data/tool-groups';
 import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
 
@@ -22,7 +24,12 @@ export const getStaticPaths = (() => {
 
 const { tool, category } = Astro.props;
 
-const relatedTools = getRelatedTools(tool, tools);
+// Group siblings are already linked by the GroupSwitcher above the widget —
+// exclude them from the Related strip so it surfaces other tools instead.
+const groupSlugs = new Set(
+  (tool.toolGroup ? getToolGroup(tool.toolGroup)?.members ?? [] : []).map(m => m.slug),
+);
+const relatedTools = getRelatedTools(tool, tools, 9).filter(t => !groupSlugs.has(t.slug));
 
 const faqItems = faqsByToolSlug[tool.slug] ?? [];
 const guideHref = tool.guide
@@ -49,6 +56,8 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 
 <ToolLayout tool={tool} category={category}>
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+
+  {tool.toolGroup && <GroupSwitcher tool={tool} />}
 
   <Widget />
 
