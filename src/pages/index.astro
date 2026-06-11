@@ -1,15 +1,10 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../lib/titles';
-import CategoryCard from '@components/CategoryCard.astro';
-import ToolCard from '@components/ToolCard.astro';
 import HeroSearch from '@components/HeroSearch.astro';
+import ToolDirectory from '@components/ToolDirectory.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
-
-function getCategoryName(slug: string): string {
-  return categories.find(c => c.slug === slug)?.name ?? slug;
-}
 ---
 
 <BaseLayout
@@ -54,27 +49,13 @@ function getCategoryName(slug: string): string {
     </p>
   </section>
 
-  <section class="section">
-    <h2 class="section-heading">Popular tools</h2>
-    <div class="tool-grid" id="popular-grid">
-      {tools.map(tool => (
-        <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
-      ))}
-    </div>
-  </section>
-
-  <section class="section" id="recent-section" hidden>
-    <h2 class="section-heading">Recent tools</h2>
-    <div class="tool-grid" id="recent-grid"></div>
-  </section>
+  <p class="recent-row" id="recent-row" hidden>
+    <span class="recent-label">Recent:</span>
+    <span id="recent-chips"></span>
+  </p>
 
   <section class="section">
-    <h2 class="section-heading">Browse by category</h2>
-    <div class="category-grid">
-      {categories.map(category => (
-        <CategoryCard category={category} />
-      ))}
-    </div>
+    <ToolDirectory />
   </section>
 
   <p class="ecosystem-row">
@@ -87,17 +68,42 @@ function getCategoryName(slug: string): string {
     (function () {
       var recent = (window.ToyTools && ToyTools.getRecent) ? ToyTools.getRecent() : [];
       if (!recent.length) return;
-      var popular = document.getElementById('popular-grid');
-      var grid = document.getElementById('recent-grid');
-      var section = document.getElementById('recent-section');
-      if (!popular || !grid || !section) return;
+      var chips = document.getElementById('recent-chips');
+      var row = document.getElementById('recent-row');
+      if (!chips || !row) return;
+
+      function findLink(slug) {
+        var direct = document.querySelector('.dir-link[data-slug="' + slug + '"]');
+        if (direct) return direct;
+        // Group entries cover their members via data-group-slugs="a,b,c".
+        var groups = document.querySelectorAll('.dir-link[data-group-slugs]');
+        for (var i = 0; i < groups.length; i++) {
+          var slugs = (groups[i].getAttribute('data-group-slugs') || '').split(',');
+          if (slugs.indexOf(slug) !== -1) return groups[i];
+        }
+        return null;
+      }
+
       var added = 0;
+      var seen = {};
       recent.forEach(function (entry) {
         if (added >= 5 || !entry || !entry.slug) return;
-        var card = popular.querySelector('.tool-card[data-slug="' + entry.slug + '"]');
-        if (card) { grid.appendChild(card.cloneNode(true)); added++; }
+        var link = findLink(entry.slug);
+        if (!link || seen[link.getAttribute('href')]) return;
+        seen[link.getAttribute('href')] = true;
+        if (added > 0) {
+          var sep = document.createElement('span');
+          sep.className = 'recent-sep';
+          sep.setAttribute('aria-hidden', 'true');
+          sep.textContent = '·';
+          chips.appendChild(sep);
+        }
+        var a = link.cloneNode(true);
+        a.className = 'recent-chip';
+        chips.appendChild(a);
+        added++;
       });
-      if (added > 0) section.hidden = false;
+      if (added > 0) row.hidden = false;
     })();
   </script>
 </BaseLayout>
@@ -108,7 +114,7 @@ function getCategoryName(slug: string): string {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-5);
-    padding: var(--space-16) 0 var(--space-16);
+    padding: var(--space-16) 0 var(--space-12);
   }
 
   .hero h1 {
@@ -140,26 +146,42 @@ function getCategoryName(slug: string): string {
     margin: 0;
   }
 
+  /* ── Recent chips ─────────────────────────────────────────── */
+
+  .recent-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    margin: 0 0 var(--space-8);
+    max-width: unset;
+  }
+
+  .recent-label {
+    color: var(--color-text-subtle);
+  }
+
+  .recent-row :global(.recent-chip) {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .recent-row :global(.recent-chip:hover) {
+    color: var(--color-text);
+  }
+
+  .recent-row :global(.recent-sep) {
+    color: var(--color-text-subtle);
+    margin-inline: var(--space-1);
+    user-select: none;
+  }
+
+  /* ── Sections ─────────────────────────────────────────────── */
+
   .section {
     padding-bottom: var(--space-12);
-    border-bottom: var(--border);
-    margin-bottom: var(--space-12);
-  }
-
-  .section:last-of-type {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
-  .section-heading {
-    margin-bottom: var(--space-6);
-  }
-
-  .category-grid,
-  .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: var(--space-4);
   }
 
   .ecosystem-row {
@@ -169,6 +191,7 @@ function getCategoryName(slug: string): string {
     font-size: var(--text-sm);
     color: var(--color-text-subtle);
     padding-top: var(--space-8);
+    border-top: var(--border);
     max-width: unset;
   }
 </style>

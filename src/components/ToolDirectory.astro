@@ -1,0 +1,151 @@
+---
+// Tool Directory — the homepage's compact, full-coverage index of every tool.
+// One column per category: header links to the category page, body is plain text
+// links (no cards). Tools in a tool group (src/data/tool-groups.ts) collapse into a
+// single entry (e.g. seven case converters → one "Case Converter" linking to the
+// first mode), keeping the directory scannable while every tool stays one click away.
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+import { toolGroups } from '@data/tool-groups';
+import { withBase } from '@lib/paths';
+
+interface DirectoryEntry {
+  label: string;
+  href: string;
+  /** Slug used by the recent-tools script to match visited tools. */
+  slug: string;
+  /** For group entries: every member slug (recent-tools matches any of them). */
+  groupSlugs?: string;
+}
+
+const groupById = new Map(toolGroups.map(g => [g.id, g]));
+
+function entriesFor(categorySlug: string, segment: string): DirectoryEntry[] {
+  const categoryTools = tools.filter(t => t.categorySlug === categorySlug);
+  const entries: DirectoryEntry[] = [];
+  const seenGroups = new Set<string>();
+
+  for (const t of categoryTools) {
+    const group = t.toolGroup ? groupById.get(t.toolGroup) : undefined;
+    if (group) {
+      if (seenGroups.has(group.id)) continue;
+      seenGroups.add(group.id);
+      const first = group.members[0]!;
+      entries.push({
+        label: group.name,
+        href: withBase(`/tool/${segment}/${first.slug}/`),
+        slug: first.slug,
+        groupSlugs: group.members.map(m => m.slug).join(','),
+      });
+    } else {
+      entries.push({
+        label: t.name,
+        href: withBase(`/tool/${segment}/${t.slug}/`),
+        slug: t.slug,
+      });
+    }
+  }
+  return entries;
+}
+
+const columns = categories.map(c => ({
+  name: c.name,
+  href: withBase(`/category/${c.slug}/`),
+  count: tools.filter(t => t.categorySlug === c.slug).length,
+  entries: entriesFor(c.slug, c.segment),
+}));
+---
+
+<nav class="tool-directory" aria-label="All tools by category">
+  {columns.map(col => (
+    <div class="dir-column">
+      <a class="dir-heading" href={col.href}>
+        {col.name}
+        <span class="dir-count">{col.count}</span>
+      </a>
+      <ul class="dir-list">
+        {col.entries.map(entry => (
+          <li>
+            <a
+              class="dir-link"
+              href={entry.href}
+              data-slug={entry.slug}
+              data-group-slugs={entry.groupSlugs}
+            >{entry.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</nav>
+
+<style>
+  .tool-directory {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8) var(--space-6);
+  }
+
+  @media (max-width: 900px) {
+    .tool-directory {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tool-directory {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dir-heading {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+    text-decoration: none;
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border);
+    margin-bottom: var(--space-3);
+    transition: var(--transition-color);
+  }
+
+  .dir-heading:hover {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .dir-count {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-muted);
+    letter-spacing: normal;
+  }
+
+  .dir-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dir-link {
+    display: flex;
+    align-items: center;
+    min-height: 36px;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .dir-link:hover {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+</style>
