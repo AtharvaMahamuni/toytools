@@ -253,11 +253,12 @@ const guideHref = config.guide
   .wl-fs-btn:hover { color: var(--color-text-muted); }
 
   .wl-fullscreen {
-    position: fixed; inset: 0; z-index: 9999; background: #0F1115;
+    position: fixed; inset: 0; z-index: 9999; background: var(--color-overlay-bg);
     transition: background-color 600ms ease;
     display: flex; align-items: flex-end; justify-content: flex-start; padding: var(--space-8);
   }
   .wl-fullscreen[hidden] { display: none; }
+  /* Per-state scene tints — intentional immersive palette, theme-invariant */
   .wl-fullscreen[data-state="active"]    { background: #16100A; }
   .wl-fullscreen[data-state="completed"] { background: #071A0D; }
 
@@ -265,15 +266,15 @@ const guideHref = config.guide
   .wl-fs-status-row { display: flex; align-items: center; gap: var(--space-3); }
   .wl-fs-dot { width: 12px; height: 12px; }
 
-  .wl-fs-label { font-size: var(--text-xl); font-weight: var(--font-weight-semibold); color: #F4F4F4; }
+  .wl-fs-label { font-size: var(--text-xl); font-weight: var(--font-weight-semibold); color: var(--color-overlay-text); }
 
   .wl-fs-timer { display: flex; flex-direction: column; gap: var(--space-1); }
   .wl-fs-timer[hidden] { display: none; }
 
-  .wl-fs-timer-meta { font-size: var(--text-xs); color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; }
+  .wl-fs-timer-meta { font-size: var(--text-xs); color: var(--color-overlay-muted); text-transform: uppercase; letter-spacing: 0.08em; }
   .wl-fs-timer-value {
     font-family: var(--font-mono); font-size: var(--text-xl);
-    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: #F4F4F4;
+    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: var(--color-overlay-text);
   }
 
   .wl-fs-meta-block {
@@ -282,15 +283,15 @@ const guideHref = config.guide
   }
   .wl-fs-meta-row { display: contents; }
   .wl-fs-meta-row[hidden] { display: none; }
-  .wl-fs-meta-value { font-size: var(--text-sm); color: #A0A0A0; font-weight: var(--font-weight-medium); }
+  .wl-fs-meta-value { font-size: var(--text-sm); color: var(--color-overlay-muted); font-weight: var(--font-weight-medium); }
 
   .wl-fs-exit {
     position: absolute; top: var(--space-6); right: var(--space-6);
     background: none; border: none; padding: var(--space-2);
-    color: #6b7280; font-size: var(--text-lg); font-family: inherit;
+    color: var(--color-overlay-muted); font-size: var(--text-lg); font-family: inherit;
     cursor: pointer; transition: color var(--duration-fast) ease; line-height: 1;
   }
-  .wl-fs-exit:hover { color: #F4F4F4; }
+  .wl-fs-exit:hover { color: var(--color-overlay-text); }
 </style>
 
 <script is:inline>

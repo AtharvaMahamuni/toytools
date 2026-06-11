@@ -101,7 +101,7 @@ for (const [key, count] of pairCounts) {
 for (const cat of categories) {
   lines.push(`  classDef ${catClass(cat.slug)} fill:${cat.accent}22,stroke:${cat.accent},stroke-width:2px;`);
 }
-lines.push('  classDef platform fill:#6366F133,stroke:#6366F1,stroke-width:3px;');
+lines.push('  classDef platform fill:#2F6B4F33,stroke:#2F6B4F,stroke-width:3px;'); // forest accent — mermaid can't read CSS vars
 lines.push('  classDef infra fill:#88888822,stroke:#888,stroke-dasharray:4 3;');
 
 // Clickable nodes.
@@ -358,7 +358,7 @@ const description = 'Interactive bird’s-eye view of the ToyTools architecture 
     background: color-mix(in srgb, var(--swatch) 20%, transparent);
     border: 2px solid var(--swatch);
   }
-  .arch-legend .swatch--platform { --swatch: #6366F1; }
+  .arch-legend .swatch--platform { --swatch: var(--color-accent); }
   .arch-legend .swatch--infra { --swatch: #888; border-style: dashed; }
 
   .arch-panel {
