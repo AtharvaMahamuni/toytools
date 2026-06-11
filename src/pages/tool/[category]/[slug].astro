@@ -69,9 +69,9 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 </ToolLayout>
 
 <style>
+  /* No border here — ToolNavRow already draws the one separator after the widget.
+     FAQ follows as a natural continuation of the secondary-info zone. */
   .faq-section {
-    padding-top: var(--space-8);
-    border-top: var(--border);
-    margin-top: var(--space-4);
+    margin-top: var(--space-6);
   }
 </style>
