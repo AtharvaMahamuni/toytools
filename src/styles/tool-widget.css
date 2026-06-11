@@ -1,10 +1,23 @@
-/* Shared widget styles — available globally for all tool Widget.astro components */
+/* Shared widget styles — available globally for all tool Widget.astro components.
+
+   Section-boundary recipe: a boundary between two page sections is ONE hairline
+   with symmetric breathing room — the LOWER section draws it as
+   `margin-top: var(--space-8); border-top: var(--border); padding-top: var(--space-8);`
+   (guide pages use --space-12). The upper section ends flush; sections never own
+   a border-bottom. */
 
 .tool-panel,
-.result-panel,
+.result-panel {
+  padding-block: 0;
+}
+
+/* "How it works" and other prose sections that follow the widget draw the
+   boundary themselves, per the recipe above. */
 .content-section {
-  padding-block: var(--space-8);
-  border-bottom: var(--border);
+  margin-top: var(--space-8);
+  border-top: var(--border);
+  padding-top: var(--space-8);
+  padding-bottom: 0;
 }
 
 .tool-panel {
@@ -36,8 +49,7 @@
 }
 
 .tool-action {
-  padding-block: var(--space-4) var(--space-8);
-  border-bottom: var(--border);
+  padding-block: var(--space-4) 0;
 }
 
 .primary-action {
@@ -314,10 +326,6 @@
   padding-block: var(--space-4);
 }
 
-.widget-details:last-child {
-  border-bottom: var(--border);
-}
-
 .widget-details summary {
   min-height: var(--touch-target);
   cursor: pointer;
@@ -327,15 +335,6 @@
 .guide-callout {
   margin-top: var(--space-4);
   font-size: var(--text-sm);
-}
-
-/* Tool split: input/output panels shed dividers and outer block padding;
-   spacing comes from the split gap and the output column's own gap instead.
-   (The hero/metric cards keep their own borders.) */
-.tool-split .tool-panel,
-.tool-split .result-panel {
-  border-bottom: none;
-  padding-block: 0;
 }
 
 .tm-output {
