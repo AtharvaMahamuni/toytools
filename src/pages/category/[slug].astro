@@ -3,7 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../../lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
-import ToolCard from '@components/ToolCard.astro';
+import CategoryToolList from '@components/CategoryToolList.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { withBase } from '../../lib/paths';
@@ -38,11 +38,7 @@ const { category, tools: categoryTools } = Astro.props;
     </p>
   </div>
 
-  <div class="tool-grid">
-    {categoryTools.map(tool => (
-      <ToolCard tool={tool} />
-    ))}
-  </div>
+  <CategoryToolList category={category} tools={categoryTools} />
 </BaseLayout>
 
 <style>
@@ -72,11 +68,5 @@ const { category, tools: categoryTools } = Astro.props;
   .count-number {
     font-family: var(--font-mono);
     color: var(--color-text-muted);
-  }
-
-  .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: var(--space-4);
   }
 </style>
