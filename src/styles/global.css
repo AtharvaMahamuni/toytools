@@ -76,9 +76,11 @@ a:hover {
   text-decoration: underline;
 }
 
+/* One focus ring everywhere. Opt out only where a container draws its own
+   focus treatment (e.g. the gold search focus-within). */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-sm);
 }
 

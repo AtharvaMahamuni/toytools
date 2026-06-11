@@ -45,14 +45,16 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
 )}
 
 <style>
+  /* Boundary recipe: lower section draws margin-top / border-top / padding-top */
   .category-discovery {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2) var(--space-3);
-    padding-block: var(--space-5);
-    margin-top: var(--space-6);
+    margin-top: var(--space-8);
     border-top: var(--border);
+    padding-top: var(--space-8);
+    padding-bottom: 0;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }

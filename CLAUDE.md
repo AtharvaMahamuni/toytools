@@ -104,7 +104,7 @@ The Developer category has three more engines under `src/lib/engines/`, each wit
 2. Create `config.ts` (`engine`, `pattern`, `family`, `processorId`, and curated `relatedTools`) + a **3-line** `Widget.astro` rendering the engine widget. Add the registry import + array entry.
 3. Extend the engine's `*.test.ts` (test the engine, not the tool). Optional guide/faq register as usual.
 
-**Widget conventions** (apply if you ever touch the shared engine widgets): the two-pane look comes from the shared `.io-*` classes in `src/styles/tool-widget.css` (don't re-declare per widget); widgets update **live on input** (no Generate/Convert button); extra controls (mode select, Swap, Sample) live in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`. Verify in a real browser with `npm run test:e2e` (Playwright, runs desktop + mobile).
+**Widget conventions** (apply if you ever touch the shared engine widgets): every framed pane is composed from the `IoPanel` primitive (`src/tools/_shared/IoPanel.astro`) — **never hand-write `.io-panel`/`.io-header` markup**; the `.io-*` styles live in `src/styles/tool-widget.css` (don't re-declare per widget); widgets update **live on input** (no Generate/Convert button); panels are fixed-height with internal scroll (no auto-growing textareas — page geometry must not change while typing) and equalize column heights on desktop; the mode select goes in `IoPanel`'s `header-end` slot, Swap/Sample in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`. See `ARCHITECTURE.md` → "Design Language". Verify in a real browser with `npm run test:e2e` (Playwright, runs desktop + mobile).
 
 `processorId` is the universal config→engine lookup key. `KNOWN_ENGINES`/`KNOWN_PATTERNS` in `validate-registry.ts` derive from `engineRegistry` (`src/data/engines.ts`) — **register a new engine/pattern there**, not in the validator. `validate-registry` also checks metadata completeness, category/engine/pattern/relatedTools resolution, and duplicate slugs/URLs. Run `npm run health` for the post-build platform integrity superset.
 
@@ -310,11 +310,14 @@ Add `data-copy-bar` to any panel header that should turn green on copy.
 ### CSS design system
 
 All values come from `src/styles/tokens.css` custom properties. Key constraints:
-- Single accent token: `--color-accent`. Change it to retheme everything.
-- Semantic status tokens: `--color-success` (green), `--color-danger` (red, `#dc2626` light / `#ef4444` dark). Use `--color-danger` for destructive action confirmation states.
-- Typography scale: `--text-xs` through `--text-5xl` (3rem). Hero metrics use `--text-5xl`.
+- Palette: "Warm Paper & Ink" — warm off-white surfaces + soft-ink text (light), warm graphite (dark). Accent family: `--color-accent` (forest green `#2F6B4F` light / `#84C2A3` dark — single retheme point), `--color-accent-subtle`, `--color-accent-strong` (accent text on accent-subtle, AA). See `ARCHITECTURE.md` → "Design Language".
+- Semantic status tokens: `--color-success` (brighter/cooler green than the accent — transient state only, never links/focus), `--color-danger` (red). Use `--color-danger` for destructive action confirmation states.
+- Immersive fullscreen overlays use the theme-invariant `--color-overlay-*` tokens (always dark, never themed).
+- Focus: one global `:focus-visible` ring from `--focus-ring`/`--focus-ring-offset` — don't add per-component rings.
+- Typography scale: `--text-xs` through `--text-5xl` (3rem). Hero metrics use `--text-5xl` with `tabular-nums`.
 - Transitions: only `color`, `background-color`, `border-color`. Durations: `150ms` or `200ms` only.
 - Touch targets: minimum `var(--touch-target)` (48px).
+- Section boundaries: one hairline drawn by the lower section (`margin-top`/`border-top`/`padding-top`, 32px rhythm; guides 48px). Sections never own a `border-bottom`.
 - Widths: shell/chrome/home/category `var(--width-shell)` (1440px), tool pages & 2-col splits `var(--width-content)` (1100px), guide prose `var(--width-prose)` (72ch), FAQ/narrow forms `var(--width-tool)` (820px). `--width-category`/`--width-nav` alias `--width-shell`. Applied via `BaseLayout`'s `maxWidth` prop (`'shell' | 'content' | 'tool' | 'full'`; `'category'` aliases shell) on an inner `.page-content` div — `<main>` spans shell width. Status tints: `--color-success-bg`, `--color-danger-bg`.
 - Shared widget CSS lives in `src/styles/tool-widget.css` (imported by `global.css`).
 
