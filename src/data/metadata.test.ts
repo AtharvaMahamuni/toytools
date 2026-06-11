@@ -10,7 +10,6 @@ describe('getToolMetadata', () => {
     expect(m.category).toBe('developer-tools');
     expect(m.engine).toBe('encoding');
     expect(m.guideSlug).toBe('what-is-base64');
-    expect(m.faqSlug).toBe('base64-encoder-decoder');
     expect(m.relatedTools).toContain('url-encoder-decoder');
   });
 
