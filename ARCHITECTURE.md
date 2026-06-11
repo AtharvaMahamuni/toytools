@@ -36,7 +36,7 @@ All URLs are **singular** (not plural):
 | Tool page | `/tool/{segment}/{slug}/` |
 | Category page | `/category/{slug}/` |
 | Guide page | `/guide/{category}/{slug}/` |
-| FAQ page | `/faq/{category}/{slug}/` |
+| FAQ redirect stub | `/faq/{category}/{slug}/` → tool page `#faq` (noindex, from `src/data/faq-redirects.ts`) |
 
 Always use `withBase()` from `src/lib/paths.ts` for internal hrefs.
 
@@ -137,24 +137,44 @@ heading.
 
 ---
 
-### Tool-page guide/FAQ embedding
+### Tool-page guide/FAQ surface
 
-Guide and FAQ content is surfaced **on the tool page itself**, not only as a backlink. Below the
-widget, `src/pages/tool/[category]/[slug].astro` renders, in order: a `GuideTeaser`
-(`src/components/tool/GuideTeaser.astro` — a compact card linking to the full long-form guide), the
-full `FaqAccordion` (`src/components/tool/FaqAccordion.astro` — the shared `<details>` accordion), then
-the existing `EcosystemLinks` and `RelatedTools`. `FaqAccordion` is the single source of the accordion
-markup/styles, reused by both the tool page and the canonical `FAQLayout`. **SEO:** the `FAQPage`
-JSON-LD lives only on the `/faq/` page; the tool page shows the FAQ visually but emits no second
-structured-data block (avoids duplicate schema across two URLs).
+The tool page is the **canonical home of FAQ content**. Below the widget,
+`src/pages/tool/[category]/[slug].astro` renders `ToolNavRow` (Common Questions anchor + guide
+teaser + related strip) followed by the `FaqAccordion` (`src/components/tool/FaqAccordion.astro`,
+the shared `<details>` accordion) in a `<section id="faq">`, and emits `FAQPage` JSON-LD when the
+tool has registered items. FAQ items come from `faqsByToolSlug` (`src/data/faq-registry.ts`) —
+there is **no `faq` field on ToolConfig** and no standalone FAQ pages; the old `/faq/` URLs are
+noindex redirect stubs generated from `src/data/faq-redirects.ts` (never add new entries).
 
-**Registration-drift guard.** A tool can declare `guide:`/`faq:` in `config.ts` (so a teaser/accordion
-is attempted) yet be missing from the route's import map, rendering empty with no build error.
+**Registration-drift guard.** A tool can declare `guide:` in `config.ts` yet be missing from the
+guide route's import map, rendering empty with no build error.
 `src/data/guide-registry.ts` exports `registeredGuideSlugs` (a `.astro`-free slug list so `tsx` can
 import it from the validator; the `guidesBySlug` component map in the guide route is typed
 `Record<RegisteredGuideSlug, …>`, so TS catches drift between the two). `scripts/validate-registry.ts`
-fails the build when a tool declares a guide/faq but isn't registered in `guide-registry.ts` /
-`faqsByToolSlug`.
+fails the build when a tool declares a guide but isn't registered in `guide-registry.ts`.
+
+---
+
+### Discovery surfaces (homepage directory + category sections)
+
+Both discovery pages are compact, registry-derived indexes — no tile grids.
+
+- **Homepage** (`src/pages/index.astro`): hero search, a localStorage-driven `Recent:` chip row,
+  then `ToolDirectory.astro` — one column per category (4→2→1 responsive), header links to the
+  category page, body is plain text links. Tool-group members collapse into one entry (the seven
+  case converters render as a single "Case Converter" link); the entry carries
+  `data-group-slugs` so the recent-chips script can resolve any visited member back to it.
+- **Category pages** (`src/pages/category/[slug].astro` → `CategoryToolList.astro`): full-width
+  rows (name + one-line description) grouped under section headings derived from
+  `src/data/category-sections.ts` (declarative `pattern → {title, order}`; extend it when
+  registering a new pattern in `engines.ts`). Headings render only when a category has more than
+  one section. Tool-group rows collapse to one entry with a mode chip per member.
+- `ToolCard.astro` remains in use by the search page; `CategoryCard.astro` is currently unused by
+  the homepage.
+
+Coverage is pinned by `tests/e2e/discovery.spec.ts` (directory entry count, group collapse,
+recent chips, section titles).
 
 ---
 
@@ -240,17 +260,17 @@ engine. Widget inline scripts (which cannot import TS) call `ToyTools.process(pr
 
 **Shared widget** (`src/tools/_shared/TextProcessorWidget.astro`, `pattern: 'text-processor'`):
 generic input → output. `ToolSplit ratio="1-1"` (50/50 desktop, stacks <1024px), live update on
-input, `TrustNotice` + `ToolActions` (paste/clear/copy) + `CategoryDiscovery` + guide/FAQ previews,
-state via `ToyTools.state`. It reads `processorId` from a data attribute and **never names a
-processor** — no `switch`, no `if/else`. The per-tool `Widget.astro` is only a 3-line wrapper:
+input, `ToolActions` (paste/clear/copy) + `CategoryDiscovery`, state via `ToyTools.state`
+(group-shared key when the config declares a `toolGroup`). It reads `processorId` from a data
+attribute and **never names a processor** — no `switch`, no `if/else`. The per-tool `Widget.astro`
+is only a 3-line wrapper:
 
 ```astro
 ---
 import TextProcessorWidget from '@tools/_shared/TextProcessorWidget.astro';
 import { config } from './config';
-import { items as faqItems } from './faq';
 ---
-<TextProcessorWidget slug={config.slug} processorId={config.processorId!} config={config} faqItems={faqItems} />
+<TextProcessorWidget slug={config.slug} processorId={config.processorId!} config={config} />
 ```
 
 **Tool config metadata:** `engine: 'text-processor'`, `family: 'transform' | 'cleanup'`,

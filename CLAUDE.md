@@ -108,7 +108,7 @@ The Developer category has three more engines under `src/lib/engines/`, each wit
 
 `processorId` is the universal config→engine lookup key. `KNOWN_ENGINES`/`KNOWN_PATTERNS` in `validate-registry.ts` derive from `engineRegistry` (`src/data/engines.ts`) — **register a new engine/pattern there**, not in the validator. `validate-registry` also checks metadata completeness, category/engine/pattern/relatedTools resolution, and duplicate slugs/URLs. Run `npm run health` for the post-build platform integrity superset.
 
-The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides/faqs appear automatically; never hand-edit a sitemap.
+The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides appear automatically; never hand-edit a sitemap.
 
 ### Removing a tool (2 steps)
 
@@ -117,23 +117,24 @@ The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/si
 
 Nothing else needs to change.
 
-### Adding a guide or FAQ to a tool
+### Adding a guide to a tool
 
-In `config.ts`, add a `guide: GuideConfig` and/or `faq: FaqConfig` object.
-Then create `Guide.astro` and/or `faq.ts` in the same tool directory.
-
-For a new guide, add **two** entries: a static import in `src/pages/guide/[...slug].astro`
+In `config.ts`, add a `guide: GuideConfig` object, then create `Guide.astro` in the same tool
+directory. Add **two** entries: a static import in `src/pages/guide/[...slug].astro`
 (its `guidesBySlug` map) **and** the tool's slug in `registeredGuideSlugs` (`src/data/guide-registry.ts`).
-For a new FAQ, add an import + `faqsByToolSlug` entry in `src/data/faq-registry.ts`.
+`validate-registry.ts` fails the build when a declared guide is not registered.
 
-`validate-registry.ts` enforces this: a tool that declares `guide:`/`faq:` in `config.ts` but is **not**
-registered (missing from `guide-registry.ts` or with no `faqsByToolSlug` entries) **fails the build** —
-otherwise the tool page would link to a guide/FAQ page that renders empty with no error.
+### Adding a FAQ to a tool
 
-Guide/FAQ content is surfaced **on the tool page itself**, not only as a backlink: the tool page renders
-a compact `GuideTeaser` card (links to the full guide) and the full `FaqAccordion` (shared with the
-canonical `/faq/` page). The `FAQPage` JSON-LD stays only on the `/faq/` page to avoid duplicate
-structured data — do **not** add it to the tool page.
+FAQ lives **on the tool page only** — there is no `faq` config field and no standalone FAQ pages.
+Create `faq.ts` (exports `const items: FAQItem[]`) in the tool directory and register it with one
+import + `faqsByToolSlug` entry in `src/data/faq-registry.ts`. The tool page then automatically
+renders the `FaqAccordion` in its `#faq` section, emits `FAQPage` JSON-LD, and shows the
+"Common Questions (N)" anchor in `ToolNavRow`.
+
+Historical note: the old `/faq/{segment}/{slug}/` pages are **redirect stubs** (meta-refresh +
+canonical → tool page `#faq`), generated from `src/data/faq-redirects.ts`. They are noindex and in
+no sitemap. Never add new entries there — it exists only to preserve previously-indexed URLs.
 
 ### Adding a knowledge file (Knowledge Graph — Phase D)
 
@@ -202,7 +203,7 @@ src/tools/
 Each tool directory contains:
 ```
 src/tools/<segment>/<slug>/
-├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, faq?
+├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, toolGroup?
 ├── Widget.astro     # Self-contained tool UI (required)
 ├── faq.ts           # exports: const items: FAQItem[] (optional — only if tool has FAQ)
 └── Guide.astro      # Wraps GuideLayout with full guide content (optional)
@@ -244,7 +245,7 @@ Empty state: secondary metrics are **hidden entirely**; hero shows `0`/`0 min` v
 
 ```
 src/data/
-├── types.ts          # ToolConfig, GuideConfig, FaqConfig, FAQItem, Category, EcosystemEntry
+├── types.ts          # ToolConfig, GuideConfig, FAQItem, Category, EcosystemEntry
 ├── categories.ts     # Category definitions (accent colors, segments)
 ├── registry.ts       # Single source of truth — imports all tool configs
 └── faq-registry.ts   # Imports all faq.ts files by tool slug
@@ -263,7 +264,7 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
 ### BackButton
 
 `src/components/BackButton.astro` renders a mobile-only ← Back button (hidden above 640px).
-It is automatically included in `ToolLayout`, `FAQLayout`, and `GuideLayout`.
+It is automatically included in `GuideLayout`.
 Do not add it manually in widgets.
 
 ### Path/URL handling — always use `withBase`
@@ -281,7 +282,12 @@ URL structure (singular, not plural):
 - `/tool/{segment}/{slug}/` — tool pages
 - `/category/{slug}/` — category pages
 - `/guide/{category}/{slug}/` — guide pages
-- `/faq/{category}/{slug}/` — FAQ pages
+- `/faq/{category}/{slug}/` — redirect stubs only (→ tool page `#faq`; see faq-redirects.ts)
+
+**Discovery surfaces:** the homepage renders `ToolDirectory.astro` (compact per-category link
+columns; tool groups collapse to one entry) and category pages render `CategoryToolList.astro`
+(sectioned rows from `src/data/category-sections.ts` — add a `pattern → section` row there when
+registering a new pattern). No tile grids. See `ARCHITECTURE.md` → "Discovery surfaces".
 
 `withBase` is a build-time server function; do not call it inside `<script is:inline>`.
 
