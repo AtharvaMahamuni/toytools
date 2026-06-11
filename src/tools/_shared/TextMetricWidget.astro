@@ -3,11 +3,11 @@
 // Scope: Word Counter, Character Counter, Sentence Counter, Paragraph Counter, Reading Time.
 // Complex tools requiring custom analysis logic should NOT use this component.
 import type { MetricFormatter } from '@data/types';
-import TextareaInput from '@components/tool/TextareaInput.astro';
 import HeroMetric from '@components/tool/HeroMetric.astro';
 import StatGrid from '@components/tool/StatGrid.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
 interface StatDef {
@@ -27,30 +27,22 @@ const [primaryStat, ...secondaryStats] = stats;
 const inputId = `${slug}-input`;
 ---
 
-<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={true}>
-  <div slot="input">
-    <section class="tool-panel">
-      <TextareaInput id={inputId} label="Your text" />
-    </section>
-    <ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId} />
-  </div>
+<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Your text" labelFor={inputId} variant="prose">
+    <textarea id={inputId} placeholder="Paste or type text here…"></textarea>
+  </IoPanel>
 
-  <div slot="output" class="tm-output">
-    <div class="tm-result">
-      <span class="widget-label">Result</span>
-      <HeroMetric
-        metric={primaryStat.metric}
-        label={primaryStat.label}
-        formatter={primaryStat.formatter}
-      />
-    </div>
-    {secondaryStats.length > 0 && (
-      <section class="result-panel tm-secondary" hidden>
-        <StatGrid stats={secondaryStats} />
-      </section>
-    )}
-  </div>
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <HeroMetric
+      metric={primaryStat.metric}
+      label={primaryStat.label}
+      formatter={primaryStat.formatter}
+    />
+    {secondaryStats.length > 0 && <StatGrid stats={secondaryStats} />}
+  </IoPanel>
 </ToolSplit>
+
+<ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId} />
 
 <CategoryDiscovery toolSlug={slug} />
 
@@ -100,13 +92,12 @@ const inputId = `${slug}-input`;
     });
   }
 
-  // Restore saved text (versioned per-tool state)
+  // Restore saved text (versioned per-tool state). The panel is fixed-height —
+  // long content scrolls inside it, so no height fiddling on restore.
   try {
     var saved = ToyTools.state && ToyTools.state.load(slug);
     if (saved && typeof saved.text === 'string') {
       textarea.value = saved.text;
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
     }
   } catch (_) {}
 

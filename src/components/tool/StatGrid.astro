@@ -1,4 +1,7 @@
 ---
+// Secondary metrics ledger: hairline-separated label/value rows below the hero,
+// inside the same result IoPanel. Starts hidden — the metric script reveals it
+// (.tm-secondary) once there is text to analyze.
 import type { MetricFormatter } from '@data/types';
 import StatCard from './StatCard.astro';
 
@@ -15,8 +18,8 @@ interface Props {
 const { stats } = Astro.props;
 ---
 
-<div class="metric-grid" aria-live="polite">
+<dl class="tm-stats tm-secondary" aria-live="polite" hidden>
   {stats.map(s => (
     <StatCard metric={s.metric} label={s.label} formatter={s.formatter} />
   ))}
-</div>
+</dl>

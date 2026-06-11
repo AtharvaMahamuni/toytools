@@ -1,4 +1,5 @@
 ---
+// One ledger row: muted label left, tabular-nums mono value right.
 import type { MetricFormatter } from '@data/types';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 const { metric, label, formatter = 'integer', initialValue = '0' } = Astro.props;
 ---
 
-<div>
-  <span class="metric-value" data-metric={metric} data-formatter={formatter}>{initialValue}</span>
-  <span class="metric-label">{label}</span>
+<div class="tm-stat-row">
+  <dt class="tm-stat-label">{label}</dt>
+  <dd class="tm-stat-value" data-metric={metric} data-formatter={formatter}>{initialValue}</dd>
 </div>

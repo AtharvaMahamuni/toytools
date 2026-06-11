@@ -6,6 +6,7 @@
 //
 // If a new processor family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import type { ToolConfig } from '@data/types';
@@ -25,19 +26,18 @@ const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
 ---
 
-<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={true}>
-  <div slot="input" data-tool={slug} data-processor={processorId} data-slug={slug} data-state-key={stateKey}>
-    <label class="widget-label" for={inputId}>Text</label>
-    <textarea id={inputId} class="widget-textarea" rows="8" placeholder="Paste or type text here"></textarea>
-    <ToolActions clearTarget={inputId} pasteTarget={inputId} />
-  </div>
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Text" labelFor={inputId} variant="prose"
+    data-tool={slug} data-processor={processorId} data-slug={slug} data-state-key={stateKey}>
+    <textarea id={inputId} placeholder="Paste or type text here"></textarea>
+  </IoPanel>
 
-  <div slot="output">
-    <label class="widget-label" for={outputId}>Result</label>
-    <textarea id={outputId} class="widget-textarea" rows="8" readonly placeholder="Result appears here" aria-label="Result"></textarea>
-    <ToolActions copyTarget={outputId} />
-  </div>
+  <IoPanel slot="output" label="Result" variant="prose" copyTargetId={outputId}>
+    <textarea id={outputId} readonly placeholder="Result appears here" aria-label="Result"></textarea>
+  </IoPanel>
 </ToolSplit>
+
+<ToolActions clearTarget={inputId} pasteTarget={inputId} />
 
 <CategoryDiscovery toolSlug={slug} />
 

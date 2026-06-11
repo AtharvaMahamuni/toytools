@@ -6,7 +6,7 @@
 //
 // If a new structured-data tool ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import CopyButton from '@components/CopyButton.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import type { ToolConfig } from '@data/types';
@@ -25,45 +25,29 @@ const outputId = `${slug}-output`;
 const statusId = `${slug}-status`;
 ---
 
-<div class="io-container">
-  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-    <div slot="input" class="io-panel" data-structured={structuredId} data-slug={slug}>
-      <div class="io-header">
-        <label class="io-label" for={inputId}>Input</label>
-      </div>
-      <textarea
-        id={inputId}
-        aria-label="JSON input"
-        placeholder="Paste JSON here"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"></textarea>
-    </div>
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug}>
+    <textarea
+      id={inputId}
+      aria-label="JSON input"
+      placeholder="Paste JSON here"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"></textarea>
+  </IoPanel>
 
-    <div slot="output" class="io-panel">
-      <div class="io-header" data-copy-bar>
-        <span class="io-label">{showOutput ? 'Output' : 'Status'}</span>
-        {showOutput && <CopyButton targetId={outputId} />}
-      </div>
-      <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
-      {showOutput && (
-        <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
-      )}
-    </div>
-  </ToolSplit>
-</div>
+  <IoPanel slot="output" label={showOutput ? 'Output' : 'Status'} copyTargetId={showOutput ? outputId : undefined}>
+    <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
+    {showOutput && (
+      <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
+    )}
+  </IoPanel>
+</ToolSplit>
 
 <ToolActions clearTarget={inputId} pasteTarget={inputId} />
 
 <CategoryDiscovery toolSlug={slug} />
-
-<style is:global>
-  .io-container {
-    padding-block: var(--space-8);
-    border-bottom: var(--border);
-  }
-</style>
 
 <script is:inline>
   (function () {

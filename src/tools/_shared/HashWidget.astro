@@ -6,7 +6,7 @@
 //
 // If a new hasher family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import CopyButton from '@components/CopyButton.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import type { ToolConfig } from '@data/types';
@@ -24,44 +24,28 @@ const outputId = `${slug}-output`;
 const sample = 'The quick brown fox jumps over the lazy dog';
 ---
 
-<div class="io-container">
-  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-    <div slot="input" class="io-panel" data-hash={hashId} data-slug={slug} data-sample={sample}>
-      <div class="io-header">
-        <label class="io-label" for={inputId}>Input</label>
-      </div>
-      <textarea
-        id={inputId}
-        aria-label="Text to hash"
-        placeholder="Type or paste text to hash"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"></textarea>
-    </div>
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Input" labelFor={inputId} data-hash={hashId} data-slug={slug} data-sample={sample}>
+    <textarea
+      id={inputId}
+      aria-label="Text to hash"
+      placeholder="Type or paste text to hash"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"></textarea>
+  </IoPanel>
 
-    <div slot="output" class="io-panel">
-      <div class="io-header" data-copy-bar>
-        <span class="io-label">Digest (hex)</span>
-        <CopyButton targetId={outputId} />
-      </div>
-      <output id={outputId} aria-live="polite" data-empty>Hash will appear here</output>
-    </div>
-  </ToolSplit>
-</div>
+  <IoPanel slot="output" label="Digest (hex)" copyTargetId={outputId}>
+    <output id={outputId} aria-live="polite" data-empty>Hash will appear here</output>
+  </IoPanel>
+</ToolSplit>
 
 <ToolActions clearTarget={inputId} pasteTarget={inputId}>
   <button type="button" class="action-btn" data-hash-sample aria-label="Load sample input">Sample</button>
 </ToolActions>
 
 <CategoryDiscovery toolSlug={slug} />
-
-<style is:global>
-  .io-container {
-    padding-block: var(--space-8);
-    border-bottom: var(--border);
-  }
-</style>
 
 <script is:inline>
   (function () {
