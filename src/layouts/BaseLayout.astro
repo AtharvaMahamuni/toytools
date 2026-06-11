@@ -51,6 +51,8 @@ const maxWidthVar =
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={withBase('/favicon.svg')} />
     <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14161A" media="(prefers-color-scheme: dark)" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
@@ -68,9 +70,10 @@ const maxWidthVar =
     </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <ToyToolsRuntime />
     <Nav />
-    <main>
+    <main id="main-content" tabindex="-1">
       <div class="page-content" style={`max-width: ${maxWidthVar};`}>
         <slot />
       </div>

@@ -264,12 +264,15 @@ const faqHref = config.faq
   .wl-fs-btn:hover { color: var(--color-text-muted); }
 
   .wl-fullscreen {
+    /* Ensure brand color is legible on dark overlay regardless of system theme */
+    --color-brand: #a5b4fc;
+    --color-gold:  var(--color-brand);
     position: fixed; inset: 0; z-index: 9999; background: #0F1115;
     transition: background-color 600ms ease;
     display: flex; align-items: flex-end; justify-content: flex-start; padding: var(--space-8);
   }
   .wl-fullscreen[hidden] { display: none; }
-  .wl-fullscreen[data-state="active"]    { background: #16100A; }
+  .wl-fullscreen[data-state="active"]    { background: #10101F; }
   .wl-fullscreen[data-state="completed"] { background: #071A0D; }
 
   .wl-fs-content { display: flex; flex-direction: column; gap: var(--space-3); }

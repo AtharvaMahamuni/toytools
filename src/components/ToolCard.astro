@@ -30,8 +30,9 @@ const toolHref = withBase(`/tool/${segment}/${tool.slug}/`);
     gap: var(--space-2);
     padding: var(--space-4);
     border: var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
     text-decoration: none;
     color: var(--color-text);
     min-height: var(--touch-target);
@@ -60,9 +61,9 @@ const toolHref = withBase(`/tool/${segment}/${tool.slug}/`);
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     padding: 2px var(--space-2);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
     background: var(--color-accent-subtle);
-    color: #1d4ed8; /* blue-700: ~5.1:1 on #dbeafe — passes WCAG AA (was blue-600 at ~4.26:1) */
+    color: var(--color-accent-strong);
   }
 
   .tool-description {
@@ -78,9 +79,4 @@ const toolHref = withBase(`/tool/${segment}/${tool.slug}/`);
     color: var(--color-text-subtle);
     margin-top: var(--space-1);
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .tool-badge { color: #93c5fd; }
-  }
-  :root[data-theme="dark"] .tool-badge { color: #93c5fd; }
 </style>

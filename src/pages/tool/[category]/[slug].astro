@@ -2,8 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
 import EcosystemLinks from '@components/EcosystemLinks.astro';
-import GuideTeaser from '@components/tool/GuideTeaser.astro';
-import FaqAccordion from '@components/tool/FaqAccordion.astro';
+import ToolLearnSection from '@components/tool/ToolLearnSection.astro';
 import RelatedTools from '@components/tool/RelatedTools.astro';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
@@ -42,23 +41,17 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 <ToolLayout tool={tool} category={category}>
   <Widget />
 
-  {tool.guide && guideHref && (
-    <section class="content-section">
-      <GuideTeaser
-        href={guideHref}
-        title={tool.guide.title}
-        description={tool.guide.description}
-        readMinutes={tool.guide.readMinutes}
-        updatedAt={tool.guide.updatedAt}
-      />
-    </section>
-  )}
-
-  {faqItems.length > 0 && (
-    <section class="content-section">
-      <h2 class="faq-section-heading">Frequently asked questions <span class="gold-dot" aria-hidden="true"></span></h2>
-      <FaqAccordion items={faqItems} />
-    </section>
+  {(tool.guide || faqItems.length > 0) && (
+    <ToolLearnSection
+      guide={tool.guide && guideHref ? {
+        href: guideHref,
+        title: tool.guide.title,
+        description: tool.guide.description,
+        readMinutes: tool.guide.readMinutes,
+        updatedAt: tool.guide.updatedAt,
+      } : undefined}
+      faqItems={faqItems}
+    />
   )}
 
   {(tool.guide || tool.faq) && (
@@ -74,17 +67,3 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
   <RelatedTools tools={relatedTools} category={category} />
 </ToolLayout>
 
-<style>
-  .content-section {
-    padding-top: var(--space-10);
-    border-top: var(--border);
-    margin-top: var(--space-8);
-  }
-
-  .faq-section-heading {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-  }
-</style>

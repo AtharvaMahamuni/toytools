@@ -1,12 +1,17 @@
 :root {
-  /* Accent — single token, retheme entire platform here */
-  --color-accent:         #2563eb;
-  --color-accent-subtle:  #dbeafe;
+  /* Accent — split: decorative (#6366f1) vs text-bearing (#4f46e5 for AA contrast) */
+  --color-accent:        #6366f1;  /* indigo-500 — borders, focus rings, decoration */
+  --color-accent-strong: #4f46e5;  /* indigo-600 — link text (6.3:1 on white), filled buttons, badge text */
+  --color-accent-subtle: #e0e7ff;  /* indigo-100 — badge/selection tint */
 
-  /* Gold brand tokens */
-  --color-gold:           #906620;
-  --color-gold-highlight: #E6C15A;
-  --color-gold-subtle:    rgba(200, 155, 60, 0.15);
+  /* Brand identity — indigo, aliased from legacy gold tokens for zero consumer edits */
+  --color-brand:           #4f46e5;
+  --color-brand-highlight: #a5b4fc;               /* indigo-300 — dot gradient highlight */
+  --color-brand-subtle:    rgba(99, 102, 241, 0.14);
+  /* Back-compat aliases — consumers of --color-gold* re-tint automatically */
+  --color-gold:            var(--color-brand);
+  --color-gold-highlight:  var(--color-brand-highlight);
+  --color-gold-subtle:     var(--color-brand-subtle);
 
   /* Semantic status */
   --color-success:        #22c55e;
@@ -27,7 +32,7 @@
   --color-text-muted:     #5c636f;
   --color-text-subtle:    #676d7c;
   --color-text-inverse:   #ffffff;
-  --color-text-accent:    var(--color-accent);
+  --color-text-accent:    var(--color-accent-strong);
 
   /* Spacing (4px base) */
   --space-1:  4px;
@@ -64,11 +69,20 @@
   --font-weight-semibold: 600;
   --font-weight-bold:     700;
 
+  --tracking-tight: -0.015em;
+
   /* Borders */
   --border:        1px solid var(--color-border);
   --border-strong: 1px solid var(--color-border-strong);
-  --radius-sm:     4px;
-  --radius-md:     6px;
+  --radius-sm:     6px;
+  --radius-md:     10px;
+  --radius-lg:     14px;
+  --radius-full:   9999px;
+
+  /* Elevation — static (do not transition box-shadow; hover stays color-based) */
+  --shadow-sm:   0 1px 2px rgba(16, 18, 35, 0.05), 0 1px 3px rgba(16, 18, 35, 0.06);
+  --shadow-md:   0 2px 4px rgba(16, 18, 35, 0.05), 0 8px 20px rgba(16, 18, 35, 0.08);
+  --shadow-ring: 0 0 0 3px var(--color-brand-subtle);
 
   /* Motion — fade/opacity/color only */
   --duration-fast:   150ms;
@@ -97,7 +111,7 @@
   --z-overlay: 200;
 }
 
-/* Gold dot breathing animation */
+/* Brand dot breathing animation */
 @keyframes dot-breathe {
   0%, 100% { opacity: 0.65; }
   50%       { opacity: 0.72; }
@@ -106,12 +120,19 @@
 /* System dark preference, no explicit user override */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-accent:        #3b82f6;
-    --color-accent-subtle: #1e3a5f;
+    --color-accent:        #818cf8;  /* indigo-400 — 5.8:1 on #14161A */
+    --color-accent-strong: #818cf8;
+    --color-accent-subtle: #1e1b4b;  /* indigo-950 */
 
-    --color-gold:           #D4A017;
-    --color-gold-highlight: #F2C94C;
-    --color-gold-subtle:    rgba(212, 160, 23, 0.18);
+    --color-brand:           #818cf8;
+    --color-brand-highlight: #c7d2fe;  /* indigo-200 */
+    --color-brand-subtle:    rgba(129, 140, 248, 0.18);
+    --color-gold:            var(--color-brand);
+    --color-gold-highlight:  var(--color-brand-highlight);
+    --color-gold-subtle:     var(--color-brand-subtle);
+
+    --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.30);
+    --shadow-md:   0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.45);
 
     --color-success:       #4ade80;
     --color-success-bg:    rgba(74, 222, 128, 0.14);
@@ -134,12 +155,19 @@
 
 /* User explicitly chose dark (overrides a light system preference) */
 :root[data-theme="dark"] {
-  --color-accent:        #3b82f6;
-  --color-accent-subtle: #1e3a5f;
+  --color-accent:        #818cf8;
+  --color-accent-strong: #818cf8;
+  --color-accent-subtle: #1e1b4b;
 
-  --color-gold:           #D4A017;
-  --color-gold-highlight: #F2C94C;
-  --color-gold-subtle:    rgba(212, 160, 23, 0.18);
+  --color-brand:           #818cf8;
+  --color-brand-highlight: #c7d2fe;
+  --color-brand-subtle:    rgba(129, 140, 248, 0.18);
+  --color-gold:            var(--color-brand);
+  --color-gold-highlight:  var(--color-brand-highlight);
+  --color-gold-subtle:     var(--color-brand-subtle);
+
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.30);
+  --shadow-md:   0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.45);
 
   --color-success:       #4ade80;
   --color-success-bg:    rgba(74, 222, 128, 0.14);

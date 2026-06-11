@@ -45,12 +45,14 @@ h1 {
   font-size: var(--text-3xl);
   font-weight: var(--font-weight-bold);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 h2 {
   font-size: var(--text-2xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 h3 {
@@ -82,7 +84,7 @@ a:hover {
   border-radius: var(--radius-sm);
 }
 
-/* Gold dot brand motif */
+/* Brand dot motif */
 .gold-dot {
   display: inline-block;
   width: 8px;
@@ -103,7 +105,7 @@ a:hover {
 }
 
 [data-copy-bar][data-copy-active] {
-  background-color: rgba(34, 197, 94, 0.12);
+  background-color: var(--color-success-bg);
 }
 
 /* Hide hover-only tooltips on touch devices */
@@ -111,6 +113,29 @@ a:hover {
   .tt-tooltip {
     display: none;
   }
+}
+
+/* Skip-to-content link — visually hidden until focused */
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: calc(var(--z-overlay) + 10);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent-strong);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--space-3)));
+  transition: transform var(--duration-fast) ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: 2px;
 }
 
 /* Toast notification */
@@ -123,6 +148,7 @@ a:hover {
   background: var(--color-text);
   color: var(--color-text-inverse);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;

@@ -1,0 +1,148 @@
+---
+import type { FAQItem } from '@data/types';
+import FaqAccordion from './FaqAccordion.astro';
+import GuideTeaser from './GuideTeaser.astro';
+
+interface GuideRef {
+  href: string;
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+}
+
+interface Props {
+  guide?: GuideRef;
+  faqItems?: FAQItem[];
+}
+
+const { guide, faqItems = [] } = Astro.props;
+
+if (!guide && faqItems.length === 0) return;
+
+const metaParts: string[] = [];
+if (guide) metaParts.push('1 guide');
+if (faqItems.length > 0) metaParts.push(`${faqItems.length} question${faqItems.length === 1 ? '' : 's'}`);
+const metaLabel = metaParts.join(' · ');
+
+const hasBoth = guide && faqItems.length > 0;
+---
+
+<details class="tool-learn">
+  <summary class="tool-learn-summary">
+    <span class="tool-learn-label">
+      <span class="gold-dot" aria-hidden="true"></span>
+      Guide &amp; FAQ
+    </span>
+    <span class="tool-learn-meta">{metaLabel}</span>
+    <svg class="tool-learn-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </summary>
+  <div class="tool-learn-body">
+    <div class={`tool-learn-grid${hasBoth ? ' tool-learn-grid--two' : ''}`}>
+      {guide && (
+        <div class="tool-learn-guide">
+          <GuideTeaser
+            href={guide.href}
+            title={guide.title}
+            description={guide.description}
+            readMinutes={guide.readMinutes}
+            updatedAt={guide.updatedAt}
+          />
+        </div>
+      )}
+      {faqItems.length > 0 && (
+        <div class="tool-learn-faq">
+          <FaqAccordion items={faqItems} />
+        </div>
+      )}
+    </div>
+  </div>
+</details>
+
+<style>
+  .tool-learn {
+    margin-top: var(--space-8);
+  }
+
+  .tool-learn-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--touch-target);
+    padding: var(--space-4) var(--space-5);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    cursor: pointer;
+    list-style: none;
+    transition: var(--transition-color);
+  }
+
+  .tool-learn-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .tool-learn-summary:hover {
+    border-color: var(--color-accent);
+    background: var(--color-surface-hover);
+  }
+
+  details[open] .tool-learn-summary {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom-color: transparent;
+  }
+
+  .tool-learn-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    color: var(--color-text);
+  }
+
+  .tool-learn-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    margin-left: auto;
+    margin-right: var(--space-2);
+  }
+
+  .tool-learn-chevron {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    transition: rotate var(--duration-normal) var(--ease-default);
+  }
+
+  details[open] .tool-learn-chevron {
+    rotate: 180deg;
+  }
+
+  .tool-learn-body {
+    border: var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .tool-learn-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .tool-learn-grid--two {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .tool-learn-faq {
+    min-width: 0;
+  }
+
+  .tool-learn-guide {
+    min-width: 0;
+  }
+</style>

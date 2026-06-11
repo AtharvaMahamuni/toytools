@@ -56,9 +56,13 @@ const { items } = Astro.props;
     transition: var(--transition-color);
   }
 
+  .faq-question:hover::before {
+    color: var(--color-accent);
+  }
+
   details[open] .faq-question::before {
     content: '−';
-    color: var(--color-text-muted);
+    color: var(--color-accent);
   }
 
   .faq-answer {

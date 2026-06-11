@@ -21,7 +21,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     slug: 'developer-tools',
     name: 'Developer Tools',
     description: 'Encode, decode, format, and inspect data structures.',
-    accent: '#6366F1',
+    accent: '#8B5CF6',
     segment: 'developer',
   },
   {

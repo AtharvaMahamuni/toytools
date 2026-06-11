@@ -369,6 +369,9 @@ const iconUrl  = withBase('/favicon.ico');
 
   /* ── Fullscreen overlay ───────────────────────────────── */
   .pt-fullscreen {
+    /* Ensure brand color is legible on dark overlay regardless of system theme */
+    --color-brand: #a5b4fc;
+    --color-gold:  var(--color-brand);
     position: fixed; inset: 0; z-index: 9999;
     background: #0F1115;
     transition: background-color 600ms ease;

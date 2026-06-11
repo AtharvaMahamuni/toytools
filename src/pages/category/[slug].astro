@@ -16,13 +16,39 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { category, tools: categoryTools } = Astro.props;
+
+const metaDescription = `${category.description} ${categoryTools.length} free, private, browser-based tools — no sign-up required.`;
+
+const categoryUrl = Astro.site
+  ? new URL(withBase(`/category/${category.slug}/`), Astro.site).href
+  : withBase(`/category/${category.slug}/`);
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: category.name,
+  description: metaDescription,
+  url: categoryUrl,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: categoryTools.map((tool, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: tool.name,
+      url: Astro.site
+        ? new URL(withBase(`/tool/${category.segment}/${tool.slug}/`), Astro.site).href
+        : withBase(`/tool/${category.segment}/${tool.slug}/`),
+    })),
+  },
+};
 ---
 
 <BaseLayout
   title={generatePageTitle('category', category.name)}
-  description={category.description}
+  description={metaDescription}
   maxWidth="category"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
   <div class="category-header">
     <Breadcrumb items={[
       { label: 'Home', href: withBase('/') },

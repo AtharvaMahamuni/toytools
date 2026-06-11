@@ -23,8 +23,14 @@ import { APP_VERSION } from '../lib/version';
     position: sticky;
     top: 0;
     z-index: var(--z-nav);
-    background: var(--color-bg);
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     border-bottom: var(--border);
+  }
+
+  @supports not (backdrop-filter: blur(8px)) {
+    header { background: var(--color-bg); }
   }
 
   .nav-inner {
@@ -78,11 +84,11 @@ import { APP_VERSION } from '../lib/version';
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--color-bg-secondary);
+    background: var(--color-surface);
     color: var(--color-text);
     border: var(--border);
     border-radius: var(--radius-md);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-md);
     padding: 8px 12px;
     font-size: 12px;
     font-weight: 400;
@@ -148,7 +154,7 @@ import { APP_VERSION } from '../lib/version';
   }
 
   .theme-seg-btn[data-active] {
-    color: var(--color-gold);
+    color: var(--color-brand);
     background: var(--color-surface);
     font-weight: var(--font-weight-medium);
   }
