@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
-import FaqDrawer from '@components/tool/FaqDrawer.astro';
+import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import ToolNavRow from '@components/tool/ToolNavRow.astro';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
@@ -52,9 +52,6 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 
   <Widget />
 
-  {/* FAQ content rendered in DOM for SEO — visually hidden until drawer opens */}
-  {faqItems.length > 0 && <FaqDrawer items={faqItems} toolName={tool.name} />}
-
   <ToolNavRow
     faqItems={faqItems}
     guideHref={guideHref}
@@ -63,4 +60,18 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
     relatedTools={relatedTools}
     toolName={tool.name}
   />
+
+  {faqItems.length > 0 && (
+    <section class="faq-section" id="faq" aria-label="Common questions">
+      <FaqAccordion items={faqItems} />
+    </section>
+  )}
 </ToolLayout>
+
+<style>
+  .faq-section {
+    padding-top: var(--space-8);
+    border-top: var(--border);
+    margin-top: var(--space-4);
+  }
+</style>

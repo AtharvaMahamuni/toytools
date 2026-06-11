@@ -17,7 +17,6 @@ interface Props {
   guideReadMinutes?: number;
   relatedTools: RelatedTool[];
   toolName: string;
-  drawerId?: string;
 }
 
 const {
@@ -27,7 +26,6 @@ const {
   guideReadMinutes,
   relatedTools,
   toolName,
-  drawerId = 'faq-drawer',
 } = Astro.props;
 
 const hasFaq = faqItems.length > 0;
@@ -45,14 +43,9 @@ const guideTeaser = guideTitle
   {(hasFaq || hasGuide) && (
     <div class="nav-links">
       {hasFaq && (
-        <button
-          class="nav-link nav-link--btn"
-          type="button"
-          data-faq-open={drawerId}
-          aria-haspopup="dialog"
-        >
-          Common Questions
-        </button>
+        <a class="nav-link" href="#faq">
+          Common Questions <span class="faq-count">({faqItems.length})</span>
+        </a>
       )}
       {hasFaq && hasGuide && <span class="nav-sep" aria-hidden="true">·</span>}
       {hasGuide && (
@@ -116,12 +109,10 @@ const guideTeaser = guideTitle
     text-decoration: underline;
   }
 
-  .nav-link--btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    font-family: var(--font-sans);
+  .faq-count {
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--text-xs);
   }
 
   .nav-sep {
