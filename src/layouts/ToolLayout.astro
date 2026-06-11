@@ -68,4 +68,14 @@ const softwareSchema = {
     max-width: 55ch;
     margin-bottom: var(--space-3);
   }
+
+  /* Desktop: reserve two lines so the widget (and GroupSwitcher pills) land at
+     the same Y on every sibling page — the cursor stays over the equivalent
+     element when clicking through tools. Descriptions should run 56–110 chars
+     (≈2 lines at 55ch); see ARCHITECTURE.md → Design Language. */
+  @media (min-width: 1024px) {
+    .tool-description {
+      min-height: 2lh;
+    }
+  }
 </style>
