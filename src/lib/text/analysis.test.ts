@@ -68,6 +68,19 @@ describe('analyzeText', () => {
     expect(analyzeText('The the THE').uniqueWords).toBe(1);
   });
 
+  it('treats accented words as single tokens (unicode-aware)', () => {
+    expect(analyzeText('Café café').uniqueWords).toBe(1);
+    expect(analyzeText('café cafe').uniqueWords).toBe(2);
+  });
+
+  it('counts numeric tokens as words for uniqueness', () => {
+    expect(analyzeText('2024 2024 2025').uniqueWords).toBe(2);
+  });
+
+  it('counts accented letters in averageWordLength', () => {
+    expect(analyzeText('café').averageWordLength).toBe(4);
+  });
+
   it('returns readingTime of at least 1 for non-empty text', () => {
     expect(analyzeText('hello').readingTime).toBe(1);
   });

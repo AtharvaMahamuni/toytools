@@ -50,4 +50,12 @@ describe('runHash', () => {
     ));
   it('returns empty string for unknown id', async () =>
     expect(await runHash('does-not-exist', 'abc')).toBe(''));
+  it('never rejects — a throwing hasher resolves to empty string', async () => {
+    HASHERS['boom'] = { id: 'boom', family: 'cryptographic', hash: () => { throw new Error('no subtle'); } };
+    try {
+      await expect(runHash('boom', 'abc')).resolves.toBe('');
+    } finally {
+      delete HASHERS['boom'];
+    }
+  });
 });

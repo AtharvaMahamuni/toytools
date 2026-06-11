@@ -36,6 +36,8 @@ describe('base64', () => {
   it('handles UTF-8 (accented)', () => expect(decode(encode('café'))).toBe('café'));
   it('handles UTF-8 (emoji)', () => expect(decode(encode('🚀✨'))).toBe('🚀✨'));
   it('trims whitespace on decode', () => expect(decode('  SGVsbG8=  ')).toBe('Hello'));
+  it('decodes line-wrapped base64 (MIME 76-char wrapping)', () =>
+    expect(decode('SGVs\nbG8s\r\nIFdv cmxkIQ==')).toBe('Hello, World!'));
   it('throws on invalid base64 (caught by resolver)', () =>
     expect(() => decode('@@@')).toThrow());
 });
@@ -67,6 +69,11 @@ describe('html-entity', () => {
   });
   it('decodes named entities including apos', () =>
     expect(decode('&lt;b&gt;&amp;&apos;&quot;')).toBe(`<b>&'"`));
+  it('decodes common typographic named entities', () =>
+    expect(decode('&copy; 2026 &mdash; caf&eacute;? &hellip; &laquo;ok&raquo;'))
+      .toBe('© 2026 — caf&eacute;? … «ok»'));
+  it('decodes &nbsp; to a non-breaking space', () =>
+    expect(decode('a&nbsp;b')).toBe('a b'));
   it('decodes decimal numeric references', () => expect(decode('&#65;&#66;')).toBe('AB'));
   it('decodes hex numeric references', () => expect(decode('&#x41;&#X42;')).toBe('AB'));
   it('leaves unknown entities untouched', () => expect(decode('&nope;')).toBe('&nope;'));

@@ -16,9 +16,10 @@ export const HASHERS: Record<string, HashTool> = {
 };
 
 /**
- * Resolve a hasher by id and run it. Always returns a Promise<string> (lowercase hex):
- * sync MD5 is normalized via Promise.resolve, async SHA awaits crypto.subtle. Never
- * throws on an unknown id — logs a warning and resolves to an empty string.
+ * Resolve a hasher by id and run it. Always returns a Promise<string> (lowercase hex).
+ * Never rejects: an unknown id, or a runtime hash failure (e.g. crypto.subtle missing
+ * outside a secure context), logs a warning and resolves to an empty string — the
+ * same never-throw contract as the other engine registries.
  */
 export async function runHash(id: string, text: string): Promise<string> {
   const hasher = HASHERS[id];
@@ -27,5 +28,11 @@ export async function runHash(id: string, text: string): Promise<string> {
     console.warn(`[hashing] Unknown hasher id "${id}" — returning empty string.`);
     return '';
   }
-  return await Promise.resolve(hasher.hash(text));
+  try {
+    return await Promise.resolve(hasher.hash(text));
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn(`[hashing] "${id}" failed (crypto.subtle requires a secure context):`, err);
+    return '';
+  }
 }
