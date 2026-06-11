@@ -299,6 +299,16 @@
   border-top: var(--border);
 }
 
+/* Focus: the textarea fills the clipped frame, so its outline would render as a
+   stray line under the header — highlight the panel border instead. */
+.io-panel textarea:focus-visible {
+  outline: none;
+}
+
+.io-panel:focus-within {
+  border-color: var(--color-accent);
+}
+
 /* Structured-data validity status line (✓ Valid / ✗ error) */
 .io-status {
   margin: 0;

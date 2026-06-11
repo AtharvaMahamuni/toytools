@@ -148,6 +148,11 @@ import { tools } from '@data/registry';
 
   /* ── Recent chips ─────────────────────────────────────────── */
 
+  /* display:flex would defeat the hidden attribute — keep it explicit */
+  .recent-row[hidden] {
+    display: none;
+  }
+
   .recent-row {
     display: flex;
     align-items: center;

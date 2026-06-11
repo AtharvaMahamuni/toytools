@@ -29,7 +29,7 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
     <span class="cd-dot" aria-hidden="true" style={`--cd-accent: ${category.accent ?? 'var(--color-gold)'}`}></span>
     <span class="cd-text">
       Looking for more?
-      <a class="cd-link" href={categoryHref}>Browse all {count} {category.name} →</a>
+      <a class="cd-link" href={categoryHref}>Browse all {`${count} ${category.name}`} →</a>
     </span>
     {siblings.length > 0 && (
       <span class="cd-siblings">
