@@ -14,7 +14,6 @@ export type ContentType = string;
 export const CONTENT_TYPES = {
   TOOL: 'tool',
   GUIDE: 'guide',
-  FAQ: 'faq',
   CATEGORY: 'category',
 } as const;
 
@@ -23,7 +22,6 @@ export type RelationType = string;
 export const RELATION_TYPES = {
   RELATED_TOOL: 'RELATED_TOOL',
   RELATED_GUIDE: 'RELATED_GUIDE',
-  RELATED_FAQ: 'RELATED_FAQ',
   USED_WITH: 'USED_WITH',
   ALTERNATIVE: 'ALTERNATIVE',
   NEXT_STEP: 'NEXT_STEP',

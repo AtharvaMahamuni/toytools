@@ -7,7 +7,7 @@
 
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { tools, toolsWithGuide, toolsWithFaq } from '../src/data/registry';
+import { tools, toolsWithGuide } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { engineIds } from '../src/data/engines';
 import { getAllMetadata } from '../src/data/metadata';
@@ -41,10 +41,9 @@ for (const m of metadata) {
   }
 }
 
-// 2. Guide/FAQ references resolve
+// 2. Guide references resolve
 for (const t of tools) {
   if (t.guide && !t.guide.slug) errors.push(`Tool "${t.slug}" guide config missing slug`);
-  if (t.faq && !t.faq.slug) errors.push(`Tool "${t.slug}" faq config missing slug`);
 }
 
 // 3. Duplicate URLs across the content manifest
@@ -61,7 +60,6 @@ const checkCount = (label: string, actual: number, expected: number) => {
 };
 checkCount('tool', contentByType('tool').length, tools.length);
 checkCount('guide', contentByType('guide').length, toolsWithGuide.length);
-checkCount('faq', contentByType('faq').length, toolsWithFaq.length);
 checkCount('category', contentByType('category').length, categories.length);
 
 // 5. Search index generation succeeds and covers every tool
@@ -77,7 +75,7 @@ const dist = join(process.cwd(), 'dist');
 if (existsSync(dist)) {
   const required = [
     'sitemap-index.xml',
-    'sitemaps/tools.xml', 'sitemaps/guides.xml', 'sitemaps/faqs.xml',
+    'sitemaps/tools.xml', 'sitemaps/guides.xml',
     'sitemaps/categories.xml', 'sitemaps/languages.xml',
   ];
   for (const f of required) {

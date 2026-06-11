@@ -71,7 +71,6 @@ export const tools: ToolConfig[] = [
 ];
 
 export const toolsWithGuide = tools.filter(t => t.guide !== undefined);
-export const toolsWithFaq   = tools.filter(t => t.faq !== undefined);
 
 export function getToolBySlug(slug: string): ToolConfig {
   const tool = tools.find(t => t.slug === slug);

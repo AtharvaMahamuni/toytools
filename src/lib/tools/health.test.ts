@@ -41,14 +41,14 @@ describe('getToolHealth', () => {
     expect(getToolHealth(t, [t]).hasGuide).toBe(false);
   });
 
-  it('hasFAQ is true when faq is defined', () => {
-    const t = tool({ slug: 'a', faq: { slug: 'a', categorySlug: 'text' } });
-    expect(getToolHealth(t, [t]).hasFAQ).toBe(true);
+  it('hasFAQ is true when the tool has registered FAQ items', () => {
+    const t = tool({ slug: 'a' });
+    expect(getToolHealth(t, [t], new Set(['a'])).hasFAQ).toBe(true);
   });
 
-  it('hasFAQ is false when faq is undefined', () => {
+  it('hasFAQ is false when the tool has no registered FAQ items', () => {
     const t = tool({ slug: 'a' });
-    expect(getToolHealth(t, [t]).hasFAQ).toBe(false);
+    expect(getToolHealth(t, [t], new Set()).hasFAQ).toBe(false);
   });
 
   it('hasRelatedTools is true when another tool shares the same category', () => {
@@ -101,10 +101,9 @@ describe('getToolHealth', () => {
       pattern: 'transform',
       family: 'case',
       guide: { slug: 'a', categorySlug: 'text', title: 'G', description: 'd', readMinutes: 3, updatedAt: 'Jun 2026' },
-      faq: { slug: 'a', categorySlug: 'text' },
     });
     const b = tool({ slug: 'b', categorySlug: 'text' });
-    const health = getToolHealth(a, [a, b]);
+    const health = getToolHealth(a, [a, b], new Set(['a']));
     expect(health.hasTool).toBe(true);
     expect(health.hasGuide).toBe(true);
     expect(health.hasFAQ).toBe(true);

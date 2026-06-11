@@ -9,13 +9,12 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import CopyButton from '@components/CopyButton.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import type { ToolConfig, FAQItem } from '@data/types';
+import type { ToolConfig } from '@data/types';
 
 interface Props {
   slug: string;
   structuredId: string;
   config: ToolConfig;
-  faqItems?: FAQItem[];
   showOutput?: boolean;
 }
 

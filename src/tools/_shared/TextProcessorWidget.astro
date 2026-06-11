@@ -2,19 +2,18 @@
 // Generic text-processor widget — powers every transform/cleanup tool (and any future
 // processor family). It knows nothing about specific processors: it reads a processorId,
 // runs `text → ToyTools.process(processorId, text) → output` live, and renders shared
-// chrome. Per-tool Widget.astro files are 3-line wrappers passing config + faqItems.
+// chrome. Per-tool Widget.astro files are 3-line wrappers passing config.
 //
 // If a new processor family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import type { ToolConfig, FAQItem } from '@data/types';
+import type { ToolConfig } from '@data/types';
 
 interface Props {
   slug: string;
   processorId: string;
   config: ToolConfig;
-  faqItems?: FAQItem[];
 }
 
 const { slug, processorId, config } = Astro.props;

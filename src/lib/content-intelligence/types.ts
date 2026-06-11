@@ -35,6 +35,8 @@ export interface AnalyzerInputs {
   graph: KnowledgeGraph;
   knowledge: Map<string, Knowledge>;
   taxonomy: ExpansionTaxonomy;
+  /** Slugs of tools whose page renders FAQ items (from faq-registry) — analyzers stay pure. */
+  faqSlugs: Set<string>;
   signals?: ExternalSignals;
 }
 

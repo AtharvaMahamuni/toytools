@@ -7,7 +7,7 @@ const categories = [category({ slug: 'developer-tools', segment: 'developer' })]
 describe('analyzeTopicClusters', () => {
   it('computes clusterSize from tool + guide + faq + related content', () => {
     const tools = [
-      tool({ slug: 'json-formatter', engine: 'sd', pattern: 'st', family: 'json', guide: { slug: 'gf', categorySlug: 'developer', title: 'GF', description: '', readMinutes: 3, updatedAt: 'x' }, faq: { slug: 'json-formatter', categorySlug: 'developer' } }),
+      tool({ slug: 'json-formatter', engine: 'sd', pattern: 'st', family: 'json', guide: { slug: 'gf', categorySlug: 'developer', title: 'GF', description: '', readMinutes: 3, updatedAt: 'x' } }),
       tool({ slug: 'json-minifier', engine: 'sd', pattern: 'st', family: 'json' }),
     ];
     const clusters = analyzeTopicClusters(makeInputs({ tools, categories, engines: [] }));

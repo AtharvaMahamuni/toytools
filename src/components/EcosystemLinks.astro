@@ -3,7 +3,7 @@ import type { EcosystemEntry } from '@data/types';
 import { withBase } from '../lib/paths';
 
 interface Props {
-  currentType: 'tool' | 'guide' | 'faq';
+  currentType: 'tool' | 'guide';
   toolSlug: string;
   toolCategorySegment: string;
   toolName: string;
@@ -16,14 +16,10 @@ const toolHref = withBase(`/tool/${toolCategorySegment}/${toolSlug}/`);
 const guideHref = entry.guide
   ? withBase(`/guide/${entry.guide.categorySlug}/${entry.guide.slug}/`)
   : null;
-const faqHref = entry.faq
-  ? withBase(`/faq/${entry.faq.categorySlug}/${entry.faq.slug}/`)
-  : null;
 
 const links = [
   { type: 'tool' as const, label: toolName, href: toolHref },
   ...(guideHref ? [{ type: 'guide' as const, label: entry.guide!.title, href: guideHref }] : []),
-  ...(faqHref ? [{ type: 'faq' as const, label: 'FAQ', href: faqHref }] : []),
 ];
 ---
 

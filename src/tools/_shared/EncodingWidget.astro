@@ -2,7 +2,7 @@
 // Generic encoding widget — powers every encode/decode tool (base64, url, html-entity,
 // and any future encoder family). It knows nothing about a specific encoder: it reads an
 // encodingId + mode and runs `text → ToyTools.runEncoding(id, mode, text) → output` live.
-// Per-tool Widget.astro files are 3-line wrappers passing config + faqItems.
+// Per-tool Widget.astro files are 3-line wrappers passing config.
 //
 // If a new encoder family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
@@ -10,13 +10,12 @@ import CopyButton from '@components/CopyButton.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { ENCODERS } from '@lib/engines/encoding/registry';
-import type { ToolConfig, FAQItem } from '@data/types';
+import type { ToolConfig } from '@data/types';
 
 interface Props {
   slug: string;
   encodingId: string;
   config: ToolConfig;
-  faqItems?: FAQItem[];
 }
 
 const { slug, encodingId } = Astro.props;

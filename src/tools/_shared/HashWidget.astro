@@ -2,20 +2,19 @@
 // Generic hashing widget — powers every hash-generator tool (md5, sha1, sha256, and any
 // future hasher). It knows nothing about a specific hasher: it reads a hashId and runs
 // `text → await ToyTools.runHash(id, text) → hex` LIVE on input (race-guarded). Per-tool
-// Widget.astro files are 3-line wrappers passing config + faqItems.
+// Widget.astro files are 3-line wrappers passing config.
 //
 // If a new hasher family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import CopyButton from '@components/CopyButton.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import type { ToolConfig, FAQItem } from '@data/types';
+import type { ToolConfig } from '@data/types';
 
 interface Props {
   slug: string;
   hashId: string;
   config: ToolConfig;
-  faqItems?: FAQItem[];
 }
 
 const { slug, hashId } = Astro.props;

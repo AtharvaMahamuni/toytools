@@ -14,7 +14,7 @@ const categories: Category[] = [
 ];
 
 const tools: ToolConfig[] = [
-  tool({ slug: 'json-formatter', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'g-fmt', categorySlug: 'developer', title: 'Fmt', description: '', readMinutes: 4, updatedAt: 'x' }, faq: { slug: 'json-formatter', categorySlug: 'developer' } }),
+  tool({ slug: 'json-formatter', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'g-fmt', categorySlug: 'developer', title: 'Fmt', description: '', readMinutes: 4, updatedAt: 'x' } }),
   tool({ slug: 'json-minifier', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'g-min', categorySlug: 'developer', title: 'Min', description: '', readMinutes: 4, updatedAt: 'x' } }),
   tool({ slug: 'json-validator', engine: 'structured-data', pattern: 'structured-validate', family: 'json' }),
 ];
@@ -30,15 +30,14 @@ const knowledge: Map<string, Knowledge> = buildKnowledgeMap([
 describe('buildGraph', () => {
   const g = buildGraph(tools, categories, knowledge);
 
-  it('creates tool, guide, faq, and category nodes', () => {
+  it('creates tool, guide, and category nodes (no standalone FAQ nodes)', () => {
     expect(g.nodes.find(n => n.id === 'tool:json-formatter')).toBeTruthy();
     expect(g.nodes.find(n => n.id === 'guide:json-formatter')).toBeTruthy();
-    expect(g.nodes.find(n => n.id === 'faq:json-formatter')).toBeTruthy();
     expect(g.nodes.find(n => n.id === 'category:developer-tools')).toBeTruthy();
+    expect(g.nodes.some(n => n.id.startsWith('faq:'))).toBe(false);
   });
 
-  it('only creates guide/faq nodes when the tool has them', () => {
-    expect(g.nodes.find(n => n.id === 'faq:json-minifier')).toBeFalsy();
+  it('only creates guide nodes when the tool has one', () => {
     expect(g.nodes.find(n => n.id === 'guide:json-validator')).toBeFalsy();
   });
 

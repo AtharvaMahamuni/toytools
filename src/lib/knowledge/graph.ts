@@ -8,7 +8,7 @@ import type { ToolConfig, Category } from '@data/types';
 import { tools as allTools } from '@data/registry';
 import { categories as allCategories } from '@data/categories';
 import { KNOWLEDGE } from './registry';
-import { getRelatedTools, getRelatedGuides, getRelatedFaqs, relationTier, tierStrength } from '@lib/tools/related';
+import { getRelatedTools, getRelatedGuides, relationTier, tierStrength } from '@lib/tools/related';
 import {
   CONTENT_TYPES,
   RELATION_TYPES,
@@ -53,7 +53,7 @@ export function buildGraph(
     });
   }
 
-  // Tool / guide / faq nodes
+  // Tool / guide nodes (FAQ content lives on the tool page — no standalone FAQ nodes)
   for (const t of tools) {
     const url = toolUrl(t, categories);
     nodes.push({
@@ -72,16 +72,6 @@ export function buildGraph(
         title: t.guide.title,
         category: t.categorySlug,
         url: `/guide/${t.guide.categorySlug}/${t.guide.slug}/`,
-      });
-    }
-    if (t.faq) {
-      nodes.push({
-        id: nodeId(CONTENT_TYPES.FAQ, t.slug),
-        type: CONTENT_TYPES.FAQ,
-        slug: t.slug,
-        title: `${t.name} FAQ`,
-        category: t.categorySlug,
-        url: `/faq/${t.faq.categorySlug}/${t.faq.slug}/`,
       });
     }
   }
@@ -107,7 +97,7 @@ export function buildGraph(
     // BELONGS_TO_CATEGORY
     pushEdge(CONTENT_TYPES.TOOL, t.slug, CONTENT_TYPES.CATEGORY, t.categorySlug, RELATION_TYPES.BELONGS_TO_CATEGORY);
 
-    // Derived RELATED_TOOL / RELATED_GUIDE / RELATED_FAQ (with tier-based strength)
+    // Derived RELATED_TOOL / RELATED_GUIDE (with tier-based strength)
     for (const rel of getRelatedTools(t, tools, DERIVE_MAX)) {
       pushEdge(CONTENT_TYPES.TOOL, t.slug, CONTENT_TYPES.TOOL, rel.slug, RELATION_TYPES.RELATED_TOOL, {
         strength: tierStrength(relationTier(t, rel)),
@@ -118,12 +108,6 @@ export function buildGraph(
         strength: tierStrength(relationTier(t, rel)),
       });
     }
-    for (const rel of getRelatedFaqs(t, tools, DERIVE_MAX)) {
-      pushEdge(CONTENT_TYPES.TOOL, t.slug, CONTENT_TYPES.FAQ, rel.slug, RELATION_TYPES.RELATED_FAQ, {
-        strength: tierStrength(relationTier(t, rel)),
-      });
-    }
-
     // Overlay edges from the knowledge file (curated, with reason/strength/priority preserved)
     const kn = knowledge.get(t.slug);
     if (!kn) continue;

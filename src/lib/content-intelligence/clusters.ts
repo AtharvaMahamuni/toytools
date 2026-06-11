@@ -24,10 +24,9 @@ export function analyzeTopicClusters(inputs: AnalyzerInputs): TopicClusters {
     const clusterSize =
       (cluster.tool ? 1 : 0) +
       (cluster.guide ? 1 : 0) +
-      (cluster.faq ? 1 : 0) +
+      (inputs.faqSlugs.has(t.slug) ? 1 : 0) +
       cluster.relatedTools.length +
-      cluster.relatedGuides.length +
-      cluster.relatedFaqs.length;
+      cluster.relatedGuides.length;
 
     const missingConnections: string[] = [];
 

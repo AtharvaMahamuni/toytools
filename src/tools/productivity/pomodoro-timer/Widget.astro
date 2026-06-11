@@ -2,16 +2,11 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import FAQPreview from '@components/FAQPreview.astro';
 import { config } from './config';
-import { items as faqItems } from './faq';
 import { withBase } from '@lib/paths';
 
 const guideHref = config.guide
   ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
-const faqHref = config.faq
-  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
   : null;
 
 const swUrl    = withBase('/sw.js');
@@ -135,12 +130,6 @@ const iconUrl  = withBase('/favicon.ico');
   )}
 </ToolSection>
 
-{faqHref && (
-  <section class="content-section">
-    <h2>FAQ</h2>
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
-  </section>
-)}
 
 <!-- Fullscreen / Remove Distractions overlay -->
 <div id="pt-fullscreen" class="pt-fullscreen" data-phase="focus" hidden>

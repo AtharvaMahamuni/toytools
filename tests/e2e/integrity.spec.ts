@@ -50,7 +50,7 @@ test.describe('integrity', () => {
   });
 
   test('no duplicate URLs across all sitemap buckets', () => {
-    const buckets = ['tools', 'guides', 'faqs', 'categories', 'languages'];
+    const buckets = ['tools', 'guides', 'categories', 'languages'];
     const all = buckets.flatMap(sitemapLocs);
     expect(all.length, 'sitemap has URLs').toBeGreaterThan(0);
     expect(new Set(all).size, 'every sitemap <loc> is unique').toBe(all.length);
