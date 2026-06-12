@@ -29,7 +29,12 @@ const { tool, category } = Astro.props;
 const groupSlugs = new Set(
   (tool.toolGroup ? getToolGroup(tool.toolGroup)?.members ?? [] : []).map(m => m.slug),
 );
-const relatedTools = getRelatedTools(tool, tools, 9).filter(t => !groupSlugs.has(t.slug));
+const relatedTools = getRelatedTools(tool, tools, 9)
+  .filter(t => !groupSlugs.has(t.slug))
+  .map(t => {
+    const cat = categories.find(c => c.slug === t.categorySlug);
+    return { slug: t.slug, name: t.name, segment: cat?.segment ?? t.categorySlug };
+  });
 
 const faqItems = faqsByToolSlug[tool.slug] ?? [];
 const guideHref = tool.guide
