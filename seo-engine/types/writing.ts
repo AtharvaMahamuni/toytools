@@ -14,6 +14,7 @@ export interface WritingScore {
   passiveVoice: number;
   comparisonCoverage: number;
   mistakeCoverage: number;
+  aiTells: number;
   toyToolsStyleScore: number;
   issues: string[];
   recommendations: string[];
@@ -36,4 +37,11 @@ export interface WritingFingerprint {
   commonMistakeSections: number;
   transitionDensity: number;
   repetitionScore: number;
+  // AI-tell fingerprint — em-dashes are banned outright (any count is a gate failure)
+  emDashCount: number;
+  aiTellPhraseCount: number;
+  aiTellPhrasesFound: string[];
+  notJustCount: number;
+  tripletRatio: number;
+  paragraphShapeStdDev: number;
 }

@@ -13,6 +13,8 @@ import {
   generateWritingFingerprint,
   generateRewriterSuggestions,
 } from './writing.js';
+import { getToolProfile, getGraphTool, type GraphTool, type ProfileSource } from './utils/tool-profile.js';
+import { tokenJaccard, questionTokens } from './utils/text.js';
 import type {
   ContentIntelligenceScore,
   ContentAction,
@@ -20,6 +22,10 @@ import type {
   SearchIntentCoverage,
   EntityCoverage,
   TopicClusterResult,
+  KnowledgeSyncResult,
+  KnowledgeSyncCheck,
+  GateResult,
+  GateCriterion,
 } from '../types/index.js';
 import type { WritingScore, WritingFingerprint } from '../types/index.js';
 
@@ -52,6 +58,14 @@ interface ToolIntentConfig {
   entities: string[];
 }
 
+interface GateConfig {
+  overall: number;
+  minimums: Record<string, number>;
+  maxHighImpactActions: number;
+  maxAiTellPhrases: number;
+  maxEmDashes: number;
+}
+
 interface CIRules {
   toolIntents: Record<string, ToolIntentConfig>;
   genericIntents: string[];
@@ -59,6 +73,7 @@ interface CIRules {
   thinContentPhrases: string[];
   firstPrinciplesKeywords: Record<string, string[]>;
   compositeWeights: Record<string, number>;
+  gates: GateConfig;
 }
 
 // ─── Text extraction ──────────────────────────────────────────────────────────
@@ -161,10 +176,8 @@ export function scoreSearchIntent(
   combinedText: string,
   headings: string[],
   toolSlug: string,
-  rules: CIRules
+  intentList: string[]
 ): SearchIntentCoverage {
-  const toolConfig = rules.toolIntents[toolSlug];
-  const intentList = toolConfig?.intents ?? rules.genericIntents;
   const lower = combinedText.toLowerCase();
   const headingsLower = headings.map(h => h.toLowerCase());
 
@@ -191,11 +204,8 @@ export function scoreSearchIntent(
 
 export function scoreEntityCoverage(
   combinedText: string,
-  toolSlug: string,
-  rules: CIRules
+  expected: string[]
 ): EntityCoverage {
-  const toolConfig = rules.toolIntents[toolSlug];
-  const expected = toolConfig?.entities ?? rules.genericEntities;
   const lower = combinedText.toLowerCase();
 
   const found = expected.filter(e => lower.includes(e.toLowerCase()));
@@ -206,26 +216,67 @@ export function scoreEntityCoverage(
 
 export function scoreTopicCluster(
   guideContent: string,
-  faqContent: string,
-  configContent: string
+  configContent: string,
+  graphTool: GraphTool | null
 ): TopicClusterResult {
   const guideLower = guideContent.toLowerCase();
   const configLower = configContent.toLowerCase();
 
-  const guideLinksToFaq = guideLower.includes('faqhref') || guideLower.includes('faqpreview');
-  const faqLinksToGuide = false; // faq.ts answers are plain text, no links by design
-  const hasRelatedTools = guideLower.includes('toolcard') || guideLower.includes('related tool') || configLower.includes('related');
-  const hasEcosystemLinks = configLower.includes('ecosystem') || guideLower.includes('ecosystem');
+  // Current page architecture: the guide links back to its tool via .cta-link;
+  // the FAQ renders on the tool page (#faq) when registered in faq-registry;
+  // related tools come from config.relatedTools (curated) or derived metadata.
+  const guideHasCtaToTool = guideLower.includes('cta-link');
+  const hasRelatedTools = (graphTool?.relatedTools?.length ?? 0) > 0 || configLower.includes('relatedtools');
+  const faqRegistered = graphTool ? graphTool.faqRegistered : false;
 
-  const checks = [guideLinksToFaq, hasRelatedTools, hasEcosystemLinks];
+  const checks = [guideHasCtaToTool, hasRelatedTools, faqRegistered];
   const score = Math.round((checks.filter(Boolean).length / checks.length) * 100);
 
   const missing: string[] = [];
-  if (!guideLinksToFaq) missing.push('Guide does not link to FAQ');
-  if (!hasRelatedTools) missing.push('No related tools section');
-  if (!hasEcosystemLinks) missing.push('No ecosystem links');
+  if (!guideHasCtaToTool) missing.push('Guide has no .cta-link back to the tool page');
+  if (!hasRelatedTools) missing.push('No relatedTools in config.ts');
+  if (!faqRegistered) missing.push('FAQ not registered in src/data/faq-registry.ts');
 
-  return { guideLinksToFaq, faqLinksToGuide, hasRelatedTools, hasEcosystemLinks, score, missing };
+  return { guideHasCtaToTool, hasRelatedTools, faqRegistered, score, missing };
+}
+
+/**
+ * Knowledge Sync — the three places the same facts are authored (Guide.astro
+ * prose, faq.ts items, knowledge.ts overlay) drift apart silently. Checks that
+ * every knowledge.commonQuestions entry has a matching FAQ question (token
+ * Jaccard >= 0.6) and that commonMistakes/realWorldUseCases topics actually
+ * appear in the prose. Surfaced as actions, never folded into the composite
+ * score.
+ */
+export function scoreKnowledgeSync(
+  graphTool: GraphTool | null,
+  combinedText: string
+): KnowledgeSyncResult {
+  const kn = graphTool?.knowledge;
+  if (!kn) return { checked: false, checks: [], missing: [] };
+
+  const checks: KnowledgeSyncCheck[] = [];
+  const lower = combinedText.toLowerCase();
+  const faqTokenSets = (graphTool!.faqQuestions ?? []).map(q => questionTokens(q));
+
+  for (const q of kn.commonQuestions) {
+    const ok = faqTokenSets.some(t => tokenJaccard(t, questionTokens(q)) >= 0.6);
+    checks.push({ kind: 'commonQuestion', item: q, ok });
+  }
+
+  // Topic mentioned when at least half its content words appear in the prose
+  const topicMentioned = (topic: string) => {
+    const words = topic.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 3);
+    if (words.length === 0) return true;
+    const hits = words.filter(w => lower.includes(w)).length;
+    return hits / words.length >= 0.5;
+  };
+
+  for (const m of kn.commonMistakes) checks.push({ kind: 'commonMistake', item: m, ok: topicMentioned(m) });
+  for (const u of kn.realWorldUseCases) checks.push({ kind: 'useCase', item: u, ok: topicMentioned(u) });
+
+  const missing = checks.filter(c => !c.ok).map(c => `[${c.kind}] ${c.item}`);
+  return { checked: true, checks, missing };
 }
 
 export function scoreUsefulness(
@@ -286,9 +337,39 @@ export function buildActions(
   searchIntent: SearchIntentCoverage,
   entityCoverage: EntityCoverage,
   topicCluster: TopicClusterResult,
-  thinContent: string[]
+  thinContent: string[],
+  knowledgeSync: KnowledgeSyncResult
 ): ContentAction[] {
   const actions: ContentAction[] = [];
+
+  // High impact — AI tells (em-dash is a hard ban: gate fails on any count)
+  if (fp.emDashCount > 0) {
+    actions.push({
+      impact: 'high',
+      file: 'Guide.astro',
+      issue: `Em-dash used ${fp.emDashCount}× (banned on this project)`,
+      suggestion: 'Rewrite each em-dash sentence with a period, comma, colon, or parentheses',
+      scoreGain: 4,
+    });
+  }
+  if (fp.aiTellPhraseCount > 0) {
+    actions.push({
+      impact: 'high',
+      file: 'Guide.astro',
+      issue: `AI-tell phrases: ${fp.aiTellPhrasesFound.slice(0, 3).join(', ')}`,
+      suggestion: 'Replace with plain, specific statements (no delve/unlock/seamless/elevate vocabulary)',
+      scoreGain: 3,
+    });
+  }
+  if (fp.notJustCount > 0) {
+    actions.push({
+      impact: 'high',
+      file: 'Guide.astro',
+      issue: `"Not just X, it's Y" construction used ${fp.notJustCount}×`,
+      suggestion: 'State the actual fact directly instead of the contrast framing',
+      scoreGain: 3,
+    });
+  }
 
   // High impact — missing first principles
   for (const m of firstPrinciples.missing) {
@@ -387,11 +468,33 @@ export function buildActions(
 
   // Medium impact — topic cluster
   for (const missing of topicCluster.missing) {
+    const suggestion = missing.includes('cta-link')
+      ? 'Add the standard CTA button linking to the tool page (see an exemplar guide)'
+      : missing.includes('relatedTools')
+        ? 'Add curated relatedTools slugs to config.ts'
+        : 'Create faq.ts and register it in src/data/faq-registry.ts';
     actions.push({
       impact: 'medium',
-      file: 'Guide.astro',
+      file: missing.includes('relatedTools') ? 'config.ts' : missing.includes('faq-registry') ? 'faq.ts' : 'Guide.astro',
       issue: missing,
-      suggestion: missing.includes('FAQ') ? 'Ensure FAQPreview component is present in guide' : 'Add related tool reference or ecosystem link',
+      suggestion,
+      scoreGain: 2,
+    });
+  }
+
+  // Medium impact — knowledge sync drift (Guide/faq/knowledge must agree)
+  for (const check of knowledgeSync.checks.filter(c => !c.ok).slice(0, 5)) {
+    const suggestion =
+      check.kind === 'commonQuestion'
+        ? 'Add a matching FAQ item in faq.ts, or remove the question from knowledge.ts commonQuestions'
+        : check.kind === 'commonMistake'
+          ? 'Cover this mistake in the guide (ReferenceBlock type="common-mistake"), or remove it from knowledge.ts'
+          : 'Mention this use case in the guide or an FAQ answer, or remove it from knowledge.ts';
+    actions.push({
+      impact: 'medium',
+      file: check.kind === 'commonQuestion' ? 'faq.ts' : 'Guide.astro',
+      issue: `knowledge.ts out of sync (${check.kind}): "${check.item}"`,
+      suggestion,
       scoreGain: 2,
     });
   }
@@ -440,11 +543,16 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
   const writingScore = calculateWritingScore(combinedText);
   const fp = generateWritingFingerprint(combinedText);
 
-  // Intelligence modules
+  // Intelligence modules — entities/intents come from the derived tool profile
+  // (override → knowledge → config fallback chain) instead of requiring a
+  // hand-written rules entry per tool
+  const profile = getToolProfile(slug, RULES.toolIntents, RULES.genericIntents);
+  const graphTool = getGraphTool(slug);
   const firstPrinciples = scoreFirstPrinciples(combinedText, RULES, headings);
-  const searchIntent = scoreSearchIntent(combinedText, headings, slug, RULES);
-  const entityCoverage = scoreEntityCoverage(combinedText, slug, RULES);
-  const topicCluster = scoreTopicCluster(guideContent, faqContent, configContent);
+  const searchIntent = scoreSearchIntent(combinedText, headings, slug, profile.intents);
+  const entityCoverage = scoreEntityCoverage(combinedText, profile.entities);
+  const topicCluster = scoreTopicCluster(guideContent, configContent, graphTool);
+  const knowledgeSync = scoreKnowledgeSync(graphTool, combinedText);
   const thinContent = detectThinContent(combinedText, RULES);
 
   // Derived counts
@@ -471,7 +579,7 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
 
   const actions = buildActions(
     slug, writingScore, fp, firstPrinciples, searchIntent,
-    entityCoverage, topicCluster, thinContent
+    entityCoverage, topicCluster, thinContent, knowledgeSync
   );
 
   return {
@@ -481,15 +589,49 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
     seoCompleteness,
     topicClusterCompleteness,
     toyToolsStyleScore,
+    profileSource: profile.source,
     firstPrinciples,
     searchIntent,
     entityCoverage,
     topicCluster,
+    knowledgeSync,
     exampleCount,
     mistakeSectionCount,
     thinContentFlags: thinContent,
     actions,
   };
+}
+
+// ─── Gate ─────────────────────────────────────────────────────────────────────
+
+/**
+ * Objective stop condition for the write → audit → fix loop. Exit 0 means the
+ * content is done; exit 1 means apply the top actions and re-run.
+ */
+export function evaluateGate(score: ContentIntelligenceScore, fp: WritingFingerprint): GateResult {
+  const g = RULES.gates;
+  const criteria: GateCriterion[] = [];
+  const atLeast = (name: string, actual: number, limit: number) =>
+    criteria.push({ name, actual, limit, pass: actual >= limit });
+  const atMost = (name: string, actual: number, limit: number) =>
+    criteria.push({ name, actual, limit, pass: actual <= limit });
+
+  atLeast('overall', score.overall, g.overall);
+  const byKey: Record<string, number> = {
+    writingQuality: score.writingQuality,
+    usefulness: score.usefulness,
+    seoCompleteness: score.seoCompleteness,
+    topicClusterCompleteness: score.topicClusterCompleteness,
+    toyToolsStyleScore: score.toyToolsStyleScore,
+  };
+  for (const [key, min] of Object.entries(g.minimums)) {
+    if (key in byKey) atLeast(key, byKey[key], min);
+  }
+  atMost('highImpactActions', score.actions.filter(a => a.impact === 'high').length, g.maxHighImpactActions);
+  atMost('aiTellPhrases', fp.aiTellPhraseCount, g.maxAiTellPhrases);
+  atMost('emDashes', fp.emDashCount, g.maxEmDashes);
+
+  return { pass: criteria.every(c => c.pass), criteria };
 }
 
 // ─── Report rendering ─────────────────────────────────────────────────────────
@@ -519,6 +661,11 @@ function renderReport(slug: string, score: ContentIntelligenceScore, fp: Writing
   lines.push(`| SEO Completeness | ${score.seoCompleteness} | 20% |`);
   lines.push(`| Topic Cluster | ${score.topicClusterCompleteness} | 15% |`);
   lines.push(`| ToyTools Style | ${score.toyToolsStyleScore} | 15% |`);
+  lines.push('');
+  lines.push(`_Entity/intent profile source: **${score.profileSource}**` +
+    (score.profileSource === 'config'
+      ? ' (lowest-confidence tier; add a knowledge.ts or a toolIntents override for better audits)_'
+      : '_'));
   lines.push('');
 
   // First Principles
@@ -558,10 +705,25 @@ function renderReport(slug: string, score: ContentIntelligenceScore, fp: Writing
   // Topic Cluster
   const tc = score.topicCluster;
   lines.push('## Topic Cluster');
-  lines.push(`${checkMark(tc.guideLinksToFaq)} Guide links to FAQ`);
-  lines.push(`${checkMark(tc.hasRelatedTools)} Related tools section`);
-  lines.push(`${checkMark(tc.hasEcosystemLinks)} Ecosystem links`);
+  lines.push(`${checkMark(tc.guideHasCtaToTool)} Guide CTA links to tool page`);
+  lines.push(`${checkMark(tc.hasRelatedTools)} Curated relatedTools in config`);
+  lines.push(`${checkMark(tc.faqRegistered)} FAQ registered (renders on tool page #faq)`);
   lines.push('');
+
+  // Knowledge Sync
+  if (score.knowledgeSync.checked) {
+    const ks = score.knowledgeSync;
+    const okCount = ks.checks.filter(c => c.ok).length;
+    lines.push(`## Knowledge Sync (${okCount}/${ks.checks.length})`);
+    for (const c of ks.checks) {
+      lines.push(`${checkMark(c.ok)} [${c.kind}] ${c.item}`);
+    }
+    lines.push('');
+  } else {
+    lines.push('## Knowledge Sync');
+    lines.push('No knowledge.ts registered for this tool (build WARNs; consider adding one).');
+    lines.push('');
+  }
 
   // Thin Content
   if (score.thinContentFlags.length > 0) {
@@ -580,6 +742,9 @@ function renderReport(slug: string, score: ContentIntelligenceScore, fp: Writing
   );
   lines.push(
     `examples: ${score.exampleCount} | commonMistakeSections: ${score.mistakeSectionCount}`
+  );
+  lines.push(
+    `emDashCount: ${fp.emDashCount} | aiTellPhrases: ${fp.aiTellPhraseCount} | notJust: ${fp.notJustCount} | paragraphShapeStdDev: ${fp.paragraphShapeStdDev}`
   );
   lines.push('');
 
@@ -615,10 +780,15 @@ function renderReport(slug: string, score: ContentIntelligenceScore, fp: Writing
 // ─── CLI ──────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const slug = process.argv[2];
+  const args = process.argv.slice(2);
+  const gateMode = args.includes('--gate');
+  const jsonMode = args.includes('--json');
+  const slug = args.find(a => !a.startsWith('--'));
+
   if (!slug) {
-    console.error('Usage: tsx scripts/analyze-tool.ts <slug>');
-    console.error('Example: tsx scripts/analyze-tool.ts base64-encoder-decoder');
+    console.error('Usage: tsx scripts/analyze-tool.ts <slug> [--gate] [--json]');
+    console.error('  --gate  exit 1 unless all quality gates pass (objective done-condition)');
+    console.error('  --json  print the score object to stdout (logs go to stderr)');
     process.exit(1);
   }
 
@@ -628,9 +798,12 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`\n=== Content Intelligence Audit ===\n`);
-  console.log(`Tool: ${slug}`);
-  console.log(`Analyzing Guide.astro, faq.ts, config.ts...\n`);
+  // In --json mode stdout must stay parseable; route human output to stderr
+  const log = jsonMode ? console.error : console.log;
+
+  log(`\n=== Content Intelligence Audit ===\n`);
+  log(`Tool: ${slug}`);
+  log(`Analyzing Guide.astro, faq.ts, config.ts...\n`);
 
   const score = calculateContentIntelligenceScore(slug);
   const combinedText = [
@@ -638,6 +811,7 @@ async function main() {
     extractFaqText(existsSync(join(toolDir, 'faq.ts')) ? readFileSync(join(toolDir, 'faq.ts'), 'utf-8') : ''),
   ].join('\n\n');
   const fp = generateWritingFingerprint(combinedText);
+  const gate = evaluateGate(score, fp);
 
   const REPORTS_DIR = join(ROOT, 'reports');
   mkdirSync(REPORTS_DIR, { recursive: true });
@@ -646,22 +820,40 @@ async function main() {
   const jsonPath = join(REPORTS_DIR, `tool-content-intelligence-${slug}.json`);
 
   writeFileSync(mdPath, renderReport(slug, score, fp));
-  writeFileSync(jsonPath, JSON.stringify(score, null, 2));
+  writeFileSync(jsonPath, JSON.stringify({ ...score, gate }, null, 2));
 
-  console.log(`Overall Score:    ${score.overall}/100`);
-  console.log(`Usefulness:       ${score.usefulness}/100`);
-  console.log(`Writing Quality:  ${score.writingQuality}/100`);
-  console.log(`SEO Completeness: ${score.seoCompleteness}/100`);
-  console.log(`Topic Cluster:    ${score.topicClusterCompleteness}/100`);
-  console.log(`ToyTools Style:   ${score.toyToolsStyleScore}/100`);
-  console.log('');
-  console.log(`High impact actions:   ${score.actions.filter(a => a.impact === 'high').length}`);
-  console.log(`Medium impact actions: ${score.actions.filter(a => a.impact === 'medium').length}`);
-  console.log(`Low impact actions:    ${score.actions.filter(a => a.impact === 'low').length}`);
-  console.log('');
-  console.log(`Reports:`);
-  console.log(`  ${mdPath}`);
-  console.log(`  ${jsonPath}\n`);
+  log(`Overall Score:    ${score.overall}/100`);
+  log(`Usefulness:       ${score.usefulness}/100`);
+  log(`Writing Quality:  ${score.writingQuality}/100`);
+  log(`SEO Completeness: ${score.seoCompleteness}/100 (profile: ${score.profileSource})`);
+  log(`Topic Cluster:    ${score.topicClusterCompleteness}/100`);
+  log(`ToyTools Style:   ${score.toyToolsStyleScore}/100`);
+  log('');
+  log(`High impact actions:   ${score.actions.filter(a => a.impact === 'high').length}`);
+  log(`Medium impact actions: ${score.actions.filter(a => a.impact === 'medium').length}`);
+  log(`Low impact actions:    ${score.actions.filter(a => a.impact === 'low').length}`);
+  log('');
+  log(`Reports:`);
+  log(`  ${mdPath}`);
+  log(`  ${jsonPath}\n`);
+
+  if (jsonMode) {
+    console.log(JSON.stringify({ ...score, gate }, null, 2));
+  }
+
+  if (gateMode) {
+    log(`=== Gate ===`);
+    for (const c of gate.criteria) {
+      const op = ['highImpactActions', 'aiTellPhrases', 'emDashes'].includes(c.name) ? '<=' : '>=';
+      log(`  ${c.pass ? 'PASS' : 'FAIL'}  ${c.name}: ${c.actual} (need ${op} ${c.limit})`);
+    }
+    log('');
+    if (!gate.pass) {
+      log(`GATE FAILED — apply the top actions in ${jsonPath} and re-run.`);
+      process.exit(1);
+    }
+    log('GATE PASSED — content meets the quality bar.');
+  }
 }
 
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);

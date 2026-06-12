@@ -207,5 +207,17 @@
     "seoCompleteness": 0.2,
     "topicClusterCompleteness": 0.15,
     "toyToolsStyleScore": 0.15
+  },
+  "gates": {
+    "overall": 80,
+    "minimums": {
+      "writingQuality": 75,
+      "usefulness": 70,
+      "seoCompleteness": 65,
+      "toyToolsStyleScore": 75
+    },
+    "maxHighImpactActions": 0,
+    "maxAiTellPhrases": 0,
+    "maxEmDashes": 0
   }
 }

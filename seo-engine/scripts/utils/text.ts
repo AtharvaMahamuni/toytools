@@ -76,7 +76,7 @@ export function cleanQuestion(q: string): string {
     .trim();
 }
 
-function questionTokens(q: string): Set<string> {
+export function questionTokens(q: string): Set<string> {
   return new Set(
     q.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/)
       .filter(t => t.length > 1 && !QUESTION_NOISE.has(t)),

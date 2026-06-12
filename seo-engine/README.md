@@ -113,7 +113,32 @@ npm run seo:audit
 npm run seo:scaffold -- <tool-slug>   # turn the brief into content stubs for an agent
 npm run seo:graph                     # snapshot src/ registries → cache/content-graph.json
 npm run seo:doctor                    # assert engine/doc assumptions against the codebase
+npm run seo:writing-tool -- <slug>    # audit a real tool's Guide.astro + faq.ts + config.ts
+npm run seo:gate -- <slug>            # same audit in gate mode: exit 1 below the quality bar
 ```
+
+### Audit, gate, and AI-tell detection
+
+`seo:writing-tool` scores five weighted categories plus a Knowledge Sync section
+(knowledge.ts commonQuestions must match faq.ts questions; commonMistakes and
+realWorldUseCases must appear in the prose). Entities/intents come from a
+derived per-tool profile with a fallback chain — `toolIntents` override in
+`config/content-intelligence-rules.json` → the tool's knowledge.ts overlay →
+config tags — so every tool gets a meaningful audit; the report names the tier.
+
+The writing engine includes an `aiTells` metric: banned vocabulary (delve,
+unlock, seamless, ...), the "not just X, it's Y" construction, rule-of-three
+overuse, colon-heavy headings, uniform paragraph shapes, bold-spam, and
+**em-dashes, which are banned outright on this project** (any count fails the
+gate; rewrite with a period, comma, or colon).
+
+`seo:gate -- <slug>` (alias for `seo:writing-tool -- <slug> --gate`) checks the
+`gates` block in `content-intelligence-rules.json` (overall + per-category
+minimums + zero high-impact actions + zero AI-tell phrases + zero em-dashes)
+and exits 1 on failure — the objective stop condition for the agent's
+write → audit → fix loop. Add `--json` (with `npm --silent`) for a parseable
+score object on stdout; the same object is always written to
+`reports/tool-content-intelligence-<slug>.json` including the `gate` result.
 
 ### Content graph + doctor
 

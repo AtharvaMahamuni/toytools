@@ -22,15 +22,16 @@
     "scannability": 0.10,
     "examples": 0.08,
     "teaching": 0.10,
-    "rhythm": 0.04,
+    "rhythm": 0.02,
     "jargon": 0.07,
-    "flow": 0.05,
+    "flow": 0.03,
     "confidence": 0.08,
-    "interestingness": 0.07,
+    "interestingness": 0.05,
     "repetition": 0.06,
     "passiveVoice": 0.05,
     "comparisonCoverage": 0.03,
-    "mistakeCoverage": 0.02
+    "mistakeCoverage": 0.02,
+    "aiTells": 0.08
   },
 
   "toyToolsStyleCriteria": {
@@ -109,5 +110,29 @@
   "directAnswerHedgeOpeners": [
     "there are many", "there are several", "this can be", "one of the",
     "in general", "it depends", "various"
-  ]
+  ],
+
+  "aiTellPhrases": [
+    "delve", "dive into", "deep dive", "unlock", "elevate", "seamless",
+    "seamlessly", "effortless", "effortlessly", "game-changer", "game changer",
+    "game-changing", "supercharge", "revolutionize", "in the world of",
+    "in the realm of", "in the digital age", "when it comes to",
+    "at the end of the day", "look no further", "say goodbye to",
+    "say hello to", "whether you're a", "whether you are a",
+    "the beauty of", "harness the power", "harnessing the power",
+    "treasure trove", "navigate the", "embark on", "a testament to",
+    "elevate your", "take your", "to the next level", "in summary",
+    "vibrant", "crucial role", "pivotal role", "ever-evolving", "landscape of",
+    "plethora", "myriad of", "boasts", "bustling"
+  ],
+
+  "aiTellStructural": {
+    "maxEmDashes": 0,
+    "maxNotJustCount": 0,
+    "maxBoldPer100Words": 2,
+    "maxTripletRatio": 0.25,
+    "maxColonHeadingRatio": 0.3,
+    "minParagraphShapeStdDev": 0.8,
+    "minParagraphsForShapeCheck": 6
+  }
 }
