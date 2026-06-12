@@ -29,8 +29,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      URL encoding converts characters that would break a URL, spaces, ampersands, angle brackets, into a safe <code>%XX</code> format. Each encoded character is replaced with a percent sign
-      followed by its hexadecimal byte value.
+      URL encoding (also called percent encoding, URI encoding, or uri encode) converts characters
+      that would break a URL into a safe <code>%XX</code> format. Spaces, ampersands, angle brackets, and other
+      special characters each get replaced with a percent sign followed by their hexadecimal byte value.
+    </p>
+    <p>
+      To url decode a string, paste it and the tool replaces each <code>%XX</code> sequence with the
+      original character. This is a two-way tool: you can encode and url decode in the same place.
     </p>
     <p>
       If you need to encode or decode a URL component right now, use the tool directly.
@@ -74,6 +79,22 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
   </section>
 
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unencoded characters in URLs cause silent data loss. A space in a query value might be
+      stripped or interpreted as a separator. An ampersand ends one parameter and starts another.
+      A hash character jumps to a page fragment. The browser or server never receives the data
+      you intended to send.
+    </p>
+    <p>
+      URL encoding is not optional: RFC 3986 requires that any character outside the defined
+      "unreserved" set must be percent-encoded when used as data. Applications that skip encoding
+      work by accident on simple inputs and fail unpredictably on any input containing special
+      characters.
+    </p>
+  </section>
+
   <section id="how-it-works">
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
@@ -98,8 +119,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="real-world-uses">
-    <h2>Real-World Uses <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p>URL encoding appears anywhere data travels through a URL:</p>
+    <h2>When to Use URL Encoding <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>URL encoding appears anywhere data travels through a URL. For example:</p>
     <ul>
       <li>
         <strong>Search queries</strong>, A search term like <code>C# async/await</code> encodes to

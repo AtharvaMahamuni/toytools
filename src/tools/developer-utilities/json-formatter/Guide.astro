@@ -52,8 +52,10 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
     <p>
       That's fine for machines. For humans, a single-line response like
       <code>{compactJsonExample}</code>
-      requires careful scanning to understand. A formatter parses the JSON and re-serializes it with
-      consistent indentation, turning that into:
+      requires careful scanning to understand. A JSON formatter (also called a JSON beautifier,
+      JSON pretty printer, or json pretty-printer) parses the JSON and re-serializes it with
+      consistent indentation. When you format JSON or beautify JSON, you add line breaks and
+      spaces that make the structure visible:
     </p>
     <pre class="json-example"><code>{formattedJsonExample}</code></pre>
     <p>
@@ -82,12 +84,13 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
   </section>
 
   <section id="real-world-uses">
-    <h2>When You'd Use a JSON Formatter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>When to Use a JSON Formatter <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
       <li>
         <strong>Debugging API responses</strong>: Copy the raw response from a network request,
-        paste it into the formatter, and read the actual structure. Saves time compared to
-        counting braces by hand.
+        paste it into the formatter, and read the actual structure. For example, a minified
+        response from a payment API becomes immediately readable after formatting. You can also
+        use it to pretty print JSON from logs or config exports.
       </li>
       <li>
         <strong>Reading config files</strong>: Minified <code>package-lock.json</code>,

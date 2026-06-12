@@ -34,6 +34,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       renders as <code>&lt;</code>; <code>&amp;amp;</code> renders as <code>&amp;</code>.
     </p>
     <p>
+      To html encode text, replace reserved characters with their entity equivalents. To html decode
+      or unescape html, do the reverse. You can also escape html before inserting user content into
+      a page to prevent XSS. Entities come in two forms: named entity references like
+      <code>&amp;lt;</code>, and numeric references like <code>&amp;#60;</code>.
+    </p>
+    <p>
       If you need to encode or decode HTML entities right now, use the tool directly.
     </p>
     <a href={toolHref} class="cta-link">Try the HTML Entity Encoder &amp; Decoder →</a>
@@ -88,11 +94,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="real-world-uses">
-    <h2>Real-World Uses <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p>HTML entities show up in a handful of specific situations:</p>
+    <h2>When to Use HTML Entities <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>HTML entities show up in a handful of specific situations. For example:</p>
     <ul>
       <li>
-        <strong>Showing code examples</strong>, To display <code>&lt;div class="container"&gt;</code>
+        <strong>Showing code examples</strong>: To display <code>&lt;div class="container"&gt;</code>
         on a web page, write it as <code>&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;</code>.
         Without escaping, the browser renders the div, not its source.
       </li>

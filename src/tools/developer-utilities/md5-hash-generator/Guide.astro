@@ -29,9 +29,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      MD5 is a hash function that converts any input into a fixed 32-character hexadecimal string.
-      It's fast, deterministic, and widely supported, but cryptographically broken, so it shouldn't
-      be used for security-sensitive work.
+      MD5 (Message Digest 5) is a hash function that converts any input into a fixed 32-character
+      hexadecimal string. It's fast, deterministic, and widely supported, but cryptographically broken.
+      MD5 is unsafe for passwords: brute-force attacks can crack a leaked MD5 hash in minutes.
+      Use it for checksums and cache keys, not for anything security-sensitive.
+    </p>
+    <p>
+      To generate an MD5 hash from text, paste the input into the MD5 generator and copy the
+      32-character result.
     </p>
     <p>
       If you need an MD5 hash right now, use the tool directly.

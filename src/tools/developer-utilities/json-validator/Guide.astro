@@ -22,6 +22,7 @@ const codeObjectValid   = '{"key": "value"}';
 const codeObjectUnquoted = '{key: "value"}';
 const codeTrailingComma  = '{"a": 1,}';
 const codeUnquotedKey    = '{name: "Alice"}';
+const codeExampleInvalid = '{"name": "Alice",}';
 ---
 
 <GuideLayout
@@ -34,8 +35,13 @@ const codeUnquotedKey    = '{name: "Alice"}';
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A JSON validator parses your input against the JSON specification (RFC 8259) and tells you
-      whether it's valid. If not, it shows you exactly what's wrong and where.
+      A JSON validator (also called a JSON linter, JSON syntax checker, or JSON lint tool) parses
+      your input against the JSON specification (RFC 8259) and tells you whether it's valid.
+      If not, it shows you exactly what's wrong and where.
+    </p>
+    <p>
+      To validate JSON or check JSON for errors, paste your text and the tool reports any parse
+      errors immediately.
     </p>
     <p>
       If you have JSON to validate right now, use the tool directly.
@@ -57,6 +63,21 @@ const codeUnquotedKey    = '{name: "Alice"}';
     <ReferenceBlock type="key-idea" heading="Valid JSON is stricter than valid JavaScript">
       <p>JavaScript object literals allow unquoted keys, single quotes, trailing commas, comments, and values like <code>undefined</code> and <code>NaN</code>. JSON allows none of these. Code copied from a JavaScript context often needs editing before it's valid JSON.</p>
     </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The validator passes your text through a parser. The parser builds a tree of values (objects,
+      arrays, strings, numbers) and stops the moment it encounters something the JSON spec forbids.
+      The output is either "valid" or a specific error: "unexpected token", "trailing comma",
+      "unterminated string", along with a character offset or line number.
+    </p>
+    <p>
+      For example, submitting <code>{codeExampleInvalid}</code> to a JSON syntax checker returns an
+      error because the trailing comma after <code>"Alice"</code> is invalid. The validator
+      identifies the position of the <code>},</code> and tells you what rule it violates.
+    </p>
   </section>
 
   <section id="json-syntax-rules">

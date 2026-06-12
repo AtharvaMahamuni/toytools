@@ -50,8 +50,10 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
       what the data means. They only affect how it looks to a reader.
     </p>
     <p>
-      Minification removes all of that optional whitespace. A 400-byte formatted JSON object becomes
-      perhaps 250 bytes compact. The parse result is identical.
+      Minification removes all of that optional whitespace. You can also call this process
+      JSON compression. When you compress JSON or shrink JSON, you get a smaller payload for
+      free because whitespace has zero semantic value. This json compressor approach preserves
+      the full parse result: no data changes.
     </p>
     <p class="comparison-row">
       <span class="label">Formatted:</span>
@@ -70,12 +72,33 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
     </ReferenceBlock>
   </section>
 
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON minifier parses the input into a token stream (keys, values, brackets, commas) then
+      re-serializes those tokens without any surrounding whitespace. Newlines, tabs, and spaces
+      between tokens are dropped entirely. The output is a single continuous line with no padding.
+    </p>
+    <p>
+      Because it parses first, the minifier rejects invalid JSON: a trailing comma or an
+      unquoted key stops the process before any output is produced. The minifier also rejects
+      JSON with comments (JSONC/JSON5) because standard JSON parsers treat <code>//</code> as an
+      error. Valid JSON always survives the round-trip without data loss.
+    </p>
+  </section>
+
   <section id="why-it-matters">
     <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      For high-traffic API endpoints, every byte counts. An endpoint that returns 10 KB of formatted
-      JSON returns 6–7 KB minified. Across millions of requests, that's meaningful bandwidth savings
-      and faster response times, especially on mobile connections.
+      How much does minifying save? For typical API responses, whitespace removal alone reduces
+      payload size by 30 to 40%. A 10 KB formatted response drops to 6 or 7 KB minified. Across
+      millions of daily requests, that bandwidth savings compounds quickly, and the smaller payload
+      means faster response times, especially on mobile connections.
+    </p>
+    <p>
+      Minifying vs formatting is a context decision: format for human review and source control, minify
+      for production delivery. Never minify files you store in Git, because readable diffs matter more
+      than a few bytes on disk.
     </p>
     <p>
       Minification also helps with static files. A large GeoJSON dataset, a schema file, or a
@@ -125,10 +148,10 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
 
     <ReferenceBlock type="common-mistake" heading="Minifying files with comments (JSONC / JSON5)">
       <p>
-        Standard JSON doesn't allow comments. If you're using a superset like JSONC (used by
-        VS Code's <code>settings.json</code>) or JSON5, standard parsers will reject those files.
-        A JSON minifier expecting strict JSON will throw a parse error: it doesn't know how to
-        strip comments.
+        Standard JSON doesn't allow comments. A JSON minifier rejects JSON with comments
+        because the parser stops on the first <code>//</code> or <code>/* */</code> it encounters.
+        If your file is JSONC (used by VS Code's <code>settings.json</code>) or JSON5, remove
+        comments before minifying or use a JSONC-aware tool.
       </p>
     </ReferenceBlock>
 
