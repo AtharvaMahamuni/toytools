@@ -42,16 +42,15 @@ Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.ast
 
 ## SEO Engine
 
-Local-first pipeline for researching and improving tool content quality. All commands run from the project root.
+Local-first pipeline for researching, writing, and auditing tool content (guides, FAQs, knowledge files). The **`seo-content` skill** (`.claude/skills/seo-content/`) is the entry point for all content work — it routes through `seo:status` and the generated per-tool authoring brief.
 
-| Command | Purpose |
-|---------|---------|
-| `npm run seo:research -- <slug>` | Fetch SERP + competitor pages + Reddit signals |
-| `npm run seo:extract -- <slug>` | Parse into structured `research/<slug>.json` |
-| `npm --prefix seo-engine run seo:writing-tool -- <slug>` | Audit Guide.astro + faq.ts quality (20 dimensions) |
-| `npm --prefix seo-engine run seo:writing -- <slug>` | Writing-only quality scan |
+```sh
+npm run seo:status -- <slug>   # ALWAYS start here: pipeline state + exact next command
+npm run seo:gate -- <slug>     # quality gate (exit 1 below the bar) — the done-condition for content
+npm run seo:doctor             # run when any seo:* command misbehaves: detects engine/codebase drift
+```
 
-See `.claude/skills/seo-engine.md` for the full pipeline, score interpretation, reddit workflow, and runbooks.
+Research → extract → scaffold produce `seo-engine/output/<slug>/PROMPT.md`, a self-contained authoring brief (style contract, registration snippets, acceptance commands). Full command table: `seo-engine/README.md`. Writing hard rule: **no em-dashes anywhere** (the gate fails on any occurrence).
 
 ## Git workflow
 
