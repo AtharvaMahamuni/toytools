@@ -111,7 +111,22 @@ npm run seo:extract  -- <tool-slug>
 npm run seo:validate
 npm run seo:audit
 npm run seo:scaffold -- <tool-slug>   # turn the brief into content stubs for an agent
+npm run seo:graph                     # snapshot src/ registries → cache/content-graph.json
+npm run seo:doctor                    # assert engine/doc assumptions against the codebase
 ```
+
+### Content graph + doctor
+
+The engine never imports `src/` TypeScript directly. `seo:graph` serializes the
+live registries (tools, guide/FAQ/knowledge registration, tags, knowledge
+overlay fields) to `cache/content-graph.json`; extraction uses it as a domain
+allowlist for entity filtering, and `seo:doctor`/`seo:status` use it for
+registration state. `seo:doctor` re-runs the export, then asserts everything
+the docs and scaffold claim about the codebase (URL shape `/tool/…`, two-level
+tool dirs, no `config.faq` field, guide-registry parity, exemplar guides intact,
+every command referenced by the `seo-content` skill exists, every
+`toolIntents` override key resolves). It exits nonzero on drift — run it first
+whenever a pipeline command behaves unexpectedly.
 
 ### When discovery is blocked
 

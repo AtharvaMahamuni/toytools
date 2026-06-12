@@ -8,17 +8,15 @@
         "Base64 vs encoding",
         "Why does Base64 end with ="
       ],
-      "entities": ["ASCII", "UTF-8", "MIME", "binary", "email attachments", "JWT", "data URI"]
-    },
-    "case-converter": {
-      "intents": [
-        "What is camelCase?",
-        "camelCase vs snake_case",
-        "How to convert text case",
-        "Title case rules",
-        "What is PascalCase?"
-      ],
-      "entities": ["camelCase", "snake_case", "PascalCase", "kebab-case", "SCREAMING_SNAKE_CASE", "Title Case"]
+      "entities": [
+        "ASCII",
+        "UTF-8",
+        "MIME",
+        "binary",
+        "email attachments",
+        "JWT",
+        "data URI"
+      ]
     },
     "word-counter": {
       "intents": [
@@ -27,7 +25,13 @@
         "Character count vs word count",
         "Reading time calculator"
       ],
-      "entities": ["word count", "character count", "reading time", "whitespace", "sentence count"]
+      "entities": [
+        "word count",
+        "character count",
+        "reading time",
+        "whitespace",
+        "sentence count"
+      ]
     },
     "percentage-calculator": {
       "intents": [
@@ -36,7 +40,13 @@
         "Percentage increase formula",
         "Percentage difference"
       ],
-      "entities": ["percentage", "ratio", "fraction", "percent change", "base value"]
+      "entities": [
+        "percentage",
+        "ratio",
+        "fraction",
+        "percent change",
+        "base value"
+      ]
     },
     "notepad": {
       "intents": [
@@ -45,7 +55,13 @@
         "Does notepad save automatically?",
         "Private notes in browser"
       ],
-      "entities": ["localStorage", "browser storage", "auto-save", "privacy", "offline"]
+      "entities": [
+        "localStorage",
+        "browser storage",
+        "auto-save",
+        "privacy",
+        "offline"
+      ]
     },
     "pomodoro-timer": {
       "intents": [
@@ -54,7 +70,14 @@
         "How does Pomodoro work?",
         "Pomodoro for productivity"
       ],
-      "entities": ["Pomodoro", "focus session", "break", "productivity", "time management", "Francesco Cirillo"]
+      "entities": [
+        "Pomodoro",
+        "focus session",
+        "break",
+        "productivity",
+        "time management",
+        "Francesco Cirillo"
+      ]
     },
     "todo-list": {
       "intents": [
@@ -63,7 +86,13 @@
         "Simple task manager",
         "Private to-do list"
       ],
-      "entities": ["localStorage", "task", "checkbox", "persistence", "browser storage"]
+      "entities": [
+        "localStorage",
+        "task",
+        "checkbox",
+        "persistence",
+        "browser storage"
+      ]
     },
     "keep-screen-awake": {
       "intents": [
@@ -72,21 +101,28 @@
         "Wake Lock API",
         "Keep monitor on without software"
       ],
-      "entities": ["Wake Lock API", "screen timeout", "idle", "battery", "browser API"]
+      "entities": [
+        "Wake Lock API",
+        "screen timeout",
+        "idle",
+        "battery",
+        "browser API"
+      ]
     }
   },
-
   "genericIntents": [
     "What is [tool name]?",
     "How to use [tool name]",
     "[tool name] example",
     "[tool name] vs alternatives"
   ],
-
   "genericEntities": [
-    "browser", "privacy", "free", "online", "instant"
+    "browser",
+    "privacy",
+    "free",
+    "online",
+    "instant"
   ],
-
   "thinContentPhrases": [
     "this tool helps you",
     "this calculator lets you",
@@ -102,20 +138,73 @@
     "no sign up required",
     "works in your browser"
   ],
-
   "firstPrinciplesKeywords": {
-    "whatItIs": ["what is", "what are", "is a", "is an", "refers to", "means", "defined as"],
-    "whyItMatters": ["why", "because", "reason", "important", "useful", "benefit", "purpose", "matter"],
-    "howItWorks": ["how it works", "how does", "works by", "process", "steps", "algorithm", "mechanism", "formula"],
-    "examples": ["for example", "example:", "input:", "output:", "such as", "e.g.", "instance:", "sample:", "real examples"],
-    "commonMistakes": ["common mistake", "mistake", "pitfall", "avoid", "do not", "warning", "caution", "gotcha", "confusion"],
-    "comparisons": ["vs", "versus", "compared to", "difference between", "unlike", "instead of", "alternative", "rather than"]
+    "whatItIs": [
+      "what is",
+      "what are",
+      "is a",
+      "is an",
+      "refers to",
+      "means",
+      "defined as"
+    ],
+    "whyItMatters": [
+      "why",
+      "because",
+      "reason",
+      "important",
+      "useful",
+      "benefit",
+      "purpose",
+      "matter"
+    ],
+    "howItWorks": [
+      "how it works",
+      "how does",
+      "works by",
+      "process",
+      "steps",
+      "algorithm",
+      "mechanism",
+      "formula"
+    ],
+    "examples": [
+      "for example",
+      "example:",
+      "input:",
+      "output:",
+      "such as",
+      "e.g.",
+      "instance:",
+      "sample:",
+      "real examples"
+    ],
+    "commonMistakes": [
+      "common mistake",
+      "mistake",
+      "pitfall",
+      "avoid",
+      "do not",
+      "warning",
+      "caution",
+      "gotcha",
+      "confusion"
+    ],
+    "comparisons": [
+      "vs",
+      "versus",
+      "compared to",
+      "difference between",
+      "unlike",
+      "instead of",
+      "alternative",
+      "rather than"
+    ]
   },
-
   "compositeWeights": {
-    "writingQuality": 0.20,
-    "usefulness": 0.30,
-    "seoCompleteness": 0.20,
+    "writingQuality": 0.2,
+    "usefulness": 0.3,
+    "seoCompleteness": 0.2,
     "topicClusterCompleteness": 0.15,
     "toyToolsStyleScore": 0.15
   }
