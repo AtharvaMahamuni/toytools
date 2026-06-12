@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'sha256-hash-generator',
   title: 'SHA-256 Hash Generator',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Generate a 64-character SHA-256 digest. The current baseline secure hash, no known attacks.',
   primaryConcepts: ['sha-256'],
   secondaryConcepts: ['hash', 'sha-2', 'digest', 'collision resistance'],

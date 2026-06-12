@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'json-validator',
   title: 'JSON Validator',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Check whether text is valid JSON and pinpoint the syntax error when it is not.',
   primaryConcepts: ['json validation'],
   secondaryConcepts: ['json', 'syntax check', 'json lint', 'rfc 8259'],

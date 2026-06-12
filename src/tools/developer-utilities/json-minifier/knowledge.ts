@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'json-minifier',
   title: 'JSON Minifier',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Strip whitespace from JSON to shrink payload size. Lossless and reversible.',
   primaryConcepts: ['json minification'],
   secondaryConcepts: ['json', 'compression', 'whitespace', 'payload size'],

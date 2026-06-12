@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'md5-hash-generator',
   title: 'MD5 Hash Generator',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Generate a 32-character MD5 digest. Fast and ubiquitous, but broken for security use.',
   primaryConcepts: ['md5'],
   secondaryConcepts: ['hash', 'checksum', 'digest', 'collision'],

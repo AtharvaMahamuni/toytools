@@ -7,7 +7,7 @@ describe('getToolMetadata', () => {
   it('maps categorySlug → category and guide/faq → slugs', () => {
     const base64 = tools.find(t => t.slug === 'base64-encoder-decoder')!;
     const m = getToolMetadata(base64);
-    expect(m.category).toBe('developer-tools');
+    expect(m.category).toBe('developer-utilities');
     expect(m.engine).toBe('encoding');
     expect(m.guideSlug).toBe('what-is-base64');
     expect(m.relatedTools).toContain('url-encoder-decoder');
@@ -15,7 +15,7 @@ describe('getToolMetadata', () => {
 
   it('defaults arrays to empty when unset', () => {
     const m = getToolMetadata({
-      slug: 'x', name: 'X', description: 'd', categorySlug: 'developer-tools', tags: ['a'],
+      slug: 'x', name: 'X', description: 'd', categorySlug: 'developer-utilities', tags: ['a'],
     });
     expect(m.relatedTools).toEqual([]);
     expect(m.keywords).toEqual([]);

@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'url-encoder-decoder',
   title: 'URL Encoder & Decoder',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Percent-encode characters that would break a URL, and decode them back to plain text.',
   primaryConcepts: ['url encoding'],
   secondaryConcepts: ['percent encoding', 'query string', 'uri', 'encodeURIComponent'],

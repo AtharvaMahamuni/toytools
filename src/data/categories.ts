@@ -18,11 +18,11 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     segment: 'number',
   },
   {
-    slug: 'developer-tools',
-    name: 'Developer Tools',
+    slug: 'developer-utilities',
+    name: 'Developer Utilities',
     description: 'Encode, decode, format, and inspect data structures.',
     accent: '#6366F1',
-    segment: 'developer',
+    segment: 'developer-utilities',
   },
   {
     slug: 'productivity',

@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'base64-encoder-decoder',
   title: 'Base64 Encoder & Decoder',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Convert binary data to ASCII text and back. Encoding for transport, not encryption.',
   primaryConcepts: ['base64'],
   secondaryConcepts: ['encoding', 'binary data', 'data uri', 'ascii'],

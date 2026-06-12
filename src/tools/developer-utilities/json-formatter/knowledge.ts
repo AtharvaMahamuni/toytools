@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'json-formatter',
   title: 'JSON Formatter',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Pretty-print compact JSON with indentation. Same data, readable layout — for debugging.',
   primaryConcepts: ['json formatting'],
   secondaryConcepts: ['json', 'pretty print', 'beautify', 'indentation'],

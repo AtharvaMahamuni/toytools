@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'sha1-hash-generator',
   title: 'SHA-1 Hash Generator',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Generate a 40-character SHA-1 digest. Deprecated for security since the 2017 collision.',
   primaryConcepts: ['sha-1'],
   secondaryConcepts: ['hash', 'checksum', 'digest', 'shattered'],

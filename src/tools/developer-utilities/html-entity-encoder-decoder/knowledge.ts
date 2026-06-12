@@ -4,7 +4,7 @@ export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'html-entity-encoder-decoder',
   title: 'HTML Entity Encoder & Decoder',
-  category: 'developer-tools',
+  category: 'developer-utilities',
   summary: 'Escape characters the HTML parser treats as markup, and decode entities back to text.',
   primaryConcepts: ['html entities'],
   secondaryConcepts: ['character reference', 'escaping', 'xss', 'named entity'],

@@ -23,15 +23,15 @@ import { config as percentageCalculator }  from '@tools/number/percentage-calcul
 import { config as todoList }              from '@tools/productivity/todo-list/config';
 import { config as notepad }              from '@tools/productivity/notepad/config';
 import { config as keepScreenAwake }       from '@tools/productivity/keep-screen-awake/config';
-import { config as base64 }               from '@tools/developer/base64-encoder-decoder/config';
-import { config as urlEncoderDecoder }     from '@tools/developer/url-encoder-decoder/config';
-import { config as htmlEntityEncoderDecoder } from '@tools/developer/html-entity-encoder-decoder/config';
-import { config as md5HashGenerator }     from '@tools/developer/md5-hash-generator/config';
-import { config as sha1HashGenerator }    from '@tools/developer/sha1-hash-generator/config';
-import { config as sha256HashGenerator }  from '@tools/developer/sha256-hash-generator/config';
-import { config as jsonFormatter }        from '@tools/developer/json-formatter/config';
-import { config as jsonMinifier }         from '@tools/developer/json-minifier/config';
-import { config as jsonValidator }        from '@tools/developer/json-validator/config';
+import { config as base64 }               from '@tools/developer-utilities/base64-encoder-decoder/config';
+import { config as urlEncoderDecoder }     from '@tools/developer-utilities/url-encoder-decoder/config';
+import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
+import { config as md5HashGenerator }     from '@tools/developer-utilities/md5-hash-generator/config';
+import { config as sha1HashGenerator }    from '@tools/developer-utilities/sha1-hash-generator/config';
+import { config as sha256HashGenerator }  from '@tools/developer-utilities/sha256-hash-generator/config';
+import { config as jsonFormatter }        from '@tools/developer-utilities/json-formatter/config';
+import { config as jsonMinifier }         from '@tools/developer-utilities/json-minifier/config';
+import { config as jsonValidator }        from '@tools/developer-utilities/json-validator/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below

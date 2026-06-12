@@ -47,6 +47,6 @@ describe('buildContentManifest', () => {
 
   it('tool URLs use the category segment, not the category slug', () => {
     const base64 = contentByType('tool').find(e => e.slug === 'base64-encoder-decoder');
-    expect(base64?.url).toContain('/tool/developer/');
+    expect(base64?.url).toContain('/tool/developer-utilities/');
   });
 });
