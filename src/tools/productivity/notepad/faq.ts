@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'notepad-faq-2',
     question: 'Where are my notes stored?',
     answer:
-      'Your notes are stored in your browser\'s localStorage — a storage area built into every modern browser. Notes exist only on the device and browser you are using. They are never sent to a server or stored in the cloud.',
+      'Your notes are stored in your browser\'s localStorage, a storage area built into every modern browser. Notes exist only on the device and browser you are using. They are never sent to a server or stored in the cloud.',
   },
   {
     id: 'notepad-faq-3',
@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'notepad-faq-6',
     question: 'Can I copy my notes?',
     answer:
-      'Yes. Use the Copy button in the toolbar to copy the entire note to your clipboard. You can then paste it anywhere — an email, a document, another app.',
+      'Yes. Use the Copy button in the toolbar to copy the entire note to your clipboard. You can then paste it anywhere: an email, a document, another app.',
   },
   {
     id: 'notepad-faq-7',

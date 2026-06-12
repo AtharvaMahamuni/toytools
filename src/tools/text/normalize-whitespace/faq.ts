@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'nw-faq-1',
     question: 'What does normalizing whitespace do?',
     answer:
-      'It replaces every run of whitespace — spaces, tabs, and line breaks — with a single space, then trims the ends. Any mix of messy spacing collapses into one clean, single-spaced line.',
+      'It replaces every run of whitespace (spaces, tabs, and line breaks) with a single space, then trims the ends. Any mix of messy spacing collapses into one clean, single-spaced line.',
   },
   {
     id: 'nw-faq-2',
@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'nw-faq-3',
     question: 'When should I use it?',
     answer:
-      'Use it to turn copy-pasted, multi-line content into one tidy line — for example before putting a value into a CSV cell, a search box, a single-line database field, or a URL parameter.',
+      'Use it to turn copy-pasted, multi-line content into one tidy line, for example before putting a value into a CSV cell, a search box, a single-line database field, or a URL parameter.',
   },
   {
     id: 'nw-faq-4',

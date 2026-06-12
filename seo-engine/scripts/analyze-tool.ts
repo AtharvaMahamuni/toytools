@@ -86,6 +86,10 @@ export function extractGuideText(astroContent: string): string {
     .replace(/<style[\s\S]*?<\/style>/gi, '')
     // Strip <script> blocks
     .replace(/<script[\s\S]*?<\/script>/gi, '')
+    // Drop <code>/<pre> elements with their content — code values are not prose
+    // and must not trip jargon/em-dash/readability checks
+    .replace(/<pre[^>]*>[\s\S]*?<\/pre>/gi, ' ')
+    .replace(/<code[^>]*>[\s\S]*?<\/code>/gi, ' ')
     // Convert headings (strip span.gold-dot and span aria-hidden)
     .replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi, (_, level, inner) => {
       const text = inner.replace(/<span[^>]*>[\s\S]*?<\/span>/gi, '').replace(/<[^>]+>/g, '').trim();

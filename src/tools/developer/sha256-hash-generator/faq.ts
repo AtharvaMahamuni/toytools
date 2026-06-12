@@ -11,31 +11,31 @@ export const items: FAQItem[] = [
     id: 'sha256-faq-2',
     question: 'What does a SHA-256 hash look like?',
     answer:
-      'Always 64 lowercase hexadecimal characters. The string "hello" hashes to `2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824`. Change a single character and the output changes completely — that\'s the avalanche effect, and it\'s by design.',
+      'Always 64 lowercase hexadecimal characters. The string "hello" hashes to `2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824`. Change a single character and the output changes completely: that\'s the avalanche effect, and it\'s by design.',
   },
   {
     id: 'sha256-faq-3',
     question: 'Can SHA-256 be reversed?',
     answer:
-      'No. SHA-256 is a one-way function. You can\'t derive the input from the hash. For common or short inputs, rainbow tables (precomputed hash lookup databases) can identify the original string — which is why raw SHA-256 is wrong for password storage. For passwords, use bcrypt, scrypt, or Argon2, which add a salt and are designed to be slow.',
+      'No. SHA-256 is a one-way function. You can\'t derive the input from the hash. For common or short inputs, rainbow tables (precomputed hash lookup databases) can identify the original string, which is why raw SHA-256 is wrong for password storage. For passwords, use bcrypt, scrypt, or Argon2, which add a salt and are designed to be slow.',
   },
   {
     id: 'sha256-faq-4',
     question: 'Why is SHA-256 considered secure?',
     answer:
-      'Because no practical attacks exist against the full algorithm. The best published attacks break 52 of 64 rounds — the full 64-round algorithm remains intact. SHA-256 also benefits from the avalanche effect: a one-bit input change flips roughly half the output bits, making it infeasible to reverse-engineer or craft collisions. It\'s also been scrutinized publicly for over two decades with no successful breaks.',
+      'Because no practical attacks exist against the full algorithm. The best published attacks break 52 of 64 rounds: the full 64-round algorithm remains intact. SHA-256 also benefits from the avalanche effect: a one-bit input change flips roughly half the output bits, making it infeasible to reverse-engineer or craft collisions. It\'s also been scrutinized publicly for over two decades with no successful breaks.',
   },
   {
     id: 'sha256-faq-5',
     question: 'Is SHA-256 safe for password hashing?',
     answer:
-      'No. SHA-256 is fast — millions of hashes per second per CPU core, billions on a GPU. That\'s exactly wrong for passwords, where you want computation to be expensive enough to slow brute-force attacks. Use bcrypt, scrypt, or Argon2. They are slow by design, support salting, and are specifically built for credential storage.',
+      'No. SHA-256 is fast: millions of hashes per second per CPU core, billions on a GPU. That\'s exactly wrong for passwords, where you want computation to be expensive enough to slow brute-force attacks. Use bcrypt, scrypt, or Argon2. They are slow by design, support salting, and are specifically built for credential storage.',
   },
   {
     id: 'sha256-faq-6',
     question: 'How is SHA-256 used in Bitcoin?',
     answer:
-      'Two places. Mining (proof of work) requires finding a nonce such that SHA-256(SHA-256(block_header)) produces a hash below a target value. The difficulty adjusts so this takes roughly 10 minutes across the entire network. Transaction IDs are also SHA-256 double-hashes of the transaction data. The choice of SHA-256 was deliberate — a widely audited, collision-resistant function with no known vulnerabilities.',
+      'Two places. Mining (proof of work) requires finding a nonce such that SHA-256(SHA-256(block_header)) produces a hash below a target value. The difficulty adjusts so this takes roughly 10 minutes across the entire network. Transaction IDs are also SHA-256 double-hashes of the transaction data. The choice of SHA-256 was deliberate: a widely audited, collision-resistant function with no known vulnerabilities.',
   },
   {
     id: 'sha256-faq-7',
@@ -53,6 +53,6 @@ export const items: FAQItem[] = [
     id: 'sha256-faq-9',
     question: 'What is the SHA-2 family?',
     answer:
-      'SHA-2 is a set of hash functions — SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256 — all designed by the NSA and published by NIST between 2001 and 2012. They share the same Merkle–Damgård construction but differ in output size and internal word size. SHA-256 and SHA-512 are the most commonly used members. SHA-3 is a completely separate family with a different design (Keccak sponge construction).',
+      'SHA-2 is a set of hash functions (SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256) all designed by the NSA and published by NIST between 2001 and 2012. They share the same Merkle–Damgård construction but differ in output size and internal word size. SHA-256 and SHA-512 are the most commonly used members. SHA-3 is a completely separate family with a different design (Keccak sponge construction).',
   },
 ];

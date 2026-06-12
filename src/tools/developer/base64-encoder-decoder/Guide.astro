@@ -42,7 +42,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>What Is Base64? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Imagine you have a photograph saved on your computer. That photo is made up of raw binary
-      data — millions of 0s and 1s. Now imagine you need to send that photo inside a text message
+      data: millions of 0s and 1s. Now imagine you need to send that photo inside a text message
       or an email that only understands plain text characters. You have a problem.
     </p>
     <p>
@@ -52,12 +52,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       but it is actually your original data in a different form.
     </p>
     <p>
-      The name "Base64" simply means the encoding uses a 64-character alphabet — the same way
+      The name "Base64" simply means the encoding uses a 64-character alphabet, the same way
       "base 10" means you count with 10 digits (0–9), and "base 2" means you count with 2 digits
       (0 and 1).
     </p>
     <ReferenceBlock type="key-idea" heading="What Base64 does">
-      <p>Base64 changes the <em>representation</em> of data — not the data itself. The original data is fully preserved. Anyone can reverse it instantly.</p>
+      <p>Base64 changes the <em>representation</em> of data, not the data itself. The original data is fully preserved. Anyone can reverse it instantly.</p>
     </ReferenceBlock>
   </section>
 
@@ -65,7 +65,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Why Was It Created? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       In the early days of the internet, email systems were built strictly for plain text. The
-      standard that defined email — called SMTP — was designed to carry 7-bit ASCII characters
+      standard that defined email (called SMTP) was designed to carry 7-bit ASCII characters
       only. That covers the English alphabet, numbers, and basic punctuation.
     </p>
     <p>
@@ -79,10 +79,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       before sending it, the data could pass through any text-only system without corruption.
     </p>
     <p>
-      Today, Base64 is used far beyond email — it appears in APIs, web tokens, HTML data URIs,
+      Today, Base64 is used far beyond email: it appears in APIs, web tokens, HTML data URIs,
       and many other contexts where binary data needs to travel through text-based channels.
-      When you encode a UTF-8 string containing non-ASCII characters — Japanese text, Arabic,
-      emoji — Base64 converts the byte sequence into a safe ASCII representation that any
+      When you encode a UTF-8 string containing non-ASCII characters (Japanese text, Arabic, emoji) Base64 converts the byte sequence into a safe ASCII representation that any
       system can transmit without corruption.
     </p>
   </section>
@@ -92,7 +91,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Base64 processes data in chunks of 3 bytes at a time. Each chunk of 3 bytes (24 bits) is
       split into 4 groups of 6 bits each. Each 6-bit group becomes one character from the
-      Base64 alphabet. This is why the output is always longer than the input — 3 bytes become
+      Base64 alphabet. This is why the output is always longer than the input: 3 bytes become
       4 characters.
     </p>
     <p>Here is a simple example:</p>
@@ -119,23 +118,23 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>Base64 appears constantly in modern software:</p>
     <ul>
       <li>
-        <strong>JWT tokens</strong> — JSON Web Tokens use Base64URL encoding (a URL-safe variant) to
+        <strong>JWT tokens</strong>, JSON Web Tokens use Base64URL encoding (a URL-safe variant) to
         carry the header and payload sections. You can paste a JWT into a decoder to inspect its contents.
       </li>
       <li>
-        <strong>Email attachments</strong> — Email clients encode attachments as Base64 before sending
+        <strong>Email attachments</strong>: Email clients encode attachments as Base64 before sending
         them through SMTP servers, then decode them on the receiving end.
       </li>
       <li>
-        <strong>Images in HTML and CSS</strong> — Developers embed small images directly in web pages
+        <strong>Images in HTML and CSS</strong>: Developers embed small images directly in web pages
         as Base64 data URIs (<code>data:image/png;base64,...</code>) to eliminate extra HTTP requests.
       </li>
       <li>
-        <strong>API responses and JSON payloads</strong> — When an API needs to return binary data
+        <strong>API responses and JSON payloads</strong>: When an API needs to return binary data
         (like a generated image or a PDF) inside a JSON response, it encodes the binary as a Base64 string.
       </li>
       <li>
-        <strong>Authentication credentials</strong> — HTTP Basic Authentication sends usernames and
+        <strong>Authentication credentials</strong>: HTTP Basic Authentication sends usernames and
         passwords encoded as Base64 in the Authorization header.
       </li>
     </ul>
@@ -148,7 +147,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="common-mistake" heading="Base64 is not encryption">
       <p>
         Base64 provides no confidentiality. Anyone who sees a Base64 string can decode it instantly
-        with any Base64 decoder — including this tool. Do not use Base64 to hide passwords, API keys,
+        with any Base64 decoder: including this tool. Do not use Base64 to hide passwords, API keys,
         or sensitive data. Use proper encryption instead.
       </p>
     </ReferenceBlock>
@@ -165,7 +164,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       <p>
         Because 3 bytes of input become 4 characters of output, Base64-encoded data is about 33%
         larger than the original. For large files this can be significant. Avoid Base64 encoding large
-        binaries unless necessary — serve them as files instead.
+        binaries unless necessary: serve them as files instead.
       </p>
     </ReferenceBlock>
   </section>

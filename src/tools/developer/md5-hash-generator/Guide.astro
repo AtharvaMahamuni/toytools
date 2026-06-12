@@ -30,7 +30,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       MD5 is a hash function that converts any input into a fixed 32-character hexadecimal string.
-      It's fast, deterministic, and widely supported — but cryptographically broken, so it shouldn't
+      It's fast, deterministic, and widely supported, but cryptographically broken, so it shouldn't
       be used for security-sensitive work.
     </p>
     <p>
@@ -43,8 +43,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>What Is MD5? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       MD5 stands for Message Digest Algorithm 5. It was designed by Ronald Rivest in 1991 as an
-      improvement on MD4 and formalized in RFC 1321 in 1992. The algorithm takes any input — a word,
-      a paragraph, a binary file — and produces a 128-bit digest, displayed as 32 lowercase
+      improvement on MD4 and formalized in RFC 1321 in 1992. The algorithm takes any input (a word, a paragraph, a binary file) and produces a 128-bit digest, displayed as 32 lowercase
       hexadecimal characters.
     </p>
     <p>
@@ -52,7 +51,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       hash. Second, it has the avalanche effect: change a single bit of the input and roughly half
       the output bits change. The string <code>"hello"</code> produces
       <code>5d41402abc4b2a76b9719d911017c592</code>. Capitalizing the <code>H</code> to
-      <code>"Hello"</code> produces <code>8b1a9953c4611296a827abf8c47804d7</code> — completely
+      <code>"Hello"</code> produces <code>8b1a9953c4611296a827abf8c47804d7</code>: completely
       different.
     </p>
     <p>
@@ -80,7 +79,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       The algorithm was designed so small input changes produce large, unpredictable output changes.
-      It was also designed to be fast — which turned out to be a security weakness, since fast hashing
+      It was also designed to be fast, which turned out to be a security weakness, since fast hashing
       makes brute-force attacks cheap.
     </p>
   </section>
@@ -90,27 +89,27 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>MD5 is still practical in non-security contexts:</p>
     <ul>
       <li>
-        <strong>File integrity checksums</strong> — Download pages often list an MD5 checksum next
+        <strong>File integrity checksums</strong>, Download pages often list an MD5 checksum next
         to a file. After downloading, you compute the MD5 and compare it to the listed value. A match
         means the file arrived without corruption. This detects accidental damage, not deliberate
         tampering.
       </li>
       <li>
-        <strong>Cache keys</strong> — Hashing a URL, query string, or function arguments to a 32-char
+        <strong>Cache keys</strong>: Hashing a URL, query string, or function arguments to a 32-char
         key is common in caching layers. Speed matters more than collision resistance here, and MD5
         delivers.
       </li>
       <li>
-        <strong>Deduplication</strong> — Storage systems compare MD5 hashes to find duplicate files
+        <strong>Deduplication</strong>: Storage systems compare MD5 hashes to find duplicate files
         before deciding whether to store a new copy. A collision is technically possible but rare
         enough to be acceptable in this context.
       </li>
       <li>
-        <strong>Database sharding</strong> — The numeric value of an MD5 hash distributes records
+        <strong>Database sharding</strong>: The numeric value of an MD5 hash distributes records
         evenly across partitions without requiring sequential IDs.
       </li>
       <li>
-        <strong>Content-addressable identifiers</strong> — Naming a resource by its MD5 hash means
+        <strong>Content-addressable identifiers</strong>: Naming a resource by its MD5 hash means
         identical content always maps to the same identifier, which simplifies diffing and syncing.
       </li>
     </ul>
@@ -123,7 +122,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       <p>
         MD5 is fast. A modern GPU can compute billions of MD5 hashes per second. If an attacker
         gets your database, they can crack MD5-hashed passwords with brute force in hours or
-        minutes. Use bcrypt, scrypt, or Argon2 — algorithms designed to be slow — for passwords.
+        minutes. Use bcrypt, scrypt, or Argon2 (algorithms designed to be slow) for passwords.
       </p>
     </ReferenceBlock>
 
@@ -138,7 +137,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="note" heading="MD5 is not encryption">
       <p>
         Hashing and encryption are different operations. Encryption is reversible with a key.
-        Hashing is a one-way transformation — there is no key and no decryption. "Decrypting an
+        Hashing is a one-way transformation: there is no key and no decryption. "Decrypting an
         MD5 hash" is technically meaningless; what people actually mean is looking up the hash in
         a precomputed table.
       </p>

@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'b64-faq-1',
     question: 'What is Base64?',
     answer:
-      'Base64 is a binary-to-text encoding scheme that converts binary data into a sequence of 64 printable ASCII characters. It was designed to safely represent arbitrary byte data as text so it can pass through systems that only handle text — such as email servers or HTTP headers.',
+      'Base64 is a binary-to-text encoding scheme that converts binary data into a sequence of 64 printable ASCII characters. It was designed to safely represent arbitrary byte data as text so it can pass through systems that only handle text: such as email servers or HTTP headers.',
   },
   {
     id: 'b64-faq-2',
@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'b64-faq-4',
     question: 'Is Base64 a form of encryption?',
     answer:
-      'No. Base64 is encoding, not encryption. Encryption uses a secret key to scramble data so that only authorized parties can read it. Base64 simply changes how data is represented — anyone can decode it instantly without any key. Never use Base64 to protect sensitive information.',
+      'No. Base64 is encoding, not encryption. Encryption uses a secret key to scramble data so that only authorized parties can read it. Base64 simply changes how data is represented: anyone can decode it instantly without any key. Never use Base64 to protect sensitive information.',
   },
   {
     id: 'b64-faq-5',

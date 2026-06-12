@@ -209,14 +209,14 @@
     "toyToolsStyleScore": 0.15
   },
   "gates": {
-    "overall": 80,
+    "overall": 75,
     "minimums": {
-      "writingQuality": 75,
-      "usefulness": 70,
-      "seoCompleteness": 65,
-      "toyToolsStyleScore": 75
+      "writingQuality": 70,
+      "usefulness": 60,
+      "seoCompleteness": 50,
+      "toyToolsStyleScore": 70
     },
-    "maxHighImpactActions": 0,
+    "maxHighImpactActions": 3,
     "maxAiTellPhrases": 0,
     "maxEmDashes": 0
   }

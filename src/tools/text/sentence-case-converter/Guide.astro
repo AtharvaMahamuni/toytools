@@ -29,7 +29,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Sentence case capitalizes only the first letter of each sentence, along with proper
-      nouns — exactly like ordinary writing: "the quick brown fox" becomes "The quick brown fox".
+      nouns, exactly like ordinary writing: "the quick brown fox" becomes "The quick brown fox".
       It is the default style for body text, UI labels, and button copy.
     </p>
     <a href={toolHref} class="cta-link">Try The Sentence Case Converter →</a>
@@ -40,13 +40,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Sentence case mirrors how we actually speak and read, so it feels natural and is easy to
       scan. That is why most digital style guides recommend it for headings, microcopy, and
-      especially long-form text — it reads more smoothly than Title Case and carries less visual
+      especially long-form text: it reads more smoothly than Title Case and carries less visual
       noise.
     </p>
     <ReferenceBlock type="key-idea" heading="Fixing inconsistent capitalization">
       <p>
         Sentence case is the quickest way to clean up text that arrived with random
-        capitalization — pasted chat logs, OCR output, or all-caps notes. Convert to sentence
+        capitalization: pasted chat logs, OCR output, or all-caps notes. Convert to sentence
         case first, then fix any proper nouns by hand.
       </p>
     </ReferenceBlock>
@@ -59,10 +59,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       first letter after each sentence-ending mark (<code>.</code>, <code>!</code>, or
       <code>?</code>). For example, "HELLO WORLD. THE FOX RUNS FAST!" becomes "Hello world. The
       fox runs fast!" Because software cannot reliably detect names and places, proper nouns are
-      left lowercase — give them a quick manual pass if needed.
+      left lowercase: give them a quick manual pass if needed.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -71,8 +71,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="common-mistake" heading="Proper nouns become lowercase">
       <p>
         The converter cannot tell that "london" should be "London" or that "apple" is the
-        company name "Apple". After converting, scan for any proper nouns — people's names,
-        places, brands — and re-capitalise them by hand.
+        company name "Apple". After converting, scan for any proper nouns (people's names, places, brands) and re-capitalise them by hand.
       </p>
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Abbreviations trigger false sentence breaks">

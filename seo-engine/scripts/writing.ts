@@ -498,10 +498,17 @@ function scoreAiTells(
     }
   }
 
-  // Em-dash (and spaced en-dash used as one). Counted on raw markdown; code
-  // blocks are excluded so CLI flags in examples don't trip it.
-  const noCode = markdown.replace(/```[\s\S]*?```/g, '').replace(/`[^`]+`/g, '');
-  const emDashCount = (noCode.match(/—|–/g) ?? []).length;
+  // Em-dash (and spaced en-dash used as one). Counted on raw markdown with
+  // three exemptions: code (``` fences, `inline`, <code> elements), the
+  // educational "(—)" character-display pattern (the HTML-entity guide teaches
+  // &mdash; itself), and unspaced en-dashes in numeric ranges ("200–250 words"
+  // is correct typography, not an AI tell).
+  const noCode = markdown
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]+`/g, '')
+    .replace(/<code[^>]*>[\s\S]*?<\/code>/gi, '')
+    .replace(/\((?:—|–)\)/g, '');
+  const emDashCount = (noCode.match(/—/g) ?? []).length + (noCode.match(/ – /g) ?? []).length;
 
   const notJustCount = (plainText.match(NOT_JUST_RE) ?? []).length;
 

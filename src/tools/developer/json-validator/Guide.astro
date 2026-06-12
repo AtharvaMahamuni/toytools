@@ -48,11 +48,10 @@ const codeUnquotedKey    = '{name: "Alice"}';
     <p>
       JSON (JavaScript Object Notation) has a precise grammar defined in RFC 8259. Any text
       either satisfies that grammar or it doesn't. A validator is a parser that reports the
-      verdict — valid, or the specific error that caused parsing to fail.
+      verdict: valid, or the specific error that caused parsing to fail.
     </p>
     <p>
-      This sounds simple, but JSON is stricter than most people expect. Text that looks right —
-      a JavaScript object with single-quoted strings, or a config file with comments — often
+      This sounds simple, but JSON is stricter than most people expect. Text that looks right: a JavaScript object with single-quoted strings, or a config file with comments, often
       fails validation because it violates rules that aren't obvious until you read the spec.
     </p>
     <ReferenceBlock type="key-idea" heading="Valid JSON is stricter than valid JavaScript">
@@ -66,12 +65,12 @@ const codeUnquotedKey    = '{name: "Alice"}';
 
     <p><strong>Valid value types:</strong></p>
     <ul>
-      <li><strong>String</strong> — must use double quotes: <code>"hello"</code></li>
-      <li><strong>Number</strong> — decimal notation, no leading zeros (except <code>0</code> itself): <code>42</code>, <code>-3.14</code>, <code>1.5e10</code></li>
-      <li><strong>Boolean</strong> — lowercase only: <code>true</code>, <code>false</code></li>
-      <li><strong>Null</strong> — lowercase: <code>null</code></li>
-      <li><strong>Object</strong> — keys must be double-quoted strings: <code>{codeObjectValid}</code></li>
-      <li><strong>Array</strong> — ordered list of values: <code>[1, "two", null]</code></li>
+      <li><strong>String</strong>, must use double quotes: <code>"hello"</code></li>
+      <li><strong>Number</strong>: decimal notation, no leading zeros (except <code>0</code> itself): <code>42</code>, <code>-3.14</code>, <code>1.5e10</code></li>
+      <li><strong>Boolean</strong>: lowercase only: <code>true</code>, <code>false</code></li>
+      <li><strong>Null</strong>: lowercase: <code>null</code></li>
+      <li><strong>Object</strong>: keys must be double-quoted strings: <code>{codeObjectValid}</code></li>
+      <li><strong>Array</strong>: ordered list of values: <code>[1, "two", null]</code></li>
     </ul>
 
     <p><strong>Not allowed:</strong></p>
@@ -90,25 +89,24 @@ const codeUnquotedKey    = '{name: "Alice"}';
     <h2>When Validation Saves You Time <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
       <li>
-        <strong>API 400 errors</strong> — A request body fails with "invalid JSON" and the framework
+        <strong>API 400 errors</strong>: A request body fails with "invalid JSON" and the framework
         gives no line numbers. Paste the payload into a validator to find the offending character.
       </li>
       <li>
-        <strong>Config files</strong> — <code>package.json</code>, <code>tsconfig.json</code>,
+        <strong>Config files</strong>: <code>package.json</code>, <code>tsconfig.json</code>,
         CI pipeline configs, and deployment manifests are often hand-edited. A stray trailing
         comma can break a build silently.
       </li>
       <li>
-        <strong>Webhook payloads in logs</strong> — Checking whether a third-party service is
+        <strong>Webhook payloads in logs</strong>: Checking whether a third-party service is
         sending malformed JSON, or whether your logging truncated the payload.
       </li>
       <li>
-        <strong>Copy-paste from documentation</strong> — JSON in README files and API docs is
-        often slightly malformed — a comment left in, a JavaScript value used as an example.
+        <strong>Copy-paste from documentation</strong> (JSON in README files and API docs is often slightly malformed) a comment left in, a JavaScript value used as an example.
         Validate before using.
       </li>
       <li>
-        <strong>Before committing data files</strong> — Validating <code>.json</code> files in
+        <strong>Before committing data files</strong>: Validating <code>.json</code> files in
         CI catches syntax errors before they reach production.
       </li>
     </ul>
@@ -121,8 +119,7 @@ const codeUnquotedKey    = '{name: "Alice"}';
       <p>
         The single most common JSON error. JavaScript (since ES5) and TypeScript both allow trailing
         commas, so developers add them by habit. JSON doesn't. A <code>,</code> after the last
-        element in an array or object — <code>[1, 2, 3,]</code> or <code>{codeTrailingComma}</code> —
-        is a parse error.
+        element in an array or object: <code>[1, 2, 3,]</code> or <code>{codeTrailingComma}</code>: is a parse error.
       </p>
     </ReferenceBlock>
 
@@ -137,7 +134,7 @@ const codeUnquotedKey    = '{name: "Alice"}';
     <ReferenceBlock type="common-mistake" heading="Confusing syntax validation with schema validation">
       <p>
         A JSON validator confirms the text is parseable JSON. It doesn't check whether your data
-        matches an expected structure — whether required fields exist, whether a value is within
+        matches an expected structure: whether required fields exist, whether a value is within
         a valid range, or whether a string matches a pattern. That's JSON Schema validation, a
         separate step that runs on top of valid JSON.
       </p>
@@ -146,7 +143,7 @@ const codeUnquotedKey    = '{name: "Alice"}';
     <ReferenceBlock type="note" heading="JSONC and JSON5 are not JSON">
       <p>
         If your file uses <code>//</code> comments or single quotes and it works in your editor,
-        it's probably JSONC or JSON5 — supersets of JSON. Standard JSON parsers and validators
+        it's probably JSONC or JSON5: supersets of JSON. Standard JSON parsers and validators
         reject them. VS Code accepts JSONC in its own config files specifically because it ships
         its own parser.
       </p>

@@ -23,6 +23,6 @@ export const items: FAQItem[] = [
     id: 'cml-faq-4',
     question: 'What happens with multiple lines?',
     answer:
-      'Each line is converted independently, so a list of phrases becomes a list of camelCase identifiers — one per line. Blank lines are preserved.',
+      'Each line is converted independently, so a list of phrases becomes a list of camelCase identifiers, one per line. Blank lines are preserved.',
   },
 ];

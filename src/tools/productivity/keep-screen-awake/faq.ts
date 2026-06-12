@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'wl-faq-2',
     question: 'Can a website keep my screen awake?',
     answer:
-      'Yes, in browsers that support the Wake Lock API. The browser requests permission from the operating system to prevent the screen from turning off. No special permissions dialog is shown to the user — the page simply makes the request when you activate the tool. Chrome, Edge, and Android Chrome support this feature. Safari and Firefox do not yet support it.',
+      'Yes, in browsers that support the Wake Lock API. The browser requests permission from the operating system to prevent the screen from turning off. No special permissions dialog is shown to the user: the page simply makes the request when you activate the tool. Chrome, Edge, and Android Chrome support this feature. Safari and Firefox do not yet support it.',
   },
   {
     id: 'wl-faq-3',
@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'wl-faq-4',
     question: 'Is Keep Screen Awake safe?',
     answer:
-      'Yes. The tool only requests that your screen stay on — it does not access your files, camera, microphone, or any personal data. Everything runs in your browser and nothing is sent to a server. The only risk is battery drain from keeping your display on.',
+      'Yes. The tool only requests that your screen stay on: it does not access your files, camera, microphone, or any personal data. Everything runs in your browser and nothing is sent to a server. The only risk is battery drain from keeping your display on.',
   },
   {
     id: 'wl-faq-5',

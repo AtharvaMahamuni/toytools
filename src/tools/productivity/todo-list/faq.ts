@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'todo-faq-5',
     question: 'Can a todo list improve productivity?',
     answer:
-      'Yes, when used well. The benefit comes from clarity and focus — knowing exactly what to do next reduces the time spent deciding and the mental energy spent worrying. The key is keeping the list realistic and reviewing it regularly.',
+      'Yes, when used well. The benefit comes from clarity and focus: knowing exactly what to do next reduces the time spent deciding and the mental energy spent worrying. The key is keeping the list realistic and reviewing it regularly.',
   },
   {
     id: 'todo-faq-6',
@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'todo-faq-7',
     question: 'How often should I review my todo list?',
     answer:
-      'A quick daily review — at the start or end of the day — is enough for most people. A longer weekly review helps you clear completed tasks, reprioritize, and add anything new. Regular review prevents the list from becoming stale and useless.',
+      'A quick daily review (at the start or end of the day) is enough for most people. A longer weekly review helps you clear completed tasks, reprioritize, and add anything new. Regular review prevents the list from becoming stale and useless.',
   },
   {
     id: 'todo-faq-8',

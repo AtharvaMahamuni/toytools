@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'snk-faq-3',
     question: 'What is SCREAMING_SNAKE_CASE?',
     answer:
-      'It is snake_case in all capitals — "MAX_RETRY_COUNT" — used for constants in many languages. To produce it, convert to snake_case here and then use the uppercase converter.',
+      'It is snake_case in all capitals ("MAX_RETRY_COUNT") used for constants in many languages. To produce it, convert to snake_case here and then use the uppercase converter.',
   },
   {
     id: 'snk-faq-4',

@@ -33,7 +33,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      JSON formatting — also called pretty-printing — rewrites compact JSON with indentation and
+      JSON formatting (also called pretty-printing) rewrites compact JSON with indentation and
       line breaks so it's easy to read. The data doesn't change. Only the whitespace does.
     </p>
     <p>
@@ -46,7 +46,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
     <h2>What Is JSON Formatting? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       JSON (JavaScript Object Notation) is a text format for structured data. It's valid as a
-      compact single line or spread across hundreds of lines — the parser treats both the same way.
+      compact single line or spread across hundreds of lines: the parser treats both the same way.
       Most APIs and data pipelines produce compact JSON because smaller means faster to transmit.
     </p>
     <p>
@@ -60,7 +60,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
       Same data. Different whitespace. The structure is immediately readable.
     </p>
     <ReferenceBlock type="key-idea" heading="Whitespace is not significant in JSON">
-      <p>JSON parsers ignore whitespace between tokens. A formatted and a minified version of the same JSON are semantically identical — any parser reads them as the same data.</p>
+      <p>JSON parsers ignore whitespace between tokens. A formatted and a minified version of the same JSON are semantically identical: any parser reads them as the same data.</p>
     </ReferenceBlock>
   </section>
 
@@ -77,7 +77,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
     </p>
     <p>
       Most source control conventions store JSON config files formatted. Minification is a build
-      step for delivery — not for storage or review.
+      step for delivery, not for storage or review.
     </p>
   </section>
 
@@ -85,22 +85,22 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
     <h2>When You'd Use a JSON Formatter <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
       <li>
-        <strong>Debugging API responses</strong> — Copy the raw response from a network request,
+        <strong>Debugging API responses</strong>: Copy the raw response from a network request,
         paste it into the formatter, and read the actual structure. Saves time compared to
         counting braces by hand.
       </li>
       <li>
-        <strong>Reading config files</strong> — Minified <code>package-lock.json</code>,
+        <strong>Reading config files</strong>: Minified <code>package-lock.json</code>,
         <code>tsconfig.json</code> output, or bundled configs are often hard to navigate without
         proper indentation.
       </li>
       <li>
-        <strong>Checking webhook payloads</strong> — When building integrations, you usually
+        <strong>Checking webhook payloads</strong>: When building integrations, you usually
         receive raw JSON payloads in logs. Formatting them is the fastest way to understand
         what fields were sent.
       </li>
       <li>
-        <strong>Before committing config changes</strong> — Formatted JSON in source control
+        <strong>Before committing config changes</strong>: Formatted JSON in source control
         keeps diffs clean and reviewable. Tools like <code>JSON.stringify(data, null, 2)</code>
         or <code>prettier</code> automate this in CI.
       </li>
@@ -112,8 +112,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
 
     <ReferenceBlock type="common-mistake" heading="Trying to format invalid JSON">
       <p>
-        A formatter parses the JSON before re-serializing it. If the input has a syntax error —
-        a trailing comma, an unquoted key, a single-quoted string — the parse fails and the
+        A formatter parses the JSON before re-serializing it. If the input has a syntax error (a trailing comma, an unquoted key, a single-quoted string) the parse fails and the
         formatter can't proceed. Fix the syntax error first. Use a validator to pinpoint exactly
         where the problem is.
       </p>

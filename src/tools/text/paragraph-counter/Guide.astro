@@ -46,8 +46,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       <strong>Assignment compliance.</strong> Some academic assignments specify a minimum or maximum
-      paragraph count alongside a word limit. A five-paragraph essay — introduction, three body
-      paragraphs, conclusion — is a common format in secondary and tertiary education. Paragraph
+      paragraph count alongside a word limit. A five-paragraph essay (introduction, three body paragraphs, conclusion) is a common format in secondary and tertiary education. Paragraph
       count verification prevents submission errors.
     </p>
     <p>
@@ -62,13 +61,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>How Paragraph Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       This tool splits the input on one or more consecutive blank lines. Lines that contain only
-      whitespace — spaces or tabs — are treated as blank. Each resulting non-empty block is counted
+      whitespace (spaces or tabs) are treated as blank. Each resulting non-empty block is counted
       as one paragraph. For example, three paragraphs separated by two blank lines each will still
       produce a count of 3; extra blank lines between paragraphs do not create additional counts.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
-      protecting your privacy — nothing is uploaded to a server, and results appear instantly
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly
       as you type or paste.
     </p>
   </section>
@@ -86,7 +85,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       analysis, and a concluding sentence. Shorter paragraphs signal underdevelopment.
     </p>
     <p>
-      <strong>Fiction:</strong> Variable — from a single word to several pages. Dialogue typically
+      <strong>Fiction:</strong> Variable, from a single word to several pages. Dialogue typically
       gets its own paragraph. Description and action paragraphs follow the rhythm of the scene
       rather than a word count target.
     </p>
@@ -106,13 +105,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         A common mistake is using a single line break (Enter) to separate paragraphs in plain
         text, expecting the counter to detect them as separate paragraphs. This tool counts blank
         lines as paragraph separators. A single newline within a paragraph does not create a new
-        paragraph — avoid this pattern in plain-text drafts intended for paragraph-count analysis.
+        paragraph: avoid this pattern in plain-text drafts intended for paragraph-count analysis.
       </p>
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Applying paragraph count to code or structured data">
       <p>
         Paragraph counters are designed for prose. Do not apply them to code files, YAML, JSON,
-        or CSV data — blank lines in those formats do not represent paragraph structure, and the
+        or CSV data: blank lines in those formats do not represent paragraph structure, and the
         count will be meaningless. Similarly, avoid counting paragraphs in heavily formatted
         documents pasted from word processors, where blank lines may be formatting artefacts.
       </p>
@@ -123,7 +122,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Paragraph Counter vs Other Text Metrics <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A paragraph counter is one of several alternatives for analysing document structure. A
-      <strong>sentence counter</strong> is better for measuring density within sections — how many
+      <strong>sentence counter</strong> is better for measuring density within sections: how many
       ideas a section contains. A <strong>word counter</strong> is better for measuring total
       content volume. A <strong>character counter</strong> is better for platform character limits.
       A <strong>reading time calculator</strong> is better for estimating how long a reader will
