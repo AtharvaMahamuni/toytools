@@ -17,8 +17,12 @@ import { knowledge as jsonFormatter } from '@tools/developer/json-formatter/know
 import { knowledge as jsonMinifier }  from '@tools/developer/json-minifier/knowledge';
 import { knowledge as jsonValidator } from '@tools/developer/json-validator/knowledge';
 
+// --- Productivity ---
+import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  pomodoroTimer,
   base64,
   urlCodec,
   htmlEntity,

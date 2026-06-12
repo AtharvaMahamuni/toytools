@@ -17,6 +17,7 @@ export const config: ToolConfig = {
   engine: 'productivity',
   pattern: 'stateful',
   family: 'timer',
+  relatedTools: ['todo-list', 'keep-screen-awake', 'notepad'],
   guide: {
     slug: 'pomodoro-technique',
     categorySlug: 'productivity',

@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
   {
     id: 'pt-faq-6',
     question: 'How many Pomodoros should I do per day?',
-    answer: 'Most people sustain 8–12 Pomodoros (25-minute sessions) per day of focused work. Knowledge workers typically complete 4–6 before mental fatigue sets in. Start with what feels manageable: 4 sessions is a reasonable daily target for beginners.',
+    answer: 'Most people sustain 8–12 Pomodoros (25-minute sessions) per day of focused work. Most knowledge workers complete 4–6 before mental fatigue sets in. Start with what feels manageable: 4 sessions is a reasonable daily target for beginners.',
   },
   {
     id: 'pt-faq-7',
@@ -49,7 +49,7 @@ export const items: FAQItem[] = [
   {
     id: 'pt-faq-16',
     question: 'Does the Pomodoro Technique work for ADHD?',
-    answer: 'For many people with ADHD, yes, with caveats. The technique\'s external structure addresses two common ADHD challenges directly: it makes an open-ended task feel bounded ("just 25 minutes"), which lowers the barrier to starting, and it enforces breaks that prevent the hyperfocus burnout that follows long uninterrupted sessions. The scheduled interruptions, which frustrate neurotypical users in flow, can actually feel natural to an ADHD brain that interrupts itself anyway. That said, 25 minutes may be too long or too short depending on the individual. Shorter 15-minute sessions often work better early on; longer 40–50-minute blocks suit people who take time to settle in. Experiment with the Customize panel to find your interval. The technique is most effective for ADHD when combined with a written task list: knowing exactly what you\'re doing for the next 25 minutes removes the decision overhead that often derails a session before it starts.',
+    answer: 'For many people with ADHD, yes, with caveats. The technique\'s external structure addresses two common ADHD challenges directly: it makes an open-ended task feel bounded ("just 25 minutes"), which lowers the barrier to starting, and it enforces breaks that prevent the hyperfocus burnout that follows long uninterrupted sessions. The scheduled interruptions, which frustrate neurotypical users in flow, can actually feel natural to an ADHD brain that interrupts itself anyway. That said, the right interval varies by individual: 25 minutes is too long for some and too short for others. Shorter 15-minute sessions are an easier starting point; longer 40–50-minute blocks suit people who take time to settle in. Experiment with the Customize panel to find your interval. The technique is most effective for ADHD when combined with a written task list: knowing exactly what you\'re doing for the next 25 minutes removes the decision overhead that derails sessions before they start.',
   },
   {
     id: 'pt-faq-17',
@@ -79,12 +79,12 @@ export const items: FAQItem[] = [
   {
     id: 'pt-faq-12',
     question: 'Does the timer continue when the browser tab is inactive?',
-    answer: 'Yes. The timer uses timestamp-based calculations rather than relying solely on JavaScript intervals. When you return to the tab, the timer reflects actual elapsed time accurately. Browsers may throttle intervals in background tabs, but this timer compensates for that drift.',
+    answer: 'Yes. The timer uses timestamp-based calculations rather than relying solely on JavaScript intervals. When you return to the tab, the timer reflects actual elapsed time accurately. Browsers throttle JavaScript intervals in background tabs; because this timer recalculates from timestamps, it compensates for that drift.',
   },
   {
     id: 'pt-faq-13',
     question: 'Does the timer work on mobile devices?',
-    answer: 'Yes. The interface is designed mobile-first. The timer is visible immediately without scrolling on most phone screens. All buttons meet minimum touch target sizes. Note that mobile browsers may suspend JavaScript when the screen locks: open the timer in your browser\'s foreground to keep it active.',
+    answer: 'Yes. The interface is designed mobile-first. The timer is visible immediately without scrolling on most phone screens. All buttons meet minimum touch target sizes. Note that mobile browsers suspend JavaScript when the screen locks: keep the timer in your browser\'s foreground, or pair it with the Keep Screen Awake tool, to keep it active.',
   },
   {
     id: 'pt-faq-15',
