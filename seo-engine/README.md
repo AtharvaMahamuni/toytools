@@ -110,7 +110,7 @@ npm run seo:fetch    -- <tool-slug>   # fetch from a curated search-results.json
 npm run seo:extract  -- <tool-slug>
 npm run seo:validate
 npm run seo:audit
-npm run seo:scaffold -- <tool-slug>   # turn the brief into content stubs for an agent
+npm run seo:scaffold -- <tool-slug>   # research → self-contained authoring brief (PROMPT.md) + stubs
 npm run seo:graph                     # snapshot src/ registries → cache/content-graph.json
 npm run seo:doctor                    # assert engine/doc assumptions against the codebase
 npm run seo:writing-tool -- <slug>    # audit a real tool's Guide.astro + faq.ts + config.ts
