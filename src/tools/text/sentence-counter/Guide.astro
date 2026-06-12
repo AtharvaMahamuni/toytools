@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -32,7 +29,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A sentence counter is a tool that detects and counts the number of sentences in a piece of
-      text by identifying sentence-ending punctuation — periods (.), exclamation marks (!), and
+      text by identifying sentence-ending punctuation, periods (.), exclamation marks (!), and
       question marks (?). For example, "Hello. How are you? I'm fine!" contains three sentences.
     </p>
     <a href={toolHref} class="cta-link">Try The Sentence Counter →</a>
@@ -43,8 +40,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       <strong>Readability analysis.</strong> Sentence count is a core input to the most widely
       used readability formulas, including the Flesch Reading Ease score and the Flesch-Kincaid
-      Grade Level. Both formulas use average sentence length — total words divided by sentence
-      count — to estimate how difficult text is to understand. Shorter average sentences correlate
+      Grade Level. Both formulas use average sentence length (total words divided by sentence count) to estimate how difficult text is to understand. Shorter average sentences correlate
       with higher readability scores.
     </p>
     <p>
@@ -56,21 +52,20 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       <strong>Writing style targets.</strong> Most style guides recommend 15 to 20 words per
       sentence for general prose. Sentence count combined with word count gives average sentence
-      length — the most actionable readability metric available without a full formula calculation.
+      length: the most actionable readability metric available without a full formula calculation.
     </p>
   </section>
 
   <section id="how-sentence-counting-works">
     <h2>How Sentence Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This tool scans the text for sentence-ending punctuation — periods, exclamation marks, and
-      question marks — and counts each occurrence followed by whitespace or the end of the text as
+      This tool scans the text for sentence-ending punctuation (periods, exclamation marks, and question marks) and counts each occurrence followed by whitespace or the end of the text as
       a sentence boundary. For example, "She left. He stayed." is detected as two sentences, and
       "Really?! Are you sure?" is detected as two as well (the ?! pair counts as one boundary).
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
-      protecting your privacy — nothing is uploaded to a server, and results appear instantly
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly
       as you type or paste.
     </p>
   </section>
@@ -103,8 +98,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Abbreviations inflating sentence count">
       <p>
-        A common mistake is failing to account for abbreviations. Abbreviations ending in periods —
-        such as "Dr.", "e.g.", "U.S.A.", or "etc." — are treated as sentence terminators by most
+        A common mistake is failing to account for abbreviations. Abbreviations ending in periods: such as "Dr.", "e.g.", "U.S.A.", or "etc.", are treated as sentence terminators by most
         counters. Avoid relying on automated sentence counts for texts heavy with abbreviations;
         manual review is more accurate in those cases.
       </p>
@@ -124,7 +118,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       A sentence counter is one of several alternatives for analysing text structure. A <strong>word
       counter</strong> is better for measuring total content volume against a word limit. A
-      <strong>paragraph counter</strong> is better for checking structural balance — whether a document
+      <strong>paragraph counter</strong> is better for checking structural balance: whether a document
       has too few or too many major sections. A <strong>character counter</strong> is better for
       platform character limits. A <strong>reading time calculator</strong> is better for estimating
       audience engagement time. Use sentence count when you specifically want to analyse sentence
@@ -140,10 +134,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

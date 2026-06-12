@@ -1,6 +1,6 @@
 // Platform Metadata Contract — the single, engine-agnostic view of a tool that platform
 // services (search, sitemaps, related content, SEO) consume. ToolConfig keeps its own
-// field names (categorySlug, guide/faq objects); getToolMetadata derives the uniform
+// field names (categorySlug, guide object); getToolMetadata derives the uniform
 // contract from it so no config needs rewriting and no second metadata system exists.
 
 import type { ToolConfig } from './types';
@@ -18,7 +18,6 @@ export interface BaseToolMetadata {
   tags: string[];
   relatedTools: string[];
   guideSlug?: string;
-  faqSlug?: string;
   updatedAt?: string;
 }
 
@@ -36,7 +35,6 @@ export function getToolMetadata(tool: ToolConfig): BaseToolMetadata {
     tags: tool.tags ?? [],
     relatedTools: tool.relatedTools ?? [],
     guideSlug: tool.guide?.slug,
-    faqSlug: tool.faq?.slug,
     updatedAt: tool.updatedAt,
   };
 }

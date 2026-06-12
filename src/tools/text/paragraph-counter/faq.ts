@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'pc-faq-3',
     question: 'How many paragraphs should an essay or article have?',
     answer:
-      'A five-paragraph essay has an introduction, three body paragraphs, and a conclusion. Longer academic papers typically have one paragraph per argument or supporting point. For web articles, most SEO practitioners recommend 2 to 4 sentences per paragraph — shorter than academic writing — and a new paragraph for each new idea or sub-point.',
+      'A five-paragraph essay has an introduction, three body paragraphs, and a conclusion. Longer academic papers typically have one paragraph per argument or supporting point. For web articles, most SEO practitioners recommend 2 to 4 sentences per paragraph (shorter than academic writing) and a new paragraph for each new idea or sub-point.',
   },
   {
     id: 'pc-faq-4',

@@ -7,11 +7,11 @@ const g = (slug: string) => ({ slug, categorySlug: 'developer', title: slug, des
 describe('analyzeCategoryHealth', () => {
   it('counts tools/guides/faqs per category', () => {
     const tools = [
-      tool({ slug: 'a', categorySlug: 'dev', engine: 'e', pattern: 'p', family: 'f', guide: g('a'), faq: { slug: 'a', categorySlug: 'developer' } }),
+      tool({ slug: 'a', categorySlug: 'dev', engine: 'e', pattern: 'p', family: 'f', guide: g('a') }),
       tool({ slug: 'b', categorySlug: 'dev', engine: 'e', pattern: 'p', family: 'f', guide: g('b') }),
     ];
     const categories = [category({ slug: 'dev', segment: 'developer' })];
-    const [health] = analyzeCategoryHealth(makeInputs({ tools, categories, engines: [] }));
+    const [health] = analyzeCategoryHealth(makeInputs({ tools, categories, engines: [], faqSlugs: ['a'] }));
     expect(health).toMatchObject({ slug: 'dev', tools: 2, guides: 2, faqs: 1 });
   });
 
@@ -27,7 +27,7 @@ describe('analyzeCategoryHealth', () => {
   });
 
   it('keeps coverageScore within 0–100 and rewards full coverage', () => {
-    const tools = [tool({ slug: 'a', categorySlug: 'dev', engine: 'e', pattern: 'p', family: 'f', guide: g('a'), faq: { slug: 'a', categorySlug: 'developer' } })];
+    const tools = [tool({ slug: 'a', categorySlug: 'dev', engine: 'e', pattern: 'p', family: 'f', guide: g('a') })];
     const categories = [category({ slug: 'dev', segment: 'developer' })];
     const [health] = analyzeCategoryHealth(makeInputs({ tools, categories, engines: [] }));
     expect(health.coverageScore).toBeGreaterThanOrEqual(0);

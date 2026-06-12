@@ -1,4 +1,6 @@
 ---
+// Hero block at the top of a result IoPanel: big numeral, label, empty-state hint.
+// Always rendered inside an <IoPanel result> — it owns no frame of its own.
 import type { MetricFormatter } from '@data/types';
 
 interface Props {
@@ -11,8 +13,8 @@ interface Props {
 const { metric, label, formatter = 'integer', initialValue = '0' } = Astro.props;
 ---
 
-<div class="hero-panel">
+<div class="tm-hero">
   <span class="hero-value" data-metric={metric} data-formatter={formatter}>{initialValue}</span>
   <span class="hero-label">{label}</span>
-  <p class="empty-hint">Paste or type text above to begin.</p>
+  <p class="empty-hint">Paste or type text to begin.</p>
 </div>

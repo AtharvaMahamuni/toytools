@@ -84,10 +84,6 @@ export function getRelatedGuides(slug: string, max = 5, graph = defaultGraph): R
   return resolve(graph, nodeId(CONTENT_TYPES.TOOL, slug), RELATION_TYPES.RELATED_GUIDE, max);
 }
 
-export function getRelatedFaqs(slug: string, max = 5, graph = defaultGraph): ResolvedRelation[] {
-  return resolve(graph, nodeId(CONTENT_TYPES.TOOL, slug), RELATION_TYPES.RELATED_FAQ, max);
-}
-
 export function getUsedWith(slug: string, max = 5, graph = defaultGraph): ResolvedRelation[] {
   return resolve(graph, nodeId(CONTENT_TYPES.TOOL, slug), RELATION_TYPES.USED_WITH, max);
 }
@@ -100,14 +96,12 @@ export function getNextSteps(slug: string, max = 5, graph = defaultGraph): Resol
   return resolve(graph, nodeId(CONTENT_TYPES.TOOL, slug), RELATION_TYPES.NEXT_STEP, max);
 }
 
-/** Tool + its guide/faq + derived related tools/guides/faqs — the topic cluster around a slug. */
+/** Tool + its guide + derived related tools/guides — the topic cluster around a slug. */
 export interface TopicCluster {
   tool?: GraphNode;
   guide?: GraphNode;
-  faq?: GraphNode;
   relatedTools: ResolvedRelation[];
   relatedGuides: ResolvedRelation[];
-  relatedFaqs: ResolvedRelation[];
 }
 
 export function getTopicCluster(slug: string, max = 5, graph = defaultGraph): TopicCluster {
@@ -115,10 +109,8 @@ export function getTopicCluster(slug: string, max = 5, graph = defaultGraph): To
   return {
     tool: index.get(nodeId(CONTENT_TYPES.TOOL, slug)),
     guide: index.get(nodeId(CONTENT_TYPES.GUIDE, slug)),
-    faq: index.get(nodeId(CONTENT_TYPES.FAQ, slug)),
     relatedTools: getRelatedTools(slug, max, graph),
     relatedGuides: getRelatedGuides(slug, max, graph),
-    relatedFaqs: getRelatedFaqs(slug, max, graph),
   };
 }
 

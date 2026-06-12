@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'rtc-faq-1',
     question: 'How is reading time calculated?',
     answer:
-      'Reading time is estimated by dividing the word count by an average reading speed. This tool uses 200 words per minute (wpm) as the baseline — the commonly cited average for adult silent reading of prose. At 200 wpm, a 1,000-word article reads in approximately 5 minutes. The estimate is displayed as minutes and, for longer texts, hours and minutes.',
+      'Reading time is estimated by dividing the word count by an average reading speed. This tool uses 200 words per minute (wpm) as the baseline: the commonly cited average for adult silent reading of prose. At 200 wpm, a 1,000-word article reads in approximately 5 minutes. The estimate is displayed as minutes and, for longer texts, hours and minutes.',
   },
   {
     id: 'rtc-faq-2',
@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'rtc-faq-4',
     question: 'What is the speaking time, and how is it different from reading time?',
     answer:
-      'Speaking time estimates how long a text will take to read aloud or deliver as a speech. The average speaking rate is 130 to 150 words per minute — significantly slower than silent reading. A 500-word script takes about 3 to 4 minutes to deliver aloud compared to 2.5 minutes to read silently.',
+      'Speaking time estimates how long a text will take to read aloud or deliver as a speech. The average speaking rate is 130 to 150 words per minute: significantly slower than silent reading. A 500-word script takes about 3 to 4 minutes to deliver aloud compared to 2.5 minutes to read silently.',
   },
   {
     id: 'rtc-faq-5',
@@ -35,13 +35,13 @@ export const items: FAQItem[] = [
     id: 'rtc-faq-6',
     question: 'Why do different reading time calculators show different estimates?',
     answer:
-      'Most of the variation comes from the assumed reading speed. Some tools use 200 wpm, others use 238 wpm (a figure from a Staples study), and others allow you to set your own rate. The word count method also affects results — different counters handle punctuation and special characters differently. Small differences in estimate are expected and normal.',
+      'Most of the variation comes from the assumed reading speed. Some tools use 200 wpm, others use 238 wpm (a figure from a Staples study), and others allow you to set your own rate. The word count method also affects results: different counters handle punctuation and special characters differently. Small differences in estimate are expected and normal.',
   },
   {
     id: 'rtc-faq-7',
     question: 'Is reading time useful for SEO?',
     answer:
-      'Displaying reading time on a blog post or article can increase click-through rates and reduce bounce rates, because readers set accurate expectations. While Google does not directly use reading time as a ranking factor, engagement signals like time-on-page — which reading time affects — are considered quality indicators. Matching content length to user intent is more important than hitting a specific minute target.',
+      'Displaying reading time on a blog post or article can increase click-through rates and reduce bounce rates, because readers set accurate expectations. While Google does not directly use reading time as a ranking factor, engagement signals like time-on-page (which reading time affects) are considered quality indicators. Matching content length to user intent is more important than hitting a specific minute target.',
   },
   {
     id: 'rtc-faq-8',

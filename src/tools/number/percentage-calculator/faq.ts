@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'pct-faq-4',
     question: 'What is the difference between percentage and percentage points?',
     answer:
-      'A percentage point is the arithmetic difference between two percentages. If interest rates rise from 3% to 5%, that is a 2 percentage point increase — but it is also a 66.7% increase in the rate itself. Confusing the two is a common mistake. "Percentage points" are used when comparing two percentages directly; "percent change" is used when measuring relative change.',
+      'A percentage point is the arithmetic difference between two percentages. If interest rates rise from 3% to 5%, that is a 2 percentage point increase, but it is also a 66.7% increase in the rate itself. Confusing the two is a common mistake. "Percentage points" are used when comparing two percentages directly; "percent change" is used when measuring relative change.',
   },
   {
     id: 'pct-faq-5',

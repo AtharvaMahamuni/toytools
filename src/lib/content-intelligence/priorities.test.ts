@@ -52,7 +52,7 @@ describe('scorePriorities', () => {
   it('returns a descending-sorted roadmap', () => {
     const tools = [
       tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'developer-tools' }),
-      tool({ slug: 'b', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'developer-tools', guide: { slug: 'gb', categorySlug: 'developer', title: 'GB', description: '', readMinutes: 3, updatedAt: 'x' }, faq: { slug: 'b', categorySlug: 'developer' } }),
+      tool({ slug: 'b', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'developer-tools', guide: { slug: 'gb', categorySlug: 'developer', title: 'GB', description: '', readMinutes: 3, updatedAt: 'x' } }),
     ];
     const inputs = makeInputs({ tools, categories, engines: [] });
     const roadmap = scorePriorities(inputs, parts(inputs));

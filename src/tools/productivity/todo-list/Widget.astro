@@ -1,16 +1,11 @@
 ---
 import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import FAQPreview from '@components/FAQPreview.astro';
 import { config } from './config';
-import { items as faqItems } from './faq';
 import { withBase } from '@lib/paths';
 
 const guideHref = config.guide
   ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
-const faqHref = config.faq
-  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
   : null;
 ---
 
@@ -51,12 +46,6 @@ const faqHref = config.faq
   )}
 </ToolSection>
 
-{faqHref && (
-  <section class="content-section">
-    <h2>FAQ</h2>
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
-  </section>
-)}
 
 <style is:global>
   .todo-storage-note {
@@ -173,7 +162,6 @@ const faqHref = config.faq
 
   .todo-task--done .todo-title {
     text-decoration: line-through;
-    opacity: 0.6;
     color: var(--color-text-subtle);
   }
 
@@ -200,6 +188,14 @@ const faqHref = config.faq
     opacity: 1;
   }
 
+  /* Touch devices have no hover — delete buttons must stay visible. */
+  @media (hover: none) {
+    .todo-delete,
+    .todo-subtask-delete {
+      opacity: 1;
+    }
+  }
+
   .todo-delete:hover,
   .todo-subtask-delete:hover { color: var(--color-text); }
 
@@ -214,7 +210,7 @@ const faqHref = config.faq
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    min-height: calc(var(--touch-target) * 0.75);
+    min-height: 44px;
     border-top: var(--border);
     padding-block: var(--space-2);
   }
@@ -237,7 +233,6 @@ const faqHref = config.faq
 
   .todo-subtask--done .todo-subtask-title {
     text-decoration: line-through;
-    opacity: 0.6;
     color: var(--color-text-subtle);
   }
 
@@ -250,7 +245,7 @@ const faqHref = config.faq
 
   .todo-add-subtask input {
     flex: 1;
-    min-height: calc(var(--touch-target) * 0.75);
+    min-height: 44px;
     padding: var(--space-2) var(--space-3);
     border: var(--border);
     border-radius: var(--radius-md);
@@ -261,7 +256,7 @@ const faqHref = config.faq
   }
 
   .todo-add-subtask-btn {
-    min-height: calc(var(--touch-target) * 0.75);
+    min-height: 44px;
     padding-inline: var(--space-3);
     border: var(--border);
     border-radius: var(--radius-md);

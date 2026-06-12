@@ -19,11 +19,14 @@ describe('detectGaps', () => {
 
   it('omits a fully-covered topic', () => {
     const tools = [
-      tool({ slug: 'json-formatter', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'gf', categorySlug: 'developer', title: 'GF', description: '', readMinutes: 3, updatedAt: 'x' }, faq: { slug: 'json-formatter', categorySlug: 'developer' } }),
-      tool({ slug: 'json-minifier', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'gm', categorySlug: 'developer', title: 'GM', description: '', readMinutes: 3, updatedAt: 'x' }, faq: { slug: 'json-minifier', categorySlug: 'developer' } }),
+      tool({ slug: 'json-formatter', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'gf', categorySlug: 'developer', title: 'GF', description: '', readMinutes: 3, updatedAt: 'x' } }),
+      tool({ slug: 'json-minifier', engine: 'structured-data', pattern: 'structured-transform', family: 'json', guide: { slug: 'gm', categorySlug: 'developer', title: 'GM', description: '', readMinutes: 3, updatedAt: 'x' } }),
     ];
     const knowledge = [makeKnowledge({ slug: 'json-formatter' }), makeKnowledge({ slug: 'json-minifier' })];
-    const gaps = detectGaps(makeInputs({ tools, categories, engines: [], knowledge }));
+    const gaps = detectGaps(makeInputs({
+      tools, categories, engines: [], knowledge,
+      faqSlugs: ['json-formatter', 'json-minifier'],
+    }));
     expect(gaps.topics.find(x => x.slug === 'json-formatter')).toBeUndefined();
   });
 

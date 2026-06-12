@@ -7,8 +7,8 @@ import { tool, category, makeInputs } from './fixtures';
 
 const categories = [category({ slug: 'developer-tools', segment: 'developer' })];
 
-function parts(tools: ReturnType<typeof tool>[]) {
-  const inputs = makeInputs({ tools, categories, engines: [] });
+function parts(tools: ReturnType<typeof tool>[], faqSlugs: string[] = []) {
+  const inputs = makeInputs({ tools, categories, engines: [], faqSlugs });
   return {
     coverage: analyzeCoverage(inputs),
     categoryHealth: analyzeCategoryHealth(inputs),
@@ -19,10 +19,10 @@ function parts(tools: ReturnType<typeof tool>[]) {
 describe('summarizeEcosystem', () => {
   it('computes guide/faq coverage percentages', () => {
     const tools = [
-      tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', guide: { slug: 'ga', categorySlug: 'developer', title: 'GA', description: '', readMinutes: 3, updatedAt: 'x' }, faq: { slug: 'a', categorySlug: 'developer' } }),
+      tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', guide: { slug: 'ga', categorySlug: 'developer', title: 'GA', description: '', readMinutes: 3, updatedAt: 'x' } }),
       tool({ slug: 'b', engine: 'e', pattern: 'p', family: 'f' }),
     ];
-    const eco = summarizeEcosystem(parts(tools));
+    const eco = summarizeEcosystem(parts(tools, ['a']));
     expect(eco.toolCount).toBe(2);
     expect(eco.guideCoverage).toBe(50);
     expect(eco.faqCoverage).toBe(50);

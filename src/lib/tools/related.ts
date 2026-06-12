@@ -70,12 +70,3 @@ export function getRelatedGuides(
 ): ToolConfig[] {
   return getRelatedTools(currentTool, allTools.filter(t => t.guide !== undefined), max);
 }
-
-/** Related tools that have a FAQ, ranked by the same 4-tier hierarchy. */
-export function getRelatedFaqs(
-  currentTool: ToolConfig,
-  allTools: ToolConfig[],
-  max = 6,
-): ToolConfig[] {
-  return getRelatedTools(currentTool, allTools.filter(t => t.faq !== undefined), max);
-}

@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -29,11 +26,13 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   toolCategorySlug={config.categorySlug}
 >
   <section id="quick-answer">
-    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>What Is Remove Extra Spaces? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Removing extra spaces collapses any run of two or more spaces or tabs into a single space:
-      "hello     world" becomes "hello world". Line breaks are preserved, so your paragraph
-      structure stays intact.
+      Remove Extra Spaces is a tool to clean up spaces and fix spacing in any text. It will
+      remove multiple spaces, taking any run of two or more spaces and reducing it to one. To
+      remove double spaces or collapse spaces throughout a document, paste and convert. "hello
+      world" becomes "hello world". Line breaks are preserved, so your paragraph structure
+      stays intact.
     </p>
     <a href={toolHref} class="cta-link">Try Remove Extra Spaces →</a>
   </section>
@@ -43,7 +42,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       Double spaces creep in from copy-pasting, the old habit of typing two spaces after a period,
       and text exported from PDFs or spreadsheets. They are usually invisible until they break
-      something — uneven justification in print, mismatched search results, or inconsistent data
+      something: uneven justification in print, mismatched search results, or inconsistent data
       in a column that should contain single-spaced values.
     </p>
     <ReferenceBlock type="key-idea" heading="Spacing vs. whitespace tools">
@@ -60,11 +59,11 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       The tool scans your text and replaces every sequence of consecutive spaces and tabs with a
       single space, leaving newlines and all other characters untouched. For example,
-      "hello&nbsp;&nbsp;&nbsp;world" becomes "hello world" — the extra spaces collapse, but the
+      "hello&nbsp;&nbsp;&nbsp;world" becomes "hello world": the extra spaces collapse, but the
       line break between paragraphs stays.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -72,7 +71,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Expecting it to remove blank lines">
       <p>
-        This tool only collapses spaces and tabs within a line — it does not remove empty lines.
+        This tool only collapses spaces and tabs within a line: it does not remove empty lines.
         If your text has blank rows you want deleted, use the Remove Blank Lines tool instead.
         The two tools complement each other: run Remove Extra Spaces first, then Remove Blank Lines.
       </p>
@@ -90,7 +89,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Remove Extra Spaces vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       This tool is one of several whitespace cleanup alternatives. <strong>Trim Text</strong> removes
-      leading and trailing whitespace from each line but leaves interior spaces alone — it is the right
+      leading and trailing whitespace from each line but leaves interior spaces alone: it is the right
       alternative when you only need to clean the edges. <strong>Normalize Whitespace</strong> is more
       aggressive: it collapses all whitespace (including line breaks) into a single space, flattening
       multi-line text to one line. <strong>Remove Tabs</strong> converts tab characters to spaces rather
@@ -106,10 +105,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

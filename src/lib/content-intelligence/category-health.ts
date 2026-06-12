@@ -16,7 +16,8 @@ export function analyzeCategoryHealth(inputs: AnalyzerInputs): CategoryHealth {
     const catTools = inputs.tools.filter(t => t.categorySlug === cat.slug);
     const tools = catTools.length;
     const guides = catTools.filter(t => t.guide !== undefined).length;
-    const faqs = catTools.filter(t => t.faq !== undefined).length;
+    // FAQ items render on the tool page; presence is injected via inputs.faqSlugs.
+    const faqs = catTools.filter(t => inputs.faqSlugs.has(t.slug)).length;
 
     // Count content relationships (exclude BELONGS_TO_CATEGORY) out of each tool node.
     let relEdges = 0;

@@ -23,12 +23,6 @@ export interface GuideConfig {
   updatedAt: string;    // display string, e.g. "Jun 2026"
 }
 
-export interface FaqConfig {
-  slug: string;
-  categorySlug: string;
-  description?: string;
-}
-
 export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';
 
 export interface ToolConfig {
@@ -41,11 +35,12 @@ export interface ToolConfig {
   isNew?: boolean;
   updatedAt?: string;
   guide?: GuideConfig;
-  faq?: FaqConfig;
+  trustVariant?: 'private' | 'offline' | 'local';
   // Platform metadata — drives related tools, patterns, and future discovery
   engine?: string;           // e.g. 'text-analysis' | 'text-processor'
   pattern?: string;          // e.g. 'text-metric' | 'text-transform'
   family?: string;           // e.g. 'text-counting' | 'text-case' | 'transform' | 'cleanup'
+  toolGroup?: string;        // unified-workspace group id (src/data/tool-groups.ts) — members share a GroupSwitcher + input state
   processorId?: string;      // engine lookup key — resolved via the engine's registry (process/encode/hash/structured)
   relatedTools?: string[];   // explicit curated related-tool slugs (computed getRelatedTools is the fallback)
   keywords?: string[];       // extra search/command-palette terms (architecture metadata, not SEO copy)
@@ -66,5 +61,4 @@ export type Tool = ToolConfig;
 // Backward-compat structural alias for FAQLayout/GuideLayout entry props
 export interface EcosystemEntry {
   guide?: GuideConfig;
-  faq?: FaqConfig;
 }

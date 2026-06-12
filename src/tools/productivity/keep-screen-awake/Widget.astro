@@ -2,16 +2,11 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import FAQPreview from '@components/FAQPreview.astro';
 import { config } from './config';
-import { items as faqItems } from './faq';
 import { withBase } from '@lib/paths';
 
 const guideHref = config.guide
   ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
-const faqHref = config.faq
-  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
   : null;
 ---
 
@@ -85,12 +80,6 @@ const faqHref = config.faq
   )}
 </ToolSection>
 
-{faqHref && (
-  <section class="content-section">
-    <h2>FAQ</h2>
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
-  </section>
-)}
 
 <div id="wl-fullscreen" class="wl-fullscreen" data-state="inactive" hidden>
   <div class="wl-fs-content">
@@ -167,7 +156,7 @@ const faqHref = config.faq
   }
   .wl-fmt:hover, .wl-dur:hover { color: var(--color-text); border-color: var(--color-text-muted); }
   .wl-fmt.selected, .wl-dur.selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
-  .wl-dur:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+  .wl-dur:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
   .wl-dur-inf { font-size: var(--text-2xl); line-height: 1; }
 
   .wl-custom-input {
@@ -179,7 +168,7 @@ const faqHref = config.faq
   }
   .wl-custom-input:focus { outline: none; border-color: var(--color-text-muted); color: var(--color-text); }
   .wl-custom-input.selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
-  .wl-custom-input:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+  .wl-custom-input:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
 
   .wl-toggle-switch {
     display: inline-flex; align-items: center; flex-shrink: 0;
@@ -188,7 +177,7 @@ const faqHref = config.faq
     cursor: pointer; padding: 3px;
     transition: background-color var(--duration-normal) ease, border-color var(--duration-normal) ease;
   }
-  .wl-toggle-switch:disabled { opacity: 0.4; cursor: not-allowed; }
+  .wl-toggle-switch:disabled { opacity: 0.55; cursor: not-allowed; }
   .wl-toggle-knob {
     width: 10px; height: 10px; border-radius: 50%;
     background: var(--color-text-subtle); flex-shrink: 0;
@@ -264,11 +253,12 @@ const faqHref = config.faq
   .wl-fs-btn:hover { color: var(--color-text-muted); }
 
   .wl-fullscreen {
-    position: fixed; inset: 0; z-index: 9999; background: #0F1115;
+    position: fixed; inset: 0; z-index: 9999; background: var(--color-overlay-bg);
     transition: background-color 600ms ease;
     display: flex; align-items: flex-end; justify-content: flex-start; padding: var(--space-8);
   }
   .wl-fullscreen[hidden] { display: none; }
+  /* Per-state scene tints — intentional immersive palette, theme-invariant */
   .wl-fullscreen[data-state="active"]    { background: #16100A; }
   .wl-fullscreen[data-state="completed"] { background: #071A0D; }
 
@@ -276,15 +266,15 @@ const faqHref = config.faq
   .wl-fs-status-row { display: flex; align-items: center; gap: var(--space-3); }
   .wl-fs-dot { width: 12px; height: 12px; }
 
-  .wl-fs-label { font-size: var(--text-xl); font-weight: var(--font-weight-semibold); color: #F4F4F4; }
+  .wl-fs-label { font-size: var(--text-xl); font-weight: var(--font-weight-semibold); color: var(--color-overlay-text); }
 
   .wl-fs-timer { display: flex; flex-direction: column; gap: var(--space-1); }
   .wl-fs-timer[hidden] { display: none; }
 
-  .wl-fs-timer-meta { font-size: var(--text-xs); color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; }
+  .wl-fs-timer-meta { font-size: var(--text-xs); color: var(--color-overlay-muted); text-transform: uppercase; letter-spacing: 0.08em; }
   .wl-fs-timer-value {
     font-family: var(--font-mono); font-size: var(--text-xl);
-    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: #F4F4F4;
+    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: var(--color-overlay-text);
   }
 
   .wl-fs-meta-block {
@@ -293,15 +283,15 @@ const faqHref = config.faq
   }
   .wl-fs-meta-row { display: contents; }
   .wl-fs-meta-row[hidden] { display: none; }
-  .wl-fs-meta-value { font-size: var(--text-sm); color: #A0A0A0; font-weight: var(--font-weight-medium); }
+  .wl-fs-meta-value { font-size: var(--text-sm); color: var(--color-overlay-muted); font-weight: var(--font-weight-medium); }
 
   .wl-fs-exit {
     position: absolute; top: var(--space-6); right: var(--space-6);
     background: none; border: none; padding: var(--space-2);
-    color: #6b7280; font-size: var(--text-lg); font-family: inherit;
+    color: var(--color-overlay-muted); font-size: var(--text-lg); font-family: inherit;
     cursor: pointer; transition: color var(--duration-fast) ease; line-height: 1;
   }
-  .wl-fs-exit:hover { color: #F4F4F4; }
+  .wl-fs-exit:hover { color: var(--color-overlay-text); }
 </style>
 
 <script is:inline>

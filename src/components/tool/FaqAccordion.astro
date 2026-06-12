@@ -11,7 +11,16 @@ const { items } = Astro.props;
 <section class="faq-items">
   {items.map(item => (
     <details id={item.id} class="faq-item">
-      <summary class="faq-question">{item.question}</summary>
+      <summary class="faq-question">
+        <span class="faq-chevron" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </span>
+        {item.question}
+      </summary>
       <p class="faq-answer">{item.answer}</p>
     </details>
   ))}
@@ -19,12 +28,12 @@ const { items } = Astro.props;
 
 <style>
   .faq-items {
-    padding-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
   }
 
   .faq-item {
     border-top: var(--border);
-    padding-block: var(--space-4);
+    padding-block: var(--space-3);
   }
 
   .faq-item:last-child {
@@ -38,6 +47,7 @@ const { items } = Astro.props;
     font-size: var(--text-base);
     display: flex;
     align-items: center;
+    gap: var(--space-3);
     list-style: none;
     color: var(--color-text);
   }
@@ -46,26 +56,26 @@ const { items } = Astro.props;
     display: none;
   }
 
-  .faq-question::before {
-    content: '+';
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-normal);
-    color: var(--color-text-subtle);
-    margin-right: var(--space-3);
+  .faq-chevron {
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
-    transition: var(--transition-color);
+    color: var(--color-text-subtle);
+    transition: transform 200ms ease, color 150ms ease;
   }
 
-  details[open] .faq-question::before {
-    content: '−';
+  details[open] .faq-chevron {
+    transform: rotate(90deg);
     color: var(--color-text-muted);
   }
 
   .faq-answer {
-    padding-top: var(--space-3);
-    padding-left: calc(var(--space-3) + 1ch + var(--space-3));
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-1);
+    padding-left: calc(16px + var(--space-3));
     color: var(--color-text-muted);
     line-height: var(--leading-relaxed);
     max-width: 65ch;
+    font-size: var(--text-sm);
   }
 </style>

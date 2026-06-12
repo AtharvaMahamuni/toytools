@@ -7,10 +7,10 @@ const categories = [category({ slug: 'developer-tools', segment: 'developer' })]
 describe('analyzeCoverage', () => {
   it('marks tool true and reflects guide/faq presence', () => {
     const tools = [
-      tool({ slug: 'json-formatter', guide: { slug: 'g', categorySlug: 'developer', title: 'G', description: '', readMinutes: 3, updatedAt: 'x' }, faq: { slug: 'json-formatter', categorySlug: 'developer' } }),
+      tool({ slug: 'json-formatter', guide: { slug: 'g', categorySlug: 'developer', title: 'G', description: '', readMinutes: 3, updatedAt: 'x' } }),
       tool({ slug: 'json-minifier' }),
     ];
-    const cov = analyzeCoverage(makeInputs({ tools, categories, engines: [] }));
+    const cov = analyzeCoverage(makeInputs({ tools, categories, engines: [], faqSlugs: ['json-formatter'] }));
     expect(cov['json-formatter']).toMatchObject({ tool: true, guide: true, faq: true });
     expect(cov['json-minifier']).toMatchObject({ tool: true, guide: false, faq: false });
   });

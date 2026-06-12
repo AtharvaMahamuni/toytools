@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,9 +28,10 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Sentence case capitalizes only the first letter of each sentence, along with proper
-      nouns — exactly like ordinary writing: "the quick brown fox" becomes "The quick brown fox".
-      It is the default style for body text, UI labels, and button copy.
+      Sentence case is a simple way to capitalize sentences. It will capitalize first letter of sentence
+      boundaries and proper nouns, exactly like ordinary writing. "the quick brown fox" becomes
+      "The quick brown fox". To produce sentence case text, paste and convert. It is the default
+      style for body text, UI labels, and button copy, and the fastest way to fix capitalization.
     </p>
     <a href={toolHref} class="cta-link">Try The Sentence Case Converter →</a>
   </section>
@@ -43,13 +41,13 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       Sentence case mirrors how we actually speak and read, so it feels natural and is easy to
       scan. That is why most digital style guides recommend it for headings, microcopy, and
-      especially long-form text — it reads more smoothly than Title Case and carries less visual
+      especially long-form text: it reads more smoothly than Title Case and carries less visual
       noise.
     </p>
     <ReferenceBlock type="key-idea" heading="Fixing inconsistent capitalization">
       <p>
         Sentence case is the quickest way to clean up text that arrived with random
-        capitalization — pasted chat logs, OCR output, or all-caps notes. Convert to sentence
+        capitalization: pasted chat logs, OCR output, or all-caps notes. Convert to sentence
         case first, then fix any proper nouns by hand.
       </p>
     </ReferenceBlock>
@@ -62,10 +60,10 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       first letter after each sentence-ending mark (<code>.</code>, <code>!</code>, or
       <code>?</code>). For example, "HELLO WORLD. THE FOX RUNS FAST!" becomes "Hello world. The
       fox runs fast!" Because software cannot reliably detect names and places, proper nouns are
-      left lowercase — give them a quick manual pass if needed.
+      left lowercase: give them a quick manual pass if needed.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -74,8 +72,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <ReferenceBlock type="common-mistake" heading="Proper nouns become lowercase">
       <p>
         The converter cannot tell that "london" should be "London" or that "apple" is the
-        company name "Apple". After converting, scan for any proper nouns — people's names,
-        places, brands — and re-capitalise them by hand.
+        company name "Apple". After converting, scan for any proper nouns (people's names, places, brands) and re-capitalise them by hand.
       </p>
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Abbreviations trigger false sentence breaks">
@@ -96,7 +93,9 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       for acronyms and emphasis. <strong>Lowercase</strong> is used for code identifiers and
       normalisation. Sentence case is the modern default for digital interfaces: Google, Apple,
       and most web style guides recommend it over Title Case for everything from navigation
-      labels to error messages.
+      labels to error messages. When choosing sentence case converter vs alternatives, prefer
+      sentence case for UI copy and prose, Title Case for article and book titles, and uppercase
+      for acronyms or short constants.
     </p>
   </section>
 
@@ -107,10 +106,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

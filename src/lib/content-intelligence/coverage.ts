@@ -11,7 +11,8 @@ export function analyzeCoverage(inputs: AnalyzerInputs): CoverageReport {
     report[t.slug] = {
       tool: true,
       guide: t.guide !== undefined,
-      faq: t.faq !== undefined,
+      // FAQ items render on the tool page; presence is injected via inputs.faqSlugs.
+      faq: inputs.faqSlugs.has(t.slug),
       relatedTools: getRelatedTools(t.slug, 1, inputs.graph).length > 0,
       relatedGuides: getRelatedGuides(t.slug, 1, inputs.graph).length > 0,
     };

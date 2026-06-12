@@ -23,6 +23,6 @@ export const items: FAQItem[] = [
     id: 'sc-faq-4',
     question: 'Is sentence case better than Title Case for most writing?',
     answer:
-      'For body text, UI copy, and subheadings, yes — sentence case reads more naturally and is easier on the eye. Reserve Title Case for short headings and titles.',
+      'For body text, UI copy, and subheadings, yes, sentence case reads more naturally and is easier on the eye. Reserve Title Case for short headings and titles.',
   },
 ];

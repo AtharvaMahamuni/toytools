@@ -42,16 +42,15 @@ Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.ast
 
 ## SEO Engine
 
-Local-first pipeline for researching and improving tool content quality. All commands run from the project root.
+Local-first pipeline for researching, writing, and auditing tool content (guides, FAQs, knowledge files). The **`seo-content` skill** (`.claude/skills/seo-content/`) is the entry point for all content work — it routes through `seo:status` and the generated per-tool authoring brief.
 
-| Command | Purpose |
-|---------|---------|
-| `npm run seo:research -- <slug>` | Fetch SERP + competitor pages + Reddit signals |
-| `npm run seo:extract -- <slug>` | Parse into structured `research/<slug>.json` |
-| `npm --prefix seo-engine run seo:writing-tool -- <slug>` | Audit Guide.astro + faq.ts quality (20 dimensions) |
-| `npm --prefix seo-engine run seo:writing -- <slug>` | Writing-only quality scan |
+```sh
+npm run seo:status -- <slug>   # ALWAYS start here: pipeline state + exact next command
+npm run seo:gate -- <slug>     # quality gate (exit 1 below the bar) — the done-condition for content
+npm run seo:doctor             # run when any seo:* command misbehaves: detects engine/codebase drift
+```
 
-See `.claude/skills/seo-engine.md` for the full pipeline, score interpretation, reddit workflow, and runbooks.
+Research → extract → scaffold produce `seo-engine/output/<slug>/PROMPT.md`, a self-contained authoring brief (style contract, registration snippets, acceptance commands). Full command table: `seo-engine/README.md`. Writing hard rule: **no em-dashes anywhere** (the gate fails on any occurrence).
 
 ## Git workflow
 
@@ -86,6 +85,10 @@ For any `text → process(text) → text` tool, use the **Text Processor System*
 
 The shared `TextProcessorWidget.astro` is generic and must never be edited to add a tool or a new processor family (`extract`/`compare`/`validate`/`format` register the same way). `validate-registry.ts` enforces that each `text-processor` tool's `processorId` resolves in the registry.
 
+### Tool Groups (unified workspaces)
+
+Sibling tools sharing one engine + experience (e.g. the 7 case converters) can form a **tool group**: each member keeps its own URL/metadata/guide/FAQ/sitemap entry (never merge URLs), but the tool page renders a `GroupSwitcher` pill row above the widget and `TextProcessorWidget` persists input under the shared key `group:{id}` so text survives mode switches. Declare the group in `src/data/tool-groups.ts` (ordered members + switcher labels) and set `toolGroup: '<id>'` in each member's `config.ts` — `validate-registry.ts` enforces bidirectional membership and same engine/pattern across members. Switching is real `<a>` navigation (sibling pages are prefetched; `@view-transition` in `global.css` gives a CSS-only cross-fade). See `ARCHITECTURE.md` → "Tool Groups".
+
 ### Adding a developer-engine tool (encoding / hashing / structured-data)
 
 The Developer category has three more engines under `src/lib/engines/`, each with the same shape as the text-processor system: `types.ts` + a never-throwing `registry.ts` resolver + per-impl files + a colocated `*.test.ts`, bundled into `ToyToolsRuntime` and consumed by **one generic widget per engine**. See `ARCHITECTURE.md` → "Developer Engines" for the full table.
@@ -100,11 +103,11 @@ The Developer category has three more engines under `src/lib/engines/`, each wit
 2. Create `config.ts` (`engine`, `pattern`, `family`, `processorId`, and curated `relatedTools`) + a **3-line** `Widget.astro` rendering the engine widget. Add the registry import + array entry.
 3. Extend the engine's `*.test.ts` (test the engine, not the tool). Optional guide/faq register as usual.
 
-**Widget conventions** (apply if you ever touch the shared engine widgets): the two-pane look comes from the shared `.io-*` classes in `src/styles/tool-widget.css` (don't re-declare per widget); widgets update **live on input** (no Generate/Convert button); extra controls (mode select, Swap, Sample) live in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`. Verify in a real browser with `npm run test:e2e` (Playwright, runs desktop + mobile).
+**Widget conventions** (apply if you ever touch the shared engine widgets): every framed pane is composed from the `IoPanel` primitive (`src/tools/_shared/IoPanel.astro`) — **never hand-write `.io-panel`/`.io-header` markup**; the `.io-*` styles live in `src/styles/tool-widget.css` (don't re-declare per widget); widgets update **live on input** (no Generate/Convert button); panels are fixed-height with internal scroll (no auto-growing textareas — page geometry must not change while typing) and equalize column heights on desktop; the mode select goes in `IoPanel`'s `header-end` slot, Swap/Sample in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`. See `ARCHITECTURE.md` → "Design Language". Verify in a real browser with `npm run test:e2e` (Playwright, runs desktop + mobile).
 
 `processorId` is the universal config→engine lookup key. `KNOWN_ENGINES`/`KNOWN_PATTERNS` in `validate-registry.ts` derive from `engineRegistry` (`src/data/engines.ts`) — **register a new engine/pattern there**, not in the validator. `validate-registry` also checks metadata completeness, category/engine/pattern/relatedTools resolution, and duplicate slugs/URLs. Run `npm run health` for the post-build platform integrity superset.
 
-The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides/faqs appear automatically; never hand-edit a sitemap.
+The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides appear automatically; never hand-edit a sitemap.
 
 ### Removing a tool (2 steps)
 
@@ -113,23 +116,24 @@ The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/si
 
 Nothing else needs to change.
 
-### Adding a guide or FAQ to a tool
+### Adding a guide to a tool
 
-In `config.ts`, add a `guide: GuideConfig` and/or `faq: FaqConfig` object.
-Then create `Guide.astro` and/or `faq.ts` in the same tool directory.
-
-For a new guide, add **two** entries: a static import in `src/pages/guide/[...slug].astro`
+In `config.ts`, add a `guide: GuideConfig` object, then create `Guide.astro` in the same tool
+directory. Add **two** entries: a static import in `src/pages/guide/[...slug].astro`
 (its `guidesBySlug` map) **and** the tool's slug in `registeredGuideSlugs` (`src/data/guide-registry.ts`).
-For a new FAQ, add an import + `faqsByToolSlug` entry in `src/data/faq-registry.ts`.
+`validate-registry.ts` fails the build when a declared guide is not registered.
 
-`validate-registry.ts` enforces this: a tool that declares `guide:`/`faq:` in `config.ts` but is **not**
-registered (missing from `guide-registry.ts` or with no `faqsByToolSlug` entries) **fails the build** —
-otherwise the tool page would link to a guide/FAQ page that renders empty with no error.
+### Adding a FAQ to a tool
 
-Guide/FAQ content is surfaced **on the tool page itself**, not only as a backlink: the tool page renders
-a compact `GuideTeaser` card (links to the full guide) and the full `FaqAccordion` (shared with the
-canonical `/faq/` page). The `FAQPage` JSON-LD stays only on the `/faq/` page to avoid duplicate
-structured data — do **not** add it to the tool page.
+FAQ lives **on the tool page only** — there is no `faq` config field and no standalone FAQ pages.
+Create `faq.ts` (exports `const items: FAQItem[]`) in the tool directory and register it with one
+import + `faqsByToolSlug` entry in `src/data/faq-registry.ts`. The tool page then automatically
+renders the `FaqAccordion` in its `#faq` section, emits `FAQPage` JSON-LD, and shows the
+"Common Questions (N)" anchor in `ToolNavRow`.
+
+Historical note: the old `/faq/{segment}/{slug}/` pages are **redirect stubs** (meta-refresh +
+canonical → tool page `#faq`), generated from `src/data/faq-redirects.ts`. They are noindex and in
+no sitemap. Never add new entries there — it exists only to preserve previously-indexed URLs.
 
 ### Adding a knowledge file (Knowledge Graph — Phase D)
 
@@ -198,7 +202,7 @@ src/tools/
 Each tool directory contains:
 ```
 src/tools/<segment>/<slug>/
-├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, faq?
+├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, toolGroup?
 ├── Widget.astro     # Self-contained tool UI (required)
 ├── faq.ts           # exports: const items: FAQItem[] (optional — only if tool has FAQ)
 └── Guide.astro      # Wraps GuideLayout with full guide content (optional)
@@ -240,7 +244,7 @@ Empty state: secondary metrics are **hidden entirely**; hero shows `0`/`0 min` v
 
 ```
 src/data/
-├── types.ts          # ToolConfig, GuideConfig, FaqConfig, FAQItem, Category, EcosystemEntry
+├── types.ts          # ToolConfig, GuideConfig, FAQItem, Category, EcosystemEntry
 ├── categories.ts     # Category definitions (accent colors, segments)
 ├── registry.ts       # Single source of truth — imports all tool configs
 └── faq-registry.ts   # Imports all faq.ts files by tool slug
@@ -259,7 +263,7 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
 ### BackButton
 
 `src/components/BackButton.astro` renders a mobile-only ← Back button (hidden above 640px).
-It is automatically included in `ToolLayout`, `FAQLayout`, and `GuideLayout`.
+It is automatically included in `GuideLayout`.
 Do not add it manually in widgets.
 
 ### Path/URL handling — always use `withBase`
@@ -277,7 +281,12 @@ URL structure (singular, not plural):
 - `/tool/{segment}/{slug}/` — tool pages
 - `/category/{slug}/` — category pages
 - `/guide/{category}/{slug}/` — guide pages
-- `/faq/{category}/{slug}/` — FAQ pages
+- `/faq/{category}/{slug}/` — redirect stubs only (→ tool page `#faq`; see faq-redirects.ts)
+
+**Discovery surfaces:** the homepage renders `ToolDirectory.astro` (compact per-category link
+columns; tool groups collapse to one entry) and category pages render `CategoryToolList.astro`
+(sectioned rows from `src/data/category-sections.ts` — add a `pattern → section` row there when
+registering a new pattern). No tile grids. See `ARCHITECTURE.md` → "Discovery surfaces".
 
 `withBase` is a build-time server function; do not call it inside `<script is:inline>`.
 
@@ -300,11 +309,14 @@ Add `data-copy-bar` to any panel header that should turn green on copy.
 ### CSS design system
 
 All values come from `src/styles/tokens.css` custom properties. Key constraints:
-- Single accent token: `--color-accent`. Change it to retheme everything.
-- Semantic status tokens: `--color-success` (green), `--color-danger` (red, `#dc2626` light / `#ef4444` dark). Use `--color-danger` for destructive action confirmation states.
-- Typography scale: `--text-xs` through `--text-5xl` (3rem). Hero metrics use `--text-5xl`.
+- Palette: "Warm Paper & Ink" — warm off-white surfaces + soft-ink text (light), warm graphite (dark). Accent family: `--color-accent` (forest green `#2F6B4F` light / `#84C2A3` dark — single retheme point), `--color-accent-subtle`, `--color-accent-strong` (accent text on accent-subtle, AA). See `ARCHITECTURE.md` → "Design Language".
+- Semantic status tokens: `--color-success` (brighter/cooler green than the accent — transient state only, never links/focus), `--color-danger` (red). Use `--color-danger` for destructive action confirmation states.
+- Immersive fullscreen overlays use the theme-invariant `--color-overlay-*` tokens (always dark, never themed).
+- Focus: one global `:focus-visible` ring from `--focus-ring`/`--focus-ring-offset` — don't add per-component rings.
+- Typography scale: `--text-xs` through `--text-5xl` (3rem). Hero metrics use `--text-5xl` with `tabular-nums`.
 - Transitions: only `color`, `background-color`, `border-color`. Durations: `150ms` or `200ms` only.
 - Touch targets: minimum `var(--touch-target)` (48px).
+- Section boundaries: one hairline drawn by the lower section (`margin-top`/`border-top`/`padding-top`, 32px rhythm; guides 48px). Sections never own a `border-bottom`.
 - Widths: shell/chrome/home/category `var(--width-shell)` (1440px), tool pages & 2-col splits `var(--width-content)` (1100px), guide prose `var(--width-prose)` (72ch), FAQ/narrow forms `var(--width-tool)` (820px). `--width-category`/`--width-nav` alias `--width-shell`. Applied via `BaseLayout`'s `maxWidth` prop (`'shell' | 'content' | 'tool' | 'full'`; `'category'` aliases shell) on an inner `.page-content` div — `<main>` spans shell width. Status tints: `--color-success-bg`, `--color-danger-bg`.
 - Shared widget CSS lives in `src/styles/tool-widget.css` (imported by `global.css`).
 

@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'tc-faq-2',
     question: 'Which words should be capitalized in a title?',
     answer:
-      'Traditional style guides capitalize nouns, verbs, adjectives, and adverbs, and keep articles (a, an, the), short prepositions (in, on, at, of), and coordinating conjunctions (and, but, or) lowercase — unless they begin the title. This tool capitalizes the first letter of every word, which is the most common convention and a reliable starting point you can fine-tune.',
+      'Traditional style guides capitalize nouns, verbs, adjectives, and adverbs, and keep articles (a, an, the), short prepositions (in, on, at, of), and coordinating conjunctions (and, but, or) lowercase, unless they begin the title. This tool capitalizes the first letter of every word, which is the most common convention and a reliable starting point you can fine-tune.',
   },
   {
     id: 'tc-faq-3',

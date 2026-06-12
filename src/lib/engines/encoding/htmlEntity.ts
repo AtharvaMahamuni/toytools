@@ -2,7 +2,8 @@ import type { EncodingTool } from './types';
 
 // HTML entity encoding — pure JS (no DOMParser, so it runs in the bundled module
 // context, not just the browser). Encodes the five characters that are significant
-// in HTML markup; decodes named + numeric (decimal & hex) references.
+// in HTML markup; decodes the common named references plus numeric (decimal & hex)
+// references. Unknown named entities pass through unchanged.
 
 const NAMED_DECODE: Record<string, string> = {
   amp: '&',
@@ -10,7 +11,26 @@ const NAMED_DECODE: Record<string, string> = {
   gt: '>',
   quot: '"',
   apos: "'",
-  '#39': "'",
+  nbsp: ' ',
+  copy: '©',
+  reg: '®',
+  trade: '™',
+  mdash: '—',
+  ndash: '–',
+  hellip: '…',
+  ldquo: '“',
+  rdquo: '”',
+  lsquo: '‘',
+  rsquo: '’',
+  laquo: '«',
+  raquo: '»',
+  times: '×',
+  divide: '÷',
+  deg: '°',
+  middot: '·',
+  bull: '•',
+  sect: '§',
+  para: '¶',
 };
 
 // Order matters: ampersand first so the entities we emit aren't double-encoded.

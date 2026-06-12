@@ -17,6 +17,7 @@ export const config: ToolConfig = {
   engine: 'productivity',
   pattern: 'stateful',
   family: 'timer',
+  relatedTools: ['todo-list', 'keep-screen-awake', 'notepad'],
   guide: {
     slug: 'pomodoro-technique',
     categorySlug: 'productivity',
@@ -25,9 +26,5 @@ export const config: ToolConfig = {
     readMinutes: 6,
     updatedAt: 'Jun 2026',
   },
-  faq: {
-    slug: 'pomodoro-timer',
-    categorySlug: 'productivity',
-    description: 'Answers to common questions about the Pomodoro Timer and technique.',
-  },
+  trustVariant: 'local',
 };

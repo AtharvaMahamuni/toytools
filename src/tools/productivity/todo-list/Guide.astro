@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -38,7 +35,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       People use todo lists to stay organized, reduce mental load, and see exactly what is left to do.
       The simpler the list, the more useful it tends to be. This browser to-do list saves every task
-      automatically to browser storage — localStorage, a private area built into your browser. Your
+      automatically to browser storage: localStorage, a private area built into your browser. Your
       tasks never leave your device, and persistence means your list is there when you return.
     </p>
     <a href={toolHref} class="cta-link">Try The Todo List →</a>
@@ -47,8 +44,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="why-todo-lists-work">
     <h2>Why Todo Lists Work <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Your working memory — the part of your brain that holds information you are actively using —
-      can only keep track of a small number of things at once. Psychologists often cite around four
+      Your working memory: the part of your brain that holds information you are actively using, can only keep track of a small number of things at once. Psychologists often cite around four
       items as the practical limit.
     </p>
     <p>
@@ -58,7 +54,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
     <p>
       Writing tasks down solves this. Once a task is on a list, your brain can let go of it.
-      The list becomes your external memory — reliable, always there when you need it, and requiring
+      The list becomes your external memory: reliable, always there when you need it, and requiring
       no mental effort to maintain.
     </p>
     <ReferenceBlock type="key-idea" heading="The core benefit">
@@ -80,7 +76,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       <strong>Visible progress.</strong> Ticking a checkbox to mark a task complete is a small
       but satisfying signal that progress is happening. Completed tasks stay visible so you can
-      see what you have accomplished — especially useful on days when it does not feel like much
+      see what you have accomplished: especially useful on days when it does not feel like much
       is getting done.
     </p>
     <p>
@@ -94,12 +90,12 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>The simplest approach has five steps that repeat every day.</p>
     <p>
       <strong>Capture.</strong> Write down every task as soon as you think of it. Do not filter or
-      judge — just get it out of your head and onto the list. An incomplete capture is the most
+      judge: just get it out of your head and onto the list. An incomplete capture is the most
       common reason todo lists fail.
     </p>
     <p>
       <strong>Clarify.</strong> Make sure each task is specific and actionable. "Deal with project"
-      is not a task — you cannot do it. "Write first draft of project summary" is a task. If you
+      is not a task: you cannot do it. "Write first draft of project summary" is a task. If you
       cannot start a task in the next few minutes, it probably needs to be broken down further.
     </p>
     <p>
@@ -108,7 +104,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
     <p>
       <strong>Complete.</strong> Work through your list. When a task is done, check it off. The
-      act of marking something complete is small but satisfying — it signals to your brain that
+      act of marking something complete is small but satisfying: it signals to your brain that
       progress is happening.
     </p>
     <p>
@@ -163,7 +159,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
 
     <ReferenceBlock type="common-mistake" heading="Lists that are too long">
       <p>
-        A list of fifty tasks is not a plan — it is a backlog. When every day starts with an
+        A list of fifty tasks is not a plan: it is a backlog. When every day starts with an
         overwhelming list, the list becomes a source of guilt rather than a useful tool.
         Focus on what actually needs to happen today. Keep the active list short.
       </p>
@@ -179,8 +175,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       Written task lists have existed for as long as people have had too much to remember.
       Ancient merchants kept records of transactions and obligations. Military commanders
-      used written orders to coordinate actions across large forces. The basic idea — write
-      down what needs to be done — has never changed.
+      used written orders to coordinate actions across large forces. The basic idea (write down what needs to be done) has never changed.
     </p>
     <p>
       The modern paper checklist became a standard tool in aviation during the 1930s, after
@@ -194,11 +189,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       remains the same as it was thousands of years ago: write it down so you do not have
       to remember it.
     </p>
-  </section>
-
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
   </section>
 
 </GuideLayout>

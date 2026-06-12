@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn what trimming does, why trailing spaces cause bugs, and how to clean the start and end of every line at once.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'trim-text',
-    categorySlug: 'text',
-    description: 'Answers to common questions about trimming whitespace from text.',
-  },
-};
+  },};

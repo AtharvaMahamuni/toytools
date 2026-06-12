@@ -12,6 +12,8 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'titleCase',
+  toolGroup: 'case-converters',
+  relatedTools: ['uppercase-converter', 'lowercase-converter', 'sentence-case-converter'],
   guide: {
     slug: 'how-to-convert-text-to-title-case',
     categorySlug: 'text',
@@ -19,10 +21,4 @@ export const config: ToolConfig = {
     description: 'Learn what Title Case is, the rules for which words to capitalize, and when to use it for headings and titles.',
     readMinutes: 4,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'title-case-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about Title Case and capitalizing headings.',
-  },
-};
+  },};

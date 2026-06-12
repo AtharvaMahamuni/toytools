@@ -29,11 +29,14 @@ export function analyzeText(text: string): TextAnalysis {
     };
   }
 
+  // Whitespace-delimited word count — known limitation: scripts written without
+  // spaces (CJK) count a whole run as one word.
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const characters = text.length;
   const charactersNoSpaces = text.replace(/\s/g, '').length;
 
-  // Count sentence-ending punctuation groups (e.g. "..." counts as one)
+  // Count sentence-ending punctuation groups (e.g. "..." counts as one).
+  // Known limitation: abbreviations ("Dr. Smith.") over-count by one per period.
   const punctuationGroups = (text.match(/[.!?]+/g) ?? []).length;
   const sentences = punctuationGroups > 0 ? punctuationGroups : 1;
 
@@ -43,10 +46,11 @@ export function analyzeText(text: string): TextAnalysis {
   const readingTime = Math.max(1, Math.round(words / 200));
   const speakingTime = Math.max(1, Math.round(words / 130));
 
-  const tokens = text.toLowerCase().match(/[a-z']+/g) ?? [];
+  // Unicode-aware tokens: letters, digits, apostrophes — "café" and "2024" are words.
+  const tokens = text.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? [];
   const uniqueWords = new Set(tokens).size;
 
-  const totalLetters = text.replace(/[^a-zA-Z]/g, '').length;
+  const totalLetters = (text.match(/\p{L}/gu) ?? []).length;
   const averageWordLength = words > 0
     ? Math.round((totalLetters / words) * 10) / 10
     : 0;

@@ -12,6 +12,8 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'lowercase',
+  toolGroup: 'case-converters',
+  relatedTools: ['uppercase-converter', 'title-case-converter', 'sentence-case-converter'],
   guide: {
     slug: 'how-to-convert-text-to-lowercase',
     categorySlug: 'text',
@@ -19,10 +21,4 @@ export const config: ToolConfig = {
     description: 'Learn what lowercase means, where lowercase text is required, and how to convert text to lowercase in one step.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'lowercase-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about converting text to lowercase.',
-  },
-};
+  },};

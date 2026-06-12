@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,9 +28,10 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      snake_case writes everything in lowercase and joins words with underscores:
-      "user profile image" becomes "user_profile_image". It is the standard naming style in
-      Python and in SQL databases.
+      This snake case converter (also called underscore case) writes everything in lowercase
+      and joins words with underscores: "user profile image" becomes "user_profile_image". It
+      follows the standard python naming convention for variables and functions, and is equally
+      common for SQL database column names.
     </p>
     <a href={toolHref} class="cta-link">Try The snake_case Converter →</a>
   </section>
@@ -62,7 +60,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       Every line is converted on its own, so you can transform a whole column of names at once.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -79,7 +77,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       <p>
         In Python and many other languages, module-level constants are written in SCREAMING_SNAKE_CASE
         (all uppercase underscored): <code>MAX_RETRIES</code>, <code>DEFAULT_TIMEOUT</code>.
-        This converter produces lowercase snake_case — convert to uppercase separately if you need
+        This converter produces lowercase snake_case: convert to uppercase separately if you need
         the constant form.
       </p>
     </ReferenceBlock>
@@ -89,7 +87,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>snake_case vs Other Naming Conventions <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       snake_case is one of several alternatives for naming identifiers. <strong>camelCase</strong>
-      is the standard for JavaScript, Java, and Swift — no separators, capital letter marks each word.
+      is the standard for JavaScript, Java, and Swift: no separators, capital letter marks each word.
       <strong>kebab-case</strong> uses hyphens instead of underscores and is common for CSS and URL slugs,
       but most programming languages cannot use it for variable names. <strong>PascalCase</strong> is
       used for class names in most languages. snake_case's main advantage over these alternatives is
@@ -105,10 +103,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

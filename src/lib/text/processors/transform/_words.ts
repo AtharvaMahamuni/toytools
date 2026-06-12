@@ -1,10 +1,12 @@
 // Shared helper for identifier-style transforms (camel/snake/kebab).
 // Splits a single line into word tokens: breaks camelCase humps, treats any
-// run of non-alphanumeric characters as a separator, and drops empties.
+// run of non-letter/non-digit characters as a separator, and drops empties.
+// Unicode-aware (\p{L}/\p{N}) so accented letters are kept, not destroyed
+// ("café menu" → ['café', 'menu'], not ['caf', 'menu']).
 export function splitWords(line: string): string[] {
   return line
-    .replace(/([a-z0-9])([A-Z])/g, '$1 $2') // camelCase / PascalCase humps
-    .replace(/[^a-zA-Z0-9]+/g, ' ')         // separators → space
+    .replace(/([\p{Ll}\p{N}])(\p{Lu})/gu, '$1 $2') // camelCase / PascalCase humps
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')              // separators → space
     .trim()
     .split(/\s+/)
     .filter(Boolean);

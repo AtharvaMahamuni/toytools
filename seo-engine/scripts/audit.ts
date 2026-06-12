@@ -132,6 +132,8 @@ for (const toolSlug of toolDirs) {
     lines.push('### Writing Recommendations');
     writing.recommendations.forEach(r => lines.push(`- ${r}`));
     lines.push('');
+  }
+
   // Reddit Intelligence — only when posts were collected for this tool.
   if ((doc.sampleSize ?? 0) > 0) {
     const sig = (s: { topic: string; frequency: number; engagement: number; category?: string }) =>

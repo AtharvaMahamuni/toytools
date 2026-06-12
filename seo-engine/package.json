@@ -16,6 +16,8 @@
     "seo:generate": "tsx scripts/generate.ts",
     "seo:writing": "tsx scripts/writing.ts",
     "seo:writing-tool": "tsx scripts/analyze-tool.ts",
+    "seo:doctor": "tsx scripts/doctor.ts",
+    "seo:status": "tsx scripts/status.ts",
     "seo:typecheck": "tsc --noEmit"
   },
   "dependencies": {

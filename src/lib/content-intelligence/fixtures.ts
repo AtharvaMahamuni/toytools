@@ -44,6 +44,8 @@ export interface FixtureOptions {
   engines: EngineManifest[];
   knowledge?: Knowledge[];
   taxonomy?: ExpansionTaxonomy;
+  /** Slugs of tools whose page renders FAQ items (mirrors faq-registry presence). */
+  faqSlugs?: string[];
 }
 
 /** Assemble AnalyzerInputs with a real graph built from the given tools + knowledge. */
@@ -57,6 +59,7 @@ export function makeInputs(opts: FixtureOptions): AnalyzerInputs {
     graph,
     knowledge,
     taxonomy: opts.taxonomy ?? [],
+    faqSlugs: new Set(opts.faqSlugs ?? []),
   };
 }
 

@@ -1,0 +1,226 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base64 is a binary-to-text encoding format. It converts data into text characters so that
+      binary information can be safely transmitted through systems designed primarily for text.
+    </p>
+    <p>
+      If you just need to encode or decode something right now, you can use the tool directly.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Base64 Encoder &amp; Decoder →</a>
+  </section>
+
+  <section id="what-is-base64">
+    <h2>What Is Base64? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Imagine you have a photograph saved on your computer. That photo is made up of raw binary
+      data: millions of 0s and 1s. Now imagine you need to send that photo inside a text message
+      or an email that only understands plain text characters. You have a problem.
+    </p>
+    <p>
+      Base64 solves this. It takes any kind of binary data and converts it into a safe string of
+      64 characters: the 26 uppercase letters (A–Z), the 26 lowercase letters (a–z), the digits
+      0–9, and the characters <code>+</code> and <code>/</code>. The result looks like random text,
+      but it is actually your original data in a different form.
+    </p>
+    <p>
+      The name "Base64" simply means the encoding uses a 64-character alphabet, the same way
+      "base 10" means you count with 10 digits (0–9), and "base 2" means you count with 2 digits
+      (0 and 1).
+    </p>
+    <ReferenceBlock type="key-idea" heading="What Base64 does">
+      <p>Base64 changes the <em>representation</em> of data, not the data itself. The original data is fully preserved. Anyone can reverse it instantly.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="why-was-it-created">
+    <h2>Why Was It Created? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In the early days of the internet, email systems were built strictly for plain text. The
+      standard that defined email (called SMTP) was designed to carry 7-bit ASCII characters
+      only. That covers the English alphabet, numbers, and basic punctuation.
+    </p>
+    <p>
+      The problem: photos, documents, spreadsheets, and other binary files contain byte values
+      outside that range. When these files passed through old email servers, the servers would
+      sometimes corrupt the data by stripping or mangling bytes they did not recognize.
+    </p>
+    <p>
+      Base64 was introduced as part of the MIME standard (Multipurpose Internet Mail Extensions)
+      in the early 1990s to solve this problem. By converting binary data into pure ASCII text
+      before sending it, the data could pass through any text-only system without corruption.
+    </p>
+    <p>
+      Today, Base64 is used far beyond email: it appears in APIs, web tokens, HTML data URIs,
+      and many other contexts where binary data needs to travel through text-based channels.
+      When you encode a UTF-8 string containing non-ASCII characters (Japanese text, Arabic, emoji) Base64 converts the byte sequence into a safe ASCII representation that any
+      system can transmit without corruption.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base64 processes data in chunks of 3 bytes at a time. Each chunk of 3 bytes (24 bits) is
+      split into 4 groups of 6 bits each. Each 6-bit group becomes one character from the
+      Base64 alphabet. This is why the output is always longer than the input: 3 bytes become
+      4 characters.
+    </p>
+    <p>Here is a simple example:</p>
+    <p class="encoding-example">
+      <code>Hello</code>
+      <span aria-hidden="true">→</span>
+      <code>SGVsbG8=</code>
+      <span aria-hidden="true">→</span>
+      <code>Hello</code>
+    </p>
+    <p>
+      The trailing <code>=</code> is padding. If the input length is not a multiple of 3 bytes,
+      padding characters fill out the final group so the decoder knows exactly where the data ends.
+      You may see one <code>=</code> or two <code>==</code>, depending on how many bytes are left over.
+    </p>
+    <p>
+      Decoding is the exact reverse: each group of 4 Base64 characters is converted back to 3 bytes
+      of original data. The result is byte-for-byte identical to the original input.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>Real-World Uses <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Base64 appears constantly in modern software:</p>
+    <ul>
+      <li>
+        <strong>JWT tokens</strong>, JSON Web Tokens use Base64URL encoding (a URL-safe variant) to
+        carry the header and payload sections. You can paste a JWT into a decoder to inspect its contents.
+      </li>
+      <li>
+        <strong>Email attachments</strong>: Email clients encode attachments as Base64 before sending
+        them through SMTP servers, then decode them on the receiving end.
+      </li>
+      <li>
+        <strong>Images in HTML and CSS</strong>: Developers embed small images directly in web pages
+        as Base64 data URIs (<code>data:image/png;base64,...</code>) to eliminate extra HTTP requests.
+      </li>
+      <li>
+        <strong>API responses and JSON payloads</strong>: When an API needs to return binary data
+        (like a generated image or a PDF) inside a JSON response, it encodes the binary as a Base64 string.
+      </li>
+      <li>
+        <strong>Authentication credentials</strong>: HTTP Basic Authentication sends usernames and
+        passwords encoded as Base64 in the Authorization header.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>These misunderstandings come up frequently:</p>
+
+    <ReferenceBlock type="common-mistake" heading="Base64 is not encryption">
+      <p>
+        Base64 provides no confidentiality. Anyone who sees a Base64 string can decode it instantly
+        with any Base64 decoder: including this tool. Do not use Base64 to hide passwords, API keys,
+        or sensitive data. Use proper encryption instead.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Base64 is not security">
+      <p>
+        Encoding is not the same as protecting. A Base64-encoded password is just as exposed as a
+        plain-text password to anyone who reads the encoded value. Encoding changes how data looks,
+        not who can access it.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Base64 increases data size by ~33%">
+      <p>
+        Because 3 bytes of input become 4 characters of output, Base64-encoded data is about 33%
+        larger than the original. For large files this can be significant. Avoid Base64 encoding large
+        binaries unless necessary: serve them as files instead.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/url-encoder-decoder/')}>URL Encoder &amp; Decoder</a>: Encode data for safe use in URL query strings and paths.</li>
+      <li><a href={withBase('/tool/developer-utilities/html-entity-encoder-decoder/')}>HTML Entity Encoder &amp; Decoder</a>: Escape characters for safe output in HTML pages.</li>
+    </ul>
+  </section>
+
+  <section id="history">
+    <h2>History <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base64 was formally defined in RFC 1341 in 1992 as part of the MIME specification, which
+      extended internet email to support attachments, multiple content types, and character sets
+      beyond ASCII. Before MIME, email was strictly plain text and file sharing required separate
+      protocols like FTP.
+    </p>
+    <p>
+      The specific 64-character alphabet was chosen because these characters are universally
+      supported across all ASCII-compatible systems and do not carry special meaning in most
+      text-based protocols. The encoding has remained essentially unchanged for over 30 years
+      and is now defined in RFC 4648 (2006), which also specifies the Base64URL and Base32 variants.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .encoding-example {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
+  }
+</style>

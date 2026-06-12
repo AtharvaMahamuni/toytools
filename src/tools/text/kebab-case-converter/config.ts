@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'kebabCase',
+  toolGroup: 'case-converters',
   guide: {
     slug: 'how-to-convert-text-to-kebab-case',
     categorySlug: 'text',
@@ -19,10 +20,4 @@ export const config: ToolConfig = {
     description: 'Learn what kebab-case is, why it suits URLs and CSS, and how to turn any phrase into a clean hyphenated slug.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'kebab-case-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about kebab-case and URL slugs.',
-  },
-};
+  },};

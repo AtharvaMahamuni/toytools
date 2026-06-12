@@ -18,6 +18,8 @@ describe('splitWords', () => {
   it('strips leading punctuation', () => expect(splitWords('!!! hello')).toEqual(['hello']));
   it('preserves alphanumeric tokens', () => expect(splitWords('hello123world')).toEqual(['hello123world']));
   it('handles mixed separators', () => expect(splitWords('hello-world_foo')).toEqual(['hello', 'world', 'foo']));
+  it('keeps accented letters as word characters', () => expect(splitWords('café menu')).toEqual(['café', 'menu']));
+  it('splits unicode camelCase humps', () => expect(splitWords('caféMenu')).toEqual(['café', 'Menu']));
 });
 
 describe('perLine', () => {
@@ -72,6 +74,10 @@ describe('titleCase', () => {
   it('underscore is a word char — no boundary, only first word capitalized', () => expect(p('hello_world')).toBe('Hello_world'));
   it('capitalizes every word including articles (no exceptions)', () => expect(p('the quick brown fox')).toBe('The Quick Brown Fox'));
   it('handles numbers mixed with words', () => expect(p('chapter 3 intro')).toBe('Chapter 3 Intro'));
+  it('does not capitalize after apostrophes', () => expect(p("don't stop")).toBe("Don't Stop"));
+  it('capitalizes accented first letters', () => expect(p('élan vital')).toBe('Élan Vital'));
+  it('does not mid-word capitalize after accents', () => expect(p('café menu')).toBe('Café Menu'));
+  it('capitalizes the first letter inside leading punctuation', () => expect(p('(hello) world')).toBe('(Hello) World'));
 });
 
 describe('sentenceCase', () => {
@@ -86,6 +92,7 @@ describe('sentenceCase', () => {
   it('capitalizes only first char across newlines (not per-line)', () => expect(p('hello\nworld')).toBe('Hello\nworld'));
   it('is idempotent on already-sentence-cased input', () => expect(p('Already sentence case')).toBe('Already sentence case'));
   it('handles whitespace-only string', () => expect(p('   ')).toBe('   '));
+  it('capitalizes accented sentence starts', () => expect(p('élan. état second.')).toBe('Élan. État second.'));
 });
 
 describe('camelCase', () => {
@@ -101,6 +108,7 @@ describe('camelCase', () => {
   it('applies per-line — each line is camel-cased independently', () => expect(p('hello world\nfoo bar')).toBe('helloWorld\nfooBar'));
   it('handles single character', () => expect(p('a')).toBe('a'));
   it('handles single-word input', () => expect(p('hello')).toBe('hello'));
+  it('preserves accented letters', () => expect(p('café menu')).toBe('caféMenu'));
 });
 
 describe('snakeCase', () => {

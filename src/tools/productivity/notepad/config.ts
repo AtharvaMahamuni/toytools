@@ -26,9 +26,6 @@ export const config: ToolConfig = {
     readMinutes: 5,
     updatedAt: 'Jun 2026',
   },
-  faq: {
-    slug: 'notepad',
-    categorySlug: 'productivity',
-    description: 'Answers to common questions about the online notepad, storage, and privacy.',
-  },
+  trustVariant: 'local',
+  relatedTools: ['todo-list', 'pomodoro-timer'],
 };

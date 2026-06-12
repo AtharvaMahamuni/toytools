@@ -6,8 +6,8 @@ import { test, expect } from '@playwright/test';
 const PAGES = [
   '/',
   '/tool/text/word-counter/',
-  '/tool/developer/base64-encoder-decoder/',
-  '/tool/developer/json-formatter/',
+  '/tool/developer-utilities/base64-encoder-decoder/',
+  '/tool/developer-utilities/json-formatter/',
 ];
 
 for (const path of PAGES) {

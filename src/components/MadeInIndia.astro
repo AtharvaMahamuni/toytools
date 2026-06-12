@@ -48,9 +48,9 @@
     font-size: 12px;
     padding: 6px 10px;
     border-radius: 10px;
-    background: #ffffff;
-    color: #111111;
-    border: 1px solid rgba(17, 17, 17, 0.08);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: var(--border);
     transition: opacity 150ms ease-out, transform 150ms ease-out;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
@@ -70,8 +70,8 @@
 
   /* Focus ring for keyboard nav */
   .mii-wrap:focus-visible {
-    outline: 2px solid var(--color-accent, #2563eb);
-    outline-offset: 2px;
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
     border-radius: 2px;
   }
 
@@ -96,21 +96,6 @@
     }
   }
 
-  /* Dark mode — system preference */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .mii-tooltip {
-      background: #0F1115;
-      color: #F4F4F4;
-      border-color: rgba(255, 255, 255, 0.08);
-    }
-  }
-
-  /* Dark mode — explicit override */
-  :root[data-theme="dark"] .mii-tooltip {
-    background: #0F1115;
-    color: #F4F4F4;
-    border-color: rgba(255, 255, 255, 0.08);
-  }
 </style>
 
 <script is:inline>

@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'snakeCase',
+  toolGroup: 'case-converters',
   guide: {
     slug: 'how-to-convert-text-to-snake-case',
     categorySlug: 'text',
@@ -19,10 +20,4 @@ export const config: ToolConfig = {
     description: 'Learn what snake_case is, why Python and SQL favor it, and how to convert any phrase into a snake_case identifier.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'snake-case-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about snake_case naming.',
-  },
-};
+  },};

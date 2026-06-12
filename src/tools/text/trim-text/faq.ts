@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'trm-faq-1',
     question: 'What does trimming text do?',
     answer:
-      'It removes whitespace — spaces and tabs — from the start and end of every line, while leaving the words and the spacing between them untouched. "  hello world  " becomes "hello world".',
+      'It removes whitespace (spaces and tabs) from the start and end of every line, while leaving the words and the spacing between them untouched. "  hello world  " becomes "hello world".',
   },
   {
     id: 'trm-faq-2',

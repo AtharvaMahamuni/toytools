@@ -23,6 +23,6 @@ export const items: FAQItem[] = [
     id: 'rbl-faq-4',
     question: 'Will it merge my remaining lines together?',
     answer:
-      'No. The lines that contain content keep their own line breaks — only the empty lines between them are deleted.',
+      'No. The lines that contain content keep their own line breaks: only the empty lines between them are deleted.',
   },
 ];

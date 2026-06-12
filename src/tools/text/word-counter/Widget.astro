@@ -1,16 +1,11 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 import ToolSection from '@tools/_shared/ToolSection.astro';
-import FAQPreview from '@components/FAQPreview.astro';
 import { config } from './config';
-import { items as faqItems } from './faq';
 import { withBase } from '@lib/paths';
 
 const guideHref = config.guide
   ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
-const faqHref = config.faq
-  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
   : null;
 ---
 
@@ -36,9 +31,3 @@ const faqHref = config.faq
   )}
 </ToolSection>
 
-{faqHref && (
-  <section class="content-section">
-    <h2>FAQ</h2>
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
-  </section>
-)}

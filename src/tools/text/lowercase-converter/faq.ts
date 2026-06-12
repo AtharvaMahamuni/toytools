@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'lc-faq-1',
     question: 'How do I convert text to lowercase?',
     answer:
-      'Paste or type your text and the lowercase version appears instantly. Every capital letter becomes its small equivalent — "HELLO World" becomes "hello world". Click Copy to reuse the result.',
+      'Paste or type your text and the lowercase version appears instantly. Every capital letter becomes its small equivalent: "HELLO World" becomes "hello world". Click Copy to reuse the result.',
   },
   {
     id: 'lc-faq-2',

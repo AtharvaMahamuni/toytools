@@ -1,8 +1,8 @@
 ---
-// Continue Learning — derived related GUIDES and FAQs (reading material), distinct from
-// RelatedContent (tools) and YouMayAlsoNeed (workflow actions). Improves crawl depth between
-// guide/FAQ pages. Renders nothing when there's no related reading.
-import { getRelatedGuides, getRelatedFaqs } from '@lib/knowledge/queries';
+// Continue Learning — derived related GUIDES (reading material), distinct from
+// RelatedContent (tools) and YouMayAlsoNeed (workflow actions). Improves crawl depth
+// between guide pages. Renders nothing when there's no related reading.
+import { getRelatedGuides } from '@lib/knowledge/queries';
 import { withBase } from '@lib/paths';
 
 interface Props {
@@ -12,35 +12,21 @@ interface Props {
 
 const { toolSlug, max = 4 } = Astro.props;
 const guides = getRelatedGuides(toolSlug, max);
-const faqs = getRelatedFaqs(toolSlug, max);
-const hasContent = guides.length > 0 || faqs.length > 0;
 ---
 
-{hasContent && (
+{guides.length > 0 && (
   <section class="kg-section" aria-labelledby="kg-continue-learning">
     <h2 id="kg-continue-learning" class="kg-heading">
       Continue Learning <span class="gold-dot" aria-hidden="true"></span>
     </h2>
-    {guides.length > 0 && (
-      <div class="kg-block">
-        <h3 class="kg-subheading">Related Guides</h3>
-        <ul class="kg-list">
-          {guides.map(r => (
-            <li><a class="kg-link" href={withBase(r.node.url)}>{r.node.title}</a></li>
-          ))}
-        </ul>
-      </div>
-    )}
-    {faqs.length > 0 && (
-      <div class="kg-block">
-        <h3 class="kg-subheading">Related FAQs</h3>
-        <ul class="kg-list">
-          {faqs.map(r => (
-            <li><a class="kg-link" href={withBase(r.node.url)}>{r.node.title}</a></li>
-          ))}
-        </ul>
-      </div>
-    )}
+    <div class="kg-block">
+      <h3 class="kg-subheading">Related Guides</h3>
+      <ul class="kg-list">
+        {guides.map(r => (
+          <li><a class="kg-link" href={withBase(r.node.url)}>{r.node.title}</a></li>
+        ))}
+      </ul>
+    </div>
   </section>
 )}
 

@@ -22,12 +22,26 @@ export interface EntityCoverage {
   score: number;
 }
 
+// Reflects the current page architecture: FAQs render on the tool page (#faq),
+// guides link back to the tool via the .cta-link button, and related tools come
+// from config.relatedTools. (The old faqHref/FAQPreview pattern is gone.)
 export interface TopicClusterResult {
-  guideLinksToFaq: boolean;
-  faqLinksToGuide: boolean;
+  guideHasCtaToTool: boolean;
   hasRelatedTools: boolean;
-  hasEcosystemLinks: boolean;
+  faqRegistered: boolean;
   score: number;
+  missing: string[];
+}
+
+export interface KnowledgeSyncCheck {
+  kind: 'commonQuestion' | 'commonMistake' | 'useCase';
+  item: string;
+  ok: boolean;
+}
+
+export interface KnowledgeSyncResult {
+  checked: boolean; // false when the tool has no knowledge.ts
+  checks: KnowledgeSyncCheck[];
   missing: string[];
 }
 
@@ -46,12 +60,27 @@ export interface ContentIntelligenceScore {
   seoCompleteness: number;
   topicClusterCompleteness: number;
   toyToolsStyleScore: number;
+  /** Which tier the entity/intent profile came from: override | knowledge | config. */
+  profileSource: 'override' | 'knowledge' | 'config';
   firstPrinciples: FirstPrinciplesCoverage;
   searchIntent: SearchIntentCoverage;
   entityCoverage: EntityCoverage;
   topicCluster: TopicClusterResult;
+  knowledgeSync: KnowledgeSyncResult;
   exampleCount: number;
   mistakeSectionCount: number;
   thinContentFlags: string[];
   actions: ContentAction[];
+}
+
+export interface GateCriterion {
+  name: string;
+  actual: number;
+  limit: number;
+  pass: boolean;
+}
+
+export interface GateResult {
+  pass: boolean;
+  criteria: GateCriterion[];
 }

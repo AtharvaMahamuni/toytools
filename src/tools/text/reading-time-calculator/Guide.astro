@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,9 +28,8 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A reading time calculator is a tool that estimates how long it takes to read a piece of text
-      by dividing the word count by a standard reading speed. At 200 words per minute — the commonly
-      cited average for adult silent reading — a 1,000-word article takes approximately 5 minutes
+      A reading time calculator is a read time estimator that shows you how long to read any piece of text
+      by dividing the word count by a standard reading speed. At 200 words per minute (the commonly cited average for adult silent reading) a 1,000-word article takes approximately 5 minutes
       to read.
     </p>
     <a href={toolHref} class="cta-link">Try The Reading Time Calculator →</a>
@@ -50,8 +46,8 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       <strong>Presentations and speeches.</strong> Speaking aloud is roughly 30 to 40 percent
       slower than silent reading. A 500-word script takes about 2.5 minutes to read silently
-      but 3 to 4 minutes to deliver as a speech. Calculating speaking time separately helps
-      presenters avoid running over their allotted slot.
+      but 3 to 4 minutes to deliver as a speech. Use it as a presentation timer to verify your
+      script fits the allotted slot before you rehearse.
     </p>
     <p>
       <strong>Email and professional communication.</strong> Long emails with no reading time signal
@@ -70,7 +66,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>How Reading Time Is Calculated <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Here is how it works: this tool divides the word count by a reading speed baseline to produce an estimated duration.
-      The default baseline is 200 words per minute — the conservative end of the research range for
+      The default baseline is 200 words per minute: the conservative end of the research range for
       adult silent reading of prose. For example, a 600-word email is estimated at 3 minutes
       (600 ÷ 200 = 3).
     </p>
@@ -80,7 +76,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
-      protecting your privacy — nothing is uploaded to a server, and results appear instantly
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly
       as you type or paste.
     </p>
   </section>
@@ -89,8 +85,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>What Research Says About Reading Speed <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Multiple studies place average adult silent reading speed at 200 to 250 words per minute
-      for prose comprehension. Technical and scientific material is read more slowly — typically
-      100 to 150 words per minute — because of unfamiliar vocabulary and denser structure.
+      for prose comprehension. Technical and scientific material is read more slowly (typically 100 to 150 words per minute) because of unfamiliar vocabulary and denser structure.
       Skimming can exceed 700 words per minute but with substantially lower retention.
     </p>
     <p>
@@ -102,7 +97,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
       <p>
         The 200 wpm figure is a population average. Individual reading speeds range from 150 to
         400 wpm depending on reading habits, familiarity with the subject, and content density.
-        Use the estimate as a rough guide — actual reading time will vary.
+        Use the estimate as a rough guide: actual reading time will vary.
       </p>
     </ReferenceBlock>
   </section>
@@ -119,7 +114,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Applying reading time to non-prose content">
       <p>
-        Reading time calculators are calibrated for prose — continuous narrative text. Do not apply
+        Reading time calculators are calibrated for prose: continuous narrative text. Do not apply
         the estimate to code blocks, tables, listicles, or heavily formatted reference pages.
         A page that is 40% code and 60% prose will show an inflated reading time because the
         word counter counts code tokens as words.
@@ -131,11 +126,10 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Reading Time vs Other Content Metrics <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Reading time is one of several alternatives for measuring content. A <strong>word
-      counter</strong> is better when your constraint is an explicit word limit — academic
+      counter</strong> is better when your constraint is an explicit word limit: academic
       submissions, journalism briefs. A <strong>character counter</strong> is better for
       social media posts where platform limits are in characters, not words. A <strong>sentence
-      counter</strong> and <strong>paragraph counter</strong> are better for structural editing —
-      checking density and paragraph balance. Use reading time when the constraint is audience
+      counter</strong> and <strong>paragraph counter</strong> are better for structural editing: checking density and paragraph balance. Use reading time when the constraint is audience
       attention, not a specific platform limit.
     </p>
   </section>
@@ -148,10 +142,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

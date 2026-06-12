@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-transform',
   family: 'transform',
   processorId: 'sentenceCase',
+  toolGroup: 'case-converters',
   guide: {
     slug: 'how-to-convert-text-to-sentence-case',
     categorySlug: 'text',
@@ -19,10 +20,4 @@ export const config: ToolConfig = {
     description: 'Learn what sentence case is, why it is the default for body text, and how to fix inconsistent capitalization quickly.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'sentence-case-converter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about sentence case and fixing capitalization.',
-  },
-};
+  },};

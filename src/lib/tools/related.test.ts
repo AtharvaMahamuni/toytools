@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getRelatedTools, getRelatedGuides, getRelatedFaqs, relationTier, tierStrength } from './related';
+import { getRelatedTools, getRelatedGuides, relationTier, tierStrength } from './related';
 import type { ToolConfig } from '@data/types';
 
 function tool(overrides: Partial<ToolConfig> & Pick<ToolConfig, 'slug'>): ToolConfig {
@@ -134,11 +134,9 @@ describe('relationTier / tierStrength', () => {
   });
 });
 
-describe('getRelatedGuides / getRelatedFaqs', () => {
+describe('getRelatedGuides', () => {
   const withGuide = (slug: string, extra: Partial<ToolConfig> = {}) =>
     tool({ slug, guide: { slug, categorySlug: 'developer', title: slug, description: '', readMinutes: 3, updatedAt: 'x' }, ...extra });
-  const withFaq = (slug: string, extra: Partial<ToolConfig> = {}) =>
-    tool({ slug, faq: { slug, categorySlug: 'developer' }, ...extra });
 
   it('only returns tools that have a guide', () => {
     const current = tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
@@ -147,12 +145,5 @@ describe('getRelatedGuides / getRelatedFaqs', () => {
     const result = getRelatedGuides(current, [current, hasGuide, noGuide]).map(t => t.slug);
     expect(result).toContain('b');
     expect(result).not.toContain('d');
-  });
-
-  it('only returns tools that have a faq', () => {
-    const current = tool({ slug: 'a', engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
-    const hasFaq = withFaq('b', { engine: 'e', pattern: 'p', family: 'f', categorySlug: 'c' });
-    const result = getRelatedFaqs(current, [current, hasFaq]).map(t => t.slug);
-    expect(result).toEqual(['b']);
   });
 });

@@ -1,32 +1,46 @@
 ---
+// Redirect stubs for the deprecated standalone FAQ pages.
+//
+// FAQ content lives on the tool pages now (#faq section with FAQPage JSON-LD).
+// Each previously-indexed /faq/ URL serves a minimal shell that immediately
+// meta-refreshes to the tool page and declares it canonical — preserving link
+// equity instead of 404ing. These stubs are intentionally NOT in any sitemap.
 import type { GetStaticPaths } from 'astro';
-import FAQLayout from '@layouts/FAQLayout.astro';
-import { generatePageTitle } from '../../lib/titles';
-import { toolsWithFaq }   from '@data/registry';
-import { faqsByToolSlug } from '@data/faq-registry';
-import { categories }     from '@data/categories';
+import { faqRedirects } from '@data/faq-redirects';
+import { tools }      from '@data/registry';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
 
 export const getStaticPaths = (() => {
-  return toolsWithFaq.map(tool => {
-    const faq      = tool.faq!;
-    const category = categories.find(c => c.slug === tool.categorySlug)!;
-    const items    = faqsByToolSlug[tool.slug] ?? [];
+  return faqRedirects.map(redirect => {
+    const tool = tools.find(t => t.slug === redirect.toolSlug);
+    if (!tool) throw new Error(`faq-redirects: unknown tool slug "${redirect.toolSlug}"`);
+    const category = categories.find(c => c.slug === tool.categorySlug);
+    if (!category) throw new Error(`faq-redirects: unresolved category for "${tool.slug}"`);
     return {
-      params: { slug: `${faq.categorySlug}/${faq.slug}` },
-      props:  { tool, category, items },
+      params: { slug: redirect.oldPath },
+      props:  { toolName: tool.name, toolPath: `/tool/${category.segment}/${tool.slug}/` },
     };
   });
 }) satisfies GetStaticPaths;
 
-const { tool, category, items } = Astro.props;
+const { toolName, toolPath } = Astro.props;
+
+const target = `${withBase(toolPath)}#faq`;
+const canonical = Astro.site ? new URL(withBase(toolPath), Astro.site).href : withBase(toolPath);
 ---
 
-<FAQLayout
-  title={generatePageTitle('faq', tool.name)}
-  description={tool.faq!.description ?? `Answers to common questions about ${tool.name.toLowerCase()}.`}
-  toolSlug={tool.slug}
-  toolName={tool.name}
-  toolCategorySlug={tool.categorySlug}
-  items={items}
-  entry={tool}
-/>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{toolName} FAQ — moved</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>This FAQ now lives on the tool page. <a href={target}>Continue to {toolName}</a>.</p>
+  </body>
+</html>

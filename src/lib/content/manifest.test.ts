@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildContentManifest, contentByType } from './manifest';
-import { tools, toolsWithGuide, toolsWithFaq } from '@data/registry';
+import { tools, toolsWithGuide } from '@data/registry';
+import { faqsByToolSlug } from '@data/faq-registry';
 import { categories } from '@data/categories';
 
 describe('buildContentManifest', () => {
@@ -18,8 +19,13 @@ describe('buildContentManifest', () => {
   it('includes one guide entry per tool with a guide', () =>
     expect(contentByType('guide')).toHaveLength(toolsWithGuide.length));
 
-  it('includes one faq entry per tool with a faq', () =>
-    expect(contentByType('faq')).toHaveLength(toolsWithFaq.length));
+  it('has no standalone faq entries — FAQ content lives on tool pages', () =>
+    expect(manifest.some(e => e.url.includes('/faq/'))).toBe(false));
+
+  it('flags faqExists on tool entries from the faq registry', () => {
+    const wordCounter = contentByType('tool').find(e => e.slug === 'word-counter');
+    expect(wordCounter?.faqExists).toBe((faqsByToolSlug['word-counter']?.length ?? 0) > 0);
+  });
 
   it('includes the four language stubs', () =>
     expect(contentByType('language').map(e => e.slug).sort()).toEqual(['de', 'en', 'fr', 'ja']));
@@ -41,6 +47,6 @@ describe('buildContentManifest', () => {
 
   it('tool URLs use the category segment, not the category slug', () => {
     const base64 = contentByType('tool').find(e => e.slug === 'base64-encoder-decoder');
-    expect(base64?.url).toContain('/tool/developer/');
+    expect(base64?.url).toContain('/tool/developer-utilities/');
   });
 });

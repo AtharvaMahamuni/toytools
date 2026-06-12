@@ -1,0 +1,228 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      URL encoding (also called percent encoding, URI encoding, or uri encode) converts characters
+      that would break a URL into a safe <code>%XX</code> format. Spaces, ampersands, angle brackets, and other
+      special characters each get replaced with a percent sign followed by their hexadecimal byte value.
+    </p>
+    <p>
+      To url decode a string, paste it and the tool replaces each <code>%XX</code> sequence with the
+      original character. This is a two-way tool: you can encode and url decode in the same place.
+    </p>
+    <p>
+      If you need to encode or decode a URL component right now, use the tool directly.
+    </p>
+    <a href={toolHref} class="cta-link">Try the URL Encoder &amp; Decoder →</a>
+  </section>
+
+  <section id="what-is-url-encoding">
+    <h2>What Is URL Encoding? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      URLs have structure. A slash separates path segments. A question mark separates the path from the
+      query string. An ampersand separates query parameters from each other. An equals sign separates
+      a key from its value.
+    </p>
+    <p>
+      The moment your data contains any of those characters, the URL parser faces an ambiguity. Say
+      you want to pass the search query <code>rock &amp; roll</code> as a parameter. An unencoded URL
+      looks like this:
+    </p>
+    <p class="url-example">
+      <code>?q=rock &amp; roll</code>
+    </p>
+    <p>
+      The parser sees <code>&amp;</code> and thinks a new parameter is starting. Your query gets split
+      into <code>q=rock </code> and a stray <code>roll</code> parameter that the server never requested.
+    </p>
+    <p>
+      URL encoding fixes this by replacing every unsafe character with a percent sign followed by the
+      character's byte value in hexadecimal. A space becomes <code>%20</code>. An ampersand becomes
+      <code>%26</code>. A colon becomes <code>%3A</code>. The encoded version looks like this:
+    </p>
+    <p class="url-example">
+      <code>?q=rock%20%26%20roll</code>
+    </p>
+    <p>
+      No ambiguity. The parser sees one parameter. The server decodes it back to <code>rock &amp; roll</code>
+      before your code reads it.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Encoding changes the representation, not the data">
+      <p>The server always decodes percent-encoded characters before your application sees the value. Encoding is a transport format, not a transformation.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unencoded characters in URLs cause silent data loss. A space in a query value might be
+      stripped or interpreted as a separator. An ampersand ends one parameter and starts another.
+      A hash character jumps to a page fragment. The browser or server never receives the data
+      you intended to send.
+    </p>
+    <p>
+      URL encoding is not optional: RFC 3986 requires that any character outside the defined
+      "unreserved" set must be percent-encoded when used as data. Applications that skip encoding
+      work by accident on simple inputs and fail unpredictably on any input containing special
+      characters.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each encoded character maps to its UTF-8 byte sequence, written in hex. For ASCII characters the
+      mapping is direct: a space is Unicode code point U+0020, which is the single byte <code>0x20</code>,
+      so it encodes as <code>%20</code>. A forward slash is U+002F → <code>%2F</code>.
+    </p>
+    <p>
+      Non-ASCII characters require more bytes. The accented letter <strong>é</strong> (U+00E9) takes
+      two bytes in UTF-8: <code>0xC3</code> and <code>0xA9</code>. Both bytes get encoded, giving
+      <code>%C3%A9</code>. An emoji like 🚀 (U+1F680) takes four bytes and becomes <code>%F0%9F%9A%80</code>.
+    </p>
+    <p>
+      The safe characters (the letters A–Z and a–z, the digits 0–9, and <code>- _ . ! ~ * ' ( )</code>) are left as-is. Everything else gets encoded.
+    </p>
+    <p>
+      Spaces are a special case. In query strings sent by HTML forms, they can be encoded as either
+      <code>%20</code> or <code>+</code>. The <code>+</code> shorthand comes from older form encoding
+      specs and only applies in that specific context. Outside of form data, a <code>+</code> is
+      a literal plus sign, not a space.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When to Use URL Encoding <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>URL encoding appears anywhere data travels through a URL. For example:</p>
+    <ul>
+      <li>
+        <strong>Search queries</strong>, A search term like <code>C# async/await</code> encodes to
+        <code>C%23%20async%2Fawait</code> so the <code>#</code> and <code>/</code> don't fragment the URL.
+      </li>
+      <li>
+        <strong>Email addresses as parameters</strong>: <code>user@example.com</code> becomes
+        <code>user%40example.com</code>. The <code>@</code> sign has structural meaning in URLs
+        (it separates credentials from the host), so it must be encoded in data.
+      </li>
+      <li>
+        <strong>OAuth redirect URIs</strong>: A redirect URL embedded as a query parameter must be
+        fully encoded, since it contains its own <code>://</code>, <code>/</code>, and <code>?</code>.
+      </li>
+      <li>
+        <strong>File paths with spaces</strong>: A filename like <code>my document.pdf</code> becomes
+        <code>my%20document.pdf</code> in a URL path.
+      </li>
+      <li>
+        <strong>API tokens and keys</strong>: Keys often contain <code>+</code>, <code>=</code>, or
+        <code>/</code> (especially <a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64</a>-encoded ones). Encoding them prevents those characters from
+        being misread as URL syntax.
+      </li>
+      <li>
+        <strong>Internationalized content</strong>: A URL like <code>/products/café</code> encodes
+        the <code>é</code> as <code>/products/caf%C3%A9</code> for safe transmission.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Encoding the whole URL instead of just components">
+      <p>
+        <code>encodeURIComponent</code> encodes slashes, colons, and question marks: characters that
+        are structural in a full URL. If you pass an entire URL to it, you'll break the URL. Encode
+        individual path segments and query values, not the URL itself.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Double encoding">
+      <p>
+        Encoding an already-encoded string corrupts it. A space encodes to <code>%20</code>. Encoding
+        that again turns <code>%</code> into <code>%25</code>, giving <code>%2520</code>. The server
+        decodes it to the literal text <code>%20</code>, not a space. Encode raw input exactly once.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Using + for spaces outside of form data">
+      <p>
+        The <code>+</code>-for-space convention is specific to <code>application/x-www-form-urlencoded</code>,
+        the format HTML forms produce. In a URL path or a JSON API request body, <code>+</code> is a
+        literal plus sign. Use <code>%20</code> unless you know you're in a form-data context.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Frameworks usually handle this for you">
+      <p>
+        Most HTTP clients, fetch wrappers, and URL-building APIs encode parameters automatically. You
+        only need to encode manually when constructing URL strings by hand, which is where these bugs
+        typically sneak in.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64 Encoder &amp; Decoder</a>: Encode binary data for transmission through text channels.</li>
+      <li><a href={withBase('/tool/developer-utilities/html-entity-encoder-decoder/')}>HTML Entity Encoder &amp; Decoder</a>: Escape reserved characters for safe use inside HTML.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .url-example {
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    overflow-x: auto;
+  }
+</style>

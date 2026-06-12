@@ -17,6 +17,7 @@ export const config: ToolConfig = {
     label: 'Words',
     formatter: 'integer',
   },
+  relatedTools: ['character-counter', 'reading-time-calculator', 'sentence-counter'],
   guide: {
     slug: 'how-to-count-words-in-your-writing',
     categorySlug: 'text',
@@ -24,10 +25,4 @@ export const config: ToolConfig = {
     description: 'Learn why word count matters, how different tools count words, and how to use word limits effectively for essays, articles, and social media.',
     readMinutes: 4,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'word-counter',
-    categorySlug: 'text',
-    description: 'Answers to common questions about word counts, character limits, and reading time estimates.',
-  },
-};
+  },};

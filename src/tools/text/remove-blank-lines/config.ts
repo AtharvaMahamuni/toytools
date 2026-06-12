@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn where empty lines come from, when they get in the way, and how to strip them out without losing your real content.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'remove-blank-lines',
-    categorySlug: 'text',
-    description: 'Answers to common questions about removing blank lines from text.',
-  },
-};
+  },};

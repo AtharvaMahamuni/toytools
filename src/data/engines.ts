@@ -41,9 +41,9 @@ interface EngineDef {
 const engineDefs: EngineDef[] = [
   { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze' },
   { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup'], runtimeGlobal: 'process' },
-  { id: 'encoding', name: 'Encoding Engine', category: 'developer-tools', patterns: ['encode-decode'], runtimeGlobal: 'runEncoding' },
-  { id: 'hashing', name: 'Hashing Engine', category: 'developer-tools', patterns: ['hash'], runtimeGlobal: 'runHash' },
-  { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-tools', patterns: ['structured-transform', 'structured-validate'], runtimeGlobal: 'runStructuredData' },
+  { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode'], runtimeGlobal: 'runEncoding' },
+  { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash'], runtimeGlobal: 'runHash' },
+  { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate'], runtimeGlobal: 'runStructuredData' },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '' },
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
 ];

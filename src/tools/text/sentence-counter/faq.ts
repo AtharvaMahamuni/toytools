@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'sc-faq-1',
     question: 'How does a sentence counter work?',
     answer:
-      'A sentence counter detects sentence boundaries by looking for sentence-ending punctuation — periods (.), exclamation marks (!), and question marks (?). Each occurrence after meaningful content is counted as the end of a sentence. The result is then divided into the total word count to calculate average sentence length.',
+      'A sentence counter detects sentence boundaries by looking for sentence-ending punctuation, periods (.), exclamation marks (!), and question marks (?). Each occurrence after meaningful content is counted as the end of a sentence. The result is then divided into the total word count to calculate average sentence length.',
   },
   {
     id: 'sc-faq-2',
@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'sc-faq-5',
     question: 'How many sentences should a paragraph have?',
     answer:
-      'No strict rule exists, but three to five sentences per paragraph is a common guideline for web writing. Academic paragraphs average five to eight sentences. The key is that each paragraph should have a single clear point — when the point changes, start a new paragraph, regardless of length.',
+      'No strict rule exists, but three to five sentences per paragraph is a common guideline for web writing. Academic paragraphs average five to eight sentences. The key is that each paragraph should have a single clear point: when the point changes, start a new paragraph, regardless of length.',
   },
   {
     id: 'sc-faq-6',
@@ -41,6 +41,6 @@ export const items: FAQItem[] = [
     id: 'sc-faq-7',
     question: 'Does this sentence counter upload my text?',
     answer:
-      'No. All counting runs in your browser using JavaScript. Your text stays private — nothing is uploaded to any server, no account is required, and the tool is completely free to use.',
+      'No. All counting runs in your browser using JavaScript. Your text stays private: nothing is uploaded to any server, no account is required, and the tool is completely free to use.',
   },
 ];

@@ -36,7 +36,7 @@ export class DevTool {
     this.slug = slug;
   }
   async goto() {
-    await this.page.goto(`/tool/developer/${this.slug}/`);
+    await this.page.goto(`/tool/developer-utilities/${this.slug}/`);
   }
   get input(): Locator {
     return this.page.locator(`#${this.slug}-input`);

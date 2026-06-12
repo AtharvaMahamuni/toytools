@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'rt-faq-2',
     question: 'Why replace tabs with a space instead of deleting them?',
     answer:
-      'Tabs usually separate words or columns. Deleting them outright would glue neighbouring values together — "Name\tAge" would become "NameAge". Replacing each tab with a space keeps those values readable and parseable.',
+      'Tabs usually separate words or columns. Deleting them outright would glue neighbouring values together: "Name\tAge" would become "NameAge". Replacing each tab with a space keeps those values readable and parseable.',
   },
   {
     id: 'rt-faq-3',

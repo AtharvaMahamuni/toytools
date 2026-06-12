@@ -1,33 +1,47 @@
 :root {
-  /* Accent — single token, retheme entire platform here */
-  --color-accent:         #2563eb;
-  --color-accent-subtle:  #dbeafe;
+  /* Accent — single token family, retheme entire platform here.
+     Forest green: "library hardcover" pairing with the paper surfaces + gold brand. */
+  --color-accent:         #2F6B4F;
+  --color-accent-subtle:  #DFEBE4;
+  --color-accent-strong:  #245540;  /* accent text on accent-subtle — AA (~7:1) */
 
   /* Gold brand tokens */
   --color-gold:           #906620;
   --color-gold-highlight: #E6C15A;
   --color-gold-subtle:    rgba(200, 155, 60, 0.15);
 
-  /* Semantic status */
-  --color-success:        #22c55e;
+  /* Semantic status — success stays brighter/cooler than the forest accent;
+     it tints transient state only (copy/valid), never links or focus. */
+  --color-success:        #16a34a;
   --color-success-bg:     rgba(34, 197, 94, 0.10);
   --color-danger:         #dc2626;
   --color-danger-bg:      rgba(220, 38, 38, 0.10);
 
-  /* Grayscale surfaces */
-  --color-bg:             #ffffff;
-  --color-surface:        #FAFAFA;
-  --color-surface-hover:  #F5F5F5;
-  --color-bg-tertiary:    #F5F5F5;
-  --color-border:         #E5E7EB;
-  --color-border-strong:  #C8CBD0;
+  /* Surfaces — "Warm Paper": warm off-whites instead of stark #fff */
+  --color-bg:             #FAF9F7;
+  --color-surface:        #F4F2EE;
+  --color-surface-hover:  #EEEBE6;
+  --color-bg-tertiary:    #EEEBE6;
+  --color-border:         #E5E1DA;
+  --color-border-strong:  #CFC9BF;
 
-  /* Text */
-  --color-text:           #111111;
-  --color-text-muted:     #5c636f;
-  --color-text-subtle:    #676d7c;
-  --color-text-inverse:   #ffffff;
+  /* Text — soft ink, not #111 */
+  --color-text:           #1F1D1A;
+  --color-text-muted:     #6E6961;  /* ~5.2:1 on bg */
+  --color-text-subtle:    #736E66;  /* ~4.8:1 on bg — keep ≥4.5:1 */
+  --color-text-inverse:   #FAF9F7;
   --color-text-accent:    var(--color-accent);
+
+  /* Immersive fullscreen overlays (keep-awake, pomodoro) — deliberately
+     theme-invariant: always-dark focus surfaces, never overridden by dark mode. */
+  --color-overlay-bg:     #0F1115;
+  --color-overlay-text:   #F4F4F4;
+  --color-overlay-muted:  #9AA1AB;
+  --color-overlay-border: #3a3f4a;
+
+  /* Focus — one ring everywhere (applied via :focus-visible in global.css) */
+  --focus-ring:        2px solid var(--color-accent);
+  --focus-ring-offset: 2px;
 
   /* Spacing (4px base) */
   --space-1:  4px;
@@ -103,60 +117,63 @@
   50%       { opacity: 0.72; }
 }
 
-/* System dark preference, no explicit user override */
+/* System dark preference, no explicit user override.
+   "Warm graphite" — keep mirrored with the [data-theme="dark"] block below. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-accent:        #3b82f6;
-    --color-accent-subtle: #1e3a5f;
+    --color-accent:        #84C2A3;
+    --color-accent-subtle: #1E3A2D;
+    --color-accent-strong: #A8D8BF;
 
     --color-gold:           #D4A017;
     --color-gold-highlight: #F2C94C;
     --color-gold-subtle:    rgba(212, 160, 23, 0.18);
 
-    --color-success:       #4ade80;
-    --color-success-bg:    rgba(74, 222, 128, 0.14);
+    --color-success:       #34d399;
+    --color-success-bg:    rgba(52, 211, 153, 0.14);
     --color-danger:        #ef4444;
     --color-danger-bg:     rgba(239, 68, 68, 0.14);
 
-    --color-bg:             #14161A;
-    --color-surface:        #1A1D22;
-    --color-surface-hover:  #20242B;
-    --color-bg-tertiary:    #20242B;
-    --color-border:         #303641;
-    --color-border-strong:  #404754;
+    --color-bg:             #181614;
+    --color-surface:        #1F1D1A;
+    --color-surface-hover:  #262320;
+    --color-bg-tertiary:    #262320;
+    --color-border:         #383430;
+    --color-border-strong:  #4A453F;
 
-    --color-text:          #F4F4F4;
-    --color-text-muted:    #A0A6AF;
-    --color-text-subtle:   #8c9099;
-    --color-text-inverse:  #14161A;
+    --color-text:          #EDEAE4;
+    --color-text-muted:    #A8A299;
+    --color-text-subtle:   #969087;
+    --color-text-inverse:  #181614;
   }
 }
 
 /* User explicitly chose dark (overrides a light system preference) */
 :root[data-theme="dark"] {
-  --color-accent:        #3b82f6;
-  --color-accent-subtle: #1e3a5f;
+  --color-accent:        #84C2A3;
+  --color-accent-subtle: #1E3A2D;
+  --color-accent-strong: #A8D8BF;
 
   --color-gold:           #D4A017;
   --color-gold-highlight: #F2C94C;
   --color-gold-subtle:    rgba(212, 160, 23, 0.18);
 
-  --color-success:       #4ade80;
-  --color-success-bg:    rgba(74, 222, 128, 0.14);
+  --color-success:       #34d399;
+  --color-success-bg:    rgba(52, 211, 153, 0.14);
   --color-danger:        #ef4444;
   --color-danger-bg:     rgba(239, 68, 68, 0.14);
 
-  --color-bg:             #14161A;
-  --color-surface:        #1A1D22;
-  --color-surface-hover:  #20242B;
-  --color-bg-tertiary:    #20242B;
-  --color-border:         #303641;
-  --color-border-strong:  #404754;
+  --color-bg:             #181614;
+  --color-surface:        #1F1D1A;
+  --color-surface-hover:  #262320;
+  --color-bg-tertiary:    #262320;
+  --color-border:         #383430;
+  --color-border-strong:  #4A453F;
 
-  --color-text:          #F4F4F4;
-  --color-text-muted:    #A0A6AF;
-  --color-text-subtle:   #8c9099;
-  --color-text-inverse:  #14161A;
+  --color-text:          #EDEAE4;
+  --color-text-muted:    #A8A299;
+  --color-text-subtle:   #969087;
+  --color-text-inverse:  #181614;
 }
 
 /* Override fontsource default font-display: swap → optional */

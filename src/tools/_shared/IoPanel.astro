@@ -1,0 +1,57 @@
+---
+// The ONE place .io-panel / .io-header markup is written. Every engine widget
+// composes this primitive — input pane, output pane, result ledger alike — so
+// the framed two-pane vocabulary cannot drift per-widget.
+//
+// If a widget ever hand-writes .io-panel markup instead of composing this
+// component, the architecture has failed.
+//
+// Slots:
+//   default      — panel body (textarea / <output> / hero + stats / form fields)
+//   header-end   — extra header control (e.g. the encode/decode mode select)
+import CopyButton from '@components/CopyButton.astro';
+
+interface Props {
+  /** Header text ("Input", "Result", "Digest (hex)", …) */
+  label: string;
+  /** When set, the header renders a <label for> for this control id (a11y) */
+  labelFor?: string;
+  /** Body typography: mono for developer tools, prose for text tools */
+  variant?: 'mono' | 'prose';
+  /** Result panel: hugs content on mobile, centers the hero in the empty state */
+  result?: boolean;
+  /** When set, the header gets data-copy-bar + a CopyButton for this target id */
+  copyTargetId?: string;
+  class?: string;
+  /** data-* attributes pass through to the panel root */
+  [key: string]: unknown;
+}
+
+const {
+  label,
+  labelFor,
+  variant = 'mono',
+  result = false,
+  copyTargetId,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'io-panel',
+    { 'io-panel--prose': variant === 'prose', 'io-panel--result': result },
+    className,
+  ]}
+  {...rest}
+>
+  <div class="io-header" {...(copyTargetId ? { 'data-copy-bar': '' } : {})}>
+    {labelFor
+      ? <label class="io-label" for={labelFor}>{label}</label>
+      : <span class="io-label">{label}</span>}
+    <slot name="header-end" />
+    {copyTargetId && <CopyButton targetId={copyTargetId} />}
+  </div>
+  <slot />
+</div>

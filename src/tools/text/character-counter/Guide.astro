@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,8 +28,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A character counter is a tool that counts every individual symbol in a piece of text —
-      letters, numbers, spaces, punctuation, and special characters. It typically shows two
+      A character counter is a tool that measures the text length and string length of any input: letters, numbers, spaces, punctuation, and special characters. It typically shows two
       counts: characters with spaces (the total length) and characters without spaces (letters
       and symbols only). For example, "Hello, World!" is 13 characters with spaces and 11
       without.
@@ -43,7 +39,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="why-character-count-matters">
     <h2>Why Character Count Matters <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      <strong>Social media.</strong> Twitter/X allows 280 characters per post. LinkedIn posts
+      <strong>Social media.</strong> Twitter/X allows 280 characters per post: a twitter character counter checks your draft before you hit publish. LinkedIn posts
       cap at 3,000 characters. Instagram captions allow up to 2,200 characters. These limits
       are hard: posts that exceed the limit cannot be published. Character count is the right
       metric for social writing, not word count.
@@ -70,13 +66,13 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="how-it-works">
     <h2>How Character Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The counter measures the length of your text string — every character, including spaces,
+      The counter measures the length of your text string: every character, including spaces,
       tabs, punctuation, and newline characters. Characters without spaces subtracts all
       whitespace characters from the total.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your
-      device, protecting your privacy — nothing is uploaded to a server, and results appear
+      device, protecting your privacy: nothing is uploaded to a server, and results appear
       instantly as you type or paste.
     </p>
   </section>
@@ -93,8 +89,8 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
     <p>
       <strong>Byte count</strong> measures storage size. For ASCII text (English letters and
-      punctuation), one character equals one byte. For Unicode characters — emoji, accented
-      letters, Chinese, Arabic, or other non-Latin scripts — each character may require 2 to
+      punctuation), one character equals one byte. For Unicode characters: emoji, accented
+      letters, Chinese, Arabic, or other non-Latin scripts, each character may require 2 to
       4 bytes in UTF-8 encoding. Some APIs and databases have byte limits rather than character
       limits, which matters when your content includes international characters.
     </p>
@@ -111,7 +107,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Confusing character limits with word limits">
       <p>
-        When a platform specifies "280 characters," that is not 280 words — it is roughly 40
+        When a platform specifies "280 characters," that is not 280 words: it is roughly 40
         to 50 words of typical prose. Avoid writing to a word count when the platform enforces
         a character limit. This tool shows both, so you can monitor whichever limit applies.
       </p>
@@ -129,7 +125,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Character Counter vs Other Text Metrics <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A character counter is one of several alternatives for measuring text. A <strong>word
-      counter</strong> is better for measuring depth — essays, articles, and assignments
+      counter</strong> is better for measuring depth: essays, articles, and assignments
       typically have word limits rather than character limits. A <strong>reading time
       calculator</strong> is better for estimating how long readers will engage with content.
       A <strong>sentence counter</strong> and <strong>paragraph counter</strong> are better
@@ -146,10 +142,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

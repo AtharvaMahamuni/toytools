@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -29,10 +26,11 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   toolCategorySlug={config.categorySlug}
 >
   <section id="quick-answer">
-    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>What Is Trim Text? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Trimming removes spaces and tabs from the start and end of every line: "  hello world  "
-      becomes "hello world". The words and the spacing between them stay exactly as they were.
+      Trim Text will trim whitespace from every line. It will remove leading spaces, remove trailing spaces,
+      and strip whitespace from the start and end of each line: "  hello world  " becomes "hello world".
+      Use it to trim lines in bulk. The words and the spacing between them stay exactly as they were.
     </p>
     <a href={toolHref} class="cta-link">Try Trim Text →</a>
   </section>
@@ -59,10 +57,10 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       The tool processes each line independently, stripping leading and trailing whitespace and
       leaving the interior of the line alone. For example, "&nbsp; &nbsp;hello world&nbsp; &nbsp;"
-      becomes "hello world" — the interior spacing is preserved, only the ends are cleaned.
+      becomes "hello world": the interior spacing is preserved, only the ends are cleaned.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -77,7 +75,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Lines that become empty after trimming stay in the output">
       <p>
-        If a line contains only spaces, trimming it produces an empty line — it does not delete
+        If a line contains only spaces, trimming it produces an empty line: it does not delete
         the line. Follow up with Remove Blank Lines if you want those resulting empty lines removed.
       </p>
     </ReferenceBlock>
@@ -86,7 +84,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="trim-text-vs-alternatives">
     <h2>Trim Text vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Trim Text is the most targeted of the whitespace cleanup alternatives — it only touches the
+      Trim Text is the most targeted of the whitespace cleanup alternatives: it only touches the
       edges of each line and preserves everything else. <strong>Remove Extra Spaces</strong> is
       more thorough: it also collapses runs of spaces inside each line. <strong>Normalize
       Whitespace</strong> is the most aggressive alternative: it removes all whitespace runs and
@@ -103,10 +101,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

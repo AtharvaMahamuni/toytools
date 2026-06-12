@@ -2,17 +2,17 @@ import type { FAQItem } from './types';
 import { items as todoFaqs }               from '@tools/productivity/todo-list/faq';
 import { items as notepadFaqs }             from '@tools/productivity/notepad/faq';
 import { items as keepScreenAwakeFaqs }     from '@tools/productivity/keep-screen-awake/faq';
-import { items as base64Faqs }              from '@tools/developer/base64-encoder-decoder/faq';
-import { items as urlEncoderDecoderFaqs }   from '@tools/developer/url-encoder-decoder/faq';
-import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer/html-entity-encoder-decoder/faq';
-// Developer tools — hashing engine
-import { items as md5HashGeneratorFaqs }   from '@tools/developer/md5-hash-generator/faq';
-import { items as sha1HashGeneratorFaqs }  from '@tools/developer/sha1-hash-generator/faq';
-import { items as sha256HashGeneratorFaqs } from '@tools/developer/sha256-hash-generator/faq';
-// Developer tools — structured-data engine
-import { items as jsonFormatterFaqs }  from '@tools/developer/json-formatter/faq';
-import { items as jsonMinifierFaqs }   from '@tools/developer/json-minifier/faq';
-import { items as jsonValidatorFaqs }  from '@tools/developer/json-validator/faq';
+import { items as base64Faqs }              from '@tools/developer-utilities/base64-encoder-decoder/faq';
+import { items as urlEncoderDecoderFaqs }   from '@tools/developer-utilities/url-encoder-decoder/faq';
+import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
+// Developer utilities — hashing engine
+import { items as md5HashGeneratorFaqs }   from '@tools/developer-utilities/md5-hash-generator/faq';
+import { items as sha1HashGeneratorFaqs }  from '@tools/developer-utilities/sha1-hash-generator/faq';
+import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha256-hash-generator/faq';
+// Developer utilities — structured-data engine
+import { items as jsonFormatterFaqs }  from '@tools/developer-utilities/json-formatter/faq';
+import { items as jsonMinifierFaqs }   from '@tools/developer-utilities/json-minifier/faq';
+import { items as jsonValidatorFaqs }  from '@tools/developer-utilities/json-validator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as wordCounterFaqs }         from '@tools/text/word-counter/faq';
 import { items as pomodoroTimerFaqs }        from '@tools/productivity/pomodoro-timer/faq';

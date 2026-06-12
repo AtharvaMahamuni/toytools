@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,8 +28,8 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Uppercase text is text in which every letter is a capital letter: "hello world"
-      becomes "HELLO WORLD". Converting to uppercase changes only the letters — numbers,
+      An uppercase text generator lets you convert to uppercase with one click, turning every letter into a capital letter: "hello world"
+      becomes "HELLO WORLD". Converting to uppercase changes only the letters: numbers,
       spaces, and punctuation are left untouched.
     </p>
     <a href={toolHref} class="cta-link">Try The Uppercase Converter →</a>
@@ -43,7 +40,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       Uppercase suits acronyms and initialisms (HTML, NASA, API), named constants in code
       (<code>MAX_RETRIES</code>), short headings or labels, and the occasional word you want
-      to emphasise. It is also handy for normalising data — forcing product codes or country
+      to emphasise. It is also handy for normalising data: forcing product codes or country
       codes to a single, consistent case before comparing or storing them.
     </p>
     <ReferenceBlock type="common-mistake" heading="Don't set body text in all caps">
@@ -60,11 +57,11 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <p>
       The tool applies the same case-folding your operating system uses, mapping every
       lowercase letter to its uppercase counterpart while leaving all other characters alone.
-      For example, "The quick brown fox" becomes "THE QUICK BROWN FOX" — every letter
+      For example, "The quick brown fox" becomes "THE QUICK BROWN FOX": every letter
       capitalised, all numbers and punctuation unchanged.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -72,16 +69,18 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Uppercase vs Other Case Styles <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Uppercase is not the only case style, and choosing the right alternative depends on
-      context. <strong>Sentence case</strong> capitalises only the first word — the default
+      context. <strong>Sentence case</strong> capitalises only the first word: the default
       for body text and UI labels. <strong>Title Case</strong> capitalises every major word
       and is used for headings and article titles. <strong>camelCase</strong> and
       <strong>snake_case</strong> are for code identifiers. Uppercase (ALL CAPS) is the right
-      choice when you need maximum visual weight — acronyms, constants, and short emphasis — but
-      it is rarely the right alternative for prose or headings.
+      choice when you need maximum visual weight (acronyms, constants, and short emphasis) but
+      it is rarely the right alternative for prose or headings. When comparing uppercase converter vs alternatives,
+      the key question is intent: use uppercase for constants and acronyms, title case for headings,
+      and sentence case for everything else.
     </p>
     <ReferenceBlock type="common-mistake" heading="Using all-caps as emphasis in long text">
       <p>
-        Capitalising an entire sentence or paragraph for emphasis does not work — it reads as
+        Capitalising an entire sentence or paragraph for emphasis does not work: it reads as
         shouting and makes the text harder to scan. Use bold or a pull-quote instead. Reserve
         uppercase for short strings of three words or fewer.
       </p>
@@ -95,10 +94,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

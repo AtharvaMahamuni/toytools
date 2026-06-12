@@ -110,8 +110,65 @@ npm run seo:fetch    -- <tool-slug>   # fetch from a curated search-results.json
 npm run seo:extract  -- <tool-slug>
 npm run seo:validate
 npm run seo:audit
-npm run seo:scaffold -- <tool-slug>   # turn the brief into content stubs for an agent
+npm run seo:scaffold -- <tool-slug>   # research → self-contained authoring brief (PROMPT.md) + stubs
+npm run seo:graph                     # snapshot src/ registries → cache/content-graph.json
+npm run seo:doctor                    # assert engine/doc assumptions against the codebase
+npm run seo:writing-tool -- <slug>    # audit a real tool's Guide.astro + faq.ts + config.ts
+npm run seo:gate -- <slug>            # same audit in gate mode: exit 1 below the quality bar
+npm run seo:status -- <slug>          # pipeline state + the exact next command to run
+npm run seo:status                    # site-wide table (slug × state × last score)
 ```
+
+### Orchestrator: seo:status
+
+**Always start here.** `seo:status -- <slug>` refreshes the content graph,
+inspects the filesystem (research age, scaffold freshness, authored files,
+registration state, last audit + gate result), reports a single state
+(`needs-research → needs-extract → needs-scaffold → needs-writing →
+needs-registration → needs-audit → failing-gate → done`) and emits
+`nextActions` whose first `command` is meant to be run verbatim. Add `--json`
+(with `npm --silent`) for a machine-readable object including `checks` and
+`definitionOfDone`. Tools with an authored guide+FAQ skip the research stages:
+research is only required to *write* new content, and `knowledge.ts` is an
+authored overlay that needs no research at all. When SERP discovery was
+blocked (raw dir exists, zero pages), status points at the `seo:fetch`
+manual-fallback flow instead of re-running discovery.
+
+### Audit, gate, and AI-tell detection
+
+`seo:writing-tool` scores five weighted categories plus a Knowledge Sync section
+(knowledge.ts commonQuestions must match faq.ts questions; commonMistakes and
+realWorldUseCases must appear in the prose). Entities/intents come from a
+derived per-tool profile with a fallback chain — `toolIntents` override in
+`config/content-intelligence-rules.json` → the tool's knowledge.ts overlay →
+config tags — so every tool gets a meaningful audit; the report names the tier.
+
+The writing engine includes an `aiTells` metric: banned vocabulary (delve,
+unlock, seamless, ...), the "not just X, it's Y" construction, rule-of-three
+overuse, colon-heavy headings, uniform paragraph shapes, bold-spam, and
+**em-dashes, which are banned outright on this project** (any count fails the
+gate; rewrite with a period, comma, or colon).
+
+`seo:gate -- <slug>` (alias for `seo:writing-tool -- <slug> --gate`) checks the
+`gates` block in `content-intelligence-rules.json` (overall + per-category
+minimums + zero high-impact actions + zero AI-tell phrases + zero em-dashes)
+and exits 1 on failure — the objective stop condition for the agent's
+write → audit → fix loop. Add `--json` (with `npm --silent`) for a parseable
+score object on stdout; the same object is always written to
+`reports/tool-content-intelligence-<slug>.json` including the `gate` result.
+
+### Content graph + doctor
+
+The engine never imports `src/` TypeScript directly. `seo:graph` serializes the
+live registries (tools, guide/FAQ/knowledge registration, tags, knowledge
+overlay fields) to `cache/content-graph.json`; extraction uses it as a domain
+allowlist for entity filtering, and `seo:doctor`/`seo:status` use it for
+registration state. `seo:doctor` re-runs the export, then asserts everything
+the docs and scaffold claim about the codebase (URL shape `/tool/…`, two-level
+tool dirs, no `config.faq` field, guide-registry parity, exemplar guides intact,
+every command referenced by the `seo-content` skill exists, every
+`toolIntents` override key resolves). It exits nonzero on drift — run it first
+whenever a pipeline command behaves unexpectedly.
 
 ### When discovery is blocked
 

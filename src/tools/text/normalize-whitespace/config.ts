@@ -19,10 +19,4 @@ export const config: ToolConfig = {
     description: 'Learn what normalizing whitespace means, how it flattens messy spacing and line breaks, and when to use it.',
     readMinutes: 3,
     updatedAt: 'Jun 2026',
-  },
-  faq: {
-    slug: 'normalize-whitespace',
-    categorySlug: 'text',
-    description: 'Answers to common questions about normalizing whitespace.',
-  },
-};
+  },};

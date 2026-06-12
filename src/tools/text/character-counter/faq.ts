@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'cc-faq-1',
     question: 'How does a character counter work?',
     answer:
-      'A character counter measures the total length of a string by counting every individual symbol — letters, numbers, spaces, punctuation, and special characters. This tool provides two counts: characters with spaces (the total length) and characters without spaces (letters and symbols only, excluding whitespace).',
+      'A character counter measures the total length of a string by counting every individual symbol, letters, numbers, spaces, punctuation, and special characters. This tool provides two counts: characters with spaces (the total length) and characters without spaces (letters and symbols only, excluding whitespace).',
   },
   {
     id: 'cc-faq-2',
@@ -29,7 +29,7 @@ export const items: FAQItem[] = [
     id: 'cc-faq-5',
     question: 'What is the difference between character count and byte count?',
     answer:
-      'Character count counts each visible symbol as one character. Byte count measures storage size. For plain ASCII text (English letters, digits, punctuation), one character equals one byte. For Unicode characters — emoji, accented letters, Chinese or Arabic script — each character may require 2 to 4 bytes in UTF-8 encoding. Some APIs and databases have byte limits rather than character limits.',
+      'Character count counts each visible symbol as one character. Byte count measures storage size. For plain ASCII text (English letters, digits, punctuation), one character equals one byte. For Unicode characters (emoji, accented letters, Chinese or Arabic script) each character may require 2 to 4 bytes in UTF-8 encoding. Some APIs and databases have byte limits rather than character limits.',
   },
   {
     id: 'cc-faq-6',
@@ -41,12 +41,12 @@ export const items: FAQItem[] = [
     id: 'cc-faq-7',
     question: 'What is the ideal character count for an SEO meta description?',
     answer:
-      'Google typically displays meta descriptions up to 155 to 160 characters before truncating. Best practice is to write descriptions between 120 and 158 characters — long enough to be informative, short enough to display in full. Meta titles are typically limited to 50 to 60 characters.',
+      'Google typically displays meta descriptions up to 155 to 160 characters before truncating. Best practice is to write descriptions between 120 and 158 characters: long enough to be informative, short enough to display in full. Meta titles are typically limited to 50 to 60 characters.',
   },
   {
     id: 'cc-faq-8',
     question: 'Is my text uploaded when I use this character counter?',
     answer:
-      'No. All counting happens in your browser using JavaScript. Your text never leaves your device — there is no server, no upload, and no account required. Privacy is fully protected.',
+      'No. All counting happens in your browser using JavaScript. Your text never leaves your device: there is no server, no upload, and no account required. Privacy is fully protected.',
   },
 ];

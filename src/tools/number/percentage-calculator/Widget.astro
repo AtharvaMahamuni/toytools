@@ -1,70 +1,41 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
-import TrustNotice from '@components/tool/TrustNotice.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { config } from './config';
-import { items as faqItems } from './faq';
-import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
-const faqHref = config.faq
-  ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`)
-  : null;
 ---
 
-<TrustNotice variant="private" />
-
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={true}>
-  <div slot="input" data-tool="percentage-calculator">
-    <label class="widget-label" for="percentage-mode">Calculation</label>
-    <select id="percentage-mode" class="widget-select">
-      <option value="of">What is A% of B?</option>
-      <option value="change">Percentage change from A to B</option>
-      <option value="is">A is what percent of B?</option>
-    </select>
-    <label class="widget-label" for="percentage-a">A</label>
-    <input id="percentage-a" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 20" />
-    <label class="widget-label" for="percentage-b">B</label>
-    <input id="percentage-b" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 150" />
-    <div class="tool-actions">
-      <button class="action-btn action-btn--clear" id="pct-clear" data-label="Clear" type="button">Clear</button>
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Values" variant="prose" data-tool="percentage-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="percentage-mode">Calculation</label>
+      <select id="percentage-mode" class="widget-select">
+        <option value="of">What is A% of B?</option>
+        <option value="change">Percentage change from A to B</option>
+        <option value="is">A is what percent of B?</option>
+      </select>
+      <label class="widget-label" for="percentage-a">A</label>
+      <input id="percentage-a" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 20" />
+      <label class="widget-label" for="percentage-b">B</label>
+      <input id="percentage-b" class="widget-input" type="number" inputmode="decimal" placeholder="Example: 150" />
     </div>
-  </div>
+  </IoPanel>
 
-  <div slot="output">
-    <div class="hero-panel">
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="tm-hero">
       <span class="hero-value" id="pct-value">0</span>
       <span class="hero-label">Result</span>
       <p class="empty-hint" id="pct-hint">Enter values to calculate.</p>
       <p class="pct-formula" id="pct-formula" hidden></p>
     </div>
-    <div class="tool-actions">
-      <button class="action-btn action-btn--copy" id="pct-copy" data-label="Copy" type="button">Copy</button>
-    </div>
-  </div>
+  </IoPanel>
 </ToolSplit>
 
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="pct-copy" data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="pct-clear" data-label="Clear" type="button">Clear</button>
+</div>
+
 <CategoryDiscovery toolSlug="percentage-calculator" />
-
-<ToolSection heading="How it works">
-  <p>The calculator applies the selected percentage formula and shows the computed value immediately.</p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → How To Calculate Percentages</a>
-    </p>
-  )}
-</ToolSection>
-
-{faqHref && (
-  <section class="content-section">
-    <h2>FAQ</h2>
-    <FAQPreview items={faqItems.slice(0, 3)} faqHref={faqHref} />
-  </section>
-)}
 
 <script is:inline>
   (function () {

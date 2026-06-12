@@ -31,6 +31,16 @@ interface ReadabilityConfig {
   acceptable_min: number;
 }
 
+interface AiTellStructuralConfig {
+  maxEmDashes: number;
+  maxNotJustCount: number;
+  maxBoldPer100Words: number;
+  maxTripletRatio: number;
+  maxColonHeadingRatio: number;
+  minParagraphShapeStdDev: number;
+  minParagraphsForShapeCheck: number;
+}
+
 interface WritingRules {
   sentenceLength: SentenceLengthConfig;
   maxParagraphSentences: number;
@@ -52,6 +62,8 @@ interface WritingRules {
   comparisonKeywords: string[];
   passiveVoicePatterns: string[];
   directAnswerHedgeOpeners: string[];
+  aiTellPhrases: string[];
+  aiTellStructural: AiTellStructuralConfig;
 }
 
 // ─── Text helpers ────────────────────────────────────────────────────────────
@@ -440,6 +452,104 @@ function scoreComparisonCoverage(text: string, headings: string[]): { score: num
   return { score, comparisonSections };
 }
 
+// "Not just X, it's Y" and its siblings — the single most recognizable
+// AI-generated sentence shape. Zero tolerance.
+const NOT_JUST_RE = /\b(?:it'?s not just|not just|isn'?t just|not only)\b[^.!?\n]{0,90}?\b(?:but|it'?s|it is|;)/gi;
+
+export interface AiTellResult {
+  score: number;
+  emDashCount: number;
+  phraseCount: number;
+  phrasesFound: string[];
+  notJustCount: number;
+  tripletRatio: number;
+  colonHeadingRatio: number;
+  paragraphShapeStdDev: number;
+  boldPer100Words: number;
+}
+
+/**
+ * Detects modern AI-generated-text tells the older metrics miss: banned vocab
+ * ("delve", "unlock", "seamless"), the "not just X, it's Y" construction,
+ * em-dashes (banned outright on this project), rule-of-three overuse,
+ * colon-heavy headings ("X: Why Y Matters"), uniform paragraph shapes, and
+ * bold-spam. Takes raw markdown because stripMarkdown removes the bold and
+ * dash evidence this check needs.
+ */
+function scoreAiTells(
+  markdown: string,
+  plainText: string,
+  sentences: string[],
+  paragraphs: string[],
+  headings: string[],
+): AiTellResult {
+  const cfg = RULES.aiTellStructural;
+  const lower = plainText.toLowerCase();
+  const wordCount = countWords(plainText);
+
+  const phrasesFound: string[] = [];
+  let phraseCount = 0;
+  for (const phrase of RULES.aiTellPhrases) {
+    const re = new RegExp(`\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi');
+    const matches = lower.match(re);
+    if (matches) {
+      phraseCount += matches.length;
+      phrasesFound.push(`"${phrase}" (${matches.length}×)`);
+    }
+  }
+
+  // Em-dash (and spaced en-dash used as one). Counted on raw markdown with
+  // three exemptions: code (``` fences, `inline`, <code> elements), the
+  // educational "(—)" character-display pattern (the HTML-entity guide teaches
+  // &mdash; itself), and unspaced en-dashes in numeric ranges ("200–250 words"
+  // is correct typography, not an AI tell).
+  const noCode = markdown
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]+`/g, '')
+    .replace(/<code[^>]*>[\s\S]*?<\/code>/gi, '')
+    .replace(/\((?:—|–)\)/g, '');
+  const emDashCount = (noCode.match(/—/g) ?? []).length + (noCode.match(/ – /g) ?? []).length;
+
+  const notJustCount = (plainText.match(NOT_JUST_RE) ?? []).length;
+
+  // Rule-of-three: "fast, simple, and private" sentence shapes
+  const tripletSentences = sentences.filter(s =>
+    /\b[\w'-]+(?:\s+[\w'-]+){0,3},\s+[\w'-]+(?:\s+[\w'-]+){0,3},\s+(?:and|or)\s+[\w'-]+/.test(s),
+  ).length;
+  const tripletRatio = sentences.length > 0 ? tripletSentences / sentences.length : 0;
+
+  const colonHeadings = headings.filter(h => /.+:\s+.+/.test(h)).length;
+  const colonHeadingRatio = headings.length > 0 ? colonHeadings / headings.length : 0;
+
+  // Uniform paragraph shapes: every paragraph the same 2-3 sentence block
+  const paraShapes = paragraphs.map(p => parseSentences(p).length);
+  const paragraphShapeStdDev = stdDev(paraShapes);
+
+  const boldCount = (noCode.match(/\*\*[^*\n]+\*\*|<strong>/g) ?? []).length;
+  const boldPer100Words = wordCount > 0 ? (boldCount / wordCount) * 100 : 0;
+
+  let score = 100;
+  score -= phraseCount * 10;
+  score -= emDashCount * 15;
+  score -= notJustCount * 15;
+  if (tripletRatio > cfg.maxTripletRatio) score -= 20;
+  if (colonHeadingRatio > cfg.maxColonHeadingRatio) score -= 10;
+  if (paragraphs.length >= cfg.minParagraphsForShapeCheck && paragraphShapeStdDev < cfg.minParagraphShapeStdDev) score -= 15;
+  if (boldPer100Words > cfg.maxBoldPer100Words) score -= 10;
+
+  return {
+    score: clamp(score),
+    emDashCount,
+    phraseCount,
+    phrasesFound,
+    notJustCount,
+    tripletRatio: Math.round(tripletRatio * 100) / 100,
+    colonHeadingRatio: Math.round(colonHeadingRatio * 100) / 100,
+    paragraphShapeStdDev: Math.round(paragraphShapeStdDev * 100) / 100,
+    boldPer100Words: Math.round(boldPer100Words * 10) / 10,
+  };
+}
+
 function scoreToyToolsStyle(scores: Omit<WritingScore, 'score' | 'toyToolsStyleScore' | 'issues' | 'recommendations'>): number {
   const criteria = RULES.toyToolsStyleCriteria;
   const weighted =
@@ -467,7 +577,7 @@ export function calculateWritingScore(markdown: string): WritingScore {
       score: 0, clarity: 0, readability: 0, scannability: 0, examples: 0,
       teaching: 0, rhythm: 0, jargon: 0, flow: 0, confidence: 0,
       interestingness: 0, repetition: 0, passiveVoice: 0,
-      comparisonCoverage: 0, mistakeCoverage: 0, toyToolsStyleScore: 0,
+      comparisonCoverage: 0, mistakeCoverage: 0, aiTells: 0, toyToolsStyleScore: 0,
       issues: [`Content too sparse (${wordCount} words). Run content generation first.`],
       recommendations: ['Generate full guide content before running writing analysis.'],
     };
@@ -495,6 +605,7 @@ export function calculateWritingScore(markdown: string): WritingScore {
   const interestingResult = scoreInterestingness(plainText, headings);
   const mistakeResult = scoreMistakeCoverage(plainText, headings);
   const comparisonResult = scoreComparisonCoverage(plainText, headings);
+  const aiTellResult = scoreAiTells(markdown, plainText, sentences, paragraphs, headings);
 
   // Clarity composite: blend of direct answers, low jargon, low fluff, short sentences
   const clarity = clamp(Math.round(
@@ -519,6 +630,7 @@ export function calculateWritingScore(markdown: string): WritingScore {
     passiveVoice: passiveResult.score,
     comparisonCoverage: comparisonResult.score,
     mistakeCoverage: mistakeResult.score,
+    aiTells: aiTellResult.score,
   };
 
   const weights = RULES.scoreWeights;
@@ -554,6 +666,17 @@ export function calculateWritingScore(markdown: string): WritingScore {
     issues.push('No comparison coverage found (vs / difference / unlike)');
   if (mistakeResult.mistakeSections === 0)
     issues.push('No common mistake / pitfall sections found');
+  if (aiTellResult.emDashCount > 0)
+    issues.push(`Em-dash found (${aiTellResult.emDashCount}×): banned on this project, rewrite with a period, comma, or colon`);
+  if (aiTellResult.phrasesFound.length > 0)
+    issues.push(`AI-tell phrases: ${aiTellResult.phrasesFound.slice(0, 4).join(', ')}`);
+  if (aiTellResult.notJustCount > 0)
+    issues.push(`"Not just X, it's Y" construction (${aiTellResult.notJustCount}×): the most recognizable AI sentence shape`);
+  if (aiTellResult.tripletRatio > RULES.aiTellStructural.maxTripletRatio)
+    issues.push(`Rule-of-three overuse: ${Math.round(aiTellResult.tripletRatio * 100)}% of sentences are "A, B, and C" lists`);
+  if (paragraphs.length >= RULES.aiTellStructural.minParagraphsForShapeCheck &&
+      aiTellResult.paragraphShapeStdDev < RULES.aiTellStructural.minParagraphShapeStdDev)
+    issues.push('Uniform paragraph shapes: every paragraph has the same sentence count; vary them');
 
   // Build recommendations
   const recommendations: string[] = [];
@@ -582,6 +705,8 @@ export function calculateWritingScore(markdown: string): WritingScore {
     recommendations.push('Add a "Common Mistakes" or "Pitfalls" section to help readers avoid errors');
   if (interestingResult.patterns < 3)
     recommendations.push('Add surprising facts, misconceptions to correct, or memorable comparisons');
+  if (aiTellResult.score < 100)
+    recommendations.push('Remove AI tells: no em-dashes, no "not just X" framing, no banned vocab (delve, unlock, seamless); vary sentence and paragraph shapes');
 
   return {
     score: compositeScore,
@@ -680,6 +805,7 @@ export function generateWritingFingerprint(markdown: string): WritingFingerprint
   const transitionDensity = wordCount > 0 ? Math.round((transitionCount / wordCount) * 1000) / 10 : 0;
 
   const repResult = scoreRepetition(sentences);
+  const aiTells = scoreAiTells(markdown, plainText, sentences, paragraphs, headings);
 
   return {
     avgSentenceLength: Math.round(avgSentenceLength * 10) / 10,
@@ -693,6 +819,12 @@ export function generateWritingFingerprint(markdown: string): WritingFingerprint
     commonMistakeSections,
     transitionDensity,
     repetitionScore: repResult.score,
+    emDashCount: aiTells.emDashCount,
+    aiTellPhraseCount: aiTells.phraseCount,
+    aiTellPhrasesFound: aiTells.phrasesFound,
+    notJustCount: aiTells.notJustCount,
+    tripletRatio: aiTells.tripletRatio,
+    paragraphShapeStdDev: aiTells.paragraphShapeStdDev,
   };
 }
 
@@ -726,6 +858,7 @@ function renderAuditSection(slug: string, score: WritingScore, fp: WritingFinger
   lines.push(`| Comparison Coverage | ${score.comparisonCoverage} |`);
   lines.push(`| Mistake Coverage | ${score.mistakeCoverage} |`);
   lines.push(`| Jargon | ${score.jargon} |`);
+  lines.push(`| AI Tells | ${score.aiTells} |`);
   lines.push('');
   lines.push('**Writing Fingerprint:**');
   lines.push(
@@ -741,6 +874,9 @@ function renderAuditSection(slug: string, score: WritingScore, fp: WritingFinger
     `comparisonSections: ${fp.comparisonSections} | commonMistakeSections: ${fp.commonMistakeSections}`
   );
   lines.push(`transitionDensity: ${fp.transitionDensity}/100 words`);
+  lines.push(
+    `emDashCount: ${fp.emDashCount} | aiTellPhrases: ${fp.aiTellPhraseCount} | notJust: ${fp.notJustCount} | paragraphShapeStdDev: ${fp.paragraphShapeStdDev}`
+  );
   lines.push('');
 
   if (score.issues.length > 0) {

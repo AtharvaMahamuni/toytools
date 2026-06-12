@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,8 +28,9 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Removing blank lines deletes every empty or whitespace-only line, pulling the remaining
-      lines together while keeping their order. A double-spaced list becomes a compact one.
+      Remove blank lines to remove empty lines and remove extra lines from any text. It will remove line breaks
+      that are purely whitespace, pulling the remaining content together to compact text while
+      keeping the order. To strip empty lines from a document, paste and convert in one click.
     </p>
     <a href={toolHref} class="cta-link">Try Remove Blank Lines →</a>
   </section>
@@ -57,11 +55,11 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The tool splits your text into lines, drops any line that is empty or contains only spaces
-      and tabs, and rejoins the rest. For example, a list with blank rows between every item
-      becomes a compact, contiguous list with no gaps.
+      and tabs, and rejoins the rest. In other words, it will delete blank lines throughout your text.
+      For example, a list with blank rows between every item becomes a compact, contiguous list with no gaps.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -69,7 +67,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Removing the blank lines that separate paragraphs">
       <p>
-        In Markdown and HTML, blank lines between paragraphs are meaningful — they tell the
+        In Markdown and HTML, blank lines between paragraphs are meaningful: they tell the
         renderer where one paragraph ends and another begins. If you remove all blank lines from
         Markdown, your paragraphs will merge into a single block. Use this tool on plain lists and
         data, not on Markdown or HTML source.
@@ -78,7 +76,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <ReferenceBlock type="common-mistake" heading="Whitespace-only lines survive if you expect them to be removed">
       <p>
         A line that contains a single space or tab looks blank but is not empty. This tool removes
-        those too — any line whose only content is spaces or tabs is treated as blank and deleted.
+        those too: any line whose only content is spaces or tabs is treated as blank and deleted.
         If you want to keep those lines, use a different approach.
       </p>
     </ReferenceBlock>
@@ -105,10 +103,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

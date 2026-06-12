@@ -1,13 +1,14 @@
 // Content Manifest — the canonical, registry-derived list of every indexable surface
-// (home, tools, guides, faqs, categories, language stubs). Sitemaps, and future search /
+// (home, tools, guides, categories, language stubs). Sitemaps, and future search /
 // related-content systems, all derive from this single source rather than maintaining
 // their own lists. Pure and build-time; no I/O.
 
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
+import { faqsByToolSlug } from '@data/faq-registry';
 import { withBase } from '@lib/paths';
 
-export type ContentType = 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'language';
+export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'language';
 
 export interface ContentEntry {
   type: ContentType;
@@ -49,7 +50,8 @@ export function buildContentManifest(): ContentEntry[] {
     });
   }
 
-  // Tools (+ their guides and faqs)
+  // Tools (+ their guides). FAQ content lives ON the tool page (no standalone faq pages;
+  // old /faq/ URLs serve redirect stubs via src/data/faq-redirects.ts — never in sitemaps).
   for (const t of tools) {
     entries.push({
       type: 'tool',
@@ -59,7 +61,7 @@ export function buildContentManifest(): ContentEntry[] {
       engine: t.engine,
       relatedTools: t.relatedTools ?? [],
       guideExists: t.guide !== undefined,
-      faqExists: t.faq !== undefined,
+      faqExists: (faqsByToolSlug[t.slug]?.length ?? 0) > 0,
       updatedAt: t.updatedAt,
       priority: 0.9,
       changefreq: 'monthly',
@@ -73,17 +75,6 @@ export function buildContentManifest(): ContentEntry[] {
         categorySlug: t.categorySlug,
         updatedAt: t.guide.updatedAt,
         priority: 0.7,
-        changefreq: 'monthly',
-      });
-    }
-
-    if (t.faq) {
-      entries.push({
-        type: 'faq',
-        slug: t.faq.slug,
-        url: withBase(`/faq/${t.faq.categorySlug}/${t.faq.slug}/`),
-        categorySlug: t.categorySlug,
-        priority: 0.6,
         changefreq: 'monthly',
       });
     }

@@ -3,6 +3,7 @@
 
 import { tools as allTools } from '@data/registry';
 import { categories as allCategories } from '@data/categories';
+import { faqsByToolSlug } from '@data/faq-registry';
 import { engineRegistry } from '@data/engines';
 import { graph as defaultGraph } from '@lib/knowledge/graph';
 import { KNOWLEDGE } from '@lib/knowledge/registry';
@@ -25,6 +26,7 @@ export function defaultInputs(): AnalyzerInputs {
     graph: defaultGraph,
     knowledge: KNOWLEDGE,
     taxonomy: EXPANSION_TAXONOMY,
+    faqSlugs: new Set(Object.keys(faqsByToolSlug).filter(s => (faqsByToolSlug[s]?.length ?? 0) > 0)),
   };
 }
 

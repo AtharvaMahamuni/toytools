@@ -34,3 +34,46 @@ export const SEO_JUNK = new Set([
 export function isMeaningful(w: string): boolean {
   return w.length > 2 && !/^\d+$/.test(w) && !STOP_WORDS.has(w) && !SEO_JUNK.has(w);
 }
+
+// Multiword marketing/filler phrases that pass per-token checks but carry no
+// topical signal. These leak into scaffold entity lists ("mention these
+// entities: Less Time, Boost Productivity") and a literal-minded agent obeys.
+export const GENERIC_PHRASES = new Set([
+  'less time', 'more time', 'real time', 'right way', 'good idea', 'long run',
+  'first time', 'next level', 'boost productivity', 'save time', 'get started',
+  'getting started', 'learn more', 'read more', 'find out', 'check out',
+  'sign up', 'free trial', 'pro tip', 'pro tips', 'best practices',
+  'common questions', 'frequently asked', 'final thoughts', 'wrapping up',
+  'key takeaways', 'table contents', 'related posts', 'related articles',
+]);
+
+// Bare verbs/adverbs/abstract nouns that survive document-frequency gating
+// because every competitor uses them, yet are never entities on their own.
+export const GENERIC_WORDS = new Set([
+  'actually', 'really', 'basically', 'simply', 'easily', 'quickly', 'better',
+  'work', 'works', 'working', 'worked', 'thing', 'things', 'stuff', 'people',
+  'time', 'times', 'day', 'days', 'today', 'start', 'starts', 'started',
+  'know', 'knows', 'try', 'tried', 'great', 'good', 'right', 'different',
+  'effective', 'productive', 'productivity', 'focus', 'focused',
+  // product-UI vocabulary every competitor page has, never a topic entity
+  'features', 'feature', 'custom', 'customize', 'manage', 'managing',
+  'preferences', 'options', 'settings', 'available', 'update', 'updates',
+]);
+
+/**
+ * True when a candidate term is specific enough to surface as an entity in
+ * research output and scaffold prompts. `allowlist` (lowercased slug tokens,
+ * tool tags, knowledge keywords) rescues domain words that the generic lists
+ * would otherwise reject — "focus" is junk for a JSON tool but the topic
+ * itself for a pomodoro timer.
+ */
+export function isSpecificEntity(term: string, allowlist: ReadonlySet<string> = new Set()): boolean {
+  const key = term.toLowerCase().trim();
+  if (!key) return false;
+  if (allowlist.has(key)) return true;
+  if (GENERIC_PHRASES.has(key)) return false;
+  const tokens = key.split(/\s+/);
+  if (tokens.some(t => allowlist.has(t))) return true;
+  // every token generic → the phrase is generic ("boost productivity", "actually works")
+  return !tokens.every(t => STOP_WORDS.has(t) || SEO_JUNK.has(t) || GENERIC_WORDS.has(t));
+}

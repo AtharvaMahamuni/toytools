@@ -8,8 +8,8 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { extractCompetitorPage } from './utils/extractor.js';
 import { ENTITY_WEIGHTS, ENTITY_COUNT, GAP_THRESHOLDS, LIMITS, REDDIT_ENTITY_BONUS } from './utils/config.js';
-import { normalizeHeading, isJunkHeading, titleCase } from './utils/text.js';
-import { isMeaningful } from './utils/terms.js';
+import { normalizeHeading, isJunkHeading, titleCase, dedupeQuestions, cleanQuestion } from './utils/text.js';
+import { isMeaningful, isSpecificEntity } from './utils/terms.js';
 import { extractRedditResearch } from './reddit.js';
 import type { CompetitorPage, RedditPost, RedditResearch, ResearchDocument } from '../types/index.js';
 
@@ -104,6 +104,30 @@ console.log(`  Reddit: ${redditPosts.length} posts → ${reddit.redditQuestions.
 // Step 5: Entity extraction (deterministic, frequency-weighted)
 console.log('\n[5/9] Extracting entities...');
 
+// Domain allowlist rescues tool-topic words the generic-junk filter would drop.
+// Sources: slug tokens always; tags/keywords/knowledge concepts from the
+// content-graph snapshot when present (optional — run `npm run seo:graph`).
+const entityAllowlist = new Set<string>(toolSlug.split('-').filter(t => t.length > 2));
+const graphPath = join(ROOT, 'cache', 'content-graph.json');
+if (existsSync(graphPath)) {
+  try {
+    const graphTool = JSON.parse(readFileSync(graphPath, 'utf-8')).tools?.[toolSlug];
+    const sources: string[] = [
+      ...(graphTool?.tags ?? []),
+      ...(graphTool?.keywords ?? []),
+      ...(graphTool?.knowledge?.primaryConcepts ?? []),
+      ...(graphTool?.knowledge?.keywords ?? []),
+    ];
+    for (const s of sources) {
+      const phrase = s.toLowerCase().trim();
+      entityAllowlist.add(phrase);
+      phrase.split(/\s+/).forEach(t => t.length > 2 && entityAllowlist.add(t));
+    }
+  } catch {
+    // snapshot unreadable → slug tokens alone still work
+  }
+}
+
 interface TermScore { term: string; score: number }
 
 const termScores = new Map<string, number>();
@@ -174,6 +198,8 @@ for (const { term } of sortedTerms) {
   if (entities.length >= ENTITY_COUNT) break;
   // single word — skip if a bigram already represents it
   if (!term.includes(' ') && bigramWords.has(term)) continue;
+  // generic filler ("less time", "actually") never becomes an entity
+  if (!isSpecificEntity(term, entityAllowlist)) continue;
   // Title-case for display
   entities.push(term.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '));
 }
@@ -187,6 +213,7 @@ for (const term of reddit.redditTerminology) {
   if (entities.length >= ENTITY_COUNT + REDDIT_ENTITY_BONUS) break;
   const key = term.topic.toLowerCase();
   if (entityKeys.has(key)) continue;
+  if (!isSpecificEntity(term.topic, entityAllowlist)) continue;
   entityKeys.add(key);
   entities.push(term.topic);
 }
@@ -199,19 +226,21 @@ console.log('\n[6/9] Extracting questions...');
 const allHeadings = competitors.flatMap(c => [...c.h2, ...c.h3]);
 const allFaqs = competitors.flatMap(c => c.faqQuestions);
 
-// Dedupe case-insensitively (keep first-seen casing), then cap.
+// Dedupe exact matches case-insensitively, then collapse semantic near-dupes
+// ("What is Base64?" / "What exactly is Base64 encoding?") before capping —
+// otherwise the FAQ draft hands the agent the same question three ways.
 const seenQuestions = new Set<string>();
-const questions: string[] = [];
+const questionCandidates: string[] = [];
 for (const q of [...allHeadings, ...allFaqs]) {
-  const text = q.trim();
+  const text = cleanQuestion(q);
   if (!isQuestion(text)) continue;
   const key = text.toLowerCase();
   if (seenQuestions.has(key)) continue;
   seenQuestions.add(key);
-  questions.push(text);
-  if (questions.length >= LIMITS.questions) break;
+  questionCandidates.push(text);
 }
-console.log(`  Found ${questions.length} questions`);
+const questions = dedupeQuestions(questionCandidates).slice(0, LIMITS.questions);
+console.log(`  Found ${questions.length} questions (${questionCandidates.length - questions.length} near-duplicates collapsed)`);
 
 // Step 7: Intent detection
 console.log('\n[7/9] Detecting intent...');

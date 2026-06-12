@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,9 +28,9 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Title Case capitalizes the first letter of each word: "the quick brown fox" becomes
-      "The Quick Brown Fox". It is the standard style for headings, article titles, book
-      titles, and film titles.
+      Title Case will capitalize text by applying title capitalization rules: it will capitalize each word
+      (or specifically capitalize first letter of each word for major words). "the quick brown fox"
+      becomes "The Quick Brown Fox". It is the standard headline case for headings and article titles.
     </p>
     <a href={toolHref} class="cta-link">Try The Title Case Converter →</a>
   </section>
@@ -41,15 +38,14 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="capitalization-rules">
     <h2>Which Words To Capitalize <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The traditional rule is to capitalize the important words — nouns, verbs, adjectives,
-      and adverbs — and to leave the small connecting words lowercase: articles
+      The traditional rule is to capitalize the important words (nouns, verbs, adjectives, and adverbs) and to leave the small connecting words lowercase: articles
       (a, an, the), short prepositions (in, on, at, of), and coordinating conjunctions
       (and, but, or). The exception is the first word of the title, which is always capitalized.
     </p>
     <p>
       Style guides such as AP, Chicago, and APA disagree on edge cases, particularly the length
       at which a preposition gets capitalized. This converter capitalizes the first letter of
-      every word — the most common and predictable convention — giving you a clean starting
+      every word (the most common and predictable convention) giving you a clean starting
       point you can lightly edit to match a specific style guide.
     </p>
     <ReferenceBlock type="key-idea" heading="Title Case vs. sentence case">
@@ -64,14 +60,13 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="how-it-works">
     <h2>How The Title Case Converter Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The converter capitalises the first letter of every word and lowercases the rest —
-      for example, "the art of war" becomes "The Art Of War". This is a simple every-word
+      The converter capitalises the first letter of every word and lowercases the rest: for example, "the art of war" becomes "The Art Of War". This is a simple every-word
       rule rather than the grammar-aware rule used by AP and Chicago style guides (which
       leave short prepositions and articles lowercase). It gives you a clean starting point
       you can lightly edit for any specific style guide.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
     </p>
   </section>
 
@@ -97,7 +92,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Title Case vs Other Capitalisation Styles <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Title Case is one of several alternatives for capitalization. <strong>Sentence case</strong>
-      capitalises only the first word — the default for body copy and most UI. <strong>Uppercase</strong>
+      capitalises only the first word: the default for body copy and most UI. <strong>Uppercase</strong>
       (ALL CAPS) is for acronyms, constants, and short labels. <strong>Lowercase</strong> is used
       for URL slugs and normalisation. Title Case sits between sentence case and uppercase: it adds
       more visual weight than sentence case but is more readable than all-caps for multi-word titles.
@@ -112,10 +107,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

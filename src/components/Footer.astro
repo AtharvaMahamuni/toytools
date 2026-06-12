@@ -8,11 +8,17 @@ const year = new Date().getFullYear();
     <div class="footer-brand">
       &copy; {year} ToyTools
       <span class="gold-dot" aria-hidden="true"></span>
-      Lightweight
+      <span
+        class="footer-hint"
+        data-tooltip="Loads fast. No unnecessary complexity. Built for getting things done."
+        data-toast="Loads fast. No unnecessary complexity. Built for getting things done."
+      >Lightweight</span>
       <span class="gold-dot" aria-hidden="true"></span>
-      Private
-      <span class="gold-dot" aria-hidden="true"></span>
-      Free
+      <span
+        class="footer-hint"
+        data-tooltip="Most tools run entirely in your browser. Your data stays on your device."
+        data-toast="Most tools run entirely in your browser. Your data stays on your device."
+      >Private</span>
       <span class="gold-dot" aria-hidden="true"></span>
       <MadeInIndia />
     </div>
@@ -47,6 +53,41 @@ const year = new Date().getFullYear();
     gap: var(--space-3);
   }
 
+  /* ── Hint words with tooltip ─────────────────────────────── */
+
+  .footer-hint {
+    position: relative;
+    cursor: default;
+  }
+
+  /* Desktop: CSS tooltip via ::after */
+  @media (hover: hover) and (pointer: fine) {
+    .footer-hint::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + var(--space-2));
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      background: var(--color-text);
+      color: var(--color-bg);
+      font-size: var(--text-xs);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 150ms ease;
+      z-index: 10;
+      max-width: 260px;
+      white-space: normal;
+      text-align: center;
+    }
+
+    .footer-hint:hover::after {
+      opacity: 1;
+    }
+  }
+
   @media (max-width: 639px) {
     .footer-inner {
       font-size: var(--text-xs);
@@ -56,5 +97,18 @@ const year = new Date().getFullYear();
       gap: var(--space-2);
     }
   }
-
 </style>
+
+<script is:inline>
+  (function () {
+    /* Mobile tap toast — only for touch-primary devices */
+    if (!window.matchMedia('(hover: none)').matches) return;
+    document.querySelectorAll('.footer-hint[data-toast]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.ToyTools && ToyTools.toast) {
+          ToyTools.toast(el.getAttribute('data-toast'));
+        }
+      });
+    });
+  })();
+</script>

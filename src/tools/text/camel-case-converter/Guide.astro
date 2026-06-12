@@ -1,8 +1,6 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
-import FAQPreview from '@components/FAQPreview.astro';
-import { items as faqItems } from './faq';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
@@ -19,7 +17,6 @@ interface Props {
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
 const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config.faq.slug}/`) : null;
 ---
 
 <GuideLayout
@@ -31,10 +28,9 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      camelCase joins words together with no spaces, keeping the first word lowercase and
+      This camel case converter lets you convert to camelCase instantly, joining words together with no spaces, keeping the first word lowercase and
       capitalizing the first letter of every word after it: "user profile image" becomes
-      "userProfileImage". It is the standard naming style for variables and functions in many
-      programming languages.
+      "userProfileImage". It follows the standard javascript naming convention for variables and functions.
     </p>
     <a href={toolHref} class="cta-link">Try The camelCase Converter →</a>
   </section>
@@ -43,8 +39,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Where camelCase Is Used <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       camelCase is the dominant convention for variable and function names in JavaScript,
-      TypeScript, Java, Kotlin, and Swift. Its close relative PascalCase — which also capitalizes
-      the first letter — is used for class names, React components, and TypeScript interfaces.
+      TypeScript, Java, Kotlin, and Swift. Its close relative PascalCase (which also capitalizes the first letter) is used for class names, React components, and TypeScript interfaces.
     </p>
     <ReferenceBlock type="key-idea" heading="One convention per context">
       <p>
@@ -58,13 +53,13 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>How The Conversion Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The converter breaks your text into words at spaces, hyphens, underscores, and other
-      separators — and also at existing camelCase humps — then rejoins them in camelCase.
+      separators (and also at existing camelCase humps) then rejoins them in camelCase.
       For example: "user-profile-image", "user_profile_image", and "User Profile Image" all
       become "userProfileImage". Each line is processed independently, so you can convert a
       whole list of names at once.
     </p>
     <p>
-      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy — nothing is uploaded to a server, and results appear instantly.
+      This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
       Always review generated identifiers before pasting them into code.
     </p>
   </section>
@@ -85,7 +80,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Using camelCase where PascalCase is expected">
       <p>
-        In React, component names must be PascalCase — <code>MyComponent</code>, not
+        In React, component names must be PascalCase: <code>MyComponent</code>, not
         <code>myComponent</code>. In TypeScript, interfaces and types also use PascalCase.
         Using camelCase for these will cause linter errors or runtime failures.
       </p>
@@ -93,8 +88,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <ReferenceBlock type="common-mistake" heading="Pasting multi-word acronyms as-is">
       <p>
         Acronyms like "HTML" or "URL" in camelCase are conventionally treated as one word:
-        <code>parseHtml</code> rather than <code>parseHTML</code>. However, style guides differ
-        — some codebases keep all-caps acronyms. Check your team's convention before converting.
+        <code>parseHtml</code> rather than <code>parseHTML</code>. However, style guides differ: some codebases keep all-caps acronyms. Check your team's convention before converting.
       </p>
     </ReferenceBlock>
   </section>
@@ -103,7 +97,7 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     <h2>camelCase vs Other Naming Conventions <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       camelCase is one of four common naming alternatives for code identifiers. <strong>PascalCase</strong>
-      is identical except the first letter is also capitalised — it is used for class and component
+      is identical except the first letter is also capitalised: it is used for class and component
       names. <strong>snake_case</strong> uses underscores as separators and is the default in Python
       and SQL. <strong>kebab-case</strong> uses hyphens and is used for CSS class names and URL slugs,
       but cannot be used for variable names in most languages because hyphens are treated as the
@@ -119,10 +113,6 @@ const faqHref  = config.faq ? withBase(`/faq/${config.faq.categorySlug}/${config
     </p>
   </section>
 
-  <section id="faq">
-    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
-    {faqHref && <FAQPreview items={faqItems.slice(0, 4)} faqHref={faqHref} />}
-  </section>
 </GuideLayout>
 
 <style>

@@ -5,7 +5,6 @@ import { makeKnowledge } from './fixtures';
 import {
   getRelatedTools,
   getRelatedGuides,
-  getRelatedFaqs,
   getUsedWith,
   getAlternatives,
   getNextSteps,
@@ -92,10 +91,6 @@ describe('relationship queries', () => {
     const guides = getRelatedGuides('json-validator', 5, g);
     expect(guides.every(r => r.node.type === 'guide')).toBe(true);
     expect(guides.some(r => r.node.slug === 'json-formatter')).toBe(true); // only formatter has a guide
-  });
-
-  it('getRelatedFaqs returns empty when no sibling has a FAQ', () => {
-    expect(getRelatedFaqs('json-validator', 5, g)).toEqual([]);
   });
 
   it('getNextSteps respects the max cap', () => {
