@@ -113,7 +113,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
     <ReferenceBlock type="common-mistake" heading="Trying to format invalid JSON">
       <p>
         A formatter parses the JSON before re-serializing it. If the input has a syntax error (a trailing comma, an unquoted key, a single-quoted string) the parse fails and the
-        formatter can't proceed. Fix the syntax error first. Use a validator to pinpoint exactly
+        formatter can't proceed. Fix the syntax error first. Use the <a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a> to pinpoint exactly
         where the problem is.
       </p>
     </ReferenceBlock>
@@ -133,6 +133,14 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
         formatter, including this one.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/json-minifier/')}>JSON Minifier</a>: Compact formatted JSON for production API responses.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm your JSON is syntactically correct before formatting.</li>
+    </ul>
   </section>
 
 </GuideLayout>

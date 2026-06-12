@@ -31,7 +31,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       SHA-256 is a cryptographic hash function that produces a 64-character hexadecimal digest.
       It's part of the SHA-2 family, designed by the NSA, and has been the baseline secure hash
-      algorithm for over two decades. Unlike MD5 and SHA-1, it has no known collision attacks.
+      algorithm for over two decades. Unlike <a href={withBase('/tool/developer-utilities/md5-hash-generator/')}>MD5</a> and <a href={withBase('/tool/developer-utilities/sha1-hash-generator/')}>SHA-1</a>, it has no known collision attacks.
     </p>
     <p>
       If you need a SHA-256 hash right now, use the tool directly.
@@ -147,6 +147,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         produce different outputs and use completely different internals.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/md5-hash-generator/')}>MD5 Hash Generator</a>: A 128-bit digest, fast but broken for security use.</li>
+      <li><a href={withBase('/tool/developer-utilities/sha1-hash-generator/')}>SHA-1 Hash Generator</a>: A 160-bit digest deprecated since the 2017 SHAttered attack.</li>
+    </ul>
   </section>
 
 </GuideLayout>

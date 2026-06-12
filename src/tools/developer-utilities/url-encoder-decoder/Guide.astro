@@ -120,7 +120,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       </li>
       <li>
         <strong>API tokens and keys</strong>: Keys often contain <code>+</code>, <code>=</code>, or
-        <code>/</code> (especially Base64-encoded ones). Encoding them prevents those characters from
+        <code>/</code> (especially <a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64</a>-encoded ones). Encoding them prevents those characters from
         being misread as URL syntax.
       </li>
       <li>
@@ -164,6 +164,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         typically sneak in.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64 Encoder &amp; Decoder</a>: Encode binary data for transmission through text channels.</li>
+      <li><a href={withBase('/tool/developer-utilities/html-entity-encoder-decoder/')}>HTML Entity Encoder &amp; Decoder</a>: Escape reserved characters for safe use inside HTML.</li>
+    </ul>
   </section>
 
 </GuideLayout>

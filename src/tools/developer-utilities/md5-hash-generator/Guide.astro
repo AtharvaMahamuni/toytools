@@ -130,7 +130,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       <p>
         MD5 collision attacks let an attacker produce two different files with the same hash.
         If a malicious actor controls both files, they can swap them and the hashes won't help
-        you detect the swap. For integrity checks where tampering is a concern, use SHA-256.
+        you detect the swap. For integrity checks where tampering is a concern, use <a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256</a>.
       </p>
     </ReferenceBlock>
 
@@ -142,6 +142,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         a precomputed table.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256 Hash Generator</a>: Use this for security applications where collision resistance matters.</li>
+      <li><a href={withBase('/tool/developer-utilities/sha1-hash-generator/')}>SHA-1 Hash Generator</a>: A 160-bit hash, also deprecated for security use.</li>
+    </ul>
   </section>
 
 </GuideLayout>

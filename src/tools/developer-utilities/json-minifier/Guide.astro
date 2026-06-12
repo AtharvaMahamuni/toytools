@@ -105,8 +105,8 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
         JavaScript or HTML, minification is often applied automatically, but worth verifying.
       </li>
       <li>
-        <strong>Local debugging: reverse direction</strong>, When you receive a minified payload
-        and want to inspect it, paste it into a formatter. You don't need to keep it minified
+        <strong>Local debugging: reverse direction</strong>: When you receive a minified payload
+        and want to inspect it, paste it into the <a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>. You don't need to keep it minified
         during development.
       </li>
     </ul>
@@ -140,6 +140,14 @@ const minifyMinifiedEx  = JSON.stringify({ status: 'ok', count: 42 });
         support compression.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Expand a minified payload for debugging or review.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm your JSON is valid before minifying.</li>
+    </ul>
   </section>
 
 </GuideLayout>
