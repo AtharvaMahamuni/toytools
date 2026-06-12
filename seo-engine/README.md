@@ -115,7 +115,24 @@ npm run seo:graph                     # snapshot src/ registries → cache/conte
 npm run seo:doctor                    # assert engine/doc assumptions against the codebase
 npm run seo:writing-tool -- <slug>    # audit a real tool's Guide.astro + faq.ts + config.ts
 npm run seo:gate -- <slug>            # same audit in gate mode: exit 1 below the quality bar
+npm run seo:status -- <slug>          # pipeline state + the exact next command to run
+npm run seo:status                    # site-wide table (slug × state × last score)
 ```
+
+### Orchestrator: seo:status
+
+**Always start here.** `seo:status -- <slug>` refreshes the content graph,
+inspects the filesystem (research age, scaffold freshness, authored files,
+registration state, last audit + gate result), reports a single state
+(`needs-research → needs-extract → needs-scaffold → needs-writing →
+needs-registration → needs-audit → failing-gate → done`) and emits
+`nextActions` whose first `command` is meant to be run verbatim. Add `--json`
+(with `npm --silent`) for a machine-readable object including `checks` and
+`definitionOfDone`. Tools with an authored guide+FAQ skip the research stages:
+research is only required to *write* new content, and `knowledge.ts` is an
+authored overlay that needs no research at all. When SERP discovery was
+blocked (raw dir exists, zero pages), status points at the `seo:fetch`
+manual-fallback flow instead of re-running discovery.
 
 ### Audit, gate, and AI-tell detection
 
