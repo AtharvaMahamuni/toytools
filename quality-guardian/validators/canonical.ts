@@ -12,6 +12,9 @@ export const canonicalValidator: Validator = {
 
     for (const page of pages) {
       if (page.urlPath === '/404.html') continue;
+      // /faq/ pages are noindex redirect stubs — their canonical intentionally points
+      // to the tool page, not back to themselves. Skip the self-reference check.
+      if (page.urlPath.startsWith('/faq/')) continue;
       if (!page.canonical) continue; // missing canonical caught by build-integrity
 
       const c = page.canonical;

@@ -42,10 +42,13 @@ export const sitemapValidator: Validator = {
       .map(f => readFileSync(f, 'utf-8'))
       .join('\n');
 
-    // Check each manifest route (excluding /404.html) appears in the sitemap
+    // Check each manifest route (excluding /404.html) appears in the sitemap.
+    // /faq/ pages are noindex redirect stubs — intentionally absent from all sitemaps.
     const excluded = new Set(['/404.html', '/search/', '/architecture/']);
+    const excludedPrefixes = ['/faq/'];
     for (const route of ctx.manifestRoutes) {
       if (excluded.has(route)) continue;
+      if (excludedPrefixes.some(p => route.startsWith(p))) continue;
       // noindex pages are excluded from sitemap by design (search, 404, architecture)
       // Language stubs ARE expected in sitemap
 
