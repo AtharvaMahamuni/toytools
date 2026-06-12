@@ -17,6 +17,7 @@ export const config: ToolConfig = {
     label: 'Words',
     formatter: 'integer',
   },
+  relatedTools: ['character-counter', 'reading-time-calculator', 'sentence-counter'],
   guide: {
     slug: 'how-to-count-words-in-your-writing',
     categorySlug: 'text',

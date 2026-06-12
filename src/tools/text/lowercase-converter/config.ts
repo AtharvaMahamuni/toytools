@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   family: 'transform',
   processorId: 'lowercase',
   toolGroup: 'case-converters',
+  relatedTools: ['uppercase-converter', 'title-case-converter', 'sentence-case-converter'],
   guide: {
     slug: 'how-to-convert-text-to-lowercase',
     categorySlug: 'text',

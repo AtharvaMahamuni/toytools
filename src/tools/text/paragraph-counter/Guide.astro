@@ -28,10 +28,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A paragraph counter is a tool that counts the number of paragraphs in a piece of text by
-      splitting on blank lines. Each contiguous block of non-empty lines is counted as one
+      A paragraph counter is a tool that counts the paragraphs in text by splitting on blank lines,
+      letting you measure text structure at a glance. Each contiguous block of non-empty lines is counted as one
       paragraph. For example, "Line 1\nLine 2\n\nLine 3" contains two paragraphs: one with
-      "Line 1" and "Line 2" combined, and one with "Line 3".
+      "Line 1" and "Line 2" combined, and one with "Line 3". Students writing to a format requirement
+      can use it as an essay paragraph counter to verify their draft meets the required structure before submission.
     </p>
     <a href={toolHref} class="cta-link">Try The Paragraph Counter →</a>
   </section>
@@ -39,7 +40,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="why-paragraph-count-matters">
     <h2>Why Paragraph Count Matters <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      <strong>Structural editing.</strong> Paragraph count reveals the structural shape of a
+      <strong>Structural editing.</strong> Paragraph count reveals the text structure and shape of a
       document before you read it in detail. A 2,000-word document with only 3 paragraphs has
       "walls of text" that readers will struggle to scan. The same document with 18 short paragraphs
       is likely well-chunked for on-screen reading.

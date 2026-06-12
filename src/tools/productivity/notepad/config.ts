@@ -27,4 +27,5 @@ export const config: ToolConfig = {
     updatedAt: 'Jun 2026',
   },
   trustVariant: 'local',
+  relatedTools: ['todo-list', 'pomodoro-timer'],
 };

@@ -28,8 +28,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Removing tabs replaces every tab character with a single space, so tab-indented or
-      tab-separated text becomes consistently space-separated without gluing words together.
+      Remove tabs to convert tabs to spaces: every tab character is replaced with a single
+      space. To strip tabs or detab text quickly, paste and convert. The tabs-to-spaces swap
+      keeps adjacent words clearly separated without gluing them together.
     </p>
     <a href={toolHref} class="cta-link">Try Remove Tabs →</a>
   </section>
@@ -86,11 +87,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Remove Tabs vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Remove Tabs converts tab characters to spaces but does not collapse runs of spaces or remove
-      line breaks. The natural follow-up alternative is <strong>Remove Extra Spaces</strong>, which
+      line breaks. When comparing remove tabs vs alternatives: the natural follow-up is <strong>Remove Extra Spaces</strong>, which
       collapses any runs of spaces created by the tab replacement. <strong>Normalize Whitespace</strong>
       is a more aggressive alternative: it removes tabs, extra spaces, and line breaks all in one pass.
       <strong>Trim Text</strong> strips leading and trailing whitespace from each line, which helps
-      clean up any tab-indented lines after the tabs have been replaced with spaces.
+      clean up any tab-indented lines after the tabs have been replaced with spaces. Use your editor's
+      built-in indent conversion when you need tabs replaced with a specific number of spaces.
     </p>
   </section>
 

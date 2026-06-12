@@ -71,6 +71,6 @@ export const items: FAQItem[] = [
     id: 'wl-faq-12',
     question: 'How do I stop my screen from turning off without a tool?',
     answer:
-      'On Windows, go to Settings → System → Power & Sleep and set the screen sleep time to Never. On macOS, go to System Settings → Displays → Advanced → Prevent automatic sleeping when the display is off. On Android, go to Settings → Display → Screen Timeout. On iPhone, go to Settings → Display & Brightness → Auto-Lock. These device settings offer a permanent solution when you do not want to keep a browser tab open.',
+      'On Windows, go to Settings → System → Power & Sleep and set the screen sleep time to Never. On macOS, go to System Settings → Battery and disable automatic sleeping when the display is off. On Android, go to Settings → Display → Screen Timeout. On iPhone, go to Settings → Display & Brightness → Auto-Lock. These device settings offer a permanent solution when you do not want to keep a browser tab open.',
   },
 ];

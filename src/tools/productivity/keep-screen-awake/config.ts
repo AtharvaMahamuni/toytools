@@ -28,4 +28,5 @@ export const config: ToolConfig = {
     updatedAt: 'Jun 2026',
   },
   trustVariant: 'offline',
+  relatedTools: ['pomodoro-timer', 'todo-list'],
 };

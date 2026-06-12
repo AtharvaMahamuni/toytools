@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   family: 'transform',
   processorId: 'titleCase',
   toolGroup: 'case-converters',
+  relatedTools: ['uppercase-converter', 'lowercase-converter', 'sentence-case-converter'],
   guide: {
     slug: 'how-to-convert-text-to-title-case',
     categorySlug: 'text',

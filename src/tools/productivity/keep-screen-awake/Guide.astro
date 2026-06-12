@@ -52,7 +52,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       These defaults make sense for most situations. They become inconvenient when you are
       actively using the screen but not touching it: reading, watching, following instructions,
-      or monitoring something.
+      or monitoring something. For example, a chef following a recipe cannot tap the screen
+      with wet hands every thirty seconds to prevent it from dimming.
     </p>
   </section>
 
@@ -78,7 +79,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <h3>Following Recipes</h3>
     <p>
-      Reading a recipe while cooking means your hands are often wet or occupied. Tapping the
+      Reading a recipe while cooking means your hands are wet or occupied. Tapping the
       screen repeatedly to keep it lit is frustrating. Activating the wake lock before you
       start cooking means the recipe stays visible until you are done.
     </p>
@@ -87,12 +88,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Long reads (research papers, long-form journalism, documentation) can take ten or
       twenty minutes to get through. If your screen times out while you are reading, you lose
-      your place and have to unlock the device. The wake lock removes this interruption.
+      your place and have to log back in. The wake lock removes this interruption.
     </p>
 
     <h3>Online Classes and Tutorials</h3>
     <p>
-      Following a video tutorial or written walkthrough often means watching the screen
+      Following a video tutorial or written walkthrough means watching the screen
       without interacting with it. The wake lock keeps the lesson visible without requiring
       you to touch the trackpad or keyboard periodically.
     </p>
@@ -113,7 +114,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <h3>Monitoring Dashboards</h3>
     <p>
-      Developers and analysts often leave dashboards or log output on a second screen for
+      Developers and analysts leave dashboards or log output on a second screen for
       passive monitoring. The wake lock prevents the monitor from going dark, ensuring
       alerts and status changes stay visible.
     </p>
@@ -129,8 +130,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       On phones, the display is responsible for a majority of power consumption. A one-hour
-      session with the screen fully awake could consume the equivalent of 15–25% additional
-      battery compared to a session where the display sleeps between interactions.
+      session with the screen fully awake uses 15 to 25% more battery compared to a session
+      where the display sleeps between interactions.
     </p>
     <ReferenceBlock type="key-idea" heading="Simple mitigation">
       <p>Lower your screen brightness before activating the wake lock. A display at 30% brightness uses a fraction of the power of one at 100%, while still being fully readable in most environments.</p>
@@ -174,7 +175,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="when-you-dont-need-this">
-    <h2>When You Probably Don't Need This Tool <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>When You Don't Need This Tool <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       This tool is designed for situations where you need a temporary, no-configuration solution.
       There are cases where other options are more appropriate:
