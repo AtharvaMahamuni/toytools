@@ -1,6 +1,5 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
 ---
 
 <TextMetricWidget
@@ -13,7 +12,3 @@ import ToolSection from '@tools/_shared/ToolSection.astro';
     { metric: 'lines',      label: 'Lines',      formatter: 'integer' },
   ]}
 />
-
-<ToolSection heading="How it works">
-  <p>Paragraphs are separated by one or more blank lines. Lines are counted individually. All calculations run locally in your browser without sending content anywhere.</p>
-</ToolSection>

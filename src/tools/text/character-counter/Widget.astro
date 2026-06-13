@@ -1,6 +1,5 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
 ---
 
 <TextMetricWidget
@@ -15,7 +14,3 @@ import ToolSection from '@tools/_shared/ToolSection.astro';
     { metric: 'averageWordLength',  label: 'Avg Word Length',      formatter: 'decimal' },
   ]}
 />
-
-<ToolSection heading="How it works">
-  <p>Characters counts every character in your text including spaces and punctuation. Characters without spaces excludes all whitespace. Both counts run locally in your browser.</p>
-</ToolSection>

@@ -1,12 +1,5 @@
 ---
-import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import { config } from './config';
-import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
 ---
 
 <section class="tool-panel notepad-panel" data-tool="notepad">
@@ -43,14 +36,6 @@ const guideHref = config.guide
 
 <CategoryDiscovery toolSlug="notepad" />
 
-<ToolSection heading="How it works">
-  <p>Your notes are saved directly in this browser using localStorage. Nothing is sent to a server. Notes survive page refreshes and browser restarts.</p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → How To Take Better Notes</a>
-    </p>
-  )}
-</ToolSection>
 
 
 <style is:global>

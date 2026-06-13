@@ -1,13 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import { config } from './config';
 import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={true}>
@@ -63,22 +57,6 @@ const guideHref = config.guide
 
 <CategoryDiscovery toolSlug="keep-screen-awake" />
 
-<ToolSection heading="How it works">
-  <p>
-    This tool uses the browser Wake Lock API to ask your operating system to keep the display on.
-    When active, the screen will not dim or turn off on its own. The lock is released automatically
-    when you stop the tool, switch tabs, or close the page. Nothing is sent to a server.
-  </p>
-  <p>
-    Wake locks apply only to the display — they do not prevent your computer from entering system
-    sleep if you close the lid or trigger it manually.
-  </p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → How to Keep Your Screen Awake</a>
-    </p>
-  )}
-</ToolSection>
 
 
 <div id="wl-fullscreen" class="wl-fullscreen" data-state="inactive" hidden>

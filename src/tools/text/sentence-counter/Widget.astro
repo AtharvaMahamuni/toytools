@@ -1,6 +1,5 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
 ---
 
 <TextMetricWidget
@@ -13,7 +12,3 @@ import ToolSection from '@tools/_shared/ToolSection.astro';
     { metric: 'averageSentenceLength',label: 'Avg Sentence',    formatter: 'decimal' },
   ]}
 />
-
-<ToolSection heading="How it works">
-  <p>Sentences are detected by counting groups of sentence-ending punctuation (., !, ?). A sequence like "..." counts as one sentence boundary. If no punctuation is found, the text is treated as one sentence.</p>
-</ToolSection>

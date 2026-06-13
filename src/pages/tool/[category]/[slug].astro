@@ -77,6 +77,7 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
 
   {faqItems.length > 0 && (
     <section class="faq-section" id="faq" aria-label="Common questions">
+      <h2 class="faq-heading">Common Questions</h2>
       <FaqAccordion items={faqItems} />
     </section>
   )}
@@ -87,5 +88,13 @@ if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"
      FAQ follows as a natural continuation of the secondary-info zone. */
   .faq-section {
     margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .faq-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-4);
   }
 </style>

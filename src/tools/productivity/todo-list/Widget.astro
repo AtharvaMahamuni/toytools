@@ -1,12 +1,5 @@
 ---
-import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import { config } from './config';
-import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
 ---
 
 <section class="tool-panel" data-tool="todo-list">
@@ -37,14 +30,6 @@ const guideHref = config.guide
 
 <CategoryDiscovery toolSlug="todo-list" />
 
-<ToolSection heading="How it works">
-  <p>Tasks are saved in your browser and restored automatically when you return. Nothing is sent to a server.</p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → How To Use A Todo List</a>
-    </p>
-  )}
-</ToolSection>
 
 
 <style is:global>
