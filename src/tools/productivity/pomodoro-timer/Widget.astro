@@ -1,13 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import { config } from './config';
 import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
 
 const swUrl    = withBase('/sw.js');
 const toolUrl  = withBase('/tool/productivity/pomodoro-timer/');
@@ -112,23 +106,6 @@ const iconUrl  = withBase('/favicon.ico');
 
 <CategoryDiscovery toolSlug="pomodoro-timer" />
 
-<ToolSection heading="How it works">
-  <p>
-    Each Pomodoro cycle runs four 25-minute focus sessions separated by 5-minute breaks,
-    then a longer 15-minute break before the cycle restarts. The timer runs entirely in
-    your browser — nothing is sent anywhere.
-  </p>
-  <p>
-    Adjust focus and break lengths in the Customize panel. Your settings and today's
-    session count are saved locally and reset automatically each day. If you refresh the
-    page mid-session, the timer will restore to where you left off.
-  </p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → The Pomodoro Technique: A Practical Guide</a>
-    </p>
-  )}
-</ToolSection>
 
 
 <!-- Fullscreen / Remove Distractions overlay -->

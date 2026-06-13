@@ -1,12 +1,5 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
-import ToolSection from '@tools/_shared/ToolSection.astro';
-import { config } from './config';
-import { withBase } from '@lib/paths';
-
-const guideHref = config.guide
-  ? withBase(`/guide/${config.guide.categorySlug}/${config.guide.slug}/`)
-  : null;
 ---
 
 <TextMetricWidget
@@ -21,13 +14,3 @@ const guideHref = config.guide
     { metric: 'uniqueWords',      label: 'Unique Words',         formatter: 'integer' },
   ]}
 />
-
-<ToolSection heading="How it works">
-  <p>The counter scans the text in your browser and reports common writing metrics without sending content anywhere.</p>
-  {guideHref && (
-    <p class="guide-callout">
-      <a href={guideHref}>Learn more → How To Count Words In Your Writing</a>
-    </p>
-  )}
-</ToolSection>
-
