@@ -6,13 +6,14 @@
 
 import type { HashTool } from './types';
 import { md5 } from './md5';
-import { sha1, sha256 } from './sha';
+import { sha1, sha256, sha512 } from './sha';
 
 // Keyed by hasher id, referenced from a tool config's `processorId`.
 export const HASHERS: Record<string, HashTool> = {
   md5,
   sha1,
   sha256,
+  sha512,
 };
 
 /**
