@@ -24,12 +24,16 @@ import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowled
 // --- Number utilities ---
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 
+// --- Number utilities ---
+import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
+
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
+  marginCalculator,
   base64,
   urlCodec,
   htmlEntity,

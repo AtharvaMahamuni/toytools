@@ -1,0 +1,157 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Product Details" variant="prose" data-tool="margin-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="mgn-cost">Cost Price</label>
+      <input id="mgn-cost" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 60.00" />
+
+      <label class="widget-label" for="mgn-price">Selling Price</label>
+      <input id="mgn-price" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 100.00" />
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="tm-hero">
+      <span class="hero-value" id="mgn-margin">0%</span>
+      <span class="hero-label">Gross Margin</span>
+      <p class="empty-hint" id="mgn-hint">Enter cost and selling price to calculate.</p>
+    </div>
+    <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Gross Profit</dt>
+        <dd class="tm-stat-value" id="mgn-profit">$0.00</dd>
+      </div>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Markup</dt>
+        <dd class="tm-stat-value" id="mgn-markup">0%</dd>
+      </div>
+    </dl>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="mgn-copy" data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="mgn-clear" data-label="Clear" type="button">Clear</button>
+</div>
+
+<CategoryDiscovery toolSlug="margin-calculator" />
+
+<script is:inline>
+  (function () {
+    var costEl   = document.getElementById('mgn-cost');
+    var priceEl  = document.getElementById('mgn-price');
+    var marginEl = document.getElementById('mgn-margin');
+    var hintEl   = document.getElementById('mgn-hint');
+    var secondary = document.querySelector('.tm-secondary');
+    var profitEl = document.getElementById('mgn-profit');
+    var markupEl = document.getElementById('mgn-markup');
+    var copyBtn  = document.getElementById('mgn-copy');
+    var clearBtn = document.getElementById('mgn-clear');
+    if (!costEl || !priceEl || !marginEl) return;
+
+    var TT = window.ToyTools;
+    var lastResult = '';
+
+    function money(n) {
+      return '$' + (Math.round(n * 100) / 100).toFixed(2);
+    }
+
+    function pct(n) {
+      var rounded = Math.round(n * 100) / 100;
+      return (Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(2).replace(/\.?0+$/, '')) + '%';
+    }
+
+    function showEmpty(message) {
+      lastResult = '';
+      marginEl.textContent = '0%';
+      if (hintEl) { hintEl.textContent = message || 'Enter cost and selling price to calculate.'; hintEl.hidden = false; }
+      if (secondary) secondary.hidden = true;
+    }
+
+    function calc() {
+      var costRaw  = costEl.value;
+      var priceRaw = priceEl.value;
+
+      if (costRaw === '' && priceRaw === '') { showEmpty('Enter cost and selling price to calculate.'); return; }
+      if (costRaw === '' || priceRaw === '') { showEmpty('Enter both cost and selling price.'); return; }
+
+      var cost  = Number(costRaw);
+      var price = Number(priceRaw);
+
+      if (!Number.isFinite(cost) || cost < 0)  { showEmpty('Enter a valid cost price.'); return; }
+      if (!Number.isFinite(price) || price < 0) { showEmpty('Enter a valid selling price.'); return; }
+      if (price === 0) { showEmpty('Enter a selling price greater than zero.'); return; }
+
+      var grossProfit = price - cost;
+      var grossMargin = (grossProfit / price) * 100;
+      var markupStr   = cost > 0 ? pct((grossProfit / cost) * 100) : '–';
+
+      lastResult = pct(grossMargin);
+      marginEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (profitEl) profitEl.textContent = money(grossProfit);
+      if (markupEl) markupEl.textContent = markupStr;
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('margin-calculator', { cost: costEl.value, price: priceEl.value });
+    }
+
+    // Restore
+    try {
+      var saved = TT && TT.state && TT.state.load('margin-calculator');
+      if (saved) {
+        if (saved.cost  != null) costEl.value  = saved.cost;
+        if (saved.price != null) priceEl.value = saved.price;
+      }
+    } catch (_) {}
+
+    costEl.addEventListener('input',  function () { calc(); persist(); });
+    priceEl.addEventListener('input', function () { calc(); persist(); });
+
+    // Copy with success state
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(lastResult);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+
+    // Two-click confirm clear
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      resetClear();
+      costEl.value = ''; priceEl.value = '';
+      calc(); persist();
+      costEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#mgn-clear')) resetClear();
+    });
+
+    calc();
+  })();
+</script>
