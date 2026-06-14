@@ -21,6 +21,8 @@ import { config as normalizeWhitespace }   from '@tools/text/normalize-whitespac
 import { config as removeTabs }            from '@tools/text/remove-tabs/config';
 import { config as percentageCalculator }  from '@tools/number/percentage-calculator/config';
 import { config as marginCalculator }      from '@tools/number/margin-calculator/config';
+import { config as discountCalculator }     from '@tools/number/discount-calculator/config';
+import { config as tipCalculator }          from '@tools/number/tip-calculator/config';
 import { config as todoList }              from '@tools/productivity/todo-list/config';
 import { config as notepad }              from '@tools/productivity/notepad/config';
 import { config as keepScreenAwake }       from '@tools/productivity/keep-screen-awake/config';
@@ -33,6 +35,7 @@ import { config as sha256HashGenerator }  from '@tools/developer-utilities/sha25
 import { config as jsonFormatter }        from '@tools/developer-utilities/json-formatter/config';
 import { config as jsonMinifier }         from '@tools/developer-utilities/json-minifier/config';
 import { config as jsonValidator }        from '@tools/developer-utilities/json-validator/config';
+import { config as jsonToCsvConverter }   from '@tools/developer-utilities/json-to-csv-converter/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
@@ -57,6 +60,8 @@ export const tools: ToolConfig[] = [
   removeTabs,
   percentageCalculator,
   marginCalculator,
+  discountCalculator,
+  tipCalculator,
   todoList,
   notepad,
   keepScreenAwake,
@@ -69,6 +74,7 @@ export const tools: ToolConfig[] = [
   jsonFormatter,
   jsonMinifier,
   jsonValidator,
+  jsonToCsvConverter,
   pomodoroTimer,
 ];
 
