@@ -33,6 +33,7 @@ import { config as hexEncoderDecoder }    from '@tools/developer-utilities/hex-e
 import { config as md5HashGenerator }     from '@tools/developer-utilities/md5-hash-generator/config';
 import { config as sha1HashGenerator }    from '@tools/developer-utilities/sha1-hash-generator/config';
 import { config as sha256HashGenerator }  from '@tools/developer-utilities/sha256-hash-generator/config';
+import { config as sha512HashGenerator }  from '@tools/developer-utilities/sha512-hash-generator/config';
 import { config as jsonFormatter }        from '@tools/developer-utilities/json-formatter/config';
 import { config as jsonMinifier }         from '@tools/developer-utilities/json-minifier/config';
 import { config as jsonValidator }        from '@tools/developer-utilities/json-validator/config';
@@ -73,6 +74,7 @@ export const tools: ToolConfig[] = [
   md5HashGenerator,
   sha1HashGenerator,
   sha256HashGenerator,
+  sha512HashGenerator,
   jsonFormatter,
   jsonMinifier,
   jsonValidator,

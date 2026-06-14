@@ -12,7 +12,7 @@ function toHex(buffer: ArrayBuffer): string {
   return out;
 }
 
-async function digest(algorithm: 'SHA-1' | 'SHA-256', input: string): Promise<string> {
+async function digest(algorithm: 'SHA-1' | 'SHA-256' | 'SHA-512', input: string): Promise<string> {
   const data = new TextEncoder().encode(input);
   const buffer = await crypto.subtle.digest(algorithm, data);
   return toHex(buffer);
@@ -28,4 +28,10 @@ export const sha256: HashTool = {
   id: 'sha256',
   family: 'cryptographic',
   hash: (input) => digest('SHA-256', input),
+};
+
+export const sha512: HashTool = {
+  id: 'sha512',
+  family: 'cryptographic',
+  hash: (input) => digest('SHA-512', input),
 };
