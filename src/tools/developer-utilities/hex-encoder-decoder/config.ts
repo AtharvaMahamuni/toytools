@@ -1,0 +1,17 @@
+import type { ToolConfig } from '@data/types';
+
+export const config: ToolConfig = {
+  slug: 'hex-encoder-decoder',
+  name: 'Hex Encoder & Decoder',
+  seoTitle: 'Hex Encoder & Decoder — Free Online Tool',
+  description: 'Encode text to hexadecimal and decode hex back to readable text instantly in your browser. Fast, private, and free.',
+  categorySlug: 'developer-utilities',
+  tags: ['hex encoder', 'hex decoder', 'hexadecimal', 'hex to text', 'text to hex', 'hex converter', 'hex encoding', 'decode hex', 'encode hex', 'developer'],
+  isNew: true,
+  updatedAt: '2026-06-14',
+  engine: 'encoding',
+  pattern: 'encode-decode',
+  family: 'binary-text',
+  processorId: 'hex',
+  relatedTools: ['base64-encoder-decoder', 'url-encoder-decoder'],
+};

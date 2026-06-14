@@ -26,6 +26,7 @@ import { config as keepScreenAwake }       from '@tools/productivity/keep-screen
 import { config as base64 }               from '@tools/developer-utilities/base64-encoder-decoder/config';
 import { config as urlEncoderDecoder }     from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
+import { config as hexEncoderDecoder }    from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as md5HashGenerator }     from '@tools/developer-utilities/md5-hash-generator/config';
 import { config as sha1HashGenerator }    from '@tools/developer-utilities/sha1-hash-generator/config';
 import { config as sha256HashGenerator }  from '@tools/developer-utilities/sha256-hash-generator/config';
@@ -61,6 +62,7 @@ export const tools: ToolConfig[] = [
   base64,
   urlEncoderDecoder,
   htmlEntityEncoderDecoder,
+  hexEncoderDecoder,
   md5HashGenerator,
   sha1HashGenerator,
   sha256HashGenerator,
