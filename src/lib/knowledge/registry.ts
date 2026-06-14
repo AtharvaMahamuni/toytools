@@ -13,19 +13,16 @@ import { knowledge as htmlEntity }    from '@tools/developer-utilities/html-enti
 import { knowledge as md5 }           from '@tools/developer-utilities/md5-hash-generator/knowledge';
 import { knowledge as sha1 }          from '@tools/developer-utilities/sha1-hash-generator/knowledge';
 import { knowledge as sha256 }        from '@tools/developer-utilities/sha256-hash-generator/knowledge';
+import { knowledge as hexCodec }      from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as jsonFormatter }   from '@tools/developer-utilities/json-formatter/knowledge';
 import { knowledge as jsonMinifier }    from '@tools/developer-utilities/json-minifier/knowledge';
 import { knowledge as jsonValidator }   from '@tools/developer-utilities/json-validator/knowledge';
 import { knowledge as jsonToCsv }       from '@tools/developer-utilities/json-to-csv-converter/knowledge';
 
 // --- Number utilities ---
-import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
-
-// --- Number utilities ---
-import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
-
-// --- Number utilities ---
-import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
+import { knowledge as tipCalculator }        from '@tools/number/tip-calculator/knowledge';
+import { knowledge as discountCalculator }   from '@tools/number/discount-calculator/knowledge';
+import { knowledge as marginCalculator }     from '@tools/number/margin-calculator/knowledge';
 
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
@@ -40,6 +37,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   md5,
   sha1,
   sha256,
+  hexCodec,
   jsonFormatter,
   jsonMinifier,
   jsonValidator,
