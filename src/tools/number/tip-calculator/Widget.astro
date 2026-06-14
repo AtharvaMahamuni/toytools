@@ -1,0 +1,227 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Bill Details" variant="prose" data-tool="tip-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="tip-bill">Bill Amount</label>
+      <input id="tip-bill" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 85.00" />
+
+      <span class="widget-label" id="tip-pct-label">Tip Percentage</span>
+      <div class="tip-presets" role="group" aria-labelledby="tip-pct-label">
+        <button type="button" class="tip-preset" data-pct="15">15%</button>
+        <button type="button" class="tip-preset" data-pct="18">18%</button>
+        <button type="button" class="tip-preset" data-pct="20">20%</button>
+        <button type="button" class="tip-preset" data-pct="25">25%</button>
+      </div>
+      <input id="tip-pct" class="widget-input" type="number" inputmode="decimal" min="0" step="1" placeholder="Custom %" aria-label="Custom tip percentage" />
+
+      <label class="widget-label" for="tip-split">Split Between (people)</label>
+      <input id="tip-split" class="widget-input" type="number" inputmode="numeric" min="1" step="1" placeholder="1" />
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="tm-hero">
+      <span class="hero-value" id="tip-amount">$0.00</span>
+      <span class="hero-label">Tip Amount</span>
+      <p class="empty-hint" id="tip-hint">Enter a bill amount to calculate.</p>
+    </div>
+    <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Total Bill</dt>
+        <dd class="tm-stat-value" id="tip-total">$0.00</dd>
+      </div>
+      <div class="tm-stat-row" id="tip-row-pp-tip" hidden>
+        <dt class="tm-stat-label">Tip Per Person</dt>
+        <dd class="tm-stat-value" id="tip-pp-tip">$0.00</dd>
+      </div>
+      <div class="tm-stat-row" id="tip-row-pp-total" hidden>
+        <dt class="tm-stat-label">Total Per Person</dt>
+        <dd class="tm-stat-value" id="tip-pp-total">$0.00</dd>
+      </div>
+    </dl>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="tip-copy" data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="tip-clear" data-label="Clear" type="button">Clear</button>
+</div>
+
+<CategoryDiscovery toolSlug="tip-calculator" />
+
+<script is:inline>
+  (function () {
+    var billEl   = document.getElementById('tip-bill');
+    var pctEl    = document.getElementById('tip-pct');
+    var splitEl  = document.getElementById('tip-split');
+    var presets  = document.querySelectorAll('.tip-preset');
+    var amountEl = document.getElementById('tip-amount');
+    var hintEl   = document.getElementById('tip-hint');
+    var secondary = document.querySelector('.tm-secondary');
+    var totalEl  = document.getElementById('tip-total');
+    var ppTipRow = document.getElementById('tip-row-pp-tip');
+    var ppTipEl  = document.getElementById('tip-pp-tip');
+    var ppTotRow = document.getElementById('tip-row-pp-total');
+    var ppTotEl  = document.getElementById('tip-pp-total');
+    var copyBtn  = document.getElementById('tip-copy');
+    var clearBtn = document.getElementById('tip-clear');
+    if (!billEl || !pctEl || !splitEl || !amountEl) return;
+
+    var TT = window.ToyTools;
+    var lastResult = '';
+
+    function money(n) {
+      return '$' + (Math.round(n * 100) / 100).toFixed(2);
+    }
+
+    function syncPresets(pct) {
+      for (var i = 0; i < presets.length; i++) {
+        var on = presets[i].getAttribute('data-pct') === String(pct);
+        presets[i].classList.toggle('is-active', on);
+      }
+    }
+
+    function showEmpty(message) {
+      lastResult = '';
+      amountEl.textContent = '$0.00';
+      if (hintEl) { hintEl.textContent = message || 'Enter a bill amount to calculate.'; hintEl.hidden = false; }
+      if (secondary) secondary.hidden = true;
+    }
+
+    function calc() {
+      var billRaw = billEl.value, pctRaw = pctEl.value;
+      syncPresets(pctRaw === '' ? null : Number(pctRaw));
+
+      if (billRaw === '') { showEmpty('Enter a bill amount to calculate.'); return; }
+      var bill = Number(billRaw);
+      if (!Number.isFinite(bill) || bill < 0) { showEmpty('Enter a valid bill amount.'); return; }
+
+      var pct = pctRaw === '' ? 0 : Number(pctRaw);
+      if (!Number.isFinite(pct) || pct < 0) pct = 0;
+
+      var split = parseInt(splitEl.value, 10);
+      if (!Number.isFinite(split) || split < 1) split = 1;
+
+      var tip = bill * pct / 100;
+      var total = bill + tip;
+
+      lastResult = money(tip);
+      amountEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (totalEl) totalEl.textContent = money(total);
+
+      var multi = split > 1;
+      if (ppTipRow) ppTipRow.hidden = !multi;
+      if (ppTotRow) ppTotRow.hidden = !multi;
+      if (multi) {
+        if (ppTipEl) ppTipEl.textContent = money(tip / split);
+        if (ppTotEl) ppTotEl.textContent = money(total / split);
+      }
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('tip-calculator', { bill: billEl.value, pct: pctEl.value, split: splitEl.value });
+    }
+
+    // Restore
+    try {
+      var saved = TT && TT.state && TT.state.load('tip-calculator');
+      if (saved) {
+        if (saved.bill != null) billEl.value = saved.bill;
+        if (saved.pct != null) pctEl.value = saved.pct;
+        if (saved.split != null) splitEl.value = saved.split;
+      }
+    } catch (_) {}
+
+    for (var i = 0; i < presets.length; i++) {
+      presets[i].addEventListener('click', function () {
+        pctEl.value = this.getAttribute('data-pct');
+        calc(); persist();
+      });
+    }
+    billEl.addEventListener('input', function () { calc(); persist(); });
+    pctEl.addEventListener('input', function () { calc(); persist(); });
+    splitEl.addEventListener('input', function () { calc(); persist(); });
+
+    // Copy with success state
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(lastResult);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+
+    // Two-click confirm clear
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      resetClear();
+      billEl.value = ''; pctEl.value = ''; splitEl.value = '';
+      calc(); persist();
+      billEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#tip-clear')) resetClear();
+    });
+
+    calc();
+  })();
+</script>
+
+<style>
+  .tip-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tip-preset {
+    flex: 1;
+    min-width: 64px;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .tip-preset:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-hover);
+  }
+
+  .tip-preset.is-active,
+  .tip-preset.is-active:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+  }
+</style>
