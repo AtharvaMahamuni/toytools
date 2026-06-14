@@ -59,3 +59,74 @@ describe('json-validator', () => {
     expect(run('42').ok).toBe(true);
   });
 });
+
+describe('json-to-csv', () => {
+  const run = (s: string) => STRUCTURED_TOOLS['json-to-csv'].execute(s);
+
+  it('converts a flat array of objects to CSV', () => {
+    const r = run('[{"name":"Alice","age":30},{"name":"Bob","age":25}]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('name,age\nAlice,30\nBob,25');
+  });
+
+  it('returns empty output for empty input', () =>
+    expect(run('   ')).toEqual({ ok: true, output: '' }));
+
+  it('returns error for invalid JSON', () => {
+    const r = run('{bad}');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBeTruthy();
+  });
+
+  it('returns error for non-array JSON', () => {
+    const r = run('{"users":[]}');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBe('Input must be a JSON array.');
+  });
+
+  it('returns error for empty array', () => {
+    const r = run('[]');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBeTruthy();
+  });
+
+  it('wraps cells containing commas in double quotes', () => {
+    const r = run('[{"note":"Hello, World"}]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('note\n"Hello, World"');
+  });
+
+  it('doubles embedded double-quotes per CSV spec', () => {
+    const r = run('[{"q":"He said \\"Hi\\""}]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('q\n"He said ""Hi"""');
+  });
+
+  it('handles sparse rows — union of headers, missing cells blank', () => {
+    const r = run('[{"name":"Alice","age":30},{"name":"Bob","city":"NYC"}]');
+    expect(r.ok).toBe(true);
+    const lines = r.output.split('\n');
+    expect(lines[0]).toBe('name,age,city');
+    expect(lines[1]).toBe('Alice,30,');
+    expect(lines[2]).toBe('Bob,,NYC');
+  });
+
+  it('converts an array of primitives to a single value column', () => {
+    const r = run('["apple","banana","orange"]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('value\napple\nbanana\norange');
+  });
+
+  it('JSON.stringifies nested objects in cells', () => {
+    const r = run('[{"name":"Alice","address":{"city":"NYC"}}]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toContain('name,address');
+    expect(r.output).toContain('Alice');
+  });
+
+  it('resolves json-to-csv through runStructuredData', () => {
+    const r = runStructuredData('json-to-csv', '[{"x":1}]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('x\n1');
+  });
+});
