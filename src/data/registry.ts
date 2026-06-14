@@ -20,6 +20,7 @@ import { config as trimText }              from '@tools/text/trim-text/config';
 import { config as normalizeWhitespace }   from '@tools/text/normalize-whitespace/config';
 import { config as removeTabs }            from '@tools/text/remove-tabs/config';
 import { config as percentageCalculator }  from '@tools/number/percentage-calculator/config';
+import { config as discountCalculator }     from '@tools/number/discount-calculator/config';
 import { config as todoList }              from '@tools/productivity/todo-list/config';
 import { config as notepad }              from '@tools/productivity/notepad/config';
 import { config as keepScreenAwake }       from '@tools/productivity/keep-screen-awake/config';
@@ -55,6 +56,7 @@ export const tools: ToolConfig[] = [
   normalizeWhitespace,
   removeTabs,
   percentageCalculator,
+  discountCalculator,
   todoList,
   notepad,
   keepScreenAwake,

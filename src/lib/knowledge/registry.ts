@@ -17,6 +17,9 @@ import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-form
 import { knowledge as jsonMinifier }  from '@tools/developer-utilities/json-minifier/knowledge';
 import { knowledge as jsonValidator } from '@tools/developer-utilities/json-validator/knowledge';
 
+// --- Number utilities ---
+import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
+
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 
@@ -32,6 +35,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   jsonFormatter,
   jsonMinifier,
   jsonValidator,
+  discountCalculator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */
