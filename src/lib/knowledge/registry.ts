@@ -17,12 +17,16 @@ import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-form
 import { knowledge as jsonMinifier }  from '@tools/developer-utilities/json-minifier/knowledge';
 import { knowledge as jsonValidator } from '@tools/developer-utilities/json-validator/knowledge';
 
+// --- Number utilities ---
+import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
+
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
+  marginCalculator,
   base64,
   urlCodec,
   htmlEntity,
