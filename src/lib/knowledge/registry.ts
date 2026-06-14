@@ -21,6 +21,9 @@ import { knowledge as jsonToCsv }       from '@tools/developer-utilities/json-to
 // --- Number utilities ---
 import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
 
+// --- Number utilities ---
+import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
+
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 
@@ -36,6 +39,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   jsonFormatter,
   jsonMinifier,
   jsonValidator,
+  discountCalculator,
   tipCalculator,
   jsonToCsv,
 ];
