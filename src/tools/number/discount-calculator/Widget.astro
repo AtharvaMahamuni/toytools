@@ -1,0 +1,181 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Discount Details" variant="prose" data-tool="discount-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="disc-mode">Discount Type</label>
+      <select id="disc-mode" class="widget-select">
+        <option value="percent">Percentage off</option>
+        <option value="fixed">Fixed amount off</option>
+      </select>
+
+      <label class="widget-label" for="disc-price">Original Price</label>
+      <input id="disc-price" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 120.00" />
+
+      <label class="widget-label" for="disc-amount" id="disc-amount-label">Discount (%)</label>
+      <input id="disc-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 25" />
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="tm-hero">
+      <span class="hero-value" id="disc-final">$0.00</span>
+      <span class="hero-label">Final Price</span>
+      <p class="empty-hint" id="disc-hint">Enter a price to calculate.</p>
+    </div>
+    <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">You Save</dt>
+        <dd class="tm-stat-value" id="disc-saved">$0.00</dd>
+      </div>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Discount Rate</dt>
+        <dd class="tm-stat-value" id="disc-rate">0%</dd>
+      </div>
+    </dl>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="disc-copy" data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="disc-clear" data-label="Clear" type="button">Clear</button>
+</div>
+
+<CategoryDiscovery toolSlug="discount-calculator" />
+
+<script is:inline>
+  (function () {
+    var modeEl   = document.getElementById('disc-mode');
+    var priceEl  = document.getElementById('disc-price');
+    var amountEl = document.getElementById('disc-amount');
+    var amtLabel = document.getElementById('disc-amount-label');
+    var finalEl  = document.getElementById('disc-final');
+    var hintEl   = document.getElementById('disc-hint');
+    var secondary = document.querySelector('.tm-secondary');
+    var savedEl  = document.getElementById('disc-saved');
+    var rateEl   = document.getElementById('disc-rate');
+    var copyBtn  = document.getElementById('disc-copy');
+    var clearBtn = document.getElementById('disc-clear');
+    if (!modeEl || !priceEl || !amountEl || !finalEl) return;
+
+    var TT = window.ToyTools;
+    var lastResult = '';
+
+    function money(n) {
+      return '$' + (Math.round(n * 100) / 100).toFixed(2);
+    }
+
+    function pct(n) {
+      var rounded = Math.round(n * 100) / 100;
+      return (Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')) + '%';
+    }
+
+    function applyMode() {
+      if (modeEl.value === 'fixed') {
+        if (amtLabel) amtLabel.textContent = 'Amount Off ($)';
+        amountEl.setAttribute('placeholder', 'Example: 30.00');
+      } else {
+        if (amtLabel) amtLabel.textContent = 'Discount (%)';
+        amountEl.setAttribute('placeholder', 'Example: 25');
+      }
+    }
+
+    function showEmpty(message) {
+      lastResult = '';
+      finalEl.textContent = '$0.00';
+      if (hintEl) { hintEl.textContent = message || 'Enter a price to calculate.'; hintEl.hidden = false; }
+      if (secondary) secondary.hidden = true;
+    }
+
+    function calc() {
+      var priceRaw = priceEl.value;
+      if (priceRaw === '') { showEmpty('Enter a price to calculate.'); return; }
+      var price = Number(priceRaw);
+      if (!Number.isFinite(price) || price < 0) { showEmpty('Enter a valid price.'); return; }
+
+      var amtRaw = amountEl.value;
+      var amt = amtRaw === '' ? 0 : Number(amtRaw);
+      if (!Number.isFinite(amt) || amt < 0) amt = 0;
+
+      var saved, rate;
+      if (modeEl.value === 'fixed') {
+        saved = Math.min(amt, price);          // can't discount below zero
+        rate = price > 0 ? (saved / price) * 100 : 0;
+      } else {
+        rate = Math.min(amt, 100);             // cap at 100% off
+        saved = price * rate / 100;
+      }
+      var final = price - saved;
+
+      lastResult = money(final);
+      finalEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (savedEl) savedEl.textContent = money(saved);
+      if (rateEl) rateEl.textContent = pct(rate);
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('discount-calculator', { mode: modeEl.value, price: priceEl.value, amount: amountEl.value });
+    }
+
+    // Restore
+    try {
+      var saved = TT && TT.state && TT.state.load('discount-calculator');
+      if (saved) {
+        if (saved.mode) modeEl.value = saved.mode;
+        if (saved.price != null) priceEl.value = saved.price;
+        if (saved.amount != null) amountEl.value = saved.amount;
+      }
+    } catch (_) {}
+
+    applyMode();
+
+    modeEl.addEventListener('change', function () { applyMode(); calc(); persist(); });
+    priceEl.addEventListener('input', function () { calc(); persist(); });
+    amountEl.addEventListener('input', function () { calc(); persist(); });
+
+    // Copy with success state
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(lastResult);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+
+    // Two-click confirm clear
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      resetClear();
+      priceEl.value = ''; amountEl.value = '';
+      calc(); persist();
+      priceEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#disc-clear')) resetClear();
+    });
+
+    calc();
+  })();
+</script>

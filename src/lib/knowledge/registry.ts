@@ -14,9 +14,16 @@ import { knowledge as md5 }           from '@tools/developer-utilities/md5-hash-
 import { knowledge as sha1 }          from '@tools/developer-utilities/sha1-hash-generator/knowledge';
 import { knowledge as sha256 }        from '@tools/developer-utilities/sha256-hash-generator/knowledge';
 import { knowledge as sha512 }        from '@tools/developer-utilities/sha512-hash-generator/knowledge';
-import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-formatter/knowledge';
-import { knowledge as jsonMinifier }  from '@tools/developer-utilities/json-minifier/knowledge';
-import { knowledge as jsonValidator } from '@tools/developer-utilities/json-validator/knowledge';
+import { knowledge as hexCodec }      from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
+import { knowledge as jsonFormatter }   from '@tools/developer-utilities/json-formatter/knowledge';
+import { knowledge as jsonMinifier }    from '@tools/developer-utilities/json-minifier/knowledge';
+import { knowledge as jsonValidator }   from '@tools/developer-utilities/json-validator/knowledge';
+import { knowledge as jsonToCsv }       from '@tools/developer-utilities/json-to-csv-converter/knowledge';
+
+// --- Number utilities ---
+import { knowledge as tipCalculator }        from '@tools/number/tip-calculator/knowledge';
+import { knowledge as discountCalculator }   from '@tools/number/discount-calculator/knowledge';
+import { knowledge as marginCalculator }     from '@tools/number/margin-calculator/knowledge';
 
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
@@ -24,6 +31,7 @@ import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/k
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
+  marginCalculator,
   base64,
   urlCodec,
   htmlEntity,
@@ -31,9 +39,13 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   sha1,
   sha256,
   sha512,
+  hexCodec,
   jsonFormatter,
   jsonMinifier,
   jsonValidator,
+  discountCalculator,
+  tipCalculator,
+  jsonToCsv,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

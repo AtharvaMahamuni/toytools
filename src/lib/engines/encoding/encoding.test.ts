@@ -53,6 +53,27 @@ describe('url', () => {
   it('handles UTF-8', () => expect(decode(encode('café ☕'))).toBe('café ☕'));
 });
 
+// --- Hex ---
+
+describe('hex', () => {
+  const { encode, decode } = ENCODERS.hex;
+  it('encodes ASCII to space-separated hex pairs', () =>
+    expect(encode('Hello')).toBe('48 65 6c 6c 6f'));
+  it('encodes empty string to empty', () => expect(encode('')).toBe(''));
+  it('decodes space-separated hex pairs', () =>
+    expect(decode('48 65 6c 6c 6f')).toBe('Hello'));
+  it('decodes hex without spaces', () =>
+    expect(decode('48656c6c6f')).toBe('Hello'));
+  it('decodes with 0x prefixes stripped', () =>
+    expect(decode('0x48 0x65 0x6c 0x6c 0x6f')).toBe('Hello'));
+  it('is case-insensitive on decode', () =>
+    expect(decode('48 65 6C 6C 6F')).toBe('Hello'));
+  it('round-trips ASCII', () => expect(decode(encode('Hello, World!'))).toBe('Hello, World!'));
+  it('round-trips UTF-8', () => expect(decode(encode('café ☕'))).toBe('café ☕'));
+  it('throws on odd number of nibbles', () =>
+    expect(() => decode('abc')).toThrow());
+});
+
 // --- HTML entities ---
 
 describe('html-entity', () => {

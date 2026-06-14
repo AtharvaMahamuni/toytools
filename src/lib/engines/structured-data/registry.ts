@@ -8,12 +8,14 @@ import type { StructuredDataTool, StructuredDataResult } from './types';
 import { jsonFormatter } from './jsonFormatter';
 import { jsonMinifier } from './jsonMinifier';
 import { jsonValidator } from './jsonValidator';
+import { jsonToCsv } from './jsonToCsv';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
   'json-formatter': jsonFormatter,
   'json-minifier': jsonMinifier,
   'json-validator': jsonValidator,
+  'json-to-csv': jsonToCsv,
 };
 
 /**
