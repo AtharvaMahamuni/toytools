@@ -13,4 +13,12 @@ export const config: ToolConfig = {
   pattern: 'calculate',
   family: 'arithmetic',
   relatedTools: ['percentage-calculator'],
+  guide: {
+    slug: 'tip-calculator',
+    categorySlug: 'number-utilities',
+    title: 'Tip Calculator: Complete Guide',
+    description: 'Learn how much to tip, how to calculate a tip by hand, how to split a bill, and common tipping mistakes. Covers US norms and international customs.',
+    readMinutes: 4,
+    updatedAt: '2026-06-15',
+  },
 };

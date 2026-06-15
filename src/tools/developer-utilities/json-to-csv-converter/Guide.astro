@@ -31,7 +31,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       A JSON to CSV converter takes a JSON array of objects and turns it into a flat table
       where each object becomes a row and each key becomes a column header. Paste in
-      <code>[{"name":"Alice","score":95},{"name":"Bob","score":88}]</code> and you get a
+      <code>[&#123;"name":"Alice","score":95&#125;,&#123;"name":"Bob","score":88&#125;]</code> and you get a
       two-row CSV with columns "name" and "score".
     </p>
     <p>
@@ -76,7 +76,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       Nested objects are flattened with dot notation. The input
-      <code>{"user":{"name":"Alice","city":"NYC"}}</code> produces two columns:
+      <code>&#123;"user":&#123;"name":"Alice","city":"NYC"&#125;&#125;</code> produces two columns:
       "user.name" and "user.city". Nested arrays cannot be flattened further, so their
       content is serialized as a JSON string inside the cell.
     </p>
@@ -147,16 +147,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="common-mistake" heading="Passing a JSON object instead of an array">
       <p>
         The input must be a JSON array: it must start with <code>[</code> and end with
-        <code>]</code>. A single object like <code>{"name":"Alice"}</code> is not an
+        <code>]</code>. A single object like <code>&#123;"name":"Alice"&#125;</code> is not an
         array and the converter will return an error. Wrap it in brackets to make it a
-        one-element array: <code>[{"name":"Alice"}]</code>.
+        one-element array: <code>[&#123;"name":"Alice"&#125;]</code>.
       </p>
     </ReferenceBlock>
 
     <ReferenceBlock type="common-mistake" heading="Expecting nested arrays to become columns">
       <p>
         Nested objects flatten with dot notation, but nested arrays do not. An array value
-        like <code>{"tags":["a","b","c"]}</code> becomes the literal string
+        like <code>&#123;"tags":["a","b","c"]&#125;</code> becomes the literal string
         <code>["a","b","c"]</code> in the CSV cell. There is no automatic way to expand
         an array into separate columns; you must restructure the JSON first.
       </p>
