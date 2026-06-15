@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 2,
-  minor: 3,
+  major: 3,
+  minor: 1,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-06-10',
-  description: 'content intelligence layer — ecosystem coverage, gaps & roadmap (npm run intel)',
+  releaseDate: '2026-06-15',
+  description: 'complete faq + guide coverage across all 38 tools',
 };
 
 export function formatVersion(config: VersionConfig): string {
