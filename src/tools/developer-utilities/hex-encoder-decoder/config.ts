@@ -14,4 +14,12 @@ export const config: ToolConfig = {
   family: 'binary-text',
   processorId: 'hex',
   relatedTools: ['base64-encoder-decoder', 'url-encoder-decoder'],
+  guide: {
+    slug: 'hex-encoder-decoder',
+    categorySlug: 'developer-utilities',
+    title: 'Hex Encoder & Decoder: Complete Guide',
+    description: 'Learn how hex encoding works, when to use it, and how it compares to Base64. Includes examples, common mistakes, and real-world uses.',
+    readMinutes: 5,
+    updatedAt: '2026-06-15',
+  },
 };

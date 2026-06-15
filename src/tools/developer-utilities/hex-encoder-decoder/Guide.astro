@@ -1,0 +1,233 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Hex encoding converts each byte of data into a two-character string using digits 0-9 and
+      letters A-F. The word "Hello" becomes <code>48 65 6c 6c 6f</code>. Each character maps
+      to its byte value in the ASCII or UTF-8 table, then that value is written in base 16.
+    </p>
+    <p>
+      This hexadecimal encoder handles both directions. Use it for text to hexadecimal
+      conversion, or switch mode to run hex to text decoding. Paste and the result appears
+      instantly.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Hex Encoder &amp; Decoder →</a>
+  </section>
+
+  <section id="what-is-hex-encoding">
+    <h2>What Is Hex Encoding? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Computers store all data as bytes: numbers between 0 and 255. Reading raw bytes is
+      impractical because most values fall outside the range of printable characters. A hexadecimal
+      encoder solves this by converting every byte into exactly two readable characters from
+      the hexadecimal alphabet (0-9, A-F).
+    </p>
+    <p>
+      "Hexadecimal" means base 16. Where the familiar decimal system counts in groups of 10
+      (0-9), hexadecimal counts in groups of 16 (0-9, then A for 10, B for 11, up to F for 15).
+      Two hex digits cover all 256 possible byte values, from 00 to FF.
+    </p>
+    <p>
+      The result is a hex string: a sequence of character pairs, one pair per byte. You will
+      see it in network packet dumps, color codes (#FF5733), cryptographic hashes (SHA-256
+      outputs), and memory debuggers. It is not compressed or encrypted. It is a display format
+      that makes byte values visible.
+    </p>
+    <p>
+      Hex vs binary representation: binary writes each byte as eight 0s and 1s (byte 65 is
+      <code>01000001</code>). Hex writes the same byte as two characters (<code>41</code>).
+      Both carry identical information, but hex is four times shorter and far easier to read.
+      A hex string converter is the standard tool for human-readable byte inspection; raw
+      binary output is left to low-level debuggers.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Hex is a display format, not a protection mechanism">
+      <p>Anyone can decode a hex string instantly. It changes how data looks, not who can read it. Use proper encryption if you need to protect information.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Are Bytes Represented in Hex? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each byte is a number from 0 to 255. Two hex digits cover that full range exactly:
+      "00" is 0, "FF" is 255. The hex text conversion takes each character, finds its byte value
+      in the UTF-8 table, then writes that value as two hex digits.
+    </p>
+    <p>
+      Here is a concrete example. The letter "A" has ASCII value 65. In base 16, 65 equals
+      4 times 16 plus 1, so the hex code is <code>41</code>. "B" is 66, which gives <code>42</code>.
+      The word "Hi" encodes as <code>48 69</code>. Spaces between pairs are a readability
+      convention, not part of the hex string itself.
+    </p>
+    <p>
+      Decoding reverses the process. Each pair of hex digits is read as a base-16 number,
+      converted to a byte value, and the byte sequence is interpreted as UTF-8 text. The hex
+      to text conversion of <code>48</code> gives decimal 72, which is the letter "H". The
+      result is byte-for-byte identical to the original input.
+    </p>
+    <p>
+      ASCII characters produce one byte (two hex digits) each. Characters outside ASCII, such
+      as accented letters or emoji, use two to four bytes and produce four to eight hex digits.
+    </p>
+    <p class="encoding-example">
+      <code>Hello</code>
+      <span aria-hidden="true">→</span>
+      <code>48 65 6c 6c 6f</code>
+      <span aria-hidden="true">→</span>
+      <code>Hello</code>
+    </p>
+  </section>
+
+  <section id="when-to-use-hex">
+    <h2>When Would You Use Hex Encoding? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Hex appears in several common development situations:
+    </p>
+    <ul>
+      <li>
+        <strong>Debugging binary data.</strong> When a program reads a file or network packet,
+        the raw bytes contain control characters that are invisible in plain text. A hex
+        dump shows every byte explicitly, making it possible to spot missing bytes, unexpected
+        nulls, or encoding errors.
+      </li>
+      <li>
+        <strong>Color codes.</strong> CSS colors like <code>#3a7bd5</code> use hex encoding.
+        The six characters represent three bytes: red (3a = 58), green (7b = 123), blue
+        (d5 = 213). Knowing the hex format lets you decode any color code by hand.
+      </li>
+      <li>
+        <strong>Cryptographic output.</strong> SHA-256, MD5, and most other hash functions
+        produce raw bytes. Those bytes are almost always displayed as a hex string. The
+        64-character SHA-256 output is 32 bytes written in hex.
+      </li>
+      <li>
+        <strong>Escape sequences.</strong> URLs use percent-encoding, which is hex under a
+        different name. The space character (byte 32, hex 20) appears as <code>%20</code> in a URL.
+        Understanding hex makes it straightforward to read and write these sequences.
+      </li>
+      <li>
+        <strong>Protocol inspection.</strong> Network protocols, binary file formats, and
+        database storage expose bytes as hex in logs and debugging tools. A hex encoder
+        lets you check what bytes your text actually produces before sending it.
+      </li>
+    </ul>
+  </section>
+
+  <section id="hex-vs-base64">
+    <h2>Hex vs Base64: Which Should You Use? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both hex and Base64 convert binary data to printable text, but they serve different purposes.
+    </p>
+    <p>
+      Hex output is always exactly twice the byte length of the input. "Hello" is 5 bytes,
+      so its hex form is 10 characters. Each byte maps to a visible, human-readable pair. This
+      makes hex ideal for debugging, logging, and any situation where you want to inspect
+      individual bytes.
+    </p>
+    <p>
+      Base64 output is roughly 33% larger than the input, not 100% larger. It uses a 64-character
+      alphabet instead of 16, so each character carries more information. Base64 is the standard
+      choice when you need to embed binary data inside JSON, email, or HTML because the size
+      overhead is smaller and the output contains only URL-safe characters.
+    </p>
+    <ReferenceBlock type="note" heading="Rule of thumb">
+      <p>Use hex when you want to inspect or log raw bytes. Use Base64 when you need to transfer binary data through a text channel like an API or email attachment.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Including the 0x prefix or colons in decoder input">
+      <p>
+        Many tools display hex with a "0x" prefix (like <code>0x48</code>) or colons between
+        bytes (like <code>48:65:6c</code>). These are formatting decorators, not part of the hex
+        encoding itself. Paste them directly into a decoder and you will get an error. Strip all
+        prefixes, colons, and spaces before decoding, leaving only the hex digit pairs.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Treating hex as encryption">
+      <p>
+        Hex encoding is reversible by anyone with a decoder. Encoding a password as
+        <code>70617373776f7264</code> instead of "password" gives no protection at all.
+        If you need to store or transmit sensitive data securely, use a proper encryption
+        scheme. Hex is for readability, not security.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="An odd number of hex digits is always an error">
+      <p>
+        Every byte requires exactly two hex digits. A hex string with an odd number of characters
+        (for example, "4865c") is malformed. Check for a missing leading zero: byte value 9 in
+        hex is "09", not "9". This is the most common source of odd-length decode errors.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64 Encoder &amp; Decoder</a>: A more compact encoding for embedding binary data in text channels.</li>
+      <li><a href={withBase('/tool/developer-utilities/url-encoder-decoder/')}>URL Encoder &amp; Decoder</a>: Percent-encoding for URLs, which uses hex pairs prefixed with %.</li>
+      <li><a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256 Hash Generator</a>: Produces a 64-character hex string from any input.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .encoding-example {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
+  }
+</style>
