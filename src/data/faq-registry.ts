@@ -11,6 +11,7 @@ import { items as sha1HashGeneratorFaqs }  from '@tools/developer-utilities/sha1
 import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha256-hash-generator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as jsonToCsvConverterFaqs } from '@tools/developer-utilities/json-to-csv-converter/faq';
+import { items as sha512HashGeneratorFaqs } from '@tools/developer-utilities/sha512-hash-generator/faq';
 // Developer utilities — structured-data engine
 import { items as jsonFormatterFaqs }  from '@tools/developer-utilities/json-formatter/faq';
 import { items as jsonMinifierFaqs }   from '@tools/developer-utilities/json-minifier/faq';
@@ -51,6 +52,7 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'sha256-hash-generator':       sha256HashGeneratorFaqs,
   'hex-encoder-decoder':         hexEncoderDecoderFaqs,
   'json-to-csv-converter':       jsonToCsvConverterFaqs,
+  'sha512-hash-generator':       sha512HashGeneratorFaqs,
   'json-formatter':              jsonFormatterFaqs,
   'json-minifier':               jsonMinifierFaqs,
   'json-validator':              jsonValidatorFaqs,
