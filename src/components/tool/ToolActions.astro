@@ -4,9 +4,14 @@ interface Props {
   clearTarget?: string;
   pasteTarget?: string;
   downloadFilename?: string;
+  // Element to read the download content from. Defaults to clearTarget for
+  // single-textarea tools (input doubles as the editable content); engine
+  // widgets with a separate output element should pass it explicitly.
+  downloadTarget?: string;
 }
 
-const { copyTarget, clearTarget, pasteTarget, downloadFilename } = Astro.props;
+const { copyTarget, clearTarget, pasteTarget, downloadFilename, downloadTarget } = Astro.props;
+const resolvedDownloadTarget = downloadTarget || clearTarget;
 const hasAny = copyTarget || clearTarget || pasteTarget;
 ---
 
@@ -45,11 +50,11 @@ const hasAny = copyTarget || clearTarget || pasteTarget;
         Clear
       </button>
     )}
-    {downloadFilename && clearTarget && (
+    {downloadFilename && resolvedDownloadTarget && (
       <button
         class="action-btn action-btn--download"
         data-action="download"
-        data-target={clearTarget}
+        data-target={resolvedDownloadTarget}
         data-filename={downloadFilename}
         data-label="Download"
         aria-label={`Download as ${downloadFilename}`}
