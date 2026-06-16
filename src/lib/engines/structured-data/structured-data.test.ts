@@ -130,3 +130,15 @@ describe('json-to-csv', () => {
     expect(r.output).toBe('x\n1');
   });
 });
+
+describe('json-tree-viewer', () => {
+  const run = (s: string) => STRUCTURED_TOOLS['json-tree-viewer'].execute(s);
+  it('pretty-prints valid JSON for the copy/download payload', () =>
+    expect(run('{"a":1,"b":[2,3]}').output).toBe('{\n  "a": 1,\n  "b": [\n    2,\n    3\n  ]\n}'));
+  it('returns empty output for empty input', () => expect(run('   ')).toEqual({ ok: true, output: '' }));
+  it('reports an error for invalid JSON', () => {
+    const r = run('{bad}');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBeTruthy();
+  });
+});
