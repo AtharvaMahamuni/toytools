@@ -7,10 +7,16 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
   <IoPanel slot="input" label="Product Details" variant="prose" data-tool="margin-calculator">
     <div class="io-body">
+      <label class="widget-label" for="mgn-mode">Calculate</label>
+      <select id="mgn-mode" class="widget-select">
+        <option value="margin">Margin from selling price</option>
+        <option value="price">Selling price from target margin</option>
+      </select>
+
       <label class="widget-label" for="mgn-cost">Cost Price</label>
       <input id="mgn-cost" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 60.00" />
 
-      <label class="widget-label" for="mgn-price">Selling Price</label>
+      <label class="widget-label" for="mgn-price" id="mgn-price-label">Selling Price</label>
       <input id="mgn-price" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 100.00" />
     </div>
   </IoPanel>
@@ -18,7 +24,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   <IoPanel slot="output" label="Result" variant="prose" result>
     <div class="tm-hero">
       <span class="hero-value" id="mgn-margin">0%</span>
-      <span class="hero-label">Gross Margin</span>
+      <span class="hero-label" id="mgn-hero-label">Gross Margin</span>
       <p class="empty-hint" id="mgn-hint">Enter cost and selling price to calculate.</p>
     </div>
     <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
@@ -43,16 +49,19 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
 <script is:inline>
   (function () {
-    var costEl   = document.getElementById('mgn-cost');
-    var priceEl  = document.getElementById('mgn-price');
-    var marginEl = document.getElementById('mgn-margin');
-    var hintEl   = document.getElementById('mgn-hint');
+    var modeEl    = document.getElementById('mgn-mode');
+    var costEl    = document.getElementById('mgn-cost');
+    var priceEl   = document.getElementById('mgn-price');
+    var priceLbl  = document.getElementById('mgn-price-label');
+    var marginEl  = document.getElementById('mgn-margin');
+    var heroLbl   = document.getElementById('mgn-hero-label');
+    var hintEl    = document.getElementById('mgn-hint');
     var secondary = document.querySelector('.tm-secondary');
-    var profitEl = document.getElementById('mgn-profit');
-    var markupEl = document.getElementById('mgn-markup');
-    var copyBtn  = document.getElementById('mgn-copy');
-    var clearBtn = document.getElementById('mgn-clear');
-    if (!costEl || !priceEl || !marginEl) return;
+    var profitEl  = document.getElementById('mgn-profit');
+    var markupEl  = document.getElementById('mgn-markup');
+    var copyBtn   = document.getElementById('mgn-copy');
+    var clearBtn  = document.getElementById('mgn-clear');
+    if (!modeEl || !costEl || !priceEl || !marginEl) return;
 
     var TT = window.ToyTools;
     var lastResult = '';
@@ -66,27 +75,29 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       return (Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(2).replace(/\.?0+$/, '')) + '%';
     }
 
+    function applyMode() {
+      if (modeEl.value === 'price') {
+        if (priceLbl) priceLbl.textContent = 'Target Margin (%)';
+        priceEl.setAttribute('placeholder', 'Example: 40');
+        if (heroLbl) heroLbl.textContent = 'Required Selling Price';
+      } else {
+        if (priceLbl) priceLbl.textContent = 'Selling Price';
+        priceEl.setAttribute('placeholder', 'Example: 100.00');
+        if (heroLbl) heroLbl.textContent = 'Gross Margin';
+      }
+    }
+
     function showEmpty(message) {
       lastResult = '';
-      marginEl.textContent = '0%';
-      if (hintEl) { hintEl.textContent = message || 'Enter cost and selling price to calculate.'; hintEl.hidden = false; }
+      var reverse = modeEl.value === 'price';
+      marginEl.textContent = reverse ? '$0.00' : '0%';
+      var fallback = reverse ? 'Enter cost and target margin to calculate.' : 'Enter cost and selling price to calculate.';
+      if (hintEl) { hintEl.textContent = message || fallback; hintEl.hidden = false; }
       if (secondary) secondary.hidden = true;
     }
 
-    function calc() {
-      var costRaw  = costEl.value;
-      var priceRaw = priceEl.value;
-
-      if (costRaw === '' && priceRaw === '') { showEmpty('Enter cost and selling price to calculate.'); return; }
-      if (costRaw === '' || priceRaw === '') { showEmpty('Enter both cost and selling price.'); return; }
-
-      var cost  = Number(costRaw);
-      var price = Number(priceRaw);
-
-      if (!Number.isFinite(cost) || cost < 0)  { showEmpty('Enter a valid cost price.'); return; }
-      if (!Number.isFinite(price) || price < 0) { showEmpty('Enter a valid selling price.'); return; }
+    function calcMargin(cost, price) {
       if (price === 0) { showEmpty('Enter a selling price greater than zero.'); return; }
-
       var grossProfit = price - cost;
       var grossMargin = (grossProfit / price) * 100;
       var markupStr   = cost > 0 ? pct((grossProfit / cost) * 100) : '–';
@@ -99,19 +110,61 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       if (markupEl) markupEl.textContent = markupStr;
     }
 
+    function calcPrice(cost, marginPct) {
+      if (marginPct >= 100) { showEmpty('Target margin must be below 100%.'); return; }
+      var price = cost / (1 - marginPct / 100);
+      var grossProfit = price - cost;
+      var markupStr = cost > 0 ? pct((grossProfit / cost) * 100) : '–';
+
+      lastResult = money(price);
+      marginEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (profitEl) profitEl.textContent = money(grossProfit);
+      if (markupEl) markupEl.textContent = markupStr;
+    }
+
+    function calc() {
+      var costRaw  = costEl.value;
+      var priceRaw = priceEl.value;
+      var reverse  = modeEl.value === 'price';
+
+      if (costRaw === '' && priceRaw === '') { showEmpty(); return; }
+      if (costRaw === '' || priceRaw === '') {
+        showEmpty(reverse ? 'Enter both cost and target margin.' : 'Enter both cost and selling price.');
+        return;
+      }
+
+      var cost  = Number(costRaw);
+      var second = Number(priceRaw);
+
+      if (!Number.isFinite(cost) || cost < 0) { showEmpty('Enter a valid cost price.'); return; }
+      if (!Number.isFinite(second) || second < 0) {
+        showEmpty(reverse ? 'Enter a valid target margin.' : 'Enter a valid selling price.');
+        return;
+      }
+
+      if (reverse) calcPrice(cost, second);
+      else calcMargin(cost, second);
+    }
+
     function persist() {
-      if (TT && TT.state) TT.state.save('margin-calculator', { cost: costEl.value, price: priceEl.value });
+      if (TT && TT.state) TT.state.save('margin-calculator', { mode: modeEl.value, cost: costEl.value, price: priceEl.value });
     }
 
     // Restore
     try {
       var saved = TT && TT.state && TT.state.load('margin-calculator');
       if (saved) {
+        if (saved.mode  != null) modeEl.value  = saved.mode;
         if (saved.cost  != null) costEl.value  = saved.cost;
         if (saved.price != null) priceEl.value = saved.price;
       }
     } catch (_) {}
 
+    applyMode();
+
+    modeEl.addEventListener('change', function () { applyMode(); calc(); persist(); });
     costEl.addEventListener('input',  function () { calc(); persist(); });
     priceEl.addEventListener('input', function () { calc(); persist(); });
 
