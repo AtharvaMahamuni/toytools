@@ -47,7 +47,12 @@ const sample = ENCODERS[encodingId]?.sample ?? '';
   </IoPanel>
 </ToolSplit>
 
-<ToolActions clearTarget={inputId} pasteTarget={inputId}>
+<ToolActions
+  clearTarget={inputId}
+  pasteTarget={inputId}
+  downloadTarget={outputId}
+  downloadFilename={`${slug}-output.txt`}
+>
   <button type="button" class="action-btn" data-enc-swap aria-label="Swap input and output">Swap</button>
   <button type="button" class="action-btn" data-enc-sample aria-label="Load sample input">Sample</button>
 </ToolActions>
