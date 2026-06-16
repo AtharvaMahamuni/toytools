@@ -45,7 +45,12 @@ const statusId = `${slug}-status`;
   </IoPanel>
 </ToolSplit>
 
-<ToolActions clearTarget={inputId} pasteTarget={inputId} />
+<ToolActions
+  clearTarget={inputId}
+  pasteTarget={inputId}
+  downloadTarget={showOutput ? outputId : undefined}
+  downloadFilename={showOutput ? `${slug}.json` : undefined}
+/>
 
 <CategoryDiscovery toolSlug={slug} />
 
