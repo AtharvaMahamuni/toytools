@@ -1,0 +1,206 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON to CSV converter takes a JSON array of objects and turns it into a flat table
+      where each object becomes a row and each key becomes a column header. Paste in
+      <code>[&#123;"name":"Alice","score":95&#125;,&#123;"name":"Bob","score":88&#125;]</code> and you get a
+      two-row CSV with columns "name" and "score".
+    </p>
+    <p>
+      Use this JSON CSV converter to export JSON to CSV for spreadsheets, database imports,
+      or any data conversion that requires a flat table. It works as a JSON to Excel converter
+      via CSV, a JSON to spreadsheet bridge, and a JSON export tool for sharing data with
+      teammates who prefer tabular formats.
+    </p>
+    <a href={toolHref} class="cta-link">Try the JSON to CSV Converter →</a>
+  </section>
+
+  <section id="what-is-json-to-csv">
+    <h2>What Does JSON to CSV Conversion Do? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON (JavaScript Object Notation) represents data as a hierarchy of named fields.
+      CSV (Comma-Separated Values) represents data as a flat table of rows and columns.
+      This JSON array to CSV conversion translates that hierarchy into a form a JSON to
+      spreadsheet import or database bulk load can read directly.
+    </p>
+    <p>
+      The conversion has a clear mapping: the JSON array becomes the table body, each object
+      in the array becomes a row, and each unique key across all objects becomes a column.
+      The first row of the CSV is a header row with those key names.
+    </p>
+    <p>
+      The use case is common. An API returns a JSON array. A teammate needs that data in
+      Google Sheets. You paste the JSON, download the CSV, and the import is done. No scripting
+      required.
+    </p>
+    <ReferenceBlock type="key-idea" heading="CSV cannot represent nested data">
+      <p>JSON supports nested objects and arrays. CSV supports only rows and columns. This data conversion requires deciding how to handle any nested structure, since CSV has no equivalent concept. The converter flattens one level of nesting; deeper or array values become strings.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Does the Converter Handle JSON Data? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The converter scans all objects in the array to collect every key that appears anywhere
+      in the dataset. That full key set becomes the column headers. Every object then produces
+      one row, with each cell filled by its value for that column, or left empty if the key
+      is absent.
+    </p>
+    <p>
+      Nested objects are flattened with dot notation. The input
+      <code>&#123;"user":&#123;"name":"Alice","city":"NYC"&#125;&#125;</code> produces two columns:
+      "user.name" and "user.city". Nested arrays cannot be flattened further, so their
+      content is serialized as a JSON string inside the cell.
+    </p>
+    <p>
+      Values containing commas, double quotes, or newlines are wrapped in double quotes
+      in the output. A value like <code>Smith, Jr.</code> becomes <code>"Smith, Jr."</code>
+      in the CSV. Excel and Google Sheets both parse this correctly and display the value
+      without the surrounding quotes.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When Would You Convert JSON to CSV? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Several situations come up repeatedly in practice:
+    </p>
+    <ul>
+      <li>
+        <strong>API responses for reporting.</strong> Many REST APIs return JSON arrays.
+        A sales report, a list of orders, or a user export all arrive as JSON. This JSON
+        to Excel converter path, via CSV, lets you open the data in a spreadsheet without
+        writing any code.
+      </li>
+      <li>
+        <strong>Database imports.</strong> Relational databases and tools like PostgreSQL
+        and MySQL accept CSV files as input for bulk inserts. Exporting JSON to CSV is a
+        direct path from an API response to a database table.
+      </li>
+      <li>
+        <strong>Sharing data with non-technical teammates.</strong> JSON is readable to
+        developers but unfamiliar to many others. A CSV file opens in any spreadsheet
+        application without any setup.
+      </li>
+      <li>
+        <strong>Log and config array analysis.</strong> Application logs stored as JSON
+        arrays can be converted to CSV for analysis in tools like Excel pivot tables,
+        Google Sheets formulas, or data visualization software.
+      </li>
+    </ul>
+  </section>
+
+  <section id="json-vs-csv">
+    <h2>Why CSV Cannot Represent Nested JSON Directly <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CSV cannot represent nested data. CSV is a flat format: each row is a fixed list of
+      values with no sub-rows, groups, or hierarchy. JSON can express all of those things
+      through nested objects and arrays. Flattening is needed to bridge that gap, and dot
+      notation is the standard approach.
+    </p>
+    <p>
+      JSON is the right choice when data feeds into code: API responses, configuration files,
+      data exchange between services. CSV is the right choice when data feeds into human
+      analysis: spreadsheets, database imports, BI tools.
+    </p>
+    <p>
+      The conversion from JSON to CSV is one-way for nested data. Once you flatten a nested
+      JSON structure into CSV, you cannot automatically reconstruct the original hierarchy
+      from the flat file without knowing the original schema.
+    </p>
+    <ReferenceBlock type="note" heading="Not all JSON can become CSV">
+      <p>A JSON array of objects converts cleanly. A JSON object (not an array), an array of primitives, or deeply irregular structures require pre-processing before the converter can produce a clean table.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Passing a JSON object instead of an array">
+      <p>
+        The input must be a JSON array: it must start with <code>[</code> and end with
+        <code>]</code>. A single object like <code>&#123;"name":"Alice"&#125;</code> is not an
+        array and the converter will return an error. Wrap it in brackets to make it a
+        one-element array: <code>[&#123;"name":"Alice"&#125;]</code>.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting nested arrays to become columns">
+      <p>
+        Nested objects flatten with dot notation, but nested arrays do not. An array value
+        like <code>&#123;"tags":["a","b","c"]&#125;</code> becomes the literal string
+        <code>["a","b","c"]</code> in the CSV cell. There is no automatic way to expand
+        an array into separate columns; you must restructure the JSON first.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Seeing [object Object] in CSV output">
+      <p>
+        This appears when a value is a deeply nested object the converter cannot represent
+        as a flat string. The browser converts it to the placeholder text "[object Object]"
+        rather than a meaningful value. Check for deeply nested keys and flatten or remove
+        them in your JSON before converting.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Format and inspect your JSON before converting it.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Verify JSON syntax is valid before passing it to the converter.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-minifier/')}>JSON Minifier</a>: Compact a JSON structure for storage or transmission.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

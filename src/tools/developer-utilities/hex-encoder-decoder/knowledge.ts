@@ -29,7 +29,7 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'How do I convert text to hex?',
-    'What is the difference between hex and Base64?',
+    'What is the difference between hex encoding and Base64?',
     'Why does each character produce two hex digits?',
   ],
   usedWith: [

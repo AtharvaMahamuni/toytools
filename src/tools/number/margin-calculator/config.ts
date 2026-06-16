@@ -13,4 +13,12 @@ export const config: ToolConfig = {
   pattern: 'calculate',
   family: 'arithmetic',
   relatedTools: ['percentage-calculator'],
+  guide: {
+    slug: 'margin-calculator',
+    categorySlug: 'number-utilities',
+    title: 'Margin Calculator: Complete Guide',
+    description: 'Learn the difference between gross margin and markup, how to price for a target margin, and what good margins look like by industry.',
+    readMinutes: 5,
+    updatedAt: '2026-06-15',
+  },
 };

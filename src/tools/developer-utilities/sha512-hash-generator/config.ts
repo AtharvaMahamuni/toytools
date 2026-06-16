@@ -14,4 +14,12 @@ export const config: ToolConfig = {
   family: 'cryptographic',
   processorId: 'sha512',
   relatedTools: ['sha256-hash-generator', 'sha1-hash-generator', 'md5-hash-generator'],
+  guide: {
+    slug: 'sha512-hash-generator',
+    categorySlug: 'developer-utilities',
+    title: 'SHA-512 Hash Generator: Complete Guide',
+    description: 'Learn what SHA-512 is, how it compares to SHA-256, and when to use it. Includes real-world uses, common mistakes, and examples.',
+    readMinutes: 5,
+    updatedAt: '2026-06-15',
+  },
 };

@@ -1,0 +1,245 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Gross margin is the profit percentage of a selling price after subtracting the direct
+      cost. This gross margin tool returns the margin percentage, gross profit in dollars, and
+      markup percentage from any cost and selling price. If something costs $40 and sells for
+      $100: gross margin = 60%, gross profit = $60, markup = 150%.
+    </p>
+    <p>
+      Use it for retail pricing decisions, product profitability analysis, or any calculation
+      that needs both profit percentage and markup in one place.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Margin Calculator →</a>
+  </section>
+
+  <section id="what-is-gross-margin">
+    <h2>What Is Gross Margin? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Gross margin measures how much of each dollar of revenue is profit after paying for the
+      item or service itself. The formula is: ((Selling Price − Cost) ÷ Selling Price) × 100.
+      This gross margin calculator also computes the gross profit in dollars and the markup
+      percentage from the same two inputs.
+    </p>
+    <p>
+      An item that costs $60 to produce and sells for $150 has a gross margin of
+      (($150 − $60) ÷ $150) × 100 = 60%. That means 60 cents of every dollar of revenue is
+      gross profit. The markup on that same product is ($90 ÷ $60) × 100 = 150%: this is
+      why margin vs markup are two different numbers for the same transaction.
+    </p>
+    <p>
+      Gross margin matters because it determines whether a price actually makes money.
+      A business that sells below its cost has a negative gross margin and cannot survive
+      without other income. Knowing your margin before setting prices prevents underpricing.
+    </p>
+    <p>
+      Gross margin does not account for operating costs, salaries, rent, or taxes. Those come
+      out later to produce net margin. Gross margin tells you whether your pricing covers your
+      production costs and leaves room for overhead.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Margin is based on price; markup is based on cost">
+      <p>These are two different ways to describe the same gap between cost and price. A 60% gross margin on a $100 item means $60 gross profit and $40 cost. The markup on that same item is 150%: you added $60 on top of the $40 cost. The same numbers, two different percentages.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="margin-vs-markup">
+    <h2>How Is Margin Different from Markup? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The margin vs markup distinction is one of the most confused concepts in pricing.
+      Both describe the relationship between cost and price, but they use different bases.
+      Margin divides the profit by the selling price. A markup calculator divides the profit
+      by the cost.
+    </p>
+    <p>
+      With a cost of $40 and a selling price of $100: profit is $60.
+      Margin: $60 ÷ $100 = 60%.
+      Markup: $60 ÷ $40 = 150%.
+    </p>
+    <p>
+      This means margin and markup percentages are never equal (except when both are zero).
+      A 50% markup does not produce a 50% margin. Retailers use margin; manufacturers and
+      distributors use markup. Knowing which base a percentage refers to prevents costly
+      pricing errors.
+    </p>
+    <ReferenceBlock type="note" heading="Converting between margin and markup">
+      <p>Markup to margin: Margin = Markup ÷ (1 + Markup). A 100% markup gives a 50% margin. Margin to markup: Markup = Margin ÷ (1 − Margin). A 50% margin gives a 100% markup.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-to-price-for-a-target-margin">
+    <h2>How Do You Set a Price for a Target Margin? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Divide the cost by (1 − target margin). If something costs $75 and you want a 40% gross
+      margin: selling price = $75 ÷ (1 − 0.40) = $75 ÷ 0.60 = $125.
+    </p>
+    <p>
+      At $125, the gross profit is $50, which is exactly 40% of the $125 sale price. This
+      formula works for any target margin. Add overhead and a buffer before publishing a final
+      price.
+    </p>
+    <p>
+      Retailers also use markdown pricing: temporarily reducing prices below the target margin
+      to clear inventory. A product at a 45% margin marked down 20% sells at a 32% margin.
+      Knowing the baseline margin helps you calculate how deep a markdown the business can
+      absorb without selling at a loss.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Margin Calculation Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three common pricing scenarios, such as retail, food service, and target-margin pricing:
+    </p>
+    <ul>
+      <li>
+        <strong>Coffee shop pastry.</strong> Cost: $1.20, selling price: $3.50.
+        Gross profit: $2.30. Gross margin: ($2.30 ÷ $3.50) × 100 = 65.7%.
+        Markup: ($2.30 ÷ $1.20) × 100 = 191.7%.
+      </li>
+      <li>
+        <strong>Retail clothing.</strong> Cost: $28, selling price: $70.
+        Gross margin: (($70 − $28) ÷ $70) × 100 = 60%. Markup: ($42 ÷ $28) × 100 = 150%.
+        A common retail target is 50-60% gross margin.
+      </li>
+      <li>
+        <strong>Target margin pricing.</strong> Cost: $45, target margin: 35%.
+        Required price: $45 ÷ (1 − 0.35) = $45 ÷ 0.65 = $69.23. Round up to $69.99
+        for retail presentation.
+      </li>
+    </ul>
+    <ReferenceBlock type="note" heading="Gross margin by industry">
+      <p>Grocery retail: 25-35%. Software and SaaS: 60-80%. Apparel retail: 45-65%. Restaurants: 60-75% on food (before labor and overhead). These are gross margin figures: net margins are much lower after operating costs.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="why-margin-matters">
+    <h2>Why Does Gross Margin Matter? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Gross margin is the first profitability filter. Before a business can pay salaries, rent,
+      marketing, or taxes, it needs to cover the direct cost of its products. A negative or
+      zero gross margin means every sale loses money on the product itself, making the business
+      model unworkable without other income.
+    </p>
+    <p>
+      Gross margin also determines pricing headroom. A product with a 70% gross margin can
+      absorb a 20% markdown sale and still operate at 50% margin. A product at 25% gross
+      margin cannot take a 20% markdown without selling below cost. Knowing your margin before
+      discounting is how you avoid a markdown pricing error.
+    </p>
+    <p>
+      Investors and lenders use gross margin to compare businesses in the same industry. A
+      software company with 80% gross margin and a grocery chain with 25% are both healthy
+      for their sectors. The absolute number matters less than whether it is sustainable for
+      your cost structure and competitive position.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When Would You Use a Profit Margin Calculator? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Product pricing.</strong> Enter the cost of each item and work backwards from
+        your required margin to find the minimum viable price. Adjust for shipping, returns,
+        and platform fees.
+      </li>
+      <li>
+        <strong>Comparing product lines.</strong> Calculate gross margin for each product to
+        see which lines are profitable and which need repricing or discontinuation.
+      </li>
+      <li>
+        <strong>Evaluating offers from buyers.</strong> If a buyer quotes a price, enter it
+        against your cost to see whether the margin is acceptable before accepting.
+      </li>
+      <li>
+        <strong>Financial reporting.</strong> Gross margin is a standard metric in income
+        statements and investor reports. Calculate it accurately before presenting to
+        stakeholders.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Confusing margin and markup percentages">
+      <p>
+        Pricing with a 30% markup when you meant a 30% margin is a costly error. A 30% markup
+        on a $70 item gives a price of $91 and a margin of only 23%. A 30% margin requires a
+        price of $100 and a markup of 42.9%. Always specify which base you are using before
+        setting prices.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Applying margin to cost instead of price">
+      <p>
+        Gross margin is always calculated as profit divided by the selling price, not by the
+        cost. Dividing by cost gives you markup, not margin. If you use cost as the base and
+        call the result "margin," your reported margin will always be higher than the actual
+        figure, which overstates profitability.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Gross margin is not the same as net margin">
+      <p>Gross margin excludes operating costs, rent, salaries, and taxes. A high gross margin does not guarantee profitability: a business with 70% gross margin and $1M in overhead still loses money if revenue is $900K. Use gross margin for pricing decisions and net margin for overall profitability analysis.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/number/percentage-calculator/')}>Percentage Calculator</a>: Calculate any percentage, percentage change, or what fraction one number is of another.</li>
+      <li><a href={withBase('/tool/number/discount-calculator/')}>Discount Calculator</a>: Find the sale price and savings from a percentage or fixed-amount discount.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

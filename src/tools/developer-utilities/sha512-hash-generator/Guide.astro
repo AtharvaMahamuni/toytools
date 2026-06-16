@@ -1,0 +1,187 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-512 is a cryptographic hash function that produces a 512-bit digest, always displayed
+      as 128 lowercase hexadecimal characters. It is part of the SHA-2 family, has no known
+      practical attacks, and is faster than SHA-256 on 64-bit hardware for large inputs.
+    </p>
+    <p>
+      To generate a SHA-512 hash online, paste any text into this SHA512 hash generator and
+      copy the 128-character hex result. Cryptographic hashing runs client-side in your
+      browser. No data is sent to a server. To generate SHA512 hash output, no account or
+      setup is required.
+    </p>
+    <a href={toolHref} class="cta-link">Try the SHA-512 Hash Generator →</a>
+  </section>
+
+  <section id="what-is-sha512">
+    <h2>What Is SHA-512? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-512 stands for Secure Hash Algorithm 512-bit. It takes any input and produces a
+      fixed 512-bit digest: always 128 hexadecimal characters, always deterministic. Feed it
+      the same input twice and you get the same output. Change one character and roughly half
+      the output bits change.
+    </p>
+    <p>
+      It is one of six members of the SHA-2 family (SHA-224, SHA-256, SHA-384, SHA-512,
+      SHA-512/224, SHA-512/256) designed by the NSA and standardized by NIST in 2001. The
+      family replaced SHA-1 after collision vulnerabilities were discovered. SHA-512 uses
+      64-bit words and processes data in 1024-bit blocks through 80 rounds of operations.
+    </p>
+    <p>
+      The string <code>"hello"</code> always produces the same 128-character SHA-512 hex
+      output, regardless of platform or implementation. A 10 GB file would still produce
+      exactly 128 characters.
+    </p>
+    <ReferenceBlock type="key-idea" heading="SHA-512 is a one-way function">
+      <p>You can compute a hash from any input. You cannot compute the input from a hash. This irreversibility is what makes it useful for integrity checks, digital signatures, and authentication tokens.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="sha512-vs-sha256">
+    <h2>SHA-512 vs SHA-256: Which Should You Use? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both SHA-512 and SHA-256 are from the SHA-2 family and have no known practical attacks.
+      The main differences are output size and speed on different hardware.
+    </p>
+    <p>
+      SHA-256 produces a 64-character hex output using 32-bit arithmetic. SHA-512 produces a
+      128-character output using 64-bit arithmetic. On a 64-bit CPU, SHA-512 is faster
+      than SHA-256 for large inputs because 64-bit operations process more data per instruction.
+      On 32-bit systems or when hashing small strings, SHA-256 is faster.
+    </p>
+    <p>
+      For most applications (HTTPS, code signing, file checksums, API tokens), SHA-256 is the
+      standard choice and is more widely supported. SHA-512 makes sense when you need a larger
+      output for extra security margin, when running on 64-bit servers hashing large data, or
+      when a specification explicitly requires it.
+    </p>
+    <ReferenceBlock type="note" heading="SHA-512 is not more secure in practice for most uses">
+      <p>Both SHA-256 and SHA-512 are computationally infeasible to attack with current methods. Choosing SHA-512 over SHA-256 for extra security margin has little practical effect for standard applications. The choice is mainly about performance and compatibility rather than security level.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>Real-World Uses of SHA-512 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>SHA-512 appears in several areas of modern software and security infrastructure:</p>
+    <ul>
+      <li>
+        <strong>File integrity verification.</strong> Software distributions publish SHA-512
+        checksums alongside downloads. Compute the hash of the downloaded file and compare
+        it to the published value. A match confirms the file arrived intact.
+      </li>
+      <li>
+        <strong>HMAC-SHA512 authentication.</strong> API providers sign webhook payloads
+        and API responses with HMAC-SHA512: a keyed-hash scheme that uses SHA-512
+        internally. The receiver recomputes the HMAC and compares it to the signature to
+        verify the payload has not been tampered with.
+      </li>
+      <li>
+        <strong>Password hashing foundations.</strong> Some key derivation functions use
+        SHA-512 as their underlying primitive. PBKDF2-SHA512, for example, applies SHA-512
+        many thousands of times with a salt to slow brute-force attacks. Note that
+        plain SHA-512 without a salt or iteration count is not safe for passwords on its own.
+      </li>
+      <li>
+        <strong>Digital certificates.</strong> Some TLS certificates use SHA-512 signatures
+        for extra margin. The signature covers a hash of the certificate data to detect any
+        tampering with the certificate chain.
+      </li>
+      <li>
+        <strong>Distributed data integrity.</strong> Systems that replicate data across nodes
+        use SHA-512 checksums to verify that copies are identical. A mismatch triggers a
+        resync.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Using SHA-512 alone for password storage">
+      <p>
+        SHA-512 is designed to be fast: a modern GPU can compute billions of SHA-512 hashes
+        per second. That speed is the problem for passwords. An attacker who gets your hash
+        database can run billions of guesses per second. Use bcrypt, scrypt, or Argon2 instead.
+        They are designed to be slow, support salting, and are the correct choice for credentials.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Confusing SHA-512 with encryption">
+      <p>
+        SHA-512 is a hash function, not encryption. Encryption is reversible with a key.
+        Hashing is irreversible by design. You cannot decrypt a SHA-512 hash, there is no
+        key and there is no inverse operation. If you need to recover the original value
+        later, you need encryption, not hashing.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="SHA-512 output is 128 hex characters, not 64">
+      <p>
+        SHA-256 produces 64 hex characters. SHA-512 produces 128. If you are comparing hash
+        outputs and the lengths do not match, you are comparing hashes from different
+        algorithms. The SHA-512 hash of any input is always exactly 128 characters long.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256 Hash Generator</a>: A 256-bit digest, the most common choice for general-purpose hashing.</li>
+      <li><a href={withBase('/tool/developer-utilities/sha1-hash-generator/')}>SHA-1 Hash Generator</a>: A 160-bit digest deprecated since the SHAttered collision attack in 2017.</li>
+      <li><a href={withBase('/tool/developer-utilities/md5-hash-generator/')}>MD5 Hash Generator</a>: A 128-bit digest with known collision attacks, kept for legacy compatibility only.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

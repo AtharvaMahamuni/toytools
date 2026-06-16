@@ -13,4 +13,12 @@ export const config: ToolConfig = {
   pattern: 'calculate',
   family: 'arithmetic',
   relatedTools: ['percentage-calculator'],
+  guide: {
+    slug: 'discount-calculator',
+    categorySlug: 'number-utilities',
+    title: 'Discount Calculator: Complete Guide',
+    description: 'Learn how to calculate percentage discounts, stack coupons, and find the sale price. Includes examples, formulas, and common mistakes.',
+    readMinutes: 4,
+    updatedAt: '2026-06-15',
+  },
 };

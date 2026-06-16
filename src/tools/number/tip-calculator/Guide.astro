@@ -1,0 +1,202 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This gratuity calculator works out the tip amount, the total bill after tip, and the
+      per-person cost for bill splitting. Enter the bill, tip percentage, and number of
+      people. On a $60 bill with a 20% tip split three ways: tip = $12, total = $72, per
+      person = $24. Tip calculation runs instantly with no account required.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Tip Calculator →</a>
+  </section>
+
+  <section id="how-much-to-tip">
+    <h2>How Much Should You Tip? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In the United States, standard restaurant tips are 15-20% for good service. Excellent
+      service warrants 20-25%. Counter service and takeout orders receive 10-15%.
+      Delivery drivers get 15-20% on the food subtotal, with a minimum of $3-5 for small
+      orders since the fixed cost of a trip does not scale with order size.
+    </p>
+    <p>
+      For a sit-down restaurant: a $45 bill at 20% tip = $9 tip, $54 total. For a $120
+      group dinner at 18% = $21.60 tip, $141.60 total. At a coffee counter for a $6 drink:
+      $0.60-$0.90 at 10-15%. The calculation is the same at every price point.
+    </p>
+    <p>
+      Other services where tipping is standard in the US: hair and nail salons (15-20%),
+      taxi and rideshare (15-20%), hotel housekeeping ($2-5 per night), movers (5-10% of the
+      total bill), tour guides ($5-15 per person). These are conventions, not laws; adjust
+      based on service quality.
+    </p>
+    <p>
+      Tipping customs differ significantly outside the US. Japan: tipping is not customary and
+      can be considered rude. Most of Europe: a small tip or rounding up is appreciated but
+      not required, and service charges appear on many bills automatically. Australia and New
+      Zealand: tipping is not expected but welcomed. Always check local customs before
+      traveling to avoid awkward exchanges.
+    </p>
+    <ReferenceBlock type="note" heading="Check for automatic gratuity on the bill">
+      <p>Many restaurants add an automatic gratuity of 18-20% for parties of 6 or more. If a service charge already appears on your bill, you do not need to add a further tip. Adding a second tip on top of automatic gratuity is a common and expensive mistake.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Does a Tip Calculator Work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This gratuity tool takes three inputs: bill amount, tip percentage, and number of
+      people. It computes the tip as (Bill × Percentage) ÷ 100, adds it to the bill for the
+      grand total, then divides the grand total by the number of people for the per-person
+      share. As a bill splitter, it always divides the full total (bill plus tip), not just
+      the pre-tip bill.
+    </p>
+    <p>
+      The fastest mental method for 20%: move the decimal one place left to find 10%, then
+      double it. On a $47 bill: 10% = $4.70; 20% = $9.40. Round up to $9.50 if service
+      was good.
+    </p>
+    <p>
+      For 15%: find 10% and add half. On a $47 bill: 10% = $4.70; half of that is $2.35;
+      15% = $7.05. Round to $7.
+    </p>
+  </section>
+
+  <section id="splitting-the-bill">
+    <h2>How Do You Split the Bill Evenly? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Add the tip to the bill total first, then divide by the number of people. On a $90 bill
+      with a $18 tip (20%): grand total = $108; split among 6 people = $18 each.
+    </p>
+    <p>
+      A common mistake is splitting the pre-tip bill, then asking each person to add their
+      share of the tip separately. This works but creates friction. Adding the tip first and
+      splitting the grand total is cleaner: everyone pays one number.
+    </p>
+    <p>
+      For uneven splits, where people ordered different amounts, calculate each person's
+      fraction of the pre-tip subtotal and apply that fraction to the tip as well. The tip
+      calculator handles even splits automatically.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Split the total, not just the bill">
+      <p>Always divide the bill-plus-tip total by the number of diners. Splitting only the food bill and handling the tip separately leads to underpayment or confusion about who covers what.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="pre-tax-vs-post-tax">
+    <h2>Does the Tip Apply Before or After Tax? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A tip percentage applies to the bill before tax is added, not the total with tax already
+      included. The server provided the service at the pre-tax price; the tax is a government
+      charge. Standard advice is to base tip calculation on the pre-tax subtotal.
+    </p>
+    <p>
+      On a $100 pre-tax bill with 10% sales tax ($10 tax): pre-tax 20% tip = $20; post-tax
+      20% tip = $22. The gap is $2. For everyday restaurant visits, the difference is small
+      and rounding up to the post-tax total is common. For large catered events at $2,000 pre-tax, the
+      $40 difference becomes meaningful.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Tip Calculation Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Common scenarios with worked numbers. For example:</p>
+    <ul>
+      <li>
+        <strong>Two people, dinner.</strong> Bill: $74. 20% tip: $14.80. Total: $88.80.
+        Split two ways: $44.40 each.
+      </li>
+      <li>
+        <strong>Group of five, restaurant.</strong> Bill: $135. 18% tip: $24.30.
+        Total: $159.30. Per person: $31.86.
+      </li>
+      <li>
+        <strong>Delivery order.</strong> Food subtotal: $28. 20% tip: $5.60.
+        Total including tip: $33.60. (Delivery fees listed separately do not replace the tip.)
+      </li>
+      <li>
+        <strong>Comped item.</strong> Original bill: $80, one item comped leaving $55 charged.
+        Tip on full $80 pre-discount: $16. Paying $55 plus $16 tip = $71 total.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Tipping on the total when gratuity is already included">
+      <p>
+        Check the bill before tipping. Many restaurants add an automatic gratuity (18-20%)
+        for large parties or during special events. If a service charge appears as a line
+        item, it is already a tip. Adding another tip on top doubles the gratuity without
+        any benefit to the server beyond the standard amount.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Splitting only the food and forgetting the tip in the total">
+      <p>
+        If four people split a $80 bill equally at $20 each, then each needs to add their
+        share of the tip. A 20% tip is $16 total, so $4 per person, making the actual cost
+        $24 per person. Collecting $20 each and leaving a $16 tip on top requires someone
+        to cover the overage or leaves a short payment.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/number/percentage-calculator/')}>Percentage Calculator</a>: Calculate any percentage, useful for custom tip amounts outside the standard presets.</li>
+      <li><a href={withBase('/tool/number/discount-calculator/')}>Discount Calculator</a>: Find the final price after a discount, helpful when tipping on a comped or discounted meal.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

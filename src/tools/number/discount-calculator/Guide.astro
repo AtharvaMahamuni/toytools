@@ -1,0 +1,175 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A discount calculator finds the sale price and the amount you save from a percentage or
+      fixed-amount reduction. Enter the original price and the discount, and the tool returns
+      the final price and the saving instantly. For a 30% discount on a $120 item: saving =
+      $36; sale price = $84.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Discount Calculator →</a>
+  </section>
+
+  <section id="how-to-calculate-a-discount">
+    <h2>How Do You Calculate a Percentage Discount? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Multiply the original price by the discount percentage and divide by 100 to find the
+      saving. Then subtract the saving from the original price to find the sale price.
+    </p>
+    <p>
+      Example: a 25% discount on an $80 item.
+      Saving: (25 × 80) ÷ 100 = $20.
+      Sale price: $80 − $20 = $60.
+    </p>
+    <p>
+      A faster mental shortcut: multiply the original price by (1 − discount rate). For 25%
+      off, multiply by 0.75. For 30% off, multiply by 0.70. The result is the sale price
+      directly, without calculating the saving first.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Percent off scales with the price">
+      <p>A 20% discount on a $50 item saves $10. The same 20% on a $500 item saves $100. Percent-off discounts are more valuable on higher-priced items than fixed-amount coupons of the same stated size.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="stacked-discounts">
+    <h2>How Do Stacked Discounts Work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Stacking two percentage discounts does not produce their sum. A 20% discount followed
+      by a 10% discount does not equal 30% off. Each applies to the price after the previous
+      reduction.
+    </p>
+    <p>
+      On a $100 item: 20% off gives $80. Then 10% off $80 gives $72. The total saving is $28,
+      which is 28% of the original $100, not 30%. The more discounts you stack, the wider the
+      gap between the stacked total and the arithmetic sum.
+    </p>
+    <ReferenceBlock type="note" heading="Stacked discounts are always less than the sum">
+      <p>Two 25% discounts applied in sequence give a combined saving of 43.75%, not 50%. This is because the second discount applies to a smaller base than the first. Retailers know this: the order of stacked discounts does not affect the final price.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="percent-off-vs-fixed">
+    <h2>Percent Off vs Fixed Amount Off: Which Is Better? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The answer depends on the price of the item. For a low-priced item, a fixed-amount
+      coupon is often better. For a high-priced item, a percent-off deal saves more money.
+    </p>
+    <p>
+      A $10-off coupon versus 20% off: on a $40 item, 20% saves $8 (worse than $10 off).
+      On a $60 item, 20% saves $12 (better than $10 off). The crossover point is $50: at
+      that price, both produce the same saving.
+    </p>
+    <p>
+      BOGO (buy one get one) deals require their own calculation. If one item is free, the
+      combined saving is 50% on two items, or 25% of the total cost. "Buy one get one 50%
+      off" on two equal items is a 25% combined saving.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When Would You Use a Discount Calculator? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Common situations in everyday shopping and budgeting:</p>
+    <ul>
+      <li>
+        <strong>Comparing sale prices.</strong> Before heading to checkout, check whether
+        the advertised percentage off is actually a good deal compared to a competitor's
+        fixed discount or a different percentage off a similar item.
+      </li>
+      <li>
+        <strong>Verifying at the register.</strong> Retailers do occasionally apply the
+        wrong price. Calculate the expected sale price before paying so you can spot errors.
+      </li>
+      <li>
+        <strong>Budget planning.</strong> If you are buying several discounted items, add
+        up the sale prices to see whether the combined total fits your budget.
+      </li>
+      <li>
+        <strong>Reverse-calculating the original price.</strong> If you know a sale price
+        and the discount rate, divide the sale price by (1 minus the discount rate) to find
+        what the item cost before the sale.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Adding stacked discounts instead of chaining them">
+      <p>
+        A coupon for 20% off combined with a store-wide 15% off sale is not 35% off. The
+        discounts apply sequentially. On $100: 20% off gives $80; 15% off $80 gives $68.
+        The combined effect is 32% off, not 35%. Always apply each discount to the running
+        total, not the original price.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Applying the discount to a tax-inclusive price">
+      <p>
+        Discounts apply to the listed pre-tax price. Applying a 10% discount to a $110
+        total (where $10 is tax on a $100 item) gives $99, but the correct answer is the
+        $100 item at 10% off ($90) plus $9 tax = $99 in this case. The math coincides here,
+        but for non-round numbers the difference matters. Always apply the discount to the
+        base price before tax.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/number/percentage-calculator/')}>Percentage Calculator</a>: Calculate any percentage, percentage change, or what percentage one number is of another.</li>
+      <li><a href={withBase('/tool/number/tip-calculator/')}>Tip Calculator</a>: Work out a tip and split a bill among several people.</li>
+      <li><a href={withBase('/tool/number/margin-calculator/')}>Margin Calculator</a>: Calculate gross margin and markup from cost and selling price.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>
