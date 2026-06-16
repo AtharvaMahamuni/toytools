@@ -17,6 +17,12 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       <input id="disc-price" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 120.00" />
 
       <label class="widget-label" for="disc-amount" id="disc-amount-label">Discount (%)</label>
+      <div class="disc-presets" id="disc-presets" role="group" aria-labelledby="disc-amount-label">
+        <button type="button" class="disc-preset" data-pct="10">10%</button>
+        <button type="button" class="disc-preset" data-pct="20">20%</button>
+        <button type="button" class="disc-preset" data-pct="25">25%</button>
+        <button type="button" class="disc-preset" data-pct="50">50%</button>
+      </div>
       <input id="disc-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 25" />
     </div>
   </IoPanel>
@@ -53,6 +59,8 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     var priceEl  = document.getElementById('disc-price');
     var amountEl = document.getElementById('disc-amount');
     var amtLabel = document.getElementById('disc-amount-label');
+    var presetsWrap = document.getElementById('disc-presets');
+    var presets = document.querySelectorAll('.disc-preset');
     var finalEl  = document.getElementById('disc-final');
     var hintEl   = document.getElementById('disc-hint');
     var secondary = document.querySelector('.tm-secondary');
@@ -74,13 +82,23 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       return (Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')) + '%';
     }
 
+    function syncPresets(pct) {
+      for (var i = 0; i < presets.length; i++) {
+        var on = presets[i].getAttribute('data-pct') === String(pct);
+        presets[i].classList.toggle('is-active', on);
+      }
+    }
+
     function applyMode() {
       if (modeEl.value === 'fixed') {
         if (amtLabel) amtLabel.textContent = 'Amount Off ($)';
         amountEl.setAttribute('placeholder', 'Example: 30.00');
+        if (presetsWrap) presetsWrap.hidden = true;
       } else {
         if (amtLabel) amtLabel.textContent = 'Discount (%)';
         amountEl.setAttribute('placeholder', 'Example: 25');
+        if (presetsWrap) presetsWrap.hidden = false;
+        syncPresets(amountEl.value === '' ? null : Number(amountEl.value));
       }
     }
 
@@ -137,7 +155,18 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
     modeEl.addEventListener('change', function () { applyMode(); calc(); persist(); });
     priceEl.addEventListener('input', function () { calc(); persist(); });
-    amountEl.addEventListener('input', function () { calc(); persist(); });
+    amountEl.addEventListener('input', function () {
+      if (modeEl.value !== 'fixed') syncPresets(amountEl.value === '' ? null : Number(amountEl.value));
+      calc(); persist();
+    });
+
+    for (var pi = 0; pi < presets.length; pi++) {
+      presets[pi].addEventListener('click', function () {
+        amountEl.value = this.getAttribute('data-pct');
+        syncPresets(Number(amountEl.value));
+        calc(); persist();
+      });
+    }
 
     // Copy with success state
     var copyTimer;
@@ -169,6 +198,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       }
       resetClear();
       priceEl.value = ''; amountEl.value = '';
+      syncPresets(null);
       calc(); persist();
       priceEl.focus();
     });
@@ -179,3 +209,40 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     calc();
   })();
 </script>
+
+<style>
+  .disc-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .disc-presets[hidden] { display: none; }
+
+  .disc-preset {
+    flex: 1;
+    min-width: 64px;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .disc-preset:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-hover);
+  }
+
+  .disc-preset.is-active,
+  .disc-preset.is-active:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+  }
+</style>
