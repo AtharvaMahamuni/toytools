@@ -18,7 +18,10 @@ interface Props {
   showOutput?: boolean;
 }
 
-const { slug, structuredId, showOutput = true } = Astro.props;
+const { slug, structuredId, config, showOutput = true } = Astro.props;
+
+// Group members share one state envelope so input survives switching modes.
+const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
@@ -26,7 +29,7 @@ const statusId = `${slug}-status`;
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug}>
+  <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey}>
     <textarea
       id={inputId}
       aria-label="JSON input"
@@ -60,6 +63,7 @@ const statusId = `${slug}-status`;
     if (!root) return;
     var sid = root.getAttribute('data-structured');
     var slug = root.getAttribute('data-slug');
+    var stateKey = root.getAttribute('data-state-key') || slug;
     var input = document.getElementById(slug + '-input');
     var output = document.getElementById(slug + '-output');
     var status = document.getElementById(slug + '-status');
@@ -87,11 +91,12 @@ const statusId = `${slug}-status`;
     }
 
     function persist() {
-      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value });
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(stateKey, { input: input.value });
     }
 
+    // Restore prior input — group key first, then the tool's old per-slug key (migration).
     try {
-      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var saved = window.ToyTools && ToyTools.state && (ToyTools.state.load(stateKey) || ToyTools.state.load(slug));
       if (saved && typeof saved.input === 'string') input.value = saved.input;
     } catch (_) {}
 

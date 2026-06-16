@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   pattern: 'structured-transform',
   family: 'json',
   processorId: 'json-formatter',
+  toolGroup: 'json-tools',
   relatedTools: ['json-minifier', 'json-validator'],
   guide: {
     slug: 'what-is-json-formatting',

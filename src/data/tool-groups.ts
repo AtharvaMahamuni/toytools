@@ -27,6 +27,15 @@ export interface ToolGroup {
 
 export const toolGroups: ToolGroup[] = [
   {
+    id: 'json-tools',
+    name: 'JSON Tools',
+    members: [
+      { slug: 'json-formatter',   label: 'Format'    },
+      { slug: 'json-minifier',    label: 'Minify'    },
+      { slug: 'json-tree-viewer', label: 'Tree View' },
+    ],
+  },
+  {
     id: 'case-converters',
     name: 'Case Converter',
     members: [

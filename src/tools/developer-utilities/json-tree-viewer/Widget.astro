@@ -1,0 +1,663 @@
+---
+// JSON Tree Viewer — a thin, interactive UI over the JSON Explorer Core
+// (ToyTools.json.parse/stats/search). The widget never re-implements parsing or path
+// logic: it consumes JsonNodes and renders a collapsible, searchable tree with a summary
+// layer, current-path panel, large-payload guard, and per-node copy (value / dot path /
+// JSONPath). See src/lib/json/explorer.ts.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { config } from './config';
+
+const slug = config.slug;
+// Group members share one state envelope so input survives switching modes.
+const stateKey = config.toolGroup ? `group:${config.toolGroup}` : slug;
+const inputId = `${slug}-input`;
+const outputId = `${slug}-output`;
+---
+
+<div class="jtv-widget" data-slug={slug} data-state-key={stateKey}>
+  <IoPanel label="JSON Input" labelFor={inputId} variant="mono">
+    <textarea
+      id={inputId}
+      placeholder={'{\n  "name": "Ada",\n  "skills": ["math", "code"],\n  "active": true\n}'}
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+    ></textarea>
+  </IoPanel>
+
+  <div class="tool-actions">
+    <button id="jtv-sample" class="action-btn" type="button">Load Sample</button>
+    <button id="jtv-paste" class="action-btn" type="button">Paste</button>
+    <button id="jtv-download" class="action-btn" type="button">Download JSON</button>
+    <button id="jtv-clear" class="action-btn action-btn--clear" type="button" data-label="Clear">Clear</button>
+  </div>
+
+  <!-- Hidden canonical pretty-JSON payload, target for the panel CopyButton + download. -->
+  <textarea id={outputId} class="jtv-sr-only" readonly aria-hidden="true" data-empty></textarea>
+
+  <p id="jtv-status" class="io-status" data-ok="" aria-live="polite"></p>
+
+  <section id="jtv-summary" class="jtv-section" hidden aria-label="JSON summary">
+    <span class="jtv-section-title">Summary</span>
+    <div class="jtv-stats">
+      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-size">0 B</span><span class="jtv-stat-label">Size</span></div>
+      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-depth">0</span><span class="jtv-stat-label">Depth</span></div>
+      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-keys">0</span><span class="jtv-stat-label">Keys</span></div>
+      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-objects">0</span><span class="jtv-stat-label">Objects</span></div>
+      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-arrays">0</span><span class="jtv-stat-label">Arrays</span></div>
+      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-leaves">0</span><span class="jtv-stat-label">Leaf values</span></div>
+    </div>
+  </section>
+
+  <section id="jtv-toolbar" class="jtv-section jtv-toolbar" hidden aria-label="Tree controls">
+    <div class="jtv-controls">
+      <button class="jtv-ctl" type="button" data-expand="all">Expand all</button>
+      <button class="jtv-ctl" type="button" data-expand="none">Collapse all</button>
+      <button class="jtv-ctl" type="button" data-expand="objects">Objects only</button>
+      <button class="jtv-ctl" type="button" data-expand="arrays">Arrays only</button>
+      <label class="jtv-depth">
+        Depth
+        <select id="jtv-depth-select" aria-label="Expand to depth">
+          <option value="all">All</option>
+        </select>
+      </label>
+    </div>
+    <div class="jtv-searchrow">
+      <input id="jtv-search" type="text" class="jtv-search" placeholder="Search keys, paths, or values" autocomplete="off" spellcheck="false" aria-label="Search the tree" />
+      <span id="jtv-matchinfo" class="jtv-matchinfo" hidden aria-live="polite"></span>
+      <button id="jtv-prev" class="jtv-navbtn" type="button" hidden aria-label="Previous match">‹</button>
+      <button id="jtv-next" class="jtv-navbtn" type="button" hidden aria-label="Next match">›</button>
+    </div>
+  </section>
+
+  <div id="jtv-path" class="jtv-path" hidden aria-live="polite">
+    <span class="jtv-path-label">Path</span>
+    <code id="jtv-path-value" class="jtv-path-value"></code>
+    <button id="jtv-path-copy" class="jtv-navbtn" type="button" aria-label="Copy path">Copy</button>
+    <button id="jtv-path-copy-json" class="jtv-navbtn" type="button" aria-label="Copy JSONPath">JSONPath</button>
+  </div>
+
+  <div id="jtv-guard" class="jtv-guard" hidden>
+    <p id="jtv-guard-msg"></p>
+    <button id="jtv-render" class="action-btn jtv-render" type="button">Render anyway</button>
+  </div>
+
+  <section id="jtv-tree-section" class="jtv-section jtv-tree-section" hidden aria-label="JSON tree">
+    <div class="jtv-tree-hdr">
+      <span class="jtv-section-title">Tree</span>
+    </div>
+    <div id="jtv-tree" class="jtv-tree" role="tree"></div>
+  </section>
+</div>
+
+<CategoryDiscovery toolSlug={config.slug} />
+
+<style is:global>
+  .jtv-widget { display: flex; flex-direction: column; gap: var(--space-4); }
+  .jtv-widget .io-panel { min-height: 220px; }
+
+  .jtv-sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .jtv-section {
+    border: var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .jtv-section[hidden] { display: none; }
+
+  .jtv-section-title {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .jtv-stats { display: flex; gap: var(--space-6); flex-wrap: wrap; }
+  .jtv-stat { display: flex; flex-direction: column; gap: 2px; }
+  .jtv-stat-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .jtv-stat-label { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  /* Controls + search */
+  .jtv-controls { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+  .jtv-ctl {
+    height: 34px;
+    padding: 0 var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .jtv-ctl:hover { color: var(--color-text); border-color: var(--color-border-strong); background: var(--color-surface-hover); }
+  .jtv-depth { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .jtv-depth select {
+    height: 34px; padding: 0 var(--space-2);
+    border: var(--border); border-radius: var(--radius-sm);
+    background: var(--color-bg); color: var(--color-text); font: inherit; font-size: var(--text-sm);
+  }
+
+  .jtv-searchrow { display: flex; align-items: center; gap: var(--space-2); }
+  .jtv-search {
+    flex: 1; min-width: 0;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: var(--color-bg); color: var(--color-text);
+    font: inherit; font-size: var(--text-base);
+  }
+  .jtv-search:focus-visible { outline: none; border-color: var(--color-accent); }
+  .jtv-matchinfo { font-size: var(--text-sm); color: var(--color-text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .jtv-navbtn {
+    min-width: 36px; height: 36px; padding: 0 var(--space-2);
+    border: var(--border); border-radius: var(--radius-sm);
+    background: var(--color-surface); color: var(--color-text-muted);
+    font-size: var(--text-sm); cursor: pointer; transition: var(--transition-color);
+  }
+  .jtv-navbtn:hover { color: var(--color-text); border-color: var(--color-border-strong); }
+  .jtv-navbtn[hidden] { display: none; }
+
+  /* Current-path panel */
+  .jtv-path {
+    display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;
+    padding: var(--space-2) var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .jtv-path[hidden] { display: none; }
+  .jtv-path-label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); }
+  .jtv-path-value {
+    font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-text);
+    flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
+  }
+
+  /* Large-payload guard */
+  .jtv-guard {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border-strong); border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .jtv-guard[hidden] { display: none; }
+  .jtv-guard p { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+
+  /* Tree */
+  .jtv-tree-section { gap: var(--space-2); }
+  .jtv-tree {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    max-height: 520px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .jtv-node { padding-left: var(--space-4); }
+  .jtv-node > .jtv-children { padding-left: var(--space-4); border-left: 1px solid var(--color-border); }
+
+  details.jtv-node > summary.jtv-row { list-style: none; cursor: pointer; }
+  details.jtv-node > summary.jtv-row::-webkit-details-marker { display: none; }
+
+  .jtv-row {
+    display: flex; align-items: center; gap: var(--space-1);
+    border-radius: var(--radius-sm);
+    padding: 1px var(--space-1);
+    min-height: 26px;
+  }
+  .jtv-row:hover { background: var(--color-surface-hover); }
+  .jtv-row.is-selected { background: var(--color-accent-subtle); }
+
+  .jtv-chevron {
+    display: inline-flex; width: 14px; flex-shrink: 0;
+    color: var(--color-text-subtle);
+    transition: transform 200ms ease;
+  }
+  details[open] > summary > .jtv-chevron { transform: rotate(90deg); }
+  .jtv-leaf .jtv-chevron { visibility: hidden; }
+
+  .jtv-key { color: var(--color-text-muted); font-weight: var(--font-weight-medium); }
+  .jtv-colon { color: var(--color-text-subtle); margin-right: var(--space-1); }
+  .jtv-bracket { color: var(--color-text-subtle); }
+  .jtv-badge { color: var(--color-text-subtle); font-size: var(--text-xs); margin-left: var(--space-1); }
+
+  .jtv-string { color: var(--color-success); }
+  .jtv-number { color: var(--color-accent); }
+  .jtv-boolean { color: var(--color-text-subtle); }
+  .jtv-null { color: var(--color-text-subtle); font-style: italic; }
+
+  .jtv-row.is-match > .jtv-key,
+  .jtv-row.is-match > .jtv-val { background: var(--color-success-bg); border-radius: var(--radius-sm); }
+  .jtv-tree.is-searching .jtv-row:not(.is-match) { opacity: 0.5; }
+  .jtv-row.is-current { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+  .jtv-rowacts { display: inline-flex; gap: 2px; margin-left: var(--space-2); opacity: 0; transition: opacity 150ms ease; }
+  .jtv-row:hover .jtv-rowacts, .jtv-row:focus-within .jtv-rowacts { opacity: 1; }
+  .jtv-act {
+    border: none; background: transparent; cursor: pointer;
+    color: var(--color-text-subtle); font-size: var(--text-xs);
+    padding: 0 var(--space-1); border-radius: var(--radius-sm);
+  }
+  .jtv-act:hover { color: var(--color-text); background: var(--color-surface); }
+  /* Touch devices: actions always visible (no hover). */
+  @media (hover: none) { .jtv-rowacts { opacity: 1; } }
+</style>
+
+<script is:inline>
+(function () {
+  var root = document.querySelector('.jtv-widget[data-slug]');
+  if (!root) return;
+  var slug = root.getAttribute('data-slug');
+  var stateKey = root.getAttribute('data-state-key') || slug;
+  var TT = window.ToyTools;
+
+  var input      = document.getElementById(slug + '-input');
+  var output     = document.getElementById(slug + '-output');
+  var status     = document.getElementById('jtv-status');
+  var summary    = document.getElementById('jtv-summary');
+  var toolbar    = document.getElementById('jtv-toolbar');
+  var treeSect   = document.getElementById('jtv-tree-section');
+  var tree       = document.getElementById('jtv-tree');
+  var guard      = document.getElementById('jtv-guard');
+  var guardMsg   = document.getElementById('jtv-guard-msg');
+  var renderBtn  = document.getElementById('jtv-render');
+  var pathPanel  = document.getElementById('jtv-path');
+  var pathValue  = document.getElementById('jtv-path-value');
+  var depthSel   = document.getElementById('jtv-depth-select');
+  var searchBox  = document.getElementById('jtv-search');
+  var matchInfo  = document.getElementById('jtv-matchinfo');
+  var prevBtn    = document.getElementById('jtv-prev');
+  var nextBtn    = document.getElementById('jtv-next');
+  if (!input || !tree) return;
+
+  var INITIAL_OPEN_DEPTH = 2;   // root + one level open on first render
+  var RENDER_LIMIT = 5000;      // node count above which we guard the DOM render
+
+  var ast = null;
+  var elByPath = {};            // path -> row element
+  var nodeByPath = {};          // path -> JsonNode
+  var selectedRow = null;
+  var matches = [];
+  var matchIdx = -1;
+  var forceRender = false;
+  var lastSig = '';             // raw input signature the current tree was built for
+
+  function fmtBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+
+  function valueText(node) {
+    if (node.type === 'null') return 'null';
+    if (node.type === 'string') return JSON.stringify(node.value);
+    return String(node.value);
+  }
+
+  function makeActs(node) {
+    var wrap = document.createElement('span');
+    wrap.className = 'jtv-rowacts';
+    function btn(label, act, title) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'jtv-act';
+      b.textContent = label;
+      b.setAttribute('data-act', act);
+      b.setAttribute('data-path', node.path);
+      b.title = title;
+      return b;
+    }
+    wrap.appendChild(btn('value', 'copy-value', 'Copy value'));
+    wrap.appendChild(btn('path', 'copy-path', 'Copy path: ' + (node.path || 'root')));
+    wrap.appendChild(btn('$', 'copy-json', 'Copy JSONPath: ' + node.jsonPath));
+    return wrap;
+  }
+
+  function keyLabel(node) {
+    var span = document.createElement('span');
+    span.className = 'jtv-key';
+    if (node.key === null) span.textContent = 'root';
+    else if (typeof node.key === 'number') span.textContent = '[' + node.key + ']';
+    else span.textContent = node.key;
+    return span;
+  }
+
+  function buildRow(node, isSummary) {
+    var row = document.createElement(isSummary ? 'summary' : 'div');
+    row.className = 'jtv-row';
+    row.setAttribute('data-path', node.path);
+
+    var chev = document.createElement('span');
+    chev.className = 'jtv-chevron';
+    chev.textContent = '▶';
+    row.appendChild(chev);
+
+    row.appendChild(keyLabel(node));
+
+    if (node.type === 'object' || node.type === 'array') {
+      var colon = document.createElement('span'); colon.className = 'jtv-colon'; colon.textContent = ':';
+      if (node.key !== null) row.appendChild(colon);
+      var br = document.createElement('span'); br.className = 'jtv-bracket';
+      br.textContent = node.type === 'array' ? '[ ]' : '{ }';
+      row.appendChild(br);
+      var badge = document.createElement('span'); badge.className = 'jtv-badge';
+      var n = node.children.length;
+      badge.textContent = node.type === 'array' ? n + (n === 1 ? ' item' : ' items') : n + (n === 1 ? ' key' : ' keys');
+      row.appendChild(badge);
+    } else {
+      var colon2 = document.createElement('span'); colon2.className = 'jtv-colon'; colon2.textContent = ':';
+      if (node.key !== null) row.appendChild(colon2);
+      var val = document.createElement('span');
+      val.className = 'jtv-val jtv-' + node.type;
+      val.textContent = valueText(node);
+      row.appendChild(val);
+    }
+
+    row.appendChild(makeActs(node));
+    return row;
+  }
+
+  function buildNode(node) {
+    elByPath[node.path] = null;
+    nodeByPath[node.path] = node;
+
+    if (node.type === 'object' || node.type === 'array') {
+      var det = document.createElement('details');
+      det.className = 'jtv-node';
+      det.setAttribute('data-depth', node.depth);
+      det.setAttribute('data-type', node.type);
+      det.open = node.depth < INITIAL_OPEN_DEPTH;
+      var sum = buildRow(node, true);
+      det.appendChild(sum);
+      elByPath[node.path] = sum;
+      var kids = document.createElement('div');
+      kids.className = 'jtv-children';
+      for (var i = 0; i < node.children.length; i++) kids.appendChild(buildNode(node.children[i]));
+      det.appendChild(kids);
+      return det;
+    }
+
+    var leaf = document.createElement('div');
+    leaf.className = 'jtv-node jtv-leaf';
+    var r = buildRow(node, false);
+    leaf.appendChild(r);
+    elByPath[node.path] = r;
+    return leaf;
+  }
+
+  function renderTree() {
+    elByPath = {}; nodeByPath = {};
+    tree.innerHTML = '';
+    tree.appendChild(buildNode(ast));
+    buildDepthOptions();
+    treeSect.hidden = false;
+  }
+
+  function buildDepthOptions() {
+    var s = TT.json.stats(ast);
+    var max = s.depth;
+    depthSel.innerHTML = '';
+    var optAll = document.createElement('option'); optAll.value = 'all'; optAll.textContent = 'All'; depthSel.appendChild(optAll);
+    for (var d = 1; d <= max; d++) {
+      var o = document.createElement('option'); o.value = String(d); o.textContent = String(d); depthSel.appendChild(o);
+    }
+  }
+
+  function setOutput(text) {
+    output.value = text;
+    if (text) output.removeAttribute('data-empty'); else output.setAttribute('data-empty', '');
+  }
+
+  function resetView() {
+    status.textContent = ''; status.setAttribute('data-ok', '');
+    summary.hidden = true; toolbar.hidden = true; treeSect.hidden = true;
+    guard.hidden = true; pathPanel.hidden = true;
+    setOutput('');
+    ast = null; matches = []; matchIdx = -1;
+  }
+
+  function showSummary() {
+    var s = TT.json.stats(ast);
+    document.getElementById('jtv-size').textContent = fmtBytes(s.sizeBytes);
+    document.getElementById('jtv-depth').textContent = String(s.depth);
+    document.getElementById('jtv-keys').textContent = String(s.keys);
+    document.getElementById('jtv-objects').textContent = String(s.objects);
+    document.getElementById('jtv-arrays').textContent = String(s.arrays);
+    document.getElementById('jtv-leaves').textContent = String(s.leaves);
+    summary.hidden = false;
+    return s;
+  }
+
+  function update() {
+    var raw = input.value;
+    if (!raw.trim()) { resetView(); return; }
+    if (!(TT && TT.json)) return;
+
+    var res = TT.json.parse(raw);
+    if (!res.ok) {
+      ast = null;
+      var pos = res.errorPos ? ' (line ' + res.errorPos.line + ', col ' + res.errorPos.col + ')' : '';
+      status.setAttribute('data-ok', 'false');
+      status.textContent = '✗ ' + (res.error || 'Invalid JSON') + pos;
+      summary.hidden = true; toolbar.hidden = true; treeSect.hidden = true; guard.hidden = true; pathPanel.hidden = true;
+      setOutput('');
+      return;
+    }
+
+    ast = res.ast;
+    status.setAttribute('data-ok', 'true');
+    status.textContent = '✓ Valid JSON';
+    setOutput(JSON.stringify(ast.value, null, 2));
+    var s = showSummary();
+    toolbar.hidden = false;
+
+    // Build a fresh tree only when the input actually changed (not just whitespace).
+    var sig = JSON.stringify(ast.value);
+    var changed = sig !== lastSig;
+    lastSig = sig;
+
+    if (s.nodes > RENDER_LIMIT && !forceRender) {
+      treeSect.hidden = true; pathPanel.hidden = true;
+      guard.hidden = false;
+      guardMsg.textContent = 'Large JSON detected — ' + s.nodes.toLocaleString() + ' nodes. Rendering the full tree may be slow.';
+      return;
+    }
+    guard.hidden = true;
+    if (changed || treeSect.hidden) {
+      renderTree();
+      runSearch(); // re-apply any active filter to the new tree
+    }
+  }
+
+  // ── Expand / collapse controls ───────────────────────────────────────────
+  function allDetails() { return tree.querySelectorAll('details.jtv-node'); }
+
+  function setExpand(mode) {
+    var els = allDetails();
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (mode === 'all') el.open = true;
+      else if (mode === 'none') el.open = el === tree.firstChild ? true : false;
+      else if (mode === 'objects') el.open = el.getAttribute('data-type') === 'object';
+      else if (mode === 'arrays') el.open = el.getAttribute('data-type') === 'array';
+    }
+  }
+
+  function expandToDepth(val) {
+    var els = allDetails();
+    for (var i = 0; i < els.length; i++) {
+      var d = Number(els[i].getAttribute('data-depth'));
+      els[i].open = (val === 'all') ? true : d < Number(val);
+    }
+  }
+
+  // ── Search + match navigation ────────────────────────────────────────────
+  function clearMatchClasses() {
+    var marked = tree.querySelectorAll('.is-match, .is-current');
+    for (var i = 0; i < marked.length; i++) marked[i].classList.remove('is-match', 'is-current');
+  }
+
+  function openAncestors(node) {
+    var p = node.parent;
+    while (p) {
+      var el = elByPath[p.path];
+      if (el && el.parentNode && el.parentNode.tagName === 'DETAILS') el.parentNode.open = true;
+      p = p.parent;
+    }
+  }
+
+  function runSearch() {
+    if (!ast || treeSect.hidden) return;
+    var q = searchBox.value.trim();
+    clearMatchClasses();
+    matches = []; matchIdx = -1;
+    if (!q) {
+      tree.classList.remove('is-searching');
+      matchInfo.hidden = true; prevBtn.hidden = true; nextBtn.hidden = true;
+      return;
+    }
+    var hits = TT.json.search(ast, q, {});
+    tree.classList.add('is-searching');
+    for (var i = 0; i < hits.length; i++) {
+      var el = elByPath[hits[i].path];
+      if (el) { el.classList.add('is-match'); matches.push(el); openAncestors(hits[i]); }
+    }
+    matchInfo.hidden = false;
+    prevBtn.hidden = nextBtn.hidden = matches.length === 0;
+    if (matches.length) { matchIdx = 0; focusMatch(); }
+    else matchInfo.textContent = 'No matches';
+  }
+
+  function focusMatch() {
+    for (var i = 0; i < matches.length; i++) matches[i].classList.remove('is-current');
+    var el = matches[matchIdx];
+    el.classList.add('is-current');
+    el.scrollIntoView({ block: 'center' });
+    matchInfo.textContent = 'Match ' + (matchIdx + 1) + ' of ' + matches.length;
+  }
+
+  function step(delta) {
+    if (!matches.length) return;
+    matchIdx = (matchIdx + delta + matches.length) % matches.length;
+    focusMatch();
+  }
+
+  // ── Selection / path panel ───────────────────────────────────────────────
+  function selectRow(rowEl) {
+    if (selectedRow) selectedRow.classList.remove('is-selected');
+    selectedRow = rowEl;
+    rowEl.classList.add('is-selected');
+    var node = nodeByPath[rowEl.getAttribute('data-path')];
+    pathPanel.hidden = false;
+    pathValue.textContent = node.path || 'root';
+    pathValue.setAttribute('data-dot', node.path);
+    pathValue.setAttribute('data-json', node.jsonPath);
+  }
+
+  function copyNode(act, path) {
+    var node = nodeByPath[path];
+    if (!node || !TT) return;
+    if (act === 'copy-value') TT.copy(JSON.stringify(node.value, null, 2));
+    else if (act === 'copy-path') TT.copy(node.path || '$');
+    else if (act === 'copy-json') TT.copy(node.jsonPath);
+  }
+
+  // ── Wiring ───────────────────────────────────────────────────────────────
+  tree.addEventListener('click', function (e) {
+    var actBtn = e.target.closest('.jtv-act');
+    if (actBtn) {
+      e.preventDefault(); e.stopPropagation();
+      copyNode(actBtn.getAttribute('data-act'), actBtn.getAttribute('data-path'));
+      return;
+    }
+    var row = e.target.closest('.jtv-row');
+    if (row) selectRow(row);
+  });
+
+  root.querySelectorAll('[data-expand]').forEach(function (b) {
+    b.addEventListener('click', function () { setExpand(b.getAttribute('data-expand')); });
+  });
+  depthSel.addEventListener('change', function () { expandToDepth(depthSel.value); });
+  searchBox.addEventListener('input', runSearch);
+  prevBtn.addEventListener('click', function () { step(-1); });
+  nextBtn.addEventListener('click', function () { step(1); });
+  renderBtn.addEventListener('click', function () { forceRender = true; update(); });
+
+  document.getElementById('jtv-path-copy').addEventListener('click', function () {
+    if (TT) TT.copy(pathValue.getAttribute('data-dot') || '$');
+  });
+  document.getElementById('jtv-path-copy-json').addEventListener('click', function () {
+    if (TT) TT.copy(pathValue.getAttribute('data-json') || '$');
+  });
+
+  // Input actions
+  function persist() { if (TT && TT.state) TT.state.save(stateKey, { input: input.value }); }
+  input.addEventListener('input', function () { forceRender = false; update(); persist(); });
+
+  document.getElementById('jtv-sample').addEventListener('click', function () {
+    input.value = '{\n  "user": {\n    "name": "Ada Lovelace",\n    "id": 1843,\n    "active": true,\n    "roles": ["admin", "author"]\n  },\n  "posts": [\n    { "title": "On Computing", "tags": ["math", "history"], "likes": 42 },\n    { "title": "Notes", "tags": [], "likes": 0 }\n  ],\n  "meta": null\n}';
+    forceRender = false; update(); persist();
+  });
+
+  document.getElementById('jtv-paste').addEventListener('click', function () {
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      navigator.clipboard.readText().then(function (t) { input.value = t; forceRender = false; update(); persist(); })
+        .catch(function () { TT && TT.toast('Clipboard blocked — paste with Ctrl/Cmd+V'); });
+    } else { TT && TT.toast('Paste with Ctrl/Cmd+V'); }
+  });
+
+  document.getElementById('jtv-download').addEventListener('click', function () {
+    if (!output.value.trim()) { TT && TT.toast('Nothing to download!'); return; }
+    var blob = new Blob([output.value], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'data.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // Two-click confirm clear
+  var clearBtn = document.getElementById('jtv-clear');
+  var clearTimer;
+  clearBtn.addEventListener('click', function () {
+    if (!clearBtn.classList.contains('is-confirming')) {
+      clearBtn.classList.add('is-confirming'); clearBtn.textContent = 'Confirm Clear';
+      clearTimer = setTimeout(function () { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }, 3000);
+      return;
+    }
+    clearTimeout(clearTimer); clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear';
+    input.value = ''; searchBox.value = ''; lastSig = ''; forceRender = false;
+    resetView(); persist(); input.focus();
+  });
+  document.addEventListener('click', function (e) {
+    if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#jtv-clear')) {
+      clearTimeout(clearTimer); clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear';
+    }
+  });
+
+  // Restore prior input — group key first, then the tool's old per-slug key (migration).
+  try {
+    var saved = TT && TT.state && (TT.state.load(stateKey) || TT.state.load(slug));
+    if (saved && typeof saved.input === 'string') input.value = saved.input;
+  } catch (_) {}
+
+  // ToyTools.json attaches via a deferred module; wait so restored input renders on load.
+  if (TT && TT.onReady) TT.onReady(update); else update();
+})();
+</script>
