@@ -2,8 +2,11 @@
 // JSON Tree Viewer — a thin, interactive UI over the JSON Explorer Core
 // (ToyTools.json.parse/stats/search). The widget never re-implements parsing or path
 // logic: it consumes JsonNodes and renders a collapsible, searchable tree with a summary
-// layer, current-path panel, large-payload guard, and per-node copy (value / dot path /
-// JSONPath). See src/lib/json/explorer.ts.
+// strip, current-path panel, large-payload guard, and per-node copy (value / dot path /
+// JSONPath). Layout: input and tree sit side by side as two equal, fixed-height boxes that
+// each scroll internally (no page scroll); below 1024px a pill switches between the two.
+// See src/lib/json/explorer.ts.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { config } from './config';
@@ -14,156 +17,209 @@ const stateKey = config.toolGroup ? `group:${config.toolGroup}` : slug;
 const inputId = `${slug}-input`;
 ---
 
-<div class="jtv-widget" data-slug={slug} data-state-key={stateKey}>
-  <IoPanel label="JSON Input" labelFor={inputId} variant="mono">
-    <textarea
-      id={inputId}
-      placeholder={'{\n  "name": "Ada",\n  "skills": ["math", "code"],\n  "active": true\n}'}
-      spellcheck="false"
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-    ></textarea>
-  </IoPanel>
-
-  <div class="tool-actions">
-    <button id="jtv-sample" class="action-btn" type="button">Load Sample</button>
-    <button id="jtv-paste" class="action-btn" type="button">Paste</button>
-    <button id="jtv-download" class="action-btn" type="button">Download JSON</button>
-    <button id="jtv-clear" class="action-btn action-btn--clear" type="button" data-label="Clear">Clear</button>
+<div class="jtv-widget" data-slug={slug} data-state-key={stateKey} data-mobile-view="input">
+  <div class="jtv-mswitch" role="tablist" aria-label="Show input or tree">
+    <button class="jtv-mtab" type="button" data-view="input" role="tab" aria-selected="true">Input</button>
+    <button class="jtv-mtab" type="button" data-view="tree" role="tab" aria-selected="false">Tree</button>
   </div>
 
-  <p id="jtv-status" class="io-status" data-ok="" aria-live="polite"></p>
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <IoPanel slot="input" label="JSON Input" labelFor={inputId} variant="mono" class="jtv-io">
+      <div class="jtv-hdr-actions" slot="header-end">
+        <button id="jtv-sample" class="jtv-hdr-btn" type="button">Sample</button>
+        <button id="jtv-paste" class="jtv-hdr-btn" type="button">Paste</button>
+        <button id="jtv-clear" class="jtv-hdr-btn" type="button">Clear</button>
+      </div>
+      <textarea
+        id={inputId}
+        placeholder={'{\n  "name": "Ada",\n  "skills": ["math", "code"],\n  "active": true\n}'}
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+      ></textarea>
+    </IoPanel>
 
-  <section id="jtv-summary" class="jtv-section" hidden aria-label="JSON summary">
-    <span class="jtv-section-title">Summary</span>
-    <div class="jtv-stats">
-      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-size">0 B</span><span class="jtv-stat-label">Size</span></div>
-      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-depth">0</span><span class="jtv-stat-label">Depth</span></div>
-      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-keys">0</span><span class="jtv-stat-label">Keys</span></div>
-      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-objects">0</span><span class="jtv-stat-label">Objects</span></div>
-      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-arrays">0</span><span class="jtv-stat-label">Arrays</span></div>
-      <div class="jtv-stat"><span class="jtv-stat-value" id="jtv-leaves">0</span><span class="jtv-stat-label">Leaf values</span></div>
-    </div>
-  </section>
+    <IoPanel slot="output" label="Tree" variant="mono" class="jtv-io jtv-io--tree">
+      <div class="jtv-hdr-actions" slot="header-end">
+        <span id="jtv-status" class="jtv-status" data-ok="" aria-live="polite"></span>
+        <button id="jtv-download" class="jtv-hdr-btn" type="button">Download</button>
+      </div>
 
-  <section id="jtv-toolbar" class="jtv-section jtv-toolbar" hidden aria-label="Tree controls">
-    <div class="jtv-controls">
-      <button class="jtv-ctl" type="button" data-expand="all">Expand all</button>
-      <button class="jtv-ctl" type="button" data-expand="none">Collapse all</button>
-      <button class="jtv-ctl" type="button" data-expand="objects">Objects only</button>
-      <button class="jtv-ctl" type="button" data-expand="arrays">Arrays only</button>
-      <label class="jtv-depth">
-        Depth
-        <select id="jtv-depth-select" aria-label="Expand to depth">
-          <option value="all">All</option>
-        </select>
-      </label>
-    </div>
-    <div class="jtv-searchrow">
-      <input id="jtv-search" type="text" class="jtv-search" placeholder="Search keys, paths, or values" autocomplete="off" spellcheck="false" aria-label="Search the tree" />
-      <span id="jtv-matchinfo" class="jtv-matchinfo" hidden aria-live="polite"></span>
-      <button id="jtv-prev" class="jtv-navbtn" type="button" hidden aria-label="Previous match">‹</button>
-      <button id="jtv-next" class="jtv-navbtn" type="button" hidden aria-label="Next match">›</button>
-    </div>
-  </section>
+      <div class="jtv-out-body">
+        <div id="jtv-toolbar" class="jtv-toolbar" hidden aria-label="Tree controls">
+          <div class="jtv-searchrow">
+            <input id="jtv-search" type="text" class="jtv-search" placeholder="Search keys, paths, or values" autocomplete="off" spellcheck="false" aria-label="Search the tree" />
+            <span id="jtv-matchinfo" class="jtv-matchinfo" hidden aria-live="polite"></span>
+            <button id="jtv-prev" class="jtv-navbtn" type="button" hidden aria-label="Previous match">‹</button>
+            <button id="jtv-next" class="jtv-navbtn" type="button" hidden aria-label="Next match">›</button>
+          </div>
+          <div class="jtv-controls">
+            <button class="jtv-ctl" type="button" data-expand="all">Expand all</button>
+            <button class="jtv-ctl" type="button" data-expand="none">Collapse all</button>
+            <button class="jtv-ctl" type="button" data-expand="objects">Objects</button>
+            <button class="jtv-ctl" type="button" data-expand="arrays">Arrays</button>
+            <label class="jtv-depth">
+              Depth
+              <select id="jtv-depth-select" aria-label="Expand to depth">
+                <option value="all">All</option>
+              </select>
+            </label>
+          </div>
+        </div>
 
-  <div id="jtv-path" class="jtv-path" hidden aria-live="polite">
-    <span class="jtv-path-label">Path</span>
-    <code id="jtv-path-value" class="jtv-path-value"></code>
-    <button id="jtv-path-copy" class="jtv-navbtn" type="button" aria-label="Copy path">Copy</button>
-    <button id="jtv-path-copy-json" class="jtv-navbtn" type="button" aria-label="Copy JSONPath">JSONPath</button>
-  </div>
+        <div id="jtv-summary" class="jtv-summary" hidden aria-label="JSON summary">
+          <span class="jtv-sum"><b id="jtv-size">0 B</b> Size</span>
+          <span class="jtv-sum"><b id="jtv-depth">0</b> Depth</span>
+          <span class="jtv-sum"><b id="jtv-keys">0</b> Keys</span>
+          <span class="jtv-sum"><b id="jtv-objects">0</b> Objects</span>
+          <span class="jtv-sum"><b id="jtv-arrays">0</b> Arrays</span>
+          <span class="jtv-sum"><b id="jtv-leaves">0</b> Leaves</span>
+        </div>
 
-  <div id="jtv-guard" class="jtv-guard" hidden>
-    <p id="jtv-guard-msg"></p>
-    <button id="jtv-render" class="action-btn jtv-render" type="button">Render anyway</button>
-  </div>
+        <div id="jtv-path" class="jtv-path" hidden aria-live="polite">
+          <span class="jtv-path-label">Path</span>
+          <code id="jtv-path-value" class="jtv-path-value"></code>
+          <button id="jtv-path-copy" class="jtv-navbtn" type="button" aria-label="Copy path">Copy</button>
+          <button id="jtv-path-copy-json" class="jtv-navbtn" type="button" aria-label="Copy JSONPath">JSONPath</button>
+        </div>
 
-  <section id="jtv-tree-section" class="jtv-section jtv-tree-section" hidden aria-label="JSON tree">
-    <div class="jtv-tree-hdr">
-      <span class="jtv-section-title">Tree</span>
-    </div>
-    <div id="jtv-tree" class="jtv-tree" role="tree"></div>
-  </section>
+        <div class="jtv-treezone">
+          <div id="jtv-guard" class="jtv-guard" hidden>
+            <p id="jtv-guard-msg"></p>
+            <button id="jtv-render" class="jtv-hdr-btn jtv-render" type="button">Render anyway</button>
+          </div>
+          <p id="jtv-empty" class="jtv-empty">Paste JSON on the left to see the tree.</p>
+          <section id="jtv-tree-section" class="jtv-tree-section" hidden aria-label="JSON tree">
+            <div id="jtv-tree" class="jtv-tree" role="tree"></div>
+          </section>
+        </div>
+      </div>
+    </IoPanel>
+  </ToolSplit>
 </div>
 
 <CategoryDiscovery toolSlug={config.slug} />
 
 <style is:global>
-  .jtv-widget { display: flex; flex-direction: column; gap: var(--space-4); }
-  .jtv-widget .io-panel { min-height: 220px; }
+  .jtv-widget {
+    /* Drive box height from the viewport so input + tree fit on screen with no page scroll. */
+    --jtv-pane-h: clamp(360px, calc(100vh - 280px), 760px);
+  }
 
-  .jtv-section {
+  /* Both panes are exactly equal, fixed-height boxes; their bodies scroll internally. */
+  .jtv-widget .jtv-io.io-panel {
+    height: var(--jtv-pane-h);
+    min-height: 0;
+  }
+
+  /* ── Mobile pane switch (Input | Tree) ── */
+  .jtv-mswitch { display: none; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .jtv-mtab {
+    flex: 1;
+    height: 40px;
     border: var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-4);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .jtv-mtab[aria-selected='true'] {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 1023px) {
+    .jtv-widget { --jtv-pane-h: clamp(320px, calc(100vh - 220px), 680px); }
+    .jtv-mswitch { display: flex; }
+    .jtv-widget[data-mobile-view='input'] .ts-output { display: none; }
+    .jtv-widget[data-mobile-view='tree'] .ts-input { display: none; }
+  }
+
+  /* ── Header actions (live in each box's header, no separate actions row) ── */
+  .jtv-hdr-actions { display: flex; align-items: center; gap: var(--space-1); }
+  .jtv-hdr-btn {
+    height: 32px;
+    padding: 0 var(--space-2);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-color);
+  }
+  .jtv-hdr-btn:hover { color: var(--color-text); border-color: var(--color-border-strong); }
+  .jtv-hdr-btn.is-confirming { color: var(--color-danger); border-color: var(--color-danger); }
+
+  .jtv-status { font-size: var(--text-xs); font-weight: var(--font-weight-medium); white-space: nowrap; }
+  .jtv-status[data-ok='true'] { color: var(--color-success); }
+  .jtv-status[data-ok='false'] { color: var(--color-danger); }
+
+  /* ── Right box body: fixed header zone + scrolling tree zone ── */
+  .jtv-out-body {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-  }
-  .jtv-section[hidden] { display: none; }
-
-  .jtv-section-title {
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
+    padding: var(--space-3);
   }
 
-  .jtv-stats { display: flex; gap: var(--space-6); flex-wrap: wrap; }
-  .jtv-stat { display: flex; flex-direction: column; gap: 2px; }
-  .jtv-stat-value {
-    font-family: var(--font-mono);
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-bold);
-    line-height: 1;
-    color: var(--color-text);
-    font-variant-numeric: tabular-nums;
-  }
-  .jtv-stat-label { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .jtv-toolbar { display: flex; flex-direction: column; gap: var(--space-2); }
+  .jtv-toolbar[hidden] { display: none; }
 
-  /* Controls + search */
+  .jtv-searchrow { display: flex; align-items: center; gap: var(--space-2); }
+  .jtv-search {
+    flex: 1; min-width: 0;
+    height: 38px;
+    padding: 0 var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: var(--color-bg); color: var(--color-text);
+    font: inherit; font-size: var(--text-sm);
+  }
+  .jtv-search:focus-visible { outline: none; border-color: var(--color-accent); }
+  .jtv-matchinfo { font-size: var(--text-xs); color: var(--color-text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
   .jtv-controls { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
   .jtv-ctl {
-    height: 34px;
+    height: 32px;
     padding: 0 var(--space-3);
     border: var(--border);
     border-radius: var(--radius-sm);
     background: var(--color-surface);
     color: var(--color-text-muted);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     cursor: pointer;
     transition: var(--transition-color);
   }
   .jtv-ctl:hover { color: var(--color-text); border-color: var(--color-border-strong); background: var(--color-surface-hover); }
-  .jtv-depth { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .jtv-depth { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-xs); color: var(--color-text-muted); }
   .jtv-depth select {
-    height: 34px; padding: 0 var(--space-2);
+    height: 32px; padding: 0 var(--space-2);
     border: var(--border); border-radius: var(--radius-sm);
-    background: var(--color-bg); color: var(--color-text); font: inherit; font-size: var(--text-sm);
+    background: var(--color-bg); color: var(--color-text); font: inherit; font-size: var(--text-xs);
   }
 
-  .jtv-searchrow { display: flex; align-items: center; gap: var(--space-2); }
-  .jtv-search {
-    flex: 1; min-width: 0;
-    min-height: var(--touch-target);
-    padding: 0 var(--space-3);
-    border: var(--border); border-radius: var(--radius-md);
-    background: var(--color-bg); color: var(--color-text);
-    font: inherit; font-size: var(--text-base);
-  }
-  .jtv-search:focus-visible { outline: none; border-color: var(--color-accent); }
-  .jtv-matchinfo { font-size: var(--text-sm); color: var(--color-text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .jtv-navbtn {
-    min-width: 36px; height: 36px; padding: 0 var(--space-2);
+    min-width: 34px; height: 34px; padding: 0 var(--space-2);
     border: var(--border); border-radius: var(--radius-sm);
     background: var(--color-surface); color: var(--color-text-muted);
     font-size: var(--text-sm); cursor: pointer; transition: var(--transition-color);
   }
   .jtv-navbtn:hover { color: var(--color-text); border-color: var(--color-border-strong); }
   .jtv-navbtn[hidden] { display: none; }
+
+  /* Compact one-line summary strip */
+  .jtv-summary { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); font-size: var(--text-xs); color: var(--color-text-muted); }
+  .jtv-summary[hidden] { display: none; }
+  .jtv-summary b { font-family: var(--font-mono); color: var(--color-text); font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; }
 
   /* Current-path panel */
   .jtv-path {
@@ -179,7 +235,11 @@ const inputId = `${slug}-input`;
     flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
   }
 
-  /* Large-payload guard */
+  /* Tree zone: fills the remaining height and scrolls; header zone above stays put. */
+  .jtv-treezone { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .jtv-empty { margin: auto; color: var(--color-text-subtle); font-size: var(--text-sm); text-align: center; }
+  .jtv-empty[hidden] { display: none; }
+
   .jtv-guard {
     display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap;
     padding: var(--space-3) var(--space-4);
@@ -189,15 +249,16 @@ const inputId = `${slug}-input`;
   .jtv-guard[hidden] { display: none; }
   .jtv-guard p { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
 
-  /* Tree */
-  .jtv-tree-section { gap: var(--space-2); }
+  .jtv-tree-section { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .jtv-tree-section[hidden] { display: none; }
   .jtv-tree {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: 1.7;
-    max-height: 520px;
+    flex: 1;
+    min-height: 0;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
   }
 
   .jtv-node { padding-left: var(--space-4); }
@@ -210,7 +271,7 @@ const inputId = `${slug}-input`;
     display: flex; align-items: center; gap: var(--space-1);
     border-radius: var(--radius-sm);
     padding: 1px var(--space-1);
-    min-height: 26px;
+    min-height: 24px;
   }
   .jtv-row:hover { background: var(--color-surface-hover); }
   .jtv-row.is-selected { background: var(--color-accent-subtle); }
@@ -264,6 +325,7 @@ const inputId = `${slug}-input`;
   var toolbar    = document.getElementById('jtv-toolbar');
   var treeSect   = document.getElementById('jtv-tree-section');
   var tree       = document.getElementById('jtv-tree');
+  var empty      = document.getElementById('jtv-empty');
   var guard      = document.getElementById('jtv-guard');
   var guardMsg   = document.getElementById('jtv-guard-msg');
   var renderBtn  = document.getElementById('jtv-render');
@@ -288,6 +350,20 @@ const inputId = `${slug}-input`;
   var forceRender = false;
   var lastSig = '';             // raw input signature the current tree was built for
   var prettyJson = '';          // canonical pretty-printed payload for copy + download
+
+  // ── Mobile pane switch (Input | Tree); inert on desktop where both show. ──
+  function setMobileView(view) {
+    root.setAttribute('data-mobile-view', view);
+    var tabs = root.querySelectorAll('.jtv-mtab');
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].setAttribute('aria-selected', tabs[i].getAttribute('data-view') === view ? 'true' : 'false');
+    }
+  }
+  function autoShowTree() {
+    // After an explicit action (sample/paste/load), reveal the tree on mobile without
+    // stealing focus mid-typing (this is never called from the input event handler).
+    if (ast && window.innerWidth < 1024) setMobileView('tree');
+  }
 
   function fmtBytes(n) {
     if (n < 1024) return n + ' B';
@@ -401,6 +477,7 @@ const inputId = `${slug}-input`;
     tree.innerHTML = '';
     tree.appendChild(buildNode(ast));
     buildDepthOptions();
+    empty.hidden = true;
     treeSect.hidden = false;
   }
 
@@ -417,7 +494,7 @@ const inputId = `${slug}-input`;
   function resetView() {
     status.textContent = ''; status.setAttribute('data-ok', '');
     summary.hidden = true; toolbar.hidden = true; treeSect.hidden = true;
-    guard.hidden = true; pathPanel.hidden = true;
+    guard.hidden = true; pathPanel.hidden = true; empty.hidden = false;
     prettyJson = '';
     ast = null; matches = []; matchIdx = -1;
   }
@@ -446,6 +523,7 @@ const inputId = `${slug}-input`;
       status.setAttribute('data-ok', 'false');
       status.textContent = '✗ ' + (res.error || 'Invalid JSON') + pos;
       summary.hidden = true; toolbar.hidden = true; treeSect.hidden = true; guard.hidden = true; pathPanel.hidden = true;
+      empty.hidden = true;
       prettyJson = '';
       return;
     }
@@ -463,9 +541,9 @@ const inputId = `${slug}-input`;
     lastSig = sig;
 
     if (s.nodes > RENDER_LIMIT && !forceRender) {
-      treeSect.hidden = true; pathPanel.hidden = true;
+      treeSect.hidden = true; pathPanel.hidden = true; empty.hidden = true;
       guard.hidden = false;
-      guardMsg.textContent = 'Large JSON detected — ' + s.nodes.toLocaleString() + ' nodes. Rendering the full tree may be slow.';
+      guardMsg.textContent = 'Large JSON detected: ' + s.nodes.toLocaleString() + ' nodes. Rendering the full tree may be slow.';
       return;
     }
     guard.hidden = true;
@@ -586,6 +664,10 @@ const inputId = `${slug}-input`;
     if (row) ensureActs(row);
   });
 
+  root.querySelectorAll('.jtv-mtab').forEach(function (b) {
+    b.addEventListener('click', function () { setMobileView(b.getAttribute('data-view')); });
+  });
+
   root.querySelectorAll('[data-expand]').forEach(function (b) {
     b.addEventListener('click', function () { setExpand(b.getAttribute('data-expand')); });
   });
@@ -608,13 +690,13 @@ const inputId = `${slug}-input`;
 
   document.getElementById('jtv-sample').addEventListener('click', function () {
     input.value = '{\n  "user": {\n    "name": "Ada Lovelace",\n    "id": 1843,\n    "active": true,\n    "roles": ["admin", "author"]\n  },\n  "posts": [\n    { "title": "On Computing", "tags": ["math", "history"], "likes": 42 },\n    { "title": "Notes", "tags": [], "likes": 0 }\n  ],\n  "meta": null\n}';
-    forceRender = false; update(); persist();
+    forceRender = false; update(); persist(); autoShowTree();
   });
 
   document.getElementById('jtv-paste').addEventListener('click', function () {
     if (navigator.clipboard && navigator.clipboard.readText) {
-      navigator.clipboard.readText().then(function (t) { input.value = t; forceRender = false; update(); persist(); })
-        .catch(function () { TT && TT.toast('Clipboard blocked — paste with Ctrl/Cmd+V'); });
+      navigator.clipboard.readText().then(function (t) { input.value = t; forceRender = false; update(); persist(); autoShowTree(); })
+        .catch(function () { TT && TT.toast('Clipboard blocked. Paste with Ctrl/Cmd+V'); });
     } else { TT && TT.toast('Paste with Ctrl/Cmd+V'); }
   });
 
@@ -633,13 +715,13 @@ const inputId = `${slug}-input`;
   var clearTimer;
   clearBtn.addEventListener('click', function () {
     if (!clearBtn.classList.contains('is-confirming')) {
-      clearBtn.classList.add('is-confirming'); clearBtn.textContent = 'Confirm Clear';
+      clearBtn.classList.add('is-confirming'); clearBtn.textContent = 'Confirm';
       clearTimer = setTimeout(function () { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }, 3000);
       return;
     }
     clearTimeout(clearTimer); clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear';
     input.value = ''; searchBox.value = ''; lastSig = ''; forceRender = false;
-    resetView(); persist(); input.focus();
+    resetView(); persist(); setMobileView('input'); input.focus();
   });
   document.addEventListener('click', function (e) {
     if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#jtv-clear')) {
@@ -654,6 +736,7 @@ const inputId = `${slug}-input`;
   } catch (_) {}
 
   // ToyTools.json attaches via a deferred module; wait so restored input renders on load.
-  if (TT && TT.onReady) TT.onReady(update); else update();
+  function init() { update(); autoShowTree(); }
+  if (TT && TT.onReady) TT.onReady(init); else init();
 })();
 </script>
