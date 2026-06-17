@@ -12,7 +12,6 @@ const slug = config.slug;
 // Group members share one state envelope so input survives switching modes.
 const stateKey = config.toolGroup ? `group:${config.toolGroup}` : slug;
 const inputId = `${slug}-input`;
-const outputId = `${slug}-output`;
 ---
 
 <div class="jtv-widget" data-slug={slug} data-state-key={stateKey}>
@@ -33,9 +32,6 @@ const outputId = `${slug}-output`;
     <button id="jtv-download" class="action-btn" type="button">Download JSON</button>
     <button id="jtv-clear" class="action-btn action-btn--clear" type="button" data-label="Clear">Clear</button>
   </div>
-
-  <!-- Hidden canonical pretty-JSON payload, target for the panel CopyButton + download. -->
-  <textarea id={outputId} class="jtv-sr-only" readonly aria-hidden="true" data-empty></textarea>
 
   <p id="jtv-status" class="io-status" data-ok="" aria-live="polite"></p>
 
@@ -97,11 +93,6 @@ const outputId = `${slug}-output`;
 <style is:global>
   .jtv-widget { display: flex; flex-direction: column; gap: var(--space-4); }
   .jtv-widget .io-panel { min-height: 220px; }
-
-  .jtv-sr-only {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-  }
 
   .jtv-section {
     border: var(--border);
@@ -268,7 +259,6 @@ const outputId = `${slug}-output`;
   var TT = window.ToyTools;
 
   var input      = document.getElementById(slug + '-input');
-  var output     = document.getElementById(slug + '-output');
   var status     = document.getElementById('jtv-status');
   var summary    = document.getElementById('jtv-summary');
   var toolbar    = document.getElementById('jtv-toolbar');
@@ -297,6 +287,7 @@ const outputId = `${slug}-output`;
   var matchIdx = -1;
   var forceRender = false;
   var lastSig = '';             // raw input signature the current tree was built for
+  var prettyJson = '';          // canonical pretty-printed payload for copy + download
 
   function fmtBytes(n) {
     if (n < 1024) return n + ' B';
@@ -310,7 +301,12 @@ const outputId = `${slug}-output`;
     return String(node.value);
   }
 
-  function makeActs(node) {
+  // Per-row copy actions are built lazily (on hover or tap) so an initial render of a
+  // large tree does not create thousands of buttons up front.
+  function ensureActs(row) {
+    if (row.querySelector('.jtv-rowacts')) return;
+    var node = nodeByPath[row.getAttribute('data-path')];
+    if (!node) return;
     var wrap = document.createElement('span');
     wrap.className = 'jtv-rowacts';
     function btn(label, act, title) {
@@ -326,7 +322,7 @@ const outputId = `${slug}-output`;
     wrap.appendChild(btn('value', 'copy-value', 'Copy value'));
     wrap.appendChild(btn('path', 'copy-path', 'Copy path: ' + (node.path || 'root')));
     wrap.appendChild(btn('$', 'copy-json', 'Copy JSONPath: ' + node.jsonPath));
-    return wrap;
+    row.appendChild(wrap);
   }
 
   function keyLabel(node) {
@@ -369,7 +365,6 @@ const outputId = `${slug}-output`;
       row.appendChild(val);
     }
 
-    row.appendChild(makeActs(node));
     return row;
   }
 
@@ -419,16 +414,11 @@ const outputId = `${slug}-output`;
     }
   }
 
-  function setOutput(text) {
-    output.value = text;
-    if (text) output.removeAttribute('data-empty'); else output.setAttribute('data-empty', '');
-  }
-
   function resetView() {
     status.textContent = ''; status.setAttribute('data-ok', '');
     summary.hidden = true; toolbar.hidden = true; treeSect.hidden = true;
     guard.hidden = true; pathPanel.hidden = true;
-    setOutput('');
+    prettyJson = '';
     ast = null; matches = []; matchIdx = -1;
   }
 
@@ -456,14 +446,14 @@ const outputId = `${slug}-output`;
       status.setAttribute('data-ok', 'false');
       status.textContent = '✗ ' + (res.error || 'Invalid JSON') + pos;
       summary.hidden = true; toolbar.hidden = true; treeSect.hidden = true; guard.hidden = true; pathPanel.hidden = true;
-      setOutput('');
+      prettyJson = '';
       return;
     }
 
     ast = res.ast;
     status.setAttribute('data-ok', 'true');
     status.textContent = '✓ Valid JSON';
-    setOutput(JSON.stringify(ast.value, null, 2));
+    prettyJson = JSON.stringify(ast.value, null, 2);
     var s = showSummary();
     toolbar.hidden = false;
 
@@ -587,7 +577,13 @@ const outputId = `${slug}-output`;
       return;
     }
     var row = e.target.closest('.jtv-row');
-    if (row) selectRow(row);
+    if (row) { ensureActs(row); selectRow(row); }
+  });
+
+  // Build the hover actions the first time a row is pointed at (desktop hover affordance).
+  tree.addEventListener('pointerover', function (e) {
+    var row = e.target.closest && e.target.closest('.jtv-row');
+    if (row) ensureActs(row);
   });
 
   root.querySelectorAll('[data-expand]').forEach(function (b) {
@@ -623,8 +619,8 @@ const outputId = `${slug}-output`;
   });
 
   document.getElementById('jtv-download').addEventListener('click', function () {
-    if (!output.value.trim()) { TT && TT.toast('Nothing to download!'); return; }
-    var blob = new Blob([output.value], { type: 'application/json' });
+    if (!prettyJson.trim()) { TT && TT.toast('Nothing to download!'); return; }
+    var blob = new Blob([prettyJson], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url; a.download = 'data.json';
