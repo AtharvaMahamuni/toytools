@@ -38,6 +38,7 @@ import { config as jsonFormatter }        from '@tools/developer-utilities/json-
 import { config as jsonMinifier }         from '@tools/developer-utilities/json-minifier/config';
 import { config as jsonValidator }        from '@tools/developer-utilities/json-validator/config';
 import { config as jsonToCsvConverter }   from '@tools/developer-utilities/json-to-csv-converter/config';
+import { config as jsonTreeViewer }       from '@tools/developer-utilities/json-tree-viewer/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
@@ -79,6 +80,7 @@ export const tools: ToolConfig[] = [
   jsonMinifier,
   jsonValidator,
   jsonToCsvConverter,
+  jsonTreeViewer,
   pomodoroTimer,
 ];
 

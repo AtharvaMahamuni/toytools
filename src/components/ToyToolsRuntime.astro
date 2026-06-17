@@ -13,6 +13,7 @@
   import { runEncoding } from '@lib/engines/encoding/registry';
   import { runHash } from '@lib/engines/hashing/registry';
   import { runStructuredData } from '@lib/engines/structured-data/registry';
+  import { jsonExplorer } from '@lib/json/explorer';
   const TT = ((window as any).ToyTools ??= {});
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
@@ -20,6 +21,7 @@
   TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
   TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
   TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
+  TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core
 
   // These engine fns attach via this *deferred module*, but widget inline scripts run
   // during parse — so a widget's first render can't call them yet. Flush onReady() now.

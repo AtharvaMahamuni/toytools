@@ -1,0 +1,236 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON tree viewer renders collapsible JSON as a set of nested rows so you can see
+      its shape at a glance. Paste in
+      <code>&#123;"user":&#123;"name":"Ada","roles":["admin"]&#125;&#125;</code> and you get a
+      tree you can expand, search, and click through, instead of one long line of text.
+    </p>
+    <p>
+      Also called a JSON visualizer or JSON explorer, this JSON viewer lets you explore an
+      unfamiliar API response, find the path to a buried value, or check the structure of a
+      config file. The data stays in your browser, and the view updates as you type. Because
+      nothing uploads, you can view JSON from internal systems safely.
+    </p>
+    <a href={toolHref} class="cta-link">Try the JSON Tree Viewer →</a>
+  </section>
+
+  <section id="what-is-a-tree-viewer">
+    <h2>What Does a JSON Tree Viewer Show? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON is a hierarchy. Objects hold named keys, arrays hold ordered items, and both can
+      nest to any depth. A tree viewer draws that hierarchy directly: each object and array
+      becomes a row you can open or close, and each value sits at its place in the structure.
+    </p>
+    <p>
+      Color tells you the type of every value. Strings, numbers, booleans, and null each get
+      their own shade, so you can scan a branch and read its types without parsing the text in
+      your head. Collapsed objects and arrays show a count, such as "5 items" or "3 keys", so
+      the size of a branch is visible before you expand it.
+    </p>
+    <p>
+      Above the tree, a summary reports the whole document at once: total size, maximum nesting
+      depth, and how many keys, objects, arrays, and leaf values it contains. That answers the
+      first question you usually have about a new payload, which is simply what am I looking at.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The tree is a view, not an edit">
+      <p>The viewer reads your JSON and draws it. It never reorders keys, changes values, or rewrites the structure. The Download button saves a pretty-printed copy, but the source you pasted is left exactly as it was.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="example">
+    <h2>A JSON Tree Viewer Example <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Take a small example. Paste
+      <code>&#123;"order":&#123;"id":42,"items":["pen","ink"],"paid":true&#125;&#125;</code> and the
+      viewer draws three levels. The root opens to <code>order</code>, which shows "3 keys".
+      Expand it and you see <code>id</code> as a number, <code>items</code> as an array marked
+      "2 items", and <code>paid</code> as a boolean.
+    </p>
+    <p>
+      Open the <code>items</code> array and each element appears on its own row with its index,
+      so <code>items[0]</code> is "pen". Select that row and the path panel shows
+      <code>order.items[0]</code>. For example, copying that path gives you the exact accessor to
+      read the value in code. The same example as raw text would be one dense line; the tree makes
+      its shape obvious.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Do You Explore and Search the Tree? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Click any object or array row to expand or collapse it. The toolbar adds bulk controls:
+      expand everything, collapse everything, open only objects, open only arrays, or expand to
+      a chosen depth. On a large document, expanding to depth 2 or 3 gives an overview without
+      drowning you in leaf values.
+    </p>
+    <p>
+      The search box matches keys, values, and full paths at the same time. As you type, every
+      hit is highlighted and its parent nodes open automatically so nothing stays buried. A
+      counter shows "Match 3 of 12", and the arrow buttons step through the results in document
+      order. This is how you find a specific key in a large JSON file without scrolling.
+    </p>
+    <p>
+      Selecting a row shows its address in the path panel. You get two forms: a dot path like
+      <code>data.users[0].name</code> for code, and a JSONPath like
+      <code>$.data.users[0].name</code> for query tools. Each row also has copy buttons for its
+      value, its dot path, and its JSONPath, so finding the exact path to a value and reusing it
+      in code takes one click.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When Would You Use a JSON Tree Viewer? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A few situations come up again and again:
+    </p>
+    <ul>
+      <li>
+        <strong>Debugging an API response.</strong> A developer gets a deeply nested
+        payload back from a request and needs to confirm one field. Paste the response, search
+        for the field, and read its value and path without hunting through raw text.
+      </li>
+      <li>
+        <strong>Wiring a value into code.</strong> Once you find the value you need, copy its
+        dot path or JSONPath straight from the node and paste it into your code or query,
+        with no risk of miscounting brackets by hand.
+      </li>
+      <li>
+        <strong>Learning an unfamiliar config file.</strong> Open a settings or manifest file
+        whose shape you do not know, collapse it to the top level, then expand the parts that
+        matter to understand how it is organized.
+      </li>
+      <li>
+        <strong>Auditing a large payload.</strong> The summary counts and the per-branch
+        badges let you check which fields are present across a large payload and spot where the
+        bulk of the data lives.
+      </li>
+    </ul>
+  </section>
+
+  <section id="paths">
+    <h2>Reading a JSON Path <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A path is a set of steps from the root of the document down to one value. Object keys
+      follow a dot, as in <code>.name</code>. Array elements are addressed by position in
+      square brackets, starting at zero, as in <code>[0]</code> for the first item. Put together,
+      <code>orders[2].total</code> means the total field of the third order.
+    </p>
+    <p>
+      The dot path and the JSONPath describe the same location in two notations. The dot path
+      drops into JavaScript and many query languages directly. The JSONPath, marked by its
+      leading <code>$</code>, is what JSONPath libraries and a number of API and testing tools
+      expect. Copy whichever one your target tool reads.
+    </p>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>JSON Tree Viewer vs Other Ways to View JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      There are several ways to view JSON, and each suits a different job. Reading raw text works
+      for a few lines, but it breaks down once data nests. A formatter indents the text so it is
+      readable top to bottom, yet you still scroll through every value by hand. A code editor adds
+      folding, however it treats the data as code rather than structure.
+    </p>
+    <p>
+      A JSON tree viewer, sometimes labeled a JSON explorer or JSON visualizer, is built for
+      structure instead of text. Therefore it wins when the document is deep or large: you collapse
+      branches you do not care about, search across keys and values at once, and copy a path
+      directly. For a quick reformat, the alternatives are fine. To explore and navigate, the tree
+      is the faster path.
+    </p>
+    <ReferenceBlock type="note" heading="A tree viewer and a formatter solve different problems">
+      <p>A formatter rewrites JSON as clean, indented text you can read or paste elsewhere. A tree viewer keeps the data interactive so you can collapse noise, search, and copy paths. Use the formatter to produce text, and the viewer to explore structure.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Pasting invalid JSON and expecting a tree">
+      <p>
+        The tree renders only for valid JSON. Trailing commas, single quotes, unquoted keys,
+        or a missing bracket all stop it. When that happens the status line shows the parser
+        message and, where it can, the line and column of the error. Fix that spot, or run the
+        text through the <a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a> first.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Confusing array indices with object keys">
+      <p>
+        In a path like <code>users[0].name</code>, the <code>[0]</code> is a position in an
+        array, not a key named "0". Object keys come after a dot. Mixing the two leads to a path
+        your code cannot resolve, so read each step as either a numbered array slot or a named
+        object field.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting the viewer to edit the data">
+      <p>
+        The viewer explores JSON; it does not change it. There is no inline editing, and the
+        tree never rewrites your input. To reformat or shrink the data, switch to the Format or
+        Minify mode in the same JSON workspace and work from there.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm the syntax is valid before exploring the tree.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Pretty-print the same data as indented text.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-minifier/')}>JSON Minifier</a>: Compact the data for storage or transmission.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

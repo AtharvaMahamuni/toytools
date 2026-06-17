@@ -11,6 +11,7 @@ import { items as sha1HashGeneratorFaqs }  from '@tools/developer-utilities/sha1
 import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha256-hash-generator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as jsonToCsvConverterFaqs } from '@tools/developer-utilities/json-to-csv-converter/faq';
+import { items as jsonTreeViewerFaqs }  from '@tools/developer-utilities/json-tree-viewer/faq';
 import { items as sha512HashGeneratorFaqs }  from '@tools/developer-utilities/sha512-hash-generator/faq';
 import { items as discountCalculatorFaqs }   from '@tools/number/discount-calculator/faq';
 import { items as marginCalculatorFaqs }     from '@tools/number/margin-calculator/faq';
@@ -55,6 +56,7 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'sha256-hash-generator':       sha256HashGeneratorFaqs,
   'hex-encoder-decoder':         hexEncoderDecoderFaqs,
   'json-to-csv-converter':       jsonToCsvConverterFaqs,
+  'json-tree-viewer':            jsonTreeViewerFaqs,
   'sha512-hash-generator':       sha512HashGeneratorFaqs,
   'discount-calculator':         discountCalculatorFaqs,
   'margin-calculator':           marginCalculatorFaqs,

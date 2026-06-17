@@ -14,8 +14,13 @@ test.describe('homepage directory', () => {
     await expect(caseEntry).toHaveCount(1);
     await expect(caseEntry).toHaveAttribute('data-group-slugs', /snake-case-converter/);
 
-    // 32 tools − 7 case converters + 1 group entry = 26 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(26);
+    // JSON tools (formatter, minifier, tree viewer) collapse the same way.
+    const jsonEntry = directory.getByRole('link', { name: 'JSON Tools' });
+    await expect(jsonEntry).toHaveCount(1);
+    await expect(jsonEntry).toHaveAttribute('data-group-slugs', /json-tree-viewer/);
+
+    // 39 tools − 6 collapsed case converters − 2 collapsed JSON tools = 31 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(31);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
