@@ -18,6 +18,7 @@ export const registeredGuideSlugs = [
   'sha256-hash-generator',
   'hex-encoder-decoder',
   'json-to-csv-converter',
+  'json-to-yaml-converter',
   'json-tree-viewer',
   'sha512-hash-generator',
   'discount-calculator',

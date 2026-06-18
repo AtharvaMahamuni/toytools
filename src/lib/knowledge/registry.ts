@@ -19,6 +19,7 @@ import { knowledge as jsonFormatter }   from '@tools/developer-utilities/json-fo
 import { knowledge as jsonMinifier }    from '@tools/developer-utilities/json-minifier/knowledge';
 import { knowledge as jsonValidator }   from '@tools/developer-utilities/json-validator/knowledge';
 import { knowledge as jsonToCsv }       from '@tools/developer-utilities/json-to-csv-converter/knowledge';
+import { knowledge as jsonToYaml }      from '@tools/developer-utilities/json-to-yaml-converter/knowledge';
 import { knowledge as jsonTreeViewer }  from '@tools/developer-utilities/json-tree-viewer/knowledge';
 
 // --- Number utilities ---
@@ -47,6 +48,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   discountCalculator,
   tipCalculator,
   jsonToCsv,
+  jsonToYaml,
   jsonTreeViewer,
 ];
 

@@ -131,6 +131,127 @@ describe('json-to-csv', () => {
   });
 });
 
+describe('json-to-yaml', () => {
+  const run = (s: string) => STRUCTURED_TOOLS['json-to-yaml'].execute(s);
+
+  it('returns empty output for empty input', () =>
+    expect(run('   ')).toEqual({ ok: true, output: '' }));
+
+  it('returns error for invalid JSON', () => {
+    const r = run('{bad}');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBeTruthy();
+  });
+
+  it('serializes a flat object', () => {
+    const r = run('{"name":"Alice","age":30}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('name: Alice\nage: 30');
+  });
+
+  it('serializes nested objects with 2-space indent', () => {
+    const r = run('{"a":{"b":{"c":1}}}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('a:\n  b:\n    c: 1');
+  });
+
+  it('serializes arrays of primitives', () => {
+    const r = run('[1,2,3]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('- 1\n- 2\n- 3');
+  });
+
+  it('serializes arrays of objects', () => {
+    const r = run('[{"name":"Alice","age":30},{"name":"Bob","age":25}]');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('- name: Alice\n  age: 30\n- name: Bob\n  age: 25');
+  });
+
+  it('quotes strings that look like YAML reserved words', () => {
+    const r = run('{"flag":"true","empty":"null"}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toContain('"true"');
+    expect(r.output).toContain('"null"');
+  });
+
+  it('quotes strings that look numeric', () => {
+    const r = run('{"zip":"10001"}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toContain('"10001"');
+  });
+
+  it('uses literal block scalar for multi-line strings', () => {
+    const r = run('{"notes":"line one\\nline two"}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toContain('|-\n');
+  });
+
+  it('serializes null and booleans', () => {
+    const r = run('{"x":null,"y":true,"z":false}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('x: null\ny: true\nz: false');
+  });
+
+  it('resolves through runStructuredData', () => {
+    const r = runStructuredData('json-to-yaml', '{"a":1}');
+    expect(r.ok).toBe(true);
+    expect(r.output).toBe('a: 1');
+  });
+});
+
+describe('yaml-to-json', () => {
+  const run = (s: string) => STRUCTURED_TOOLS['yaml-to-json'].execute(s);
+
+  it('returns empty output for empty input', () =>
+    expect(run('   ')).toEqual({ ok: true, output: '' }));
+
+  it('returns error for invalid YAML', () => {
+    const r = run('key: [unclosed');
+    expect(r.ok).toBe(false);
+    expect(r.error).toBeTruthy();
+  });
+
+  it('converts a flat YAML mapping to JSON', () => {
+    const r = run('name: Alice\nage: 30');
+    expect(r.ok).toBe(true);
+    const parsed = JSON.parse(r.output);
+    expect(parsed).toEqual({ name: 'Alice', age: 30 });
+  });
+
+  it('converts a YAML list to a JSON array', () => {
+    const r = run('- 1\n- 2\n- 3');
+    expect(r.ok).toBe(true);
+    expect(JSON.parse(r.output)).toEqual([1, 2, 3]);
+  });
+
+  it('converts nested YAML to JSON', () => {
+    const r = run('a:\n  b:\n    c: 1');
+    expect(r.ok).toBe(true);
+    expect(JSON.parse(r.output)).toEqual({ a: { b: { c: 1 } } });
+  });
+
+  it('handles YAML booleans and null', () => {
+    const r = run('flag: true\nempty: null');
+    expect(r.ok).toBe(true);
+    expect(JSON.parse(r.output)).toEqual({ flag: true, empty: null });
+  });
+
+  it('round-trips JSON through YAML', () => {
+    const original = { name: 'Alice', tags: ['a', 'b'], meta: { active: true } };
+    const yaml = runStructuredData('json-to-yaml', JSON.stringify(original));
+    expect(yaml.ok).toBe(true);
+    const back = run(yaml.output);
+    expect(back.ok).toBe(true);
+    expect(JSON.parse(back.output)).toEqual(original);
+  });
+
+  it('resolves through runStructuredData', () => {
+    const r = runStructuredData('yaml-to-json', 'a: 1');
+    expect(r.ok).toBe(true);
+    expect(JSON.parse(r.output)).toEqual({ a: 1 });
+  });
+});
+
 describe('json-tree-viewer', () => {
   const run = (s: string) => STRUCTURED_TOOLS['json-tree-viewer'].execute(s);
   it('pretty-prints valid JSON for the copy/download payload', () =>

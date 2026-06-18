@@ -1,0 +1,192 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON to YAML converter translates JSON's brace-and-bracket syntax into YAML's
+      indentation-based format. Paste in <code>&#123;"name":"Alice","active":true&#125;</code> and
+      you get <code>name: Alice</code> / <code>active: true</code> — the same data, no
+      punctuation noise. The converter on this page also handles the reverse: paste YAML
+      and get back clean, formatted JSON.
+    </p>
+    <p>
+      Use this tool to prepare JSON data for Kubernetes manifests, Docker Compose files,
+      Ansible playbooks, GitHub Actions workflows, and any configuration system that expects
+      YAML. Four options let you control indentation, key order, document markers, and array
+      style.
+    </p>
+    <a href={toolHref} class="cta-link">Open the JSON to YAML Converter →</a>
+  </section>
+
+  <section id="how-conversion-works">
+    <h2>How JSON to YAML Conversion Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON and YAML represent the same abstract data model: mappings (key-value pairs),
+      sequences (ordered lists), and scalars (strings, numbers, booleans, nulls). The
+      conversion is a syntax translation — the structure is preserved exactly.
+    </p>
+    <p>
+      JSON objects become YAML block mappings. Each key-value pair moves to its own line;
+      the colon-space separator replaces the JSON colon and braces disappear. JSON arrays
+      become YAML block sequences, with each item on its own line starting with a dash and
+      a space. Nested structures are represented by increasing indentation rather than
+      nested brackets.
+    </p>
+    <p>
+      Scalars are mostly preserved as-is, with one important exception: strings that would
+      be misread by a YAML parser are automatically quoted. A string like <code>"10001"</code>
+      would be parsed as the integer 10001 without quotes; the converter detects this and
+      wraps it in double quotes to preserve the string type.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Indentation is structure in YAML">
+      <p>In JSON, brackets and braces encode structure explicitly. In YAML, whitespace indentation encodes it. A two-space shift changes which object a key belongs to. This makes YAML sensitive to copy-paste errors but very readable when formatted consistently.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="yaml-to-json">
+    <h2>Converting YAML Back to JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Switch the converter to YAML → JSON mode and paste any YAML document. The tool
+      parses the YAML and outputs pretty-printed, 2-space-indented JSON. This is useful
+      when you need to pass YAML configuration into an API, validate it against a JSON
+      Schema, or process it with code that lacks a YAML parser.
+    </p>
+    <p>
+      The converter handles YAML features that have no direct JSON equivalent. Timestamps
+      (like <code>2024-01-01</code>) become ISO 8601 strings. YAML null values become JSON
+      <code>null</code>. Boolean variants like <code>yes</code>, <code>no</code>,
+      <code>on</code>, and <code>off</code> become <code>true</code> or <code>false</code>.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When to Use JSON to YAML Conversion <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Kubernetes manifests.</strong> Kubernetes expects YAML for deployments,
+        services, ConfigMaps, and secrets. If you have infrastructure data in JSON from a
+        script or API, this converter gets it into the expected format instantly.
+      </li>
+      <li>
+        <strong>Docker Compose files.</strong> Docker Compose uses YAML for service
+        definitions. Converting a JSON service structure to YAML is a common step when
+        automating container configuration.
+      </li>
+      <li>
+        <strong>Ansible playbooks and variables.</strong> Ansible uses YAML for playbooks,
+        inventory variables, and role defaults. Converting JSON data sources to YAML makes
+        them consumable by Ansible without manual reformatting.
+      </li>
+      <li>
+        <strong>GitHub Actions and CI/CD pipelines.</strong> Workflow files for GitHub
+        Actions, GitLab CI, CircleCI, and most other CI platforms are written in YAML.
+        This converter bridges the gap when pipeline data originates as JSON.
+      </li>
+      <li>
+        <strong>Application configuration files.</strong> Many applications (Helm charts,
+        OpenAPI specs, cloud formation templates) use YAML for configuration. Generating
+        YAML config from JSON source data is a standard task in DevOps workflows.
+      </li>
+    </ul>
+  </section>
+
+  <section id="format-comparison">
+    <h2>JSON vs YAML: Which to Use <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both formats represent the same data and are equally expressive for standard JSON
+      types. The choice is mostly about context and tooling.
+    </p>
+    <p>
+      JSON is the right choice for APIs, inter-service communication, and data storage.
+      It is compact, unambiguous, and natively supported in every programming language.
+      JSON's explicit syntax (quotes, brackets, commas) eliminates any parsing ambiguity.
+    </p>
+    <p>
+      YAML is the right choice for human-authored configuration files. Its reduced
+      punctuation makes large config documents easier to scan, and the indentation-based
+      structure mirrors how most developers think about nesting. It also supports comments,
+      which JSON does not.
+    </p>
+    <ReferenceBlock type="note" heading="YAML is a superset of JSON">
+      <p>Valid JSON is valid YAML. A YAML parser can read any JSON document. The reverse is not true: YAML features like comments, anchors, aliases, and multi-document streams have no JSON equivalent. The converter produces standard YAML without these advanced features, but the output is always valid YAML.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Using tabs for indentation">
+      <p>YAML parsers reject tab characters for indentation — only spaces are allowed. The converter always produces space-only indentation, but if you edit the YAML by hand and accidentally insert a tab, the parser will reject the document with a cryptic error.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Not quoting string values that look like numbers or booleans">
+      <p>The string <code>"10001"</code> (a ZIP code) becomes the integer 10001 in YAML if left unquoted. The string <code>"true"</code> becomes the boolean <code>true</code>. The converter handles quoting automatically, but if you write YAML by hand or edit the output, be careful with values that look like reserved words or numbers.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Misaligned indentation in nested structures">
+      <p>A single extra or missing space in an indented block changes the document structure. If your YAML parser reports unexpected keys or wrong nesting, the cause is almost always indentation. Copy the output from this converter, which produces consistently-indented YAML, rather than reformatting by hand.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting YAML to support all JSON structures exactly">
+      <p>JSON supports arbitrary string keys (including keys with spaces, colons, or special characters). YAML supports these too, but they must be quoted. The converter handles this automatically — keys like <code>"my key"</code> or <code>"key:with:colons"</code> are wrapped in double quotes in the output.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Format and pretty-print JSON before converting.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Verify JSON syntax is valid before passing it to the converter.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-to-csv-converter/')}>JSON to CSV Converter</a>: Convert JSON arrays to flat CSV for spreadsheets.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-tree-viewer/')}>JSON Tree Viewer</a>: Explore the structure of a JSON document interactively.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color 150ms, color 150ms;
+  }
+  .cta-link:hover {
+    background: var(--color-accent-strong);
+    text-decoration: none;
+  }
+</style>

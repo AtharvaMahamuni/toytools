@@ -10,6 +10,8 @@ import { jsonMinifier } from './jsonMinifier';
 import { jsonValidator } from './jsonValidator';
 import { jsonToCsv } from './jsonToCsv';
 import { jsonTreeViewer } from './jsonTreeViewer';
+import { jsonToYaml } from './jsonToYaml';
+import { yamlToJson } from './yamlToJson';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
@@ -18,6 +20,8 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
   'json-validator': jsonValidator,
   'json-to-csv': jsonToCsv,
   'json-tree-viewer': jsonTreeViewer,
+  'json-to-yaml': jsonToYaml,
+  'yaml-to-json': yamlToJson,
 };
 
 /**

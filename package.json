@@ -41,12 +41,14 @@
     "@fontsource-variable/geist": "^5.2.9",
     "@fontsource-variable/geist-mono": "^5.2.8",
     "astro": "^6.4.3",
+    "js-yaml": "^4.2.0",
     "mermaid": "^11.15.0"
   },
   "devDependencies": {
     "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.3",
     "@playwright/test": "^1.60.0",
+    "@types/js-yaml": "^4.0.9",
     "@vitest/coverage-v8": "^4.1.8",
     "playwright": "^1.60.0",
     "tsx": "^4.22.4",
