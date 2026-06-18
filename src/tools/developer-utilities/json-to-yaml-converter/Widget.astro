@@ -1,0 +1,593 @@
+---
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { config } from './config';
+---
+
+<div class="jyaml-widget">
+  <IoPanel label="Input" labelFor="jyaml-input" variant="mono">
+    <textarea
+      id="jyaml-input"
+      placeholder={'{\n  "name": "Alice",\n  "role": "engineer",\n  "active": true\n}'}
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+    ></textarea>
+  </IoPanel>
+
+  <div class="tool-actions jyaml-controls">
+    <div class="jyaml-mode-pills" role="group" aria-label="Conversion direction">
+      <button id="jyaml-mode-j2y" class="jyaml-pill jyaml-pill--active" type="button" aria-pressed="true">JSON → YAML</button>
+      <button id="jyaml-mode-y2j" class="jyaml-pill" type="button" aria-pressed="false">YAML → JSON</button>
+    </div>
+    <button id="jyaml-convert" class="action-btn jyaml-btn-primary" type="button">Convert</button>
+    <button id="jyaml-example" class="action-btn" type="button">Load Example</button>
+    <button id="jyaml-clear" class="action-btn action-btn--clear" type="button" data-label="Clear">Clear</button>
+  </div>
+
+  <div id="jyaml-options" class="jyaml-options" aria-label="Conversion options">
+    <div class="jyaml-opt-group">
+      <span class="jyaml-opt-label">Indent</span>
+      <div class="jyaml-indent-pills" role="group" aria-label="Indent width">
+        <button id="jyaml-indent-2" class="jyaml-small-pill jyaml-small-pill--active" type="button" data-indent="2" aria-pressed="true">2</button>
+        <button id="jyaml-indent-4" class="jyaml-small-pill" type="button" data-indent="4" aria-pressed="false">4</button>
+      </div>
+    </div>
+    <label class="jyaml-check">
+      <input type="checkbox" id="jyaml-sort-keys" />
+      <span>Sort keys A–Z</span>
+    </label>
+    <label class="jyaml-check">
+      <input type="checkbox" id="jyaml-doc-marker" />
+      <span>--- marker</span>
+    </label>
+    <label class="jyaml-check">
+      <input type="checkbox" id="jyaml-flow-scalars" />
+      <span>Flow arrays</span>
+    </label>
+  </div>
+
+  <div id="jyaml-error" class="jyaml-error" hidden></div>
+
+  <section id="jyaml-stats-section" class="jyaml-stats-section" hidden aria-label="Output statistics">
+    <span class="jyaml-stat-item">Lines: <strong id="jyaml-lines">0</strong></span>
+    <span class="jyaml-stat-sep" aria-hidden="true">·</span>
+    <span class="jyaml-stat-item">Size: <strong id="jyaml-size">0 B</strong></span>
+  </section>
+
+  <section id="jyaml-output-section" class="jyaml-section" hidden aria-label="Output">
+    <span class="jyaml-section-title" id="jyaml-output-label">YAML Output</span>
+    <textarea id="jyaml-output" class="jyaml-output" readonly spellcheck="false" aria-label="Converted output" aria-labelledby="jyaml-output-label"></textarea>
+    <div class="tool-actions jyaml-output-actions">
+      <button id="jyaml-copy" class="action-btn action-btn--copy" type="button">Copy YAML</button>
+      <button id="jyaml-download" class="action-btn" type="button">Download .yaml</button>
+    </div>
+  </section>
+</div>
+
+<CategoryDiscovery toolSlug={config.slug} />
+
+<style is:global>
+  .jyaml-widget {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .jyaml-widget .io-panel {
+    min-height: 260px;
+  }
+
+  .jyaml-controls {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  /* Mode pills */
+  .jyaml-mode-pills {
+    display: flex;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .jyaml-pill {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    border: none;
+    cursor: pointer;
+    transition: background-color 150ms, color 150ms;
+    line-height: 1.4;
+    min-height: var(--touch-target);
+  }
+  .jyaml-pill:first-child {
+    border-right: var(--border);
+  }
+  .jyaml-pill--active,
+  .jyaml-pill[aria-pressed="true"] {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+  .jyaml-pill:hover:not(.jyaml-pill--active):not([aria-pressed="true"]) {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  .jyaml-btn-primary {
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    border-color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+  .jyaml-btn-primary:hover {
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+    color: var(--color-text-inverse);
+  }
+
+  /* Options bar */
+  .jyaml-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .jyaml-options[hidden] { display: none; }
+
+  .jyaml-opt-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .jyaml-opt-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .jyaml-indent-pills {
+    display: flex;
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .jyaml-small-pill {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    border: none;
+    cursor: pointer;
+    transition: background-color 150ms, color 150ms;
+    min-height: 32px;
+  }
+  .jyaml-small-pill:first-child {
+    border-right: var(--border);
+  }
+  .jyaml-small-pill--active,
+  .jyaml-small-pill[aria-pressed="true"] {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+  .jyaml-small-pill:hover:not(.jyaml-small-pill--active):not([aria-pressed="true"]) {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  .jyaml-check {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    user-select: none;
+    min-height: 32px;
+  }
+  .jyaml-check input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  /* Error */
+  .jyaml-error {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius-md);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    white-space: pre-wrap;
+  }
+  .jyaml-error[hidden] { display: none; }
+
+  /* Stats strip */
+  .jyaml-stats-section {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .jyaml-stats-section[hidden] { display: none; }
+  .jyaml-stats-section strong {
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-mono);
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .jyaml-stat-sep {
+    color: var(--color-text-subtle);
+  }
+
+  /* Output section */
+  .jyaml-section {
+    border: var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .jyaml-section[hidden] { display: none; }
+
+  .jyaml-section-title {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .jyaml-output {
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    resize: vertical;
+    font-variant-ligatures: none;
+  }
+
+  .jyaml-output-actions {
+    padding-block: 0;
+  }
+
+  .action-btn.is-success {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: #fff;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var slug = 'json-to-yaml-converter';
+  var TT = window.ToyTools;
+
+  var inputEl       = document.getElementById('jyaml-input');
+  var convertBtn    = document.getElementById('jyaml-convert');
+  var exampleBtn    = document.getElementById('jyaml-example');
+  var clearBtn      = document.getElementById('jyaml-clear');
+  var modeJ2Y       = document.getElementById('jyaml-mode-j2y');
+  var modeY2J       = document.getElementById('jyaml-mode-y2j');
+  var optionsBar    = document.getElementById('jyaml-options');
+  var indent2Btn    = document.getElementById('jyaml-indent-2');
+  var indent4Btn    = document.getElementById('jyaml-indent-4');
+  var sortKeysEl    = document.getElementById('jyaml-sort-keys');
+  var docMarkerEl   = document.getElementById('jyaml-doc-marker');
+  var flowScalarsEl = document.getElementById('jyaml-flow-scalars');
+  var errorEl       = document.getElementById('jyaml-error');
+  var statsSection  = document.getElementById('jyaml-stats-section');
+  var linesEl       = document.getElementById('jyaml-lines');
+  var sizeEl        = document.getElementById('jyaml-size');
+  var outputSection = document.getElementById('jyaml-output-section');
+  var outputEl      = document.getElementById('jyaml-output');
+  var outputLabel   = document.getElementById('jyaml-output-label');
+  var copyBtn       = document.getElementById('jyaml-copy');
+  var downloadBtn   = document.getElementById('jyaml-download');
+
+  if (!inputEl || !convertBtn) return;
+
+  // State
+  var mode = 'j2y'; // 'j2y' | 'y2j'
+  var indent = 2;
+  var lastOutput = '';
+  var lastOk = false;
+
+  function getOpts() {
+    return {
+      indent: indent,
+      sortKeys: sortKeysEl ? sortKeysEl.checked : false,
+      docMarker: docMarkerEl ? docMarkerEl.checked : false,
+      flowScalars: flowScalarsEl ? flowScalarsEl.checked : false,
+    };
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+
+  function showError(msg) {
+    lastOk = false;
+    lastOutput = '';
+    if (errorEl) { errorEl.textContent = msg; errorEl.hidden = false; }
+    if (statsSection) statsSection.hidden = true;
+    if (outputSection) outputSection.hidden = true;
+  }
+
+  function clearResults() {
+    lastOk = false;
+    lastOutput = '';
+    if (errorEl) errorEl.hidden = true;
+    if (statsSection) statsSection.hidden = true;
+    if (outputSection) outputSection.hidden = true;
+  }
+
+  function showOutput(text) {
+    lastOk = true;
+    lastOutput = text;
+    if (errorEl) errorEl.hidden = true;
+
+    var lines = text.split('\n').length;
+    var bytes = new TextEncoder().encode(text).length;
+    if (linesEl) linesEl.textContent = String(lines);
+    if (sizeEl) sizeEl.textContent = formatBytes(bytes);
+    if (statsSection) statsSection.hidden = false;
+
+    if (outputEl) outputEl.value = text;
+    if (outputSection) outputSection.hidden = false;
+  }
+
+  function convert() {
+    var raw = inputEl.value;
+    if (!raw.trim()) { clearResults(); return; }
+
+    if (mode === 'j2y') {
+      // JSON → YAML: parse JSON then call ToyTools.yaml.serialize
+      var parsed;
+      try { parsed = JSON.parse(raw); }
+      catch (e) {
+        showError('Invalid JSON — ' + (e.message || 'check for missing commas, quotes, or brackets.'));
+        return;
+      }
+      if (!(window.ToyTools && ToyTools.yaml && ToyTools.yaml.serialize)) {
+        // Engine not ready yet; will be called again via onReady
+        return;
+      }
+      var yaml;
+      try { yaml = ToyTools.yaml.serialize(parsed, getOpts()); }
+      catch (e) { showError('Serialization error: ' + e.message); return; }
+      showOutput(yaml);
+    } else {
+      // YAML → JSON: use engine (js-yaml backed)
+      if (!(window.ToyTools && ToyTools.runStructuredData)) return;
+      var res = ToyTools.runStructuredData('yaml-to-json', raw);
+      if (!res.ok) {
+        showError('Invalid YAML — ' + (res.error || 'check indentation and syntax.'));
+        return;
+      }
+      showOutput(res.output);
+    }
+  }
+
+  function setMode(newMode) {
+    var swapping = (newMode !== mode) && lastOk && lastOutput.trim();
+    mode = newMode;
+
+    var isJ2Y = (mode === 'j2y');
+
+    // Update mode pill UI
+    if (modeJ2Y) {
+      modeJ2Y.classList.toggle('jyaml-pill--active', isJ2Y);
+      modeJ2Y.setAttribute('aria-pressed', isJ2Y ? 'true' : 'false');
+    }
+    if (modeY2J) {
+      modeY2J.classList.toggle('jyaml-pill--active', !isJ2Y);
+      modeY2J.setAttribute('aria-pressed', isJ2Y ? 'false' : 'true');
+    }
+
+    // Show/hide options bar
+    if (optionsBar) optionsBar.hidden = !isJ2Y;
+
+    // Update output label and action buttons
+    if (outputLabel) outputLabel.textContent = isJ2Y ? 'YAML Output' : 'JSON Output';
+    if (copyBtn) copyBtn.textContent = isJ2Y ? 'Copy YAML' : 'Copy JSON';
+    if (downloadBtn) downloadBtn.textContent = isJ2Y ? 'Download .yaml' : 'Download .json';
+
+    // Update input placeholder
+    if (inputEl) {
+      inputEl.placeholder = isJ2Y
+        ? '{\n  "name": "Alice",\n  "role": "engineer",\n  "active": true\n}'
+        : 'name: Alice\nrole: engineer\nactive: true';
+    }
+
+    // Swap content if switching and output was valid
+    if (swapping) {
+      inputEl.value = lastOutput;
+      clearResults();
+    }
+
+    convert();
+    persist();
+  }
+
+  function setIndent(val) {
+    indent = val;
+    if (indent2Btn) {
+      indent2Btn.classList.toggle('jyaml-small-pill--active', val === 2);
+      indent2Btn.setAttribute('aria-pressed', val === 2 ? 'true' : 'false');
+    }
+    if (indent4Btn) {
+      indent4Btn.classList.toggle('jyaml-small-pill--active', val === 4);
+      indent4Btn.setAttribute('aria-pressed', val === 4 ? 'true' : 'false');
+    }
+    convert();
+    persist();
+  }
+
+  function persist() {
+    TT && TT.state && TT.state.save(slug, {
+      input: inputEl.value,
+      mode: mode,
+      indent: indent,
+      sortKeys: sortKeysEl ? sortKeysEl.checked : false,
+      docMarker: docMarkerEl ? docMarkerEl.checked : false,
+      flowScalars: flowScalarsEl ? flowScalarsEl.checked : false,
+    });
+  }
+
+  // Restore saved state
+  try {
+    var saved = TT && TT.state && TT.state.load(slug);
+    if (saved) {
+      if (typeof saved.input === 'string') inputEl.value = saved.input;
+      if (saved.mode === 'y2j') {
+        mode = 'y2j';
+        if (modeJ2Y) { modeJ2Y.classList.remove('jyaml-pill--active'); modeJ2Y.setAttribute('aria-pressed', 'false'); }
+        if (modeY2J) { modeY2J.classList.add('jyaml-pill--active'); modeY2J.setAttribute('aria-pressed', 'true'); }
+        if (optionsBar) optionsBar.hidden = true;
+        if (outputLabel) outputLabel.textContent = 'JSON Output';
+        if (copyBtn) copyBtn.textContent = 'Copy JSON';
+        if (downloadBtn) downloadBtn.textContent = 'Download .json';
+        if (inputEl) inputEl.placeholder = 'name: Alice\nrole: engineer\nactive: true';
+      }
+      if (saved.indent === 4) setIndent(4);
+      if (sortKeysEl && saved.sortKeys) sortKeysEl.checked = true;
+      if (docMarkerEl && saved.docMarker) docMarkerEl.checked = true;
+      if (flowScalarsEl && saved.flowScalars) flowScalarsEl.checked = true;
+    }
+  } catch (_) {}
+
+  // Events: mode pills
+  if (modeJ2Y) modeJ2Y.addEventListener('click', function () { setMode('j2y'); });
+  if (modeY2J) modeY2J.addEventListener('click', function () { setMode('y2j'); });
+
+  // Events: indent pills
+  if (indent2Btn) indent2Btn.addEventListener('click', function () { setIndent(2); });
+  if (indent4Btn) indent4Btn.addEventListener('click', function () { setIndent(4); });
+
+  // Events: option checkboxes
+  function onOptionChange() { convert(); persist(); }
+  if (sortKeysEl) sortKeysEl.addEventListener('change', onOptionChange);
+  if (docMarkerEl) docMarkerEl.addEventListener('change', onOptionChange);
+  if (flowScalarsEl) flowScalarsEl.addEventListener('change', onOptionChange);
+
+  // Events: live conversion
+  inputEl.addEventListener('input', function () { convert(); persist(); });
+
+  // Events: Convert button (explicit)
+  convertBtn.addEventListener('click', function () { convert(); persist(); });
+
+  // Events: Load Example
+  var JSON_EXAMPLE = '{\n  "name": "Alice",\n  "age": 30,\n  "active": true,\n  "address": {\n    "city": "New York",\n    "zip": "10001"\n  },\n  "tags": ["engineer", "backend"],\n  "score": null\n}';
+  var YAML_EXAMPLE = 'name: Alice\nage: 30\nactive: true\naddress:\n  city: New York\n  zip: "10001"\ntags:\n  - engineer\n  - backend\nscore: null';
+
+  if (exampleBtn) {
+    exampleBtn.addEventListener('click', function () {
+      inputEl.value = mode === 'j2y' ? JSON_EXAMPLE : YAML_EXAMPLE;
+      convert();
+      persist();
+    });
+  }
+
+  // Events: Clear (2-click confirm)
+  var clearTimer;
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimer = setTimeout(function () {
+          clearBtn.classList.remove('is-confirming');
+          clearBtn.textContent = 'Clear';
+        }, 3000);
+        return;
+      }
+      clearTimeout(clearTimer);
+      clearBtn.classList.remove('is-confirming');
+      clearBtn.textContent = 'Clear';
+      inputEl.value = '';
+      clearResults();
+      persist();
+      inputEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#jyaml-clear')) {
+        clearTimeout(clearTimer);
+        clearBtn.classList.remove('is-confirming');
+        clearBtn.textContent = 'Clear';
+      }
+    });
+  }
+
+  // Events: Copy
+  var copyTimer;
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      if (!outputEl || !outputEl.value.trim()) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(outputEl.value);
+      copyBtn.classList.add('is-success');
+      var label = mode === 'j2y' ? 'Copy YAML' : 'Copy JSON';
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = label;
+      }, 2000);
+    });
+  }
+
+  // Events: Download
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+      if (!outputEl || !outputEl.value.trim()) { TT && TT.toast('Nothing to download!'); return; }
+      var ext = mode === 'j2y' ? 'yaml' : 'json';
+      var mime = mode === 'j2y' ? 'text/yaml' : 'application/json';
+      var blob = new Blob([outputEl.value], { type: mime });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'output.' + ext;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  // Initial conversion (after runtime is ready)
+  if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(convert); else convert();
+})();
+</script>
