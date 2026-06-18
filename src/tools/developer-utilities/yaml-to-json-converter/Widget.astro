@@ -1,0 +1,314 @@
+---
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { config } from './config';
+---
+
+<div class="y2j-widget">
+  <IoPanel label="YAML Input" labelFor="y2j-input" variant="mono">
+    <textarea
+      id="y2j-input"
+      placeholder={'name: Alice\nrole: engineer\nactive: true'}
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+    ></textarea>
+  </IoPanel>
+
+  <div class="tool-actions y2j-controls">
+    <button id="y2j-convert" class="action-btn y2j-btn-primary" type="button">Convert</button>
+    <button id="y2j-example" class="action-btn" type="button">Load Example</button>
+    <button id="y2j-clear" class="action-btn action-btn--clear" type="button" data-label="Clear">Clear</button>
+  </div>
+
+  <div id="y2j-error" class="y2j-error" hidden></div>
+
+  <section id="y2j-stats-section" class="y2j-stats-section" hidden aria-label="Output statistics">
+    <span class="y2j-stat-item">Lines: <strong id="y2j-lines">0</strong></span>
+    <span class="y2j-stat-sep" aria-hidden="true">·</span>
+    <span class="y2j-stat-item">Size: <strong id="y2j-size">0 B</strong></span>
+  </section>
+
+  <section id="y2j-output-section" class="y2j-section" hidden aria-label="Output">
+    <span class="y2j-section-title">JSON Output</span>
+    <textarea id="y2j-output" class="y2j-output" readonly spellcheck="false" aria-label="JSON output"></textarea>
+    <div class="tool-actions y2j-output-actions">
+      <button id="y2j-copy" class="action-btn action-btn--copy" type="button">Copy JSON</button>
+      <button id="y2j-download" class="action-btn" type="button">Download .json</button>
+    </div>
+  </section>
+</div>
+
+<CategoryDiscovery toolSlug={config.slug} />
+
+<style is:global>
+  .y2j-widget {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .y2j-widget .io-panel {
+    min-height: 260px;
+  }
+
+  .y2j-controls {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .y2j-btn-primary {
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    border-color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+  .y2j-btn-primary:hover {
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+    color: var(--color-text-inverse);
+  }
+
+  .y2j-error {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius-md);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    white-space: pre-wrap;
+  }
+  .y2j-error[hidden] { display: none; }
+
+  .y2j-stats-section {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .y2j-stats-section[hidden] { display: none; }
+  .y2j-stats-section strong {
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-mono);
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .y2j-stat-sep {
+    color: var(--color-text-subtle);
+  }
+
+  .y2j-section {
+    border: var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .y2j-section[hidden] { display: none; }
+
+  .y2j-section-title {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .y2j-output {
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    resize: vertical;
+    font-variant-ligatures: none;
+  }
+
+  .y2j-output-actions {
+    padding-block: 0;
+  }
+
+  .action-btn.is-success {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: #fff;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var slug = 'yaml-to-json-converter';
+  var GROUP_KEY = 'group:json-yaml';
+  var TT = window.ToyTools;
+
+  var inputEl       = document.getElementById('y2j-input');
+  var convertBtn    = document.getElementById('y2j-convert');
+  var exampleBtn    = document.getElementById('y2j-example');
+  var clearBtn      = document.getElementById('y2j-clear');
+  var errorEl       = document.getElementById('y2j-error');
+  var statsSection  = document.getElementById('y2j-stats-section');
+  var linesEl       = document.getElementById('y2j-lines');
+  var sizeEl        = document.getElementById('y2j-size');
+  var outputSection = document.getElementById('y2j-output-section');
+  var outputEl      = document.getElementById('y2j-output');
+  var copyBtn       = document.getElementById('y2j-copy');
+  var downloadBtn   = document.getElementById('y2j-download');
+
+  if (!inputEl || !convertBtn) return;
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+
+  function showError(msg) {
+    if (errorEl) { errorEl.textContent = msg; errorEl.hidden = false; }
+    if (statsSection) statsSection.hidden = true;
+    if (outputSection) outputSection.hidden = true;
+  }
+
+  function clearResults() {
+    if (errorEl) errorEl.hidden = true;
+    if (statsSection) statsSection.hidden = true;
+    if (outputSection) outputSection.hidden = true;
+  }
+
+  function showOutput(text) {
+    if (errorEl) errorEl.hidden = true;
+
+    var lines = text.split('\n').length;
+    var bytes = new TextEncoder().encode(text).length;
+    if (linesEl) linesEl.textContent = String(lines);
+    if (sizeEl) sizeEl.textContent = formatBytes(bytes);
+    if (statsSection) statsSection.hidden = false;
+
+    if (outputEl) outputEl.value = text;
+    if (outputSection) outputSection.hidden = false;
+
+    // Carry result forward to the sibling (JSON → YAML) page.
+    if (TT && TT.state && text.trim()) {
+      TT.state.save(GROUP_KEY, { handoff: text, from: slug });
+    }
+  }
+
+  function convert() {
+    var raw = inputEl.value;
+    if (!raw.trim()) { clearResults(); return; }
+    if (!(window.ToyTools && ToyTools.runStructuredData)) return;
+    var res = ToyTools.runStructuredData('yaml-to-json', raw);
+    if (!res.ok) {
+      showError('Invalid YAML — ' + (res.error || 'check indentation and syntax.'));
+      return;
+    }
+    showOutput(res.output);
+  }
+
+  function persist() {
+    TT && TT.state && TT.state.save(slug, { input: inputEl.value });
+  }
+
+  // Restore state. A fresh handoff from the sibling page wins over saved input.
+  try {
+    var consumedHandoff = false;
+    var group = TT && TT.state && TT.state.load(GROUP_KEY);
+    if (group && group.from && group.from !== slug && typeof group.handoff === 'string' && group.handoff.trim()) {
+      inputEl.value = group.handoff;
+      consumedHandoff = true;
+      TT.state.save(GROUP_KEY, { handoff: '', from: '' }); // consume once
+    }
+    if (!consumedHandoff) {
+      var saved = TT && TT.state && TT.state.load(slug);
+      if (saved && typeof saved.input === 'string') inputEl.value = saved.input;
+    }
+  } catch (_) {}
+
+  inputEl.addEventListener('input', function () { convert(); persist(); });
+  convertBtn.addEventListener('click', function () { convert(); persist(); });
+
+  var YAML_EXAMPLE = 'name: Alice\nage: 30\nactive: true\naddress:\n  city: New York\n  zip: "10001"\ntags:\n  - engineer\n  - backend\nscore: null';
+
+  if (exampleBtn) {
+    exampleBtn.addEventListener('click', function () {
+      inputEl.value = YAML_EXAMPLE;
+      convert();
+      persist();
+    });
+  }
+
+  // Clear (2-click confirm)
+  var clearTimer;
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimer = setTimeout(function () {
+          clearBtn.classList.remove('is-confirming');
+          clearBtn.textContent = 'Clear';
+        }, 3000);
+        return;
+      }
+      clearTimeout(clearTimer);
+      clearBtn.classList.remove('is-confirming');
+      clearBtn.textContent = 'Clear';
+      inputEl.value = '';
+      clearResults();
+      persist();
+      inputEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#y2j-clear')) {
+        clearTimeout(clearTimer);
+        clearBtn.classList.remove('is-confirming');
+        clearBtn.textContent = 'Clear';
+      }
+    });
+  }
+
+  // Copy
+  var copyTimer;
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      if (!outputEl || !outputEl.value.trim()) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(outputEl.value);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = 'Copy JSON';
+      }, 2000);
+    });
+  }
+
+  // Download
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+      if (!outputEl || !outputEl.value.trim()) { TT && TT.toast('Nothing to download!'); return; }
+      var blob = new Blob([outputEl.value], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'output.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(convert); else convert();
+})();
+</script>

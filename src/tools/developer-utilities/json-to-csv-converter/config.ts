@@ -13,7 +13,8 @@ export const config: ToolConfig = {
   pattern: 'structured-transform',
   family: 'json',
   processorId: 'json-to-csv',
-  relatedTools: ['json-formatter', 'json-validator', 'json-minifier'],
+  toolGroup: 'json-csv',
+  relatedTools: ['csv-to-json-converter', 'json-formatter', 'json-validator', 'json-minifier'],
   guide: {
     slug: 'json-to-csv-converter',
     categorySlug: 'developer-utilities',

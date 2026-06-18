@@ -36,6 +36,22 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    id: 'json-yaml',
+    name: 'JSON ↔ YAML',
+    members: [
+      { slug: 'json-to-yaml-converter', label: 'JSON → YAML' },
+      { slug: 'yaml-to-json-converter', label: 'YAML → JSON' },
+    ],
+  },
+  {
+    id: 'json-csv',
+    name: 'JSON ↔ CSV',
+    members: [
+      { slug: 'json-to-csv-converter', label: 'JSON → CSV' },
+      { slug: 'csv-to-json-converter', label: 'CSV → JSON' },
+    ],
+  },
+  {
     id: 'case-converters',
     name: 'Case Converter',
     members: [

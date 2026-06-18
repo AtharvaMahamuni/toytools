@@ -62,12 +62,13 @@ export const knowledge: Knowledge = {
     { slug: 'json-tree-viewer', reason: 'Explore the JSON structure before converting', strength: 0.6 },
   ],
   alternatives: [
+    { slug: 'yaml-to-json-converter', reason: 'Convert the other direction — YAML back to JSON' },
     { slug: 'json-to-csv-converter', reason: 'Convert JSON to CSV for tabular data instead' },
   ],
   nextSteps: [
-    { slug: 'json-validator', reason: 'Validate JSON before converting', priority: 1 },
-    { slug: 'json-formatter', reason: 'Inspect and format the source JSON', priority: 2 },
-    { slug: 'json-tree-viewer', reason: 'Explore the JSON structure interactively', priority: 3 },
+    { slug: 'yaml-to-json-converter', reason: 'Convert the YAML back to JSON when needed', priority: 1 },
+    { slug: 'json-validator', reason: 'Validate JSON before converting', priority: 2 },
+    { slug: 'json-formatter', reason: 'Inspect and format the source JSON', priority: 3 },
   ],
   workflowStage: ['transform', 'export'],
   keywords: [

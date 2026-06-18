@@ -8,7 +8,7 @@ describe('DEFAULT_YAML_OPTIONS', () => {
   it('exports expected defaults', () =>
     expect(DEFAULT_YAML_OPTIONS).toEqual({
       indent: 2,
-      sortKeys: false,
+      sortKeys: 'none',
       docMarker: false,
       flowScalars: false,
     }));
@@ -127,14 +127,18 @@ describe('serializeToYaml — flowScalars option', () => {
 });
 
 describe('serializeToYaml — sortKeys option', () => {
-  it('sorts object keys alphabetically', () => {
-    expect(y({ z: 1, a: 2, m: 3 }, { sortKeys: true })).toBe('a: 2\nm: 3\nz: 1');
+  it('sorts object keys A→Z with asc', () => {
+    expect(y({ z: 1, a: 2, m: 3 }, { sortKeys: 'asc' })).toBe('a: 2\nm: 3\nz: 1');
+  });
+  it('sorts object keys Z→A with desc', () => {
+    expect(y({ z: 1, a: 2, m: 3 }, { sortKeys: 'desc' })).toBe('z: 1\nm: 3\na: 2');
   });
   it('sorts keys inside objects in arrays', () => {
-    expect(y([{ z: 1, a: 2 }], { sortKeys: true })).toBe('- a: 2\n  z: 1');
+    expect(y([{ z: 1, a: 2 }], { sortKeys: 'asc' })).toBe('- a: 2\n  z: 1');
   });
-  it('preserves insertion order without sortKeys', () => {
+  it('preserves insertion order with none (default)', () => {
     expect(y({ z: 1, a: 2 })).toBe('z: 1\na: 2');
+    expect(y({ z: 1, a: 2 }, { sortKeys: 'none' })).toBe('z: 1\na: 2');
   });
 });
 
