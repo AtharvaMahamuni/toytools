@@ -43,9 +43,11 @@ export const sitemapValidator: Validator = {
       .join('\n');
 
     // Check each manifest route (excluding /404.html) appears in the sitemap.
-    // /faq/ pages are noindex redirect stubs — intentionally absent from all sitemaps.
+    // /faq/ and /tool/developer/ pages are noindex redirect stubs (the latter from the
+    // developer → developer-utilities segment rename) — intentionally absent from all
+    // sitemaps. See src/data/faq-redirects.ts and src/data/tool-redirects.ts.
     const excluded = new Set(['/404.html', '/search/', '/architecture/']);
-    const excludedPrefixes = ['/faq/'];
+    const excludedPrefixes = ['/faq/', '/tool/developer/'];
     for (const route of ctx.manifestRoutes) {
       if (excluded.has(route)) continue;
       if (excludedPrefixes.some(p => route.startsWith(p))) continue;

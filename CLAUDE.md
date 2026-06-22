@@ -9,9 +9,15 @@ npm run dev      # dev server at localhost:4321
 npm run build    # static output → dist/
 npm run preview  # serve dist/ locally
 
-# Production build (GitHub Pages — base path /toytools)
-ASTRO_SITE=https://atharvamahamuni.github.io ASTRO_BASE_PATH=/toytools npm run build
+# Production build (custom apex domain toytoolsapp.com — served from root, NO base path)
+ASTRO_SITE=https://toytoolsapp.com npm run build
 ```
+
+> Do **not** set `ASTRO_BASE_PATH=/toytools`. The site is served from the apex of
+> `toytoolsapp.com` (see `public/CNAME`), so a base path would push every page under
+> `/toytools/...` while the real, indexable URLs live at the root. Bare URLs would then fall
+> through to GitHub Pages' `404.html`, which carries `noindex,nofollow` — exactly the
+> "noindex detected in 'robots' meta tag" that Search Console flags.
 
 `npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There is no separate lint script.
 
@@ -326,4 +332,4 @@ All values come from `src/styles/tokens.css` custom properties. Key constraints:
 
 ## Deployment
 
-Push to `main` triggers `.github/workflows/deploy.yml`, which builds with `ASTRO_BASE_PATH=/toytools` and deploys `dist/` to GitHub Pages at `https://atharvamahamuni.github.io/toytools/`.
+Push to `main` triggers `.github/workflows/deploy.yml`, which builds with `ASTRO_SITE=https://toytoolsapp.com` (and **no** `ASTRO_BASE_PATH`, so pages are served from the apex root) and deploys `dist/` to GitHub Pages at the custom domain `https://toytoolsapp.com/` (custom domain pinned by `public/CNAME`).
