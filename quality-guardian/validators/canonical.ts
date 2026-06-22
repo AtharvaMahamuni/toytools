@@ -15,6 +15,10 @@ export const canonicalValidator: Validator = {
       // /faq/ pages are noindex redirect stubs — their canonical intentionally points
       // to the tool page, not back to themselves. Skip the self-reference check.
       if (page.urlPath.startsWith('/faq/')) continue;
+      // /tool/developer/ pages are noindex redirect stubs from the segment rename
+      // (developer → developer-utilities); their canonical intentionally points to the
+      // new tool URL, not back to themselves. See src/data/tool-redirects.ts.
+      if (page.urlPath.startsWith('/tool/developer/')) continue;
       if (!page.canonical) continue; // missing canonical caught by build-integrity
 
       const c = page.canonical;
