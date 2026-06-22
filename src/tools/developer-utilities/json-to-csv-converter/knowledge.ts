@@ -36,11 +36,13 @@ export const knowledge: Knowledge = {
     { slug: 'json-validator', reason: 'Validate JSON syntax before converting', strength: 0.9 },
   ],
   alternatives: [
+    { slug: 'csv-to-json-converter', reason: 'Convert the other direction — CSV back to JSON' },
     { slug: 'json-minifier', reason: 'Keep JSON compact instead of converting' },
   ],
   nextSteps: [
-    { slug: 'json-validator', reason: 'Validate JSON before converting', priority: 1 },
-    { slug: 'json-formatter', reason: 'Inspect and format the source JSON', priority: 2 },
+    { slug: 'csv-to-json-converter', reason: 'Convert the CSV back to JSON when needed', priority: 1 },
+    { slug: 'json-validator', reason: 'Validate JSON before converting', priority: 2 },
+    { slug: 'json-formatter', reason: 'Inspect and format the source JSON', priority: 3 },
   ],
   workflowStage: ['transform', 'export'],
   keywords: ['json to csv', 'convert json to csv', 'json csv converter', 'export json to csv', 'json to spreadsheet', 'json array to csv'],

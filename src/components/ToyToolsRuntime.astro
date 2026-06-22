@@ -15,6 +15,7 @@
   import { runStructuredData } from '@lib/engines/structured-data/registry';
   import { jsonExplorer } from '@lib/json/explorer';
   import { yamlSerializer } from '@lib/json/yaml';
+  import { csvSerializer } from '@lib/csv/csv';
   const TT = ((window as any).ToyTools ??= {});
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
@@ -24,6 +25,7 @@
   TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
   TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core
   TT.yaml = yamlSerializer; // ToyTools.yaml.serialize(value, opts) → YAML string
+  TT.csv = csvSerializer; // ToyTools.csv.parse(text, opts) / .serialize(rows, headers) — CSV core
 
   // These engine fns attach via this *deferred module*, but widget inline scripts run
   // during parse — so a widget's first render can't call them yet. Flush onReady() now.

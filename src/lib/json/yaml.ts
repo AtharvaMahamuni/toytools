@@ -2,19 +2,29 @@
 // Handles all JSON value types with smart quoting, literal block scalars for multi-line
 // strings, and four user-controllable options.
 
+// Key ordering for object maps: keep insertion order, or sort A→Z / Z→A.
+export type SortKeys = 'none' | 'asc' | 'desc';
+
 export interface YamlOptions {
   indent: 2 | 4;
-  sortKeys: boolean;
+  sortKeys: SortKeys;
   docMarker: boolean;  // prepend "---\n"
   flowScalars: boolean; // render scalar-only arrays as flow style [a, b, c]
 }
 
 export const DEFAULT_YAML_OPTIONS: YamlOptions = {
   indent: 2,
-  sortKeys: false,
+  sortKeys: 'none',
   docMarker: false,
   flowScalars: false,
 };
+
+// Order an object's keys per the sortKeys option. 'none' preserves insertion order.
+function orderKeys(keys: string[], mode: SortKeys): string[] {
+  if (mode === 'asc') return keys.slice().sort();
+  if (mode === 'desc') return keys.slice().sort().reverse();
+  return keys;
+}
 
 // YAML reserved words that must be quoted when used as plain scalars.
 const RESERVED = new Set([
@@ -115,7 +125,7 @@ function serializeNode(value: unknown, depth: number, opts: YamlOptions): string
       if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
         // Object item: inline first key with '- ', rest aligned underneath
         const obj = item as Record<string, unknown>;
-        const keys = opts.sortKeys ? Object.keys(obj).sort() : Object.keys(obj);
+        const keys = orderKeys(Object.keys(obj), opts.sortKeys);
         if (keys.length === 0) {
           items.push(`${pad}- {}`);
           continue;
@@ -171,7 +181,7 @@ function serializeNode(value: unknown, depth: number, opts: YamlOptions): string
 
   // Object (mapping)
   const obj = value as Record<string, unknown>;
-  const keys = opts.sortKeys ? Object.keys(obj).sort() : Object.keys(obj);
+  const keys = orderKeys(Object.keys(obj), opts.sortKeys);
   if (keys.length === 0) return '{}';
 
   const lines: string[] = [];

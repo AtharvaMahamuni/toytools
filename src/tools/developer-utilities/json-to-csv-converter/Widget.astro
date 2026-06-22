@@ -48,7 +48,11 @@ import { config } from './config';
   <section id="jcsv-columns" class="jcsv-section" hidden aria-label="Column Selection">
     <div class="jcsv-columns-hdr">
       <span class="jcsv-section-title">Columns</span>
-      <button id="jcsv-sort-alpha" class="jcsv-link-btn" type="button">Sort A–Z</button>
+      <div class="jcsv-sort-pills" role="group" aria-label="Column order">
+        <button id="jcsv-sort-none" class="jcsv-sort-pill jcsv-sort-pill--active" type="button" data-sort="none" aria-pressed="true">Original</button>
+        <button id="jcsv-sort-asc" class="jcsv-sort-pill" type="button" data-sort="asc" aria-pressed="false">A–Z</button>
+        <button id="jcsv-sort-desc" class="jcsv-sort-pill" type="button" data-sort="desc" aria-pressed="false">Z–A</button>
+      </div>
     </div>
     <div id="jcsv-check-list" class="jcsv-check-list" role="group" aria-label="Select columns to include"></div>
   </section>
@@ -181,18 +185,37 @@ import { config } from './config';
     gap: var(--space-3);
   }
 
-  .jcsv-link-btn {
-    background: none;
-    border: none;
-    color: var(--color-accent);
-    font: inherit;
-    font-size: var(--text-sm);
-    cursor: pointer;
-    padding: 0;
-    text-decoration: underline;
-    text-underline-offset: 2px;
+  .jcsv-sort-pills {
+    display: flex;
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
   }
-  .jcsv-link-btn:hover { color: var(--color-accent-strong); }
+  .jcsv-sort-pill {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    border: none;
+    cursor: pointer;
+    transition: background-color 150ms, color 150ms;
+    min-height: 32px;
+  }
+  .jcsv-sort-pill:not(:last-child) {
+    border-right: var(--border);
+  }
+  .jcsv-sort-pill--active,
+  .jcsv-sort-pill[aria-pressed="true"] {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+  .jcsv-sort-pill:hover:not(.jcsv-sort-pill--active):not([aria-pressed="true"]) {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
 
   .jcsv-check-list {
     display: flex;
@@ -305,6 +328,7 @@ import { config } from './config';
 <script is:inline>
 (function () {
   var slug = 'json-to-csv-converter';
+  var GROUP_KEY = 'group:json-csv';
   var TT = window.ToyTools;
 
   var inputEl      = document.getElementById('jcsv-input');
@@ -319,7 +343,9 @@ import { config } from './config';
   var nestedNote   = document.getElementById('jcsv-nested-note');
   var columnSect   = document.getElementById('jcsv-columns');
   var checkList    = document.getElementById('jcsv-check-list');
-  var sortBtn      = document.getElementById('jcsv-sort-alpha');
+  var sortNoneBtn  = document.getElementById('jcsv-sort-none');
+  var sortAscBtn   = document.getElementById('jcsv-sort-asc');
+  var sortDescBtn  = document.getElementById('jcsv-sort-desc');
   var previewEl    = document.getElementById('jcsv-preview');
   var tableEl      = document.getElementById('jcsv-table');
   var outputSect   = document.getElementById('jcsv-output-section');
@@ -330,7 +356,9 @@ import { config } from './config';
   if (!inputEl || !convertBtn) return;
 
   var flatRows = [];
-  var allHeaders = [];
+  var allHeaders = [];        // currently displayed header order (respects sortMode)
+  var originalHeaders = [];   // union order from the source JSON (the "Original" / undo state)
+  var sortMode = 'none';      // 'none' | 'asc' | 'desc'
 
   // Recursively flatten a plain object using dot-notation keys.
   function flattenObj(obj, prefix) {
@@ -424,7 +452,10 @@ import { config } from './config';
     tableEl.innerHTML = html;
   }
 
-  function renderCheckboxes(headers) {
+  // Render the column checkboxes. `keep` is an optional set of header names to leave
+  // checked (used to preserve the user's selection across a re-sort); when omitted all
+  // columns start checked.
+  function renderCheckboxes(headers, keep) {
     if (!checkList) return;
     checkList.innerHTML = '';
     for (var i = 0; i < headers.length; i++) {
@@ -434,12 +465,44 @@ import { config } from './config';
         var inp = document.createElement('input');
         inp.type = 'checkbox';
         inp.value = h;
-        inp.checked = true;
+        inp.checked = keep ? keep.indexOf(h) !== -1 : true;
         inp.addEventListener('change', rebuildOutput);
         lbl.appendChild(inp);
         lbl.appendChild(document.createTextNode(h));
         checkList.appendChild(lbl);
       })(headers[i]);
+    }
+  }
+
+  // Reorder originalHeaders per the active sort mode.
+  function orderedHeaders() {
+    if (sortMode === 'asc') return originalHeaders.slice().sort();
+    if (sortMode === 'desc') return originalHeaders.slice().sort().reverse();
+    return originalHeaders.slice();
+  }
+
+  function setSort(mode) {
+    sortMode = mode;
+    var map = { none: sortNoneBtn, asc: sortAscBtn, desc: sortDescBtn };
+    Object.keys(map).forEach(function (k) {
+      var btn = map[k];
+      if (!btn) return;
+      var on = (k === mode);
+      btn.classList.toggle('jcsv-sort-pill--active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (!originalHeaders.length) { persist(); return; }
+    var keep = getSelectedHeaders(); // preserve current selection across the re-sort
+    allHeaders = orderedHeaders();
+    renderCheckboxes(allHeaders, keep);
+    rebuildOutput();
+    persist();
+  }
+
+  // Carry the current CSV output forward to the sibling (CSV → JSON) page.
+  function updateHandoff(csv) {
+    if (TT && TT.state && csv && csv.trim()) {
+      TT.state.save(GROUP_KEY, { handoff: csv, from: slug });
     }
   }
 
@@ -449,6 +512,7 @@ import { config } from './config';
     if (outputEl) outputEl.value = csv;
     if (sizeEl) sizeEl.textContent = csv ? formatBytes(new TextEncoder().encode(csv).length) : '0 B';
     renderTable(flatRows, selected);
+    updateHandoff(csv);
   }
 
   function showError(msg) {
@@ -515,7 +579,8 @@ import { config } from './config';
     }
 
     flatRows = rows;
-    allHeaders = headers;
+    originalHeaders = headers;
+    allHeaders = orderedHeaders(); // apply the active sort mode to the fresh union
 
     // Structure summary
     if (structEl) structEl.hidden = false;
@@ -523,21 +588,22 @@ import { config } from './config';
     if (colCountEl) colCountEl.textContent = String(headers.length);
     if (nestedNote) nestedNote.hidden = !hadNested;
 
-    // Column checkboxes
+    // Column checkboxes (all selected on a fresh convert)
     if (columnSect) columnSect.hidden = false;
-    renderCheckboxes(headers);
+    renderCheckboxes(allHeaders);
 
     // Build initial CSV (all columns)
-    var csv = buildCsv(rows, headers);
+    var csv = buildCsv(rows, allHeaders);
     if (sizeEl) sizeEl.textContent = formatBytes(new TextEncoder().encode(csv).length);
 
     // Preview table (first 5 rows)
     if (previewEl) previewEl.hidden = false;
-    renderTable(rows, headers);
+    renderTable(rows, allHeaders);
 
     // Output
     if (outputSect) outputSect.hidden = false;
     if (outputEl) outputEl.value = csv;
+    updateHandoff(csv);
   }
 
   var EXAMPLE = '[\n  { "name": "Alice", "age": 30, "city": "New York" },\n  { "name": "Bob", "city": "Los Angeles" },\n  { "name": "Charlie", "note": "Contains, commas" },\n  { "name": "David", "quote": "He said \\"Hello\\"" },\n  { "name": "Emma", "address": { "city": "Chicago" } }\n]';
@@ -550,11 +616,9 @@ import { config } from './config';
     persist();
   });
 
-  if (sortBtn) sortBtn.addEventListener('click', function () {
-    allHeaders = allHeaders.slice().sort();
-    renderCheckboxes(allHeaders);
-    rebuildOutput();
-  });
+  if (sortNoneBtn) sortNoneBtn.addEventListener('click', function () { setSort('none'); });
+  if (sortAscBtn) sortAscBtn.addEventListener('click', function () { setSort('asc'); });
+  if (sortDescBtn) sortDescBtn.addEventListener('click', function () { setSort('desc'); });
 
   // Two-click confirm clear
   var clearTimer;
@@ -575,6 +639,7 @@ import { config } from './config';
       inputEl.value = '';
       flatRows = [];
       allHeaders = [];
+      originalHeaders = [];
       clearResults();
       if (outputEl) outputEl.value = '';
       persist();
@@ -622,12 +687,27 @@ import { config } from './config';
   }
 
   function persist() {
-    TT && TT.state && TT.state.save(slug, { input: inputEl.value });
+    TT && TT.state && TT.state.save(slug, { input: inputEl.value, sortMode: sortMode });
   }
 
+  // Restore state. A fresh handoff from the sibling page wins over saved input and is
+  // auto-converted so the carried-over result is immediately visible.
   try {
+    var consumedHandoff = false;
+    var group = TT && TT.state && TT.state.load(GROUP_KEY);
+    if (group && group.from && group.from !== slug && typeof group.handoff === 'string' && group.handoff.trim()) {
+      inputEl.value = group.handoff;
+      consumedHandoff = true;
+      TT.state.save(GROUP_KEY, { handoff: '', from: '' }); // consume once
+    }
     var saved = TT && TT.state && TT.state.load(slug);
-    if (saved && typeof saved.input === 'string') inputEl.value = saved.input;
+    if (saved) {
+      if (!consumedHandoff && typeof saved.input === 'string') inputEl.value = saved.input;
+      if (saved.sortMode === 'asc' || saved.sortMode === 'desc') setSort(saved.sortMode);
+    }
+    if (consumedHandoff) {
+      if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(convert); else convert();
+    }
   } catch (_) {}
 })();
 </script>

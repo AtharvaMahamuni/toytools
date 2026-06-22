@@ -5,7 +5,7 @@ import { config } from './config';
 ---
 
 <div class="jyaml-widget">
-  <IoPanel label="Input" labelFor="jyaml-input" variant="mono">
+  <IoPanel label="JSON Input" labelFor="jyaml-input" variant="mono">
     <textarea
       id="jyaml-input"
       placeholder={'{\n  "name": "Alice",\n  "role": "engineer",\n  "active": true\n}'}
@@ -17,10 +17,6 @@ import { config } from './config';
   </IoPanel>
 
   <div class="tool-actions jyaml-controls">
-    <div class="jyaml-mode-pills" role="group" aria-label="Conversion direction">
-      <button id="jyaml-mode-j2y" class="jyaml-pill jyaml-pill--active" type="button" aria-pressed="true">JSON → YAML</button>
-      <button id="jyaml-mode-y2j" class="jyaml-pill" type="button" aria-pressed="false">YAML → JSON</button>
-    </div>
     <button id="jyaml-convert" class="action-btn jyaml-btn-primary" type="button">Convert</button>
     <button id="jyaml-example" class="action-btn" type="button">Load Example</button>
     <button id="jyaml-clear" class="action-btn action-btn--clear" type="button" data-label="Clear">Clear</button>
@@ -34,10 +30,14 @@ import { config } from './config';
         <button id="jyaml-indent-4" class="jyaml-small-pill" type="button" data-indent="4" aria-pressed="false">4</button>
       </div>
     </div>
-    <label class="jyaml-check">
-      <input type="checkbox" id="jyaml-sort-keys" />
-      <span>Sort keys A–Z</span>
-    </label>
+    <div class="jyaml-opt-group">
+      <span class="jyaml-opt-label">Sort keys</span>
+      <div class="jyaml-sort-pills" role="group" aria-label="Sort keys">
+        <button id="jyaml-sort-none" class="jyaml-small-pill jyaml-small-pill--active" type="button" data-sort="none" aria-pressed="true">Original</button>
+        <button id="jyaml-sort-asc" class="jyaml-small-pill" type="button" data-sort="asc" aria-pressed="false">A–Z</button>
+        <button id="jyaml-sort-desc" class="jyaml-small-pill" type="button" data-sort="desc" aria-pressed="false">Z–A</button>
+      </div>
+    </div>
     <label class="jyaml-check">
       <input type="checkbox" id="jyaml-doc-marker" />
       <span>--- marker</span>
@@ -57,8 +57,8 @@ import { config } from './config';
   </section>
 
   <section id="jyaml-output-section" class="jyaml-section" hidden aria-label="Output">
-    <span class="jyaml-section-title" id="jyaml-output-label">YAML Output</span>
-    <textarea id="jyaml-output" class="jyaml-output" readonly spellcheck="false" aria-label="Converted output" aria-labelledby="jyaml-output-label"></textarea>
+    <span class="jyaml-section-title">YAML Output</span>
+    <textarea id="jyaml-output" class="jyaml-output" readonly spellcheck="false" aria-label="YAML output"></textarea>
     <div class="tool-actions jyaml-output-actions">
       <button id="jyaml-copy" class="action-btn action-btn--copy" type="button">Copy YAML</button>
       <button id="jyaml-download" class="action-btn" type="button">Download .yaml</button>
@@ -83,41 +83,6 @@ import { config } from './config';
     flex-wrap: wrap;
     gap: var(--space-2);
     align-items: center;
-  }
-
-  /* Mode pills */
-  .jyaml-mode-pills {
-    display: flex;
-    border: var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-
-  .jyaml-pill {
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    background: var(--color-surface);
-    color: var(--color-text-muted);
-    border: none;
-    cursor: pointer;
-    transition: background-color 150ms, color 150ms;
-    line-height: 1.4;
-    min-height: var(--touch-target);
-  }
-  .jyaml-pill:first-child {
-    border-right: var(--border);
-  }
-  .jyaml-pill--active,
-  .jyaml-pill[aria-pressed="true"] {
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
-    font-weight: var(--font-weight-semibold);
-  }
-  .jyaml-pill:hover:not(.jyaml-pill--active):not([aria-pressed="true"]) {
-    background: var(--color-surface-hover);
-    color: var(--color-text);
   }
 
   .jyaml-btn-primary {
@@ -160,7 +125,8 @@ import { config } from './config';
     white-space: nowrap;
   }
 
-  .jyaml-indent-pills {
+  .jyaml-indent-pills,
+  .jyaml-sort-pills {
     display: flex;
     border: var(--border);
     border-radius: var(--radius-sm);
@@ -179,7 +145,8 @@ import { config } from './config';
     transition: background-color 150ms, color 150ms;
     min-height: 32px;
   }
-  .jyaml-small-pill:first-child {
+  .jyaml-indent-pills .jyaml-small-pill:not(:last-child),
+  .jyaml-sort-pills .jyaml-small-pill:not(:last-child) {
     border-right: var(--border);
   }
   .jyaml-small-pill--active,
@@ -292,18 +259,18 @@ import { config } from './config';
 <script is:inline>
 (function () {
   var slug = 'json-to-yaml-converter';
+  var GROUP_KEY = 'group:json-yaml';
   var TT = window.ToyTools;
 
   var inputEl       = document.getElementById('jyaml-input');
   var convertBtn    = document.getElementById('jyaml-convert');
   var exampleBtn    = document.getElementById('jyaml-example');
   var clearBtn      = document.getElementById('jyaml-clear');
-  var modeJ2Y       = document.getElementById('jyaml-mode-j2y');
-  var modeY2J       = document.getElementById('jyaml-mode-y2j');
-  var optionsBar    = document.getElementById('jyaml-options');
   var indent2Btn    = document.getElementById('jyaml-indent-2');
   var indent4Btn    = document.getElementById('jyaml-indent-4');
-  var sortKeysEl    = document.getElementById('jyaml-sort-keys');
+  var sortNoneBtn   = document.getElementById('jyaml-sort-none');
+  var sortAscBtn    = document.getElementById('jyaml-sort-asc');
+  var sortDescBtn   = document.getElementById('jyaml-sort-desc');
   var docMarkerEl   = document.getElementById('jyaml-doc-marker');
   var flowScalarsEl = document.getElementById('jyaml-flow-scalars');
   var errorEl       = document.getElementById('jyaml-error');
@@ -312,22 +279,20 @@ import { config } from './config';
   var sizeEl        = document.getElementById('jyaml-size');
   var outputSection = document.getElementById('jyaml-output-section');
   var outputEl      = document.getElementById('jyaml-output');
-  var outputLabel   = document.getElementById('jyaml-output-label');
   var copyBtn       = document.getElementById('jyaml-copy');
   var downloadBtn   = document.getElementById('jyaml-download');
 
   if (!inputEl || !convertBtn) return;
 
   // State
-  var mode = 'j2y'; // 'j2y' | 'y2j'
   var indent = 2;
+  var sortKeys = 'none'; // 'none' | 'asc' | 'desc'
   var lastOutput = '';
-  var lastOk = false;
 
   function getOpts() {
     return {
       indent: indent,
-      sortKeys: sortKeysEl ? sortKeysEl.checked : false,
+      sortKeys: sortKeys,
       docMarker: docMarkerEl ? docMarkerEl.checked : false,
       flowScalars: flowScalarsEl ? flowScalarsEl.checked : false,
     };
@@ -340,7 +305,6 @@ import { config } from './config';
   }
 
   function showError(msg) {
-    lastOk = false;
     lastOutput = '';
     if (errorEl) { errorEl.textContent = msg; errorEl.hidden = false; }
     if (statsSection) statsSection.hidden = true;
@@ -348,7 +312,6 @@ import { config } from './config';
   }
 
   function clearResults() {
-    lastOk = false;
     lastOutput = '';
     if (errorEl) errorEl.hidden = true;
     if (statsSection) statsSection.hidden = true;
@@ -356,7 +319,6 @@ import { config } from './config';
   }
 
   function showOutput(text) {
-    lastOk = true;
     lastOutput = text;
     if (errorEl) errorEl.hidden = true;
 
@@ -368,79 +330,28 @@ import { config } from './config';
 
     if (outputEl) outputEl.value = text;
     if (outputSection) outputSection.hidden = false;
+
+    // Carry result forward to the sibling (YAML → JSON) page.
+    if (TT && TT.state && text.trim()) {
+      TT.state.save(GROUP_KEY, { handoff: text, from: slug });
+    }
   }
 
   function convert() {
     var raw = inputEl.value;
     if (!raw.trim()) { clearResults(); return; }
 
-    if (mode === 'j2y') {
-      // JSON → YAML: parse JSON then call ToyTools.yaml.serialize
-      var parsed;
-      try { parsed = JSON.parse(raw); }
-      catch (e) {
-        showError('Invalid JSON — ' + (e.message || 'check for missing commas, quotes, or brackets.'));
-        return;
-      }
-      if (!(window.ToyTools && ToyTools.yaml && ToyTools.yaml.serialize)) {
-        // Engine not ready yet; will be called again via onReady
-        return;
-      }
-      var yaml;
-      try { yaml = ToyTools.yaml.serialize(parsed, getOpts()); }
-      catch (e) { showError('Serialization error: ' + e.message); return; }
-      showOutput(yaml);
-    } else {
-      // YAML → JSON: use engine (js-yaml backed)
-      if (!(window.ToyTools && ToyTools.runStructuredData)) return;
-      var res = ToyTools.runStructuredData('yaml-to-json', raw);
-      if (!res.ok) {
-        showError('Invalid YAML — ' + (res.error || 'check indentation and syntax.'));
-        return;
-      }
-      showOutput(res.output);
+    var parsed;
+    try { parsed = JSON.parse(raw); }
+    catch (e) {
+      showError('Invalid JSON — ' + (e.message || 'check for missing commas, quotes, or brackets.'));
+      return;
     }
-  }
-
-  function setMode(newMode) {
-    var swapping = (newMode !== mode) && lastOk && lastOutput.trim();
-    mode = newMode;
-
-    var isJ2Y = (mode === 'j2y');
-
-    // Update mode pill UI
-    if (modeJ2Y) {
-      modeJ2Y.classList.toggle('jyaml-pill--active', isJ2Y);
-      modeJ2Y.setAttribute('aria-pressed', isJ2Y ? 'true' : 'false');
-    }
-    if (modeY2J) {
-      modeY2J.classList.toggle('jyaml-pill--active', !isJ2Y);
-      modeY2J.setAttribute('aria-pressed', isJ2Y ? 'false' : 'true');
-    }
-
-    // Show/hide options bar
-    if (optionsBar) optionsBar.hidden = !isJ2Y;
-
-    // Update output label and action buttons
-    if (outputLabel) outputLabel.textContent = isJ2Y ? 'YAML Output' : 'JSON Output';
-    if (copyBtn) copyBtn.textContent = isJ2Y ? 'Copy YAML' : 'Copy JSON';
-    if (downloadBtn) downloadBtn.textContent = isJ2Y ? 'Download .yaml' : 'Download .json';
-
-    // Update input placeholder
-    if (inputEl) {
-      inputEl.placeholder = isJ2Y
-        ? '{\n  "name": "Alice",\n  "role": "engineer",\n  "active": true\n}'
-        : 'name: Alice\nrole: engineer\nactive: true';
-    }
-
-    // Swap content if switching and output was valid
-    if (swapping) {
-      inputEl.value = lastOutput;
-      clearResults();
-    }
-
-    convert();
-    persist();
+    if (!(window.ToyTools && ToyTools.yaml && ToyTools.yaml.serialize)) return;
+    var yaml;
+    try { yaml = ToyTools.yaml.serialize(parsed, getOpts()); }
+    catch (e) { showError('Serialization error: ' + e.message); return; }
+    showOutput(yaml);
   }
 
   function setIndent(val) {
@@ -457,72 +368,74 @@ import { config } from './config';
     persist();
   }
 
+  function setSort(val) {
+    sortKeys = val;
+    var map = { none: sortNoneBtn, asc: sortAscBtn, desc: sortDescBtn };
+    Object.keys(map).forEach(function (k) {
+      var btn = map[k];
+      if (!btn) return;
+      var on = (k === val);
+      btn.classList.toggle('jyaml-small-pill--active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    convert();
+    persist();
+  }
+
   function persist() {
     TT && TT.state && TT.state.save(slug, {
       input: inputEl.value,
-      mode: mode,
       indent: indent,
-      sortKeys: sortKeysEl ? sortKeysEl.checked : false,
+      sortKeys: sortKeys,
       docMarker: docMarkerEl ? docMarkerEl.checked : false,
       flowScalars: flowScalarsEl ? flowScalarsEl.checked : false,
     });
   }
 
-  // Restore saved state
+  // Restore state. A fresh handoff from the sibling page wins over saved input.
   try {
+    var consumedHandoff = false;
+    var group = TT && TT.state && TT.state.load(GROUP_KEY);
+    if (group && group.from && group.from !== slug && typeof group.handoff === 'string' && group.handoff.trim()) {
+      inputEl.value = group.handoff;
+      consumedHandoff = true;
+      TT.state.save(GROUP_KEY, { handoff: '', from: '' }); // consume once
+    }
     var saved = TT && TT.state && TT.state.load(slug);
     if (saved) {
-      if (typeof saved.input === 'string') inputEl.value = saved.input;
-      if (saved.mode === 'y2j') {
-        mode = 'y2j';
-        if (modeJ2Y) { modeJ2Y.classList.remove('jyaml-pill--active'); modeJ2Y.setAttribute('aria-pressed', 'false'); }
-        if (modeY2J) { modeY2J.classList.add('jyaml-pill--active'); modeY2J.setAttribute('aria-pressed', 'true'); }
-        if (optionsBar) optionsBar.hidden = true;
-        if (outputLabel) outputLabel.textContent = 'JSON Output';
-        if (copyBtn) copyBtn.textContent = 'Copy JSON';
-        if (downloadBtn) downloadBtn.textContent = 'Download .json';
-        if (inputEl) inputEl.placeholder = 'name: Alice\nrole: engineer\nactive: true';
-      }
+      if (!consumedHandoff && typeof saved.input === 'string') inputEl.value = saved.input;
       if (saved.indent === 4) setIndent(4);
-      if (sortKeysEl && saved.sortKeys) sortKeysEl.checked = true;
+      if (saved.sortKeys === 'asc' || saved.sortKeys === 'desc') setSort(saved.sortKeys);
       if (docMarkerEl && saved.docMarker) docMarkerEl.checked = true;
       if (flowScalarsEl && saved.flowScalars) flowScalarsEl.checked = true;
     }
   } catch (_) {}
 
-  // Events: mode pills
-  if (modeJ2Y) modeJ2Y.addEventListener('click', function () { setMode('j2y'); });
-  if (modeY2J) modeY2J.addEventListener('click', function () { setMode('y2j'); });
-
-  // Events: indent pills
+  // Events
   if (indent2Btn) indent2Btn.addEventListener('click', function () { setIndent(2); });
   if (indent4Btn) indent4Btn.addEventListener('click', function () { setIndent(4); });
+  if (sortNoneBtn) sortNoneBtn.addEventListener('click', function () { setSort('none'); });
+  if (sortAscBtn) sortAscBtn.addEventListener('click', function () { setSort('asc'); });
+  if (sortDescBtn) sortDescBtn.addEventListener('click', function () { setSort('desc'); });
 
-  // Events: option checkboxes
   function onOptionChange() { convert(); persist(); }
-  if (sortKeysEl) sortKeysEl.addEventListener('change', onOptionChange);
   if (docMarkerEl) docMarkerEl.addEventListener('change', onOptionChange);
   if (flowScalarsEl) flowScalarsEl.addEventListener('change', onOptionChange);
 
-  // Events: live conversion
   inputEl.addEventListener('input', function () { convert(); persist(); });
-
-  // Events: Convert button (explicit)
   convertBtn.addEventListener('click', function () { convert(); persist(); });
 
-  // Events: Load Example
   var JSON_EXAMPLE = '{\n  "name": "Alice",\n  "age": 30,\n  "active": true,\n  "address": {\n    "city": "New York",\n    "zip": "10001"\n  },\n  "tags": ["engineer", "backend"],\n  "score": null\n}';
-  var YAML_EXAMPLE = 'name: Alice\nage: 30\nactive: true\naddress:\n  city: New York\n  zip: "10001"\ntags:\n  - engineer\n  - backend\nscore: null';
 
   if (exampleBtn) {
     exampleBtn.addEventListener('click', function () {
-      inputEl.value = mode === 'j2y' ? JSON_EXAMPLE : YAML_EXAMPLE;
+      inputEl.value = JSON_EXAMPLE;
       convert();
       persist();
     });
   }
 
-  // Events: Clear (2-click confirm)
+  // Clear (2-click confirm)
   var clearTimer;
   if (clearBtn) {
     clearBtn.addEventListener('click', function () {
@@ -552,34 +465,31 @@ import { config } from './config';
     });
   }
 
-  // Events: Copy
+  // Copy
   var copyTimer;
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
       if (!outputEl || !outputEl.value.trim()) { TT && TT.toast('Nothing to copy!'); return; }
       TT && TT.copy(outputEl.value);
       copyBtn.classList.add('is-success');
-      var label = mode === 'j2y' ? 'Copy YAML' : 'Copy JSON';
       copyBtn.textContent = '✓ Copied';
       clearTimeout(copyTimer);
       copyTimer = setTimeout(function () {
         copyBtn.classList.remove('is-success');
-        copyBtn.textContent = label;
+        copyBtn.textContent = 'Copy YAML';
       }, 2000);
     });
   }
 
-  // Events: Download
+  // Download
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
       if (!outputEl || !outputEl.value.trim()) { TT && TT.toast('Nothing to download!'); return; }
-      var ext = mode === 'j2y' ? 'yaml' : 'json';
-      var mime = mode === 'j2y' ? 'text/yaml' : 'application/json';
-      var blob = new Blob([outputEl.value], { type: mime });
+      var blob = new Blob([outputEl.value], { type: 'text/yaml' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'output.' + ext;
+      a.download = 'output.yaml';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -587,7 +497,6 @@ import { config } from './config';
     });
   }
 
-  // Initial conversion (after runtime is ready)
   if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(convert); else convert();
 })();
 </script>

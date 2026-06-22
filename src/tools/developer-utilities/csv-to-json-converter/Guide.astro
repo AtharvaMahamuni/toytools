@@ -1,0 +1,185 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A CSV to JSON converter takes a comma-separated table and turns it into a JSON array of
+      objects. The header row becomes the keys and each data row becomes one object. Paste in
+      <code>name,age</code> followed by <code>Alice,30</code> and you get
+      <code>[&#123;"name":"Alice","age":30&#125;]</code> — with <code>30</code> as a real number,
+      not a string.
+    </p>
+    <p>
+      Use this CSV JSON converter to convert CSV to JSON for APIs, JavaScript apps, database
+      imports, and any tool that reads JSON. It handles custom delimiters, quoted fields, and
+      automatic type detection, all in your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try the CSV to JSON Converter →</a>
+  </section>
+
+  <section id="what-is-csv-to-json">
+    <h2>What Does CSV to JSON Conversion Do? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CSV (Comma-Separated Values) stores flat tabular data: a header row of column names followed
+      by rows of values. JSON (JavaScript Object Notation) stores structured data as objects and
+      arrays. Converting CSV to JSON reshapes the table into an array of objects, the form most
+      APIs and programming languages expect.
+    </p>
+    <p>
+      The mapping is direct: the header row supplies the keys, and every subsequent row becomes one
+      object whose values are matched to those keys by position. The result is a JSON array with one
+      element per data row.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The header row defines the keys">
+      <p>The first line of the CSV must list the column names. Without a header row, the converter cannot name the fields, and the first data row would be mistaken for headers. Always include a header line.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Does the Converter Handle CSV Data? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The converter parses the CSV following RFC 4180 quoting rules. A field wrapped in double
+      quotes may contain the delimiter, line breaks, and escaped quotes (written as two double
+      quotes). So <code>"Smith, Jr."</code> is read as one value, not split into two columns.
+    </p>
+    <p>
+      With type detection enabled, cells that look like numbers, booleans, or null are coerced into
+      the matching JSON type: <code>30</code> becomes a number, <code>true</code> becomes a boolean,
+      and <code>null</code> becomes JSON null. Everything else stays a string. Turn detection off to
+      keep every value as a string for a fully predictable, lossless result.
+    </p>
+    <p>
+      Rows with fewer values than the header are padded with empty strings, so every object shares
+      the same keys and the array is safe to iterate over without checking for missing fields.
+    </p>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>When Would You Convert CSV to JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A few situations come up repeatedly:
+    </p>
+    <ul>
+      <li>
+        <strong>Feeding data to an API or app.</strong> A spreadsheet export arrives as CSV, but
+        your web app or API request needs a JSON array. Converting bridges the gap with no scripting.
+      </li>
+      <li>
+        <strong>Seeding test fixtures.</strong> Mock data is easy to maintain as a CSV in a
+        spreadsheet, then converted to JSON for use in tests or local development.
+      </li>
+      <li>
+        <strong>Database and tooling imports.</strong> Many databases and document stores ingest
+        JSON. Converting a CSV dump to JSON prepares it for a bulk load.
+      </li>
+      <li>
+        <strong>Charting and visualization.</strong> Many JavaScript charting libraries accept an
+        array of objects. Converting a CSV report to JSON makes it ready to plot.
+      </li>
+    </ul>
+  </section>
+
+  <section id="csv-vs-json">
+    <h2>CSV vs JSON: Which to Use <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CSV is the right choice for flat, tabular data destined for spreadsheets, human review, or
+      simple imports: it is compact and universally readable. JSON is the right choice when data
+      feeds into code: it supports nesting, explicit types, and is the native format of web APIs and
+      JavaScript.
+    </p>
+    <p>
+      Because CSV is flat and JSON can nest, the conversion from CSV to JSON produces a flat array of
+      objects. If you need nested structure, you reshape the JSON after converting. The two formats
+      round-trip cleanly for flat data, which is why converting back and forth is common.
+    </p>
+    <ReferenceBlock type="note" heading="CSV is flat by design">
+      <p>CSV has no concept of nested objects or arrays. A CSV to JSON conversion yields a flat array of objects with string, number, boolean, or null values — never nested objects — unless you restructure the result yourself.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Omitting the header row">
+      <p>
+        The first line must list column names. If your CSV starts directly with data, the converter
+        treats that first row as the headers and you lose a record. Add a header line such as
+        <code>name,age,city</code> before converting.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting leading zeros to become numbers">
+      <p>
+        Values like <code>007</code> or a zip code such as <code>00501</code> are kept as strings on
+        purpose, because converting them to numbers would strip the leading zeros and corrupt the
+        data. This is the safe default; the rest of the numeric cells still become numbers.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Using the wrong delimiter">
+      <p>
+        Not every "CSV" uses commas. European exports often use semicolons, and spreadsheet exports
+        often use tabs (TSV). If your output looks like one giant column, switch the delimiter
+        control to match your file.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/json-to-csv-converter/')}>JSON to CSV Converter</a>: Convert the other direction, with column selection and ordering.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Pretty-print and inspect the JSON output.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm the converted JSON is syntactically valid.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>
