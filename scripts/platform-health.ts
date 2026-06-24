@@ -78,7 +78,7 @@ if (existsSync(dist)) {
   const required = [
     'sitemap-index.xml',
     'sitemaps/tools.xml', 'sitemaps/guides.xml',
-    'sitemaps/categories.xml', 'sitemaps/languages.xml',
+    'sitemaps/categories.xml',
   ];
   for (const f of required) {
     if (!existsSync(join(dist, f))) errors.push(`Sitemap file missing from dist: ${f}`);

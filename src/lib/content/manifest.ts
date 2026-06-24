@@ -8,6 +8,9 @@ import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
 import { withBase } from '@lib/paths';
 
+// 'language' remains in the union for generatePageTitle('language', …), but the /{lang}/ stubs
+// are intentionally NOT emitted into the manifest: they are thin, near-duplicate landing pages,
+// so they carry robots="noindex,follow" and are excluded from both the sitemap and IndexNow.
 export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'language';
 
 export interface ContentEntry {
@@ -24,9 +27,6 @@ export interface ContentEntry {
   priority: number;
   changefreq: string;
 }
-
-// Language stub routes (src/pages/{lang}/index.astro).
-const LANGUAGES = ['en', 'de', 'fr', 'ja'];
 
 function segmentOf(categorySlug: string): string {
   return categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
@@ -80,16 +80,9 @@ export function buildContentManifest(): ContentEntry[] {
     }
   }
 
-  // Language stubs
-  for (const lang of LANGUAGES) {
-    entries.push({
-      type: 'language',
-      slug: lang,
-      url: withBase(`/${lang}/`),
-      priority: 0.5,
-      changefreq: 'monthly',
-    });
-  }
+  // Language stubs (/{lang}/) are deliberately omitted — thin, near-duplicate pages carrying
+  // robots="noindex,follow". Keeping them out of the manifest excludes them from the sitemap
+  // and IndexNow in one place. See ContentType note above.
 
   return entries;
 }

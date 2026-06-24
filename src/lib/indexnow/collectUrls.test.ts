@@ -35,11 +35,14 @@ describe('collectUrls', () => {
     }
   });
 
-  it('includes tool, guide, category, and language URLs', () => {
+  it('includes tool, guide, and category URLs', () => {
     expect(urls.some(u => u.includes('/tool/'))).toBe(true);
     expect(urls.some(u => u.includes('/guide/'))).toBe(true);
     expect(urls.some(u => u.includes('/category/'))).toBe(true);
-    expect(urls.some(u => /\/(en|de|fr|ja)\/$/.test(u))).toBe(true);
+  });
+
+  it('excludes the thin language stubs (noindex, not submitted)', () => {
+    expect(urls.some(u => /\/(en|de|fr|ja)\/$/.test(u))).toBe(false);
   });
 
   it('is deterministic across calls', () => {

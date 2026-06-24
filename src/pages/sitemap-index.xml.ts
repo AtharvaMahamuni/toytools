@@ -5,7 +5,8 @@ import { renderSitemapIndex } from '@lib/sitemap/render';
 // Sitemap index. Filename preserved as `sitemap-index.xml` so robots.txt, the astro.config
 // seo-validator, and quality-guardian build-integrity all keep working unchanged.
 const SITE_FALLBACK = 'https://toytoolsapp.com';
-const BUCKETS = ['tools', 'guides', 'categories', 'languages'];
+// No `languages` bucket: the /{lang}/ stubs are noindex and excluded from the manifest.
+const BUCKETS = ['tools', 'guides', 'categories'];
 
 export const GET: APIRoute = ({ site }) => {
   const base = (site ?? new URL(SITE_FALLBACK)).href;
