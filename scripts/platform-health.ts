@@ -5,7 +5,7 @@
 //
 // Run: npm run health   (intended for CI, after `npm run build`)
 
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tools, toolsWithGuide } from '../src/data/registry';
 import { categories } from '../src/data/categories';
@@ -14,6 +14,8 @@ import { getAllMetadata } from '../src/data/metadata';
 import { buildContentManifest, contentByType } from '../src/lib/content/manifest';
 import { buildSearchIndex } from '../src/lib/search';
 import { KNOWLEDGE_ENTRIES } from '../src/lib/knowledge/registry';
+import { collectUrls } from '../src/lib/indexnow/collectUrls';
+import { INDEXNOW_HOST, INDEXNOW_KEY, INDEXNOW_KEY_FILENAME } from '../src/config/indexnow';
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -83,6 +85,45 @@ if (existsSync(dist)) {
   }
 } else {
   warnings.push('dist/ not found — skipped sitemap output check (run `npm run build` first).');
+}
+
+// 7. IndexNow coverage + key file integrity. WARN-only (per spec) — IndexNow must never block
+// a deploy. The URL list is derived from the same manifest, so this catches drift early.
+{
+  const indexnowUrls = collectUrls();
+  const urlSet = new Set(indexnowUrls);
+
+  if (!INDEXNOW_HOST) warnings.push('IndexNow: missing host.');
+  if (!INDEXNOW_KEY) warnings.push('IndexNow: missing key.');
+  if (indexnowUrls.length === 0) warnings.push('IndexNow: collected 0 URLs.');
+
+  // Homepage + every public surface present.
+  const expectHome = new URL('/', `https://${INDEXNOW_HOST}`).href;
+  if (!urlSet.has(expectHome)) warnings.push('IndexNow: homepage URL missing from collection.');
+  const expectAll = (type: 'tool' | 'guide' | 'category') =>
+    contentByType(type).forEach(e => {
+      const abs = new URL(e.url, `https://${INDEXNOW_HOST}`).href;
+      if (!urlSet.has(abs)) warnings.push(`IndexNow: ${type} URL missing from collection: ${e.url}`);
+    });
+  expectAll('tool');
+  expectAll('guide');
+  expectAll('category');
+
+  // No duplicates; https-only; canonical host only.
+  if (urlSet.size !== indexnowUrls.length) warnings.push('IndexNow: duplicate URLs in collection.');
+  for (const u of indexnowUrls) {
+    const parsed = new URL(u);
+    if (parsed.protocol !== 'https:') warnings.push(`IndexNow: non-https URL: ${u}`);
+    if (parsed.hostname !== INDEXNOW_HOST) warnings.push(`IndexNow: off-host URL: ${u}`);
+  }
+
+  // Key file present in public/ and content === key (the "invalid key file path" check).
+  const keyFile = join(process.cwd(), 'public', INDEXNOW_KEY_FILENAME);
+  if (!existsSync(keyFile)) {
+    warnings.push(`IndexNow: key file missing at public/${INDEXNOW_KEY_FILENAME}.`);
+  } else if (readFileSync(keyFile, 'utf8').trim() !== INDEXNOW_KEY) {
+    warnings.push(`IndexNow: key file public/${INDEXNOW_KEY_FILENAME} content does not match the configured key.`);
+  }
 }
 
 // Report
