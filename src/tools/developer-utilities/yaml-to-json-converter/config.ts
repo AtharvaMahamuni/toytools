@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'yaml-to-json-converter',
   name: 'YAML to JSON Converter',
   seoTitle: 'YAML to JSON Converter — Free Online Tool',
-  description: 'Convert YAML to JSON instantly for APIs, JSON Schema validation, and tooling that lacks a YAML parser. Handles anchors, multi-line strings, and timestamps. Free and private — all processing happens in your browser.',
+  description: 'Convert YAML to JSON for APIs, JSON Schema validation, and tools without a YAML parser. Handles anchors, multi-line strings, and timestamps. In-browser, free.',
   categorySlug: 'developer-utilities',
   tags: ['yaml to json', 'yaml json converter', 'json converter', 'convert yaml to json', 'developer', 'data conversion', 'kubernetes', 'devops'],
   isNew: true,

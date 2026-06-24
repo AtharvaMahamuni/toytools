@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'csv-to-json-converter',
   name: 'CSV to JSON Converter',
   seoTitle: 'CSV to JSON Converter — Free Online Tool',
-  description: 'Convert CSV to a JSON array of objects for APIs, JavaScript, and databases. Smart type detection, custom delimiters, and RFC 4180 quoting. Free and private — all processing happens in your browser.',
+  description: 'Convert CSV to a JSON array of objects for APIs, JavaScript, and databases. Smart type detection, custom delimiters, and RFC 4180 quoting. In-browser and free.',
   categorySlug: 'developer-utilities',
   tags: ['csv to json', 'csv json converter', 'convert csv to json', 'csv to array', 'import csv', 'developer', 'data conversion'],
   isNew: true,
