@@ -79,6 +79,12 @@ For a live bird's-eye view, the deployed **`/architecture/`** page (`src/pages/a
 
 All tool pages, category pages, search, and homepage update automatically at build time.
 
+**Search-engine notification (IndexNow):** new URLs are submitted to IndexNow **automatically** on
+the next production deploy (the post-deploy `indexnow` CI job derives the URL list from the Content
+Manifest — no manual step, no per-page registration). The one hard rule: never run `npm run indexnow`
+against a host whose `public/<key>.txt` isn't already live, or IndexNow caches a `403` ownership
+failure. See `docs/indexnow.md` → "Registration & adding new URLs".
+
 **Browser title** is handled automatically by `ToolLayout` via `generatePageTitle('tool', ...)` in `src/lib/titles.ts`. Do not set titles manually inside tool files. If adding a new page type (not a tool), add a new case to `generatePageTitle` and call it from the layout or page.
 
 ### Adding a text processor tool (transform/cleanup)

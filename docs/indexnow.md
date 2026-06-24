@@ -89,8 +89,9 @@ the job, and `process.exit(0)` on every path of the CLI.
 |---|---|
 | `disabled (INDEXNOW_ENABLED=false)` | Unset `INDEXNOW_ENABLED` or set it to anything but `false`. |
 | `URL list is empty` | `collectUrls()` returned nothing — verify the registry/manifest builds. |
+| `HTTP 403` / `UserForbiddedToAccessSite` | Site ownership not verified. The key file must be **live in production** before *any* submission — see §9. If you submitted while the key file was 404, IndexNow caches a negative verification; wait for it to clear (hours) and resubmit, or verify the site in Bing Webmaster Tools first. |
 | Non-200/202 status | IndexNow rejects on key-file mismatch — confirm `dist/<key>.txt` body equals the key. |
-| Key file 404 in production | Ensure `public/<key>.txt` exists and matches `INDEXNOW_KEY`; rebuild. |
+| Key file 404 in production | Ensure `public/<key>.txt` exists and matches `INDEXNOW_KEY`; rebuild + deploy. |
 | `off-host` / `non-https` warnings in `npm run health` | A manifest URL is malformed; fix the source entry. |
 
 ## 8. Verification steps
@@ -116,6 +117,41 @@ npm run indexnow
 # 6. After deploy — the published key file must return the key
 curl https://toytoolsapp.com/81433a8e29464f45ab05cb1242e6483a.txt
 ```
+
+## 9. Registration & adding new URLs
+
+> **The one rule that matters: the key file must be live in production *before* you ever POST
+> to IndexNow.** IndexNow verifies ownership by fetching `https://toytoolsapp.com/<key>.txt`. If
+> you submit while that file returns 404, IndexNow caches a *negative* verification for the key
+> and then rejects later submissions with `403 UserForbiddedToAccessSite` — even after the file
+> goes live — until the cache clears. Never run `npm run indexnow` against a host where the key
+> file isn't already deployed.
+
+### First-time registration (one-time, already done for `81433a8e29464f45ab05cb1242e6483a`)
+
+1. The key + `public/<key>.txt` are committed (see `src/config/indexnow.ts`).
+2. **Deploy first.** Merge to `main`, let Pages publish, and confirm the file is live:
+   `curl https://toytoolsapp.com/<key>.txt` → returns the key, HTTP 200.
+3. Only **after** step 2, submit (`npm run indexnow`) — or just let the CI `indexnow` job do it.
+4. Recommended: add the site to **Bing Webmaster Tools** and confirm the **IndexNow** tab shows
+   the key as verified. This is the authoritative ownership check and avoids cache ambiguity.
+
+### Before pushing new URLs (every new tool / guide / category)
+
+New URLs are submitted **automatically** — you do not call IndexNow by hand. Because the URL
+list is derived from the Content Manifest, the moment a new tool/guide/category lands in the
+registry it is included on the next deploy and the post-deploy `indexnow` CI job submits it.
+
+So the checklist when adding pages is simply:
+
+1. Add the tool/guide/category as usual (see `CLAUDE.md` → *Adding a tool*). No IndexNow edits.
+2. Merge to `main`. The deploy publishes the page **and** the CI `indexnow` job submits the
+   refreshed URL set. (The key file is already live, so verification passes.)
+3. Optional sanity check after deploy: `npm run indexnow` locally, expect `Status: Success
+   (HTTP 200/202)`, then watch the **Bing Webmaster Tools → IndexNow** tab for the new URL.
+
+You only touch IndexNow config when **rotating the key** (generate a new key, update
+`src/config/indexnow.ts` + rename `public/<key>.txt`, deploy, *then* submit).
 
 ## Incremental optimization (future)
 
