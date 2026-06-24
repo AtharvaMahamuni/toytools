@@ -1,8 +1,9 @@
 // Sitemap rendering — pure XML builders for the registry-driven sitemap. Endpoints
 // (src/pages/sitemap-index.xml.ts + src/pages/sitemaps/*.xml.ts) feed these the content
-// manifest; nothing here is maintained by hand. Lastmod is intentionally omitted: tool
-// dates are ISO-ish but guide dates are display strings ("Jun 2026"), so emitting them
-// would produce invalid <lastmod> values. Route coverage (not freshness) is what matters.
+// manifest; nothing here is maintained by hand. <lastmod> is emitted only when an entry's
+// updatedAt is a valid W3C date (YYYY-MM-DD) — tools carry those, so they get a freshness
+// signal; guide dates are display strings ("Jun 2026") and are skipped rather than emitted
+// as invalid <lastmod>. Home/category entries have no updatedAt and are likewise skipped.
 
 import type { ContentEntry } from '@lib/content/manifest';
 
@@ -17,15 +18,25 @@ export function escapeXml(value: string): string {
     .replace(/'/g, '&apos;');
 }
 
+/** True for a calendar-valid W3C date (YYYY-MM-DD) safe to emit as <lastmod>. */
+export function isW3CDate(value: string | undefined): value is string {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  return !Number.isNaN(Date.parse(value));
+}
+
 /** Resolve a site-relative (base-prefixed) path to an absolute URL. */
 export function absoluteUrl(path: string, site: string): string {
   return new URL(path, site).href;
 }
 
-/** A <urlset> document listing one <loc> per content entry. */
+/** A <urlset> document listing one <loc> (+ <lastmod> when available) per content entry. */
 export function renderUrlset(entries: ContentEntry[], site: string): string {
   const urls = entries
-    .map(e => `  <url>\n    <loc>${escapeXml(absoluteUrl(e.url, site))}</loc>\n  </url>`)
+    .map(e => {
+      const loc = `    <loc>${escapeXml(absoluteUrl(e.url, site))}</loc>`;
+      const lastmod = isW3CDate(e.updatedAt) ? `\n    <lastmod>${e.updatedAt}</lastmod>` : '';
+      return `  <url>\n${loc}${lastmod}\n  </url>`;
+    })
     .join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="${URLSET_NS}">\n${urls}\n</urlset>\n`;
 }
