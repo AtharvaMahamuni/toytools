@@ -19,8 +19,10 @@ test.describe('homepage directory', () => {
     await expect(jsonEntry).toHaveCount(1);
     await expect(jsonEntry).toHaveAttribute('data-group-slugs', /json-tree-viewer/);
 
-    // 39 tools − 6 collapsed case converters − 2 collapsed JSON tools = 31 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(31);
+    // 42 tools, with every tool group collapsed to a single entry:
+    //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1).
+    // 42 − 10 = 32 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(32);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
