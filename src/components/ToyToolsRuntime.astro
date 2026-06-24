@@ -16,7 +16,30 @@
   import { jsonExplorer } from '@lib/json/explorer';
   import { yamlSerializer } from '@lib/json/yaml';
   import { csvSerializer } from '@lib/csv/csv';
+  import { analyticsEnabled, GA_MEASUREMENT_ID } from '@lib/analytics/guard';
   const TT = ((window as any).ToyTools ??= {});
+
+  // Google Analytics — loaded here (not in BaseLayout) so it can be fully gated
+  // by the analytics guard. For real users it injects gtag.js and wires
+  // ToyTools.track(name, params); for tests/dev/localhost/automation it stays a
+  // no-op and never makes a network request. All custom events must go through
+  // ToyTools.track — never call gtag() directly.
+  if (analyticsEnabled) {
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    w.gtag = w.gtag || function () { w.dataLayer.push(arguments); };
+    w.gtag('js', new Date());
+    w.gtag('config', GA_MEASUREMENT_ID);
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+    document.head.appendChild(s);
+    TT.track = function (name: string, params?: Record<string, unknown>) {
+      try { w.gtag('event', name, params); } catch (_) { /* never break the UI */ }
+    };
+  } else {
+    TT.track = function () { /* analytics disabled for this session */ };
+  }
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
   TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
@@ -46,6 +69,9 @@
   // first render waits for the engine functions instead of throwing.
   TT.ready = TT.ready || false;
   TT._readyCbs = TT._readyCbs || [];
+
+  // Safe stub until the deferred module wires the real (guarded) tracker.
+  TT.track = TT.track || function () {};
   TT.onReady = function (fn) {
     if (TT.ready) { try { fn(); } catch (_) {} return; }
     TT._readyCbs.push(fn);

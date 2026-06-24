@@ -30,7 +30,10 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: `npm run build && npm run preview -- --port ${PORT}`,
+    // PUBLIC_E2E=true bakes the analytics opt-out into the build so Google
+    // Analytics never loads during E2E (the runtime guard also excludes the
+    // localhost host + navigator.webdriver, but this is the explicit signal).
+    command: `PUBLIC_E2E=true npm run build && npm run preview -- --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
