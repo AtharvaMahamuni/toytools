@@ -1,0 +1,47 @@
+---
+// Redirect stubs for deprecated /category/{oldSlug}/ URLs.
+//
+// The Developer category slug was renamed `developer-tools` → `developer-utilities`
+// (segment rename, commit 45f4f9f), so the previously-indexed `/category/developer-tools/`
+// URL now 404s. Each old category URL serves a noindex meta-refresh stub with canonical
+// pointing to the current category page — preserving link equity instead of 404ing.
+// Intentionally NOT in any sitemap. See src/data/tool-redirects.ts (categoryRedirects).
+//
+// This dynamic route is named [oldSlug] (not [slug]) so it never collides with the real
+// category route src/pages/category/[slug].astro: only the legacy slugs below are emitted.
+import type { GetStaticPaths } from 'astro';
+import { categoryRedirects } from '@data/tool-redirects';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+
+export const getStaticPaths = (() => {
+  return categoryRedirects.map(redirect => {
+    const category = categories.find(c => c.slug === redirect.categorySlug);
+    if (!category) throw new Error(`category-redirects: unknown category "${redirect.categorySlug}"`);
+    return {
+      params: { oldSlug: redirect.oldSlug },
+      props:  { name: category.name, path: `/category/${category.slug}/` },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { name, path } = Astro.props;
+
+const target = withBase(path);
+const canonical = Astro.site ? new URL(withBase(path), Astro.site).href : withBase(path);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{name} — moved</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>This category has moved. <a href={target}>Continue to {name}</a>.</p>
+  </body>
+</html>

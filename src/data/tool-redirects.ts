@@ -19,6 +19,20 @@ export interface ToolRedirect {
   toolSlug: string;
 }
 
+export interface CategoryRedirect {
+  /** Historical path under /category/, e.g. 'developer-tools'. */
+  oldSlug: string;
+  /** Current category slug the old URL should redirect to. */
+  categorySlug: string;
+}
+
+// The same rename also changed the category slug `developer-tools` → `developer-utilities`,
+// so the previously-indexed `/category/developer-tools/` URL now 404s. Same redirect-stub
+// treatment. (The other three categories kept their slugs.)
+export const categoryRedirects: CategoryRedirect[] = [
+  { oldSlug: 'developer-tools', categorySlug: 'developer-utilities' },
+];
+
 export const toolRedirects: ToolRedirect[] = [
   { oldPath: 'developer/base64-encoder-decoder',      toolSlug: 'base64-encoder-decoder' },
   { oldPath: 'developer/html-entity-encoder-decoder', toolSlug: 'html-entity-encoder-decoder' },

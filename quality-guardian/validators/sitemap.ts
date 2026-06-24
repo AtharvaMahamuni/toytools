@@ -46,7 +46,7 @@ export const sitemapValidator: Validator = {
     // /faq/ and /tool/developer/ pages are noindex redirect stubs (the latter from the
     // developer → developer-utilities segment rename) — intentionally absent from all
     // sitemaps. See src/data/faq-redirects.ts and src/data/tool-redirects.ts.
-    const excluded = new Set(['/404.html', '/search/', '/architecture/']);
+    const excluded = new Set(['/404.html', '/search/', '/architecture/', '/category/developer-tools/']);
     const excludedPrefixes = ['/faq/', '/tool/developer/'];
     for (const route of ctx.manifestRoutes) {
       if (excluded.has(route)) continue;
