@@ -19,6 +19,9 @@ export const canonicalValidator: Validator = {
       // (developer → developer-utilities); their canonical intentionally points to the
       // new tool URL, not back to themselves. See src/data/tool-redirects.ts.
       if (page.urlPath.startsWith('/tool/developer/')) continue;
+      // /category/developer-tools/ is the noindex redirect stub for the renamed category
+      // slug (developer-tools → developer-utilities); canonical points to the new URL.
+      if (page.urlPath === '/category/developer-tools/') continue;
       if (!page.canonical) continue; // missing canonical caught by build-integrity
 
       const c = page.canonical;
