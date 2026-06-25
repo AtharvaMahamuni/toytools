@@ -1,0 +1,15 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+---
+
+<TextMetricWidget
+  slug="line-counter"
+  emptyMessage="Paste or type text to count lines."
+  sampleText={"Line 1: The quick brown fox jumps over the lazy dog.\nLine 2: A gentle breeze rustled the leaves in the tall oak tree.\nLine 3: Birds called from hidden branches above the sunlit path.\n\nLine 5: Below, a narrow stream wound between mossy stones.\nLine 6: The fox paused, ears perked, watching the hills turn gold.\nLine 7: Summer was warm and the meadow was alive with bees."}
+  stats={[
+    { metric: 'lines',         label: 'Lines',              formatter: 'integer' },
+    { metric: 'nonEmptyLines', label: 'Non-Empty Lines',    formatter: 'integer' },
+    { metric: 'paragraphs',    label: 'Paragraphs',         formatter: 'integer' },
+    { metric: 'words',         label: 'Words',              formatter: 'integer' },
+  ]}
+/>

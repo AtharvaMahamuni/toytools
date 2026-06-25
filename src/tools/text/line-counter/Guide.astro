@@ -1,0 +1,143 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A line counter counts the number of lines in a block of text by splitting on newline
+      characters. A single line of text counts as 1 line; "Hello\nWorld" counts as 2 lines. The
+      total line count includes blank lines. The non-empty line count excludes lines that contain
+      only whitespace.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Line Counter →</a>
+  </section>
+
+  <section id="how-lines-are-counted">
+    <h2>How Lines Are Counted <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Text is split on newline characters (line feed <code>\n</code>). Each segment between
+      newlines is one line, including any trailing segment after the last newline. For example:
+    </p>
+    <ul>
+      <li><strong>"Hello"</strong> — 1 line</li>
+      <li><strong>"Hello\nWorld"</strong> — 2 lines</li>
+      <li><strong>"Hello\n\nWorld"</strong> — 3 lines (one blank line between)</li>
+      <li><strong>"Hello\nWorld\n"</strong> — 2 lines (trailing newline does not add an extra line)</li>
+    </ul>
+    <ReferenceBlock type="note" heading="This tool runs entirely in your browser">
+      <p>
+        No text is sent to a server. All processing happens locally in your browser, so your
+        content stays private. Results update in real time as you type or paste.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="total-vs-non-empty-lines">
+    <h2>Total Lines vs Non-Empty Lines <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Total lines</strong> counts every line, including blank lines and lines that contain
+      only spaces or tabs.
+    </p>
+    <p>
+      <strong>Non-empty lines</strong> counts only lines that contain at least one non-whitespace
+      character — actual content.
+    </p>
+    <p>
+      For a typical document with blank lines between paragraphs, total lines will be higher
+      than non-empty lines. Use non-empty lines when you want to count only meaningful content
+      rows, for example when checking a CSV file that should have a specific number of data rows.
+    </p>
+  </section>
+
+  <section id="lines-vs-paragraphs">
+    <h2>Lines vs Paragraphs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lines and paragraphs measure different things. A <strong>line</strong> ends at every
+      newline character. A <strong>paragraph</strong> is a block of text separated by one or
+      more blank lines (a double newline). A single paragraph can contain many lines if it is
+      long and has manual line breaks inside it.
+    </p>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Use a Line Counter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Counting lines of code in a file or snippet</li>
+      <li>Verifying the number of records in CSV or log data</li>
+      <li>Checking the number of lines in poetry or structured lists</li>
+      <li>Comparing line counts before and after editing a document</li>
+      <li>Validating that a text field contains a required minimum number of lines</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Confusing lines with paragraphs">
+      <p>
+        A long paragraph that wraps visually across several lines in a text editor still counts
+        as 1 line if it contains no newline characters inside it. Visual word wrap does not
+        create new lines — only actual newline characters do.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Forgetting blank lines in the total count">
+      <p>
+        If you are checking a CSV file for a specific number of data rows, use the Non-Empty
+        Lines metric, not the total line count. A blank line at the end of a file will inflate
+        the total by one.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text analysis utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
+      including <a href={withBase(`/tool/${category.segment}/paragraph-counter/`)}>Paragraph Counter</a>,
+      <a href={withBase(`/tool/${category.segment}/word-counter/`)}>Word Counter</a>,
+      and <a href={withBase(`/tool/${category.segment}/character-counter/`)}>Character Counter</a>.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

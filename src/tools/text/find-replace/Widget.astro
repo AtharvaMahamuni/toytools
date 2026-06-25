@@ -1,0 +1,255 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { config } from './config';
+---
+
+<div class="fr-widget">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <div slot="input">
+      <IoPanel label="Source Text" labelFor="fr-source" variant="prose">
+        <div class="fr-controls" slot="header-end">
+          <label class="fr-toggle">
+            <input type="checkbox" id="fr-case" />
+            <span>Aa</span>
+          </label>
+          <label class="fr-toggle">
+            <input type="checkbox" id="fr-regex" />
+            <span>.*</span>
+          </label>
+          <label class="fr-toggle">
+            <input type="checkbox" id="fr-whole-word" />
+            <span>\b</span>
+          </label>
+        </div>
+        <div class="fr-search-row">
+          <div class="fr-field-wrap">
+            <input
+              id="fr-find"
+              class="fr-field"
+              type="text"
+              placeholder="Find…"
+              aria-label="Find pattern"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <span id="fr-match-count" class="fr-match-count" aria-live="polite"></span>
+          </div>
+          <input
+            id="fr-replace"
+            class="fr-field"
+            type="text"
+            placeholder="Replace with…"
+            aria-label="Replace with"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p id="fr-regex-error" class="fr-regex-error" role="alert"></p>
+        </div>
+        <textarea
+          id="fr-source"
+          class="fr-textarea"
+          placeholder="Paste or type source text here…"
+          spellcheck="false"
+          aria-label="Source text"
+        ></textarea>
+      </IoPanel>
+      <ToolActions pasteTarget="fr-source" clearTarget="fr-source" />
+    </div>
+
+    <div slot="output">
+      <IoPanel label="Result" copyTargetId="fr-output" variant="prose" result>
+      </IoPanel>
+      <textarea
+        id="fr-output"
+        class="fr-textarea fr-output"
+        readonly
+        aria-label="Result text"
+        aria-live="polite"
+      ></textarea>
+      <ToolActions copyTarget="fr-output" downloadFilename="find-replace-result.txt" downloadTarget="fr-output" />
+    </div>
+  </ToolSplit>
+  <CategoryDiscovery slug={config.slug} categorySlug={config.categorySlug} />
+</div>
+
+<style is:global>
+  .fr-widget .io-panel { position: relative; }
+  .fr-widget .fr-textarea {
+    width: 100%;
+    min-height: 260px;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .fr-widget .fr-output { background: var(--color-surface-alt, var(--color-surface)); }
+  .fr-widget .fr-textarea:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .fr-controls {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+  }
+  .fr-toggle {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .fr-toggle input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .fr-toggle span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 28px;
+    padding-inline: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    transition: var(--transition-color);
+  }
+  .fr-toggle input:checked + span {
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+  }
+  .fr-toggle:focus-within span { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .fr-search-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-3) 0;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .fr-field-wrap { position: relative; display: flex; align-items: center; }
+  .fr-field {
+    width: 100%;
+    height: 36px;
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .fr-field:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .fr-field-wrap .fr-field { padding-right: 72px; }
+  .fr-match-count {
+    position: absolute;
+    right: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .fr-match-count.has-matches { color: var(--color-accent-strong); }
+  .fr-regex-error {
+    margin: 0;
+    font-size: var(--text-xs);
+    color: var(--color-danger);
+    min-height: 1rem;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var findEl      = document.getElementById('fr-find');
+  var replaceEl   = document.getElementById('fr-replace');
+  var sourceEl    = document.getElementById('fr-source');
+  var outputEl    = document.getElementById('fr-output');
+  var countEl     = document.getElementById('fr-match-count');
+  var regexErr    = document.getElementById('fr-regex-error');
+  var caseCheck   = document.getElementById('fr-case');
+  var regexCheck  = document.getElementById('fr-regex');
+  var wordCheck   = document.getElementById('fr-whole-word');
+
+  if (!findEl || !replaceEl || !sourceEl || !outputEl) return;
+
+  var TT = window.ToyTools;
+
+  function run() {
+    var source  = sourceEl.value;
+    var pattern = findEl.value;
+    var replace = replaceEl.value;
+    var useCase  = caseCheck.checked;
+    var useRegex = regexCheck.checked;
+    var useWord  = wordCheck.checked;
+
+    regexErr.textContent = '';
+    countEl.textContent  = '';
+    countEl.classList.remove('has-matches');
+
+    if (!pattern) {
+      outputEl.value = source;
+      return;
+    }
+
+    var flags = 'g' + (useCase ? '' : 'i');
+    var re;
+
+    try {
+      var pat = useRegex ? pattern : pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (useWord) pat = '\\b' + pat + '\\b';
+      re = new RegExp(pat, flags);
+    } catch (err) {
+      regexErr.textContent = 'Invalid regex: ' + err.message;
+      outputEl.value = source;
+      return;
+    }
+
+    var matches = source.match(re);
+    var count   = matches ? matches.length : 0;
+
+    if (count > 0) {
+      countEl.textContent = count + ' match' + (count === 1 ? '' : 'es');
+      countEl.classList.add('has-matches');
+    } else {
+      countEl.textContent = 'No matches';
+    }
+
+    outputEl.value = source.replace(re, replace);
+
+    if (TT) TT.state.save('find-replace', { source: source, find: pattern, replace: replace });
+  }
+
+  [findEl, replaceEl, sourceEl, caseCheck, regexCheck, wordCheck].forEach(function (el) {
+    el.addEventListener('input', run);
+    el.addEventListener('change', run);
+  });
+
+  // Restore state
+  if (TT) {
+    var saved = TT.state.load('find-replace');
+    if (saved) {
+      if (saved.source)  sourceEl.value  = saved.source;
+      if (saved.find)    findEl.value    = saved.find;
+      if (saved.replace) replaceEl.value = saved.replace;
+      run();
+    }
+  }
+
+  // Desktop auto-focus
+  if (window.innerWidth >= 1024) sourceEl.focus();
+})();
+</script>

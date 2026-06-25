@@ -1,16 +1,575 @@
 ---
-import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import HeroMetric from '@components/tool/HeroMetric.astro';
+import StatGrid from '@components/tool/StatGrid.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+
+const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.";
 ---
 
-<TextMetricWidget
-  slug="word-counter"
-  emptyMessage="Paste or type text to count words."
-  stats={[
-    { metric: 'words',            label: 'Words',                formatter: 'integer' },
-    { metric: 'characters',       label: 'Characters',           formatter: 'integer' },
-    { metric: 'sentences',        label: 'Sentences',            formatter: 'integer' },
-    { metric: 'paragraphs',       label: 'Paragraphs',           formatter: 'integer' },
-    { metric: 'readingTime',      label: 'Reading Time',         formatter: 'duration' },
-    { metric: 'uniqueWords',      label: 'Unique Words',         formatter: 'integer' },
-  ]}
-/>
+<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Your text" labelFor="word-counter-input" variant="prose">
+    <textarea id="word-counter-input" placeholder="Paste or type text here…"></textarea>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <HeroMetric metric="words" label="Words" formatter="integer" />
+    <StatGrid stats={[
+      { metric: 'characters',  label: 'Characters',   formatter: 'integer' },
+      { metric: 'sentences',   label: 'Sentences',    formatter: 'integer' },
+      { metric: 'paragraphs',  label: 'Paragraphs',   formatter: 'integer' },
+      { metric: 'readingTime', label: 'Reading Time', formatter: 'duration' },
+      { metric: 'uniqueWords', label: 'Unique Words', formatter: 'integer' },
+    ]} />
+  </IoPanel>
+</ToolSplit>
+
+<ToolActions copyTarget="word-counter-input" clearTarget="word-counter-input" pasteTarget="word-counter-input">
+  <button
+    class="action-btn action-btn--sample"
+    data-action="sample"
+    aria-label="Load a sample text"
+    id="wc-sample-btn"
+  >
+    Sample
+  </button>
+  <button
+    class="action-btn"
+    id="wc-download-btn"
+    aria-label="Download stats report"
+  >
+    Download Report
+  </button>
+</ToolActions>
+
+<section class="wc-goal-section" id="wc-goal-section">
+  <div class="wc-goal-header">
+    <label class="wc-goal-label" for="wc-goal-input">Word goal</label>
+    <div class="wc-goal-controls">
+      <input
+        type="number"
+        id="wc-goal-input"
+        class="wc-goal-num"
+        min="1"
+        max="100000"
+        placeholder="e.g. 500"
+        aria-label="Set a word count goal"
+      />
+      <button class="action-btn wc-goal-clear-btn" id="wc-goal-clear" aria-label="Clear goal" hidden>
+        Clear goal
+      </button>
+    </div>
+  </div>
+  <div class="wc-goal-bar-wrap" id="wc-goal-bar-wrap" hidden>
+    <progress
+      class="wc-goal-progress"
+      id="wc-goal-progress"
+      max="100"
+      value="0"
+      aria-label="Word count progress toward goal"
+    ></progress>
+    <span class="wc-goal-stat" id="wc-goal-stat" aria-live="polite"></span>
+  </div>
+</section>
+
+<section class="wc-top-words-section" id="wc-top-words-section" hidden>
+  <div class="wc-top-words-header">
+    <h2 class="wc-section-heading">Top Words</h2>
+    <div class="wc-top-controls">
+      <label class="wc-toggle-label">
+        <input type="checkbox" id="wc-stop-filter" />
+        Hide common words
+      </label>
+      <button class="wc-sort-btn" id="wc-sort-btn" data-sort="freq" aria-pressed="true">
+        By frequency
+      </button>
+    </div>
+  </div>
+  <ol class="wc-top-list" id="wc-top-list" aria-label="Top words by frequency"></ol>
+  <details class="wc-insights" id="wc-insights">
+    <summary class="wc-insights-summary">Word insights</summary>
+    <dl class="wc-insights-list" id="wc-insights-list"></dl>
+  </details>
+</section>
+
+<CategoryDiscovery toolSlug="word-counter" />
+
+<script is:inline>
+(function () {
+  var SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.";
+
+  var STOP_WORDS = new Set('the a an and or but in on at to for of with by from is are was were be been being have has had do does did will would could should may might shall can i me my we our you your he she it its they them their this that these those'.split(' '));
+
+  var textarea = document.getElementById('word-counter-input');
+  var secondary = document.querySelector('.tm-secondary');
+  var hero = document.querySelector('.hero-value');
+  var hint = document.querySelector('.empty-hint');
+  if (!textarea) return;
+
+  var goalInput = document.getElementById('wc-goal-input');
+  var goalBarWrap = document.getElementById('wc-goal-bar-wrap');
+  var goalProgress = document.getElementById('wc-goal-progress');
+  var goalStat = document.getElementById('wc-goal-stat');
+  var goalClearBtn = document.getElementById('wc-goal-clear');
+  var topSection = document.getElementById('wc-top-words-section');
+  var topList = document.getElementById('wc-top-list');
+  var insightsList = document.getElementById('wc-insights-list');
+  var stopFilter = document.getElementById('wc-stop-filter');
+  var sortBtn = document.getElementById('wc-sort-btn');
+  var sampleBtn = document.getElementById('wc-sample-btn');
+
+  var currentWordCount = 0;
+  var currentWords = [];
+  var sortMode = 'freq';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pulseTimer;
+
+  function pulse() {
+    if (reduceMotion || !hero) return;
+    hero.classList.add('is-updated');
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(function () { hero.classList.remove('is-updated'); }, 200);
+  }
+
+  function setMetric(el, value) {
+    var fmt = el.dataset.formatter || 'integer';
+    var next = ToyTools.formatMetric(value, fmt);
+    if (el.textContent !== next) {
+      el.textContent = next;
+      if (el === hero) pulse();
+    }
+  }
+
+  function tokenize(text) {
+    return (text.match(/\b[a-zA-Z']+\b/g) || []).map(function (w) { return w.toLowerCase(); });
+  }
+
+  function updateGoal() {
+    var goal = parseInt(goalInput.value, 10);
+    if (!goal || goal < 1) {
+      goalBarWrap.hidden = true;
+      goalClearBtn.hidden = true;
+      return;
+    }
+    goalClearBtn.hidden = false;
+    goalBarWrap.hidden = false;
+    var pct = Math.min(Math.round((currentWordCount / goal) * 100), 100);
+    goalProgress.value = pct;
+    goalProgress.max = 100;
+    var remaining = goal - currentWordCount;
+    if (remaining > 0) {
+      goalStat.textContent = currentWordCount + ' / ' + goal + ' words — ' + remaining + ' to go (' + pct + '%)';
+    } else {
+      goalStat.textContent = currentWordCount + ' / ' + goal + ' words — Goal reached!';
+    }
+    goalProgress.className = 'wc-goal-progress' + (pct >= 100 ? ' is-complete' : pct >= 80 ? ' is-near' : '');
+  }
+
+  function buildTopWords(words) {
+    var useFilter = stopFilter.checked;
+    var filtered = useFilter ? words.filter(function (w) { return !STOP_WORDS.has(w); }) : words;
+
+    var freq = {};
+    filtered.forEach(function (w) { freq[w] = (freq[w] || 0) + 1; });
+
+    var entries = Object.keys(freq).map(function (w) { return [w, freq[w]]; });
+    if (sortMode === 'freq') {
+      entries.sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
+    } else {
+      entries.sort(function (a, b) { return a[0].localeCompare(b[0]); });
+    }
+
+    var top = entries.slice(0, 15);
+    var maxFreq = top.length ? top[0][1] : 1;
+
+    var html = '';
+    top.forEach(function (entry) {
+      var pct = Math.round((entry[1] / maxFreq) * 100);
+      html +=
+        '<li class="wc-word-row">' +
+        '<span class="wc-word-text">' + entry[0] + '</span>' +
+        '<span class="wc-word-bar-track"><span class="wc-word-bar" style="width:' + pct + '%"></span></span>' +
+        '<span class="wc-word-count">' + entry[1] + '</span>' +
+        '</li>';
+    });
+    topList.innerHTML = html || '<li class="wc-word-empty">No words found.</li>';
+  }
+
+  function buildInsights(words, text) {
+    if (!words.length) { insightsList.innerHTML = ''; return; }
+    var alpha = words.filter(function (w) { return /^[a-z]+$/.test(w); });
+    var longest = alpha.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
+    var shortest = alpha.reduce(function (a, b) { return b.length < a.length ? b : a; }, alpha[0] || '');
+    var freq = {};
+    words.forEach(function (w) { freq[w] = (freq[w] || 0) + 1; });
+    var repeated = Object.keys(freq).filter(function (w) { return freq[w] > 1; }).length;
+    insightsList.innerHTML =
+      '<div class="wc-insight-row"><dt>Longest word</dt><dd>' + (longest || '—') + '</dd></div>' +
+      '<div class="wc-insight-row"><dt>Shortest word</dt><dd>' + (shortest || '—') + '</dd></div>' +
+      '<div class="wc-insight-row"><dt>Repeated words</dt><dd>' + repeated + '</dd></div>';
+  }
+
+  function update() {
+    var text = textarea.value;
+    currentWords = tokenize(text);
+    if (!text.trim()) {
+      if (hero) setMetric(hero, 0);
+      if (secondary) secondary.hidden = true;
+      if (hint) hint.hidden = false;
+      currentWordCount = 0;
+      if (topSection) topSection.hidden = true;
+      updateGoal();
+      return;
+    }
+    if (hint) hint.hidden = true;
+    if (secondary) secondary.hidden = false;
+    var r = ToyTools.analyze(text);
+    currentWordCount = r.words || 0;
+    document.querySelectorAll('[data-metric]').forEach(function (el) {
+      var key = el.dataset.metric;
+      setMetric(el, r[key] !== undefined ? r[key] : 0);
+    });
+    updateGoal();
+    if (topSection) {
+      topSection.hidden = false;
+      buildTopWords(currentWords);
+      buildInsights(currentWords, text);
+    }
+  }
+
+  var downloadBtn = document.getElementById('wc-download-btn');
+
+  // Sample button
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      textarea.value = SAMPLE;
+      textarea.dispatchEvent(new Event('input'));
+      textarea.focus();
+    });
+  }
+
+  // Download report
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+      if (!textarea.value.trim()) { ToyTools.toast('Nothing to download!'); return; }
+      var lines = ['Word Count Report', '=================', ''];
+      document.querySelectorAll('[data-metric]').forEach(function (el) {
+        var label = el.closest('.tm-hero, .tm-stat-row');
+        var labelText = label ? (label.querySelector('.hero-label, .tm-stat-label') || {}).textContent : null;
+        if (labelText) lines.push(labelText.trim() + ': ' + el.textContent.trim());
+      });
+      if (goalInput && goalInput.value) {
+        lines.push('');
+        lines.push('Goal: ' + goalInput.value + ' words');
+      }
+      lines.push('');
+      lines.push('Generated: ' + new Date().toLocaleString());
+      var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'word-count-report.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      ToyTools.toast('Report downloaded');
+    });
+  }
+
+  // Goal input
+  if (goalInput) {
+    goalInput.addEventListener('input', function () {
+      updateGoal();
+      saveState();
+    });
+  }
+  if (goalClearBtn) {
+    goalClearBtn.addEventListener('click', function () {
+      goalInput.value = '';
+      updateGoal();
+      saveState();
+    });
+  }
+
+  // Top words controls
+  if (stopFilter) {
+    stopFilter.addEventListener('change', function () {
+      buildTopWords(currentWords);
+    });
+  }
+  if (sortBtn) {
+    sortBtn.addEventListener('click', function () {
+      sortMode = sortMode === 'freq' ? 'alpha' : 'freq';
+      sortBtn.textContent = sortMode === 'freq' ? 'By frequency' : 'Alphabetical';
+      sortBtn.dataset.sort = sortMode;
+      buildTopWords(currentWords);
+    });
+  }
+
+  // Clickable stat copy
+  document.querySelectorAll('.tm-stat-row').forEach(function (row) {
+    row.setAttribute('role', 'button');
+    row.setAttribute('tabindex', '0');
+    row.setAttribute('title', 'Click to copy');
+    row.addEventListener('click', function () {
+      var label = row.querySelector('.tm-stat-label');
+      var value = row.querySelector('.tm-stat-value');
+      if (!label || !value) return;
+      ToyTools.copy(label.textContent.trim() + ': ' + value.textContent.trim());
+      row.classList.add('is-copied');
+      setTimeout(function () { row.classList.remove('is-copied'); }, 800);
+    });
+    row.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
+    });
+  });
+
+  function saveState() {
+    if (ToyTools.state) ToyTools.state.save('word-counter', { text: textarea.value, goal: goalInput ? goalInput.value : '' });
+  }
+
+  try {
+    var saved = ToyTools.state && ToyTools.state.load('word-counter');
+    if (saved) {
+      if (typeof saved.text === 'string') textarea.value = saved.text;
+      if (goalInput && saved.goal) goalInput.value = saved.goal;
+    }
+  } catch (_) {}
+
+  textarea.addEventListener('input', function () {
+    update();
+    saveState();
+  });
+  ToyTools.onReady(update);
+
+  if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
+})();
+</script>
+
+<style is:global>
+  .tm-stat-row {
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background-color 150ms;
+  }
+  .tm-stat-row:hover { background-color: var(--color-accent-subtle); }
+  .tm-stat-row.is-copied { background-color: var(--color-success-bg); }
+  .action-btn--sample {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .action-btn--sample:hover {
+    background: var(--color-surface-elevated);
+    color: var(--color-text);
+  }
+</style>
+
+<style>
+  .wc-goal-section {
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .wc-goal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .wc-goal-label {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+  .wc-goal-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    min-width: 0;
+  }
+  .wc-goal-num {
+    width: 7rem;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+  }
+  .wc-goal-clear-btn {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+    height: auto;
+    min-height: unset;
+  }
+  .wc-goal-bar-wrap {
+    margin-top: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .wc-goal-progress {
+    flex: 1;
+    min-width: 8rem;
+    height: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+    overflow: hidden;
+  }
+  .wc-goal-progress::-webkit-progress-bar { background: var(--color-border); border-radius: var(--radius-full); }
+  .wc-goal-progress::-webkit-progress-value { background: var(--color-accent); border-radius: var(--radius-full); transition: width 200ms ease; }
+  .wc-goal-progress::-moz-progress-bar { background: var(--color-accent); border-radius: var(--radius-full); }
+  .wc-goal-progress.is-near::-webkit-progress-value { background: #d97706; }
+  .wc-goal-progress.is-near::-moz-progress-bar { background: #d97706; }
+  .wc-goal-progress.is-complete::-webkit-progress-value { background: var(--color-success); }
+  .wc-goal-progress.is-complete::-moz-progress-bar { background: var(--color-success); }
+  .wc-goal-stat {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .wc-top-words-section {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .wc-top-words-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+  .wc-section-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0;
+  }
+  .wc-top-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .wc-toggle-label {
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    cursor: pointer;
+  }
+  .wc-sort-btn {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: background-color 150ms;
+  }
+  .wc-sort-btn:hover { background: var(--color-surface-elevated); color: var(--color-text); }
+
+  .wc-top-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .wc-word-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr 3rem;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+  .wc-word-text {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .wc-word-bar-track {
+    height: 12px;
+    background: var(--color-surface-raised);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .wc-word-bar {
+    display: block;
+    height: 100%;
+    background: var(--color-accent-subtle);
+    border-radius: var(--radius-full);
+    transition: width 150ms ease-out;
+  }
+  .wc-word-count {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-align: right;
+  }
+  .wc-word-empty { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+  .wc-insights {
+    margin-top: var(--space-5);
+    border-top: 1px solid var(--color-border-subtle, var(--color-border));
+    padding-top: var(--space-4);
+  }
+  .wc-insights-summary {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    user-select: none;
+    list-style: none;
+  }
+  .wc-insights-summary::-webkit-details-marker { display: none; }
+  .wc-insights-summary::before { content: '+ '; }
+  details[open] .wc-insights-summary::before { content: '− '; }
+  .wc-insights-list {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .wc-insight-row {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    min-width: 9rem;
+  }
+  .wc-insight-row dt {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .wc-insight-row dd {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    margin: 0;
+    word-break: break-all;
+  }
+</style>

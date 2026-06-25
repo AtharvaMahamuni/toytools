@@ -1,0 +1,190 @@
+---
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { config } from './config';
+---
+
+<div class="tc-widget">
+  <div class="tc-inputs">
+    <IoPanel label="Original" labelFor="tc-original" variant="prose">
+      <textarea
+        id="tc-original"
+        class="tc-textarea"
+        placeholder="Paste original text…"
+        spellcheck="false"
+        aria-label="Original text"
+      ></textarea>
+    </IoPanel>
+    <ToolActions pasteTarget="tc-original" clearTarget="tc-original" />
+
+    <IoPanel label="New Text" labelFor="tc-new" variant="prose">
+      <textarea
+        id="tc-new"
+        class="tc-textarea"
+        placeholder="Paste new text…"
+        spellcheck="false"
+        aria-label="New text"
+      ></textarea>
+    </IoPanel>
+    <ToolActions pasteTarget="tc-new" clearTarget="tc-new" />
+  </div>
+
+  <div class="tc-result-section" id="tc-result-section" hidden>
+    <div class="tc-stats-bar" id="tc-stats-bar" aria-live="polite"></div>
+    <div class="tc-diff" id="tc-diff" role="region" aria-label="Diff result"></div>
+  </div>
+
+  <CategoryDiscovery slug={config.slug} categorySlug={config.categorySlug} />
+</div>
+
+<style is:global>
+  .tc-widget .tc-inputs {
+    display: grid;
+    gap: var(--space-4);
+  }
+  @media (min-width: 768px) {
+    .tc-widget .tc-inputs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .tc-widget .tc-textarea {
+    width: 100%;
+    min-height: 220px;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .tc-widget .tc-textarea:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .tc-result-section {
+    margin-top: var(--space-6);
+  }
+  .tc-stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt, var(--color-surface));
+    border: 1px solid var(--color-border);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+  .tc-stat { display: flex; align-items: center; gap: var(--space-2); }
+  .tc-stat-label { color: var(--color-text-muted); }
+  .tc-stat-value { font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; }
+  .tc-stat-value.added   { color: var(--color-success, #2a7d4f); }
+  .tc-stat-value.removed { color: var(--color-danger); }
+  .tc-stat-value.similarity { color: var(--color-accent-strong); }
+  .tc-diff {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+  .tc-line {
+    display: flex;
+    align-items: baseline;
+    padding: 2px var(--space-3);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .tc-line-marker {
+    min-width: 1.5ch;
+    margin-right: var(--space-3);
+    color: var(--color-text-muted);
+    user-select: none;
+    font-weight: var(--font-weight-semibold);
+  }
+  .tc-line.tc-added   { background: color-mix(in srgb, var(--color-success, #2a7d4f) 12%, transparent); }
+  .tc-line.tc-removed { background: color-mix(in srgb, var(--color-danger) 12%, transparent); }
+  .tc-line.tc-unchanged { color: var(--color-text-muted); }
+  .tc-line.tc-added   .tc-line-marker { color: var(--color-success, #2a7d4f); }
+  .tc-line.tc-removed .tc-line-marker { color: var(--color-danger); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .tc-line.tc-added   { background: color-mix(in srgb, var(--color-success, #84C2A3) 15%, transparent); }
+    :root:not([data-theme="light"]) .tc-line.tc-removed { background: color-mix(in srgb, var(--color-danger) 15%, transparent); }
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var origEl    = document.getElementById('tc-original');
+  var newEl     = document.getElementById('tc-new');
+  var section   = document.getElementById('tc-result-section');
+  var statsBar  = document.getElementById('tc-stats-bar');
+  var diffEl    = document.getElementById('tc-diff');
+
+  if (!origEl || !newEl || !section) return;
+
+  var TT = window.ToyTools;
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function run() {
+    var a = origEl.value;
+    var b = newEl.value;
+
+    if (!a && !b) { section.hidden = true; return; }
+
+    section.hidden = false;
+
+    if (!TT || !TT.diff) {
+      // Runtime not ready yet — retry shortly
+      setTimeout(run, 100);
+      return;
+    }
+
+    var result = TT.diff(a, b);
+    var stats  = TT.diffStats(result);
+
+    // Stats bar
+    statsBar.innerHTML =
+      '<span class="tc-stat"><span class="tc-stat-label">Added</span><span class="tc-stat-value added">+' + stats.added + '</span></span>' +
+      '<span class="tc-stat"><span class="tc-stat-label">Removed</span><span class="tc-stat-value removed">-' + stats.removed + '</span></span>' +
+      '<span class="tc-stat"><span class="tc-stat-label">Unchanged</span><span class="tc-stat-value">' + stats.unchanged + '</span></span>' +
+      '<span class="tc-stat"><span class="tc-stat-label">Similarity</span><span class="tc-stat-value similarity">' + stats.similarity + '%</span></span>';
+
+    // Diff view
+    var html = '';
+    for (var i = 0; i < result.length; i++) {
+      var r = result[i];
+      var marker = r.type === 'added' ? '+' : r.type === 'removed' ? '-' : ' ';
+      var cls    = r.type === 'added' ? 'tc-added' : r.type === 'removed' ? 'tc-removed' : 'tc-unchanged';
+      html += '<div class="tc-line ' + cls + '" aria-label="' + r.type + '">' +
+        '<span class="tc-line-marker" aria-hidden="true">' + marker + '</span>' +
+        '<span>' + escapeHtml(r.line) + '</span></div>';
+    }
+    diffEl.innerHTML = html;
+
+    if (TT) TT.state.save('text-compare', { a: a, b: b });
+  }
+
+  origEl.addEventListener('input', run);
+  newEl.addEventListener('input', run);
+
+  // Restore state
+  if (TT) {
+    var saved = TT.state.load('text-compare');
+    if (saved) {
+      if (saved.a) origEl.value = saved.a;
+      if (saved.b) newEl.value  = saved.b;
+      run();
+    }
+  }
+})();
+</script>

@@ -1,0 +1,148 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A letter counter counts only the alphabetic characters in your text: A through Z and their
+      lowercase equivalents, plus letters from any language (accented Latin, Cyrillic, Arabic,
+      Chinese, and so on). Digits, spaces, punctuation, and symbols are not letters and are not
+      counted. For example, "Hello, World!" contains 10 letters.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Letter Counter →</a>
+  </section>
+
+  <section id="letters-vs-characters">
+    <h2>Letters vs Characters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Character count</strong> counts everything: letters, digits, spaces, punctuation,
+      and symbols. "Hello, World!" is 13 characters (with the space).
+    </p>
+    <p>
+      <strong>Letter count</strong> counts only alphabetic characters. "Hello, World!" is 10
+      letters — H, e, l, l, o, W, o, r, l, d. The comma, space, and exclamation mark are
+      excluded.
+    </p>
+    <p>
+      Use letter count when your constraint is specifically about alphabetic content rather
+      than overall text length. Use character count for platform limits like Twitter or SMS.
+    </p>
+  </section>
+
+  <section id="what-counts-as-a-letter">
+    <h2>What Counts as a Letter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This tool uses Unicode letter classification, which includes:
+    </p>
+    <ul>
+      <li>English letters: A–Z and a–z</li>
+      <li>Accented Latin characters: é, ñ, ü, ç, ø, and others</li>
+      <li>Letters from other scripts: Arabic, Chinese, Japanese, Korean, Cyrillic, Greek, Hebrew, and more</li>
+    </ul>
+    <p>The following are <em>not</em> letters and are excluded from the count:</p>
+    <ul>
+      <li>Digits: 0–9</li>
+      <li>Spaces, tabs, and line breaks</li>
+      <li>Punctuation: comma, period, exclamation mark, apostrophe, hyphen</li>
+      <li>Symbols: @, #, $, &amp;, and others</li>
+    </ul>
+    <ReferenceBlock type="note" heading="Emoji are not letters">
+      <p>
+        Emoji are not classified as Unicode letters. "Hello 👋" has 5 letters, not 6.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Here are real examples to illustrate the difference between letters and other characters:</p>
+    <ul>
+      <li><strong>"Hello, World!"</strong> — 10 letters, 13 characters</li>
+      <li><strong>"abc 123"</strong> — 3 letters, 7 characters</li>
+      <li><strong>"café"</strong> — 4 letters, 4 characters (the accent does not add extra characters in normal text)</li>
+      <li><strong>"It's a test."</strong> — 10 letters, 13 characters</li>
+    </ul>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Use a Letter Counter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Checking password policies that require a minimum number of letters</li>
+      <li>Measuring the alphabetic density of text (letters as a percentage of characters)</li>
+      <li>Validating that a field contains a minimum number of alphabetic characters</li>
+      <li>Analysing text composition in linguistics or language research</li>
+      <li>Verifying that a code or identifier follows a letters-only or letters-and-digits rule</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Confusing letter count with character count">
+      <p>
+        If you need the total length of a string for a platform limit (Twitter, SMS, database
+        field), use the Character Counter, not the Letter Counter. Platform limits count all
+        characters including spaces and punctuation, not just letters.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Assuming digits are letters">
+      <p>
+        Digits (0–9) are not letters. "a1b2c3" has 3 letters, not 6. If you want to count
+        letters and digits together, use the Character Counter and subtract the spaces and
+        punctuation count from the total.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text analysis utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
+      including <a href={withBase(`/tool/${category.segment}/character-counter/`)}>Character Counter</a>,
+      <a href={withBase(`/tool/${category.segment}/space-counter/`)}>Space Counter</a>,
+      and <a href={withBase(`/tool/${category.segment}/word-counter/`)}>Word Counter</a>.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

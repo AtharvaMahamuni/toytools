@@ -3,13 +3,13 @@ import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 ---
 
 <TextMetricWidget
-  slug="reading-time-calculator"
-  emptyMessage="Paste or type text to estimate reading time."
+  slug="space-counter"
+  emptyMessage="Paste or type text to count spaces."
   sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
   stats={[
-    { metric: 'readingTime',          label: 'Reading Time',   formatter: 'duration' },
-    { metric: 'speakingTime',         label: 'Speaking Time',  formatter: 'duration' },
-    { metric: 'words',                label: 'Words',          formatter: 'integer' },
-    { metric: 'averageSentenceLength',label: 'Avg Sentence',   formatter: 'decimal' },
+    { metric: 'spaces',             label: 'Spaces',               formatter: 'integer' },
+    { metric: 'characters',         label: 'Total Characters',     formatter: 'integer' },
+    { metric: 'charactersNoSpaces', label: 'Without Spaces',       formatter: 'integer' },
+    { metric: 'words',              label: 'Words',                formatter: 'integer' },
   ]}
 />

@@ -45,6 +45,11 @@ import { items as characterCounterFaqs }      from '@tools/text/character-counte
 import { items as readingTimeCalculatorFaqs } from '@tools/text/reading-time-calculator/faq';
 import { items as sentenceCounterFaqs }       from '@tools/text/sentence-counter/faq';
 import { items as paragraphCounterFaqs }      from '@tools/text/paragraph-counter/faq';
+import { items as letterCounterFaqs }         from '@tools/text/letter-counter/faq';
+import { items as lineCounterFaqs }           from '@tools/text/line-counter/faq';
+import { items as spaceCounterFaqs }          from '@tools/text/space-counter/faq';
+import { items as findReplaceFaqs }           from '@tools/text/find-replace/faq';
+import { items as textCompareFaqs }           from '@tools/text/text-compare/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'todo-list':              todoFaqs,
@@ -88,4 +93,9 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'reading-time-calculator': readingTimeCalculatorFaqs,
   'sentence-counter':       sentenceCounterFaqs,
   'paragraph-counter':      paragraphCounterFaqs,
+  'letter-counter':         letterCounterFaqs,
+  'line-counter':           lineCounterFaqs,
+  'space-counter':          spaceCounterFaqs,
+  'find-replace':           findReplaceFaqs,
+  'text-compare':           textCompareFaqs,
 };

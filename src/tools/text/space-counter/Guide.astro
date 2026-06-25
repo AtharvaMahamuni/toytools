@@ -1,0 +1,139 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A space counter counts the literal space characters in text. Spaces are the invisible
+      characters produced by pressing the spacebar. Tabs and newlines are not spaces and are not
+      counted. "Hello World" has 1 space; "The quick brown fox" has 3 spaces.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Space Counter →</a>
+  </section>
+
+  <section id="what-counts-as-a-space">
+    <h2>What Counts as a Space <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This tool counts only the ASCII space character (Unicode code point U+0020): the character
+      you type with the spacebar. It does <em>not</em> count:
+    </p>
+    <ul>
+      <li>Tabs (<code>\t</code>)</li>
+      <li>Newlines (<code>\n</code>) or carriage returns (<code>\r</code>)</li>
+      <li>Non-breaking spaces (<code>&amp;nbsp;</code>)</li>
+      <li>Other Unicode whitespace characters</li>
+    </ul>
+    <ReferenceBlock type="note" heading="Characters Without Spaces uses a broader definition">
+      <p>
+        The "Without Spaces" metric on this page subtracts all whitespace characters from the
+        total character count, not just ASCII spaces. This means tabs and newlines are also
+        excluded from "without spaces."
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>"Hello World"</strong> — 1 space, 11 characters total</li>
+      <li><strong>"The quick brown fox"</strong> — 3 spaces, 19 characters total</li>
+      <li><strong>"Hello  World"</strong> (double space) — 2 spaces, 12 characters total</li>
+      <li><strong>"NoSpacesHere"</strong> — 0 spaces, 12 characters total</li>
+    </ul>
+  </section>
+
+  <section id="spaces-vs-whitespace">
+    <h2>Spaces vs Whitespace <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Spaces</strong> refers specifically to the space character (the spacebar). They
+      separate words in sentences and appear between items in lists.
+    </p>
+    <p>
+      <strong>Whitespace</strong> is a broader term covering all invisible formatting characters:
+      spaces, tabs (used for code indentation), newlines (line breaks), carriage returns, and
+      others. The character count "without spaces" on this tool subtracts all whitespace from
+      the total, not just literal space characters.
+    </p>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Use a Space Counter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Finding double spaces in edited text (should be replaced with single spaces)</li>
+      <li>Debugging data files where unexpected spaces cause parsing errors</li>
+      <li>Checking the density of whitespace in code or configuration files</li>
+      <li>Verifying spacing in formatted output where space count matters</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Using space count instead of character count for limits">
+      <p>
+        Platform character limits (Twitter, SMS, SEO) count all characters including spaces.
+        Space count is a diagnostic metric, not a compliance metric. Use the Character Counter
+        to check against platform limits.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Expecting tabs to show up in the space count">
+      <p>
+        Tabs and spaces are different characters. If your text uses tabs for indentation, they
+        will not appear in the space count. To find and replace tabs, use the Remove Tabs or
+        Normalize Whitespace tools.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text analysis utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
+      including <a href={withBase(`/tool/${category.segment}/character-counter/`)}>Character Counter</a>,
+      <a href={withBase(`/tool/${category.segment}/letter-counter/`)}>Letter Counter</a>,
+      and <a href={withBase(`/tool/${category.segment}/word-counter/`)}>Word Counter</a>.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
