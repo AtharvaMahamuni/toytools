@@ -1,19 +1,18 @@
 ---
-// Dedicated JWT widget — powers the JWT Decoder. Unlike the generic encoding/structured-data
-// widgets, a decoded token is a COMPOSITE (header + payload + humanized claims + raw signature),
-// so it gets its own widget. It reads `token → ToyTools.runJwt(id, token) → { ok, decoded, error }`
-// live on input.
+// Dedicated JWT widget — powers the JWT Decoder. A decoded token is a COMPOSITE (summary +
+// live validity + insights + header/payload + interactive claims + signature), so it gets its
+// own widget. It reads `token → ToyTools.runJwt(id, token) → { ok, decoded, error }` live on input.
 //
 // Layout: a single stacked column (compact token input on top, decoded output below). A JWT is
-// asymmetric — a short token in, a rich tall decode out — so the symmetric two-column ToolSplit
-// (which equalizes column heights for base64/JSON) would leave a large empty input. Single-column
-// is an established pattern here (notepad, todo) and keeps the same IoPanel chrome + status line.
+// asymmetric, so the symmetric two-column ToolSplit (which equalizes heights) would leave a tall
+// empty input. Single-column is an established pattern here (notepad, todo).
 //
-// Styles are `is:global` (namespaced .jwt-*) because the claims rows are built in the inline
-// script via createElement, so Astro's scoped-style attribute would never reach them.
+// Interactivity reuses platform helpers only: ToyTools.copy (value/path copy + toast),
+// ToyTools.mobileTooltip (hover tooltip on desktop, tap-to-toast on mobile), and a 1s setInterval
+// ticker (pomodoro pattern) for the live validity panel. No dependencies; respects reduced motion.
 //
-// Decoding is 100% local — the token is never transmitted (the privacy line says so, and it is true
-// because this is a static site with no server). The signature is shown but never verified.
+// Styles are `is:global` (namespaced .jwt-*) because most decoded DOM is built in the inline script
+// via createElement, so Astro's scoped-style attribute would never reach it.
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CopyButton from '@components/CopyButton.astro';
@@ -32,10 +31,13 @@ const sample = JWT_TOOLS[jwtId]?.sample ?? '';
 
 const inputId = `${slug}-input`;
 const statusId = `${slug}-status`;
-const sectionsId = `${slug}-sections`;
 const emptyId = `${slug}-empty`;
+const sectionsId = `${slug}-sections`;
+const summaryId = `${slug}-summary`;
+const validityId = `${slug}-validity`;
 const headerId = `${slug}-header`;
 const payloadId = `${slug}-payload`;
+const insightsId = `${slug}-insights`;
 const claimsWrapId = `${slug}-claims-wrap`;
 const claimsId = `${slug}-claims`;
 const sigId = `${slug}-sig`;
@@ -56,9 +58,35 @@ const sigId = `${slug}-sig`;
   <IoPanel label="Decoded">
     <div class="jwt-out">
       <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
-      <p id={emptyId} class="jwt-empty">Paste a JWT above to decode its header, payload, and claims.</p>
+
+      <div id={emptyId} class="jwt-empty">
+        <p class="jwt-empty-lead">Paste a JWT above to decode it.</p>
+        <p>Bearer prefixes, quotes, and wrapped tokens are cleaned automatically.</p>
+      </div>
 
       <div id={sectionsId} class="jwt-sections" hidden>
+        <div id={summaryId} class="jwt-summary"></div>
+
+        <section id={validityId} class="jwt-validity" hidden aria-label="Token validity">
+          <div class="jwt-vhead">
+            <span class="jwt-vstatus" data-vstatus></span>
+            <span class="jwt-vcountdown" data-vcountdown aria-live="polite"></span>
+          </div>
+          <p class="jwt-vabs" data-vabs></p>
+          <div class="jwt-vbar" data-vbar hidden>
+            <div class="jwt-vbar-track">
+              <div class="jwt-vbar-fill" data-vfill></div>
+              <span class="jwt-vbar-now has-tip" data-vnow tabindex="0" aria-label="Current time"></span>
+            </div>
+            <div class="jwt-vbar-ends">
+              <span class="jwt-vbar-end has-tip" data-vstart tabindex="0">Issued</span>
+              <span class="jwt-vbar-end has-tip" data-vend tabindex="0">Expires</span>
+            </div>
+          </div>
+        </section>
+
+        <ul id={insightsId} class="jwt-insights"></ul>
+
         <section class="jwt-sec">
           <div class="jwt-sec-head">
             <span class="io-label">Header</span>
@@ -76,10 +104,8 @@ const sigId = `${slug}-sig`;
         </section>
 
         <section id={claimsWrapId} class="jwt-sec" hidden>
-          <span class="io-label">Registered claims</span>
-          <table class="jwt-claims">
-            <tbody id={claimsId}></tbody>
-          </table>
+          <span class="io-label">Claims <span class="jwt-hint">(tap a value to copy, a key to copy its path)</span></span>
+          <div id={claimsId} class="jwt-claims"></div>
         </section>
 
         <section class="jwt-sec">
@@ -104,152 +130,170 @@ const sigId = `${slug}-sig`;
 <CategoryDiscovery toolSlug={slug} />
 
 <style is:global>
-  /* Stacked single-column layout. The decoded panel grows with its content (a JWT decode is
-     taller than the token input), so neither panel uses the symmetric ToolSplit equalization. */
-  .jwt-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-  }
+  .jwt-grid { display: flex; flex-direction: column; gap: var(--space-5); }
 
   /* The token is one long string, not prose — a compact input avoids a tall empty box. */
-  .jwt-input-panel {
-    min-height: 0;
-  }
-
-  .jwt-input-panel textarea {
-    min-height: 120px;
-  }
+  .jwt-input-panel { min-height: 0; }
+  .jwt-input-panel textarea { min-height: 120px; }
 
   .jwt-out {
-    flex: 1;
-    min-height: 0;
-    padding: var(--space-3);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    flex: 1; min-height: 0; padding: var(--space-3);
+    display: flex; flex-direction: column; gap: var(--space-3);
   }
 
-  .jwt-empty {
-    margin: 0;
-    color: var(--color-text-subtle);
-    font-size: var(--text-sm);
-  }
+  .jwt-empty { margin: 0; color: var(--color-text-subtle); font-size: var(--text-sm); display: flex; flex-direction: column; gap: var(--space-1); }
+  .jwt-empty p { margin: 0; }
+  .jwt-empty-lead { color: var(--color-text); font-weight: var(--font-weight-medium); }
 
-  .jwt-sections {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
+  .jwt-sections { display: flex; flex-direction: column; gap: var(--space-4); }
   /* An explicit display value overrides the [hidden] user-agent rule, so restore it. */
-  .jwt-sections[hidden],
-  .jwt-sec[hidden] {
-    display: none;
+  .jwt-empty[hidden], .jwt-sections[hidden], .jwt-sec[hidden], .jwt-validity[hidden],
+  .jwt-vbar[hidden], .jwt-insight[hidden], .jwt-claim-children[hidden], .jwt-claim-more[hidden] { display: none; }
+
+  .jwt-sec { display: flex; flex-direction: column; gap: var(--space-2); }
+  .jwt-sec-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .jwt-hint { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--color-text-subtle); }
+
+  /* Summary card */
+  .jwt-summary {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-2);
+    border: var(--border); border-radius: var(--radius-md); overflow: hidden;
+  }
+  .jwt-sum-cell { padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; gap: 2px; }
+  .jwt-sum-k { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); }
+  .jwt-sum-v { font-size: var(--text-sm); font-weight: var(--font-weight-semibold); font-family: var(--font-mono); overflow-wrap: anywhere; }
+  .jwt-sum-v[data-tone="ok"] { color: var(--color-success); }
+  .jwt-sum-v[data-tone="warn"] { color: var(--color-danger); }
+  .jwt-sum-v[data-tone="pending"] { color: var(--color-gold); }
+
+  /* Validity panel */
+  .jwt-validity {
+    display: flex; flex-direction: column; gap: var(--space-2);
+    padding: var(--space-3); border: var(--border); border-radius: var(--radius-md);
+    background: var(--color-bg);
+  }
+  .jwt-vhead { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+  .jwt-vstatus {
+    display: inline-flex; align-items: center; gap: var(--space-1);
+    padding: 2px var(--space-2); border-radius: var(--radius-sm);
+    font-size: var(--text-sm); font-weight: var(--font-weight-semibold);
+    background: var(--color-bg-tertiary); color: var(--color-text);
+    transition: background-color var(--duration-normal) var(--ease-default), color var(--duration-normal) var(--ease-default);
+  }
+  .jwt-vstatus.is-valid { background: var(--color-success-bg); color: var(--color-success); }
+  .jwt-vstatus.is-expired { background: var(--color-danger-bg); color: var(--color-danger); }
+  .jwt-vstatus.is-pending { background: var(--color-gold-subtle); color: var(--color-gold); }
+  .jwt-vcountdown { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .jwt-vabs { margin: 0; font-size: var(--text-xs); color: var(--color-text-subtle); }
+  .jwt-vabs:empty { display: none; }
+
+  .jwt-vbar { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-1); }
+  .jwt-vbar-track {
+    position: relative; height: 8px; border-radius: 999px;
+    background: var(--color-bg-tertiary); overflow: visible;
+  }
+  .jwt-vbar-fill {
+    height: 100%; width: 0; border-radius: 999px; background: var(--color-accent);
+  }
+  .jwt-vbar-fill.is-expired { background: var(--color-danger); }
+  .jwt-vbar-now {
+    position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--color-accent); border: 2px solid var(--color-bg);
+    transform: translate(-50%, -50%); cursor: help;
+  }
+  .jwt-vbar-now.is-expired { background: var(--color-danger); }
+  .jwt-vbar-ends { display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--color-text-subtle); }
+  .jwt-vbar-end { cursor: help; }
+  @media (prefers-reduced-motion: no-preference) {
+    .jwt-vbar-fill { transition: width 1s linear, background-color var(--duration-normal) var(--ease-default); }
+    .jwt-vbar-now { transition: left 1s linear; }
   }
 
-  .jwt-sec {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .jwt-sec-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-  }
+  /* Insights */
+  .jwt-insights { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+  .jwt-insights:empty { display: none; }
+  .jwt-insight { font-size: var(--text-sm); display: flex; gap: var(--space-2); }
+  .jwt-insight[data-tone="ok"] { color: var(--color-text); }
+  .jwt-insight[data-tone="warn"] { color: var(--color-danger); }
+  .jwt-insight-mark { flex-shrink: 0; }
 
   .jwt-pre {
-    margin: 0;
-    padding: var(--space-3);
-    border: var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: var(--leading-relaxed);
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    font-variant-ligatures: none;
+    margin: 0; padding: var(--space-3); border: var(--border); border-radius: var(--radius-sm);
+    background: var(--color-bg); font-family: var(--font-mono); font-size: var(--text-sm);
+    line-height: var(--leading-relaxed); white-space: pre-wrap; overflow-wrap: anywhere; font-variant-ligatures: none;
   }
 
-  .jwt-claims {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--text-sm);
+  /* Interactive claims list */
+  .jwt-claims { display: flex; flex-direction: column; border: var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+  .jwt-claim { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space-3); padding: var(--space-2) var(--space-3); border-top: var(--border); }
+  .jwt-claim:first-child { border-top: none; }
+  .jwt-claim--nested { border-top: var(--border); padding-left: var(--space-4); }
+  .jwt-claim-key { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); min-width: 0; }
+  .jwt-claim-label { color: var(--color-text-muted); font-weight: var(--font-weight-medium); font-size: var(--text-sm); }
+  .jwt-claim-path {
+    border: none; background: transparent; padding: 0; cursor: pointer;
+    font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-subtle);
   }
-
-  .jwt-claims td {
-    padding: var(--space-2) var(--space-3);
-    border-bottom: var(--border);
-    vertical-align: top;
+  .jwt-claim-path:hover { color: var(--color-accent); text-decoration: underline; }
+  .jwt-claim-path--solo { font-size: var(--text-sm); color: var(--color-text-muted); font-weight: var(--font-weight-medium); }
+  .jwt-claim-val { min-width: 0; font-size: var(--text-sm); display: flex; flex-direction: column; gap: 2px; overflow-wrap: anywhere; }
+  .jwt-val {
+    cursor: pointer; font-family: var(--font-mono); color: var(--color-text);
+    border-radius: var(--radius-sm); transition: background-color var(--duration-fast) var(--ease-default);
   }
-
-  .jwt-claims tr:last-child td {
-    border-bottom: none;
+  .jwt-val:hover { background: var(--color-bg-tertiary); }
+  .jwt-val.is-copied { background: var(--color-success-bg); color: var(--color-success); }
+  .jwt-claim-path.is-copied { color: var(--color-success); }
+  .jwt-val-sub { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .jwt-expand {
+    align-self: flex-start; border: none; background: transparent; padding: 0; cursor: pointer;
+    font-size: var(--text-xs); color: var(--color-accent); font-weight: var(--font-weight-medium);
   }
-
-  .jwt-claim-key {
-    white-space: nowrap;
-    color: var(--color-text-muted);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .jwt-claim-key code {
-    color: var(--color-text-subtle);
-    font-size: var(--text-xs);
-  }
-
-  .jwt-claim-val {
-    width: 100%;
-    overflow-wrap: anywhere;
-    color: var(--color-text);
-  }
+  .jwt-expand:hover { text-decoration: underline; }
+  .jwt-claim-more { font-family: var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .jwt-claim-children { display: flex; flex-direction: column; margin-top: var(--space-1); border-left: 2px solid var(--color-border); }
 
   .jwt-badge {
-    display: inline-block;
-    margin-left: var(--space-2);
-    padding: 0 var(--space-2);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
-    background: var(--color-danger-bg);
-    color: var(--color-danger);
+    display: inline-block; margin-left: var(--space-2); padding: 0 var(--space-2); border-radius: var(--radius-sm);
+    font-size: var(--text-xs); font-weight: var(--font-weight-semibold); background: var(--color-danger-bg); color: var(--color-danger);
   }
 
   .jwt-sig {
-    display: block;
-    padding: var(--space-3);
-    border: var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    word-break: break-all;
-    color: var(--color-text-muted);
+    display: block; padding: var(--space-3); border: var(--border); border-radius: var(--radius-sm);
+    background: var(--color-bg); font-family: var(--font-mono); font-size: var(--text-sm);
+    word-break: break-all; color: var(--color-text-muted);
   }
-
-  .jwt-sig-note {
-    margin: 0;
-    color: var(--color-text-subtle);
-    font-size: var(--text-xs);
-  }
+  .jwt-sig-note { margin: 0; color: var(--color-text-subtle); font-size: var(--text-xs); }
 
   .jwt-privacy {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-top: var(--space-3);
-    padding: var(--space-2) var(--space-3);
-    border: var(--border);
-    border-radius: var(--radius-md);
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
+    display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-3); border: var(--border); border-radius: var(--radius-md);
+    background: var(--color-accent-subtle); color: var(--color-accent-strong);
+    font-size: var(--text-sm); font-weight: var(--font-weight-medium);
   }
+
+  /* Tooltip (desktop hover) — mirrors the Footer pattern; mobile uses ToyTools.mobileTooltip. */
+  .has-tip { position: relative; cursor: help; }
+  .jwt-claim-label.has-tip { border-bottom: 1px dotted var(--color-text-subtle); }
+  @media (hover: hover) {
+    .has-tip::after {
+      content: attr(data-tooltip);
+      position: absolute; bottom: calc(100% + var(--space-2)); left: 0;
+      width: max-content; max-width: 260px; white-space: normal; text-align: left;
+      background: var(--color-bg); color: var(--color-text); border: var(--border);
+      border-radius: var(--radius-md); padding: var(--space-2) var(--space-3);
+      font-size: var(--text-xs); font-weight: 400; line-height: var(--leading-normal);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      opacity: 0; pointer-events: none; transition: opacity var(--duration-fast) var(--ease-default); z-index: 20;
+    }
+    .has-tip:hover::after, .has-tip:focus-visible::after { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .jwt-validity, .jwt-summary { animation: jwt-fade var(--duration-normal) var(--ease-default); }
+  }
+  @keyframes jwt-fade { from { opacity: 0; } to { opacity: 1; } }
 </style>
 
 <script is:inline>
@@ -260,98 +304,320 @@ const sigId = `${slug}-sig`;
     var slug = root.getAttribute('data-slug');
     var sample = root.getAttribute('data-sample') || '';
 
-    var input = document.getElementById(slug + '-input');
-    var status = document.getElementById(slug + '-status');
-    var empty = document.getElementById(slug + '-empty');
-    var sections = document.getElementById(slug + '-sections');
-    var headerEl = document.getElementById(slug + '-header');
-    var payloadEl = document.getElementById(slug + '-payload');
-    var claimsWrap = document.getElementById(slug + '-claims-wrap');
-    var claimsBody = document.getElementById(slug + '-claims');
-    var sigEl = document.getElementById(slug + '-sig');
+    var TT = window.ToyTools;
+    var $ = function (id) { return document.getElementById(slug + '-' + id); };
+    var input = $('input');
+    var status = $('status');
+    var empty = $('empty');
+    var sections = $('sections');
+    var summaryEl = $('summary');
+    var validityEl = $('validity');
+    var insightsEl = $('insights');
+    var headerEl = $('header');
+    var payloadEl = $('payload');
+    var claimsWrap = $('claims-wrap');
+    var claimsEl = $('claims');
+    var sigEl = $('sig');
     if (!input || !status) return;
 
-    function showEmpty() {
-      status.textContent = '';
-      status.setAttribute('data-ok', '');
-      sections.hidden = true;
-      empty.hidden = false;
-      empty.textContent = 'Paste a JWT to decode its header, payload, and claims.';
+    var q = function (sel) { return validityEl.querySelector(sel); };
+    var vStatus, vCountdown, vAbs, vBar, vFill, vNow, vStart, vEnd;
+
+    var tickTimer = null;
+    var dec = null;
+
+    // ── helpers ──────────────────────────────────────────────────────────
+    function copy(text) { if (window.ToyTools && ToyTools.copy) ToyTools.copy(text); }
+    function flash(el) { el.classList.add('is-copied'); setTimeout(function () { el.classList.remove('is-copied'); }, 900); }
+
+    function formatDuration(ms) {
+      var s = Math.floor(ms / 1000);
+      if (s <= 0) return '0s';
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (d > 0) return d + 'd ' + h + 'h';
+      if (h > 0) return h + 'h ' + m + 'm';
+      if (m > 0) return m + 'm ' + s + 's';
+      return s + 's';
     }
 
+    function relativePart(human) {
+      var m = /\(([^)]+)\)/.exec(human || '');
+      return m ? m[1] : '';
+    }
+
+    function timeClaim(key) {
+      if (!dec) return null;
+      for (var i = 0; i < dec.claims.length; i++) if (dec.claims[i].key === key) return dec.claims[i];
+      return null;
+    }
+
+    function clearTicker() { if (tickTimer) { clearInterval(tickTimer); tickTimer = null; } }
+
+    // ── empty / error ────────────────────────────────────────────────────
+    function showEmpty() {
+      clearTicker(); dec = null;
+      status.textContent = ''; status.setAttribute('data-ok', '');
+      sections.hidden = true; empty.hidden = false;
+    }
     function showError(msg) {
-      status.setAttribute('data-ok', 'false');
-      status.textContent = '✗ ' + msg;
-      sections.hidden = true;
-      empty.hidden = true;
+      clearTicker(); dec = null;
+      status.setAttribute('data-ok', 'false'); status.textContent = '✗ ' + msg;
+      sections.hidden = true; empty.hidden = true;
     }
 
     function setPre(el, text) {
       el.textContent = text;
-      if (text) el.removeAttribute('data-empty');
-      else el.setAttribute('data-empty', '');
+      if (text) el.removeAttribute('data-empty'); else el.setAttribute('data-empty', '');
     }
 
-    function renderClaims(claims) {
-      claimsBody.textContent = '';
-      if (!claims || !claims.length) { claimsWrap.hidden = true; return; }
-      claimsWrap.hidden = false;
-      claims.forEach(function (c) {
-        var tr = document.createElement('tr');
+    // ── summary card (#6) ────────────────────────────────────────────────
+    function cell(k, v, id, tone) {
+      var c = document.createElement('div'); c.className = 'jwt-sum-cell';
+      var kk = document.createElement('div'); kk.className = 'jwt-sum-k'; kk.textContent = k;
+      var vv = document.createElement('div'); vv.className = 'jwt-sum-v'; vv.textContent = v;
+      if (id) vv.setAttribute('data-sum', id);
+      if (tone) vv.setAttribute('data-tone', tone);
+      c.appendChild(kk); c.appendChild(vv); return c;
+    }
+    function renderSummary(d) {
+      summaryEl.textContent = '';
+      summaryEl.appendChild(cell('Algorithm', d.algorithm));
+      summaryEl.appendChild(cell('Claims', String(d.claimCount)));
+      summaryEl.appendChild(cell('Status', '', 'status'));
+      summaryEl.appendChild(cell('Expires', '', 'expires'));
+      summaryEl.appendChild(cell('Signature', 'Not verified'));
+    }
+    function sumCell(id) { return summaryEl.querySelector('[data-sum="' + id + '"]'); }
 
-        var keyTd = document.createElement('td');
-        keyTd.className = 'jwt-claim-key';
-        keyTd.appendChild(document.createTextNode(c.label + ' '));
-        var code = document.createElement('code');
-        code.textContent = c.key;
-        keyTd.appendChild(code);
-        tr.appendChild(keyTd);
+    // ── insights (#7) ────────────────────────────────────────────────────
+    function insightLi(tone, text) {
+      var li = document.createElement('li'); li.className = 'jwt-insight'; li.setAttribute('data-tone', tone);
+      var mk = document.createElement('span'); mk.className = 'jwt-insight-mark'; mk.textContent = tone === 'warn' ? '⚠' : '✓';
+      var tx = document.createElement('span'); tx.textContent = text;
+      li.appendChild(mk); li.appendChild(tx); return li;
+    }
+    function renderInsights(d) {
+      insightsEl.textContent = '';
+      var live = insightLi('ok', ''); live.setAttribute('data-live', ''); live.hidden = true;
+      insightsEl.appendChild(live);
+      (d.insights || []).forEach(function (i) { insightsEl.appendChild(insightLi(i.tone, i.text)); });
+    }
 
-        var valTd = document.createElement('td');
-        valTd.className = 'jwt-claim-val';
-        // For time claims show the readable date (the raw epoch is in the Payload pane above);
-        // otherwise show the raw value.
-        var val = c.human ? c.human : (typeof c.value === 'object' ? JSON.stringify(c.value) : String(c.value));
-        valTd.appendChild(document.createTextNode(val));
-        if (c.expired) {
-          var badge = document.createElement('span');
-          badge.className = 'jwt-badge';
-          badge.textContent = 'Expired';
-          valTd.appendChild(badge);
+    // ── interactive claims (#2 #3 #4 #5 #10) ─────────────────────────────
+    function kindOf(v) { return v !== null && typeof v === 'object' ? 'json' : 'scalar'; }
+
+    function valueInto(cellEl, path, value, kind, claim) {
+      if (kind === 'time' && claim) {
+        var ep = document.createElement('span'); ep.className = 'jwt-val'; ep.setAttribute('data-copy-value', String(claim.epoch));
+        ep.textContent = String(claim.epoch);
+        cellEl.appendChild(ep);
+        var utc = document.createElement('span'); utc.className = 'jwt-val-sub'; utc.textContent = claim.isoUtc || '';
+        cellEl.appendChild(utc);
+        var rel = relativePart(claim.human);
+        if (rel) { var r = document.createElement('span'); r.className = 'jwt-val-sub'; r.textContent = rel; cellEl.appendChild(r); }
+        if (claim.expired) { var b = document.createElement('span'); b.className = 'jwt-badge'; b.textContent = 'Expired'; cellEl.appendChild(b); }
+        return;
+      }
+      if (kind === 'json') {
+        var keys = Array.isArray(value) ? value.map(function (_, i) { return i; }) : Object.keys(value);
+        var isArr = Array.isArray(value);
+        var toggle = document.createElement('button'); toggle.type = 'button'; toggle.className = 'jwt-expand';
+        toggle.setAttribute('data-expand', ''); toggle.setAttribute('aria-expanded', 'false');
+        var summary = isArr ? '[' + value.length + ' items]' : '{' + keys.length + ' keys}';
+        toggle.setAttribute('data-closed', summary); toggle.setAttribute('data-open', 'Hide ' + summary);
+        toggle.textContent = summary;
+        var children = document.createElement('div'); children.className = 'jwt-claim-children'; children.hidden = true;
+        keys.forEach(function (k) {
+          var childPath = isArr ? path + '[' + k + ']' : path + '.' + k;
+          var childVal = value[k];
+          children.appendChild(claimRow(String(k), String(k), childPath, childVal, kindOf(childVal), null));
+        });
+        cellEl.appendChild(toggle); cellEl.appendChild(children);
+        return;
+      }
+      // scalar
+      var str = typeof value === 'string' ? value : JSON.stringify(value);
+      var span = document.createElement('span'); span.className = 'jwt-val'; span.setAttribute('data-copy-value', str);
+      if (str.length > 80) {
+        span.textContent = str.slice(0, 80) + '…';
+        cellEl.appendChild(span);
+        var t = document.createElement('button'); t.type = 'button'; t.className = 'jwt-expand';
+        t.setAttribute('data-expand', ''); t.setAttribute('aria-expanded', 'false');
+        t.setAttribute('data-closed', 'Show full'); t.setAttribute('data-open', 'Show less'); t.textContent = 'Show full';
+        var more = document.createElement('div'); more.className = 'jwt-claim-more'; more.hidden = true; more.textContent = str;
+        cellEl.appendChild(t); cellEl.appendChild(more);
+      } else {
+        span.textContent = str; cellEl.appendChild(span);
+      }
+    }
+
+    function claimRow(label, key, path, value, kind, claim) {
+      var row = document.createElement('div'); row.className = 'jwt-claim';
+      if (path.indexOf('.') !== -1 || path.indexOf('[') !== -1) row.className += ' jwt-claim--nested';
+
+      var keyCell = document.createElement('div'); keyCell.className = 'jwt-claim-key';
+      // Friendly label only for registered claims (where it differs from the key). Custom and nested
+      // rows show the key once, as the path-copy control, to avoid "name name" duplication.
+      if (claim && claim.registered) {
+        var lab = document.createElement('span'); lab.className = 'jwt-claim-label'; lab.textContent = label;
+        if (claim.description) {
+          lab.className += ' has-tip'; lab.setAttribute('data-tooltip', claim.description);
+          lab.setAttribute('tabindex', '0');
+          if (window.ToyTools && ToyTools.mobileTooltip) ToyTools.mobileTooltip(lab, claim.description);
         }
-        tr.appendChild(valTd);
+        keyCell.appendChild(lab);
+      }
+      var solo = !(claim && claim.registered);
+      var code = document.createElement('button'); code.type = 'button';
+      code.className = 'jwt-claim-path' + (solo ? ' jwt-claim-path--solo' : '');
+      code.setAttribute('data-copy-path', path); code.setAttribute('title', 'Copy path: ' + path); code.textContent = key;
+      keyCell.appendChild(code);
 
-        claimsBody.appendChild(tr);
-      });
+      var valCell = document.createElement('div'); valCell.className = 'jwt-claim-val';
+      valueInto(valCell, path, value, kind, claim);
+
+      row.appendChild(keyCell); row.appendChild(valCell);
+      return row;
     }
 
+    function renderClaims(d) {
+      claimsEl.textContent = '';
+      if (!d.claims || !d.claims.length) { claimsWrap.hidden = true; return; }
+      claimsWrap.hidden = false;
+      d.claims.forEach(function (c) { claimsEl.appendChild(claimRow(c.label, c.key, c.key, c.value, c.kind, c)); });
+    }
+
+    // Delegated interactions on the claims list (survives re-render; attached once).
+    claimsEl.addEventListener('click', function (e) {
+      var p = e.target.closest ? e.target.closest('[data-copy-path]') : null;
+      if (p) { copy(p.getAttribute('data-copy-path')); flash(p); return; }
+      var x = e.target.closest ? e.target.closest('[data-expand]') : null;
+      if (x) {
+        var box = x.nextElementSibling;
+        var open = box.hidden;
+        box.hidden = !open;
+        x.setAttribute('aria-expanded', String(open));
+        x.textContent = open ? x.getAttribute('data-open') : x.getAttribute('data-closed');
+        return;
+      }
+      var v = e.target.closest ? e.target.closest('[data-copy-value]') : null;
+      if (v) { copy(v.getAttribute('data-copy-value')); flash(v); return; }
+    });
+
+    // ── validity panel + live ticker (#1 #5 #8 #9) ───────────────────────
+    function bindValidityRefs() {
+      vStatus = q('[data-vstatus]'); vCountdown = q('[data-vcountdown]'); vAbs = q('[data-vabs]');
+      vBar = q('[data-vbar]'); vFill = q('[data-vfill]'); vNow = q('[data-vnow]');
+      vStart = q('[data-vstart]'); vEnd = q('[data-vend]');
+    }
+
+    function setupValidity(d) {
+      bindValidityRefs();
+      var t = d.times || {};
+      var hasAny = t.exp !== undefined || t.nbf !== undefined || t.iat !== undefined;
+      validityEl.hidden = !hasAny;
+      if (!hasAny) return;
+
+      var startC = timeClaim('iat') || timeClaim('nbf');
+      var expC = timeClaim('exp');
+      vAbs.textContent = expC ? ('Expires ' + expC.isoUtc) : (timeClaim('nbf') ? 'Valid from ' + timeClaim('nbf').isoUtc : '');
+
+      var canBar = startC && expC;
+      vBar.hidden = !canBar;
+      if (canBar) {
+        vStart.setAttribute('data-tooltip', 'Issued ' + startC.isoUtc);
+        if (window.ToyTools && ToyTools.mobileTooltip) ToyTools.mobileTooltip(vStart, 'Issued ' + startC.isoUtc);
+        vEnd.setAttribute('data-tooltip', 'Expires ' + expC.isoUtc);
+        if (window.ToyTools && ToyTools.mobileTooltip) ToyTools.mobileTooltip(vEnd, 'Expires ' + expC.isoUtc);
+      }
+    }
+
+    function tick() {
+      if (!dec) return;
+      var t = dec.times || {};
+      var now = Date.now();
+      var exp = t.exp !== undefined ? t.exp * 1000 : null;
+      var nbf = t.nbf !== undefined ? t.nbf * 1000 : null;
+      var iat = t.iat !== undefined ? t.iat * 1000 : null;
+      var start = iat !== null ? iat : nbf;
+
+      var state, count, sumExpires, insight = null, tone;
+      if (nbf !== null && now < nbf) {
+        state = 'Not yet valid'; tone = 'pending';
+        count = 'Valid in ' + formatDuration(nbf - now); sumExpires = 'Not yet';
+        insight = { tone: 'warn', text: 'Token is not yet valid.' };
+      } else if (exp !== null && now >= exp) {
+        state = 'Expired'; tone = 'expired';
+        count = 'Expired ' + formatDuration(now - exp) + ' ago'; sumExpires = 'Expired';
+        insight = { tone: 'warn', text: 'Token expired ' + formatDuration(now - exp) + ' ago.' };
+      } else if (exp !== null) {
+        state = 'Valid'; tone = 'valid';
+        count = 'Expires in ' + formatDuration(exp - now); sumExpires = formatDuration(exp - now);
+        insight = { tone: 'ok', text: 'Token is currently valid.' };
+      } else {
+        state = 'No expiry'; tone = 'pending'; count = 'Does not expire'; sumExpires = 'Never';
+      }
+
+      if (vStatus) {
+        vStatus.textContent = state;
+        vStatus.className = 'jwt-vstatus ' + (tone === 'valid' ? 'is-valid' : tone === 'expired' ? 'is-expired' : 'is-pending');
+      }
+      if (vCountdown) vCountdown.textContent = count;
+
+      var sStatus = sumCell('status'); if (sStatus) { sStatus.textContent = state; sStatus.setAttribute('data-tone', tone === 'valid' ? 'ok' : tone === 'expired' ? 'warn' : 'pending'); }
+      var sExp = sumCell('expires'); if (sExp) sExp.textContent = sumExpires;
+
+      // Timeline fill + now marker.
+      if (vBar && !vBar.hidden && start !== null && exp !== null) {
+        var frac = (now - start) / (exp - start);
+        frac = frac < 0 ? 0 : frac > 1 ? 1 : frac;
+        var pct = (frac * 100).toFixed(2) + '%';
+        vFill.style.width = pct;
+        vNow.style.left = pct;
+        var expired = now >= exp;
+        vFill.classList.toggle('is-expired', expired);
+        vNow.classList.toggle('is-expired', expired);
+      }
+
+      // Live validity insight line (#9) — updates in place, no re-decode.
+      var liveLi = insightsEl.querySelector('[data-live]');
+      if (liveLi) {
+        if (insight) {
+          liveLi.hidden = false; liveLi.setAttribute('data-tone', insight.tone);
+          liveLi.querySelector('.jwt-insight-mark').textContent = insight.tone === 'warn' ? '⚠' : '✓';
+          liveLi.lastChild.textContent = insight.text;
+        } else { liveLi.hidden = true; }
+      }
+    }
+
+    // ── orchestration ────────────────────────────────────────────────────
     function run() {
       if (!input.value.trim()) { showEmpty(); return; }
       if (!(window.ToyTools && ToyTools.runJwt)) return;
       var res = ToyTools.runJwt(jid, input.value);
       if (!res.ok) { showError(res.error || 'Could not decode this token.'); return; }
-      var d = res.decoded;
+      dec = res.decoded;
       status.setAttribute('data-ok', 'true');
-      status.textContent = '✓ Decoded · ' + d.algorithm;
-      // Surface expiry up front so it is not buried in the claims table.
-      if (d.claims.some(function (c) { return c.expired; })) {
-        status.appendChild(document.createTextNode(' '));
-        var sbadge = document.createElement('span');
-        sbadge.className = 'jwt-badge';
-        sbadge.textContent = 'Expired';
-        status.appendChild(sbadge);
-      }
-      empty.hidden = true;
-      sections.hidden = false;
-      setPre(headerEl, d.headerJson);
-      setPre(payloadEl, d.payloadJson);
-      renderClaims(d.claims);
-      sigEl.textContent = d.signature || '(empty)';
+      status.textContent = '✓ Decoded · ' + dec.algorithm;
+      empty.hidden = true; sections.hidden = false;
+
+      renderSummary(dec);
+      renderInsights(dec);
+      setPre(headerEl, dec.headerJson);
+      setPre(payloadEl, dec.payloadJson);
+      renderClaims(dec);
+      sigEl.textContent = dec.signature || '(empty)';
+      setupValidity(dec);
+
+      clearTicker();
+      tick();
+      var t = dec.times || {};
+      if (t.exp !== undefined || t.nbf !== undefined) tickTimer = setInterval(tick, 1000);
     }
 
-    function persist() {
-      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value });
-    }
+    function persist() { if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value }); }
 
     try {
       var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
@@ -361,13 +627,8 @@ const sigId = `${slug}-sig`;
     input.addEventListener('input', function () { run(); persist(); });
 
     var sampleBtn = document.querySelector('[data-jwt-sample]');
-    if (sampleBtn) sampleBtn.addEventListener('click', function () {
-      input.value = sample;
-      run(); persist();
-      input.focus();
-    });
+    if (sampleBtn) sampleBtn.addEventListener('click', function () { input.value = sample; run(); persist(); input.focus(); });
 
-    // runJwt attaches via a deferred module; wait so restored input decodes on load.
     if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>
