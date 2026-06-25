@@ -75,13 +75,19 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
   function buildFreqChart(text) {
     var counts = {};
-    var letters = text.match(/[a-zA-Z]/g) || [];
+    var total = 0;
+    // Match all Unicode letters, then fold diacritics to their base A–Z letter
+    // (é → e, ñ → n, ü → u) so the chart reconciles with the Unicode "Letters"
+    // hero count for Latin text. Non-Latin letters fall outside the A–Z chart.
+    var letters = text.match(/\p{L}/gu) || [];
     letters.forEach(function (ch) {
-      var l = ch.toLowerCase();
-      counts[l] = (counts[l] || 0) + 1;
+      var base = ch.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+      if (base.length === 1 && base >= 'a' && base <= 'z') {
+        counts[base] = (counts[base] || 0) + 1;
+        total++;
+      }
     });
 
-    var total = letters.length;
     var unique = Object.keys(counts).length;
     var sorted = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
     var maxCount = sorted.length ? counts[sorted[0]] : 1;
@@ -144,23 +150,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     });
   }
 
-  // Clickable stat copy
-  document.querySelectorAll('.tm-stat-row').forEach(function (row) {
-    row.setAttribute('role', 'button');
-    row.setAttribute('tabindex', '0');
-    row.setAttribute('title', 'Click to copy');
-    row.addEventListener('click', function () {
-      var label = row.querySelector('.tm-stat-label');
-      var value = row.querySelector('.tm-stat-value');
-      if (!label || !value) return;
-      ToyTools.copy(label.textContent.trim() + ': ' + value.textContent.trim());
-      row.classList.add('is-copied');
-      setTimeout(function () { row.classList.remove('is-copied'); }, 800);
-    });
-    row.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
-    });
-  });
+  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
 
   try {
     var saved = ToyTools.state && ToyTools.state.load('letter-counter');
@@ -176,25 +166,6 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
 })();
 </script>
-
-<style is:global>
-  .tm-stat-row {
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: background-color 150ms;
-  }
-  .tm-stat-row:hover { background-color: var(--color-accent-subtle); }
-  .tm-stat-row.is-copied { background-color: var(--color-success-bg); }
-  .action-btn--sample {
-    background: var(--color-surface-raised);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
-  }
-  .action-btn--sample:hover {
-    background: var(--color-surface-elevated);
-    color: var(--color-text);
-  }
-</style>
 
 <style>
   .lc-freq-section {
@@ -263,6 +234,6 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     font-size: var(--text-xs);
     color: var(--color-text-muted);
     text-align: right;
-    tabular-nums: true;
+    font-variant-numeric: tabular-nums;
   }
 </style>

@@ -315,5 +315,39 @@
     }
   });
 
+  // ── Clickable stat rows ───────────────────────────────────────────────
+  // Any .tm-stat-row copies "Label: Value" on click/Enter/Space. Wired once
+  // here (delegated) so every metric widget gets it without duplicating logic.
+  function copyStatRow(row) {
+    var label = row.querySelector('.tm-stat-label');
+    var value = row.querySelector('.tm-stat-value');
+    if (!label || !value) return;
+    TT.copy(label.textContent.trim() + ': ' + value.textContent.trim());
+    row.classList.add('is-copied');
+    setTimeout(function () { row.classList.remove('is-copied'); }, 800);
+  }
+  document.addEventListener('click', function (e) {
+    var row = e.target.closest && e.target.closest('.tm-stat-row');
+    if (row) copyStatRow(row);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var row = e.target.closest && e.target.closest('.tm-stat-row');
+    if (row) { e.preventDefault(); copyStatRow(row); }
+  });
+  function wireStatRows() {
+    var rows = document.querySelectorAll('.tm-stat-row');
+    for (var i = 0; i < rows.length; i++) {
+      rows[i].setAttribute('role', 'button');
+      rows[i].setAttribute('tabindex', '0');
+      rows[i].setAttribute('title', 'Click to copy');
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireStatRows);
+  } else {
+    wireStatRows();
+  }
+
 })(window.ToyTools = window.ToyTools || {});
 </script>

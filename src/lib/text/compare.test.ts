@@ -71,6 +71,10 @@ describe('diffStats', () => {
     expect(stats.unchanged).toBe(0);
   });
 
+  it('treats two empty texts as 100% similar (not 0%)', () => {
+    expect(diffStats(diffLines('', '')).similarity).toBe(100);
+  });
+
   it('returns 100% similarity for all-unchanged diff', () => {
     const result = diffLines('hello\nworld', 'hello\nworld');
     const stats = diffStats(result);
@@ -93,5 +97,34 @@ describe('diffStats', () => {
     expect(stats.unchanged).toBeGreaterThanOrEqual(2); // a and c
     expect(stats.added).toBeGreaterThanOrEqual(1);
     expect(stats.removed).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe('diffLines — large inputs (heuristic fallback path)', () => {
+  // Over 2000 lines per side triggers computeLCSHeuristic (prefix/suffix matching).
+  const big = (n: number, marker = '') =>
+    Array.from({ length: n }, (_, i) => `line ${i}${marker}`).join('\n');
+
+  it('keeps a shared prefix/suffix unchanged when one middle line changes', () => {
+    const a = big(2500);
+    const b = a.replace('line 1250', 'line 1250 CHANGED');
+    const result = diffLines(a, b);
+    const stats = diffStats(result);
+    // The vast bulk of lines are identical at the head and tail and stay unchanged.
+    expect(stats.unchanged).toBeGreaterThan(2000);
+    expect(stats.added).toBeGreaterThanOrEqual(1);
+    expect(stats.removed).toBeGreaterThanOrEqual(1);
+    // Every input line is represented exactly once on each side.
+    expect(stats.unchanged + stats.removed).toBe(2500); // a-side lines
+    expect(stats.unchanged + stats.added).toBe(2500);   // b-side lines
+  });
+
+  it('marks every line changed when two large inputs share no prefix or suffix', () => {
+    const result = diffLines(big(2100, 'A'), big(2100, 'B'));
+    const stats = diffStats(result);
+    expect(stats.unchanged).toBe(0);
+    expect(stats.added).toBe(2100);
+    expect(stats.removed).toBe(2100);
+    expect(stats.similarity).toBe(0);
   });
 });

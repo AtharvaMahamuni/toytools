@@ -56,6 +56,10 @@ const inputId = `${slug}-input`;
   )}
 </ToolActions>
 
+<!-- Optional per-tool depth section (e.g. line/space counter breakdowns), rendered
+     between the metric output and the category cross-link. -->
+<slot />
+
 <CategoryDiscovery toolSlug={slug} />
 
 <script is:inline define:vars={{ slug, sampleText }}>
@@ -115,24 +119,7 @@ const inputId = `${slug}-input`;
     }
   }
 
-  // Clickable stat copy: clicking any .tm-stat-row copies "Label: Value" to clipboard
-  document.querySelectorAll('.tm-stat-row').forEach(function (row) {
-    row.setAttribute('role', 'button');
-    row.setAttribute('tabindex', '0');
-    row.setAttribute('title', 'Click to copy');
-    row.addEventListener('click', function () {
-      var label = row.querySelector('.tm-stat-label');
-      var value = row.querySelector('.tm-stat-value');
-      if (!label || !value) return;
-      var text = label.textContent.trim() + ': ' + value.textContent.trim();
-      ToyTools.copy(text);
-      row.classList.add('is-copied');
-      setTimeout(function () { row.classList.remove('is-copied'); }, 800);
-    });
-    row.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
-    });
-  });
+  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
 
   try {
     var saved = ToyTools.state && ToyTools.state.load(slug);
@@ -145,31 +132,13 @@ const inputId = `${slug}-input`;
     update();
     if (ToyTools.state) ToyTools.state.save(slug, { text: textarea.value });
   });
-  ToyTools.onReady(update);
+  ToyTools.onReady(function () {
+    update();
+    // Notify any slotted depth sections (rendered before this script) that
+    // restored text is present, so they compute on load instead of only on type.
+    if (textarea.value) textarea.dispatchEvent(new Event('input'));
+  });
 
   if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
 })();
 </script>
-
-<style is:global>
-  .tm-stat-row {
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: background-color 150ms;
-  }
-  .tm-stat-row:hover {
-    background-color: var(--color-accent-subtle);
-  }
-  .tm-stat-row.is-copied {
-    background-color: var(--color-success-bg);
-  }
-  .action-btn--sample {
-    background: var(--color-surface-raised);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
-  }
-  .action-btn--sample:hover {
-    background: var(--color-surface-elevated);
-    color: var(--color-text);
-  }
-</style>

@@ -6,6 +6,10 @@ import { config } from './config';
 ---
 
 <div class="tc-widget">
+  <div class="tc-toolbar">
+    <button class="action-btn action-btn--sample" id="tc-sample-btn" aria-label="Load a sample comparison">Sample</button>
+  </div>
+
   <div class="tc-inputs">
     <IoPanel label="Original" labelFor="tc-original" variant="prose">
       <textarea
@@ -31,11 +35,15 @@ import { config } from './config';
   </div>
 
   <div class="tc-result-section" id="tc-result-section" hidden>
+    <p class="tc-summary" id="tc-summary" aria-live="polite"></p>
     <div class="tc-stats-bar" id="tc-stats-bar" aria-live="polite"></div>
     <div class="tc-diff" id="tc-diff" role="region" aria-label="Diff result"></div>
+    <!-- Plain-text mirror of the diff, used by the copy/download actions below. -->
+    <textarea id="tc-diff-text" class="tc-diff-text" hidden readonly aria-hidden="true"></textarea>
+    <ToolActions copyTarget="tc-diff-text" downloadFilename="text-compare-diff.txt" downloadTarget="tc-diff-text" />
   </div>
 
-  <CategoryDiscovery slug={config.slug} categorySlug={config.categorySlug} />
+  <CategoryDiscovery toolSlug={config.slug} />
 </div>
 
 <style is:global>
@@ -63,8 +71,25 @@ import { config } from './config';
     box-sizing: border-box;
   }
   .tc-widget .tc-textarea:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .tc-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-3);
+  }
+  .tc-widget .action-btn--sample {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .tc-widget .action-btn--sample:hover { background: var(--color-surface-elevated); color: var(--color-text); }
   .tc-result-section {
     margin-top: var(--space-6);
+  }
+  .tc-summary {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
   }
   .tc-stats-bar {
     display: flex;
@@ -121,10 +146,16 @@ import { config } from './config';
   var origEl    = document.getElementById('tc-original');
   var newEl     = document.getElementById('tc-new');
   var section   = document.getElementById('tc-result-section');
+  var summaryEl = document.getElementById('tc-summary');
   var statsBar  = document.getElementById('tc-stats-bar');
   var diffEl    = document.getElementById('tc-diff');
+  var diffTextEl = document.getElementById('tc-diff-text');
+  var sampleBtn = document.getElementById('tc-sample-btn');
 
   if (!origEl || !newEl || !section) return;
+
+  var SAMPLE_A = 'Roses are red\nViolets are blue\nSugar is sweet\nAnd so are you';
+  var SAMPLE_B = 'Roses are red\nViolets are blue\nHoney is sweet\nAnd so are you\nThe end';
 
   var TT = window.ToyTools;
 
@@ -133,6 +164,12 @@ import { config } from './config';
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  function summarySentence(stats) {
+    if (stats.added === 0 && stats.removed === 0) return 'The two texts are identical.';
+    return 'Texts are ' + stats.similarity + '% similar — ' +
+      stats.added + ' added, ' + stats.removed + ' removed.';
   }
 
   function run() {
@@ -152,6 +189,9 @@ import { config } from './config';
     var result = TT.diff(a, b);
     var stats  = TT.diffStats(result);
 
+    // Summary sentence
+    summaryEl.textContent = summarySentence(stats);
+
     // Stats bar
     statsBar.innerHTML =
       '<span class="tc-stat"><span class="tc-stat-label">Added</span><span class="tc-stat-value added">+' + stats.added + '</span></span>' +
@@ -159,8 +199,9 @@ import { config } from './config';
       '<span class="tc-stat"><span class="tc-stat-label">Unchanged</span><span class="tc-stat-value">' + stats.unchanged + '</span></span>' +
       '<span class="tc-stat"><span class="tc-stat-label">Similarity</span><span class="tc-stat-value similarity">' + stats.similarity + '%</span></span>';
 
-    // Diff view
+    // Diff view + plain-text mirror for copy/download
     var html = '';
+    var plain = '';
     for (var i = 0; i < result.length; i++) {
       var r = result[i];
       var marker = r.type === 'added' ? '+' : r.type === 'removed' ? '-' : ' ';
@@ -168,17 +209,27 @@ import { config } from './config';
       html += '<div class="tc-line ' + cls + '" aria-label="' + r.type + '">' +
         '<span class="tc-line-marker" aria-hidden="true">' + marker + '</span>' +
         '<span>' + escapeHtml(r.line) + '</span></div>';
+      plain += marker + ' ' + r.line + '\n';
     }
     diffEl.innerHTML = html;
+    if (diffTextEl) diffTextEl.value = plain;
 
-    if (TT) TT.state.save('text-compare', { a: a, b: b });
+    TT.state.save('text-compare', { a: a, b: b });
   }
 
   origEl.addEventListener('input', run);
   newEl.addEventListener('input', run);
 
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      origEl.value = SAMPLE_A;
+      newEl.value  = SAMPLE_B;
+      run();
+    });
+  }
+
   // Restore state
-  if (TT) {
+  if (TT && TT.state) {
     var saved = TT.state.load('text-compare');
     if (saved) {
       if (saved.a) origEl.value = saved.a;

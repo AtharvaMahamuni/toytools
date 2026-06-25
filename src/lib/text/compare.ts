@@ -63,8 +63,12 @@ export function diffStats(result: DiffResult[]): DiffStats {
   }
 
   const total = added + removed + unchanged;
-  // Similarity = unchanged lines / max(aLines, bLines) expressed as percentage
-  const denominator = total === 0 ? 1 : Math.max(added + unchanged, removed + unchanged);
+  // Two empty texts are identical → 100% similar (avoids a misleading 0%).
+  if (total === 0) return { added, removed, unchanged, similarity: 100 };
+
+  // Similarity = unchanged lines / max(aLines, bLines) expressed as percentage.
+  // added + unchanged === bLines.length; removed + unchanged === aLines.length.
+  const denominator = Math.max(added + unchanged, removed + unchanged);
   const similarity = Math.round((unchanged / denominator) * 100);
 
   return { added, removed, unchanged, similarity };

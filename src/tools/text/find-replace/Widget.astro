@@ -11,15 +11,15 @@ import { config } from './config';
     <div slot="input">
       <IoPanel label="Source Text" labelFor="fr-source" variant="prose">
         <div class="fr-controls" slot="header-end">
-          <label class="fr-toggle">
+          <label class="fr-toggle" title="Match case">
             <input type="checkbox" id="fr-case" />
             <span>Aa</span>
           </label>
-          <label class="fr-toggle">
+          <label class="fr-toggle" title="Regular expression">
             <input type="checkbox" id="fr-regex" />
             <span>.*</span>
           </label>
-          <label class="fr-toggle">
+          <label class="fr-toggle" title="Whole word only">
             <input type="checkbox" id="fr-whole-word" />
             <span>\b</span>
           </label>
@@ -47,6 +47,10 @@ import { config } from './config';
             spellcheck="false"
           />
           <p id="fr-regex-error" class="fr-regex-error" role="alert"></p>
+          <label class="fr-check">
+            <input type="checkbox" id="fr-highlight" />
+            Highlight matches in source
+          </label>
         </div>
         <textarea
           id="fr-source"
@@ -56,23 +60,31 @@ import { config } from './config';
           aria-label="Source text"
         ></textarea>
       </IoPanel>
-      <ToolActions pasteTarget="fr-source" clearTarget="fr-source" />
+      <ToolActions pasteTarget="fr-source" clearTarget="fr-source">
+        <button class="action-btn action-btn--sample" data-action="sample" id="fr-sample-btn" aria-label="Load a sample">Sample</button>
+      </ToolActions>
     </div>
 
     <div slot="output">
-      <IoPanel label="Result" copyTargetId="fr-output" variant="prose" result>
+      <IoPanel label="Result" copyTargetId="fr-output" variant="prose">
+        <textarea
+          id="fr-output"
+          class="fr-textarea fr-output"
+          readonly
+          aria-label="Result text"
+          aria-live="polite"
+        ></textarea>
       </IoPanel>
-      <textarea
-        id="fr-output"
-        class="fr-textarea fr-output"
-        readonly
-        aria-label="Result text"
-        aria-live="polite"
-      ></textarea>
       <ToolActions copyTarget="fr-output" downloadFilename="find-replace-result.txt" downloadTarget="fr-output" />
     </div>
   </ToolSplit>
-  <CategoryDiscovery slug={config.slug} categorySlug={config.categorySlug} />
+
+  <section class="fr-preview-section" id="fr-preview-section" hidden>
+    <h2 class="fr-preview-heading">Match preview</h2>
+    <div class="fr-preview" id="fr-preview" aria-live="polite"></div>
+  </section>
+
+  <CategoryDiscovery toolSlug={config.slug} />
 </div>
 
 <style is:global>
@@ -170,10 +182,62 @@ import { config } from './config';
     color: var(--color-danger);
     min-height: 1rem;
   }
+  .fr-check {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .action-btn--sample {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .action-btn--sample:hover { background: var(--color-surface-elevated); color: var(--color-text); }
+</style>
+
+<style>
+  .fr-preview-section {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .fr-preview-heading {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .fr-preview {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    max-height: 360px;
+    overflow: auto;
+  }
+  .fr-preview :global(mark) {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    border-radius: var(--radius-sm);
+    padding: 0 2px;
+    font-weight: var(--font-weight-semibold);
+  }
 </style>
 
 <script is:inline>
 (function () {
+  var SAMPLE = 'The quick brown fox jumps over the lazy dog. The fox is quick, and the dog is lazy. A quick fox and a lazy dog share the quiet meadow under the warm afternoon sun.';
+
   var findEl      = document.getElementById('fr-find');
   var replaceEl   = document.getElementById('fr-replace');
   var sourceEl    = document.getElementById('fr-source');
@@ -183,10 +247,48 @@ import { config } from './config';
   var caseCheck   = document.getElementById('fr-case');
   var regexCheck  = document.getElementById('fr-regex');
   var wordCheck   = document.getElementById('fr-whole-word');
+  var highlightCheck = document.getElementById('fr-highlight');
+  var previewSection = document.getElementById('fr-preview-section');
+  var previewEl   = document.getElementById('fr-preview');
+  var sampleBtn   = document.getElementById('fr-sample-btn');
 
   if (!findEl || !replaceEl || !sourceEl || !outputEl) return;
 
   var TT = window.ToyTools;
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // Build escaped source with <mark> around each match. Walks an exec loop so
+  // we escape match and non-match segments independently of regex indices.
+  function buildHighlight(source, re) {
+    re.lastIndex = 0;
+    var out = '';
+    var last = 0;
+    var m;
+    while ((m = re.exec(source)) !== null) {
+      out += escapeHtml(source.slice(last, m.index));
+      out += '<mark>' + escapeHtml(m[0]) + '</mark>';
+      last = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++; // guard against zero-length match loop
+    }
+    out += escapeHtml(source.slice(last));
+    return out;
+  }
+
+  function saveState() {
+    if (!TT || !TT.state) return;
+    TT.state.save('find-replace', {
+      source: sourceEl.value,
+      find: findEl.value,
+      replace: replaceEl.value,
+      useCase: caseCheck.checked,
+      useRegex: regexCheck.checked,
+      useWord: wordCheck.checked,
+      highlight: highlightCheck.checked,
+    });
+  }
 
   function run() {
     var source  = sourceEl.value;
@@ -195,6 +297,9 @@ import { config } from './config';
     var useCase  = caseCheck.checked;
     var useRegex = regexCheck.checked;
     var useWord  = wordCheck.checked;
+    var showHL   = highlightCheck.checked;
+
+    saveState();
 
     regexErr.textContent = '';
     countEl.textContent  = '';
@@ -202,6 +307,7 @@ import { config } from './config';
 
     if (!pattern) {
       outputEl.value = source;
+      previewSection.hidden = true;
       return;
     }
 
@@ -215,6 +321,7 @@ import { config } from './config';
     } catch (err) {
       regexErr.textContent = 'Invalid regex: ' + err.message;
       outputEl.value = source;
+      previewSection.hidden = true;
       return;
     }
 
@@ -230,26 +337,45 @@ import { config } from './config';
 
     outputEl.value = source.replace(re, replace);
 
-    if (TT) TT.state.save('find-replace', { source: source, find: pattern, replace: replace });
+    if (showHL && count > 0) {
+      previewEl.innerHTML = buildHighlight(source, re);
+      previewSection.hidden = false;
+    } else {
+      previewSection.hidden = true;
+    }
   }
 
-  [findEl, replaceEl, sourceEl, caseCheck, regexCheck, wordCheck].forEach(function (el) {
+  [findEl, replaceEl, sourceEl, caseCheck, regexCheck, wordCheck, highlightCheck].forEach(function (el) {
     el.addEventListener('input', run);
     el.addEventListener('change', run);
   });
 
-  // Restore state
-  if (TT) {
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      sourceEl.value = SAMPLE;
+      findEl.value = 'fox';
+      replaceEl.value = 'cat';
+      run();
+      sourceEl.focus();
+    });
+  }
+
+  // Restore state (including toggles) before the first run.
+  if (TT && TT.state) {
     var saved = TT.state.load('find-replace');
     if (saved) {
       if (saved.source)  sourceEl.value  = saved.source;
       if (saved.find)    findEl.value    = saved.find;
       if (saved.replace) replaceEl.value = saved.replace;
+      caseCheck.checked  = !!saved.useCase;
+      regexCheck.checked = !!saved.useRegex;
+      wordCheck.checked  = !!saved.useWord;
+      highlightCheck.checked = !!saved.highlight;
       run();
     }
   }
 
   // Desktop auto-focus
-  if (window.innerWidth >= 1024) sourceEl.focus();
+  if (window.innerWidth >= 1024 && !sourceEl.value) sourceEl.focus();
 })();
 </script>
