@@ -94,10 +94,76 @@ describe('decodeJwt', () => {
   it('throws a specific error for a non-JSON payload segment', () => {
     const header = b64url({ alg: 'HS256' });
     const badPayload = btoa('not json at all').replace(/=+$/g, '');
-    expect(() => decodeJwt(`${header}.${badPayload}.sig`)).toThrow(/payload segment is not valid JSON/i);
+    expect(() => decodeJwt(`${header}.${badPayload}.sig`)).toThrow(/payload.*valid JSON/i);
   });
 
   it('throws for an empty token', () => {
     expect(() => decodeJwt('')).toThrow(/3 segments/i);
+  });
+
+  // --- sanitize (#1 / #11) ---
+
+  it('strips a Bearer prefix before decoding', () => {
+    const token = 'Bearer ' + makeToken({ alg: 'HS256' }, { sub: 'x' });
+    expect(decodeJwt(token).claims.find(c => c.key === 'sub')!.value).toBe('x');
+  });
+
+  it('strips wrapping quotes and internal whitespace (line-wrapped token)', () => {
+    const t = makeToken({ alg: 'HS256' }, { sub: 'y' });
+    const wrapped = '"' + t.slice(0, 10) + '\n' + t.slice(10) + '"';
+    expect(decodeJwt(wrapped).claims.find(c => c.key === 'sub')!.value).toBe('y');
+  });
+
+  // --- actionable errors (#12) ---
+
+  it('reports the segment count in the error', () => {
+    expect(() => decodeJwt('a.b')).toThrow(/Found 2 segments/i);
+    expect(() => decodeJwt('')).toThrow(/Found 0 segments/i);
+  });
+
+  // --- all claims, registered flag, custom claims (#3 / #6 / #10) ---
+
+  it('includes custom claims with registered:false after the registered ones', () => {
+    const d = decodeJwt(makeToken({ alg: 'HS256' }, { role: 'admin', sub: '1', 'permissions': { admin: true } }));
+    expect(d.claimCount).toBe(3);
+    expect(d.claims[0].key).toBe('sub');            // registered first
+    const role = d.claims.find(c => c.key === 'role')!;
+    expect(role.registered).toBe(false);
+    expect(role.kind).toBe('scalar');
+    const perms = d.claims.find(c => c.key === 'permissions')!;
+    expect(perms.kind).toBe('json');
+  });
+
+  it('attaches a description to registered claims only', () => {
+    const d = decodeJwt(makeToken({ alg: 'HS256' }, { aud: 'api', custom: 1 }));
+    expect(d.claims.find(c => c.key === 'aud')!.description).toMatch(/audience/i);
+    expect(d.claims.find(c => c.key === 'custom')!.description).toBeUndefined();
+  });
+
+  // --- time claim enrichment (#5) ---
+
+  it('enriches time claims with epoch and absolute UTC', () => {
+    const d = decodeJwt(makeToken({ alg: 'HS256' }, { iat: 1516239022 }));
+    const iat = d.claims.find(c => c.key === 'iat')!;
+    expect(iat.epoch).toBe(1516239022);
+    expect(iat.isoUtc).toMatch(/\d{2} \w{3} \d{4} \d{2}:\d{2} UTC/);
+  });
+
+  it('exposes raw epoch times for the validity panel', () => {
+    const d = decodeJwt(makeToken({ alg: 'HS256' }, { iat: 1000, exp: 2000 }));
+    expect(d.times).toEqual({ iat: 1000, exp: 2000 });
+  });
+
+  // --- structural insights (#7) ---
+
+  it('warns when the token never expires and notes a jti', () => {
+    const d = decodeJwt(makeToken({ alg: 'HS256' }, { jti: 'abc' }));
+    expect(d.insights.some(i => i.tone === 'warn' && /never expires/i.test(i.text))).toBe(true);
+    expect(d.insights.some(i => /JWT ID/i.test(i.text))).toBe(true);
+  });
+
+  it('warns when alg is none', () => {
+    const d = decodeJwt(makeToken({ alg: 'none' }, { exp: 9999999999 }));
+    expect(d.insights.some(i => i.tone === 'warn' && /unsigned|none/i.test(i.text))).toBe(true);
   });
 });

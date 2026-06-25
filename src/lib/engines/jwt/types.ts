@@ -11,18 +11,37 @@
 
 export type JwtFamily = 'token';
 
-/** One registered (or notable) claim, humanized for display. */
+/** How a claim's value should be rendered. */
+export type JwtClaimKind = 'time' | 'scalar' | 'json';
+
+/** One payload claim (registered or custom), annotated for display. */
 export interface JwtClaim {
   /** Raw claim key as it appears in the payload (e.g. 'exp'). */
   key: string;
-  /** Friendly label ("Expires"). Falls back to the key for unknown claims. */
+  /** Friendly label ("Expires"). Falls back to the key for custom claims. */
   label: string;
   /** The raw claim value from the payload. */
   value: unknown;
-  /** Human rendering for time claims — ISO + relative ("in 2 days"). Absent for non-time claims. */
+  /** True for the seven RFC 7519 registered claims. */
+  registered: boolean;
+  /** Render hint: time claims get the epoch+UTC+relative treatment, json gets expand/nest. */
+  kind: JwtClaimKind;
+  /** One or two sentence meaning/why/when, for registered claims only (drives the hover/tap hint). */
+  description?: string;
+  /** Time claims only: ISO + relative ("...Z (in 2 days)"), a snapshot at decode time. */
   human?: string;
-  /** True when this is `exp` and it is in the past (token expired). */
+  /** Time claims only: the raw epoch in seconds. */
+  epoch?: number;
+  /** Time claims only: absolute UTC, e.g. "25 Jun 2026 16:42 UTC". */
+  isoUtc?: string;
+  /** True when this is `exp` and it was in the past at decode time. */
   expired?: boolean;
+}
+
+/** A deterministic, time-independent observation about the token. */
+export interface JwtInsight {
+  tone: 'ok' | 'warn';
+  text: string;
 }
 
 export interface JwtDecoded {
@@ -36,8 +55,14 @@ export interface JwtDecoded {
   algorithm: string;
   /** Header `typ` (e.g. 'JWT'), or 'unknown'. */
   type: string;
-  /** Humanized registered claims in canonical order, plus a flag if the token is expired. */
+  /** Every top-level payload claim: registered ones first (canonical order), then custom in source order. */
   claims: JwtClaim[];
+  /** Count of top-level claims (for the summary card). */
+  claimCount: number;
+  /** Raw epoch seconds for the validity panel; absent keys are simply omitted. */
+  times: { iat?: number; nbf?: number; exp?: number };
+  /** Structural, time-independent observations (the live validity line is added by the widget). */
+  insights: JwtInsight[];
 }
 
 export interface JwtResult {
