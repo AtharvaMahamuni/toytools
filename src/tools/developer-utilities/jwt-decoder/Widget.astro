@@ -1,0 +1,6 @@
+---
+import JwtWidget from '@tools/_shared/JwtWidget.astro';
+import { config } from './config';
+---
+
+<JwtWidget slug={config.slug} jwtId={config.processorId!} config={config} />

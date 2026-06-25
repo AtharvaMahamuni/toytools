@@ -1,0 +1,352 @@
+---
+// Dedicated JWT widget — powers the JWT Decoder. Unlike the generic encoding/structured-data
+// widgets, a decoded token is a COMPOSITE (header + payload + humanized claims + raw signature),
+// so it gets its own widget. It still composes the shared IoPanel/ToolSplit/ToolActions primitives
+// and reads `token → ToyTools.runJwt(id, token) → { ok, decoded, error }` live on input.
+//
+// Decoding is 100% local — the token is never transmitted (the privacy line says so, and it is true
+// because this is a static site with no server). The signature is shown but never verified.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CopyButton from '@components/CopyButton.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { JWT_TOOLS } from '@lib/engines/jwt/registry';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  jwtId: string;
+  config: ToolConfig;
+}
+
+const { slug, jwtId } = Astro.props;
+const sample = JWT_TOOLS[jwtId]?.sample ?? '';
+
+const inputId = `${slug}-input`;
+const statusId = `${slug}-status`;
+const sectionsId = `${slug}-sections`;
+const emptyId = `${slug}-empty`;
+const headerId = `${slug}-header`;
+const payloadId = `${slug}-payload`;
+const claimsWrapId = `${slug}-claims-wrap`;
+const claimsId = `${slug}-claims`;
+const sigId = `${slug}-sig`;
+---
+
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="JWT" labelFor={inputId} data-jwt={jwtId} data-slug={slug} data-sample={sample}>
+    <textarea
+      id={inputId}
+      aria-label="JSON Web Token to decode"
+      placeholder="Paste a JWT (header.payload.signature)"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"></textarea>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Decoded">
+    <div class="jwt-out">
+      <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
+      <p id={emptyId} class="jwt-empty">Paste a JWT to decode its header, payload, and claims.</p>
+
+      <div id={sectionsId} class="jwt-sections" hidden>
+        <section class="jwt-sec">
+          <div class="jwt-sec-head" data-copy-bar>
+            <span class="io-label">Header</span>
+            <CopyButton targetId={headerId} />
+          </div>
+          <pre id={headerId} class="jwt-pre"></pre>
+        </section>
+
+        <section class="jwt-sec">
+          <div class="jwt-sec-head" data-copy-bar>
+            <span class="io-label">Payload</span>
+            <CopyButton targetId={payloadId} />
+          </div>
+          <pre id={payloadId} class="jwt-pre"></pre>
+        </section>
+
+        <section id={claimsWrapId} class="jwt-sec" hidden>
+          <span class="io-label">Registered claims</span>
+          <table class="jwt-claims">
+            <tbody id={claimsId}></tbody>
+          </table>
+        </section>
+
+        <section class="jwt-sec">
+          <span class="io-label">Signature</span>
+          <code id={sigId} class="jwt-sig"></code>
+          <p class="jwt-sig-note">Not verified. Checking the signature requires the secret or public key.</p>
+        </section>
+      </div>
+    </div>
+  </IoPanel>
+</ToolSplit>
+
+<p class="jwt-privacy">
+  <span aria-hidden="true">🔒</span>
+  Decoded entirely in your browser. Your token is never sent to any server.
+</p>
+
+<ToolActions clearTarget={inputId} pasteTarget={inputId}>
+  <button type="button" class="action-btn" data-jwt-sample aria-label="Load a sample token">Sample</button>
+</ToolActions>
+
+<CategoryDiscovery toolSlug={slug} />
+
+<style>
+  .jwt-out {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .jwt-empty {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .jwt-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  /* An explicit display value overrides the [hidden] user-agent rule, so restore it. */
+  .jwt-sections[hidden],
+  .jwt-sec[hidden] {
+    display: none;
+  }
+
+  .jwt-sec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .jwt-sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .jwt-pre {
+    margin: 0;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-variant-ligatures: none;
+  }
+
+  .jwt-claims {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .jwt-claims td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: var(--border);
+    vertical-align: top;
+  }
+
+  .jwt-claims tr:last-child td {
+    border-bottom: none;
+  }
+
+  .jwt-claim-key {
+    white-space: nowrap;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .jwt-claim-key code {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .jwt-claim-val {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .jwt-claim-human {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .jwt-badge {
+    display: inline-block;
+    margin-left: var(--space-2);
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+
+  .jwt-sig {
+    display: block;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    word-break: break-all;
+    color: var(--color-text-muted);
+  }
+
+  .jwt-sig-note {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .jwt-privacy {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-jwt][data-slug]');
+    if (!root) return;
+    var jid = root.getAttribute('data-jwt');
+    var slug = root.getAttribute('data-slug');
+    var sample = root.getAttribute('data-sample') || '';
+
+    var input = document.getElementById(slug + '-input');
+    var status = document.getElementById(slug + '-status');
+    var empty = document.getElementById(slug + '-empty');
+    var sections = document.getElementById(slug + '-sections');
+    var headerEl = document.getElementById(slug + '-header');
+    var payloadEl = document.getElementById(slug + '-payload');
+    var claimsWrap = document.getElementById(slug + '-claims-wrap');
+    var claimsBody = document.getElementById(slug + '-claims');
+    var sigEl = document.getElementById(slug + '-sig');
+    if (!input || !status) return;
+
+    function showEmpty() {
+      status.textContent = '';
+      status.setAttribute('data-ok', '');
+      sections.hidden = true;
+      empty.hidden = false;
+      empty.textContent = 'Paste a JWT to decode its header, payload, and claims.';
+    }
+
+    function showError(msg) {
+      status.setAttribute('data-ok', 'false');
+      status.textContent = '✗ ' + msg;
+      sections.hidden = true;
+      empty.hidden = true;
+    }
+
+    function setPre(el, text) {
+      el.textContent = text;
+      if (text) el.removeAttribute('data-empty');
+      else el.setAttribute('data-empty', '');
+    }
+
+    function renderClaims(claims) {
+      claimsBody.textContent = '';
+      if (!claims || !claims.length) { claimsWrap.hidden = true; return; }
+      claimsWrap.hidden = false;
+      claims.forEach(function (c) {
+        var tr = document.createElement('tr');
+
+        var keyTd = document.createElement('td');
+        keyTd.className = 'jwt-claim-key';
+        keyTd.appendChild(document.createTextNode(c.label + ' '));
+        var code = document.createElement('code');
+        code.textContent = c.key;
+        keyTd.appendChild(code);
+        tr.appendChild(keyTd);
+
+        var valTd = document.createElement('td');
+        valTd.className = 'jwt-claim-val';
+        var val = typeof c.value === 'object' ? JSON.stringify(c.value) : String(c.value);
+        valTd.appendChild(document.createTextNode(val));
+        if (c.expired) {
+          var badge = document.createElement('span');
+          badge.className = 'jwt-badge';
+          badge.textContent = 'Expired';
+          valTd.appendChild(badge);
+        }
+        if (c.human) {
+          var human = document.createElement('span');
+          human.className = 'jwt-claim-human';
+          human.textContent = c.human;
+          valTd.appendChild(human);
+        }
+        tr.appendChild(valTd);
+
+        claimsBody.appendChild(tr);
+      });
+    }
+
+    function run() {
+      if (!input.value.trim()) { showEmpty(); return; }
+      if (!(window.ToyTools && ToyTools.runJwt)) return;
+      var res = ToyTools.runJwt(jid, input.value);
+      if (!res.ok) { showError(res.error || 'Could not decode this token.'); return; }
+      var d = res.decoded;
+      status.setAttribute('data-ok', 'true');
+      status.textContent = '✓ Decoded · ' + d.algorithm;
+      empty.hidden = true;
+      sections.hidden = false;
+      setPre(headerEl, d.headerJson);
+      setPre(payloadEl, d.payloadJson);
+      renderClaims(d.claims);
+      sigEl.textContent = d.signature || '(empty)';
+    }
+
+    function persist() {
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, { input: input.value });
+    }
+
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      if (saved && typeof saved.input === 'string') input.value = saved.input;
+    } catch (_) {}
+
+    input.addEventListener('input', function () { run(); persist(); });
+
+    var sampleBtn = document.querySelector('[data-jwt-sample]');
+    if (sampleBtn) sampleBtn.addEventListener('click', function () {
+      input.value = sample;
+      run(); persist();
+      input.focus();
+    });
+
+    // runJwt attaches via a deferred module; wait so restored input decodes on load.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>
