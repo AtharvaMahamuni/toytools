@@ -42,6 +42,7 @@ import { config as csvToJsonConverter }   from '@tools/developer-utilities/csv-t
 import { config as jsonToYamlConverter }  from '@tools/developer-utilities/json-to-yaml-converter/config';
 import { config as yamlToJsonConverter }  from '@tools/developer-utilities/yaml-to-json-converter/config';
 import { config as jsonTreeViewer }       from '@tools/developer-utilities/json-tree-viewer/config';
+import { config as jwtDecoder }            from '@tools/developer-utilities/jwt-decoder/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
 
 // Add/remove a tool: one import line above + one array entry below
@@ -87,6 +88,7 @@ export const tools: ToolConfig[] = [
   jsonToYamlConverter,
   yamlToJsonConverter,
   jsonTreeViewer,
+  jwtDecoder,
   pomodoroTimer,
 ];
 

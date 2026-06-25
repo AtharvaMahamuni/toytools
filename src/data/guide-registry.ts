@@ -22,6 +22,7 @@ export const registeredGuideSlugs = [
   'json-to-yaml-converter',
   'yaml-to-json-converter',
   'json-tree-viewer',
+  'jwt-decoder',
   'sha512-hash-generator',
   'discount-calculator',
   'margin-calculator',
