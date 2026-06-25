@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../../lib/titles';
+import { withBase } from '../../lib/paths';
+---
+
+<BaseLayout
+  title={generatePageTitle('language', '繁體中文（台灣）')}
+  description="ToyTools — 免費、私密、瀏覽器端的日常工具。無需註冊，無追蹤。"
+  maxWidth="tool"
+  robots="noindex,follow"
+>
+  <div class="lang-stub">
+    <h1>ToyTools</h1>
+    <p>免費、私密、瀏覽器端的日常工具。</p>
+    <a href={withBase('/')}>瀏覽所有工具 →</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .lang-stub {
+    padding: var(--space-16) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+</style>

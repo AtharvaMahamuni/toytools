@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../../lib/titles';
+import { withBase } from '../../lib/paths';
+---
+
+<BaseLayout
+  title={generatePageTitle('language', 'Bahasa Indonesia')}
+  description="ToyTools — alat gratis, privat, berbasis browser untuk aktivitas sehari-hari. Tanpa daftar, tanpa pelacakan."
+  maxWidth="tool"
+  robots="noindex,follow"
+>
+  <div class="lang-stub">
+    <h1>ToyTools</h1>
+    <p>Alat gratis, privat, berbasis browser untuk aktivitas sehari-hari.</p>
+    <a href={withBase('/')}>Lihat semua alat →</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .lang-stub {
+    padding: var(--space-16) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+</style>

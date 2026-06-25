@@ -42,7 +42,7 @@ describe('collectUrls', () => {
   });
 
   it('excludes the thin language stubs (noindex, not submitted)', () => {
-    expect(urls.some(u => /\/(en|de|fr|ja)\/$/.test(u))).toBe(false);
+    expect(urls.some(u => /\/(en|de|fr|ja|zh|zh-tw|zh-hk|es|pt|ko|it|ru|ar|hi|nl|pl|tr|vi|th|id|sv|cs|uk|ro|el|no|da|fi|hu)\/$/.test(u))).toBe(false);
   });
 
   it('is deterministic across calls', () => {
