@@ -5,7 +5,7 @@ import type { Validator, CrawledPage, QualityContext, ValidatorResult, Issue } f
 export const sitemapValidator: Validator = {
   name: 'sitemap',
 
-  async detect(_pages: CrawledPage[], ctx: QualityContext): Promise<ValidatorResult> {
+  async detect(pages: CrawledPage[], ctx: QualityContext): Promise<ValidatorResult> {
     const issues: Issue[] = [];
     const indexPath = join(ctx.distDir, 'sitemap-index.xml');
 
@@ -42,17 +42,22 @@ export const sitemapValidator: Validator = {
       .map(f => readFileSync(f, 'utf-8'))
       .join('\n');
 
-    // Check each manifest route (excluding /404.html) appears in the sitemap.
-    // /faq/ and /tool/developer/ pages are noindex redirect stubs (the latter from the
-    // developer → developer-utilities segment rename) — intentionally absent from all
-    // sitemaps. See src/data/faq-redirects.ts and src/data/tool-redirects.ts.
+    // Check each manifest route appears in the sitemap.
+    // noindex pages are excluded from the sitemap by design, so they must not be expected
+    // here. We derive that set from the crawled robots meta (covers search, architecture,
+    // 404, and the thin language stubs /de/ /en/ /fr/ /ja/) so this stays correct as pages
+    // are added or de-indexed. /faq/ and /tool/developer/ pages are noindex redirect stubs
+    // (the latter from the developer → developer-utilities segment rename) — intentionally
+    // absent from all sitemaps. See src/data/faq-redirects.ts and src/data/tool-redirects.ts.
+    const noindexRoutes = new Set(
+      pages.filter(p => /noindex/i.test(p.robots)).map(p => p.urlPath),
+    );
     const excluded = new Set(['/404.html', '/search/', '/architecture/', '/category/developer-tools/']);
     const excludedPrefixes = ['/faq/', '/tool/developer/'];
     for (const route of ctx.manifestRoutes) {
       if (excluded.has(route)) continue;
+      if (noindexRoutes.has(route)) continue;
       if (excludedPrefixes.some(p => route.startsWith(p))) continue;
-      // noindex pages are excluded from sitemap by design (search, 404, architecture)
-      // Language stubs ARE expected in sitemap
 
       const encodedRoute = route.replace(/&/g, '&amp;');
       if (!allSitemapContent.includes(route) && !allSitemapContent.includes(encodedRoute)) {
