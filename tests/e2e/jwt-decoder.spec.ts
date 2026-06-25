@@ -40,8 +40,11 @@ test('flags an expired token with a badge', async ({ page }) => {
   const token = await makeToken(page, { alg: 'HS256' }, { exp: past });
   await page.locator(`#${SLUG}-input`).fill(token);
 
-  const badge = page.locator('.jwt-badge', { hasText: 'Expired' });
-  await expect(badge).toBeVisible();
+  // Expiry is surfaced both in the status line and in the claims table.
+  const badges = page.locator('.jwt-badge', { hasText: 'Expired' });
+  await expect(badges.first()).toBeVisible();
+  await expect(badges).toHaveCount(2);
+  await expect(page.locator(`#${SLUG}-status`)).toContainText('Expired');
 });
 
 test('does not flag a future token as expired', async ({ page }) => {
@@ -50,7 +53,8 @@ test('does not flag a future token as expired', async ({ page }) => {
   await page.locator(`#${SLUG}-input`).fill(token);
 
   await expect(page.locator('.jwt-badge')).toHaveCount(0);
-  await expect(page.locator('.jwt-claim-human').first()).toContainText('in ');
+  // The exp claim's value cell shows the humanized future date ("... (in N days)").
+  await expect(page.locator('.jwt-claim-val').first()).toContainText('in ');
 });
 
 test('shows a specific error for a malformed token', async ({ page }) => {

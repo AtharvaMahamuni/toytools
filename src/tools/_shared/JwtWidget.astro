@@ -1,12 +1,19 @@
 ---
 // Dedicated JWT widget — powers the JWT Decoder. Unlike the generic encoding/structured-data
 // widgets, a decoded token is a COMPOSITE (header + payload + humanized claims + raw signature),
-// so it gets its own widget. It still composes the shared IoPanel/ToolSplit/ToolActions primitives
-// and reads `token → ToyTools.runJwt(id, token) → { ok, decoded, error }` live on input.
+// so it gets its own widget. It reads `token → ToyTools.runJwt(id, token) → { ok, decoded, error }`
+// live on input.
+//
+// Layout: a single stacked column (compact token input on top, decoded output below). A JWT is
+// asymmetric — a short token in, a rich tall decode out — so the symmetric two-column ToolSplit
+// (which equalizes column heights for base64/JSON) would leave a large empty input. Single-column
+// is an established pattern here (notepad, todo) and keeps the same IoPanel chrome + status line.
+//
+// Styles are `is:global` (namespaced .jwt-*) because the claims rows are built in the inline
+// script via createElement, so Astro's scoped-style attribute would never reach them.
 //
 // Decoding is 100% local — the token is never transmitted (the privacy line says so, and it is true
 // because this is a static site with no server). The signature is shown but never verified.
-import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CopyButton from '@components/CopyButton.astro';
@@ -34,8 +41,8 @@ const claimsId = `${slug}-claims`;
 const sigId = `${slug}-sig`;
 ---
 
-<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="JWT" labelFor={inputId} data-jwt={jwtId} data-slug={slug} data-sample={sample}>
+<div class="jwt-grid">
+  <IoPanel class="jwt-input-panel" label="JWT" labelFor={inputId} data-jwt={jwtId} data-slug={slug} data-sample={sample}>
     <textarea
       id={inputId}
       aria-label="JSON Web Token to decode"
@@ -46,14 +53,14 @@ const sigId = `${slug}-sig`;
       autocapitalize="off"></textarea>
   </IoPanel>
 
-  <IoPanel slot="output" label="Decoded">
+  <IoPanel label="Decoded">
     <div class="jwt-out">
       <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
-      <p id={emptyId} class="jwt-empty">Paste a JWT to decode its header, payload, and claims.</p>
+      <p id={emptyId} class="jwt-empty">Paste a JWT above to decode its header, payload, and claims.</p>
 
       <div id={sectionsId} class="jwt-sections" hidden>
         <section class="jwt-sec">
-          <div class="jwt-sec-head" data-copy-bar>
+          <div class="jwt-sec-head">
             <span class="io-label">Header</span>
             <CopyButton targetId={headerId} />
           </div>
@@ -61,7 +68,7 @@ const sigId = `${slug}-sig`;
         </section>
 
         <section class="jwt-sec">
-          <div class="jwt-sec-head" data-copy-bar>
+          <div class="jwt-sec-head">
             <span class="io-label">Payload</span>
             <CopyButton targetId={payloadId} />
           </div>
@@ -83,7 +90,7 @@ const sigId = `${slug}-sig`;
       </div>
     </div>
   </IoPanel>
-</ToolSplit>
+</div>
 
 <p class="jwt-privacy">
   <span aria-hidden="true">🔒</span>
@@ -96,11 +103,27 @@ const sigId = `${slug}-sig`;
 
 <CategoryDiscovery toolSlug={slug} />
 
-<style>
+<style is:global>
+  /* Stacked single-column layout. The decoded panel grows with its content (a JWT decode is
+     taller than the token input), so neither panel uses the symmetric ToolSplit equalization. */
+  .jwt-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  /* The token is one long string, not prose — a compact input avoids a tall empty box. */
+  .jwt-input-panel {
+    min-height: 0;
+  }
+
+  .jwt-input-panel textarea {
+    min-height: 120px;
+  }
+
   .jwt-out {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
     padding: var(--space-3);
     display: flex;
     flex-direction: column;
@@ -182,13 +205,7 @@ const sigId = `${slug}-sig`;
   .jwt-claim-val {
     width: 100%;
     overflow-wrap: anywhere;
-  }
-
-  .jwt-claim-human {
-    display: block;
-    margin-top: var(--space-1);
-    color: var(--color-text-muted);
-    font-size: var(--text-xs);
+    color: var(--color-text);
   }
 
   .jwt-badge {
@@ -292,19 +309,15 @@ const sigId = `${slug}-sig`;
 
         var valTd = document.createElement('td');
         valTd.className = 'jwt-claim-val';
-        var val = typeof c.value === 'object' ? JSON.stringify(c.value) : String(c.value);
+        // For time claims show the readable date (the raw epoch is in the Payload pane above);
+        // otherwise show the raw value.
+        var val = c.human ? c.human : (typeof c.value === 'object' ? JSON.stringify(c.value) : String(c.value));
         valTd.appendChild(document.createTextNode(val));
         if (c.expired) {
           var badge = document.createElement('span');
           badge.className = 'jwt-badge';
           badge.textContent = 'Expired';
           valTd.appendChild(badge);
-        }
-        if (c.human) {
-          var human = document.createElement('span');
-          human.className = 'jwt-claim-human';
-          human.textContent = c.human;
-          valTd.appendChild(human);
         }
         tr.appendChild(valTd);
 
@@ -320,6 +333,14 @@ const sigId = `${slug}-sig`;
       var d = res.decoded;
       status.setAttribute('data-ok', 'true');
       status.textContent = '✓ Decoded · ' + d.algorithm;
+      // Surface expiry up front so it is not buried in the claims table.
+      if (d.claims.some(function (c) { return c.expired; })) {
+        status.appendChild(document.createTextNode(' '));
+        var sbadge = document.createElement('span');
+        sbadge.className = 'jwt-badge';
+        sbadge.textContent = 'Expired';
+        status.appendChild(sbadge);
+      }
       empty.hidden = true;
       sections.hidden = false;
       setPre(headerEl, d.headerJson);
