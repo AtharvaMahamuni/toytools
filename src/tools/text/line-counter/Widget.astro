@@ -1,0 +1,100 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+---
+
+<TextMetricWidget
+  slug="line-counter"
+  emptyMessage="Paste or type text to count lines."
+  sampleText={"Line 1: The quick brown fox jumps over the lazy dog.\nLine 2: A gentle breeze rustled the leaves in the tall oak tree.\nLine 3: Birds called from hidden branches above the sunlit path.\n\nLine 5: Below, a narrow stream wound between mossy stones.\nLine 6: The fox paused, ears perked, watching the hills turn gold.\nLine 7: Summer was warm and the meadow was alive with bees."}
+  stats={[
+    { metric: 'lines',         label: 'Lines',              formatter: 'integer' },
+    { metric: 'nonEmptyLines', label: 'Non-Empty Lines',    formatter: 'integer' },
+    { metric: 'paragraphs',    label: 'Paragraphs',         formatter: 'integer' },
+    { metric: 'words',         label: 'Words',              formatter: 'integer' },
+  ]}
+>
+  <section class="lc-depth" id="line-counter-depth" hidden>
+    <h2 class="lc-depth-heading">Line Details</h2>
+    <dl class="lc-depth-grid" id="line-counter-depth-grid" aria-live="polite"></dl>
+  </section>
+</TextMetricWidget>
+
+<script is:inline>
+(function () {
+  var textarea = document.getElementById('line-counter-input');
+  var section  = document.getElementById('line-counter-depth');
+  var grid     = document.getElementById('line-counter-depth-grid');
+  if (!textarea || !section || !grid) return;
+
+  function cell(label, value) {
+    return '<div class="lc-depth-cell"><dt>' + label + '</dt><dd>' + value + '</dd></div>';
+  }
+
+  function compute() {
+    var text = textarea.value;
+    if (!text) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var lines = text.split('\n');
+    var total = lines.length;
+    var nonEmpty = 0;
+    var emptyLines = 0;
+    var longest = 0;
+    var lengthSum = 0;
+    for (var i = 0; i < lines.length; i++) {
+      var len = lines[i].length;
+      lengthSum += len;
+      if (len > longest) longest = len;
+      if (lines[i].trim().length > 0) nonEmpty++; else emptyLines++;
+    }
+    var avg = total > 0 ? Math.round((lengthSum / total) * 10) / 10 : 0;
+
+    grid.innerHTML =
+      cell('Empty lines', emptyLines) +
+      cell('Average line length', avg + ' chars') +
+      cell('Longest line', longest + ' chars');
+  }
+
+  textarea.addEventListener('input', compute);
+  compute();
+})();
+</script>
+
+<style>
+  .lc-depth {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .lc-depth-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+  }
+  .lc-depth-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+  }
+  .lc-depth-cell {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    min-width: 10rem;
+  }
+  .lc-depth-cell dt {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .lc-depth-cell dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

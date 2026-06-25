@@ -4,6 +4,12 @@ import { config as characterCounter }      from '@tools/text/character-counter/c
 import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
 import { config as sentenceCounter }       from '@tools/text/sentence-counter/config';
 import { config as paragraphCounter }      from '@tools/text/paragraph-counter/config';
+import { config as letterCounter }         from '@tools/text/letter-counter/config';
+import { config as lineCounter }           from '@tools/text/line-counter/config';
+import { config as spaceCounter }          from '@tools/text/space-counter/config';
+// Text interactive engine
+import { config as findReplace }           from '@tools/text/find-replace/config';
+import { config as textCompare }           from '@tools/text/text-compare/config';
 // Text processor engine — transform family
 import { config as uppercaseConverter }    from '@tools/text/uppercase-converter/config';
 import { config as lowercaseConverter }    from '@tools/text/lowercase-converter/config';
@@ -52,6 +58,11 @@ export const tools: ToolConfig[] = [
   readingTimeCalculator,
   sentenceCounter,
   paragraphCounter,
+  letterCounter,
+  lineCounter,
+  spaceCounter,
+  findReplace,
+  textCompare,
   uppercaseConverter,
   lowercaseConverter,
   titleCaseConverter,

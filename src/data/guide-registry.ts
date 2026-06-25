@@ -50,6 +50,11 @@ export const registeredGuideSlugs = [
   'reading-time-calculator',
   'sentence-counter',
   'paragraph-counter',
+  'letter-counter',
+  'line-counter',
+  'space-counter',
+  'find-replace',
+  'text-compare',
 ] as const;
 
 export type RegisteredGuideSlug = (typeof registeredGuideSlugs)[number];

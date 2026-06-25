@@ -1,0 +1,135 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Find and Replace is a tool that searches your text for a pattern and replaces every
+      occurrence with a different string. By default, the search is case-insensitive and treats
+      the find term as plain text. You can enable case-sensitive matching, whole-word matching,
+      or switch to regex mode for advanced patterns.
+    </p>
+    <a href={toolHref} class="cta-link">Try Find and Replace →</a>
+  </section>
+
+  <section id="how-to-use">
+    <h2>How to Use Find and Replace <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li>Paste your text into the Source Text area.</li>
+      <li>Type the word or phrase you want to find in the Find field.</li>
+      <li>Type the replacement text in the Replace field (leave empty to delete matches).</li>
+      <li>The Result area updates instantly with all replacements applied.</li>
+      <li>Copy or download the result.</li>
+    </ol>
+  </section>
+
+  <section id="toggle-options">
+    <h2>Toggle Options <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Aa — Case Sensitive.</strong> When enabled, the search matches exact
+      capitalisation. "Hello" will not match "hello". When disabled (default), matching is
+      case-insensitive.
+    </p>
+    <p>
+      <strong>.* — Regex Mode.</strong> When enabled, the Find field accepts a regular
+      expression. This unlocks powerful patterns like <code>\d+</code> for numbers,
+      <code>\s+</code> for whitespace, and <code>^</code> / <code>$</code> for line
+      boundaries.
+    </p>
+    <p>
+      <strong>\b — Whole Word.</strong> When enabled, the search only matches when the term
+      appears as a complete word, not as part of a longer word. Searching for "cat" with whole
+      word on will match "cat" but not "category".
+    </p>
+  </section>
+
+  <section id="regex-examples">
+    <h2>Useful Regex Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Remove extra spaces:</strong> Find <code>\s+</code> → Replace <code> </code> (single space)</li>
+      <li><strong>Remove blank lines:</strong> Find <code>^\s*\n</code> → Replace (empty)</li>
+      <li><strong>Swap two words:</strong> Find <code>(\w+)\s(\w+)</code> → Replace <code>$2 $1</code></li>
+      <li><strong>Add line numbers:</strong> Find <code>^</code> → Replace <code>• </code></li>
+      <li><strong>Remove HTML tags:</strong> Find <code>&lt;[^&gt;]+&gt;</code> → Replace (empty)</li>
+    </ul>
+    <ReferenceBlock type="note" heading="Enable regex mode first">
+      <p>
+        These examples require the <strong>.*</strong> toggle to be active. Without it, the
+        patterns are treated as literal text.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Forgetting to escape special characters in plain text mode">
+      <p>
+        In plain text mode, characters like <code>.</code>, <code>(</code>, <code>)</code>,
+        and <code>*</code> are matched literally. You do not need to escape them. In regex
+        mode, these are metacharacters and must be escaped with a backslash if you want to
+        match them literally: <code>\.</code>, <code>\(</code>, and so on.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Using .* too broadly">
+      <p>
+        In regex mode, <code>.*</code> matches everything from the find position to the end
+        of the line. This can replace far more text than intended. Use <code>.*?</code>
+        (non-greedy) to match as little as possible, or anchor the pattern with <code>^</code>
+        and <code>$</code>.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
+      including <a href={withBase(`/tool/${category.segment}/text-compare/`)}>Text Compare</a>,
+      <a href={withBase(`/tool/${category.segment}/remove-extra-spaces/`)}>Remove Extra Spaces</a>,
+      and <a href={withBase(`/tool/${category.segment}/remove-duplicate-lines/`)}>Remove Duplicate Lines</a>.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

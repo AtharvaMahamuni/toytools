@@ -1,0 +1,239 @@
+---
+import HeroMetric from '@components/tool/HeroMetric.astro';
+import StatGrid from '@components/tool/StatGrid.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Your text" labelFor="letter-counter-input" variant="prose">
+    <textarea id="letter-counter-input" placeholder="Paste or type text here…"></textarea>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <HeroMetric metric="letters" label="Letters" formatter="integer" />
+    <StatGrid stats={[
+      { metric: 'characters',       label: 'Total Characters', formatter: 'integer' },
+      { metric: 'words',            label: 'Words',            formatter: 'integer' },
+      { metric: 'averageWordLength', label: 'Avg Word Length', formatter: 'decimal' },
+    ]} />
+  </IoPanel>
+</ToolSplit>
+
+<ToolActions copyTarget="letter-counter-input" clearTarget="letter-counter-input" pasteTarget="letter-counter-input">
+  <button
+    class="action-btn action-btn--sample"
+    data-action="sample"
+    data-target="letter-counter-input"
+    aria-label="Load a sample text"
+  >
+    Sample
+  </button>
+</ToolActions>
+
+<section class="lc-freq-section" id="lc-freq-section" hidden>
+  <h2 class="lc-freq-heading">Letter Frequency</h2>
+  <div class="lc-freq-meta" id="lc-freq-meta" aria-live="polite"></div>
+  <ol class="lc-freq-chart" id="lc-freq-chart" aria-label="Letter frequency chart"></ol>
+</section>
+
+<CategoryDiscovery toolSlug="letter-counter" />
+
+<script is:inline>
+(function () {
+  var SAMPLE = 'The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.';
+
+  var textarea = document.getElementById('letter-counter-input');
+  var secondary = document.querySelector('.tm-secondary');
+  var hero = document.querySelector('.hero-value');
+  var hint = document.querySelector('.empty-hint');
+  var freqSection = document.getElementById('lc-freq-section');
+  var freqMeta = document.getElementById('lc-freq-meta');
+  var freqChart = document.getElementById('lc-freq-chart');
+  if (!textarea) return;
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pulseTimer;
+
+  function pulse() {
+    if (reduceMotion || !hero) return;
+    hero.classList.add('is-updated');
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(function () { hero.classList.remove('is-updated'); }, 200);
+  }
+
+  function setMetric(el, value) {
+    var fmt = el.dataset.formatter || 'integer';
+    var next = ToyTools.formatMetric(value, fmt);
+    if (el.textContent !== next) {
+      el.textContent = next;
+      if (el === hero) pulse();
+    }
+  }
+
+  function buildFreqChart(text) {
+    var counts = {};
+    var total = 0;
+    // Match all Unicode letters, then fold diacritics to their base A–Z letter
+    // (é → e, ñ → n, ü → u) so the chart reconciles with the Unicode "Letters"
+    // hero count for Latin text. Non-Latin letters fall outside the A–Z chart.
+    var letters = text.match(/\p{L}/gu) || [];
+    letters.forEach(function (ch) {
+      var base = ch.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+      if (base.length === 1 && base >= 'a' && base <= 'z') {
+        counts[base] = (counts[base] || 0) + 1;
+        total++;
+      }
+    });
+
+    var unique = Object.keys(counts).length;
+    var sorted = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+    var maxCount = sorted.length ? counts[sorted[0]] : 1;
+
+    var mostCommon = sorted[0] ? sorted[0].toUpperCase() + ' (' + counts[sorted[0]] + ')' : '—';
+    var leastCommon = sorted.length ? sorted[sorted.length - 1].toUpperCase() + ' (' + counts[sorted[sorted.length - 1]] + ')' : '—';
+
+    freqMeta.innerHTML =
+      '<span class="lc-badge">Most common: <strong>' + mostCommon + '</strong></span>' +
+      '<span class="lc-badge">Least common: <strong>' + leastCommon + '</strong></span>' +
+      '<span class="lc-badge lc-badge--coverage"><strong>' + unique + ' / 26</strong> letters used</span>';
+
+    var html = '';
+    var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    alphabet.forEach(function (letter) {
+      var count = counts[letter] || 0;
+      var pct = total > 0 ? Math.round((count / maxCount) * 100) : 0;
+      var barPct = total > 0 ? Math.max((count / maxCount) * 100, count > 0 ? 2 : 0) : 0;
+      html +=
+        '<li class="lc-bar-row' + (count === 0 ? ' lc-bar-row--zero' : '') + '">' +
+        '<span class="lc-bar-letter" aria-hidden="true">' + letter.toUpperCase() + '</span>' +
+        '<span class="lc-bar-track" role="presentation">' +
+        '<span class="lc-bar-fill" style="width:' + barPct.toFixed(1) + '%"></span>' +
+        '</span>' +
+        '<span class="lc-bar-count">' + count + '</span>' +
+        '</li>';
+    });
+    freqChart.innerHTML = html;
+  }
+
+  function update() {
+    var text = textarea.value;
+    if (!text.trim()) {
+      if (hero) setMetric(hero, 0);
+      if (secondary) secondary.hidden = true;
+      if (hint) hint.hidden = false;
+      if (freqSection) freqSection.hidden = true;
+      return;
+    }
+    if (hint) hint.hidden = true;
+    if (secondary) secondary.hidden = false;
+    if (freqSection) freqSection.hidden = false;
+
+    var r = ToyTools.analyze(text);
+    document.querySelectorAll('[data-metric]').forEach(function (el) {
+      var key = el.dataset.metric;
+      setMetric(el, r[key] !== undefined ? r[key] : 0);
+    });
+
+    buildFreqChart(text);
+  }
+
+  // Sample button
+  var sampleBtn = document.querySelector('[data-action="sample"][data-target="letter-counter-input"]');
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      textarea.value = SAMPLE;
+      textarea.dispatchEvent(new Event('input'));
+      textarea.focus();
+    });
+  }
+
+  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
+
+  try {
+    var saved = ToyTools.state && ToyTools.state.load('letter-counter');
+    if (saved && typeof saved.text === 'string') textarea.value = saved.text;
+  } catch (_) {}
+
+  textarea.addEventListener('input', function () {
+    update();
+    if (ToyTools.state) ToyTools.state.save('letter-counter', { text: textarea.value });
+  });
+  ToyTools.onReady(update);
+
+  if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
+})();
+</script>
+
+<style>
+  .lc-freq-section {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .lc-freq-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+  }
+  .lc-freq-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+  .lc-badge {
+    font-size: var(--text-sm);
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+  .lc-badge--coverage { font-weight: var(--font-weight-medium); }
+  .lc-freq-chart {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .lc-bar-row {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr 3rem;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .lc-bar-row--zero { opacity: 0.35; }
+  .lc-bar-letter {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+  .lc-bar-track {
+    height: 14px;
+    background: var(--color-surface-raised);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .lc-bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: var(--radius-full);
+    transition: width 150ms ease-out;
+    min-width: 0;
+  }
+  .lc-bar-count {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

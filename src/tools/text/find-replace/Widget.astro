@@ -1,0 +1,381 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { config } from './config';
+---
+
+<div class="fr-widget">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <div slot="input">
+      <IoPanel label="Source Text" labelFor="fr-source" variant="prose">
+        <div class="fr-controls" slot="header-end">
+          <label class="fr-toggle" title="Match case">
+            <input type="checkbox" id="fr-case" />
+            <span>Aa</span>
+          </label>
+          <label class="fr-toggle" title="Regular expression">
+            <input type="checkbox" id="fr-regex" />
+            <span>.*</span>
+          </label>
+          <label class="fr-toggle" title="Whole word only">
+            <input type="checkbox" id="fr-whole-word" />
+            <span>\b</span>
+          </label>
+        </div>
+        <div class="fr-search-row">
+          <div class="fr-field-wrap">
+            <input
+              id="fr-find"
+              class="fr-field"
+              type="text"
+              placeholder="Find…"
+              aria-label="Find pattern"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <span id="fr-match-count" class="fr-match-count" aria-live="polite"></span>
+          </div>
+          <input
+            id="fr-replace"
+            class="fr-field"
+            type="text"
+            placeholder="Replace with…"
+            aria-label="Replace with"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p id="fr-regex-error" class="fr-regex-error" role="alert"></p>
+          <label class="fr-check">
+            <input type="checkbox" id="fr-highlight" />
+            Highlight matches in source
+          </label>
+        </div>
+        <textarea
+          id="fr-source"
+          class="fr-textarea"
+          placeholder="Paste or type source text here…"
+          spellcheck="false"
+          aria-label="Source text"
+        ></textarea>
+      </IoPanel>
+      <ToolActions pasteTarget="fr-source" clearTarget="fr-source">
+        <button class="action-btn action-btn--sample" data-action="sample" id="fr-sample-btn" aria-label="Load a sample">Sample</button>
+      </ToolActions>
+    </div>
+
+    <div slot="output">
+      <IoPanel label="Result" copyTargetId="fr-output" variant="prose">
+        <textarea
+          id="fr-output"
+          class="fr-textarea fr-output"
+          readonly
+          aria-label="Result text"
+          aria-live="polite"
+        ></textarea>
+      </IoPanel>
+      <ToolActions copyTarget="fr-output" downloadFilename="find-replace-result.txt" downloadTarget="fr-output" />
+    </div>
+  </ToolSplit>
+
+  <section class="fr-preview-section" id="fr-preview-section" hidden>
+    <h2 class="fr-preview-heading">Match preview</h2>
+    <div class="fr-preview" id="fr-preview" aria-live="polite"></div>
+  </section>
+
+  <CategoryDiscovery toolSlug={config.slug} />
+</div>
+
+<style is:global>
+  .fr-widget .io-panel { position: relative; }
+  .fr-widget .fr-textarea {
+    width: 100%;
+    min-height: 260px;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .fr-widget .fr-output { background: var(--color-surface-alt, var(--color-surface)); }
+  .fr-widget .fr-textarea:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .fr-controls {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+  }
+  .fr-toggle {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .fr-toggle input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .fr-toggle span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 28px;
+    padding-inline: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    transition: var(--transition-color);
+  }
+  .fr-toggle input:checked + span {
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+  }
+  .fr-toggle:focus-within span { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .fr-search-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-3) 0;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .fr-field-wrap { position: relative; display: flex; align-items: center; }
+  .fr-field {
+    width: 100%;
+    height: 36px;
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .fr-field:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+  .fr-field-wrap .fr-field { padding-right: 72px; }
+  .fr-match-count {
+    position: absolute;
+    right: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .fr-match-count.has-matches { color: var(--color-accent-strong); }
+  .fr-regex-error {
+    margin: 0;
+    font-size: var(--text-xs);
+    color: var(--color-danger);
+    min-height: 1rem;
+  }
+  .fr-check {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .action-btn--sample {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .action-btn--sample:hover { background: var(--color-surface-elevated); color: var(--color-text); }
+</style>
+
+<style>
+  .fr-preview-section {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .fr-preview-heading {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .fr-preview {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    max-height: 360px;
+    overflow: auto;
+  }
+  .fr-preview :global(mark) {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    border-radius: var(--radius-sm);
+    padding: 0 2px;
+    font-weight: var(--font-weight-semibold);
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var SAMPLE = 'The quick brown fox jumps over the lazy dog. The fox is quick, and the dog is lazy. A quick fox and a lazy dog share the quiet meadow under the warm afternoon sun.';
+
+  var findEl      = document.getElementById('fr-find');
+  var replaceEl   = document.getElementById('fr-replace');
+  var sourceEl    = document.getElementById('fr-source');
+  var outputEl    = document.getElementById('fr-output');
+  var countEl     = document.getElementById('fr-match-count');
+  var regexErr    = document.getElementById('fr-regex-error');
+  var caseCheck   = document.getElementById('fr-case');
+  var regexCheck  = document.getElementById('fr-regex');
+  var wordCheck   = document.getElementById('fr-whole-word');
+  var highlightCheck = document.getElementById('fr-highlight');
+  var previewSection = document.getElementById('fr-preview-section');
+  var previewEl   = document.getElementById('fr-preview');
+  var sampleBtn   = document.getElementById('fr-sample-btn');
+
+  if (!findEl || !replaceEl || !sourceEl || !outputEl) return;
+
+  var TT = window.ToyTools;
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // Build escaped source with <mark> around each match. Walks an exec loop so
+  // we escape match and non-match segments independently of regex indices.
+  function buildHighlight(source, re) {
+    re.lastIndex = 0;
+    var out = '';
+    var last = 0;
+    var m;
+    while ((m = re.exec(source)) !== null) {
+      out += escapeHtml(source.slice(last, m.index));
+      out += '<mark>' + escapeHtml(m[0]) + '</mark>';
+      last = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++; // guard against zero-length match loop
+    }
+    out += escapeHtml(source.slice(last));
+    return out;
+  }
+
+  function saveState() {
+    if (!TT || !TT.state) return;
+    TT.state.save('find-replace', {
+      source: sourceEl.value,
+      find: findEl.value,
+      replace: replaceEl.value,
+      useCase: caseCheck.checked,
+      useRegex: regexCheck.checked,
+      useWord: wordCheck.checked,
+      highlight: highlightCheck.checked,
+    });
+  }
+
+  function run() {
+    var source  = sourceEl.value;
+    var pattern = findEl.value;
+    var replace = replaceEl.value;
+    var useCase  = caseCheck.checked;
+    var useRegex = regexCheck.checked;
+    var useWord  = wordCheck.checked;
+    var showHL   = highlightCheck.checked;
+
+    saveState();
+
+    regexErr.textContent = '';
+    countEl.textContent  = '';
+    countEl.classList.remove('has-matches');
+
+    if (!pattern) {
+      outputEl.value = source;
+      previewSection.hidden = true;
+      return;
+    }
+
+    var flags = 'g' + (useCase ? '' : 'i');
+    var re;
+
+    try {
+      var pat = useRegex ? pattern : pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (useWord) pat = '\\b' + pat + '\\b';
+      re = new RegExp(pat, flags);
+    } catch (err) {
+      regexErr.textContent = 'Invalid regex: ' + err.message;
+      outputEl.value = source;
+      previewSection.hidden = true;
+      return;
+    }
+
+    var matches = source.match(re);
+    var count   = matches ? matches.length : 0;
+
+    if (count > 0) {
+      countEl.textContent = count + ' match' + (count === 1 ? '' : 'es');
+      countEl.classList.add('has-matches');
+    } else {
+      countEl.textContent = 'No matches';
+    }
+
+    outputEl.value = source.replace(re, replace);
+
+    if (showHL && count > 0) {
+      previewEl.innerHTML = buildHighlight(source, re);
+      previewSection.hidden = false;
+    } else {
+      previewSection.hidden = true;
+    }
+  }
+
+  [findEl, replaceEl, sourceEl, caseCheck, regexCheck, wordCheck, highlightCheck].forEach(function (el) {
+    el.addEventListener('input', run);
+    el.addEventListener('change', run);
+  });
+
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      sourceEl.value = SAMPLE;
+      findEl.value = 'fox';
+      replaceEl.value = 'cat';
+      run();
+      sourceEl.focus();
+    });
+  }
+
+  // Restore state (including toggles) before the first run.
+  if (TT && TT.state) {
+    var saved = TT.state.load('find-replace');
+    if (saved) {
+      if (saved.source)  sourceEl.value  = saved.source;
+      if (saved.find)    findEl.value    = saved.find;
+      if (saved.replace) replaceEl.value = saved.replace;
+      caseCheck.checked  = !!saved.useCase;
+      regexCheck.checked = !!saved.useRegex;
+      wordCheck.checked  = !!saved.useWord;
+      highlightCheck.checked = !!saved.highlight;
+      run();
+    }
+  }
+
+  // Desktop auto-focus
+  if (window.innerWidth >= 1024 && !sourceEl.value) sourceEl.focus();
+})();
+</script>

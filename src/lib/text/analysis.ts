@@ -5,6 +5,9 @@ export interface TextAnalysis {
   sentences: number;
   paragraphs: number;
   lines: number;
+  letters: number;
+  spaces: number;
+  nonEmptyLines: number;
   readingTime: number;
   speakingTime: number;
   uniqueWords: number;
@@ -21,6 +24,9 @@ export function analyzeText(text: string): TextAnalysis {
       sentences: 0,
       paragraphs: 0,
       lines: 0,
+      letters: 0,
+      spaces: 0,
+      nonEmptyLines: 0,
       readingTime: 0,
       speakingTime: 0,
       uniqueWords: 0,
@@ -41,7 +47,9 @@ export function analyzeText(text: string): TextAnalysis {
   const sentences = punctuationGroups > 0 ? punctuationGroups : 1;
 
   const paragraphs = text.split(/\n\n+/).filter(p => p.trim()).length;
-  const lines = text.split('\n').length;
+  const lineArray = text.split('\n');
+  const lines = lineArray.length;
+  const nonEmptyLines = lineArray.filter(l => l.trim().length > 0).length;
 
   const readingTime = Math.max(1, Math.round(words / 200));
   const speakingTime = Math.max(1, Math.round(words / 130));
@@ -50,9 +58,10 @@ export function analyzeText(text: string): TextAnalysis {
   const tokens = text.toLowerCase().match(/[\p{L}\p{N}']+/gu) ?? [];
   const uniqueWords = new Set(tokens).size;
 
-  const totalLetters = (text.match(/\p{L}/gu) ?? []).length;
+  const letters = (text.match(/\p{L}/gu) ?? []).length;
+  const spaces = (text.match(/ /g) ?? []).length;
   const averageWordLength = words > 0
-    ? Math.round((totalLetters / words) * 10) / 10
+    ? Math.round((letters / words) * 10) / 10
     : 0;
 
   const averageSentenceLength = sentences > 0
@@ -66,6 +75,9 @@ export function analyzeText(text: string): TextAnalysis {
     sentences,
     paragraphs,
     lines,
+    letters,
+    spaces,
+    nonEmptyLines,
     readingTime,
     speakingTime,
     uniqueWords,

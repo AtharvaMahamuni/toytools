@@ -53,6 +53,11 @@ import CharacterCounterGuide      from '../../tools/text/character-counter/Guide
 import ReadingTimeCalculatorGuide from '../../tools/text/reading-time-calculator/Guide.astro';
 import SentenceCounterGuide       from '../../tools/text/sentence-counter/Guide.astro';
 import ParagraphCounterGuide      from '../../tools/text/paragraph-counter/Guide.astro';
+import LetterCounterGuide         from '../../tools/text/letter-counter/Guide.astro';
+import LineCounterGuide           from '../../tools/text/line-counter/Guide.astro';
+import SpaceCounterGuide          from '../../tools/text/space-counter/Guide.astro';
+import FindReplaceGuide           from '../../tools/text/find-replace/Guide.astro';
+import TextCompareGuide           from '../../tools/text/text-compare/Guide.astro';
 
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
@@ -100,6 +105,11 @@ const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'reading-time-calculator': ReadingTimeCalculatorGuide,
   'sentence-counter':       SentenceCounterGuide,
   'paragraph-counter':      ParagraphCounterGuide,
+  'letter-counter':         LetterCounterGuide,
+  'line-counter':           LineCounterGuide,
+  'space-counter':          SpaceCounterGuide,
+  'find-replace':           FindReplaceGuide,
+  'text-compare':           TextCompareGuide,
 };
 
 export const getStaticPaths = (() => {

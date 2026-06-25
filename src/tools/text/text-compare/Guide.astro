@@ -1,0 +1,133 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Text Compare shows you exactly what is different between two versions of a text. Paste
+      the original in the first box and the new version in the second. Lines that were added
+      appear in green with a <strong>+</strong> marker. Lines that were removed appear in red
+      with a <strong>-</strong> marker. Unchanged lines appear greyed out with a space marker.
+      A similarity percentage shows how much of the text is shared between the two versions.
+    </p>
+    <a href={toolHref} class="cta-link">Try Text Compare →</a>
+  </section>
+
+  <section id="how-to-use">
+    <h2>How to Use Text Compare <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ol>
+      <li>Paste the original version of your text into the <strong>Original</strong> box.</li>
+      <li>Paste the new version into the <strong>New Text</strong> box.</li>
+      <li>The diff appears instantly below both inputs.</li>
+      <li>Green lines with <code>+</code> were added in the new version.</li>
+      <li>Red lines with <code>-</code> were removed from the original.</li>
+      <li>Greyed lines with a space were unchanged.</li>
+    </ol>
+  </section>
+
+  <section id="reading-diff-output">
+    <h2>Reading the Diff Output <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The diff format used here is the same convention as <code>diff</code> and <code>git diff</code>
+      on the command line:
+    </p>
+    <ul>
+      <li><strong>+</strong> (green background) — line present in the new text but not the original</li>
+      <li><strong>-</strong> (red background) — line present in the original but not the new text</li>
+      <li><strong>space</strong> (muted) — line present in both texts, unchanged</li>
+    </ul>
+    <p>
+      The stats bar above the diff shows the total counts of added, removed, and unchanged
+      lines, plus a similarity percentage.
+    </p>
+    <ReferenceBlock type="note" heading="Line-level comparison">
+      <p>
+        This tool compares at the line level, not the word or character level. If you change a
+        single word in a line, that whole line appears as removed (old version) and added (new
+        version) rather than showing the individual word change inline.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Use Text Compare <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Proofreading two drafts of a document to see what changed</li>
+      <li>Comparing contract versions to find inserted or removed clauses</li>
+      <li>Reviewing code changes before committing (for quick checks outside a code editor)</li>
+      <li>Checking that a translation or paraphrase preserved the original structure</li>
+      <li>Auditing content updates on a webpage by comparing old and new versions</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Expecting word-level highlighting">
+      <p>
+        This tool highlights at the line level. If you change one word in a 10-word sentence,
+        you will see that entire line marked as removed (old) and added (new). For word-level
+        or character-level diff, you would need a more specialised diff tool.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Confusing similarity with quality">
+      <p>
+        A low similarity percentage does not mean one version is better than the other. It
+        simply means more lines have changed. A heavily revised draft might be 30% similar but
+        significantly improved.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
+      including <a href={withBase(`/tool/${category.segment}/find-replace/`)}>Find and Replace</a>,
+      <a href={withBase(`/tool/${category.segment}/word-counter/`)}>Word Counter</a>,
+      and <a href={withBase(`/tool/${category.segment}/remove-duplicate-lines/`)}>Remove Duplicate Lines</a>.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -1,0 +1,102 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+---
+
+<TextMetricWidget
+  slug="space-counter"
+  emptyMessage="Paste or type text to count spaces."
+  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  stats={[
+    { metric: 'spaces',             label: 'Spaces',               formatter: 'integer' },
+    { metric: 'characters',         label: 'Total Characters',     formatter: 'integer' },
+    { metric: 'charactersNoSpaces', label: 'Without Spaces',       formatter: 'integer' },
+    { metric: 'words',              label: 'Words',                formatter: 'integer' },
+  ]}
+>
+  <section class="sc-depth" id="space-counter-depth" hidden>
+    <h2 class="sc-depth-heading">Whitespace Details</h2>
+    <dl class="sc-depth-grid" id="space-counter-depth-grid" aria-live="polite"></dl>
+  </section>
+</TextMetricWidget>
+
+<script is:inline>
+(function () {
+  var textarea = document.getElementById('space-counter-input');
+  var section  = document.getElementById('space-counter-depth');
+  var grid     = document.getElementById('space-counter-depth-grid');
+  if (!textarea || !section || !grid) return;
+
+  function cell(label, value) {
+    return '<div class="sc-depth-cell"><dt>' + label + '</dt><dd>' + value + '</dd></div>';
+  }
+
+  function compute() {
+    var text = textarea.value;
+    if (!text) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var lines = text.split('\n');
+    var leading = 0;
+    var trailing = 0;
+    for (var i = 0; i < lines.length; i++) {
+      if (/^[ \t]+/.test(lines[i])) leading++;
+      if (/[ \t]+$/.test(lines[i])) trailing++;
+    }
+
+    var consecutive = (text.match(/ {2,}/g) || []).length;
+    var tabs = (text.match(/\t/g) || []).length;
+    var spaces = (text.match(/ /g) || []).length;
+    var whitespace = (text.match(/\s/g) || []).length;
+    var ratio = text.length > 0 ? Math.round((whitespace / text.length) * 1000) / 10 : 0;
+
+    grid.innerHTML =
+      cell('Tab characters', tabs) +
+      cell('Lines w/ leading space', leading) +
+      cell('Lines w/ trailing space', trailing) +
+      cell('Runs of 2+ spaces', consecutive) +
+      cell('Whitespace ratio', ratio + '%');
+  }
+
+  textarea.addEventListener('input', compute);
+  compute();
+})();
+</script>
+
+<style>
+  .sc-depth {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .sc-depth-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+  }
+  .sc-depth-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+  }
+  .sc-depth-cell {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    min-width: 10rem;
+  }
+  .sc-depth-cell dt {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .sc-depth-cell dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

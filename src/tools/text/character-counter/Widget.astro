@@ -1,16 +1,391 @@
 ---
-import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import HeroMetric from '@components/tool/HeroMetric.astro';
+import StatGrid from '@components/tool/StatGrid.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 ---
 
-<TextMetricWidget
-  slug="character-counter"
-  emptyMessage="Paste or type text to count characters."
-  stats={[
-    { metric: 'characters',         label: 'Characters',           formatter: 'integer' },
-    { metric: 'charactersNoSpaces', label: 'Without Spaces',       formatter: 'integer' },
-    { metric: 'words',              label: 'Words',                formatter: 'integer' },
-    { metric: 'sentences',          label: 'Sentences',            formatter: 'integer' },
-    { metric: 'paragraphs',         label: 'Paragraphs',           formatter: 'integer' },
-    { metric: 'averageWordLength',  label: 'Avg Word Length',      formatter: 'decimal' },
-  ]}
-/>
+<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Your text" labelFor="character-counter-input" variant="prose">
+    <textarea id="character-counter-input" placeholder="Paste or type text here…"></textarea>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <HeroMetric metric="characters" label="Characters" formatter="integer" />
+    <StatGrid stats={[
+      { metric: 'charactersNoSpaces', label: 'Without Spaces', formatter: 'integer' },
+      { metric: 'words',              label: 'Words',          formatter: 'integer' },
+      { metric: 'sentences',          label: 'Sentences',      formatter: 'integer' },
+      { metric: 'paragraphs',         label: 'Paragraphs',     formatter: 'integer' },
+      { metric: 'averageWordLength',  label: 'Avg Word Length', formatter: 'decimal' },
+    ]} />
+  </IoPanel>
+</ToolSplit>
+
+<ToolActions copyTarget="character-counter-input" clearTarget="character-counter-input" pasteTarget="character-counter-input">
+  <button
+    class="action-btn action-btn--sample"
+    data-action="sample"
+    aria-label="Load a sample text"
+    id="cc-sample-btn"
+  >
+    Sample
+  </button>
+  <button
+    class="action-btn"
+    id="cc-download-btn"
+    aria-label="Download stats report"
+  >
+    Download Report
+  </button>
+</ToolActions>
+
+<section class="cc-limits-section">
+  <h2 class="cc-limits-heading">Character limits</h2>
+  <div class="cc-presets" role="group" aria-label="Character limit presets">
+    <button class="cc-preset-btn" data-limit="280" aria-pressed="false">Twitter / X <span class="cc-preset-num">280</span></button>
+    <button class="cc-preset-btn" data-limit="160" aria-pressed="false">SMS <span class="cc-preset-num">160</span></button>
+    <button class="cc-preset-btn" data-limit="155" aria-pressed="false">Meta desc <span class="cc-preset-num">155</span></button>
+    <button class="cc-preset-btn" data-limit="3000" aria-pressed="false">LinkedIn <span class="cc-preset-num">3 000</span></button>
+  </div>
+  <div class="cc-limit-bar-wrap" id="cc-limit-bar-wrap" hidden>
+    <div class="cc-limit-bar-track">
+      <div class="cc-limit-bar-fill" id="cc-limit-bar-fill"></div>
+    </div>
+    <p class="cc-limit-stat" id="cc-limit-stat" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="cc-breakdown-section" id="cc-breakdown-section" hidden>
+  <h2 class="cc-breakdown-heading">Character breakdown</h2>
+  <dl class="cc-breakdown-grid" id="cc-breakdown-grid" aria-live="polite"></dl>
+</section>
+
+<CategoryDiscovery toolSlug="character-counter" />
+
+<script is:inline>
+(function () {
+  var SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.";
+
+  var textarea = document.getElementById('character-counter-input');
+  var secondary = document.querySelector('.tm-secondary');
+  var hero = document.querySelector('.hero-value');
+  var hint = document.querySelector('.empty-hint');
+  if (!textarea) return;
+
+  var limitBarWrap = document.getElementById('cc-limit-bar-wrap');
+  var limitBarFill = document.getElementById('cc-limit-bar-fill');
+  var limitStat = document.getElementById('cc-limit-stat');
+  var breakdownSection = document.getElementById('cc-breakdown-section');
+  var breakdownGrid = document.getElementById('cc-breakdown-grid');
+  var sampleBtn = document.getElementById('cc-sample-btn');
+  var activeLimit = 0;
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pulseTimer;
+
+  function pulse() {
+    if (reduceMotion || !hero) return;
+    hero.classList.add('is-updated');
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(function () { hero.classList.remove('is-updated'); }, 200);
+  }
+
+  function setMetric(el, value) {
+    var fmt = el.dataset.formatter || 'integer';
+    var next = ToyTools.formatMetric(value, fmt);
+    if (el.textContent !== next) {
+      el.textContent = next;
+      if (el === hero) pulse();
+    }
+  }
+
+  function updateLimit(charCount) {
+    if (!activeLimit) { limitBarWrap.hidden = true; return; }
+    limitBarWrap.hidden = false;
+    var pct = Math.min((charCount / activeLimit) * 100, 100);
+    limitBarFill.style.width = pct.toFixed(1) + '%';
+    limitBarFill.className = 'cc-limit-bar-fill' + (pct >= 100 ? ' is-over' : pct >= 80 ? ' is-warning' : '');
+    var remaining = activeLimit - charCount;
+    if (remaining > 0) {
+      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters — ' + remaining + ' remaining (' + Math.round(pct) + '%)';
+    } else {
+      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters — ' + Math.abs(remaining) + ' over the limit';
+      limitStat.className = 'cc-limit-stat cc-limit-stat--over';
+    }
+    if (remaining > 0) limitStat.className = 'cc-limit-stat';
+  }
+
+  function updateBreakdown(text) {
+    if (!text) { breakdownSection.hidden = true; return; }
+    breakdownSection.hidden = false;
+    var letters = (text.match(/\p{L}/gu) || []).length;
+    var digits = (text.match(/\d/g) || []).length;
+    var spaces = (text.match(/ /g) || []).length;
+    var punct = (text.match(/[.,!?;:'"()\-–—\[\]{}\/\\@#$%^&*+=<>|~`]/g) || []).length;
+    var total = text.length;
+    var other = Math.max(0, total - letters - digits - spaces - punct);
+    breakdownGrid.innerHTML =
+      makeBreakdownRow('Letters', letters, total) +
+      makeBreakdownRow('Digits', digits, total) +
+      makeBreakdownRow('Spaces', spaces, total) +
+      makeBreakdownRow('Punctuation', punct, total) +
+      (other > 0 ? makeBreakdownRow('Other', other, total) : '');
+  }
+
+  function makeBreakdownRow(label, count, total) {
+    var pct = total > 0 ? Math.round((count / total) * 100) : 0;
+    return '<div class="cc-breakdown-row">' +
+      '<dt class="cc-breakdown-label">' + label + '</dt>' +
+      '<dd class="cc-breakdown-val">' +
+      '<span class="cc-breakdown-num">' + count + '</span>' +
+      '<span class="cc-breakdown-track"><span class="cc-breakdown-bar" style="width:' + pct + '%"></span></span>' +
+      '<span class="cc-breakdown-pct">' + pct + '%</span>' +
+      '</dd>' +
+      '</div>';
+  }
+
+  function update() {
+    var text = textarea.value;
+    if (!text) {
+      if (hero) setMetric(hero, 0);
+      if (secondary) secondary.hidden = true;
+      if (hint) hint.hidden = false;
+      updateLimit(0);
+      updateBreakdown('');
+      return;
+    }
+    if (hint) hint.hidden = true;
+    if (secondary) secondary.hidden = false;
+    var r = ToyTools.analyze(text);
+    document.querySelectorAll('[data-metric]').forEach(function (el) {
+      var key = el.dataset.metric;
+      setMetric(el, r[key] !== undefined ? r[key] : 0);
+    });
+    updateLimit(text.length);
+    updateBreakdown(text);
+  }
+
+  // Preset buttons
+  document.querySelectorAll('.cc-preset-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var limit = parseInt(btn.dataset.limit, 10);
+      if (activeLimit === limit) {
+        activeLimit = 0;
+        btn.setAttribute('aria-pressed', 'false');
+        btn.classList.remove('is-active');
+        limitBarWrap.hidden = true;
+      } else {
+        document.querySelectorAll('.cc-preset-btn').forEach(function (b) {
+          b.setAttribute('aria-pressed', 'false');
+          b.classList.remove('is-active');
+        });
+        activeLimit = limit;
+        btn.setAttribute('aria-pressed', 'true');
+        btn.classList.add('is-active');
+      }
+      updateLimit(textarea.value.length);
+      saveState();
+    });
+  });
+
+  var downloadBtn = document.getElementById('cc-download-btn');
+
+  // Sample button
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      textarea.value = SAMPLE;
+      textarea.dispatchEvent(new Event('input'));
+      textarea.focus();
+    });
+  }
+
+  // Download report
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+      if (!textarea.value.trim()) { ToyTools.toast('Nothing to download!'); return; }
+      var lines = ['Character Count Report', '======================', ''];
+      document.querySelectorAll('[data-metric]').forEach(function (el) {
+        var row = el.closest('.tm-hero, .tm-stat-row');
+        var labelEl = row ? (row.querySelector('.hero-label, .tm-stat-label') || null) : null;
+        if (labelEl) lines.push(labelEl.textContent.trim() + ': ' + el.textContent.trim());
+      });
+      if (activeLimit) {
+        lines.push('');
+        lines.push('Active limit: ' + activeLimit + ' characters');
+        lines.push('Remaining: ' + (activeLimit - textarea.value.length));
+      }
+      lines.push('');
+      lines.push('Generated: ' + new Date().toLocaleString());
+      var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'character-count-report.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      ToyTools.toast('Report downloaded');
+    });
+  }
+
+  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
+
+  function saveState() {
+    if (ToyTools.state) ToyTools.state.save('character-counter', { text: textarea.value, limit: activeLimit });
+  }
+
+  try {
+    var saved = ToyTools.state && ToyTools.state.load('character-counter');
+    if (saved) {
+      if (typeof saved.text === 'string') textarea.value = saved.text;
+      if (saved.limit) {
+        activeLimit = saved.limit;
+        var btn = document.querySelector('[data-limit="' + saved.limit + '"]');
+        if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.classList.add('is-active'); }
+      }
+    }
+  } catch (_) {}
+
+  textarea.addEventListener('input', function () {
+    update();
+    saveState();
+  });
+  ToyTools.onReady(update);
+
+  if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
+})();
+</script>
+
+<style>
+  .cc-limits-section {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .cc-limits-heading {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-3);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--text-xs);
+  }
+  .cc-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .cc-preset-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: background-color 150ms, border-color 150ms, color 150ms;
+    min-height: var(--touch-target);
+  }
+  .cc-preset-btn:hover { background: var(--color-surface-elevated); border-color: var(--color-accent); }
+  .cc-preset-btn.is-active {
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+  .cc-preset-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .cc-limit-bar-wrap {
+    margin-top: var(--space-4);
+  }
+  .cc-limit-bar-track {
+    height: 10px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .cc-limit-bar-fill {
+    height: 100%;
+    background: var(--color-success);
+    border-radius: var(--radius-full);
+    transition: width 150ms ease, background-color 150ms;
+  }
+  .cc-limit-bar-fill.is-warning { background: #d97706; }
+  .cc-limit-bar-fill.is-over { background: var(--color-danger); }
+  .cc-limit-stat {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .cc-limit-stat--over { color: var(--color-danger); font-weight: var(--font-weight-semibold); }
+
+  .cc-breakdown-section {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .cc-breakdown-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+  }
+  .cc-breakdown-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .cc-breakdown-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .cc-breakdown-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .cc-breakdown-val {
+    display: grid;
+    grid-template-columns: 4rem 1fr 3rem;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+  }
+  .cc-breakdown-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-align: right;
+  }
+  .cc-breakdown-track {
+    height: 10px;
+    background: var(--color-surface-raised);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .cc-breakdown-bar {
+    display: block;
+    height: 100%;
+    background: var(--color-accent-subtle);
+    border-radius: var(--radius-full);
+    transition: width 150ms ease-out;
+  }
+  .cc-breakdown-pct {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    text-align: right;
+  }
+</style>

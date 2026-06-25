@@ -20,9 +20,10 @@ interface Props {
   slug: string;
   stats: StatDef[];
   emptyMessage?: string;
+  sampleText?: string;
 }
 
-const { slug, stats } = Astro.props;
+const { slug, stats, sampleText } = Astro.props;
 const [primaryStat, ...secondaryStats] = stats;
 const inputId = `${slug}-input`;
 ---
@@ -42,11 +43,26 @@ const inputId = `${slug}-input`;
   </IoPanel>
 </ToolSplit>
 
-<ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId} />
+<ToolActions copyTarget={inputId} clearTarget={inputId} pasteTarget={inputId}>
+  {sampleText && (
+    <button
+      class="action-btn action-btn--sample"
+      data-action="sample"
+      data-target={inputId}
+      aria-label="Load a sample text"
+    >
+      Sample
+    </button>
+  )}
+</ToolActions>
+
+<!-- Optional per-tool depth section (e.g. line/space counter breakdowns), rendered
+     between the metric output and the category cross-link. -->
+<slot />
 
 <CategoryDiscovery toolSlug={slug} />
 
-<script is:inline define:vars={{ slug }}>
+<script is:inline define:vars={{ slug, sampleText }}>
 (function () {
   var inputId = slug + '-input';
   var textarea = document.getElementById(inputId);
@@ -77,7 +93,6 @@ const inputId = `${slug}-input`;
   function update() {
     var text = textarea.value;
     if (!text.trim()) {
-      // Empty state: hero shows zero-format, secondary metrics hidden, hint shown.
       if (hero) setMetric(hero, 0);
       if (secondary) secondary.hidden = true;
       if (hint) hint.hidden = false;
@@ -92,8 +107,20 @@ const inputId = `${slug}-input`;
     });
   }
 
-  // Restore saved text (versioned per-tool state). The panel is fixed-height —
-  // long content scrolls inside it, so no height fiddling on restore.
+  // Sample button
+  if (sampleText) {
+    var sampleBtn = document.querySelector('[data-action="sample"][data-target="' + inputId + '"]');
+    if (sampleBtn) {
+      sampleBtn.addEventListener('click', function () {
+        textarea.value = sampleText;
+        textarea.dispatchEvent(new Event('input'));
+        textarea.focus();
+      });
+    }
+  }
+
+  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
+
   try {
     var saved = ToyTools.state && ToyTools.state.load(slug);
     if (saved && typeof saved.text === 'string') {
@@ -105,11 +132,13 @@ const inputId = `${slug}-input`;
     update();
     if (ToyTools.state) ToyTools.state.save(slug, { text: textarea.value });
   });
-  // analyze()/formatMetric() attach via a deferred module — wait for them before the
-  // first render so the hero metric initialises instead of throwing on load.
-  ToyTools.onReady(update);
+  ToyTools.onReady(function () {
+    update();
+    // Notify any slotted depth sections (rendered before this script) that
+    // restored text is present, so they compute on load instead of only on type.
+    if (textarea.value) textarea.dispatchEvent(new Event('input'));
+  });
 
-  // Desktop only — let users start typing immediately without popping a mobile keyboard.
   if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
 })();
 </script>
