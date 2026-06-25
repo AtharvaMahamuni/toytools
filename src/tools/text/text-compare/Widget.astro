@@ -139,6 +139,23 @@ import { config } from './config';
     :root:not([data-theme="light"]) .tc-line.tc-added   { background: color-mix(in srgb, var(--color-success, #84C2A3) 15%, transparent); }
     :root:not([data-theme="light"]) .tc-line.tc-removed { background: color-mix(in srgb, var(--color-danger) 15%, transparent); }
   }
+  .tc-collapse-btn {
+    display: block;
+    width: 100%;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface-raised);
+    border: none;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 150ms, color 150ms;
+  }
+  .tc-collapse-btn:hover { background: var(--color-surface-elevated, var(--color-surface-raised)); color: var(--color-text); }
+  .tc-collapse-btn:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
 </style>
 
 <script is:inline>
@@ -157,7 +174,27 @@ import { config } from './config';
   var SAMPLE_A = 'Roses are red\nViolets are blue\nSugar is sweet\nAnd so are you';
   var SAMPLE_B = 'Roses are red\nViolets are blue\nHoney is sweet\nAnd so are you\nThe end';
 
+  var CONTEXT = 3;      // lines of context shown around each change
+  var MIN_COLLAPSE = 5; // minimum unchanged-run length to collapse
+
   var TT = window.ToyTools;
+
+  // Expand collapsed hunk on click or keyboard
+  diffEl.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.tc-collapse-btn');
+    if (!btn) return;
+    var gid = btn.getAttribute('data-group');
+    var items = diffEl.querySelectorAll('[data-group="' + gid + '"]');
+    for (var k = 0; k < items.length; k++) items[k].hidden = false;
+    btn.remove();
+  });
+  diffEl.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var btn = e.target.closest && e.target.closest('.tc-collapse-btn');
+    if (!btn) return;
+    e.preventDefault();
+    btn.click();
+  });
 
   function escapeHtml(str) {
     return str
@@ -199,18 +236,68 @@ import { config } from './config';
       '<span class="tc-stat"><span class="tc-stat-label">Unchanged</span><span class="tc-stat-value">' + stats.unchanged + '</span></span>' +
       '<span class="tc-stat"><span class="tc-stat-label">Similarity</span><span class="tc-stat-value similarity">' + stats.similarity + '%</span></span>';
 
-    // Diff view + plain-text mirror for copy/download
+    // Diff view (with context collapse) + plain-text mirror for copy/download
     var html = '';
     var plain = '';
-    for (var i = 0; i < result.length; i++) {
-      var r = result[i];
-      var marker = r.type === 'added' ? '+' : r.type === 'removed' ? '-' : ' ';
-      var cls    = r.type === 'added' ? 'tc-added' : r.type === 'removed' ? 'tc-removed' : 'tc-unchanged';
-      html += '<div class="tc-line ' + cls + '" aria-label="' + r.type + '">' +
-        '<span class="tc-line-marker" aria-hidden="true">' + marker + '</span>' +
-        '<span>' + escapeHtml(r.line) + '</span></div>';
-      plain += marker + ' ' + r.line + '\n';
+    var groupId = 0;
+
+    // Mark which result indices are changed
+    var isChange = [];
+    for (var ci = 0; ci < result.length; ci++) {
+      isChange[ci] = result[ci].type !== 'unchanged';
     }
+
+    // Mark which unchanged lines are within CONTEXT of a change (visible as context)
+    var isVisible = [];
+    for (var vi = 0; vi < result.length; vi++) {
+      if (isChange[vi]) { isVisible[vi] = true; continue; }
+      var near = false;
+      for (var dd = 1; dd <= CONTEXT && !near; dd++) {
+        if ((vi - dd >= 0 && isChange[vi - dd]) || (vi + dd < result.length && isChange[vi + dd])) near = true;
+      }
+      isVisible[vi] = near;
+    }
+
+    var ri = 0;
+    while (ri < result.length) {
+      if (isVisible[ri]) {
+        var r = result[ri];
+        var marker = r.type === 'added' ? '+' : r.type === 'removed' ? '-' : ' ';
+        var cls = r.type === 'added' ? 'tc-added' : r.type === 'removed' ? 'tc-removed' : 'tc-unchanged';
+        html += '<div class="tc-line ' + cls + '" aria-label="' + r.type + '">' +
+          '<span class="tc-line-marker" aria-hidden="true">' + marker + '</span>' +
+          '<span>' + escapeHtml(r.line) + '</span></div>';
+        plain += marker + ' ' + r.line + '\n';
+        ri++;
+      } else {
+        // Collect the consecutive non-context unchanged run
+        var runStart = ri;
+        while (ri < result.length && !isVisible[ri]) ri++;
+        var runLen = ri - runStart;
+
+        if (runLen < MIN_COLLAPSE) {
+          // Short run — show all lines
+          for (var rj = runStart; rj < runStart + runLen; rj++) {
+            html += '<div class="tc-line tc-unchanged" aria-label="unchanged">' +
+              '<span class="tc-line-marker" aria-hidden="true"> </span>' +
+              '<span>' + escapeHtml(result[rj].line) + '</span></div>';
+            plain += '  ' + result[rj].line + '\n';
+          }
+        } else {
+          // Long run — collapse behind a button; hidden divs for expand + plain text
+          var gid = 'tcg' + (groupId++);
+          html += '<button class="tc-collapse-btn" data-group="' + gid + '" ' +
+            'aria-label="Expand ' + runLen + ' unchanged lines">… ' + runLen + ' unchanged lines</button>';
+          for (var rj = runStart; rj < runStart + runLen; rj++) {
+            html += '<div class="tc-line tc-unchanged" data-group="' + gid + '" hidden aria-label="unchanged">' +
+              '<span class="tc-line-marker" aria-hidden="true"> </span>' +
+              '<span>' + escapeHtml(result[rj].line) + '</span></div>';
+            plain += '  ' + result[rj].line + '\n';
+          }
+        }
+      }
+    }
+
     diffEl.innerHTML = html;
     if (diffTextEl) diffTextEl.value = plain;
 
