@@ -23,6 +23,7 @@ import { knowledge as csvToJson }       from '@tools/developer-utilities/csv-to-
 import { knowledge as jsonToYaml }      from '@tools/developer-utilities/json-to-yaml-converter/knowledge';
 import { knowledge as yamlToJson }      from '@tools/developer-utilities/yaml-to-json-converter/knowledge';
 import { knowledge as jsonTreeViewer }  from '@tools/developer-utilities/json-tree-viewer/knowledge';
+import { knowledge as jwtDecoder }      from '@tools/developer-utilities/jwt-decoder/knowledge';
 
 // --- Number utilities ---
 import { knowledge as tipCalculator }        from '@tools/number/tip-calculator/knowledge';
@@ -54,6 +55,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   jsonToYaml,
   yamlToJson,
   jsonTreeViewer,
+  jwtDecoder,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

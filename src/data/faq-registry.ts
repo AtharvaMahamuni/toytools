@@ -13,6 +13,7 @@ import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-e
 import { items as jsonToCsvConverterFaqs } from '@tools/developer-utilities/json-to-csv-converter/faq';
 import { items as jsonToYamlConverterFaqs } from '@tools/developer-utilities/json-to-yaml-converter/faq';
 import { items as jsonTreeViewerFaqs }  from '@tools/developer-utilities/json-tree-viewer/faq';
+import { items as jwtDecoderFaqs }      from '@tools/developer-utilities/jwt-decoder/faq';
 import { items as sha512HashGeneratorFaqs }  from '@tools/developer-utilities/sha512-hash-generator/faq';
 import { items as discountCalculatorFaqs }   from '@tools/number/discount-calculator/faq';
 import { items as marginCalculatorFaqs }     from '@tools/number/margin-calculator/faq';
@@ -59,6 +60,7 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'json-to-csv-converter':       jsonToCsvConverterFaqs,
   'json-to-yaml-converter':      jsonToYamlConverterFaqs,
   'json-tree-viewer':            jsonTreeViewerFaqs,
+  'jwt-decoder':                 jwtDecoderFaqs,
   'sha512-hash-generator':       sha512HashGeneratorFaqs,
   'discount-calculator':         discountCalculatorFaqs,
   'margin-calculator':           marginCalculatorFaqs,

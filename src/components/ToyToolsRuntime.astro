@@ -13,6 +13,7 @@
   import { runEncoding } from '@lib/engines/encoding/registry';
   import { runHash } from '@lib/engines/hashing/registry';
   import { runStructuredData } from '@lib/engines/structured-data/registry';
+  import { runJwt } from '@lib/engines/jwt/registry';
   import { jsonExplorer } from '@lib/json/explorer';
   import { yamlSerializer } from '@lib/json/yaml';
   import { csvSerializer } from '@lib/csv/csv';
@@ -46,6 +47,7 @@
   TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
   TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
   TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
+  TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
   TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core
   TT.yaml = yamlSerializer; // ToyTools.yaml.serialize(value, opts) → YAML string
   TT.csv = csvSerializer; // ToyTools.csv.parse(text, opts) / .serialize(rows, headers) — CSV core

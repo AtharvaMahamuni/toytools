@@ -1,0 +1,262 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JWT (JSON Web Token) is a compact, signed token that carries information as JSON. It has
+      three parts separated by dots: a header, a payload, and a signature. The header and payload
+      are only encoded, not encrypted, so anyone can decode and read them.
+    </p>
+    <p>
+      If you just need to read what is inside a token right now, paste it into the tool. It decodes
+      entirely in your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try the JWT Decoder →</a>
+  </section>
+
+  <section id="what-is-a-jwt">
+    <h2>What Is a JWT? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON Web Token is a standard way (defined in RFC 7519) to represent claims securely between
+      two parties. A "claim" is just a piece of information, such as who the user is, when the token
+      was issued, and when it expires. Servers use JWTs to prove that a request comes from a logged-in
+      user without having to look the session up in a database on every request.
+    </p>
+    <p>
+      A JWT looks like one long string with two dots in it:
+    </p>
+    <p class="encoding-example">
+      <code>xxxxx</code>
+      <span aria-hidden="true">.</span>
+      <code>yyyyy</code>
+      <span aria-hidden="true">.</span>
+      <code>zzzzz</code>
+    </p>
+    <p>
+      Those three sections are the header, the payload, and the signature. The first two are JSON
+      objects that have been Base64URL encoded, which is why they look like random text but decode
+      back to readable JSON.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Encoded, not encrypted">
+      <p>The header and payload of a standard JWT are readable by anyone who has the token. Encoding changes how the data looks, not who can read it. Never put secrets in a JWT payload.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="the-three-parts">
+    <h2>The Three Parts <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Each section of a JWT has a distinct job:</p>
+    <ul>
+      <li>
+        <strong>Header</strong>: a small JSON object that names the signing algorithm (<code>alg</code>,
+        for example <code>HS256</code> or <code>RS256</code>) and the token type (<code>typ</code>,
+        which is <code>JWT</code>).
+      </li>
+      <li>
+        <strong>Payload</strong>: the JSON object holding the claims, such as the subject
+        (<code>sub</code>), the issuer (<code>iss</code>), and timestamps for when the token was
+        issued and when it expires.
+      </li>
+      <li>
+        <strong>Signature</strong>: a cryptographic value created from the header, the payload, and a
+        secret or private key. It lets the server confirm that nobody altered the token in transit.
+      </li>
+    </ul>
+    <p>
+      This tool Base64URL-decodes the header and payload and pretty-prints the JSON. It also lists
+      the registered time claims as readable dates, and it shows the raw signature segment without
+      checking it.
+    </p>
+  </section>
+
+  <section id="registered-claims">
+    <h2>Common Registered Claims <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The JWT standard reserves a short list of claim names so that different systems agree on their
+      meaning. These are the ones you will see most:
+    </p>
+    <ul>
+      <li><strong><code>iss</code></strong> (issuer): who created and signed the token.</li>
+      <li><strong><code>sub</code></strong> (subject): who or what the token is about, such as a user id.</li>
+      <li><strong><code>aud</code></strong> (audience): who the token is intended for.</li>
+      <li><strong><code>exp</code></strong> (expiration): the time after which the token is no longer valid.</li>
+      <li><strong><code>nbf</code></strong> (not before): the earliest time the token may be used.</li>
+      <li><strong><code>iat</code></strong> (issued at): when the token was created.</li>
+      <li><strong><code>jti</code></strong> (JWT id): a unique identifier for the token.</li>
+    </ul>
+    <p>
+      The time claims (<code>exp</code>, <code>nbf</code>, <code>iat</code>) are Unix timestamps
+      measured in seconds. The decoder converts each one to a human-readable date and a relative time,
+      and it marks the token as expired when <code>exp</code> is in the past.
+    </p>
+  </section>
+
+  <section id="decode-vs-verify">
+    <h2>Decoding Is Not Verifying <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This is the single most important idea to understand about JWTs. Reading a token and trusting a
+      token are two separate things.
+    </p>
+    <p>
+      <strong>Decoding</strong> simply Base64URL-decodes the header and payload so you can read them.
+      It needs no key and proves nothing about whether the token is genuine. Anyone can decode any JWT.
+    </p>
+    <p>
+      <strong>Verifying</strong> recomputes the signature using the secret (for HMAC algorithms like
+      <code>HS256</code>) or the public key (for asymmetric algorithms like <code>RS256</code>) and
+      compares it to the signature in the token. Only a matching signature proves the token is
+      authentic and unaltered, and only then should the claims be trusted.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Never verify in the browser">
+      <p>
+        Signature verification requires the signing key. Pasting a production secret into any web page
+        would expose it. Verification belongs on your server, inside your authentication library, never
+        in a public tool. This decoder deliberately does not verify, and never asks for your key.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="real-world-uses">
+    <h2>Where You Will Meet JWTs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Login sessions</strong>: after you sign in, an app hands your browser a JWT access
+        token that it then sends with each request.
+      </li>
+      <li>
+        <strong>API authorization</strong>: a token in the <code>Authorization: Bearer</code> header
+        tells an API who is calling and what they may do.
+      </li>
+      <li>
+        <strong>Single sign-on and OpenID Connect</strong>: identity providers issue ID tokens as
+        JWTs that carry profile claims about the user.
+      </li>
+      <li>
+        <strong>Service-to-service calls</strong>: backend services pass signed tokens to prove their
+        identity to one another.
+      </li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Putting secrets in the payload">
+      <p>
+        The payload is readable by anyone holding the token. Storing a password, an API key, or other
+        sensitive data there exposes it. Keep payloads to identifiers and non-sensitive claims.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Trusting a token just because it decoded">
+      <p>
+        A token that decodes cleanly can still be expired, forged, or meant for a different audience.
+        Always verify the signature, the expiration, and the audience on the server before acting on
+        the claims.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="A JWT is not encrypted by default">
+      <p>
+        Standard JWTs (JWS) are signed but not encrypted. If the contents must stay hidden in transit,
+        you need encrypted tokens (JWE), which are a separate format.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>This Decoder vs Other Options <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      There are three common ways to read a token, and they differ mainly in where the decoding
+      happens and what the token is exposed to.
+    </p>
+    <ul>
+      <li>
+        <strong>A server-backed online decoder</strong>: some popular tools send the token to a
+        backend or load remote scripts. That is convenient, however it means your token leaves your
+        machine. For a production or staging token, that is a real risk.
+      </li>
+      <li>
+        <strong>Decoding by hand</strong>: you can split the token on the dots and run each segment
+        through a Base64URL decoder yourself. This works, therefore it is a good learning exercise,
+        but it is slow and it does not humanize the timestamps or flag expiry.
+      </li>
+      <li>
+        <strong>A library in your code</strong>: packages like <code>jose</code> or
+        <code>jsonwebtoken</code> decode and, more importantly, verify tokens. Use these in your
+        application. For a quick manual inspection while debugging, a library is more setup than you need.
+      </li>
+    </ul>
+    <p>
+      This tool sits in the gap between those: it decodes instantly, humanizes the claims, and, because
+      the page is static with no backend, the token never leaves your browser. For example, you can
+      paste a live access token to check its expiry without trusting a remote service. When you need to
+      verify rather than read, reach for a library on your server instead.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64 Encoder &amp; Decoder</a>: decode an individual token segment by hand.</li>
+      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: pretty-print and inspect the decoded payload.</li>
+      <li><a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256 Hash Generator</a>: explore the hashing that underlies HMAC signatures.</li>
+    </ul>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .encoding-example {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
+  }
+</style>
