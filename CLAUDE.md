@@ -42,6 +42,18 @@ declarative `src/lib/content-intelligence/taxonomy.ts` (`engine → family → e
 expected tools there as data; never hardcode topics in analyzer logic. See `ARCHITECTURE.md` →
 "Content Intelligence Layer".
 
+```sh
+npm run quality:pr      # Quality Guardian — per-PR crawl/validate/autofix pass (quality-guardian/)
+npm run quality:weekly  # Quality Guardian — scheduled full-site sweep
+npm run version:bump     # bump src/lib/version.ts (APP_VERSION) + CHANGELOG.md
+npm run version:show     # print the current APP_VERSION
+```
+
+**Quality Guardian** (`quality-guardian/` — a self-contained sub-project with its own
+`package.json`) crawls the built site and runs validators/autofixers (links, metadata, schema,
+accessibility). It is **not** part of `npm run build`; it runs on its own CI workflow. Treat it
+like `seo-engine/`: a tooling sidecar, not part of the site bundle.
+
 ## Analytics
 
 Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.astro`. The tag ID is `G-WHD7CL44MX`. Since all pages go through `BaseLayout`, no further action is needed when adding new pages or tool types — the tag is inherited automatically. Do **not** add a second `gtag` snippet to individual pages or layouts.
@@ -72,6 +84,9 @@ For a live bird's-eye view, the deployed **`/architecture/`** page (`src/pages/a
 
 ### Adding a tool (2 steps)
 
+> The **`add-tool` skill** (`.claude/skills/add-tool/`) is the canonical entry point — it walks
+> the full file checklist, engine selection, and validation. Use it when building any new tool or engine.
+
 1. Create `src/tools/<segment>/<slug>/` with two required files:
    - `config.ts` — exports a named `const config: ToolConfig` with all tool metadata
    - `Widget.astro` — self-contained Astro component: HTML + `<style is:global>` + `<script is:inline>`
@@ -101,15 +116,18 @@ The shared `TextProcessorWidget.astro` is generic and must never be edited to ad
 
 Sibling tools sharing one engine + experience (e.g. the 7 case converters) can form a **tool group**: each member keeps its own URL/metadata/guide/FAQ/sitemap entry (never merge URLs), but the tool page renders a `GroupSwitcher` pill row above the widget and `TextProcessorWidget` persists input under the shared key `group:{id}` so text survives mode switches. Declare the group in `src/data/tool-groups.ts` (ordered members + switcher labels) and set `toolGroup: '<id>'` in each member's `config.ts` — `validate-registry.ts` enforces bidirectional membership and same engine/pattern across members. Switching is real `<a>` navigation (sibling pages are prefetched; `@view-transition` in `global.css` gives a CSS-only cross-fade). See `ARCHITECTURE.md` → "Tool Groups".
 
-### Adding a developer-engine tool (encoding / hashing / structured-data)
+### Adding a developer-engine tool (encoding / hashing / structured-data / jwt)
 
-The Developer category has three more engines under `src/lib/engines/`, each with the same shape as the text-processor system: `types.ts` + a never-throwing `registry.ts` resolver + per-impl files + a colocated `*.test.ts`, bundled into `ToyToolsRuntime` and consumed by **one generic widget per engine**. See `ARCHITECTURE.md` → "Developer Engines" for the full table.
+The Developer category has four engines under `src/lib/engines/`, each with the same shape as the text-processor system: `types.ts` + a never-throwing `registry.ts` resolver + per-impl files + a colocated `*.test.ts`, bundled into `ToyToolsRuntime` and consumed by **one generic widget per engine**. See `ARCHITECTURE.md` → "Developer Engines" for the full table.
 
 | Engine | Runtime | Widget | `engine` / `pattern` |
 |--------|---------|--------|----------------------|
 | Encoding | `ToyTools.runEncoding(id, mode, text)` → `{ok,output,error}` | `EncodingWidget.astro` | `encoding` / `encode-decode` |
 | Hashing | `ToyTools.runHash(id, text)` → `Promise<string>` | `HashWidget.astro` | `hashing` / `hash` |
 | Structured-Data | `ToyTools.runStructuredData(id, input)` → `{ok,output,error}` | `StructuredDataWidget.astro` | `structured-data` / `structured-transform`\|`structured-validate` |
+| JWT | `ToyTools.runJwt(token)` → `{ok,output,error}` | (interactive widget) | `jwt` / `token-decode` |
+
+The full engine manifest lives in `src/data/engines.ts` (the single source of truth for which engines/patterns exist). Besides the four developer engines, the platform also declares: `text-analysis` (`text-metric`), `text-processor` (`text-transform`/`text-cleanup`), `text-interactive` (`text-interactive` — e.g. find-replace, text-compare; self-contained widgets, no runtime global), `calculator` (`calculate` — the number tools), and `productivity` (`stateful`). Register a new engine/pattern there, never in the validator.
 
 1. Add the impl in the engine's lib dir + one `registry.ts` entry. Keep browser APIs (`btoa`/`atob`/`crypto.subtle`) **inside** methods — never at module top-level.
 2. Create `config.ts` (`engine`, `pattern`, `family`, `processorId`, and curated `relatedTools`) + a **3-line** `Widget.astro` rendering the engine widget. Add the registry import + array entry.
@@ -179,6 +197,11 @@ src/tools/
 │   ├── sentence-counter/
 │   ├── paragraph-counter/
 │   ├── reading-time-calculator/
+│   ├── letter-counter/
+│   ├── line-counter/
+│   ├── space-counter/
+│   ├── find-replace/                # text-interactive engine (text-interactive pattern)
+│   ├── text-compare/                # text-interactive engine
 │   ├── uppercase-converter/         # text-processor tools (transform family)
 │   ├── lowercase-converter/
 │   ├── title-case-converter/
@@ -192,24 +215,41 @@ src/tools/
 │   ├── trim-text/
 │   ├── normalize-whitespace/
 │   └── remove-tabs/
-├── number/              # number-utilities category
-│   └── percentage-calculator/
-├── developer/           # developer-tools category
+├── number/              # number-utilities category (calculator engine, calculate pattern)
+│   ├── percentage-calculator/
+│   ├── margin-calculator/
+│   ├── discount-calculator/
+│   └── tip-calculator/
+├── developer-utilities/ # developer-utilities category (URL segment: developer-utilities)
 │   ├── base64-encoder-decoder/      # encoding engine (encode-decode pattern)
 │   ├── url-encoder-decoder/         # encoding engine
 │   ├── html-entity-encoder-decoder/ # encoding engine
+│   ├── hex-encoder-decoder/         # encoding engine
 │   ├── md5-hash-generator/          # hashing engine (hash pattern)
 │   ├── sha1-hash-generator/         # hashing engine
 │   ├── sha256-hash-generator/       # hashing engine
+│   ├── sha512-hash-generator/       # hashing engine
 │   ├── json-formatter/              # structured-data engine (structured-transform pattern)
 │   ├── json-minifier/               # structured-data engine
-│   └── json-validator/              # structured-data engine (structured-validate pattern)
-└── productivity/        # productivity category
+│   ├── json-validator/              # structured-data engine (structured-validate pattern)
+│   ├── json-to-csv-converter/       # structured-data engine
+│   ├── csv-to-json-converter/       # structured-data engine
+│   ├── json-to-yaml-converter/      # structured-data engine
+│   ├── yaml-to-json-converter/      # structured-data engine
+│   ├── json-tree-viewer/            # structured-data engine
+│   └── jwt-decoder/                 # jwt engine (token-decode pattern)
+└── productivity/        # productivity category (productivity engine, stateful pattern)
     ├── todo-list/
     ├── notepad/
     ├── keep-screen-awake/
     └── pomodoro-timer/
 ```
+
+> **Note:** the developer category's URL segment was renamed `developer` → `developer-utilities`
+> (and its slug `developer-tools` → `developer-utilities`). Old `/tool/developer/{slug}/` and
+> `/category/developer-tools/` URLs are preserved as noindex meta-refresh redirect stubs via
+> `src/data/tool-redirects.ts` (consumed by `src/pages/tool/developer/[slug].astro` and
+> `src/pages/category/[oldSlug].astro`). Never add new entries there.
 
 Each tool directory contains:
 ```
@@ -256,11 +296,23 @@ Empty state: secondary metrics are **hidden entirely**; hero shows `0`/`0 min` v
 
 ```
 src/data/
-├── types.ts          # ToolConfig, GuideConfig, FAQItem, Category, EcosystemEntry
-├── categories.ts     # Category definitions (accent colors, segments)
-├── registry.ts       # Single source of truth — imports all tool configs
-└── faq-registry.ts   # Imports all faq.ts files by tool slug
+├── types.ts            # ToolConfig, GuideConfig, FAQItem, Category, EcosystemEntry
+├── categories.ts       # Category definitions (accent colors, segments)
+├── engines.ts          # Engine manifest — single source of truth for engines/patterns
+├── registry.ts         # Single source of truth — imports all tool configs
+├── faq-registry.ts     # Imports all faq.ts files by tool slug
+├── guide-registry.ts   # registeredGuideSlugs — declared guides must appear here
+├── tool-groups.ts      # Tool group definitions (unified workspaces)
+├── category-sections.ts# pattern → category-page section rows
+├── metadata.ts         # Shared SEO/metadata helpers
+├── faq-redirects.ts    # Legacy /faq/ redirect stubs (noindex)
+└── tool-redirects.ts   # Legacy /tool/developer/ + /category/developer-tools/ redirect stubs
 ```
+
+Engine logic lives under `src/lib/engines/` (`encoding/`, `hashing/`, `structured-data/`, `jwt/`),
+with supporting libraries in `src/lib/text/` (analysis, processors, compare, transforms),
+`src/lib/json/` (explorer + yaml), `src/lib/csv/`, `src/lib/knowledge/`,
+`src/lib/content-intelligence/`, `src/lib/content/` (manifest), and `src/lib/analytics/`.
 
 ### Widget JavaScript rules
 
@@ -294,6 +346,11 @@ URL structure (singular, not plural):
 - `/category/{slug}/` — category pages
 - `/guide/{category}/{slug}/` — guide pages
 - `/faq/{category}/{slug}/` — redirect stubs only (→ tool page `#faq`; see faq-redirects.ts)
+- `/{lang}/` — per-language landing stubs (e.g. `/es/`, `/ja/`, `/zh-hk/`) in `src/pages/{lang}/index.astro`.
+  These are localized hero stubs, **`robots="noindex,follow"`**, and in no sitemap — they exist to greet
+  non-English visitors and link back to the (English) tool catalog. Use the `language` page type in
+  `generatePageTitle`. `generatePageTitle` (`src/lib/titles.ts`) covers: `home`/`tool`/`guide`/`faq`/
+  `category`/`language`/`search`/`architecture`/`notFound`.
 
 **Discovery surfaces:** the homepage renders `ToolDirectory.astro` (compact per-category link
 columns; tool groups collapse to one entry) and category pages render `CategoryToolList.astro`
