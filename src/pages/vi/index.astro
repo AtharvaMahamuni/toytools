@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '../../lib/titles';
+import { withBase } from '../../lib/paths';
+---
+
+<BaseLayout
+  title={generatePageTitle('language', 'Tiếng Việt')}
+  description="ToyTools — công cụ trình duyệt miễn phí, riêng tư cho công việc hàng ngày. Không cần đăng ký, không theo dõi."
+  maxWidth="tool"
+  robots="noindex,follow"
+>
+  <div class="lang-stub">
+    <h1>ToyTools</h1>
+    <p>Công cụ trình duyệt miễn phí, riêng tư cho công việc hàng ngày.</p>
+    <a href={withBase('/')}>Xem tất cả công cụ →</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .lang-stub {
+    padding: var(--space-16) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+</style>
