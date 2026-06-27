@@ -423,6 +423,11 @@ optional guide/faq. `validate-registry.ts` enforces that the `processorId` resol
 registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashing.test.ts`,
 `structured-data.test.ts`) — tools are configuration, engines are behavior.
 
+> **Date Engine (planned).** The Date & Time category follows this same engine-first shape — a
+> primitive-first pure engine (`src/lib/engines/date/`) behind a single `ToyTools.runDateTool`
+> resolver, driven by a descriptor-driven generic widget. See `docs/date-time-engine.md` for the
+> full Phase F1 design.
+
 ## Platform Metadata & Manifests
 
 - **Engine manifest** (`src/data/engines.ts`) — `engineRegistry` is the platform-level list of every
