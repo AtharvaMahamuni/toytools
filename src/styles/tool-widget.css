@@ -353,6 +353,162 @@
   color: var(--color-danger);
 }
 
+/* ── Converter foundation ─────────────────────────────────────────────────────
+   Shared building blocks for the ConverterWidget (status / metadata / insight /
+   technical / history / byte view). Reuses tokens + the section-boundary recipe;
+   no bright colors — status leans on the design system's success/danger/muted. */
+
+/* Status line states: neutral (detected) · valid · warning · error.
+   The widget writes the glyph into the text; CSS only carries the colour. */
+.conv-status[data-ok=''] {
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-normal);
+}
+.conv-status[data-ok='warn'] {
+  color: var(--color-text);
+}
+
+/* Live output metadata — compact inline ledger below the actions. */
+.conv-meta {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3) 0 0;
+  border-top: var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+.conv-meta[hidden] { display: none; }
+.conv-meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+}
+.conv-meta-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.conv-meta-value {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+/* Educational insight card — quiet accent, never shouty. */
+.conv-insight {
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-subtle);
+}
+.conv-insight p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+.conv-insight p + p { margin-top: var(--space-2); }
+
+/* Technical details (inside .widget-details) — term/detail rows. */
+.conv-tech-list {
+  margin: var(--space-2) 0 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.conv-tech-row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) 1fr;
+  gap: var(--space-4);
+}
+.conv-tech-row dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.conv-tech-row dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+@media (max-width: 639px) {
+  .conv-tech-row { grid-template-columns: 1fr; gap: 0; }
+  .conv-tech-row dd { margin-bottom: var(--space-2); }
+}
+
+/* Session history — last 5 conversions, click to restore. */
+.conv-history { margin-top: var(--space-6); }
+.conv-history[hidden] { display: none; }
+.conv-history-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+.conv-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.conv-hist-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-color);
+}
+.conv-hist-btn:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+.conv-hist-in,
+.conv-hist-out {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.conv-hist-out { color: var(--color-text-muted); }
+.conv-hist-arrow {
+  flex-shrink: 0;
+  color: var(--color-text-subtle);
+}
+
+/* Per-byte viewer (dormant until a transform sets byteView). */
+.conv-byteview {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.conv-byteview[hidden] { display: none; }
+.conv-byte {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+}
+
 .widget-details {
   border-top: var(--border);
   padding-block: var(--space-4);

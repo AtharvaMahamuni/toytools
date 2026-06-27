@@ -1,4 +1,5 @@
 import type { EncodingTool } from './types';
+import { byteLength, count } from './util';
 
 // HTML entity encoding — pure JS (no DOMParser, so it runs in the bundled module
 // context, not just the browser). Encodes the five characters that are significant
@@ -62,10 +63,52 @@ export function decodeHtml(input: string): string {
   });
 }
 
+const ENTITY = /&(#[xX]?[0-9a-fA-F]+|[a-zA-Z]+);/;
+
 export const htmlEntity: EncodingTool = {
   id: 'html-entity',
   family: 'web',
-  sample: '<div class="note">Tom & Jerry</div>',
+  displayName: 'HTML Entities',
+  sample: '<div class="note">Tom & Jerry said "hi"</div>',
+  placeholder: 'Type markup to encode, or paste text with &entities; to decode.',
+  insight:
+    'HTML entities escape characters that are significant in markup (& < > " \') so text displays literally instead of being parsed as HTML. This is the core defense against HTML injection when showing user content.',
+  technical: [
+    { term: 'Encodes', detail: 'The five markup-significant characters: & < > " \'' },
+    { term: 'Decodes', detail: 'Named references plus numeric (&#65; decimal, &#x41; hex)' },
+    { term: 'Unknown', detail: 'Unrecognized entities are left unchanged' },
+    { term: 'Note', detail: 'Escaping for display is not a substitute for context-aware sanitization' },
+  ],
   encode: encodeHtml,
   decode: decodeHtml,
+
+  detect(input) {
+    if (ENTITY.test(input)) {
+      return { mode: 'decode', confidence: 'high', label: 'HTML entities' };
+    }
+    if (/[<>&"']/.test(input)) {
+      return { mode: 'encode', confidence: 'medium', label: 'Markup' };
+    }
+    return { mode: 'encode', confidence: 'low', label: 'Text' };
+  },
+
+  // HTML entity decoding is permissive (unknown entities pass through), so it never
+  // hard-fails. Report an informational note when nothing looks like an entity.
+  validate(input, mode) {
+    if (mode === 'encode' || !input) return { ok: true, severity: 'info' };
+    if (!ENTITY.test(input)) {
+      return { ok: true, severity: 'info', message: 'No HTML entities found — input is unchanged.' };
+    }
+    return { ok: true, severity: 'info' };
+  },
+
+  meta(input, output, mode) {
+    const source = mode === 'decode' ? input : output;
+    const entities = (source.match(/&(#[xX]?[0-9a-fA-F]+|[a-zA-Z]+);/g) || []).length;
+    return [
+      { label: 'Entities', value: count(entities, 'reference') },
+      { label: 'Input length', value: String(input.length) },
+      { label: 'Output bytes', value: String(byteLength(output)) },
+    ];
+  },
 };

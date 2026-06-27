@@ -1,0 +1,14 @@
+---
+// Recent conversions (last 5, sessionStorage). The ConverterWidget fills the <ul> from
+// ToyTools.history and toggles the section's `hidden`. Each item restores on click.
+// Privacy-first: nothing here is ever written to localStorage or leaves the tab.
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<section class="conv-history" data-conv-history hidden>
+  <h2 class="conv-history-title">Recent conversions</h2>
+  <ul class="conv-history-list" id={id} aria-label="Recent conversions — click to restore"></ul>
+</section>

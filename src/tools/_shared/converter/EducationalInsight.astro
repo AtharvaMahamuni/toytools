@@ -1,0 +1,16 @@
+---
+// Compact educational card (2–3 sentences) rendered statically from the engine's
+// `insight`. No JS — visible without scripting and indexable. Renders nothing when
+// the transform declares no insight.
+interface Props {
+  insight?: string | string[];
+}
+const { insight } = Astro.props;
+const lines = insight == null ? [] : Array.isArray(insight) ? insight : [insight];
+---
+
+{lines.length > 0 && (
+  <aside class="conv-insight" aria-label="About this format">
+    {lines.map((line) => <p>{line}</p>)}
+  </aside>
+)}

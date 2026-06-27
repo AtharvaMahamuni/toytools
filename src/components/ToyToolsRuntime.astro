@@ -10,7 +10,7 @@
   import { analyzeText } from '@lib/text/analysis';
   import { formatMetric } from '@lib/text/formatters';
   import { runProcessor } from '@lib/text/processors/registry';
-  import { runEncoding } from '@lib/engines/encoding/registry';
+  import { runEncoding, encodingProvider } from '@lib/engines/encoding/registry';
   import { runHash } from '@lib/engines/hashing/registry';
   import { runStructuredData } from '@lib/engines/structured-data/registry';
   import { runJwt } from '@lib/engines/jwt/registry';
@@ -46,6 +46,38 @@
   TT.formatMetric = formatMetric;
   TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
   TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
+
+  // Generic transform facade — engine-agnostic surface the ConverterWidget speaks.
+  // Dispatches by `kind` to a registered provider; encoding is the first. New kinds
+  // (hashing, rot13, base32, …) register here without touching the widget. Every verb
+  // degrades to a safe neutral default when a kind has no provider yet.
+  const TRANSFORM_PROVIDERS: Record<string, typeof encodingProvider> = {
+    encoding: encodingProvider,
+  };
+  TT.transform = {
+    run: (kind: string, id: string, mode: string, input: string) => {
+      const p = TRANSFORM_PROVIDERS[kind];
+      return p ? p.run(id, mode, input) : { ok: true, output: input };
+    },
+    detect: (kind: string, id: string, input: string) => {
+      const p = TRANSFORM_PROVIDERS[kind];
+      return p ? p.detect(id, input) : { mode: 'encode', confidence: 'low' };
+    },
+    validate: (kind: string, id: string, mode: string, input: string) => {
+      const p = TRANSFORM_PROVIDERS[kind];
+      return p ? p.validate(id, mode, input) : { ok: true };
+    },
+    meta: (kind: string, id: string, input: string, output: string, mode: string) => {
+      const p = TRANSFORM_PROVIDERS[kind];
+      return p ? p.meta(id, input, output, mode) : [];
+    },
+    info: (kind: string, id: string) => {
+      const p = TRANSFORM_PROVIDERS[kind];
+      return p
+        ? p.info(id)
+        : { displayName: id, reversible: true, modes: { forward: 'encode', inverse: 'decode' } };
+    },
+  };
   TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
   TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
   TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
@@ -131,6 +163,33 @@
     },
     clear: function (toolId) {
       try { localStorage.removeItem(TT.state.PREFIX + toolId); } catch (_) {}
+    }
+  };
+
+  // Session history — last few conversions per tool, sessionStorage only (cleared when
+  // the tab closes; never written to localStorage). Privacy-first: deduped on input,
+  // most-recent-first, capped at 5. Never throws.
+  TT.history = {
+    PREFIX: 'toytools:hist:',
+    MAX: 5,
+    get: function (key) {
+      try {
+        var raw = sessionStorage.getItem(TT.history.PREFIX + key);
+        var arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch (_) { return []; }
+    },
+    push: function (key, item) {
+      try {
+        var arr = TT.history.get(key).filter(function (e) { return e && e.input !== item.input; });
+        arr.unshift(item);
+        if (arr.length > TT.history.MAX) arr = arr.slice(0, TT.history.MAX);
+        sessionStorage.setItem(TT.history.PREFIX + key, JSON.stringify(arr));
+        return arr;
+      } catch (_) { return TT.history.get(key); }
+    },
+    clear: function (key) {
+      try { sessionStorage.removeItem(TT.history.PREFIX + key); } catch (_) {}
     }
   };
 

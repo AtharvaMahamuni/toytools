@@ -1,0 +1,309 @@
+---
+// Generic reversible-converter widget — the shared foundation for every encode/decode
+// tool (base64, url, html-entity, hex, and future kinds: rot13, base32, …). It knows
+// nothing about a specific transform: it speaks the engine-agnostic `ToyTools.transform`
+// facade keyed by `kind` (derived from config.engine) + a processorId. All interaction
+// logic lives here ONCE, organized into small controllers (status / metadata / history /
+// core), so no tool duplicates JavaScript. Per-tool Widget.astro files are 3-line wrappers.
+//
+// Static, JS-free parts (insight, technical details, placeholder, example) are rendered at
+// build time from the engine registry; dynamic parts (status, validation, metadata, two-way
+// sync, detection, history) are filled live by the inline script.
+//
+// If a new encoder family ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import StatusIndicator from '@tools/_shared/converter/StatusIndicator.astro';
+import MetadataPanel from '@tools/_shared/converter/MetadataPanel.astro';
+import HistoryPanel from '@tools/_shared/converter/HistoryPanel.astro';
+import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
+import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
+import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import BinaryByteViewer from '@tools/_shared/converter/BinaryByteViewer.astro';
+import { encodingInfo } from '@lib/engines/encoding/registry';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  processorId: string;
+  config: ToolConfig;
+}
+
+const { slug, processorId, config } = Astro.props;
+
+// `kind` selects the transform provider. Build-time static info currently comes from the
+// encoding registry (the only kind in this pilot); future kinds add a kind→info map here.
+const kind = config.engine ?? 'encoding';
+const info = encodingInfo(processorId);
+
+const inputId = `${slug}-input`;
+const outputId = `${slug}-output`;
+const modeId = `${slug}-mode`;
+const statusId = `${slug}-status`;
+const metaId = `${slug}-meta`;
+const historyId = `${slug}-history`;
+const byteId = `${slug}-byteview`;
+---
+
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel
+    slot="input"
+    label="Input"
+    labelFor={inputId}
+    data-converter
+    data-kind={kind}
+    data-pid={processorId}
+    data-slug={slug}
+  >
+    <select slot="header-end" id={modeId} class="io-mode" aria-label="Conversion direction">
+      <option value="encode">{info.modes.forwardLabel ?? 'Encode →'}</option>
+      <option value="decode">{info.modes.inverseLabel ?? 'Decode ←'}</option>
+    </select>
+    <textarea
+      id={inputId}
+      aria-label="Text to convert"
+      placeholder={info.placeholder ?? 'Type or paste here'}
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"></textarea>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Output" labelFor={outputId} copyTargetId={outputId}>
+    <textarea
+      id={outputId}
+      aria-label="Converted result (editable)"
+      placeholder="Result appears here. You can edit this side too."
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      data-empty></textarea>
+  </IoPanel>
+</ToolSplit>
+
+<StatusIndicator id={statusId} />
+
+<ToolActions
+  pasteTarget={inputId}
+  clearTarget={inputId}
+  downloadTarget={outputId}
+  downloadFilename={`${slug}-output.txt`}
+>
+  <button type="button" class="action-btn" data-conv-swap aria-label="Swap input and output">Swap</button>
+  <ExampleLoader hasSample={!!info.sample} />
+</ToolActions>
+
+<MetadataPanel id={metaId} />
+{info.byteView && <BinaryByteViewer id={byteId} />}
+<HistoryPanel id={historyId} />
+<EducationalInsight insight={info.insight} />
+<TechnicalDetails technical={info.technical} />
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-converter][data-slug]');
+    if (!root) return;
+    var slug = root.getAttribute('data-slug');
+    var kind = root.getAttribute('data-kind') || 'encoding';
+    var pid = root.getAttribute('data-pid');
+    var input = document.getElementById(slug + '-input');
+    var output = document.getElementById(slug + '-output');
+    var modeEl = document.getElementById(slug + '-mode');
+    if (!input || !output || !modeEl) return;
+
+    var TT = window.ToyTools || {};
+    function tx() { return TT.transform || null; }
+
+    // ── Status controller ────────────────────────────────────────────────
+    var status = (function (el) {
+      function set(state, text) { if (el) { el.setAttribute('data-ok', state); el.textContent = text; } }
+      return {
+        clear: function () { set('', ''); },
+        detected: function (label) { set('', 'Detected: ' + label); },
+        valid: function (label) { set('true', '✓ Valid ' + label); },
+        warn: function (msg) { set('warn', '⚠ ' + msg); },
+        error: function (msg) { set('false', '✗ ' + msg); }
+      };
+    })(document.getElementById(slug + '-status'));
+
+    // ── Metadata controller ──────────────────────────────────────────────
+    var meta = (function (el) {
+      function clear() { if (el) { el.hidden = true; el.innerHTML = ''; } }
+      function render(rows) {
+        if (!el) return;
+        if (!rows || !rows.length) { clear(); return; }
+        var html = '';
+        for (var i = 0; i < rows.length; i++) {
+          html += '<div class="conv-meta-row"><dt class="conv-meta-label"></dt><dd class="conv-meta-value"></dd></div>';
+        }
+        el.innerHTML = html;
+        var labels = el.querySelectorAll('.conv-meta-label');
+        var values = el.querySelectorAll('.conv-meta-value');
+        for (var j = 0; j < rows.length; j++) {
+          labels[j].textContent = rows[j].label;
+          values[j].textContent = rows[j].value;
+        }
+        el.hidden = false;
+      }
+      return { render: render, clear: clear };
+    })(document.getElementById(slug + '-meta'));
+
+    // ── History controller (sessionStorage, last 5) ───────────────────────
+    var history = (function (listEl) {
+      var section = listEl ? listEl.closest('.conv-history') : null;
+      function preview(s) { s = (s || '').replace(/\s+/g, ' ').trim(); return s.length > 42 ? s.slice(0, 41) + '…' : s; }
+      function render() {
+        if (!listEl || !TT.history) return;
+        var items = TT.history.get(slug);
+        listEl.innerHTML = '';
+        if (!items.length) { if (section) section.hidden = true; return; }
+        if (section) section.hidden = false;
+        items.forEach(function (it) {
+          var li = document.createElement('li');
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'conv-hist-btn';
+          var a = document.createElement('span'); a.className = 'conv-hist-in'; a.textContent = preview(it.input);
+          var b = document.createElement('span'); b.className = 'conv-hist-arrow'; b.textContent = '→';
+          var c = document.createElement('span'); c.className = 'conv-hist-out'; c.textContent = preview(it.output);
+          btn.appendChild(a); btn.appendChild(b); btn.appendChild(c);
+          btn.addEventListener('click', function () { restore(it.input); });
+          li.appendChild(btn); listEl.appendChild(li);
+        });
+      }
+      function push(inp, outp) { if (TT.history) { TT.history.push(slug, { input: inp, output: outp, t: Date.now() }); render(); } }
+      return { render: render, push: push };
+    })(document.getElementById(slug + '-history'));
+
+    // ── Output writer (drives the CopyButton data-empty / data-error protocol) ──
+    function applyOutput(res) {
+      if (!res.ok) {
+        output.value = '';
+        output.setAttribute('data-empty', '');
+        output.setAttribute('data-error', res.error || 'Could not convert.');
+      } else {
+        output.value = res.output;
+        if (res.output) output.removeAttribute('data-empty'); else output.setAttribute('data-empty', '');
+        output.removeAttribute('data-error');
+      }
+    }
+    function resetDownstream() {
+      output.value = '';
+      output.setAttribute('data-empty', '');
+      output.removeAttribute('data-error');
+      status.clear();
+      meta.clear();
+    }
+
+    // ── Core controller (two-way sync · auto-detect · loop prevention) ─────
+    var override = false;   // user manually chose a direction (suppresses auto-detect)
+    var syncing = false;    // guards programmatic value writes against feedback loops
+    var info = { displayName: pid, modes: { forward: 'encode', inverse: 'decode' } };
+
+    function inverse(m) { return m === 'encode' ? 'decode' : 'encode'; }
+
+    function renderStatus(v, res, detect) {
+      if (v && v.ok === false) {
+        if ((v.severity || 'error') === 'warning') status.warn(v.message || 'Check the input.');
+        else status.error(v.message || (res && res.error) || 'Invalid input.');
+        return;
+      }
+      if (res && !res.ok) { status.error(res.error || 'Could not convert.'); return; }
+      if (detect && !override && detect.confidence !== 'low' && detect.label) { status.detected(detect.label); return; }
+      status.valid(info.displayName);
+    }
+
+    function fromInput() {
+      if (syncing) return;
+      var t = input.value;
+      if (!t) { override = false; resetDownstream(); return; }
+      var T = tx(); if (!T) return;
+      var detect = null;
+      if (!override) {
+        detect = T.detect(kind, pid, t);
+        if (detect && (detect.mode === 'encode' || detect.mode === 'decode')) modeEl.value = detect.mode;
+      }
+      var mode = modeEl.value;
+      var v = T.validate(kind, pid, mode, t);
+      var res = T.run(kind, pid, mode, t);
+      syncing = true; applyOutput(res); syncing = false;
+      renderStatus(v, res, detect);
+      meta.render(res.ok ? T.meta(kind, pid, t, res.output, mode) : []);
+      if (res.ok && res.output) history.push(t, res.output);
+    }
+
+    function fromOutput() {
+      if (syncing) return;
+      var t = output.value;
+      var T = tx(); if (!T) return;
+      if (!t) { status.clear(); meta.clear(); return; }
+      var mode = inverse(modeEl.value);   // editing the output runs the reverse direction
+      var v = T.validate(kind, pid, mode, t);
+      var res = T.run(kind, pid, mode, t);
+      if (res.ok) { syncing = true; input.value = res.output; syncing = false; }
+      renderStatus(v, res, null);
+      meta.render(res.ok ? T.meta(kind, pid, t, res.output, mode) : []);
+      if (res.ok && res.output) history.push(t, res.output);
+    }
+
+    function persist() {
+      if (TT.state) TT.state.save(slug, { input: input.value, mode: modeEl.value, override: override });
+    }
+    function restore(text) {
+      input.value = text; override = false; fromInput(); persist(); input.focus();
+    }
+
+    // ── Wiring ─────────────────────────────────────────────────────────────
+    input.addEventListener('input', function () { fromInput(); persist(); });
+    output.addEventListener('input', function () { override = true; fromOutput(); persist(); });
+    modeEl.addEventListener('change', function () { override = true; fromInput(); persist(); });
+
+    var swapBtn = document.querySelector('[data-conv-swap]');
+    if (swapBtn) swapBtn.addEventListener('click', function () {
+      if (output.hasAttribute('data-empty')) return;
+      input.value = output.value;
+      modeEl.value = inverse(modeEl.value);
+      override = true;
+      fromInput();
+      persist();
+    });
+
+    var exBtn = document.querySelector('[data-conv-example]');
+    if (exBtn) exBtn.addEventListener('click', function () {
+      var T = tx();
+      var sample = (T && T.info) ? (T.info(kind, pid).sample || '') : '';
+      if (!sample) return;
+      input.value = sample;
+      override = false;
+      fromInput();
+      persist();
+      input.focus();
+    });
+
+    // ── Restore prior state + first run (after engine functions attach) ────
+    function boot() {
+      var T = tx();
+      if (T && T.info) info = T.info(kind, pid);
+      try {
+        var saved = TT.state && TT.state.load(slug);
+        if (saved && typeof saved.input === 'string') {
+          input.value = saved.input;
+          if (saved.mode === 'encode' || saved.mode === 'decode') modeEl.value = saved.mode;
+          override = !!saved.override;
+        } else if (slug === 'base64-encoder-decoder' && TT.storage) {
+          var legacy = TT.storage.get('toytools.base64.input');
+          if (legacy) input.value = legacy;
+        }
+      } catch (_) {}
+      history.render();
+      fromInput();
+    }
+
+    if (TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>

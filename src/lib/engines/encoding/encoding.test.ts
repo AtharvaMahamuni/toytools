@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { runEncoding, ENCODERS } from './registry';
+import {
+  runEncoding,
+  ENCODERS,
+  detectEncoding,
+  validateEncoding,
+  encodingMeta,
+  encodingInfo,
+} from './registry';
 
 // --- Registry resolver ---
 
@@ -101,4 +108,118 @@ describe('html-entity', () => {
   it('leaves out-of-range numeric references untouched', () =>
     expect(decode('&#xFFFFFFFF;')).toBe('&#xFFFFFFFF;'));
   it('handles empty string', () => expect(encode('')).toBe(''));
+});
+
+// --- Detection (confidence) ---
+
+describe('detectEncoding', () => {
+  it('detects Base64 with high confidence when padded', () => {
+    const d = detectEncoding('base64', 'SGVsbG8=');
+    expect(d.mode).toBe('decode');
+    expect(d.confidence).toBe('high');
+    expect(d.label).toBe('Base64');
+  });
+  it('detects plain text as encode', () => {
+    expect(detectEncoding('base64', 'Hello there!').mode).toBe('encode');
+  });
+  it('detects percent-encoding for url', () => {
+    const d = detectEncoding('url', 'hello%20world');
+    expect(d.mode).toBe('decode');
+    expect(d.confidence).toBe('high');
+  });
+  it('detects HTML entities', () => {
+    expect(detectEncoding('html-entity', 'a &amp; b').mode).toBe('decode');
+  });
+  it('detects spaced hex bytes with high confidence', () => {
+    const d = detectEncoding('hex', '48 65 6c 6c 6f');
+    expect(d.mode).toBe('decode');
+    expect(d.confidence).toBe('high');
+  });
+  it('returns a safe default for an unknown id', () => {
+    expect(detectEncoding('nope', 'x')).toEqual({ mode: 'encode', confidence: 'low' });
+  });
+  it('returns encode for empty input', () => {
+    expect(detectEncoding('base64', '').mode).toBe('encode');
+  });
+});
+
+// --- Validation (severity + position) ---
+
+describe('validateEncoding', () => {
+  it('passes valid Base64 on decode', () => {
+    expect(validateEncoding('base64', 'decode', 'SGVsbG8=').ok).toBe(true);
+  });
+  it('flags a bad Base64 character with a position', () => {
+    const v = validateEncoding('base64', 'decode', 'SGV*bG8=');
+    expect(v.ok).toBe(false);
+    expect(v.severity).toBe('error');
+    expect(v.position).toBe(3);
+    expect(v.message).toMatch(/Base64 alphabet/i);
+  });
+  it('warns when Base64 length is not a multiple of 4', () => {
+    const v = validateEncoding('base64', 'decode', 'SGVsbG8');
+    expect(v.ok).toBe(false);
+    expect(v.severity).toBe('warning');
+  });
+  it('flags malformed percent-encoding with a position', () => {
+    const v = validateEncoding('url', 'decode', 'a%2gb');
+    expect(v.ok).toBe(false);
+    expect(v.position).toBe(1);
+    expect(v.message).toMatch(/percent/i);
+  });
+  it('flags an odd number of hex digits', () => {
+    const v = validateEncoding('hex', 'decode', '4 8 6');
+    expect(v.ok).toBe(false);
+    expect(v.message).toMatch(/even number/i);
+  });
+  it('flags a non-hex character with a position', () => {
+    const v = validateEncoding('hex', 'decode', '48 6z');
+    expect(v.ok).toBe(false);
+    expect(v.severity).toBe('error');
+  });
+  it('treats encode direction as always ok', () => {
+    expect(validateEncoding('base64', 'encode', 'anything *!*').ok).toBe(true);
+  });
+  it('returns ok for an unknown id', () => {
+    expect(validateEncoding('nope', 'decode', 'x').ok).toBe(true);
+  });
+});
+
+// --- Metadata ---
+
+describe('encodingMeta', () => {
+  it('reports input bytes, base64 length and expansion', () => {
+    const rows = encodingMeta('base64', 'Hi', 'SGk=', 'encode');
+    const byLabel = Object.fromEntries(rows.map(r => [r.label, r.value]));
+    expect(byLabel['Input bytes']).toBe('2');
+    expect(byLabel['Base64 length']).toBe('4');
+    expect(byLabel['Expansion']).toBe('2.00×');
+  });
+  it('reports byte count for hex', () => {
+    const rows = encodingMeta('hex', 'Hello', '48 65 6c 6c 6f', 'encode');
+    const byLabel = Object.fromEntries(rows.map(r => [r.label, r.value]));
+    expect(byLabel['Bytes']).toBe('5 bytes');
+  });
+  it('returns [] for an unknown id', () => {
+    expect(encodingMeta('nope', 'a', 'b', 'encode')).toEqual([]);
+  });
+});
+
+// --- Static info ---
+
+describe('encodingInfo', () => {
+  it('exposes displayName, reversible and modes', () => {
+    const info = encodingInfo('base64');
+    expect(info.displayName).toBe('Base64');
+    expect(info.reversible).toBe(true);
+    expect(info.modes.forward).toBe('encode');
+    expect(info.modes.inverse).toBe('decode');
+    expect(info.sample).toBeTruthy();
+    expect(info.technical && info.technical.length).toBeGreaterThan(0);
+  });
+  it('falls back gracefully for an unknown id', () => {
+    const info = encodingInfo('nope');
+    expect(info.displayName).toBe('nope');
+    expect(info.reversible).toBe(true);
+  });
 });

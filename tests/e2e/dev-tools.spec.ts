@@ -5,45 +5,66 @@ import { test, expect } from '@playwright/test';
 import { DevTool } from './helpers/tools';
 
 test.describe('encoding tools', () => {
-  test('base64: encode, decode, swap, sample', async ({ page }) => {
+  // The output pane is an editable textarea (two-way editing), so assert on its value.
+  test('base64: encode, decode, swap, example', async ({ page }) => {
     const t = new DevTool(page, 'base64-encoder-decoder');
     await t.goto();
 
     await t.fill('Hello');
-    await expect(t.output).toHaveText('SGVsbG8=');
+    await expect(t.output).toHaveValue('SGVsbG8=');
 
     await t.mode.selectOption('decode');
     await t.fill('SGVsbG8=');
-    await expect(t.output).toHaveText('Hello');
+    await expect(t.output).toHaveValue('Hello');
 
     // Swap: output → input, mode flips, recompute.
     await t.mode.selectOption('encode');
     await t.fill('Hello');
-    await expect(t.output).toHaveText('SGVsbG8=');
+    await expect(t.output).toHaveValue('SGVsbG8=');
     await t.action('Swap').click();
     await expect(t.input).toHaveValue('SGVsbG8=');
     await expect(t.mode).toHaveValue('decode');
-    await expect(t.output).toHaveText('Hello');
+    await expect(t.output).toHaveValue('Hello');
 
-    // Sample: loads the encoder's sample in encode mode.
-    await t.action('Sample').click();
+    // Load example: fills the encoder's sample and recomputes (auto-detected to encode).
+    await t.action('Load example').click();
     await expect(t.input).toHaveValue('Hello, World!');
     await expect(t.mode).toHaveValue('encode');
-    await expect(t.output).toHaveText('SGVsbG8sIFdvcmxkIQ==');
+    await expect(t.output).toHaveValue('SGVsbG8sIFdvcmxkIQ==');
+  });
+
+  test('base64: auto-detects encoded input and shows a status line', async ({ page }) => {
+    const t = new DevTool(page, 'base64-encoder-decoder');
+    await t.goto();
+    // A padded Base64 string is detected as decode without touching the mode select.
+    await t.fill('SGVsbG8=');
+    await expect(t.mode).toHaveValue('decode');
+    await expect(t.output).toHaveValue('Hello');
+    await expect(t.status).toContainText('Base64');
+  });
+
+  test('base64: two-way editing recomputes the opposite side', async ({ page }) => {
+    const t = new DevTool(page, 'base64-encoder-decoder');
+    await t.goto();
+    await t.fill('Hello');
+    await expect(t.output).toHaveValue('SGVsbG8=');
+    // Editing the output (encoded side) decodes back into the input, no loop.
+    await t.output.fill('d29ybGQ=');
+    await expect(t.input).toHaveValue('world');
   });
 
   test('url: percent-encodes reserved characters', async ({ page }) => {
     const t = new DevTool(page, 'url-encoder-decoder');
     await t.goto();
     await t.fill('a b&c');
-    await expect(t.output).toHaveText('a%20b%26c');
+    await expect(t.output).toHaveValue('a%20b%26c');
   });
 
   test('html-entity: escapes markup', async ({ page }) => {
     const t = new DevTool(page, 'html-entity-encoder-decoder');
     await t.goto();
     await t.fill('<b>');
-    await expect(t.output).toHaveText('&lt;b&gt;');
+    await expect(t.output).toHaveValue('&lt;b&gt;');
   });
 });
 

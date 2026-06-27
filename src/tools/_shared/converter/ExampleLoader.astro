@@ -1,0 +1,20 @@
+---
+// One-click "Load example" control. Lives in the .tool-actions row (passed via the
+// ToolActions trailing slot). The ConverterWidget wires [data-conv-example] to fill the
+// input with the engine's sample and recompute. Renders nothing when there is no sample.
+interface Props {
+  hasSample?: boolean;
+  label?: string;
+}
+const { hasSample = true, label = 'Load example' } = Astro.props;
+---
+
+{hasSample && (
+  <button
+    type="button"
+    class="action-btn action-btn--sample conv-example"
+    data-conv-example
+  >
+    {label}
+  </button>
+)}

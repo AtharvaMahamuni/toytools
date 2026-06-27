@@ -1,0 +1,11 @@
+---
+// Subtle live status line for a converter: "Detected: Base64" / "✓ Valid Base64" /
+// "⚠ <actionable message>". The ConverterWidget script sets textContent + the data-ok
+// state ('' neutral · 'true' valid · 'warn' warning · 'false' error). Reuses .io-status.
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<p class="io-status conv-status" id={id} role="status" aria-live="polite" data-ok=""></p>

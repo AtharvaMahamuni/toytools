@@ -6,6 +6,13 @@
 // one map entry here. No widget, runtime, or routing changes.
 
 import type { EncodingTool, EncodingMode, EncodingResult } from './types';
+import type {
+  DetectResult,
+  MetaItem,
+  TransformInfo,
+  TransformProvider,
+  ValidationDetail,
+} from '../transform/types';
 import { base64 } from './base64';
 import { url } from './url';
 import { htmlEntity } from './htmlEntity';
@@ -42,3 +49,69 @@ export function runEncoding(id: string, mode: EncodingMode, text: string): Encod
     };
   }
 }
+
+// ── Generic transform surface ────────────────────────────────────────────────
+// Detection / validation / metadata / static info — each resolves through the same
+// never-throw registry contract. Unknown ids or missing implementations return safe,
+// neutral defaults so the ConverterWidget always has something sensible to render.
+
+/** Suggest a direction from the input shape. Defaults to encode at low confidence. */
+export function detectEncoding(id: string, text: string): DetectResult {
+  const enc = ENCODERS[id];
+  if (!enc || !enc.detect || !text) return { mode: 'encode', confidence: 'low' };
+  try {
+    return enc.detect(text);
+  } catch (_) {
+    return { mode: 'encode', confidence: 'low' };
+  }
+}
+
+/** Actionable validation for a direction. Defaults to ok. */
+export function validateEncoding(id: string, mode: EncodingMode, text: string): ValidationDetail {
+  const enc = ENCODERS[id];
+  if (!enc || !enc.validate || !text) return { ok: true };
+  try {
+    return enc.validate(text, mode);
+  } catch (_) {
+    return { ok: true };
+  }
+}
+
+/** Live output metadata rows. Defaults to []. */
+export function encodingMeta(
+  id: string,
+  input: string,
+  output: string,
+  mode: EncodingMode,
+): MetaItem[] {
+  const enc = ENCODERS[id];
+  if (!enc || !enc.meta) return [];
+  try {
+    return enc.meta(input, output, mode);
+  } catch (_) {
+    return [];
+  }
+}
+
+/** Static, build-time-renderable description of an encoder. */
+export function encodingInfo(id: string): TransformInfo {
+  const enc = ENCODERS[id];
+  return {
+    displayName: enc?.displayName ?? enc?.id ?? id,
+    reversible: true,
+    modes: { forward: 'encode', inverse: 'decode', forwardLabel: 'Encode →', inverseLabel: 'Decode ←' },
+    placeholder: enc?.placeholder,
+    insight: enc?.insight,
+    technical: enc?.technical,
+    sample: enc?.sample,
+  };
+}
+
+/** The encoding provider, consumed by the runtime's ToyTools.transform facade. */
+export const encodingProvider: TransformProvider = {
+  run: (id, mode, input) => runEncoding(id, mode as EncodingMode, input),
+  detect: detectEncoding,
+  validate: (id, mode, input) => validateEncoding(id, mode as EncodingMode, input),
+  meta: (id, input, output, mode) => encodingMeta(id, input, output, mode as EncodingMode),
+  info: encodingInfo,
+};
