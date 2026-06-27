@@ -17,8 +17,19 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CopyButton from '@components/CopyButton.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import type { ToolConfig } from '@data/types';
+import type { TechnicalEntry } from '@lib/engines/transform/types';
+
+// Collapsible technical reference — the same shared block the other developer tools use.
+const jwtTechnical: TechnicalEntry[] = [
+  { term: 'Standard', detail: 'RFC 7519 (JSON Web Token)' },
+  { term: 'Structure', detail: 'header.payload.signature — three Base64url parts joined by dots' },
+  { term: 'Decoding', detail: 'The header and payload are Base64url; no key is needed to read them' },
+  { term: 'Signature', detail: 'Shown but not verified here — verification requires the signing key' },
+  { term: 'Security', detail: 'A JWT is signed, not encrypted — never put secrets in the payload' },
+];
 
 interface Props {
   slug: string;
@@ -126,6 +137,8 @@ const sigId = `${slug}-sig`;
 <ToolActions clearTarget={inputId} pasteTarget={inputId}>
   <button type="button" class="action-btn" data-jwt-sample aria-label="Load a sample token">Sample</button>
 </ToolActions>
+
+<TechnicalDetails technical={jwtTechnical} />
 
 <CategoryDiscovery toolSlug={slug} />
 

@@ -1,0 +1,350 @@
+---
+// Generic transformation widget — the shared foundation for every encode/decode AND
+// one-way transform tool (base64, url, html-entity, hex; md5/sha1/sha256/sha512; and
+// future kinds: rot13, base32, …). It knows nothing about a specific transform: it speaks
+// the engine-agnostic `ToyTools.transform` facade keyed by `kind` (from config.engine) +
+// a processorId. All interaction logic lives here ONCE, in small controllers (status /
+// metadata / history / core). Per-tool Widget.astro files are 3-line wrappers.
+//
+// Two shapes, one widget:
+//   • reversible (info.reversible)  → two editable panes, mode select, auto-detect, swap
+//   • one-way    (!info.reversible) → single input, read-only grouped output (e.g. hashing)
+// `run` may be sync (encoding) or async (hashing via crypto.subtle); the script awaits it
+// with a race guard. Static parts (insight, technical) render at build time (JS-free).
+//
+// If a new transform family ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import StatusIndicator from '@tools/_shared/converter/StatusIndicator.astro';
+import MetadataPanel from '@tools/_shared/converter/MetadataPanel.astro';
+import HistoryPanel from '@tools/_shared/converter/HistoryPanel.astro';
+import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
+import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
+import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import BinaryByteViewer from '@tools/_shared/converter/BinaryByteViewer.astro';
+import { encodingInfo } from '@lib/engines/encoding/registry';
+import { hashInfo } from '@lib/engines/hashing/registry';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  processorId: string;
+  config: ToolConfig;
+}
+
+const { slug, processorId, config } = Astro.props;
+
+// `kind` selects the transform provider. Build-time static info comes from the matching
+// registry; new kinds add a branch here (and a runtime provider) without touching markup.
+const kind = config.engine ?? 'encoding';
+const info = kind === 'hashing' ? hashInfo(processorId) : encodingInfo(processorId);
+const reversible = info.reversible !== false;
+
+const inputId = `${slug}-input`;
+const outputId = `${slug}-output`;
+const modeId = `${slug}-mode`;
+const statusId = `${slug}-status`;
+const metaId = `${slug}-meta`;
+const historyId = `${slug}-history`;
+const byteId = `${slug}-byteview`;
+---
+
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel
+    slot="input"
+    label="Input"
+    labelFor={inputId}
+    data-converter
+    data-kind={kind}
+    data-pid={processorId}
+    data-slug={slug}
+  >
+    {reversible && (
+      <select slot="header-end" id={modeId} class="io-mode" aria-label="Conversion direction">
+        <option value="encode">{info.modes.forwardLabel ?? 'Encode →'}</option>
+        <option value="decode">{info.modes.inverseLabel ?? 'Decode ←'}</option>
+      </select>
+    )}
+    <textarea
+      id={inputId}
+      aria-label="Text to convert"
+      placeholder={info.placeholder ?? 'Type or paste here'}
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"></textarea>
+  </IoPanel>
+
+  {reversible ? (
+    <IoPanel slot="output" label="Output" labelFor={outputId} copyTargetId={outputId}>
+      <textarea
+        id={outputId}
+        aria-label="Converted result (editable)"
+        placeholder="Result appears here. You can edit this side too."
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        data-empty></textarea>
+    </IoPanel>
+  ) : (
+    <IoPanel slot="output" label={info.outputLabel ?? 'Output'} copyTargetId={outputId}>
+      <output id={outputId} aria-live="polite" aria-label={info.outputLabel ?? 'Output'} data-empty
+        >Result appears here.</output>
+    </IoPanel>
+  )}
+</ToolSplit>
+
+<StatusIndicator id={statusId} />
+
+<ToolActions
+  pasteTarget={inputId}
+  clearTarget={inputId}
+  downloadTarget={reversible ? outputId : undefined}
+  downloadFilename={reversible ? `${slug}-output.txt` : undefined}
+>
+  {reversible && (
+    <button type="button" class="action-btn" data-conv-swap aria-label="Swap input and output">Swap</button>
+  )}
+  <ExampleLoader hasSample={!!info.sample} />
+</ToolActions>
+
+<MetadataPanel id={metaId} />
+{info.byteView && <BinaryByteViewer id={byteId} />}
+<HistoryPanel id={historyId} />
+<EducationalInsight insight={info.insight} />
+<TechnicalDetails technical={info.technical} />
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-converter][data-slug]');
+    if (!root) return;
+    var slug = root.getAttribute('data-slug');
+    var kind = root.getAttribute('data-kind') || 'encoding';
+    var pid = root.getAttribute('data-pid');
+    var input = document.getElementById(slug + '-input');
+    var output = document.getElementById(slug + '-output');
+    var modeEl = document.getElementById(slug + '-mode');
+    if (!input || !output) return;
+
+    var reversible = !!modeEl;           // one-way tools render no mode select
+    var outIsField = output.tagName === 'TEXTAREA';
+    var TT = window.ToyTools || {};
+    function tx() { return TT.transform || null; }
+
+    // ── Status controller ────────────────────────────────────────────────
+    var status = (function (el) {
+      function show(state, text) { if (el) { el.setAttribute('data-ok', state); el.textContent = text; } }
+      return { show: show, clear: function () { show('', ''); } };
+    })(document.getElementById(slug + '-status'));
+
+    // ── Metadata controller ──────────────────────────────────────────────
+    var meta = (function (el) {
+      function clear() { if (el) { el.hidden = true; el.innerHTML = ''; } }
+      function render(rows) {
+        if (!el) return;
+        if (!rows || !rows.length) { clear(); return; }
+        var html = '';
+        for (var i = 0; i < rows.length; i++) {
+          html += '<div class="conv-meta-row"><dt class="conv-meta-label"></dt><dd class="conv-meta-value"></dd></div>';
+        }
+        el.innerHTML = html;
+        var labels = el.querySelectorAll('.conv-meta-label');
+        var values = el.querySelectorAll('.conv-meta-value');
+        for (var j = 0; j < rows.length; j++) {
+          labels[j].textContent = rows[j].label;
+          values[j].textContent = rows[j].value;
+        }
+        el.hidden = false;
+      }
+      return { render: render, clear: clear };
+    })(document.getElementById(slug + '-meta'));
+
+    // ── History controller (sessionStorage, last 5) ───────────────────────
+    var history = (function (listEl) {
+      var section = listEl ? listEl.closest('.conv-history') : null;
+      function preview(s) { s = (s || '').replace(/\s+/g, ' ').trim(); return s.length > 42 ? s.slice(0, 41) + '…' : s; }
+      function render() {
+        if (!listEl || !TT.history) return;
+        var items = TT.history.get(slug);
+        listEl.innerHTML = '';
+        if (!items.length) { if (section) section.hidden = true; return; }
+        if (section) section.hidden = false;
+        items.forEach(function (it) {
+          var li = document.createElement('li');
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'conv-hist-btn';
+          var a = document.createElement('span'); a.className = 'conv-hist-in'; a.textContent = preview(it.input);
+          var b = document.createElement('span'); b.className = 'conv-hist-arrow'; b.textContent = '→';
+          var c = document.createElement('span'); c.className = 'conv-hist-out'; c.textContent = preview(it.output);
+          btn.appendChild(a); btn.appendChild(b); btn.appendChild(c);
+          btn.addEventListener('click', function () { restore(it.input); });
+          li.appendChild(btn); listEl.appendChild(li);
+        });
+      }
+      function push(inp, outp) { if (TT.history) { TT.history.push(slug, { input: inp, output: outp, t: Date.now() }); render(); } }
+      return { render: render, push: push };
+    })(document.getElementById(slug + '-history'));
+
+    // ── Output writer (grouped display + raw copy via data-copy-value) ─────
+    var grouped = false, groupSize = 8;
+    function groupHex(s, n) { return s.replace(new RegExp('(.{' + (n || 8) + '})', 'g'), '$1 ').trim(); }
+    function writeOut(text) { if (outIsField) output.value = text; else output.textContent = text; }
+    function applyOutput(res) {
+      if (!res.ok) {
+        writeOut('');
+        output.setAttribute('data-empty', '');
+        output.setAttribute('data-error', res.error || 'Could not convert.');
+        output.removeAttribute('data-copy-value');
+        return;
+      }
+      output.removeAttribute('data-error');
+      var raw = res.output;
+      if (!raw) { writeOut(''); output.setAttribute('data-empty', ''); output.removeAttribute('data-copy-value'); return; }
+      output.removeAttribute('data-empty');
+      if (grouped) { writeOut(groupHex(raw, groupSize)); output.setAttribute('data-copy-value', raw); }
+      else { writeOut(raw); output.removeAttribute('data-copy-value'); }
+    }
+    function resetDownstream() {
+      writeOut('');
+      output.setAttribute('data-empty', '');
+      output.removeAttribute('data-error');
+      output.removeAttribute('data-copy-value');
+      status.clear();
+      meta.clear();
+    }
+
+    // ── Core controller (sync or async · two-way · loop prevention) ────────
+    var override = false;   // user manually chose a direction (suppresses auto-detect)
+    var syncing = false;    // guards programmatic value writes against feedback loops
+    var seq = 0;            // race guard for async (hashing) results
+    var info = { displayName: pid, reversible: reversible, modes: { forward: reversible ? 'encode' : 'hash', inverse: 'decode' } };
+
+    function inverse(m) { return m === 'encode' ? 'decode' : 'encode'; }
+
+    function renderStatus(v, res, detect) {
+      if (v && v.ok === false) {
+        if ((v.severity || 'error') === 'warning') status.show('warn', '⚠ ' + (v.message || 'Check the input.'));
+        else status.show('false', '✗ ' + (v.message || (res && res.error) || 'Invalid input.'));
+        return;
+      }
+      if (res && !res.ok) { status.show('false', '✗ ' + (res.error || 'Could not convert.')); return; }
+      if (reversible) {
+        if (detect && !override && detect.confidence !== 'low' && detect.label) { status.show('', 'Detected: ' + detect.label); return; }
+        status.show('true', '✓ Valid ' + info.displayName);
+      } else {
+        status.show('true', '✓ ' + info.displayName + ' digest');
+      }
+    }
+
+    function finish(res, v, detect, t, mode) {
+      var T = tx();
+      syncing = true; applyOutput(res); syncing = false;
+      renderStatus(v, res, detect);
+      meta.render(res.ok && T ? T.meta(kind, pid, t, res.output, mode) : []);
+      if (res.ok && res.output) history.push(t, res.output);
+    }
+
+    function execForward() {
+      if (syncing) return;
+      var t = input.value;
+      if (!t) { override = false; resetDownstream(); return; }
+      var T = tx(); if (!T) return;
+      var detect = null;
+      if (reversible && !override) {
+        detect = T.detect(kind, pid, t);
+        if (detect && (detect.mode === 'encode' || detect.mode === 'decode')) modeEl.value = detect.mode;
+      }
+      var mode = reversible ? modeEl.value : info.modes.forward;
+      var v = T.validate(kind, pid, mode, t);
+      var token = ++seq;
+      var r = T.run(kind, pid, mode, t);
+      if (r && typeof r.then === 'function') {
+        r.then(function (res) { if (token === seq) finish(res, v, detect, t, mode); })
+         .catch(function () { if (token === seq) status.show('false', '✗ Unable to process input.'); });
+      } else {
+        finish(r, v, detect, t, mode);
+      }
+    }
+
+    // Two-way: editing the output runs the reverse direction (reversible only).
+    function fromOutput() {
+      if (syncing) return;
+      var t = output.value;
+      var T = tx(); if (!T) return;
+      if (!t) { status.clear(); meta.clear(); return; }
+      var mode = inverse(modeEl.value);
+      var v = T.validate(kind, pid, mode, t);
+      var res = T.run(kind, pid, mode, t);
+      if (res && res.ok) { syncing = true; input.value = res.output; syncing = false; }
+      renderStatus(v, res, null);
+      meta.render(res && res.ok ? T.meta(kind, pid, t, res.output, mode) : []);
+      if (res && res.ok && res.output) history.push(t, res.output);
+    }
+
+    function persist() {
+      if (!TT.state) return;
+      var data = { input: input.value };
+      if (reversible) { data.mode = modeEl.value; data.override = override; }
+      TT.state.save(slug, data);
+    }
+    function restore(text) { input.value = text; override = false; execForward(); persist(); input.focus(); }
+
+    // ── Wiring ─────────────────────────────────────────────────────────────
+    input.addEventListener('input', function () { execForward(); persist(); });
+
+    if (reversible) {
+      output.addEventListener('input', function () { override = true; fromOutput(); persist(); });
+      modeEl.addEventListener('change', function () { override = true; execForward(); persist(); });
+      var swapBtn = document.querySelector('[data-conv-swap]');
+      if (swapBtn) swapBtn.addEventListener('click', function () {
+        if (output.hasAttribute('data-empty')) return;
+        input.value = output.value;
+        modeEl.value = inverse(modeEl.value);
+        override = true;
+        execForward();
+        persist();
+      });
+    }
+
+    var exBtn = document.querySelector('[data-conv-example]');
+    if (exBtn) exBtn.addEventListener('click', function () {
+      var T = tx();
+      var sample = (T && T.info) ? (T.info(kind, pid).sample || '') : '';
+      if (!sample) return;
+      input.value = sample;
+      override = false;
+      execForward();
+      persist();
+      input.focus();
+    });
+
+    // ── Restore prior state + first run (after engine functions attach) ────
+    function boot() {
+      var T = tx();
+      if (T && T.info) info = T.info(kind, pid);
+      grouped = !!info.grouped;
+      groupSize = info.groupSize || 8;
+      try {
+        var saved = TT.state && TT.state.load(slug);
+        if (saved && typeof saved.input === 'string') {
+          input.value = saved.input;
+          if (reversible && (saved.mode === 'encode' || saved.mode === 'decode')) modeEl.value = saved.mode;
+          if (reversible) override = !!saved.override;
+        } else if (slug === 'base64-encoder-decoder' && TT.storage) {
+          var legacy = TT.storage.get('toytools.base64.input');
+          if (legacy) input.value = legacy;
+        }
+      } catch (_) {}
+      history.render();
+      execForward();
+    }
+
+    if (TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>

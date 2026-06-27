@@ -9,6 +9,10 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
+import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
+import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import { structuredInfo } from '@lib/engines/structured-data/info';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -22,6 +26,8 @@ const { slug, structuredId, config, showOutput = true } = Astro.props;
 
 // Group members share one state envelope so input survives switching modes.
 const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
+// Reusable educational blocks (same ones the ConverterWidget uses).
+const info = structuredInfo(structuredId);
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
@@ -29,7 +35,7 @@ const statusId = `${slug}-status`;
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey}>
+  <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey} data-sample={info.sample ?? ''}>
     <textarea
       id={inputId}
       aria-label="JSON input"
@@ -53,7 +59,12 @@ const statusId = `${slug}-status`;
   pasteTarget={inputId}
   downloadTarget={showOutput ? outputId : undefined}
   downloadFilename={showOutput ? `${slug}.json` : undefined}
-/>
+>
+  <ExampleLoader hasSample={!!info.sample} />
+</ToolActions>
+
+<EducationalInsight insight={info.insight} />
+<TechnicalDetails technical={info.technical} />
 
 <CategoryDiscovery toolSlug={slug} />
 
@@ -101,6 +112,16 @@ const statusId = `${slug}-status`;
     } catch (_) {}
 
     input.addEventListener('input', function () { run(); persist(); });
+
+    var exBtn = document.querySelector('[data-conv-example]');
+    if (exBtn) exBtn.addEventListener('click', function () {
+      var sample = root.getAttribute('data-sample') || '';
+      if (!sample) return;
+      input.value = sample;
+      run(); persist();
+      input.focus();
+    });
+
     // runStructuredData attaches via a deferred module; wait so restored input validates on load.
     if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();

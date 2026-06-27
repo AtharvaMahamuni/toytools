@@ -1,0 +1,12 @@
+---
+// Per-byte visualization (each byte → ASCII / decimal / hex on hover or tap). Built as
+// a reusable block but DORMANT: only transforms that set `byteView: true` activate it
+// (a future binary converter). Inert for the current encoders — the ConverterWidget
+// renders it only when info.byteView is set, and populates it live. Copy is unaffected.
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<div class="conv-byteview" id={id} aria-label="Byte breakdown" hidden></div>

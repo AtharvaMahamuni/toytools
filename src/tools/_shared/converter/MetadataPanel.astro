@@ -1,0 +1,10 @@
+---
+// Live output metadata (input bytes, output length, expansion ratio, …). The
+// ConverterWidget fills this <dl> from the engine's meta() rows and toggles `hidden`.
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<dl class="conv-meta" id={id} aria-label="Output details" hidden></dl>

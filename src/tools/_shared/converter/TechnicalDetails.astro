@@ -1,0 +1,24 @@
+---
+// Collapsible Technical Details — native <details>, collapsed by default, no JS.
+// Rendered statically from the engine's `technical` rows (algorithm, RFC, output
+// format, limitations). Extensible: any provider can list as many rows as it likes.
+import type { TechnicalEntry } from '@lib/engines/transform/types';
+interface Props {
+  technical?: TechnicalEntry[];
+}
+const { technical } = Astro.props;
+---
+
+{technical && technical.length > 0 && (
+  <details class="widget-details conv-tech">
+    <summary>Technical details</summary>
+    <dl class="conv-tech-list">
+      {technical.map((entry) => (
+        <div class="conv-tech-row">
+          <dt>{entry.term}</dt>
+          <dd>{entry.detail}</dd>
+        </div>
+      ))}
+    </dl>
+  </details>
+)}

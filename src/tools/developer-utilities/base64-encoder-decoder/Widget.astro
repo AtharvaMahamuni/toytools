@@ -1,6 +1,6 @@
 ---
-import EncodingWidget from '@tools/_shared/EncodingWidget.astro';
+import ConverterWidget from '@tools/_shared/ConverterWidget.astro';
 import { config } from './config';
 ---
 
-<EncodingWidget slug={config.slug} encodingId={config.processorId!} config={config} />
+<ConverterWidget slug={config.slug} processorId={config.processorId!} config={config} />
