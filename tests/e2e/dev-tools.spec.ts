@@ -114,6 +114,14 @@ test.describe('structured-data tools', () => {
     await expect.poll(async () => t.output.textContent()).toBe('{\n  "a": 1\n}');
   });
 
+  test('json-formatter: load example fills and validates', async ({ page }) => {
+    const t = new DevTool(page, 'json-formatter');
+    await t.goto();
+    await t.action('Load example').click();
+    await expect(t.input).not.toHaveValue('');
+    await expect(t.status).toHaveText('✓ Valid');
+  });
+
   test('json-minifier: strips whitespace', async ({ page }) => {
     const t = new DevTool(page, 'json-minifier');
     await t.goto();
