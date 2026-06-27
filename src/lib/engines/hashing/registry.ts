@@ -5,6 +5,14 @@
 // runHash() below. Adding a hasher: create the file, add one import + one map entry.
 
 import type { HashTool } from './types';
+import type {
+  DetectResult,
+  MetaItem,
+  TransformInfo,
+  TransformProvider,
+  TransformResult,
+  ValidationDetail,
+} from '../transform/types';
 import { md5 } from './md5';
 import { sha1, sha256, sha512 } from './sha';
 
@@ -37,3 +45,59 @@ export async function runHash(id: string, text: string): Promise<string> {
     return '';
   }
 }
+
+// ── Generic transform surface (one-way) ──────────────────────────────────────
+// Hashing has no decode, so it plugs into the same ConverterWidget as a one-way,
+// async transform. Each verb resolves through the same never-throw registry contract.
+
+const UTF8 = (s: string): number => new TextEncoder().encode(s).length;
+
+/** Static, build-time-renderable description of a hasher (one-way, grouped output). */
+export function hashInfo(id: string): TransformInfo {
+  const h = HASHERS[id];
+  return {
+    displayName: h?.displayName ?? h?.id ?? id,
+    reversible: false,
+    modes: { forward: 'hash', forwardLabel: 'Hash' },
+    outputLabel: 'Digest (hex)',
+    grouped: true,
+    groupSize: 8,
+    placeholder: 'Type or paste text to hash.',
+    insight: h?.insight,
+    technical: h?.technical,
+    sample: h?.sample,
+  };
+}
+
+/** Live metadata rows derived from the digest size. */
+export function hashMeta(id: string, input: string, output: string): MetaItem[] {
+  const h = HASHERS[id];
+  const bits = h?.bits ?? output.length * 4;
+  return [
+    { label: 'Algorithm', value: h?.displayName ?? id },
+    { label: 'Output', value: `${bits} bits` },
+    { label: 'Hex characters', value: String(output.length) },
+    { label: 'Input bytes', value: String(UTF8(input)) },
+  ];
+}
+
+/** Hashing always accepts its input; emptiness is handled by the widget. */
+export function validateHash(_id: string, _text: string): ValidationDetail {
+  return { ok: true, severity: 'info' };
+}
+
+/** The hashing provider, consumed by the runtime's ToyTools.transform facade.
+ *  `run` is async (SHA via crypto.subtle); an empty digest is surfaced as an error. */
+export const hashingProvider: TransformProvider = {
+  run: (id, _mode, input): Promise<TransformResult> =>
+    runHash(id, input).then((hex) =>
+      hex
+        ? { ok: true, output: hex }
+        : { ok: false, output: '', error: 'Unable to hash — a secure context is required for SHA.' },
+    ),
+  // Hashing is one-way; detection is unused but kept contract-complete.
+  detect: (): DetectResult => ({ mode: 'hash', confidence: 'low' }),
+  validate: (id, _mode, input) => validateHash(id, input),
+  meta: (id, input, output) => hashMeta(id, input, output),
+  info: hashInfo,
+};

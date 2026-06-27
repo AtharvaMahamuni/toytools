@@ -174,5 +174,16 @@ export function md5hex(input: string): string {
 export const md5: HashTool = {
   id: 'md5',
   family: 'cryptographic',
+  displayName: 'MD5',
+  bits: 128,
+  sample: 'The quick brown fox jumps over the lazy dog',
+  insight:
+    'MD5 produces a 128-bit checksum. It is fast but cryptographically broken — collisions are practical — so use it only for non-security checks like deduplication or cache keys, never passwords or signatures.',
+  technical: [
+    { term: 'Standard', detail: 'RFC 1321' },
+    { term: 'Output', detail: '128 bits — 32 hexadecimal characters' },
+    { term: 'Direction', detail: 'One-way: a digest cannot be reversed to the input' },
+    { term: 'Security', detail: 'Broken — collisions are practical; not for security' },
+  ],
   hash: md5hex,
 };

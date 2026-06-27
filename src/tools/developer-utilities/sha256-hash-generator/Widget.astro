@@ -1,6 +1,6 @@
 ---
-import HashWidget from '@tools/_shared/HashWidget.astro';
+import ConverterWidget from '@tools/_shared/ConverterWidget.astro';
 import { config } from './config';
 ---
 
-<HashWidget slug={config.slug} hashId={config.processorId!} config={config} />
+<ConverterWidget slug={config.slug} processorId={config.processorId!} config={config} />

@@ -73,11 +73,19 @@ export interface TransformInfo {
   /** Opt-in per-byte visualization (the binary converter activates this; dormant
    *  for everything else). */
   byteView?: boolean;
+  /** Header label for the output pane (e.g. "Digest (hex)"). Defaults to "Output". */
+  outputLabel?: string;
+  /** Display the output in fixed-width groups (e.g. hashes shown as "abcd ef12 …")
+   *  while copy still yields the raw value. */
+  grouped?: boolean;
+  /** Group size in characters when `grouped` (default 4). */
+  groupSize?: number;
 }
 
-/** A provider implements the verbs for one `kind`. The runtime facade dispatches to it. */
+/** A provider implements the verbs for one `kind`. The runtime facade dispatches to it.
+ *  `run` may be async (e.g. hashing via crypto.subtle) — callers await the result. */
 export interface TransformProvider {
-  run(id: string, mode: string, input: string): TransformResult;
+  run(id: string, mode: string, input: string): TransformResult | Promise<TransformResult>;
   detect(id: string, input: string): DetectResult;
   validate(id: string, mode: string, input: string): ValidationDetail;
   meta(id: string, input: string, output: string, mode: string): MetaItem[];

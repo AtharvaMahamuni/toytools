@@ -80,10 +80,30 @@ test.describe('hashing tools (live, async)', () => {
       const t = new DevTool(page, slug);
       await t.goto();
       await t.fill('abc');
-      // No Generate button — the digest settles asynchronously on input.
-      await expect(t.output).toHaveText(digest);
+      // No Generate button — the digest settles asynchronously on input. The output is
+      // shown grouped for readability, so the raw digest lives on data-copy-value.
+      await expect(t.output).toHaveAttribute('data-copy-value', digest);
     });
   }
+
+  test('sha256: grouped display preserves the raw digest, and example loads', async ({ page }) => {
+    const t = new DevTool(page, 'sha256-hash-generator');
+    await t.goto();
+    await t.fill('abc');
+    const digest = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
+    // Visible text is grouped (contains spaces) but strips back to the raw digest.
+    await expect(t.output).toHaveAttribute('data-copy-value', digest);
+    const shown = (await t.output.textContent()) ?? '';
+    expect(shown).toContain(' ');
+    expect(shown.replace(/\s+/g, '')).toBe(digest);
+    // Load example fills the sample and recomputes a fresh digest.
+    await t.action('Load example').click();
+    await expect(t.input).toHaveValue('The quick brown fox jumps over the lazy dog');
+    await expect(t.output).toHaveAttribute(
+      'data-copy-value',
+      'd7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592',
+    );
+  });
 });
 
 test.describe('structured-data tools', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { runHash, HASHERS } from './registry';
+import { runHash, HASHERS, hashInfo, hashMeta, hashingProvider } from './registry';
 import { md5hex } from './md5';
 
 // Published reference digests.
@@ -68,5 +68,52 @@ describe('runHash', () => {
     } finally {
       delete HASHERS['boom'];
     }
+  });
+});
+
+// --- Generic transform surface (one-way) ---
+
+describe('hashInfo', () => {
+  it('describes a one-way, grouped transform', () => {
+    const info = hashInfo('sha256');
+    expect(info.displayName).toBe('SHA-256');
+    expect(info.reversible).toBe(false);
+    expect(info.grouped).toBe(true);
+    expect(info.outputLabel).toBe('Digest (hex)');
+    expect(info.modes.forward).toBe('hash');
+    expect(info.sample).toBeTruthy();
+    expect(info.technical && info.technical.length).toBeGreaterThan(0);
+  });
+  it('falls back gracefully for an unknown id', () => {
+    const info = hashInfo('nope');
+    expect(info.displayName).toBe('nope');
+    expect(info.reversible).toBe(false);
+  });
+});
+
+describe('hashMeta', () => {
+  it('derives algorithm, bit size and lengths', () => {
+    const digest = 'a'.repeat(64);
+    const rows = hashMeta('sha256', 'abc', digest);
+    const byLabel = Object.fromEntries(rows.map(r => [r.label, r.value]));
+    expect(byLabel['Algorithm']).toBe('SHA-256');
+    expect(byLabel['Output']).toBe('256 bits');
+    expect(byLabel['Hex characters']).toBe('64');
+    expect(byLabel['Input bytes']).toBe('3');
+  });
+});
+
+describe('hashingProvider', () => {
+  it('runs as an async transform returning a TransformResult', async () => {
+    const res = await hashingProvider.run('md5', 'hash', 'abc');
+    expect(res).toEqual({ ok: true, output: '900150983cd24fb0d6963f7d28e17f72' });
+  });
+  it('surfaces an unknown hasher as an error result (never rejects)', async () => {
+    const res = await hashingProvider.run('nope', 'hash', 'abc');
+    expect(res.ok).toBe(false);
+    expect(res.error).toBeTruthy();
+  });
+  it('validate accepts any input', () => {
+    expect(hashingProvider.validate('md5', 'hash', 'anything').ok).toBe(true);
   });
 });

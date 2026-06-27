@@ -1,16 +1,18 @@
 ---
-// Generic reversible-converter widget — the shared foundation for every encode/decode
-// tool (base64, url, html-entity, hex, and future kinds: rot13, base32, …). It knows
-// nothing about a specific transform: it speaks the engine-agnostic `ToyTools.transform`
-// facade keyed by `kind` (derived from config.engine) + a processorId. All interaction
-// logic lives here ONCE, organized into small controllers (status / metadata / history /
-// core), so no tool duplicates JavaScript. Per-tool Widget.astro files are 3-line wrappers.
+// Generic transformation widget — the shared foundation for every encode/decode AND
+// one-way transform tool (base64, url, html-entity, hex; md5/sha1/sha256/sha512; and
+// future kinds: rot13, base32, …). It knows nothing about a specific transform: it speaks
+// the engine-agnostic `ToyTools.transform` facade keyed by `kind` (from config.engine) +
+// a processorId. All interaction logic lives here ONCE, in small controllers (status /
+// metadata / history / core). Per-tool Widget.astro files are 3-line wrappers.
 //
-// Static, JS-free parts (insight, technical details, placeholder, example) are rendered at
-// build time from the engine registry; dynamic parts (status, validation, metadata, two-way
-// sync, detection, history) are filled live by the inline script.
+// Two shapes, one widget:
+//   • reversible (info.reversible)  → two editable panes, mode select, auto-detect, swap
+//   • one-way    (!info.reversible) → single input, read-only grouped output (e.g. hashing)
+// `run` may be sync (encoding) or async (hashing via crypto.subtle); the script awaits it
+// with a race guard. Static parts (insight, technical) render at build time (JS-free).
 //
-// If a new encoder family ever requires editing this file, the architecture has failed.
+// If a new transform family ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
@@ -23,6 +25,7 @@ import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
 import BinaryByteViewer from '@tools/_shared/converter/BinaryByteViewer.astro';
 import { encodingInfo } from '@lib/engines/encoding/registry';
+import { hashInfo } from '@lib/engines/hashing/registry';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -33,10 +36,11 @@ interface Props {
 
 const { slug, processorId, config } = Astro.props;
 
-// `kind` selects the transform provider. Build-time static info currently comes from the
-// encoding registry (the only kind in this pilot); future kinds add a kind→info map here.
+// `kind` selects the transform provider. Build-time static info comes from the matching
+// registry; new kinds add a branch here (and a runtime provider) without touching markup.
 const kind = config.engine ?? 'encoding';
-const info = encodingInfo(processorId);
+const info = kind === 'hashing' ? hashInfo(processorId) : encodingInfo(processorId);
+const reversible = info.reversible !== false;
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
@@ -57,10 +61,12 @@ const byteId = `${slug}-byteview`;
     data-pid={processorId}
     data-slug={slug}
   >
-    <select slot="header-end" id={modeId} class="io-mode" aria-label="Conversion direction">
-      <option value="encode">{info.modes.forwardLabel ?? 'Encode →'}</option>
-      <option value="decode">{info.modes.inverseLabel ?? 'Decode ←'}</option>
-    </select>
+    {reversible && (
+      <select slot="header-end" id={modeId} class="io-mode" aria-label="Conversion direction">
+        <option value="encode">{info.modes.forwardLabel ?? 'Encode →'}</option>
+        <option value="decode">{info.modes.inverseLabel ?? 'Decode ←'}</option>
+      </select>
+    )}
     <textarea
       id={inputId}
       aria-label="Text to convert"
@@ -71,17 +77,24 @@ const byteId = `${slug}-byteview`;
       autocapitalize="off"></textarea>
   </IoPanel>
 
-  <IoPanel slot="output" label="Output" labelFor={outputId} copyTargetId={outputId}>
-    <textarea
-      id={outputId}
-      aria-label="Converted result (editable)"
-      placeholder="Result appears here. You can edit this side too."
-      spellcheck="false"
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      data-empty></textarea>
-  </IoPanel>
+  {reversible ? (
+    <IoPanel slot="output" label="Output" labelFor={outputId} copyTargetId={outputId}>
+      <textarea
+        id={outputId}
+        aria-label="Converted result (editable)"
+        placeholder="Result appears here. You can edit this side too."
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        data-empty></textarea>
+    </IoPanel>
+  ) : (
+    <IoPanel slot="output" label={info.outputLabel ?? 'Output'} copyTargetId={outputId}>
+      <output id={outputId} aria-live="polite" aria-label={info.outputLabel ?? 'Output'} data-empty
+        >Result appears here.</output>
+    </IoPanel>
+  )}
 </ToolSplit>
 
 <StatusIndicator id={statusId} />
@@ -89,10 +102,12 @@ const byteId = `${slug}-byteview`;
 <ToolActions
   pasteTarget={inputId}
   clearTarget={inputId}
-  downloadTarget={outputId}
-  downloadFilename={`${slug}-output.txt`}
+  downloadTarget={reversible ? outputId : undefined}
+  downloadFilename={reversible ? `${slug}-output.txt` : undefined}
 >
-  <button type="button" class="action-btn" data-conv-swap aria-label="Swap input and output">Swap</button>
+  {reversible && (
+    <button type="button" class="action-btn" data-conv-swap aria-label="Swap input and output">Swap</button>
+  )}
   <ExampleLoader hasSample={!!info.sample} />
 </ToolActions>
 
@@ -114,21 +129,17 @@ const byteId = `${slug}-byteview`;
     var input = document.getElementById(slug + '-input');
     var output = document.getElementById(slug + '-output');
     var modeEl = document.getElementById(slug + '-mode');
-    if (!input || !output || !modeEl) return;
+    if (!input || !output) return;
 
+    var reversible = !!modeEl;           // one-way tools render no mode select
+    var outIsField = output.tagName === 'TEXTAREA';
     var TT = window.ToyTools || {};
     function tx() { return TT.transform || null; }
 
     // ── Status controller ────────────────────────────────────────────────
     var status = (function (el) {
-      function set(state, text) { if (el) { el.setAttribute('data-ok', state); el.textContent = text; } }
-      return {
-        clear: function () { set('', ''); },
-        detected: function (label) { set('', 'Detected: ' + label); },
-        valid: function (label) { set('true', '✓ Valid ' + label); },
-        warn: function (msg) { set('warn', '⚠ ' + msg); },
-        error: function (msg) { set('false', '✗ ' + msg); }
-      };
+      function show(state, text) { if (el) { el.setAttribute('data-ok', state); el.textContent = text; } }
+      return { show: show, clear: function () { show('', ''); } };
     })(document.getElementById(slug + '-status'));
 
     // ── Metadata controller ──────────────────────────────────────────────
@@ -180,98 +191,126 @@ const byteId = `${slug}-byteview`;
       return { render: render, push: push };
     })(document.getElementById(slug + '-history'));
 
-    // ── Output writer (drives the CopyButton data-empty / data-error protocol) ──
+    // ── Output writer (grouped display + raw copy via data-copy-value) ─────
+    var grouped = false, groupSize = 8;
+    function groupHex(s, n) { return s.replace(new RegExp('(.{' + (n || 8) + '})', 'g'), '$1 ').trim(); }
+    function writeOut(text) { if (outIsField) output.value = text; else output.textContent = text; }
     function applyOutput(res) {
       if (!res.ok) {
-        output.value = '';
+        writeOut('');
         output.setAttribute('data-empty', '');
         output.setAttribute('data-error', res.error || 'Could not convert.');
-      } else {
-        output.value = res.output;
-        if (res.output) output.removeAttribute('data-empty'); else output.setAttribute('data-empty', '');
-        output.removeAttribute('data-error');
+        output.removeAttribute('data-copy-value');
+        return;
       }
+      output.removeAttribute('data-error');
+      var raw = res.output;
+      if (!raw) { writeOut(''); output.setAttribute('data-empty', ''); output.removeAttribute('data-copy-value'); return; }
+      output.removeAttribute('data-empty');
+      if (grouped) { writeOut(groupHex(raw, groupSize)); output.setAttribute('data-copy-value', raw); }
+      else { writeOut(raw); output.removeAttribute('data-copy-value'); }
     }
     function resetDownstream() {
-      output.value = '';
+      writeOut('');
       output.setAttribute('data-empty', '');
       output.removeAttribute('data-error');
+      output.removeAttribute('data-copy-value');
       status.clear();
       meta.clear();
     }
 
-    // ── Core controller (two-way sync · auto-detect · loop prevention) ─────
+    // ── Core controller (sync or async · two-way · loop prevention) ────────
     var override = false;   // user manually chose a direction (suppresses auto-detect)
     var syncing = false;    // guards programmatic value writes against feedback loops
-    var info = { displayName: pid, modes: { forward: 'encode', inverse: 'decode' } };
+    var seq = 0;            // race guard for async (hashing) results
+    var info = { displayName: pid, reversible: reversible, modes: { forward: reversible ? 'encode' : 'hash', inverse: 'decode' } };
 
     function inverse(m) { return m === 'encode' ? 'decode' : 'encode'; }
 
     function renderStatus(v, res, detect) {
       if (v && v.ok === false) {
-        if ((v.severity || 'error') === 'warning') status.warn(v.message || 'Check the input.');
-        else status.error(v.message || (res && res.error) || 'Invalid input.');
+        if ((v.severity || 'error') === 'warning') status.show('warn', '⚠ ' + (v.message || 'Check the input.'));
+        else status.show('false', '✗ ' + (v.message || (res && res.error) || 'Invalid input.'));
         return;
       }
-      if (res && !res.ok) { status.error(res.error || 'Could not convert.'); return; }
-      if (detect && !override && detect.confidence !== 'low' && detect.label) { status.detected(detect.label); return; }
-      status.valid(info.displayName);
+      if (res && !res.ok) { status.show('false', '✗ ' + (res.error || 'Could not convert.')); return; }
+      if (reversible) {
+        if (detect && !override && detect.confidence !== 'low' && detect.label) { status.show('', 'Detected: ' + detect.label); return; }
+        status.show('true', '✓ Valid ' + info.displayName);
+      } else {
+        status.show('true', '✓ ' + info.displayName + ' digest');
+      }
     }
 
-    function fromInput() {
+    function finish(res, v, detect, t, mode) {
+      var T = tx();
+      syncing = true; applyOutput(res); syncing = false;
+      renderStatus(v, res, detect);
+      meta.render(res.ok && T ? T.meta(kind, pid, t, res.output, mode) : []);
+      if (res.ok && res.output) history.push(t, res.output);
+    }
+
+    function execForward() {
       if (syncing) return;
       var t = input.value;
       if (!t) { override = false; resetDownstream(); return; }
       var T = tx(); if (!T) return;
       var detect = null;
-      if (!override) {
+      if (reversible && !override) {
         detect = T.detect(kind, pid, t);
         if (detect && (detect.mode === 'encode' || detect.mode === 'decode')) modeEl.value = detect.mode;
       }
-      var mode = modeEl.value;
+      var mode = reversible ? modeEl.value : info.modes.forward;
       var v = T.validate(kind, pid, mode, t);
-      var res = T.run(kind, pid, mode, t);
-      syncing = true; applyOutput(res); syncing = false;
-      renderStatus(v, res, detect);
-      meta.render(res.ok ? T.meta(kind, pid, t, res.output, mode) : []);
-      if (res.ok && res.output) history.push(t, res.output);
+      var token = ++seq;
+      var r = T.run(kind, pid, mode, t);
+      if (r && typeof r.then === 'function') {
+        r.then(function (res) { if (token === seq) finish(res, v, detect, t, mode); })
+         .catch(function () { if (token === seq) status.show('false', '✗ Unable to process input.'); });
+      } else {
+        finish(r, v, detect, t, mode);
+      }
     }
 
+    // Two-way: editing the output runs the reverse direction (reversible only).
     function fromOutput() {
       if (syncing) return;
       var t = output.value;
       var T = tx(); if (!T) return;
       if (!t) { status.clear(); meta.clear(); return; }
-      var mode = inverse(modeEl.value);   // editing the output runs the reverse direction
+      var mode = inverse(modeEl.value);
       var v = T.validate(kind, pid, mode, t);
       var res = T.run(kind, pid, mode, t);
-      if (res.ok) { syncing = true; input.value = res.output; syncing = false; }
+      if (res && res.ok) { syncing = true; input.value = res.output; syncing = false; }
       renderStatus(v, res, null);
-      meta.render(res.ok ? T.meta(kind, pid, t, res.output, mode) : []);
-      if (res.ok && res.output) history.push(t, res.output);
+      meta.render(res && res.ok ? T.meta(kind, pid, t, res.output, mode) : []);
+      if (res && res.ok && res.output) history.push(t, res.output);
     }
 
     function persist() {
-      if (TT.state) TT.state.save(slug, { input: input.value, mode: modeEl.value, override: override });
+      if (!TT.state) return;
+      var data = { input: input.value };
+      if (reversible) { data.mode = modeEl.value; data.override = override; }
+      TT.state.save(slug, data);
     }
-    function restore(text) {
-      input.value = text; override = false; fromInput(); persist(); input.focus();
-    }
+    function restore(text) { input.value = text; override = false; execForward(); persist(); input.focus(); }
 
     // ── Wiring ─────────────────────────────────────────────────────────────
-    input.addEventListener('input', function () { fromInput(); persist(); });
-    output.addEventListener('input', function () { override = true; fromOutput(); persist(); });
-    modeEl.addEventListener('change', function () { override = true; fromInput(); persist(); });
+    input.addEventListener('input', function () { execForward(); persist(); });
 
-    var swapBtn = document.querySelector('[data-conv-swap]');
-    if (swapBtn) swapBtn.addEventListener('click', function () {
-      if (output.hasAttribute('data-empty')) return;
-      input.value = output.value;
-      modeEl.value = inverse(modeEl.value);
-      override = true;
-      fromInput();
-      persist();
-    });
+    if (reversible) {
+      output.addEventListener('input', function () { override = true; fromOutput(); persist(); });
+      modeEl.addEventListener('change', function () { override = true; execForward(); persist(); });
+      var swapBtn = document.querySelector('[data-conv-swap]');
+      if (swapBtn) swapBtn.addEventListener('click', function () {
+        if (output.hasAttribute('data-empty')) return;
+        input.value = output.value;
+        modeEl.value = inverse(modeEl.value);
+        override = true;
+        execForward();
+        persist();
+      });
+    }
 
     var exBtn = document.querySelector('[data-conv-example]');
     if (exBtn) exBtn.addEventListener('click', function () {
@@ -280,7 +319,7 @@ const byteId = `${slug}-byteview`;
       if (!sample) return;
       input.value = sample;
       override = false;
-      fromInput();
+      execForward();
       persist();
       input.focus();
     });
@@ -289,19 +328,21 @@ const byteId = `${slug}-byteview`;
     function boot() {
       var T = tx();
       if (T && T.info) info = T.info(kind, pid);
+      grouped = !!info.grouped;
+      groupSize = info.groupSize || 8;
       try {
         var saved = TT.state && TT.state.load(slug);
         if (saved && typeof saved.input === 'string') {
           input.value = saved.input;
-          if (saved.mode === 'encode' || saved.mode === 'decode') modeEl.value = saved.mode;
-          override = !!saved.override;
+          if (reversible && (saved.mode === 'encode' || saved.mode === 'decode')) modeEl.value = saved.mode;
+          if (reversible) override = !!saved.override;
         } else if (slug === 'base64-encoder-decoder' && TT.storage) {
           var legacy = TT.storage.get('toytools.base64.input');
           if (legacy) input.value = legacy;
         }
       } catch (_) {}
       history.render();
-      fromInput();
+      execForward();
     }
 
     if (TT.onReady) TT.onReady(boot); else boot();

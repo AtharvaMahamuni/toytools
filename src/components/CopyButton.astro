@@ -65,7 +65,9 @@ const { targetId } = Astro.props;
       var targetId = btn.getAttribute('data-copy-target');
       var el = document.getElementById(targetId);
       if (!el) return;
-      var text = (el.value || el.textContent || '').trim();
+      // data-copy-value lets an element show a formatted value (e.g. grouped hex)
+      // while copy still yields the raw value.
+      var text = (el.getAttribute('data-copy-value') || el.value || el.textContent || '').trim();
       if (!text || el.hasAttribute('data-empty')) {
         window.ToyTools.toast('Nothing to copy!');
         return;
