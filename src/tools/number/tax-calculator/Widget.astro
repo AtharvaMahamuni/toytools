@@ -1,0 +1,172 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Amount & Rate" variant="prose" data-tool="tax-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="tx-mode">Calculate</label>
+      <select id="tx-mode" class="widget-select">
+        <option value="add">Add tax to a price</option>
+        <option value="remove">Remove tax from a total</option>
+      </select>
+
+      <label class="widget-label" for="tx-amount" id="tx-amount-label">Price (before tax)</label>
+      <input id="tx-amount" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 100.00" />
+
+      <label class="widget-label" for="tx-rate">Tax Rate (%)</label>
+      <input id="tx-rate" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 8.25" />
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="tm-hero">
+      <span class="hero-value" id="tx-hero">$0.00</span>
+      <span class="hero-label" id="tx-hero-label">Total With Tax</span>
+      <p class="empty-hint" id="tx-hint">Enter a price and tax rate to calculate.</p>
+    </div>
+    <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Tax Amount</dt>
+        <dd class="tm-stat-value" id="tx-tax">$0.00</dd>
+      </div>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label" id="tx-base-label">Price Before Tax</dt>
+        <dd class="tm-stat-value" id="tx-base">$0.00</dd>
+      </div>
+    </dl>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="tx-copy" data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="tx-clear" data-label="Clear" type="button">Clear</button>
+</div>
+
+<CategoryDiscovery toolSlug="tax-calculator" />
+
+<script is:inline>
+  (function () {
+    var modeEl   = document.getElementById('tx-mode');
+    var amountEl = document.getElementById('tx-amount');
+    var amountLbl= document.getElementById('tx-amount-label');
+    var rateEl   = document.getElementById('tx-rate');
+    var heroEl   = document.getElementById('tx-hero');
+    var heroLbl  = document.getElementById('tx-hero-label');
+    var hintEl   = document.getElementById('tx-hint');
+    var secondary= document.querySelector('.tm-secondary');
+    var taxEl    = document.getElementById('tx-tax');
+    var baseEl   = document.getElementById('tx-base');
+    var baseLbl  = document.getElementById('tx-base-label');
+    var copyBtn  = document.getElementById('tx-copy');
+    var clearBtn = document.getElementById('tx-clear');
+    if (!modeEl || !amountEl || !rateEl || !heroEl) return;
+
+    var TT = window.ToyTools;
+    var lastResult = '';
+
+    function money(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
+
+    function applyMode() {
+      if (modeEl.value === 'remove') {
+        amountLbl.textContent = 'Total (tax included)';
+        amountEl.setAttribute('placeholder', 'Example: 108.25');
+        heroLbl.textContent = 'Price Before Tax';
+        if (baseLbl) baseLbl.textContent = 'Total With Tax';
+      } else {
+        amountLbl.textContent = 'Price (before tax)';
+        amountEl.setAttribute('placeholder', 'Example: 100.00');
+        heroLbl.textContent = 'Total With Tax';
+        if (baseLbl) baseLbl.textContent = 'Price Before Tax';
+      }
+    }
+
+    function showEmpty(message) {
+      lastResult = '';
+      heroEl.textContent = '$0.00';
+      if (hintEl) { hintEl.textContent = message || 'Enter a price and tax rate to calculate.'; hintEl.hidden = false; }
+      if (secondary) secondary.hidden = true;
+    }
+
+    function render(total, tax, base) {
+      var reverse = modeEl.value === 'remove';
+      lastResult = money(reverse ? base : total);
+      heroEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (taxEl) taxEl.textContent = money(tax);
+      if (baseEl) baseEl.textContent = money(reverse ? total : base);
+    }
+
+    function calc() {
+      var amountRaw = amountEl.value, rateRaw = rateEl.value;
+      if (amountRaw === '' && rateRaw === '') { showEmpty(); return; }
+      if (amountRaw === '' || rateRaw === '') { showEmpty('Enter both a price and a tax rate.'); return; }
+      var amount = Number(amountRaw), rate = Number(rateRaw);
+      if (!Number.isFinite(amount) || amount < 0) { showEmpty('Enter a valid amount.'); return; }
+      if (!Number.isFinite(rate) || rate < 0) { showEmpty('Enter a valid tax rate.'); return; }
+
+      if (modeEl.value === 'remove') {
+        var base = amount / (1 + rate / 100); // amount is the tax-inclusive total
+        render(amount, amount - base, base);
+      } else {
+        var tax = amount * (rate / 100);
+        render(amount + tax, tax, amount);
+      }
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('tax-calculator', { mode: modeEl.value, amount: amountEl.value, rate: rateEl.value });
+    }
+
+    try {
+      var saved = TT && TT.state && TT.state.load('tax-calculator');
+      if (saved) {
+        if (saved.mode   != null) modeEl.value   = saved.mode;
+        if (saved.amount != null) amountEl.value = saved.amount;
+        if (saved.rate   != null) rateEl.value   = saved.rate;
+      }
+    } catch (_) {}
+
+    applyMode();
+    modeEl.addEventListener('change', function () { applyMode(); calc(); persist(); });
+    amountEl.addEventListener('input', function () { calc(); persist(); });
+    rateEl.addEventListener('input', function () { calc(); persist(); });
+
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(lastResult);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+    });
+
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      resetClear();
+      amountEl.value = ''; rateEl.value = '';
+      calc(); persist();
+      amountEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#tx-clear')) resetClear();
+    });
+
+    calc();
+  })();
+</script>

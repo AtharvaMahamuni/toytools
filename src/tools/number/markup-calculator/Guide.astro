@@ -1,0 +1,75 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Markup is how much you add to an item's cost to set its price, written as a percentage of the
+      cost. Cost $60, price $100: the $40 of profit is a 66.7% markup. The formula is
+      <code>markup% = profit ÷ cost × 100</code>.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Markup Calculator →</a>
+  </section>
+
+  <section id="markup-vs-margin">
+    <h2>Markup Is Not Margin <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This is the mistake that costs businesses money. Markup measures profit against
+      <em>cost</em>; margin measures the same profit against the <em>selling price</em>. They describe
+      the same sale with different denominators, so they are never the same number.
+    </p>
+    <p>
+      Sell that $60 item for $100 and you have a 66.7% markup but only a 40% margin. Mixing them up
+      when pricing means you either leave money on the table or undercharge and miss your target
+      profit.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Same profit, different base">
+      <p>Markup = profit ÷ cost. Margin = profit ÷ price. Markup is always the larger percentage.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="price-from-markup">
+    <h2>Pricing From A Target Markup <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Cost-plus pricing works the other way: start from cost and apply the markup you want. The
+      formula is <code>price = cost × (1 + markup ÷ 100)</code>. A $60 cost at a 50% markup becomes
+      $90. Switch the calculator to "Selling price from target markup" to do this directly, and it
+      also shows the margin that price produces.
+    </p>
+  </section>
+
+  <section id="watch-out">
+    <h2>A Common Trap <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      "Double the price" sounds like a 100% return, and it is — as a markup. But doubling the price is
+      only a 50% margin, because half of the selling price is still cost. If a report or supplier
+      quotes a percentage, always confirm whether it is markup or margin before you rely on it.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Don't enter a margin as a markup">
+      <p>Typing a margin target into a markup field overprices the item. Use the margin calculator if you are pricing by margin.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

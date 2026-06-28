@@ -1,4 +1,6 @@
 import type { FAQItem } from './types';
+import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
+import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
@@ -57,6 +59,8 @@ import { items as findReplaceFaqs }           from '@tools/text/find-replace/faq
 import { items as textCompareFaqs }           from '@tools/text/text-compare/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'tax-calculator': taxCalculatorFaqs,
+  'markup-calculator': markupCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'binary-text-converter': binaryTextConverterFaqs,

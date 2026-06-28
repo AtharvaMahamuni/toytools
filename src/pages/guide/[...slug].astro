@@ -3,6 +3,8 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
+import TaxCalculatorGuide from '../../tools/number/tax-calculator/Guide.astro';
+import MarkupCalculatorGuide from '../../tools/number/markup-calculator/Guide.astro';
 import PunycodeConverterGuide from '../../tools/developer-utilities/punycode-converter/Guide.astro';
 import Crc32HashGeneratorGuide from '../../tools/developer-utilities/crc32-hash-generator/Guide.astro';
 import BinaryTextConverterGuide from '../../tools/developer-utilities/binary-text-converter/Guide.astro';
@@ -65,6 +67,8 @@ import TextCompareGuide           from '../../tools/text/text-compare/Guide.astr
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
+  'tax-calculator': TaxCalculatorGuide,
+  'markup-calculator': MarkupCalculatorGuide,
   'punycode-converter': PunycodeConverterGuide,
   'crc32-hash-generator': Crc32HashGeneratorGuide,
   'binary-text-converter': BinaryTextConverterGuide,
