@@ -25,6 +25,8 @@ import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { KNOWLEDGE } from '../src/lib/knowledge/registry';
 import { faqsByToolSlug } from '../src/data/faq-registry';
 import { registeredGuideSlugs } from '../src/data/guide-registry';
+import { knownPatterns } from '../src/data/engines';
+import { sectionsByPattern } from '../src/data/category-sections';
 
 const strict = process.argv.includes('--strict');
 const errors: string[] = [];
@@ -113,6 +115,14 @@ for (const [engine, registry] of Object.entries(engineRegistries)) {
 for (const c of categories) {
   if (!tools.some(t => t.categorySlug === c.slug)) {
     err(`Empty category: "${c.slug}" has no tools (src/data/categories.ts)`);
+  }
+}
+
+// ---- 5b. Unmapped patterns: a pattern with no category-sections row drops its tools into the
+// silent "Other" bucket on the category page. Every declared pattern must have a section. ------
+for (const pattern of knownPatterns) {
+  if (!sectionsByPattern[pattern]) {
+    err(`Pattern "${pattern}" has no section in src/data/category-sections.ts — its tools fall into the unnamed "Other" bucket`);
   }
 }
 

@@ -13,6 +13,7 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'text-metric':          { title: 'Counting & Analysis',    order: 1 },
   'text-transform':       { title: 'Case Conversion',        order: 2 },
   'text-cleanup':         { title: 'Cleanup',                order: 3 },
+  'text-interactive':     { title: 'Find & Compare',         order: 4 },
   'encode-decode':        { title: 'Encode & Decode',        order: 1 },
   'hash':                 { title: 'Hashing',                order: 2 },
   'structured-transform': { title: 'JSON & Structured Data', order: 3 },

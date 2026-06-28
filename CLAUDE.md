@@ -23,7 +23,8 @@ ASTRO_SITE=https://toytoolsapp.com npm run build
 
 ```sh
 npm run validate:architecture  # architectural lint pass (orphan files, dead registry entries,
-                               # guide-route drift, self-referential knowledge, empty categories)
+                               # guide-route drift, self-referential knowledge, empty categories,
+                               # unmapped patterns that fall into the "Other" section bucket)
 ```
 
 `validate-architecture.ts` is the *reverse* of `validate-registry.ts`: that one checks declared
