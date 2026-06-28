@@ -17,9 +17,9 @@ One contract. Every agent that adds a tool or engine MUST follow it in order.
 
 4. **Engine selection is permanent.** Do not change a tool's `engine` value after the tool ships. Analytics, the knowledge graph, tool groups, and runtime APIs may all depend on engine identity. If a different engine is genuinely needed, create a new tool.
 
-5. **`processorId` in `config.ts` must exactly match the `id` field** in the engine registry entry (e.g., `PROCESSORS`, `ENCODERS`, `HASHERS`, `STRUCTURED_TOOLS`). A mismatch causes a runtime no-op — the build does NOT catch it.
+5. **`processorId` in `config.ts` must exactly match the `id` field** in the engine registry entry (e.g., `PROCESSORS`, `ENCODERS`, `HASHERS`, `STRUCTURED_TOOLS`). `validate-registry` now fails the build on an unknown id **or** a collision (two tools claiming the same id). The one residual silent case: a typo that happens to match a *different real* processor — so still double-check the id resolves to the transform you intend.
 
-6. **`npm run build` is the primary gate.** It runs Astro render + TypeScript + `validate-registry.ts` in one pass. Run it before declaring done. Follow with `npm run health` for sitemap/manifest/knowledge coverage.
+6. **`npm run build` is the primary gate.** It runs `validate-registry.ts` + `validate-knowledge.ts` + `validate-architecture.ts` (orphan/drift detection), then Astro render + TypeScript in one pass. Run it before declaring done. Then **`npm run test:e2e`** (desktop + Pixel 5) — the build does NOT catch widget JS errors; e2e does, and it is a PR gate. Finish with `npm run health` for sitemap/manifest/knowledge coverage.
 
 ## Decision tree
 

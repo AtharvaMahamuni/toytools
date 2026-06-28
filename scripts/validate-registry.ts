@@ -30,6 +30,10 @@ const segmentOf = (categorySlug: string) =>
 
 const slugsSeen = new Set<string>();
 const urlsSeen = new Set<string>();
+// engine-scoped processorId → owning tool slug. Two tools resolving to the same processor is a
+// silent runtime bug: engine registries never throw, so a typo that happens to match another
+// tool's id ships the wrong transform with no build failure. Catch the collision here instead.
+const processorIdOwner = new Map<string, string>();
 const errors: string[] = [];
 
 for (const tool of tools) {
@@ -109,6 +113,16 @@ for (const tool of tools) {
       errors.push(`Tool "${m.slug}" uses engine "${m.engine}" but is missing processorId`);
     } else if (!registry[tool.processorId]) {
       errors.push(`Tool "${m.slug}" references unknown processorId "${tool.processorId}" for engine "${m.engine}"`);
+    } else {
+      // Collision: another tool already claims this engine+processorId. A registered id resolves,
+      // so the build would otherwise pass while one tool silently runs the other's transform.
+      const key = `${m.engine}::${tool.processorId}`;
+      const owner = processorIdOwner.get(key);
+      if (owner) {
+        errors.push(`Tool "${m.slug}" reuses processorId "${tool.processorId}" (engine "${m.engine}") already claimed by "${owner}" — each tool must map to a distinct processor`);
+      } else {
+        processorIdOwner.set(key, m.slug);
+      }
     }
   }
 }
