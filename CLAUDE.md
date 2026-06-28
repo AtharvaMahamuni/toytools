@@ -64,6 +64,16 @@ npm run version:show     # print the current APP_VERSION
 accessibility). It is **not** part of `npm run build`; it runs on its own CI workflow. Treat it
 like `seo-engine/`: a tooling sidecar, not part of the site bundle.
 
+## Indexing coverage
+
+`npm run check:indexing` reports which live URLs Google has actually indexed (indexed /
+crawled-not-indexed / discovered / excluded-noindex), via the Google Search Console URL Inspection
+API — no Search Console UI. It reads the same manifest-derived URL list as the sitemap/IndexNow
+(`dist/indexnow-urls.json`, so run `npm run build` first) and writes reports to
+`quality-guardian/reports/indexing/`. Use `-- --dry-run` to validate without credentials. The live
+path needs `GSC_SITE_URL` + `GSC_SA_KEY_JSON` (CI secrets); setup + the multi-provider seam are in
+`docs/indexing.md`. Runs weekly via `.github/workflows/indexing.yml` (never in the deploy path).
+
 ## Analytics
 
 Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.astro`. The tag ID is `G-WHD7CL44MX`. Since all pages go through `BaseLayout`, no further action is needed when adding new pages or tool types — the tag is inherited automatically. Do **not** add a second `gtag` snippet to individual pages or layouts.
