@@ -32,6 +32,15 @@ slips past a green build because Astro does not type-check `.astro` frontmatter 
 registries never throw). It runs inside `npm run build`; run it alone with the command above.
 
 ```sh
+npm run check:duplication      # near-duplicate authored content (descriptions, FAQ answers,
+                               # knowledge summaries, common-mistakes) — WARN-only; -- --strict to fail
+```
+
+`check-duplication.ts` flags content that reads mass-produced as the catalog scales (word-shingle
+Jaccard similarity). Sibling tools naturally trip it (hash generators, case converters), so it is
+informational by default; run before shipping a batch of new tool content.
+
+```sh
 npm run test            # vitest — engine-level unit tests
 npm run test:e2e        # Playwright — browser E2E (builds + serves dist, runs chromium + pixel5)
 npm run test:e2e:headed # watch the real browser run

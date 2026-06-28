@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "npx tsx scripts/validate-registry.ts && npx tsx scripts/validate-knowledge.ts && npx tsx scripts/validate-architecture.ts && astro build && npx tsx scripts/knowledge-diagnostics.ts",
     "validate:architecture": "npx tsx scripts/validate-architecture.ts",
+    "check:duplication": "npx tsx scripts/check-duplication.ts",
     "health": "npx tsx scripts/platform-health.ts",
     "indexnow": "npx tsx scripts/submit-indexnow.ts",
     "intel": "npx tsx scripts/content-intelligence.ts",
