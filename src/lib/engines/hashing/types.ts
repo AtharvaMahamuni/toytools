@@ -8,7 +8,7 @@
 
 import type { TechnicalEntry } from '../transform/types';
 
-export type HashFamily = 'cryptographic';
+export type HashFamily = 'cryptographic' | 'checksum';
 
 export interface HashTool {
   /** Stable lookup id, referenced by a tool config's `processorId` (e.g. 'sha256'). */

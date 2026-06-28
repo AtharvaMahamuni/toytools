@@ -17,6 +17,8 @@ import { base64 } from './base64';
 import { url } from './url';
 import { htmlEntity } from './htmlEntity';
 import { hex } from './hex';
+import { binary } from './binary';
+import { punycode } from './punycode';
 
 // Keyed by encoder id, referenced from a tool config's `processorId`.
 export const ENCODERS: Record<string, EncodingTool> = {
@@ -24,6 +26,8 @@ export const ENCODERS: Record<string, EncodingTool> = {
   url,
   'html-entity': htmlEntity,
   hex,
+  binary,
+  punycode,
 };
 
 /**

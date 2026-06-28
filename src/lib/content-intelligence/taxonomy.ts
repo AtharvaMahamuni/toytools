@@ -49,8 +49,11 @@ export const EXPANSION_TAXONOMY: ExpansionTaxonomy = [
           'sha1-hash-generator',
           'sha256-hash-generator',
           'sha512-hash-generator',
-          'crc32-hash-generator',
         ],
+      },
+      {
+        family: 'checksum',
+        expected: ['crc32-hash-generator'],
       },
     ],
   },

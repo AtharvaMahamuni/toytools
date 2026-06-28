@@ -1,4 +1,7 @@
 import type { FAQItem } from './types';
+import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
+import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
+import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
 import { items as todoFaqs }               from '@tools/productivity/todo-list/faq';
 import { items as notepadFaqs }             from '@tools/productivity/notepad/faq';
 import { items as keepScreenAwakeFaqs }     from '@tools/productivity/keep-screen-awake/faq';
@@ -54,6 +57,9 @@ import { items as findReplaceFaqs }           from '@tools/text/find-replace/faq
 import { items as textCompareFaqs }           from '@tools/text/text-compare/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'punycode-converter': punycodeConverterFaqs,
+  'crc32-hash-generator': crc32HashGeneratorFaqs,
+  'binary-text-converter': binaryTextConverterFaqs,
   'todo-list':              todoFaqs,
   'notepad':                notepadFaqs,
   'keep-screen-awake':      keepScreenAwakeFaqs,
