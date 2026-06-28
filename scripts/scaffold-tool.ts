@@ -15,7 +15,7 @@
 // Engine-backed engines (text-processor, encoding, hashing, structured-data, jwt) get a real
 // 3-line widget. Other engines get a clearly-marked placeholder widget to fill in.
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -44,6 +44,48 @@ const dryRun = Boolean(args['dry-run']);
 function die(msg: string): never {
   console.error(`[scaffold-tool] ✗ ${msg}`);
   process.exit(1);
+}
+
+// ---- remove mode (the clean inverse of scaffold) --------------------------------------------
+// `npm run scaffold:tool -- --remove --slug <slug> [--dry-run]` deletes the tool directory and
+// strips its import + entry from every registry. Flag-independent: it removes whatever lines
+// match the slug's signature, so it works whether or not the tool had faq/guide/knowledge.
+if (args.remove) {
+  const rslug = String(args.slug ?? '');
+  if (!rslug) die('--remove needs --slug');
+  const rcamel = rslug.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+  // Locate the tool's segment directory on disk.
+  const toolsRoot = join(repoRoot, 'src', 'tools');
+  let rseg = '';
+  for (const seg of readdirSync(toolsRoot, { withFileTypes: true })) {
+    if (seg.isDirectory() && existsSync(join(toolsRoot, seg.name, rslug, 'config.ts'))) { rseg = seg.name; break; }
+  }
+  if (!rseg) die(`no tool directory found for slug "${rslug}"`);
+
+  const dropSpecs: { file: string; drop: (l: string) => boolean }[] = [
+    { file: 'src/data/registry.ts', drop: l => l.includes(`@tools/${rseg}/${rslug}/config'`) || l.trim() === `${rcamel},` },
+    { file: 'src/data/faq-registry.ts', drop: l => l.includes(`@tools/${rseg}/${rslug}/faq'`) || l.trim().startsWith(`'${rslug}':`) },
+    { file: 'src/data/guide-registry.ts', drop: l => l.trim() === `'${rslug}',` },
+    { file: 'src/pages/guide/[...slug].astro', drop: l => l.includes(`tools/${rseg}/${rslug}/Guide.astro`) || l.trim().startsWith(`'${rslug}':`) },
+    { file: 'src/lib/knowledge/registry.ts', drop: l => l.includes(`@tools/${rseg}/${rslug}/knowledge'`) || l.trim() === `${rcamel},` },
+  ];
+
+  console.log(`[scaffold-tool] ${dryRun ? 'DRY RUN — ' : ''}remove tool "${rslug}" (segment ${rseg})`);
+  for (const { file, drop } of dropSpecs) {
+    const path = join(repoRoot, file);
+    const lines = readFileSync(path, 'utf-8').split('\n');
+    const kept = lines.filter(l => !drop(l));
+    const removed = lines.length - kept.length;
+    if (removed > 0) {
+      console.log(`  ~ ${file}: removed ${removed} line(s)`);
+      if (!dryRun) writeFileSync(path, kept.join('\n'));
+    }
+  }
+  const dir = join(toolsRoot, rseg, rslug);
+  console.log(`  - ${dir.replace(repoRoot + '/', '')}/ (directory)`);
+  if (!dryRun) rmSync(dir, { recursive: true, force: true });
+  console.log(`\n[scaffold-tool] ${dryRun ? 'dry run complete — nothing changed.' : 'removed. Run `npm run build` to confirm.'}`);
+  process.exit(0);
 }
 
 // ---- inputs ---------------------------------------------------------------------------------
