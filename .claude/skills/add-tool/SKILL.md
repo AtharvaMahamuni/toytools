@@ -7,6 +7,24 @@ description: Add a new tool or engine to ToyTools. Use when asked to build a new
 
 One contract. Every agent that adds a tool or engine MUST follow it in order.
 
+## Fastest path: scaffold the tool, then fill it in
+
+For a tool on an existing engine, do **not** hand-create files and hand-edit five registries —
+run the generator. It writes the tool directory and wires every registry (registry, faq-registry,
+guide-registry + the guide route, knowledge registry) in one step:
+
+```sh
+npm run scaffold:tool -- --slug my-tool --name "My Tool" --category text-utilities \
+  --engine text-processor --pattern text-transform --family transform \
+  --processor-id myProcessor --description "One-line description." [--faq] [--guide] [--no-knowledge]
+# add --dry-run first to preview the files + registry edits without writing
+```
+
+Engine-backed engines (`text-processor`, `encoding`, `hashing`, `structured-data`, `jwt`) get a
+real 3-line widget; other engines get a placeholder Widget.astro to implement by hand. The
+generator emits TODO stubs for config/faq/guide/knowledge — fill them with real content, then run
+`npm run build` and `npm run test:e2e`. The rest of this contract still applies to what you write.
+
 ## Hard rules
 
 1. **Identify engine type first.** The engine determines which files to create, which registry to update, and which shared widget to use. Read `references/tool-classification.md` if you are unsure.
@@ -26,7 +44,8 @@ One contract. Every agent that adds a tool or engine MUST follow it in order.
 ```
 Are you adding a new engine type that doesn't exist yet?
 ├── YES → read references/add-engine.md first, then references/add-tool.md
-└── NO  → start directly at references/add-tool.md
+└── NO  → run `npm run scaffold:tool` (see "Fastest path" above) to generate + wire the tool,
+          then read references/add-tool.md to fill in real content
 
 Does the tool need a guide, FAQ, or knowledge file?
 └── YES → read references/optional-content.md for those steps

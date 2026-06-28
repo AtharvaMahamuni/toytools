@@ -28,7 +28,7 @@ src/
   lib/                      # engines/, text/, knowledge/, content/ (manifest), indexnow/, paths.ts (withBase)
   pages/                    # index, tool/[category]/[slug], category/[slug], guide/[...slug], sitemaps, robots
   styles/                   # tokens.css, tool-widget.css, global.css
-scripts/                    # validate-registry, validate-knowledge, validate-architecture, platform-health, …
+scripts/                    # scaffold-tool, validate-registry/knowledge/architecture, check-duplication, platform-health, …
 seo-engine/                 # local-first SEO/GEO research + content quality gate (tooling sidecar)
 quality-guardian/           # crawl/validate/autofix pass (tooling sidecar)
 ```
@@ -41,14 +41,25 @@ frameworks shipped to the client.
 
 ## How It Works
 
-### Adding a tool (2 steps)
+### Adding a tool
 
-1. Create `src/tools/<segment>/<slug>/` with `config.ts` (a named `const config: ToolConfig`) and
-   `Widget.astro`.
-2. Add one import line and one array entry in `src/data/registry.ts`.
+**One command** generates the directory and wires every registry:
 
-Tool page, category listing, search, sitemap, and homepage update automatically. The
-**`add-tool` skill** (`.claude/skills/add-tool/`) walks the full checklist.
+```sh
+npm run scaffold:tool -- --slug my-tool --name "My Tool" --category text-utilities \
+  --engine text-processor --pattern text-transform --family transform \
+  --processor-id myProcessor --description "One-line description." [--faq] [--guide] [--dry-run]
+```
+
+It writes `config.ts` + `Widget.astro` (+ optional `faq.ts`/`Guide.astro`/`knowledge.ts` stubs) and
+inserts the matching import + entry into `registry.ts`, `faq-registry.ts`, `guide-registry.ts` + the
+guide route, and the knowledge registry — then you fill in the TODOs. Engine-backed engines get a
+real 3-line widget; bespoke engines get a placeholder. Tool page, category listing, search,
+sitemap, and homepage all update automatically at build time.
+
+Prefer doing it by hand? Create `src/tools/<segment>/<slug>/{config.ts,Widget.astro}` and add one
+import + entry to `src/data/registry.ts`; the **`add-tool` skill** (`.claude/skills/add-tool/`)
+walks the full checklist and the validators below catch any missed wiring.
 
 ### Adding a guide / FAQ / knowledge file
 
@@ -92,6 +103,16 @@ npm run preview    # serve dist/ locally
 npm run test       # vitest unit tests
 npm run test:e2e   # Playwright (chromium + pixel5)
 npm run health     # post-build platform integrity superset
+```
+
+Authoring & quality automation:
+
+```sh
+npm run scaffold:tool -- --slug … --name … …  # generate a tool + wire every registry (one command)
+npm run validate:architecture                 # drift/orphan/dead-entry lint (also runs in build)
+npm run check:duplication                      # near-duplicate content guard (WARN-only)
+npm run check:indexing -- --dry-run            # which URLs Google has indexed (GSC API; see docs/indexing.md)
+npm run intel                                  # content-gap / roadmap analysis → dist/content-intelligence/
 ```
 
 **Production build** (custom apex domain, served from root — **no** base path):
