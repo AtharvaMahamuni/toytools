@@ -33,6 +33,16 @@ import { knowledge as marginCalculator }     from '@tools/number/margin-calculat
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 
+// --- Text utilities (text-metric / text-counting family) ---
+import { knowledge as wordCounter }      from '@tools/text/word-counter/knowledge';
+import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
+import { knowledge as sentenceCounter }  from '@tools/text/sentence-counter/knowledge';
+import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
+import { knowledge as readingTime }      from '@tools/text/reading-time-calculator/knowledge';
+import { knowledge as letterCounter }    from '@tools/text/letter-counter/knowledge';
+import { knowledge as lineCounter }      from '@tools/text/line-counter/knowledge';
+import { knowledge as spaceCounter }     from '@tools/text/space-counter/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
@@ -56,6 +66,14 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   yamlToJson,
   jsonTreeViewer,
   jwtDecoder,
+  wordCounter,
+  characterCounter,
+  sentenceCounter,
+  paragraphCounter,
+  readingTime,
+  letterCounter,
+  lineCounter,
+  spaceCounter,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

@@ -93,6 +93,16 @@ export interface Knowledge {
   entityAliases: string[];
   /** Optional manual override; normally relatedTools are DERIVED from metadata, not authored. */
   relatedTools?: RelationshipReference[];
+
+  // ---- Richer semantic identity (additive; populated for newer files) --------------------
+  /** What the tool consumes, e.g. ['text'] | ['number','number']. */
+  inputs?: string[];
+  /** What the tool produces, e.g. ['count'] | ['formatted text']. */
+  outputs?: string[];
+  /** Rough skill level the tool/concept assumes. */
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
+  /** Primary audiences, e.g. ['writers','students','developers']. */
+  audience?: string[];
 }
 
 // ---- Graph model ------------------------------------------------------------
