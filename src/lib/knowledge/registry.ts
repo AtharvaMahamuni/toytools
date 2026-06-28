@@ -52,6 +52,26 @@ import { knowledge as camelCaseConverter }    from '@tools/text/camel-case-conve
 import { knowledge as snakeCaseConverter }    from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as kebabCaseConverter }    from '@tools/text/kebab-case-converter/knowledge';
 
+// --- Text utilities (text-cleanup family) ---
+import { knowledge as removeExtraSpaces }    from '@tools/text/remove-extra-spaces/knowledge';
+import { knowledge as removeBlankLines }     from '@tools/text/remove-blank-lines/knowledge';
+import { knowledge as removeDuplicateLines } from '@tools/text/remove-duplicate-lines/knowledge';
+import { knowledge as trimText }             from '@tools/text/trim-text/knowledge';
+import { knowledge as normalizeWhitespace }  from '@tools/text/normalize-whitespace/knowledge';
+import { knowledge as removeTabs }           from '@tools/text/remove-tabs/knowledge';
+
+// --- Text utilities (text-interactive) ---
+import { knowledge as findReplace }  from '@tools/text/find-replace/knowledge';
+import { knowledge as textCompare }  from '@tools/text/text-compare/knowledge';
+
+// --- Productivity ---
+import { knowledge as todoList }        from '@tools/productivity/todo-list/knowledge';
+import { knowledge as notepad }         from '@tools/productivity/notepad/knowledge';
+import { knowledge as keepScreenAwake } from '@tools/productivity/keep-screen-awake/knowledge';
+
+// --- Number utilities ---
+import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
@@ -90,6 +110,18 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   camelCaseConverter,
   snakeCaseConverter,
   kebabCaseConverter,
+  removeExtraSpaces,
+  removeBlankLines,
+  removeDuplicateLines,
+  trimText,
+  normalizeWhitespace,
+  removeTabs,
+  findReplace,
+  textCompare,
+  todoList,
+  notepad,
+  keepScreenAwake,
+  percentageCalculator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

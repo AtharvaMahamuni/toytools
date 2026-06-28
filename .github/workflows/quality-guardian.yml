@@ -38,6 +38,8 @@ jobs:
 
       - name: Build site
         run: npm run build
+        env:
+          KNOWLEDGE_REQUIRED: 'true'  # coverage is 100% — a missing knowledge.ts now fails the PR
 
       - name: Platform health check
         run: npm run health
