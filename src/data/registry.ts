@@ -1,4 +1,9 @@
 import type { ToolConfig } from './types';
+import { config as taxCalculator } from '@tools/number/tax-calculator/config';
+import { config as markupCalculator } from '@tools/number/markup-calculator/config';
+import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
+import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
+import { config as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/config';
 import { config as wordCounter }           from '@tools/text/word-counter/config';
 import { config as characterCounter }      from '@tools/text/character-counter/config';
 import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
@@ -53,6 +58,11 @@ import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-ti
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  taxCalculator,
+  markupCalculator,
+  punycodeConverter,
+  crc32HashGenerator,
+  binaryTextConverter,
   wordCounter,
   characterCounter,
   readingTimeCalculator,

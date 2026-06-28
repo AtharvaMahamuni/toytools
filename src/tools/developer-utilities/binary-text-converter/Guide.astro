@@ -1,0 +1,80 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Binary writes each character of your text as a string of eight 0s and 1s. The letter
+      <code>H</code> becomes <code>01001000</code>. To convert, paste your text and read the binary
+      out; to go back, paste the 0s and 1s and read the text out.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Binary Text Converter →</a>
+  </section>
+
+  <section id="what-is-binary">
+    <h2>What Is Binary? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Computers store everything as bits: tiny switches that are either off (0) or on (1). Eight of
+      those bits make a byte, and a byte can represent 256 different values. Text is stored by giving
+      every character a numeric code and writing that number in base-2 (binary).
+    </p>
+    <p>
+      The word "binary" just means "base two", the same way "decimal" means base ten. Where decimal
+      counts with ten digits (0–9), binary counts with two (0 and 1), so numbers get longer but the
+      alphabet of digits is as small as it can be.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One byte, eight bits">
+      <p>Each byte is always eight bits, so every standard character lines up as a neat group of eight 0s and 1s.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Text Becomes Binary <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The converter encodes your text as UTF-8 first, turning each character into one or more bytes.
+      It then writes every byte as eight binary digits. "Hi" is two bytes (72 and 105), which become
+      <code>01001000 01101001</code>.
+    </p>
+    <p>
+      Going the other way, it strips out anything that is not a 0 or 1, splits the remaining bits into
+      groups of eight, turns each group back into a byte, and decodes the bytes as UTF-8. That is why
+      both <code>01001000 01101001</code> and <code>0100100001101001</code> decode to the same word.
+    </p>
+  </section>
+
+  <section id="multibyte">
+    <h2>Why Some Characters Are Longer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      English letters, digits, and common punctuation each fit in a single byte. Accented letters,
+      symbols, and emoji do not, so UTF-8 spends two to four bytes on them. An emoji can therefore
+      turn into four 8-bit groups. That is expected: the converter is showing you the real bytes, not
+      a fixed eight bits per visible character.
+    </p>
+    <ReferenceBlock type="note" heading="Binary is not secret">
+      <p>Binary is a representation, not encryption. Anyone can convert it straight back, so never treat it as a way to hide data.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

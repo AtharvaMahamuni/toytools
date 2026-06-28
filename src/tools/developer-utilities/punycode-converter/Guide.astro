@@ -1,0 +1,72 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Punycode lets a domain name written in any language travel through the internet's address
+      system, which only understands plain ASCII. A name like <code>münchen.de</code> is stored and
+      transmitted as <code>xn--mnchen-3ya.de</code>, then shown back to you as the original.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Punycode Converter →</a>
+  </section>
+
+  <section id="why-it-exists">
+    <h2>Why Punycode Exists <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      DNS, the system that turns domain names into addresses, was designed decades ago to handle only
+      letters A–Z, digits, and hyphens. That left out most of the world's writing systems. Rather than
+      rebuild DNS, the internet added a translation layer: encode the Unicode name into that limited
+      ASCII alphabet, and decode it for display. That encoding is Punycode.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The xn-- prefix">
+      <p>Any domain label beginning with <code>xn--</code> is Punycode. Everything after the prefix is the encoded form of the original Unicode label.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="per-label">
+    <h2>It Works One Label At A Time <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A domain is a series of labels separated by dots. Punycode converts each label on its own and
+      only touches the ones that actually contain non-ASCII characters. In <code>café.example.com</code>
+      only <code>café</code> needs encoding, so the result is <code>xn--caf-dma.example.com</code> — the
+      <code>example</code> and <code>com</code> labels are already ASCII and pass through untouched.
+    </p>
+  </section>
+
+  <section id="security">
+    <h2>Punycode And Lookalike Domains <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because many alphabets contain characters that look almost identical to Latin letters, a domain
+      can be registered that is visually indistinguishable from a trusted one — a homograph attack.
+      Decoding a suspicious <code>xn--</code> domain reveals the actual characters behind it, which is a
+      quick way to tell a genuine site from an impostor.
+    </p>
+    <ReferenceBlock type="note" heading="Encoding, not security">
+      <p>Punycode is a reversible representation. It is not encryption and provides no secrecy; its job is compatibility, not protection.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

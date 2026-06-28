@@ -1,0 +1,73 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To add tax, multiply the price by the rate and add it: $100 at 8.25% tax becomes
+      $108.25. To go the other way, divide the total by one plus the rate:
+      $108.25 ÷ 1.0825 = $100.00.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Tax Calculator →</a>
+  </section>
+
+  <section id="adding-tax">
+    <h2>Adding Tax To A Price <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Sales tax, VAT, and GST all work the same way arithmetically: they are a percentage of the
+      net (pre-tax) price. The tax is <code>price × rate ÷ 100</code>, and the customer pays
+      <code>price + tax</code>. The calculator shows the tax on its own line so you can put it on an
+      invoice or check a quote.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Tax is charged on the net price">
+      <p>The percentage always applies to the price before tax, never to a total that already includes it.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="removing-tax">
+    <h2>Working Backwards From A Total <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A receipt often shows only the tax-inclusive total, and you need the pre-tax figure for
+      bookkeeping. The trap is subtracting the rate from the total: 8.25% of $108.25 is $8.93, which
+      overshoots. Because the tax was charged on the smaller original price, you divide instead:
+      <code>total ÷ (1 + rate ÷ 100)</code>. That returns the true $100.00, and the included tax is the
+      $8.25 difference.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Don't subtract the percentage">
+      <p>Removing tax means dividing by 1 plus the rate, not subtracting the rate from the gross total.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="rounding">
+    <h2>Why Totals Can Differ By A Cent <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Tax math rarely lands on a clean cent, so every system rounds — but not identically. Some round
+      each line item, others round the tax total, and jurisdictions specify different rules. This tool
+      rounds the displayed amounts to two decimal places, which can occasionally sit a cent away from a
+      particular store's till. For exact filing, follow your local rounding rule.
+    </p>
+  </section>
+</GuideLayout>

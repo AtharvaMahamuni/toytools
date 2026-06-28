@@ -1,0 +1,189 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Product Details" variant="prose" data-tool="markup-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="mk-mode">Calculate</label>
+      <select id="mk-mode" class="widget-select">
+        <option value="markup">Markup from cost and price</option>
+        <option value="price">Selling price from target markup</option>
+      </select>
+
+      <label class="widget-label" for="mk-cost">Cost Price</label>
+      <input id="mk-cost" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 60.00" />
+
+      <label class="widget-label" for="mk-second" id="mk-second-label">Selling Price</label>
+      <input id="mk-second" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 100.00" />
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="tm-hero">
+      <span class="hero-value" id="mk-hero">0%</span>
+      <span class="hero-label" id="mk-hero-label">Markup</span>
+      <p class="empty-hint" id="mk-hint">Enter cost and selling price to calculate.</p>
+    </div>
+    <dl class="tm-stats tm-secondary" aria-live="polite" hidden>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Profit</dt>
+        <dd class="tm-stat-value" id="mk-profit">$0.00</dd>
+      </div>
+      <div class="tm-stat-row">
+        <dt class="tm-stat-label">Margin</dt>
+        <dd class="tm-stat-value" id="mk-margin">0%</dd>
+      </div>
+    </dl>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="mk-copy" data-label="Copy" type="button">Copy</button>
+  <button class="action-btn action-btn--clear" id="mk-clear" data-label="Clear" type="button">Clear</button>
+</div>
+
+<CategoryDiscovery toolSlug="markup-calculator" />
+
+<script is:inline>
+  (function () {
+    var modeEl   = document.getElementById('mk-mode');
+    var costEl   = document.getElementById('mk-cost');
+    var secondEl = document.getElementById('mk-second');
+    var secondLbl= document.getElementById('mk-second-label');
+    var heroEl   = document.getElementById('mk-hero');
+    var heroLbl  = document.getElementById('mk-hero-label');
+    var hintEl   = document.getElementById('mk-hint');
+    var secondary= document.querySelector('.tm-secondary');
+    var profitEl = document.getElementById('mk-profit');
+    var marginEl = document.getElementById('mk-margin');
+    var copyBtn  = document.getElementById('mk-copy');
+    var clearBtn = document.getElementById('mk-clear');
+    if (!modeEl || !costEl || !secondEl || !heroEl) return;
+
+    var TT = window.ToyTools;
+    var lastResult = '';
+
+    function money(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
+    function pct(n) {
+      var r = Math.round(n * 100) / 100;
+      return (Number.isInteger(r) ? r.toString() : r.toFixed(2).replace(/\.?0+$/, '')) + '%';
+    }
+
+    function applyMode() {
+      if (modeEl.value === 'price') {
+        secondLbl.textContent = 'Target Markup (%)';
+        secondEl.setAttribute('placeholder', 'Example: 50');
+        heroLbl.textContent = 'Required Selling Price';
+      } else {
+        secondLbl.textContent = 'Selling Price';
+        secondEl.setAttribute('placeholder', 'Example: 100.00');
+        heroLbl.textContent = 'Markup';
+      }
+    }
+
+    function showEmpty(message) {
+      lastResult = '';
+      var reverse = modeEl.value === 'price';
+      heroEl.textContent = reverse ? '$0.00' : '0%';
+      var fallback = reverse ? 'Enter cost and target markup to calculate.' : 'Enter cost and selling price to calculate.';
+      if (hintEl) { hintEl.textContent = message || fallback; hintEl.hidden = false; }
+      if (secondary) secondary.hidden = true;
+    }
+
+    function calcMarkup(cost, price) {
+      if (cost === 0) { showEmpty('Enter a cost price greater than zero.'); return; }
+      var profit = price - cost;
+      var markup = (profit / cost) * 100;
+      var margin = price > 0 ? pct((profit / price) * 100) : '–';
+      lastResult = pct(markup);
+      heroEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (profitEl) profitEl.textContent = money(profit);
+      if (marginEl) marginEl.textContent = margin;
+    }
+
+    function calcPrice(cost, markupPct) {
+      var price = cost * (1 + markupPct / 100);
+      var profit = price - cost;
+      var margin = price > 0 ? pct((profit / price) * 100) : '–';
+      lastResult = money(price);
+      heroEl.textContent = lastResult;
+      if (hintEl) hintEl.hidden = true;
+      if (secondary) secondary.hidden = false;
+      if (profitEl) profitEl.textContent = money(profit);
+      if (marginEl) marginEl.textContent = margin;
+    }
+
+    function calc() {
+      var costRaw = costEl.value, secondRaw = secondEl.value, reverse = modeEl.value === 'price';
+      if (costRaw === '' && secondRaw === '') { showEmpty(); return; }
+      if (costRaw === '' || secondRaw === '') {
+        showEmpty(reverse ? 'Enter both cost and target markup.' : 'Enter both cost and selling price.');
+        return;
+      }
+      var cost = Number(costRaw), second = Number(secondRaw);
+      if (!Number.isFinite(cost) || cost < 0) { showEmpty('Enter a valid cost price.'); return; }
+      if (!Number.isFinite(second) || second < 0) {
+        showEmpty(reverse ? 'Enter a valid target markup.' : 'Enter a valid selling price.');
+        return;
+      }
+      if (reverse) calcPrice(cost, second); else calcMarkup(cost, second);
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('markup-calculator', { mode: modeEl.value, cost: costEl.value, second: secondEl.value });
+    }
+
+    try {
+      var saved = TT && TT.state && TT.state.load('markup-calculator');
+      if (saved) {
+        if (saved.mode   != null) modeEl.value   = saved.mode;
+        if (saved.cost   != null) costEl.value   = saved.cost;
+        if (saved.second != null) secondEl.value = saved.second;
+      }
+    } catch (_) {}
+
+    applyMode();
+    modeEl.addEventListener('change', function () { applyMode(); calc(); persist(); });
+    costEl.addEventListener('input', function () { calc(); persist(); });
+    secondEl.addEventListener('input', function () { calc(); persist(); });
+
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!lastResult) { TT && TT.toast('Nothing to copy!'); return; }
+      TT && TT.copy(lastResult);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+    });
+
+    var clearTimer;
+    function resetClear() {
+      clearTimeout(clearTimer);
+      if (clearBtn) { clearBtn.classList.remove('is-confirming'); clearBtn.textContent = 'Clear'; }
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      if (!clearBtn.classList.contains('is-confirming')) {
+        clearBtn.classList.add('is-confirming');
+        clearBtn.textContent = 'Confirm Clear';
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClear, 3000);
+        return;
+      }
+      resetClear();
+      costEl.value = ''; secondEl.value = '';
+      calc(); persist();
+      costEl.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (clearBtn && clearBtn.classList.contains('is-confirming') && !e.target.closest('#mk-clear')) resetClear();
+    });
+
+    calc();
+  })();
+</script>

@@ -5,6 +5,11 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
+import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
+import { knowledge as markupCalculator } from '@tools/number/markup-calculator/knowledge';
+import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
+import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
+import { knowledge as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/knowledge';
 
 // --- Developer tools (Phase D pilot) ---
 import { knowledge as base64 }        from '@tools/developer-utilities/base64-encoder-decoder/knowledge';
@@ -74,6 +79,11 @@ import { knowledge as percentageCalculator } from '@tools/number/percentage-calc
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  taxCalculator,
+  markupCalculator,
+  punycodeConverter,
+  crc32HashGenerator,
+  binaryTextConverter,
   pomodoroTimer,
   marginCalculator,
   base64,

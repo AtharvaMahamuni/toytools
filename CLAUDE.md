@@ -42,6 +42,17 @@ Jaccard similarity). Sibling tools naturally trip it (hash generators, case conv
 informational by default; run before shipping a batch of new tool content.
 
 ```sh
+npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <cat> --engine <engine> \
+  --pattern <pattern> --family <family> [--processor-id <id>] [--faq] [--guide] [--dry-run]
+```
+
+`scaffold-tool.ts` generates a new tool's directory **and** wires every registry in one step (the
+inverse of the multi-file checklist) so adding a tool is one command. It emits TODO stubs to fill
+in; engine-backed engines (`text-processor`/`encoding`/`hashing`/`structured-data`/`jwt`) get a
+real 3-line widget, others a placeholder. Idempotent; refuses an existing slug. See the
+**`add-tool` skill** for the full flow.
+
+```sh
 npm run test            # vitest — engine-level unit tests
 npm run test:e2e        # Playwright — browser E2E (builds + serves dist, runs chromium + pixel5)
 npm run test:e2e:headed # watch the real browser run
@@ -147,6 +158,13 @@ For a live bird's-eye view, the deployed **`/architecture/`** page (`src/pages/a
 
 > The **`add-tool` skill** (`.claude/skills/add-tool/`) is the canonical entry point — it walks
 > the full file checklist, engine selection, and validation. Use it when building any new tool or engine.
+>
+> **Fastest path — generate it:** `npm run scaffold:tool -- --slug <slug> --name "<Name>"
+> --category <cat> --engine <engine> --pattern <pattern> --family <family> [--processor-id <id>]
+> [--faq] [--guide]` writes the tool directory **and** wires every registry (registry, faq-registry,
+> guide-registry + the guide route, knowledge registry) in one step (`--dry-run` to preview). It
+> emits TODO stubs to fill in; engine-backed engines get a real 3-line widget, others a placeholder.
+> This collapses the multi-file wiring below into one command.
 
 1. Create `src/tools/<segment>/<slug>/` with two required files:
    - `config.ts` — exports a named `const config: ToolConfig` with all tool metadata

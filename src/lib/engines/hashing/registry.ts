@@ -15,6 +15,7 @@ import type {
 } from '../transform/types';
 import { md5 } from './md5';
 import { sha1, sha256, sha512 } from './sha';
+import { crc32 } from './crc32';
 
 // Keyed by hasher id, referenced from a tool config's `processorId`.
 export const HASHERS: Record<string, HashTool> = {
@@ -22,6 +23,7 @@ export const HASHERS: Record<string, HashTool> = {
   sha1,
   sha256,
   sha512,
+  crc32,
 };
 
 /**

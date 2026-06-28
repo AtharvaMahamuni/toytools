@@ -1,0 +1,80 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A CRC32 checksum is a short fingerprint, eight hex digits, that a computer uses to notice when
+      data has been accidentally changed. Compute it before and after moving data; if the two values
+      match, the data almost certainly arrived intact.
+    </p>
+    <a href={toolHref} class="cta-link">Try the CRC32 Hash Generator →</a>
+  </section>
+
+  <section id="what-is-crc32">
+    <h2>What Is CRC32? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CRC stands for cyclic redundancy check. It treats your data as one long number and divides it
+      by a fixed constant; the remainder is the checksum. That sounds abstract, but the effect is
+      practical: flipping even a single bit almost always changes the remainder, so corruption stands
+      out immediately.
+    </p>
+    <p>
+      The "32" means the result is 32 bits wide, which is why you always see eight hexadecimal
+      digits. It is the same algorithm built into ZIP archives, PNG images, and Ethernet, where every
+      chunk of data carries a CRC32 so the receiver can detect damage.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Detection, not protection">
+      <p>CRC32 is excellent at catching <em>accidental</em> errors and useless against <em>deliberate</em> ones.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="not-security">
+    <h2>Why It Is Not For Security <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A CRC32 is fast and reversible by design, so anyone who changes your data can recompute a
+      matching checksum in microseconds. It offers no defense against tampering and must never be used
+      for passwords, tokens, or signatures.
+    </p>
+    <p>
+      When you need to detect deliberate changes, reach for a cryptographic hash such as SHA-256,
+      which is built to make a forged match computationally infeasible.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Don't hash secrets with CRC32">
+      <p>Using CRC32 (or any checksum) to store passwords or verify authenticity is a security bug. Use SHA-256 instead.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="variants">
+    <h2>Why Tools Sometimes Disagree <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      "CRC32" is a family, not a single recipe. Implementations differ in the polynomial, the initial
+      value, and whether bits are reflected. This tool uses the IEEE 802.3 / ISO-HDLC variant
+      (polynomial <code>0xEDB88320</code>) that ZIP and PNG use, so its output matches those formats.
+      If another calculator gives a different result, it is almost certainly using a different variant.
+    </p>
+  </section>
+</GuideLayout>
