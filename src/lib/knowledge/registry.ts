@@ -43,6 +43,15 @@ import { knowledge as letterCounter }    from '@tools/text/letter-counter/knowle
 import { knowledge as lineCounter }      from '@tools/text/line-counter/knowledge';
 import { knowledge as spaceCounter }     from '@tools/text/space-counter/knowledge';
 
+// --- Text utilities (text-transform / case-converters group) ---
+import { knowledge as uppercaseConverter }    from '@tools/text/uppercase-converter/knowledge';
+import { knowledge as lowercaseConverter }    from '@tools/text/lowercase-converter/knowledge';
+import { knowledge as titleCaseConverter }    from '@tools/text/title-case-converter/knowledge';
+import { knowledge as sentenceCaseConverter } from '@tools/text/sentence-case-converter/knowledge';
+import { knowledge as camelCaseConverter }    from '@tools/text/camel-case-converter/knowledge';
+import { knowledge as snakeCaseConverter }    from '@tools/text/snake-case-converter/knowledge';
+import { knowledge as kebabCaseConverter }    from '@tools/text/kebab-case-converter/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
@@ -74,6 +83,13 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   letterCounter,
   lineCounter,
   spaceCounter,
+  uppercaseConverter,
+  lowercaseConverter,
+  titleCaseConverter,
+  sentenceCaseConverter,
+  camelCaseConverter,
+  snakeCaseConverter,
+  kebabCaseConverter,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */
