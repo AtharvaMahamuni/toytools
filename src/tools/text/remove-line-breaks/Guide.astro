@@ -1,0 +1,109 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What Is Remove Line Breaks? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Remove Line Breaks joins text that has been split across many lines back into one continuous
+      paragraph. Every hard return, along with the spaces around it, becomes a single space, so
+      sentences that were broken mid-line flow together again. The result updates instantly as you
+      paste.
+    </p>
+    <a href={toolHref} class="cta-link">Try Remove Line Breaks →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Pasted Text Breaks Across Lines <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      PDFs, emails, and code editors often add a hard line break at the end of every visual row. The
+      text looks fine in its original window, but once you paste it elsewhere those breaks remain and
+      chop your sentences into fragments. Removing them is the quickest way to turn a wall of broken
+      lines back into readable prose.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One space, not a gap">
+      <p>
+        Each run of line breaks collapses to a single space, and the start and end of the text are
+        trimmed. You will not be left with double spaces where the breaks used to be.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool scans for every sequence of line breaks, including any spaces or tabs touching them,
+      and replaces the whole sequence with one space. It then trims the outer edges. "first line"
+      followed by a break and "second line" becomes "first line second line".
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device,
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="It joins everything into one block">
+      <p>
+        Because every break becomes a space, intentional paragraph breaks are joined too. If you need
+        to keep separate paragraphs, process one paragraph at a time, or use Remove Blank Lines to
+        tidy empty rows while keeping your lines apart.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Not the same as removing blank lines">
+      <p>
+        Remove Blank Lines deletes only the empty rows and keeps the rest on their own lines. This
+        tool merges every line into one. Pick the one that matches the shape you want.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

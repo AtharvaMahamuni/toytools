@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "trends": [
+    {
+      "transformation": "Line Break Removal",
+      "count": 1,
+      "meanDemand": 0.84,
+      "meanScore": 81.6
+    },
+    {
+      "transformation": "Text Reversal",
+      "count": 1,
+      "meanDemand": 0.78,
+      "meanScore": 80.8
+    },
+    {
+      "transformation": "Slugification",
+      "count": 1,
+      "meanDemand": 0.8,
+      "meanScore": 79.6
+    },
+    {
+      "transformation": "Binary Encoding",
+      "count": 1,
+      "meanDemand": 0.74,
+      "meanScore": 79.1
+    },
+    {
+      "transformation": "JSON String Escaping",
+      "count": 1,
+      "meanDemand": 0.76,
+      "meanScore": 78.8
+    },
+    {
+      "transformation": "ROT13",
+      "count": 1,
+      "meanDemand": 0.64,
+      "meanScore": 77.2
+    },
+    {
+      "transformation": "Diacritic Removal",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 77
+    },
+    {
+      "transformation": "Emoji Removal",
+      "count": 1,
+      "meanDemand": 0.66,
+      "meanScore": 75.3
+    },
+    {
+      "transformation": "Checksum (CRC32)",
+      "count": 1,
+      "meanDemand": 0.56,
+      "meanScore": 72.5
+    },
+    {
+      "transformation": "Word Frequency Analysis",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 68.8
+    },
+    {
+      "transformation": "CSV Diff",
+      "count": 1,
+      "meanDemand": 0.82,
+      "meanScore": 67.1
+    },
+    {
+      "transformation": "Timestamp Conversion",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 65
+    },
+    {
+      "transformation": "CSV/TSV Conversion",
+      "count": 1,
+      "meanDemand": 0.58,
+      "meanScore": 64
+    },
+    {
+      "transformation": "CSV Cleaning",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 62.9
+    },
+    {
+      "transformation": "Age Calculation",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 62.5
+    },
+    {
+      "transformation": "Date Difference",
+      "count": 1,
+      "meanDemand": 0.85,
+      "meanScore": 62.4
+    },
+    {
+      "transformation": "CSV Column Selection",
+      "count": 1,
+      "meanDemand": 0.6,
+      "meanScore": 59.6
+    },
+    {
+      "transformation": "Timezone Conversion",
+      "count": 1,
+      "meanDemand": 0.8,
+      "meanScore": 56.2
+    },
+    {
+      "transformation": "Cron Parsing",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 55
+    }
+  ]
+}

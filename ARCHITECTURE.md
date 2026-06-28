@@ -519,6 +519,35 @@ on demand via **`npm run intel`** (NOT in `npm run build`, so builds stay fast a
 - **Reserved Phase E2** — feed `ExternalSignals` (impressions/clicks/CTR/position) into
   `priorities.ts`; the branch already exists, dormant.
 
+## Research Intelligence Engine (`src/lib/research/`)
+
+Phase G. The **demand-side** counterpart to Content Intelligence: it discovers what real users
+repeatedly need, scores those opportunities, detects the reusable engines that would serve them, and
+emits a ranked roadmap + a fully-reasoned "next build" recommendation. Same discipline as
+content-intelligence — pure analyzers over an injected `ResearchInputs`, registry-driven, never-throw,
+deterministic. On demand via **`npm run research`** (NOT in `npm run build`). Full docs:
+`docs/research-intelligence.md`; it powers the **`next-tool` skill** and the
+**`research-intelligence` subagent**.
+
+- **Providers** (`providers/`) — uniform `discover(ctx) → RawOpportunity[]`. The **seed-dataset**
+  provider reads curated evidence from `research/datasets/*.json` (the CLI loads files; the library
+  is filesystem-free). The other 15 (`reddit`, `github`, `autocomplete`, `mdn`, ...) are live-API
+  **seams** that return `[]`; adding a real one is one import + one entry in `registry.ts`.
+- **Unified Opportunity model** (`models/opportunity.ts`) — every provider normalizes into one schema;
+  `id` is derived from `proposedTool` (deterministic). Eight 0..1 signal scorers (`scorers/`) blend
+  into `finalScore` (0..100) via weights in `config.ts`.
+- **Analyzers** (`analyzers/`) — `deduplicate` (Jaccard), `transformation` (the core: problems →
+  reusable engine-agnostic transformations), `opportunity-score` (normalize + score), `engine-match`
+  /`missing-engine` (reuse vs new-engine clusters), `cluster`, `topic-cluster` (the problem graph),
+  `gaps` (classification vs the catalog), `trend`, `roadmap` (tiers + next-build). Pipeline in
+  `pipeline.ts`; `index.ts` `defaultInputs()` wires the real registries, tests pass fixtures.
+- **Taxonomy** (`taxonomy.ts`) — declarative `domain → transformation → expected[]` engine
+  hypotheses (CSV, Date & Time), edited as data.
+- **Reports** → `research/reports/*` (committed): `roadmap.md`, `next-build.md`, `opportunities.json`,
+  `top-opportunities.json`, `missing-engines.json`, `clusters.json`, `trends.json`, `graph.json`,
+  `opportunities.csv`, `index.json` + dated `snapshots/`. Validated by `validate.ts` before any write.
+- **Standing rule** — "what should we build next?" always routes through the RIE (see `CLAUDE.md`).
+
 ## Sitemap (`src/lib/sitemap/` + `src/pages/sitemaps/`)
 
 Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**

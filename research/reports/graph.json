@@ -1,0 +1,1218 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "nodes": [
+    {
+      "id": "age-calculator",
+      "title": "Age Calculator",
+      "transformation": "Age Calculation",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "base64-encoder-decoder",
+      "title": "Base64 Encoder & Decoder",
+      "transformation": "binary-text",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "binary-text-converter",
+      "title": "Binary Text Converter",
+      "transformation": "binary-text",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "camel-case-converter",
+      "title": "camelCase Converter",
+      "transformation": "transform",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "character-counter",
+      "title": "Character Counter",
+      "transformation": "text-counting",
+      "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "crc32-hash-generator",
+      "title": "CRC32 Hash Generator",
+      "transformation": "Checksum (CRC32)",
+      "engine": "hashing",
+      "existing": false,
+      "relatedTools": [
+        "md5-hash-generator",
+        "sha256-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedGuides": [
+        "md5-hash-generator",
+        "sha256-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedFaqs": [
+        "md5-hash-generator",
+        "sha256-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ]
+    },
+    {
+      "id": "cron-expression-parser",
+      "title": "Cron Expression Parser",
+      "transformation": "Cron Parsing",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "csv-cleaner",
+      "title": "CSV Cleaner",
+      "transformation": "CSV Cleaning",
+      "engine": "csv",
+      "existing": false,
+      "relatedTools": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "csv-column-picker",
+      "title": "CSV Column Picker",
+      "transformation": "CSV Column Selection",
+      "engine": "csv",
+      "existing": false,
+      "relatedTools": [
+        "csv-to-json-converter",
+        "json-to-csv-converter"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "json-to-csv-converter"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "json-to-csv-converter"
+      ]
+    },
+    {
+      "id": "csv-diff",
+      "title": "CSV Diff",
+      "transformation": "CSV Diff",
+      "engine": "csv",
+      "existing": false,
+      "relatedTools": [
+        "text-compare",
+        "csv-to-json-converter"
+      ],
+      "relatedGuides": [
+        "text-compare",
+        "csv-to-json-converter"
+      ],
+      "relatedFaqs": [
+        "text-compare",
+        "csv-to-json-converter"
+      ]
+    },
+    {
+      "id": "csv-to-json-converter",
+      "title": "CSV to JSON Converter",
+      "transformation": "json",
+      "engine": "structured-data",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "csv-to-tsv",
+      "title": "CSV to TSV",
+      "transformation": "CSV/TSV Conversion",
+      "engine": "csv",
+      "existing": false,
+      "relatedTools": [
+        "csv-to-json-converter"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter"
+      ]
+    },
+    {
+      "id": "date-difference-calculator",
+      "title": "Date Difference Calculator",
+      "transformation": "Date Difference",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "find-replace",
+      "title": "Find and Replace",
+      "transformation": "find-replace",
+      "engine": "text-interactive",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "hex-encoder-decoder",
+      "title": "Hex Encoder & Decoder",
+      "transformation": "binary-text",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "html-entity-encoder-decoder",
+      "title": "HTML Entity Encoder & Decoder",
+      "transformation": "web",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "json-escape",
+      "title": "JSON Escape / Unescape",
+      "transformation": "JSON String Escaping",
+      "engine": "structured-data",
+      "existing": false,
+      "relatedTools": [
+        "json-formatter",
+        "json-minifier",
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ],
+      "relatedGuides": [
+        "json-formatter",
+        "json-minifier",
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ],
+      "relatedFaqs": [
+        "json-formatter",
+        "json-minifier",
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ]
+    },
+    {
+      "id": "json-formatter",
+      "title": "JSON Formatter",
+      "transformation": "json",
+      "engine": "structured-data",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "json-minifier",
+      "title": "JSON Minifier",
+      "transformation": "json",
+      "engine": "structured-data",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "json-to-csv-converter",
+      "title": "JSON to CSV Converter",
+      "transformation": "json",
+      "engine": "structured-data",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "json-to-yaml-converter",
+      "title": "JSON to YAML Converter",
+      "transformation": "json",
+      "engine": "structured-data",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "json-tree-viewer",
+      "title": "JSON Tree Viewer",
+      "transformation": "json",
+      "engine": "structured-data",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "kebab-case-converter",
+      "title": "kebab-case Converter",
+      "transformation": "transform",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "letter-counter",
+      "title": "Letter Counter",
+      "transformation": "text-counting",
+      "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "line-counter",
+      "title": "Line Counter",
+      "transformation": "text-counting",
+      "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "lowercase-converter",
+      "title": "Lowercase Converter",
+      "transformation": "transform",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "md5-hash-generator",
+      "title": "MD5 Hash Generator",
+      "transformation": "cryptographic",
+      "engine": "hashing",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "normalize-whitespace",
+      "title": "Normalize Whitespace",
+      "transformation": "cleanup",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "paragraph-counter",
+      "title": "Paragraph Counter",
+      "transformation": "text-counting",
+      "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "punycode-converter",
+      "title": "Punycode Converter",
+      "transformation": "web",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "reading-time-calculator",
+      "title": "Reading Time Calculator",
+      "transformation": "text-counting",
+      "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "remove-accents",
+      "title": "Remove Accents",
+      "transformation": "Diacritic Removal",
+      "engine": "text-processor",
+      "existing": false,
+      "relatedTools": [
+        "slugify-text",
+        "lowercase-converter",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "normalize-whitespace",
+        "remove-accents"
+      ],
+      "relatedGuides": [
+        "slugify-text",
+        "lowercase-converter",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "normalize-whitespace",
+        "remove-accents"
+      ],
+      "relatedFaqs": [
+        "slugify-text",
+        "lowercase-converter",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "normalize-whitespace",
+        "remove-accents"
+      ]
+    },
+    {
+      "id": "remove-blank-lines",
+      "title": "Remove Blank Lines",
+      "transformation": "cleanup",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "remove-emoji",
+      "title": "Remove Emoji",
+      "transformation": "Emoji Removal",
+      "engine": "text-processor",
+      "existing": false,
+      "relatedTools": [
+        "remove-extra-spaces",
+        "normalize-whitespace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "remove-accents"
+      ],
+      "relatedGuides": [
+        "remove-extra-spaces",
+        "normalize-whitespace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "remove-accents"
+      ],
+      "relatedFaqs": [
+        "remove-extra-spaces",
+        "normalize-whitespace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "remove-accents"
+      ]
+    },
+    {
+      "id": "remove-extra-spaces",
+      "title": "Remove Extra Spaces",
+      "transformation": "cleanup",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "remove-line-breaks",
+      "title": "Remove Line Breaks",
+      "transformation": "Line Break Removal",
+      "engine": "text-processor",
+      "existing": false,
+      "relatedTools": [
+        "remove-blank-lines",
+        "normalize-whitespace",
+        "remove-extra-spaces",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter"
+      ],
+      "relatedGuides": [
+        "remove-blank-lines",
+        "normalize-whitespace",
+        "remove-extra-spaces",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter"
+      ],
+      "relatedFaqs": [
+        "remove-blank-lines",
+        "normalize-whitespace",
+        "remove-extra-spaces",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter"
+      ]
+    },
+    {
+      "id": "reverse-text",
+      "title": "Reverse Text",
+      "transformation": "Text Reversal",
+      "engine": "text-processor",
+      "existing": false,
+      "relatedTools": [
+        "uppercase-converter",
+        "find-replace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace"
+      ],
+      "relatedGuides": [
+        "uppercase-converter",
+        "find-replace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace"
+      ],
+      "relatedFaqs": [
+        "uppercase-converter",
+        "find-replace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace"
+      ]
+    },
+    {
+      "id": "rot13-encoder-decoder",
+      "title": "ROT13 Encoder / Decoder",
+      "transformation": "ROT13",
+      "engine": "encoding",
+      "existing": false,
+      "relatedTools": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedGuides": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedFaqs": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ]
+    },
+    {
+      "id": "sha1-hash-generator",
+      "title": "SHA-1 Hash Generator",
+      "transformation": "cryptographic",
+      "engine": "hashing",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "sha256-hash-generator",
+      "title": "SHA-256 Hash Generator",
+      "transformation": "cryptographic",
+      "engine": "hashing",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "sha512-hash-generator",
+      "title": "SHA-512 Hash Generator",
+      "transformation": "cryptographic",
+      "engine": "hashing",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "slugify-text",
+      "title": "Slugify Text",
+      "transformation": "Slugification",
+      "engine": "text-processor",
+      "existing": false,
+      "relatedTools": [
+        "kebab-case-converter",
+        "lowercase-converter",
+        "camel-case-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines"
+      ],
+      "relatedGuides": [
+        "kebab-case-converter",
+        "lowercase-converter",
+        "camel-case-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines"
+      ],
+      "relatedFaqs": [
+        "kebab-case-converter",
+        "lowercase-converter",
+        "camel-case-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "text-compare",
+      "title": "Text Compare",
+      "transformation": "text-compare",
+      "engine": "text-interactive",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "text-to-binary",
+      "title": "Text to Binary",
+      "transformation": "Binary Encoding",
+      "engine": "encoding",
+      "existing": false,
+      "relatedTools": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedGuides": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedFaqs": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ]
+    },
+    {
+      "id": "timezone-converter",
+      "title": "Timezone Converter",
+      "transformation": "Timezone Conversion",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "unix-timestamp-converter",
+      "title": "Unix Timestamp Converter",
+      "transformation": "Timestamp Conversion",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "uppercase-converter",
+      "title": "Uppercase Converter",
+      "transformation": "transform",
+      "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "url-encoder-decoder",
+      "title": "URL Encoder & Decoder",
+      "transformation": "web",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "word-counter",
+      "title": "Word Counter",
+      "transformation": "text-counting",
+      "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "word-frequency-counter",
+      "title": "Word Frequency Counter",
+      "transformation": "Word Frequency Analysis",
+      "engine": "text-analysis",
+      "existing": false,
+      "relatedTools": [
+        "word-counter",
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator"
+      ],
+      "relatedGuides": [
+        "word-counter",
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator"
+      ],
+      "relatedFaqs": [
+        "word-counter",
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "age-calculator",
+      "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "age-calculator",
+      "to": "date-difference-calculator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "age-calculator",
+      "to": "date-difference-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "age-calculator",
+      "to": "timezone-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "crc32-hash-generator",
+      "to": "md5-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "crc32-hash-generator",
+      "to": "sha1-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "crc32-hash-generator",
+      "to": "sha256-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "crc32-hash-generator",
+      "to": "sha512-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "cron-expression-parser",
+      "to": "unix-timestamp-converter",
+      "kind": "related-problem"
+    },
+    {
+      "from": "csv-cleaner",
+      "to": "csv-column-picker",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "csv-cleaner",
+      "to": "csv-diff",
+      "kind": "related-problem"
+    },
+    {
+      "from": "csv-cleaner",
+      "to": "csv-to-json-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "csv-cleaner",
+      "to": "remove-blank-lines",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "csv-column-picker",
+      "to": "csv-cleaner",
+      "kind": "related-problem"
+    },
+    {
+      "from": "csv-column-picker",
+      "to": "csv-to-json-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "csv-column-picker",
+      "to": "json-to-csv-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "csv-diff",
+      "to": "csv-cleaner",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "csv-diff",
+      "to": "csv-column-picker",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "csv-diff",
+      "to": "csv-to-json-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "csv-diff",
+      "to": "csv-to-tsv",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "csv-diff",
+      "to": "text-compare",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "csv-to-tsv",
+      "to": "csv-cleaner",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "csv-to-tsv",
+      "to": "csv-column-picker",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "csv-to-tsv",
+      "to": "csv-to-json-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "date-difference-calculator",
+      "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-difference-calculator",
+      "to": "timezone-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "json-escape",
+      "to": "csv-to-json-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-escape",
+      "to": "json-formatter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-escape",
+      "to": "json-minifier",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-escape",
+      "to": "json-to-csv-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-escape",
+      "to": "json-to-yaml-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-escape",
+      "to": "json-tree-viewer",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "camel-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "kebab-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "lowercase-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "normalize-whitespace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "remove-emoji",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "remove-emoji",
+      "to": "camel-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-emoji",
+      "to": "kebab-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-emoji",
+      "to": "lowercase-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-emoji",
+      "to": "normalize-whitespace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-emoji",
+      "to": "remove-extra-spaces",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "camel-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "kebab-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "lowercase-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "normalize-whitespace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "remove-accents",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "remove-blank-lines",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "remove-emoji",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "remove-extra-spaces",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "reverse-text",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "slugify-text",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "reverse-text",
+      "to": "camel-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
+      "to": "find-replace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
+      "to": "kebab-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
+      "to": "lowercase-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
+      "to": "normalize-whitespace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "reverse-text",
+      "to": "remove-accents",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "reverse-text",
+      "to": "remove-emoji",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "reverse-text",
+      "to": "slugify-text",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "reverse-text",
+      "to": "uppercase-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "rot13-encoder-decoder",
+      "to": "base64-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "rot13-encoder-decoder",
+      "to": "binary-text-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "rot13-encoder-decoder",
+      "to": "hex-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "rot13-encoder-decoder",
+      "to": "html-entity-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "rot13-encoder-decoder",
+      "to": "punycode-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "rot13-encoder-decoder",
+      "to": "url-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "camel-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "kebab-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "lowercase-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "normalize-whitespace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "remove-accents",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "slugify-text",
+      "to": "remove-blank-lines",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "remove-emoji",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "base64-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "binary-text-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "hex-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "html-entity-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "punycode-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "rot13-encoder-decoder",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "text-to-binary",
+      "to": "url-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "timezone-converter",
+      "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "age-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "date-difference-calculator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "date-difference-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "timezone-converter",
+      "kind": "related-problem"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "timezone-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "word-frequency-counter",
+      "to": "character-counter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "word-frequency-counter",
+      "to": "letter-counter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "word-frequency-counter",
+      "to": "line-counter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "word-frequency-counter",
+      "to": "paragraph-counter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "word-frequency-counter",
+      "to": "reading-time-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "word-frequency-counter",
+      "to": "word-counter",
+      "kind": "links-to-tool"
+    }
+  ]
+}

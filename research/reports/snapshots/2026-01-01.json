@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "discovered": 19,
+  "deduped": 19,
+  "alreadyExists": 1,
+  "recommended": 15,
+  "missingEngines": 2,
+  "topScore": 81.6,
+  "nextBuild": "remove-line-breaks"
+}

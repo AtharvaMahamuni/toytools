@@ -73,6 +73,36 @@ declarative `src/lib/content-intelligence/taxonomy.ts` (`engine → family → e
 expected tools there as data; never hardcode topics in analyzer logic. See `ARCHITECTURE.md` →
 "Content Intelligence Layer".
 
+## Research Intelligence Engine (RIE)
+
+The RIE is a permanent subsystem (alongside Registry, Content Intelligence, Knowledge Graph, SEO
+Engine) that answers **"what should we build next, why, and how?"** from evidence. It mirrors the
+content-intelligence architecture (pure analyzers over an injected inputs bundle, registry-driven,
+never-throw, deterministic) and lives in `src/lib/research/`. Full docs: `docs/research-intelligence.md`.
+
+```sh
+npm run research            # run pipeline + validate + write reports to research/reports/ (on demand)
+npm run research:next       # write + print research/reports/next-build.md (the headline recommendation)
+npm run research:roadmap    # roadmap.md + next-build.md
+npm run research:clusters   # clusters.json
+npm run research:gaps       # gap classification + missing-engines.json
+npm run research:validate   # CI gate: datasets + registry + report integrity (exit 1 on error)
+```
+
+On demand only — **never** in `npm run build`. Providers read local seed datasets in
+`research/datasets/*.json` (offline/deterministic); the 15 external sources (`reddit`, `github`,
+`autocomplete`, ...) are documented live-API seams in `src/lib/research/providers/` that return `[]`
+until wired. Scoring weights are data in `src/lib/research/config.ts`; longer-horizon engine
+hypotheses are data in `src/lib/research/taxonomy.ts`. To change recommendations, change the
+**evidence** (seed datasets) and re-run — never hand-edit a report.
+
+> **Standing rule — evidence-driven tool selection.** Never pick the next tool by intuition. Whenever
+> asked what to build next, for a new-tool idea/suggestion, or "let's build the next tool," first run
+> the RIE (`npm run research:next`) — or invoke the **`next-tool` skill** / the
+> **`research-intelligence` agent** — present the top scored opportunity *with reasoning* (demand,
+> weak incumbents, why ToyTools can win, the reusable engine and what it unlocks, suggested
+> guides/FAQs/links, effort/SEO/maintenance estimates), then implement via the **`add-tool`** skill.
+
 ```sh
 npm run quality:pr      # Quality Guardian — per-PR crawl/validate/autofix pass (quality-guardian/)
 npm run quality:weekly  # Quality Guardian — scheduled full-site sweep

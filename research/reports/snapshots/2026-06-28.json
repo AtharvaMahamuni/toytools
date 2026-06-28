@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "discovered": 19,
+  "deduped": 19,
+  "alreadyExists": 5,
+  "recommended": 11,
+  "missingEngines": 2,
+  "topScore": 81.6,
+  "nextBuild": "text-to-binary"
+}

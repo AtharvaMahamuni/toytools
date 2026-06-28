@@ -1,0 +1,108 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What Is Remove Accents? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Remove Accents strips the diacritical marks from letters while keeping the base letter, so
+      "café" becomes "cafe" and "naïve" becomes "naive". Case, spacing, and punctuation are
+      untouched. The plain ASCII result appears instantly as you type.
+    </p>
+    <a href={toolHref} class="cta-link">Try Remove Accents →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Plain ASCII Is Sometimes Required <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Many systems still expect unaccented ASCII: legacy databases, strict import formats, file
+      names, usernames, and some search indexes. Accented characters in those places can cause failed
+      lookups, mojibake, or rejected records. Stripping the accents makes the text compatible without
+      retyping it by hand.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The letter stays, the mark goes">
+      <p>
+        Removing accents keeps the base letter and only drops the mark above or below it, so words
+        stay readable. It is not the same as deleting the whole character.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool normalises the text so each accented letter is decomposed into a base letter plus a
+      separate combining mark, then removes those combining marks. "Crème Brûlée" becomes "Creme
+      Brulee" with the capitalisation and spacing preserved.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device,
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Some letters have no separable accent">
+      <p>
+        Characters like the German ß or the Polish ł are single letters rather than a base plus a
+        mark, so there is nothing to strip and they pass through unchanged. Mapping those to ASCII
+        needs an explicit transliteration step.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="It only removes marks">
+      <p>
+        Removing accents does not lowercase, hyphenate, or otherwise reformat your text. If you want
+        a web-safe slug, follow up with Slugify Text, which folds accents and formats the result.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

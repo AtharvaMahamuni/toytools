@@ -1,0 +1,442 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "clusters": [
+    {
+      "id": "line-break-removal",
+      "transformation": "Line Break Removal",
+      "engine": "text-processor",
+      "members": [
+        "remove-line-breaks"
+      ],
+      "existingMembers": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines",
+        "remove-duplicate-lines",
+        "remove-extra-spaces",
+        "remove-line-breaks",
+        "remove-tabs",
+        "reverse-text",
+        "sentence-case-converter",
+        "slugify-text",
+        "snake-case-converter",
+        "title-case-converter",
+        "trim-text",
+        "uppercase-converter"
+      ],
+      "size": 1,
+      "meanScore": 81.6,
+      "internalLinks": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-blank-lines",
+        "remove-extra-spaces"
+      ]
+    },
+    {
+      "id": "text-reversal",
+      "transformation": "Text Reversal",
+      "engine": "text-processor",
+      "members": [
+        "reverse-text"
+      ],
+      "existingMembers": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines",
+        "remove-duplicate-lines",
+        "remove-extra-spaces",
+        "remove-line-breaks",
+        "remove-tabs",
+        "reverse-text",
+        "sentence-case-converter",
+        "slugify-text",
+        "snake-case-converter",
+        "title-case-converter",
+        "trim-text",
+        "uppercase-converter"
+      ],
+      "size": 1,
+      "meanScore": 80.8,
+      "internalLinks": [
+        "camel-case-converter",
+        "find-replace",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "uppercase-converter"
+      ]
+    },
+    {
+      "id": "slugification",
+      "transformation": "Slugification",
+      "engine": "text-processor",
+      "members": [
+        "slugify-text"
+      ],
+      "existingMembers": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines",
+        "remove-duplicate-lines",
+        "remove-extra-spaces",
+        "remove-line-breaks",
+        "remove-tabs",
+        "reverse-text",
+        "sentence-case-converter",
+        "slugify-text",
+        "snake-case-converter",
+        "title-case-converter",
+        "trim-text",
+        "uppercase-converter"
+      ],
+      "size": 1,
+      "meanScore": 79.6,
+      "internalLinks": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "binary-encoding",
+      "transformation": "Binary Encoding",
+      "engine": "encoding",
+      "members": [
+        "text-to-binary"
+      ],
+      "existingMembers": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "size": 1,
+      "meanScore": 79.1,
+      "internalLinks": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ]
+    },
+    {
+      "id": "json-string-escaping",
+      "transformation": "JSON String Escaping",
+      "engine": "structured-data",
+      "members": [
+        "json-escape"
+      ],
+      "existingMembers": [
+        "csv-to-json-converter",
+        "json-formatter",
+        "json-minifier",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer",
+        "json-validator",
+        "yaml-to-json-converter"
+      ],
+      "size": 1,
+      "meanScore": 78.8,
+      "internalLinks": [
+        "csv-to-json-converter",
+        "json-formatter",
+        "json-minifier",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ]
+    },
+    {
+      "id": "rot13",
+      "transformation": "ROT13",
+      "engine": "encoding",
+      "members": [
+        "rot13-encoder-decoder"
+      ],
+      "existingMembers": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "size": 1,
+      "meanScore": 77.2,
+      "internalLinks": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ]
+    },
+    {
+      "id": "diacritic-removal",
+      "transformation": "Diacritic Removal",
+      "engine": "text-processor",
+      "members": [
+        "remove-accents"
+      ],
+      "existingMembers": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines",
+        "remove-duplicate-lines",
+        "remove-extra-spaces",
+        "remove-line-breaks",
+        "remove-tabs",
+        "reverse-text",
+        "sentence-case-converter",
+        "slugify-text",
+        "snake-case-converter",
+        "title-case-converter",
+        "trim-text",
+        "uppercase-converter"
+      ],
+      "size": 1,
+      "meanScore": 77,
+      "internalLinks": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "slugify-text"
+      ]
+    },
+    {
+      "id": "emoji-removal",
+      "transformation": "Emoji Removal",
+      "engine": "text-processor",
+      "members": [
+        "remove-emoji"
+      ],
+      "existingMembers": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-blank-lines",
+        "remove-duplicate-lines",
+        "remove-extra-spaces",
+        "remove-line-breaks",
+        "remove-tabs",
+        "reverse-text",
+        "sentence-case-converter",
+        "slugify-text",
+        "snake-case-converter",
+        "title-case-converter",
+        "trim-text",
+        "uppercase-converter"
+      ],
+      "size": 1,
+      "meanScore": 75.3,
+      "internalLinks": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "normalize-whitespace",
+        "remove-accents",
+        "remove-extra-spaces"
+      ]
+    },
+    {
+      "id": "checksum-crc32",
+      "transformation": "Checksum (CRC32)",
+      "engine": "hashing",
+      "members": [
+        "crc32-hash-generator"
+      ],
+      "existingMembers": [
+        "crc32-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "sha256-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "size": 1,
+      "meanScore": 72.5,
+      "internalLinks": [
+        "crc32-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "sha256-hash-generator",
+        "sha512-hash-generator"
+      ]
+    },
+    {
+      "id": "word-frequency-analysis",
+      "transformation": "Word Frequency Analysis",
+      "engine": "text-analysis",
+      "members": [
+        "word-frequency-counter"
+      ],
+      "existingMembers": [
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator",
+        "sentence-counter",
+        "space-counter",
+        "word-counter"
+      ],
+      "size": 1,
+      "meanScore": 68.8,
+      "internalLinks": [
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator",
+        "word-counter"
+      ]
+    },
+    {
+      "id": "csv-diff",
+      "transformation": "CSV Diff",
+      "engine": "csv",
+      "members": [
+        "csv-diff"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 67.1,
+      "internalLinks": [
+        "csv-to-json-converter",
+        "text-compare"
+      ]
+    },
+    {
+      "id": "timestamp-conversion",
+      "transformation": "Timestamp Conversion",
+      "engine": "datetime",
+      "members": [
+        "unix-timestamp-converter"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 65,
+      "internalLinks": []
+    },
+    {
+      "id": "csv-tsv-conversion",
+      "transformation": "CSV/TSV Conversion",
+      "engine": "csv",
+      "members": [
+        "csv-to-tsv"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 64,
+      "internalLinks": [
+        "csv-to-json-converter"
+      ]
+    },
+    {
+      "id": "csv-cleaning",
+      "transformation": "CSV Cleaning",
+      "engine": "csv",
+      "members": [
+        "csv-cleaner"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 62.9,
+      "internalLinks": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "age-calculation",
+      "transformation": "Age Calculation",
+      "engine": "datetime",
+      "members": [
+        "age-calculator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 62.5,
+      "internalLinks": []
+    },
+    {
+      "id": "date-difference",
+      "transformation": "Date Difference",
+      "engine": "datetime",
+      "members": [
+        "date-difference-calculator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 62.4,
+      "internalLinks": []
+    },
+    {
+      "id": "csv-column-selection",
+      "transformation": "CSV Column Selection",
+      "engine": "csv",
+      "members": [
+        "csv-column-picker"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 59.6,
+      "internalLinks": [
+        "csv-to-json-converter",
+        "json-to-csv-converter"
+      ]
+    },
+    {
+      "id": "timezone-conversion",
+      "transformation": "Timezone Conversion",
+      "engine": "datetime",
+      "members": [
+        "timezone-converter"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 56.2,
+      "internalLinks": []
+    },
+    {
+      "id": "cron-parsing",
+      "transformation": "Cron Parsing",
+      "engine": "datetime",
+      "members": [
+        "cron-expression-parser"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 55,
+      "internalLinks": []
+    }
+  ]
+}

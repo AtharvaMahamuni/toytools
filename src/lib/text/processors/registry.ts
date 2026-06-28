@@ -15,6 +15,8 @@ import { sentenceCase } from './transform/sentenceCase';
 import { camelCase } from './transform/camelCase';
 import { snakeCase } from './transform/snakeCase';
 import { kebabCase } from './transform/kebabCase';
+import { reverseText } from './transform/reverseText';
+import { slugify } from './transform/slugify';
 
 // cleanup/
 import { removeExtraSpaces } from './cleanup/removeExtraSpaces';
@@ -23,6 +25,8 @@ import { removeDuplicateLines } from './cleanup/removeDuplicateLines';
 import { trimLines } from './cleanup/trimLines';
 import { normalizeWhitespace } from './cleanup/normalizeWhitespace';
 import { removeTabs } from './cleanup/removeTabs';
+import { removeLineBreaks } from './cleanup/removeLineBreaks';
+import { removeAccents } from './cleanup/removeAccents';
 
 // Keyed by processor id. Values are the rich processor objects (id + family + process),
 // so future metadata (title, description, …) can be added without changing the API.
@@ -34,12 +38,16 @@ export const PROCESSORS: Record<string, TextProcessor> = {
   camelCase,
   snakeCase,
   kebabCase,
+  reverseText,
+  slugify,
   removeExtraSpaces,
   removeBlankLines,
   removeDuplicateLines,
   trimLines,
   normalizeWhitespace,
   removeTabs,
+  removeLineBreaks,
+  removeAccents,
 };
 
 /**

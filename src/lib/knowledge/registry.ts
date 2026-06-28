@@ -5,6 +5,10 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
+import { knowledge as removeAccents } from '@tools/text/remove-accents/knowledge';
+import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
+import { knowledge as removeLineBreaks } from '@tools/text/remove-line-breaks/knowledge';
+import { knowledge as reverseText } from '@tools/text/reverse-text/knowledge';
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
 import { knowledge as markupCalculator } from '@tools/number/markup-calculator/knowledge';
 import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
@@ -79,6 +83,10 @@ import { knowledge as percentageCalculator } from '@tools/number/percentage-calc
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  removeAccents,
+  slugifyText,
+  removeLineBreaks,
+  reverseText,
   taxCalculator,
   markupCalculator,
   punycodeConverter,

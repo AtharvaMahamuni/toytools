@@ -1,0 +1,80 @@
+// Provider contracts. Every research source exposes the SAME interface: discover(ctx) → RawOpportunity[].
+// Providers are pure and deterministic — they never call another provider, never write reports, and
+// never read module globals. The seed-dataset provider reads curated evidence handed to it via the
+// context (the CLI loads the JSON files; tests pass datasets inline) so the analyzer layer stays
+// free of filesystem access and remains trivially testable.
+
+import type { ProviderId, IntentKind, Difficulty } from '../constants';
+
+/** One curated evidence record inside research/datasets/<domain>.json. */
+export interface SeedRecord {
+  /** The originating user query / phrasing (used for searchQueries + the human-readable problem). */
+  query: string;
+  /** Plain-language statement of the user's problem. */
+  problem: string;
+  intent: IntentKind;
+  /** The reusable transformation this problem implies (e.g. "CSV Diff"), engine-agnostic. */
+  transformation: string;
+  /** Proposed tool slug (kebab-case) — the deterministic opportunity id derives from this. */
+  proposedTool: string;
+  /** Engine slug this would reuse. If it is not a registered engine, it becomes a missing-engine. */
+  proposedEngine: string;
+  proposedName?: string;
+  searchQueries: string[];
+  existingSolutions?: string[];
+  solutionWeaknesses?: string[];
+  relatedProblems?: string[];
+  relatedTools?: string[];
+  /** 0–100 raw demand signal (search volume proxy). */
+  demand: number;
+  /** 0–100 raw competition signal (higher = more/stronger incumbents). */
+  competition: number;
+  /** 0–100 how evergreen the need is (stable utility vs fad). Defaults high when omitted. */
+  evergreen?: number;
+  difficulty: Difficulty;
+  /** Optional localization hint, 0–100 (language-independent tools score higher). */
+  localization?: number;
+}
+
+/** A whole domain seed file. */
+export interface SeedDataset {
+  domain: string;
+  records: SeedRecord[];
+}
+
+/** A provider's normalized-but-unscored output. Carries only evidence; the analyzers/scorers derive
+ *  the rest. No provider-specific fields are allowed past this point. */
+export interface RawOpportunity {
+  source: ProviderId;
+  query: string;
+  problem: string;
+  intent: IntentKind;
+  transformation: string;
+  proposedTool: string;
+  proposedEngine: string;
+  proposedName?: string;
+  searchQueries: string[];
+  existingSolutions: string[];
+  solutionWeaknesses: string[];
+  relatedProblems: string[];
+  relatedTools: string[];
+  demand: number;
+  competition: number;
+  evergreen: number;
+  difficulty: Difficulty;
+  localization: number;
+}
+
+/** Read-only context handed to every provider. */
+export interface ProviderContext {
+  /** Seed evidence keyed by domain — populated by the CLI from research/datasets/*.json. */
+  datasets: SeedDataset[];
+  /** Current catalog tool slugs, so a provider could skip obvious duplicates (it does not have to). */
+  existingSlugs: Set<string>;
+}
+
+/** The uniform provider interface. */
+export interface Provider {
+  id: ProviderId;
+  discover(ctx: ProviderContext): RawOpportunity[];
+}

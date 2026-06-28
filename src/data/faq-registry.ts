@@ -1,4 +1,8 @@
 import type { FAQItem } from './types';
+import { items as removeAccentsFaqs } from '@tools/text/remove-accents/faq';
+import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
+import { items as removeLineBreaksFaqs } from '@tools/text/remove-line-breaks/faq';
+import { items as reverseTextFaqs } from '@tools/text/reverse-text/faq';
 import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
 import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
@@ -59,6 +63,10 @@ import { items as findReplaceFaqs }           from '@tools/text/find-replace/faq
 import { items as textCompareFaqs }           from '@tools/text/text-compare/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'remove-accents': removeAccentsFaqs,
+  'slugify-text': slugifyTextFaqs,
+  'remove-line-breaks': removeLineBreaksFaqs,
+  'reverse-text': reverseTextFaqs,
   'tax-calculator': taxCalculatorFaqs,
   'markup-calculator': markupCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
