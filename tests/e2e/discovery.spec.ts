@@ -19,10 +19,10 @@ test.describe('homepage directory', () => {
     await expect(jsonEntry).toHaveCount(1);
     await expect(jsonEntry).toHaveAttribute('data-group-slugs', /json-tree-viewer/);
 
-    // 42 tools, with every tool group collapsed to a single entry:
+    // 48 tools, with every tool group collapsed to a single entry:
     //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1).
-    // 42 − 10 = 32 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(32);
+    // 48 − 10 = 38 directory links.
+    await expect(directory.locator('.dir-link')).toHaveCount(38);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
@@ -44,7 +44,7 @@ test.describe('category pages', () => {
   test('text-utilities groups into three titled sections', async ({ page }) => {
     await page.goto('/category/text-utilities/');
     const headings = page.locator('.cat-section-heading');
-    await expect(headings).toHaveText(['Counting & Analysis', 'Case Conversion', 'Cleanup']);
+    await expect(headings).toHaveText(['Counting & Analysis', 'Case Conversion', 'Cleanup', 'Find & Compare']);
 
     // The case-converter group renders as one row with all seven mode chips.
     await expect(page.locator('.cat-chip')).toHaveCount(7);

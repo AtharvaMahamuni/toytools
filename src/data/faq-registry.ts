@@ -11,7 +11,9 @@ import { items as sha1HashGeneratorFaqs }  from '@tools/developer-utilities/sha1
 import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha256-hash-generator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as jsonToCsvConverterFaqs } from '@tools/developer-utilities/json-to-csv-converter/faq';
+import { items as csvToJsonConverterFaqs } from '@tools/developer-utilities/csv-to-json-converter/faq';
 import { items as jsonToYamlConverterFaqs } from '@tools/developer-utilities/json-to-yaml-converter/faq';
+import { items as yamlToJsonConverterFaqs } from '@tools/developer-utilities/yaml-to-json-converter/faq';
 import { items as jsonTreeViewerFaqs }  from '@tools/developer-utilities/json-tree-viewer/faq';
 import { items as jwtDecoderFaqs }      from '@tools/developer-utilities/jwt-decoder/faq';
 import { items as sha512HashGeneratorFaqs }  from '@tools/developer-utilities/sha512-hash-generator/faq';
@@ -63,7 +65,9 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'sha256-hash-generator':       sha256HashGeneratorFaqs,
   'hex-encoder-decoder':         hexEncoderDecoderFaqs,
   'json-to-csv-converter':       jsonToCsvConverterFaqs,
+  'csv-to-json-converter':       csvToJsonConverterFaqs,
   'json-to-yaml-converter':      jsonToYamlConverterFaqs,
+  'yaml-to-json-converter':      yamlToJsonConverterFaqs,
   'json-tree-viewer':            jsonTreeViewerFaqs,
   'jwt-decoder':                 jwtDecoderFaqs,
   'sha512-hash-generator':       sha512HashGeneratorFaqs,

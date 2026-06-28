@@ -25,6 +25,11 @@ export interface GuideConfig {
 
 export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';
 
+// Engine/pattern ids are a closed set declared in src/data/engines.ts. Importing the unions here
+// (type-only — fully erased at runtime, so no import cycle) turns a typo in a tool's config into a
+// compile-time error in the editor instead of a deferred validate-registry failure.
+import type { EngineId, PatternId } from './engines';
+
 export interface ToolConfig {
   slug: string;
   name: string;
@@ -37,8 +42,8 @@ export interface ToolConfig {
   guide?: GuideConfig;
   trustVariant?: 'private' | 'offline' | 'local';
   // Platform metadata — drives related tools, patterns, and future discovery
-  engine?: string;           // e.g. 'text-analysis' | 'text-processor'
-  pattern?: string;          // e.g. 'text-metric' | 'text-transform'
+  engine?: EngineId;         // closed set — see EngineId in src/data/engines.ts
+  pattern?: PatternId;       // closed set — see PatternId in src/data/engines.ts
   family?: string;           // e.g. 'text-counting' | 'text-case' | 'transform' | 'cleanup'
   toolGroup?: string;        // unified-workspace group id (src/data/tool-groups.ts) — members share a GroupSwitcher + input state
   processorId?: string;      // engine lookup key — resolved via the engine's registry (process/encode/hash/structured)

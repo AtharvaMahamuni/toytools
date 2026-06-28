@@ -19,7 +19,27 @@ ASTRO_SITE=https://toytoolsapp.com npm run build
 > through to GitHub Pages' `404.html`, which carries `noindex,nofollow` — exactly the
 > "noindex detected in 'robots' meta tag" that Search Console flags.
 
-`npm run build` is the verification step — it runs Astro rendering and strict TypeScript together. There is no separate lint script.
+`npm run build` is the verification step — it runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together. There is no separate lint script.
+
+```sh
+npm run validate:architecture  # architectural lint pass (orphan files, dead registry entries,
+                               # guide-route drift, self-referential knowledge, empty categories,
+                               # unmapped patterns that fall into the "Other" section bucket)
+```
+
+`validate-architecture.ts` is the *reverse* of `validate-registry.ts`: that one checks declared
+references resolve; this one catches files/entries that exist but nothing wires up (the drift that
+slips past a green build because Astro does not type-check `.astro` frontmatter and engine
+registries never throw). It runs inside `npm run build`; run it alone with the command above.
+
+```sh
+npm run check:duplication      # near-duplicate authored content (descriptions, FAQ answers,
+                               # knowledge summaries, common-mistakes) — WARN-only; -- --strict to fail
+```
+
+`check-duplication.ts` flags content that reads mass-produced as the catalog scales (word-shingle
+Jaccard similarity). Sibling tools naturally trip it (hash generators, case converters), so it is
+informational by default; run before shipping a batch of new tool content.
 
 ```sh
 npm run test            # vitest — engine-level unit tests
@@ -54,6 +74,16 @@ npm run version:show     # print the current APP_VERSION
 accessibility). It is **not** part of `npm run build`; it runs on its own CI workflow. Treat it
 like `seo-engine/`: a tooling sidecar, not part of the site bundle.
 
+## Indexing coverage
+
+`npm run check:indexing` reports which live URLs Google has actually indexed (indexed /
+crawled-not-indexed / discovered / excluded-noindex), via the Google Search Console URL Inspection
+API — no Search Console UI. It reads the same manifest-derived URL list as the sitemap/IndexNow
+(`dist/indexnow-urls.json`, so run `npm run build` first) and writes reports to
+`quality-guardian/reports/indexing/`. Use `-- --dry-run` to validate without credentials. The live
+path needs `GSC_SITE_URL` + `GSC_SA_KEY_JSON` (CI secrets); setup + the multi-provider seam are in
+`docs/indexing.md`. Runs weekly via `.github/workflows/indexing.yml` (never in the deploy path).
+
 ## Analytics
 
 Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.astro`. The tag ID is `G-WHD7CL44MX`. Since all pages go through `BaseLayout`, no further action is needed when adding new pages or tool types — the tag is inherited automatically. Do **not** add a second `gtag` snippet to individual pages or layouts.
@@ -79,6 +109,37 @@ Always rebase against `origin/main`: `git rebase origin/main`
 **Data-driven static site.** All pages are pre-rendered at build time. No server, no database, no client-side framework.
 
 See `ARCHITECTURE.md` at the project root for system-level patterns, widget conventions, and URL structure.
+
+### Breaking-changes playbook (what to touch together)
+
+Most edits are local, but a few changes ripple across files. When you make one of these, update
+**every** listed touchpoint in the same change or a validator/build will fail (or, worse, drift silently):
+
+- **Add an engine or pattern** → declare it in `src/data/engines.ts` (`ENGINE_IDS`/`PATTERN_IDS`
+  *and* `engineDefs`; the unions and the defs are cross-checked). `KNOWN_ENGINES`/`KNOWN_PATTERNS`
+  derive from here — never edit the validator. Add a `pattern → section` row in
+  `src/data/category-sections.ts`. If it has a runtime, wire it into `ToyToolsRuntime`.
+- **Add a tool** → `src/tools/<segment>/<slug>/{config.ts,Widget.astro}` + one import/entry in
+  `src/data/registry.ts`. A `processorId` must resolve in its engine registry **and** be unique
+  (collisions now fail `validate-registry`).
+- **Add a guide** → `guide:` in config + `Guide.astro` + slug in `src/data/guide-registry.ts`
+  **and** import in `src/pages/guide/[...slug].astro`. Missing the route import renders an empty
+  page — `validate-architecture` now catches it.
+- **Add a FAQ / knowledge file** → register in `src/data/faq-registry.ts` /
+  `src/lib/knowledge/registry.ts`. An authored file left unregistered is an orphan (it never
+  renders) and `validate-architecture` fails the build.
+- **Rename a category** (slug or segment) → `src/data/categories.ts`, every tool's
+  `categorySlug`, and add a noindex redirect stub in `src/data/tool-redirects.ts` for the old URL.
+  Never delete the old URL silently.
+- **Verify UI changes in a real browser** with `npm run test:e2e` (desktop + Pixel 5). Build/unit
+  tests do not catch widget JS errors; e2e does and is a PR gate.
+
+### Knowledge Graph (Phase D/E)
+
+`knowledge.ts` files feed `buildGraph()` (`src/lib/knowledge/`), the `EntityMatcher`, topic
+clusters, and `dist/knowledge-graph.json`. Related-tools/guides/FAQs are **derived** from the
+graph (engine→pattern→family→category); you author only the overlay fields (see "Adding a
+knowledge file" below). Coverage gaps surface in `npm run intel`.
 
 For a live bird's-eye view, the deployed **`/architecture/`** page (`src/pages/architecture.astro`) renders an interactive Mermaid map of Categories → Engines + cross-cutting layers, derived from the registries at build time (click any block to drill in). It self-updates as tools/engines are added — see `ARCHITECTURE.md` → "Architecture Diagram".
 

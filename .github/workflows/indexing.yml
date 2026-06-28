@@ -1,0 +1,52 @@
+name: Indexing Coverage
+
+# Automated "which pages are indexed?" report via the Google Search Console URL Inspection API.
+# Runs on a schedule (and on demand) — NEVER in the deploy path, and never blocks anything.
+# Requires two repo secrets (see docs/indexing.md): GSC_SITE_URL and GSC_SA_KEY_JSON.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 1'  # Monday 4am UTC — weekly indexing sweep
+
+env:
+  ASTRO_SITE: https://toytoolsapp.com
+  GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+  GSC_SA_KEY_JSON: ${{ secrets.GSC_SA_KEY_JSON }}
+
+jobs:
+  indexing:
+    name: Indexing coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix quality-guardian
+
+      - name: Build (regenerates dist/indexnow-urls.json)
+        run: npm run build
+
+      - name: Check indexing coverage
+        if: ${{ env.GSC_SA_KEY_JSON != '' }}
+        run: npm run check:indexing
+        continue-on-error: true  # report-only — never fail the workflow
+
+      - name: Skip notice
+        if: ${{ env.GSC_SA_KEY_JSON == '' }}
+        run: echo "GSC secrets not set — skipping. See docs/indexing.md to enable."
+
+      - name: Upload indexing report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexing-coverage
+          path: quality-guardian/reports/indexing/
+          if-no-files-found: ignore

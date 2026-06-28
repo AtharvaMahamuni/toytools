@@ -33,6 +33,45 @@ import { knowledge as marginCalculator }     from '@tools/number/margin-calculat
 // --- Productivity ---
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 
+// --- Text utilities (text-metric / text-counting family) ---
+import { knowledge as wordCounter }      from '@tools/text/word-counter/knowledge';
+import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
+import { knowledge as sentenceCounter }  from '@tools/text/sentence-counter/knowledge';
+import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
+import { knowledge as readingTime }      from '@tools/text/reading-time-calculator/knowledge';
+import { knowledge as letterCounter }    from '@tools/text/letter-counter/knowledge';
+import { knowledge as lineCounter }      from '@tools/text/line-counter/knowledge';
+import { knowledge as spaceCounter }     from '@tools/text/space-counter/knowledge';
+
+// --- Text utilities (text-transform / case-converters group) ---
+import { knowledge as uppercaseConverter }    from '@tools/text/uppercase-converter/knowledge';
+import { knowledge as lowercaseConverter }    from '@tools/text/lowercase-converter/knowledge';
+import { knowledge as titleCaseConverter }    from '@tools/text/title-case-converter/knowledge';
+import { knowledge as sentenceCaseConverter } from '@tools/text/sentence-case-converter/knowledge';
+import { knowledge as camelCaseConverter }    from '@tools/text/camel-case-converter/knowledge';
+import { knowledge as snakeCaseConverter }    from '@tools/text/snake-case-converter/knowledge';
+import { knowledge as kebabCaseConverter }    from '@tools/text/kebab-case-converter/knowledge';
+
+// --- Text utilities (text-cleanup family) ---
+import { knowledge as removeExtraSpaces }    from '@tools/text/remove-extra-spaces/knowledge';
+import { knowledge as removeBlankLines }     from '@tools/text/remove-blank-lines/knowledge';
+import { knowledge as removeDuplicateLines } from '@tools/text/remove-duplicate-lines/knowledge';
+import { knowledge as trimText }             from '@tools/text/trim-text/knowledge';
+import { knowledge as normalizeWhitespace }  from '@tools/text/normalize-whitespace/knowledge';
+import { knowledge as removeTabs }           from '@tools/text/remove-tabs/knowledge';
+
+// --- Text utilities (text-interactive) ---
+import { knowledge as findReplace }  from '@tools/text/find-replace/knowledge';
+import { knowledge as textCompare }  from '@tools/text/text-compare/knowledge';
+
+// --- Productivity ---
+import { knowledge as todoList }        from '@tools/productivity/todo-list/knowledge';
+import { knowledge as notepad }         from '@tools/productivity/notepad/knowledge';
+import { knowledge as keepScreenAwake } from '@tools/productivity/keep-screen-awake/knowledge';
+
+// --- Number utilities ---
+import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   pomodoroTimer,
@@ -56,6 +95,33 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   yamlToJson,
   jsonTreeViewer,
   jwtDecoder,
+  wordCounter,
+  characterCounter,
+  sentenceCounter,
+  paragraphCounter,
+  readingTime,
+  letterCounter,
+  lineCounter,
+  spaceCounter,
+  uppercaseConverter,
+  lowercaseConverter,
+  titleCaseConverter,
+  sentenceCaseConverter,
+  camelCaseConverter,
+  snakeCaseConverter,
+  kebabCaseConverter,
+  removeExtraSpaces,
+  removeBlankLines,
+  removeDuplicateLines,
+  trimText,
+  normalizeWhitespace,
+  removeTabs,
+  findReplace,
+  textCompare,
+  todoList,
+  notepad,
+  keepScreenAwake,
+  percentageCalculator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

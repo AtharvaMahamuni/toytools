@@ -38,6 +38,11 @@ jobs:
 
       - name: Build site
         run: npm run build
+        env:
+          KNOWLEDGE_REQUIRED: 'true'  # coverage is 100% — a missing knowledge.ts now fails the PR
+
+      - name: Platform health check
+        run: npm run health
 
       - name: Run quality PR check
         run: npm run quality:pr
@@ -48,6 +53,77 @@ jobs:
         with:
           name: quality-report-pr
           path: quality-guardian/reports/
+
+  # Browser E2E on PRs/pushes — Chromium only for speed (the weekly job runs Pixel 5 too).
+  # Playwright's webServer builds + serves dist, so no separate build step is needed here.
+  e2e:
+    name: E2E (Chromium)
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E (chromium)
+        run: npx playwright test --project=chromium
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+  # Content quality gate for the tools touched in a PR. Non-blocking for now: existing tools may
+  # sit below the bar until the content pass lands. Flip `continue-on-error` to false (and drop
+  # this comment) once every tool passes `seo:gate`, to make the human-voice bar a merge gate.
+  content-gate:
+    name: Content Gate (changed tools)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root + seo-engine dependencies
+        run: |
+          npm ci
+          npm ci --prefix seo-engine
+
+      - name: Gate changed tools
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          slugs=$(git diff --name-only "$base" HEAD -- 'src/tools/*/*/' \
+            | sed -E 's#src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)
+          if [ -z "$slugs" ]; then
+            echo "No tool directories changed — nothing to gate."
+            exit 0
+          fi
+          echo "Gating changed tools:"; echo "$slugs"
+          status=0
+          for slug in $slugs; do
+            echo "::group::seo:gate $slug"
+            npm run seo:gate -- "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
 
   weekly-full-audit:
     name: Weekly Full Audit
@@ -70,6 +146,13 @@ jobs:
       - name: Install Lighthouse (weekly only)
         run: npm install --prefix quality-guardian lighthouse
 
+      - name: Install browsers (all projects)
+        run: npx playwright install --with-deps
+
+      - name: Run full E2E (chromium + pixel5)
+        run: npx playwright test
+        continue-on-error: true  # report-only on the weekly sweep
+
       - name: Build site
         run: npm run build
 
@@ -78,6 +161,7 @@ jobs:
         continue-on-error: true  # never fail deployment on weekly audit
 
       - name: Upload quality report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quality-report-weekly

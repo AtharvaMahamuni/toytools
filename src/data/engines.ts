@@ -27,11 +27,29 @@ export interface EngineManifest {
   toolCount: number;
 }
 
+// Literal id tuples — the single source for the type-level unions. ToolConfig.engine /
+// ToolConfig.pattern reference these so a typo (e.g. 'encodng') is a compile-time error in the
+// editor, not a deferred validate-registry failure. Keep these in sync with engineDefs below;
+// EngineDef.id/patterns are typed against them, so an id used in engineDefs but absent here
+// (or vice-versa) is a TS error.
+const ENGINE_IDS = [
+  'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
+  'jwt', 'text-interactive', 'calculator', 'productivity',
+] as const;
+export type EngineId = (typeof ENGINE_IDS)[number];
+
+const PATTERN_IDS = [
+  'text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'hash',
+  'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
+  'calculate', 'stateful',
+] as const;
+export type PatternId = (typeof PATTERN_IDS)[number];
+
 interface EngineDef {
-  id: string;
+  id: EngineId;
   name: string;
   category: string;
-  patterns: string[];
+  patterns: PatternId[];
   runtimeGlobal: string;
   supportsGuides?: boolean;
   supportsFaqs?: boolean;

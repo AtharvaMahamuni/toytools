@@ -9,10 +9,12 @@
   "scripts": {
     "quality:pr": "tsx index.ts pr",
     "quality:weekly": "tsx index.ts weekly",
+    "indexing": "tsx scripts/check-indexing.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "cheerio": "^1.0.0"
+    "cheerio": "^1.0.0",
+    "google-auth-library": "^9.14.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
