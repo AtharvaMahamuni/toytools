@@ -1,0 +1,108 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What Is Slugify Text? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Slugify Text turns a title into a clean URL slug. It strips accents to plain letters,
+      lowercases everything, and replaces spaces and punctuation with single hyphens. "My First
+      Post!" becomes "my-first-post". Paste a list and you get one slug per line.
+    </p>
+    <a href={toolHref} class="cta-link">Try Slugify Text →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Clean Slugs Matter <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A slug is the readable tail of a web address, like "how-to-slugify-text". Clean, keyword-bearing
+      slugs are easy to read, easy to share, and give search engines a clear signal about the page.
+      Slugs full of spaces, capital letters, or symbols get percent-encoded into noise and look
+      untrustworthy in search results.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One slug per line">
+      <p>
+        Each line is slugified independently, so you can convert a whole list of titles in a single
+        pass instead of one at a time.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For each line the tool decomposes accented letters and removes the accent marks, lowercases the
+      result, replaces every run of non-alphanumeric characters with one hyphen, and trims any
+      hyphens from the ends. "Crème Brûlée Recipe" becomes "creme-brulee-recipe".
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device,
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Slugs are always lowercase ASCII">
+      <p>
+        Slugify intentionally folds accents to plain letters and lowercases everything for maximum
+        compatibility. If you need to keep accented characters, use a different formatting step.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Slugify is not the same as kebab-case">
+      <p>
+        The Kebab Case converter hyphenates words but keeps accented letters as they are. Slugify
+        also strips those accents to make a fully web-safe URL, which is what you usually want for a
+        permalink.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

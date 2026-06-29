@@ -1,0 +1,639 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "top": [
+    {
+      "id": "text-to-binary",
+      "title": "Text to Binary",
+      "problem": "I need to convert text to its binary representation and back for a CS assignment.",
+      "userIntent": "transactional",
+      "workflow": "text → Binary Encoding → encoded text",
+      "transformation": "Binary Encoding",
+      "proposedTool": "text-to-binary",
+      "proposedEngine": "encoding",
+      "searchQueries": [
+        "text to binary converter",
+        "text to binary",
+        "binary to text",
+        "ascii to binary converter",
+        "string to binary"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "rapidtables",
+        "misc converter sites"
+      ],
+      "solutionWeaknesses": [
+        "cluttered UIs",
+        "no live two-way preview",
+        "ads"
+      ],
+      "relatedProblems": [
+        "hex encoding",
+        "ascii codes"
+      ],
+      "relatedTools": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedGuides": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedFaqs": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.68,
+      "searchDemand": 0.74,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.9,
+      "confidence": 0.8,
+      "finalScore": 79.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "json-escape",
+      "title": "JSON Escape / Unescape",
+      "problem": "I need to escape a block of text so it is a valid JSON string value (quotes, newlines).",
+      "userIntent": "troubleshooting",
+      "workflow": "data → JSON String Escaping → data",
+      "transformation": "JSON String Escaping",
+      "proposedTool": "json-escape",
+      "proposedEngine": "structured-data",
+      "searchQueries": [
+        "json escape string",
+        "json escape",
+        "json string escape online",
+        "escape json",
+        "json unescape"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "freeformatter",
+        "code snippets"
+      ],
+      "solutionWeaknesses": [
+        "server round-trips",
+        "no offline tool",
+        "separate escape vs unescape pages"
+      ],
+      "relatedProblems": [
+        "json formatting",
+        "string escaping"
+      ],
+      "relatedTools": [
+        "json-formatter",
+        "json-minifier",
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ],
+      "relatedGuides": [
+        "json-formatter",
+        "json-minifier",
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ],
+      "relatedFaqs": [
+        "json-formatter",
+        "json-minifier",
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.63,
+      "searchDemand": 0.76,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.35,
+      "localizationPotential": 0.92,
+      "confidence": 0.8,
+      "finalScore": 78.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "rot13-encoder-decoder",
+      "title": "ROT13 Encoder / Decoder",
+      "problem": "I need to ROT13-encode/decode a string for an obfuscation puzzle.",
+      "userIntent": "transactional",
+      "workflow": "text → ROT13 → encoded text",
+      "transformation": "ROT13",
+      "proposedTool": "rot13-encoder-decoder",
+      "proposedEngine": "encoding",
+      "searchQueries": [
+        "rot13 encoder online",
+        "rot13",
+        "rot13 decoder",
+        "rot13 online",
+        "caesar cipher rot13"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "cyberchef",
+        "random cipher sites"
+      ],
+      "solutionWeaknesses": [
+        "cyberchef is heavy for one transform",
+        "ad-laden single-purpose sites"
+      ],
+      "relatedProblems": [
+        "caesar cipher",
+        "base64"
+      ],
+      "relatedTools": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedGuides": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "relatedFaqs": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter",
+        "html-entity-encoder-decoder",
+        "punycode-converter",
+        "url-encoder-decoder"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.84,
+      "competitionScore": 0.74,
+      "searchDemand": 0.64,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.53,
+      "localizationPotential": 0.9,
+      "confidence": 0.8,
+      "finalScore": 77.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "remove-emoji",
+      "title": "Remove Emoji",
+      "problem": "I need to strip all emoji and pictographs out of a block of text before importing it.",
+      "userIntent": "troubleshooting",
+      "workflow": "text → Emoji Removal → text",
+      "transformation": "Emoji Removal",
+      "proposedTool": "remove-emoji",
+      "proposedEngine": "text-processor",
+      "searchQueries": [
+        "remove emoji from text",
+        "remove emoji",
+        "strip emoji from text",
+        "delete emojis online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "regex from blog posts"
+      ],
+      "solutionWeaknesses": [
+        "emoji ranges are tricky",
+        "tools miss newer emoji",
+        "privacy concerns pasting elsewhere"
+      ],
+      "relatedProblems": [
+        "remove special characters",
+        "clean text"
+      ],
+      "relatedTools": [
+        "remove-extra-spaces",
+        "normalize-whitespace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "remove-accents"
+      ],
+      "relatedGuides": [
+        "remove-extra-spaces",
+        "normalize-whitespace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "remove-accents"
+      ],
+      "relatedFaqs": [
+        "remove-extra-spaces",
+        "normalize-whitespace",
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "remove-accents"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.78,
+      "competitionScore": 0.76,
+      "searchDemand": 0.66,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.74,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.33,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 75.3,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "word-frequency-counter",
+      "title": "Word Frequency Counter",
+      "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
+      "userIntent": "informational",
+      "workflow": "text → Word Frequency Analysis → metrics",
+      "transformation": "Word Frequency Analysis",
+      "proposedTool": "word-frequency-counter",
+      "proposedEngine": "text-analysis",
+      "searchQueries": [
+        "count words by frequency",
+        "word frequency counter",
+        "most common words in text",
+        "keyword density tool"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "SEO keyword density tools"
+      ],
+      "solutionWeaknesses": [
+        "bundled into paid SEO suites",
+        "over-complicated for a quick check"
+      ],
+      "relatedProblems": [
+        "word count",
+        "keyword density"
+      ],
+      "relatedTools": [
+        "word-counter",
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator"
+      ],
+      "relatedGuides": [
+        "word-counter",
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator"
+      ],
+      "relatedFaqs": [
+        "word-counter",
+        "character-counter",
+        "letter-counter",
+        "line-counter",
+        "paragraph-counter",
+        "reading-time-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.82,
+      "competitionScore": 0.52,
+      "searchDemand": 0.72,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.65,
+      "confidence": 0.8,
+      "finalScore": 68.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "csv-diff",
+      "title": "CSV Diff",
+      "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
+      "userIntent": "comparison",
+      "workflow": "CSV → CSV Diff → CSV",
+      "transformation": "CSV Diff",
+      "proposedTool": "csv-diff",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv diff online",
+        "csv diff",
+        "compare csv files",
+        "csv compare online",
+        "diff two csv"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "paid desktop apps",
+        "git diff (devs only)"
+      ],
+      "solutionWeaknesses": [
+        "uploads sensitive data to a server",
+        "paywalled",
+        "not row-aware"
+      ],
+      "relatedProblems": [
+        "json diff",
+        "text compare"
+      ],
+      "relatedTools": [
+        "text-compare",
+        "csv-to-json-converter"
+      ],
+      "relatedGuides": [
+        "text-compare",
+        "csv-to-json-converter"
+      ],
+      "relatedFaqs": [
+        "text-compare",
+        "csv-to-json-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.84,
+      "competitionScore": 0.78,
+      "searchDemand": 0.82,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.93,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 67.1,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "unix-timestamp-converter",
+      "title": "Unix Timestamp Converter",
+      "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Timestamp Conversion → date/time",
+      "transformation": "Timestamp Conversion",
+      "proposedTool": "unix-timestamp-converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "unix timestamp converter",
+        "epoch to date",
+        "timestamp to date",
+        "epoch converter"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "epochconverter.com"
+      ],
+      "solutionWeaknesses": [
+        "single incumbent dominates",
+        "dated UI",
+        "ad-supported"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "timezone conversion"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.53,
+      "searchDemand": 0.9,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.84,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 65,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "csv-to-tsv",
+      "title": "CSV to TSV",
+      "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
+      "userIntent": "transactional",
+      "workflow": "CSV → CSV/TSV Conversion → CSV",
+      "transformation": "CSV/TSV Conversion",
+      "proposedTool": "csv-to-tsv",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv to tsv converter",
+        "csv to tsv",
+        "convert csv to tab separated",
+        "csv tsv online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "spreadsheet save-as"
+      ],
+      "solutionWeaknesses": [
+        "requires a spreadsheet app",
+        "mangles quoting"
+      ],
+      "relatedProblems": [
+        "csv to json",
+        "delimiter change"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.82,
+      "searchDemand": 0.58,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.71,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.9,
+      "confidence": 0.64,
+      "finalScore": 64,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "csv-cleaner",
+      "title": "CSV Cleaner",
+      "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
+      "userIntent": "troubleshooting",
+      "workflow": "CSV → CSV Cleaning → CSV",
+      "transformation": "CSV Cleaning",
+      "proposedTool": "csv-cleaner",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv cleaner remove empty rows",
+        "csv cleaner",
+        "clean csv online",
+        "remove empty rows csv",
+        "fix messy csv"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "spreadsheet manual cleanup"
+      ],
+      "solutionWeaknesses": [
+        "manual and error-prone",
+        "no repeatable rule set"
+      ],
+      "relatedProblems": [
+        "csv diff",
+        "remove blank lines"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.82,
+      "competitionScore": 0.76,
+      "searchDemand": 0.7,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.86,
+      "confidence": 0.8,
+      "finalScore": 62.9,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "age-calculator",
+      "title": "Age Calculator",
+      "problem": "I want to calculate an exact age in years, months and days from a birth date.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Age Calculation → date/time",
+      "transformation": "Age Calculation",
+      "proposedTool": "age-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "age calculator from birthdate",
+        "age calculator",
+        "calculate age from date of birth",
+        "how old am i"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "existingSolutions": [
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "generic calculator hub",
+        "no shareable clean result"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "countdown"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.78,
+      "confidence": 0.8,
+      "finalScore": 62.5,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    }
+  ]
+}

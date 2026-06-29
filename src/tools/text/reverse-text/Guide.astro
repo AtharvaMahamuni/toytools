@@ -1,0 +1,108 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>What Is Reverse Text? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reverse Text flips your text backwards, character by character: the last character becomes the
+      first and the first becomes the last. "hello world" becomes "dlrow olleh". The letters
+      themselves are never changed, only their order, and the result appears instantly as you type.
+    </p>
+    <a href={toolHref} class="cta-link">Try Reverse Text →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>When Backwards Text Is Useful <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reversed text shows up in word puzzles and games, in palindrome checks (a word that reads the
+      same forwards and backwards), in mirror-style captions for social media, and any time you want
+      to inspect a string from the opposite end. Because the tool runs in your browser, it is also a
+      fast way to flip private notes without sending them anywhere.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Whole text, not just words">
+      <p>
+        Reversing treats your input as one continuous sequence of characters. Every letter, space,
+        and line break is included, so the order of lines flips too, not only the words on them.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool reads your text as a list of whole characters and writes them out in the opposite
+      order. It reverses by character rather than by raw code unit, so emoji and accented letters
+      stay whole instead of breaking into fragments. "café 🚀" reverses cleanly with the accent and
+      the emoji intact.
+    </p>
+    <p>
+      This tool is free and runs online entirely in your browser. Your text stays on your device,
+      protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Reversing is not encryption">
+      <p>
+        Backwards text is trivial to read once reversed again, so it hides nothing. Use it for fun
+        or formatting, not to protect sensitive information.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Line order flips with the characters">
+      <p>
+        Reversing the whole block moves your last line to the top. If you only want the characters
+        within each line flipped while keeping the lines in place, reverse one line at a time.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="related-tools">
+    <p>
+      <strong>Related tools:</strong> explore all text case and cleanup utilities in the
+      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

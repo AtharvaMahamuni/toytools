@@ -1,4 +1,8 @@
 import type { ToolConfig } from './types';
+import { config as removeAccents } from '@tools/text/remove-accents/config';
+import { config as slugifyText } from '@tools/text/slugify-text/config';
+import { config as removeLineBreaks } from '@tools/text/remove-line-breaks/config';
+import { config as reverseText } from '@tools/text/reverse-text/config';
 import { config as taxCalculator } from '@tools/number/tax-calculator/config';
 import { config as markupCalculator } from '@tools/number/markup-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
@@ -58,6 +62,10 @@ import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-ti
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  removeAccents,
+  slugifyText,
+  removeLineBreaks,
+  reverseText,
   taxCalculator,
   markupCalculator,
   punycodeConverter,

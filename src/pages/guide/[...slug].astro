@@ -3,6 +3,10 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
+import RemoveAccentsGuide from '../../tools/text/remove-accents/Guide.astro';
+import SlugifyTextGuide from '../../tools/text/slugify-text/Guide.astro';
+import RemoveLineBreaksGuide from '../../tools/text/remove-line-breaks/Guide.astro';
+import ReverseTextGuide from '../../tools/text/reverse-text/Guide.astro';
 import TaxCalculatorGuide from '../../tools/number/tax-calculator/Guide.astro';
 import MarkupCalculatorGuide from '../../tools/number/markup-calculator/Guide.astro';
 import PunycodeConverterGuide from '../../tools/developer-utilities/punycode-converter/Guide.astro';
@@ -67,6 +71,10 @@ import TextCompareGuide           from '../../tools/text/text-compare/Guide.astr
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
+  'remove-accents': RemoveAccentsGuide,
+  'slugify-text': SlugifyTextGuide,
+  'remove-line-breaks': RemoveLineBreaksGuide,
+  'reverse-text': ReverseTextGuide,
   'tax-calculator': TaxCalculatorGuide,
   'markup-calculator': MarkupCalculatorGuide,
   'punycode-converter': PunycodeConverterGuide,

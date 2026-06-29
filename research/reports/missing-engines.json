@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "engines": [
+    {
+      "engine": "csv",
+      "exists": false,
+      "confidence": 0.95,
+      "transformations": [
+        "CSV Cleaning",
+        "CSV Column Selection",
+        "CSV Diff",
+        "CSV/TSV Conversion"
+      ],
+      "unlocksTools": [
+        "csv-diff",
+        "csv-to-tsv",
+        "csv-cleaner",
+        "csv-column-picker"
+      ],
+      "topScore": 67.1,
+      "rationale": [
+        "4 opportunities share the missing \"csv\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
+      ]
+    },
+    {
+      "engine": "datetime",
+      "exists": false,
+      "confidence": 0.97,
+      "transformations": [
+        "Age Calculation",
+        "Cron Parsing",
+        "Date Difference",
+        "Timestamp Conversion",
+        "Timezone Conversion"
+      ],
+      "unlocksTools": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "date-difference-calculator",
+        "timezone-converter",
+        "cron-expression-parser"
+      ],
+      "topScore": 65,
+      "rationale": [
+        "5 opportunities share the missing \"datetime\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 5 tools."
+      ]
+    }
+  ]
+}

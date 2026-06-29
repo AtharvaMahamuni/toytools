@@ -58,3 +58,7 @@ quality-guardian/node_modules/
 quality-guardian/dist-ts/
 quality-guardian/reports/*
 !quality-guardian/reports/.gitkeep
+
+# research-intelligence engine: cache is regenerable; datasets + reports are committed
+research/cache/*
+!research/cache/.gitkeep
