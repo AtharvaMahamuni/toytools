@@ -27,7 +27,7 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'What is compound interest?',
-    'How is monthly compounding different from yearly?',
+    'What is the difference between monthly and yearly compounding?',
     'Is compound interest the same as CAGR?',
   ],
   usedWith: [

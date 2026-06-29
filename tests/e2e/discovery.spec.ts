@@ -4,10 +4,10 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('homepage directory', () => {
-  test('renders four category columns with collapsed tool groups', async ({ page }) => {
+  test('renders five category columns with collapsed tool groups', async ({ page }) => {
     await page.goto('/');
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
-    await expect(directory.locator('.dir-column')).toHaveCount(4);
+    await expect(directory.locator('.dir-column')).toHaveCount(5);
 
     // Case converters collapse to a single entry that still covers every member slug.
     const caseEntry = directory.getByRole('link', { name: 'Case Converter' });
@@ -19,10 +19,10 @@ test.describe('homepage directory', () => {
     await expect(jsonEntry).toHaveCount(1);
     await expect(jsonEntry).toHaveAttribute('data-group-slugs', /json-tree-viewer/);
 
-    // 57 tools, with every tool group collapsed to a single entry:
+    // 62 tools, with every tool group collapsed to a single entry:
     //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1).
-    // 57 − 10 = 47 directory links.
-    await expect(directory.locator('.dir-link')).toHaveCount(47);
+    // 62 − 10 = 52 directory links (the 5 finance tools are not grouped).
+    await expect(directory.locator('.dir-link')).toHaveCount(52);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

@@ -11,19 +11,19 @@ export const items: FAQItem[] = [
     id: 'sg-faq-2',
     question: 'How do investment returns change what I need to save?',
     answer:
-      'A positive return does part of the work for you, so the higher the return you assume, the lower the monthly amount you need. The growth on your contributions and current balance counts toward the goal. The trade off is that higher assumed returns usually mean more risk and less certainty, so it is wise to be conservative.',
+      'A positive return does part of the work for you, so the higher the return you assume, the lower the monthly amount you need. The growth on your contributions and current balance counts toward the goal. The trade off is that higher assumed returns mean more risk and less certainty, so it is wise to be conservative.',
   },
   {
     id: 'sg-faq-3',
     question: 'What return rate should I assume for a savings goal?',
     answer:
-      'It depends on where you keep the money and your time frame. Cash and short term savings earn little, while diversified investments have historically earned more over long periods but with ups and downs. For a short goal of a year or two, a low rate is safer. For a longer goal, you might assume a higher rate but plan for variability.',
+      'It depends on where you keep the money and your time frame. Cash and short term savings earn little, while diversified investments have historically earned more over long periods but with ups and downs. For a short goal of a year or two, a low rate is safer. For a longer goal, a higher rate is reasonable, but plan for variability along the way.',
   },
   {
     id: 'sg-faq-4',
     question: 'What happens if I start saving later?',
     answer:
-      'Starting later shortens the time your money has to grow, so the required monthly amount rises, often sharply. Time is the most powerful lever in saving because of compounding. Even a year or two earlier can noticeably reduce how much you need to set aside each month.',
+      'Starting later shortens the time your money has to grow, so the required monthly amount rises sharply. Time is the most important lever in saving because of compounding. Even a year or two earlier reduces how much you need to set aside each month.',
   },
   {
     id: 'sg-faq-5',
@@ -41,6 +41,6 @@ export const items: FAQItem[] = [
     id: 'sg-faq-7',
     question: 'Does this account for inflation?',
     answer:
-      'No, the goal is treated as a fixed future amount. If your goal is years away, the real cost may be higher than today price because of inflation. To set a more realistic target, run your goal through the inflation calculator first and use the future cost as your goal here.',
+      'No, the goal is treated as a fixed future amount. If your goal is years away, the real cost will be higher than today price because of inflation. To set a more realistic target, run your goal through the inflation calculator first and use the future cost as your goal here.',
   },
 ];

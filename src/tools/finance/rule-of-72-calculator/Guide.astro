@@ -28,9 +28,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The Rule of 72 is a quick way to estimate how long money takes to double. Divide 72 by
-      the annual growth rate written as a percent. At 8% a year, money doubles in about
-      72 / 8 = 9 years. It is an approximation, but a remarkably good one at everyday rates.
+      The Rule of 72, sometimes written the rule of seventy two, is a quick way to estimate how
+      long money takes to double. It answers "how long to double money" without a calculator:
+      divide 72 by the annual growth rate written as a percent. For example, at 8% a year, money
+      doubles in about 72 / 8 = 9 years. It is an approximation, but a remarkably good one at the
+      compound growth rates people see in practice.
     </p>
     <a href={toolHref} class="cta-link">Try The Rule of 72 Calculator →</a>
   </section>
@@ -46,11 +48,30 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
   </section>
 
+  <section id="how-to-find-the-rate-to-double-in-n-years">
+    <h2>How to Find the Rate Needed to Double in N Years <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Run the rule in reverse: divide 72 by the number of years you have. For example, to double
+      your money in 10 years you need about 72 / 10 = 7.2% a year, and to double in 6 years you
+      need about 12%. This is a fast way to judge whether a target return is realistic.
+    </p>
+  </section>
+
   <section id="examples">
     <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p><strong>How long to double at 8%?</strong> 72 / 8 = 9 years.</p>
+    <p><strong>For example, how long to double at 8%?</strong> 72 / 8 = 9 years.</p>
     <p><strong>What rate doubles money in 6 years?</strong> 72 / 6 = 12% a year.</p>
     <p><strong>Inflation in reverse.</strong> At 3% inflation, prices double, and purchasing power halves, in about 72 / 3 = 24 years.</p>
+  </section>
+
+  <section id="rule-of-72-versus-the-exact-formula">
+    <h2>Rule of 72 Versus the Exact Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compared to the exact doubling time, the Rule of 72 trades a little accuracy for speed.
+      The difference between the two is tiny between roughly 6% and 10%, and grows at extreme
+      rates. Some people use 70 or 69.3 instead of 72 for slightly better accuracy at low rates,
+      but 72 wins on mental math because it divides cleanly by so many numbers.
+    </p>
   </section>
 
   <section id="formula">

@@ -35,10 +35,10 @@ const heroId = `${idPrefix}-hero`;
     data-cap-comparison={String(caps.comparison)}
     data-cap-visualization={String(caps.visualization)}
   >
-    <p class="experience-empty empty-hint" data-experience-empty>{emptyText}</p>
+    <p class="experience-empty empty-hint" data-experience-empty role="status" aria-live="polite">{emptyText}</p>
 
     <div class="experience-sections" data-experience-sections hidden>
-      <div class="tm-hero experience-section" data-section="hero" hidden>
+      <div class="tm-hero experience-section" data-section="hero" role="status" aria-live="polite" aria-atomic="true" hidden>
         <span class="hero-value" id={heroId} data-hero-value>0</span>
         <span class="hero-label" data-hero-label></span>
         <p class="hero-note" data-hero-note hidden></p>

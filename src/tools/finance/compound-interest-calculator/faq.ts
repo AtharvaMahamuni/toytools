@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'ci-faq-3',
     question: 'What is the difference between monthly and yearly compounding?',
     answer:
-      'More frequent compounding means interest is added to the balance more often, so the next period earns slightly more. Monthly compounding produces a marginally higher result than yearly compounding at the same nominal rate, but the difference is smaller than most people expect. Time and the rate matter far more than how often interest compounds.',
+      'More frequent compounding means interest is added to the balance sooner, so the next period earns slightly more. Monthly compounding produces a higher result than yearly compounding at the same stated annual rate, but the difference is small. Time and the rate matter far more than how frequently interest compounds.',
   },
   {
     id: 'ci-faq-4',
@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'ci-faq-6',
     question: 'How much difference do monthly contributions make?',
     answer:
-      'A lot, especially over long periods. Each contribution compounds for the time remaining, so regular monthly amounts often end up contributing more to the final balance than the starting lump sum. Adding even a modest amount every month and leaving it to compound is one of the most reliable ways to build wealth.',
+      'A lot, especially over long periods. Each contribution compounds for the time remaining, so regular monthly amounts end up contributing more to the final balance than the starting lump sum. Adding even a modest amount every month and leaving it to compound is one of the most reliable ways to build wealth.',
   },
   {
     id: 'ci-faq-7',

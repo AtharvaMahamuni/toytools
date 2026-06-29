@@ -28,10 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A savings goal calculator answers a simple question: how much do I need to set aside
-      each month to reach a target by a certain date? It accounts for what you have already
-      saved and the return you expect to earn, then solves for the level monthly contribution
-      that gets you there on time.
+      A savings goal calculator answers a simple question: how much to save each month to reach a
+      savings target by a certain date. It accounts for what you have already saved and the return
+      you expect to earn, then solves for the level monthly savings that get you there on time.
+      For example, a $50,000 target in five years is reached with a steady amount each month.
     </p>
     <a href={toolHref} class="cta-link">Try The Savings Goal Calculator →</a>
   </section>
@@ -41,9 +41,18 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       The calculation is a sinking fund: your current savings grow at the expected return, and
       each monthly contribution also grows for the time remaining. The tool finds the
-      contribution that makes the total reach your goal exactly at the deadline. A higher
-      assumed return or a longer timeframe lowers the monthly amount, because growth does more
-      of the work.
+      contribution that makes the total reach your goal exactly at the deadline.
+    </p>
+  </section>
+
+  <section id="time-horizon-and-return">
+    <h2>Time Horizon and Return: Shorter Versus Longer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Two inputs move the monthly amount the most. A shorter versus longer time horizon matters
+      because a longer timeframe gives compounding more room, so the monthly savings drop.
+      Therefore, starting later sharply raises the monthly amount, since the same goal must be
+      met with fewer contributions. A higher assumed return lowers the monthly saving but adds
+      risk, because reaching for higher returns means more ups and downs along the way.
     </p>
   </section>
 

@@ -28,10 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Inflation is the steady rise in prices over time, which means a fixed amount of money
-      buys less each year. To find future purchasing power, divide the amount by (1 + inflation
-      rate) raised to the number of years. At 3% inflation, $100,000 will buy what about
-      $47,761 buys today after 25 years.
+      Inflation is the steady rise in the cost of living over time, which means a fixed amount of
+      money buys less each year. To find the future value of money in today terms, divide the
+      amount by (1 + inflation rate) raised to the number of years. For example, at 3% inflation,
+      $100,000 will buy what about $47,761 buys today after 25 years.
     </p>
     <a href={toolHref} class="cta-link">Try The Inflation Calculator →</a>
   </section>
@@ -80,9 +80,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <ReferenceBlock type="common-mistake" heading="Confusing real and nominal">
       <p>
-        Inflation does not remove dollars from your account. It reduces what each dollar buys.
-        Mixing up the face amount with its purchasing power leads to over optimistic plans for
-        retirement and long term goals.
+        Inflation does not reduce the number of dollars, it reduces what they buy. Mixing up the
+        face amount with its purchasing power leads to over optimistic plans for retirement and
+        long term goals. Therefore, always check a long term target in today money, not just its
+        future dollar figure.
       </p>
     </ReferenceBlock>
 

@@ -31,13 +31,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       Compound interest is interest earned on both your original money and the interest it
       has already earned. Because each period grows a slightly larger balance, the total
       builds faster and faster the longer you leave it. This is why time is the most
-      powerful ingredient in saving and investing.
+      important ingredient in saving and investing.
     </p>
     <p>
       To project growth you need four things: the starting amount, the interest rate, how
-      often it compounds, and how many years. Adding a regular monthly contribution
-      accelerates the result, often contributing more to the final total than the starting
-      sum.
+      it compounds, and how many years. Adding a regular monthly contribution
+      accelerates the result and frequently contributes more to the final total than the
+      starting sum.
     </p>
     <a href={toolHref} class="cta-link">Try The Compound Interest Calculator →</a>
   </section>
@@ -46,14 +46,39 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Each compounding period, interest is added to the balance. The next period then earns
-      interest on that larger balance, including the interest already credited. Over many
-      periods this snowball effect produces growth that a simple, non compounding calculation
-      cannot match.
+      interest on that larger balance, including the interest already credited. Therefore, over
+      many periods this snowball effect produces growth that a simple, non compounding
+      calculation cannot match.
     </p>
     <p>
       Two levers matter most: the rate and the time. A higher rate compounds faster, and more
-      years give the snowball longer to roll. Compounding frequency (monthly versus yearly)
-      makes a smaller difference than people expect at the same nominal rate.
+      years give the snowball longer to roll. This is the time value of money in action: a dollar
+      invested today is worth more than a dollar later because it has longer to compound. That
+      principle drives most long term investment growth.
+    </p>
+  </section>
+
+  <section id="how-does-compounding-frequency-change-the-result">
+    <h2>How Does Compounding Frequency Change the Result? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compounding frequency is how often interest is added to the balance: yearly, quarterly,
+      monthly, or daily. More frequent compounding adds interest sooner, so the next period earns
+      on a slightly larger balance. However, the effect is real but modest. For example, at 7% on
+      $10,000 for 20 years,
+      yearly compounding reaches about $38,697, while monthly compounding reaches about $40,387.
+      The rate and the number of years move the result far more than the frequency does, which
+      is why more frequent compounding helps less than people expect.
+    </p>
+  </section>
+
+  <section id="how-to-include-monthly-contributions">
+    <h2>How to Include Monthly Contributions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most people add money over time rather than investing a single lump sum. Enter a monthly
+      contribution and each deposit compounds for the months remaining. Over long horizons these
+      regular contributions add more to the final balance than the starting amount. This
+      is the engine behind retirement and education savings growth: a steady monthly habit, left
+      to compound for decades, does the heavy lifting.
     </p>
   </section>
 
@@ -92,10 +117,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <ReferenceBlock type="common-mistake" heading="Treating the result as guaranteed">
       <p>
-        The formula always grows a balance, but real investment returns are not fixed. Markets
-        rise and fall, so an actual portfolio can have negative years even though the math
-        assumes a steady positive rate. Use a conservative rate and treat the output as an
-        estimate.
+        Compound interest is not guaranteed and can lose money in volatile investments. The
+        formula always grows a balance, but real returns are not fixed. Markets rise and fall, so
+        a stock portfolio has negative years even though the math assumes a steady positive rate.
+        Use a conservative rate and read the output as an estimate, not a promise.
       </p>
     </ReferenceBlock>
 

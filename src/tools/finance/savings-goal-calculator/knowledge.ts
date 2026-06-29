@@ -27,8 +27,8 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'How much should I save each month?',
-    'How do investment returns change the amount I need to save?',
-    'What if my time horizon is shorter?',
+    'How do investment returns change what I need to save?',
+    'What happens if I start saving later?',
   ],
   usedWith: [
     { slug: 'compound-interest-calculator', reason: 'See how the balance compounds toward the goal', strength: 0.8 },
