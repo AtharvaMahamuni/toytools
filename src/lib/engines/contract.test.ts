@@ -13,6 +13,7 @@ import { ENCODERS } from '@lib/engines/encoding/registry';
 import { HASHERS, runHash } from '@lib/engines/hashing/registry';
 import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
+import { FINANCE_CALCULATORS, financeFields } from '@lib/engines/finance/registry';
 
 const byEngine = (id: string) => tools.filter(t => t.engine === id);
 
@@ -77,6 +78,19 @@ describe('structured-data engine', () => {
       const tool = STRUCTURED_TOOLS[processorId!];
       expect(tool, `structured tool "${processorId}" registered`).toBeDefined();
       expect(typeof tool.execute).toBe('function');
+    },
+  );
+});
+
+// ── finance: every tool resolves a calculator with a calculate() and renderable fields ─────────
+describe('finance engine', () => {
+  it.each(byEngine('finance').map(t => [t.slug, t.processorId] as const))(
+    '%s resolves a calculator with calculate() and fields',
+    (_slug, processorId) => {
+      const calc = FINANCE_CALCULATORS[processorId!];
+      expect(calc, `finance calculator "${processorId}" registered`).toBeDefined();
+      expect(typeof calc.calculate).toBe('function');
+      expect(financeFields(processorId!).length).toBeGreaterThan(0);
     },
   );
 });

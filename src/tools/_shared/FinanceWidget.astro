@@ -1,0 +1,311 @@
+---
+// FinanceWidget — the ONE finance widget. It is deliberately THIN: it renders the input form from the
+// calculator's field schema (via SmartInput) and delegates ALL result rendering to the platform
+// ExperienceRenderer. It is finance-specific only in its wiring (ToyTools.runFinance); the input layer
+// and the entire result experience are platform-owned and reused unchanged by future engines.
+//
+// If a new finance tool ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import SmartInput from '@components/inputs/SmartInput.astro';
+import CurrencyInput from '@components/inputs/CurrencyInput.astro';
+import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
+import { getFinanceCalculator } from '@lib/engines/finance/registry';
+import { financeExamplesFor } from '@lib/engines/finance/examples';
+import { DEFAULT_CAPABILITIES } from '@lib/results/types';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  financeId: string;
+  config: ToolConfig;
+  emptyText?: string;
+}
+
+const { slug, financeId, config, emptyText } = Astro.props;
+const calc = getFinanceCalculator(financeId);
+const fields = calc?.fields ?? [];
+const scenarios = calc?.scenarios ?? [];
+const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
+const examples = financeExamplesFor(financeId).map((e) => e.inputs);
+const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
+const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel
+    slot="input"
+    label="Details"
+    variant="prose"
+    data-finance={financeId}
+    data-slug={slug}
+    data-defaults={JSON.stringify(defaults)}
+  >
+    <CurrencyInput slot="header-end" id={`${slug}-currency`} />
+
+    <div class="io-body finance-form" id={`${slug}-form`} data-finance-form>
+      {scenarios.length > 0 && (
+        <div class="finance-scenarios" role="group" aria-label="Scenarios">
+          {scenarios.map((s) => (
+            <button type="button" class="smart-preset finance-scenario" data-scenario={JSON.stringify(s.values)}>{s.label}</button>
+          ))}
+        </div>
+      )}
+      {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
+    </div>
+  </IoPanel>
+
+  <ExperienceRenderer
+    slot="output"
+    idPrefix={slug}
+    emptyText={resolvedEmpty}
+    layout={calc?.layout}
+    capabilities={caps}
+  />
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
+  {caps.loadExample && examples.length > 0 && (
+    <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+  )}
+  {caps.undo && (
+    <button class="action-btn" id={`${slug}-undo`} type="button" hidden>Undo</button>
+  )}
+  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
+</div>
+
+{examples.length > 0 && (
+  <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
+)}
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-finance][data-slug]');
+    if (!root) return;
+    var fid = root.getAttribute('data-finance');
+    var slug = root.getAttribute('data-slug');
+    var defaults = {};
+    try { defaults = JSON.parse(root.getAttribute('data-defaults') || '{}'); } catch (_) {}
+
+    var form = document.getElementById(slug + '-form');
+    var expRoot = document.getElementById(slug + '-experience');
+    var currencyEl = document.getElementById(slug + '-currency');
+    var heroEl = document.getElementById(slug + '-hero');
+    if (!form || !expRoot) return;
+
+    var fieldEls = form.querySelectorAll('[data-field-id]');
+    var undoStack = [];
+    var undoBtn = document.getElementById(slug + '-undo');
+
+    function fieldById(id) {
+      for (var i = 0; i < fieldEls.length; i++) {
+        if (fieldEls[i].getAttribute('data-field-id') === id) return fieldEls[i];
+      }
+      return null;
+    }
+
+    function readValue(el) {
+      var type = el.getAttribute('data-field-type');
+      if (type === 'select') return el.value;
+      var raw = el.getAttribute('data-raw');
+      if (raw === '' || raw == null) return '';
+      var n = parseFloat(raw);
+      return isNaN(n) ? '' : n;
+    }
+
+    function collect() {
+      var input = {};
+      var missingRequired = false;
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        var id = el.getAttribute('data-field-id');
+        var required = el.getAttribute('data-required') === 'true';
+        var v = readValue(el);
+        if ((v === '' ) && el.getAttribute('data-field-type') !== 'select') {
+          if (required) missingRequired = true;
+          v = 0;
+        }
+        input[id] = v;
+      }
+      return { input: input, missingRequired: missingRequired };
+    }
+
+    function snapshot() {
+      var snap = {};
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        snap[el.getAttribute('data-field-id')] = { value: el.value, raw: el.getAttribute('data-raw') };
+      }
+      return snap;
+    }
+
+    function restore(snap) {
+      for (var id in snap) {
+        var el = fieldById(id);
+        if (!el) continue;
+        el.value = snap[id].value;
+        if (el.getAttribute('data-field-type') !== 'select') el.setAttribute('data-raw', snap[id].raw == null ? '' : snap[id].raw);
+      }
+    }
+
+    function setField(id, value) {
+      var el = fieldById(id);
+      if (!el) return;
+      if (el.getAttribute('data-field-type') === 'select') {
+        el.value = String(value);
+      } else {
+        el.value = String(value);
+        el.setAttribute('data-raw', String(value));
+      }
+    }
+
+    function pushUndo() {
+      undoStack.push(snapshot());
+      if (undoStack.length > 20) undoStack.shift();
+      if (undoBtn) undoBtn.hidden = false;
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.runFinance && ToyTools.experience)) return;
+      var c = collect();
+      var currency = currencyEl ? currencyEl.value : 'USD';
+      if (c.missingRequired) {
+        ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        return;
+      }
+      var res = ToyTools.runFinance(fid, c.input, { currency: currency });
+      ToyTools.experience.render(expRoot, res);
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      var data = { currency: currencyEl ? currencyEl.value : 'USD', fields: {} };
+      for (var i = 0; i < fieldEls.length; i++) {
+        data.fields[fieldEls[i].getAttribute('data-field-id')] = { value: fieldEls[i].value, raw: fieldEls[i].getAttribute('data-raw') };
+      }
+      ToyTools.state.save(slug, data);
+    }
+
+    // Restore: currency from cross-tool prefs first, then per-tool saved state.
+    try {
+      if (currencyEl && window.ToyTools && ToyTools.prefs) {
+        var pc = ToyTools.prefs.get('currency', null);
+        if (pc) currencyEl.value = pc;
+      }
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      if (saved) {
+        if (saved.currency && currencyEl) currencyEl.value = saved.currency;
+        if (saved.fields) {
+          for (var id in saved.fields) {
+            var el = fieldById(id);
+            if (!el) continue;
+            el.value = saved.fields[id].value;
+            if (el.getAttribute('data-field-type') !== 'select') el.setAttribute('data-raw', saved.fields[id].raw == null ? '' : saved.fields[id].raw);
+          }
+        }
+      }
+    } catch (_) {}
+
+    // Field input -> recompute + persist.
+    for (var i = 0; i < fieldEls.length; i++) {
+      fieldEls[i].addEventListener('change', function () { run(); persist(); });
+      fieldEls[i].addEventListener('input', function () { run(); persist(); });
+    }
+
+    if (currencyEl) currencyEl.addEventListener('change', function () {
+      if (window.ToyTools && ToyTools.prefs) ToyTools.prefs.set('currency', currencyEl.value);
+      run(); persist();
+    });
+
+    // Per-field preset chips.
+    form.querySelectorAll('[data-preset-for]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        pushUndo();
+        setField(chip.getAttribute('data-preset-for'), chip.getAttribute('data-preset-value'));
+        run(); persist();
+      });
+    });
+
+    // Multi-field scenario chips.
+    form.querySelectorAll('[data-scenario]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        pushUndo();
+        var values = {};
+        try { values = JSON.parse(chip.getAttribute('data-scenario') || '{}'); } catch (_) {}
+        for (var id in values) setField(id, values[id]);
+        run(); persist();
+      });
+    });
+
+    // Undo.
+    if (undoBtn) undoBtn.addEventListener('click', function () {
+      var snap = undoStack.pop();
+      if (snap) restore(snap);
+      if (undoStack.length === 0) undoBtn.hidden = true;
+      run(); persist();
+    });
+
+    // Reset to defaults.
+    var resetBtn = document.getElementById(slug + '-reset');
+    var resetTimer;
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      if (!resetBtn.classList.contains('is-confirming')) {
+        resetBtn.classList.add('is-confirming');
+        resetBtn.textContent = 'Confirm Reset';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () { resetBtn.classList.remove('is-confirming'); resetBtn.textContent = 'Reset to Defaults'; }, 3000);
+        return;
+      }
+      pushUndo();
+      resetBtn.classList.remove('is-confirming');
+      resetBtn.textContent = 'Reset to Defaults';
+      for (var id in defaults) setField(id, defaults[id]);
+      run(); persist();
+    });
+
+    // Load Example — cycles through the calculator's worked examples.
+    var exampleNode = document.getElementById(slug + '-examples');
+    var exampleBtn = document.getElementById(slug + '-example');
+    var exampleIdx = 0;
+    if (exampleBtn && exampleNode) {
+      var examples = [];
+      try { examples = JSON.parse(exampleNode.textContent || '[]'); } catch (_) {}
+      exampleBtn.addEventListener('click', function () {
+        if (!examples.length) return;
+        pushUndo();
+        var ex = examples[exampleIdx % examples.length];
+        exampleIdx++;
+        for (var id in ex) setField(id, ex[id]);
+        run(); persist();
+      });
+    }
+
+    // Copy hero value.
+    var copyBtn = document.getElementById(slug + '-copy');
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var val = heroEl ? heroEl.textContent : '';
+      if (!val || val === '0') { if (window.ToyTools) ToyTools.toast('Nothing to copy yet!'); return; }
+      if (window.ToyTools) ToyTools.copy(val);
+      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+    });
+
+    // runFinance + experience attach via the deferred runtime module — wait so restored input renders.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>
+
+<style>
+  .finance-scenarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+</style>

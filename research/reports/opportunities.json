@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "generatedAt": "2026-06-29T09:03:43.701Z",
   "opportunities": [
     {
       "id": "remove-line-breaks",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -94,7 +94,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -167,7 +167,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -240,7 +240,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -313,7 +313,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -386,7 +386,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -458,7 +458,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -529,7 +529,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -600,7 +600,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -650,6 +650,66 @@
       "engineExists": true
     },
     {
+      "id": "sip-calculator",
+      "title": "SIP Calculator",
+      "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
+      "userIntent": "transactional",
+      "workflow": "input → Systematic Investment Plan → output",
+      "transformation": "Systematic Investment Plan",
+      "proposedTool": "sip-calculator",
+      "proposedEngine": "investment",
+      "searchQueries": [
+        "sip calculator",
+        "mutual fund sip calculator",
+        "monthly investment calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "groww.in",
+        "moneycontrol.com"
+      ],
+      "solutionWeaknesses": [
+        "region locked",
+        "ads",
+        "no clear breakdown of invested vs returns"
+      ],
+      "relatedProblems": [
+        "compound interest",
+        "savings goal",
+        "future value"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "savings-goal-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.6,
+      "searchDemand": 0.92,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.73,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.95,
+      "confidence": 0.8,
+      "finalScore": 69.7,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "word-frequency-counter",
       "title": "Word Frequency Counter",
       "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
@@ -667,7 +727,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -720,6 +780,124 @@
       "engineExists": true
     },
     {
+      "id": "roi-calculator",
+      "title": "ROI Calculator",
+      "problem": "I need the return on investment and annualized return for an investment.",
+      "userIntent": "transactional",
+      "workflow": "input → Return on Investment → output",
+      "transformation": "Return on Investment",
+      "proposedTool": "roi-calculator",
+      "proposedEngine": "investment",
+      "searchQueries": [
+        "roi calculator",
+        "return on investment calculator",
+        "investment return calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "dated UI",
+        "no annualized figure",
+        "ad supported"
+      ],
+      "relatedProblems": [
+        "cagr",
+        "compound interest",
+        "dividend yield"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.58,
+      "searchDemand": 0.88,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.71,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
+      "confidence": 0.8,
+      "finalScore": 67.9,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "loan-calculator",
+      "title": "Loan Calculator",
+      "problem": "I need monthly payments and total interest for a loan over a term.",
+      "userIntent": "transactional",
+      "workflow": "input → Loan Amortization → output",
+      "transformation": "Loan Amortization",
+      "proposedTool": "loan-calculator",
+      "proposedEngine": "loan",
+      "searchQueries": [
+        "loan calculator",
+        "monthly payment calculator",
+        "loan interest calculator",
+        "loan emi calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "bankrate.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "slow",
+        "no shareable result",
+        "cluttered"
+      ],
+      "relatedProblems": [
+        "mortgage payment",
+        "amortization schedule",
+        "extra payments"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.54,
+      "searchDemand": 0.96,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.9,
+      "confidence": 0.8,
+      "finalScore": 67.2,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "csv-diff",
       "title": "CSV Diff",
       "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
@@ -738,7 +916,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -781,6 +959,181 @@
       "engineExists": false
     },
     {
+      "id": "cagr-calculator",
+      "title": "CAGR Calculator",
+      "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
+      "userIntent": "transactional",
+      "workflow": "input → Compound Annual Growth Rate → output",
+      "transformation": "Compound Annual Growth Rate",
+      "proposedTool": "cagr-calculator",
+      "proposedEngine": "investment",
+      "searchQueries": [
+        "cagr calculator",
+        "compound annual growth rate",
+        "annualized return calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "calculator.net",
+        "investopedia.com"
+      ],
+      "solutionWeaknesses": [
+        "formula buried in articles",
+        "no live result"
+      ],
+      "relatedProblems": [
+        "roi",
+        "compound interest",
+        "rule of 72"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.6,
+      "searchDemand": 0.82,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.69,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 66.2,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "net-worth-calculator",
+      "title": "Net Worth Calculator",
+      "problem": "I want to total my assets minus liabilities to see my net worth.",
+      "userIntent": "transactional",
+      "workflow": "input → Net Worth → output",
+      "transformation": "Net Worth",
+      "proposedTool": "net-worth-calculator",
+      "proposedEngine": "budget",
+      "searchQueries": [
+        "net worth calculator",
+        "assets minus liabilities",
+        "personal net worth"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "nerdwallet.com"
+      ],
+      "solutionWeaknesses": [
+        "account sign up",
+        "tries to sell products"
+      ],
+      "relatedProblems": [
+        "budgeting",
+        "savings",
+        "emergency fund"
+      ],
+      "relatedTools": [
+        "emergency-fund-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "emergency-fund-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "emergency-fund-calculator",
+        "savings-goal-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.62,
+      "searchDemand": 0.8,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.68,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.78,
+      "confidence": 0.8,
+      "finalScore": 65.9,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "mortgage-calculator",
+      "title": "Mortgage Calculator",
+      "problem": "I want monthly mortgage payments including principal and interest over 15 to 30 years.",
+      "userIntent": "transactional",
+      "workflow": "input → Mortgage Amortization → output",
+      "transformation": "Mortgage Amortization",
+      "proposedTool": "mortgage-calculator",
+      "proposedEngine": "loan",
+      "searchQueries": [
+        "mortgage calculator",
+        "home loan calculator",
+        "monthly mortgage payment",
+        "mortgage amortization"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "zillow.com",
+        "bankrate.com"
+      ],
+      "solutionWeaknesses": [
+        "lead capture forms",
+        "ads",
+        "requires sign in for full features"
+      ],
+      "relatedProblems": [
+        "loan payment",
+        "amortization schedule",
+        "refinance"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.4,
+      "searchDemand": 0.98,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.6,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 65.5,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "unix-timestamp-converter",
       "title": "Unix Timestamp Converter",
       "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
@@ -798,7 +1151,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -831,6 +1184,64 @@
       "engineExists": false
     },
     {
+      "id": "salary-calculator",
+      "title": "Salary Calculator",
+      "problem": "I want to convert hourly pay to annual salary and see take home pay.",
+      "userIntent": "transactional",
+      "workflow": "input → Salary Conversion → output",
+      "transformation": "Salary Conversion",
+      "proposedTool": "salary-calculator",
+      "proposedEngine": "budget",
+      "searchQueries": [
+        "salary calculator",
+        "hourly to salary",
+        "take home pay calculator",
+        "annual salary calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "adp.com",
+        "talent.com"
+      ],
+      "solutionWeaknesses": [
+        "region specific tax assumptions",
+        "ads",
+        "no simple gross conversion"
+      ],
+      "relatedProblems": [
+        "budgeting",
+        "take home pay",
+        "hourly wage"
+      ],
+      "relatedTools": [
+        "percentage-calculator"
+      ],
+      "relatedGuides": [
+        "percentage-calculator"
+      ],
+      "relatedFaqs": [
+        "percentage-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.52,
+      "searchDemand": 0.9,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.84,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 64.8,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "csv-to-tsv",
       "title": "CSV to TSV",
       "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
@@ -848,7 +1259,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -904,7 +1315,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -962,7 +1373,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1010,7 +1421,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -1060,7 +1471,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -1102,6 +1513,69 @@
       "engineExists": false
     },
     {
+      "id": "retirement-calculator",
+      "title": "Retirement Calculator",
+      "problem": "I want to know if my savings and contributions will fund my retirement.",
+      "userIntent": "transactional",
+      "workflow": "input → Retirement Projection → output",
+      "transformation": "Retirement Projection",
+      "proposedTool": "retirement-calculator",
+      "proposedEngine": "retirement",
+      "searchQueries": [
+        "retirement calculator",
+        "retirement savings calculator",
+        "how much to retire"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "existingSolutions": [
+        "nerdwallet.com",
+        "fidelity.com"
+      ],
+      "solutionWeaknesses": [
+        "sign in required",
+        "product upsell",
+        "complex forms"
+      ],
+      "relatedProblems": [
+        "compound interest",
+        "inflation",
+        "savings goal"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.46,
+      "searchDemand": 0.94,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.74,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.82,
+      "confidence": 0.8,
+      "finalScore": 59.5,
+      "status": "discovered",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "timezone-converter",
       "title": "Timezone Converter",
       "problem": "I need to convert a meeting time from one timezone to another.",
@@ -1118,7 +1592,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -1168,7 +1642,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-28T00:00:00.000Z",
+      "discoveredAt": "2026-06-29T09:03:43.701Z",
       "existingSolutions": [
         "crontab.guru"
       ],

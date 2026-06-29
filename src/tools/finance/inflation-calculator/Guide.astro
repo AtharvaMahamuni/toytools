@@ -1,0 +1,118 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Inflation is the steady rise in prices over time, which means a fixed amount of money
+      buys less each year. To find future purchasing power, divide the amount by (1 + inflation
+      rate) raised to the number of years. At 3% inflation, $100,000 will buy what about
+      $47,761 buys today after 25 years.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Inflation Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Inflation compounds, just like interest, but it works against you. Each year prices rise
+      by a percentage of the new, higher level, so the cumulative effect over decades is much
+      larger than the annual rate suggests. The same force that grows savings through
+      compounding shrinks the buying power of idle cash.
+    </p>
+    <p>
+      The tool reports two views: the real value (what your money will buy, in today terms)
+      and the future nominal cost (what the same goods will cost in future dollars). They are
+      two sides of the same calculation.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Purchasing power.</strong> $100,000 at 3% inflation keeps the buying power of
+      about $47,761 after 25 years. Nearly half the real value quietly disappears.
+    </p>
+    <p>
+      <strong>Future cost.</strong> The same goods that cost $100,000 today would nominally
+      cost about $209,378 in 25 years at 3% inflation.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Real value = Amount / (1 + f)^t</strong></p>
+    <p>
+      where f is the annual inflation rate as a decimal and t is the number of years. The
+      future nominal cost flips the division to a multiplication: Amount × (1 + f)^t.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Real versus nominal">
+      <p>Nominal is the face value, the number of dollars. Real is that value adjusted for inflation. A salary can rise in nominal terms yet fall in real terms if prices rise faster.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Confusing real and nominal">
+      <p>
+        Inflation does not remove dollars from your account. It reduces what each dollar buys.
+        Mixing up the face amount with its purchasing power leads to over optimistic plans for
+        retirement and long term goals.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Underestimating the long run">
+      <p>
+        A 2% to 3% rate sounds harmless, but because it compounds it can halve purchasing power
+        over a few decades. Long horizons make even modest inflation a major factor.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Beating inflation">
+      <p>To preserve buying power, your after tax return needs to exceed inflation. Compare an expected investment return against the inflation rate to see whether savings are gaining or losing real ground.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

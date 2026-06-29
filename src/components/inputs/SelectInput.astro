@@ -1,0 +1,14 @@
+---
+// SelectInput — thin typed wrapper over SmartInput for a choice field. Schema-driven widgets render
+// SmartInput directly; this exists for declarative single-field authoring.
+import SmartInput from './SmartInput.astro';
+import type { SmartFieldDef } from '@lib/inputs/field';
+
+interface Props {
+  field: Omit<SmartFieldDef, 'type'>;
+  idPrefix: string;
+}
+const { field, idPrefix } = Astro.props;
+---
+
+<SmartInput field={{ ...field, type: 'select' }} idPrefix={idPrefix} />

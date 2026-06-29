@@ -72,6 +72,35 @@ export const EXPANSION_TAXONOMY: ExpansionTaxonomy = [
       },
     ],
   },
+  {
+    engine: 'finance',
+    families: [
+      {
+        family: 'interest',
+        expected: [
+          'compound-interest-calculator',
+          'rule-of-72-calculator',
+          'simple-interest-calculator',
+          'cagr-calculator',
+        ],
+      },
+      {
+        family: 'savings',
+        expected: [
+          'savings-goal-calculator',
+          'emergency-fund-calculator',
+          'sip-calculator',
+        ],
+      },
+      {
+        family: 'inflation',
+        expected: [
+          'inflation-calculator',
+          'present-value-calculator',
+        ],
+      },
+    ],
+  },
 ];
 
 /** Expected tool slugs for an engine/family. Never throws; unknown lookups return []. */

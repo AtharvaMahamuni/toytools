@@ -619,3 +619,176 @@ body.tt-focus-lock {
 .tt-focus-exit[hidden] {
   display: none;
 }
+
+/* ── Platform input layer (Smart Inputs) ─────────────────────────────────────
+   Engine-agnostic controls rendered by src/components/inputs/SmartInput.astro.
+   Behaviour is added by smartInput.client.ts; these are the visuals only. */
+.smart-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.smart-input-row {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+.smart-input-field {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.smart-step {
+  flex: 0 0 auto;
+  width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-color);
+}
+
+.smart-step:hover {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+}
+
+.smart-suffix {
+  flex: 0 0 auto;
+  align-self: center;
+  color: var(--color-text-subtle);
+  font-size: var(--text-sm);
+  min-width: 2.5ch;
+}
+
+.widget-help {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--text-sm);
+  max-width: unset;
+}
+
+.smart-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.smart-preset {
+  min-height: var(--touch-target);
+  padding-inline: var(--space-3);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: var(--transition-color);
+}
+
+.smart-preset:hover,
+.smart-preset.is-active {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent-strong);
+}
+
+.currency-input { display: inline-flex; }
+
+.currency-select {
+  min-height: var(--touch-target);
+  padding-inline: var(--space-2);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Platform experience layer ───────────────────────────────────────────────
+   Visuals for src/components/experience/ExperienceRenderer.astro. The render fn
+   (renderExperience) fills these nodes; section ORDER is set via inline `order`. */
+.experience { display: block; }
+
+.experience-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.experience-section { margin: 0; }
+
+.experience-heading {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.milestone-list,
+.insight-list,
+.next-question-list,
+.decision-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.milestone { color: var(--color-text-subtle); }
+.milestone.is-reached { color: var(--color-accent-strong); font-weight: var(--font-weight-medium); }
+
+.insight {
+  padding: var(--space-3);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.insight--positive { border-color: var(--color-accent); background: var(--color-accent-subtle); }
+.insight--caution { border-color: var(--color-danger); background: var(--color-danger-bg); }
+
+.decision a { font-weight: var(--font-weight-medium); }
+
+.experience-explanation {
+  margin: 0;
+  color: var(--color-text);
+  max-width: unset;
+}
+
+.experience-disclosure > summary {
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-subtle);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+}
+
+.experience-placeholder { display: none; } /* reserved seam — capability-gated on by the renderer */
+.experience-section[data-section="visualization"]:not([hidden]),
+.experience-section[data-section="comparison"]:not([hidden]) { display: block; }

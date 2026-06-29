@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "generatedAt": "2026-06-29T09:03:43.701Z",
   "trends": [
     {
       "transformation": "Line Break Removal",
@@ -57,10 +57,28 @@
       "meanScore": 72.5
     },
     {
+      "transformation": "Systematic Investment Plan",
+      "count": 1,
+      "meanDemand": 0.92,
+      "meanScore": 69.7
+    },
+    {
       "transformation": "Word Frequency Analysis",
       "count": 1,
       "meanDemand": 0.72,
       "meanScore": 68.8
+    },
+    {
+      "transformation": "Return on Investment",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 67.9
+    },
+    {
+      "transformation": "Loan Amortization",
+      "count": 1,
+      "meanDemand": 0.96,
+      "meanScore": 67.2
     },
     {
       "transformation": "CSV Diff",
@@ -69,10 +87,34 @@
       "meanScore": 67.1
     },
     {
+      "transformation": "Compound Annual Growth Rate",
+      "count": 1,
+      "meanDemand": 0.82,
+      "meanScore": 66.2
+    },
+    {
+      "transformation": "Net Worth",
+      "count": 1,
+      "meanDemand": 0.8,
+      "meanScore": 65.9
+    },
+    {
+      "transformation": "Mortgage Amortization",
+      "count": 1,
+      "meanDemand": 0.98,
+      "meanScore": 65.5
+    },
+    {
       "transformation": "Timestamp Conversion",
       "count": 1,
       "meanDemand": 0.9,
       "meanScore": 65
+    },
+    {
+      "transformation": "Salary Conversion",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 64.8
     },
     {
       "transformation": "CSV/TSV Conversion",
@@ -103,6 +145,12 @@
       "count": 1,
       "meanDemand": 0.6,
       "meanScore": 59.6
+    },
+    {
+      "transformation": "Retirement Projection",
+      "count": 1,
+      "meanDemand": 0.94,
+      "meanScore": 59.5
     },
     {
       "transformation": "Timezone Conversion",

@@ -1,7 +1,45 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "generatedAt": "2026-06-29T09:03:43.701Z",
   "engines": [
+    {
+      "engine": "investment",
+      "exists": false,
+      "confidence": 0.8,
+      "transformations": [
+        "Compound Annual Growth Rate",
+        "Return on Investment",
+        "Systematic Investment Plan"
+      ],
+      "unlocksTools": [
+        "sip-calculator",
+        "roi-calculator",
+        "cagr-calculator"
+      ],
+      "topScore": 69.7,
+      "rationale": [
+        "3 opportunities share the missing \"investment\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 3 tools."
+      ]
+    },
+    {
+      "engine": "loan",
+      "exists": false,
+      "confidence": 0.65,
+      "transformations": [
+        "Loan Amortization",
+        "Mortgage Amortization"
+      ],
+      "unlocksTools": [
+        "loan-calculator",
+        "mortgage-calculator"
+      ],
+      "topScore": 67.2,
+      "rationale": [
+        "2 opportunities share the missing \"loan\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
     {
       "engine": "csv",
       "exists": false,
@@ -22,6 +60,24 @@
       "rationale": [
         "4 opportunities share the missing \"csv\" engine.",
         "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
+      ]
+    },
+    {
+      "engine": "budget",
+      "exists": false,
+      "confidence": 0.65,
+      "transformations": [
+        "Net Worth",
+        "Salary Conversion"
+      ],
+      "unlocksTools": [
+        "net-worth-calculator",
+        "salary-calculator"
+      ],
+      "topScore": 65.9,
+      "rationale": [
+        "2 opportunities share the missing \"budget\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     },
     {
@@ -46,6 +102,22 @@
       "rationale": [
         "5 opportunities share the missing \"datetime\" engine.",
         "Cluster ≥ 3 → justifies a new reusable engine that unlocks 5 tools."
+      ]
+    },
+    {
+      "engine": "retirement",
+      "exists": false,
+      "confidence": 0.5,
+      "transformations": [
+        "Retirement Projection"
+      ],
+      "unlocksTools": [
+        "retirement-calculator"
+      ],
+      "topScore": 59.5,
+      "rationale": [
+        "1 opportunity share the missing \"retirement\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     }
   ]

@@ -31,6 +31,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#16A34A',
     segment: 'productivity',
   },
+  {
+    slug: 'money-finance',
+    name: 'Money & Finance',
+    description: 'Calculate interest, savings, inflation, and plan smarter money decisions.',
+    accent: '#0D9488',
+    segment: 'finance',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

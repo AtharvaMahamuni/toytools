@@ -1,0 +1,116 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A savings goal calculator answers a simple question: how much do I need to set aside
+      each month to reach a target by a certain date? It accounts for what you have already
+      saved and the return you expect to earn, then solves for the level monthly contribution
+      that gets you there on time.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Savings Goal Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The calculation is a sinking fund: your current savings grow at the expected return, and
+      each monthly contribution also grows for the time remaining. The tool finds the
+      contribution that makes the total reach your goal exactly at the deadline. A higher
+      assumed return or a longer timeframe lowers the monthly amount, because growth does more
+      of the work.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A house down payment.</strong> To reach $50,000 in 5 years with $5,000 already
+      saved and a 6% return, you would set aside around $620 a month, and investment growth
+      covers several thousand dollars of the goal.
+    </p>
+    <p>
+      <strong>Already there.</strong> If your current savings already exceed the goal, the
+      required monthly amount is zero. You can redirect that money to your next goal.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>PMT = (FV − P(1 + i)^N) · i / ((1 + i)^N − 1)</strong></p>
+    <p>
+      where FV is the goal, P is current savings, i is the monthly rate (annual return divided
+      by 12), and N is the number of months. When the return is zero, this simplifies to the
+      remaining amount divided by the number of months.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Returns reduce your contribution">
+      <p>Because your contributions and current balance earn returns along the way, you contribute less than the full goal. The gap between what you put in and the goal is the growth your money earns.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Assuming an unrealistic return">
+      <p>
+        A high assumed return lowers the monthly figure but increases risk and uncertainty.
+        For short goals, keep the rate conservative since there is little time to recover from
+        a downturn.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Forgetting current savings">
+      <p>
+        Include what you have already set aside for the goal. Those savings keep growing and
+        count toward the target, which meaningfully reduces the monthly amount you still need.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Start with the essentials">
+      <p>Before saving for discretionary goals, it is wise to have a basic emergency fund so an unexpected cost does not derail your plan. Size that buffer first, then target other goals.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -53,6 +53,56 @@ export const RESEARCH_TAXONOMY: ResearchTaxonomy = [
       },
     ],
   },
+  {
+    domain: 'finance',
+    transformations: [
+      {
+        transformation: 'Loan Engine',
+        engine: 'loan',
+        expected: [
+          'loan-calculator',
+          'mortgage-calculator',
+          'auto-loan-calculator',
+          'car-loan-calculator',
+          'amortization-schedule-calculator',
+          'extra-payment-calculator',
+        ],
+      },
+      {
+        transformation: 'Investment Engine',
+        engine: 'investment',
+        expected: [
+          'roi-calculator',
+          'sip-calculator',
+          'cagr-calculator',
+          'simple-interest-calculator',
+          'dividend-yield-calculator',
+          'future-value-calculator',
+        ],
+      },
+      {
+        transformation: 'Retirement Engine',
+        engine: 'retirement',
+        expected: [
+          'retirement-calculator',
+          'fire-calculator',
+          '401k-calculator',
+          'annuity-calculator',
+        ],
+      },
+      {
+        transformation: 'Salary & Budget Engine',
+        engine: 'budget',
+        expected: [
+          'salary-calculator',
+          'hourly-to-salary-calculator',
+          'take-home-pay-calculator',
+          'budget-50-30-20-calculator',
+          'net-worth-calculator',
+        ],
+      },
+    ],
+  },
 ];
 
 /** All (domain, transformation, engine, expected-slug) rows — never throws. */
