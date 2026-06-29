@@ -14,6 +14,8 @@
   import { runHash, hashingProvider } from '@lib/engines/hashing/registry';
   import { runStructuredData } from '@lib/engines/structured-data/registry';
   import { runJwt } from '@lib/engines/jwt/registry';
+  import { runFinance } from '@lib/engines/finance/registry';
+  import { renderExperience } from '@lib/experience/render';
   import { diffLines, diffStats } from '@lib/text/compare';
   import { jsonExplorer } from '@lib/json/explorer';
   import { yamlSerializer } from '@lib/json/yaml';
@@ -82,6 +84,8 @@
   TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
   TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
   TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
+  TT.runFinance = runFinance; // ToyTools.runFinance(id, input, { currency }) → InteractiveResult
+  TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]
   TT.diffStats = diffStats; // ToyTools.diffStats(result) → { added, removed, unchanged, similarity }
   TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core
@@ -164,6 +168,28 @@
     },
     clear: function (toolId) {
       try { localStorage.removeItem(TT.state.PREFIX + toolId); } catch (_) {}
+    }
+  };
+
+  // Interaction memory — cross-tool UI preferences (how the user likes to interact), distinct from
+  // per-tool entered values (TT.state). One JSON blob under "toytools:prefs". Never throws. Engine-
+  // agnostic: preferred currency, number format, expanded sections, timeline granularity, etc., so
+  // every interactive engine inherits the same memory.
+  TT.prefs = {
+    KEY: 'toytools:prefs',
+    all: function () {
+      try { return JSON.parse(localStorage.getItem(TT.prefs.KEY)) || {}; } catch (_) { return {}; }
+    },
+    get: function (name, fallback) {
+      var v = TT.prefs.all()[name];
+      return v === undefined ? fallback : v;
+    },
+    set: function (name, value) {
+      try {
+        var all = TT.prefs.all();
+        all[name] = value;
+        localStorage.setItem(TT.prefs.KEY, JSON.stringify(all));
+      } catch (_) {}
     }
   };
 

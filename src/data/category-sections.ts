@@ -21,4 +21,6 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'token-decode':         { title: 'Tokens & JWT',          order: 4 },
   'calculate':            { title: 'Calculators',            order: 1 },
   'stateful':             { title: 'Focus & Notes',          order: 1 },
+  'finance-growth':       { title: 'Interest & Growth',      order: 1 },
+  'finance-planning':     { title: 'Saving & Planning',      order: 2 },
 };

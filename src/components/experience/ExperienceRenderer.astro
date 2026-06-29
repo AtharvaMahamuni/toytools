@@ -1,0 +1,93 @@
+---
+// ExperienceRenderer — the engine-agnostic result experience. It renders a STATIC shell (one node per
+// section, in a flex column whose order is driven by the engine's `layout`) that the bundled
+// `renderExperience` (ToyTools.experience.render) fills from an InteractiveResult at runtime.
+//
+// It renders the whole experience, not just numbers: hero -> metrics -> visualization -> timeline ->
+// milestones -> insights -> comparison -> assumptions -> explanation -> next questions -> decisions.
+// Verbose sections (timeline, assumptions) use native <details> for progressive disclosure. Any future
+// interactive engine reuses this component unchanged.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import { DEFAULT_LAYOUT, DEFAULT_CAPABILITIES } from '@lib/results/types';
+import type { SectionId, Capabilities } from '@lib/results/types';
+
+interface Props {
+  idPrefix: string;
+  /** Shown before there is enough input; explains what will appear. */
+  emptyText: string;
+  layout?: SectionId[];
+  capabilities?: Partial<Capabilities>;
+}
+
+const { idPrefix, emptyText, layout = DEFAULT_LAYOUT, capabilities = {} } = Astro.props;
+const caps: Capabilities = { ...DEFAULT_CAPABILITIES, ...capabilities };
+const heroId = `${idPrefix}-hero`;
+---
+
+<IoPanel label="Result" variant="prose" result copyTargetId={heroId}>
+  <div
+    class="experience"
+    id={`${idPrefix}-experience`}
+    data-experience
+    data-layout={JSON.stringify(layout)}
+    data-empty-text={emptyText}
+    data-cap-timeline={String(caps.timeline)}
+    data-cap-comparison={String(caps.comparison)}
+    data-cap-visualization={String(caps.visualization)}
+  >
+    <p class="experience-empty empty-hint" data-experience-empty role="status" aria-live="polite">{emptyText}</p>
+
+    <div class="experience-sections" data-experience-sections hidden>
+      <div class="tm-hero experience-section" data-section="hero" role="status" aria-live="polite" aria-atomic="true" hidden>
+        <span class="hero-value" id={heroId} data-hero-value>0</span>
+        <span class="hero-label" data-hero-label></span>
+        <p class="hero-note" data-hero-note hidden></p>
+      </div>
+
+      <div class="experience-section" data-section="metrics" hidden>
+        <dl class="tm-stats tm-secondary" aria-live="off"></dl>
+      </div>
+
+      <div class="experience-section experience-placeholder" data-section="visualization" hidden>
+        <p class="experience-heading">Visualization</p>
+      </div>
+
+      <details class="experience-section experience-disclosure" data-section="timeline" hidden>
+        <summary>Timeline</summary>
+        <dl class="tm-stats" data-list aria-live="off"></dl>
+      </details>
+
+      <div class="experience-section" data-section="milestones" hidden>
+        <p class="experience-heading">Milestones</p>
+        <ul class="milestone-list" data-list></ul>
+      </div>
+
+      <div class="experience-section" data-section="insights" hidden>
+        <ul class="insight-list" data-list></ul>
+      </div>
+
+      <div class="experience-section experience-placeholder" data-section="comparison" hidden>
+        <p class="experience-heading">Comparison</p>
+      </div>
+
+      <details class="experience-section experience-disclosure" data-section="assumptions" hidden>
+        <summary>Assumptions</summary>
+        <dl class="tm-stats" data-list></dl>
+      </details>
+
+      <div class="experience-section" data-section="explanation" hidden>
+        <p class="experience-explanation" data-explanation></p>
+      </div>
+
+      <div class="experience-section" data-section="nextQuestions" hidden>
+        <p class="experience-heading">Questions to explore</p>
+        <ul class="next-question-list" data-list></ul>
+      </div>
+
+      <div class="experience-section" data-section="decisions" hidden>
+        <p class="experience-heading">What to do next</p>
+        <ul class="decision-list" data-list></ul>
+      </div>
+    </div>
+  </div>
+</IoPanel>

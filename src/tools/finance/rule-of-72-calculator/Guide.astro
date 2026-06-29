@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The Rule of 72, sometimes written the rule of seventy two, is a quick way to estimate how
+      long money takes to double. It answers "how long to double money" without a calculator:
+      divide 72 by the annual growth rate written as a percent. For example, at 8% a year, money
+      doubles in about 72 / 8 = 9 years. It is an approximation, but a remarkably good one at the
+      compound growth rates people see in practice.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Rule of 72 Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Doubling is a compounding question, and the exact answer involves logarithms. The Rule
+      of 72 replaces that with simple division because 72 happens to approximate the exact
+      math closely for common rates, and it divides cleanly by many numbers. You can run it in
+      reverse too: to double in a set number of years, divide 72 by the years to get the rate
+      you need.
+    </p>
+  </section>
+
+  <section id="how-to-find-the-rate-to-double-in-n-years">
+    <h2>How to Find the Rate Needed to Double in N Years <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Run the rule in reverse: divide 72 by the number of years you have. For example, to double
+      your money in 10 years you need about 72 / 10 = 7.2% a year, and to double in 6 years you
+      need about 12%. This is a fast way to judge whether a target return is realistic.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>For example, how long to double at 8%?</strong> 72 / 8 = 9 years.</p>
+    <p><strong>What rate doubles money in 6 years?</strong> 72 / 6 = 12% a year.</p>
+    <p><strong>Inflation in reverse.</strong> At 3% inflation, prices double, and purchasing power halves, in about 72 / 3 = 24 years.</p>
+  </section>
+
+  <section id="rule-of-72-versus-the-exact-formula">
+    <h2>Rule of 72 Versus the Exact Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compared to the exact doubling time, the Rule of 72 trades a little accuracy for speed.
+      The difference between the two is tiny between roughly 6% and 10%, and grows at extreme
+      rates. Some people use 70 or 69.3 instead of 72 for slightly better accuracy at low rates,
+      but 72 wins on mental math because it divides cleanly by so many numbers.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Years to double ≈ 72 / rate%</strong></p>
+    <p>
+      The exact doubling time is ln(2) / ln(1 + r), where r is the rate as a decimal. The Rule
+      of 72 is the friendly approximation of that expression. This tool shows both so you can
+      see how close the shortcut is at your rate.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Why 72">
+      <p>72 is chosen because it is close to the exact constant (about 69.3 at low rates) while being easy to divide by 2, 3, 4, 6, 8, 9, and 12. Some people use 70 or 69.3 for more accuracy at very low rates.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Treating it as exact">
+      <p>
+        The Rule of 72 is an estimate. It is very close between roughly 6% and 10%, but drifts
+        at extreme rates. When precision matters, use the exact doubling time the tool also
+        reports.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Entering the rate as a decimal">
+      <p>
+        Use the percent, not the decimal. Divide 72 by 8 for 8%, not by 0.08. Entering 0.08
+        would suggest money takes 900 years to double, which is clearly wrong.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Constant rate assumption">
+      <p>The rule assumes a steady annual rate. Real investments vary year to year, so treat the doubling time as a long run average, not a precise schedule.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

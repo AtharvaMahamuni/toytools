@@ -64,6 +64,11 @@ export const registeredGuideSlugs = [
   'space-counter',
   'find-replace',
   'text-compare',
+  'compound-interest-calculator',
+  'rule-of-72-calculator',
+  'inflation-calculator',
+  'savings-goal-calculator',
+  'emergency-fund-calculator',
 ] as const;
 
 export type RegisteredGuideSlug = (typeof registeredGuideSlugs)[number];

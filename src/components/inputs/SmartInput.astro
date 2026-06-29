@@ -1,0 +1,94 @@
+---
+// SmartInput — the engine-agnostic input dispatcher. Given a SmartFieldDef it renders the right
+// accessible control: a select, or a numeric control with −/+ buttons, a suffix, help text, and
+// optional preset chips. Behaviour (natural parsing, grouped formatting, adaptive stepping, keyboard
+// + touch) is added by the bundled `smartInput.client.ts`, imported once below.
+//
+// FinanceWidget (and any future interactive widget) loops a field schema and renders one SmartInput
+// per field. The canonical numeric value lives in `data-raw`; consumers read that, not the display.
+import type { SmartFieldDef } from '@lib/inputs/field';
+
+interface Props {
+  field: SmartFieldDef;
+  /** Prefix for element ids so multiple widgets on a page never collide. */
+  idPrefix: string;
+}
+
+const { field, idPrefix } = Astro.props;
+const inputId = `${idPrefix}-f-${field.id}`;
+const helpId = field.help ? `${inputId}-help` : undefined;
+const isSelect = field.type === 'select';
+const inputMode = field.type === 'integer' ? 'numeric' : 'decimal';
+const initialDisplay = String(field.default ?? '');
+---
+
+<div class="smart-input" data-smart-input>
+  <label class="widget-label" for={inputId}>{field.label}</label>
+
+  {isSelect ? (
+    <select
+      id={inputId}
+      class="widget-select"
+      data-field-id={field.id}
+      data-field-type="select"
+      data-required={field.optional ? 'false' : 'true'}
+      aria-describedby={helpId}
+    >
+      {(field.options ?? []).map((o) => (
+        <option value={o.value} selected={String(field.default) === o.value}>{o.label}</option>
+      ))}
+    </select>
+  ) : (
+    <div class="smart-input-row">
+      <button
+        type="button"
+        class="smart-step"
+        data-step-dir="down"
+        aria-label={`Decrease ${field.label}`}
+        tabindex="-1"
+      >−</button>
+      <input
+        id={inputId}
+        class="widget-input smart-input-field"
+        type="text"
+        inputmode={inputMode}
+        autocomplete="off"
+        value={field.default !== 0 ? initialDisplay : ''}
+        placeholder={String(field.default ?? '')}
+        data-field-id={field.id}
+        data-field-type={field.type}
+        data-required={field.optional ? 'false' : 'true'}
+        data-raw={field.default !== 0 ? String(field.default) : ''}
+        data-min={field.min}
+        data-max={field.max}
+        data-step={field.step}
+        aria-describedby={helpId}
+      />
+      <button
+        type="button"
+        class="smart-step"
+        data-step-dir="up"
+        aria-label={`Increase ${field.label}`}
+        tabindex="-1"
+      >+</button>
+      {field.suffix && <span class="smart-suffix" aria-hidden="true">{field.suffix}</span>}
+    </div>
+  )}
+
+  {field.help && <p class="widget-help" id={helpId}>{field.help}</p>}
+
+  {field.presets && field.presets.length > 0 && (
+    <div class="smart-presets" role="group" aria-label={`${field.label} presets`}>
+      {field.presets.map((p) => (
+        <button type="button" class="smart-preset" data-preset-for={field.id} data-preset-value={String(p.value)}>
+          {p.label}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  // Enhances every [data-smart-input] on the page exactly once (idempotent, deduped via WeakSet).
+  import '@components/inputs/smartInput.client';
+</script>

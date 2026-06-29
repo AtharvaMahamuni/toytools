@@ -81,6 +81,13 @@ import { knowledge as keepScreenAwake } from '@tools/productivity/keep-screen-aw
 // --- Number utilities ---
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
 
+// --- Money & Finance ---
+import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
+import { knowledge as ruleOf72Calculator }         from '@tools/finance/rule-of-72-calculator/knowledge';
+import { knowledge as inflationCalculator }         from '@tools/finance/inflation-calculator/knowledge';
+import { knowledge as savingsGoalCalculator }       from '@tools/finance/savings-goal-calculator/knowledge';
+import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   removeAccents,
@@ -140,6 +147,11 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   notepad,
   keepScreenAwake,
   percentageCalculator,
+  compoundInterestCalculator,
+  ruleOf72Calculator,
+  inflationCalculator,
+  savingsGoalCalculator,
+  emergencyFundCalculator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

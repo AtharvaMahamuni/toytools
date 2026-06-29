@@ -34,14 +34,14 @@ export interface EngineManifest {
 // (or vice-versa) is a TS error.
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
-  'jwt', 'text-interactive', 'calculator', 'productivity',
+  'jwt', 'text-interactive', 'calculator', 'productivity', 'finance',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
 const PATTERN_IDS = [
   'text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'hash',
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
-  'calculate', 'stateful',
+  'calculate', 'stateful', 'finance-growth', 'finance-planning',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -66,6 +66,7 @@ const engineDefs: EngineDef[] = [
   { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '' },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '' },
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
+  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance' },
 ];
 
 function familiesFor(engineId: string): string[] {

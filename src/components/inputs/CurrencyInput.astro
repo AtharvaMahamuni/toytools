@@ -1,0 +1,23 @@
+---
+// CurrencyInput — the display-currency selector. Engine-agnostic: any money-aware tool drops this in
+// (FinanceWidget renders it in the panel header). It is a plain accessible <select> over the supported
+// currencies; the chosen code is passed to the engine at runtime and remembered via ToyTools.prefs.
+import { SUPPORTED_CURRENCIES, DEFAULT_CURRENCY } from '@lib/inputs/currency';
+
+interface Props {
+  id: string;
+  /** Initial currency code; the client overrides from ToyTools.prefs when available. */
+  value?: string;
+}
+
+const { id, value = DEFAULT_CURRENCY } = Astro.props;
+---
+
+<label class="currency-input">
+  <span class="visually-hidden">Currency</span>
+  <select id={id} class="currency-select" data-currency-select aria-label="Currency">
+    {SUPPORTED_CURRENCIES.map((c) => (
+      <option value={c.code} selected={c.code === value}>{c.label}</option>
+    ))}
+  </select>
+</label>

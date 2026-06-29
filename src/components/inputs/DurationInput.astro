@@ -1,0 +1,15 @@
+---
+// DurationInput — thin typed wrapper over SmartInput for hand-authored (non-schema) use. Schema-driven
+// widgets render SmartInput directly with a field.type; this exists so future engines can author a
+// single field declaratively. All behaviour lives in SmartInput + smartInput.client.ts.
+import SmartInput from './SmartInput.astro';
+import type { SmartFieldDef } from '@lib/inputs/field';
+
+interface Props {
+  field: Omit<SmartFieldDef, 'type'>;
+  idPrefix: string;
+}
+const { field, idPrefix } = Astro.props;
+---
+
+<SmartInput field={{ ...field, type: 'duration' }} idPrefix={idPrefix} />

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-28T00:00:00.000Z",
+  "generatedAt": "2026-06-29T09:03:43.701Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -33,6 +33,25 @@
       "relatedFaqs": []
     },
     {
+      "id": "cagr-calculator",
+      "title": "CAGR Calculator",
+      "transformation": "Compound Annual Growth Rate",
+      "engine": "investment",
+      "existing": false,
+      "relatedTools": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ]
+    },
+    {
       "id": "camel-case-converter",
       "title": "camelCase Converter",
       "transformation": "transform",
@@ -47,6 +66,16 @@
       "title": "Character Counter",
       "transformation": "text-counting",
       "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "compound-interest-calculator",
+      "title": "Compound Interest Calculator",
+      "transformation": "interest",
+      "engine": "finance",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -184,6 +213,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "emergency-fund-calculator",
+      "title": "Emergency Fund Calculator",
+      "transformation": "savings",
+      "engine": "finance",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "find-replace",
       "title": "Find and Replace",
       "transformation": "find-replace",
@@ -208,6 +247,16 @@
       "title": "HTML Entity Encoder & Decoder",
       "transformation": "web",
       "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "inflation-calculator",
+      "title": "Inflation Calculator",
+      "transformation": "inflation",
+      "engine": "finance",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -325,6 +374,22 @@
       "relatedFaqs": []
     },
     {
+      "id": "loan-calculator",
+      "title": "Loan Calculator",
+      "transformation": "Loan Amortization",
+      "engine": "loan",
+      "existing": false,
+      "relatedTools": [
+        "compound-interest-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator"
+      ]
+    },
+    {
       "id": "lowercase-converter",
       "title": "Lowercase Converter",
       "transformation": "transform",
@@ -345,6 +410,41 @@
       "relatedFaqs": []
     },
     {
+      "id": "mortgage-calculator",
+      "title": "Mortgage Calculator",
+      "transformation": "Mortgage Amortization",
+      "engine": "loan",
+      "existing": false,
+      "relatedTools": [
+        "compound-interest-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator"
+      ]
+    },
+    {
+      "id": "net-worth-calculator",
+      "title": "Net Worth Calculator",
+      "transformation": "Net Worth",
+      "engine": "budget",
+      "existing": false,
+      "relatedTools": [
+        "emergency-fund-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "emergency-fund-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "emergency-fund-calculator",
+        "savings-goal-calculator"
+      ]
+    },
+    {
       "id": "normalize-whitespace",
       "title": "Normalize Whitespace",
       "transformation": "cleanup",
@@ -359,6 +459,16 @@
       "title": "Paragraph Counter",
       "transformation": "text-counting",
       "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "percentage-calculator",
+      "title": "Percentage Calculator",
+      "transformation": "arithmetic",
+      "engine": "calculator",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -498,6 +608,28 @@
       ]
     },
     {
+      "id": "retirement-calculator",
+      "title": "Retirement Calculator",
+      "transformation": "Retirement Projection",
+      "engine": "retirement",
+      "existing": false,
+      "relatedTools": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ]
+    },
+    {
       "id": "reverse-text",
       "title": "Reverse Text",
       "transformation": "Text Reversal",
@@ -526,6 +658,25 @@
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace"
+      ]
+    },
+    {
+      "id": "roi-calculator",
+      "title": "ROI Calculator",
+      "transformation": "Return on Investment",
+      "engine": "investment",
+      "existing": false,
+      "relatedTools": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator"
       ]
     },
     {
@@ -560,6 +711,42 @@
       ]
     },
     {
+      "id": "rule-of-72-calculator",
+      "title": "Rule of 72 Calculator",
+      "transformation": "interest",
+      "engine": "finance",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "salary-calculator",
+      "title": "Salary Calculator",
+      "transformation": "Salary Conversion",
+      "engine": "budget",
+      "existing": false,
+      "relatedTools": [
+        "percentage-calculator"
+      ],
+      "relatedGuides": [
+        "percentage-calculator"
+      ],
+      "relatedFaqs": [
+        "percentage-calculator"
+      ]
+    },
+    {
+      "id": "savings-goal-calculator",
+      "title": "Savings Goal Calculator",
+      "transformation": "savings",
+      "engine": "finance",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "sha1-hash-generator",
       "title": "SHA-1 Hash Generator",
       "transformation": "cryptographic",
@@ -588,6 +775,25 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "sip-calculator",
+      "title": "SIP Calculator",
+      "transformation": "Systematic Investment Plan",
+      "engine": "investment",
+      "existing": false,
+      "relatedTools": [
+        "compound-interest-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "savings-goal-calculator"
+      ]
     },
     {
       "id": "slugify-text",
@@ -765,6 +971,16 @@
       "kind": "shares-engine"
     },
     {
+      "from": "cagr-calculator",
+      "to": "compound-interest-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "cagr-calculator",
+      "to": "rule-of-72-calculator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "crc32-hash-generator",
       "to": "md5-hash-generator",
       "kind": "links-to-tool"
@@ -905,6 +1121,36 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "loan-calculator",
+      "to": "compound-interest-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "loan-calculator",
+      "to": "mortgage-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "mortgage-calculator",
+      "to": "compound-interest-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "net-worth-calculator",
+      "to": "emergency-fund-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "net-worth-calculator",
+      "to": "salary-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "net-worth-calculator",
+      "to": "savings-goal-calculator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "remove-accents",
       "to": "camel-case-converter",
       "kind": "links-to-tool"
@@ -1005,6 +1251,21 @@
       "kind": "shares-engine"
     },
     {
+      "from": "retirement-calculator",
+      "to": "compound-interest-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "retirement-calculator",
+      "to": "inflation-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "retirement-calculator",
+      "to": "savings-goal-calculator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "reverse-text",
       "to": "camel-case-converter",
       "kind": "links-to-tool"
@@ -1050,6 +1311,21 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "roi-calculator",
+      "to": "cagr-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "roi-calculator",
+      "to": "compound-interest-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "roi-calculator",
+      "to": "rule-of-72-calculator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "rot13-encoder-decoder",
       "to": "base64-encoder-decoder",
       "kind": "links-to-tool"
@@ -1077,6 +1353,31 @@
     {
       "from": "rot13-encoder-decoder",
       "to": "url-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "salary-calculator",
+      "to": "percentage-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "sip-calculator",
+      "to": "cagr-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "sip-calculator",
+      "to": "compound-interest-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "sip-calculator",
+      "to": "roi-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "sip-calculator",
+      "to": "savings-goal-calculator",
       "kind": "links-to-tool"
     },
     {

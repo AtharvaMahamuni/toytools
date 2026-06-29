@@ -61,6 +61,12 @@ import { items as lineCounterFaqs }           from '@tools/text/line-counter/faq
 import { items as spaceCounterFaqs }          from '@tools/text/space-counter/faq';
 import { items as findReplaceFaqs }           from '@tools/text/find-replace/faq';
 import { items as textCompareFaqs }           from '@tools/text/text-compare/faq';
+// Money & Finance
+import { items as compoundInterestFaqs }      from '@tools/finance/compound-interest-calculator/faq';
+import { items as ruleOf72Faqs }              from '@tools/finance/rule-of-72-calculator/faq';
+import { items as inflationFaqs }             from '@tools/finance/inflation-calculator/faq';
+import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-calculator/faq';
+import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'remove-accents': removeAccentsFaqs,
@@ -120,4 +126,9 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'space-counter':          spaceCounterFaqs,
   'find-replace':           findReplaceFaqs,
   'text-compare':           textCompareFaqs,
+  'compound-interest-calculator': compoundInterestFaqs,
+  'rule-of-72-calculator':        ruleOf72Faqs,
+  'inflation-calculator':         inflationFaqs,
+  'savings-goal-calculator':      savingsGoalFaqs,
+  'emergency-fund-calculator':    emergencyFundFaqs,
 };

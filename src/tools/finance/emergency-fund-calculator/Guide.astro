@@ -1,0 +1,134 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An emergency fund, sometimes called a rainy day fund, is cash set aside to cover unexpected
+      costs or a loss of income. It is your financial safety net. A common guideline is three to
+      six months of essential expenses. For example, with $3,000 of monthly expenses and six
+      months of cover, the target is $18,000.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Emergency Fund Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The fund is sized from your essential monthly expenses, not your income, because its job
+      is to keep the safety net intact if income stops. Pick how many months of cover you want,
+      and the target is expenses multiplied by months.
+    </p>
+  </section>
+
+  <section id="how-to-track-progress-toward-the-target">
+    <h2>How to Track Progress Toward the Target <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Enter what you have already set aside and the tool shows your progress as a percentage and
+      the amount still to save. For example, a $4,000 balance against an $18,000 target is 22%
+      funded, with $14,000 to go. Watching that percentage climb turns a large goal into a series
+      of small, trackable wins.
+    </p>
+  </section>
+
+  <section id="variable-income-needs-more-cover">
+    <h2>Why Variable Income Needs More Months of Cover <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A steady salary can recover quickly from a short gap, so three months may be enough.
+      However, variable income needs more months of cover because the gaps are less predictable.
+      Freelancers, commission earners, and single income households often target nine to twelve
+      months so one slow season does not drain the safety net.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A six month buffer.</strong> $3,000 of monthly expenses with six months of cover
+      is an $18,000 target. With $4,000 already saved, you are about 22% of the way there, with
+      $14,000 to go.
+    </p>
+    <p>
+      <strong>Variable income.</strong> A freelancer with $3,000 of expenses might aim for
+      twelve months of cover, a $36,000 target, because income is less predictable.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Recommended fund = monthly expenses × months of cover</strong></p>
+    <p>
+      Progress is your current savings divided by the recommended fund, and the remaining
+      amount is the recommended fund minus what you have saved. The calculation is deliberately
+      simple, because the value is in choosing the right inputs.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Base it on expenses">
+      <p>Size the fund from essential expenses like housing, food, utilities, insurance, and minimum debt payments, not from your income. This keeps the target realistic and focused on what you actually need to cover.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Sizing it from income">
+      <p>
+        Basing the fund on income rather than expenses usually produces a target larger than
+        you need. Use what you spend on essentials each month, since that is what the fund must
+        replace.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Too little cover for variable income">
+      <p>
+        If your income is irregular or you are a single earner, three months may be too thin.
+        Aim for more months of cover so a longer gap does not catch you short.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Keep it accessible">
+      <p>An emergency fund should be safe and easy to reach, such as a high yield savings account. Do not invest it in assets that can fall in value or take time to sell, because you may need it at short notice.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

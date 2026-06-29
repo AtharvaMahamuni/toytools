@@ -59,6 +59,12 @@ import { config as yamlToJsonConverter }  from '@tools/developer-utilities/yaml-
 import { config as jsonTreeViewer }       from '@tools/developer-utilities/json-tree-viewer/config';
 import { config as jwtDecoder }            from '@tools/developer-utilities/jwt-decoder/config';
 import { config as pomodoroTimer }         from '@tools/productivity/pomodoro-timer/config';
+// Money & Finance — finance engine
+import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
+import { config as ruleOf72Calculator }         from '@tools/finance/rule-of-72-calculator/config';
+import { config as inflationCalculator }         from '@tools/finance/inflation-calculator/config';
+import { config as savingsGoalCalculator }       from '@tools/finance/savings-goal-calculator/config';
+import { config as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/config';
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
@@ -119,6 +125,11 @@ export const tools: ToolConfig[] = [
   jsonTreeViewer,
   jwtDecoder,
   pomodoroTimer,
+  compoundInterestCalculator,
+  ruleOf72Calculator,
+  inflationCalculator,
+  savingsGoalCalculator,
+  emergencyFundCalculator,
 ];
 
 export const toolsWithGuide = tools.filter(t => t.guide !== undefined);

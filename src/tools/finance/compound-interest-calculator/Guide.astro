@@ -1,0 +1,157 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compound interest is interest earned on both your original money and the interest it
+      has already earned. Because each period grows a slightly larger balance, the total
+      builds faster and faster the longer you leave it. This is why time is the most
+      important ingredient in saving and investing.
+    </p>
+    <p>
+      To project growth you need four things: the starting amount, the interest rate, how
+      it compounds, and how many years. Adding a regular monthly contribution
+      accelerates the result and frequently contributes more to the final total than the
+      starting sum.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Compound Interest Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each compounding period, interest is added to the balance. The next period then earns
+      interest on that larger balance, including the interest already credited. Therefore, over
+      many periods this snowball effect produces growth that a simple, non compounding
+      calculation cannot match.
+    </p>
+    <p>
+      Two levers matter most: the rate and the time. A higher rate compounds faster, and more
+      years give the snowball longer to roll. This is the time value of money in action: a dollar
+      invested today is worth more than a dollar later because it has longer to compound. That
+      principle drives most long term investment growth.
+    </p>
+  </section>
+
+  <section id="how-does-compounding-frequency-change-the-result">
+    <h2>How Does Compounding Frequency Change the Result? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compounding frequency is how often interest is added to the balance: yearly, quarterly,
+      monthly, or daily. More frequent compounding adds interest sooner, so the next period earns
+      on a slightly larger balance. However, the effect is real but modest. For example, at 7% on
+      $10,000 for 20 years,
+      yearly compounding reaches about $38,697, while monthly compounding reaches about $40,387.
+      The rate and the number of years move the result far more than the frequency does, which
+      is why more frequent compounding helps less than people expect.
+    </p>
+  </section>
+
+  <section id="how-to-include-monthly-contributions">
+    <h2>How to Include Monthly Contributions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most people add money over time rather than investing a single lump sum. Enter a monthly
+      contribution and each deposit compounds for the months remaining. Over long horizons these
+      regular contributions add more to the final balance than the starting amount. This
+      is the engine behind retirement and education savings growth: a steady monthly habit, left
+      to compound for decades, does the heavy lifting.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A lump sum left to grow.</strong> $10,000 invested at 7% compounded monthly for
+      20 years grows to about $40,387. You contribute nothing extra; the growth is entirely
+      compounding on the original amount.
+    </p>
+    <p>
+      <strong>Adding monthly contributions.</strong> Start with $1,000, add $200 a month, and
+      assume 8% for 30 years. The balance grows to roughly $309,000, of which only $1,000 was
+      the starting sum and $72,000 was contributed. The rest is compounding at work.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The future value of a principal is:
+    </p>
+    <p><strong>FV = P (1 + r/n)^(n·t)</strong></p>
+    <p>
+      where P is the principal, r is the annual rate as a decimal, n is the number of
+      compounding periods per year, and t is the number of years. Regular contributions add a
+      second term, the future value of an annuity, which this tool computes for you.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Interest on interest">
+      <p>The defining feature of compounding is that earned interest itself earns interest. Over long periods this is what separates compound growth from simple interest, where only the original principal earns.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Treating the result as guaranteed">
+      <p>
+        Compound interest is not guaranteed and can lose money in volatile investments. The
+        formula always grows a balance, but real returns are not fixed. Markets rise and fall, so
+        a stock portfolio has negative years even though the math assumes a steady positive rate.
+        Use a conservative rate and read the output as an estimate, not a promise.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Ignoring inflation">
+      <p>
+        A large future balance buys less than it appears because of inflation. To see the
+        result in today purchasing power, run the final amount through an inflation
+        calculation. The headline number is in future dollars, not today dollars.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Start early">
+      <p>Because compounding rewards time, starting a few years earlier can outweigh contributing a larger amount later. The earliest contributions have the longest to grow and do the heaviest lifting.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
