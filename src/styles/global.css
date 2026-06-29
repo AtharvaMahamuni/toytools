@@ -15,6 +15,14 @@ html {
   overflow-x: hidden;
 }
 
+/* Bind native form controls (checkboxes, selects, scrollbars) to the user's
+   chosen theme — not the OS preference. Without this, an explicit light theme
+   on a dark-OS device renders native checkboxes with the dark UA appearance
+   (a dark/black box that accent-color cannot recolor). The bare `light dark`
+   above stays in effect for system mode (no [data-theme] override). */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
 body {
   overflow-x: hidden;
   min-height: 100dvh;
