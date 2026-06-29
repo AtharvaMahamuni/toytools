@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'emergency-fund-calculator',
   name: 'Emergency Fund Calculator',
-  seoTitle: 'Emergency Fund Calculator — How Much to Save — Free Online Tool',
+  seoTitle: 'Emergency Fund Calculator — How Much to Save',
   description: 'Work out how much emergency savings you need based on monthly expenses, and track your progress toward the target.',
   categorySlug: 'money-finance',
   tags: ['emergency fund calculator', 'how much emergency fund', 'rainy day fund', 'emergency savings', 'months of expenses', 'financial safety net', 'how much to save for emergencies', 'emergency fund goal'],

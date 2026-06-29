@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'inflation-calculator',
   name: 'Inflation Calculator',
-  seoTitle: 'Inflation Calculator — Future Purchasing Power — Free Online Tool',
+  seoTitle: 'Inflation Calculator — Future Purchasing Power',
   description: 'See what your money will be worth after inflation, how much purchasing power is lost, and the future cost of the same goods.',
   categorySlug: 'money-finance',
   tags: ['inflation calculator', 'purchasing power', 'future value of money', 'inflation impact', 'cost of living calculator', 'real value', 'money worth over time', 'how inflation affects savings'],
