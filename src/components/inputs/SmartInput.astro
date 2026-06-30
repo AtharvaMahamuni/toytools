@@ -7,6 +7,8 @@
 // FinanceWidget (and any future interactive widget) loops a field schema and renders one SmartInput
 // per field. The canonical numeric value lives in `data-raw`; consumers read that, not the display.
 import type { SmartFieldDef } from '@lib/inputs/field';
+import { DEFAULT_CURRENCY, groupingFor } from '@lib/inputs/currency';
+import { formatGrouped } from '@lib/inputs/format';
 
 interface Props {
   field: SmartFieldDef;
@@ -18,8 +20,24 @@ const { field, idPrefix } = Astro.props;
 const inputId = `${idPrefix}-f-${field.id}`;
 const helpId = field.help ? `${inputId}-help` : undefined;
 const isSelect = field.type === 'select';
+const isCurrency = field.type === 'currency';
 const inputMode = field.type === 'integer' ? 'numeric' : 'decimal';
 const initialDisplay = String(field.default ?? '');
+
+/**
+ * Currency-preset chip label — symbol + compact magnitude (e.g. "$2K"). Derived from the value so it
+ * follows the display currency; the client (FinanceWidget) relabels these on currency change. SSR
+ * uses the default currency.
+ */
+function compactCurrency(value: number, code: string): string {
+  return formatGrouped(value, {
+    style: 'currency',
+    currency: code,
+    grouping: groupingFor(code),
+    compact: true,
+    maximumFractionDigits: 1,
+  });
+}
 ---
 
 <div class="smart-input" data-smart-input>
@@ -79,11 +97,24 @@ const initialDisplay = String(field.default ?? '');
 
   {field.presets && field.presets.length > 0 && (
     <div class="smart-presets" role="group" aria-label={`${field.label} presets`}>
-      {field.presets.map((p) => (
-        <button type="button" class="smart-preset" data-preset-for={field.id} data-preset-value={String(p.value)}>
-          {p.label}
-        </button>
-      ))}
+      {field.presets.map((p) =>
+        isCurrency ? (
+          <button
+            type="button"
+            class="smart-preset"
+            data-preset-for={field.id}
+            data-preset-currency
+            data-preset-base={String(p.value)}
+            data-preset-value={String(p.value)}
+          >
+            {compactCurrency(Number(p.value), DEFAULT_CURRENCY)}
+          </button>
+        ) : (
+          <button type="button" class="smart-preset" data-preset-for={field.id} data-preset-value={String(p.value)}>
+            {p.label}
+          </button>
+        ),
+      )}
     </div>
   )}
 </div>

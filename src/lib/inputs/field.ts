@@ -17,7 +17,11 @@ export interface SmartFieldOption {
 
 /** A one-tap suggested value (or set of values, for tool-level scenario presets handled elsewhere). */
 export interface SmartFieldPreset {
-  label: string;
+  /**
+   * Chip text. Optional for `currency`-type fields, where the label is derived from the value and the
+   * active display currency (symbol + compact magnitude) so it follows the currency selector.
+   */
+  label?: string;
   value: number | string;
 }
 

@@ -13,6 +13,7 @@ import CurrencyInput from '@components/inputs/CurrencyInput.astro';
 import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
 import { getFinanceCalculator } from '@lib/engines/finance/registry';
 import { financeExamplesFor } from '@lib/engines/finance/examples';
+import { SUPPORTED_CURRENCIES, groupingFor } from '@lib/inputs/currency';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
 import type { ToolConfig } from '@data/types';
 
@@ -31,6 +32,16 @@ const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
 const examples = financeExamplesFor(financeId).map((e) => e.inputs);
 const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.';
+
+// Per-currency client metadata: tentative magnitude factor + the locale that drives grouping (Indian
+// for INR). The widget scales default amounts/presets to the active currency and formats chip labels
+// with this — no live FX, just rounded "feels-native" magnitudes. Single source of truth = currency.ts.
+const currencyMeta = Object.fromEntries(
+  SUPPORTED_CURRENCIES.map((c) => [
+    c.code,
+    { scale: c.scale ?? 1, locale: groupingFor(c.code) === 'indian' ? 'en-IN' : 'en-US' },
+  ]),
+);
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
@@ -41,6 +52,7 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
     data-finance={financeId}
     data-slug={slug}
     data-defaults={JSON.stringify(defaults)}
+    data-currency-meta={JSON.stringify(currencyMeta)}
   >
     <CurrencyInput slot="header-end" id={`${slug}-currency`} />
 
@@ -90,6 +102,8 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
     var slug = root.getAttribute('data-slug');
     var defaults = {};
     try { defaults = JSON.parse(root.getAttribute('data-defaults') || '{}'); } catch (_) {}
+    var currencyMeta = {};
+    try { currencyMeta = JSON.parse(root.getAttribute('data-currency-meta') || '{}'); } catch (_) {}
 
     var form = document.getElementById(slug + '-form');
     var expRoot = document.getElementById(slug + '-experience');
@@ -98,6 +112,79 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
     if (!form || !expRoot) return;
 
     var fieldEls = form.querySelectorAll('[data-field-id]');
+    var presetChips = form.querySelectorAll('[data-preset-currency]');
+
+    // ── Display-currency scaling ──────────────────────────────────────────────
+    // Currency is display + a tentative, rounded magnitude (no live FX). Default amounts and quick-add
+    // presets scale by a clean per-currency factor so they read natively (e.g. $3,000 -> ₹30,000).
+    function metaFor(code) { return currencyMeta[code] || { scale: 1, locale: 'en-US' }; }
+    function scaleOf(code) { var s = metaFor(code).scale; return (typeof s === 'number' && s > 0) ? s : 1; }
+
+    // Round to a clean number (2 significant figures for thousands+, cents below) so scaled custom
+    // values stay tidy. Power-of-10 factors keep the round presets exact.
+    function roundNice(n) {
+      if (!isFinite(n) || n === 0) return 0;
+      var abs = Math.abs(n);
+      if (abs >= 1000) {
+        var mag = Math.pow(10, Math.floor(Math.log10(abs)) - 1);
+        return Math.round(n / mag) * mag;
+      }
+      return Math.round(n * 100) / 100;
+    }
+
+    // Compact currency chip label, e.g. "$2K" / "₹20K" / "₹10L" / "₹1Cr" (Indian lakh/crore for INR).
+    function compactLabel(value, code) {
+      var m = metaFor(code);
+      try {
+        var s = new Intl.NumberFormat(m.locale, {
+          style: 'currency', currency: code, notation: 'compact', maximumFractionDigits: 1,
+        }).format(value);
+        // en-IN compact writes thousands as "T" (e.g. ₹20T) which reads as trillion to most people.
+        // Keep the idiomatic L/Cr but show the unambiguous "K" for thousands.
+        if (m.locale === 'en-IN') s = s.replace('T', 'K');
+        return s;
+      } catch (_) { return String(value); }
+    }
+
+    // Grouped display string for a money value in the active currency's grouping.
+    function groupDisplay(value, code) {
+      var m = metaFor(code);
+      try { return new Intl.NumberFormat(m.locale, { maximumFractionDigits: 2 }).format(value); }
+      catch (_) { return String(value); }
+    }
+
+    function isCurrencyField(el) { return el.getAttribute('data-field-type') === 'currency'; }
+
+    // Relabel + rescale the quick-add chips to the given currency (chips carry their USD-baseline value).
+    function relabelPresets(code) {
+      for (var i = 0; i < presetChips.length; i++) {
+        var chip = presetChips[i];
+        var base = parseFloat(chip.getAttribute('data-preset-base'));
+        if (isNaN(base)) continue;
+        var scaled = roundNice(base * scaleOf(code));
+        chip.setAttribute('data-preset-value', String(scaled));
+        chip.textContent = compactLabel(scaled, code);
+      }
+    }
+
+    // Set a currency field to a money value, grouped in the active currency.
+    function setMoney(el, value, code) {
+      el.value = groupDisplay(value, code);
+      el.setAttribute('data-raw', String(value));
+    }
+
+    // Apply a map of USD-baseline field values, scaling money fields to the active currency.
+    function applyValues(values) {
+      var code = currencyEl ? currencyEl.value : 'USD';
+      for (var id in values) {
+        var el = fieldById(id);
+        if (el && isCurrencyField(el) && Number(values[id]) !== 0) {
+          setMoney(el, roundNice(Number(values[id]) * scaleOf(code)), code);
+        } else {
+          setField(id, values[id]);
+        }
+      }
+    }
     var undoStack = [];
     var undoBtn = document.getElementById(slug + '-undo');
 
@@ -191,23 +278,30 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
     }
 
     // Restore: currency from cross-tool prefs first, then per-tool saved state.
+    var prevCurrency = currencyEl ? currencyEl.value : 'USD';
     try {
       if (currencyEl && window.ToyTools && ToyTools.prefs) {
         var pc = ToyTools.prefs.get('currency', null);
         if (pc) currencyEl.value = pc;
       }
       var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
-      if (saved) {
-        if (saved.currency && currencyEl) currencyEl.value = saved.currency;
-        if (saved.fields) {
-          for (var id in saved.fields) {
-            var el = fieldById(id);
-            if (!el) continue;
-            el.value = saved.fields[id].value;
-            if (el.getAttribute('data-field-type') !== 'select') el.setAttribute('data-raw', saved.fields[id].raw == null ? '' : saved.fields[id].raw);
-          }
+      var savedFields = (saved && saved.fields) || {};
+      if (saved && saved.currency && currencyEl) currencyEl.value = saved.currency;
+      prevCurrency = currencyEl ? currencyEl.value : 'USD';
+
+      // Saved field values are absolute — restore as-is. Fields without a saved value keep their
+      // default, scaled to the active currency so a first visit in ₹/¥ reads natively, not in dollars.
+      for (var i = 0; i < fieldEls.length; i++) {
+        var fel = fieldEls[i];
+        var fid2 = fel.getAttribute('data-field-id');
+        if (savedFields[fid2]) {
+          fel.value = savedFields[fid2].value;
+          if (fel.getAttribute('data-field-type') !== 'select') fel.setAttribute('data-raw', savedFields[fid2].raw == null ? '' : savedFields[fid2].raw);
+        } else if (isCurrencyField(fel) && defaults[fid2] && Number(defaults[fid2]) !== 0) {
+          setMoney(fel, roundNice(Number(defaults[fid2]) * scaleOf(prevCurrency)), prevCurrency);
         }
       }
+      relabelPresets(prevCurrency);
     } catch (_) {}
 
     // Field input -> recompute + persist.
@@ -217,7 +311,33 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
     }
 
     if (currencyEl) currencyEl.addEventListener('change', function () {
-      if (window.ToyTools && ToyTools.prefs) ToyTools.prefs.set('currency', currencyEl.value);
+      var next = currencyEl.value;
+      var ratio = scaleOf(next) / scaleOf(prevCurrency);
+      // Rescale every money field by the magnitude ratio so amounts read natively (e.g. 3,000 -> 30,000).
+      if (ratio !== 1) {
+        for (var i = 0; i < fieldEls.length; i++) {
+          var el = fieldEls[i];
+          if (!isCurrencyField(el)) continue;
+          var raw = el.getAttribute('data-raw');
+          if (raw === '' || raw == null) continue;
+          var n = parseFloat(raw);
+          if (isNaN(n)) continue;
+          setMoney(el, roundNice(n * ratio), next);
+        }
+      } else {
+        // Same magnitude (e.g. USD<->EUR): keep values, just regroup the display for the new locale.
+        for (var j = 0; j < fieldEls.length; j++) {
+          var el2 = fieldEls[j];
+          if (!isCurrencyField(el2)) continue;
+          var raw2 = el2.getAttribute('data-raw');
+          if (raw2 === '' || raw2 == null) continue;
+          var n2 = parseFloat(raw2);
+          if (!isNaN(n2)) setMoney(el2, n2, next);
+        }
+      }
+      relabelPresets(next);
+      prevCurrency = next;
+      if (window.ToyTools && ToyTools.prefs) ToyTools.prefs.set('currency', next);
       run(); persist();
     });
 
@@ -225,7 +345,13 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
     form.querySelectorAll('[data-preset-for]').forEach(function (chip) {
       chip.addEventListener('click', function () {
         pushUndo();
-        setField(chip.getAttribute('data-preset-for'), chip.getAttribute('data-preset-value'));
+        var targetId = chip.getAttribute('data-preset-for');
+        var target = fieldById(targetId);
+        if (target && isCurrencyField(target)) {
+          setMoney(target, parseFloat(chip.getAttribute('data-preset-value')), currencyEl ? currencyEl.value : 'USD');
+        } else {
+          setField(targetId, chip.getAttribute('data-preset-value'));
+        }
         run(); persist();
       });
     });
@@ -236,7 +362,7 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
         pushUndo();
         var values = {};
         try { values = JSON.parse(chip.getAttribute('data-scenario') || '{}'); } catch (_) {}
-        for (var id in values) setField(id, values[id]);
+        applyValues(values);
         run(); persist();
       });
     });
@@ -263,7 +389,15 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
       pushUndo();
       resetBtn.classList.remove('is-confirming');
       resetBtn.textContent = 'Reset to Defaults';
-      for (var id in defaults) setField(id, defaults[id]);
+      var code = currencyEl ? currencyEl.value : 'USD';
+      for (var id in defaults) {
+        var del = fieldById(id);
+        if (del && isCurrencyField(del) && Number(defaults[id]) !== 0) {
+          setMoney(del, roundNice(Number(defaults[id]) * scaleOf(code)), code);
+        } else {
+          setField(id, defaults[id]);
+        }
+      }
       run(); persist();
     });
 
@@ -279,7 +413,7 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize mi
         pushUndo();
         var ex = examples[exampleIdx % examples.length];
         exampleIdx++;
-        for (var id in ex) setField(id, ex[id]);
+        applyValues(ex);
         run(); persist();
       });
     }
