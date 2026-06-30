@@ -15,7 +15,7 @@ export const savingsGoal: FinanceCalculator = {
   capabilities: { loadExample: true, undo: true },
   fields: [
     { id: 'goal', label: 'Savings goal', type: 'currency', default: 50000, min: 0, presets: [
-      { label: '$10k', value: 10000 }, { label: '$50k', value: 50000 }, { label: '$100k', value: 100000 },
+      { value: 10000 }, { value: 50000 }, { value: 100000 },
     ] },
     { id: 'current', label: 'Current savings', type: 'currency', default: 5000, min: 0, optional: true },
     { id: 'rate', label: 'Expected annual return', type: 'percent', default: 6, min: 0, max: 100, step: 0.1, suffix: '%' },

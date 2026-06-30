@@ -24,7 +24,7 @@ export const compoundInterest: FinanceCalculator = {
   capabilities: { timeline: true, loadExample: true, undo: true, visualization: false },
   fields: [
     { id: 'principal', label: 'Initial amount', type: 'currency', default: 10000, min: 0, presets: [
-      { label: '$1k', value: 1000 }, { label: '$10k', value: 10000 }, { label: '$50k', value: 50000 },
+      { value: 1000 }, { value: 10000 }, { value: 50000 },
     ] },
     { id: 'rate', label: 'Annual interest rate', type: 'percent', default: 7, min: 0, max: 100, step: 0.1, suffix: '%' },
     { id: 'frequency', label: 'Compounding frequency', type: 'select', default: '12', options: [

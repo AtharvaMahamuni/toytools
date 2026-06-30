@@ -83,11 +83,14 @@
 
 .hero-value {
   display: block;
+  min-width: 0;
   font-family: var(--font-mono);
   font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
   font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
-  line-height: 1;
+  /* >1 so a long currency string (e.g. ₹3,00,000.00) that wraps on a narrow screen does not
+     overlap the line above it. */
+  line-height: 1.1;
   color: var(--color-text);
   overflow-wrap: anywhere;
   transition: color var(--duration-normal) var(--ease-default);
@@ -745,6 +748,7 @@ body.tt-focus-lock {
   color: var(--color-text-subtle);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  line-height: 1.3;
 }
 
 .milestone-list,
@@ -759,6 +763,9 @@ body.tt-focus-lock {
   gap: var(--space-2);
 }
 
+.milestone,
+.next-question,
+.decision { line-height: 1.4; }
 .milestone { color: var(--color-text-subtle); }
 .milestone.is-reached { color: var(--color-accent-strong); font-weight: var(--font-weight-medium); }
 
@@ -787,8 +794,46 @@ body.tt-focus-lock {
   min-height: var(--touch-target);
   display: flex;
   align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  /* display:flex drops the native marker; draw our own caret with a gap so the text never sits on
+     top of it (the cause of the cramped "Assumptions"/"Timeline" rows on mobile). */
+  list-style: none;
+}
+
+.experience-disclosure > summary::-webkit-details-marker { display: none; }
+
+.experience-disclosure > summary::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.experience-disclosure[open] > summary::before {
+  transform: rotate(90deg);
 }
 
 .experience-placeholder { display: none; } /* reserved seam — capability-gated on by the renderer */
 .experience-section[data-section="visualization"]:not([hidden]),
 .experience-section[data-section="comparison"]:not([hidden]) { display: block; }
+
+/* Phone refinements — the hero numeral and the boxed result sections are the tightest spots on a
+   narrow screen (long currency strings, padded panels). Trim the side padding and the hero size so
+   text keeps clear of the panel borders/hairlines instead of crowding or wrapping onto them. */
+@media (max-width: 640px) {
+  .tm-hero { padding: var(--space-5); }
+  .hero-value { font-size: clamp(var(--text-2xl), 8vw, var(--text-4xl)); }
+  .tm-stats { padding-inline: var(--space-4); }
+
+  /* Stack each metric row (label over value) so a long grouped value (e.g. ₹20,93,777.93) gets the
+     full width and never breaks mid-number against the opposite column. */
+  .tm-stat-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+}

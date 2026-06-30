@@ -15,7 +15,7 @@ export const emergencyFund: FinanceCalculator = {
   capabilities: { loadExample: true, undo: true },
   fields: [
     { id: 'expenses', label: 'Monthly expenses', type: 'currency', default: 3000, min: 0, presets: [
-      { label: '$2k', value: 2000 }, { label: '$3k', value: 3000 }, { label: '$5k', value: 5000 },
+      { value: 2000 }, { value: 3000 }, { value: 5000 },
     ] },
     { id: 'months', label: 'Months of cover', type: 'integer', default: 6, min: 1, max: 24, step: 1, suffix: 'months', presets: [
       { label: '3', value: 3 }, { label: '6', value: 6 }, { label: '12', value: 12 },

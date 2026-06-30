@@ -15,7 +15,7 @@ export const inflation: FinanceCalculator = {
   capabilities: { timeline: true, loadExample: true, undo: true },
   fields: [
     { id: 'amount', label: 'Amount today', type: 'currency', default: 100000, min: 0, presets: [
-      { label: '$10k', value: 10000 }, { label: '$100k', value: 100000 }, { label: '$1m', value: 1000000 },
+      { value: 10000 }, { value: 100000 }, { value: 1000000 },
     ] },
     { id: 'rate', label: 'Annual inflation rate', type: 'percent', default: 3, min: 0, max: 100, step: 0.1, suffix: '%', presets: [
       { label: '2%', value: 2 }, { label: '3%', value: 3 }, { label: '6%', value: 6 },
