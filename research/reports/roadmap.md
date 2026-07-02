@@ -1,19 +1,14 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-07-02T10:03:04.872Z
+Generated: 2026-07-02T10:47:08.801Z
 
-Discovered 27 signals -> 27 unique opportunities (17 recommended, 6 already shipped). Top score 81.6. Missing-engine candidates: 2.
+Discovered 27 signals -> 27 unique opportunities (12 recommended, 11 already shipped). Top score 81.6. Missing-engine candidates: 2.
 
 ## Immediate builds (top tier)
-- **SIP Calculator** (`sip-calculator`) - score 80.9, reuses finance. High search demand; Weak / incomplete incumbents; Reuses the existing finance engine; Low implementation cost; Creates 5 internal links.
-- **ROI Calculator** (`roi-calculator`) - score 79.1, reuses finance. High search demand; Reuses the existing finance engine; Low implementation cost; Creates 5 internal links.
-- **JSON Escape / Unescape** (`json-escape`) - score 78.8, reuses structured-data. High search demand; Weak / incomplete incumbents; Reuses the existing structured-data engine; Low implementation cost; Creates 6 internal links.
-- **CAGR Calculator** (`cagr-calculator`) - score 77.4, reuses finance. High search demand; Weak / incomplete incumbents; Reuses the existing finance engine; Low implementation cost; Creates 5 internal links.
-- **ROT13 Encoder / Decoder** (`rot13-encoder-decoder`) - score 77.2, reuses encoding. Weak / incomplete incumbents; Reuses the existing encoding engine; Low implementation cost; Creates 6 internal links.
-- **Remove Emoji** (`remove-emoji`) - score 75.3, reuses text-processor. Weak / incomplete incumbents; Reuses the existing text-processor engine; Low implementation cost; Creates 6 internal links.
+- **ROI Calculator** (`roi-calculator`) - score 79.1, reuses finance. High search demand; Reuses the existing finance engine; Low implementation cost; Creates 6 internal links.
+- **CAGR Calculator** (`cagr-calculator`) - score 77.4, reuses finance. High search demand; Weak / incomplete incumbents; Reuses the existing finance engine; Low implementation cost; Creates 6 internal links.
 
 ## Quick wins (low effort, recommended)
-- **Word Frequency Counter** (`word-frequency-counter`) - score 68.8, reuses text-analysis. Reuses the existing text-analysis engine; Low implementation cost; Creates 6 internal links.
 - **Net Worth Calculator** (`net-worth-calculator`) - score 65.9, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links.
 - **CSV to TSV** (`csv-to-tsv`) - score 64, new csv engine. Weak / incomplete incumbents; Implies a new csv engine; Low implementation cost.
 

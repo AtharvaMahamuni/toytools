@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:03:04.872Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "clusters": [
     {
       "id": "line-break-removal",
@@ -17,6 +17,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -51,7 +52,8 @@
         "emergency-fund-calculator",
         "inflation-calculator",
         "rule-of-72-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "size": 1,
       "meanScore": 80.9,
@@ -60,7 +62,8 @@
         "emergency-fund-calculator",
         "inflation-calculator",
         "rule-of-72-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -78,6 +81,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -115,6 +119,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -149,7 +154,9 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
+        "json-escape",
         "punycode-converter",
+        "rot13-encoder-decoder",
         "url-encoder-decoder"
       ],
       "size": 1,
@@ -159,8 +166,8 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ]
     },
     {
@@ -175,7 +182,8 @@
         "emergency-fund-calculator",
         "inflation-calculator",
         "rule-of-72-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "size": 1,
       "meanScore": 79.1,
@@ -184,7 +192,8 @@
         "emergency-fund-calculator",
         "inflation-calculator",
         "rule-of-72-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -227,7 +236,8 @@
         "emergency-fund-calculator",
         "inflation-calculator",
         "rule-of-72-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "size": 1,
       "meanScore": 77.4,
@@ -236,7 +246,8 @@
         "emergency-fund-calculator",
         "inflation-calculator",
         "rule-of-72-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -251,7 +262,9 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
+        "json-escape",
         "punycode-converter",
+        "rot13-encoder-decoder",
         "url-encoder-decoder"
       ],
       "size": 1,
@@ -261,8 +274,8 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ]
     },
     {
@@ -280,6 +293,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -317,6 +331,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -378,7 +393,8 @@
         "reading-time-calculator",
         "sentence-counter",
         "space-counter",
-        "word-counter"
+        "word-counter",
+        "word-frequency-counter"
       ],
       "size": 1,
       "meanScore": 68.8,

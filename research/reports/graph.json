@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:03:04.872Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -33,24 +33,24 @@
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedGuides": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedFaqs": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ]
     },
     {
@@ -64,21 +64,24 @@
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -701,21 +704,24 @@
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -729,24 +735,24 @@
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedGuides": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedFaqs": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ]
     },
     {
@@ -826,21 +832,24 @@
         "savings-goal-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator"
+        "rule-of-72-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "savings-goal-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator"
+        "rule-of-72-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "savings-goal-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator"
+        "rule-of-72-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -909,16 +918,6 @@
       "title": "Uppercase Converter",
       "transformation": "transform",
       "engine": "text-processor",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
-    },
-    {
-      "id": "url-encoder-decoder",
-      "title": "URL Encoder & Decoder",
-      "transformation": "web",
-      "engine": "encoding",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -1011,11 +1010,6 @@
       "from": "binary-text-converter",
       "to": "rot13-encoder-decoder",
       "kind": "shares-engine"
-    },
-    {
-      "from": "binary-text-converter",
-      "to": "url-encoder-decoder",
-      "kind": "links-to-tool"
     },
     {
       "from": "cagr-calculator",
@@ -1420,11 +1414,6 @@
     {
       "from": "rot13-encoder-decoder",
       "to": "punycode-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "rot13-encoder-decoder",
-      "to": "url-encoder-decoder",
       "kind": "links-to-tool"
     },
     {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:03:04.872Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "opportunities": [
     {
       "id": "remove-line-breaks",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -92,7 +92,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -112,21 +112,24 @@
         "savings-goal-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator"
+        "rule-of-72-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "savings-goal-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator"
+        "rule-of-72-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "savings-goal-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator"
+        "rule-of-72-calculator",
+        "sip-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -140,8 +143,8 @@
       "localizationPotential": 0.95,
       "confidence": 0.8,
       "finalScore": 80.9,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -163,7 +166,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -236,7 +239,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -309,7 +312,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -328,24 +331,24 @@
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedGuides": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedFaqs": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.86,
@@ -380,7 +383,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -399,21 +402,24 @@
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -450,7 +456,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -500,8 +506,8 @@
       "localizationPotential": 0.92,
       "confidence": 0.8,
       "finalScore": 78.8,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -521,7 +527,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -540,21 +546,24 @@
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -591,7 +600,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -609,24 +618,24 @@
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedGuides": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedFaqs": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.84,
@@ -640,8 +649,8 @@
       "localizationPotential": 0.9,
       "confidence": 0.8,
       "finalScore": 77.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -663,7 +672,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -734,7 +743,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -783,8 +792,8 @@
       "localizationPotential": 0.8,
       "confidence": 0.8,
       "finalScore": 75.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -805,7 +814,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -872,7 +881,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -920,8 +929,8 @@
       "localizationPotential": 0.65,
       "confidence": 0.8,
       "finalScore": 68.8,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -942,7 +951,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -1002,7 +1011,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1061,7 +1070,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -1120,7 +1129,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -1178,7 +1187,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -1228,7 +1237,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -1286,7 +1295,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -1342,7 +1351,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -1400,7 +1409,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1448,7 +1457,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -1498,7 +1507,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -1556,7 +1565,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -1619,7 +1628,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -1669,7 +1678,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "crontab.guru"
       ],

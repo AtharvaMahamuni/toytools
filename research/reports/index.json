@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:03:04.872Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "discovered": 27,
   "deduped": 27,
-  "alreadyExists": 6,
-  "recommended": 17,
+  "alreadyExists": 11,
+  "recommended": 12,
   "missingEngines": 2,
   "topScore": 81.6,
-  "nextBuild": "sip-calculator"
+  "nextBuild": "roi-calculator"
 }

@@ -1,76 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:03:04.872Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "top": [
-    {
-      "id": "sip-calculator",
-      "title": "SIP Calculator",
-      "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
-      "userIntent": "transactional",
-      "workflow": "input → Systematic Investment Plan → output",
-      "transformation": "Systematic Investment Plan",
-      "proposedTool": "sip-calculator",
-      "proposedEngine": "finance",
-      "searchQueries": [
-        "sip calculator",
-        "mutual fund sip calculator",
-        "monthly investment calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
-      "existingSolutions": [
-        "groww.in",
-        "moneycontrol.com"
-      ],
-      "solutionWeaknesses": [
-        "region locked",
-        "ads",
-        "no clear breakdown of invested vs returns"
-      ],
-      "relatedProblems": [
-        "compound interest",
-        "savings goal",
-        "future value"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator",
-        "savings-goal-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "rule-of-72-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator",
-        "savings-goal-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "rule-of-72-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator",
-        "savings-goal-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "rule-of-72-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.6,
-      "searchDemand": 0.92,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.73,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.95,
-      "confidence": 0.8,
-      "finalScore": 80.9,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
     {
       "id": "roi-calculator",
       "title": "ROI Calculator",
@@ -88,7 +19,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -107,21 +38,24 @@
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -135,79 +69,6 @@
       "localizationPotential": 0.85,
       "confidence": 0.8,
       "finalScore": 79.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "json-escape",
-      "title": "JSON Escape / Unescape",
-      "problem": "I need to escape a block of text so it is a valid JSON string value (quotes, newlines).",
-      "userIntent": "troubleshooting",
-      "workflow": "data → JSON String Escaping → data",
-      "transformation": "JSON String Escaping",
-      "proposedTool": "json-escape",
-      "proposedEngine": "structured-data",
-      "searchQueries": [
-        "json escape string",
-        "json escape",
-        "json string escape online",
-        "escape json",
-        "json unescape"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
-      "existingSolutions": [
-        "freeformatter",
-        "code snippets"
-      ],
-      "solutionWeaknesses": [
-        "server round-trips",
-        "no offline tool",
-        "separate escape vs unescape pages"
-      ],
-      "relatedProblems": [
-        "json formatting",
-        "string escaping"
-      ],
-      "relatedTools": [
-        "json-formatter",
-        "json-minifier",
-        "csv-to-json-converter",
-        "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
-      ],
-      "relatedGuides": [
-        "json-formatter",
-        "json-minifier",
-        "csv-to-json-converter",
-        "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
-      ],
-      "relatedFaqs": [
-        "json-formatter",
-        "json-minifier",
-        "csv-to-json-converter",
-        "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.63,
-      "searchDemand": 0.76,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.9,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.35,
-      "localizationPotential": 0.92,
-      "confidence": 0.8,
-      "finalScore": 78.8,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true
@@ -229,7 +90,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -248,21 +109,24 @@
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator"
+        "savings-goal-calculator",
+        "sip-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -276,219 +140,6 @@
       "localizationPotential": 0.8,
       "confidence": 0.8,
       "finalScore": 77.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "rot13-encoder-decoder",
-      "title": "ROT13 Encoder / Decoder",
-      "problem": "I need to ROT13-encode/decode a string for an obfuscation puzzle.",
-      "userIntent": "transactional",
-      "workflow": "text → ROT13 → encoded text",
-      "transformation": "ROT13",
-      "proposedTool": "rot13-encoder-decoder",
-      "proposedEngine": "encoding",
-      "searchQueries": [
-        "rot13 encoder online",
-        "rot13",
-        "rot13 decoder",
-        "rot13 online",
-        "caesar cipher rot13"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
-      "existingSolutions": [
-        "cyberchef",
-        "random cipher sites"
-      ],
-      "solutionWeaknesses": [
-        "cyberchef is heavy for one transform",
-        "ad-laden single-purpose sites"
-      ],
-      "relatedProblems": [
-        "caesar cipher",
-        "base64"
-      ],
-      "relatedTools": [
-        "base64-encoder-decoder",
-        "hex-encoder-decoder",
-        "binary-text-converter",
-        "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
-      ],
-      "relatedGuides": [
-        "base64-encoder-decoder",
-        "hex-encoder-decoder",
-        "binary-text-converter",
-        "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
-      ],
-      "relatedFaqs": [
-        "base64-encoder-decoder",
-        "hex-encoder-decoder",
-        "binary-text-converter",
-        "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.84,
-      "competitionScore": 0.74,
-      "searchDemand": 0.64,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.86,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.53,
-      "localizationPotential": 0.9,
-      "confidence": 0.8,
-      "finalScore": 77.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "remove-emoji",
-      "title": "Remove Emoji",
-      "problem": "I need to strip all emoji and pictographs out of a block of text before importing it.",
-      "userIntent": "troubleshooting",
-      "workflow": "text → Emoji Removal → text",
-      "transformation": "Emoji Removal",
-      "proposedTool": "remove-emoji",
-      "proposedEngine": "text-processor",
-      "searchQueries": [
-        "remove emoji from text",
-        "remove emoji",
-        "strip emoji from text",
-        "delete emojis online"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
-      "existingSolutions": [
-        "regex from blog posts"
-      ],
-      "solutionWeaknesses": [
-        "emoji ranges are tricky",
-        "tools miss newer emoji",
-        "privacy concerns pasting elsewhere"
-      ],
-      "relatedProblems": [
-        "remove special characters",
-        "clean text"
-      ],
-      "relatedTools": [
-        "remove-extra-spaces",
-        "normalize-whitespace",
-        "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter",
-        "remove-accents"
-      ],
-      "relatedGuides": [
-        "remove-extra-spaces",
-        "normalize-whitespace",
-        "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter",
-        "remove-accents"
-      ],
-      "relatedFaqs": [
-        "remove-extra-spaces",
-        "normalize-whitespace",
-        "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter",
-        "remove-accents"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.78,
-      "competitionScore": 0.76,
-      "searchDemand": 0.66,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.74,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.33,
-      "localizationPotential": 0.8,
-      "confidence": 0.8,
-      "finalScore": 75.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "word-frequency-counter",
-      "title": "Word Frequency Counter",
-      "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
-      "userIntent": "informational",
-      "workflow": "text → Word Frequency Analysis → metrics",
-      "transformation": "Word Frequency Analysis",
-      "proposedTool": "word-frequency-counter",
-      "proposedEngine": "text-analysis",
-      "searchQueries": [
-        "count words by frequency",
-        "word frequency counter",
-        "most common words in text",
-        "keyword density tool"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
-      "existingSolutions": [
-        "SEO keyword density tools"
-      ],
-      "solutionWeaknesses": [
-        "bundled into paid SEO suites",
-        "over-complicated for a quick check"
-      ],
-      "relatedProblems": [
-        "word count",
-        "keyword density"
-      ],
-      "relatedTools": [
-        "word-counter",
-        "character-counter",
-        "letter-counter",
-        "line-counter",
-        "paragraph-counter",
-        "reading-time-calculator"
-      ],
-      "relatedGuides": [
-        "word-counter",
-        "character-counter",
-        "letter-counter",
-        "line-counter",
-        "paragraph-counter",
-        "reading-time-calculator"
-      ],
-      "relatedFaqs": [
-        "word-counter",
-        "character-counter",
-        "letter-counter",
-        "line-counter",
-        "paragraph-counter",
-        "reading-time-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.82,
-      "competitionScore": 0.52,
-      "searchDemand": 0.72,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.77,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.34,
-      "localizationPotential": 0.65,
-      "confidence": 0.8,
-      "finalScore": 68.8,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true
@@ -511,7 +162,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -571,7 +222,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -630,7 +281,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:03:04.872Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -667,6 +318,286 @@
       "localizationPotential": 0.78,
       "confidence": 0.8,
       "finalScore": 65.9,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "mortgage-calculator",
+      "title": "Mortgage Calculator",
+      "problem": "I want monthly mortgage payments including principal and interest over 15 to 30 years.",
+      "userIntent": "transactional",
+      "workflow": "input → Mortgage Amortization → output",
+      "transformation": "Mortgage Amortization",
+      "proposedTool": "mortgage-calculator",
+      "proposedEngine": "loan",
+      "searchQueries": [
+        "mortgage calculator",
+        "home loan calculator",
+        "monthly mortgage payment",
+        "mortgage amortization"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "zillow.com",
+        "bankrate.com"
+      ],
+      "solutionWeaknesses": [
+        "lead capture forms",
+        "ads",
+        "requires sign in for full features"
+      ],
+      "relatedProblems": [
+        "loan payment",
+        "amortization schedule",
+        "refinance"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.4,
+      "searchDemand": 0.98,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.6,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 65.5,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "unix-timestamp-converter",
+      "title": "Unix Timestamp Converter",
+      "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Timestamp Conversion → date/time",
+      "transformation": "Timestamp Conversion",
+      "proposedTool": "unix-timestamp-converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "unix timestamp converter",
+        "epoch to date",
+        "timestamp to date",
+        "epoch converter"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "epochconverter.com"
+      ],
+      "solutionWeaknesses": [
+        "single incumbent dominates",
+        "dated UI",
+        "ad-supported"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "timezone conversion"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.53,
+      "searchDemand": 0.9,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.84,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 65,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "salary-calculator",
+      "title": "Salary Calculator",
+      "problem": "I want to convert hourly pay to annual salary and see take home pay.",
+      "userIntent": "transactional",
+      "workflow": "input → Salary Conversion → output",
+      "transformation": "Salary Conversion",
+      "proposedTool": "salary-calculator",
+      "proposedEngine": "budget",
+      "searchQueries": [
+        "salary calculator",
+        "hourly to salary",
+        "take home pay calculator",
+        "annual salary calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "adp.com",
+        "talent.com"
+      ],
+      "solutionWeaknesses": [
+        "region specific tax assumptions",
+        "ads",
+        "no simple gross conversion"
+      ],
+      "relatedProblems": [
+        "budgeting",
+        "take home pay",
+        "hourly wage"
+      ],
+      "relatedTools": [
+        "percentage-calculator"
+      ],
+      "relatedGuides": [
+        "percentage-calculator"
+      ],
+      "relatedFaqs": [
+        "percentage-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.52,
+      "searchDemand": 0.9,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.84,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 64.8,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "csv-to-tsv",
+      "title": "CSV to TSV",
+      "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
+      "userIntent": "transactional",
+      "workflow": "CSV → CSV/TSV Conversion → CSV",
+      "transformation": "CSV/TSV Conversion",
+      "proposedTool": "csv-to-tsv",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv to tsv converter",
+        "csv to tsv",
+        "convert csv to tab separated",
+        "csv tsv online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "spreadsheet save-as"
+      ],
+      "solutionWeaknesses": [
+        "requires a spreadsheet app",
+        "mangles quoting"
+      ],
+      "relatedProblems": [
+        "csv to json",
+        "delimiter change"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.82,
+      "searchDemand": 0.58,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.71,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.9,
+      "confidence": 0.64,
+      "finalScore": 64,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "csv-cleaner",
+      "title": "CSV Cleaner",
+      "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
+      "userIntent": "troubleshooting",
+      "workflow": "CSV → CSV Cleaning → CSV",
+      "transformation": "CSV Cleaning",
+      "proposedTool": "csv-cleaner",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv cleaner remove empty rows",
+        "csv cleaner",
+        "clean csv online",
+        "remove empty rows csv",
+        "fix messy csv"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "spreadsheet manual cleanup"
+      ],
+      "solutionWeaknesses": [
+        "manual and error-prone",
+        "no repeatable rule set"
+      ],
+      "relatedProblems": [
+        "csv diff",
+        "remove blank lines"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.82,
+      "competitionScore": 0.76,
+      "searchDemand": 0.7,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.86,
+      "confidence": 0.8,
+      "finalScore": 62.9,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
