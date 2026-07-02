@@ -92,6 +92,18 @@ describe('rot13', () => {
   });
   it('leaves digits, punctuation, and non-Latin text untouched', () =>
     expect(runEncoding('rot13', 'encode', '123 \u00e9\u00fc\u4e2d!').output).toBe('123 \u00e9\u00fc\u4e2d!'));
+  it('always detects encode (both directions are identical)', () => {
+    const d = detectEncoding('rot13', 'Uryyb');
+    expect(d.mode).toBe('encode');
+    expect(d.confidence).toBe('low');
+  });
+  it('reports rotated and unchanged counts in metadata', () => {
+    const rows = encodingMeta('rot13', 'ab 12!', 'no 12!', 'encode');
+    expect(rows.find(m => m.label === 'Letters rotated')!.value).toBe('2');
+    expect(rows.find(m => m.label === 'Characters unchanged')!.value).toBe('4');
+    const none = encodingMeta('rot13', '123', '123', 'encode');
+    expect(none.find(m => m.label === 'Letters rotated')!.value).toBe('0');
+  });
 });
 
 describe('json-escape', () => {
@@ -115,6 +127,38 @@ describe('json-escape', () => {
     const r = runEncoding('json-escape', 'decode', 'bad \\x escape');
     expect(r.ok).toBe(false);
     expect(r.error).toMatch(/decode/i);
+  });
+  it('detects a quoted literal as decode with high confidence', () => {
+    const d = detectEncoding('json-escape', '"a\\nb"');
+    expect(d.mode).toBe('decode');
+    expect(d.confidence).toBe('high');
+  });
+  it('detects bare escape sequences as decode with medium confidence', () => {
+    const d = detectEncoding('json-escape', 'a\\nb');
+    expect(d.mode).toBe('decode');
+    expect(d.confidence).toBe('medium');
+  });
+  it('detects plain text as encode', () => {
+    expect(detectEncoding('json-escape', 'plain words').mode).toBe('encode');
+  });
+  it('validates encode mode and empty input as ok', () => {
+    expect(validateEncoding('json-escape', 'encode', 'anything "at all"').ok).toBe(true);
+    expect(validateEncoding('json-escape', 'decode', '').ok).toBe(true);
+  });
+  it('validates a good string body on decode, flags a bad one', () => {
+    expect(validateEncoding('json-escape', 'decode', '"a\\u0041"').ok).toBe(true);
+    const v = validateEncoding('json-escape', 'decode', 'dangling \\');
+    expect(v.ok).toBe(false);
+    expect(v.severity).toBe('error');
+    expect(v.message).toMatch(/JSON string/i);
+  });
+  it('reports escape-count and byte metadata in both directions', () => {
+    const enc = encodingMeta('json-escape', 'a"b', 'a\\"b', 'encode');
+    expect(enc.find(m => m.label === 'Escape sequences')!.value).toBe('1');
+    expect(enc.find(m => m.label === 'Characters in')!.value).toBe('3');
+    const dec = encodingMeta('json-escape', 'a\\"b', 'a"b', 'decode');
+    expect(dec.find(m => m.label === 'Escaped length')!.value).toBe('4');
+    expect(dec.find(m => m.label === 'Characters out')!.value).toBe('3');
   });
 });
 
