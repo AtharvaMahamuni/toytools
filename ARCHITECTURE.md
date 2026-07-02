@@ -368,9 +368,12 @@ JSON-LD, guide, FAQ, sitemap entry. Do **not** create a merged `/case-converter/
   Real links = crawlable internal links with exact-match anchors (the switcher doubles as the
   "related variants" block; the tool page filters group siblings out of the Related strip to avoid
   duplication). Sibling pages get body-level `<link rel="prefetch">`.
-- **Shared input state** — `TextProcessorWidget` derives its persistence key from the config:
+- **Shared input state** — every engine widget (`TextProcessorWidget`, `TextMetricWidget`,
+  `ConverterWidget`, `StructuredDataWidget`) derives its persistence key from the config:
   `group:{toolGroup}` instead of the slug (old per-slug state is read once as a migration fallback).
   Typing on one member and clicking another restores the same input and recomputes in the new mode.
+  Tool-specific state stays per-slug (ConverterWidget's conversion direction, character-counter's
+  active limit, word-counter's goal) so one member's mode never bleeds into another.
 - **Instant feel without a router** — navigation stays MPA (every URL self-consistent, zero
   pushState/JS routing). `global.css` opts into CSS cross-document View Transitions
   (`@view-transition { navigation: auto; }`, disabled under `prefers-reduced-motion`) so supported
@@ -394,13 +397,16 @@ colocated `*.test.ts` — bundled into `ToyToolsRuntime` and consumed by **one g
 engine**. New engines live under `src/lib/engines/`; the original two text engines remain under
 `src/lib/text/` (relocating them would break many imports for no functional gain).
 
-Each engine has a different runtime signature — that is **why there are three widgets, not one**:
+Each engine has a distinct runtime signature; the widgets stay generic over them:
 
 | Engine | Lib | Runtime global | Signature | Widget | Tools |
 |--------|-----|----------------|-----------|--------|-------|
-| Encoding | `engines/encoding/` | `ToyTools.runEncoding(id, mode, text)` | → `{ ok, output, error }` (decode can fail) | `EncodingWidget.astro` (mode/swap/sample/error) | base64, url, html-entity |
-| Hashing | `engines/hashing/` | `ToyTools.runHash(id, text)` | → `Promise<string>` (async; SHA via `crypto.subtle`, MD5 pure-JS) | `HashWidget.astro` (Generate button, awaits) | md5, sha1, sha256 |
-| Structured-Data | `engines/structured-data/` | `ToyTools.runStructuredData(id, input)` | → `{ ok, output, error }` (✓/✗ status line) | `StructuredDataWidget.astro` | json-formatter, json-minifier, json-validator |
+| Encoding | `engines/encoding/` | `ToyTools.runEncoding(id, mode, text)` | → `{ ok, output, error }` (decode can fail) | `ConverterWidget.astro` (reversible: mode/swap/sample) | base64, url, html-entity, hex, binary, punycode |
+| Hashing | `engines/hashing/` | `ToyTools.runHash(id, text)` | → `Promise<string>` (async; SHA via `crypto.subtle`, MD5/CRC32 pure-JS) | `ConverterWidget.astro` (one-way: live digest, awaits) | md5, sha1, sha256, sha512, crc32 |
+| Structured-Data | `engines/structured-data/` | `ToyTools.runStructuredData(id, input)` | → `{ ok, output, error }` (✓/✗ status line) | `StructuredDataWidget.astro` | json-formatter/minifier/validator, JSON↔CSV, JSON↔YAML |
+
+(The engine → shared-widget mapping is data in `src/data/engines.ts` and mirrored into
+`docs/code-map.json`.)
 
 Every resolver **never throws** on an unknown id (encoding passes input through; hashing returns `''`;
 structured-data returns a result error). Browser-only APIs (`btoa`/`atob`/`crypto.subtle`) stay

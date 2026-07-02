@@ -28,6 +28,7 @@ import { faqsByToolSlug } from '../src/data/faq-registry';
 import { registeredGuideSlugs } from '../src/data/guide-registry';
 import { knownPatterns } from '../src/data/engines';
 import { sectionsByPattern } from '../src/data/category-sections';
+import { serializeCodeMap, CODE_MAP_PATH } from './export-code-map';
 
 const strict = process.argv.includes('--strict');
 const errors: string[] = [];
@@ -140,6 +141,15 @@ for (const k of KNOWLEDGE.values()) {
       }
     }
   }
+}
+
+// ---- 7. Code-map freshness: docs/code-map.json is the committed "where does X live" answer ---
+// It is generated from the registries (deterministic, no timestamps), so a stale copy means a
+// registry changed without regenerating. Rebuild in memory and byte-compare.
+if (!existsSync(CODE_MAP_PATH)) {
+  err('docs/code-map.json is missing — run `npm run map:generate`');
+} else if (readFileSync(CODE_MAP_PATH, 'utf8') !== serializeCodeMap()) {
+  err('docs/code-map.json is stale (registries changed) — run `npm run map:generate`');
 }
 
 // ---- Report ---------------------------------------------------------------------------------

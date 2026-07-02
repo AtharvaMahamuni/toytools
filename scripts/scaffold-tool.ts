@@ -18,6 +18,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
@@ -40,6 +41,12 @@ function parseArgs(argv: string[]): Record<string, string | boolean> {
 }
 const args = parseArgs(process.argv.slice(2));
 const dryRun = Boolean(args['dry-run']);
+
+// Registry edits happen after this process imported the registries, so the committed
+// code map is regenerated in a fresh process (validate-architecture fails on staleness).
+function regenerateCodeMap() {
+  execSync('npx tsx scripts/export-code-map.ts', { cwd: repoRoot, stdio: 'inherit' });
+}
 
 function die(msg: string): never {
   console.error(`[scaffold-tool] ✗ ${msg}`);
@@ -84,6 +91,7 @@ if (args.remove) {
   const dir = join(toolsRoot, rseg, rslug);
   console.log(`  - ${dir.replace(repoRoot + '/', '')}/ (directory)`);
   if (!dryRun) rmSync(dir, { recursive: true, force: true });
+  if (!dryRun) regenerateCodeMap();
   console.log(`\n[scaffold-tool] ${dryRun ? 'dry run complete — nothing changed.' : 'removed. Run `npm run build` to confirm.'}`);
   process.exit(0);
 }
@@ -278,6 +286,8 @@ if (dryRun) {
   console.log('\n[scaffold-tool] dry run complete — nothing written.');
   process.exit(0);
 }
+
+regenerateCodeMap();
 
 console.log('\n[scaffold-tool] done. Next: fill the TODOs, then run `npm run build` (validators + render) and `npm run test:e2e`.');
 if (!WIDGETS[engine]) console.log('[scaffold-tool] NOTE: this engine has no shared widget — implement Widget.astro by hand.');

@@ -184,192 +184,79 @@ knowledge file" below). Coverage gaps surface in `npm run intel`.
 
 For a live bird's-eye view, the deployed **`/architecture/`** page (`src/pages/architecture.astro`) renders an interactive Mermaid map of Categories → Engines + cross-cutting layers, derived from the registries at build time (click any block to drill in). It self-updates as tools/engines are added — see `ARCHITECTURE.md` → "Architecture Diagram".
 
-### Adding a tool (2 steps)
+### The code map — "where does X live?" in one read
 
-> The **`add-tool` skill** (`.claude/skills/add-tool/`) is the canonical entry point — it walks
-> the full file checklist, engine selection, and validation. Use it when building any new tool or engine.
->
-> **Fastest path — generate it:** `npm run scaffold:tool -- --slug <slug> --name "<Name>"
-> --category <cat> --engine <engine> --pattern <pattern> --family <family> [--processor-id <id>]
-> [--faq] [--guide]` writes the tool directory **and** wires every registry (registry, faq-registry,
-> guide-registry + the guide route, knowledge registry) in one step (`--dry-run` to preview). It
-> emits TODO stubs to fill in; engine-backed engines get a real 3-line widget, others a placeholder.
-> This collapses the multi-file wiring below into one command.
+**`docs/code-map.json`** (committed, generated — never hand-edit) maps every tool slug →
+directory, URL, engine/pattern/family, `processorId`, tool group, files on disk, and
+guide/FAQ/knowledge registration — plus the engine manifest (each engine's patterns, runtime
+global, and **shared widget**) and the tool-group manifest. Read it instead of grepping the
+registries. It cannot rot: `validate-architecture` (part of `npm run build`) fails on drift, and
+`scaffold-tool` regenerates it; regenerate manually with `npm run map:generate`. The authoritative
+TS sources behind it: `src/data/engines.ts` (engines/patterns), `src/data/registry.ts` (tools),
+`src/data/tool-groups.ts` (groups).
 
-1. Create `src/tools/<segment>/<slug>/` with two required files:
-   - `config.ts` — exports a named `const config: ToolConfig` with all tool metadata
-   - `Widget.astro` — self-contained Astro component: HTML + `<style is:global>` + `<script is:inline>`
-2. Add one import line and one array entry in `src/data/registry.ts` — **this is the only other file that changes**.
+### Adding a tool
 
-All tool pages, category pages, search, and homepage update automatically at build time.
+> The **`add-tool` skill** (`.claude/skills/add-tool/`) is the canonical playbook — engine
+> selection, the full file checklist, optional content (guide/FAQ/knowledge), and validation.
+> This file intentionally does not duplicate it.
 
-**Search-engine notification (IndexNow):** new URLs are submitted to IndexNow **automatically** on
-the next production deploy (the post-deploy `indexnow` CI job derives the URL list from the Content
-Manifest — no manual step, no per-page registration). The one hard rule: never run `npm run indexnow`
-against a host whose `public/<key>.txt` isn't already live, or IndexNow caches a `403` ownership
-failure. See `docs/indexnow.md` → "Registration & adding new URLs".
+```sh
+npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <cat> --engine <engine> \
+  --pattern <pattern> --family <family> [--processor-id <id>] [--faq] [--guide] [--dry-run]
+```
 
-**Browser title** is handled automatically by `ToolLayout` via `generatePageTitle('tool', ...)` in `src/lib/titles.ts`. Do not set titles manually inside tool files. If adding a new page type (not a tool), add a new case to `generatePageTitle` and call it from the layout or page.
+writes `src/tools/<segment>/<slug>/` (config + widget + optional faq/guide/knowledge stubs), wires
+**all five registries** (registry, faq-registry, guide-registry + the guide route, knowledge
+registry), and regenerates the code map. Engine-backed tools get a real 3-line widget wrapping the
+engine's shared widget; bespoke engines get a placeholder. Fill the TODO stubs (for a new
+engine-backed transform, also the engine impl + its registry entry + `*.test.ts` — keep browser
+APIs inside methods, never at module top-level), then `npm run build` (validate-registry +
+validate-knowledge + validate-architecture catch every wiring mistake) and `npm run test:e2e`.
 
-### Adding a text processor tool (transform/cleanup)
+Two deploy-facing hard rules:
+- **IndexNow:** new URLs are submitted automatically post-deploy. Never run `npm run indexnow`
+  against a host whose `public/<key>.txt` isn't already live (it caches a `403` ownership
+  failure). See `docs/indexnow.md`.
+- **Browser titles** come from `generatePageTitle` (`src/lib/titles.ts`) via the layouts — never
+  set titles inside tool files. A new page *type* adds a case there.
 
-For any `text → process(text) → text` tool, use the **Text Processor System** instead of hand-writing a widget — it's the processor equivalent of the text-analysis engine. See `ARCHITECTURE.md` → "Text Processor System".
+The sitemap is registry-driven — new tools/guides appear automatically; never hand-edit a sitemap.
+Engines/patterns register in `src/data/engines.ts`, **never** in the validators (they derive from
+it). Widget conventions (IoPanel composition, live-on-input, fixed-height panels, ToolActions row)
+live in `ARCHITECTURE.md` → "Design Language".
 
-1. Create the processor in `src/lib/text/processors/transform/` or `cleanup/` — one object implementing `TextProcessor` (`{ id, family, process }`).
-2. Register it in `src/lib/text/processors/registry.ts` (one import + one `PROCESSORS` entry). It becomes available in the browser as `ToyTools.process(id, text)`.
-3. Create `config.ts` (`engine: 'text-processor'`, `family`, `processorId`) + a **3-line** `Widget.astro` that renders `TextProcessorWidget` (do **not** write processing logic in the widget) + optional `Guide.astro`/`faq.ts`. Then the usual registry/guide/faq registration.
+### Removing a tool
 
-The shared `TextProcessorWidget.astro` is generic and must never be edited to add a tool or a new processor family (`extract`/`compare`/`validate`/`format` register the same way). `validate-registry.ts` enforces that each `text-processor` tool's `processorId` resolves in the registry.
+`npm run scaffold:tool -- --remove --slug <slug>` deletes the tool directory, strips every
+registry entry, and regenerates the code map (`--dry-run` to preview).
 
 ### Tool Groups (unified workspaces)
 
-Sibling tools sharing one engine + experience (e.g. the 7 case converters) can form a **tool group**: each member keeps its own URL/metadata/guide/FAQ/sitemap entry (never merge URLs), but the tool page renders a `GroupSwitcher` pill row above the widget and `TextProcessorWidget` persists input under the shared key `group:{id}` so text survives mode switches. Declare the group in `src/data/tool-groups.ts` (ordered members + switcher labels) and set `toolGroup: '<id>'` in each member's `config.ts` — `validate-registry.ts` enforces bidirectional membership and same engine/pattern across members. Switching is real `<a>` navigation (sibling pages are prefetched; `@view-transition` in `global.css` gives a CSS-only cross-fade). See `ARCHITECTURE.md` → "Tool Groups".
+Sibling tools sharing one engine + experience (case converters, text counters, text cleanup,
+encoders, hash generators, JSON tools) form **tool groups**: each member keeps its own
+URL/metadata/guide/FAQ/sitemap entry (never merge URLs), but the tool page renders a
+`GroupSwitcher` pill row and the engine widgets persist input under the shared key `group:{id}` so
+text survives mode switches (tool-specific state like conversion direction stays per-slug).
+Declare the group in `src/data/tool-groups.ts` and set `toolGroup: '<id>'` in each member's
+`config.ts` — `validate-registry.ts` enforces bidirectional membership and same engine/pattern
+across members. See `ARCHITECTURE.md` → "Tool Groups".
 
-### Adding a developer-engine tool (encoding / hashing / structured-data / jwt)
+### Tool directory anatomy
 
-The Developer category has four engines under `src/lib/engines/`, each with the same shape as the text-processor system: `types.ts` + a never-throwing `registry.ts` resolver + per-impl files + a colocated `*.test.ts`, bundled into `ToyToolsRuntime` and consumed by **one generic widget per engine**. See `ARCHITECTURE.md` → "Developer Engines" for the full table.
-
-| Engine | Runtime | Widget | `engine` / `pattern` |
-|--------|---------|--------|----------------------|
-| Encoding | `ToyTools.runEncoding(id, mode, text)` → `{ok,output,error}` | `EncodingWidget.astro` | `encoding` / `encode-decode` |
-| Hashing | `ToyTools.runHash(id, text)` → `Promise<string>` | `HashWidget.astro` | `hashing` / `hash` |
-| Structured-Data | `ToyTools.runStructuredData(id, input)` → `{ok,output,error}` | `StructuredDataWidget.astro` | `structured-data` / `structured-transform`\|`structured-validate` |
-| JWT | `ToyTools.runJwt(token)` → `{ok,output,error}` | (interactive widget) | `jwt` / `token-decode` |
-
-The full engine manifest lives in `src/data/engines.ts` (the single source of truth for which engines/patterns exist). Besides the four developer engines, the platform also declares: `text-analysis` (`text-metric`), `text-processor` (`text-transform`/`text-cleanup`), `text-interactive` (`text-interactive` — e.g. find-replace, text-compare; self-contained widgets, no runtime global), `calculator` (`calculate` — the number tools), and `productivity` (`stateful`). Register a new engine/pattern there, never in the validator.
-
-1. Add the impl in the engine's lib dir + one `registry.ts` entry. Keep browser APIs (`btoa`/`atob`/`crypto.subtle`) **inside** methods — never at module top-level.
-2. Create `config.ts` (`engine`, `pattern`, `family`, `processorId`, and curated `relatedTools`) + a **3-line** `Widget.astro` rendering the engine widget. Add the registry import + array entry.
-3. Extend the engine's `*.test.ts` (test the engine, not the tool). Optional guide/faq register as usual.
-
-**Widget conventions** (apply if you ever touch the shared engine widgets): every framed pane is composed from the `IoPanel` primitive (`src/tools/_shared/IoPanel.astro`) — **never hand-write `.io-panel`/`.io-header` markup**; the `.io-*` styles live in `src/styles/tool-widget.css` (don't re-declare per widget); widgets update **live on input** (no Generate/Convert button); panels are fixed-height with internal scroll (no auto-growing textareas — page geometry must not change while typing) and equalize column heights on desktop; the mode select goes in `IoPanel`'s `header-end` slot, Swap/Sample in the **single** `.tool-actions` row via `<ToolActions>`'s trailing `<slot/>`. See `ARCHITECTURE.md` → "Design Language". Verify in a real browser with `npm run test:e2e` (Playwright, runs desktop + mobile).
-
-`processorId` is the universal config→engine lookup key. `KNOWN_ENGINES`/`KNOWN_PATTERNS` in `validate-registry.ts` derive from `engineRegistry` (`src/data/engines.ts`) — **register a new engine/pattern there**, not in the validator. `validate-registry` also checks metadata completeness, category/engine/pattern/relatedTools resolution, and duplicate slugs/URLs. Run `npm run health` for the post-build platform integrity superset.
-
-The sitemap is registry-driven (`src/pages/sitemap-index.xml.ts` + `src/pages/sitemaps/*.xml.ts` from `buildContentManifest()`) — new tools/guides appear automatically; never hand-edit a sitemap.
-
-### Removing a tool (2 steps)
-
-1. Delete `src/tools/<segment>/<slug>/`
-2. Remove the import and array entry from `src/data/registry.ts`
-
-Nothing else needs to change.
-
-### Adding a guide to a tool
-
-In `config.ts`, add a `guide: GuideConfig` object, then create `Guide.astro` in the same tool
-directory. Add **two** entries: a static import in `src/pages/guide/[...slug].astro`
-(its `guidesBySlug` map) **and** the tool's slug in `registeredGuideSlugs` (`src/data/guide-registry.ts`).
-`validate-registry.ts` fails the build when a declared guide is not registered.
-
-### Adding a FAQ to a tool
-
-FAQ lives **on the tool page only** — there is no `faq` config field and no standalone FAQ pages.
-Create `faq.ts` (exports `const items: FAQItem[]`) in the tool directory and register it with one
-import + `faqsByToolSlug` entry in `src/data/faq-registry.ts`. The tool page then automatically
-renders the `FaqAccordion` in its `#faq` section, emits `FAQPage` JSON-LD, and shows the
-"Common Questions (N)" anchor in `ToolNavRow`.
-
-Historical note: the old `/faq/{segment}/{slug}/` pages are **redirect stubs** (meta-refresh +
-canonical → tool page `#faq`), generated from `src/data/faq-redirects.ts`. They are noindex and in
-no sitemap. Never add new entries there — it exists only to preserve previously-indexed URLs.
-
-### Adding a knowledge file (Knowledge Graph — Phase D)
-
-Every tool should also have a co-located `knowledge.ts` exporting `const knowledge: Knowledge`
-(`@lib/knowledge/types`), registered with one import + one entry in `src/lib/knowledge/registry.ts`.
-This powers the auto-generated Related Tools / You May Also Need / Continue Learning sections,
-topic clusters, the EntityMatcher, and `dist/knowledge-graph.json` diagnostics.
-
-- **Derived for free** (do NOT author): related tools/guides/FAQs come from engine→pattern→family→
-  category via the graph. You only author the **overlay** fields: `primaryConcepts`/`secondaryConcepts`,
-  `intentGroups`, `realWorldUseCases`, `commonMistakes`, `commonQuestions`, and the curated
-  relationships `usedWith` / `alternatives` / `nextSteps` (typed `RelationshipReference`:
-  `{ slug, reason?, strength?, priority? }`), plus `workflowStage`, `keywords`, `entityAliases`.
-- `slug` must equal the tool slug, `category` must equal `categorySlug`, `summary` ≤160 chars,
-  `schemaVersion: KNOWLEDGE_SCHEMA_VERSION`.
-- `seo:scaffold <slug>` emits a `knowledge.draft.ts` stub (concepts/intents pre-filled, relations TODO).
-- Build gating: a **missing** knowledge file WARNs; an **invalid** one (bad shape, unresolved
-  relationship target, slug/category mismatch) **fails the build** via `scripts/validate-knowledge.ts`.
-  `KNOWLEDGE_REQUIRED=true` promotes the missing-file WARN to an ERROR.
-
-### Tool directory structure
-
-Tools are organized by URL segment under `src/tools/`:
-
-```
-src/tools/
-├── _shared/             # Shared widget components (TextMetricWidget, TextProcessorWidget, ToolSection, ToolAction)
-├── text/                # text-utilities category (URL segment: text)
-│   ├── word-counter/                # text-metric tools (text-analysis engine)
-│   ├── character-counter/
-│   ├── sentence-counter/
-│   ├── paragraph-counter/
-│   ├── reading-time-calculator/
-│   ├── letter-counter/
-│   ├── line-counter/
-│   ├── space-counter/
-│   ├── find-replace/                # text-interactive engine (text-interactive pattern)
-│   ├── text-compare/                # text-interactive engine
-│   ├── uppercase-converter/         # text-processor tools (transform family)
-│   ├── lowercase-converter/
-│   ├── title-case-converter/
-│   ├── sentence-case-converter/
-│   ├── camel-case-converter/
-│   ├── snake-case-converter/
-│   ├── kebab-case-converter/
-│   ├── remove-extra-spaces/         # text-processor tools (cleanup family)
-│   ├── remove-blank-lines/
-│   ├── remove-duplicate-lines/
-│   ├── trim-text/
-│   ├── normalize-whitespace/
-│   └── remove-tabs/
-├── number/              # number-utilities category (calculator engine, calculate pattern)
-│   ├── percentage-calculator/
-│   ├── margin-calculator/
-│   ├── discount-calculator/
-│   └── tip-calculator/
-├── developer-utilities/ # developer-utilities category (URL segment: developer-utilities)
-│   ├── base64-encoder-decoder/      # encoding engine (encode-decode pattern)
-│   ├── url-encoder-decoder/         # encoding engine
-│   ├── html-entity-encoder-decoder/ # encoding engine
-│   ├── hex-encoder-decoder/         # encoding engine
-│   ├── md5-hash-generator/          # hashing engine (hash pattern)
-│   ├── sha1-hash-generator/         # hashing engine
-│   ├── sha256-hash-generator/       # hashing engine
-│   ├── sha512-hash-generator/       # hashing engine
-│   ├── json-formatter/              # structured-data engine (structured-transform pattern)
-│   ├── json-minifier/               # structured-data engine
-│   ├── json-validator/              # structured-data engine (structured-validate pattern)
-│   ├── json-to-csv-converter/       # structured-data engine
-│   ├── csv-to-json-converter/       # structured-data engine
-│   ├── json-to-yaml-converter/      # structured-data engine
-│   ├── yaml-to-json-converter/      # structured-data engine
-│   ├── json-tree-viewer/            # structured-data engine
-│   └── jwt-decoder/                 # jwt engine (token-decode pattern)
-└── productivity/        # productivity category (productivity engine, stateful pattern)
-    ├── todo-list/
-    ├── notepad/
-    ├── keep-screen-awake/
-    └── pomodoro-timer/
-```
-
-> **Note:** the developer category's URL segment was renamed `developer` → `developer-utilities`
-> (and its slug `developer-tools` → `developer-utilities`). Old `/tool/developer/{slug}/` and
-> `/category/developer-tools/` URLs are preserved as noindex meta-refresh redirect stubs via
-> `src/data/tool-redirects.ts` (consumed by `src/pages/tool/developer/[slug].astro` and
-> `src/pages/category/[oldSlug].astro`). Never add new entries there.
-
-Each tool directory contains:
 ```
 src/tools/<segment>/<slug>/
 ├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, toolGroup?
-├── Widget.astro     # Self-contained tool UI (required)
-├── faq.ts           # exports: const items: FAQItem[] (optional — only if tool has FAQ)
+├── Widget.astro     # Tool UI (required) — 3-line engine-widget wrapper or self-contained bespoke
+├── faq.ts           # exports: const items: FAQItem[] (optional — renders on the tool page only)
+├── knowledge.ts     # exports: const knowledge: Knowledge (overlay fields only; relations derived)
 └── Guide.astro      # Wraps GuideLayout with full guide content (optional)
 ```
 
-Shared sub-components for widgets: `src/tools/_shared/ToolSection.astro`, `ToolAction.astro`, `ToolSplit.astro`.
+The full per-tool inventory (which of these exist for every slug, and where) is in
+`docs/code-map.json`. Historical URL notes: old `/faq/...` pages and the old `developer` segment
+are preserved as noindex redirect stubs (`src/data/faq-redirects.ts`, `src/data/tool-redirects.ts`)
+— never add new entries to either.
 
 ### Two-column layout (`ToolSplit`)
 
