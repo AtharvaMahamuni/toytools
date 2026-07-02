@@ -9,18 +9,30 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
   slug: string;
   processorId: string;
   config: ToolConfig;
+  /** Overrides the family default sample for the Load-example action. */
+  sampleText?: string;
 }
 
-const { slug, processorId, config } = Astro.props;
+const { slug, processorId, config, sampleText } = Astro.props;
 
 // Tools in a group share one state envelope so input survives mode switches.
 const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
+
+// Sample action parity with the other engine widgets: one messy default per family
+// (the cleanup sample trips every cleanup processor; the transform one re-cases well).
+const FAMILY_SAMPLES: Record<string, string> = {
+  transform: 'The quick brown fox jumps over the lazy dog',
+  cleanup:
+    '  The   quick  brown fox  \n  The   quick  brown fox  \n\n\tjumps\tover the lazy dog.  \n\n  Café déjà vu  ',
+};
+const sample = sampleText ?? (config.family ? FAMILY_SAMPLES[config.family] : undefined);
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
@@ -28,7 +40,8 @@ const outputId = `${slug}-output`;
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
   <IoPanel slot="input" label="Text" labelFor={inputId} variant="prose"
-    data-tool={slug} data-processor={processorId} data-slug={slug} data-state-key={stateKey}>
+    data-tool={slug} data-processor={processorId} data-slug={slug} data-state-key={stateKey}
+    data-sample={sample ?? ''}>
     <textarea id={inputId} placeholder="Paste or type text here"></textarea>
   </IoPanel>
 
@@ -42,7 +55,9 @@ const outputId = `${slug}-output`;
   pasteTarget={inputId}
   downloadTarget={outputId}
   downloadFilename={`${slug}-output.txt`}
-/>
+>
+  <ExampleLoader hasSample={!!sample} />
+</ToolActions>
 
 <CategoryDiscovery toolSlug={slug} />
 
@@ -76,6 +91,16 @@ const outputId = `${slug}-output`;
     } catch (_) {}
 
     input.addEventListener('input', function () { run(); persist(); });
+
+    var exBtn = document.querySelector('[data-conv-example]');
+    if (exBtn) exBtn.addEventListener('click', function () {
+      var sample = root.getAttribute('data-sample') || '';
+      if (!sample) return;
+      input.value = sample;
+      run(); persist();
+      input.focus();
+    });
+
     // ToyTools.process attaches via the deferred runtime module — wait for it so
     // restored input renders converted on load (matches the other engine widgets).
     if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();

@@ -76,6 +76,21 @@ test.describe('encoder group switcher', () => {
   });
 });
 
+test.describe('json-yaml group switcher', () => {
+  test('input survives a switch and recomputes live (no Convert button)', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-to-yaml-converter/');
+    await page.locator('#json-to-yaml-converter-input').fill('{"a": 1}');
+    await expect(page.locator('#json-to-yaml-converter-output')).toContainText('a: 1');
+
+    const nav = page.getByRole('navigation', { name: 'JSON ↔ YAML modes' });
+    await nav.getByRole('link', { name: 'YAML → JSON' }).click();
+    await expect(page).toHaveURL(/\/tool\/developer-utilities\/yaml-to-json-converter\/$/);
+    // JSON is valid YAML, so the shared input converts straight back.
+    await expect(page.locator('#yaml-to-json-converter-input')).toHaveValue('{"a": 1}');
+    await expect(page.locator('#yaml-to-json-converter-output')).toContainText('"a": 1');
+  });
+});
+
 test.describe('hash group switcher', () => {
   test('input survives a switch and the new digest computes', async ({ page }) => {
     await page.goto('/tool/developer-utilities/md5-hash-generator/');
