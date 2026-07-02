@@ -19,6 +19,8 @@ export interface EngineManifest {
   patterns: string[];
   /** Name of the window.ToyTools.* function tools call at runtime ('' for self-contained tools). */
   runtimeGlobal: string;
+  /** Shared widget in src/tools/_shared/ a tool of this engine wraps ('' for bespoke widgets). */
+  sharedWidget: string;
   supportsGuides: boolean;
   supportsFaqs: boolean;
   /** Derived from the registry — the distinct families currently in use. */
@@ -51,22 +53,23 @@ interface EngineDef {
   category: string;
   patterns: PatternId[];
   runtimeGlobal: string;
+  sharedWidget?: string;
   supportsGuides?: boolean;
   supportsFaqs?: boolean;
 }
 
 // Declared engine definitions. New engines register here exactly once.
 const engineDefs: EngineDef[] = [
-  { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze' },
-  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup'], runtimeGlobal: 'process' },
-  { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode'], runtimeGlobal: 'runEncoding' },
-  { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash'], runtimeGlobal: 'runHash' },
-  { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate'], runtimeGlobal: 'runStructuredData' },
-  { id: 'jwt', name: 'JWT Engine', category: 'developer-utilities', patterns: ['token-decode'], runtimeGlobal: 'runJwt' },
+  { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze', sharedWidget: 'TextMetricWidget.astro' },
+  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro' },
+  { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro' },
+  { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro' },
+  { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro' },
+  { id: 'jwt', name: 'JWT Engine', category: 'developer-utilities', patterns: ['token-decode'], runtimeGlobal: 'runJwt', sharedWidget: 'JwtWidget.astro' },
   { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '' },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '' },
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
-  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance' },
+  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {
@@ -84,6 +87,7 @@ function countFor(engineId: string): number {
 export const engineRegistry: EngineManifest[] = engineDefs.map(def => ({
   supportsGuides: true,
   supportsFaqs: true,
+  sharedWidget: '',
   ...def,
   supportedFamilies: familiesFor(def.id),
   toolCount: countFor(def.id),

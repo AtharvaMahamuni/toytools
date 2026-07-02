@@ -1,111 +1,87 @@
 ---
-import HeroMetric from '@components/tool/HeroMetric.astro';
-import StatGrid from '@components/tool/StatGrid.astro';
-import ToolActions from '@components/tool/ToolActions.astro';
-import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-
-const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.";
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import { config } from './config';
 ---
 
-<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Your text" labelFor="word-counter-input" variant="prose">
-    <textarea id="word-counter-input" placeholder="Paste or type text here…"></textarea>
-  </IoPanel>
-
-  <IoPanel slot="output" label="Result" variant="prose" result>
-    <HeroMetric metric="words" label="Words" formatter="integer" />
-    <StatGrid stats={[
-      { metric: 'characters',  label: 'Characters',   formatter: 'integer' },
-      { metric: 'sentences',   label: 'Sentences',    formatter: 'integer' },
-      { metric: 'paragraphs',  label: 'Paragraphs',   formatter: 'integer' },
-      { metric: 'readingTime', label: 'Reading Time', formatter: 'duration' },
-      { metric: 'uniqueWords', label: 'Unique Words', formatter: 'integer' },
-    ]} />
-  </IoPanel>
-</ToolSplit>
-
-<ToolActions copyTarget="word-counter-input" clearTarget="word-counter-input" pasteTarget="word-counter-input">
+<TextMetricWidget
+  slug="word-counter"
+  toolGroup={config.toolGroup}
+  emptyMessage="Paste or type text to count words."
+  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  stats={[
+    { metric: 'words',       label: 'Words',        formatter: 'integer' },
+    { metric: 'characters',  label: 'Characters',   formatter: 'integer' },
+    { metric: 'sentences',   label: 'Sentences',    formatter: 'integer' },
+    { metric: 'paragraphs',  label: 'Paragraphs',   formatter: 'integer' },
+    { metric: 'readingTime', label: 'Reading Time', formatter: 'duration' },
+    { metric: 'uniqueWords', label: 'Unique Words', formatter: 'integer' },
+  ]}
+>
   <button
-    class="action-btn action-btn--sample"
-    data-action="sample"
-    aria-label="Load a sample text"
-    id="wc-sample-btn"
-  >
-    Sample
-  </button>
-  <button
+    slot="actions"
     class="action-btn"
     id="wc-download-btn"
     aria-label="Download stats report"
   >
     Download Report
   </button>
-</ToolActions>
 
-<section class="wc-goal-section" id="wc-goal-section">
-  <div class="wc-goal-header">
-    <label class="wc-goal-label" for="wc-goal-input">Word goal</label>
-    <div class="wc-goal-controls">
-      <input
-        type="number"
-        id="wc-goal-input"
-        class="wc-goal-num"
-        min="1"
-        max="100000"
-        placeholder="e.g. 500"
-        aria-label="Set a word count goal"
-      />
-      <button class="action-btn wc-goal-clear-btn" id="wc-goal-clear" aria-label="Clear goal" hidden>
-        Clear goal
-      </button>
+  <section class="wc-goal-section" id="wc-goal-section">
+    <div class="wc-goal-header">
+      <label class="wc-goal-label" for="wc-goal-input">Word goal</label>
+      <div class="wc-goal-controls">
+        <input
+          type="number"
+          id="wc-goal-input"
+          class="wc-goal-num"
+          min="1"
+          max="100000"
+          placeholder="e.g. 500"
+          aria-label="Set a word count goal"
+        />
+        <button class="action-btn wc-goal-clear-btn" id="wc-goal-clear" aria-label="Clear goal" hidden>
+          Clear goal
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="wc-goal-bar-wrap" id="wc-goal-bar-wrap" hidden>
-    <progress
-      class="wc-goal-progress"
-      id="wc-goal-progress"
-      max="100"
-      value="0"
-      aria-label="Word count progress toward goal"
-    ></progress>
-    <span class="wc-goal-stat" id="wc-goal-stat" aria-live="polite"></span>
-  </div>
-</section>
-
-<section class="wc-top-words-section" id="wc-top-words-section" hidden>
-  <div class="wc-top-words-header">
-    <h2 class="wc-section-heading">Top Words</h2>
-    <div class="wc-top-controls">
-      <label class="wc-toggle-label">
-        <input type="checkbox" id="wc-stop-filter" />
-        Hide common words
-      </label>
-      <button class="wc-sort-btn" id="wc-sort-btn" data-sort="freq" aria-pressed="true">
-        By frequency
-      </button>
+    <div class="wc-goal-bar-wrap" id="wc-goal-bar-wrap" hidden>
+      <progress
+        class="wc-goal-progress"
+        id="wc-goal-progress"
+        max="100"
+        value="0"
+        aria-label="Word count progress toward goal"
+      ></progress>
+      <span class="wc-goal-stat" id="wc-goal-stat" aria-live="polite"></span>
     </div>
-  </div>
-  <ol class="wc-top-list" id="wc-top-list" aria-label="Top words by frequency"></ol>
-  <details class="wc-insights" id="wc-insights">
-    <summary class="wc-insights-summary">Word insights</summary>
-    <dl class="wc-insights-list" id="wc-insights-list"></dl>
-  </details>
-</section>
+  </section>
 
-<CategoryDiscovery toolSlug="word-counter" />
+  <section class="wc-top-words-section" id="wc-top-words-section" hidden>
+    <div class="wc-top-words-header">
+      <h2 class="wc-section-heading">Top Words</h2>
+      <div class="wc-top-controls">
+        <label class="wc-toggle-label">
+          <input type="checkbox" id="wc-stop-filter" />
+          Hide common words
+        </label>
+        <button class="wc-sort-btn" id="wc-sort-btn" data-sort="freq" aria-pressed="true">
+          By frequency
+        </button>
+      </div>
+    </div>
+    <ol class="wc-top-list" id="wc-top-list" aria-label="Top words by frequency"></ol>
+    <details class="wc-insights" id="wc-insights">
+      <summary class="wc-insights-summary">Word insights</summary>
+      <dl class="wc-insights-list" id="wc-insights-list"></dl>
+    </details>
+  </section>
+</TextMetricWidget>
 
 <script is:inline>
 (function () {
-  var SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.";
-
   var STOP_WORDS = new Set('the a an and or but in on at to for of with by from is are was were be been being have has had do does did will would could should may might shall can i me my we our you your he she it its they them their this that these those'.split(' '));
 
   var textarea = document.getElementById('word-counter-input');
-  var secondary = document.querySelector('.tm-secondary');
-  var hero = document.querySelector('.hero-value');
-  var hint = document.querySelector('.empty-hint');
   if (!textarea) return;
 
   var goalInput = document.getElementById('wc-goal-input');
@@ -118,30 +94,10 @@ const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhou
   var insightsList = document.getElementById('wc-insights-list');
   var stopFilter = document.getElementById('wc-stop-filter');
   var sortBtn = document.getElementById('wc-sort-btn');
-  var sampleBtn = document.getElementById('wc-sample-btn');
 
   var currentWordCount = 0;
   var currentWords = [];
   var sortMode = 'freq';
-
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var pulseTimer;
-
-  function pulse() {
-    if (reduceMotion || !hero) return;
-    hero.classList.add('is-updated');
-    clearTimeout(pulseTimer);
-    pulseTimer = setTimeout(function () { hero.classList.remove('is-updated'); }, 200);
-  }
-
-  function setMetric(el, value) {
-    var fmt = el.dataset.formatter || 'integer';
-    var next = ToyTools.formatMetric(value, fmt);
-    if (el.textContent !== next) {
-      el.textContent = next;
-      if (el === hero) pulse();
-    }
-  }
 
   function tokenize(text) {
     return (text.match(/\b[a-zA-Z']+\b/g) || []).map(function (w) { return w.toLowerCase(); });
@@ -198,7 +154,7 @@ const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhou
     topList.innerHTML = html || '<li class="wc-word-empty">No words found.</li>';
   }
 
-  function buildInsights(words, text) {
+  function buildInsights(words) {
     if (!words.length) { insightsList.innerHTML = ''; return; }
     var alpha = words.filter(function (w) { return /^[a-z]+$/.test(w); });
     var longest = alpha.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
@@ -212,46 +168,23 @@ const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhou
       '<div class="wc-insight-row"><dt>Repeated words</dt><dd>' + repeated + '</dd></div>';
   }
 
-  function update() {
+  function compute() {
     var text = textarea.value;
     currentWords = tokenize(text);
     if (!text.trim()) {
-      if (hero) setMetric(hero, 0);
-      if (secondary) secondary.hidden = true;
-      if (hint) hint.hidden = false;
       currentWordCount = 0;
-      if (topSection) topSection.hidden = true;
+      topSection.hidden = true;
       updateGoal();
       return;
     }
-    if (hint) hint.hidden = true;
-    if (secondary) secondary.hidden = false;
-    var r = ToyTools.analyze(text);
-    currentWordCount = r.words || 0;
-    document.querySelectorAll('[data-metric]').forEach(function (el) {
-      var key = el.dataset.metric;
-      setMetric(el, r[key] !== undefined ? r[key] : 0);
-    });
+    currentWordCount = (window.ToyTools && ToyTools.analyze) ? (ToyTools.analyze(text).words || 0) : 0;
     updateGoal();
-    if (topSection) {
-      topSection.hidden = false;
-      buildTopWords(currentWords);
-      buildInsights(currentWords, text);
-    }
+    topSection.hidden = false;
+    buildTopWords(currentWords);
+    buildInsights(currentWords);
   }
 
   var downloadBtn = document.getElementById('wc-download-btn');
-
-  // Sample button
-  if (sampleBtn) {
-    sampleBtn.addEventListener('click', function () {
-      textarea.value = SAMPLE;
-      textarea.dispatchEvent(new Event('input'));
-      textarea.focus();
-    });
-  }
-
-  // Download report
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
       if (!textarea.value.trim()) { ToyTools.toast('Nothing to download!'); return; }
@@ -280,22 +213,31 @@ const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhou
     });
   }
 
-  // Goal input
+  // The goal is tool-specific UI state, kept under the tool's own key
+  // (the shared group envelope only carries the text).
+  function saveGoal() {
+    if (!ToyTools.state) return;
+    var prior = null;
+    try { prior = ToyTools.state.load('word-counter'); } catch (_) {}
+    var data = prior && typeof prior === 'object' ? prior : {};
+    data.goal = goalInput ? goalInput.value : '';
+    ToyTools.state.save('word-counter', data);
+  }
+
   if (goalInput) {
     goalInput.addEventListener('input', function () {
       updateGoal();
-      saveState();
+      saveGoal();
     });
   }
   if (goalClearBtn) {
     goalClearBtn.addEventListener('click', function () {
       goalInput.value = '';
       updateGoal();
-      saveState();
+      saveGoal();
     });
   }
 
-  // Top words controls
   if (stopFilter) {
     stopFilter.addEventListener('change', function () {
       buildTopWords(currentWords);
@@ -310,31 +252,17 @@ const SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhou
     });
   }
 
-  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
-
-  function saveState() {
-    if (ToyTools.state) ToyTools.state.save('word-counter', { text: textarea.value, goal: goalInput ? goalInput.value : '' });
-  }
-
   try {
     var saved = ToyTools.state && ToyTools.state.load('word-counter');
-    if (saved) {
-      if (typeof saved.text === 'string') textarea.value = saved.text;
-      if (goalInput && saved.goal) goalInput.value = saved.goal;
-    }
+    if (saved && goalInput && saved.goal) goalInput.value = saved.goal;
   } catch (_) {}
 
-  textarea.addEventListener('input', function () {
-    update();
-    saveState();
-  });
-  ToyTools.onReady(update);
-
-  if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
+  textarea.addEventListener('input', compute);
+  compute();
 })();
 </script>
 
-<style>
+<style is:global>
   .wc-goal-section {
     margin-top: var(--space-6);
     padding: var(--space-5);

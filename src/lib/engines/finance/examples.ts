@@ -31,6 +31,23 @@ export const FINANCE_EXAMPLES: WorkedExample<FinanceInput>[] = [
     narrative: 'Reaching a $50,000 goal in 5 years with $5,000 saved and a 6% return needs a steady monthly amount.',
   },
   {
+    id: 'sip-basic',
+    engine: 'finance',
+    ref: 'sip',
+    title: '$500/mo at 10% for 10 years',
+    inputs: { monthly: 500, rate: 10, years: 10, initial: 0 },
+    expect: { final: 102422.49, invested: 60000, gain: 42422.49 },
+    narrative: 'A $500 monthly SIP at a 10% expected return grows to about $102,422 in 10 years, of which $60,000 is your own money.',
+  },
+  {
+    id: 'sip-with-lump-sum',
+    engine: 'finance',
+    ref: 'sip',
+    title: '$1,000/mo + $5,000 lump sum at 11% for 15 years',
+    inputs: { monthly: 1000, rate: 11, years: 15, initial: 5000 },
+    narrative: 'Pairing a monthly SIP with a starting lump sum shows how both streams compound side by side.',
+  },
+  {
     id: 'emergency-fund-basic',
     engine: 'finance',
     ref: 'emergency-fund',

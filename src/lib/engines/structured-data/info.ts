@@ -12,6 +12,11 @@ export interface StructuredInfo {
   insight?: string | string[];
   technical?: TechnicalEntry[];
   sample?: string;
+  /** Input pane label/placeholder — defaults suit the JSON-input tools. */
+  inputLabel?: string;
+  placeholder?: string;
+  /** Download extension for the output (default '.json'). */
+  downloadExt?: string;
 }
 
 const PRETTY_JSON = '{\n  "name": "Ada",\n  "langs": ["JS", "TS"],\n  "active": true\n}';
@@ -63,6 +68,7 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
       { term: 'Nested values', detail: 'Stringified into a single cell' },
     ],
     sample: ROWS_JSON,
+    downloadExt: '.csv',
   },
   'csv-to-json': {
     displayName: 'CSV to JSON',
@@ -74,6 +80,8 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
       { term: 'Values', detail: 'Read as strings unless clearly numeric' },
     ],
     sample: 'name,age\nAda,36\nLinus,54',
+    inputLabel: 'CSV input',
+    placeholder: 'Paste CSV here',
   },
   'json-to-yaml': {
     displayName: 'JSON to YAML',
@@ -85,6 +93,7 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
       { term: 'Data', detail: 'Preserved — YAML is a superset of JSON' },
     ],
     sample: PRETTY_JSON,
+    downloadExt: '.yaml',
   },
   'yaml-to-json': {
     displayName: 'YAML to JSON',
@@ -96,6 +105,8 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
       { term: 'Indentation', detail: 'YAML nesting becomes JSON object/array nesting' },
     ],
     sample: 'name: Ada\nlangs:\n  - JS\n  - TS\nactive: true',
+    inputLabel: 'YAML input',
+    placeholder: 'Paste YAML here',
   },
 };
 

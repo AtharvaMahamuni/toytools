@@ -217,3 +217,15 @@ describe('removeTabs', () => {
   it('preserves spaces (only tabs are replaced)', () => expect(p('hello world')).toBe('hello world'));
   it('handles whitespace-only tab string', () => expect(p('\t\t\t')).toBe('   '));
 });
+
+describe('removeEmoji', () => {
+  const p = PROCESSORS.removeEmoji.process;
+  it('returns empty string for empty input', () => expect(p('')).toBe(''));
+  it('removes simple pictographic emoji', () => expect(p('Great work \u{1F389}\u{1F60A}!')).toBe('Great work !'));
+  it('removes ZWJ family sequences as one unit', () => expect(p('a\u{1F468}\u200D\u{1F469}\u200D\u{1F467}b')).toBe('ab'));
+  it('removes skin-tone modified emoji', () => expect(p('hi \u{1F44D}\u{1F3FD} there')).toBe('hi  there'));
+  it('removes flags (regional indicator pairs)', () => expect(p('go \u{1F1EE}\u{1F1F3} team')).toBe('go  team'));
+  it('keeps the digit of a keycap emoji', () => expect(p('press 1\uFE0F\u20E3 now')).toBe('press 1 now'));
+  it('leaves plain text, accents, and CJK untouched', () => expect(p('caf\u00e9 \u4e2d\u6587 ok!')).toBe('caf\u00e9 \u4e2d\u6587 ok!'));
+  it('leaves plain symbols like (c) and TM untouched', () => expect(p('brand\u2122 \u00a9 2026')).toBe('brand\u2122 \u00a9 2026'));
+});

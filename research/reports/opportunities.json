@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-29T09:03:43.701Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "opportunities": [
     {
       "id": "remove-line-breaks",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -76,6 +76,78 @@
       "engineExists": true
     },
     {
+      "id": "sip-calculator",
+      "title": "SIP Calculator",
+      "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
+      "userIntent": "transactional",
+      "workflow": "input → Systematic Investment Plan → output",
+      "transformation": "Systematic Investment Plan",
+      "proposedTool": "sip-calculator",
+      "proposedEngine": "finance",
+      "searchQueries": [
+        "sip calculator",
+        "mutual fund sip calculator",
+        "monthly investment calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "groww.in",
+        "moneycontrol.com"
+      ],
+      "solutionWeaknesses": [
+        "region locked",
+        "ads",
+        "no clear breakdown of invested vs returns"
+      ],
+      "relatedProblems": [
+        "compound interest",
+        "savings goal",
+        "future value"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "savings-goal-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "sip-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "savings-goal-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "sip-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "savings-goal-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "sip-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.6,
+      "searchDemand": 0.92,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.73,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.95,
+      "confidence": 0.8,
+      "finalScore": 80.9,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "reverse-text",
       "title": "Reverse Text",
       "problem": "I need to reverse a string of text character by character for a puzzle / mirror effect.",
@@ -94,7 +166,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -167,7 +239,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -222,13 +294,13 @@
       "engineExists": true
     },
     {
-      "id": "text-to-binary",
-      "title": "Text to Binary",
+      "id": "binary-text-converter",
+      "title": "Binary Text Converter",
       "problem": "I need to convert text to its binary representation and back for a CS assignment.",
       "userIntent": "transactional",
       "workflow": "text → Binary Encoding → encoded text",
       "transformation": "Binary Encoding",
-      "proposedTool": "text-to-binary",
+      "proposedTool": "binary-text-converter",
       "proposedEngine": "encoding",
       "searchQueries": [
         "text to binary converter",
@@ -240,7 +312,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -259,24 +331,24 @@
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedGuides": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedFaqs": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.86,
@@ -288,6 +360,77 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.55,
       "localizationPotential": 0.9,
+      "confidence": 0.8,
+      "finalScore": 79.1,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "roi-calculator",
+      "title": "ROI Calculator",
+      "problem": "I need the return on investment and annualized return for an investment.",
+      "userIntent": "transactional",
+      "workflow": "input → Return on Investment → output",
+      "transformation": "Return on Investment",
+      "proposedTool": "roi-calculator",
+      "proposedEngine": "finance",
+      "searchQueries": [
+        "roi calculator",
+        "return on investment calculator",
+        "investment return calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "dated UI",
+        "no annualized figure",
+        "ad supported"
+      ],
+      "relatedProblems": [
+        "cagr",
+        "compound interest",
+        "dividend yield"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.58,
+      "searchDemand": 0.88,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.71,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
       "confidence": 0.8,
       "finalScore": 79.1,
       "status": "recommended",
@@ -313,7 +456,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -363,6 +506,77 @@
       "localizationPotential": 0.92,
       "confidence": 0.8,
       "finalScore": 78.8,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "cagr-calculator",
+      "title": "CAGR Calculator",
+      "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
+      "userIntent": "transactional",
+      "workflow": "input → Compound Annual Growth Rate → output",
+      "transformation": "Compound Annual Growth Rate",
+      "proposedTool": "cagr-calculator",
+      "proposedEngine": "finance",
+      "searchQueries": [
+        "cagr calculator",
+        "compound annual growth rate",
+        "annualized return calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "existingSolutions": [
+        "calculator.net",
+        "investopedia.com"
+      ],
+      "solutionWeaknesses": [
+        "formula buried in articles",
+        "no live result"
+      ],
+      "relatedProblems": [
+        "roi",
+        "compound interest",
+        "rule of 72"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "rule-of-72-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.6,
+      "searchDemand": 0.82,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.69,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 77.4,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true
@@ -386,7 +600,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -404,24 +618,24 @@
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedGuides": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "relatedFaqs": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.84,
@@ -435,8 +649,8 @@
       "localizationPotential": 0.9,
       "confidence": 0.8,
       "finalScore": 77.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -458,7 +672,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -529,7 +743,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -578,8 +792,8 @@
       "localizationPotential": 0.8,
       "confidence": 0.8,
       "finalScore": 75.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -600,7 +814,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -650,66 +864,6 @@
       "engineExists": true
     },
     {
-      "id": "sip-calculator",
-      "title": "SIP Calculator",
-      "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
-      "userIntent": "transactional",
-      "workflow": "input → Systematic Investment Plan → output",
-      "transformation": "Systematic Investment Plan",
-      "proposedTool": "sip-calculator",
-      "proposedEngine": "investment",
-      "searchQueries": [
-        "sip calculator",
-        "mutual fund sip calculator",
-        "monthly investment calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
-      "existingSolutions": [
-        "groww.in",
-        "moneycontrol.com"
-      ],
-      "solutionWeaknesses": [
-        "region locked",
-        "ads",
-        "no clear breakdown of invested vs returns"
-      ],
-      "relatedProblems": [
-        "compound interest",
-        "savings goal",
-        "future value"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator",
-        "savings-goal-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator",
-        "savings-goal-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator",
-        "savings-goal-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.6,
-      "searchDemand": 0.92,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.73,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.95,
-      "confidence": 0.8,
-      "finalScore": 69.7,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "word-frequency-counter",
       "title": "Word Frequency Counter",
       "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
@@ -727,7 +881,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -775,68 +929,9 @@
       "localizationPotential": 0.65,
       "confidence": 0.8,
       "finalScore": 68.8,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
-    },
-    {
-      "id": "roi-calculator",
-      "title": "ROI Calculator",
-      "problem": "I need the return on investment and annualized return for an investment.",
-      "userIntent": "transactional",
-      "workflow": "input → Return on Investment → output",
-      "transformation": "Return on Investment",
-      "proposedTool": "roi-calculator",
-      "proposedEngine": "investment",
-      "searchQueries": [
-        "roi calculator",
-        "return on investment calculator",
-        "investment return calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
-      "existingSolutions": [
-        "calculator.net"
-      ],
-      "solutionWeaknesses": [
-        "dated UI",
-        "no annualized figure",
-        "ad supported"
-      ],
-      "relatedProblems": [
-        "cagr",
-        "compound interest",
-        "dividend yield"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.58,
-      "searchDemand": 0.88,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.71,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "confidence": 0.8,
-      "finalScore": 67.9,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
     },
     {
       "id": "loan-calculator",
@@ -856,7 +951,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -916,7 +1011,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -959,65 +1054,6 @@
       "engineExists": false
     },
     {
-      "id": "cagr-calculator",
-      "title": "CAGR Calculator",
-      "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
-      "userIntent": "transactional",
-      "workflow": "input → Compound Annual Growth Rate → output",
-      "transformation": "Compound Annual Growth Rate",
-      "proposedTool": "cagr-calculator",
-      "proposedEngine": "investment",
-      "searchQueries": [
-        "cagr calculator",
-        "compound annual growth rate",
-        "annualized return calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
-      "existingSolutions": [
-        "calculator.net",
-        "investopedia.com"
-      ],
-      "solutionWeaknesses": [
-        "formula buried in articles",
-        "no live result"
-      ],
-      "relatedProblems": [
-        "roi",
-        "compound interest",
-        "rule of 72"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.6,
-      "searchDemand": 0.82,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.69,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.8,
-      "confidence": 0.8,
-      "finalScore": 66.2,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -1034,7 +1070,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -1093,7 +1129,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -1151,7 +1187,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -1201,7 +1237,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -1259,7 +1295,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -1315,7 +1351,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -1373,7 +1409,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1421,7 +1457,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -1471,7 +1507,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -1529,7 +1565,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -1592,7 +1628,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -1642,7 +1678,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-06-29T09:03:43.701Z",
+      "discoveredAt": "2026-07-02T10:47:08.801Z",
       "existingSolutions": [
         "crontab.guru"
       ],

@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   pattern: 'hash',
   family: 'cryptographic',
   processorId: 'sha1',
+  toolGroup: 'hash-generators',
   relatedTools: ['md5-hash-generator', 'sha256-hash-generator'],
   guide: {
     slug: 'what-is-sha1',

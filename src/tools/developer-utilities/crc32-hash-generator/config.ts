@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'hash',
   family: 'checksum',
   processorId: 'crc32',
+  toolGroup: 'hash-generators',
   guide: {
     slug: 'what-is-a-crc32-checksum',
     categorySlug: 'developer-utilities',

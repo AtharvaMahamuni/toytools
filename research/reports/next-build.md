@@ -1,30 +1,29 @@
 # Recommended Next Build
 
-Generated: 2026-06-29T09:03:43.701Z
+Generated: 2026-07-02T10:47:08.801Z
 
-## Text to Binary  (`text-to-binary`)
+## ROI Calculator  (`roi-calculator`)
 
 **Opportunity score:** 79.1 / 100
 
 ### Why build it
-- Weak / incomplete incumbents
-- Reuses the existing encoding engine
+- High search demand
+- Reuses the existing finance engine
 - Low implementation cost
 - Creates 6 internal links
 
 ### Why incumbents are weak
-- cluttered UIs
-- no live two-way preview
-- ads
+- dated UI
+- no annualized figure
+- ad supported
 
 ### Why ToyTools can win
-- Ships on the proven encoding engine - consistent UX, fast to build.
+- Ships on the proven finance engine - consistent UX, fast to build.
 - Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).
-- Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.
 
 ### Engine
-- Reuses existing engine: `encoding`
-- Future tools this unlocks: rot13-encoder-decoder
+- Reuses existing engine: `finance`
+- Future tools this unlocks: sip-calculator, cagr-calculator
 
 ### Estimates
 - Implementation effort: **low**
@@ -32,7 +31,7 @@ Generated: 2026-06-29T09:03:43.701Z
 - Maintenance cost: **low**
 
 ### Suggested supporting content
-- Guides: What is Binary Encoding?; How to binary encoding online; Text to Binary vs the alternatives
-- FAQs: How do I binary encoding?; Is Text to Binary free and private?; Does Text to Binary avoid "cluttered UIs"?
-- Internal links / related tools: hex-encoder-decoder, base64-encoder-decoder, binary-text-converter, html-entity-encoder-decoder, punycode-converter, url-encoder-decoder
+- Guides: What is Return on Investment?; How to return on investment online; ROI Calculator vs the alternatives
+- FAQs: How do I return on investment?; Is ROI Calculator free and private?; Does ROI Calculator avoid "dated UI"?
+- Internal links / related tools: compound-interest-calculator, rule-of-72-calculator, emergency-fund-calculator, inflation-calculator, savings-goal-calculator, sip-calculator
 - Schema: SoftwareApplication, FAQPage

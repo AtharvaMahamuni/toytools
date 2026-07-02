@@ -11,6 +11,7 @@ export const config: ToolConfig = {
   updatedAt: '2026-06-25',
   engine: 'text-analysis',
   pattern: 'text-metric',
+  toolGroup: 'text-counters',
   family: 'text-counting',
   primaryMetric: {
     metric: 'letters',

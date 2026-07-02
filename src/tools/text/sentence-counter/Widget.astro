@@ -1,9 +1,11 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import { config } from './config';
 ---
 
 <TextMetricWidget
   slug="sentence-counter"
+  toolGroup={config.toolGroup}
   emptyMessage="Paste or type text to count sentences."
   sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
   stats={[

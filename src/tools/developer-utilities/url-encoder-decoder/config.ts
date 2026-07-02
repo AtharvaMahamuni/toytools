@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   pattern: 'encode-decode',
   family: 'web',
   processorId: 'url',
+  toolGroup: 'encoders',
   relatedTools: ['base64-encoder-decoder', 'html-entity-encoder-decoder'],
   guide: {
     slug: 'what-is-url-encoding',

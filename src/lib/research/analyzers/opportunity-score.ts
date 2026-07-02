@@ -7,7 +7,7 @@ import type { Opportunity } from '../models/opportunity';
 import { opportunityId } from '../models/opportunity';
 import type { MergedRaw } from './deduplicate';
 import type { ResearchInputs } from '../types';
-import { SCORE_WEIGHTS, WEIGHT_SUM, THRESHOLDS } from '../config';
+import { SCORE_WEIGHTS, WEIGHT_SUM, THRESHOLDS, resolveSlugAlias } from '../config';
 import { transformationId } from './transformation';
 import { describeWorkflow } from './workflow';
 import { classifyIntent } from './intent';
@@ -77,7 +77,7 @@ function normalizeAndScore(
   const relatedGuides = relatedTools.filter(s => inputs.guideSlugs.has(s));
   const relatedFaqs = relatedTools.filter(s => inputs.faqSlugs.has(s));
   const gap = classifyGap(raw.proposedTool, raw.proposedEngine, inputs);
-  const exists = inputs.existingSlugs.has(raw.proposedTool);
+  const exists = inputs.existingSlugs.has(resolveSlugAlias(raw.proposedTool));
 
   return {
     id,

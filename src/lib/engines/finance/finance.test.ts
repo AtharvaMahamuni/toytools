@@ -62,6 +62,47 @@ describe('validation paths', () => {
   });
 });
 
+describe('sip validation and edge branches', () => {
+  it('rejects a missing monthly amount', () => {
+    const r = runFinance('sip', { monthly: '', rate: 10, years: 10, initial: 0 }, USD);
+    expect(r.ok).toBe(false);
+    expect(r.uiState).toBe('validation-error');
+  });
+  it('rejects a zero investment period', () => {
+    const r = runFinance('sip', { monthly: 500, rate: 10, years: 0, initial: 0 }, USD);
+    expect(r.ok).toBe(false);
+  });
+  it('rejects a negative starting lump sum', () => {
+    const r = runFinance('sip', { monthly: 500, rate: 10, years: 10, initial: -5 }, USD);
+    expect(r.ok).toBe(false);
+  });
+  it('rejects an out-of-range rate', () => {
+    const r = runFinance('sip', { monthly: 500, rate: 250, years: 10, initial: 0 }, USD);
+    expect(r.ok).toBe(false);
+  });
+  it('handles a zero return: value equals contributions, no growth insight share', () => {
+    const r = runFinance('sip', { monthly: 100, rate: 0, years: 2, initial: 0 }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.hero!.raw).toBe(2400);
+    const invested = r.metrics.find(m => m.id === 'invested')!;
+    expect(invested.raw).toBe(2400);
+    const gain = r.metrics.find(m => m.id === 'gain')!;
+    expect(gain.raw).toBe(0);
+  });
+  it('singular year phrasing and lump-sum breakdown entry', () => {
+    const r = runFinance('sip', { monthly: 100, rate: 12, years: 1, initial: 1000 }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.hero!.note).toBe('after 1 year');
+    expect(r.breakdown!.some(b => b.id === 'lump')).toBe(true);
+    expect(r.explanation).toContain('lump sum');
+  });
+  it('omits the lump-sum breakdown entry when starting from zero', () => {
+    const r = runFinance('sip', { monthly: 100, rate: 12, years: 3, initial: 0 }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.breakdown!.some(b => b.id === 'lump')).toBe(false);
+  });
+});
+
 describe('storytelling output', () => {
   it('compound interest emits a contributions metric only when contributing', () => {
     const withContrib = runFinance('compound-interest', { principal: 1000, rate: 8, frequency: '12', years: 30, contribution: 200 }, USD);

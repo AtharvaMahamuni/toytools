@@ -11,6 +11,7 @@ import { ruleOf72Calc } from './calculators/rule-of-72';
 import { inflation } from './calculators/inflation';
 import { savingsGoal } from './calculators/savings-goal';
 import { emergencyFund } from './calculators/emergency-fund';
+import { sip } from './calculators/sip';
 
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
@@ -18,6 +19,7 @@ export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'inflation': inflation,
   'savings-goal': savingsGoal,
   'emergency-fund': emergencyFund,
+  'sip': sip,
 };
 
 /**

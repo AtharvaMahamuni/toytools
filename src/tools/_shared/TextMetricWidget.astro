@@ -21,9 +21,12 @@ interface Props {
   stats: StatDef[];
   emptyMessage?: string;
   sampleText?: string;
+  /** Group id from config.toolGroup — members share one state envelope. */
+  toolGroup?: string;
 }
 
-const { slug, stats, sampleText } = Astro.props;
+const { slug, stats, sampleText, toolGroup } = Astro.props;
+const stateKey = toolGroup ? `group:${toolGroup}` : slug;
 const [primaryStat, ...secondaryStats] = stats;
 const inputId = `${slug}-input`;
 ---
@@ -54,6 +57,7 @@ const inputId = `${slug}-input`;
       Sample
     </button>
   )}
+  <slot name="actions" />
 </ToolActions>
 
 <!-- Optional per-tool depth section (e.g. line/space counter breakdowns), rendered
@@ -62,7 +66,7 @@ const inputId = `${slug}-input`;
 
 <CategoryDiscovery toolSlug={slug} />
 
-<script is:inline define:vars={{ slug, sampleText }}>
+<script is:inline define:vars={{ slug, sampleText, stateKey }}>
 (function () {
   var inputId = slug + '-input';
   var textarea = document.getElementById(inputId);
@@ -121,8 +125,9 @@ const inputId = `${slug}-input`;
 
   // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
 
+  // Restore prior text — group key first, then the tool's old per-slug key (migration).
   try {
-    var saved = ToyTools.state && ToyTools.state.load(slug);
+    var saved = ToyTools.state && (ToyTools.state.load(stateKey) || ToyTools.state.load(slug));
     if (saved && typeof saved.text === 'string') {
       textarea.value = saved.text;
     }
@@ -130,7 +135,7 @@ const inputId = `${slug}-input`;
 
   textarea.addEventListener('input', function () {
     update();
-    if (ToyTools.state) ToyTools.state.save(slug, { text: textarea.value });
+    if (ToyTools.state) ToyTools.state.save(stateKey, { text: textarea.value });
   });
   ToyTools.onReady(function () {
     update();

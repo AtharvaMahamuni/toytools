@@ -7,16 +7,18 @@ import type { GapKind } from '../constants';
 import type { Opportunity } from '../models/opportunity';
 import type { GapSummary } from '../models/report';
 import type { ResearchInputs } from '../types';
+import { resolveSlugAlias } from '../config';
 
 export function classifyGap(
   proposedTool: string,
   proposedEngine: string,
   inputs: ResearchInputs,
 ): GapKind {
-  if (inputs.existingSlugs.has(proposedTool)) {
-    if (!inputs.guideSlugs.has(proposedTool)) return 'guide-missing';
-    if (!inputs.faqSlugs.has(proposedTool)) return 'faq-missing';
-    if (!inputs.knowledgeSlugs.has(proposedTool)) return 'knowledge-gap';
+  const slug = resolveSlugAlias(proposedTool);
+  if (inputs.existingSlugs.has(slug)) {
+    if (!inputs.guideSlugs.has(slug)) return 'guide-missing';
+    if (!inputs.faqSlugs.has(slug)) return 'faq-missing';
+    if (!inputs.knowledgeSlugs.has(slug)) return 'knowledge-gap';
     return 'needs-improvement';
   }
   if (!inputs.engineIds.has(proposedEngine)) return 'engine-missing';

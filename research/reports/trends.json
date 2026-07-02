@@ -1,12 +1,18 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-29T09:03:43.701Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "trends": [
     {
       "transformation": "Line Break Removal",
       "count": 1,
       "meanDemand": 0.84,
       "meanScore": 81.6
+    },
+    {
+      "transformation": "Systematic Investment Plan",
+      "count": 1,
+      "meanDemand": 0.92,
+      "meanScore": 80.9
     },
     {
       "transformation": "Text Reversal",
@@ -27,10 +33,22 @@
       "meanScore": 79.1
     },
     {
+      "transformation": "Return on Investment",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 79.1
+    },
+    {
       "transformation": "JSON String Escaping",
       "count": 1,
       "meanDemand": 0.76,
       "meanScore": 78.8
+    },
+    {
+      "transformation": "Compound Annual Growth Rate",
+      "count": 1,
+      "meanDemand": 0.82,
+      "meanScore": 77.4
     },
     {
       "transformation": "ROT13",
@@ -57,22 +75,10 @@
       "meanScore": 72.5
     },
     {
-      "transformation": "Systematic Investment Plan",
-      "count": 1,
-      "meanDemand": 0.92,
-      "meanScore": 69.7
-    },
-    {
       "transformation": "Word Frequency Analysis",
       "count": 1,
       "meanDemand": 0.72,
       "meanScore": 68.8
-    },
-    {
-      "transformation": "Return on Investment",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 67.9
     },
     {
       "transformation": "Loan Amortization",
@@ -85,12 +91,6 @@
       "count": 1,
       "meanDemand": 0.82,
       "meanScore": 67.1
-    },
-    {
-      "transformation": "Compound Annual Growth Rate",
-      "count": 1,
-      "meanDemand": 0.82,
-      "meanScore": 66.2
     },
     {
       "transformation": "Net Worth",

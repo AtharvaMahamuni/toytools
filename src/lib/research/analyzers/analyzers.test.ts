@@ -132,6 +132,28 @@ describe('gaps', () => {
   });
 });
 
+describe('slug aliases (shipped under a different slug)', () => {
+  // 'text-to-binary' shipped as 'binary-text-converter'; the alias must make both the
+  // gap classifier and the exists flag treat the proposal as already built.
+  const inputs = makeInputs({
+    raw: [],
+    existingSlugs: ['binary-text-converter'],
+    guideSlugs: ['binary-text-converter'],
+    faqSlugs: ['binary-text-converter'],
+  });
+  it('classifyGap resolves the alias before the registry check', () => {
+    expect(classifyGap('text-to-binary', 'encoding', inputs)).not.toBe('cluster-missing');
+    expect(classifyGap('text-to-binary', 'encoding', inputs)).not.toBe('engine-missing');
+  });
+  it('scoring marks an aliased proposal already-exists', () => {
+    const ops = scoreOpportunities(
+      deduplicate([raw({ proposedTool: 'text-to-binary', proposedEngine: 'encoding' })]).merged,
+      inputs,
+    );
+    expect(ops[0].status).toBe('already-exists');
+  });
+});
+
 describe('trends + problem graph', () => {
   const inputs = makeInputs({ raw: [] });
   const ops = scoreOpportunities(

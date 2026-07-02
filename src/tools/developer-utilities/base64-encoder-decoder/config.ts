@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   pattern: 'encode-decode',
   family: 'binary-text',
   processorId: 'base64',
+  toolGroup: 'encoders',
   relatedTools: ['url-encoder-decoder', 'html-entity-encoder-decoder'],
   guide: {
     slug: 'what-is-base64',

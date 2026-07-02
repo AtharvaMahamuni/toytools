@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-29T09:03:43.701Z",
+  "generatedAt": "2026-07-02T10:47:08.801Z",
   "clusters": [
     {
       "id": "line-break-removal",
@@ -17,6 +17,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -40,6 +41,32 @@
       ]
     },
     {
+      "id": "systematic-investment-plan",
+      "transformation": "Systematic Investment Plan",
+      "engine": "finance",
+      "members": [
+        "sip-calculator"
+      ],
+      "existingMembers": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "size": 1,
+      "meanScore": 80.9,
+      "internalLinks": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ]
+    },
+    {
       "id": "text-reversal",
       "transformation": "Text Reversal",
       "engine": "text-processor",
@@ -54,6 +81,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -91,6 +119,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -118,14 +147,16 @@
       "transformation": "Binary Encoding",
       "engine": "encoding",
       "members": [
-        "text-to-binary"
+        "binary-text-converter"
       ],
       "existingMembers": [
         "base64-encoder-decoder",
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
+        "json-escape",
         "punycode-converter",
+        "rot13-encoder-decoder",
         "url-encoder-decoder"
       ],
       "size": 1,
@@ -135,8 +166,34 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
+      ]
+    },
+    {
+      "id": "return-on-investment",
+      "transformation": "Return on Investment",
+      "engine": "finance",
+      "members": [
+        "roi-calculator"
+      ],
+      "existingMembers": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "size": 1,
+      "meanScore": 79.1,
+      "internalLinks": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
       ]
     },
     {
@@ -168,6 +225,32 @@
       ]
     },
     {
+      "id": "compound-annual-growth-rate",
+      "transformation": "Compound Annual Growth Rate",
+      "engine": "finance",
+      "members": [
+        "cagr-calculator"
+      ],
+      "existingMembers": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ],
+      "size": 1,
+      "meanScore": 77.4,
+      "internalLinks": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator",
+        "sip-calculator"
+      ]
+    },
+    {
       "id": "rot13",
       "transformation": "ROT13",
       "engine": "encoding",
@@ -179,7 +262,9 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
+        "json-escape",
         "punycode-converter",
+        "rot13-encoder-decoder",
         "url-encoder-decoder"
       ],
       "size": 1,
@@ -189,8 +274,8 @@
         "binary-text-converter",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
-        "punycode-converter",
-        "url-encoder-decoder"
+        "json-escape",
+        "punycode-converter"
       ]
     },
     {
@@ -208,6 +293,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -245,6 +331,7 @@
         "remove-accents",
         "remove-blank-lines",
         "remove-duplicate-lines",
+        "remove-emoji",
         "remove-extra-spaces",
         "remove-line-breaks",
         "remove-tabs",
@@ -292,21 +379,6 @@
       ]
     },
     {
-      "id": "systematic-investment-plan",
-      "transformation": "Systematic Investment Plan",
-      "engine": "investment",
-      "members": [
-        "sip-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 69.7,
-      "internalLinks": [
-        "compound-interest-calculator",
-        "savings-goal-calculator"
-      ]
-    },
-    {
       "id": "word-frequency-analysis",
       "transformation": "Word Frequency Analysis",
       "engine": "text-analysis",
@@ -321,7 +393,8 @@
         "reading-time-calculator",
         "sentence-counter",
         "space-counter",
-        "word-counter"
+        "word-counter",
+        "word-frequency-counter"
       ],
       "size": 1,
       "meanScore": 68.8,
@@ -332,21 +405,6 @@
         "paragraph-counter",
         "reading-time-calculator",
         "word-counter"
-      ]
-    },
-    {
-      "id": "return-on-investment",
-      "transformation": "Return on Investment",
-      "engine": "investment",
-      "members": [
-        "roi-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 67.9,
-      "internalLinks": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
       ]
     },
     {
@@ -376,21 +434,6 @@
       "internalLinks": [
         "csv-to-json-converter",
         "text-compare"
-      ]
-    },
-    {
-      "id": "compound-annual-growth-rate",
-      "transformation": "Compound Annual Growth Rate",
-      "engine": "investment",
-      "members": [
-        "cagr-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 66.2,
-      "internalLinks": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
       ]
     },
     {

@@ -1,4 +1,9 @@
 import type { FAQItem } from './types';
+import { items as wordFrequencyCounterFaqs } from '@tools/text/word-frequency-counter/faq';
+import { items as removeEmojiFaqs } from '@tools/text/remove-emoji/faq';
+import { items as rot13EncoderDecoderFaqs } from '@tools/developer-utilities/rot13-encoder-decoder/faq';
+import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
+import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as removeAccentsFaqs } from '@tools/text/remove-accents/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as removeLineBreaksFaqs } from '@tools/text/remove-line-breaks/faq';
@@ -69,6 +74,11 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'word-frequency-counter': wordFrequencyCounterFaqs,
+  'remove-emoji': removeEmojiFaqs,
+  'rot13-encoder-decoder': rot13EncoderDecoderFaqs,
+  'json-escape': jsonEscapeFaqs,
+  'sip-calculator': sipCalculatorFaqs,
   'remove-accents': removeAccentsFaqs,
   'slugify-text': slugifyTextFaqs,
   'remove-line-breaks': removeLineBreaksFaqs,

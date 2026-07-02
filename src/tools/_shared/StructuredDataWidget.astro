@@ -38,8 +38,8 @@ const statusId = `${slug}-status`;
   <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey} data-sample={info.sample ?? ''}>
     <textarea
       id={inputId}
-      aria-label="JSON input"
-      placeholder="Paste JSON here"
+      aria-label={info.inputLabel ?? 'JSON input'}
+      placeholder={info.placeholder ?? 'Paste JSON here'}
       spellcheck="false"
       autocomplete="off"
       autocorrect="off"
@@ -58,10 +58,12 @@ const statusId = `${slug}-status`;
   clearTarget={inputId}
   pasteTarget={inputId}
   downloadTarget={showOutput ? outputId : undefined}
-  downloadFilename={showOutput ? `${slug}.json` : undefined}
+  downloadFilename={showOutput ? `${slug}${info.downloadExt ?? '.json'}` : undefined}
 >
   <ExampleLoader hasSample={!!info.sample} />
 </ToolActions>
+
+<slot />
 
 <EducationalInsight insight={info.insight} />
 <TechnicalDetails technical={info.technical} />

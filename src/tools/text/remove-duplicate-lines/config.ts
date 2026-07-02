@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-cleanup',
   family: 'cleanup',
   processorId: 'removeDuplicateLines',
+  toolGroup: 'text-cleanup',
   guide: {
     slug: 'how-to-remove-duplicate-lines',
     categorySlug: 'text',

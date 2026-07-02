@@ -1,9 +1,11 @@
 ---
 import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import { config } from './config';
 ---
 
 <TextMetricWidget
   slug="line-counter"
+  toolGroup={config.toolGroup}
   emptyMessage="Paste or type text to count lines."
   sampleText={"Line 1: The quick brown fox jumps over the lazy dog.\nLine 2: A gentle breeze rustled the leaves in the tall oak tree.\nLine 3: Birds called from hidden branches above the sunlit path.\n\nLine 5: Below, a narrow stream wound between mossy stones.\nLine 6: The fox paused, ears perked, watching the hills turn gold.\nLine 7: Summer was warm and the meadow was alive with bees."}
   stats={[
@@ -60,7 +62,7 @@ import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 })();
 </script>
 
-<style>
+<style is:global>
   .lc-depth {
     margin-top: var(--space-8);
     padding-top: var(--space-6);

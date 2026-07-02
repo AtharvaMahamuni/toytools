@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-cleanup',
   family: 'cleanup',
   processorId: 'removeTabs',
+  toolGroup: 'text-cleanup',
   guide: {
     slug: 'how-to-remove-tabs-from-text',
     categorySlug: 'text',

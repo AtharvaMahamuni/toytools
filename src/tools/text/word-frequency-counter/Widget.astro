@@ -1,0 +1,225 @@
+---
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import { config } from './config';
+---
+
+<TextMetricWidget
+  slug="word-frequency-counter"
+  toolGroup={config.toolGroup}
+  emptyMessage="Paste or type text to count word frequency."
+  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  stats={[
+    { metric: 'uniqueWords', label: 'Unique Words', formatter: 'integer' },
+    { metric: 'words',       label: 'Total Words',  formatter: 'integer' },
+    { metric: 'sentences',   label: 'Sentences',    formatter: 'integer' },
+    { metric: 'averageWordLength', label: 'Avg Word Length', formatter: 'decimal' },
+  ]}
+>
+  <section class="wf-section" id="wf-section" hidden>
+    <div class="wf-header">
+      <h2 class="wf-heading">Word Frequency</h2>
+      <div class="wf-controls">
+        <label class="wf-toggle-label">
+          <input type="checkbox" id="wf-stop-filter" />
+          Hide common words
+        </label>
+        <button class="wf-sort-btn" id="wf-sort-btn" data-sort="freq" aria-pressed="true">
+          By frequency
+        </button>
+      </div>
+    </div>
+    <ol class="wf-list" id="wf-list" aria-label="Words by frequency"></ol>
+    <p class="wf-more" id="wf-more" hidden></p>
+  </section>
+</TextMetricWidget>
+
+<script is:inline>
+(function () {
+  var STOP_WORDS = new Set('the a an and or but in on at to for of with by from is are was were be been being have has had do does did will would could should may might shall can i me my we our you your he she it its they them their this that these those as if so not no'.split(' '));
+  var LIMIT = 50;
+
+  var textarea = document.getElementById('word-frequency-counter-input');
+  var section = document.getElementById('wf-section');
+  var list = document.getElementById('wf-list');
+  var more = document.getElementById('wf-more');
+  var stopFilter = document.getElementById('wf-stop-filter');
+  var sortBtn = document.getElementById('wf-sort-btn');
+  if (!textarea || !section || !list) return;
+
+  var sortMode = 'freq';
+  var currentWords = [];
+
+  function tokenize(text) {
+    return (text.match(/\p{L}[\p{L}\p{N}'’-]*/gu) || []).map(function (w) { return w.toLowerCase(); });
+  }
+
+  function build() {
+    var useFilter = stopFilter.checked;
+    var filtered = useFilter ? currentWords.filter(function (w) { return !STOP_WORDS.has(w); }) : currentWords;
+    var total = filtered.length;
+
+    var freq = {};
+    filtered.forEach(function (w) { freq[w] = (freq[w] || 0) + 1; });
+
+    var entries = Object.keys(freq).map(function (w) { return [w, freq[w]]; });
+    if (sortMode === 'freq') {
+      entries.sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
+    } else {
+      entries.sort(function (a, b) { return a[0].localeCompare(b[0]); });
+    }
+
+    var top = entries.slice(0, LIMIT);
+    var maxFreq = 1;
+    entries.forEach(function (e) { if (e[1] > maxFreq) maxFreq = e[1]; });
+
+    var html = '';
+    top.forEach(function (entry) {
+      var barPct = Math.round((entry[1] / maxFreq) * 100);
+      var sharePct = total > 0 ? ((entry[1] / total) * 100).toFixed(1) : '0.0';
+      html +=
+        '<li class="wf-row">' +
+        '<span class="wf-word"></span>' +
+        '<span class="wf-track"><span class="wf-bar" style="width:' + barPct + '%"></span></span>' +
+        '<span class="wf-count">' + entry[1] + '</span>' +
+        '<span class="wf-share">' + sharePct + '%</span>' +
+        '</li>';
+    });
+    list.innerHTML = html || '<li class="wf-empty">No words found.</li>';
+    // Word text set via textContent (never innerHTML) — the input is user-controlled.
+    var wordEls = list.querySelectorAll('.wf-word');
+    top.forEach(function (entry, i) { if (wordEls[i]) wordEls[i].textContent = entry[0]; });
+
+    if (entries.length > LIMIT) {
+      more.hidden = false;
+      more.textContent = 'Showing the top ' + LIMIT + ' of ' + entries.length + ' distinct words.';
+    } else {
+      more.hidden = true;
+    }
+  }
+
+  function compute() {
+    var text = textarea.value;
+    currentWords = tokenize(text);
+    if (!text.trim()) { section.hidden = true; return; }
+    section.hidden = false;
+    build();
+  }
+
+  stopFilter.addEventListener('change', build);
+  sortBtn.addEventListener('click', function () {
+    sortMode = sortMode === 'freq' ? 'alpha' : 'freq';
+    sortBtn.textContent = sortMode === 'freq' ? 'By frequency' : 'Alphabetical';
+    sortBtn.dataset.sort = sortMode;
+    build();
+  });
+
+  textarea.addEventListener('input', compute);
+  compute();
+})();
+</script>
+
+<style is:global>
+  .wf-section {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .wf-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+  .wf-heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0;
+  }
+  .wf-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .wf-toggle-label {
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    cursor: pointer;
+  }
+  .wf-toggle-label input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+  .wf-sort-btn {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: background-color 150ms;
+  }
+  .wf-sort-btn:hover { background: var(--color-surface-elevated); color: var(--color-text); }
+
+  .wf-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .wf-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr 3rem 3.5rem;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+  .wf-word {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .wf-track {
+    height: 12px;
+    background: var(--color-surface-raised);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .wf-bar {
+    display: block;
+    height: 100%;
+    background: var(--color-accent-subtle);
+    border-radius: var(--radius-full);
+    transition: width 150ms ease-out;
+  }
+  .wf-count {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .wf-share {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .wf-empty { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .wf-more {
+    margin-top: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+</style>

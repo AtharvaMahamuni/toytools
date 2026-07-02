@@ -32,6 +32,7 @@ export const FINANCE_TOOL_PATH: Record<string, string> = {
   'emergency-fund-calculator': '/tool/finance/emergency-fund-calculator/',
   'inflation-calculator': '/tool/finance/inflation-calculator/',
   'rule-of-72-calculator': '/tool/finance/rule-of-72-calculator/',
+  'sip-calculator': '/tool/finance/sip-calculator/',
 };
 
 /** A decision that links to a sibling finance tool. */

@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-cleanup',
   family: 'cleanup',
   processorId: 'removeExtraSpaces',
+  toolGroup: 'text-cleanup',
   guide: {
     slug: 'how-to-remove-extra-spaces',
     categorySlug: 'text',

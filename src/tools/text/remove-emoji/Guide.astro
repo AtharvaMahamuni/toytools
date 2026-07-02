@@ -1,0 +1,140 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To remove emoji from text, paste it into the emoji remover and copy the cleaned result.
+      The tool will strip emoji of every kind, faces, flags, skin-tone
+      variants, joined sequences, together with the invisible joiners and selectors that travel
+      with them, while words, numbers, punctuation, and every language's letters stay exactly
+      where they were.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Remove Emoji Tool →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What counts as an emoji in Unicode is defined by character properties. Consequently,
+      this emoji cleaner matches Unicode emoji by property rather than by list: any character with default emoji presentation goes, as does a text symbol
+      that a variation selector forces into emoji form. The removal is sequence-aware. A single
+      visible emoji is frequently several characters, therefore the pattern consumes the whole
+      unit at once: the four pictographs and three zero-width joiners of a family emoji, the
+      two regional-indicator letters of a flag, a base emoji plus its skin-tone modifier.
+    </p>
+    <p>
+      Keycap emoji get special care. The boxed number one is a plain digit followed by two
+      invisible marks; the tool removes the marks and keeps the digit, so instructions like
+      "press 1 now" stay meaningful after cleaning.
+    </p>
+  </section>
+
+  <section id="why-hand-deleting-fails">
+    <h2>Why Deleting Emoji by Hand Fails <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The obvious way to delete emoji from text, backspacing over them, is unreliable. A
+      cursor sees one emoji; the string underneath can hold seven characters. Backspacing
+      through a family emoji in some editors deletes it member by member, and a regex that
+      targets only the pictographs leaves zero-width joiners and variation selectors behind.
+      Those leftovers are invisible but real: they break equality checks, corrupt CSV columns,
+      trip length limits, and surface as tofu boxes in older systems. To clean emoji
+      reliably, the removal must be property-based and sequence-aware.
+    </p>
+  </section>
+
+  <section id="emoji-vs-symbols">
+    <h2>Emoji vs Text Symbols and Accents <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Not every pictograph is an emoji. The trademark sign, the copyright sign, and plain
+      arrows read as ordinary text symbols, so the emoji remover keeps them; they only go when
+      a variation selector explicitly turns them into emoji. Accented letters and non-Latin
+      scripts are never touched, because they are letters, not symbols. For example, a caption
+      in French or Chinese keeps every character and loses only its emoji. If you want accents
+      folded to plain letters as a second step, the Remove Accents tool sits one pill away in
+      the switcher, and your text carries over automatically.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A social caption.</strong> "Launch day 🎉🚀 so proud of the team 💪🏽" becomes
+      "Launch day  so proud of the team ". The words survive; a follow-up pass with the Extra
+      Spaces tool collapses the leftover gaps.
+    </p>
+    <p>
+      <strong>A support ticket export.</strong> Flags and joined family emoji disappear as
+      whole units, so the CSV import that previously choked on half-sequences loads cleanly.
+    </p>
+    <p>
+      <strong>A formal document.</strong> "Q3 results 📈 up 12% ✅" becomes "Q3 results  up
+      12% ", keeping the number and the percent sign that carry the actual information.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Stripping all non-ASCII instead">
+      <p>
+        The blunt fix, deleting everything outside plain ASCII, also destroys caf&eacute;,
+        na&iuml;ve, and every non-English word in the text. Emoji removal and character-set
+        reduction are different operations; use the one that matches your goal.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Leaving invisible characters behind">
+      <p>
+        Removing the visible pictograph but not its joiners leaves zero-width characters in the
+        string. They are undetectable by eye and a classic source of "identical" strings that
+        refuse to match. Sequence-aware removal takes the whole emoji unit, companions included.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Mind the spacing afterwards">
+      <p>Emoji removal keeps the spaces that surrounded each emoji, which can leave doubled gaps. The Extra Spaces tool in the same switcher collapses them with your text carried over.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
