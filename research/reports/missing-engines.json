@@ -1,27 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-29T09:03:43.701Z",
+  "generatedAt": "2026-07-02T10:03:04.872Z",
   "engines": [
-    {
-      "engine": "investment",
-      "exists": false,
-      "confidence": 0.8,
-      "transformations": [
-        "Compound Annual Growth Rate",
-        "Return on Investment",
-        "Systematic Investment Plan"
-      ],
-      "unlocksTools": [
-        "sip-calculator",
-        "roi-calculator",
-        "cagr-calculator"
-      ],
-      "topScore": 69.7,
-      "rationale": [
-        "3 opportunities share the missing \"investment\" engine.",
-        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 3 tools."
-      ]
-    },
     {
       "engine": "loan",
       "exists": false,

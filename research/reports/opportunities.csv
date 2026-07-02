@@ -1,19 +1,19 @@
 id,proposedTool,title,transformation,proposedEngine,engineExists,gap,status,difficulty,searchDemand,competitionScore,evergreenScore,implementationCost,engineReuse,seoPotential,topicClusterPotential,localizationPotential,confidence,finalScore
 remove-line-breaks,remove-line-breaks,Remove Line Breaks,Line Break Removal,text-processor,true,needs-improvement,already-exists,low,0.84,0.7,0.9,1,1,0.94,0,0.75,0.8,81.6
+sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,cluster-missing,recommended,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,80.9
 reverse-text,reverse-text,Reverse Text,Text Reversal,text-processor,true,needs-improvement,already-exists,low,0.78,0.73,0.88,1,1,0.91,0,0.8,0.8,80.8
 slugify-text,slugify-text,Slugify Text,Slugification,text-processor,true,needs-improvement,already-exists,low,0.8,0.66,0.86,1,1,0.92,0,0.7,0.8,79.6
-text-to-binary,text-to-binary,Text to Binary,Binary Encoding,encoding,true,cluster-missing,recommended,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,79.1
+binary-text-converter,binary-text-converter,Binary Text Converter,Binary Encoding,encoding,true,needs-improvement,already-exists,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,79.1
+roi-calculator,roi-calculator,ROI Calculator,Return on Investment,finance,true,cluster-missing,recommended,low,0.88,0.58,0.9,1,1,0.71,0,0.85,0.8,79.1
 json-escape,json-escape,JSON Escape / Unescape,JSON String Escaping,structured-data,true,cluster-missing,recommended,low,0.76,0.63,0.88,1,1,0.9,0,0.92,0.8,78.8
+cagr-calculator,cagr-calculator,CAGR Calculator,Compound Annual Growth Rate,finance,true,cluster-missing,recommended,low,0.82,0.6,0.88,1,1,0.69,0,0.8,0.8,77.4
 rot13-encoder-decoder,rot13-encoder-decoder,ROT13 Encoder / Decoder,ROT13,encoding,true,cluster-missing,recommended,low,0.64,0.74,0.84,1,1,0.86,0,0.9,0.8,77.2
 remove-accents,remove-accents,Remove Accents,Diacritic Removal,text-processor,true,needs-improvement,already-exists,low,0.7,0.72,0.85,1,1,0.88,0,0.6,0.8,77
 remove-emoji,remove-emoji,Remove Emoji,Emoji Removal,text-processor,true,cluster-missing,recommended,low,0.66,0.76,0.78,1,1,0.74,0,0.8,0.8,75.3
 crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,72.5
-sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,investment,false,engine-missing,recommended,low,0.92,0.6,0.9,0.9,0.3,0.73,0,0.95,0.8,69.7
 word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,cluster-missing,recommended,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,68.8
-roi-calculator,roi-calculator,ROI Calculator,Return on Investment,investment,false,engine-missing,recommended,low,0.88,0.58,0.9,0.9,0.3,0.71,0,0.85,0.8,67.9
 loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,67.2
 csv-diff,csv-diff,CSV Diff,CSV Diff,csv,false,engine-missing,recommended,medium,0.82,0.78,0.84,0.6,0.3,0.93,0,0.88,0.8,67.1
-cagr-calculator,cagr-calculator,CAGR Calculator,Compound Annual Growth Rate,investment,false,engine-missing,recommended,low,0.82,0.6,0.88,0.9,0.3,0.69,0,0.8,0.8,66.2
 net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,65.9
 mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,65.5
 unix-timestamp-converter,unix-timestamp-converter,Unix Timestamp Converter,Timestamp Conversion,datetime,false,engine-missing,recommended,medium,0.9,0.53,0.92,0.6,0.3,0.84,0,0.88,0.8,65

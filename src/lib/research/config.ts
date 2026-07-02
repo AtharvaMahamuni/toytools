@@ -35,6 +35,21 @@ export const THRESHOLDS = {
   roadmapCount: 100,
 } as const;
 
+/**
+ * Proposed-slug → shipped-slug aliases. Shipped-detection is exact-slug matching against the
+ * registry, so when a tool ships under a different slug than a dataset proposed, alias it here —
+ * otherwise the RIE keeps recommending an already-built tool. Datasets should also be corrected
+ * to the shipped slug; this map is the safety net.
+ */
+export const SLUG_ALIASES: Record<string, string> = {
+  'text-to-binary': 'binary-text-converter',
+};
+
+/** Resolve a proposed slug through SLUG_ALIASES (identity for unaliased slugs). */
+export function resolveSlugAlias(slug: string): string {
+  return SLUG_ALIASES[slug] ?? slug;
+}
+
 /** Where the CLI writes generated reports (repo-root, committed except cache). */
 export const REPORT_PATHS = {
   root: 'research/reports',

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-29T09:03:43.701Z",
+  "generatedAt": "2026-07-02T10:03:04.872Z",
   "clusters": [
     {
       "id": "line-break-removal",
@@ -37,6 +37,30 @@
         "normalize-whitespace",
         "remove-blank-lines",
         "remove-extra-spaces"
+      ]
+    },
+    {
+      "id": "systematic-investment-plan",
+      "transformation": "Systematic Investment Plan",
+      "engine": "finance",
+      "members": [
+        "sip-calculator"
+      ],
+      "existingMembers": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator"
+      ],
+      "size": 1,
+      "meanScore": 80.9,
+      "internalLinks": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator"
       ]
     },
     {
@@ -118,7 +142,7 @@
       "transformation": "Binary Encoding",
       "engine": "encoding",
       "members": [
-        "text-to-binary"
+        "binary-text-converter"
       ],
       "existingMembers": [
         "base64-encoder-decoder",
@@ -137,6 +161,30 @@
         "html-entity-encoder-decoder",
         "punycode-converter",
         "url-encoder-decoder"
+      ]
+    },
+    {
+      "id": "return-on-investment",
+      "transformation": "Return on Investment",
+      "engine": "finance",
+      "members": [
+        "roi-calculator"
+      ],
+      "existingMembers": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator"
+      ],
+      "size": 1,
+      "meanScore": 79.1,
+      "internalLinks": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator"
       ]
     },
     {
@@ -165,6 +213,30 @@
         "json-to-csv-converter",
         "json-to-yaml-converter",
         "json-tree-viewer"
+      ]
+    },
+    {
+      "id": "compound-annual-growth-rate",
+      "transformation": "Compound Annual Growth Rate",
+      "engine": "finance",
+      "members": [
+        "cagr-calculator"
+      ],
+      "existingMembers": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator"
+      ],
+      "size": 1,
+      "meanScore": 77.4,
+      "internalLinks": [
+        "compound-interest-calculator",
+        "emergency-fund-calculator",
+        "inflation-calculator",
+        "rule-of-72-calculator",
+        "savings-goal-calculator"
       ]
     },
     {
@@ -292,21 +364,6 @@
       ]
     },
     {
-      "id": "systematic-investment-plan",
-      "transformation": "Systematic Investment Plan",
-      "engine": "investment",
-      "members": [
-        "sip-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 69.7,
-      "internalLinks": [
-        "compound-interest-calculator",
-        "savings-goal-calculator"
-      ]
-    },
-    {
       "id": "word-frequency-analysis",
       "transformation": "Word Frequency Analysis",
       "engine": "text-analysis",
@@ -332,21 +389,6 @@
         "paragraph-counter",
         "reading-time-calculator",
         "word-counter"
-      ]
-    },
-    {
-      "id": "return-on-investment",
-      "transformation": "Return on Investment",
-      "engine": "investment",
-      "members": [
-        "roi-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 67.9,
-      "internalLinks": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
       ]
     },
     {
@@ -376,21 +418,6 @@
       "internalLinks": [
         "csv-to-json-converter",
         "text-compare"
-      ]
-    },
-    {
-      "id": "compound-annual-growth-rate",
-      "transformation": "Compound Annual Growth Rate",
-      "engine": "investment",
-      "members": [
-        "cagr-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 66.2,
-      "internalLinks": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator"
       ]
     },
     {

@@ -1,30 +1,31 @@
 # Recommended Next Build
 
-Generated: 2026-06-29T09:03:43.701Z
+Generated: 2026-07-02T10:03:04.872Z
 
-## Text to Binary  (`text-to-binary`)
+## SIP Calculator  (`sip-calculator`)
 
-**Opportunity score:** 79.1 / 100
+**Opportunity score:** 80.9 / 100
 
 ### Why build it
+- High search demand
 - Weak / incomplete incumbents
-- Reuses the existing encoding engine
+- Reuses the existing finance engine
 - Low implementation cost
-- Creates 6 internal links
+- Creates 5 internal links
 
 ### Why incumbents are weak
-- cluttered UIs
-- no live two-way preview
+- region locked
 - ads
+- no clear breakdown of invested vs returns
 
 ### Why ToyTools can win
-- Ships on the proven encoding engine - consistent UX, fast to build.
+- Ships on the proven finance engine - consistent UX, fast to build.
 - Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).
 - Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.
 
 ### Engine
-- Reuses existing engine: `encoding`
-- Future tools this unlocks: rot13-encoder-decoder
+- Reuses existing engine: `finance`
+- Future tools this unlocks: roi-calculator, cagr-calculator
 
 ### Estimates
 - Implementation effort: **low**
@@ -32,7 +33,7 @@ Generated: 2026-06-29T09:03:43.701Z
 - Maintenance cost: **low**
 
 ### Suggested supporting content
-- Guides: What is Binary Encoding?; How to binary encoding online; Text to Binary vs the alternatives
-- FAQs: How do I binary encoding?; Is Text to Binary free and private?; Does Text to Binary avoid "cluttered UIs"?
-- Internal links / related tools: hex-encoder-decoder, base64-encoder-decoder, binary-text-converter, html-entity-encoder-decoder, punycode-converter, url-encoder-decoder
+- Guides: What is Systematic Investment Plan?; How to systematic investment plan online; SIP Calculator vs the alternatives
+- FAQs: How do I systematic investment plan?; Is SIP Calculator free and private?; Does SIP Calculator avoid "region locked"?
+- Internal links / related tools: compound-interest-calculator, savings-goal-calculator, emergency-fund-calculator, inflation-calculator, rule-of-72-calculator
 - Schema: SoftwareApplication, FAQPage
