@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { config as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
 import { config as removeAccents } from '@tools/text/remove-accents/config';
@@ -70,6 +71,7 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  rot13EncoderDecoder,
   jsonEscape,
   sipCalculator,
   removeAccents,

@@ -1,0 +1,134 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The ROT13 cipher rotates every Latin letter 13 places along the alphabet, so
+      <code>A</code> becomes <code>N</code> and <code>Hello</code> becomes <code>Uryyb</code>.
+      Because 13 is half of 26, applying it twice restores the original, therefore the same pass
+      both encodes and decodes: a ROT13 decoder and a ROT13 encoder are the same tool. Paste
+      ROT13 text to read it, or paste plain text to hide it.
+    </p>
+    <a href={toolHref} class="cta-link">Try the ROT13 Tool →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Picture the 26 letters on a wheel. ROT13 turns the wheel exactly half a revolution: A
+      lands on N, B on O, and once you pass Z you wrap around to A again. Uppercase stays
+      uppercase, lowercase stays lowercase, and every character that is not a Latin letter,
+      digits, punctuation, spaces, emoji, accented and non-Latin scripts, passes through
+      untouched. For example, <code>Attack at dawn 07:00!</code> becomes
+      <code>Nggnpx ng qnja 07:00!</code>: numbers are not rotated by ROT13, and punctuation
+      never moves either.
+    </p>
+    <p>
+      The half-turn is the whole trick. A rotation of 13 followed by another rotation of 13 is
+      a full 26-place revolution, which is the identity. That self-inverse property is why the
+      tool has no meaningful difference between its encode and decode directions.
+    </p>
+  </section>
+
+  <section id="rot13-vs-alternatives">
+    <h2>ROT13 vs Caesar Cipher and Base64 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      ROT13 is the Caesar cipher with a shift of 13. Caesar's original reportedly shifted by 3,
+      and any shift from 1 to 25 works; however, 13 is the only shift that is its own inverse in
+      a 26-letter alphabet, which made it the internet convention. Compared with Base64, the
+      purpose differs: Base64 is a transport encoding that converts every byte for machines,
+      while ROT13 scrambles only letters for human eyes. If you need symbols and digits
+      obscured too, the ROT47 variant rotates a wider ASCII range.
+    </p>
+  </section>
+
+  <section id="uses">
+    <h2>What ROT13 Is Used For <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      ROT13 hides text from an accidental read while keeping it one click from recovery. Usenet
+      newsgroups adopted it in the 1980s for spoilers and puzzle answers, and the habit
+      survives: forum spoilers, geocaching hints, quiz solutions, and joke punchlines still
+      travel as ROT13. Developers also meet it in coding exercises, since the whole cipher is a
+      one-line transformation over character codes.
+    </p>
+  </section>
+
+  <section id="not-encryption">
+    <h2>Why ROT13 Is Not Encryption <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Encryption depends on a secret key; ROT13 has none. The transformation is fixed and
+      universally known, so decoding requires no knowledge beyond recognizing the cipher.
+      Treat it as a curtain, not a lock: perfect for spoilers, useless for secrets. Anything
+      that genuinely needs protecting belongs in real cryptography, not a letter rotation.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Obfuscation, not security">
+      <p>ROT13's value is exactly that it is trivial to undo. It signals "read this only if you choose to", which no password or key exchange can do as cheaply.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Using ROT13 for real secrets">
+      <p>
+        Passwords, tokens, and personal data are not protected by ROT13 in any way; the text is
+        readable by anyone who recognizes the pattern. Use actual encryption for anything with
+        consequences.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting digits to change">
+      <p>
+        ROT13 only rotates the 26 Latin letters. If your hidden text contains numbers, dates,
+        or symbols, those remain fully readable, which can leak the very detail you meant to
+        hide. Consider whether the untouched characters give the answer away.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Decoded text still scrambled?">
+      <p>Then the source probably was not ROT13. Try a different Caesar shift, or check whether the text is Base64 or another encoding; the switcher above the tool moves your input between decoders without retyping.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -38,10 +38,10 @@
       "runtimeGlobal": "runEncoding",
       "sharedWidget": "src/tools/_shared/ConverterWidget.astro",
       "supportedFamilies": [
-        "web",
-        "binary-text"
+        "binary-text",
+        "web"
       ],
-      "toolCount": 7
+      "toolCount": 8
     },
     "hashing": {
       "name": "Hashing Engine",
@@ -199,7 +199,8 @@
         "hex-encoder-decoder",
         "binary-text-converter",
         "punycode-converter",
-        "json-escape"
+        "json-escape",
+        "rot13-encoder-decoder"
       ]
     },
     "text-cleanup": {
@@ -229,6 +230,27 @@
     }
   },
   "tools": {
+    "rot13-encoder-decoder": {
+      "name": "ROT13 Encoder / Decoder",
+      "dir": "src/tools/developer-utilities/rot13-encoder-decoder",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/rot13-encoder-decoder/",
+      "engine": "encoding",
+      "pattern": "encode-decode",
+      "family": "binary-text",
+      "processorId": "rot13",
+      "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "json-escape": {
       "name": "JSON Escape / Unescape",
       "dir": "src/tools/developer-utilities/json-escape",

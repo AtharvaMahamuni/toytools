@@ -1,4 +1,5 @@
 import type { FAQItem } from './types';
+import { items as rot13EncoderDecoderFaqs } from '@tools/developer-utilities/rot13-encoder-decoder/faq';
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as removeAccentsFaqs } from '@tools/text/remove-accents/faq';
@@ -71,6 +72,7 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'rot13-encoder-decoder': rot13EncoderDecoderFaqs,
   'json-escape': jsonEscapeFaqs,
   'sip-calculator': sipCalculatorFaqs,
   'remove-accents': removeAccentsFaqs,

@@ -83,6 +83,17 @@ describe('hex', () => {
 
 // --- HTML entities ---
 
+describe('rot13', () => {
+  it('rotates letters 13 places preserving case', () =>
+    expect(runEncoding('rot13', 'encode', 'Hello, World!').output).toBe('Uryyb, Jbeyq!'));
+  it('is its own inverse', () => {
+    const once = runEncoding('rot13', 'encode', 'Attack at dawn 07:00!').output;
+    expect(runEncoding('rot13', 'decode', once).output).toBe('Attack at dawn 07:00!');
+  });
+  it('leaves digits, punctuation, and non-Latin text untouched', () =>
+    expect(runEncoding('rot13', 'encode', '123 \u00e9\u00fc\u4e2d!').output).toBe('123 \u00e9\u00fc\u4e2d!'));
+});
+
 describe('json-escape', () => {
   it('escapes quotes, backslashes, and control characters without outer quotes', () => {
     expect(runEncoding('json-escape', 'encode', 'He said "hi"\n').output).toBe('He said \\"hi\\"\\n');

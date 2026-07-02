@@ -87,6 +87,7 @@ export const toolGroups: ToolGroup[] = [
       { slug: 'binary-text-converter',       label: 'Binary'   },
       { slug: 'punycode-converter',          label: 'Punycode' },
       { slug: 'json-escape',                 label: 'JSON'     },
+      { slug: 'rot13-encoder-decoder',       label: 'ROT13'    },
     ],
   },
   {
