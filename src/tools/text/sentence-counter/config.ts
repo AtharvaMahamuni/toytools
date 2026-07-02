@@ -18,6 +18,7 @@ export const config: ToolConfig = {
     readMinutes: 4,
     updatedAt: '2026-06-07',
   },  pattern: 'text-metric',
+  toolGroup: 'text-counters',
   family: 'text-counting',
   primaryMetric: {
     metric: 'sentences',

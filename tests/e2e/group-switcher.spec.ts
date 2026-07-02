@@ -76,6 +76,22 @@ test.describe('encoder group switcher', () => {
   });
 });
 
+test.describe('text-counter group switcher', () => {
+  test('text survives a switch and metrics recompute', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    const nav = page.getByRole('navigation', { name: 'Text Counter modes' });
+    await expect(nav.getByRole('link')).toHaveCount(8);
+
+    await page.locator('#word-counter-input').fill(INPUT);
+    await expect(page.locator('.hero-value')).toHaveText('3');
+
+    await nav.getByRole('link', { name: 'Characters' }).click();
+    await expect(page).toHaveURL(/\/tool\/text\/character-counter\/$/);
+    await expect(page.locator('#character-counter-input')).toHaveValue(INPUT);
+    await expect(page.locator('.hero-value')).toHaveText('19');
+  });
+});
+
 test.describe('json-yaml group switcher', () => {
   test('input survives a switch and recomputes live (no Convert button)', async ({ page }) => {
     await page.goto('/tool/developer-utilities/json-to-yaml-converter/');

@@ -52,6 +52,20 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    id: 'text-counters',
+    name: 'Text Counter',
+    members: [
+      { slug: 'word-counter',             label: 'Words'        },
+      { slug: 'character-counter',        label: 'Characters'   },
+      { slug: 'letter-counter',           label: 'Letters'      },
+      { slug: 'sentence-counter',         label: 'Sentences'    },
+      { slug: 'paragraph-counter',        label: 'Paragraphs'   },
+      { slug: 'line-counter',             label: 'Lines'        },
+      { slug: 'space-counter',            label: 'Spaces'       },
+      { slug: 'reading-time-calculator',  label: 'Reading Time' },
+    ],
+  },
+  {
     id: 'hash-generators',
     name: 'Hash Generator',
     members: [

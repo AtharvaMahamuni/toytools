@@ -1,78 +1,56 @@
 ---
-import HeroMetric from '@components/tool/HeroMetric.astro';
-import StatGrid from '@components/tool/StatGrid.astro';
-import ToolActions from '@components/tool/ToolActions.astro';
-import ToolSplit from '@tools/_shared/ToolSplit.astro';
-import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
+import { config } from './config';
 ---
 
-<ToolSplit ratio="2-1" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Your text" labelFor="character-counter-input" variant="prose">
-    <textarea id="character-counter-input" placeholder="Paste or type text here…"></textarea>
-  </IoPanel>
-
-  <IoPanel slot="output" label="Result" variant="prose" result>
-    <HeroMetric metric="characters" label="Characters" formatter="integer" />
-    <StatGrid stats={[
-      { metric: 'charactersNoSpaces', label: 'Without Spaces', formatter: 'integer' },
-      { metric: 'words',              label: 'Words',          formatter: 'integer' },
-      { metric: 'sentences',          label: 'Sentences',      formatter: 'integer' },
-      { metric: 'paragraphs',         label: 'Paragraphs',     formatter: 'integer' },
-      { metric: 'averageWordLength',  label: 'Avg Word Length', formatter: 'decimal' },
-    ]} />
-  </IoPanel>
-</ToolSplit>
-
-<ToolActions copyTarget="character-counter-input" clearTarget="character-counter-input" pasteTarget="character-counter-input">
+<TextMetricWidget
+  slug="character-counter"
+  toolGroup={config.toolGroup}
+  emptyMessage="Paste or type text to count characters."
+  sampleText="The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun."
+  stats={[
+    { metric: 'characters',         label: 'Characters',      formatter: 'integer' },
+    { metric: 'charactersNoSpaces', label: 'Without Spaces',  formatter: 'integer' },
+    { metric: 'words',              label: 'Words',           formatter: 'integer' },
+    { metric: 'sentences',          label: 'Sentences',       formatter: 'integer' },
+    { metric: 'paragraphs',         label: 'Paragraphs',      formatter: 'integer' },
+    { metric: 'averageWordLength',  label: 'Avg Word Length', formatter: 'decimal' },
+  ]}
+>
   <button
-    class="action-btn action-btn--sample"
-    data-action="sample"
-    aria-label="Load a sample text"
-    id="cc-sample-btn"
-  >
-    Sample
-  </button>
-  <button
+    slot="actions"
     class="action-btn"
     id="cc-download-btn"
     aria-label="Download stats report"
   >
     Download Report
   </button>
-</ToolActions>
 
-<section class="cc-limits-section">
-  <h2 class="cc-limits-heading">Character limits</h2>
-  <div class="cc-presets" role="group" aria-label="Character limit presets">
-    <button class="cc-preset-btn" data-limit="280" aria-pressed="false">Twitter / X <span class="cc-preset-num">280</span></button>
-    <button class="cc-preset-btn" data-limit="160" aria-pressed="false">SMS <span class="cc-preset-num">160</span></button>
-    <button class="cc-preset-btn" data-limit="155" aria-pressed="false">Meta desc <span class="cc-preset-num">155</span></button>
-    <button class="cc-preset-btn" data-limit="3000" aria-pressed="false">LinkedIn <span class="cc-preset-num">3 000</span></button>
-  </div>
-  <div class="cc-limit-bar-wrap" id="cc-limit-bar-wrap" hidden>
-    <div class="cc-limit-bar-track">
-      <div class="cc-limit-bar-fill" id="cc-limit-bar-fill"></div>
+  <section class="cc-limits-section">
+    <h2 class="cc-limits-heading">Character limits</h2>
+    <div class="cc-presets" role="group" aria-label="Character limit presets">
+      <button class="cc-preset-btn" data-limit="280" aria-pressed="false">Twitter / X <span class="cc-preset-num">280</span></button>
+      <button class="cc-preset-btn" data-limit="160" aria-pressed="false">SMS <span class="cc-preset-num">160</span></button>
+      <button class="cc-preset-btn" data-limit="155" aria-pressed="false">Meta desc <span class="cc-preset-num">155</span></button>
+      <button class="cc-preset-btn" data-limit="3000" aria-pressed="false">LinkedIn <span class="cc-preset-num">3 000</span></button>
     </div>
-    <p class="cc-limit-stat" id="cc-limit-stat" aria-live="polite"></p>
-  </div>
-</section>
+    <div class="cc-limit-bar-wrap" id="cc-limit-bar-wrap" hidden>
+      <div class="cc-limit-bar-track">
+        <div class="cc-limit-bar-fill" id="cc-limit-bar-fill"></div>
+      </div>
+      <p class="cc-limit-stat" id="cc-limit-stat" aria-live="polite"></p>
+    </div>
+  </section>
 
-<section class="cc-breakdown-section" id="cc-breakdown-section" hidden>
-  <h2 class="cc-breakdown-heading">Character breakdown</h2>
-  <dl class="cc-breakdown-grid" id="cc-breakdown-grid" aria-live="polite"></dl>
-</section>
-
-<CategoryDiscovery toolSlug="character-counter" />
+  <section class="cc-breakdown-section" id="cc-breakdown-section" hidden>
+    <h2 class="cc-breakdown-heading">Character breakdown</h2>
+    <dl class="cc-breakdown-grid" id="cc-breakdown-grid" aria-live="polite"></dl>
+  </section>
+</TextMetricWidget>
 
 <script is:inline>
 (function () {
-  var SAMPLE = "The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree, carrying the sweet scent of wildflowers across the meadow. Birds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees gathering pollen from summer blooms. The fox paused, ears perked, watching the distant hills turn gold in the afternoon sun.";
-
   var textarea = document.getElementById('character-counter-input');
-  var secondary = document.querySelector('.tm-secondary');
-  var hero = document.querySelector('.hero-value');
-  var hint = document.querySelector('.empty-hint');
   if (!textarea) return;
 
   var limitBarWrap = document.getElementById('cc-limit-bar-wrap');
@@ -80,27 +58,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   var limitStat = document.getElementById('cc-limit-stat');
   var breakdownSection = document.getElementById('cc-breakdown-section');
   var breakdownGrid = document.getElementById('cc-breakdown-grid');
-  var sampleBtn = document.getElementById('cc-sample-btn');
   var activeLimit = 0;
-
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var pulseTimer;
-
-  function pulse() {
-    if (reduceMotion || !hero) return;
-    hero.classList.add('is-updated');
-    clearTimeout(pulseTimer);
-    pulseTimer = setTimeout(function () { hero.classList.remove('is-updated'); }, 200);
-  }
-
-  function setMetric(el, value) {
-    var fmt = el.dataset.formatter || 'integer';
-    var next = ToyTools.formatMetric(value, fmt);
-    if (el.textContent !== next) {
-      el.textContent = next;
-      if (el === hero) pulse();
-    }
-  }
 
   function updateLimit(charCount) {
     if (!activeLimit) { limitBarWrap.hidden = true; return; }
@@ -111,11 +69,11 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     var remaining = activeLimit - charCount;
     if (remaining > 0) {
       limitStat.textContent = charCount + ' / ' + activeLimit + ' characters — ' + remaining + ' remaining (' + Math.round(pct) + '%)';
+      limitStat.className = 'cc-limit-stat';
     } else {
       limitStat.textContent = charCount + ' / ' + activeLimit + ' characters — ' + Math.abs(remaining) + ' over the limit';
       limitStat.className = 'cc-limit-stat cc-limit-stat--over';
     }
-    if (remaining > 0) limitStat.className = 'cc-limit-stat';
   }
 
   function updateBreakdown(text) {
@@ -147,28 +105,22 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       '</div>';
   }
 
-  function update() {
-    var text = textarea.value;
-    if (!text) {
-      if (hero) setMetric(hero, 0);
-      if (secondary) secondary.hidden = true;
-      if (hint) hint.hidden = false;
-      updateLimit(0);
-      updateBreakdown('');
-      return;
-    }
-    if (hint) hint.hidden = true;
-    if (secondary) secondary.hidden = false;
-    var r = ToyTools.analyze(text);
-    document.querySelectorAll('[data-metric]').forEach(function (el) {
-      var key = el.dataset.metric;
-      setMetric(el, r[key] !== undefined ? r[key] : 0);
-    });
-    updateLimit(text.length);
-    updateBreakdown(text);
+  function compute() {
+    updateLimit(textarea.value.length);
+    updateBreakdown(textarea.value);
   }
 
-  // Preset buttons
+  // The active limit is tool-specific UI state, kept under the tool's own key
+  // (the shared group envelope only carries the text).
+  function saveLimit() {
+    if (!ToyTools.state) return;
+    var prior = null;
+    try { prior = ToyTools.state.load('character-counter'); } catch (_) {}
+    var data = prior && typeof prior === 'object' ? prior : {};
+    data.limit = activeLimit;
+    ToyTools.state.save('character-counter', data);
+  }
+
   document.querySelectorAll('.cc-preset-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var limit = parseInt(btn.dataset.limit, 10);
@@ -187,22 +139,11 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
         btn.classList.add('is-active');
       }
       updateLimit(textarea.value.length);
-      saveState();
+      saveLimit();
     });
   });
 
   var downloadBtn = document.getElementById('cc-download-btn');
-
-  // Sample button
-  if (sampleBtn) {
-    sampleBtn.addEventListener('click', function () {
-      textarea.value = SAMPLE;
-      textarea.dispatchEvent(new Event('input'));
-      textarea.focus();
-    });
-  }
-
-  // Download report
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
       if (!textarea.value.trim()) { ToyTools.toast('Nothing to download!'); return; }
@@ -232,42 +173,27 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     });
   }
 
-  // Clickable stat-row copy is wired globally in ToyToolsRuntime (delegated).
-
-  function saveState() {
-    if (ToyTools.state) ToyTools.state.save('character-counter', { text: textarea.value, limit: activeLimit });
-  }
-
   try {
     var saved = ToyTools.state && ToyTools.state.load('character-counter');
-    if (saved) {
-      if (typeof saved.text === 'string') textarea.value = saved.text;
-      if (saved.limit) {
-        activeLimit = saved.limit;
-        var btn = document.querySelector('[data-limit="' + saved.limit + '"]');
-        if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.classList.add('is-active'); }
-      }
+    if (saved && saved.limit) {
+      activeLimit = saved.limit;
+      var btn = document.querySelector('[data-limit="' + saved.limit + '"]');
+      if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.classList.add('is-active'); }
     }
   } catch (_) {}
 
-  textarea.addEventListener('input', function () {
-    update();
-    saveState();
-  });
-  ToyTools.onReady(update);
-
-  if (!textarea.value && window.matchMedia('(min-width: 1024px)').matches) textarea.focus();
+  textarea.addEventListener('input', compute);
+  compute();
 })();
 </script>
 
-<style>
+<style is:global>
   .cc-limits-section {
     margin-top: var(--space-8);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-border);
   }
   .cc-limits-heading {
-    font-size: var(--text-base);
     font-weight: var(--font-weight-semibold);
     margin: 0 0 var(--space-3);
     color: var(--color-text-muted);
