@@ -80,7 +80,7 @@ test.describe('text-counter group switcher', () => {
   test('text survives a switch and metrics recompute', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
     const nav = page.getByRole('navigation', { name: 'Text Counter modes' });
-    await expect(nav.getByRole('link')).toHaveCount(8);
+    await expect(nav.getByRole('link')).toHaveCount(9);
 
     await page.locator('#word-counter-input').fill(INPUT);
     await expect(page.locator('.hero-value')).toHaveText('3');

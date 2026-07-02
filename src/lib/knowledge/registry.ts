@@ -5,6 +5,7 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
+import { knowledge as wordFrequencyCounter } from '@tools/text/word-frequency-counter/knowledge';
 import { knowledge as removeEmoji } from '@tools/text/remove-emoji/knowledge';
 import { knowledge as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/knowledge';
 import { knowledge as jsonEscape } from '@tools/developer-utilities/json-escape/knowledge';
@@ -94,6 +95,7 @@ import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergen
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  wordFrequencyCounter,
   removeEmoji,
   rot13EncoderDecoder,
   jsonEscape,

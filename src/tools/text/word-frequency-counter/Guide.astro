@@ -1,0 +1,133 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Word frequency analysis counts how many times each distinct word appears in a text and
+      ranks the results. Paste your text into the word frequency counter and the table lists
+      every word with its count and its percentage share, sorted by frequency or alphabetically,
+      with a one-click filter that hides common words so the meaningful vocabulary rises to the
+      top.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Word Frequency Counter →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The counter first splits the text into words, a step called tokenization. Words are
+      matched by Unicode letters, so every language works; internal apostrophes and hyphens
+      stay attached, therefore don't and well-known each count once instead of splitting into
+      fragments. Counting is case insensitive: The and the tally together. Each distinct word
+      then gets a count and a share, its count divided by the total number of words, and the
+      table shows the top 50 with a bar for quick visual comparison.
+    </p>
+  </section>
+
+  <section id="stop-words">
+    <h2>Stop Words: Why "the" Always Wins <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In almost any English text the top of the raw ranking is identical: the, a, of, and, to.
+      These function words are the plumbing of the language and say nothing about the subject.
+      Frequency analysis calls them stop words, and the "hide common words" filter removes them
+      from the ranking. With the filter on, the list shows the vocabulary that actually
+      distinguishes your text, its themes, its repeated imagery, and its crutch words.
+    </p>
+  </section>
+
+  <section id="frequency-vs-count">
+    <h2>Word Frequency vs Word Count <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A word counter answers "how long is this text?" with one number. A word frequency counter
+      answers "what is this text made of?" with a distribution. The two are complementary: the
+      unique-words metric here divided by the total words gives lexical variety, and the
+      percentage column, keyword density in SEO terms, lets you compare texts of different
+      lengths fairly. For example, a term appearing 12 times in 600 words (2%) is far more
+      prominent than 20 times in 5,000 words (0.4%), even though the raw count is lower.
+    </p>
+  </section>
+
+  <section id="uses">
+    <h2>What People Use It For <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Editing.</strong> Every writer has crutch words. Ranking a draft by frequency
+      exposes them in seconds; the fix is one pass with a find and replace tool.
+    </p>
+    <p>
+      <strong>SEO.</strong> Keyword density checks confirm a page covers its topic without
+      repeating a term until it reads spammy. A focus keyword in the 1 to 2% range reads
+      naturally in most articles.
+    </p>
+    <p>
+      <strong>Study and research.</strong> Vocabulary profiles of a corpus, most-useful-word
+      lists for language learners, and recurring terms in survey answers or support tickets all
+      start with the same frequency table.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Comparing raw counts across texts">
+      <p>
+        Ten occurrences in a tweet thread and ten in a thesis mean completely different things.
+        Use the percentage column when texts differ in length; that is the number that
+        transfers between documents.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Treating frequency as importance">
+      <p>
+        The most frequent content word is not automatically the main idea; it can be a verbal
+        tic. Frequency surfaces candidates. Reading the sentences around a suspicious word,
+        which the alphabetical sort makes easy to plan, tells you whether it is theme or habit.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Tokenization differs between tools">
+      <p>Hyphens, apostrophes, numbers, and case folding are judgment calls, and every tool makes its own. Expect small differences in unique-word totals between counters; the ranking order is what stays stable.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

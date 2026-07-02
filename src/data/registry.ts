@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { config as wordFrequencyCounter } from '@tools/text/word-frequency-counter/config';
 import { config as removeEmoji } from '@tools/text/remove-emoji/config';
 import { config as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
@@ -72,6 +73,7 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  wordFrequencyCounter,
   removeEmoji,
   rot13EncoderDecoder,
   jsonEscape,

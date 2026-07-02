@@ -63,6 +63,7 @@ export const toolGroups: ToolGroup[] = [
       { slug: 'line-counter',             label: 'Lines'        },
       { slug: 'space-counter',            label: 'Spaces'       },
       { slug: 'reading-time-calculator',  label: 'Reading Time' },
+      { slug: 'word-frequency-counter',   label: 'Frequency'    },
     ],
   },
   {

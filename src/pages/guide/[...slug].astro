@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
+import WordFrequencyCounterGuide from '../../tools/text/word-frequency-counter/Guide.astro';
 import RemoveEmojiGuide from '../../tools/text/remove-emoji/Guide.astro';
 import Rot13EncoderDecoderGuide from '../../tools/developer-utilities/rot13-encoder-decoder/Guide.astro';
 import JsonEscapeGuide from '../../tools/developer-utilities/json-escape/Guide.astro';
@@ -81,6 +82,7 @@ import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calcu
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
+  'word-frequency-counter': WordFrequencyCounterGuide,
   'remove-emoji': RemoveEmojiGuide,
   'rot13-encoder-decoder': Rot13EncoderDecoderGuide,
   'json-escape': JsonEscapeGuide,
