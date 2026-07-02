@@ -7,6 +7,7 @@
 // parse Astro components. `validate-registry` checks every tool that declares `guide:` appears here.
 
 export const registeredGuideSlugs = [
+  'remove-emoji',
   'rot13-encoder-decoder',
   'json-escape',
   'sip-calculator',

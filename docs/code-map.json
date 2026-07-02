@@ -27,7 +27,7 @@
         "cleanup",
         "transform"
       ],
-      "toolCount": 17
+      "toolCount": 18
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -213,7 +213,8 @@
         "remove-tabs",
         "trim-text",
         "normalize-whitespace",
-        "remove-accents"
+        "remove-accents",
+        "remove-emoji"
       ]
     },
     "case-converters": {
@@ -230,6 +231,27 @@
     }
   },
   "tools": {
+    "remove-emoji": {
+      "name": "Remove Emoji",
+      "dir": "src/tools/text/remove-emoji",
+      "categorySlug": "text-utilities",
+      "url": "/tool/text/remove-emoji/",
+      "engine": "text-processor",
+      "pattern": "text-cleanup",
+      "family": "cleanup",
+      "processorId": "removeEmoji",
+      "toolGroup": "text-cleanup",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "rot13-encoder-decoder": {
       "name": "ROT13 Encoder / Decoder",
       "dir": "src/tools/developer-utilities/rot13-encoder-decoder",

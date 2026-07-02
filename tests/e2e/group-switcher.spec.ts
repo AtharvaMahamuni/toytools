@@ -44,7 +44,7 @@ test.describe('text-cleanup group switcher', () => {
   test('input survives a mode switch and output re-processes', async ({ page }) => {
     await page.goto('/tool/text/remove-extra-spaces/');
     const nav = page.getByRole('navigation', { name: 'Text Cleanup modes' });
-    await expect(nav.getByRole('link')).toHaveCount(8);
+    await expect(nav.getByRole('link')).toHaveCount(9);
 
     await page.locator('#remove-extra-spaces-input').fill('a  b\n\nc');
     await expect(page.locator('#remove-extra-spaces-output')).toHaveValue('a b\n\nc');

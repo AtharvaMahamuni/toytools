@@ -6,6 +6,7 @@
 // entry here. No widget, runtime, or routing changes — and never a switch statement.
 
 import type { TextProcessor } from './types';
+import { removeEmoji } from './cleanup/removeEmoji';
 
 // transform/
 import { uppercase } from './transform/uppercase';
@@ -31,6 +32,7 @@ import { removeAccents } from './cleanup/removeAccents';
 // Keyed by processor id. Values are the rich processor objects (id + family + process),
 // so future metadata (title, description, …) can be added without changing the API.
 export const PROCESSORS: Record<string, TextProcessor> = {
+  'removeEmoji': removeEmoji,
   uppercase,
   lowercase,
   titleCase,

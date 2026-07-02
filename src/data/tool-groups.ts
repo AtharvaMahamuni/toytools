@@ -102,6 +102,7 @@ export const toolGroups: ToolGroup[] = [
       { slug: 'trim-text',              label: 'Trim'            },
       { slug: 'normalize-whitespace',   label: 'Whitespace'      },
       { slug: 'remove-accents',         label: 'Accents'         },
+      { slug: 'remove-emoji',           label: 'Emoji'           },
     ],
   },
   {

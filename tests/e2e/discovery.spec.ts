@@ -49,8 +49,8 @@ test.describe('category pages', () => {
     const headings = page.locator('.cat-section-heading');
     await expect(headings).toHaveText(['Counting & Analysis', 'Case Conversion', 'Cleanup', 'Find & Compare']);
 
-    // Grouped rows render mode chips: 7 case converters + 8 text-cleanup + 8 text counters.
-    await expect(page.locator('.cat-chip')).toHaveCount(23);
+    // Grouped rows render mode chips: 7 case converters + 9 text-cleanup + 8 text counters.
+    await expect(page.locator('.cat-chip')).toHaveCount(24);
     await expect(page.getByRole('link', { name: 'snake_case' })).toHaveAttribute(
       'href', /\/tool\/text\/snake-case-converter\/$/,
     );
