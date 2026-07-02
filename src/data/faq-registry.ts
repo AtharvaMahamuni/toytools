@@ -1,4 +1,5 @@
 import type { FAQItem } from './types';
+import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as removeAccentsFaqs } from '@tools/text/remove-accents/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as removeLineBreaksFaqs } from '@tools/text/remove-line-breaks/faq';
@@ -69,6 +70,7 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'sip-calculator': sipCalculatorFaqs,
   'remove-accents': removeAccentsFaqs,
   'slugify-text': slugifyTextFaqs,
   'remove-line-breaks': removeLineBreaksFaqs,

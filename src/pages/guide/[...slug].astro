@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
+import SipCalculatorGuide from '../../tools/finance/sip-calculator/Guide.astro';
 import RemoveAccentsGuide from '../../tools/text/remove-accents/Guide.astro';
 import SlugifyTextGuide from '../../tools/text/slugify-text/Guide.astro';
 import RemoveLineBreaksGuide from '../../tools/text/remove-line-breaks/Guide.astro';
@@ -77,6 +78,7 @@ import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calcu
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
+  'sip-calculator': SipCalculatorGuide,
   'remove-accents': RemoveAccentsGuide,
   'slugify-text': SlugifyTextGuide,
   'remove-line-breaks': RemoveLineBreaksGuide,

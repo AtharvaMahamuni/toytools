@@ -1,0 +1,157 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A SIP calculator projects what a fixed monthly investment plan grows into over time. You
+      enter the monthly amount, an expected annual return, and the number of years; the tool
+      returns the final value of your SIP returns, the total you put in, and the wealth your
+      returns add on top.
+      Investing $500 a month at a 10% expected return grows to about $102,000 in ten years, of
+      which $60,000 is your own money.
+    </p>
+    <a href={toolHref} class="cta-link">Try The SIP Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A systematic investment plan invests the same amount every month, so monthly investing
+      turns a salary into a portfolio one instalment at a time. Each instalment then compounds
+      for the months it stays invested: the first payment grows for the whole period, the last
+      one barely grows at all. To estimate SIP maturity value, the calculator sums all of those
+      grown instalments, assuming end-of-month investing and monthly compounding. If you add a starting lump sum,
+      it compounds alongside the plan for the full term.
+    </p>
+    <p>
+      Because you buy at many different market levels, a SIP also averages your purchase price:
+      the same instalment buys more units when prices are low and fewer when they are high.
+      That is the cost averaging effect, and it removes the pressure of picking the right day
+      to invest.
+    </p>
+  </section>
+
+  <section id="reading-the-result">
+    <h2>Reading the Result <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The headline number is the investment value at the end of the period. The two supporting
+      numbers matter just as much. Total invested is your instalment times the number of
+      months, plus any lump sum; it is the part you control completely. Wealth gained is the
+      difference between the two, the part the market contributed. Early in a plan the gain
+      looks small because instalments have had little time to grow; the curve steepens sharply
+      in the later years, which the timeline below the result makes visible.
+    </p>
+  </section>
+
+  <section id="sip-vs-alternatives">
+    <h2>SIP Calculator vs Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compared with a lump sum projection, a SIP models money that arrives on a schedule, like a
+      salary. A lump sum has more time in the market, so with the same rate and horizon it ends
+      higher; however, it requires the cash up front and concentrates your entry at one price.
+      Compared with a recurring bank deposit, a SIP targets market returns and accepts market
+      swings in exchange. For example, the compound interest calculator answers the lump sum
+      question, and the savings goal calculator inverts this one: it starts from the target and
+      solves for the monthly amount.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A first salary SIP.</strong> $200 a month at 10% for 20 years grows to about
+      $152,000. You contribute $48,000; compounding adds more than twice that amount.
+    </p>
+    <p>
+      <strong>Starting five years earlier.</strong> The same $500 monthly plan at 10% reaches
+      about $102,000 in 10 years but about $207,000 in 15 years. In other words, extending the
+      period raises the result faster than the contributions: doubling the period more than
+      doubles the growth, because every instalment gets more time to compound.
+    </p>
+    <p>
+      <strong>With a lump sum.</strong> Pairing $1,000 a month with a $5,000 starting deposit
+      at 11% for 15 years lets both streams compound side by side, and the lump sum alone
+      finishes the term at nearly five times its size.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>FV = P · ((1 + i)^n − 1) / i</strong></p>
+    <p>
+      where P is the monthly instalment, i is the monthly rate (annual return divided by 12),
+      and n is the number of months. When the return is zero this simplifies to P times n. A
+      starting lump sum L adds L(1 + i)^n on top.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Time beats amount">
+      <p>Compounding rewards duration more than instalment size. Lengthening the plan lets every payment grow for longer, therefore starting early with a small amount beats starting late with a large one in most realistic plans.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Treating the expected return as a promise">
+      <p>
+        The expected return you enter is an assumption, not a guarantee. Markets move, and
+        long-run averages hide deep interim swings. Run the calculation again at a lower rate to see a cautious floor for
+        your plan before committing to a goal that depends on the optimistic number.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Reading the result in future money">
+      <p>
+        The maturity value is nominal. Over 10 or 20 years inflation erodes a meaningful share
+        of its purchasing power, so a six-figure result buys less than it would now. Convert
+        the figure with the inflation calculator before anchoring a life decision to it.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Match the rate to the investment">
+      <p>Equity funds, debt funds, and deposits earn very different returns. Use a rate that reflects where the SIP actually goes, not a blended number from a headline, and remember that fees and taxes reduce the realized outcome.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

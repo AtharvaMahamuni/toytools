@@ -137,11 +137,11 @@
       "runtimeGlobal": "runFinance",
       "sharedWidget": "src/tools/_shared/FinanceWidget.astro",
       "supportedFamilies": [
+        "savings",
         "interest",
-        "inflation",
-        "savings"
+        "inflation"
       ],
-      "toolCount": 5
+      "toolCount": 6
     }
   },
   "toolGroups": {
@@ -228,6 +228,27 @@
     }
   },
   "tools": {
+    "sip-calculator": {
+      "name": "SIP Calculator",
+      "dir": "src/tools/finance/sip-calculator",
+      "categorySlug": "money-finance",
+      "url": "/tool/finance/sip-calculator/",
+      "engine": "finance",
+      "pattern": "finance-growth",
+      "family": "savings",
+      "processorId": "sip",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "remove-accents": {
       "name": "Remove Accents",
       "dir": "src/tools/text/remove-accents",

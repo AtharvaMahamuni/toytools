@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
 import { config as removeAccents } from '@tools/text/remove-accents/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as removeLineBreaks } from '@tools/text/remove-line-breaks/config';
@@ -68,6 +69,7 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  sipCalculator,
   removeAccents,
   slugifyText,
   removeLineBreaks,
