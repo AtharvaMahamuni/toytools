@@ -86,6 +86,7 @@ export const toolGroups: ToolGroup[] = [
       { slug: 'hex-encoder-decoder',         label: 'Hex'      },
       { slug: 'binary-text-converter',       label: 'Binary'   },
       { slug: 'punycode-converter',          label: 'Punycode' },
+      { slug: 'json-escape',                 label: 'JSON'     },
     ],
   },
   {

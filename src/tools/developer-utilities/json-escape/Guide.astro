@@ -1,0 +1,161 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON escaping replaces the characters a JSON string literal cannot contain, quotes,
+      backslashes, and control characters like newlines, with backslash sequences such as
+      <code>\"</code>, <code>\\</code>, and <code>\n</code>. To escape text for JSON, paste it
+      and copy the escaped result; to unescape a JSON string, paste the escaped form and the
+      original text comes back. The tool detects the direction automatically and converts live.
+    </p>
+    <a href={toolHref} class="cta-link">Try the JSON Escape Tool →</a>
+  </section>
+
+  <section id="what-escaping-means">
+    <h2>How It Works: JSON String Escaping <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON string literal sits between double quotes: <code>"like this"</code>. The moment the
+      text inside contains its own double quote, the parser reads it as the end of the string and
+      the document breaks. Real line breaks and tabs are just as illegal inside a JSON string
+      literal. JSON string escaping solves this by writing each forbidden character as a
+      two-character escape sequence that the parser understands: <code>"He said \"hi\"\nand left"</code> stores
+      a quote-containing, two-line sentence in one legal literal.
+    </p>
+  </section>
+
+  <section id="which-characters">
+    <h2>Which Characters Must Be Escaped in JSON <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The JSON escape characters come in exactly three groups, defined by RFC 8259:
+    </p>
+    <ul>
+      <li>the double quote <code>"</code>, written <code>\"</code></li>
+      <li>the backslash <code>\</code>, written <code>\\</code></li>
+      <li>every control character U+0000 to U+001F; the common ones have short forms
+        (<code>\b \f \n \r \t</code>), the rest use <code>\uXXXX</code></li>
+    </ul>
+    <p>
+      Everything else, including emoji, accents, and non-Latin scripts, is legal unescaped.
+      However, this tool additionally escapes U+2028 and U+2029 (line and paragraph separators),
+      because JSON allows them raw while JavaScript string literals do not; escaping them makes
+      the output safe to inline into code as well.
+    </p>
+  </section>
+
+  <section id="escape-vs-alternatives">
+    <h2>JSON Escape vs URL Encode and Other Escapers <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each container has its own escaping rules, and the tools are not interchangeable. JSON
+      escaping protects text inside a JSON string literal with backslash sequences. URL encoding
+      protects text inside a URL with percent sequences like <code>%20</code>. HTML entity
+      encoding protects text inside markup with entities like <code>&amp;amp;</code>. For
+      example, a JSON payload carried in a query parameter needs both, applied in order: escape
+      for JSON first, then URL encode the whole document. The switcher above the tool jumps
+      between all of these encoders with your input preserved.
+    </p>
+    <p>
+      Escaping also differs from stringifying a document. To escape a JSON string is to protect
+      one value's text; stringifying serializes a whole object into JSON syntax, quotes included.
+      <code>JSON.stringify</code> does both at once for programmatic use, whereas this tool
+      answers the paste-into-an-existing-document case.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A quoted sentence.</strong> <code>He said "hello"</code> escapes to
+      <code>He said \"hello\"</code>. The quotes survive the round trip into a config value.
+    </p>
+    <p>
+      <strong>A Windows path.</strong> <code>C:\temp\new</code> escapes to
+      <code>C:\\temp\\new</code>. Without the doubled backslashes, <code>\t</code> and
+      <code>\n</code> would silently turn into a tab and a newline when parsed.
+    </p>
+    <p>
+      <strong>A document inside a document.</strong> Embedding <code>{'{"a": "b"}'}</code> as a
+      string value produces <code>{'{\\"a\\": \\"b\\"}'}</code>. Therefore each nesting level
+      doubles the backslashes, which is the telltale sign of double escaping.
+    </p>
+  </section>
+
+  <section id="unescaping">
+    <h2>How to Unescape a JSON String <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON unescape is the reverse direction. Paste the escaped form, with or without the outer
+      quotes, and the tool parses it back to plain text: <code>\n</code> becomes a real line break, <code>\uXXXX</code> becomes the
+      character it names. Invalid input, for example a dangling backslash or a bad
+      <code>\u</code> sequence, is reported as an error instead of being silently mangled. The
+      direction detector treats input containing escape sequences or wrapped in quotes as an
+      escaped string, and you can override it with the mode select at any time.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Escaping twice">
+      <p>
+        Running already-escaped text through the escaper again doubles every backslash:
+        <code>\n</code> becomes <code>\\n</code>, and the parsed value shows a literal backslash
+        and letter n instead of a line break. If your output is full of <code>\\\\</code>, one
+        layer too many has been applied; unescape once to recover.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Pasting raw multi-line text into JSON">
+      <p>
+        Real line breaks are illegal inside a JSON string literal, and editors happily let you
+        paste them anyway. The document then fails to parse at the first line break. Escape the
+        text first; the newlines become <code>\n</code> and the document stays valid.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="The outer quotes are your document's job">
+      <p>A frequent misconception is that the output should include the outer quotes. The escaped output is the string body only: paste it between the quotes that already exist in your JSON document or source code, because adding another pair by hand is how stray doubled quotes creep in.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -83,6 +83,30 @@ describe('hex', () => {
 
 // --- HTML entities ---
 
+describe('json-escape', () => {
+  it('escapes quotes, backslashes, and control characters without outer quotes', () => {
+    expect(runEncoding('json-escape', 'encode', 'He said "hi"\n').output).toBe('He said \\"hi\\"\\n');
+    expect(runEncoding('json-escape', 'encode', 'C:\\temp\tok').output).toBe('C:\\\\temp\\tok');
+  });
+  it('escapes U+2028/U+2029 for JS-safe inlining', () => {
+    expect(runEncoding('json-escape', 'encode', 'a\u2028b\u2029c').output).toBe('a\\u2028b\\u2029c');
+  });
+  it('unescapes a string body and tolerates outer quotes', () => {
+    expect(runEncoding('json-escape', 'decode', 'a\\"b\\nc').output).toBe('a"b\nc');
+    expect(runEncoding('json-escape', 'decode', '"a\\u0041"').output).toBe('aA');
+  });
+  it('round-trips arbitrary text', () => {
+    const original = 'multi\nline "text" with\tunicode: caf\u00e9 \u2028 done';
+    const escaped = runEncoding('json-escape', 'encode', original).output;
+    expect(runEncoding('json-escape', 'decode', escaped).output).toBe(original);
+  });
+  it('captures an invalid escape as a result error', () => {
+    const r = runEncoding('json-escape', 'decode', 'bad \\x escape');
+    expect(r.ok).toBe(false);
+    expect(r.error).toMatch(/decode/i);
+  });
+});
+
 describe('html-entity', () => {
   const { encode, decode } = ENCODERS['html-entity'];
   it('encodes the five significant characters', () =>

@@ -41,7 +41,7 @@
         "web",
         "binary-text"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "hashing": {
       "name": "Hashing Engine",
@@ -198,7 +198,8 @@
         "html-entity-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
-        "punycode-converter"
+        "punycode-converter",
+        "json-escape"
       ]
     },
     "text-cleanup": {
@@ -228,6 +229,27 @@
     }
   },
   "tools": {
+    "json-escape": {
+      "name": "JSON Escape / Unescape",
+      "dir": "src/tools/developer-utilities/json-escape",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/json-escape/",
+      "engine": "encoding",
+      "pattern": "encode-decode",
+      "family": "web",
+      "processorId": "json-escape",
+      "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "sip-calculator": {
       "name": "SIP Calculator",
       "dir": "src/tools/finance/sip-calculator",

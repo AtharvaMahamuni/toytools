@@ -60,7 +60,7 @@ test.describe('encoder group switcher', () => {
   test('input survives a switch; conversion direction stays per-tool', async ({ page }) => {
     await page.goto('/tool/developer-utilities/base64-encoder-decoder/');
     const nav = page.getByRole('navigation', { name: 'Encoder / Decoder modes' });
-    await expect(nav.getByRole('link')).toHaveCount(6);
+    await expect(nav.getByRole('link')).toHaveCount(7);
 
     const b64Input = page.locator('#base64-encoder-decoder-input');
     await b64Input.fill(INPUT);

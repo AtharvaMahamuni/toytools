@@ -14,6 +14,7 @@ import type {
   ValidationDetail,
 } from '../transform/types';
 import { base64 } from './base64';
+import { jsonEscape } from './jsonEscape';
 import { url } from './url';
 import { htmlEntity } from './htmlEntity';
 import { hex } from './hex';
@@ -22,6 +23,7 @@ import { punycode } from './punycode';
 
 // Keyed by encoder id, referenced from a tool config's `processorId`.
 export const ENCODERS: Record<string, EncodingTool> = {
+  'json-escape': jsonEscape,
   base64,
   url,
   'html-entity': htmlEntity,
