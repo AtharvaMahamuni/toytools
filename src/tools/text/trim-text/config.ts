@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-cleanup',
   family: 'cleanup',
   processorId: 'trimLines',
+  toolGroup: 'text-cleanup',
   guide: {
     slug: 'how-to-trim-whitespace-from-text',
     categorySlug: 'text',

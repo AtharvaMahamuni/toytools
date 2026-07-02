@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'encode-decode',
   family: 'web',
   processorId: 'punycode',
+  toolGroup: 'encoders',
   guide: {
     slug: 'what-is-punycode',
     categorySlug: 'developer-utilities',

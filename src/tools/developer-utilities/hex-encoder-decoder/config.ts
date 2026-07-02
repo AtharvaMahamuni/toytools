@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   pattern: 'encode-decode',
   family: 'binary-text',
   processorId: 'hex',
+  toolGroup: 'encoders',
   relatedTools: ['base64-encoder-decoder', 'url-encoder-decoder'],
   guide: {
     slug: 'hex-encoder-decoder',

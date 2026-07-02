@@ -52,6 +52,43 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    id: 'hash-generators',
+    name: 'Hash Generator',
+    members: [
+      { slug: 'md5-hash-generator',    label: 'MD5'     },
+      { slug: 'sha1-hash-generator',   label: 'SHA-1'   },
+      { slug: 'sha256-hash-generator', label: 'SHA-256' },
+      { slug: 'sha512-hash-generator', label: 'SHA-512' },
+      { slug: 'crc32-hash-generator',  label: 'CRC32'   },
+    ],
+  },
+  {
+    id: 'encoders',
+    name: 'Encoder / Decoder',
+    members: [
+      { slug: 'base64-encoder-decoder',      label: 'Base64'   },
+      { slug: 'url-encoder-decoder',         label: 'URL'      },
+      { slug: 'html-entity-encoder-decoder', label: 'HTML'     },
+      { slug: 'hex-encoder-decoder',         label: 'Hex'      },
+      { slug: 'binary-text-converter',       label: 'Binary'   },
+      { slug: 'punycode-converter',          label: 'Punycode' },
+    ],
+  },
+  {
+    id: 'text-cleanup',
+    name: 'Text Cleanup',
+    members: [
+      { slug: 'remove-extra-spaces',    label: 'Extra Spaces'    },
+      { slug: 'remove-blank-lines',     label: 'Blank Lines'     },
+      { slug: 'remove-duplicate-lines', label: 'Duplicate Lines' },
+      { slug: 'remove-line-breaks',     label: 'Line Breaks'     },
+      { slug: 'remove-tabs',            label: 'Tabs'            },
+      { slug: 'trim-text',              label: 'Trim'            },
+      { slug: 'normalize-whitespace',   label: 'Whitespace'      },
+      { slug: 'remove-accents',         label: 'Accents'         },
+    ],
+  },
+  {
     id: 'case-converters',
     name: 'Case Converter',
     members: [

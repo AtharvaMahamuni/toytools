@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'encode-decode',
   family: 'binary-text',
   processorId: 'binary',
+  toolGroup: 'encoders',
   guide: {
     slug: 'how-to-convert-text-to-binary',
     categorySlug: 'developer-utilities',

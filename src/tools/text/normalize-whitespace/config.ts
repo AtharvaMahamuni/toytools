@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-cleanup',
   family: 'cleanup',
   processorId: 'normalizeWhitespace',
+  toolGroup: 'text-cleanup',
   guide: {
     slug: 'how-to-normalize-whitespace',
     categorySlug: 'text',

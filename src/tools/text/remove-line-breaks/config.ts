@@ -12,6 +12,7 @@ export const config: ToolConfig = {
   pattern: 'text-cleanup',
   family: 'cleanup',
   processorId: 'removeLineBreaks',
+  toolGroup: 'text-cleanup',
   guide: {
     slug: 'how-to-remove-line-breaks',
     categorySlug: 'text',

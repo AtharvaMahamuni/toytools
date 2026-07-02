@@ -36,6 +36,11 @@ interface Props {
 
 const { slug, processorId, config } = Astro.props;
 
+// Tools in a group share one input envelope so text survives mode switches; the
+// conversion direction (mode/override) stays per-slug — base64 in decode mode must
+// not force url-encoder into decode.
+const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
+
 // `kind` selects the transform provider. Build-time static info comes from the matching
 // registry; new kinds add a branch here (and a runtime provider) without touching markup.
 const kind = config.engine ?? 'encoding';
@@ -60,6 +65,7 @@ const byteId = `${slug}-byteview`;
     data-kind={kind}
     data-pid={processorId}
     data-slug={slug}
+    data-state-key={stateKey}
   >
     {reversible && (
       <select slot="header-end" id={modeId} class="io-mode" aria-label="Conversion direction">
@@ -124,6 +130,7 @@ const byteId = `${slug}-byteview`;
     var root = document.querySelector('[data-converter][data-slug]');
     if (!root) return;
     var slug = root.getAttribute('data-slug');
+    var stateKey = root.getAttribute('data-state-key') || slug;
     var kind = root.getAttribute('data-kind') || 'encoding';
     var pid = root.getAttribute('data-pid');
     var input = document.getElementById(slug + '-input');
@@ -289,9 +296,15 @@ const byteId = `${slug}-byteview`;
 
     function persist() {
       if (!TT.state) return;
-      var data = { input: input.value };
-      if (reversible) { data.mode = modeEl.value; data.override = override; }
-      TT.state.save(slug, data);
+      if (stateKey !== slug) {
+        // Grouped: input is shared across the group; direction stays per-tool.
+        TT.state.save(stateKey, { input: input.value });
+        if (reversible) TT.state.save(slug, { mode: modeEl.value, override: override });
+      } else {
+        var data = { input: input.value };
+        if (reversible) { data.mode = modeEl.value; data.override = override; }
+        TT.state.save(slug, data);
+      }
     }
     function restore(text) { input.value = text; override = false; execForward(); persist(); input.focus(); }
 
@@ -331,14 +344,21 @@ const byteId = `${slug}-byteview`;
       grouped = !!info.grouped;
       groupSize = info.groupSize || 8;
       try {
-        var saved = TT.state && TT.state.load(slug);
-        if (saved && typeof saved.input === 'string') {
-          input.value = saved.input;
-          if (reversible && (saved.mode === 'encode' || saved.mode === 'decode')) modeEl.value = saved.mode;
-          if (reversible) override = !!saved.override;
+        // Input: shared group envelope first, then the tool's old per-slug key (migration).
+        var shared = TT.state && TT.state.load(stateKey);
+        var own = stateKey !== slug ? (TT.state && TT.state.load(slug)) : shared;
+        var savedInput = shared && typeof shared.input === 'string' ? shared.input
+          : own && typeof own.input === 'string' ? own.input : null;
+        if (savedInput !== null) {
+          input.value = savedInput;
         } else if (slug === 'base64-encoder-decoder' && TT.storage) {
           var legacy = TT.storage.get('toytools.base64.input');
           if (legacy) input.value = legacy;
+        }
+        // Direction: always the tool's own key.
+        if (own && reversible) {
+          if (own.mode === 'encode' || own.mode === 'decode') modeEl.value = own.mode;
+          override = !!own.override;
         }
       } catch (_) {}
       history.render();
