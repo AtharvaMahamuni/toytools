@@ -47,6 +47,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    # deploy-pages polls GitHub's Pages backend; when that queue is congested the deployment
+    # can sit in "deployment_queued" past the action's default 10-minute timeout and abort
+    # with "Timeout reached, aborting!" even though the build is fine. Give the poll 30
+    # minutes (the job cap backstops it) so transient queue latency cannot fail a deploy.
+    timeout-minutes: 40
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -54,6 +59,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1800000
 
   # Notify IndexNow (Bing, Yandex, Naver, Seznam, …) after a successful deploy. Isolated in its
   # own job with continue-on-error so IndexNow can NEVER fail the deployment — the CLI also exits
