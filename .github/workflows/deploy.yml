@@ -47,8 +47,10 @@ jobs:
   # The Pages backend fails transiently in two ways: deployments stuck in "deployment_queued"
   # past deploy-pages' polling window (which is hard-capped at 10 minutes — larger values are
   # ignored with a warning), and instant "Deployment failed, try again later." rejections.
-  # Neither reflects the build, so a failed deploy gets one automatic second attempt after a
-  # short pause before the run is declared failed.
+  # Neither reflects the build, so a failed first attempt gets one automatic second attempt
+  # after a short pause. The first attempt uses step-level continue-on-error so a
+  # retried-and-recovered run shows green (run 88 deployed fine on retry yet the run was
+  # painted red by the first attempt); only the retry failing marks the run failed.
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -56,15 +58,20 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      first_attempt: ${{ steps.deployment.outcome }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+      - name: Report first-attempt outcome
+        run: echo "First deploy attempt outcome — ${{ steps.deployment.outcome }}"
 
   deploy_retry:
     runs-on: ubuntu-latest
     needs: [build, deploy]
-    if: always() && needs.deploy.result == 'failure'
+    if: needs.deploy.outputs.first_attempt == 'failure'
     timeout-minutes: 15
     environment:
       name: github-pages
@@ -83,8 +90,9 @@ jobs:
   indexnow:
     runs-on: ubuntu-latest
     needs: [deploy, deploy_retry]
-    # Run when either deploy attempt succeeded (deploy_retry is skipped on first-try success).
-    if: always() && (needs.deploy.result == 'success' || needs.deploy_retry.result == 'success')
+    # Run when either deploy attempt actually deployed (the deploy job's result is always
+    # success because its step is continue-on-error; the real outcome is in its output).
+    if: always() && (needs.deploy.outputs.first_attempt == 'success' || needs.deploy_retry.result == 'success')
     continue-on-error: true
     steps:
       - name: Checkout
