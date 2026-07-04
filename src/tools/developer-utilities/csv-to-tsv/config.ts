@@ -1,0 +1,19 @@
+import type { ToolConfig } from '@data/types';
+
+export const config: ToolConfig = {
+  slug: 'csv-to-tsv',
+  name: 'CSV to TSV Converter',
+  seoTitle: 'CSV to TSV Converter — Quote-Safe, In Your Browser',
+  description: 'Convert comma-separated values to tab-separated values with quoting handled correctly, entirely in your browser.',
+  categorySlug: 'developer-utilities',
+  tags: ['csv to tsv', 'csv to tsv converter', 'convert csv to tab separated', 'csv tsv online', 'tab delimited converter', 'change csv delimiter', 'csv to tab file'],
+  updatedAt: '2026-07-04',
+  isNew: true,
+  trustVariant: 'private',
+  engine: 'csv',
+  pattern: 'csv-transform',
+  family: 'convert',
+  processorId: 'csv-to-tsv',
+  toolGroup: 'csv-tools',
+  relatedTools: ['csv-to-json-converter', 'csv-cleaner', 'json-to-csv-converter'],
+};

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:47:08.801Z",
+  "generatedAt": "2026-07-04T13:22:26.983Z",
   "trends": [
     {
       "transformation": "Line Break Removal",
@@ -45,6 +45,12 @@
       "meanScore": 78.8
     },
     {
+      "transformation": "CSV Diff",
+      "count": 1,
+      "meanDemand": 0.82,
+      "meanScore": 78.3
+    },
+    {
       "transformation": "Compound Annual Growth Rate",
       "count": 1,
       "meanDemand": 0.82,
@@ -69,10 +75,28 @@
       "meanScore": 75.3
     },
     {
+      "transformation": "CSV/TSV Conversion",
+      "count": 1,
+      "meanDemand": 0.58,
+      "meanScore": 75.2
+    },
+    {
+      "transformation": "CSV Cleaning",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 74.1
+    },
+    {
       "transformation": "Checksum (CRC32)",
       "count": 1,
       "meanDemand": 0.56,
       "meanScore": 72.5
+    },
+    {
+      "transformation": "CSV Column Selection",
+      "count": 1,
+      "meanDemand": 0.6,
+      "meanScore": 70.8
     },
     {
       "transformation": "Word Frequency Analysis",
@@ -85,12 +109,6 @@
       "count": 1,
       "meanDemand": 0.96,
       "meanScore": 67.2
-    },
-    {
-      "transformation": "CSV Diff",
-      "count": 1,
-      "meanDemand": 0.82,
-      "meanScore": 67.1
     },
     {
       "transformation": "Net Worth",
@@ -117,18 +135,6 @@
       "meanScore": 64.8
     },
     {
-      "transformation": "CSV/TSV Conversion",
-      "count": 1,
-      "meanDemand": 0.58,
-      "meanScore": 64
-    },
-    {
-      "transformation": "CSV Cleaning",
-      "count": 1,
-      "meanDemand": 0.7,
-      "meanScore": 62.9
-    },
-    {
       "transformation": "Age Calculation",
       "count": 1,
       "meanDemand": 0.88,
@@ -139,12 +145,6 @@
       "count": 1,
       "meanDemand": 0.85,
       "meanScore": 62.4
-    },
-    {
-      "transformation": "CSV Column Selection",
-      "count": 1,
-      "meanDemand": 0.6,
-      "meanScore": 59.6
     },
     {
       "transformation": "Retirement Projection",

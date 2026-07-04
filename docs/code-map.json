@@ -137,11 +137,26 @@
       "runtimeGlobal": "runFinance",
       "sharedWidget": "src/tools/_shared/FinanceWidget.astro",
       "supportedFamilies": [
-        "savings",
         "interest",
+        "savings",
         "inflation"
       ],
-      "toolCount": 6
+      "toolCount": 8
+    },
+    "csv": {
+      "name": "CSV Engine",
+      "category": "developer-utilities",
+      "patterns": [
+        "csv-transform"
+      ],
+      "runtimeGlobal": "runCsv",
+      "sharedWidget": "src/tools/_shared/CsvWidget.astro",
+      "supportedFamilies": [
+        "clean",
+        "convert",
+        "compare"
+      ],
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -165,6 +180,14 @@
       "members": [
         "json-to-csv-converter",
         "csv-to-json-converter"
+      ]
+    },
+    "csv-tools": {
+      "name": "CSV Tools",
+      "members": [
+        "csv-diff",
+        "csv-to-tsv",
+        "csv-cleaner"
       ]
     },
     "text-counters": {
@@ -232,6 +255,109 @@
     }
   },
   "tools": {
+    "csv-cleaner": {
+      "name": "CSV Cleaner",
+      "dir": "src/tools/developer-utilities/csv-cleaner",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/csv-cleaner/",
+      "engine": "csv",
+      "pattern": "csv-transform",
+      "family": "clean",
+      "processorId": "csv-clean",
+      "toolGroup": "csv-tools",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "csv-to-tsv": {
+      "name": "CSV to TSV Converter",
+      "dir": "src/tools/developer-utilities/csv-to-tsv",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/csv-to-tsv/",
+      "engine": "csv",
+      "pattern": "csv-transform",
+      "family": "convert",
+      "processorId": "csv-to-tsv",
+      "toolGroup": "csv-tools",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "csv-diff": {
+      "name": "CSV Diff",
+      "dir": "src/tools/developer-utilities/csv-diff",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/csv-diff/",
+      "engine": "csv",
+      "pattern": "csv-transform",
+      "family": "compare",
+      "processorId": "csv-diff",
+      "toolGroup": "csv-tools",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "cagr-calculator": {
+      "name": "CAGR Calculator",
+      "dir": "src/tools/finance/cagr-calculator",
+      "categorySlug": "money-finance",
+      "url": "/tool/finance/cagr-calculator/",
+      "engine": "finance",
+      "pattern": "finance-growth",
+      "family": "interest",
+      "processorId": "cagr",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "roi-calculator": {
+      "name": "ROI Calculator",
+      "dir": "src/tools/finance/roi-calculator",
+      "categorySlug": "money-finance",
+      "url": "/tool/finance/roi-calculator/",
+      "engine": "finance",
+      "pattern": "finance-growth",
+      "family": "interest",
+      "processorId": "roi",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "word-frequency-counter": {
       "name": "Word Frequency Counter",
       "dir": "src/tools/text/word-frequency-counter",

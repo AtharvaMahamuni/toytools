@@ -1,145 +1,69 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:47:08.801Z",
+  "generatedAt": "2026-07-04T13:22:26.983Z",
   "top": [
     {
-      "id": "roi-calculator",
-      "title": "ROI Calculator",
-      "problem": "I need the return on investment and annualized return for an investment.",
+      "id": "csv-column-picker",
+      "title": "CSV Column Picker",
+      "problem": "I want to pick out specific columns from a CSV and drop the rest.",
       "userIntent": "transactional",
-      "workflow": "input → Return on Investment → output",
-      "transformation": "Return on Investment",
-      "proposedTool": "roi-calculator",
-      "proposedEngine": "finance",
+      "workflow": "CSV → CSV Column Selection → CSV",
+      "transformation": "CSV Column Selection",
+      "proposedTool": "csv-column-picker",
+      "proposedEngine": "csv",
       "searchQueries": [
-        "roi calculator",
-        "return on investment calculator",
-        "investment return calculator"
+        "csv column extractor",
+        "csv column picker",
+        "extract columns from csv",
+        "select csv columns online"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
-        "calculator.net"
+        "spreadsheet copy/paste",
+        "awk for devs"
       ],
       "solutionWeaknesses": [
-        "dated UI",
-        "no annualized figure",
-        "ad supported"
+        "awk is dev-only",
+        "spreadsheets choke on big files"
       ],
       "relatedProblems": [
-        "cagr",
-        "compound interest",
-        "dividend yield"
+        "csv cleaning",
+        "csv to json"
       ],
       "relatedTools": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedGuides": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "csv-diff"
       ],
       "relatedFaqs": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
-      "difficulty": "low",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.58,
-      "searchDemand": 0.88,
-      "implementationCost": 1,
+      "difficulty": "medium",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.78,
+      "searchDemand": 0.6,
+      "implementationCost": 0.7,
       "engineReuse": 1,
-      "seoPotential": 0.71,
+      "seoPotential": 0.72,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.88,
       "confidence": 0.8,
-      "finalScore": 79.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "cagr-calculator",
-      "title": "CAGR Calculator",
-      "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
-      "userIntent": "transactional",
-      "workflow": "input → Compound Annual Growth Rate → output",
-      "transformation": "Compound Annual Growth Rate",
-      "proposedTool": "cagr-calculator",
-      "proposedEngine": "finance",
-      "searchQueries": [
-        "cagr calculator",
-        "compound annual growth rate",
-        "annualized return calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
-      "existingSolutions": [
-        "calculator.net",
-        "investopedia.com"
-      ],
-      "solutionWeaknesses": [
-        "formula buried in articles",
-        "no live result"
-      ],
-      "relatedProblems": [
-        "roi",
-        "compound interest",
-        "rule of 72"
-      ],
-      "relatedTools": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator",
-        "rule-of-72-calculator",
-        "emergency-fund-calculator",
-        "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.6,
-      "searchDemand": 0.82,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.69,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.8,
-      "confidence": 0.8,
-      "finalScore": 77.4,
+      "finalScore": 70.8,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true
@@ -162,7 +86,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -204,67 +128,6 @@
       "engineExists": false
     },
     {
-      "id": "csv-diff",
-      "title": "CSV Diff",
-      "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
-      "userIntent": "comparison",
-      "workflow": "CSV → CSV Diff → CSV",
-      "transformation": "CSV Diff",
-      "proposedTool": "csv-diff",
-      "proposedEngine": "csv",
-      "searchQueries": [
-        "csv diff online",
-        "csv diff",
-        "compare csv files",
-        "csv compare online",
-        "diff two csv"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
-      "existingSolutions": [
-        "paid desktop apps",
-        "git diff (devs only)"
-      ],
-      "solutionWeaknesses": [
-        "uploads sensitive data to a server",
-        "paywalled",
-        "not row-aware"
-      ],
-      "relatedProblems": [
-        "json diff",
-        "text compare"
-      ],
-      "relatedTools": [
-        "text-compare",
-        "csv-to-json-converter"
-      ],
-      "relatedGuides": [
-        "text-compare",
-        "csv-to-json-converter"
-      ],
-      "relatedFaqs": [
-        "text-compare",
-        "csv-to-json-converter"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.84,
-      "competitionScore": 0.78,
-      "searchDemand": 0.82,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.93,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.88,
-      "confidence": 0.8,
-      "finalScore": 67.1,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -281,7 +144,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -340,7 +203,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -398,7 +261,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -448,7 +311,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -489,116 +352,212 @@
       "engineExists": false
     },
     {
-      "id": "csv-to-tsv",
-      "title": "CSV to TSV",
-      "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
+      "id": "age-calculator",
+      "title": "Age Calculator",
+      "problem": "I want to calculate an exact age in years, months and days from a birth date.",
       "userIntent": "transactional",
-      "workflow": "CSV → CSV/TSV Conversion → CSV",
-      "transformation": "CSV/TSV Conversion",
-      "proposedTool": "csv-to-tsv",
-      "proposedEngine": "csv",
+      "workflow": "date/time → Age Calculation → date/time",
+      "transformation": "Age Calculation",
+      "proposedTool": "age-calculator",
+      "proposedEngine": "datetime",
       "searchQueries": [
-        "csv to tsv converter",
-        "csv to tsv",
-        "convert csv to tab separated",
-        "csv tsv online"
+        "age calculator from birthdate",
+        "age calculator",
+        "calculate age from date of birth",
+        "how old am i"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
-        "spreadsheet save-as"
+        "calculator.net"
       ],
       "solutionWeaknesses": [
-        "requires a spreadsheet app",
-        "mangles quoting"
+        "generic calculator hub",
+        "no shareable clean result"
       ],
       "relatedProblems": [
-        "csv to json",
-        "delimiter change"
+        "date difference",
+        "countdown"
       ],
-      "relatedTools": [
-        "csv-to-json-converter"
-      ],
-      "relatedGuides": [
-        "csv-to-json-converter"
-      ],
-      "relatedFaqs": [
-        "csv-to-json-converter"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.82,
-      "searchDemand": 0.58,
-      "implementationCost": 0.9,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 0.6,
       "engineReuse": 0.3,
-      "seoPotential": 0.71,
+      "seoPotential": 0.83,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.52,
-      "localizationPotential": 0.9,
-      "confidence": 0.64,
-      "finalScore": 64,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.78,
+      "confidence": 0.8,
+      "finalScore": 62.5,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
     },
     {
-      "id": "csv-cleaner",
-      "title": "CSV Cleaner",
-      "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
-      "userIntent": "troubleshooting",
-      "workflow": "CSV → CSV Cleaning → CSV",
-      "transformation": "CSV Cleaning",
-      "proposedTool": "csv-cleaner",
-      "proposedEngine": "csv",
+      "id": "date-difference-calculator",
+      "title": "Date Difference Calculator",
+      "problem": "I need the number of days/weeks/months between two dates.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Date Difference → date/time",
+      "transformation": "Date Difference",
+      "proposedTool": "date-difference-calculator",
+      "proposedEngine": "datetime",
       "searchQueries": [
-        "csv cleaner remove empty rows",
-        "csv cleaner",
-        "clean csv online",
-        "remove empty rows csv",
-        "fix messy csv"
+        "date difference calculator",
+        "days between two dates",
+        "date duration calculator"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
-        "spreadsheet manual cleanup"
+        "timeanddate.com"
       ],
       "solutionWeaknesses": [
-        "manual and error-prone",
-        "no repeatable rule set"
+        "cluttered with ads",
+        "slow",
+        "overloaded with options"
       ],
       "relatedProblems": [
-        "csv diff",
-        "remove blank lines"
+        "age calculator",
+        "business days"
       ],
-      "relatedTools": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ],
-      "relatedGuides": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ],
-      "relatedFaqs": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
       "difficulty": "medium",
-      "evergreenScore": 0.82,
-      "competitionScore": 0.76,
-      "searchDemand": 0.7,
+      "evergreenScore": 0.9,
+      "competitionScore": 0.56,
+      "searchDemand": 0.85,
       "implementationCost": 0.6,
       "engineReuse": 0.3,
-      "seoPotential": 0.88,
+      "seoPotential": 0.7,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.34,
-      "localizationPotential": 0.86,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.8,
       "confidence": 0.8,
-      "finalScore": 62.9,
+      "finalScore": 62.4,
       "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "retirement-calculator",
+      "title": "Retirement Calculator",
+      "problem": "I want to know if my savings and contributions will fund my retirement.",
+      "userIntent": "transactional",
+      "workflow": "input → Retirement Projection → output",
+      "transformation": "Retirement Projection",
+      "proposedTool": "retirement-calculator",
+      "proposedEngine": "retirement",
+      "searchQueries": [
+        "retirement calculator",
+        "retirement savings calculator",
+        "how much to retire"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "existingSolutions": [
+        "nerdwallet.com",
+        "fidelity.com"
+      ],
+      "solutionWeaknesses": [
+        "sign in required",
+        "product upsell",
+        "complex forms"
+      ],
+      "relatedProblems": [
+        "compound interest",
+        "inflation",
+        "savings goal"
+      ],
+      "relatedTools": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedGuides": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "relatedFaqs": [
+        "compound-interest-calculator",
+        "inflation-calculator",
+        "savings-goal-calculator"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.46,
+      "searchDemand": 0.94,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.74,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.82,
+      "confidence": 0.8,
+      "finalScore": 59.5,
+      "status": "discovered",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "timezone-converter",
+      "title": "Timezone Converter",
+      "problem": "I need to convert a meeting time from one timezone to another.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Timezone Conversion → date/time",
+      "transformation": "Timezone Conversion",
+      "proposedTool": "timezone-converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "timezone converter",
+        "time zone conversion",
+        "convert time between zones"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "existingSolutions": [
+        "worldtimebuddy"
+      ],
+      "solutionWeaknesses": [
+        "heavy app",
+        "account upsell",
+        "overkill for a single conversion"
+      ],
+      "relatedProblems": [
+        "unix timestamp",
+        "meeting planner"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "high",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.54,
+      "searchDemand": 0.8,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.68,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.84,
+      "confidence": 0.8,
+      "finalScore": 56.2,
+      "status": "discovered",
       "gap": "engine-missing",
       "engineExists": false
     }

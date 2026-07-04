@@ -5,6 +5,11 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
+import { knowledge as csvCleaner } from '@tools/developer-utilities/csv-cleaner/knowledge';
+import { knowledge as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/knowledge';
+import { knowledge as csvDiff } from '@tools/developer-utilities/csv-diff/knowledge';
+import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
+import { knowledge as roiCalculator } from '@tools/finance/roi-calculator/knowledge';
 import { knowledge as wordFrequencyCounter } from '@tools/text/word-frequency-counter/knowledge';
 import { knowledge as removeEmoji } from '@tools/text/remove-emoji/knowledge';
 import { knowledge as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/knowledge';
@@ -95,6 +100,11 @@ import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergen
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  csvCleaner,
+  csvToTsv,
+  csvDiff,
+  cagrCalculator,
+  roiCalculator,
   wordFrequencyCounter,
   removeEmoji,
   rot13EncoderDecoder,

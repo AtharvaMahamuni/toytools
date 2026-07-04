@@ -13,6 +13,7 @@
   import { runEncoding, encodingProvider } from '@lib/engines/encoding/registry';
   import { runHash, hashingProvider } from '@lib/engines/hashing/registry';
   import { runStructuredData } from '@lib/engines/structured-data/registry';
+  import { runCsv } from '@lib/engines/csv/registry';
   import { runJwt } from '@lib/engines/jwt/registry';
   import { runFinance } from '@lib/engines/finance/registry';
   import { renderExperience } from '@lib/experience/render';
@@ -83,6 +84,7 @@
   };
   TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
   TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
+  TT.runCsv = runCsv; // ToyTools.runCsv(id, input, second?) → { ok, output, error, summary }
   TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
   TT.runFinance = runFinance; // ToyTools.runFinance(id, input, { currency }) → InteractiveResult
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell

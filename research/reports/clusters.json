@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:47:08.801Z",
+  "generatedAt": "2026-07-04T13:22:26.983Z",
   "clusters": [
     {
       "id": "line-break-removal",
@@ -48,9 +48,11 @@
         "sip-calculator"
       ],
       "existingMembers": [
+        "cagr-calculator",
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
         "sip-calculator"
@@ -58,12 +60,12 @@
       "size": 1,
       "meanScore": 80.9,
       "internalLinks": [
+        "cagr-calculator",
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator",
+        "savings-goal-calculator"
       ]
     },
     {
@@ -178,9 +180,11 @@
         "roi-calculator"
       ],
       "existingMembers": [
+        "cagr-calculator",
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
         "sip-calculator"
@@ -188,12 +192,12 @@
       "size": 1,
       "meanScore": 79.1,
       "internalLinks": [
+        "cagr-calculator",
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator",
+        "rule-of-72-calculator"
       ]
     },
     {
@@ -225,6 +229,28 @@
       ]
     },
     {
+      "id": "csv-diff",
+      "transformation": "CSV Diff",
+      "engine": "csv",
+      "members": [
+        "csv-diff"
+      ],
+      "existingMembers": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "size": 1,
+      "meanScore": 78.3,
+      "internalLinks": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-json-converter",
+        "csv-to-tsv",
+        "text-compare"
+      ]
+    },
+    {
       "id": "compound-annual-growth-rate",
       "transformation": "Compound Annual Growth Rate",
       "engine": "finance",
@@ -232,9 +258,11 @@
         "cagr-calculator"
       ],
       "existingMembers": [
+        "cagr-calculator",
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
+        "roi-calculator",
         "rule-of-72-calculator",
         "savings-goal-calculator",
         "sip-calculator"
@@ -242,12 +270,12 @@
       "size": 1,
       "meanScore": 77.4,
       "internalLinks": [
+        "cagr-calculator",
         "compound-interest-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator",
+        "rule-of-72-calculator"
       ]
     },
     {
@@ -355,6 +383,49 @@
       ]
     },
     {
+      "id": "csv-tsv-conversion",
+      "transformation": "CSV/TSV Conversion",
+      "engine": "csv",
+      "members": [
+        "csv-to-tsv"
+      ],
+      "existingMembers": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "size": 1,
+      "meanScore": 75.2,
+      "internalLinks": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-json-converter",
+        "csv-to-tsv"
+      ]
+    },
+    {
+      "id": "csv-cleaning",
+      "transformation": "CSV Cleaning",
+      "engine": "csv",
+      "members": [
+        "csv-cleaner"
+      ],
+      "existingMembers": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "size": 1,
+      "meanScore": 74.1,
+      "internalLinks": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-json-converter",
+        "csv-to-tsv",
+        "remove-blank-lines"
+      ]
+    },
+    {
       "id": "checksum-crc32",
       "transformation": "Checksum (CRC32)",
       "engine": "hashing",
@@ -376,6 +447,28 @@
         "sha1-hash-generator",
         "sha256-hash-generator",
         "sha512-hash-generator"
+      ]
+    },
+    {
+      "id": "csv-column-selection",
+      "transformation": "CSV Column Selection",
+      "engine": "csv",
+      "members": [
+        "csv-column-picker"
+      ],
+      "existingMembers": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "size": 1,
+      "meanScore": 70.8,
+      "internalLinks": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-json-converter",
+        "csv-to-tsv",
+        "json-to-csv-converter"
       ]
     },
     {
@@ -419,21 +512,6 @@
       "meanScore": 67.2,
       "internalLinks": [
         "compound-interest-calculator"
-      ]
-    },
-    {
-      "id": "csv-diff",
-      "transformation": "CSV Diff",
-      "engine": "csv",
-      "members": [
-        "csv-diff"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 67.1,
-      "internalLinks": [
-        "csv-to-json-converter",
-        "text-compare"
       ]
     },
     {
@@ -492,35 +570,6 @@
       ]
     },
     {
-      "id": "csv-tsv-conversion",
-      "transformation": "CSV/TSV Conversion",
-      "engine": "csv",
-      "members": [
-        "csv-to-tsv"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 64,
-      "internalLinks": [
-        "csv-to-json-converter"
-      ]
-    },
-    {
-      "id": "csv-cleaning",
-      "transformation": "CSV Cleaning",
-      "engine": "csv",
-      "members": [
-        "csv-cleaner"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 62.9,
-      "internalLinks": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ]
-    },
-    {
       "id": "age-calculation",
       "transformation": "Age Calculation",
       "engine": "datetime",
@@ -543,21 +592,6 @@
       "size": 1,
       "meanScore": 62.4,
       "internalLinks": []
-    },
-    {
-      "id": "csv-column-selection",
-      "transformation": "CSV Column Selection",
-      "engine": "csv",
-      "members": [
-        "csv-column-picker"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 59.6,
-      "internalLinks": [
-        "csv-to-json-converter",
-        "json-to-csv-converter"
-      ]
     },
     {
       "id": "retirement-projection",

@@ -6,6 +6,8 @@ import {
   realValueAfterInflation,
   nominalValueAfterInflation,
   ruleOf72,
+  compoundAnnualGrowthRate,
+  doublingTime,
 } from './models';
 import { money, percent, years, roundMoney } from './format';
 
@@ -46,6 +48,27 @@ describe('finance models', () => {
   it('ruleOf72: doubling time and edge cases', () => {
     expect(ruleOf72(8)).toBe(9);
     expect(ruleOf72(0)).toBe(Infinity);
+  });
+
+  it('compoundAnnualGrowthRate: doubling in 10 years is ~7.18%', () => {
+    expect(compoundAnnualGrowthRate(1000, 2000, 10)).toBeCloseTo(0.07177, 5);
+    // one year degrades to the simple return
+    expect(compoundAnnualGrowthRate(100, 150, 1)).toBeCloseTo(0.5, 6);
+    // shrinking values give a negative rate
+    expect(compoundAnnualGrowthRate(1000, 500, 10)).toBeLessThan(0);
+  });
+
+  it('compoundAnnualGrowthRate: undefined outside its domain', () => {
+    expect(compoundAnnualGrowthRate(0, 2000, 10)).toBeNaN();
+    expect(compoundAnnualGrowthRate(1000, 0, 10)).toBeNaN();
+    expect(compoundAnnualGrowthRate(1000, 2000, 0)).toBeNaN();
+  });
+
+  it('doublingTime: exact ln(2) form and edge cases', () => {
+    expect(doublingTime(0.08)).toBeCloseTo(9.006, 3);
+    expect(doublingTime(1)).toBeCloseTo(1, 6);
+    expect(doublingTime(0)).toBe(Infinity);
+    expect(doublingTime(-0.05)).toBe(Infinity);
   });
 });
 

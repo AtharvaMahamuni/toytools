@@ -12,6 +12,8 @@ import { inflation } from './calculators/inflation';
 import { savingsGoal } from './calculators/savings-goal';
 import { emergencyFund } from './calculators/emergency-fund';
 import { sip } from './calculators/sip';
+import { roi } from './calculators/roi';
+import { cagr } from './calculators/cagr';
 
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
@@ -20,6 +22,8 @@ export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'savings-goal': savingsGoal,
   'emergency-fund': emergencyFund,
   'sip': sip,
+  'roi': roi,
+  'cagr': cagr,
 };
 
 /**

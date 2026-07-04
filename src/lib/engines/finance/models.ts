@@ -74,3 +74,18 @@ export function ruleOf72(ratePercent: number): number {
   if (ratePercent <= 0) return Infinity;
   return 72 / ratePercent;
 }
+
+/**
+ * Compound annual growth rate as a decimal (0.08 = 8%): (end / start)^(1/years) − 1.
+ * Only defined for positive start/end values and a positive period; otherwise NaN.
+ */
+export function compoundAnnualGrowthRate(start: number, end: number, years: number): number {
+  if (start <= 0 || end <= 0 || years <= 0) return NaN;
+  return Math.pow(end / start, 1 / years) - 1;
+}
+
+/** Exact doubling time in years at a constant annual growth rate (decimal): ln(2) / ln(1 + r). */
+export function doublingTime(annualRate: number): number {
+  if (annualRate <= 0) return Infinity;
+  return Math.log(2) / Math.log(1 + annualRate);
+}

@@ -1,4 +1,9 @@
 import type { FAQItem } from './types';
+import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
+import { items as csvToTsvFaqs } from '@tools/developer-utilities/csv-to-tsv/faq';
+import { items as csvDiffFaqs } from '@tools/developer-utilities/csv-diff/faq';
+import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
+import { items as roiCalculatorFaqs } from '@tools/finance/roi-calculator/faq';
 import { items as wordFrequencyCounterFaqs } from '@tools/text/word-frequency-counter/faq';
 import { items as removeEmojiFaqs } from '@tools/text/remove-emoji/faq';
 import { items as rot13EncoderDecoderFaqs } from '@tools/developer-utilities/rot13-encoder-decoder/faq';
@@ -74,6 +79,11 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'csv-cleaner': csvCleanerFaqs,
+  'csv-to-tsv': csvToTsvFaqs,
+  'csv-diff': csvDiffFaqs,
+  'cagr-calculator': cagrCalculatorFaqs,
+  'roi-calculator': roiCalculatorFaqs,
   'word-frequency-counter': wordFrequencyCounterFaqs,
   'remove-emoji': removeEmojiFaqs,
   'rot13-encoder-decoder': rot13EncoderDecoderFaqs,

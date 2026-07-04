@@ -33,6 +33,8 @@ export const FINANCE_TOOL_PATH: Record<string, string> = {
   'inflation-calculator': '/tool/finance/inflation-calculator/',
   'rule-of-72-calculator': '/tool/finance/rule-of-72-calculator/',
   'sip-calculator': '/tool/finance/sip-calculator/',
+  'roi-calculator': '/tool/finance/roi-calculator/',
+  'cagr-calculator': '/tool/finance/cagr-calculator/',
 };
 
 /** A decision that links to a sibling finance tool. */

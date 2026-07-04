@@ -1,0 +1,152 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To compare CSV files, paste the original into the first pane and the changed version
+      into the second. The diff matches rows by the first column (when it is a unique key on
+      both sides) and reports what was added, removed, and changed, down to the individual
+      cell: <code>email "old" → "new"</code>. Row order does not matter, neither file leaves
+      your browser, and it is the fastest way to find changed rows between two exports.
+    </p>
+    <a href={toolHref} class="cta-link">Try The CSV Diff →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both files are parsed as real CSV first, following RFC 4180, so quoted fields,
+      embedded commas, and multi-line cells are handled correctly. The comparison then works
+      on rows, not lines, which is what makes this a CSV comparison rather than a text one.
+      When the first column holds a unique value for every row on both
+      sides, it becomes the row key: rows are paired by key, and the paired rows are
+      compared column by column, with columns matched by header name. Rows whose key
+      appears on only one side are reported as added or removed; paired rows with differing
+      cells are reported as changed.
+    </p>
+    <p>
+      If the first column repeats or is empty somewhere, there is no reliable way to pair
+      old and new versions of a row, so the tool falls back to whole-row comparison and
+      says so in the report. In that mode an edited row shows up as one removed row plus
+      one added row.
+    </p>
+  </section>
+
+  <section id="reading-the-result">
+    <h2>Reading the Result <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The report opens with the counts: added, removed, changed, unchanged. Then come the
+      details: lines starting with <code>+</code> are rows only in the changed file, lines
+      with <code>-</code> only in the original, and lines with <code>~</code> are keyed
+      rows whose cells differ, listing each column as old value → new value. Column-level
+      changes are listed separately by header name, so a renamed column reads as one
+      removed and one added. Remember that identical row counts do not mean identical data:
+      a file where a single cell changed has exactly the same shape, and only the
+      changed-row report reveals it.
+    </p>
+  </section>
+
+  <section id="csv-diff-vs-alternatives">
+    <h2>CSV Diff vs Text Diff and Spreadsheets <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A text diff on CSVs flags reordered rows as changes, because it compares files
+      position by position. Sort one export differently and every line moves, so the diff
+      reports a wall of changes when nothing
+      in the data changed at all. Spreadsheet workarounds, like conditional formatting
+      across two sheets, break down on added and removed rows because everything below the
+      insertion shifts. A key-based diff sidesteps both problems, which is why database
+      tools compare tables this way. For prose or code, where line order is the content,
+      use the text compare tool instead.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A customer list, before and after.</strong> For example: yesterday's export
+      has customers 1, 2, and 3. Today's is missing 2, has a new 4, and customer 3 has a
+      new email address. The report reads: 1 added, 1 removed, 1 changed, with the email
+      shown as old → new. Load the built-in example to see exactly this case. The same
+      pattern works for auditing a price list or inventory file against last week's
+      version.
+    </p>
+    <p>
+      <strong>A re-sorted export.</strong> The same rows exported in a different order
+      compare as identical: no differences found. A text diff on the same two files would
+      flag nearly every line.
+    </p>
+    <p>
+      <strong>A schema change.</strong> If the new export gained a column, the report
+      names it under "Columns added" and still compares the columns both files share, so a
+      migration that added a field does not drown out the row-level changes.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Comparing on a non-unique first column">
+      <p>
+        If the first column is a name, a date, or anything that repeats, the diff cannot
+        pair rows and falls back to whole-row mode. Export with the primary key or ID as
+        the first column when you can; the pairing, and the per-column change detail,
+        depends on it.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Diffing dirty files">
+      <p>
+        Stray whitespace inside cells makes rows look changed when only the padding
+        differs. Run both files through the CSV cleaner first so the diff reports real
+        changes, not formatting noise.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Sensitive data stays local">
+      <p>CSV exports tend to contain the most sensitive data an organisation has. This comparison runs entirely in your browser: nothing is uploaded, logged, or shared, and the page works offline once loaded.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
