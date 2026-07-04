@@ -1,0 +1,171 @@
+---
+// Generic CSV widget — powers csv-diff / csv-to-tsv / csv-cleaner (and any future CSV
+// tool). It knows nothing about a specific tool: it reads a csvId and runs
+// `input(s) → ToyTools.runCsv(id, input, second) → { ok, output, error, summary }` live,
+// rendering the summary as the status line. Tools that declare `inputs: 2` in the engine
+// registry get a second input pane (csv-diff). Per-tool Widget.astro files are 3-line wrappers.
+//
+// If a new CSV tool ever requires editing this file, the architecture has failed.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
+import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
+import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import { csvInfo } from '@lib/engines/csv/info';
+import { getCsvTool } from '@lib/engines/csv/registry';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  csvId: string;
+  config: ToolConfig;
+}
+
+const { slug, csvId, config } = Astro.props;
+
+// Group members share one state envelope so input survives switching modes; the second
+// pane (diff) is tool-specific state and stays per-slug.
+const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
+const info = csvInfo(csvId);
+const twoInputs = getCsvTool(csvId)?.inputs === 2;
+
+const inputId = `${slug}-input`;
+const inputBId = `${slug}-input-b`;
+const outputId = `${slug}-output`;
+const statusId = `${slug}-status`;
+---
+
+<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  <Fragment slot="input">
+    <IoPanel
+      label={info.inputLabel ?? 'CSV input'}
+      labelFor={inputId}
+      data-csv={csvId}
+      data-slug={slug}
+      data-state-key={stateKey}
+      data-inputs={twoInputs ? '2' : '1'}
+      data-sample={info.sample ?? ''}
+      data-sample-second={info.sampleSecond ?? ''}
+    >
+      <textarea
+        id={inputId}
+        aria-label={info.inputLabel ?? 'CSV input'}
+        placeholder={info.placeholder ?? 'Paste CSV here'}
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"></textarea>
+    </IoPanel>
+    {twoInputs && (
+      <IoPanel class="csv-second-panel" label={info.secondLabel ?? 'Second CSV'} labelFor={inputBId}>
+        <textarea
+          id={inputBId}
+          aria-label={info.secondLabel ?? 'Second CSV'}
+          placeholder={info.secondPlaceholder ?? 'Paste the second CSV here'}
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"></textarea>
+      </IoPanel>
+    )}
+  </Fragment>
+
+  <IoPanel slot="output" label="Output" copyTargetId={outputId}>
+    <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
+    <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
+  </IoPanel>
+</ToolSplit>
+
+<ToolActions
+  clearTarget={inputId}
+  pasteTarget={inputId}
+  downloadTarget={outputId}
+  downloadFilename={`${slug}${info.downloadExt ?? '.csv'}`}
+>
+  <ExampleLoader hasSample={!!info.sample} />
+</ToolActions>
+
+<slot />
+
+<EducationalInsight insight={info.insight} />
+<TechnicalDetails technical={info.technical} />
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-csv][data-slug]');
+    if (!root) return;
+    var cid = root.getAttribute('data-csv');
+    var slug = root.getAttribute('data-slug');
+    var stateKey = root.getAttribute('data-state-key') || slug;
+    var twoInputs = root.getAttribute('data-inputs') === '2';
+    var input = document.getElementById(slug + '-input');
+    var inputB = document.getElementById(slug + '-input-b');
+    var output = document.getElementById(slug + '-output');
+    var status = document.getElementById(slug + '-status');
+    if (!input || !status || !output) return;
+
+    function setOutput(text, empty) {
+      output.textContent = text;
+      if (empty) output.setAttribute('data-empty', '');
+      else output.removeAttribute('data-empty');
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.runCsv)) return;
+      var a = input.value;
+      var b = twoInputs && inputB ? inputB.value : undefined;
+      if (!a.trim() && !(b && b.trim())) {
+        status.textContent = '';
+        status.setAttribute('data-ok', '');
+        setOutput('Output will appear here', true);
+        return;
+      }
+      var res = ToyTools.runCsv(cid, a, b);
+      status.setAttribute('data-ok', res.ok ? 'true' : 'false');
+      status.textContent = res.ok ? '✓ ' + (res.summary || 'Done') : '✗ ' + (res.error || 'Invalid');
+      setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      ToyTools.state.save(stateKey, { input: input.value });
+      if (twoInputs && inputB) ToyTools.state.save(slug + ':b', { input: inputB.value });
+    }
+
+    // Restore prior input — group key first, then the tool's per-slug key (migration).
+    try {
+      var saved = window.ToyTools && ToyTools.state && (ToyTools.state.load(stateKey) || ToyTools.state.load(slug));
+      if (saved && typeof saved.input === 'string') input.value = saved.input;
+      if (twoInputs && inputB) {
+        var savedB = window.ToyTools && ToyTools.state && ToyTools.state.load(slug + ':b');
+        if (savedB && typeof savedB.input === 'string') inputB.value = savedB.input;
+      }
+    } catch (_) {}
+
+    input.addEventListener('input', function () { run(); persist(); });
+    if (inputB) inputB.addEventListener('input', function () { run(); persist(); });
+
+    var exBtn = document.querySelector('[data-conv-example]');
+    if (exBtn) exBtn.addEventListener('click', function () {
+      var sample = root.getAttribute('data-sample') || '';
+      if (!sample) return;
+      input.value = sample;
+      if (twoInputs && inputB) inputB.value = root.getAttribute('data-sample-second') || '';
+      run(); persist();
+      input.focus();
+    });
+
+    // runCsv attaches via a deferred module; wait so restored input renders on load.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>
+
+<style>
+  :global(.csv-second-panel) {
+    margin-top: var(--space-6);
+  }
+</style>

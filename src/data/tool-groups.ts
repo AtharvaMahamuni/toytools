@@ -52,6 +52,15 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    id: 'csv-tools',
+    name: 'CSV Tools',
+    members: [
+      { slug: 'csv-diff',    label: 'Diff'      },
+      { slug: 'csv-to-tsv',  label: 'CSV → TSV' },
+      { slug: 'csv-cleaner', label: 'Clean'     },
+    ],
+  },
+  {
     id: 'text-counters',
     name: 'Text Counter',
     members: [

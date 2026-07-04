@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:47:08.801Z",
+  "generatedAt": "2026-07-04T13:22:26.983Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -62,26 +62,26 @@
       "relatedTools": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ]
     },
     {
@@ -160,15 +160,22 @@
       "existing": false,
       "relatedTools": [
         "csv-to-json-converter",
-        "remove-blank-lines"
+        "remove-blank-lines",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedGuides": [
         "csv-to-json-converter",
-        "remove-blank-lines"
+        "remove-blank-lines",
+        "csv-diff"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
-        "remove-blank-lines"
+        "remove-blank-lines",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ]
     },
     {
@@ -179,15 +186,22 @@
       "existing": false,
       "relatedTools": [
         "csv-to-json-converter",
-        "json-to-csv-converter"
+        "json-to-csv-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedGuides": [
         "csv-to-json-converter",
-        "json-to-csv-converter"
+        "json-to-csv-converter",
+        "csv-diff"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
-        "json-to-csv-converter"
+        "json-to-csv-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ]
     },
     {
@@ -198,15 +212,22 @@
       "existing": false,
       "relatedTools": [
         "text-compare",
-        "csv-to-json-converter"
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedGuides": [
         "text-compare",
-        "csv-to-json-converter"
+        "csv-to-json-converter",
+        "csv-diff"
       ],
       "relatedFaqs": [
         "text-compare",
-        "csv-to-json-converter"
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ]
     },
     {
@@ -226,13 +247,20 @@
       "engine": "csv",
       "existing": false,
       "relatedTools": [
-        "csv-to-json-converter"
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedGuides": [
-        "csv-to-json-converter"
+        "csv-to-json-converter",
+        "csv-diff"
       ],
       "relatedFaqs": [
-        "csv-to-json-converter"
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ]
     },
     {
@@ -702,26 +730,26 @@
       "relatedTools": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ]
     },
     {
@@ -830,26 +858,26 @@
       "relatedTools": [
         "compound-interest-calculator",
         "savings-goal-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "savings-goal-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "savings-goal-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ]
     },
     {
@@ -1029,11 +1057,6 @@
     {
       "from": "cagr-calculator",
       "to": "rule-of-72-calculator",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "cagr-calculator",
-      "to": "savings-goal-calculator",
       "kind": "links-to-tool"
     },
     {
@@ -1392,11 +1415,6 @@
       "kind": "links-to-tool"
     },
     {
-      "from": "roi-calculator",
-      "to": "savings-goal-calculator",
-      "kind": "links-to-tool"
-    },
-    {
       "from": "rot13-encoder-decoder",
       "to": "base64-encoder-decoder",
       "kind": "links-to-tool"
@@ -1445,11 +1463,6 @@
       "from": "sip-calculator",
       "to": "roi-calculator",
       "kind": "shares-engine"
-    },
-    {
-      "from": "sip-calculator",
-      "to": "rule-of-72-calculator",
-      "kind": "links-to-tool"
     },
     {
       "from": "sip-calculator",

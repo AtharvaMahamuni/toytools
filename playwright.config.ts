@@ -28,6 +28,11 @@ export default defineConfig({
     baseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    // Environments with a pre-installed Chromium outside Playwright's registry
+    // (e.g. remote CI containers) point PW_CHROMIUM_PATH at it instead of downloading.
+    ...(process.env.PW_CHROMIUM_PATH
+      ? { launchOptions: { executablePath: process.env.PW_CHROMIUM_PATH } }
+      : {}),
   },
   webServer: {
     // PUBLIC_E2E=true bakes the analytics opt-out into the build so Google

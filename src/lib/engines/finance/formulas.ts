@@ -68,6 +68,33 @@ export const FINANCE_FORMULAS: Record<string, FinanceFormula> = {
       'Inflation erodes what money can buy. Dividing by the cumulative inflation factor gives the future amount expressed in today’s purchasing power.',
     assumptions: ['Inflation rate is constant'],
   },
+  'roi': {
+    id: 'roi',
+    name: 'Return on investment',
+    expression: 'ROI% = (V − C) / C × 100',
+    variables: [
+      { symbol: 'V', meaning: 'Final value of the investment' },
+      { symbol: 'C', meaning: 'Cost (amount invested)' },
+    ],
+    explanation:
+      'The net gain or loss expressed as a share of what the investment cost. It answers "how much did I make on what I put in" but says nothing about how long the money was tied up.',
+    assumptions: ['One buy-in and one exit, no interim cash flows', 'Figures are before taxes and fees'],
+    limitations: ['Ignores time; use the annualized form ((V/C)^(1/t) − 1) to compare different holding periods'],
+  },
+  'cagr': {
+    id: 'cagr',
+    name: 'Compound annual growth rate',
+    expression: 'CAGR = (End / Start)^(1/t) − 1',
+    variables: [
+      { symbol: 'Start', meaning: 'Value at the beginning of the period' },
+      { symbol: 'End', meaning: 'Value at the end of the period' },
+      { symbol: 't', meaning: 'Number of years' },
+    ],
+    explanation:
+      'The constant yearly rate that would grow the starting value into the ending value in exactly t years. It smooths out year-to-year swings into one comparable number.',
+    assumptions: ['Growth compounds annually at a constant rate', 'No money is added or withdrawn during the period'],
+    limitations: ['Hides volatility: very different paths can share the same CAGR'],
+  },
   'rule-of-72': {
     id: 'rule-of-72',
     name: 'Rule of 72 (doubling time)',

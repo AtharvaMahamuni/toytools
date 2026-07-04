@@ -1,0 +1,162 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Return on investment is the net gain divided by the cost, as a percentage. Take what the
+      investment is worth now (or what you sold it for), subtract what you paid, and divide by
+      what you paid. Turning $10,000 into $15,000 is a $5,000 gain and a 50% ROI. Enter the
+      holding period as well and the calculator adds the annualized return, about 14.5% a year
+      if that gain took three years, which is the number to compare against yearly benchmarks.
+    </p>
+    <a href={toolHref} class="cta-link">Try The ROI Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To calculate ROI from cost and sale price, enter what you paid as the amount invested
+      and the sale proceeds as the final value. The calculator reports the investment return
+      three ways: the net gain in money, the ROI percentage, and, when you supply a holding
+      period, the annualized return. Losses are first-class results. A final value below the
+      cost shows a negative ROI and the loss in money terms, and a final value of zero is an
+      ROI of minus 100%.
+    </p>
+    <p>
+      The annualized figure is what most ROI tools leave out, and it changes conclusions. ROI
+      by itself ignores time, so a 50% return sounds the same whether it took two years or
+      twenty. Annualizing spreads the growth evenly across the years with compounding taken
+      into account; therefore investments of very different lengths, such as a quick stock
+      trade, a five-year property hold, and a decade in an index fund, land on the same
+      comparable scale.
+    </p>
+  </section>
+
+  <section id="reading-the-result">
+    <h2>Reading the Result <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The headline number is the ROI percentage over the whole holding period. Net gain restates
+      it in money, which keeps large percentages honest: 50% on $1,000 is $500, not a life
+      event. The annualized return is the figure to judge investment performance with. Broad stock index
+      funds have averaged roughly 7 to 10% a year over long stretches, so an annualized return
+      above that range beat the passive alternative and one below it trailed, whatever the raw
+      ROI says.
+    </p>
+  </section>
+
+  <section id="roi-vs-alternatives">
+    <h2>ROI Calculator vs Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      ROI and CAGR are two views of the same growth. ROI starts from money in and money out and
+      reports the total percentage change; CAGR expresses that change as a steady yearly rate.
+      The annualized return this calculator shows is exactly the CAGR of your investment;
+      therefore, use the CAGR calculator when you want to explore the rate itself, and this
+      tool when you are starting from cost and proceeds. Neither measure accounts for money
+      added or removed along the way. For example, a portfolio with monthly deposits needs the
+      compound interest calculator instead, because ROI would count the deposits themselves as
+      gains. Spreadsheet formulas can compute all of this too; however, they hide the formula,
+      while a dedicated calculator shows the assumptions next to the result.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A three-year stock position.</strong> For example: input a $10,000 cost and a
+      $15,000 final value, and the output is a 50% ROI. Over three years that annualizes to
+      about 14.5% a year, comfortably ahead of a typical index return.
+    </p>
+    <p>
+      <strong>A five-year property sale.</strong> Buying at $200,000 and selling at $260,000 is
+      a 30% ROI, but only about 5.4% a year over five years, before costs. Once you subtract
+      transaction fees and taxes, the annualized figure can fall below what a savings account
+      paid.
+    </p>
+    <p>
+      <strong>A losing trade.</strong> A $10,000 position sold at $8,500 is a $1,500 loss and an
+      ROI of minus 15%. Entering the real numbers matters more here than anywhere: rounding
+      losses away is how portfolios look better than they are.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>ROI% = (V − C) / C × 100</strong></p>
+    <p>
+      where C is the amount invested and V is the final value. The annualized form for a
+      holding period of t years is <strong>((V / C)^(1/t) − 1) × 100</strong>, the constant
+      yearly rate that produces the same overall result with compounding.
+    </p>
+    <ReferenceBlock type="key-idea" heading="ROI without time is half a number">
+      <p>A big ROI is not impressive without knowing the holding period. 50% over three years and 50% over fifteen years are radically different investments, and only the annualized rate makes that visible.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Comparing ROIs across different periods">
+      <p>
+        A raw ROI hides how long the money was tied up. Always enter the holding period and
+        compare the annualized returns instead; that is the only fair scale across investments
+        of different lengths.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Leaving out fees, taxes, and income">
+      <p>
+        An ROI computed before fees and taxes overstates the real result. Use the all-in cost
+        as the amount invested and the net proceeds you keep as the final value. If the
+        investment paid dividends or rent, add what you received to the final value, otherwise
+        the calculation understates the true return.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="The result is nominal">
+      <p>ROI is measured in the money of the day. Over long periods inflation absorbs part of the gain, so check a multi-year result against the inflation calculator before celebrating it.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -42,8 +42,22 @@ export const FINANCE_CONCEPTS: Concept[] = [
     id: 'cagr',
     term: 'CAGR',
     definition: 'Compound annual growth rate: the constant yearly rate that takes a value from start to end over a period.',
-    relatedConcepts: ['compound-interest', 'rule-of-72'],
+    relatedConcepts: ['compound-interest', 'rule-of-72', 'roi', 'annualized-return'],
     aliases: ['compound annual growth rate'],
+  },
+  {
+    id: 'roi',
+    term: 'Return on investment',
+    definition: 'The percentage gain or loss on an investment relative to what it cost, ignoring how long the money was invested.',
+    relatedConcepts: ['cagr', 'annualized-return', 'compound-interest'],
+    aliases: ['ROI', 'investment return'],
+  },
+  {
+    id: 'annualized-return',
+    term: 'Annualized return',
+    definition: 'A return restated as the constant yearly rate that would produce the same overall result over the holding period.',
+    relatedConcepts: ['roi', 'cagr'],
+    aliases: ['annual return', 'per-year return'],
   },
   {
     id: 'rule-of-72',

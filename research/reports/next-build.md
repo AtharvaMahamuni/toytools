@@ -1,37 +1,37 @@
 # Recommended Next Build
 
-Generated: 2026-07-02T10:47:08.801Z
+Generated: 2026-07-04T13:22:26.983Z
 
-## ROI Calculator  (`roi-calculator`)
+## CSV Column Picker  (`csv-column-picker`)
 
-**Opportunity score:** 79.1 / 100
+**Opportunity score:** 70.8 / 100
 
 ### Why build it
-- High search demand
-- Reuses the existing finance engine
+- Weak / incomplete incumbents
+- Reuses the existing csv engine
 - Low implementation cost
-- Creates 6 internal links
+- Creates 5 internal links
 
 ### Why incumbents are weak
-- dated UI
-- no annualized figure
-- ad supported
+- awk is dev-only
+- spreadsheets choke on big files
 
 ### Why ToyTools can win
-- Ships on the proven finance engine - consistent UX, fast to build.
+- Ships on the proven csv engine - consistent UX, fast to build.
 - Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).
+- Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.
 
 ### Engine
-- Reuses existing engine: `finance`
-- Future tools this unlocks: sip-calculator, cagr-calculator
+- Reuses existing engine: `csv`
+- Future tools this unlocks: csv-diff, csv-to-tsv, csv-cleaner
 
 ### Estimates
-- Implementation effort: **low**
+- Implementation effort: **medium**
 - Long-term SEO value: **high**
 - Maintenance cost: **low**
 
 ### Suggested supporting content
-- Guides: What is Return on Investment?; How to return on investment online; ROI Calculator vs the alternatives
-- FAQs: How do I return on investment?; Is ROI Calculator free and private?; Does ROI Calculator avoid "dated UI"?
-- Internal links / related tools: compound-interest-calculator, rule-of-72-calculator, emergency-fund-calculator, inflation-calculator, savings-goal-calculator, sip-calculator
+- Guides: What is CSV Column Selection?; How to csv column selection online; CSV Column Picker vs the alternatives
+- FAQs: How do I csv column selection?; Is CSV Column Picker free and private?; Does CSV Column Picker avoid "awk is dev-only"?
+- Internal links / related tools: csv-to-json-converter, json-to-csv-converter, csv-cleaner, csv-diff, csv-to-tsv
 - Schema: SoftwareApplication, FAQPage

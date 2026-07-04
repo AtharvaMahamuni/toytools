@@ -1,0 +1,6 @@
+---
+import CsvWidget from '@tools/_shared/CsvWidget.astro';
+import { config } from './config';
+---
+
+<CsvWidget slug={config.slug} csvId={config.processorId!} config={config} />

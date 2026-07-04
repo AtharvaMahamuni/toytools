@@ -74,6 +74,21 @@ function coerce(s: string): unknown {
 }
 
 /**
+ * Tokenize CSV text into its raw cell matrix, preserving ragged rows and extra cells
+ * exactly as written (unlike parseCsv, which keys cells by header and drops overflow).
+ * Fully-empty rows are dropped unless `keepEmptyRows` is set. Never throws.
+ */
+export function csvToMatrix(
+  text: string,
+  opts: { delimiter?: string; keepEmptyRows?: boolean } = {},
+): string[][] {
+  if (!text.trim()) return [];
+  const matrix = tokenize(text, opts.delimiter || ',');
+  if (opts.keepEmptyRows) return matrix;
+  return matrix.filter(r => !r.every(c => c === ''));
+}
+
+/**
  * Parse CSV text into rows of objects. Never throws — malformed input returns a
  * result with ok:false (or empty rows for blank input).
  */

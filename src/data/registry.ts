@@ -1,4 +1,9 @@
 import type { ToolConfig } from './types';
+import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
+import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config';
+import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
+import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
+import { config as roiCalculator } from '@tools/finance/roi-calculator/config';
 import { config as wordFrequencyCounter } from '@tools/text/word-frequency-counter/config';
 import { config as removeEmoji } from '@tools/text/remove-emoji/config';
 import { config as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/config';
@@ -73,6 +78,11 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  csvCleaner,
+  csvToTsv,
+  csvDiff,
+  cagrCalculator,
+  roiCalculator,
   wordFrequencyCounter,
   removeEmoji,
   rot13EncoderDecoder,

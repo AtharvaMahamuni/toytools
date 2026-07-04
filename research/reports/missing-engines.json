@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:47:08.801Z",
+  "generatedAt": "2026-07-04T13:22:26.983Z",
   "engines": [
     {
       "engine": "loan",
@@ -18,28 +18,6 @@
       "rationale": [
         "2 opportunities share the missing \"loan\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
-      ]
-    },
-    {
-      "engine": "csv",
-      "exists": false,
-      "confidence": 0.95,
-      "transformations": [
-        "CSV Cleaning",
-        "CSV Column Selection",
-        "CSV Diff",
-        "CSV/TSV Conversion"
-      ],
-      "unlocksTools": [
-        "csv-diff",
-        "csv-to-tsv",
-        "csv-cleaner",
-        "csv-column-picker"
-      ],
-      "topScore": 67.1,
-      "rationale": [
-        "4 opportunities share the missing \"csv\" engine.",
-        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
       ]
     },
     {

@@ -103,6 +103,59 @@ describe('sip validation and edge branches', () => {
   });
 });
 
+describe('roi validation and edge branches', () => {
+  it('rejects a zero cost', () => {
+    const r = runFinance('roi', { cost: 0, final: 15000, years: 3 }, USD);
+    expect(r.ok).toBe(false);
+    expect(r.uiState).toBe('validation-error');
+  });
+  it('a total loss is -100% with no annualized card', () => {
+    const r = runFinance('roi', { cost: 10000, final: 0, years: 3 }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.hero!.raw).toBe(-100);
+    expect(r.metrics.some((m) => m.id === 'annualized')).toBe(false);
+  });
+  it('blank holding period skips annualized and nudges to add one', () => {
+    const r = runFinance('roi', { cost: 10000, final: 15000, years: '' }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.metrics.some((m) => m.id === 'annualized')).toBe(false);
+    expect(r.insights!.some((i) => i.text.includes('holding period'))).toBe(true);
+  });
+  it('a loss emits the caution insight and a Net loss label', () => {
+    const r = runFinance('roi', { cost: 10000, final: 8500, years: 1 }, USD);
+    expect(r.insights!.some((i) => i.tone === 'caution')).toBe(true);
+    expect(r.metrics.find((m) => m.id === 'gain')!.label).toBe('Net loss');
+  });
+});
+
+describe('cagr validation and edge branches', () => {
+  it('rejects zero start, end, and period', () => {
+    expect(runFinance('cagr', { start: 0, end: 25000, years: 10 }, USD).ok).toBe(false);
+    expect(runFinance('cagr', { start: 10000, end: 0, years: 10 }, USD).ok).toBe(false);
+    expect(runFinance('cagr', { start: 10000, end: 25000, years: 0 }, USD).ok).toBe(false);
+  });
+  it('a shrinking value yields a negative rate, no doubling card, and a caution', () => {
+    const r = runFinance('cagr', { start: 10000, end: 8000, years: 5 }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.hero!.raw).toBeLessThan(0);
+    expect(r.metrics.some((m) => m.id === 'doubling')).toBe(false);
+    expect(r.insights!.some((i) => i.tone === 'caution')).toBe(true);
+  });
+  it('a sub-year period annualizes but warns about extrapolation', () => {
+    const r = runFinance('cagr', { start: 10000, end: 11000, years: 0.5 }, USD);
+    expect(r.ok).toBe(true);
+    expect(r.insights!.some((i) => i.text.includes('shorter than a year'))).toBe(true);
+    expect(r.timeline).toBeUndefined();
+  });
+  it('emits the smoothed timeline and doubling metric for growth', () => {
+    const r = runFinance('cagr', { start: 10000, end: 25000, years: 10 }, USD);
+    expect(r.timeline!.length).toBeGreaterThan(2);
+    expect(r.timeline![0].value).toBe(10000);
+    expect(r.timeline!.at(-1)!.value).toBeCloseTo(25000, 0);
+    expect(r.metrics.find((m) => m.id === 'doubling')!.raw).toBeCloseTo(7.56, 1);
+  });
+});
+
 describe('storytelling output', () => {
   it('compound interest emits a contributions metric only when contributing', () => {
     const withContrib = runFinance('compound-interest', { principal: 1000, rate: 8, frequency: '12', years: 30, contribution: 200 }, USD);

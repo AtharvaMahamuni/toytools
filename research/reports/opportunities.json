@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T10:47:08.801Z",
+  "generatedAt": "2026-07-04T13:22:26.983Z",
   "opportunities": [
     {
       "id": "remove-line-breaks",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -92,7 +92,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -110,26 +110,26 @@
       "relatedTools": [
         "compound-interest-calculator",
         "savings-goal-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "savings-goal-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "savings-goal-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "rule-of-72-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -166,7 +166,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -239,7 +239,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -312,7 +312,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -383,7 +383,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -400,26 +400,26 @@
       "relatedTools": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -433,8 +433,8 @@
       "localizationPotential": 0.85,
       "confidence": 0.8,
       "finalScore": 79.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -456,7 +456,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -511,6 +511,74 @@
       "engineExists": true
     },
     {
+      "id": "csv-diff",
+      "title": "CSV Diff",
+      "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
+      "userIntent": "comparison",
+      "workflow": "CSV → CSV Diff → CSV",
+      "transformation": "CSV Diff",
+      "proposedTool": "csv-diff",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv diff online",
+        "csv diff",
+        "compare csv files",
+        "csv compare online",
+        "diff two csv"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "existingSolutions": [
+        "paid desktop apps",
+        "git diff (devs only)"
+      ],
+      "solutionWeaknesses": [
+        "uploads sensitive data to a server",
+        "paywalled",
+        "not row-aware"
+      ],
+      "relatedProblems": [
+        "json diff",
+        "text compare"
+      ],
+      "relatedTools": [
+        "text-compare",
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "relatedGuides": [
+        "text-compare",
+        "csv-to-json-converter",
+        "csv-diff"
+      ],
+      "relatedFaqs": [
+        "text-compare",
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.84,
+      "competitionScore": 0.78,
+      "searchDemand": 0.82,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.93,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 78.3,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "cagr-calculator",
       "title": "CAGR Calculator",
       "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
@@ -527,7 +595,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -544,26 +612,26 @@
       "relatedTools": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedGuides": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "relatedFaqs": [
         "compound-interest-calculator",
         "rule-of-72-calculator",
+        "cagr-calculator",
         "emergency-fund-calculator",
         "inflation-calculator",
-        "savings-goal-calculator",
-        "sip-calculator"
+        "roi-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -577,8 +645,8 @@
       "localizationPotential": 0.8,
       "confidence": 0.8,
       "finalScore": 77.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -600,7 +668,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -672,7 +740,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -743,7 +811,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -797,6 +865,134 @@
       "engineExists": true
     },
     {
+      "id": "csv-to-tsv",
+      "title": "CSV to TSV",
+      "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
+      "userIntent": "transactional",
+      "workflow": "CSV → CSV/TSV Conversion → CSV",
+      "transformation": "CSV/TSV Conversion",
+      "proposedTool": "csv-to-tsv",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv to tsv converter",
+        "csv to tsv",
+        "convert csv to tab separated",
+        "csv tsv online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "existingSolutions": [
+        "spreadsheet save-as"
+      ],
+      "solutionWeaknesses": [
+        "requires a spreadsheet app",
+        "mangles quoting"
+      ],
+      "relatedProblems": [
+        "csv to json",
+        "delimiter change"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "csv-diff"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.82,
+      "searchDemand": 0.58,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.71,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.9,
+      "confidence": 0.64,
+      "finalScore": 75.2,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "csv-cleaner",
+      "title": "CSV Cleaner",
+      "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
+      "userIntent": "troubleshooting",
+      "workflow": "CSV → CSV Cleaning → CSV",
+      "transformation": "CSV Cleaning",
+      "proposedTool": "csv-cleaner",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv cleaner remove empty rows",
+        "csv cleaner",
+        "clean csv online",
+        "remove empty rows csv",
+        "fix messy csv"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "existingSolutions": [
+        "spreadsheet manual cleanup"
+      ],
+      "solutionWeaknesses": [
+        "manual and error-prone",
+        "no repeatable rule set"
+      ],
+      "relatedProblems": [
+        "csv diff",
+        "remove blank lines"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "remove-blank-lines",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "remove-blank-lines",
+        "csv-diff"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "remove-blank-lines",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.82,
+      "competitionScore": 0.76,
+      "searchDemand": 0.7,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.86,
+      "confidence": 0.8,
+      "finalScore": 74.1,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "crc32-hash-generator",
       "title": "CRC32 Hash Generator",
       "problem": "I need a CRC32 checksum of a string to verify a transfer.",
@@ -814,7 +1010,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -864,6 +1060,72 @@
       "engineExists": true
     },
     {
+      "id": "csv-column-picker",
+      "title": "CSV Column Picker",
+      "problem": "I want to pick out specific columns from a CSV and drop the rest.",
+      "userIntent": "transactional",
+      "workflow": "CSV → CSV Column Selection → CSV",
+      "transformation": "CSV Column Selection",
+      "proposedTool": "csv-column-picker",
+      "proposedEngine": "csv",
+      "searchQueries": [
+        "csv column extractor",
+        "csv column picker",
+        "extract columns from csv",
+        "select csv columns online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "existingSolutions": [
+        "spreadsheet copy/paste",
+        "awk for devs"
+      ],
+      "solutionWeaknesses": [
+        "awk is dev-only",
+        "spreadsheets choke on big files"
+      ],
+      "relatedProblems": [
+        "csv cleaning",
+        "csv to json"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "relatedGuides": [
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "csv-diff"
+      ],
+      "relatedFaqs": [
+        "csv-to-json-converter",
+        "json-to-csv-converter",
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.78,
+      "searchDemand": 0.6,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.72,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 70.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "word-frequency-counter",
       "title": "Word Frequency Counter",
       "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
@@ -881,7 +1143,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -951,7 +1213,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -993,67 +1255,6 @@
       "engineExists": false
     },
     {
-      "id": "csv-diff",
-      "title": "CSV Diff",
-      "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
-      "userIntent": "comparison",
-      "workflow": "CSV → CSV Diff → CSV",
-      "transformation": "CSV Diff",
-      "proposedTool": "csv-diff",
-      "proposedEngine": "csv",
-      "searchQueries": [
-        "csv diff online",
-        "csv diff",
-        "compare csv files",
-        "csv compare online",
-        "diff two csv"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
-      "existingSolutions": [
-        "paid desktop apps",
-        "git diff (devs only)"
-      ],
-      "solutionWeaknesses": [
-        "uploads sensitive data to a server",
-        "paywalled",
-        "not row-aware"
-      ],
-      "relatedProblems": [
-        "json diff",
-        "text compare"
-      ],
-      "relatedTools": [
-        "text-compare",
-        "csv-to-json-converter"
-      ],
-      "relatedGuides": [
-        "text-compare",
-        "csv-to-json-converter"
-      ],
-      "relatedFaqs": [
-        "text-compare",
-        "csv-to-json-converter"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.84,
-      "competitionScore": 0.78,
-      "searchDemand": 0.82,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.93,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.88,
-      "confidence": 0.8,
-      "finalScore": 67.1,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -1070,7 +1271,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -1129,7 +1330,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -1187,7 +1388,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -1237,7 +1438,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -1278,120 +1479,6 @@
       "engineExists": false
     },
     {
-      "id": "csv-to-tsv",
-      "title": "CSV to TSV",
-      "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
-      "userIntent": "transactional",
-      "workflow": "CSV → CSV/TSV Conversion → CSV",
-      "transformation": "CSV/TSV Conversion",
-      "proposedTool": "csv-to-tsv",
-      "proposedEngine": "csv",
-      "searchQueries": [
-        "csv to tsv converter",
-        "csv to tsv",
-        "convert csv to tab separated",
-        "csv tsv online"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
-      "existingSolutions": [
-        "spreadsheet save-as"
-      ],
-      "solutionWeaknesses": [
-        "requires a spreadsheet app",
-        "mangles quoting"
-      ],
-      "relatedProblems": [
-        "csv to json",
-        "delimiter change"
-      ],
-      "relatedTools": [
-        "csv-to-json-converter"
-      ],
-      "relatedGuides": [
-        "csv-to-json-converter"
-      ],
-      "relatedFaqs": [
-        "csv-to-json-converter"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.82,
-      "searchDemand": 0.58,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.71,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.52,
-      "localizationPotential": 0.9,
-      "confidence": 0.64,
-      "finalScore": 64,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "csv-cleaner",
-      "title": "CSV Cleaner",
-      "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
-      "userIntent": "troubleshooting",
-      "workflow": "CSV → CSV Cleaning → CSV",
-      "transformation": "CSV Cleaning",
-      "proposedTool": "csv-cleaner",
-      "proposedEngine": "csv",
-      "searchQueries": [
-        "csv cleaner remove empty rows",
-        "csv cleaner",
-        "clean csv online",
-        "remove empty rows csv",
-        "fix messy csv"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
-      "existingSolutions": [
-        "spreadsheet manual cleanup"
-      ],
-      "solutionWeaknesses": [
-        "manual and error-prone",
-        "no repeatable rule set"
-      ],
-      "relatedProblems": [
-        "csv diff",
-        "remove blank lines"
-      ],
-      "relatedTools": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ],
-      "relatedGuides": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ],
-      "relatedFaqs": [
-        "csv-to-json-converter",
-        "remove-blank-lines"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.82,
-      "competitionScore": 0.76,
-      "searchDemand": 0.7,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.88,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.34,
-      "localizationPotential": 0.86,
-      "confidence": 0.8,
-      "finalScore": 62.9,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "age-calculator",
       "title": "Age Calculator",
       "problem": "I want to calculate an exact age in years, months and days from a birth date.",
@@ -1409,7 +1496,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1457,7 +1544,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -1490,65 +1577,6 @@
       "engineExists": false
     },
     {
-      "id": "csv-column-picker",
-      "title": "CSV Column Picker",
-      "problem": "I want to pick out specific columns from a CSV and drop the rest.",
-      "userIntent": "transactional",
-      "workflow": "CSV → CSV Column Selection → CSV",
-      "transformation": "CSV Column Selection",
-      "proposedTool": "csv-column-picker",
-      "proposedEngine": "csv",
-      "searchQueries": [
-        "csv column extractor",
-        "csv column picker",
-        "extract columns from csv",
-        "select csv columns online"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
-      "existingSolutions": [
-        "spreadsheet copy/paste",
-        "awk for devs"
-      ],
-      "solutionWeaknesses": [
-        "awk is dev-only",
-        "spreadsheets choke on big files"
-      ],
-      "relatedProblems": [
-        "csv cleaning",
-        "csv to json"
-      ],
-      "relatedTools": [
-        "csv-to-json-converter",
-        "json-to-csv-converter"
-      ],
-      "relatedGuides": [
-        "csv-to-json-converter",
-        "json-to-csv-converter"
-      ],
-      "relatedFaqs": [
-        "csv-to-json-converter",
-        "json-to-csv-converter"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.78,
-      "searchDemand": 0.6,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.72,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.52,
-      "localizationPotential": 0.88,
-      "confidence": 0.8,
-      "finalScore": 59.6,
-      "status": "discovered",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "retirement-calculator",
       "title": "Retirement Calculator",
       "problem": "I want to know if my savings and contributions will fund my retirement.",
@@ -1565,7 +1593,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -1628,7 +1656,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -1678,7 +1706,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-02T10:47:08.801Z",
+      "discoveredAt": "2026-07-04T13:22:26.983Z",
       "existingSolutions": [
         "crontab.guru"
       ],

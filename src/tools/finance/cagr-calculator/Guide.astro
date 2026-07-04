@@ -1,0 +1,160 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CAGR, the compound annual growth rate, is the annualized growth rate of a value: the
+      steady yearly rate that takes it from start to end over a period. Divide the ending value
+      by the starting value, raise the result to the power of one over the years, and subtract
+      one. For example, growing $10,000 into $25,000 over ten years is 150% total growth but a
+      CAGR of about 9.6% a year, because each year compounds on the last. The calculator runs
+      this live as you type.
+    </p>
+    <a href={toolHref} class="cta-link">Try The CAGR Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You enter three numbers: the starting value, the ending value, and the years between
+      them. This is how to annualize multi-year growth of any kind, such as a fund value, a
+      company's revenue, or a house price. The calculator returns the CAGR, the total growth
+      percentage, the growth multiple,
+      and the exact doubling time at that rate. It also draws the smoothed path the rate
+      implies, the value the investment would have had each year if it really had grown that
+      steadily, which is a useful reminder that CAGR describes the destination, not the ride.
+    </p>
+    <p>
+      A shrinking value works the same way and produces a negative rate: the steady yearly
+      decline that matches the overall drop. Periods shorter than a year are annualized too,
+      but treat those with care, since extrapolating a few months into a full year exaggerates
+      whatever happened in the window.
+    </p>
+  </section>
+
+  <section id="reading-the-result">
+    <h2>Reading the Result <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The headline rate is the number to compare against benchmarks: an index fund average, an
+      interest rate, or another investment's CAGR over a different period. Total growth and the
+      growth multiple size the overall move, and the doubling time turns the rate into
+      intuition, since "doubles every 7.6 years" lands harder than "9.6% a year". When the
+      period is long, small rate differences change outcomes dramatically; a decade at 7%
+      doubles the money, while a decade at 10% multiplies it by 2.6. The result is also a quick
+      way of sanity-checking a projected growth rate against history: if a plan assumes 15% a
+      year and the asset's past decade annualizes to 8%, the plan needs a better argument.
+    </p>
+  </section>
+
+  <section id="cagr-vs-alternatives">
+    <h2>CAGR vs Simple Averages and ROI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tempting shortcut, total growth divided by years, always overstates the rate: 150%
+      over ten years is 9.6% a year compounded, not 15%. Averaging each year's return also
+      misleads, because a 50% loss followed by a 50% gain averages to zero while the money is
+      down 25%. CAGR avoids both traps by working only from the endpoints. Its sibling measure
+      ROI reports the total percentage gain instead of a yearly rate; the ROI calculator starts
+      from cost and proceeds, and the annualized return it shows is exactly the CAGR of the
+      investment.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>An index fund decade.</strong> $10,000 to $25,000 in ten years is a CAGR of about
+      9.6%, right in the range broad stock markets have delivered over long stretches. At that
+      rate the money doubles roughly every 7.6 years.
+    </p>
+    <p>
+      <strong>Fast-growing revenue.</strong> Revenue rising from $50,000 to $400,000 in four
+      years is an 8x multiple and a CAGR of about 68% a year, the kind of figure investors ask
+      startups to defend.
+    </p>
+    <p>
+      <strong>A slow saver.</strong> $5,000 growing to $6,000 over five years is 20% in total
+      but only about 3.7% a year, barely ahead of typical inflation. The yearly view exposes
+      what the total hides.
+    </p>
+  </section>
+
+  <section id="formula">
+    <h2>The Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>CAGR = (End / Start)^(1/t) − 1</strong></p>
+    <p>
+      where t is the number of years. The exact doubling time at that rate is ln(2) / ln(1 +
+      CAGR); the Rule of 72 approximates the same number as 72 divided by the rate as a
+      percent.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One rate, many paths">
+      <p>Two investments with the same CAGR can have very different risk. The rate compresses an entire journey into one steady number, which makes it right for comparing growth across periods and wrong for judging how rough the ride was, because volatility is invisible in it.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Dividing total growth by the years">
+      <p>
+        Splitting 150% growth across ten years as 15% a year ignores compounding and overstates
+        the rate by more than half. Always use the compound form; the gap between the shortcut
+        and the truth grows with both the period and the size of the gain.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Using CAGR across deposits and withdrawals">
+      <p>
+        CAGR only compares two snapshots. If money was added or removed in between, the formula
+        credits deposits as growth and charges withdrawals as losses. For an account with
+        regular contributions, model it with the compound interest calculator instead.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Check the rate against inflation">
+      <p>A CAGR is a nominal rate. Subtracting typical inflation of 2 to 3% gives the real growth in purchasing power, and a rate below inflation means the value shrank in real terms even though the number went up.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
