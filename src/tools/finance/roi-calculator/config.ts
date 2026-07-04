@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'roi-calculator',
   name: 'ROI Calculator',
-  seoTitle: 'ROI Calculator — Return on Investment with Annualized Return',
+  seoTitle: 'ROI Calculator — Return on Investment, Annualized Return',
   description: 'Calculate return on investment from what you paid and what it is worth now, including the annualized return most ROI tools skip.',
   categorySlug: 'money-finance',
   tags: ['roi calculator', 'return on investment calculator', 'investment return calculator', 'roi formula', 'annualized return calculator', 'investment gain calculator', 'roi percentage', 'stock return calculator'],
