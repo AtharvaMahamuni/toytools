@@ -1,0 +1,236 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+const passwordHref = withBase(`/tool/${category.segment}/password-generator/`);
+const uuidHref = withBase(`/tool/${category.segment}/uuid-generator/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A random string is a run of characters with no pattern, used mostly by software: an API key, a
+      session token, a nonce, or a unique name. This tool builds one in your browser. Set the length,
+      choose which character sets to allow or type your own alphabet, and copy the result. Each
+      character is a secure random draw, and the tool shows a live entropy estimate so you can size a
+      token correctly. Nothing leaves your device.
+    </p>
+    <a href={toolHref} class="cta-link">Open The Random String Generator →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Much of security rests on values that are hard to guess. A session token proves you are logged in.
+      An API key identifies a caller. A password reset link carries a secret that only the right person
+      should have. If any of these follows a pattern, or is too short, an attacker can guess it and take
+      over. Random strings exist to make guessing hopeless.
+    </p>
+    <p>
+      The trick is that a value is only as safe as its randomness and its length. A token built from a
+      weak random source, or one that is only a few characters long, gives a false sense of security. A
+      generator backed by a cryptographic random source, with a visible entropy estimate, lets you
+      produce values that are genuinely hard to guess and know that they are.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        Two things make a random string strong: the quality of the randomness and the number of
+        characters. This tool fixes the first by using a cryptographic source, and shows the second as an
+        entropy figure so you can judge whether a token is long enough.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You choose an alphabet and a length. The alphabet is the pool of characters the string can contain.
+      You can build it from the standard sets (uppercase, lowercase, numbers, symbols) or type a custom
+      set of exactly the characters you want. The length is how many characters the string will have.
+    </p>
+    <p>
+      The tool then draws each character from the alphabet using your browser's cryptographic random
+      source. It uses a method that avoids bias, so every character in the pool is equally likely, with no
+      part of the alphabet favored. If you fill in the custom field, it takes priority over the toggles,
+      so the string uses precisely your characters and nothing else.
+    </p>
+    <p>
+      As you adjust the options, the entropy readout updates. Entropy is the length multiplied by the
+      base-2 logarithm of the alphabet size, reported in bits. It is the honest measure of guessing
+      difficulty: a 24-character alphanumeric string carries about 143 bits, well past the 128-bit mark
+      that is considered safe for tokens. The strength label turns that number into a word so you can
+      judge at a glance.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A few settings show the range of what the tool produces. Your own output will differ every time.
+    </p>
+    <ul>
+      <li>
+        <strong>24 characters, letters and numbers:</strong> a general-purpose token with about 143 bits
+        of entropy. Strong enough for API keys and session tokens.
+      </li>
+      <li>
+        <strong>32 characters, custom hex alphabet <code>0123456789abcdef</code>:</strong> a 128-bit hex
+        value, the shape many keys and identifiers expect.
+      </li>
+      <li>
+        <strong>10 characters, lowercase and numbers:</strong> a compact, unique-enough slug or file
+        name, around 51 bits. Fine for naming, not for secrets.
+      </li>
+      <li>
+        <strong>40 characters, all sets:</strong> a very strong token when a system allows symbols, well
+        over 200 bits.
+      </li>
+    </ul>
+    <p>
+      The pattern is the same as with passwords: length drives strength, and the alphabet sets how much
+      each character is worth. The entropy figure keeps you honest.
+    </p>
+  </section>
+
+  <section id="use-cases">
+    <h2>Use Cases <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Random strings appear throughout software wherever an unguessable or unique value is needed:
+    </p>
+    <ul>
+      <li>API keys and access tokens for services and integrations.</li>
+      <li>Session identifiers and CSRF tokens in web applications.</li>
+      <li>Nonces and one-time values that must never repeat.</li>
+      <li>Password reset and email verification links.</li>
+      <li>Random file names, slugs, and object keys in storage.</li>
+      <li>Seed data and fixtures that need many unique strings.</li>
+    </ul>
+    <p>
+      For the security-sensitive cases, size the value with the entropy readout. For naming cases, a
+      shorter string is usually fine.
+    </p>
+  </section>
+
+  <section id="advantages">
+    <h2>Advantages <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The custom alphabet is the standout feature. Real systems often accept only certain characters, and
+      being able to say exactly which ones the string may contain avoids the frustration of a rejected
+      value. Combined with the length control and the live entropy estimate, it lets you produce a value
+      that fits a specific format and is provably strong.
+    </p>
+    <p>
+      Doing it locally adds privacy. There is no account, no server that receives your tokens, and no
+      request that could log them. That matters more for random strings than almost anything else, because
+      these values are often the very secrets that protect a system.
+    </p>
+  </section>
+
+  <section id="limitations">
+    <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A random string is only as safe as how it is handled after generation. A strong token pasted into a
+      public chat or committed to a code repository is compromised no matter how much entropy it had. The
+      tool creates the value; protecting it afterward is up to you and your systems.
+    </p>
+    <p>
+      The entropy figure also assumes the characters are independent and uniform, which they are here, but
+      it cannot account for how a value is used. A perfectly random nonce still fails if it is reused, and
+      a strong key still fails if it is stored in plain text. Treat entropy as a floor on guessing
+      difficulty, not a guarantee of safety.
+    </p>
+    <ReferenceBlock type="note">
+      <p>
+        The strength label reflects only entropy. It cannot know how a value will be stored or transmitted.
+        A strong string handled carelessly is not secure.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everything happens on your device. Generating a string makes no network request, logs no analytics
+      event with the value, and never sends it to a server. You can confirm this by opening your browser's
+      developer tools, watching the network tab, and generating a few strings. Nothing goes out.
+    </p>
+    <p>
+      The tool remembers only your option choices, such as the length and enabled sets, in local storage so
+      the form looks familiar next time. That preference stays on your device and never contains a
+      generated string. Clearing your site data removes it.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Making tokens too short.</strong> A handful of characters is easy to guess. Watch the
+        entropy readout and aim for at least 128 bits for secrets.
+      </li>
+      <li>
+        <strong>Reusing a nonce.</strong> A value meant to be used once must be generated fresh each time,
+        or it defeats its purpose.
+      </li>
+      <li>
+        <strong>Including characters the target rejects.</strong> Use the custom field to restrict the
+        alphabet to exactly what the system accepts.
+      </li>
+      <li>
+        <strong>Storing secrets in plain text.</strong> Keep keys and tokens in a secrets manager or an
+        environment variable, not in source code or a note.
+      </li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently Asked Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Short answers to the questions people ask most often, from how long a token should be to how the
+      custom alphabet works, are collected on the tool page itself.
+    </p>
+    <a href={`${toolHref}#faq`} class="cta-link">Read The Random String Generator FAQ →</a>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The random string generator sits in the <a href={categoryHref}>Generators</a> category. For a
+      human-facing secret, the <a href={passwordHref}>password generator</a> adds an exclude-ambiguous
+      option. For a standard 128-bit identifier in a fixed format, the
+      <a href={uuidHref}>UUID generator</a> is the right shape.
+    </p>
+  </section>
+
+  <section id="internal-links">
+    <h2>Where To Go Next <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>Random String Generator</a> to create a token or key now.</li>
+      <li><a href={passwordHref}>Password Generator</a> for a human-facing password.</li>
+      <li><a href={uuidHref}>UUID Generator</a> for a standard unique identifier.</li>
+      <li><a href={categoryHref}>Generators</a> to browse every generator on the site.</li>
+    </ul>
+  </section>
+</GuideLayout>

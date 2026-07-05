@@ -1,4 +1,5 @@
 import type { FAQItem } from './types';
+import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
@@ -81,6 +82,7 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'random-string-generator': randomStringGeneratorFaqs,
   'uuid-generator': uuidGeneratorFaqs,
   'password-generator': passwordGeneratorFaqs,
   'csv-cleaner': csvCleanerFaqs,

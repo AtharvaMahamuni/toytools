@@ -170,10 +170,10 @@
       "runtimeGlobal": "runGeneration",
       "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
       "supportedFamilies": [
-        "identifier",
-        "credential"
+        "credential",
+        "identifier"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -272,6 +272,27 @@
     }
   },
   "tools": {
+    "random-string-generator": {
+      "name": "Random String Generator",
+      "dir": "src/tools/generate/random-string-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/random-string-generator/",
+      "engine": "generation",
+      "pattern": "generate-credential",
+      "family": "credential",
+      "processorId": "random-string",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "uuid-generator": {
       "name": "UUID Generator",
       "dir": "src/tools/generate/uuid-generator",
