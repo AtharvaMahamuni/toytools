@@ -170,11 +170,12 @@
       "runtimeGlobal": "runGeneration",
       "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
       "supportedFamilies": [
+        "code",
         "placeholder",
         "credential",
         "identifier"
       ],
-      "toolCount": 4
+      "toolCount": 5
     }
   },
   "toolGroups": {
@@ -273,6 +274,27 @@
     }
   },
   "tools": {
+    "qr-code-generator": {
+      "name": "QR Code Generator",
+      "dir": "src/tools/generate/qr-code-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/qr-code-generator/",
+      "engine": "generation",
+      "pattern": "generate-code",
+      "family": "code",
+      "processorId": "qr-code",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "lorem-ipsum-generator": {
       "name": "Lorem Ipsum Generator",
       "dir": "src/tools/generate/lorem-ipsum-generator",

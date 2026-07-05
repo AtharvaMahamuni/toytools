@@ -1,0 +1,221 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A QR code is a square barcode that a phone camera can read to open a link, join a Wi-Fi network, or
+      save a contact. This tool creates one in your browser. Choose what the code should contain, text, a
+      URL, an email, a phone number, Wi-Fi credentials, or a contact card, fill in the fields, and the code
+      appears as you type. Download it as a PNG for screens or an SVG for print. Everything, including any
+      passwords you enter, stays on your device.
+    </p>
+    <a href={toolHref} class="cta-link">Open The QR Code Generator →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A QR code turns a physical thing into a tappable link. A poster becomes a web page, a table tent
+      becomes a menu, a business card becomes a saved contact, and a sticker on the wall becomes guest
+      Wi-Fi access. It bridges the gap between the real world and a screen without anyone typing a long
+      address or password by hand.
+    </p>
+    <p>
+      That convenience is why QR codes are everywhere now. They are free to generate, work with any modern
+      phone camera, and need no app. The catch is that the content of many QR codes is sensitive, a Wi-Fi
+      password, a personal phone number, so where you generate them matters. A tool that builds the code
+      locally, without sending your data anywhere, keeps that information private.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        A QR code is just an encoding of text. The magic is in the content format: phones recognize special
+        patterns for Wi-Fi, contacts, email, and phone numbers and offer the matching action when they scan
+        one.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You choose a content type and fill in its fields. Behind the scenes, the tool turns your input into a
+      single string in the format phones expect. A Wi-Fi code, for example, becomes a compact join string
+      that lists the network name, password, and security type; a contact becomes a contact-card string; an
+      email becomes a mailto link. That string is then encoded into the grid of black and white squares that
+      make up the QR code.
+    </p>
+    <p>
+      The encoding is done by a compact, well-tested library that runs entirely in your browser. It works
+      out the smallest code that fits your data at the error correction level you chose, then produces the
+      pattern. The tool draws that pattern onto a canvas, always dark squares on a white background so it
+      scans in any theme, and can also render it as a vector SVG.
+    </p>
+    <p>
+      Nothing leaves your device at any point. The content you type, the generated pattern, and the
+      downloaded files are all produced locally. That is important when a code carries a Wi-Fi password or
+      someone's contact details.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The content types cover the most common needs:
+    </p>
+    <ul>
+      <li><strong>URL:</strong> paste a web address and the scan offers to open it. Great for posters and packaging.</li>
+      <li><strong>Wi-Fi:</strong> enter the network name and password, and the scan offers to join. Ideal for guest access.</li>
+      <li><strong>Contact card:</strong> enter a name, phone, and email, and the scan offers to save a contact. Useful on business cards.</li>
+      <li><strong>Email:</strong> enter an address and the scan opens a pre-addressed email.</li>
+      <li><strong>Phone:</strong> enter a number and the scan offers to dial it.</li>
+      <li><strong>Text:</strong> encode any short text, such as a code, a note, or a serial number.</li>
+    </ul>
+    <p>
+      For each, keep the content as short as it can be. A short URL or a brief Wi-Fi password produces an
+      open, easy-to-scan pattern; a very long value makes the code dense and fussy to read.
+    </p>
+  </section>
+
+  <section id="use-cases">
+    <h2>Use Cases <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      QR codes fit anywhere a physical surface should lead somewhere digital:
+    </p>
+    <ul>
+      <li>Linking a flyer, poster, or product label to a web page.</li>
+      <li>Sharing guest Wi-Fi with a code on the fridge or by the door.</li>
+      <li>Putting contact details on a business card or email signature.</li>
+      <li>Adding a menu, form, or review link to a table tent or receipt.</li>
+      <li>Handing out an event link or ticket page at a booth.</li>
+      <li>Encoding a serial number or asset tag for quick lookup.</li>
+    </ul>
+    <p>
+      In each case, test the printed code with a phone before you produce it in quantity, so you catch any
+      size or contrast problems early.
+    </p>
+  </section>
+
+  <section id="advantages">
+    <h2>Advantages <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The big advantages are convenience and reach. A QR code removes typing, which removes errors and
+      friction, and it works on essentially every modern phone with no app. The multiple content types mean
+      one tool covers links, Wi-Fi, contacts, and more, each formatted so the phone does the right thing.
+    </p>
+    <p>
+      Generating locally adds privacy and control. Many online QR tools route your data through their
+      servers or wrap your link in a tracking redirect. Here, the code encodes exactly what you enter,
+      nothing is uploaded, and the SVG download gives you a crisp, print-ready file with no watermark.
+    </p>
+  </section>
+
+  <section id="limitations">
+    <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A QR code is static. Once you print it, the data is fixed, so you cannot change where it points
+      without generating and printing a new one. If you expect the destination to change, encode a URL you
+      control that redirects, and update the redirect rather than the code.
+    </p>
+    <p>
+      Codes also have practical limits on data. The more you encode, the denser the pattern, and past a
+      point it becomes hard to scan, especially when printed small. Keep content short. And a QR code is only
+      as reliable as its presentation: too small, low contrast, or missing its white border, and scanners
+      will struggle no matter how well it was generated.
+    </p>
+    <ReferenceBlock type="common-mistake">
+      <p>
+        Encoding a very long URL is a frequent mistake. It produces a dense code that fails to scan on print.
+        Shorten the link first, or use a redirect, so the pattern stays open.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everything happens on your device. The content you enter, including Wi-Fi passwords and contact
+      details, is never uploaded, logged, or stored on a server. The code is drawn and the downloads are
+      built entirely in your browser. You can open your browser's developer tools, watch the network tab,
+      and generate a code to confirm that nothing goes out.
+    </p>
+    <p>
+      The tool remembers only your option choices, such as the content type and error correction level, in
+      local storage so the form looks familiar next time. It does not save the content you typed or the
+      generated image. Clearing your site data removes the preference.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Encoding too much data.</strong> Long content makes a dense code. Keep URLs and text short so
+        the pattern stays scannable.
+      </li>
+      <li>
+        <strong>Printing it too small.</strong> Give the code enough physical size for the scan distance, and
+        test with a phone before a print run.
+      </li>
+      <li>
+        <strong>Removing the quiet zone.</strong> Scanners need the white margin around the code. Do not crop
+        it or crowd it with other elements.
+      </li>
+      <li>
+        <strong>Using low error correction on rough surfaces.</strong> Raise the level for codes that may be
+        scuffed, curved, or printed small.
+      </li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently Asked Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Short answers to the questions people ask most often, from how to make a Wi-Fi code to why a code will
+      not scan, are collected on the tool page itself.
+    </p>
+    <a href={`${toolHref}#faq`} class="cta-link">Read The QR Code Generator FAQ →</a>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The QR code generator sits in the <a href={categoryHref}>Generators</a> category alongside the other
+      creation tools. Where a QR code turns data into something scannable, the other generators produce the
+      data itself, such as passwords, tokens, and unique identifiers.
+    </p>
+  </section>
+
+  <section id="internal-links">
+    <h2>Where To Go Next <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>QR Code Generator</a> to create a QR code now.</li>
+      <li><a href={categoryHref}>Generators</a> to browse every generator on the site.</li>
+    </ul>
+  </section>
+</GuideLayout>

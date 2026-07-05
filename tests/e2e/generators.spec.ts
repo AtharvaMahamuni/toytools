@@ -39,3 +39,23 @@ for (const path of generatorPaths) {
     await expect(page.getByRole('button', { name: /Copied/ })).toBeVisible();
   });
 }
+
+// QR-specific: typing content renders the canvas and reveals the PNG + SVG download buttons.
+const qrPath = generatorPaths.find((p) => p.includes('qr-code-generator'));
+if (qrPath) {
+  const slug = 'qr-code-generator';
+  test('qr-code-generator: content renders a canvas + PNG/SVG downloads', async ({ page }) => {
+    await page.goto(qrPath);
+    const value = page.locator(`#${slug}-f-text`);
+    await expect(value).toBeVisible();
+    await value.fill('https://toytoolsapp.com');
+
+    const canvas = page.locator(`#${slug}-canvas`);
+    await expect(canvas).toBeVisible();
+    // Canvas has real drawing dimensions once a matrix is rendered.
+    await expect.poll(async () => canvas.evaluate((c: HTMLCanvasElement) => c.width)).toBeGreaterThan(0);
+
+    await expect(page.getByRole('button', { name: 'Download PNG' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Download SVG' })).toBeVisible();
+  });
+}

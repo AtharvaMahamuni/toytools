@@ -1,4 +1,5 @@
 import type { FAQItem } from './types';
+import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
@@ -83,6 +84,7 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'qr-code-generator': qrCodeGeneratorFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'random-string-generator': randomStringGeneratorFaqs,
   'uuid-generator': uuidGeneratorFaqs,

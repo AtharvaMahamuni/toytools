@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
@@ -82,6 +83,7 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  qrCodeGenerator,
   loremIpsumGenerator,
   randomStringGenerator,
   uuidGenerator,
