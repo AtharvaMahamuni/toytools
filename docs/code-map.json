@@ -170,9 +170,10 @@
       "runtimeGlobal": "runGeneration",
       "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
       "supportedFamilies": [
+        "identifier",
         "credential"
       ],
-      "toolCount": 1
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -271,6 +272,27 @@
     }
   },
   "tools": {
+    "uuid-generator": {
+      "name": "UUID Generator",
+      "dir": "src/tools/generate/uuid-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/uuid-generator/",
+      "engine": "generation",
+      "pattern": "generate-identifier",
+      "family": "identifier",
+      "processorId": "uuid",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "password-generator": {
       "name": "Password Generator",
       "dir": "src/tools/generate/password-generator",
