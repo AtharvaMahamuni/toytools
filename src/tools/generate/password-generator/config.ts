@@ -23,6 +23,7 @@ export const config: ToolConfig = {
   pattern: 'generate-credential',
   family: 'credential',
   processorId: 'password',
+  relatedTools: ['random-string-generator', 'uuid-generator', 'qr-code-generator'],
   keywords: ['password', 'generator', 'random', 'secure', 'entropy', 'strength'],
   inputs: ['options'],
   outputs: ['text'],

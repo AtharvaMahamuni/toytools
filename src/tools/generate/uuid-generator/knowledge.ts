@@ -40,8 +40,12 @@ export const knowledge: Knowledge = {
     'Does it work offline?',
   ],
   usedWith: [],
-  alternatives: [],
-  nextSteps: [],
+  alternatives: [
+    { slug: 'random-string-generator', reason: 'A random token when you need control over length and alphabet' },
+  ],
+  nextSteps: [
+    { slug: 'password-generator', reason: 'Create a strong secret to go with the identifier' },
+  ],
   workflowStage: ['transform'],
   keywords: ['uuid generator', 'guid generator', 'uuid v4', 'random uuid', 'unique identifier'],
   entityAliases: ['guid generator', 'uuid maker', 'unique id generator'],

@@ -43,7 +43,9 @@ export const knowledge: Knowledge = {
     'Does it expire or can it be edited?',
     'Does it work offline?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'password-generator', reason: 'Generate a strong Wi-Fi password before encoding it' },
+  ],
   alternatives: [],
   nextSteps: [],
   workflowStage: ['transform'],

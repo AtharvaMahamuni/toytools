@@ -46,9 +46,15 @@ export const knowledge: Knowledge = {
     'What is entropy and why does it matter?',
     'Should I include symbols?',
   ],
-  usedWith: [],
-  alternatives: [],
-  nextSteps: [],
+  usedWith: [
+    { slug: 'qr-code-generator', reason: 'Encode a generated Wi-Fi password into a scannable QR code' },
+  ],
+  alternatives: [
+    { slug: 'random-string-generator', reason: 'A general-purpose random token with control over the alphabet' },
+  ],
+  nextSteps: [
+    { slug: 'uuid-generator', reason: 'Generate a unique identifier for the new account or record' },
+  ],
   workflowStage: ['transform'],
   keywords: [
     'password generator',

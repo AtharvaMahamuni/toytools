@@ -22,7 +22,7 @@ export const config: ToolConfig = {
   pattern: 'generate-placeholder',
   family: 'placeholder',
   processorId: 'lorem-ipsum',
-  relatedTools: ['password-generator', 'uuid-generator'],
+  relatedTools: ['word-counter', 'character-counter'],
   keywords: ['lorem', 'ipsum', 'placeholder', 'dummy', 'filler', 'text'],
   inputs: ['options'],
   outputs: ['text'],

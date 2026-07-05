@@ -22,7 +22,7 @@ export const config: ToolConfig = {
   pattern: 'generate-identifier',
   family: 'identifier',
   processorId: 'uuid',
-  relatedTools: ['password-generator'],
+  relatedTools: ['random-string-generator', 'password-generator'],
   keywords: ['uuid', 'guid', 'v4', 'identifier', 'unique', 'random'],
   inputs: ['options'],
   outputs: ['text'],

@@ -44,8 +44,12 @@ export const knowledge: Knowledge = {
     'Does it work offline?',
   ],
   usedWith: [],
-  alternatives: [],
-  nextSteps: [],
+  alternatives: [
+    { slug: 'password-generator', reason: 'A human-facing password with an exclude-ambiguous option' },
+  ],
+  nextSteps: [
+    { slug: 'uuid-generator', reason: 'A standard 128-bit identifier in a fixed format' },
+  ],
   workflowStage: ['transform'],
   keywords: ['random string generator', 'token generator', 'api key generator', 'nonce generator'],
   entityAliases: ['token generator', 'key generator', 'random text generator'],

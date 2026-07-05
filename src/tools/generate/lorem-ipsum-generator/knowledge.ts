@@ -43,7 +43,10 @@ export const knowledge: Knowledge = {
     'Can I generate words instead of paragraphs?',
     'Does it work offline?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'word-counter', reason: 'Count the words in your placeholder text' },
+    { slug: 'character-counter', reason: 'Check the character count for a tight space' },
+  ],
   alternatives: [],
   nextSteps: [],
   workflowStage: ['transform'],
