@@ -7,6 +7,7 @@
 // parse Astro components. `validate-registry` checks every tool that declares `guide:` appears here.
 
 export const registeredGuideSlugs = [
+  'lorem-ipsum-generator',
   'random-string-generator',
   'uuid-generator',
   'password-generator',

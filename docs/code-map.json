@@ -170,10 +170,11 @@
       "runtimeGlobal": "runGeneration",
       "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
       "supportedFamilies": [
+        "placeholder",
         "credential",
         "identifier"
       ],
-      "toolCount": 3
+      "toolCount": 4
     }
   },
   "toolGroups": {
@@ -272,6 +273,27 @@
     }
   },
   "tools": {
+    "lorem-ipsum-generator": {
+      "name": "Lorem Ipsum Generator",
+      "dir": "src/tools/generate/lorem-ipsum-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/lorem-ipsum-generator/",
+      "engine": "generation",
+      "pattern": "generate-placeholder",
+      "family": "placeholder",
+      "processorId": "lorem-ipsum",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "random-string-generator": {
       "name": "Random String Generator",
       "dir": "src/tools/generate/random-string-generator",

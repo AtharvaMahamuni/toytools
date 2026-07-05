@@ -1,0 +1,217 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lorem ipsum is placeholder text: scrambled Latin-like words that fill a design before the real
+      writing is ready. It lets you judge a layout, spacing, and typography without being distracted by
+      what the words say. This tool generates it in your browser. Choose paragraphs, sentences, or words,
+      set how many, and copy the plain-text result. Keep the familiar "Lorem ipsum dolor sit amet" opening
+      or turn it off for fully varied filler.
+    </p>
+    <a href={toolHref} class="cta-link">Open The Lorem Ipsum Generator →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      When you are designing a page, real words get in the way. If the layout contains a headline that
+      says something interesting, everyone reviewing it starts reading and reacting to the message instead
+      of the design. Empty boxes are no better, because they do not show how text will actually flow. You
+      need something in between: text that looks real but says nothing.
+    </p>
+    <p>
+      That is what lorem ipsum provides. It reads like ordinary prose, with a natural mix of short and long
+      words, so a block of it fills a column the way real writing would. Because the words carry no meaning,
+      the review stays focused on spacing, type size, line length, and rhythm. It is a simple idea that has
+      kept designers and typesetters productive for a very long time.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        Placeholder text works precisely because it is meaningless. Its job is to look like content without
+        being content, so the design can be judged on its own terms.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The generator draws from a fixed pool of the traditional lorem ipsum words. You pick a unit,
+      paragraphs, sentences, or words, and a count, and it builds the output to match. Sentences are given a
+      natural, varied length and a capital first letter, with the occasional comma inserted, so the text
+      reads like real prose rather than a flat list. Paragraphs group several sentences together.
+    </p>
+    <p>
+      The variation comes from your browser's random source, so each generation produces a fresh block. The
+      "start with Lorem ipsum" option pins the familiar opening phrase to the front, which many people
+      expect to see; turning it off lets the whole block vary freely. Everything is built locally, so no
+      request is made and nothing you generate leaves your device.
+    </p>
+    <p>
+      The output is plain text. Paragraphs are separated by blank lines, and there is no HTML or styling
+      attached. That keeps it easy to paste anywhere, from a design tool to a code editor, and to wrap in
+      your own markup if you need paragraphs as HTML.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A single paragraph, starting with the classic opening, reads like this:
+    </p>
+    <p>
+      <em>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua, enim ad minim veniam.</em>
+    </p>
+    <p>
+      Set the unit to words and the count to eight, and you get a short run for a caption or a button label.
+      Set it to sentences for a paragraph of a specific length. Set it to paragraphs and raise the count to
+      fill a full article mockup. The character count under the output helps you land close to a target size
+      when a space is tight.
+    </p>
+  </section>
+
+  <section id="use-cases">
+    <h2>Use Cases <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Placeholder text is a staple of design and development work:
+    </p>
+    <ul>
+      <li>Filling a mockup or wireframe before the copy is written.</li>
+      <li>Testing how a layout handles long paragraphs and short ones.</li>
+      <li>Demonstrating a template, theme, or component library.</li>
+      <li>Checking a typeface, line height, and measure at a realistic length.</li>
+      <li>Populating a content management system while building it.</li>
+      <li>Creating sample data for a screenshot or a demo.</li>
+    </ul>
+    <p>
+      In each case, the goal is to see the design working with text in place, then swap in the real content
+      when it is ready.
+    </p>
+  </section>
+
+  <section id="advantages">
+    <h2>Advantages <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Lorem ipsum is fast, free, and familiar. It gives you realistic-looking text in a second, at any
+      length, without writing a word. Because it is a long-standing convention, clients and teammates
+      recognize it as placeholder and know not to read it as final copy. And it is not copyrighted, so it is
+      safe to use in any project.
+    </p>
+    <p>
+      Generating it here keeps the workflow simple and private. There is no account and no upload; you get
+      the text and paste it wherever you need. The unit and count controls mean you can match the exact
+      shape of the space you are filling, from a single label to a full page.
+    </p>
+  </section>
+
+  <section id="limitations">
+    <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Placeholder text can hide problems that real content would reveal. If a design assumes short headlines
+      but the real ones run long, filler text will not show the break. For content-critical layouts, mock up
+      with realistic copy instead, so the design is tested against what it will actually hold.
+    </p>
+    <p>
+      Lorem ipsum is also, by design, meaningless, so it cannot help with anything that depends on the words
+      themselves, such as reading level, tone, or search terms. And the most important limitation is
+      procedural: never let placeholder text reach a published page. Filler that ships is a classic and
+      embarrassing mistake.
+    </p>
+    <ReferenceBlock type="common-mistake">
+      <p>
+        Shipping a page with lorem ipsum still in it happens more often than you would think. Do a final
+        pass for placeholder text before anything goes live.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everything happens on your device. Generating text makes no network request and sends nothing to a
+      server. There is no account and no tracking of what you produce. You can open your browser's developer
+      tools, watch the network tab, and generate a block to confirm that nothing goes out.
+    </p>
+    <p>
+      The tool remembers only your options, such as the unit and count, in local storage so the form looks
+      familiar next time. It never saves the generated text, and the preference stays on your device.
+      Clearing your site data removes it.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Leaving it in production.</strong> Placeholder text must be replaced before a page ships.
+        Always do a final check.
+      </li>
+      <li>
+        <strong>Using it when the words matter.</strong> If real copy would change the design, mock up with
+        realistic content instead.
+      </li>
+      <li>
+        <strong>Generating too much.</strong> Fill the space you have, not more. Extra text can make a layout
+        look better than it will with real, shorter content.
+      </li>
+      <li>
+        <strong>Treating it as meaningful.</strong> The Latin-like words carry no message. Do not translate
+        or interpret them.
+      </li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently Asked Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Short answers to the questions people ask most often, from where lorem ipsum comes from to whether you
+      can generate words instead of paragraphs, are collected on the tool page itself.
+    </p>
+    <a href={`${toolHref}#faq`} class="cta-link">Read The Lorem Ipsum Generator FAQ →</a>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The lorem ipsum generator sits in the <a href={categoryHref}>Generators</a> category alongside the
+      other creation tools. Where lorem ipsum fills a design with placeholder words, the other generators
+      produce values software needs, such as passwords, tokens, and unique identifiers.
+    </p>
+  </section>
+
+  <section id="internal-links">
+    <h2>Where To Go Next <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>Lorem Ipsum Generator</a> to create placeholder text now.</li>
+      <li><a href={categoryHref}>Generators</a> to browse every generator on the site.</li>
+    </ul>
+  </section>
+</GuideLayout>
