@@ -1,0 +1,25 @@
+---
+// GeneratorActions — the shared action row for every generator: Copy, Regenerate, Clear, and a
+// Download cluster (hidden until a result declares downloads, e.g. QR PNG/SVG). Presentational;
+// the GeneratorWidget controller wires the behaviour by id. Button classes match the platform
+// action-btn vocabulary used by the other engine widgets.
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+---
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} type="button" data-label="Copy">Copy</button>
+  <button class="action-btn" id={`${slug}-regenerate`} type="button">Regenerate</button>
+  <span class="gen-downloads" id={`${slug}-downloads`} hidden>
+    <button class="action-btn" id={`${slug}-download-png`} type="button">Download PNG</button>
+    <button class="action-btn" id={`${slug}-download-svg`} type="button">Download SVG</button>
+  </span>
+  <button class="action-btn action-btn--clear" id={`${slug}-clear`} type="button" data-label="Clear">Clear</button>
+</div>
+
+<style>
+  .gen-downloads { display: inline-flex; gap: var(--space-2); }
+  .gen-downloads[hidden] { display: none; }
+</style>

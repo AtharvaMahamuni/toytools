@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
 import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config';
 import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
@@ -78,6 +79,7 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  passwordGenerator,
   csvCleaner,
   csvToTsv,
   csvDiff,

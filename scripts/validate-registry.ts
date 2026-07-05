@@ -11,6 +11,7 @@ import { STRUCTURED_TOOLS } from '../src/lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
+import { GENERATORS } from '../src/lib/generation/registry';
 
 // KNOWN engines/patterns derive from the engine manifest — single source of truth.
 const KNOWN_ENGINES = engineIds;
@@ -25,6 +26,7 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
   jwt: JWT_TOOLS,
   finance: FINANCE_CALCULATORS,
   csv: CSV_TOOLS,
+  generation: GENERATORS,
 };
 
 const categorySlugSet = new Set(categories.map(c => c.slug));

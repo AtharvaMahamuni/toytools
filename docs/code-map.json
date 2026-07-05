@@ -157,6 +157,22 @@
         "compare"
       ],
       "toolCount": 3
+    },
+    "generation": {
+      "name": "Generation Engine",
+      "category": "generate",
+      "patterns": [
+        "generate-credential",
+        "generate-identifier",
+        "generate-placeholder",
+        "generate-code"
+      ],
+      "runtimeGlobal": "runGeneration",
+      "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
+      "supportedFamilies": [
+        "credential"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -255,6 +271,27 @@
     }
   },
   "tools": {
+    "password-generator": {
+      "name": "Password Generator",
+      "dir": "src/tools/generate/password-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/password-generator/",
+      "engine": "generation",
+      "pattern": "generate-credential",
+      "family": "credential",
+      "processorId": "password",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "csv-cleaner": {
       "name": "CSV Cleaner",
       "dir": "src/tools/developer-utilities/csv-cleaner",

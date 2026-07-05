@@ -38,6 +38,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#0D9488',
     segment: 'finance',
   },
+  {
+    slug: 'generate',
+    name: 'Generators',
+    description: 'Generate passwords, UUIDs, random strings, placeholder text, and QR codes in your browser.',
+    accent: '#B45309',
+    segment: 'generate',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

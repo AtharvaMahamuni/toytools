@@ -1,0 +1,251 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A strong password is long and random. The most reliable way to get one is to let a tool build
+      it for you: choose a length of 16 characters or more, allow a mix of uppercase, lowercase,
+      numbers, and symbols, and copy the result. The generator on this page does exactly that,
+      entirely inside your browser, and shows a live estimate of how hard the password is to guess.
+      You do not need to invent anything or remember any rules. Pick a length, press Copy, and store
+      the password in a password manager.
+    </p>
+    <a href={toolHref} class="cta-link">Open The Password Generator →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most break-ins do not involve clever hacking. They involve guessing. Attackers take passwords
+      leaked from one website and try them on others, because people reuse the same password
+      everywhere. They also run software that tries millions of common passwords per second. A
+      password like <code>Summer2024!</code> looks complex, but it follows a pattern that guessing
+      tools know well, so it falls quickly.
+    </p>
+    <p>
+      A random password defeats both attacks. It has no pattern to predict, and because you generate
+      a different one for every account, a leak from one site cannot unlock the others. The single
+      most valuable habit in personal security is using a unique, random password for every account,
+      and a generator is what makes that habit practical.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        Uniqueness matters as much as strength. A very strong password reused across ten sites still
+        fails the moment any one of those sites is breached. Generate a fresh password per account.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You control two things: the length and the character sets. The length is the number of
+      characters in the password. The character sets are the pools it draws from: uppercase letters
+      (A to Z), lowercase letters (a to z), numbers (0 to 9), and symbols (like <code>!@#$</code>).
+      Each character in the password is chosen at random from the combined pool of everything you
+      enabled.
+    </p>
+    <p>
+      The randomness comes from your browser's cryptographic random source, the same kind of
+      randomness used to secure web connections. Each character is picked so that every option in the
+      pool is equally likely, with no bias toward any part of the set. Because the work happens in
+      local code, the password never travels anywhere. It appears, you copy it, and that is the end
+      of its journey.
+    </p>
+    <p>
+      As you adjust the options, the tool shows two numbers: the entropy in bits and a strength
+      label. Entropy is the honest measure of how hard the password is to guess. It equals the length
+      multiplied by the base-2 logarithm of the pool size. In plain terms, every extra character
+      multiplies the number of possible passwords, and a bigger pool multiplies it further. The
+      strength label just turns that bit count into words, from Very weak to Very strong, so you can
+      judge at a glance.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A few settings show how the numbers move. These are illustrative; your generated passwords will
+      differ every time.
+    </p>
+    <ul>
+      <li>
+        <strong>12 characters, all sets:</strong> a pool of about 88 characters gives roughly 77 bits
+        of entropy. That is Strong and fine for everyday accounts.
+      </li>
+      <li>
+        <strong>16 characters, all sets:</strong> the same pool at 16 characters gives about 103 bits.
+        That is Very strong and a sensible default for anything important.
+      </li>
+      <li>
+        <strong>20 characters, lowercase only:</strong> a pool of just 26 characters still reaches
+        about 94 bits at this length. This shows that length can outweigh variety.
+      </li>
+      <li>
+        <strong>8 characters, all sets:</strong> about 51 bits. It looks complex but is only Fair,
+        because it is short. This is why the tool nudges you toward more length.
+      </li>
+    </ul>
+    <p>
+      The pattern is clear: adding length raises strength quickly and reliably, while adding character
+      sets helps a little. When you are unsure, reach for the slider before the toggles.
+    </p>
+  </section>
+
+  <section id="use-cases">
+    <h2>Use Cases <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A password generator fits any moment you need a new secret. Common ones include:
+    </p>
+    <ul>
+      <li>Signing up for a new online account and needing a password on the spot.</li>
+      <li>Rotating a password after a website reports a data breach.</li>
+      <li>Replacing an old password you have reused across several sites.</li>
+      <li>Creating the master password for a new password manager.</li>
+      <li>Producing a shared credential for a device or service at home or work.</li>
+      <li>Generating a quick throwaway secret for a temporary or test account.</li>
+    </ul>
+    <p>
+      In each case the goal is the same: a password with no pattern, different from every other one
+      you use, stored somewhere safe rather than memorized.
+    </p>
+  </section>
+
+  <section id="advantages">
+    <h2>Advantages <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Generating a password beats inventing one for several reasons. A generator removes human
+      patterns, and humans are predictable: we favor names, dates, keyboard runs, and common
+      substitutions like a zero for an O. A generator also makes strong passwords effortless, so you
+      are not tempted to reuse a weaker one. It gives you an honest strength estimate up front instead
+      of a false sense of security from a password that merely looks complicated.
+    </p>
+    <p>
+      Doing it locally in the browser adds privacy advantages too. There is no account to create, no
+      server that receives your password, and no network request that could be logged. You get the
+      convenience of an online tool with the privacy of an offline one.
+    </p>
+  </section>
+
+  <section id="limitations">
+    <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A generated password is only as safe as how you store it. A 100-bit password written on a
+      sticky note is weaker in practice than a modest one kept in an encrypted manager. The tool
+      creates the secret; keeping it safe afterward is on you.
+    </p>
+    <p>
+      Some websites also impose their own limits. A site might cap passwords at 16 characters or ban
+      certain symbols. When that happens, you have to work within the site's rules, even though a
+      longer password would be safer. And a random password is not meant to be memorized. If you need
+      something you can recall without a manager, a passphrase of several random words is a better
+      shape than a wall of symbols.
+    </p>
+    <ReferenceBlock type="note">
+      <p>
+        The strength label reflects only entropy. It cannot know whether a specific password has
+        appeared in a past breach. Since these passwords are freshly random, that is rarely a concern,
+        but the label is a guide to guessing difficulty, not a breach check.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everything happens on your device. When you generate a password, no network request is made, no
+      analytics event records the value, and no server ever sees it. You can verify this yourself:
+      open your browser's developer tools, watch the network tab, and generate a password. Nothing
+      goes out.
+    </p>
+    <p>
+      The tool does remember one thing, but not the password. It saves your option choices, such as
+      the length and which sets are enabled, in your browser's local storage so the form looks
+      familiar next time. That preference stays on your device and never contains a generated
+      password. Clearing your site data removes it.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A few habits quietly undermine an otherwise strong password:
+    </p>
+    <ul>
+      <li>
+        <strong>Reusing it.</strong> The biggest mistake. A unique password per account is the whole
+        point; reuse turns one breach into many.
+      </li>
+      <li>
+        <strong>Choosing short but complex.</strong> Eight characters with symbols still looks weak to
+        a guessing machine. Favor length.
+      </li>
+      <li>
+        <strong>Storing it in plain text.</strong> A note app or spreadsheet is not safe. Use a
+        password manager that encrypts what it holds.
+      </li>
+      <li>
+        <strong>Disabling too many sets.</strong> Turning off sets shrinks the pool and lowers
+        strength per character. If you must, add length to compensate.
+      </li>
+      <li>
+        <strong>Leaving it on the clipboard.</strong> After pasting, copy something else to overwrite
+        it, since other apps can sometimes read the clipboard.
+      </li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently Asked Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Short answers to the questions people ask most often, from how long a password should be to
+      whether the tool works offline, are collected on the tool page itself.
+    </p>
+    <a href={`${toolHref}#faq`} class="cta-link">Read The Password Generator FAQ →</a>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The generator sits alongside the other tools in the
+      <a href={categoryHref}>Generators</a> category. If you need a general-purpose random token or
+      key rather than a human-facing password, a random string generator gives you finer control over
+      length and character sets. If you need a unique identifier for code or records, a UUID generator
+      is the right shape.
+    </p>
+  </section>
+
+  <section id="internal-links">
+    <h2>Where To Go Next <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>Password Generator</a> to create a password now.</li>
+      <li><a href={categoryHref}>Generators</a> to browse every generator on the site.</li>
+    </ul>
+  </section>
+</GuideLayout>
