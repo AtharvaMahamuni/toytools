@@ -1,0 +1,111 @@
+---
+// GeneratorOutput — the output surface for every generator. The controller shows exactly one of:
+// the empty prompt, the text/lines output, or the QR canvas. Strength meter and meta badges sit
+// below. Presentational only; all state is driven by the GeneratorWidget controller via ids.
+interface Props {
+  slug: string;
+  emptyText?: string;
+}
+const { slug, emptyText = 'Configure the options and generate.' } = Astro.props;
+---
+
+<div class="gen-output" id={`${slug}-output`}>
+  <p class="gen-empty" id={`${slug}-empty`}>{emptyText}</p>
+
+  <pre class="gen-output-text" id={`${slug}-text`} hidden aria-live="polite"></pre>
+
+  <div class="gen-qr" id={`${slug}-qr`} hidden>
+    <canvas id={`${slug}-canvas`} class="gen-canvas" role="img" aria-label="Generated QR code"></canvas>
+  </div>
+
+  <p class="gen-error" id={`${slug}-error`} role="alert" hidden></p>
+
+  <div class="gen-strength" id={`${slug}-strength`} hidden>
+    <div class="gen-strength-bars" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <span class="gen-strength-label" id={`${slug}-strength-label`}></span>
+  </div>
+
+  <div class="gen-meta" id={`${slug}-meta`} hidden></div>
+</div>
+
+<style>
+  .gen-output {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-height: 200px;
+  }
+  .gen-empty {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin: 0;
+    padding: var(--space-6) 0;
+    text-align: center;
+  }
+  .gen-output-text {
+    margin: 0;
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--color-text);
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-x: auto;
+    max-height: 340px;
+    overflow-y: auto;
+  }
+  .gen-qr {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-md);
+  }
+  /* The QR canvas is always black-on-white so it scans in any theme. */
+  .gen-canvas {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    image-rendering: pixelated;
+    background: #ffffff;
+    border-radius: var(--radius-sm);
+  }
+  .gen-error {
+    margin: 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+  }
+  .gen-strength { display: flex; align-items: center; gap: var(--space-3); }
+  .gen-strength-bars { display: flex; gap: 4px; flex: 1; }
+  .gen-strength-bars span {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--color-border);
+    transition: background-color 150ms;
+  }
+  .gen-strength[data-score='0'] .gen-strength-bars span:nth-child(-n + 1),
+  .gen-strength[data-score='1'] .gen-strength-bars span:nth-child(-n + 2),
+  .gen-strength[data-score='2'] .gen-strength-bars span:nth-child(-n + 3),
+  .gen-strength[data-score='3'] .gen-strength-bars span:nth-child(-n + 4),
+  .gen-strength[data-score='4'] .gen-strength-bars span:nth-child(-n + 5) {
+    background: var(--gen-strength-color, var(--color-accent));
+  }
+  .gen-strength[data-score='0'] { --gen-strength-color: var(--color-danger); }
+  .gen-strength[data-score='1'] { --gen-strength-color: #D97706; }
+  .gen-strength[data-score='2'] { --gen-strength-color: #CA8A04; }
+  .gen-strength[data-score='3'] { --gen-strength-color: var(--color-accent); }
+  .gen-strength[data-score='4'] { --gen-strength-color: var(--color-success); }
+  .gen-strength-label { font-size: var(--text-sm); font-weight: var(--font-weight-medium); min-width: 8ch; }
+  .gen-meta { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+</style>

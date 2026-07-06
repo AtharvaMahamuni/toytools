@@ -1,0 +1,280 @@
+---
+// GeneratorWidget — the ONE widget every generator tool wraps in three lines. It is deliberately
+// THIN and generic: it renders the option form from the generator's field schema (GeneratorOptions),
+// delegates output to GeneratorOutput, and drives everything through ToyTools.runGeneration(id,
+// options). It is generation-specific only in its wiring; nothing here knows about passwords, UUIDs,
+// or QR codes. If a new generator ever needs to edit this file, the architecture has failed.
+//
+// The controller waits for ToyTools.runGeneration to attach (it comes from the deferred runtime
+// module) via ToyTools.onReady, the same handshake ConverterWidget/FinanceWidget use.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import GeneratorOptions from '@tools/_shared/generator/GeneratorOptions.astro';
+import GeneratorOutput from '@tools/_shared/generator/GeneratorOutput.astro';
+import GeneratorActions from '@tools/_shared/generator/GeneratorActions.astro';
+import GeneratorFooter from '@tools/_shared/generator/GeneratorFooter.astro';
+import { generatorInfo } from '@lib/generation/registry';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  generatorId: string;
+  config: ToolConfig;
+  emptyText?: string;
+}
+
+const { slug, generatorId, emptyText } = Astro.props;
+const info = generatorInfo(generatorId);
+const fields = info?.fields ?? [];
+const defaults = info?.defaults ?? {};
+const auto = info?.autoGenerate ?? true;
+const live = info?.live ?? false;
+const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
+---
+
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel
+    slot="input"
+    label="Options"
+    variant="prose"
+    data-generator={generatorId}
+    data-slug={slug}
+    data-auto={String(auto)}
+    data-live={String(live)}
+    data-defaults={JSON.stringify(defaults)}
+  >
+    <div class="io-body">
+      <GeneratorOptions fields={fields} idPrefix={slug} />
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Output" result>
+    <div class="io-body">
+      <GeneratorOutput slug={slug} emptyText={resolvedEmpty} />
+    </div>
+  </IoPanel>
+</ToolSplit>
+
+<GeneratorActions slug={slug} />
+<GeneratorFooter />
+
+<CategoryDiscovery toolSlug={slug} />
+
+<style>
+  .gen-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-2);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-generator][data-slug]');
+    if (!root) return;
+    var gid = root.getAttribute('data-generator');
+    var slug = root.getAttribute('data-slug');
+    var auto = root.getAttribute('data-auto') === 'true';
+
+    var el = function (suffix) { return document.getElementById(slug + suffix); };
+    var fieldEls = root.querySelectorAll('[data-field-id]');
+    var emptyEl = el('-empty'), textEl = el('-text'), qrEl = el('-qr'), canvas = el('-canvas'),
+        errorEl = el('-error'), strengthEl = el('-strength'), strengthLabel = el('-strength-label'),
+        metaEl = el('-meta'), downloadsEl = el('-downloads');
+    var copyBtn = el('-copy'), regenBtn = el('-regenerate'), clearBtn = el('-clear'),
+        pngBtn = el('-download-png'), svgBtn = el('-download-svg');
+
+    var lastResult = null;
+
+    function controlOf(fe) { return fe.querySelector('input, select'); }
+
+    function controlValue(fe) {
+      var type = fe.getAttribute('data-field-type');
+      var input = controlOf(fe);
+      if (!input) return undefined;
+      if (type === 'boolean') return input.checked;
+      if (type === 'number' || type === 'range') { var n = parseFloat(input.value); return isNaN(n) ? 0 : n; }
+      return input.value;
+    }
+
+    function collect() {
+      var opts = {};
+      fieldEls.forEach(function (fe) {
+        var id = fe.getAttribute('data-field-id');
+        var v = controlValue(fe);
+        if (v !== undefined) opts[id] = v;
+      });
+      return opts;
+    }
+
+    // Toggle showWhen fields based on their controlling field's current value.
+    function applyVisibility() {
+      fieldEls.forEach(function (fe) {
+        var ctrlField = fe.getAttribute('data-show-when-field');
+        if (!ctrlField) return;
+        var values = (fe.getAttribute('data-show-when-values') || '').split(',');
+        var ctrl = root.querySelector('[data-field-id="' + ctrlField + '"]');
+        var input = ctrl ? controlOf(ctrl) : null;
+        var cur = input ? input.value : '';
+        fe.hidden = values.indexOf(cur) === -1;
+      });
+    }
+
+    function hide(e) { if (e) e.hidden = true; }
+    function show(e) { if (e) e.hidden = false; }
+
+    function render(res) {
+      lastResult = res;
+      hide(emptyEl); hide(textEl); hide(qrEl); hide(errorEl); hide(strengthEl); hide(metaEl); hide(downloadsEl);
+      if (!res) { show(emptyEl); return; }
+      if (!res.ok) {
+        if (res.error) { errorEl.textContent = res.error; show(errorEl); } else { show(emptyEl); }
+        return;
+      }
+      if (res.kind === 'qr' && res.qr) {
+        drawQr(res.qr); show(qrEl);
+        if (res.downloads && res.downloads.length) show(downloadsEl);
+      } else {
+        var val = res.kind === 'lines' ? (res.lines || []).join('\n') : (res.text || '');
+        textEl.textContent = val; show(textEl);
+      }
+      if (res.strength) {
+        strengthEl.setAttribute('data-score', String(res.strength.score));
+        strengthLabel.textContent = res.strength.label;
+        show(strengthEl);
+      }
+      if (res.meta && res.meta.length) {
+        metaEl.innerHTML = '';
+        res.meta.forEach(function (m) {
+          var span = document.createElement('span');
+          span.className = 'gen-badge';
+          span.textContent = m.label + ': ' + m.value;
+          metaEl.appendChild(span);
+        });
+        show(metaEl);
+      }
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.runGeneration)) return;
+      applyVisibility();
+      render(ToyTools.runGeneration(gid, collect()));
+      persist();
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      try { ToyTools.state.save(slug, { options: collect() }); } catch (_) {}
+    }
+
+    // ── QR rasterizing ──────────────────────────────────────────────────────
+    function drawQr(qr) {
+      if (!canvas) return;
+      var count = qr.count, modules = qr.modules, cell = 8, margin = cell * 4;
+      var size = count * cell + margin * 2;
+      canvas.width = size; canvas.height = size;
+      var ctx = canvas.getContext('2d'); if (!ctx) return;
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = '#000000';
+      for (var r = 0; r < count; r++) {
+        for (var c = 0; c < count; c++) {
+          if (modules[r][c]) ctx.fillRect(margin + c * cell, margin + r * cell, cell, cell);
+        }
+      }
+    }
+
+    function buildSvg(qr) {
+      var count = qr.count, m = qr.modules, cell = 8, margin = cell * 4;
+      var size = count * cell + margin * 2, rects = '';
+      for (var r = 0; r < count; r++) {
+        for (var c = 0; c < count; c++) {
+          if (m[r][c]) rects += '<rect x="' + (margin + c * cell) + '" y="' + (margin + r * cell) + '" width="' + cell + '" height="' + cell + '"/>';
+        }
+      }
+      return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size +
+        '" viewBox="0 0 ' + size + ' ' + size + '" shape-rendering="crispEdges">' +
+        '<rect width="100%" height="100%" fill="#ffffff"/><g fill="#000000">' + rects + '</g></svg>';
+    }
+
+    function downloadUrl(url, name) {
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    }
+
+    // ── Restore saved options ───────────────────────────────────────────────
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      if (saved && saved.options) {
+        fieldEls.forEach(function (fe) {
+          var id = fe.getAttribute('data-field-id');
+          if (!(id in saved.options)) return;
+          var type = fe.getAttribute('data-field-type');
+          var input = controlOf(fe);
+          if (!input) return;
+          if (type === 'boolean') input.checked = !!saved.options[id];
+          else input.value = saved.options[id];
+          if (type === 'range') { var o = fe.querySelector('[data-range-value]'); if (o) o.textContent = input.value; }
+        });
+      }
+    } catch (_) {}
+
+    // ── Listeners ───────────────────────────────────────────────────────────
+    fieldEls.forEach(function (fe) {
+      var input = controlOf(fe);
+      if (!input) return;
+      var type = fe.getAttribute('data-field-type');
+      var evt = (type === 'boolean' || type === 'select') ? 'change' : 'input';
+      input.addEventListener(evt, function () {
+        if (type === 'range') { var o = fe.querySelector('[data-range-value]'); if (o) o.textContent = input.value; }
+        run();
+      });
+    });
+
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var text = '';
+      if (lastResult && lastResult.ok) {
+        if (lastResult.kind === 'qr') text = lastResult.qr ? lastResult.qr.content : '';
+        else text = lastResult.kind === 'lines' ? (lastResult.lines || []).join('\n') : (lastResult.text || '');
+      }
+      if (!text) { if (window.ToyTools) ToyTools.toast('Nothing to copy yet!'); return; }
+      if (window.ToyTools) ToyTools.copy(text);
+      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
+      setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+    });
+
+    if (regenBtn) regenBtn.addEventListener('click', run);
+
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      fieldEls.forEach(function (fe) {
+        if (fe.getAttribute('data-field-type') === 'text') { var i = controlOf(fe); if (i) i.value = ''; }
+      });
+      render(null);
+      persist();
+    });
+
+    if (pngBtn) pngBtn.addEventListener('click', function () {
+      if (!canvas || !(lastResult && lastResult.kind === 'qr')) return;
+      downloadUrl(canvas.toDataURL('image/png'), slug + '.png');
+    });
+
+    if (svgBtn) svgBtn.addEventListener('click', function () {
+      if (!(lastResult && lastResult.qr)) return;
+      var blob = new Blob([buildSvg(lastResult.qr)], { type: 'image/svg+xml' });
+      var url = URL.createObjectURL(blob);
+      downloadUrl(url, slug + '.svg');
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+
+    // ── Boot (wait for the engine fn to attach) ─────────────────────────────
+    function boot() { applyVisibility(); if (auto) run(); else render(null); }
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(boot); else boot();
+  })();
+</script>

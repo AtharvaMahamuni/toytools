@@ -1,0 +1,234 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+const passwordHref = withBase(`/tool/${category.segment}/password-generator/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A UUID is a 128-bit identifier, written as 36 characters like
+      <code>f47ac10b-58cc-4372-a567-0e02b2c3d479</code>, that you can create anywhere without asking a
+      central system for a number. This tool makes version 4 UUIDs, the random kind, entirely in your
+      browser. Choose how many you want, tweak the format if you need to, and copy them. Because the
+      value is almost all random, two systems can generate ids independently and still avoid clashes,
+      which is exactly what UUIDs are for.
+    </p>
+    <a href={toolHref} class="cta-link">Open The UUID Generator →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why It Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Software constantly needs to name things: a new user, an order, an uploaded file, a log entry. The
+      old way was to let one database hand out numbers in sequence, 1, 2, 3, and so on. That works when a
+      single database controls every insert, but it breaks down the moment ids must be created in more
+      than one place. Two servers both reaching for the next number will collide.
+    </p>
+    <p>
+      UUIDs solve this by making the id big and random enough that coordination is unnecessary. A phone
+      that is offline, a background worker, and a web server can each mint UUIDs at the same instant, and
+      the chance any two match is negligible. That independence is why UUIDs are everywhere in modern
+      systems: distributed databases, message queues, file names, and request tracing all lean on them.
+    </p>
+    <ReferenceBlock type="key-idea">
+      <p>
+        A UUID trades ordering and compactness for independence. You give up the tidy 1, 2, 3 sequence
+        and a small storage footprint, and in return any component can create an id with no central
+        coordinator and no fear of a clash.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A version 4 UUID is 128 bits. Six of those bits are fixed to mark the version and the variant, so
+      the reader knows it is a random v4 value. The remaining 122 bits are filled with random data. The
+      result is formatted as five hyphen-separated groups in an 8-4-4-4-12 pattern of hexadecimal digits.
+    </p>
+    <p>
+      The randomness here comes from your browser's cryptographic random source, the same one used to
+      secure connections, so the bits are high quality rather than the predictable output of an ordinary
+      random function. When your browser supports it, the tool uses the built-in UUID function; otherwise
+      it assembles the value from secure random bytes and sets the version and variant bits by hand. Either
+      way, the work happens locally and nothing leaves your device.
+    </p>
+    <p>
+      You control three things about the output: how many UUIDs to make, whether to keep the hyphens, and
+      whether to show them in uppercase. None of these change the underlying value; a UUID is
+      case-insensitive and the hyphens are just a display convention. They exist so the format matches
+      whatever system you are pasting into.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A single default UUID looks like this:
+    </p>
+    <ul>
+      <li><code>f47ac10b-58cc-4372-a567-0e02b2c3d479</code></li>
+    </ul>
+    <p>
+      With hyphens turned off, the same kind of value becomes a compact 32-character string, useful in
+      URLs or systems that dislike hyphens:
+    </p>
+    <ul>
+      <li><code>f47ac10b58cc4372a5670e02b2c3d479</code></li>
+    </ul>
+    <p>
+      With uppercase enabled, the letters shift case while the value stays the same:
+    </p>
+    <ul>
+      <li><code>F47AC10B-58CC-4372-A567-0E02B2C3D479</code></li>
+    </ul>
+    <p>
+      Raise the count and you get a list, one per line, ready to copy into a seed script or a test file.
+      Every entry in the list is independent and random.
+    </p>
+  </section>
+
+  <section id="use-cases">
+    <h2>Use Cases <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      UUIDs show up wherever something needs a name that will not clash:
+    </p>
+    <ul>
+      <li>Primary keys for rows in a database, especially across multiple services.</li>
+      <li>File and object names in storage, so two uploads never overwrite each other.</li>
+      <li>Request or trace ids that follow a call as it moves between services in logs.</li>
+      <li>Client-generated ids in an offline app that later syncs to a server.</li>
+      <li>Idempotency keys that let an API safely ignore a duplicate request.</li>
+      <li>Test fixtures and seed data that need many unique values quickly.</li>
+    </ul>
+    <p>
+      In each of these, the point is the same: create an id anywhere, trust it is unique, and never wait
+      on a central counter.
+    </p>
+  </section>
+
+  <section id="advantages">
+    <h2>Advantages <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The big advantage of a UUID is independence. Any part of a system can generate one with no shared
+      state, which removes a whole class of coordination problems. UUIDs are also standardized, so every
+      language and database understands the format, and they carry no meaning that could leak, unlike an
+      id that reveals how many records exist or when one was created.
+    </p>
+    <p>
+      Generating them here adds privacy on top. There is no account, no server that receives your ids, and
+      no network request that could log them. You get an online tool with the guarantees of an offline
+      one, which matters when the ids will end up in production systems.
+    </p>
+  </section>
+
+  <section id="limitations">
+    <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      UUIDs are larger than a plain number. A 128-bit value takes 16 bytes, or 36 characters as text,
+      compared with a few bytes for an integer. At a huge scale that difference in storage and index size
+      can matter, though for most applications it is irrelevant.
+    </p>
+    <p>
+      Version 4 UUIDs also do not sort by time. Because the value is random, a list of them has no natural
+      order, which can hurt database performance when they are used as a clustered key and can make
+      debugging harder. If you need time ordering, add a timestamp column or use a time-based id scheme.
+      And while a v4 UUID is hard to guess, it is not a secret and should not be used as a security token.
+    </p>
+    <ReferenceBlock type="common-mistake">
+      <p>
+        Treating a UUID as an access token is a common and risky mistake. UUIDs appear in URLs, logs, and
+        API responses, so assume they are visible. Use a dedicated random string or password generator for
+        anything that must stay secret.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everything happens on your device. Generating a UUID makes no network request, records no analytics
+      event with the value, and never sends it to a server. You can verify this by opening your browser's
+      developer tools, watching the network tab, and generating a batch. Nothing goes out.
+    </p>
+    <p>
+      The tool saves only your option choices, such as the count and format toggles, in local storage so
+      the form looks familiar next time. That preference stays on your device and never includes a
+      generated UUID. Clearing your site data removes it.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Using a UUID as a secret.</strong> It is hard to guess but not private. Use a real token
+        generator for access keys.
+      </li>
+      <li>
+        <strong>Expecting them to sort by time.</strong> Version 4 UUIDs are random and have no order.
+        Store a timestamp separately if you need one.
+      </li>
+      <li>
+        <strong>Storing them inefficiently.</strong> Use a native UUID column when your database has one,
+        rather than a plain text field, to save space and gain validation.
+      </li>
+      <li>
+        <strong>Stripping hyphens without checking.</strong> Some systems expect the hyphenated form.
+        Only remove hyphens when the target actually wants the compact version.
+      </li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently Asked Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Short answers to the questions people ask most often, from whether UUIDs are truly unique to how to
+      store them, are collected on the tool page itself.
+    </p>
+    <a href={`${toolHref}#faq`} class="cta-link">Read The UUID Generator FAQ →</a>
+  </section>
+
+  <section id="related-tools">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The UUID generator sits in the <a href={categoryHref}>Generators</a> category alongside the other
+      creation tools. If you need a secret rather than an identifier, the
+      <a href={passwordHref}>password generator</a> gives you full control over length and character sets,
+      which is the right choice for tokens and keys that a UUID should not be used for.
+    </p>
+  </section>
+
+  <section id="internal-links">
+    <h2>Where To Go Next <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><a href={toolHref}>UUID Generator</a> to create UUIDs now.</li>
+      <li><a href={passwordHref}>Password Generator</a> when you need a secret, not an id.</li>
+      <li><a href={categoryHref}>Generators</a> to browse every generator on the site.</li>
+    </ul>
+  </section>
+</GuideLayout>

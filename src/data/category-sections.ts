@@ -24,4 +24,8 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'stateful':             { title: 'Focus & Notes',          order: 1 },
   'finance-growth':       { title: 'Interest & Growth',      order: 1 },
   'finance-planning':     { title: 'Saving & Planning',      order: 2 },
+  'generate-credential':  { title: 'Passwords & Tokens',      order: 1 },
+  'generate-identifier':  { title: 'IDs & UUIDs',             order: 2 },
+  'generate-placeholder': { title: 'Placeholder Text',        order: 3 },
+  'generate-code':        { title: 'Codes & QR',              order: 4 },
 };

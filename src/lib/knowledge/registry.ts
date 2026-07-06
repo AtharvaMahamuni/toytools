@@ -5,6 +5,11 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
+import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
+import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
+import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
+import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
+import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
 import { knowledge as csvCleaner } from '@tools/developer-utilities/csv-cleaner/knowledge';
 import { knowledge as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/knowledge';
 import { knowledge as csvDiff } from '@tools/developer-utilities/csv-diff/knowledge';
@@ -100,6 +105,11 @@ import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergen
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  qrCodeGenerator,
+  loremIpsumGenerator,
+  randomStringGenerator,
+  uuidGenerator,
+  passwordGenerator,
   csvCleaner,
   csvToTsv,
   csvDiff,

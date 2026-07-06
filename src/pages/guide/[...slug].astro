@@ -3,6 +3,11 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
+import QrCodeGeneratorGuide from '../../tools/generate/qr-code-generator/Guide.astro';
+import LoremIpsumGeneratorGuide from '../../tools/generate/lorem-ipsum-generator/Guide.astro';
+import RandomStringGeneratorGuide from '../../tools/generate/random-string-generator/Guide.astro';
+import UuidGeneratorGuide from '../../tools/generate/uuid-generator/Guide.astro';
+import PasswordGeneratorGuide from '../../tools/generate/password-generator/Guide.astro';
 import CsvDiffGuide from '../../tools/developer-utilities/csv-diff/Guide.astro';
 import CagrCalculatorGuide from '../../tools/finance/cagr-calculator/Guide.astro';
 import RoiCalculatorGuide from '../../tools/finance/roi-calculator/Guide.astro';
@@ -85,6 +90,11 @@ import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calcu
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
+  'qr-code-generator': QrCodeGeneratorGuide,
+  'lorem-ipsum-generator': LoremIpsumGeneratorGuide,
+  'random-string-generator': RandomStringGeneratorGuide,
+  'uuid-generator': UuidGeneratorGuide,
+  'password-generator': PasswordGeneratorGuide,
   'csv-diff': CsvDiffGuide,
   'cagr-calculator': CagrCalculatorGuide,
   'roi-calculator': RoiCalculatorGuide,

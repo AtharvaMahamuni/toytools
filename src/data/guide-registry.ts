@@ -7,6 +7,11 @@
 // parse Astro components. `validate-registry` checks every tool that declares `guide:` appears here.
 
 export const registeredGuideSlugs = [
+  'qr-code-generator',
+  'lorem-ipsum-generator',
+  'random-string-generator',
+  'uuid-generator',
+  'password-generator',
   'csv-diff',
   'cagr-calculator',
   'roi-calculator',

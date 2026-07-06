@@ -157,6 +157,25 @@
         "compare"
       ],
       "toolCount": 3
+    },
+    "generation": {
+      "name": "Generation Engine",
+      "category": "generate",
+      "patterns": [
+        "generate-credential",
+        "generate-identifier",
+        "generate-placeholder",
+        "generate-code"
+      ],
+      "runtimeGlobal": "runGeneration",
+      "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
+      "supportedFamilies": [
+        "code",
+        "placeholder",
+        "credential",
+        "identifier"
+      ],
+      "toolCount": 5
     }
   },
   "toolGroups": {
@@ -255,6 +274,111 @@
     }
   },
   "tools": {
+    "qr-code-generator": {
+      "name": "QR Code Generator",
+      "dir": "src/tools/generate/qr-code-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/qr-code-generator/",
+      "engine": "generation",
+      "pattern": "generate-code",
+      "family": "code",
+      "processorId": "qr-code",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "lorem-ipsum-generator": {
+      "name": "Lorem Ipsum Generator",
+      "dir": "src/tools/generate/lorem-ipsum-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/lorem-ipsum-generator/",
+      "engine": "generation",
+      "pattern": "generate-placeholder",
+      "family": "placeholder",
+      "processorId": "lorem-ipsum",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "random-string-generator": {
+      "name": "Random String Generator",
+      "dir": "src/tools/generate/random-string-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/random-string-generator/",
+      "engine": "generation",
+      "pattern": "generate-credential",
+      "family": "credential",
+      "processorId": "random-string",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "uuid-generator": {
+      "name": "UUID Generator",
+      "dir": "src/tools/generate/uuid-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/uuid-generator/",
+      "engine": "generation",
+      "pattern": "generate-identifier",
+      "family": "identifier",
+      "processorId": "uuid",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "password-generator": {
+      "name": "Password Generator",
+      "dir": "src/tools/generate/password-generator",
+      "categorySlug": "generate",
+      "url": "/tool/generate/password-generator/",
+      "engine": "generation",
+      "pattern": "generate-credential",
+      "family": "credential",
+      "processorId": "password",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "csv-cleaner": {
       "name": "CSV Cleaner",
       "dir": "src/tools/developer-utilities/csv-cleaner",

@@ -1,4 +1,9 @@
 import type { ToolConfig } from './types';
+import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
+import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
+import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
+import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
+import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
 import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config';
 import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
@@ -78,6 +83,11 @@ import { config as emergencyFundCalculator }     from '@tools/finance/emergency-
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  qrCodeGenerator,
+  loremIpsumGenerator,
+  randomStringGenerator,
+  uuidGenerator,
+  passwordGenerator,
   csvCleaner,
   csvToTsv,
   csvDiff,

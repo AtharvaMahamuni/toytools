@@ -16,6 +16,7 @@
   import { runCsv } from '@lib/engines/csv/registry';
   import { runJwt } from '@lib/engines/jwt/registry';
   import { runFinance } from '@lib/engines/finance/registry';
+  import { runGeneration } from '@lib/generation/registry';
   import { renderExperience } from '@lib/experience/render';
   import { diffLines, diffStats } from '@lib/text/compare';
   import { jsonExplorer } from '@lib/json/explorer';
@@ -87,6 +88,7 @@
   TT.runCsv = runCsv; // ToyTools.runCsv(id, input, second?) → { ok, output, error, summary }
   TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
   TT.runFinance = runFinance; // ToyTools.runFinance(id, input, { currency }) → InteractiveResult
+  TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]
   TT.diffStats = diffStats; // ToyTools.diffStats(result) → { added, removed, unchanged, similarity }

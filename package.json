@@ -55,7 +55,8 @@
     "@fontsource-variable/geist-mono": "^5.2.8",
     "astro": "^6.4.3",
     "js-yaml": "^4.2.0",
-    "mermaid": "^11.15.0"
+    "mermaid": "^11.15.0",
+    "qrcode-generator": "^1.5.2"
   },
   "devDependencies": {
     "@astrojs/partytown": "^2.1.7",
