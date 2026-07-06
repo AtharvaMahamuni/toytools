@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Random String Generator',
   seoTitle: 'Random String Generator — Tokens, Keys & Nonces',
   description:
-    'Generate random strings, tokens, and keys in your browser. Set the length and character sets or a custom alphabet, see a live entropy estimate, then copy. Nothing is uploaded.',
+    'Generate random strings, tokens, and keys with a custom alphabet and a live entropy estimate, all in your browser. Nothing is uploaded.',
   categorySlug: 'generate',
   tags: [
     'random string generator',
