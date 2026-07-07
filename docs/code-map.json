@@ -109,7 +109,7 @@
       "supportedFamilies": [
         "arithmetic"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "productivity": {
       "name": "Productivity Engine",
@@ -1901,6 +1901,26 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "scientific-calculator": {
+      "name": "Scientific Calculator",
+      "dir": "src/tools/number/scientific-calculator",
+      "categorySlug": "number-utilities",
+      "url": "/tool/number/scientific-calculator/",
+      "engine": "calculator",
+      "pattern": "calculate",
+      "family": "arithmetic",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
