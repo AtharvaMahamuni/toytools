@@ -14,6 +14,9 @@ import { HASHERS, runHash } from '@lib/engines/hashing/registry';
 import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS, financeFields } from '@lib/engines/finance/registry';
+import { SIMULATIONS } from '@lib/engines/physics/simulations/registry';
+import { SUBSTEP } from '@lib/engines/physics/loop';
+import type { SimState } from '@lib/engines/physics/types';
 
 const byEngine = (id: string) => tools.filter(t => t.engine === id);
 
@@ -103,6 +106,30 @@ describe('jwt engine', () => {
       const tool = JWT_TOOLS[processorId!];
       expect(tool, `jwt tool "${processorId}" registered`).toBeDefined();
       expect(typeof tool.decode).toBe('function');
+    },
+  );
+});
+
+// ── physics: every tool resolves a SimulationDef that steps and measures finitely ─────────────
+describe('physics engine', () => {
+  it.each(byEngine('physics').map(t => [t.slug, t.processorId] as const))(
+    '%s resolves a simulation that stays finite and produces narrative',
+    (_slug, processorId) => {
+      const def = SIMULATIONS[processorId!];
+      expect(def, `simulation "${processorId}" registered`).toBeDefined();
+      expect(def.id).toBe(processorId);
+      expect(def.params.length, 'declares parameters').toBeGreaterThan(0);
+
+      const params: Record<string, number> = {};
+      for (const p of def.params) params[p.id] = p.default;
+      const s: SimState = { t: 0, params, vars: def.init(params) };
+      for (let i = 0; i < 200; i++) def.step(s, SUBSTEP);
+      expect(s.t, 'advances time').toBeGreaterThan(0);
+      for (const m of def.measurements) {
+        expect(Number.isFinite(m.compute(s)), `measurement "${m.id}" finite`).toBe(true);
+      }
+      expect(typeof def.explanation(s)).toBe('string');
+      expect(def.explanation(s).length, 'non-empty explanation').toBeGreaterThan(0);
     },
   );
 });

@@ -23,6 +23,7 @@ import { HASHERS } from '../src/lib/engines/hashing/registry';
 import { STRUCTURED_TOOLS } from '../src/lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
+import { SIMULATIONS } from '../src/lib/engines/physics/simulations/registry';
 import { KNOWLEDGE } from '../src/lib/knowledge/registry';
 import { faqsByToolSlug } from '../src/data/faq-registry';
 import { registeredGuideSlugs } from '../src/data/guide-registry';
@@ -105,6 +106,7 @@ const engineRegistries: Record<string, Record<string, unknown>> = {
   'structured-data': STRUCTURED_TOOLS,
   jwt: JWT_TOOLS,
   finance: FINANCE_CALCULATORS,
+  physics: SIMULATIONS,
 };
 for (const [engine, registry] of Object.entries(engineRegistries)) {
   for (const id of Object.keys(registry)) {

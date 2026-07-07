@@ -97,17 +97,25 @@ for (const path of toolPaths()) {
       expect(named, `visible input/textarea #${i} has an accessible name`).toBe(true);
     }
 
-    // --- Interaction: fill the first editable control, confirm it sticks ---
+    // --- Interaction: exercise the first editable control, confirm it sticks ---
     const editable = fields.first();
     if ((await editable.count()) > 0 && (await editable.isVisible())) {
       const tag = await editable.evaluate((el) => el.tagName.toLowerCase());
       const type = await editable.getAttribute('type');
-      const value = type === 'number' ? '42' : 'test';
-      await editable.fill(value);
-      if (tag === 'textarea' || tag === 'input') {
-        await expect(editable).toHaveValue(value);
+      if (type === 'range') {
+        // A slider can't be .fill()ed with text (Playwright throws "Malformed value").
+        // Drive it to its minimum and confirm the value applied.
+        const min = (await editable.getAttribute('min')) ?? '0';
+        await editable.fill(min);
+        await expect(editable).toHaveValue(min);
       } else {
-        await expect(editable).toHaveText(value);
+        const value = type === 'number' ? '42' : 'test';
+        await editable.fill(value);
+        if (tag === 'textarea' || tag === 'input') {
+          await expect(editable).toHaveValue(value);
+        } else {
+          await expect(editable).toHaveText(value);
+        }
       }
     }
 

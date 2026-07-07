@@ -1,0 +1,13 @@
+---
+import PhysicsWidget from '@tools/_shared/PhysicsWidget.astro';
+import { config } from './config';
+
+const examples = [
+  { title: 'Clock pendulum', body: 'A grandfather clock swings at about 0.5 Hz, so its period is 2 seconds: one tick each way.' },
+  { title: 'Heartbeat', body: 'A resting heart near 1.2 Hz beats roughly every 0.83 seconds; the period is what a doctor counts.' },
+  { title: 'Mains electricity', body: 'Household power alternates at 50 or 60 Hz, giving periods of 20 or about 16.7 milliseconds per cycle.' },
+  { title: 'Metronome', body: 'Set a metronome to 120 beats per minute and it clicks at 2 Hz, one beat every half second.' },
+];
+---
+
+<PhysicsWidget config={config} simulationId="frequency-period" examples={examples} />

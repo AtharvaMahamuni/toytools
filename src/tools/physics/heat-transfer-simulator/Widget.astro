@@ -1,0 +1,13 @@
+---
+import PhysicsWidget from '@tools/_shared/PhysicsWidget.astro';
+import { config } from './config';
+
+const examples = [
+  { title: 'Coffee cooling', body: 'A hot mug loses heat to the cooler room, quickly at first and then more slowly as the gap in temperature shrinks.' },
+  { title: 'Ice in a drink', body: 'Warm liquid gives heat to the ice until both reach a shared, cooler temperature somewhere in between.' },
+  { title: 'Quenching metal', body: 'Dropping hot metal into water moves heat fast because the temperature difference, and the conductance, are large.' },
+  { title: 'A warm radiator', body: 'A radiator heats a room by conduction and convection, always flowing energy from the hotter surface to the cooler air.' },
+];
+---
+
+<PhysicsWidget config={config} simulationId="heat-transfer" examples={examples} />

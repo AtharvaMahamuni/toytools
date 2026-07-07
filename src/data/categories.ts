@@ -45,6 +45,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#B45309',
     segment: 'generate',
   },
+  {
+    slug: 'physics',
+    name: 'Physics',
+    description: 'Interactive physics simulations you can see, touch, and experiment with. Explore waves, oscillations, and heat right in your browser.',
+    accent: '#0369A1',
+    segment: 'physics',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({
