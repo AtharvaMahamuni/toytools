@@ -1,0 +1,13 @@
+---
+import PhysicsWidget from '@tools/_shared/PhysicsWidget.astro';
+import { config } from './config';
+
+const examples = [
+  { title: 'Grandfather clock', body: 'A pendulum close to one metre long swings with a two-second period, which is why it keeps steady time.' },
+  { title: 'Playground swing', body: 'A swing is a pendulum: pump your legs at the right moment and you add energy in step with its natural period.' },
+  { title: 'Metronome', body: 'An upside-down pendulum with a sliding weight changes its effective length to set a musician\'s tempo.' },
+  { title: 'Gravity on the Moon', body: 'Load the Moon preset and the same pendulum swings far more slowly, because weaker gravity gives a gentler restoring pull.' },
+];
+---
+
+<PhysicsWidget config={config} simulationId="pendulum" examples={examples} />

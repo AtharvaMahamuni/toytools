@@ -80,6 +80,11 @@ import { config as ruleOf72Calculator }         from '@tools/finance/rule-of-72-
 import { config as inflationCalculator }         from '@tools/finance/inflation-calculator/config';
 import { config as savingsGoalCalculator }       from '@tools/finance/savings-goal-calculator/config';
 import { config as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/config';
+// Physics — physics playground engine
+import { config as waveSpeedSimulator }           from '@tools/physics/wave-speed-simulator/config';
+import { config as frequencyPeriodSimulator }     from '@tools/physics/frequency-period-simulator/config';
+import { config as pendulumSimulator }            from '@tools/physics/pendulum-simulator/config';
+import { config as heatTransferSimulator }        from '@tools/physics/heat-transfer-simulator/config';
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
@@ -160,6 +165,10 @@ export const tools: ToolConfig[] = [
   inflationCalculator,
   savingsGoalCalculator,
   emergencyFundCalculator,
+  waveSpeedSimulator,
+  frequencyPeriodSimulator,
+  pendulumSimulator,
+  heatTransferSimulator,
 ];
 
 export const toolsWithGuide = tools.filter(t => t.guide !== undefined);

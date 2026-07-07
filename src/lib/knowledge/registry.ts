@@ -103,6 +103,12 @@ import { knowledge as inflationCalculator }         from '@tools/finance/inflati
 import { knowledge as savingsGoalCalculator }       from '@tools/finance/savings-goal-calculator/knowledge';
 import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/knowledge';
 
+// --- Physics ---
+import { knowledge as waveSpeedSimulator }         from '@tools/physics/wave-speed-simulator/knowledge';
+import { knowledge as frequencyPeriodSimulator }   from '@tools/physics/frequency-period-simulator/knowledge';
+import { knowledge as pendulumSimulator }          from '@tools/physics/pendulum-simulator/knowledge';
+import { knowledge as heatTransferSimulator }      from '@tools/physics/heat-transfer-simulator/knowledge';
+
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   qrCodeGenerator,
@@ -182,6 +188,10 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   inflationCalculator,
   savingsGoalCalculator,
   emergencyFundCalculator,
+  waveSpeedSimulator,
+  frequencyPeriodSimulator,
+  pendulumSimulator,
+  heatTransferSimulator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

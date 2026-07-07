@@ -176,6 +176,21 @@
         "identifier"
       ],
       "toolCount": 5
+    },
+    "physics": {
+      "name": "Physics Playground Engine",
+      "category": "physics",
+      "patterns": [
+        "simulate"
+      ],
+      "runtimeGlobal": "",
+      "sharedWidget": "src/tools/_shared/PhysicsWidget.astro",
+      "supportedFamilies": [
+        "waves",
+        "oscillations",
+        "thermodynamics"
+      ],
+      "toolCount": 4
     }
   },
   "toolGroups": {
@@ -1886,6 +1901,87 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "wave-speed-simulator": {
+      "name": "Wave Speed Simulator",
+      "dir": "src/tools/physics/wave-speed-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/wave-speed-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "waves",
+      "processorId": "wave-speed",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "frequency-period-simulator": {
+      "name": "Frequency & Period Simulator",
+      "dir": "src/tools/physics/frequency-period-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/frequency-period-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "oscillations",
+      "processorId": "frequency-period",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "pendulum-simulator": {
+      "name": "Pendulum Simulator",
+      "dir": "src/tools/physics/pendulum-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/pendulum-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "oscillations",
+      "processorId": "pendulum",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "heat-transfer-simulator": {
+      "name": "Heat Transfer Simulator",
+      "dir": "src/tools/physics/heat-transfer-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/heat-transfer-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "thermodynamics",
+      "processorId": "heat-transfer",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     }

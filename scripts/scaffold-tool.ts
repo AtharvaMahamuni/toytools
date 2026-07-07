@@ -152,7 +152,7 @@ if (!knownPatterns.has(pattern)) die(`unknown pattern "${pattern}" — declare i
 const eng = getEngine(engine)!;
 if (!eng.patterns.includes(pattern)) die(`pattern "${pattern}" is not owned by engine "${engine}" (allowed: ${eng.patterns.join(', ')})`);
 
-const REGISTRY_ENGINES = new Set(['text-processor', 'encoding', 'hashing', 'structured-data', 'jwt', 'finance', 'generation']);
+const REGISTRY_ENGINES = new Set(['text-processor', 'encoding', 'hashing', 'structured-data', 'jwt', 'finance', 'generation', 'physics']);
 if (REGISTRY_ENGINES.has(engine) && !processorId) {
   die(`engine "${engine}" needs --processor-id (must resolve in that engine's registry)`);
 }
@@ -177,6 +177,12 @@ const WIDGETS: Record<string, { comp: string; prop: string }> = {
 };
 
 function widgetSource(): string {
+  // Physics wraps PhysicsWidget with a distinct prop shape (simulationId + authored examples)
+  // and needs a hand-written SimulationDef (src/lib/engines/physics/simulations/<id>.ts) that
+  // scaffold cannot generate — remind the author here.
+  if (engine === 'physics') {
+    return `---\nimport PhysicsWidget from '@tools/_shared/PhysicsWidget.astro';\nimport { config } from './config';\n\n// TODO: author real-world examples for this simulation.\nconst examples: { title: string; body: string }[] = [];\n---\n\n<!-- TODO: create the SimulationDef at src/lib/engines/physics/simulations/${processorId}.ts\n     (+ ${processorId}.draw.ts) and register it in simulations/registry.ts. -->\n<PhysicsWidget config={config} simulationId="${processorId}" examples={examples} />\n`;
+  }
   const w = WIDGETS[engine];
   if (w) {
     return `---\nimport ${w.comp} from '@tools/_shared/${w.comp}.astro';\nimport { config } from './config';\n---\n\n<${w.comp} slug={config.slug} ${w.prop}={config.processorId!} config={config} />\n`;

@@ -82,6 +82,11 @@ import { items as ruleOf72Faqs }              from '@tools/finance/rule-of-72-ca
 import { items as inflationFaqs }             from '@tools/finance/inflation-calculator/faq';
 import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-calculator/faq';
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
+// Physics
+import { items as waveSpeedFaqs }             from '@tools/physics/wave-speed-simulator/faq';
+import { items as frequencyPeriodFaqs }       from '@tools/physics/frequency-period-simulator/faq';
+import { items as pendulumFaqs }              from '@tools/physics/pendulum-simulator/faq';
+import { items as heatTransferFaqs }          from '@tools/physics/heat-transfer-simulator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'qr-code-generator': qrCodeGeneratorFaqs,
@@ -161,4 +166,8 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'inflation-calculator':         inflationFaqs,
   'savings-goal-calculator':      savingsGoalFaqs,
   'emergency-fund-calculator':    emergencyFundFaqs,
+  'wave-speed-simulator':         waveSpeedFaqs,
+  'frequency-period-simulator':   frequencyPeriodFaqs,
+  'pendulum-simulator':           pendulumFaqs,
+  'heat-transfer-simulator':      heatTransferFaqs,
 };

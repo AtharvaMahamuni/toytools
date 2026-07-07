@@ -28,4 +28,5 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'generate-identifier':  { title: 'IDs & UUIDs',             order: 2 },
   'generate-placeholder': { title: 'Placeholder Text',        order: 3 },
   'generate-code':        { title: 'Codes & QR',              order: 4 },
+  'simulate':             { title: 'Simulations',             order: 1 },
 };

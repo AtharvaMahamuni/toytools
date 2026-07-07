@@ -37,6 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
+  'physics',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -45,6 +46,7 @@ const PATTERN_IDS = [
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
+  'simulate',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -73,6 +75,11 @@ const engineDefs: EngineDef[] = [
   { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro' },
   { id: 'csv', name: 'CSV Engine', category: 'developer-utilities', patterns: ['csv-transform'], runtimeGlobal: 'runCsv', sharedWidget: 'CsvWidget.astro' },
   { id: 'generation', name: 'Generation Engine', category: 'generate', patterns: ['generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code'], runtimeGlobal: 'runGeneration', sharedWidget: 'GeneratorWidget.astro' },
+  // Physics Playground: interactive canvas simulations. runtimeGlobal is '' — unlike the
+  // string-transform engines, physics does NOT attach to window.ToyTools in ToyToolsRuntime
+  // (that loads site-wide). Instead PhysicsWidget ships a bundled per-page script that
+  // lazy-loads one simulation module, so physics code never touches non-physics pages.
+  { id: 'physics', name: 'Physics Playground Engine', category: 'physics', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'PhysicsWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {

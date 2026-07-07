@@ -7,7 +7,19 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/lib/**/*.ts'],
-      exclude: ['src/lib/**/*.test.ts', 'src/lib/storage.ts', 'src/lib/paths.ts'],
+      exclude: [
+        'src/lib/**/*.test.ts',
+        'src/lib/**/*.testutil.ts',
+        'src/lib/storage.ts',
+        'src/lib/paths.ts',
+        // boot.ts is the DOM orchestration layer (ResizeObserver / MutationObserver /
+        // visibilitychange / pointer capture). Its behaviour is asserted by boot.test.ts
+        // (happy-dom) and the Playwright physics suite in a real browser; the branchy
+        // environment glue is not meaningfully measurable in vitest.
+        'src/lib/engines/physics/boot.ts',
+        // Pure canvas draw routines — exercised by the stub-context draw smoke and e2e.
+        'src/lib/engines/physics/simulations/*.draw.ts',
+      ],
       reporter: ['text', 'html', 'json-summary'],
       thresholds: {
         lines: 90,
