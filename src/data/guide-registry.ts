@@ -82,6 +82,7 @@ export const registeredGuideSlugs = [
   'inflation-calculator',
   'savings-goal-calculator',
   'emergency-fund-calculator',
+  'scientific-calculator',
   'wave-speed-simulator',
 ] as const;
 
