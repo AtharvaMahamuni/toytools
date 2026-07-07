@@ -140,6 +140,19 @@ describe('pendulum model', () => {
     expect(pendulumSim.observations[0](s)).toMatch(/kinetic|shifting/i);
   });
 
+  it('reports the mid-swing energy exchange when PE and KE are comparable', () => {
+    // Sweep a full period and confirm the "shifting between" branch fires somewhere in the
+    // middle of the arc (neither almost-all-potential nor almost-all-kinetic).
+    const s = makeState({ angle: 40 });
+    let sawMidSwing = false;
+    const steps = Math.round((smallAnglePeriod(s.params) / 4) / SUBSTEP);
+    for (let i = 0; i < steps; i++) {
+      stepPendulum(s, SUBSTEP);
+      if (/shifting between/.test(pendulumSim.observations[0](s) ?? '')) sawMidSwing = true;
+    }
+    expect(sawMidSwing).toBe(true);
+  });
+
   it('exposes finite measurements and non-empty narrative across presets', () => {
     for (const preset of pendulumSim.presets) {
       const p = params(preset.values as Partial<Record<'length' | 'angle' | 'gravity', number>>);

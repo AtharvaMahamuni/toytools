@@ -278,7 +278,13 @@ function wire(root: HTMLElement, def: SimulationDef): void {
 
     canvas.addEventListener('pointerdown', (ev) => {
       ev.preventDefault();
-      canvas.setPointerCapture(ev.pointerId);
+      // setPointerCapture throws if the pointer id isn't active (e.g. synthetic events);
+      // capture is a nicety, not a requirement, so never let it break the drag.
+      try {
+        canvas.setPointerCapture(ev.pointerId);
+      } catch {
+        /* ignore */
+      }
       hintEl?.setAttribute('hidden', '');
       dragging = true;
       moved = false;

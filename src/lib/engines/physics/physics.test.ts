@@ -123,6 +123,19 @@ describe('createLoop', () => {
     }
   });
 
+  it('ignores redundant play/pause calls (idempotent guards)', () => {
+    const h = harness();
+    const raf = vi.fn(h.timers.raf);
+    const caf = vi.fn(h.timers.caf);
+    const loop = createLoop({ step: vi.fn(), render: vi.fn() }, { ...h.timers, raf, caf });
+    loop.play();
+    loop.play(); // already running → no second schedule
+    expect(raf).toHaveBeenCalledTimes(1);
+    loop.pause();
+    loop.pause(); // already paused → no second cancel
+    expect(caf).toHaveBeenCalledTimes(1);
+  });
+
   it('pause stops frames; toggle reports the new state; play resets the clock', () => {
     const h = harness();
     const render = vi.fn();

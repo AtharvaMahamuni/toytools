@@ -111,6 +111,13 @@ describe('heat-transfer model', () => {
     const s = makeState({ tempA: 98 });
     const bumped = heatTransferSim.pointer!.handle(s, { type: 'tap', x: 0.2, y: 0.5, t: 0 });
     expect(bumped!.tempA).toBe(0); // 98 + 5 > 100 → wraps to 0
+    // A normal tap below the ceiling simply adds 5 °C.
+    expect(heatTransferSim.pointer!.handle(makeState({ tempA: 40 }), { type: 'tap', x: 0.2, y: 0.5, t: 0 })!.tempA).toBe(45);
+  });
+
+  it('ignores the pointer-up event', () => {
+    const s = makeState();
+    expect(heatTransferSim.pointer!.handle(s, { type: 'up', x: 0.2, y: 0.2, t: 0 })).toBeNull();
   });
 
   it('fires each observation and explanation branch for the right state', () => {

@@ -125,8 +125,84 @@ test.describe('every physics tool', () => {
       await expect(page.locator('[data-sim-canvas]')).toBeVisible();
       // The fallback message must stay hidden — the sim booted successfully.
       await expect(page.locator('[data-sim-fallback]')).toBeHidden();
+      await expect(page.locator('[data-sim-graph]')).toBeVisible(); // every sim has a graph
       await page.waitForTimeout(200);
       expect(errors, errors.join('\n')).toEqual([]);
     });
   }
+});
+
+// Direct on-canvas manipulation (pointer). Drives the boot pointer wiring + each sim's
+// pointer.handle in a real browser with a real canvas — the paths happy-dom cannot rasterize.
+// We dispatch PointerEvents in-page rather than page.mouse: some Chromium builds don't bridge
+// synthetic mouse input to pointer events, so this keeps the drag deterministic everywhere.
+async function pointerDrag(
+  canvas: Locator,
+  from: [number, number],
+  to: [number, number],
+  steps = 5,
+) {
+  const box = (await canvas.boundingBox())!;
+  const pts: [number, number][] = [];
+  for (let i = 0; i <= steps; i++) {
+    const f = i / steps;
+    pts.push([
+      box.x + box.width * (from[0] + (to[0] - from[0]) * f),
+      box.y + box.height * (from[1] + (to[1] - from[1]) * f),
+    ]);
+  }
+  await canvas.evaluate((el, points: [number, number][]) => {
+    const fire = (type: string, x: number, y: number) =>
+      el.dispatchEvent(
+        new PointerEvent(type, { clientX: x, clientY: y, pointerId: 1, bubbles: true, cancelable: true }),
+      );
+    fire('pointerdown', points[0][0], points[0][1]);
+    for (let i = 1; i < points.length; i++) fire('pointermove', points[i][0], points[i][1]);
+    fire('pointerup', points[points.length - 1][0], points[points.length - 1][1]);
+  }, pts);
+}
+
+test.describe('canvas direct manipulation', () => {
+  test('wave: dragging the wave sets the amplitude', async ({ page }) => {
+    await page.goto(FLAGSHIP);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    expect(await page.getByLabel('Amplitude in m').inputValue()).toBe('0.5'); // default
+    // Drag to the top edge → maximum amplitude.
+    await pointerDrag(page.locator('[data-sim-canvas]'), [0.5, 0.5], [0.5, 0.02]);
+    expect(Number(await page.getByLabel('Amplitude in m').inputValue())).toBeGreaterThan(0.9);
+    // Amplitude must not change the wave speed.
+    await expect(page.locator('[data-measurement="waveSpeed"]')).toHaveText(/2\.00 m\/s/);
+  });
+
+  test('pendulum: grabbing the bob sets a release angle', async ({ page }) => {
+    await page.goto('/tool/physics/pendulum-simulator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    expect(await page.getByLabel(/Initial angle/).inputValue()).toBe('20'); // default
+    // Grab and drag well to the right of the pivot → a large release angle, distinct from default.
+    await pointerDrag(page.locator('[data-sim-canvas]'), [0.42, 0.3], [0.85, 0.5]);
+    expect(Number(await page.getByLabel(/Initial angle/).inputValue())).toBeGreaterThan(40);
+  });
+
+  test('heat: dragging a block changes its temperature', async ({ page }) => {
+    await page.goto('/tool/physics/heat-transfer-simulator/');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    // Drag the left block (A) to the bottom → cools it toward 0 °C.
+    await pointerDrag(page.locator('[data-sim-canvas]'), [0.2, 0.4], [0.2, 0.95]);
+    expect(Number(parseFloat((await page.locator('[data-measurement="tempA"]').textContent())!))).toBeLessThan(30);
+  });
+});
+
+// Theme switching must re-read the palette and redraw (the canvas can't use CSS var()).
+test.describe('theme', () => {
+  test('switching theme repaints the canvas', async ({ page }) => {
+    await page.goto(FLAGSHIP);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const canvas = page.locator('[data-sim-canvas]');
+    const light = await canvasFingerprint(canvas);
+    // Force dark theme the same way the Nav toggle does (data-theme on <html>).
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+    await page.waitForTimeout(150);
+    const dark = await canvasFingerprint(canvas);
+    expect(dark).not.toBe(light);
+  });
 });
