@@ -62,8 +62,13 @@ function commit(field: HTMLInputElement, n: number, reformat: boolean): void {
   field.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
+// Native string controls (date / datetime-local / free text) render as [data-smart-input] inputs too,
+// but must NOT get numeric stepping or human-number parsing — their value is the raw string.
+const NON_NUMERIC_INPUT_TYPES = new Set(['date', 'datetime', 'text', 'select']);
+
 function enhance(field: HTMLInputElement): void {
   if (ENHANCED.has(field)) return;
+  if (NON_NUMERIC_INPUT_TYPES.has(field.dataset.fieldType ?? '')) return;
   ENHANCED.add(field);
 
   // Seed data-raw from the initial value.

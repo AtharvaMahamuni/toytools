@@ -1,0 +1,9 @@
+---
+// Age Calculator — a thin wrapper over the shared DateTimeWidget, which renders the field schema and
+// delegates all output to the platform experience renderer. Tool logic lives in the datetime engine
+// (src/lib/engines/datetime/calculators/age.ts), resolved at runtime via ToyTools.runDateTime.
+import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
+import { config } from './config';
+---
+
+<DateTimeWidget slug={config.slug} dateTimeId="age" config={config} emptyText="Enter a date of birth to calculate an exact age." />

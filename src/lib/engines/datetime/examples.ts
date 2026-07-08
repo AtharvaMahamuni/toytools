@@ -1,0 +1,33 @@
+// Date & Time worked examples — the engine's data for the platform example registry. One source of
+// truth for guides, the widget Load Example action, and tests (datetime.test.ts re-runs each and
+// asserts `expect`). Examples that assert on results pin BOTH dates so the outcome is deterministic.
+
+import { buildExampleRegistry, examplesForRef, type WorkedExample } from '@lib/examples/types';
+import type { DateTimeInput } from './types';
+
+export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
+  {
+    id: 'age-basic',
+    engine: 'datetime',
+    ref: 'age',
+    title: 'Age on a fixed date',
+    inputs: { birthDate: '1990-05-15', asOf: '2026-07-08' },
+    // Keys are result-card ids (hero 'age' + metric cards), matched against each card's `raw`.
+    expect: { 'age': 36, 'total-months': 433, 'total-weeks': 1886, 'total-days': 13203 },
+    narrative: 'Someone born on 15 May 1990 is 36 years, 1 month, and 23 days old on 8 July 2026.',
+  },
+  {
+    id: 'age-today',
+    engine: 'datetime',
+    ref: 'age',
+    title: 'Age today from a birth date',
+    inputs: { birthDate: '2000-01-01', asOf: '' },
+    narrative: 'Leave the second date blank to measure age as of today.',
+  },
+];
+
+export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);
+
+export function dateTimeExamplesFor(ref: string): WorkedExample<DateTimeInput>[] {
+  return examplesForRef(DATETIME_EXAMPLES, 'datetime', ref);
+}

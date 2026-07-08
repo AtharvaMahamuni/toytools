@@ -111,6 +111,11 @@ for (const path of toolPaths()) {
         const min = (await editable.getAttribute('min')) ?? '0';
         await editable.fill(min);
         await expect(editable).toHaveValue(min);
+      } else if (type === 'date' || type === 'datetime-local') {
+        // Native date/time pickers reject arbitrary text; fill a valid value for the control's type.
+        const value = type === 'date' ? '2000-01-01' : '2000-01-01T12:00';
+        await editable.fill(value);
+        await expect(editable).toHaveValue(value);
       } else {
         const value = type === 'number' ? '42' : 'test';
         await editable.fill(value);

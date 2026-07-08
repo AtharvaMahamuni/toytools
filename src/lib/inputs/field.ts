@@ -8,7 +8,12 @@ export type SmartFieldType =
   | 'number'
   | 'integer'
   | 'select'
-  | 'duration';
+  | 'duration'
+  // Non-numeric controls. `date`/`datetime` render native pickers; `text` is a free-form string
+  // (e.g. a cron expression). Their canonical value is the raw string, not a parsed number.
+  | 'date'
+  | 'datetime'
+  | 'text';
 
 export interface SmartFieldOption {
   value: string;
@@ -48,7 +53,10 @@ export interface SmartFieldDef {
   presets?: SmartFieldPreset[];
 }
 
-/** Is this a numeric (non-select) field? */
+/** The field types whose canonical value is a parsed number (steppers, human-number parsing, grouping). */
+const NUMERIC_TYPES: readonly SmartFieldType[] = ['currency', 'percent', 'number', 'integer', 'duration'];
+
+/** Is this a numeric field (as opposed to select / date / datetime / text)? */
 export function isNumericField(type: SmartFieldType): boolean {
-  return type !== 'select';
+  return NUMERIC_TYPES.includes(type);
 }

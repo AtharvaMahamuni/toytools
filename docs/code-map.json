@@ -191,6 +191,19 @@
         "thermodynamics"
       ],
       "toolCount": 4
+    },
+    "datetime": {
+      "name": "Date & Time Engine",
+      "category": "date-time",
+      "patterns": [
+        "datetime-calculate"
+      ],
+      "runtimeGlobal": "runDateTime",
+      "sharedWidget": "src/tools/_shared/DateTimeWidget.astro",
+      "supportedFamilies": [
+        "age"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -289,6 +302,27 @@
     }
   },
   "tools": {
+    "age-calculator": {
+      "name": "Age Calculator",
+      "dir": "src/tools/datetime/age-calculator",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/age-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "age",
+      "processorId": "age",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "qr-code-generator": {
       "name": "QR Code Generator",
       "dir": "src/tools/generate/qr-code-generator",

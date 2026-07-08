@@ -1,0 +1,141 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Your exact age, also called your chronological age, is the number of whole years, months,
+      and days from your date of birth to today, or to any date you choose. This age calculator,
+      also known as a birthday calculator, date of birth calculator, or chronological age calculator,
+      answers "how old am I"
+      precisely. It is not simply this year minus your birth year, because that only holds once
+      your birthday has passed. Enter a date of birth and it shows the exact age, the same age in
+      total calendar months, weeks, and days, and how many days until your next birthday.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Age Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Age Is Measured <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Age calculation works one unit at a time, from the smallest to the largest. Subtract the day,
+      then the month, then the year. If the day of the reference date is earlier in the month than
+      your birth day, you borrow a month and add back the real length of the previous month, which
+      is 28, 29, 30, or 31 days depending on the month. If the month then comes out negative, you
+      borrow a year. Therefore the result is a calendar-correct age that respects each month's true
+      length. Leap years affect an exact age too: a span that crosses several 29 Februaries holds
+      more days than a flat 365 per year would suggest, which is why the count uses the real calendar.
+    </p>
+  </section>
+
+  <section id="age-at-any-date">
+    <h2>Find Your Age on a Specific Past or Future Date <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Leave the second field blank to measure your age as of today, using your device clock. To find
+      your age on a specific past or future date, enter it in the "Age at date" field. This is handy
+      for confirming an age on a cutoff date, planning a milestone birthday, or measuring the exact
+      time elapsed between any two dates, shown in years and in age in days.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>For example, born 15 May 1990, measured on 8 July 2026.</strong> That is exactly 36 years, 1 month, and 23 days, which is 13,203 days.</p>
+    <p><strong>Next birthday.</strong> On 8 July 2026 a 15 May birthday has already passed, so the next one is 15 May 2027, and the tool counts the days until then.</p>
+    <p><strong>Day of the week.</strong> 15 May 1990 was a Tuesday, which the calculator reports alongside the age, so the "what day was I born" question is answered in the same step.</p>
+  </section>
+
+  <section id="age-calculator-vs-alternatives">
+    <h2>Age Calculator vs the Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The two usual alternatives are mental math and a spreadsheet. Mental math means subtracting the
+      birth year from the current year, so the real question is exact calendar age versus a simple year
+      subtraction. However, that shortcut is wrong for most of the year, because it ignores whether the
+      birthday has already happened. For example, someone born in December is a full year younger than
+      the naive subtraction suggests for the eleven months before their birthday.
+    </p>
+    <p>
+      A spreadsheet does better with a function such as DATEDIF, but it needs the right arguments and
+      still will not show weeks, the weekday of birth, or a birthday countdown at a glance. By contrast,
+      this calculator gives all of that at once, updates as you type, and runs entirely in your browser,
+      so there is nothing to set up and nothing to upload.
+    </p>
+  </section>
+
+  <section id="totals">
+    <h2>Age in Months, Weeks, and Days <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The same age also appears as totals. Total months count every completed month, total
+      weeks are the whole weeks within the elapsed days, and total days are the exact count between
+      the two dates. These totals are useful for infants, anniversaries, and any time a single unit
+      reads more naturally than years, months, and days together.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Why totals differ from a rough estimate">
+      <p>Total days are counted on the real calendar, including every leap day in the span, so they are exact rather than an average of 365.25 days per year.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Subtracting only the years">
+      <p>
+        This year minus the birth year is off by one whenever the birthday has not happened yet
+        this year. An exact age compares the full month and day, not just the year.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Assuming every month is 30 days">
+      <p>
+        Months range from 28 to 31 days. Counting months and days correctly means borrowing the
+        real length of the preceding month, which is exactly what this calculator does.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Leap-day birthdays">
+      <p>A 29 February birthday is counted exactly for age. For the next-birthday countdown in a non-leap year, it is treated as 28 February, the common civil convention.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

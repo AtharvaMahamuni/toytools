@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics',
+  'physics', 'datetime',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -46,7 +46,7 @@ const PATTERN_IDS = [
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
-  'simulate',
+  'simulate', 'datetime-calculate',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -80,6 +80,10 @@ const engineDefs: EngineDef[] = [
   // (that loads site-wide). Instead PhysicsWidget ships a bundled per-page script that
   // lazy-loads one simulation module, so physics code never touches non-physics pages.
   { id: 'physics', name: 'Physics Playground Engine', category: 'physics', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'PhysicsWidget.astro' },
+  // Date & Time: date/duration/timezone/timestamp/schedule tools. Reuses the platform experience
+  // renderer (ToyTools.experience) for output; runtimeGlobal runDateTime resolves the calculator.
+  // Additional patterns (datetime-convert, datetime-schedule) register with their tools in later PRs.
+  { id: 'datetime', name: 'Date & Time Engine', category: 'date-time', patterns: ['datetime-calculate'], runtimeGlobal: 'runDateTime', sharedWidget: 'DateTimeWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {

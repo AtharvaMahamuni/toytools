@@ -21,6 +21,9 @@ const inputId = `${idPrefix}-f-${field.id}`;
 const helpId = field.help ? `${inputId}-help` : undefined;
 const isSelect = field.type === 'select';
 const isCurrency = field.type === 'currency';
+// Native string controls (date picker, datetime-local, free text) skip the numeric −/+ machinery.
+const isPlain = field.type === 'date' || field.type === 'datetime' || field.type === 'text';
+const nativeType = field.type === 'date' ? 'date' : field.type === 'datetime' ? 'datetime-local' : 'text';
 const inputMode = field.type === 'integer' ? 'numeric' : 'decimal';
 const initialDisplay = String(field.default ?? '');
 
@@ -56,6 +59,20 @@ function compactCurrency(value: number, code: string): string {
         <option value={o.value} selected={String(field.default) === o.value}>{o.label}</option>
       ))}
     </select>
+  ) : isPlain ? (
+    <input
+      id={inputId}
+      class="widget-input"
+      type={nativeType}
+      autocomplete="off"
+      value={initialDisplay}
+      placeholder={field.type === 'text' ? String(field.default ?? '') : undefined}
+      data-field-id={field.id}
+      data-field-type={field.type}
+      data-required={field.optional ? 'false' : 'true'}
+      data-raw={initialDisplay}
+      aria-describedby={helpId}
+    />
   ) : (
     <div class="smart-input-row">
       <button
