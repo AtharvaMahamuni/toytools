@@ -34,6 +34,10 @@ const speeds = [0.25, 0.5, 1, 2];
 ---
 
 <section class="phys" data-physics-sim data-simulation-id={simulationId} data-slug={slug}>
+  <!-- Cockpit: on desktop the simulation (left) and its controls + live numbers (right) sit
+       side by side, so adjusting a slider and seeing the effect never needs a scroll. It stacks
+       back to a single column below 1024px. -->
+  <div class="phys-cockpit">
   <!-- Stage: the simulation canvas + playback controls -->
   <div class="tool-panel phys-stage">
     <div class="phys-canvas-wrap">
@@ -65,6 +69,8 @@ const speeds = [0.25, 0.5, 1, 2];
     </div>
   </div>
 
+  <!-- Console: everything the user tweaks (sliders, presets) and reads (live measurements). -->
+  <div class="phys-console">
   <!-- Controls: parameter sliders + scenario presets -->
   <div class="phys-block">
     <h2 class="phys-h">Controls</h2>
@@ -119,6 +125,8 @@ const speeds = [0.25, 0.5, 1, 2];
     </div>
     <p class="visually-hidden" data-sim-live aria-live="polite" aria-atomic="true"></p>
   </div>
+  </div><!-- /phys-console -->
+  </div><!-- /phys-cockpit -->
 
   <!-- Live formula -->
   {sim.formula && (
@@ -186,6 +194,24 @@ const speeds = [0.25, 0.5, 1, 2];
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
+  }
+
+  /* Stage + console stack on mobile (default) and go side by side on desktop so the whole
+     interactive loop (canvas, controls, live numbers) fits in one viewport. */
+  .phys-cockpit,
+  .phys-console {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .phys-cockpit {
+      display: grid;
+      /* minmax(0, …) lets the canvas track shrink instead of overflowing the grid. */
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      align-items: start;
+    }
   }
 
   .phys-stage {
