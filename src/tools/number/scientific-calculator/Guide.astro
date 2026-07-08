@@ -1,0 +1,117 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A scientific calculator evaluates a whole expression at once, following the standard order
+      of operations: parentheses first, then powers and roots, then multiplication and division,
+      and finally addition and subtraction. So 2 + 3 x 4 is 14, not 20. It also handles
+      trigonometry, logarithms, powers, roots, factorials, and constants like pi and e, and it lets
+      you choose whether angles are in degrees or radians. Type or tap an expression and read the
+      result instantly.
+    </p>
+    <a href={toolHref} class="cta-link">Open The Scientific Calculator →</a>
+  </section>
+
+  <section id="order-of-operations">
+    <h2>Order Of Operations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The calculator resolves precedence for you, so you can write an expression the way you would
+      on paper. The rules, from first to last, are: anything inside parentheses, then powers and
+      roots, then multiplication, division, and modulo, and last of all addition and subtraction.
+      Operators of the same level are read left to right, except powers, which are read right to
+      left, so 2^3^2 means 2^(3^2). When in doubt, add parentheses: they make your intent explicit
+      and never change the wrong answer into a right one by accident.
+    </p>
+  </section>
+
+  <section id="degrees-vs-radians">
+    <h2>Degrees Versus Radians <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Trigonometry functions need to know what unit your angle is in. In degrees, a full turn is
+      360 and sin(30) is 0.5. In radians, a full turn is 2 pi and the number 30 is a much larger
+      angle, so sin(30) gives a completely different value. Use the DEG and RAD buttons to switch.
+      Most school and exam questions are in degrees, so if a trig answer looks wrong, the first
+      thing to check is the mode. Inverse functions such as asin return their answer in the unit
+      you have selected.
+    </p>
+  </section>
+
+  <section id="functions-and-constants">
+    <h2>Functions And Constants <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The keypad covers the functions you meet through school and early university: sine, cosine,
+      and tangent with their inverses; the natural logarithm ln and the base 10 logarithm log; the
+      exponential e^x; square root, cube root, and absolute value; floor, ceiling, and round; powers
+      with the x^y key; and factorial with x!. The constants pi and e are one tap away, and Ans
+      drops your previous answer into a new calculation so you can build on it. Functions and
+      parentheses nest freely, so sqrt(ln(100)) is perfectly valid.
+    </p>
+  </section>
+
+  <section id="memory-keys">
+    <h2>Memory Keys <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Memory is a small scratchpad for a single number. MS stores the current value, MR recalls it
+      into your expression, and MC clears it. M+ adds the current value to memory and M- subtracts
+      it, which is ideal for keeping a running total while you work through parts of a problem. A
+      small M appears above the keypad whenever memory holds a value, so you always know it is
+      there. Your history and memory stay on your device and are restored when you come back.
+    </p>
+  </section>
+
+  <section id="worked-examples">
+    <h2>Worked Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>(2 + 3) x 4 = 20.</strong> The parentheses force the addition first; without them, 2 + 3 x 4 is 14.</li>
+      <li><strong>sin(30) = 0.5 in degrees.</strong> Switch to radians and the same keys give about minus 0.988, because 30 radians is a different angle.</li>
+      <li><strong>2^10 = 1024.</strong> Use the x^y key, or type the caret directly on your keyboard.</li>
+      <li><strong>5! = 120.</strong> The factorial multiplies 5 x 4 x 3 x 2 x 1.</li>
+      <li><strong>2 pi = 6.2832.</strong> Writing a number directly before pi is understood as multiplication.</li>
+    </ul>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>Expecting addition to happen before multiplication. It does not: use parentheses when you need to.</li>
+      <li>Leaving the calculator in radians for a degrees question, or the reverse.</li>
+      <li>Forgetting a closing parenthesis in a nested expression, which the calculator will flag.</li>
+      <li>Reading 1/2 pi as 1/(2 pi). It is read left to right as (1/2) x pi, so add parentheses to be sure.</li>
+    </ul>
+  </section>
+
+  <section id="try-it">
+    <h2>Try It Yourself <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Work an expression from your homework, switch between degrees and radians to see how trig
+      answers change, and use Ans to chain one result into the next. Everything runs in your
+      browser, so nothing you calculate leaves your device.
+    </p>
+    <a href={toolHref} class="cta-link">Start Calculating →</a>
+  </section>
+</GuideLayout>

@@ -87,6 +87,7 @@ import InflationGuide             from '../../tools/finance/inflation-calculator
 import SavingsGoalGuide           from '../../tools/finance/savings-goal-calculator/Guide.astro';
 import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calculator/Guide.astro';
 import WaveSpeedSimulatorGuide    from '../../tools/physics/wave-speed-simulator/Guide.astro';
+import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator/Guide.astro';
 
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
@@ -167,6 +168,7 @@ const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'savings-goal-calculator':      SavingsGoalGuide,
   'emergency-fund-calculator':    EmergencyFundGuide,
   'wave-speed-simulator':         WaveSpeedSimulatorGuide,
+  'scientific-calculator':        ScientificCalculatorGuide,
 };
 
 export const getStaticPaths = (() => {

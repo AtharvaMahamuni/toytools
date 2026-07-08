@@ -102,6 +102,7 @@ import { knowledge as ruleOf72Calculator }         from '@tools/finance/rule-of-
 import { knowledge as inflationCalculator }         from '@tools/finance/inflation-calculator/knowledge';
 import { knowledge as savingsGoalCalculator }       from '@tools/finance/savings-goal-calculator/knowledge';
 import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/knowledge';
+import { knowledge as scientificCalculator }        from '@tools/number/scientific-calculator/knowledge';
 
 // --- Physics ---
 import { knowledge as waveSpeedSimulator }         from '@tools/physics/wave-speed-simulator/knowledge';
@@ -188,6 +189,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   inflationCalculator,
   savingsGoalCalculator,
   emergencyFundCalculator,
+  scientificCalculator,
   waveSpeedSimulator,
   frequencyPeriodSimulator,
   pendulumSimulator,

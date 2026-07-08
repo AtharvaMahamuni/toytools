@@ -82,6 +82,7 @@ import { items as ruleOf72Faqs }              from '@tools/finance/rule-of-72-ca
 import { items as inflationFaqs }             from '@tools/finance/inflation-calculator/faq';
 import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-calculator/faq';
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
+import { items as scientificCalculatorFaqs }  from '@tools/number/scientific-calculator/faq';
 // Physics
 import { items as waveSpeedFaqs }             from '@tools/physics/wave-speed-simulator/faq';
 import { items as frequencyPeriodFaqs }       from '@tools/physics/frequency-period-simulator/faq';
@@ -166,6 +167,7 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'inflation-calculator':         inflationFaqs,
   'savings-goal-calculator':      savingsGoalFaqs,
   'emergency-fund-calculator':    emergencyFundFaqs,
+  'scientific-calculator':        scientificCalculatorFaqs,
   'wave-speed-simulator':         waveSpeedFaqs,
   'frequency-period-simulator':   frequencyPeriodFaqs,
   'pendulum-simulator':           pendulumFaqs,

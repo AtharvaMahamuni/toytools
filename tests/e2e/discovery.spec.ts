@@ -28,8 +28,8 @@ test.describe('homepage directory', () => {
     //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1),
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
     //   −8 text counters (9→1).
-    // 81 tools − 39 = 42 directory links (finance, generator, and physics tools are not grouped).
-    await expect(directory.locator('.dir-link')).toHaveCount(42);
+    // 82 tools − 39 = 43 directory links (finance, generator, physics, and calculator tools are not grouped).
+    await expect(directory.locator('.dir-link')).toHaveCount(43);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

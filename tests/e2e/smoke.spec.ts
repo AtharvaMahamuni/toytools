@@ -99,7 +99,10 @@ for (const path of toolPaths()) {
 
     // --- Interaction: exercise the first editable control, confirm it sticks ---
     const editable = fields.first();
-    if ((await editable.count()) > 0 && (await editable.isVisible())) {
+    const isReadonly =
+      (await editable.count()) > 0 &&
+      (await editable.evaluate((el) => (el as HTMLInputElement).readOnly === true));
+    if ((await editable.count()) > 0 && (await editable.isVisible()) && !isReadonly) {
       const tag = await editable.evaluate((el) => el.tagName.toLowerCase());
       const type = await editable.getAttribute('type');
       if (type === 'range') {

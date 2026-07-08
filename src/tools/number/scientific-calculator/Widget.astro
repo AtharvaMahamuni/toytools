@@ -1,0 +1,424 @@
+---
+// Bespoke scientific-calculator widget. It is a thin renderer over the pure state layer
+// (@lib/calculator) and the pure math engine (@lib/math): every keypress goes through a state
+// transition, so no math or history/memory logic lives in this file. Uses a bundled <script>
+// (not is:inline) so it can import the tested modules; it loads only on this page.
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+
+type Key = { t: string; i?: string; act?: string; a?: string; wide?: boolean };
+
+const sciKeys: Key[] = [
+  { t: 'sin', i: 'sin(', a: 'sine' }, { t: 'cos', i: 'cos(', a: 'cosine' }, { t: 'tan', i: 'tan(', a: 'tangent' },
+  { t: 'asin', i: 'asin(', a: 'inverse sine' }, { t: 'acos', i: 'acos(', a: 'inverse cosine' }, { t: 'atan', i: 'atan(', a: 'inverse tangent' },
+  { t: 'ln', i: 'ln(', a: 'natural logarithm' }, { t: 'log', i: 'log(', a: 'logarithm base 10' }, { t: 'e^x', i: 'exp(', a: 'e to the power of x' },
+  { t: '√', i: 'sqrt(', a: 'square root' }, { t: '∛', i: 'cbrt(', a: 'cube root' }, { t: '|x|', i: 'abs(', a: 'absolute value' },
+  { t: 'floor', i: 'floor(', a: 'floor' }, { t: 'ceil', i: 'ceil(', a: 'ceiling' }, { t: 'round', i: 'round(', a: 'round' },
+  { t: 'x^y', i: '^', a: 'power' }, { t: 'x²', i: '^2', a: 'squared' }, { t: 'x!', i: '!', a: 'factorial' },
+  { t: '(', i: '(', a: 'open parenthesis' }, { t: ')', i: ')', a: 'close parenthesis' }, { t: 'π', i: 'pi', a: 'pi' },
+  { t: 'e', i: 'e', a: "Euler's number e" }, { t: 'Ans', i: 'ans', a: 'previous answer' },
+];
+
+const basicKeys: Key[] = [
+  { t: 'C', act: 'clear', a: 'clear all' }, { t: '⌫', act: 'backspace', a: 'backspace' }, { t: '%', i: '%', a: 'modulo' }, { t: '÷', i: '/', a: 'divide' },
+  { t: '7', i: '7' }, { t: '8', i: '8' }, { t: '9', i: '9' }, { t: '×', i: '*', a: 'multiply' },
+  { t: '4', i: '4' }, { t: '5', i: '5' }, { t: '6', i: '6' }, { t: '−', i: '-', a: 'minus' },
+  { t: '1', i: '1' }, { t: '2', i: '2' }, { t: '3', i: '3' }, { t: '+', i: '+', a: 'plus' },
+  { t: '0', i: '0' }, { t: '.', i: '.', a: 'decimal point' }, { t: '=', act: 'evaluate', a: 'equals', wide: true },
+];
+
+const memKeys: Key[] = [
+  { t: 'MC', act: 'mem-clear', a: 'memory clear' }, { t: 'MR', act: 'mem-recall', a: 'memory recall' },
+  { t: 'M+', act: 'mem-add', a: 'memory add' }, { t: 'M−', act: 'mem-sub', a: 'memory subtract' }, { t: 'MS', act: 'mem-store', a: 'memory store' },
+];
+
+const attrs = (k: Key) => ({
+  ...(k.i != null ? { 'data-insert': k.i } : {}),
+  ...(k.act ? { 'data-action': k.act } : {}),
+  ...(k.a ? { 'aria-label': k.a } : {}),
+});
+---
+
+<section class="sc" data-tool="scientific-calculator">
+  <div class="sc-shell">
+    <div class="sc-display">
+      <input
+        id="sc-expr"
+        class="sc-expr"
+        type="text"
+        readonly
+        inputmode="none"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="0"
+        aria-label="Expression"
+      />
+      <div class="sc-result" id="sc-result" aria-live="polite" aria-atomic="true"></div>
+    </div>
+
+    <div class="sc-bar">
+      <div class="sc-modes" role="group" aria-label="Angle mode">
+        <button type="button" class="sc-mode" data-action="mode-deg" aria-pressed="true">DEG</button>
+        <button type="button" class="sc-mode" data-action="mode-rad" aria-pressed="false">RAD</button>
+      </div>
+      <span class="sc-mem-indicator" id="sc-mem" hidden aria-label="Value stored in memory">M</span>
+    </div>
+
+    <div class="sc-keys sc-mem-keys" role="group" aria-label="Memory">
+      {memKeys.map((k) => (<button type="button" class="sc-btn sc-btn--mem" {...attrs(k)}>{k.t}</button>))}
+    </div>
+
+    <div class="sc-body">
+      <div class="sc-keys sc-sci-keys" role="group" aria-label="Functions and constants">
+        {sciKeys.map((k) => (<button type="button" class="sc-btn sc-btn--fn" {...attrs(k)}>{k.t}</button>))}
+      </div>
+      <div class="sc-keys sc-num-keys" role="group" aria-label="Digits and operators">
+        {basicKeys.map((k) => (
+          <button type="button" class:list={['sc-btn', k.wide && 'sc-btn--wide', /^[0-9.]$/.test(k.t) && 'sc-btn--digit', k.act === 'evaluate' && 'sc-btn--equals']} {...attrs(k)}>{k.t}</button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="sc-history-panel">
+    <div class="sc-history-head">
+      <h2 class="sc-history-title">History</h2>
+      <button type="button" class="sc-history-clear" data-action="clear-history">Clear</button>
+    </div>
+    <ul class="sc-history-list" id="sc-history-list" aria-label="Calculation history"></ul>
+    <p class="sc-history-empty" id="sc-history-empty">Your recent calculations will appear here.</p>
+  </div>
+
+  <div class="tool-actions">
+    <button class="action-btn action-btn--copy" id="sc-copy" data-action="copy" data-label="Copy" type="button">Copy result</button>
+  </div>
+</section>
+
+<CategoryDiscovery toolSlug="scientific-calculator" />
+
+<script>
+  import { formatResult } from '@lib/math';
+  import {
+    createInitialState,
+    insert,
+    backspace,
+    clear,
+    evaluateCurrent,
+    toggleAngleMode,
+    reuseHistory,
+    clearHistory,
+    memoryAdd,
+    memorySubtract,
+    memoryStore,
+    memoryRecall,
+    memoryClear,
+    hasMemory,
+    type CalculatorState,
+  } from '@lib/calculator';
+
+  const SLUG = 'scientific-calculator';
+  const TT = (window as unknown as { ToyTools?: any }).ToyTools;
+
+  const root = document.querySelector<HTMLElement>('[data-tool="scientific-calculator"]');
+  if (root) init(root);
+
+  function init(root: HTMLElement): void {
+    const exprEl = root.querySelector<HTMLInputElement>('#sc-expr')!;
+    const resultEl = root.querySelector<HTMLElement>('#sc-result')!;
+    const memEl = root.querySelector<HTMLElement>('#sc-mem')!;
+    const historyList = root.querySelector<HTMLElement>('#sc-history-list')!;
+    const historyEmpty = root.querySelector<HTMLElement>('#sc-history-empty')!;
+    const copyBtn = root.querySelector<HTMLButtonElement>('#sc-copy')!;
+
+    let state: CalculatorState = createInitialState({ angleMode: 'deg' });
+
+    // Restore prior session.
+    try {
+      const saved = TT?.state?.load(SLUG);
+      if (saved) {
+        state = createInitialState({
+          angleMode: saved.angleMode === 'rad' ? 'rad' : 'deg',
+          memory: typeof saved.memory === 'number' ? saved.memory : 0,
+          ans: typeof saved.ans === 'number' ? saved.ans : 0,
+          history: Array.isArray(saved.history) ? saved.history : [],
+          expression: typeof saved.expression === 'string' ? saved.expression : '',
+        });
+      }
+    } catch {
+      /* corrupt state — start fresh */
+    }
+
+    function persist(): void {
+      TT?.state?.save(SLUG, {
+        angleMode: state.angleMode,
+        memory: state.memory,
+        ans: state.ans,
+        history: state.history,
+        expression: state.expression,
+      });
+    }
+
+    function renderHistory(): void {
+      historyList.textContent = '';
+      state.history.forEach((h, i) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sc-history-item';
+        btn.setAttribute('data-action', 'reuse');
+        btn.setAttribute('data-index', String(i));
+        btn.setAttribute('aria-label', `Reuse ${h.expression} equals ${h.result}`);
+        const ex = document.createElement('span');
+        ex.className = 'sc-hist-expr';
+        ex.textContent = h.expression;
+        const rs = document.createElement('span');
+        rs.className = 'sc-hist-res';
+        rs.textContent = `= ${h.result}`;
+        btn.append(ex, rs);
+        li.append(btn);
+        historyList.append(li);
+      });
+      historyEmpty.hidden = state.history.length > 0;
+    }
+
+    function render(): void {
+      exprEl.value = state.expression;
+      if (state.error) {
+        resultEl.textContent = state.error;
+        resultEl.classList.add('is-error');
+      } else {
+        resultEl.textContent = state.result ? `= ${state.result}` : '';
+        resultEl.classList.remove('is-error');
+      }
+      root.querySelector('[data-action="mode-deg"]')!.setAttribute('aria-pressed', String(state.angleMode === 'deg'));
+      root.querySelector('[data-action="mode-rad"]')!.setAttribute('aria-pressed', String(state.angleMode === 'rad'));
+      memEl.hidden = !hasMemory(state);
+      renderHistory();
+    }
+
+    function apply(fn: (s: CalculatorState) => CalculatorState): void {
+      state = fn(state);
+      render();
+      persist();
+    }
+
+    let copyTimer: ReturnType<typeof setTimeout>;
+    function doCopy(): void {
+      if (!state.result) {
+        TT?.toast?.('Nothing to copy yet!');
+        return;
+      }
+      TT?.copy?.(state.result);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => {
+        copyBtn.classList.remove('is-success');
+        copyBtn.textContent = 'Copy result';
+      }, 2000);
+    }
+
+    root.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('button');
+      if (!btn || !root.contains(btn)) return;
+      const ins = btn.getAttribute('data-insert');
+      if (ins != null) {
+        apply((s) => insert(s, ins));
+        exprEl.focus();
+        return;
+      }
+      const act = btn.getAttribute('data-action');
+      switch (act) {
+        case 'evaluate': apply((s) => evaluateCurrent(s)); break;
+        case 'clear': apply(clear); break;
+        case 'backspace': apply(backspace); break;
+        case 'mode-deg': if (state.angleMode !== 'deg') apply(toggleAngleMode); break;
+        case 'mode-rad': if (state.angleMode !== 'rad') apply(toggleAngleMode); break;
+        case 'mem-add': apply(memoryAdd); break;
+        case 'mem-sub': apply(memorySubtract); break;
+        case 'mem-store': apply(memoryStore); break;
+        case 'mem-recall': apply(memoryRecall); break;
+        case 'mem-clear': apply(memoryClear); break;
+        case 'clear-history': apply(clearHistory); break;
+        case 'reuse': apply((s) => reuseHistory(s, Number(btn.getAttribute('data-index')))); exprEl.focus(); break;
+        case 'copy': doCopy(); break;
+      }
+    });
+
+    // Physical keyboard — scoped to the display input so it never hijacks typing elsewhere.
+    exprEl.addEventListener('keydown', (e) => {
+      const k = e.key;
+      if (k >= '0' && k <= '9') apply((s) => insert(s, k));
+      else if ('.+-*/^%()!'.includes(k) && k.length === 1) apply((s) => insert(s, k));
+      else if (k === 'Enter' || k === '=') apply((s) => evaluateCurrent(s));
+      else if (k === 'Backspace') apply(backspace);
+      else if (k === 'Escape') apply(clear);
+      else return; // let Tab/arrows/etc. behave normally
+      e.preventDefault();
+    });
+
+    render();
+  }
+</script>
+
+<style>
+  .sc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .sc-shell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 480px;
+    width: 100%;
+  }
+
+  .sc-display {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .sc-expr {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    text-align: right;
+    padding: 0;
+  }
+  .sc-expr:focus { outline: none; }
+
+  .sc-result {
+    min-height: 1.6em;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-accent-strong);
+  }
+  .sc-result.is-error {
+    color: var(--color-danger);
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .sc-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .sc-modes { display: inline-flex; gap: var(--space-1); }
+  .sc-mode {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .sc-mode[aria-pressed='true'] {
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+  }
+
+  .sc-mem-indicator {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--color-accent-strong);
+    padding-inline: var(--space-2);
+  }
+
+  .sc-keys { display: grid; gap: var(--space-2); }
+  .sc-mem-keys { grid-template-columns: repeat(5, 1fr); }
+  .sc-body { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .sc-sci-keys { grid-template-columns: repeat(3, 1fr); align-content: start; }
+  .sc-num-keys { grid-template-columns: repeat(4, 1fr); }
+
+  .sc-btn {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-base);
+    cursor: pointer;
+    transition: var(--transition-color);
+    user-select: none;
+  }
+  .sc-btn:hover { background: var(--color-surface-hover); }
+  .sc-btn--fn { font-size: var(--text-sm); }
+  .sc-btn--mem { font-size: var(--text-sm); font-family: var(--font-mono); }
+  .sc-btn--digit { font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 500; }
+  .sc-btn--wide { grid-column: span 2; }
+  .sc-btn--equals {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+  }
+  .sc-btn--equals:hover { background: var(--color-accent-strong); }
+
+  .sc-history-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 480px;
+  }
+  .sc-history-head { display: flex; align-items: baseline; justify-content: space-between; }
+  .sc-history-title { margin: 0; font-size: var(--text-base); font-weight: 600; }
+  .sc-history-clear {
+    border: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-2);
+  }
+  .sc-history-clear:hover { color: var(--color-danger); }
+  .sc-history-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+  .sc-history-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding: var(--space-2) var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: var(--transition-color);
+    text-align: left;
+  }
+  .sc-history-item:hover { background: var(--color-accent-subtle); border-color: var(--color-accent); }
+  .sc-hist-expr { color: var(--color-text-muted); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sc-hist-res { font-weight: 600; white-space: nowrap; }
+  .sc-history-empty { margin: 0; color: var(--color-text-muted); font-size: var(--text-sm); }
+
+  @media (max-width: 520px) {
+    .sc-body { grid-template-columns: 1fr; }
+  }
+</style>
