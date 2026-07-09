@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Collapse multiple spaces and tabs into single spaces.',
   categorySlug: 'text-utilities',
   tags: ['remove extra spaces', 'remove double spaces', 'delete extra spaces', 'collapse spaces', 'clean up spaces', 'remove multiple spaces', 'fix spacing'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
