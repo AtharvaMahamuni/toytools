@@ -28,10 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A character counter is a tool that measures the text length and string length of any input: letters, numbers, spaces, punctuation, and special characters. It typically shows two
-      counts: characters with spaces (the total length) and characters without spaces (letters
-      and symbols only). For example, "Hello, World!" is 13 characters with spaces and 11
-      without.
+      A character counter is a tool that measures the text length and string length of any input: letters, numbers, spaces, punctuation, and special characters. This char count typically shows two
+      figures, so with spaces vs without spaces is easy to see: characters with spaces (the total
+      length, counting letters and spaces) and characters without spaces (letters and symbols only).
+      For example, "Hello, World!" is 13 characters with spaces and 11 without.
     </p>
     <a href={toolHref} class="cta-link">Try The Character Counter →</a>
   </section>
@@ -39,14 +39,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="why-character-count-matters">
     <h2>Why Character Count Matters <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      <strong>Social media.</strong> Twitter/X allows 280 characters per post: a twitter character counter checks your draft before you hit publish. LinkedIn posts
+      <strong>Social media.</strong> Twitter/X allows 280 characters per post: a twitter character counter shows how to fit text within a 280-character limit before you hit publish. LinkedIn posts
       cap at 3,000 characters. Instagram captions allow up to 2,200 characters. These limits
       are hard: posts that exceed the limit cannot be published. Character count is the right
       metric for social writing, not word count.
     </p>
     <p>
       <strong>SEO meta descriptions.</strong> Google displays meta descriptions up to about
-      155 to 160 characters before truncating. Keeping your meta description between 120 and
+      155 to 160 characters before truncating, so knowing how to write a meta description under 160
+      characters keeps it from being cut off. Keeping your meta description between 120 and
       158 characters ensures it appears in full in search results. Meta titles are similarly
       limited to 50 to 60 characters.
     </p>
@@ -66,9 +67,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-it-works">
     <h2>How Character Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The counter measures the length of your text string: every character, including spaces,
-      tabs, punctuation, and newline characters. Characters without spaces subtracts all
-      whitespace characters from the total.
+      How are spaces and line breaks counted? Every character adds to the total, including spaces,
+      tabs, punctuation, and newline characters. Characters without spaces subtracts all whitespace
+      from the total. Under the hood the tool counts each unicode code point, which is why a grapheme
+      you see as one symbol, like a flag or a family emoji built from several code points, can add
+      more than one to the count.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your
@@ -114,9 +117,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Ignoring the difference between with-spaces and without-spaces counts">
       <p>
-        Most platform limits count characters with spaces. The without-spaces count is useful
-        for estimating content density but is not the number to check against a platform limit.
-        Always use the with-spaces count for compliance checking.
+        Spaces usually do count toward a limit: most platforms count characters with spaces. The
+        without-spaces count is useful for estimating content density but is not the number to check
+        against a platform limit. Always use the with-spaces count for compliance checking.
       </p>
     </ReferenceBlock>
   </section>

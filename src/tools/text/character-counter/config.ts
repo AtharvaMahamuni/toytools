@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['character counter', 'count characters', 'character count', 'characters with spaces', 'characters without spaces', 'text length', 'string length', 'twitter character counter', 'character limit checker'],
   isNew: true,
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-analysis',
   guide: {
     slug: 'character-counter',
