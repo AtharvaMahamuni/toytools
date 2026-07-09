@@ -90,6 +90,7 @@ import SavingsGoalGuide           from '../../tools/finance/savings-goal-calcula
 import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calculator/Guide.astro';
 import WaveSpeedSimulatorGuide    from '../../tools/physics/wave-speed-simulator/Guide.astro';
 import FrequencyPeriodSimulatorGuide from '../../tools/physics/frequency-period-simulator/Guide.astro';
+import PendulumSimulatorGuide from '../../tools/physics/pendulum-simulator/Guide.astro';
 import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator/Guide.astro';
 
 // Typed against the registry's slug union — TS fails the build if this map and
@@ -174,6 +175,7 @@ const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'emergency-fund-calculator':    EmergencyFundGuide,
   'wave-speed-simulator':         WaveSpeedSimulatorGuide,
   'frequency-period-simulator':   FrequencyPeriodSimulatorGuide,
+  'pendulum-simulator':           PendulumSimulatorGuide,
   'scientific-calculator':        ScientificCalculatorGuide,
 };
 

@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Drag the bob and let it swing. Change length, angle, and gravity and watch the period, velocity, and potential-to-kinetic energy trade update live.',
   categorySlug: 'physics',
   tags: ['pendulum', 'pendulum simulator', 'pendulum period', 'simple harmonic motion', 'potential and kinetic energy', 'gravity', 'oscillation', 'T = 2 pi sqrt L over g'],
-  updatedAt: '2026-07-07',
+  updatedAt: '2026-07-09',
   isNew: true,
   trustVariant: 'offline',
   engine: 'physics',
@@ -15,4 +15,12 @@ export const config: ToolConfig = {
   family: 'oscillations',
   processorId: 'pendulum',
   relatedTools: ['frequency-period-simulator', 'wave-speed-simulator'],
+  guide: {
+    slug: 'how-a-pendulum-period-works',
+    categorySlug: 'physics',
+    title: 'What Determines a Pendulum Period',
+    description: 'Why a pendulum period depends on length and gravity but not mass, how the small-angle formula works, and how energy trades between potential and kinetic.',
+    readMinutes: 5,
+    updatedAt: 'Jul 2026',
+  },
 };

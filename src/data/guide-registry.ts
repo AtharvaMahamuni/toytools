@@ -16,6 +16,7 @@ export const registeredGuideSlugs = [
   'csv-cleaner',
   'csv-to-tsv',
   'frequency-period-simulator',
+  'pendulum-simulator',
   'cagr-calculator',
   'roi-calculator',
   'word-frequency-counter',
