@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert any text to UPPERCASE instantly in your browser — paste, convert, and copy with no uploads.',
   categorySlug: 'text-utilities',
   tags: ['uppercase', 'uppercase converter', 'convert to uppercase', 'all caps', 'capital letters', 'text to uppercase', 'uppercase text generator', 'make text uppercase'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
