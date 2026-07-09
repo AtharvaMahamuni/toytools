@@ -65,6 +65,34 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
   </section>
 
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A simple phrase.</strong> For example, input: <code>hello world</code>. Output:
+      <code>dlrow olleh</code>. This is a full string reversal, spaces included.
+    </p>
+    <p>
+      <strong>A palindrome check.</strong> For example, flip text <code>racecar</code> and it reads
+      <code>racecar</code> again, confirming the word is a palindrome.
+    </p>
+    <p>
+      <strong>Emoji and accents.</strong> For example, <code>café 🚀</code> reverses to
+      <code>🚀 éfac</code>, with the accent and emoji kept whole rather than broken apart.
+    </p>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>Reversing Characters vs Reversing Word Order <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reversing characters vs reversing word order are different operations. This text reverser flips
+      every character, so <code>big dog</code> becomes <code>god gib</code>, not <code>dog big</code>.
+      If you want the words in reverse but each word spelled normally, that is a word-order reversal, a
+      separate task. Reversing the whole text vs reversing each line matters too: whole-text mirror
+      text moves your last line to the top, while a per-line reversal keeps lines in place and only
+      flips the characters on each. This tool does the whole-block backwards text reversal.
+    </p>
+  </section>
+
   <section id="common-mistakes">
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Reversing is not encryption">
