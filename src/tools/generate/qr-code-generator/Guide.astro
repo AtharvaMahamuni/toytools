@@ -30,10 +30,11 @@ const categoryHref = withBase(`/category/${category.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A QR code is a square barcode that a phone camera can read to open a link, join a Wi-Fi network, or
-      save a contact. This tool creates one in your browser. Choose what the code should contain, text, a
-      URL, an email, a phone number, Wi-Fi credentials, or a contact card, fill in the fields, and the code
-      appears as you type. Download it as a PNG for screens or an SVG for print. Everything, including any
-      passwords you enter, stays on your device.
+      save a contact. This qr generator handles qr code generation in your browser. Choose what the code
+      should contain, text, a URL, an email, a phone number, Wi-Fi credentials, or a contact card, fill in
+      the fields, and the code appears as you type. As a qr maker it covers a url qr code, a wifi qr code, or
+      a vcard qr code from one form. Use the PNG export for screens or an SVG for print. Everything, including
+      any passwords you enter, stays on your device.
     </p>
     <a href={toolHref} class="cta-link">Open The QR Code Generator →</a>
   </section>
@@ -89,9 +90,9 @@ const categoryHref = withBase(`/category/${category.slug}/`);
       The content types cover the most common needs:
     </p>
     <ul>
-      <li><strong>URL:</strong> paste a web address and the scan offers to open it. Great for posters and packaging.</li>
-      <li><strong>Wi-Fi:</strong> enter the network name and password, and the scan offers to join. Ideal for guest access.</li>
-      <li><strong>Contact card:</strong> enter a name, phone, and email, and the scan offers to save a contact. Useful on business cards.</li>
+      <li><strong>URL:</strong> a url qr code encodes a web address so the scan offers to open it. Great for posters and packaging.</li>
+      <li><strong>Wi-Fi:</strong> to make a wifi qr code, enter the network name and password, and the scan offers to join. What a wifi qr code contains is the SSID, the password, and the security type, packed into one join string. Ideal for guest access.</li>
+      <li><strong>Contact card:</strong> a vcard qr code holds a name, phone, and email as a vcard, and the scan offers to save a contact. Useful on business cards.</li>
       <li><strong>Email:</strong> enter an address and the scan opens a pre-addressed email.</li>
       <li><strong>Phone:</strong> enter a number and the scan offers to dial it.</li>
       <li><strong>Text:</strong> encode any short text, such as a code, a note, or a serial number.</li>
@@ -138,9 +139,11 @@ const categoryHref = withBase(`/category/${category.slug}/`);
   <section id="limitations">
     <h2>Limitations <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A QR code is static. Once you print it, the data is fixed, so you cannot change where it points
-      without generating and printing a new one. If you expect the destination to change, encode a URL you
-      control that redirects, and update the redirect rather than the code.
+      Static vs dynamic qr code is the key limitation to understand. A QR code from this tool is static:
+      once you print it, the data is fixed, so you cannot change where it points without generating and
+      printing a new one. A dynamic code, by contrast, encodes a redirect URL you control so the destination
+      can change later. To get that behavior, encode a URL you control that redirects, and update the
+      redirect rather than the code.
     </p>
     <p>
       Codes also have practical limits on data. The more you encode, the denser the pattern, and past a
