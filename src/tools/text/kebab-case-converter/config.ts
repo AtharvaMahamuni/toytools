@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert text to kebab-case for CSS classes, URL slugs, and IDs.',
   categorySlug: 'text-utilities',
   tags: ['kebab case', 'kebab case converter', 'convert to kebab-case', 'kebab-case', 'url slug', 'css class name', 'hyphen case', 'slugify'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
