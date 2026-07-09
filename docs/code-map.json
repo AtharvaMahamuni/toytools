@@ -426,12 +426,13 @@
       "processorId": "csv-to-tsv",
       "toolGroup": "csv-tools",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

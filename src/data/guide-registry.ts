@@ -14,6 +14,7 @@ export const registeredGuideSlugs = [
   'password-generator',
   'csv-diff',
   'csv-cleaner',
+  'csv-to-tsv',
   'cagr-calculator',
   'roi-calculator',
   'word-frequency-counter',
