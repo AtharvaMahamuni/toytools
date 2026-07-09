@@ -15,6 +15,7 @@ export const registeredGuideSlugs = [
   'csv-diff',
   'csv-cleaner',
   'csv-to-tsv',
+  'frequency-period-simulator',
   'cagr-calculator',
   'roi-calculator',
   'word-frequency-counter',
