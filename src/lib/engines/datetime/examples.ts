@@ -24,6 +24,15 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     inputs: { birthDate: '2000-01-01', asOf: '' },
     narrative: 'Leave the second date blank to measure age as of today.',
   },
+  {
+    id: 'diff-project',
+    engine: 'datetime',
+    ref: 'date-difference',
+    title: 'Days between two project dates',
+    inputs: { startDate: '2026-01-01', endDate: '2026-07-08' },
+    expect: { 'total-days': 188, 'total-weeks': 26, 'business-days': 134 },
+    narrative: 'From 1 January to 8 July 2026 is 6 months and 7 days, or 188 days (134 weekdays).',
+  },
 ];
 
 export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);

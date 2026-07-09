@@ -7,9 +7,11 @@
 import type { DateTimeInput, DateTimeOpts, DateTimeResult, DateTimeFieldDef, DateTimeTool } from './types';
 import { calculationError } from '@lib/results/index';
 import { ageCalculator } from './calculators/age';
+import { dateDifferenceCalculator } from './calculators/date-difference';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'age': ageCalculator,
+  'date-difference': dateDifferenceCalculator,
 };
 
 /**

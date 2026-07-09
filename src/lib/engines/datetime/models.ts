@@ -47,6 +47,21 @@ export function weekdayOf(c: CivilDate): number {
   return new Date(toUTCms(c)).getUTCDay();
 }
 
+/** Count of Monday-Friday days in the half-open range [a, b) (aligns with daysBetween). */
+export function weekdaysBetween(a: CivilDate, b: CivilDate): number {
+  const total = daysBetween(a, b);
+  if (total <= 0) return 0;
+  const fullWeeks = Math.floor(total / 7);
+  let wd = fullWeeks * 5;
+  const rem = total - fullWeeks * 7;
+  const startDow = weekdayOf(a);
+  for (let i = 0; i < rem; i++) {
+    const dow = (startDow + i) % 7;
+    if (dow !== 0 && dow !== 6) wd++;
+  }
+  return wd;
+}
+
 export interface AgeParts {
   years: number;
   months: number;

@@ -1,5 +1,6 @@
 import type { ToolConfig } from './types';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
+import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
@@ -91,6 +92,7 @@ import { config as heatTransferSimulator }        from '@tools/physics/heat-tran
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
   ageCalculator,
+  dateDifferenceCalculator,
   qrCodeGenerator,
   loremIpsumGenerator,
   randomStringGenerator,

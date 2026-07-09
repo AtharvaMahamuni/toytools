@@ -8,6 +8,7 @@
 
 export const registeredGuideSlugs = [
   'age-calculator',
+  'date-difference-calculator',
   'qr-code-generator',
   'lorem-ipsum-generator',
   'random-string-generator',
