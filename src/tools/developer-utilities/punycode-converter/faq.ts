@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'puny-faq-3',
     question: 'Why was only part of my domain converted?',
     answer:
-      'Punycode works on each dot-separated label independently. Labels that are already plain ASCII are left unchanged, and only labels containing non-ASCII characters get encoded and the xn-- prefix. So münchen.de becomes xn--mnchen-3ya.de — the ".de" stays as-is.',
+      'Punycode works on each dot-separated label independently. Labels that are already plain ASCII are left unchanged, and only labels containing non-ASCII characters get encoded and the xn-- prefix. So münchen.de becomes xn--mnchen-3ya.de, and the ".de" stays as-is.',
   },
   {
     id: 'puny-faq-4',
