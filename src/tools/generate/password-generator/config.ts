@@ -17,7 +17,7 @@ export const config: ToolConfig = {
     'entropy',
   ],
   isNew: true,
-  updatedAt: '2026-07-05',
+  updatedAt: '2026-07-10',
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-credential',
