@@ -47,6 +47,6 @@ export const items: FAQItem[] = [
     id: 'jyaml-faq-8',
     question: 'Is my data private when I use this tool?',
     answer:
-      'Yes. All conversion happens entirely in your browser using JavaScript. Your data never leaves your machine — there is no upload, no server-side processing, and no logging of any kind. This makes the tool safe to use with internal configuration files, credentials structures, or any sensitive data.',
+      'Yes. All conversion happens entirely in your browser. Your data never leaves your machine, so there is no upload, no server-side step, and no logging of any kind. This makes the tool safe to use with internal configuration files, credentials, or any sensitive data.',
   },
 ];
