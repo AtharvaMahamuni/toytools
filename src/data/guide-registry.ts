@@ -13,6 +13,7 @@ export const registeredGuideSlugs = [
   'uuid-generator',
   'password-generator',
   'csv-diff',
+  'csv-cleaner',
   'cagr-calculator',
   'roi-calculator',
   'word-frequency-counter',
