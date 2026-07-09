@@ -47,6 +47,6 @@ export const items: FAQItem[] = [
     id: 'y2j-faq-8',
     question: 'Is my data private when I use this tool?',
     answer:
-      'Yes. All conversion happens entirely in your browser using JavaScript. Your data never leaves your machine — there is no upload, no server-side processing, and no logging of any kind. This makes the tool safe to use with internal configuration files or any sensitive data.',
+      'Yes. The YAML you paste is parsed and converted to JSON right in your browser, with nothing uploaded, stored, or logged on a server. You can safely convert private config files or credential-shaped data, and it works offline after the page first loads.',
   },
 ];

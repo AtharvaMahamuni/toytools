@@ -49,4 +49,26 @@ describe('buildContentManifest', () => {
     const base64 = contentByType('tool').find(e => e.slug === 'base64-encoder-decoder');
     expect(base64?.url).toContain('/tool/developer-utilities/');
   });
+
+  const isW3C = (d?: string) => !!d && /^\d{4}-\d{2}-\d{2}$/.test(d);
+
+  it('home, categories, and guides all carry a valid W3C lastmod so every surface signals freshness', () => {
+    expect(isW3C(manifest.find(e => e.type === 'home')?.updatedAt), 'home').toBe(true);
+    for (const c of contentByType('category')) {
+      expect(isW3C(c.updatedAt), `category ${c.slug}`).toBe(true);
+    }
+    for (const g of contentByType('guide')) {
+      expect(isW3C(g.updatedAt), `guide ${g.slug}`).toBe(true);
+    }
+  });
+
+  it('home lastmod is the freshest tool date in the catalog', () => {
+    const home = manifest.find(e => e.type === 'home')!;
+    const newest = tools
+      .map(t => t.updatedAt)
+      .filter((d): d is string => isW3C(d))
+      .sort()
+      .at(-1);
+    expect(home.updatedAt).toBe(newest);
+  });
 });
