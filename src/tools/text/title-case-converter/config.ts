@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert text to Title Case — capitalize the first letter of each word.',
   categorySlug: 'text-utilities',
   tags: ['title case', 'title case converter', 'capitalize each word', 'capitalize text', 'headline case', 'title capitalization', 'capitalize first letter of each word'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
