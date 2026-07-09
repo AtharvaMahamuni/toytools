@@ -31,13 +31,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       A YAML to JSON converter takes a YAML document and produces the equivalent JSON. Paste in
       <code>name: Alice</code> on one line and <code>active: true</code> on the next, and you get
-      <code>&#123;"name":"Alice","active":true&#125;</code> with proper types — strings stay strings,
-      <code>true</code> becomes a boolean, and numbers become numbers.
+      <code>&#123;"name":"Alice","active":true&#125;</code> with proper types, so strings stay strings,
+      <code>true</code> becomes a boolean, and numbers become numbers. This data format conversion
+      changes only the syntax, not the meaning.
     </p>
     <p>
-      Use this YAML JSON converter to convert YAML to JSON for APIs, JSON Schema validation,
-      database imports, and any tool or language that reads JSON but not YAML. The conversion
-      runs entirely in your browser.
+      Use this yaml to json tool to convert YAML to JSON for APIs, JSON Schema validation,
+      database imports, and any tool or language that reads JSON but not YAML. As a json converter
+      online it also handles a yml to json converter workflow, a yaml to json online paste, a
+      kubernetes yaml to json manifest, or a docker compose to json export. The conversion runs
+      entirely in your browser.
     </p>
     <a href={toolHref} class="cta-link">Try the YAML to JSON Converter →</a>
   </section>
@@ -45,11 +48,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="what-is-yaml-to-json">
     <h2>What Does YAML to JSON Conversion Do? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      YAML (YAML Ain't Markup Language) and JSON (JavaScript Object Notation) both describe the
-      same kind of structured data: objects with named keys, arrays, and scalar values. YAML
-      favors readability with indentation and minimal punctuation; JSON favors universal support
-      with explicit braces, brackets, and quotes. Converting YAML to JSON re-expresses the same
-      data in the format APIs and most programming languages expect.
+      What is the difference between YAML and JSON? Both YAML (YAML Ain't Markup Language) and JSON
+      (JavaScript Object Notation) describe the same kind of structured data: objects with named
+      keys, arrays, and scalar values. YAML favors readability with indentation and minimal
+      punctuation; JSON favors universal support with explicit braces, brackets, and quotes.
+      Converting YAML to JSON re-expresses the same data in the format APIs and most programming
+      languages expect.
     </p>
     <p>
       Because every JSON document is also valid YAML, the data model lines up cleanly. Mappings
@@ -118,9 +122,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>YAML vs JSON: Which to Use <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Reach for YAML when a human edits the file directly: configuration, infrastructure
-      manifests, and CI pipelines all benefit from its readability and comments. Reach for JSON
-      when a machine consumes the data: API payloads, inter-service messages, and anything that
-      needs broad language support.
+      manifests, and CI pipelines all benefit from its readability and comments. When to use JSON
+      instead of YAML comes down to the consumer: reach for JSON when a machine reads the data, such
+      as API payloads, inter-service messages, and anything that needs broad language support.
     </p>
     <p>
       The two formats are interchangeable for the data they share, which is why round-tripping is
@@ -137,7 +141,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <ReferenceBlock type="common-mistake" heading="Using tabs for indentation">
       <p>
-        YAML forbids tab characters for indentation — only spaces are allowed. A tab anywhere in
+        YAML forbids tab characters for indentation, and only spaces are allowed. A tab anywhere in
         the indentation causes a parse error. Configure your editor to insert spaces, and use a
         consistent two-space step per nesting level.
       </p>

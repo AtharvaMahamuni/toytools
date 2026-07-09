@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['yaml to json', 'yaml json converter', 'json converter', 'convert yaml to json', 'developer', 'data conversion', 'kubernetes', 'devops'],
   isNew: true,
-  updatedAt: '2026-06-18',
+  updatedAt: '2026-07-10',
   engine: 'structured-data',
   pattern: 'structured-transform',
   family: 'json',
