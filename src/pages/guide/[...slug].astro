@@ -10,6 +10,8 @@ import RandomStringGeneratorGuide from '../../tools/generate/random-string-gener
 import UuidGeneratorGuide from '../../tools/generate/uuid-generator/Guide.astro';
 import PasswordGeneratorGuide from '../../tools/generate/password-generator/Guide.astro';
 import CsvDiffGuide from '../../tools/developer-utilities/csv-diff/Guide.astro';
+import CsvCleanerGuide from '../../tools/developer-utilities/csv-cleaner/Guide.astro';
+import CsvToTsvGuide from '../../tools/developer-utilities/csv-to-tsv/Guide.astro';
 import CagrCalculatorGuide from '../../tools/finance/cagr-calculator/Guide.astro';
 import RoiCalculatorGuide from '../../tools/finance/roi-calculator/Guide.astro';
 import WordFrequencyCounterGuide from '../../tools/text/word-frequency-counter/Guide.astro';
@@ -88,6 +90,9 @@ import InflationGuide             from '../../tools/finance/inflation-calculator
 import SavingsGoalGuide           from '../../tools/finance/savings-goal-calculator/Guide.astro';
 import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calculator/Guide.astro';
 import WaveSpeedSimulatorGuide    from '../../tools/physics/wave-speed-simulator/Guide.astro';
+import FrequencyPeriodSimulatorGuide from '../../tools/physics/frequency-period-simulator/Guide.astro';
+import PendulumSimulatorGuide from '../../tools/physics/pendulum-simulator/Guide.astro';
+import HeatTransferSimulatorGuide from '../../tools/physics/heat-transfer-simulator/Guide.astro';
 import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator/Guide.astro';
 
 // Typed against the registry's slug union — TS fails the build if this map and
@@ -100,6 +105,8 @@ const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'uuid-generator': UuidGeneratorGuide,
   'password-generator': PasswordGeneratorGuide,
   'csv-diff': CsvDiffGuide,
+  'csv-cleaner': CsvCleanerGuide,
+  'csv-to-tsv': CsvToTsvGuide,
   'cagr-calculator': CagrCalculatorGuide,
   'roi-calculator': RoiCalculatorGuide,
   'word-frequency-counter': WordFrequencyCounterGuide,
@@ -170,6 +177,9 @@ const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'savings-goal-calculator':      SavingsGoalGuide,
   'emergency-fund-calculator':    EmergencyFundGuide,
   'wave-speed-simulator':         WaveSpeedSimulatorGuide,
+  'frequency-period-simulator':   FrequencyPeriodSimulatorGuide,
+  'pendulum-simulator':           PendulumSimulatorGuide,
+  'heat-transfer-simulator':      HeatTransferSimulatorGuide,
   'scientific-calculator':        ScientificCalculatorGuide,
 };
 

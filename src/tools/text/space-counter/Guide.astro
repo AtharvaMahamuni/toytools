@@ -28,9 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A space counter counts the literal space characters in text. Spaces are the invisible
-      characters produced by pressing the spacebar. Tabs and newlines are not spaces and are not
-      counted. "Hello World" has 1 space; "The quick brown fox" has 3 spaces.
+      A space counter counts the literal space characters in text. This whitespace counter reports
+      how many spaces in text you have, where spaces are the invisible characters produced by
+      pressing the spacebar. Tabs and newlines are not spaces and are not counted. "Hello World" has
+      1 space; "The quick brown fox" has 3 spaces.
     </p>
     <a href={toolHref} class="cta-link">Try The Space Counter →</a>
   </section>
@@ -56,13 +57,25 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
   </section>
 
+  <section id="how-it-works">
+    <h2>How the Space Count Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The space count works by scanning your text and tallying every character equal to the ASCII
+      space (U+0020). Are tabs and line breaks included? No. Tabs, newlines, and non-breaking spaces
+      are skipped, so the number reflects only spacebar spaces. The count updates as you type, which
+      makes it a fast way to audit whitespace before formatting or to confirm a fix removed the
+      spaces you meant to remove.
+    </p>
+  </section>
+
   <section id="examples">
     <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>For example, here is how the counter reads a few short strings:</p>
     <ul>
-      <li><strong>"Hello World"</strong> — 1 space, 11 characters total</li>
-      <li><strong>"The quick brown fox"</strong> — 3 spaces, 19 characters total</li>
-      <li><strong>"Hello  World"</strong> (double space) — 2 spaces, 12 characters total</li>
-      <li><strong>"NoSpacesHere"</strong> — 0 spaces, 12 characters total</li>
+      <li><strong>"Hello World"</strong>: 1 space, 11 characters total</li>
+      <li><strong>"The quick brown fox"</strong>: 3 spaces, 19 characters total</li>
+      <li><strong>"Hello  World"</strong> (double space): 2 spaces, 12 characters total</li>
+      <li><strong>"NoSpacesHere"</strong>: 0 spaces, 12 characters total</li>
     </ul>
   </section>
 
@@ -83,10 +96,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="when-to-use">
     <h2>When to Use a Space Counter <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li>Finding double spaces in edited text (should be replaced with single spaces)</li>
-      <li>Debugging data files where unexpected spaces cause parsing errors</li>
-      <li>Checking the density of whitespace in code or configuration files</li>
-      <li>Verifying spacing in formatted output where space count matters</li>
+      <li>How to find double spaces in a document that should collapse to single spaces</li>
+      <li>Debugging data files where unexpected spaces in text cause parsing errors</li>
+      <li>Auditing whitespace before formatting code or configuration files</li>
+      <li>Catching trailing spaces, which are easy to miss but still count toward the total</li>
     </ul>
   </section>
 
@@ -101,9 +114,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Expecting tabs to show up in the space count">
       <p>
-        Tabs and spaces are different characters. If your text uses tabs for indentation, they
-        will not appear in the space count. To find and replace tabs, use the Remove Tabs or
-        Normalize Whitespace tools.
+        Tabs are not the same as spaces: they are different characters. If your text uses tabs for
+        indentation, they will not appear in the space count. To find and replace tabs, use the
+        Remove Tabs or Normalize Whitespace tools.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Trailing spaces still count">
+      <p>
+        A space at the end of a line is invisible but real, and it adds to the total. Trailing
+        spaces are easy to miss but still count, so a number higher than you expect often points to
+        spaces hiding at the ends of lines.
       </p>
     </ReferenceBlock>
   </section>

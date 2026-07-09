@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert text to snake_case for Python variables and database columns.',
   categorySlug: 'text-utilities',
   tags: ['snake case', 'snake case converter', 'convert to snake_case', 'snake_case', 'python naming', 'database column name', 'underscore case'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',

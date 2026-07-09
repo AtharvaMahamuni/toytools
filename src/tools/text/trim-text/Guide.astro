@@ -30,7 +30,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Trim Text will trim whitespace from every line. It will remove leading spaces, remove trailing spaces,
       and strip whitespace from the start and end of each line: "  hello world  " becomes "hello world".
-      Use it to trim lines in bulk. The words and the spacing between them stay exactly as they were.
+      This per-line trim lets you trim lines in bulk, and invisible trailing spaces still get removed even
+      when you cannot see them. The words and the spacing between them stay exactly as they were.
     </p>
     <a href={toolHref} class="cta-link">Try Trim Text →</a>
   </section>
@@ -40,8 +41,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Whitespace at the ends of a line is invisible but consequential. It breaks exact comparisons,
       causes coupon codes and passwords to fail validation, misaligns data in spreadsheet columns,
-      and trips linters in source code. Trimming is one of the most common normalisation steps
-      before storing or comparing text.
+      and trips linters in source code. Leading whitespace is indentation, so trimming is also how to
+      strip indentation from pasted code when you want it flush left. Trimming is one of the most
+      common normalisation steps before storing or comparing text.
     </p>
     <ReferenceBlock type="key-idea" heading="Pair it with other cleanups">
       <p>
@@ -56,11 +58,25 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The tool processes each line independently, stripping leading and trailing whitespace and
-      leaving the interior of the line alone. For example, "&nbsp; &nbsp;hello world&nbsp; &nbsp;"
-      becomes "hello world": the interior spacing is preserved, only the ends are cleaned.
+      leaving the interior of the line alone. This is a per-line trim vs whole-text trim: every line
+      gets its own edges cleaned, rather than trimming only the very start and end of the whole
+      block. For example, "&nbsp; &nbsp;hello world&nbsp; &nbsp;" becomes "hello world": the interior
+      spacing is preserved, only the ends are cleaned.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A padded coupon code.</strong> For example, "  SAVE20 " becomes "SAVE20", so the code
+      matches when a form checks it exactly.
+    </p>
+    <p>
+      <strong>Indented paste.</strong> For example, a block of code copied with four leading spaces
+      per line comes back flush left once the leading whitespace is trimmed.
     </p>
   </section>
 
@@ -84,7 +100,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="trim-text-vs-alternatives">
     <h2>Trim Text vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Trim Text is the most targeted of the whitespace cleanup alternatives: it only touches the
+      Trimming edges vs collapsing internal spaces is the distinction to keep in mind. Trim Text is
+      the most targeted of the whitespace cleanup alternatives: it only touches the
       edges of each line and preserves everything else. <strong>Remove Extra Spaces</strong> is
       more thorough: it also collapses runs of spaces inside each line. <strong>Normalize
       Whitespace</strong> is the most aggressive alternative: it removes all whitespace runs and

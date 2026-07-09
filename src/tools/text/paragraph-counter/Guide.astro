@@ -31,8 +31,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       A paragraph counter is a tool that counts the paragraphs in text by splitting on blank lines,
       letting you measure text structure at a glance. Each contiguous block of non-empty lines is counted as one
       paragraph. For example, "Line 1\nLine 2\n\nLine 3" contains two paragraphs: one with
-      "Line 1" and "Line 2" combined, and one with "Line 3". Students writing to a format requirement
-      can use it as an essay paragraph counter to verify their draft meets the required structure before submission.
+      "Line 1" and "Line 2" combined, and one with "Line 3". Students counting essay paragraphs
+      can use it to verify their draft meets the required structure before submission.
     </p>
     <a href={toolHref} class="cta-link">Try The Paragraph Counter →</a>
   </section>
@@ -41,9 +41,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Why Paragraph Count Matters <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       <strong>Structural editing.</strong> Paragraph count reveals the text structure and shape of a
-      document before you read it in detail. A 2,000-word document with only 3 paragraphs has
-      "walls of text" that readers will struggle to scan. The same document with 18 short paragraphs
-      is likely well-chunked for on-screen reading.
+      document before you read it in detail, which is how to check structure before publishing. It
+      also exposes pacing: a 2,000-word document with only 3 paragraphs has "walls of text" that
+      readers will struggle to scan, while the same document with 18 short paragraphs has the pacing
+      to feel well-chunked for on-screen reading.
     </p>
     <p>
       <strong>Assignment compliance.</strong> Some academic assignments specify a minimum or maximum
@@ -61,10 +62,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-paragraph-counting-works">
     <h2>How Paragraph Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This tool splits the input on one or more consecutive blank lines. Lines that contain only
-      whitespace (spaces or tabs) are treated as blank. Each resulting non-empty block is counted
-      as one paragraph. For example, three paragraphs separated by two blank lines each will still
-      produce a count of 3; extra blank lines between paragraphs do not create additional counts.
+      What separates one paragraph from the next? A blank-line break. This tool splits the input on
+      one or more consecutive blank lines, so that is how blank lines are interpreted: as separators.
+      Lines that contain only whitespace (spaces or tabs) are treated as blank. Each resulting
+      non-empty block is counted as one paragraph. For example, three paragraphs separated by two
+      blank lines each will still produce a count of 3; extra blank lines between paragraphs do not
+      create additional counts.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
@@ -103,10 +106,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Confusing paragraph separators with line breaks">
       <p>
-        A common mistake is using a single line break (Enter) to separate paragraphs in plain
-        text, expecting the counter to detect them as separate paragraphs. This tool counts blank
-        lines as paragraph separators. A single newline within a paragraph does not create a new
-        paragraph: avoid this pattern in plain-text drafts intended for paragraph-count analysis.
+        A single line break is not always a new paragraph. Using a single line break (Enter) to
+        separate paragraphs in plain text, then expecting the counter to detect them as separate,
+        is a common mistake. This tool counts blank lines as paragraph separators, so a single
+        newline within a paragraph does not create a new paragraph. Note too that list items may not
+        count as paragraphs unless a blank line sits between them: avoid these patterns in plain-text
+        drafts intended for paragraph-count analysis.
       </p>
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Applying paragraph count to code or structured data">

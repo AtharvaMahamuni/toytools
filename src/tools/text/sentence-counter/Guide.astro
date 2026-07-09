@@ -28,9 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A sentence counter is a tool that detects and counts the number of sentences in a piece of
-      text by identifying sentence-ending punctuation, periods (.), exclamation marks (!), and
-      question marks (?). For example, "Hello. How are you? I'm fine!" contains three sentences.
+      A sentence counter is a tool that detects and counts sentences in text by identifying
+      sentence-ending punctuation, periods (.), exclamation marks (!), and question marks (?). Use it
+      to count sentences in any draft. For example, "Hello. How are you? I'm fine!" contains three
+      sentences.
     </p>
     <a href={toolHref} class="cta-link">Try The Sentence Counter →</a>
   </section>
@@ -59,8 +60,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-sentence-counting-works">
     <h2>How Sentence Counting Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This tool scans the text for sentence-ending punctuation (periods, exclamation marks, and question marks) and counts each occurrence followed by whitespace or the end of the text as
-      a sentence boundary. For example, "She left. He stayed." is detected as two sentences, and
+      What defines a sentence here? A run of text ending in sentence-ending punctuation. This tool
+      does its sentence boundary detection by scanning for periods, exclamation marks, and question
+      marks, counting each occurrence followed by whitespace or the end of the text as a boundary.
+      A line break is not a sentence end on its own, so a heading with no punctuation is not counted
+      as a sentence. For example, "She left. He stayed." is detected as two sentences, and
       "Really?! Are you sure?" is detected as two as well (the ?! pair counts as one boundary).
     </p>
     <p>
@@ -98,7 +102,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Abbreviations inflating sentence count">
       <p>
-        A common mistake is failing to account for abbreviations. Abbreviations ending in periods: such as "Dr.", "e.g.", "U.S.A.", or "etc.", are treated as sentence terminators by most
+        Abbreviations like "Dr." can be miscounted as sentence ends. Abbreviations ending in periods, such as "Dr.", "e.g.", "U.S.A.", or "etc.", are treated as sentence terminators by most
         counters. Avoid relying on automated sentence counts for texts heavy with abbreviations;
         manual review is more accurate in those cases.
       </p>
@@ -116,7 +120,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="sentence-counter-vs-alternatives">
     <h2>Sentence Counter vs Other Text Metrics <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A sentence counter is one of several alternatives for analysing text structure. A <strong>word
+      Counting sentences vs counting clauses is worth noting: this tool counts full sentences by end
+      punctuation, not the clauses inside them, so a long sentence with several commas still counts
+      as one. A sentence counter is one of several alternatives for analysing text structure. A <strong>word
       counter</strong> is better for measuring total content volume against a word limit. A
       <strong>paragraph counter</strong> is better for checking structural balance: whether a document
       has too few or too many major sections. A <strong>character counter</strong> is better for

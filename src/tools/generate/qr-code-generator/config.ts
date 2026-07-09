@@ -16,7 +16,7 @@ export const config: ToolConfig = {
     'qr code download',
   ],
   isNew: true,
-  updatedAt: '2026-07-05',
+  updatedAt: '2026-07-09',
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-code',

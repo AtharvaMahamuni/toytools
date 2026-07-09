@@ -28,10 +28,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Sentence case is a simple way to capitalize sentences. It will capitalize first letter of sentence
-      boundaries and proper nouns, exactly like ordinary writing. "the quick brown fox" becomes
-      "The quick brown fox". To produce sentence case text, paste and convert. It is the default
-      style for body text, UI labels, and button copy, and the fastest way to fix capitalization.
+      Sentence case is a simple way to capitalize sentences. This first-letter capitalization applies
+      sentence capitalization at each sentence boundary, exactly like ordinary writing. "the quick
+      brown fox" becomes "The quick brown fox". To produce sentence case text, paste and convert. It
+      is not the same as lowercasing everything: only the sentence starts change, so the rest of each
+      word keeps its case. It is the default ui copy case for body text, UI labels, and button copy,
+      and the fastest way to fix all caps or random capitalization.
     </p>
     <a href={toolHref} class="cta-link">Try The Sentence Case Converter →</a>
   </section>
@@ -39,10 +41,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="why-sentence-case">
     <h2>Why Sentence Case Is The Default <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Sentence case mirrors how we actually speak and read, so it feels natural and is easy to
-      scan. That is why most digital style guides recommend it for headings, microcopy, and
-      especially long-form text: it reads more smoothly than Title Case and carries less visual
-      noise.
+      Why do product teams prefer sentence case? Because it mirrors how we actually speak and read,
+      so it feels natural and is easy to scan. That is why most digital style guides recommend it for
+      modern headlines, microcopy, and especially long-form text: it reads more smoothly than Title
+      Case and carries less visual noise. As a style, sentence case still keeps proper nouns
+      capitalized, even though this automated tool cannot detect them and leaves that touch-up to you.
     </p>
     <ReferenceBlock type="key-idea" heading="Fixing inconsistent capitalization">
       <p>
@@ -64,6 +67,18 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>All caps notes.</strong> For example, "MEETING MOVED TO FRIDAY" becomes "Meeting moved
+      to friday", so the tool will capitalize first letter of the sentence and lowercase the rest.
+    </p>
+    <p>
+      <strong>Two sentences.</strong> For example, "hello there. how are you?" becomes "Hello there.
+      How are you?", capitalizing the start of each sentence.
     </p>
   </section>
 

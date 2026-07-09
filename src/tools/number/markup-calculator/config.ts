@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Find markup percentage from cost and selling price, or set a price from a target markup. Shows profit and margin too.',
   categorySlug: 'number-utilities',
   tags: ['markup calculator', 'markup percentage', 'cost plus pricing', 'markup formula', 'price from markup', 'markup vs margin', 'retail markup'],
-  updatedAt: '2026-06-28',
+  updatedAt: '2026-07-09',
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',

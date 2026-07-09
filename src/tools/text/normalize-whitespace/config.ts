@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Collapse all whitespace into single spaces and trim the result.',
   categorySlug: 'text-utilities',
   tags: ['normalize whitespace', 'collapse whitespace', 'flatten text', 'remove line breaks', 'single line text', 'clean whitespace', 'remove newlines'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

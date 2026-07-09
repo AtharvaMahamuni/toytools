@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'y2j-faq-3',
     question: 'What happens to YAML comments when I convert to JSON?',
     answer:
-      'Comments are removed. JSON has no syntax for comments, so any lines beginning with # in your YAML are discarded during conversion. Only the data — keys, values, and structure — is carried over into the JSON output.',
+      'Comments are removed. JSON has no syntax for comments, so any lines beginning with # in your YAML are discarded during conversion. Only the data, its keys, values, and structure, is carried over into the JSON output.',
   },
   {
     id: 'y2j-faq-4',
@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'y2j-faq-7',
     question: 'Can I convert the JSON back to YAML?',
     answer:
-      'Yes. Use the JSON to YAML Converter — the sibling tool in this workspace. Switch direction with the pill above the editor and your result carries straight over, so you can round-trip between the two formats without copying and pasting.',
+      'Yes. Use the JSON to YAML Converter, the sibling tool in this workspace. Switch direction with the pill above the editor and your result carries straight over, so you can round-trip between the two formats without copying and pasting.',
   },
   {
     id: 'y2j-faq-8',

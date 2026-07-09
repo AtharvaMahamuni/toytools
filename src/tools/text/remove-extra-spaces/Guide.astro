@@ -28,11 +28,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>What Is Remove Extra Spaces? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Remove Extra Spaces is a tool to clean up spaces and fix spacing in any text. It will
-      remove multiple spaces, taking any run of two or more spaces and reducing it to one. To
-      remove double spaces or collapse spaces throughout a document, paste and convert. "hello
-      world" becomes "hello world". Line breaks are preserved, so your paragraph structure
-      stays intact.
+      What does removing extra spaces do? It is a tool to clean whitespace and fix spacing in any
+      text. It will remove multiple spaces, taking any run of two or more spaces and reducing it to
+      one, so it keeps single spaces between words while dropping the surplus. To remove double
+      spaces or collapse spaces throughout a document, paste and convert. "hello  world" becomes
+      "hello world". Line breaks are preserved, so this clean spacing pass leaves your paragraph
+      structure intact.
     </p>
     <a href={toolHref} class="cta-link">Try Remove Extra Spaces →</a>
   </section>
@@ -40,10 +41,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="why-it-matters">
     <h2>Why Extra Spaces Cause Problems <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Double spaces creep in from copy-pasting, the old habit of typing two spaces after a period,
-      and text exported from PDFs or spreadsheets. They are usually invisible until they break
-      something: uneven justification in print, mismatched search results, or inconsistent data
-      in a column that should contain single-spaced values.
+      Why does pasted text get double spaces? They creep in from copy-pasting, from the old habit of
+      typing two spaces after a period, and from text exported from PDFs or spreadsheets. To fix
+      double spaces after periods and clean spacing in pasted text, this pass collapses each run back
+      to one. Left alone they are usually invisible until they break something: uneven justification
+      in print, mismatched search results, or inconsistent data in a column that should contain
+      single-spaced values.
     </p>
     <ReferenceBlock type="key-idea" heading="Spacing vs. whitespace tools">
       <p>
@@ -58,12 +61,26 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The tool scans your text and replaces every sequence of consecutive spaces and tabs with a
-      single space, leaving newlines and all other characters untouched. For example,
-      "hello&nbsp;&nbsp;&nbsp;world" becomes "hello world": the extra spaces collapse, but the
-      line break between paragraphs stays.
+      single space, leaving newlines and all other characters untouched. It collapses internal runs,
+      not leading or trailing edges only, so this space normalization reaches spaces in the middle of
+      a line as well as the ends. For example, "hello&nbsp;&nbsp;&nbsp;world" becomes "hello world":
+      the extra spaces collapse, but the line break between paragraphs stays.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Double spaces after periods.</strong> For example, "Done.&nbsp;&nbsp;Next." becomes
+      "Done. Next.", so this is how to remove double spaces left by the two-space habit.
+    </p>
+    <p>
+      <strong>Interior runs, not just edges.</strong> For example, "a&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;c"
+      becomes "a b c". It collapses internal runs, not leading/trailing edges only, so gaps in the
+      middle of a line are fixed too.
     </p>
   </section>
 
@@ -88,9 +105,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="remove-extra-spaces-vs-alternatives">
     <h2>Remove Extra Spaces vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This tool is one of several whitespace cleanup alternatives. <strong>Trim Text</strong> removes
-      leading and trailing whitespace from each line but leaves interior spaces alone: it is the right
-      alternative when you only need to clean the edges. <strong>Normalize Whitespace</strong> is more
+      This tool is one of several whitespace cleanup alternatives. Removing extra spaces vs trimming
+      edges is the first choice, and collapsing spaces vs normalizing all whitespace is the second.
+      <strong>Trim Text</strong> removes leading and trailing whitespace from each line but leaves
+      interior spaces alone: it is the right alternative when you only need to clean the edges. <strong>Normalize Whitespace</strong> is more
       aggressive: it collapses all whitespace (including line breaks) into a single space, flattening
       multi-line text to one line. <strong>Remove Tabs</strong> converts tab characters to spaces rather
       than collapsing runs. Use Remove Extra Spaces when you want to clean up interior spacing while

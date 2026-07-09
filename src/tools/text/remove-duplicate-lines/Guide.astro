@@ -28,8 +28,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Remove duplicate lines to deduplicate text. Use it to find duplicate lines, remove repeated lines,
-      and dedupe list contents in one step. The output is a clean set of unique lines in the original order.
+      Remove duplicate lines to deduplicate text. Use it to find duplicate lines, delete repeated lines,
+      and dedupe a list in one step. The output is a clean set of unique lines, with "order preservation"
+      so the first occurrence of each stays where it was.
     </p>
     <a href={toolHref} class="cta-link">Try Remove Duplicate Lines →</a>
   </section>
@@ -44,9 +45,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <ReferenceBlock type="key-idea" heading="Matching is exact">
       <p>
-        Lines must match exactly to count as duplicates: comparison is case-sensitive and
-        whitespace-sensitive. Run the lowercase or Trim Text tools first if you want near-matches
-        to be treated as duplicates.
+        Lines must match exactly to count as duplicates, so this is exact-match vs case-insensitive
+        dedup: comparison honours case sensitivity and whitespace. Run the lowercase or Trim Text
+        tools first if you want near-matches to be treated as duplicates.
       </p>
     </ReferenceBlock>
   </section>
@@ -57,6 +58,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       The tool walks through your lines once, remembering which it has already seen. The first
       appearance of a line is kept; any exact repeat is skipped. For example, a list of 100 email
       addresses with 20 duplicates becomes a clean list of 80 unique addresses in the original order.
+      For example, "a", "b", "a", "c" becomes "a", "b", "c", dropping only the second "a".
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
@@ -67,16 +69,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Case-sensitive matching means near-duplicates survive">
       <p>
-        "Apple" and "apple" are treated as different lines because matching is case-sensitive.
-        If you want case-insensitive deduplication, convert everything to lowercase first using
-        the Lowercase Converter, deduplicate, then re-capitalise where needed.
+        Case differences count as different lines: "Apple" and "apple" are treated as separate
+        because matching is case-sensitive. If you want case-insensitive deduplication, convert
+        everything to lowercase first using the Lowercase Converter, deduplicate, then re-capitalise
+        where needed.
       </p>
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Trailing spaces create invisible duplicates">
       <p>
-        "hello " (with a trailing space) and "hello" are different strings, so both survive even
-        though they look identical on screen. Run the Trim Text tool first to strip trailing
-        whitespace, then deduplicate for reliable results.
+        Trailing spaces can make identical-looking lines differ: "hello " (with a trailing space) and
+        "hello" are different strings, so both survive even though they look identical on screen. Run
+        the Trim Text tool first to strip trailing whitespace, then deduplicate for reliable results.
       </p>
     </ReferenceBlock>
   </section>
@@ -84,7 +87,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="remove-duplicate-lines-vs-alternatives">
     <h2>Remove Duplicate Lines vs Other Cleanup Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This tool removes repeated lines while keeping the original order: the first occurrence wins.
+      Removing duplicates vs removing blank lines is the choice to get right first. This tool removes
+      repeated lines while keeping the original order: the first occurrence wins.
       The closest alternatives are <strong>Remove Blank Lines</strong>, which removes empty rows
       (including repeated blank lines) but keeps all non-empty content even if it repeats, and
       <strong>Trim Text</strong>, which strips leading and trailing whitespace so near-duplicate

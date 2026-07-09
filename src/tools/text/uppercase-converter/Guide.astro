@@ -28,8 +28,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      An uppercase text generator lets you convert to uppercase with one click, turning every letter into a capital letter: "hello world"
-      becomes "HELLO WORLD". Converting to uppercase changes only the letters: numbers,
+      An uppercase text generator lets you convert to uppercase with one click, to capitalize all letters into capitals: "hello world"
+      becomes "HELLO WORLD". This is the caps lock text look without holding a key. Converting to uppercase changes only the letter case: numbers,
       spaces, and punctuation are left untouched.
     </p>
     <a href={toolHref} class="cta-link">Try The Uppercase Converter →</a>
@@ -40,8 +40,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Uppercase suits acronyms and initialisms (HTML, NASA, API), named constants in code
       (<code>MAX_RETRIES</code>), short headings or labels, and the occasional word you want
-      to emphasise. It is also handy for normalising data: forcing product codes or country
-      codes to a single, consistent case before comparing or storing them.
+      to emphasise. This is also how to convert a heading to caps without retyping it. It is handy
+      for normalising data too: forcing product codes or country codes to a single, consistent
+      capitalization before comparing or storing them.
+    </p>
+    <p>
+      One caveat on the web: CSS text-transform vs converting the actual text is a real choice.
+      A CSS <code>text-transform: uppercase</code> rule only changes how text looks, leaving the
+      stored value untouched, so copying it yields the original casing. This tool changes the actual
+      characters. Note too that uppercasing is locale-sensitive in some languages, for example
+      Turkish, where a dotless and dotted i map differently.
     </p>
     <ReferenceBlock type="common-mistake" heading="Don't set body text in all caps">
       <p>
@@ -80,9 +88,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <ReferenceBlock type="common-mistake" heading="Using all-caps as emphasis in long text">
       <p>
-        Capitalising an entire sentence or paragraph for emphasis does not work: it reads as
-        shouting and makes the text harder to scan. Use bold or a pull-quote instead. Reserve
-        uppercase for short strings of three words or fewer.
+        All caps can hurt readability for long passages: capitalising an entire sentence or
+        paragraph reads as shouting and makes the text harder to scan. Use bold or a pull-quote
+        instead. Reserve uppercase for short strings of three words or fewer.
       </p>
     </ReferenceBlock>
   </section>

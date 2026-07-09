@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['letter counter', 'count letters', 'letter count', 'alphabetic characters', 'letters only', 'count alphabetic', 'letter frequency'],
   isNew: true,
-  updatedAt: '2026-06-25',
+  updatedAt: '2026-07-10',
   engine: 'text-analysis',
   pattern: 'text-metric',
   toolGroup: 'text-counters',

@@ -30,7 +30,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       This camel case converter lets you convert to camelCase instantly, joining words together with no spaces, keeping the first word lowercase and
       capitalizing the first letter of every word after it: "user profile image" becomes
-      "userProfileImage". It follows the standard javascript naming convention for variables and functions.
+      "userProfileImage". This is how to convert a label to a camelCase variable name. It follows the standard identifier naming convention for JavaScript variables and functions.
+      Note that camelCase starts lowercase; a capitalized first letter is PascalCase instead.
     </p>
     <a href={toolHref} class="cta-link">Try The camelCase Converter →</a>
   </section>
@@ -38,8 +39,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="where-its-used">
     <h2>Where camelCase Is Used <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      camelCase is the dominant convention for variable and function names in JavaScript,
-      TypeScript, Java, Kotlin, and Swift. Its close relative PascalCase (which also capitalizes the first letter) is used for class names, React components, and TypeScript interfaces.
+      camelCase is the dominant identifier case for variable and function names in JavaScript,
+      TypeScript, Java, Kotlin, and Swift. It is also the usual json key case: many APIs expect JSON keys in camelCase, so knowing how to turn a phrase into a JSON key is a daily task. Its close relative PascalCase (which also capitalizes the first letter) is used for class names, React components, and TypeScript interfaces.
     </p>
     <ReferenceBlock type="key-idea" heading="One convention per context">
       <p>
@@ -87,8 +88,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Pasting multi-word acronyms as-is">
       <p>
-        Acronyms like "HTML" or "URL" in camelCase are conventionally treated as one word:
-        <code>parseHtml</code> rather than <code>parseHTML</code>. However, style guides differ: some codebases keep all-caps acronyms. Check your team's convention before converting.
+        Acronyms need a casing decision (Id vs ID). Acronyms like "HTML" or "URL" in camelCase are conventionally treated as one word:
+        <code>parseHtml</code> rather than <code>parseHTML</code>, and an id field is <code>userId</code> not <code>userID</code>. However, style guides differ: some codebases keep all-caps acronyms. Check your team's convention before converting.
       </p>
     </ReferenceBlock>
   </section>

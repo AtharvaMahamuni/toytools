@@ -52,29 +52,81 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="how-it-works">
-    <h2>How Text Becomes Binary <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How the Binary Conversion Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The converter encodes your text as UTF-8 first, turning each character into one or more bytes.
-      It then writes every byte as eight binary digits. "Hi" is two bytes (72 and 105), which become
+      Going from text to binary, the converter encodes your text as UTF-8 first, turning each
+      character into one or more bytes. It then writes every byte as an 8-bit binary group. This is
+      the same binary encoding an ASCII to binary conversion uses for plain English, where each
+      letter maps to one byte of binary code. "Hi" is two bytes (72 and 105), which become
       <code>01001000 01101001</code>.
     </p>
     <p>
-      Going the other way, it strips out anything that is not a 0 or 1, splits the remaining bits into
-      groups of eight, turns each group back into a byte, and decodes the bytes as UTF-8. That is why
-      both <code>01001000 01101001</code> and <code>0100100001101001</code> decode to the same word.
+      Going from binary to text, it strips out anything that is not a 0 or 1, splits the remaining
+      bits into groups of eight, turns each group back into a byte, and decodes the bytes as UTF-8.
+      That is why this binary translator reads both <code>01001000 01101001</code> and
+      <code>0100100001101001</code> as the same word: only the bits matter, and base 2 has no other
+      digits to lose.
     </p>
   </section>
 
   <section id="multibyte">
-    <h2>Why Some Characters Are Longer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>A Character Can Be More Than One Byte <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      English letters, digits, and common punctuation each fit in a single byte. Accented letters,
-      symbols, and emoji do not, so UTF-8 spends two to four bytes on them. An emoji can therefore
-      turn into four 8-bit groups. That is expected: the converter is showing you the real bytes, not
-      a fixed eight bits per visible character.
+      A "character" can be more than one byte, which surprises people who expect 8-bit binary per
+      visible symbol. English letters, digits, and common punctuation in the ASCII range each fit in
+      a single byte. Accented letters, symbols, and emoji do not, so UTF-8 spends two to four bytes
+      on them. An emoji can therefore turn into four 8-bit groups. That is expected: the converter
+      shows you the real bytes and bytes, not a fixed eight bits per visible character.
     </p>
     <ReferenceBlock type="note" heading="Binary is not secret">
       <p>Binary is a representation, not encryption. Anyone can convert it straight back, so never treat it as a way to hide data.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="binary-vs-others">
+    <h2>Binary vs Hexadecimal vs Base64 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Binary vs hexadecimal is a question of length, not meaning. Hexadecimal packs the same bits
+      into base-16, so one byte is two hex digits instead of eight binary ones. The value is
+      identical; hex is just shorter to read. Binary vs Base64 is a different trade: Base64 packs
+      three bytes into four printable ASCII letters, which is why email and data URLs use it to move
+      binary data as text. Binary spells out every bit, so it is the clearest way to see bits and
+      bytes, while hex and Base64 are the compact forms for real work.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A single letter.</strong> For example, text to binary on <code>A</code> gives
+      <code>01000001</code>, the ASCII code 65 written in base 2.
+    </p>
+    <p>
+      <strong>A short word.</strong> For example, binary to text on
+      <code>01001000 01101001</code> returns <code>Hi</code>, and the spaces between the 8-bit
+      groups are optional.
+    </p>
+    <p>
+      <strong>A multibyte symbol.</strong> For example, the emoji <code>🙂</code> is not one byte
+      of binary code: UTF-8 uses four bytes, so it becomes four 8-bit groups instead of one.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting one group of eight per character">
+      <p>
+        Only ASCII characters are one byte. Accented text and emoji use several bytes in UTF-8, so
+        the binary is longer than the visible length suggests. Count bytes, not glyphs.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Treating binary as a way to hide text">
+      <p>
+        A binary translator is fully reversible, so binary encoding hides nothing. Anyone can run
+        binary to text and read it back. Use real encryption when secrecy matters.
+      </p>
     </ReferenceBlock>
   </section>
 </GuideLayout>

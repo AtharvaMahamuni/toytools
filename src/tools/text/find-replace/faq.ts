@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'fr-faq-4',
     question: 'What is the \\b (whole word) toggle?',
     answer:
-      'When \\b is enabled, the tool only matches the search term when it appears as a whole word — not as part of a longer word. For example, searching for "cat" with whole word enabled matches "cat" and "cat," but not "category" or "concatenate".',
+      'When \\b is enabled, the tool only matches the search term when it appears as a whole word, not as part of a longer word. For example, searching for "cat" with whole word enabled matches "cat" and "cat," but not "category" or "concatenate".',
   },
   {
     id: 'fr-faq-5',

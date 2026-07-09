@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['paragraph counter', 'count paragraphs', 'paragraph count', 'number of paragraphs', 'paragraphs in text', 'text structure', 'essay paragraph counter', 'article structure'],
   isNew: true,
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-analysis',
   guide: {
     slug: 'paragraph-counter',

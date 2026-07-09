@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['sentence counter', 'count sentences', 'sentence count', 'number of sentences', 'sentence detection', 'text analysis', 'average sentence length', 'sentences in text'],
   isNew: true,
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-analysis',
   guide: {
     slug: 'sentence-counter',

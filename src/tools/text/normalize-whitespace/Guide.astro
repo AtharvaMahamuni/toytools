@@ -28,9 +28,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Normalize Whitespace is a text cleanup tool that will clean whitespace and flatten text. It will collapse whitespace,
-      remove line breaks, and trim the ends, replacing every run of spaces, tabs, and newlines
-      with a single space. The result is single line text with no extra gaps.
+      Whitespace normalization is a data cleanup step that will standardize spacing and flatten
+      text. It will collapse whitespace, remove line breaks, and trim the ends, replacing every run
+      of spaces, tabs, and newlines with a single space. The result is single line text with no
+      extra gaps, which is exactly what you want to fix messy spacing before a value is stored or
+      parsed.
     </p>
     <a href={toolHref} class="cta-link">Try Normalize Whitespace →</a>
   </section>
@@ -39,9 +41,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>When To Normalize <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Reach for this when you need a value to live on a single line: pasting a multi-line snippet
-      into a CSV cell, a search field, a single-line database column, or a URL parameter. It is the
-      most aggressive of the spacing cleanups because it removes line breaks as well as extra
-      spaces.
+      into a CSV cell, a search field, a single-line database column, or a URL parameter. Cleaning a
+      messy spreadsheet paste is the classic case, where tabs and spaces arrive mixed together and
+      you want consistent single spaces before parsing. It is the most aggressive of the spacing
+      cleanups because it collapses tabs and spaces and removes line breaks too, giving you real
+      whitespace consistency rather than a partial fix.
     </p>
     <ReferenceBlock type="common-mistake" heading="It removes your line breaks">
       <p>
@@ -51,6 +55,18 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         structure, use Remove Extra Spaces or Trim Text instead.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="what-gets-standardized">
+    <h2>Which Whitespace Gets Standardized <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Whitespace normalization handles tabs and breaks, not just spaces, which is what makes it
+      broader than a simple double-space fix. Every space, tab, carriage return, and newline counts
+      as whitespace, and any run of them collapses to one space. So a line indented with tabs, a gap
+      of several spaces, and a paragraph break between sentences all standardize to the same single
+      space. Knowing which whitespace gets standardized helps you pick the right tool: this one
+      touches all of it.
+    </p>
   </section>
 
   <section id="how-it-works">
@@ -68,8 +84,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="normalize-whitespace-vs-alternatives">
     <h2>Normalize Whitespace vs Other Cleanup Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Normalize Whitespace is the most aggressive of the whitespace cleanup alternatives because it
-      removes line breaks as well as extra spaces. <strong>Remove Extra Spaces</strong> is more
+      Normalizing whitespace vs removing extra spaces is the choice people ask about most, and
+      normalizing vs trimming is the other. Normalize Whitespace is the most aggressive of the
+      whitespace cleanup alternatives because it removes line breaks as well as extra spaces.
+      <strong>Remove Extra Spaces</strong> is more
       conservative: it collapses runs of spaces and tabs but preserves your line structure.
       <strong>Trim Text</strong> only cleans the ends of each line and leaves interior spacing alone.
       <strong>Remove Blank Lines</strong> deletes empty rows without touching spacing within a line.

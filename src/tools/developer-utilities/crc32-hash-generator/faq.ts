@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'crc32-faq-2',
     question: 'Is CRC32 secure or cryptographic?',
     answer:
-      'No. CRC32 is designed to catch accidental changes, not deliberate ones. It is fast and easy to forge, so an attacker can alter data and recompute a matching checksum. Never use it for passwords, signatures, or tamper protection — use SHA-256 for that.',
+      'No. CRC32 is designed to catch accidental changes, not deliberate ones. It is fast and easy to forge, so an attacker can alter data and recompute a matching checksum. Never use it for passwords, signatures, or tamper protection. Use SHA-256 for that.',
   },
   {
     id: 'crc32-faq-3',

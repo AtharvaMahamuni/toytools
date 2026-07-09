@@ -39,10 +39,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="why-it-matters">
     <h2>Why Pasted Text Breaks Across Lines <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      PDFs, emails, and code editors often add a hard line break at the end of every visual row. The
-      text looks fine in its original window, but once you paste it elsewhere those breaks remain and
-      chop your sentences into fragments. Removing them is the quickest way to turn a wall of broken
-      lines back into readable prose.
+      PDFs, emails, and code editors often add a hard line break at the end of every visual row. A
+      hard line break is a stored newline character, not just visual wrapping, which is why pasted
+      text wraps mid-sentence: the newlines travel with it. The text looks fine in its original
+      window, but once you paste it elsewhere those hard returns remain and chop your sentences into
+      fragments. To strip newlines and unwrap text is the quickest way to turn a wall of broken lines
+      back into readable prose.
     </p>
     <ReferenceBlock type="key-idea" heading="One space, not a gap">
       <p>
@@ -62,6 +64,36 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
       protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>PDF copy.</strong> For example, text copied from a PDF arrives as
+      <code>The quick brown</code> / <code>fox jumps over</code> on two lines. Join lines and it
+      becomes <code>The quick brown fox jumps over</code> on one.
+    </p>
+    <p>
+      <strong>An email quote.</strong> For example, a forwarded message wrapped at 70 characters
+      reads as a dozen short lines. Removing the hard returns restores the flowing sentences.
+    </p>
+    <p>
+      <strong>No double spaces.</strong> For example, a line ending in a space followed by a break
+      collapses to a single space, not two, because each run of breaks and surrounding whitespace
+      becomes one space.
+    </p>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>Removing Line Breaks vs Removing Blank Lines <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Removing line breaks vs removing blank lines is the choice that trips people up. This tool
+      deletes every line break and merges the text into one paragraph. Remove Blank Lines does the
+      opposite: it drops empty rows but keeps the remaining lines on their own lines. Joining lines
+      vs normalizing all whitespace is a related decision: normalizing whitespace collapses spaces,
+      tabs, and breaks together, while this tool targets the breaks. Pick the one that matches the
+      shape you want.
     </p>
   </section>
 
