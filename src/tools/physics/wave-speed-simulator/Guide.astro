@@ -27,11 +27,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A wave's speed is how fast its crests travel, and it equals the frequency multiplied by the
-      wavelength: v = f × λ. Frequency is how many cycles pass a point each second, and wavelength
-      is the distance from one crest to the next. A 2 Hz wave with crests 3 metres apart moves at
-      6 metres per second. Amplitude, the height of the wave, changes its energy but never its
-      speed. Open the simulator, drag a slider, and watch the speed update as you go.
+      A wave's speed, or wave velocity, is how fast its crests travel, and it equals the frequency
+      multiplied by the wavelength. What does v = f × λ mean? The wave equation v = f λ (v = f lambda)
+      says speed is frequency times wavelength. Frequency is how many cycles pass a point each second,
+      and wavelength is the distance from one crest to the next. A 2 Hz wave with crests 3 metres
+      apart moves at 6 metres per second. Amplitude, the height of the wave, changes its energy but
+      never its speed. Open this wave simulator, drag a slider, and watch the speed update as you go.
     </p>
     <a href={toolHref} class="cta-link">Open The Wave Speed Simulator →</a>
   </section>
@@ -75,6 +76,22 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       and shortens the wavelength together, leaving the speed unchanged. Both stories obey the same
       equation. The difference is simply which quantity you are free to change and which one the
       medium pins down.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Speed from frequency and wavelength.</strong> For example, a 2 Hz travelling wave with
+      a 3 m wavelength has a wave velocity of 2 × 3 = 6 m/s, straight from the wave equation.
+    </p>
+    <p>
+      <strong>How to find the period of a wave.</strong> For example, that same 2 Hz wave has a
+      period of 1 / f = 0.5 s, the time one full cycle takes to pass a point.
+    </p>
+    <p>
+      <strong>Amplitude does not change speed.</strong> For example, drag the wave taller in the
+      simulator and the speed reading holds while the energy reading climbs.
     </p>
   </section>
 
