@@ -40,8 +40,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Many systems still expect unaccented ASCII: legacy databases, strict import formats, file
       names, usernames, and some search indexes. Accented characters in those places can cause failed
-      lookups, mojibake, or rejected records. Stripping the accents makes the text compatible without
-      retyping it by hand.
+      lookups, mojibake, or rejected records. To remove diacritical marks and unaccent text is to
+      make it compatible without retyping it by hand. Diacritical marks are the small signs added to
+      a letter, such as the accent in é or the tilde in ñ.
     </p>
     <ReferenceBlock type="key-idea" heading="The letter stays, the mark goes">
       <p>
@@ -54,13 +55,44 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-it-works">
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The tool normalises the text so each accented letter is decomposed into a base letter plus a
-      separate combining mark, then removes those combining marks. "Crème Brûlée" becomes "Creme
-      Brulee" with the capitalisation and spacing preserved.
+      The tool applies Unicode normalization so each accented letter is decomposed into a base
+      letter plus a separate combining mark, then removes those combining marks to strip diacritics.
+      Unicode normalization is the standard step that splits a single accented character into its
+      base and its mark. "Crème Brûlée" becomes "Creme Brulee" with the capitalisation and spacing
+      preserved.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
       protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A French word.</strong> For example, input: <code>café</code>. Output:
+      <code>cafe</code>. The base letters stay, only the accent is dropped.
+    </p>
+    <p>
+      <strong>A name for a database.</strong> For example, <code>Zoë Muñoz</code> becomes
+      <code>Zoe Munoz</code>, so an accented and unaccented entry match in a plain ASCII column.
+    </p>
+    <p>
+      <strong>A letter with no separable mark.</strong> For example, the German
+      <code>ß</code> passes through unchanged, because it is a single letter rather than a base plus
+      a combining mark.
+    </p>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>Removing Accents vs Transliteration vs Slugifying <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Removing accents vs full transliteration is a question of scope. Removing accents only drops
+      marks from letters that have them, so é becomes e while ß and ł, which carry no separable
+      mark, stay put. Full transliteration maps every letter to an ASCII equivalent, turning ß into
+      ss. Stripping accents vs slugifying is the next step up: slugifying strips accents and then
+      lowercases and hyphenates the result into a URL. Use this tool to unaccent text and keep it
+      readable, then slugify when you need a web-safe string.
     </p>
   </section>
 
