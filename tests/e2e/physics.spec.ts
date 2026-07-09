@@ -206,3 +206,53 @@ test.describe('theme', () => {
     expect(dark).not.toBe(light);
   });
 });
+
+// Formula-as-calculator: paramId terms render as number boxes that solve the formula and drive the
+// simulation; the measurement term is the live computed answer. Heat transfer has no editable terms.
+test.describe('formula calculator', () => {
+  test('typing a value solves the formula, shows the worked line, and moves the slider', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto(FLAGSHIP); // wave-speed-simulator: v = f × λ
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    const freq = page.locator('#wave-speed-simulator-fx-frequency');
+    const wavelength = page.locator('#wave-speed-simulator-fx-wavelength');
+    const answer = page.locator('[data-term-value="v"]');
+    const worked = page.locator('[data-formula-worked]');
+
+    await expect(wavelength).toHaveValue('2');
+    await freq.fill('1.5'); // v = 1.5 × 2 = 3.00 m/s
+
+    await expect(answer).toHaveText(/3\.00\s*m\/s/);
+    await expect(worked).toHaveText(/v = 1\.50 × 2\.0 = 3\.00\s*m\/s/);
+    // Linked: the frequency slider follows the typed value.
+    await expect(page.locator('[data-param="frequency"]')).toHaveValue('1.5');
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('clamps an out-of-range entry to the parameter limit', async ({ page }) => {
+    await page.goto(FLAGSHIP);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const freq = page.locator('#wave-speed-simulator-fx-frequency');
+    await freq.fill('99'); // max frequency is 3 → clamps; v = 3 × 2 = 6.00
+    await freq.blur();
+    await expect(freq).toHaveValue('3');
+    await expect(page.locator('[data-term-value="v"]')).toHaveText(/6\.00\s*m\/s/);
+  });
+
+  test('moving the slider updates the formula box (two-way link)', async ({ page }) => {
+    await page.goto(FLAGSHIP);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const slider = page.locator('[data-param="wavelength"]');
+    await slider.fill('3');
+    await slider.dispatchEvent('input');
+    await expect(page.locator('#wave-speed-simulator-fx-wavelength')).toHaveValue('3');
+  });
+
+  test('a formula with no editable inputs stays display-only', async ({ page }) => {
+    await page.goto('/tool/physics/heat-transfer-simulator/'); // Q = m × c × ΔT (both terms computed)
+    await expect(page.locator('.phys-formula')).toBeVisible();
+    await expect(page.locator('[data-formula-input]')).toHaveCount(0);
+  });
+});

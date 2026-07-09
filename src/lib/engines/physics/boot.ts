@@ -79,6 +79,13 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   let graphStage = graphCanvas ? sizeCanvas(graphCanvas, 5 / 2, palette) : null;
   const graph: GraphRenderer | null = def.graph ? createGraphRenderer(def.graph) : null;
 
+  // ── Formula-as-calculator: paramId terms rendered as number boxes; the measurement term is the
+  // computed answer. Present only when the formula declares editable inputs. ───────────────────
+  const formulaInputs = [...root.querySelectorAll<HTMLInputElement>('[data-formula-input]')];
+  const workedEl = root.querySelector<HTMLElement>('[data-formula-worked]');
+  const outTerm = def.formula?.terms.find((t) => t.measurementId);
+  const outMeas = outTerm?.measurementId ? measurementDefs.get(outTerm.measurementId) : undefined;
+
   function resizeCanvases(): void {
     stage = sizeCanvas(canvas!, aspect, palette);
     if (graphCanvas) graphStage = sizeCanvas(graphCanvas, 5 / 2, palette);
@@ -109,6 +116,27 @@ function wire(root: HTMLElement, def: SimulationDef): void {
         }
       }
     }
+  }
+
+  /** Sync the formula number boxes to the current params (skipping one the user is editing). */
+  function reflectFormulaInputs(): void {
+    for (const box of formulaInputs) {
+      const pid = box.getAttribute('data-formula-input');
+      if (!pid || document.activeElement === box) continue;
+      box.value = String(state.params[pid]);
+    }
+  }
+
+  /** Render the live "worked" line, e.g. "v = 1.50 × 2.0 = 3.00 m/s", from the substitution template. */
+  function updateFormulaWorked(): void {
+    if (!workedEl || !def.formula?.substitution || !outTerm || !outMeas) return;
+    const rhs = def.formula.substitution.replace(/\{(\w+)\}/g, (_m, pid: string) => {
+      const p = paramDefs.get(pid);
+      const v = state.params[pid];
+      return Number.isFinite(v) ? v.toFixed(p?.decimals ?? 2) : '?';
+    });
+    const answer = formatWithUnit(outMeas.compute(state), outMeas.unit, outMeas.decimals ?? 2);
+    workedEl.textContent = `${outTerm.symbol} = ${rhs} = ${answer}`;
   }
 
   function updateNarrative(): void {
@@ -167,6 +195,8 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     updateReadouts();
     updateNarrative();
     updateLiveSummary();
+    reflectFormulaInputs();
+    updateFormulaWorked();
   }
 
   /** A parameter changed: apply the def's paramBehavior, then refresh every surface. */
@@ -198,6 +228,27 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       reflect();
       onParamsChanged();
     });
+  }
+
+  // Formula number boxes drive the same params as the sliders. Typing recomputes the answer and the
+  // simulation; the value is clamped to the param's range so the sim stays valid (linked, not free).
+  for (const box of formulaInputs) {
+    const pid = box.getAttribute('data-formula-input') ?? '';
+    const p = paramDefs.get(pid);
+    if (!p) continue;
+    box.addEventListener('input', () => {
+      const v = Number(box.value);
+      if (!Number.isFinite(v)) return;
+      state.params[pid] = Math.min(Math.max(v, p.min), p.max);
+      // Sync the matching slider + its readout, but leave this box's text as typed (keep the caret).
+      const slider = sliders.find((s) => s.getAttribute('data-param') === pid);
+      if (slider) slider.value = String(state.params[pid]);
+      const out = root.querySelector<HTMLElement>(`[data-param-value="${pid}"]`);
+      if (out) out.textContent = formatWithUnit(state.params[pid], p.unit, p.decimals ?? 2);
+      onParamsChanged();
+    });
+    // Normalise (clamp/echo) the display when the field loses focus.
+    box.addEventListener('blur', () => { box.value = String(state.params[pid]); });
   }
 
   function setSliderTo(pid: string, value: number): void {
