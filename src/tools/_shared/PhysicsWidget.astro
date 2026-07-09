@@ -31,9 +31,18 @@ const slug = config.slug;
 const cards = sim.measurements.filter((m) => !m.hidden);
 const canvasLabel = `${config.name} interactive simulation canvas`;
 const speeds = [0.25, 0.5, 1, 2];
+// Formula-panel lookup: a term bound to a paramId becomes an editable number box (an input the
+// student types into), so we need that param's range/step/unit at build time.
+const paramById = new Map(sim.params.map((p) => [p.id, p]));
+// A formula is "calculable" when at least one of its terms is an editable input (a paramId term).
+const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramById.has(t.paramId));
 ---
 
 <section class="phys" data-physics-sim data-simulation-id={simulationId} data-slug={slug}>
+  <!-- Cockpit: on desktop the simulation (left) and its controls + live numbers (right) sit
+       side by side, so adjusting a slider and seeing the effect never needs a scroll. It stacks
+       back to a single column below 1024px. -->
+  <div class="phys-cockpit">
   <!-- Stage: the simulation canvas + playback controls -->
   <div class="tool-panel phys-stage">
     <div class="phys-canvas-wrap">
@@ -65,6 +74,8 @@ const speeds = [0.25, 0.5, 1, 2];
     </div>
   </div>
 
+  <!-- Console: everything the user tweaks (sliders, presets) and reads (live measurements). -->
+  <div class="phys-console">
   <!-- Controls: parameter sliders + scenario presets -->
   <div class="phys-block">
     <h2 class="phys-h">Controls</h2>
@@ -119,21 +130,55 @@ const speeds = [0.25, 0.5, 1, 2];
     </div>
     <p class="visually-hidden" data-sim-live aria-live="polite" aria-atomic="true"></p>
   </div>
+  </div><!-- /phys-console -->
+  </div><!-- /phys-cockpit -->
 
-  <!-- Live formula -->
+  <!-- Live formula. When the formula has editable inputs (paramId terms) it doubles as a calculator:
+       type your own numbers to solve it, and the simulation follows. Read-only terms (measurements)
+       show the computed answer live. -->
   {sim.formula && (
     <div class="phys-block">
       <h2 class="phys-h">Formula</h2>
       <div class="phys-formula">
         <p class="phys-formula-expr">{sim.formula.expression}</p>
+        {formulaCalculable && (
+          <p class="phys-formula-hint">Type your own values to solve the formula. The simulation follows along.</p>
+        )}
         <dl class="phys-formula-terms">
-          {sim.formula.terms.map((term) => (
-            <div class="phys-term">
-              <dt><span class="phys-term-sym">{term.symbol}</span> {term.label}</dt>
-              <dd data-term-value={term.symbol}>—</dd>
-            </div>
-          ))}
+          {sim.formula.terms.map((term) => {
+            const p = term.paramId ? paramById.get(term.paramId) : undefined;
+            return p ? (
+              <div class="phys-term phys-term--input">
+                <dt><label for={`${slug}-fx-${term.paramId}`}><span class="phys-term-sym">{term.symbol}</span> {term.label}</label></dt>
+                <dd>
+                  <span class="phys-formula-inputwrap">
+                    <input
+                      type="number"
+                      id={`${slug}-fx-${term.paramId}`}
+                      class="phys-formula-input"
+                      data-formula-input={term.paramId}
+                      min={p.min}
+                      max={p.max}
+                      step={p.step ?? 'any'}
+                      value={p.default}
+                      inputmode="decimal"
+                      aria-label={`${term.label} value${p.unit ? ` in ${p.unit}` : ''}`}
+                    />
+                    {p.unit && <span class="phys-formula-unit" aria-hidden="true">{p.unit}</span>}
+                  </span>
+                </dd>
+              </div>
+            ) : (
+              <div class="phys-term phys-term--output">
+                <dt><span class="phys-term-sym">{term.symbol}</span> {term.label}</dt>
+                <dd class="phys-formula-answer" data-term-value={term.symbol}>—</dd>
+              </div>
+            );
+          })}
         </dl>
+        {formulaCalculable && sim.formula.substitution && (
+          <p class="phys-formula-worked" data-formula-worked aria-live="polite"></p>
+        )}
       </div>
     </div>
   )}
@@ -186,6 +231,24 @@ const speeds = [0.25, 0.5, 1, 2];
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
+  }
+
+  /* Stage + console stack on mobile (default) and go side by side on desktop so the whole
+     interactive loop (canvas, controls, live numbers) fits in one viewport. */
+  .phys-cockpit,
+  .phys-console {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .phys-cockpit {
+      display: grid;
+      /* minmax(0, …) lets the canvas track shrink instead of overflowing the grid. */
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      align-items: start;
+    }
   }
 
   .phys-stage {
@@ -403,6 +466,57 @@ const speeds = [0.25, 0.5, 1, 2];
     color: var(--color-accent-strong);
     font-weight: 700;
     font-style: italic;
+  }
+
+  /* Formula-as-calculator */
+  .phys-formula-hint {
+    margin: 0 0 var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+
+  .phys-term--input,
+  .phys-term--output { align-items: center; }
+
+  .phys-term--input dt { font-weight: 500; }
+  .phys-term--input dt label { cursor: pointer; }
+
+  .phys-formula-inputwrap {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-1);
+  }
+
+  .phys-formula-input {
+    width: 6.5ch;
+    min-height: var(--touch-target);
+    padding: var(--space-1) var(--space-2);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-base);
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .phys-formula-unit { color: var(--color-text-muted); font-size: var(--text-sm); }
+
+  /* The computed answer stands out from the editable inputs. */
+  .phys-formula-answer { color: var(--color-accent-strong); }
+
+  .phys-formula-worked {
+    margin: var(--space-4) 0 0;
+    padding-top: var(--space-3);
+    border-top: var(--border);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    text-align: center;
   }
 
   .phys-graph {

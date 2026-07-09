@@ -100,6 +100,7 @@ const pendulumSim: SimulationDef = {
   ],
   formula: {
     expression: 'T ≈ 2π √(L / g)',
+    substitution: '2π √({length} / {gravity})',
     terms: [
       { symbol: 'T', label: 'Period (small-angle)', measurementId: 'period' },
       { symbol: 'L', label: 'Length', paramId: 'length' },
