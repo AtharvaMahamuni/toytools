@@ -28,9 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Remove blank lines to remove empty lines and remove extra lines from any text. It will remove line breaks
-      that are purely whitespace, pulling the remaining content together to compact text while
-      keeping the order. To strip empty lines from a document, paste and convert in one click.
+      Remove blank lines to delete empty lines and remove extra lines from any text. This line cleanup
+      will remove line breaks that are purely whitespace, pulling the remaining content together to
+      compact text while keeping the order. To strip blank lines from a document, paste and convert
+      in one click.
     </p>
     <a href={toolHref} class="cta-link">Try Remove Blank Lines →</a>
   </section>
@@ -56,10 +57,23 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       The tool splits your text into lines, drops any line that is empty or contains only spaces
       and tabs, and rejoins the rest. In other words, it will delete blank lines throughout your text.
-      For example, a list with blank rows between every item becomes a compact, contiguous list with no gaps.
+      This is how to compact code or data without gaps: for example, a list with blank rows between
+      every item becomes a compact, contiguous list with no gaps.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A double-spaced list.</strong> For example, a list with a blank row between every item
+      collapses to one clean line per item, ready to paste into a field that rejects empty rows.
+    </p>
+    <p>
+      <strong>An export with trailing gaps.</strong> For example, a data dump ending in several
+      empty rows comes back with those rows gone and the real content intact.
     </p>
   </section>
 
@@ -67,7 +81,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Removing the blank lines that separate paragraphs">
       <p>
-        In Markdown and HTML, blank lines between paragraphs are meaningful: they tell the
+        This tool removes gaps, not paragraph structure on purpose, but that cuts both ways. In
+        Markdown and HTML, blank lines between paragraphs are meaningful: they tell the
         renderer where one paragraph ends and another begins. If you remove all blank lines from
         Markdown, your paragraphs will merge into a single block. Use this tool on plain lists and
         data, not on Markdown or HTML source.
