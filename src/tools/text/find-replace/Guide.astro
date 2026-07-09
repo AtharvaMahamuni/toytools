@@ -28,10 +28,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Find and Replace is a tool that searches your text for a pattern and replaces every
-      occurrence with a different string. By default, the search is case-insensitive and treats
-      the find term as plain text. You can enable case-sensitive matching, whole-word matching,
-      or switch to regex mode for advanced patterns.
+      Find and Replace, also called search and replace, searches your text for a pattern and
+      replaces every occurrence with a different string. This is how to replace a word everywhere at
+      once: it does a bulk replace across the whole input, so replace all changes every match in a
+      single pass. Use it to replace text, do a bulk edit, or swap a term across a long document. By
+      default the search is case-insensitive and treats the find term as plain text. You can enable
+      case sensitivity, whole-word matching, or regex mode for advanced patterns.
     </p>
     <a href={toolHref} class="cta-link">Try Find and Replace →</a>
   </section>
@@ -50,19 +52,21 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="toggle-options">
     <h2>Toggle Options <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      <strong>Aa — Case Sensitive.</strong> When enabled, the search matches exact
+      <strong>Aa, Case Sensitive.</strong> When enabled, the search matches exact
       capitalisation. "Hello" will not match "hello". When disabled (default), matching is
-      case-insensitive.
+      case-insensitive. Note that case-sensitive matches miss differently-cased copies, so turn this
+      off when you want every casing replaced.
     </p>
     <p>
-      <strong>.* — Regex Mode.</strong> When enabled, the Find field accepts a regular
+      <strong>.* Regex Mode.</strong> When enabled, the Find field accepts a regular
       expression. This unlocks powerful patterns like <code>\d+</code> for numbers,
       <code>\s+</code> for whitespace, and <code>^</code> / <code>$</code> for line
       boundaries.
     </p>
     <p>
-      <strong>\b — Whole Word.</strong> When enabled, the search only matches when the term
-      appears as a complete word, not as part of a longer word. Searching for "cat" with whole
+      <strong>\b Whole Word.</strong> When enabled, the search only matches when the term
+      appears as a complete word, not as part of a longer word. This matters because replace all
+      changes every match, including inside other words: searching for "cat" with whole
       word on will match "cat" but not "category".
     </p>
   </section>
@@ -102,6 +106,18 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         and <code>$</code>.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="find-replace-vs-manual">
+    <h2>Find and Replace vs Manual Editing <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Find and replace vs manual editing comes down to scale and reliability. Editing by hand is fine
+      for one or two changes, but to swap a term across a long document it is slow and easy to miss an
+      occurrence. Search replace does the whole job in one pass and matches all occurrences, so
+      nothing is skipped. The trade is control: manual editing lets you judge each spot, while a bulk
+      replace applies the same rule everywhere. Use whole-word or case-sensitive options to narrow a
+      bulk edit when a blanket replace all would be too broad.
+    </p>
   </section>
 
   <section id="related-tools">
