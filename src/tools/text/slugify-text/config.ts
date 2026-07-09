@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Turn any text into a clean, lowercase, hyphenated URL slug.',
   categorySlug: 'text-utilities',
   tags: ['slugify text', 'url slug generator', 'text to slug', 'make a slug', 'slug generator', 'permalink generator', 'slugify online'],
-  updatedAt: '2026-06-28',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
