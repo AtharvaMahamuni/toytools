@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Add sales tax or VAT to a price, or work backwards from a tax-inclusive total, and see the tax amount.',
   categorySlug: 'number-utilities',
   tags: ['tax calculator', 'sales tax calculator', 'vat calculator', 'add tax', 'remove tax', 'reverse vat', 'tax inclusive price'],
-  updatedAt: '2026-07-09',
+  updatedAt: '2026-07-10',
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',

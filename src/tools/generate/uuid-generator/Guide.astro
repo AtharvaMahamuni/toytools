@@ -32,10 +32,12 @@ const passwordHref = withBase(`/tool/${category.segment}/password-generator/`);
     <p>
       A UUID is a 128-bit identifier, written as 36 characters like
       <code>f47ac10b-58cc-4372-a567-0e02b2c3d479</code>, that you can create anywhere without asking a
-      central system for a number. This tool makes version 4 UUIDs, the random kind, entirely in your
-      browser. Choose how many you want, tweak the format if you need to, and copy them. Because the
-      value is almost all random, two systems can generate ids independently and still avoid clashes,
-      which is exactly what UUIDs are for.
+      central system for a number. This tool handles uuid generation in your browser: it works as a
+      guid generator, a uuid maker, and a unique id generator for a random uuid whenever you need one.
+      It makes uuid version 4 values, the random kind defined by rfc 4122. Choose how many you want,
+      tweak the format if you need to, and copy them. Because the value is almost all random, two
+      systems can generate unique identifiers independently and still avoid clashes, which is exactly
+      what UUIDs are for.
     </p>
     <a href={toolHref} class="cta-link">Open The UUID Generator →</a>
   </section>
@@ -66,9 +68,10 @@ const passwordHref = withBase(`/tool/${category.segment}/password-generator/`);
   <section id="how-it-works">
     <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A version 4 UUID is 128 bits. Six of those bits are fixed to mark the version and the variant, so
-      the reader knows it is a random v4 value. The remaining 122 bits are filled with random data. The
-      result is formatted as five hyphen-separated groups in an 8-4-4-4-12 pattern of hexadecimal digits.
+      Here is how a version 4 uuid is structured. A version 4 UUID is 128 bits. Six of those bits are
+      fixed to mark the version and the variant, so the reader knows it is a random v4 value. The
+      remaining 122 bits are filled with random data. The result is formatted as five hyphen-separated
+      groups in an 8-4-4-4-12 pattern of hexadecimal digits.
     </p>
     <p>
       The randomness here comes from your browser's cryptographic random source, the same one used to

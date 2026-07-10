@@ -18,7 +18,7 @@ export const config: ToolConfig = {
     title: 'Find and Replace: How to Search and Replace Text',
     description: 'Learn how to use find and replace effectively, when to use regex, and how to handle common replacement patterns.',
     readMinutes: 4,
-    updatedAt: '2026-06-25',
+    updatedAt: '2026-07-10',
   },
   relatedTools: ['text-compare', 'remove-duplicate-lines', 'remove-extra-spaces', 'normalize-whitespace'],
   keywords: ['regex replace', 'text substitution', 'search replace online'],

@@ -39,7 +39,7 @@ export const knowledge: Knowledge = {
     { slug: 'json-validator', reason: 'Validate the resulting JSON syntax', strength: 0.8 },
   ],
   alternatives: [
-    { slug: 'json-to-csv-converter', reason: 'Convert the other direction — JSON to CSV' },
+    { slug: 'json-to-csv-converter', reason: 'Convert the other direction, JSON to CSV' },
     { slug: 'json-minifier', reason: 'Compact the JSON output for transmission' },
   ],
   nextSteps: [
