@@ -63,6 +63,16 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     expect: { 'unix-seconds': 1_700_000_000, 'milliseconds': 1_700_000_000_000 },
     narrative: '14 November 2023 at 22:13:20 UTC is the Unix timestamp 1700000000.',
   },
+  {
+    id: 'cron-every-15',
+    engine: 'datetime',
+    ref: 'cron',
+    title: 'Every 15 minutes',
+    inputs: { expression: '*/15 * * * *' },
+    // 'per-day' card raw: 4 minute slots x 24 hours.
+    expect: { 'per-day': 96 },
+    narrative: '*/15 * * * * runs every 15 minutes, which is 96 times a day.',
+  },
 ];
 
 export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);

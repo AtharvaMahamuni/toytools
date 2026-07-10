@@ -11,6 +11,7 @@ export const registeredGuideSlugs = [
   'date-difference-calculator',
   'timezone-converter',
   'unix-timestamp-converter',
+  'cron-expression-parser',
   'qr-code-generator',
   'lorem-ipsum-generator',
   'random-string-generator',

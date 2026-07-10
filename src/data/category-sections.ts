@@ -31,4 +31,5 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'simulate':             { title: 'Simulations',             order: 1 },
   'datetime-calculate':   { title: 'Calculate',               order: 1 },
   'datetime-convert':     { title: 'Convert',                 order: 2 },
+  'datetime-schedule':    { title: 'Schedule',                order: 3 },
 };

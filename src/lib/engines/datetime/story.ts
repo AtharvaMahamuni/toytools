@@ -23,6 +23,7 @@ export const DATETIME_TOOL_PATH: Record<string, string> = {
   'date-difference-calculator': '/tool/datetime/date-difference-calculator/',
   'timezone-converter': '/tool/datetime/timezone-converter/',
   'unix-timestamp-converter': '/tool/datetime/unix-timestamp-converter/',
+  'cron-expression-parser': '/tool/datetime/cron-expression-parser/',
 };
 
 /** A decision linking to a sibling datetime tool, or null when that tool has not shipped yet. */

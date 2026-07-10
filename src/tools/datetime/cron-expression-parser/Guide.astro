@@ -1,0 +1,134 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A cron expression is a five-field pattern that says when a scheduled job runs. This cron
+      expression parser turns cron to english: it gives the cron schedule as plain text, counts how
+      often it fires, and shows the cron next run time. Paste a line like <code>*/15 * * * *</code> and
+      you get the "cron expression explained" in a sentence, plus the next five runs.
+      It reads any line you inherit or write, and unlike a crontab generator it never sends your input
+      anywhere. Some people call this a cron translator or crontab parser.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Cron Expression Parser →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>What the Five Cron Fields Mean <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To read what a cron expression means, take the fields left to right. What each of the five cron
+      fields means is fixed: minute (0 to 59), hour (0 to 23), day-of-month (1 to 31), month (1 to 12
+      or names like JAN), and day-of-week (0 to 6, where 0 and 7 are both Sunday). A star in a field
+      means every value it can take. So <code>30 9 * * 1</code> reads as minute 30, hour 9, any day, any
+      month, on Monday: it runs at 09:30 every Monday.
+    </p>
+    <p>
+      Each cron field accepts more than a single number. How a star, range, list, and step change a
+      cron field is the heart of the syntax. A range like <code>1-5</code> covers 1 through 5. A list
+      like <code>0,30</code> picks just those values. And cron step values, written with a slash such as
+      <code>*/15</code>, mean every 15th value from the minimum. The tool expands cron ranges and steps
+      into the exact set of values before working out the schedule. From that set it can also find the
+      next run time of a cron job, stepping forward from now until it hits the first matching minute.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Every 15 minutes.</strong> For example, <code>*/15 * * * *</code> runs every 15 minutes,
+      which is 96 times a day.
+    </p>
+    <p>
+      <strong>A daily backup.</strong> For example, <code>0 3 * * *</code> runs at 03:00 every day, a
+      common slot for an overnight job.
+    </p>
+    <p>
+      <strong>Weekdays only.</strong> For example, <code>0 9 * * 1-5</code> runs at 09:00 Monday
+      through Friday, using a range in the day-of-week field.
+    </p>
+  </section>
+
+  <section id="stars-steps-ranges">
+    <h2>Star vs Value, Step vs Range <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Two comparisons clear up most confusion. A star versus a specific value is the difference between
+      "every" and "exactly one": <code>*</code> in the hour field means all 24 hours, while <code>9</code>
+      means only 09:00. A step value versus a plain range is subtler. A plain range like <code>0-30</code>
+      in the minute field matches every minute from 0 to 30. Add a step, <code>0-30/10</code>, and it
+      thins that range to 0, 10, 20, and 30. On its own, <code>*/10</code> applies the step across the
+      whole field. Reading these correctly is the difference between a job that runs once and one that
+      runs dozens of times.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting AND on the two day fields">
+      <p>
+        A common mistake is to assume day-of-month and day-of-week are combined. When both day-of-month
+        and day-of-week are set, a day matches if either matches, not both. So <code>0 0 1 * 1</code>
+        fires on the 1st of the month and on every Monday, not only on a Monday that is also the 1st.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Misreading a step as a single value">
+      <p>
+        Reading <code>*/15</code> as "at 15 minutes past" is wrong; it means every 15 minutes. If a job
+        runs more or less often than expected, check whether a slash step is being read as a plain
+        number. The parser spells out the real frequency so there is no guessing.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Five fields, UTC, and local only">
+      <p>
+        Standard cron has five fields, not six with seconds. This tool uses the five-field form and
+        computes run times in UTC. Everything runs in your browser, so no crontab line you paste is
+        uploaded or stored.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

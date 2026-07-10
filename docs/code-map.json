@@ -197,7 +197,8 @@
       "category": "date-time",
       "patterns": [
         "datetime-calculate",
-        "datetime-convert"
+        "datetime-convert",
+        "datetime-schedule"
       ],
       "runtimeGlobal": "runDateTime",
       "sharedWidget": "src/tools/_shared/DateTimeWidget.astro",
@@ -205,9 +206,10 @@
         "age",
         "duration",
         "timezone",
-        "timestamp"
+        "timestamp",
+        "schedule"
       ],
-      "toolCount": 4
+      "toolCount": 5
     }
   },
   "toolGroups": {
@@ -378,6 +380,27 @@
       "pattern": "datetime-convert",
       "family": "timestamp",
       "processorId": "unix-timestamp",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "cron-expression-parser": {
+      "name": "Cron Expression Parser",
+      "dir": "src/tools/datetime/cron-expression-parser",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/cron-expression-parser/",
+      "engine": "datetime",
+      "pattern": "datetime-schedule",
+      "family": "schedule",
+      "processorId": "cron",
       "toolGroup": "",
       "files": [
         "Guide.astro",

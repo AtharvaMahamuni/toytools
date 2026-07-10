@@ -10,12 +10,14 @@ import { ageCalculator } from './calculators/age';
 import { dateDifferenceCalculator } from './calculators/date-difference';
 import { timezoneConverter } from './calculators/timezone';
 import { unixTimestampConverter } from './calculators/unix-timestamp';
+import { cronExpressionParser } from './calculators/cron';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'age': ageCalculator,
   'date-difference': dateDifferenceCalculator,
   'timezone': timezoneConverter,
   'unix-timestamp': unixTimestampConverter,
+  'cron': cronExpressionParser,
 };
 
 /**

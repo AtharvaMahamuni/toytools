@@ -9,6 +9,7 @@ import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowl
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
 import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/knowledge';
+import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
@@ -120,6 +121,7 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   dateDifferenceCalculator,
   timezoneConverter,
   unixTimestampConverter,
+  cronExpressionParser,
   qrCodeGenerator,
   loremIpsumGenerator,
   randomStringGenerator,
