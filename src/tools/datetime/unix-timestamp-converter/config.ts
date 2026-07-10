@@ -3,8 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'unix-timestamp-converter',
   name: 'Unix Timestamp Converter',
-  seoTitle: 'Unix Timestamp Converter — Epoch to Date and Back, Free Online',
-  description: 'Convert a Unix timestamp to a human date, or a date back to a Unix timestamp, in seconds or milliseconds, with the UTC time, ISO 8601 string, and your local time.',
+  seoTitle: 'Unix Timestamp Converter — Epoch to Date and Back',
+  description: 'Convert a Unix timestamp to a human date, or a date back to a timestamp, in seconds or milliseconds, with the UTC time, ISO 8601 string, and your local time.',
   categorySlug: 'date-time',
   tags: ['unix timestamp converter', 'epoch converter', 'unix time to date', 'timestamp to date', 'date to unix timestamp', 'epoch time', 'unix time', 'milliseconds to date'],
   updatedAt: '2026-07-10',

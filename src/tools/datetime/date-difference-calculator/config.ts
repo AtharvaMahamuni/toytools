@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'date-difference-calculator',
   name: 'Date Difference Calculator',
-  seoTitle: 'Date Difference Calculator — Days Between Two Dates, Free Online',
+  seoTitle: 'Date Difference Calculator — Days Between Two Dates',
   description: 'Count the exact time between two dates in years, months, and days, plus totals in days, weeks, and months and the number of weekdays (business days).',
   categorySlug: 'date-time',
   tags: ['date difference calculator', 'days between two dates', 'how many days between dates', 'business days calculator', 'weeks between dates', 'duration between dates', 'date duration', 'days calculator'],
