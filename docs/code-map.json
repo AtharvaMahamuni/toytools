@@ -196,15 +196,17 @@
       "name": "Date & Time Engine",
       "category": "date-time",
       "patterns": [
-        "datetime-calculate"
+        "datetime-calculate",
+        "datetime-convert"
       ],
       "runtimeGlobal": "runDateTime",
       "sharedWidget": "src/tools/_shared/DateTimeWidget.astro",
       "supportedFamilies": [
         "age",
-        "duration"
+        "duration",
+        "timezone"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -333,6 +335,27 @@
       "pattern": "datetime-calculate",
       "family": "duration",
       "processorId": "date-difference",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "timezone-converter": {
+      "name": "Timezone Converter",
+      "dir": "src/tools/datetime/timezone-converter",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/timezone-converter/",
+      "engine": "datetime",
+      "pattern": "datetime-convert",
+      "family": "timezone",
+      "processorId": "timezone",
       "toolGroup": "",
       "files": [
         "Guide.astro",

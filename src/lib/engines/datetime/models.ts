@@ -27,6 +27,27 @@ export function parseISODate(s: string): CivilDate | null {
   return { y, m: mo, d };
 }
 
+/** A calendar date with a wall-clock time (no zone). Hours 0-23, minutes/seconds 0-59. */
+export interface CivilDateTime extends CivilDate {
+  hour: number;
+  minute: number;
+  second: number;
+}
+
+/** Parse a 'YYYY-MM-DDTHH:mm' (datetime-local) or 'YYYY-MM-DD HH:mm[:ss]' string. Seconds optional. */
+export function parseISODateTime(s: string): CivilDateTime | null {
+  if (typeof s !== 'string') return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/.exec(s.trim());
+  if (!m) return null;
+  const date = parseISODate(`${m[1]}-${m[2]}-${m[3]}`);
+  if (!date) return null;
+  const hour = Number(m[4]);
+  const minute = Number(m[5]);
+  const second = m[6] === undefined ? 0 : Number(m[6]);
+  if (hour > 23 || minute > 59 || second > 59) return null;
+  return { ...date, hour, minute, second };
+}
+
 /** Midnight-UTC epoch ms for a civil date — the basis for exact whole-day differences. */
 export function toUTCms(c: CivilDate): number {
   return Date.UTC(c.y, c.m - 1, c.d);

@@ -7,6 +7,7 @@
 import type { Knowledge } from './types';
 import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowledge';
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
+import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
@@ -116,6 +117,7 @@ import { knowledge as heatTransferSimulator }      from '@tools/physics/heat-tra
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   ageCalculator,
   dateDifferenceCalculator,
+  timezoneConverter,
   qrCodeGenerator,
   loremIpsumGenerator,
   randomStringGenerator,

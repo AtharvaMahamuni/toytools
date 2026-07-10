@@ -21,6 +21,7 @@ export function milestone(label: string, reached: boolean): Milestone {
 export const DATETIME_TOOL_PATH: Record<string, string> = {
   'age-calculator': '/tool/datetime/age-calculator/',
   'date-difference-calculator': '/tool/datetime/date-difference-calculator/',
+  'timezone-converter': '/tool/datetime/timezone-converter/',
 };
 
 /** A decision linking to a sibling datetime tool, or null when that tool has not shipped yet. */

@@ -33,6 +33,16 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     expect: { 'total-days': 188, 'total-weeks': 26, 'business-days': 134 },
     narrative: 'From 1 January to 8 July 2026 is 6 months and 7 days, or 188 days (134 weekdays).',
   },
+  {
+    id: 'tz-ny-tokyo',
+    engine: 'datetime',
+    ref: 'timezone',
+    title: 'New York to Tokyo',
+    inputs: { datetime: '2026-07-08T09:00', fromZone: 'America/New_York', toZone: 'Asia/Tokyo' },
+    // 'difference' card raw is the offset gap in minutes: Tokyo (UTC+9) minus New York (UTC-4 in July).
+    expect: { 'difference': 780 },
+    narrative: '09:00 in New York on 8 July 2026 is 22:00 the same day in Tokyo, 13 hours ahead.',
+  },
 ];
 
 export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);

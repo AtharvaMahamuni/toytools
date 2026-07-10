@@ -30,4 +30,5 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'generate-code':        { title: 'Codes & QR',              order: 4 },
   'simulate':             { title: 'Simulations',             order: 1 },
   'datetime-calculate':   { title: 'Calculate',               order: 1 },
+  'datetime-convert':     { title: 'Convert',                 order: 2 },
 };

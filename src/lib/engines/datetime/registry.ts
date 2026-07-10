@@ -8,10 +8,12 @@ import type { DateTimeInput, DateTimeOpts, DateTimeResult, DateTimeFieldDef, Dat
 import { calculationError } from '@lib/results/index';
 import { ageCalculator } from './calculators/age';
 import { dateDifferenceCalculator } from './calculators/date-difference';
+import { timezoneConverter } from './calculators/timezone';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'age': ageCalculator,
   'date-difference': dateDifferenceCalculator,
+  'timezone': timezoneConverter,
 };
 
 /**

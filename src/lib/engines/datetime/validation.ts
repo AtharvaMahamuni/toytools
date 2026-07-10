@@ -5,7 +5,7 @@
 import type { DateTimeInput } from './types';
 import { validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
-import { parseISODate, type CivilDate } from './models';
+import { parseISODate, parseISODateTime, type CivilDate, type CivilDateTime } from './models';
 
 export interface Ok<T> { ok: true; value: T; }
 export interface Err { ok: false; result: InteractiveResult; }
@@ -26,6 +26,17 @@ export function dateField(input: DateTimeInput, key: string, label: string): Coe
   }
   const parsed = parseISODate(String(raw));
   if (!parsed) return fail(`${label} is not a valid date.`);
+  return ok(parsed);
+}
+
+/** A calendar date + wall-clock time parsed from a 'YYYY-MM-DDTHH:mm' string, or a validation error. */
+export function datetimeField(input: DateTimeInput, key: string, label: string): Coerced<CivilDateTime> {
+  const raw = input[key];
+  if (raw === undefined || raw === '' || raw === null) {
+    return fail(`Enter ${label} to convert.`);
+  }
+  const parsed = parseISODateTime(String(raw));
+  if (!parsed) return fail(`${label} is not a valid date and time.`);
   return ok(parsed);
 }
 

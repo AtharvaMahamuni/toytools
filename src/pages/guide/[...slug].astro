@@ -5,6 +5,7 @@ import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
 import AgeCalculatorGuide from '../../tools/datetime/age-calculator/Guide.astro';
 import DateDifferenceCalculatorGuide from '../../tools/datetime/date-difference-calculator/Guide.astro';
+import TimezoneConverterGuide from '../../tools/datetime/timezone-converter/Guide.astro';
 import QrCodeGeneratorGuide from '../../tools/generate/qr-code-generator/Guide.astro';
 import LoremIpsumGeneratorGuide from '../../tools/generate/lorem-ipsum-generator/Guide.astro';
 import RandomStringGeneratorGuide from '../../tools/generate/random-string-generator/Guide.astro';
@@ -101,6 +102,7 @@ import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'age-calculator': AgeCalculatorGuide,
   'date-difference-calculator': DateDifferenceCalculatorGuide,
+  'timezone-converter': TimezoneConverterGuide,
   'qr-code-generator': QrCodeGeneratorGuide,
   'lorem-ipsum-generator': LoremIpsumGeneratorGuide,
   'random-string-generator': RandomStringGeneratorGuide,
