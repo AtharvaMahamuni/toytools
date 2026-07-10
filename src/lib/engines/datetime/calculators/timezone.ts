@@ -6,20 +6,12 @@
 import type { DateTimeTool } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
 import type { ResultCard } from '@lib/results/types';
-import { weekdayName } from '../format';
 import { datetimeField } from '../validation';
 import { insight, milestone, toolDecision, decisions } from '../story';
 import {
   ZONES, zoneLabel, partsInZone, zoneOffsetMs, zonedWallToUtc, offsetLabel, clock,
-  type ZonedReading,
+  formatReading, monthShort,
 } from '../zones';
-
-const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-/** 'Wed, 8 Jul 2026, 22:30' — a compact, locale-stable rendering of a zoned reading. */
-function formatReading(p: ZonedReading): string {
-  return `${weekdayName(p.weekday).slice(0, 3)}, ${p.d} ${MONTHS_SHORT[p.m - 1]} ${p.y}, ${clock(p)}`;
-}
 
 /** 'is 13h 30m ahead of' / 'is 5h behind' / 'is the same time as'. */
 function diffPhrase(diffMin: number): string {
@@ -109,7 +101,7 @@ export const timezoneConverter: DateTimeTool = {
               : `In ${toName} it is still the previous day.`,
             'info',
           ),
-      insight(`Offsets are read for ${sourceRead.d} ${MONTHS_SHORT[sourceRead.m - 1]} ${sourceRead.y}, so daylight saving is accounted for.`),
+      insight(`Offsets are read for ${sourceRead.d} ${monthShort(sourceRead.m)} ${sourceRead.y}, so daylight saving is accounted for.`),
     ];
 
     return successResult({

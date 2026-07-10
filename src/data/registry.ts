@@ -2,6 +2,7 @@ import type { ToolConfig } from './types';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
+import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
@@ -95,6 +96,7 @@ export const tools: ToolConfig[] = [
   ageCalculator,
   dateDifferenceCalculator,
   timezoneConverter,
+  unixTimestampConverter,
   qrCodeGenerator,
   loremIpsumGenerator,
   randomStringGenerator,

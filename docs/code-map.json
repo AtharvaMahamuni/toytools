@@ -204,9 +204,10 @@
       "supportedFamilies": [
         "age",
         "duration",
-        "timezone"
+        "timezone",
+        "timestamp"
       ],
-      "toolCount": 3
+      "toolCount": 4
     }
   },
   "toolGroups": {
@@ -356,6 +357,27 @@
       "pattern": "datetime-convert",
       "family": "timezone",
       "processorId": "timezone",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "unix-timestamp-converter": {
+      "name": "Unix Timestamp Converter",
+      "dir": "src/tools/datetime/unix-timestamp-converter",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/unix-timestamp-converter/",
+      "engine": "datetime",
+      "pattern": "datetime-convert",
+      "family": "timestamp",
+      "processorId": "unix-timestamp",
       "toolGroup": "",
       "files": [
         "Guide.astro",

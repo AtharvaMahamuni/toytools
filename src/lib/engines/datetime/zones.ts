@@ -4,6 +4,9 @@
 // browser and Node (vitest), so these are unit-testable.
 
 import type { CivilDateTime } from './models';
+import { weekdayName } from './format';
+
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export interface ZoneInfo {
   /** IANA identifier, e.g. 'America/New_York'. */
@@ -123,4 +126,14 @@ export function offsetLabel(ms: number): string {
 /** 24-hour clock string, e.g. '09:05'. */
 export function clock(p: CivilDateTime): string {
   return `${String(p.hour).padStart(2, '0')}:${String(p.minute).padStart(2, '0')}`;
+}
+
+/** 'Wed, 8 Jul 2026, 22:30' — a compact, locale-stable rendering of a zoned reading. */
+export function formatReading(p: ZonedReading): string {
+  return `${weekdayName(p.weekday).slice(0, 3)}, ${p.d} ${MONTHS_SHORT[p.m - 1]} ${p.y}, ${clock(p)}`;
+}
+
+/** Month short name for a 1-12 month number, e.g. 7 -> 'Jul'. */
+export function monthShort(m: number): string {
+  return MONTHS_SHORT[m - 1] ?? '';
 }

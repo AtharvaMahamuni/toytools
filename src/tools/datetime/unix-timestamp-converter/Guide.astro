@@ -1,0 +1,127 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A Unix timestamp is a count of seconds since a fixed starting point, and this Unix timestamp
+      converter reads it both ways. Leave the direction on timestamp to date to turn a number like
+      1700000000 into a readable date, or switch it to the date to unix timestamp direction. Either way
+      you get the UTC time, the ISO 8601 string, and your local time. It handles seconds or
+      milliseconds, so the same page works as an epoch converter, an epoch time converter, a unix time
+      converter, and a posix timestamp reader for logs, databases, and APIs.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Unix Timestamp Converter →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Unix Time Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The Unix epoch is midnight UTC on 1 January 1970. A timestamp is the number of seconds that have
+      passed since that instant, so 0 is the epoch itself and negative values are earlier dates. To do
+      unix time to date, the tool adds those seconds to the epoch and reads the result as a calendar
+      date. Because the count always starts from UTC, a Unix timestamp is the same in every timezone:
+      it names a single moment, not a local clock reading. That is why the same number means one exact
+      instant whether you are in London, Mumbai, or Tokyo.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Timestamp to date.</strong> For example, 1700000000 seconds converts to 22:13:20 UTC on
+      Tuesday 14 November 2023.
+    </p>
+    <p>
+      <strong>Date to timestamp.</strong> For example, entering 14 November 2023 at 22:13:20 (read as
+      UTC) gives the Unix timestamp 1700000000, or 1700000000000 in milliseconds.
+    </p>
+    <p>
+      <strong>Spotting the wrong unit.</strong> For example, 1700000000000 read as seconds lands in the
+      year 55901, a clear sign the value is milliseconds and the unit should be switched.
+    </p>
+  </section>
+
+  <section id="seconds-vs-milliseconds">
+    <h2>Seconds vs Milliseconds <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The milliseconds vs seconds choice trips people up more than anything else. Classic Unix time
+      counts seconds, so a present-day value has ten digits. JavaScript and many web APIs count
+      milliseconds, which are 1000 times larger and have thirteen digits. A timestamp that looks wrong
+      is often milliseconds read as seconds: if a date comes out thousands of years in the future, that
+      is the cause. Going the other way, milliseconds to date just means dividing by 1000 first. This
+      is also the Unix time versus a local calendar date distinction: the timestamp is a raw count from
+      UTC, while the calendar date is how a person reads that moment in their own zone. Pick the
+      matching unit before you convert and the date lands where you expect.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Reading milliseconds as seconds">
+      <p>
+        A common mistake is to feed a thirteen-digit millisecond value into a seconds converter. The
+        date jumps thousands of years ahead. Check the digit count: ten digits is seconds today,
+        thirteen is milliseconds, and this tool lets you pick the unit so the conversion is correct.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Assuming a timestamp is local time">
+      <p>
+        A Unix timestamp does not carry a timezone; it is always counted from UTC. Treating it as local
+        time shifts the date by your offset. Read the UTC value first, then convert to your zone if you
+        need the local reading.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Everything runs locally">
+      <p>
+        The conversion happens in your browser using your device clock and built-in timezone data.
+        Nothing you paste is uploaded or stored on a server, and the page works offline once loaded.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -43,6 +43,26 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     expect: { 'difference': 780 },
     narrative: '09:00 in New York on 8 July 2026 is 22:00 the same day in Tokyo, 13 hours ahead.',
   },
+  {
+    id: 'ts-to-date',
+    engine: 'datetime',
+    ref: 'unix-timestamp',
+    title: 'Timestamp to a date',
+    inputs: { mode: 'to-date', timestamp: 1700000000, unit: 'seconds' },
+    // 'milliseconds' card raw is the epoch in ms for the entered seconds timestamp.
+    expect: { 'milliseconds': 1_700_000_000_000, 'weekday': 2 },
+    narrative: '1700000000 seconds is 22:13:20 UTC on Tuesday 14 November 2023.',
+  },
+  {
+    id: 'ts-from-date',
+    engine: 'datetime',
+    ref: 'unix-timestamp',
+    title: 'Date to a timestamp',
+    inputs: { mode: 'to-timestamp', datetime: '2023-11-14T22:13:20' },
+    // Entered time is read as UTC, so the timestamp is deterministic.
+    expect: { 'unix-seconds': 1_700_000_000, 'milliseconds': 1_700_000_000_000 },
+    narrative: '14 November 2023 at 22:13:20 UTC is the Unix timestamp 1700000000.',
+  },
 ];
 
 export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);

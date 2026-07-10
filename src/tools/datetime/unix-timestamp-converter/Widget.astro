@@ -1,0 +1,9 @@
+---
+// Unix Timestamp Converter — a thin wrapper over the shared DateTimeWidget. Tool logic lives in the
+// datetime engine (src/lib/engines/datetime/calculators/unix-timestamp.ts), resolved at runtime via
+// ToyTools.runDateTime.
+import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
+import { config } from './config';
+---
+
+<DateTimeWidget slug={config.slug} dateTimeId="unix-timestamp" config={config} emptyText="Enter a Unix timestamp, or switch direction to turn a date into a timestamp." />
