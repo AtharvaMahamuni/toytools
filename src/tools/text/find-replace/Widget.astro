@@ -12,15 +12,15 @@ import { config } from './config';
       <IoPanel label="Source Text" labelFor="fr-source" variant="prose">
         <div class="fr-controls" slot="header-end">
           <label class="fr-toggle" title="Match case">
-            <input type="checkbox" id="fr-case" />
+            <input type="checkbox" id="fr-case" aria-label="Match case" />
             <span>Aa</span>
           </label>
           <label class="fr-toggle" title="Regular expression">
-            <input type="checkbox" id="fr-regex" />
+            <input type="checkbox" id="fr-regex" aria-label="Use regular expression" />
             <span>.*</span>
           </label>
           <label class="fr-toggle" title="Whole word only">
-            <input type="checkbox" id="fr-whole-word" />
+            <input type="checkbox" id="fr-whole-word" aria-label="Whole word only" />
             <span>\b</span>
           </label>
         </div>
@@ -48,7 +48,7 @@ import { config } from './config';
           />
           <p id="fr-regex-error" class="fr-regex-error" role="alert"></p>
           <label class="fr-check">
-            <input type="checkbox" id="fr-highlight" />
+            <input type="checkbox" id="fr-highlight" aria-label="Highlight matches in source" />
             Highlight matches in source
           </label>
         </div>
