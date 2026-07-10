@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Replace tab characters with spaces instantly in your browser — paste, convert, and copy with no uploads.',
   categorySlug: 'text-utilities',
   tags: ['remove tabs', 'convert tabs to spaces', 'replace tabs', 'tabs to spaces', 'delete tabs', 'strip tabs', 'detab text'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

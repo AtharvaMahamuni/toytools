@@ -1,9 +1,10 @@
 // Sitemap rendering — pure XML builders for the registry-driven sitemap. Endpoints
 // (src/pages/sitemap-index.xml.ts + src/pages/sitemaps/*.xml.ts) feed these the content
 // manifest; nothing here is maintained by hand. <lastmod> is emitted only when an entry's
-// updatedAt is a valid W3C date (YYYY-MM-DD) — tools carry those, so they get a freshness
-// signal; guide dates are display strings ("Jun 2026") and are skipped rather than emitted
-// as invalid <lastmod>. Home/category entries have no updatedAt and are likewise skipped.
+// updatedAt is a valid W3C date (YYYY-MM-DD). The manifest now supplies one for every surface:
+// tools carry their own date, guides inherit their tool's date, and home/category derive the
+// freshest date of the tools beneath them — so lastmod advances whenever content changes, giving
+// Google a real recrawl signal without any hand-maintained dates.
 
 import type { ContentEntry } from '@lib/content/manifest';
 

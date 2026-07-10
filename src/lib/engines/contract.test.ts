@@ -14,6 +14,7 @@ import { HASHERS, runHash } from '@lib/engines/hashing/registry';
 import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS, financeFields } from '@lib/engines/finance/registry';
+import { DATETIME_TOOLS, dateTimeFields } from '@lib/engines/datetime/registry';
 import { SIMULATIONS } from '@lib/engines/physics/simulations/registry';
 import { SUBSTEP } from '@lib/engines/physics/loop';
 import type { SimState } from '@lib/engines/physics/types';
@@ -94,6 +95,19 @@ describe('finance engine', () => {
       expect(calc, `finance calculator "${processorId}" registered`).toBeDefined();
       expect(typeof calc.calculate).toBe('function');
       expect(financeFields(processorId!).length).toBeGreaterThan(0);
+    },
+  );
+});
+
+// ── datetime: every tool resolves a tool with a calculate() and renderable fields ─────────────
+describe('datetime engine', () => {
+  it.each(byEngine('datetime').map(t => [t.slug, t.processorId] as const))(
+    '%s resolves a tool with calculate() and fields',
+    (_slug, processorId) => {
+      const tool = DATETIME_TOOLS[processorId!];
+      expect(tool, `datetime tool "${processorId}" registered`).toBeDefined();
+      expect(typeof tool.calculate).toBe('function');
+      expect(dateTimeFields(processorId!).length).toBeGreaterThan(0);
     },
   );
 });

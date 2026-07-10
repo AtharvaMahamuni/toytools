@@ -27,11 +27,22 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      To add tax, multiply the price by the rate and add it: $100 at 8.25% tax becomes
-      $108.25. To go the other way, divide the total by one plus the rate:
-      $108.25 ÷ 1.0825 = $100.00.
+      How is sales tax calculated? To add tax, multiply the price by the rate and add it: $100 at
+      8.25% tax becomes $108.25. To go the other way and reverse tax, divide the total by one plus the
+      rate: $108.25 ÷ 1.0825 = $100.00.
     </p>
     <a href={toolHref} class="cta-link">Try the Tax Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the Tax Calculator Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool works from one rule: tax is a percentage of the net, pre-tax price. To add tax it
+      computes <code>price × rate ÷ 100</code> and adds it to the price. To reverse tax from a
+      gross total it divides by <code>1 + rate ÷ 100</code>, which undoes that multiplication exactly.
+      Everything updates live as you type, and the tax line is shown on its own so you can copy it
+      straight onto an invoice.
+    </p>
   </section>
 
   <section id="adding-tax">
@@ -64,10 +75,58 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="rounding">
     <h2>Why Totals Can Differ By A Cent <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Tax math rarely lands on a clean cent, so every system rounds — but not identically. Some round
+      Tax math rarely lands on a clean cent, so every system rounds, but not identically. Some round
       each line item, others round the tax total, and jurisdictions specify different rules. This tool
       rounds the displayed amounts to two decimal places, which can occasionally sit a cent away from a
       particular store's till. For exact filing, follow your local rounding rule.
     </p>
+  </section>
+
+  <section id="sales-tax-vs-vat">
+    <h2>Adding Tax vs Removing Tax, and Sales Tax vs VAT <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Adding tax vs removing tax are inverse operations: adding multiplies the net price by one plus
+      the rate, while removing divides the gross total by the same factor. As a sales tax calculator
+      you enter the pre-tax price; to reverse vat you enter the tax-inclusive price and the tool backs
+      out the net. Sales tax vs VAT is mostly a matter of where the tax sits in the chain: US sales
+      tax is added once at the till, while VAT and GST are collected at each stage, but the arithmetic
+      a vat calculator uses is identical. The tax rate applies to the net figure in every case.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Add tax to a price.</strong> For example, input: $100 at 8.25%. Output: $8.25 tax and a
+      $108.25 total. That is add tax in one step.
+    </p>
+    <p>
+      <strong>Back out tax from a total.</strong> For example, a receipt shows $108.25 including
+      8.25%. Output: $100.00 net and $8.25 tax, because you divide by 1.0825 rather than subtract.
+    </p>
+    <p>
+      <strong>Quote a VAT-inclusive price.</strong> For example, a net figure of 200 at 20% VAT gives
+      a 240 tax-inclusive price, ready to show a customer.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Subtracting the rate to remove tax">
+      <p>
+        The most common mistake is subtracting the percentage from the gross total to reverse tax.
+        8.25% of $108.25 is $8.93, which overshoots the real $8.25. Tax was charged on the smaller net
+        price, so you divide by 1 plus the rate instead of subtracting.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Applying the rate to a tax-inclusive figure">
+      <p>
+        Charging the percentage on a total that already includes tax double-counts it. Always apply the
+        rate to the net price. If you only have the gross total, back out the net first, then work from
+        there.
+      </p>
+    </ReferenceBlock>
   </section>
 </GuideLayout>

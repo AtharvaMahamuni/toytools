@@ -32,19 +32,40 @@ function segmentOf(categorySlug: string): string {
   return categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
 }
 
+/**
+ * Latest valid W3C (YYYY-MM-DD) date among a set of tools. ISO dates sort lexicographically =
+ * chronologically, so the max is the freshest. Lets home/category/guide entries derive a real
+ * <lastmod> that advances whenever any underlying tool changes — a recrawl signal with zero manual
+ * upkeep (adding or updating a tool bumps its category's and the home page's lastmod automatically).
+ */
+function latestUpdatedAt(list: { updatedAt?: string }[]): string | undefined {
+  const dates = list
+    .map(t => t.updatedAt)
+    .filter((d): d is string => !!d && /^\d{4}-\d{2}-\d{2}$/.test(d));
+  return dates.length ? dates.sort().at(-1) : undefined;
+}
+
 export function buildContentManifest(): ContentEntry[] {
   const entries: ContentEntry[] = [];
 
-  // Home
-  entries.push({ type: 'home', slug: '', url: withBase('/'), priority: 1.0, changefreq: 'daily' });
+  // Home — lastmod tracks the freshest tool so the root recrawls when anything ships or changes.
+  entries.push({
+    type: 'home',
+    slug: '',
+    url: withBase('/'),
+    updatedAt: latestUpdatedAt(tools),
+    priority: 1.0,
+    changefreq: 'daily',
+  });
 
-  // Categories
+  // Categories — lastmod is the freshest tool in the category (advances as its tools evolve).
   for (const c of categories) {
     entries.push({
       type: 'category',
       slug: c.slug,
       url: withBase(`/category/${c.slug}/`),
       categorySlug: c.slug,
+      updatedAt: latestUpdatedAt(tools.filter(t => t.categorySlug === c.slug)),
       priority: 0.8,
       changefreq: 'weekly',
     });
@@ -73,7 +94,9 @@ export function buildContentManifest(): ContentEntry[] {
         slug: t.guide.slug,
         url: withBase(`/guide/${t.guide.categorySlug}/${t.guide.slug}/`),
         categorySlug: t.categorySlug,
-        updatedAt: t.guide.updatedAt,
+        // Use the tool's machine date (YYYY-MM-DD), not the guide's human display string
+        // ("Jul 2026"), so the guide emits a valid <lastmod>. A guide changes with its tool.
+        updatedAt: t.updatedAt,
         priority: 0.7,
         changefreq: 'monthly',
       });

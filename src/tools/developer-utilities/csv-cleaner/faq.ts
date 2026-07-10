@@ -3,19 +3,19 @@ import type { FAQItem } from '@data/types';
 export const items: FAQItem[] = [
   {
     id: 'csv-cleaner-faq-1',
-    question: 'What exactly does the CSV cleaner fix?',
+    question: 'How do I remove empty rows from a CSV?',
     answer:
-      'Four things in one pass: fully-empty rows are removed, whitespace around cell values is trimmed, trailing commas that create phantom empty columns are dropped, and every row is squared to the header row’s column count, padding short rows with empty cells. Quoting is also normalized, so cells are quoted only where the CSV format requires it.',
+      'Paste the CSV into the input pane. Any row where every cell is blank is removed automatically, which clears the separator rows that exporters and reporting tools insert. The same pass also trims whitespace, drops trailing-comma columns, and squares ragged rows, so removing empty rows is one part of a full cleanup rather than a separate step.',
   },
   {
     id: 'csv-cleaner-faq-2',
-    question: 'Why does my CSV import keep failing?',
+    question: 'Why does my CSV import fail with a column count error?',
     answer:
-      'The usual culprits are invisible: a blank line the exporter added, a row with a trailing comma so it has one column too many, or spaces padded around values so "Ada " no longer matches "Ada". Importers that validate column counts reject the whole file over a single ragged row. Cleaning normalizes all of these before you retry the import.',
+      'A column-count error means one row has more or fewer fields than the header. The usual causes are invisible: a trailing comma that adds a phantom column, or a short row missing a value. Importers that validate column counts reject the whole file over a single ragged row. Squaring every row to the header width fixes it, so retry the import with the cleaned output.',
   },
   {
     id: 'csv-cleaner-faq-3',
-    question: 'Will cleaning delete any of my data?',
+    question: 'Does cleaning delete any data?',
     answer:
       'No non-empty cell is ever deleted. Rows are only removed when every cell in them is empty, and rows longer than the header keep their extra cells rather than being truncated. Trimming only strips whitespace at the edges of a value, never characters inside it.',
   },

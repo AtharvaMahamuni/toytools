@@ -1,4 +1,9 @@
 import type { FAQItem } from './types';
+import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
+import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-difference-calculator/faq';
+import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
+import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timestamp-converter/faq';
+import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
 import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
@@ -90,6 +95,11 @@ import { items as pendulumFaqs }              from '@tools/physics/pendulum-simu
 import { items as heatTransferFaqs }          from '@tools/physics/heat-transfer-simulator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  'age-calculator': ageCalculatorFaqs,
+  'date-difference-calculator': dateDifferenceCalculatorFaqs,
+  'timezone-converter': timezoneConverterFaqs,
+  'unix-timestamp-converter': unixTimestampConverterFaqs,
+  'cron-expression-parser': cronExpressionParserFaqs,
   'qr-code-generator': qrCodeGeneratorFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'random-string-generator': randomStringGeneratorFaqs,

@@ -30,15 +30,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A CSV to JSON converter takes a comma-separated table and turns it into a JSON array of
-      objects. The header row becomes the keys and each data row becomes one object. Paste in
-      <code>name,age</code> followed by <code>Alice,30</code> and you get
-      <code>[&#123;"name":"Alice","age":30&#125;]</code> — with <code>30</code> as a real number,
-      not a string.
+      objects. The header row becomes the keys and each data row becomes one object. For example,
+      paste <code>name,age</code> followed by <code>Alice,30</code> and you get
+      <code>[&#123;"name":"Alice","age":30&#125;]</code>, with <code>30</code> as a real number,
+      not a string. That is a CSV to JSON array in one step, turning each CSV row into a
+      CSV to JavaScript object.
     </p>
     <p>
-      Use this CSV JSON converter to convert CSV to JSON for APIs, JavaScript apps, database
-      imports, and any tool that reads JSON. It handles custom delimiters, quoted fields, and
-      automatic type detection, all in your browser.
+      Use this data conversion tool, a free CSV to JSON online converter, to convert CSV to JSON for
+      APIs, JavaScript apps, database imports, and any tool that reads JSON. As a CSV parser it
+      handles custom delimiters, quoted fields, TSV to JSON, and automatic type detection, all in
+      your browser. You can also import CSV to JSON or flatten a table to a CSV to array of records.
     </p>
     <a href={toolHref} class="cta-link">Try the CSV to JSON Converter →</a>
   </section>
@@ -108,18 +110,20 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="csv-vs-json">
     <h2>CSV vs JSON: Which to Use <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      CSV is the right choice for flat, tabular data destined for spreadsheets, human review, or
-      simple imports: it is compact and universally readable. JSON is the right choice when data
-      feeds into code: it supports nesting, explicit types, and is the native format of web APIs and
-      JavaScript.
+      For CSV vs JSON for data storage, CSV is the right choice for flat, tabular data destined for
+      spreadsheets, human review, or simple imports: it is compact and universally readable. JSON is
+      the right choice when data feeds into code: it supports nesting, explicit types, and is the
+      native format of web APIs and JavaScript.
     </p>
     <p>
+      So when to use JSON instead of CSV comes down to structure and types. Reach for JSON the moment
+      you need nested objects, arrays, or reliable number and boolean types rather than plain text.
       Because CSV is flat and JSON can nest, the conversion from CSV to JSON produces a flat array of
       objects. If you need nested structure, you reshape the JSON after converting. The two formats
       round-trip cleanly for flat data, which is why converting back and forth is common.
     </p>
     <ReferenceBlock type="note" heading="CSV is flat by design">
-      <p>CSV has no concept of nested objects or arrays. A CSV to JSON conversion yields a flat array of objects with string, number, boolean, or null values — never nested objects — unless you restructure the result yourself.</p>
+      <p>CSV has no concept of nested objects or arrays. A CSV to JSON conversion yields a flat array of objects with string, number, boolean, or null values, never nested objects, unless you restructure the result yourself.</p>
     </ReferenceBlock>
   </section>
 

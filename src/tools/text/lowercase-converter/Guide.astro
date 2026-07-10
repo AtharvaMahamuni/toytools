@@ -28,8 +28,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This tool will convert to lowercase and make text lowercase in one step. It will also uncapitalize text:
-      "HELLO World" becomes "hello world", turning all capital letters into small letters.
+      This tool will convert to lowercase and make text all lowercase in one step. It will also uncapitalize text:
+      "HELLO World" becomes "hello world", turning every letter case to small letters.
       Numbers, spaces, and punctuation stay the same.
     </p>
     <a href={toolHref} class="cta-link">Try The Lowercase Converter →</a>
@@ -38,16 +38,20 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="when-to-use">
     <h2>When Lowercase Is Required <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Several systems expect lowercase by convention or by rule: email addresses, URL slugs,
-      hashtags, CSS class names, and many code identifiers. Forcing text to lowercase is also a
-      common normalisation step: it lets you compare or de-duplicate strings without being
-      tripped up by inconsistent capitalisation.
+      Why normalize text to lowercase? Several systems expect lowercase by convention or by rule:
+      email addresses, URL slugs, hashtags, CSS class names, and many code identifiers.
+      To "normalize case" is a common step, and this case normalization lets you compare or
+      de-duplicate strings without being tripped up by inconsistent capitalisation. It also helps
+      "slug preparation" and shows how to normalize emails before storing them, since an address is
+      the same regardless of the case it was typed in.
     </p>
     <ReferenceBlock type="key-idea" heading="Lowercase for safe comparisons">
       <p>
-        When you need to check whether two strings are "the same" regardless of capitalisation,
-        convert both to lowercase first. This is why login systems usually store email addresses
-        in lowercase.
+        For a case-insensitive comparison, convert both strings to lowercase first, because
+        case-insensitive matching still needs consistent casing under the hood. Lowercasing for
+        display vs for comparison is worth separating: you might store the original for display but
+        compare on a lowercased copy. This is why login systems usually store email addresses in
+        lowercase.
       </p>
     </ReferenceBlock>
   </section>
@@ -64,6 +68,29 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
   </section>
 
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Normalizing an email.</strong> For example, "Jane.Doe@Example.com" becomes
+      "jane.doe@example.com", so two sign-ups with different casing match as one account.
+    </p>
+    <p>
+      <strong>Shouty text calmed down.</strong> For example, "THIS IS URGENT" becomes "this is
+      urgent", ready to re-case however you like.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Lowercasing proper nouns loses meaning">
+      <p>
+        The most common mistake is lowercasing proper nouns: names, places, and brand names lose
+        their capitalisation, so "London" becomes "london" and "Apple" becomes "apple". Review the
+        output and re-capitalise proper nouns before using the result in a document.
+      </p>
+    </ReferenceBlock>
+  </section>
+
   <section id="lowercase-vs-alternatives">
     <h2>Lowercase vs Other Case Styles <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
@@ -75,12 +102,6 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       lowercase makes no capitalization decisions: it is the most predictable option for
       normalisation, URL slugs, and string comparisons.
     </p>
-    <ReferenceBlock type="common-mistake" heading="Converting names and proper nouns to lowercase">
-      <p>
-        A common mistake is forgetting that proper nouns: names, places, and brand names, lose their capitalisation. "London" becomes "london", "Apple" becomes "apple".
-        Review the output and re-capitalise proper nouns before using the result in a document.
-      </p>
-    </ReferenceBlock>
   </section>
 
   <section id="related-tools">

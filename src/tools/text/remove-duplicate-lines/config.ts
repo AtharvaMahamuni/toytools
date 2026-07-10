@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Remove repeated lines from text, keeping the first occurrence.',
   categorySlug: 'text-utilities',
   tags: ['remove duplicate lines', 'deduplicate text', 'delete duplicate lines', 'unique lines', 'dedupe list', 'remove repeated lines', 'find duplicate lines'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

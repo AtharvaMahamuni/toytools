@@ -29,16 +29,28 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       A scientific calculator evaluates a whole expression at once, following the standard order
       of operations: parentheses first, then powers and roots, then multiplication and division,
-      and finally addition and subtraction. So 2 + 3 x 4 is 14, not 20. It also handles
-      trigonometry, logarithms, powers, roots, factorials, and constants like pi and e, and it lets
-      you choose whether angles are in degrees or radians. Type or tap an expression and read the
-      result instantly.
+      and finally addition and subtraction. So 2 + 3 x 4 is 14, not 20. This online scientific
+      calculator also works as a trig calculator and a log calculator, handling trigonometry,
+      logarithms, exponents, roots, factorials, and constants like pi and e, and it lets you choose
+      whether angles are in degrees or radians. Type or tap an expression and read the result
+      instantly.
     </p>
     <a href={toolHref} class="cta-link">Open The Scientific Calculator →</a>
   </section>
 
+  <section id="basic-vs-scientific">
+    <h2>A Scientific Calculator vs a Basic Calculator <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A basic online calculator handles one operation at a time and ignores precedence, so pressing
+      2 + 3 x 4 gives 20. A scientific calculator vs a basic calculator differs in two ways: it reads
+      a full expression with correct order of operations, and it adds functions a basic model lacks,
+      such as trig, logs, and exponents. That is why students reach for a sci calc or student
+      calculator once problems involve angles, powers, or nested parentheses.
+    </p>
+  </section>
+
   <section id="order-of-operations">
-    <h2>Order Of Operations <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How the Calculator Works: Order of Operations <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The calculator resolves precedence for you, so you can write an expression the way you would
       on paper. The rules, from first to last, are: anything inside parentheses, then powers and
@@ -86,10 +98,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
   <section id="worked-examples">
     <h2>Worked Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>For example, here is how a few common expressions evaluate:</p>
     <ul>
       <li><strong>(2 + 3) x 4 = 20.</strong> The parentheses force the addition first; without them, 2 + 3 x 4 is 14.</li>
-      <li><strong>sin(30) = 0.5 in degrees.</strong> Switch to radians and the same keys give about minus 0.988, because 30 radians is a different angle.</li>
-      <li><strong>2^10 = 1024.</strong> Use the x^y key, or type the caret directly on your keyboard.</li>
+      <li><strong>sin(30) = 0.5 in degrees.</strong> Switch to radians and the same keys give about minus 0.988, because 30 radians is a different angle. This is the degrees radians distinction in action.</li>
+      <li><strong>2^10 = 1024.</strong> This is how to raise a number to a power: use the x^y key, or type the caret directly on your keyboard.</li>
       <li><strong>5! = 120.</strong> The factorial multiplies 5 x 4 x 3 x 2 x 1.</li>
       <li><strong>2 pi = 6.2832.</strong> Writing a number directly before pi is understood as multiplication.</li>
     </ul>

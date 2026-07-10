@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['space counter', 'count spaces', 'space count', 'count whitespace', 'spaces in text', 'number of spaces'],
   isNew: true,
-  updatedAt: '2026-06-25',
+  updatedAt: '2026-07-09',
   engine: 'text-analysis',
   pattern: 'text-metric',
   toolGroup: 'text-counters',

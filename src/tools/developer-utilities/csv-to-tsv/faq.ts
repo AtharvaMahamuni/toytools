@@ -3,13 +3,13 @@ import type { FAQItem } from '@data/types';
 export const items: FAQItem[] = [
   {
     id: 'csv-to-tsv-faq-1',
-    question: 'Why not just replace every comma with a tab?',
+    question: 'How do I convert CSV to TSV without Excel?',
     answer:
-      'Because CSV cells can contain commas inside quotes. A find-and-replace turns "Smith, Jane" into two columns and corrupts the file. This converter parses the CSV properly first, so a quoted cell with an embedded comma becomes a single tab-separated cell with the comma intact.',
+      'Paste the CSV into the input pane and the tab-separated output appears immediately, no spreadsheet required. Do not just replace every comma with a tab: CSV cells can hold commas inside quotes, and a find-and-replace turns "Smith, Jane" into two columns. This converter parses the CSV first, so a quoted cell with an embedded comma becomes a single tab-separated cell with the comma intact.',
   },
   {
     id: 'csv-to-tsv-faq-2',
-    question: 'What happens to quotes during the conversion?',
+    question: 'What happens to quoted fields during conversion?',
     answer:
       'Quoting is rebuilt for the new delimiter. A cell that was quoted only because it contained a comma no longer needs quotes in TSV, so they are removed. A cell containing a tab, a quote character, or a line break stays quoted, with inner quotes doubled, following the same RFC 4180 convention CSV uses.',
   },
@@ -21,9 +21,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'csv-to-tsv-faq-4',
-    question: 'Does the converter change my data?',
+    question: 'Is the conversion lossless?',
     answer:
-      'No. Cell text is preserved exactly, including leading zeros, number formatting, and blank lines. Only the delimiter and the quoting around cells change. If you also want cleanup, empty rows removed or whitespace trimmed, run the file through the CSV cleaner first.',
+      'Yes. Cell text is preserved exactly, including leading zeros, number formatting, and blank lines. Only the delimiter and the quoting around cells change, so converting back to CSV returns the original data. If you also want cleanup, empty rows removed or whitespace trimmed, run the file through the CSV cleaner first.',
   },
   {
     id: 'csv-to-tsv-faq-5',

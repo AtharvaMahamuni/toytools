@@ -16,7 +16,7 @@ export const config: ToolConfig = {
     'square root calculator',
     'order of operations calculator',
   ],
-  updatedAt: '2026-07-07',
+  updatedAt: '2026-07-09',
   isNew: true,
   engine: 'calculator',
   pattern: 'calculate',

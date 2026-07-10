@@ -31,7 +31,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       A line counter counts the number of lines in a block of text by splitting on newline
       characters. A single line of text counts as 1 line; "Hello\nWorld" counts as 2 lines. The
       total line count includes blank lines. The non-empty line count excludes lines that contain
-      only whitespace.
+      only whitespace. Use it to count lines of code, get a quick row count, or check the csv row
+      count of a pasted table.
     </p>
     <a href={toolHref} class="cta-link">Try The Line Counter →</a>
   </section>
@@ -43,10 +44,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       newlines is one line, including any trailing segment after the last newline. For example:
     </p>
     <ul>
-      <li><strong>"Hello"</strong> — 1 line</li>
-      <li><strong>"Hello\nWorld"</strong> — 2 lines</li>
-      <li><strong>"Hello\n\nWorld"</strong> — 3 lines (one blank line between)</li>
-      <li><strong>"Hello\nWorld\n"</strong> — 2 lines (trailing newline does not add an extra line)</li>
+      <li><strong>"Hello"</strong>: 1 line</li>
+      <li><strong>"Hello\nWorld"</strong>: 2 lines</li>
+      <li><strong>"Hello\n\nWorld"</strong>: 3 lines (one blank line between)</li>
+      <li><strong>"Hello\nWorld\n"</strong>: 2 lines (a trailing newline can add or remove a line, and here it does not add an extra line)</li>
     </ul>
     <ReferenceBlock type="note" heading="This tool runs entirely in your browser">
       <p>
@@ -64,12 +65,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       <strong>Non-empty lines</strong> counts only lines that contain at least one non-whitespace
-      character — actual content.
+      character, meaning actual content.
     </p>
     <p>
       For a typical document with blank lines between paragraphs, total lines will be higher
       than non-empty lines. Use non-empty lines when you want to count only meaningful content
       rows, for example when checking a CSV file that should have a specific number of data rows.
+    </p>
+    <p>
+      <strong>How to estimate rows in a CSV paste:</strong> for a CSV row count, paste the data and
+      read the non-empty line count, then subtract 1 for the header. That gives the number of data
+      rows without opening a spreadsheet.
     </p>
   </section>
 
@@ -96,11 +102,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
   <section id="common-mistakes">
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
-    <ReferenceBlock type="common-mistake" heading="Confusing lines with paragraphs">
+    <ReferenceBlock type="common-mistake" heading="Confusing hard line breaks vs wrapped lines">
       <p>
-        A long paragraph that wraps visually across several lines in a text editor still counts
-        as 1 line if it contains no newline characters inside it. Visual word wrap does not
-        create new lines — only actual newline characters do.
+        Hard line breaks vs wrapped lines is the key distinction. A long paragraph that wraps
+        visually across several lines in a text editor still counts as 1 line if it contains no
+        newline characters inside it. Wrapped text is not extra lines: visual word wrap does not
+        create new lines, only actual newline characters do.
       </p>
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Forgetting blank lines in the total count">

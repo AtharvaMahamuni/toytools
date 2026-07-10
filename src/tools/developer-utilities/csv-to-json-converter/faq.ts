@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'c2j-faq-3',
     question: 'Why is a value like 007 kept as a string?',
     answer:
-      'Numbers with leading zeros — zip codes, product codes, phone extensions — would lose their zeros if converted to a numeric type (007 would become 7). To prevent silent data loss, the converter keeps any leading-zero value as a string even when type detection is on.',
+      'Numbers with leading zeros, such as zip codes, product codes, and phone extensions, would lose their zeros if converted to a numeric type (007 would become 7). To prevent silent data loss, the converter keeps any leading-zero value as a string even when type detection is on.',
   },
   {
     id: 'c2j-faq-4',
@@ -41,12 +41,12 @@ export const items: FAQItem[] = [
     id: 'c2j-faq-7',
     question: 'Can I convert the JSON back to CSV?',
     answer:
-      'Yes. Use the JSON to CSV Converter — the sibling tool in this workspace. Switch direction with the pill above the editor and your result carries straight over, so you can round-trip between CSV and JSON without copying and pasting.',
+      'Yes. Use the JSON to CSV Converter, the sibling tool in this workspace. Switch direction with the pill above the editor and your result carries straight over, so you can round-trip between CSV and JSON without copying and pasting.',
   },
   {
     id: 'c2j-faq-8',
     question: 'Is my data sent to a server when I convert?',
     answer:
-      'No. All conversion happens in your browser using JavaScript. Your CSV data never leaves your machine — there is no upload, no server-side processing, and no logging of what you convert. This makes the tool safe to use with internal or sensitive data.',
+      'No. All conversion happens in your browser using JavaScript. Your CSV data never leaves your machine: there is no upload, no server-side processing, and no logging of what you convert. This makes the tool safe to use with internal or sensitive data.',
   },
 ];

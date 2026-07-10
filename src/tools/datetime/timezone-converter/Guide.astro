@@ -1,0 +1,129 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A timezone converter takes a wall-clock time in one place and tells you the matching time
+      somewhere else. Some people call it a time zone converter, a world clock converter, or a time
+      zone calculator. Enter a date and time, choose the zone it belongs to, and pick the zone you
+      want. This tool reads the entered time as local to the source zone, finds the exact instant, and
+      shows it in the target zone along with the UTC time and the time difference between cities. It
+      doubles as a UTC converter and a GMT converter, turning GMT to local time in one step. Because it
+      uses your browser IANA timezone database, daylight saving time is applied for the exact date.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Timezone Converter →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Timezone Conversion Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every zone is defined by a UTC offset. What a UTC offset means for a city is simply how many
+      hours its clock sits from UTC: London near UTC+00:00, New York near UTC-04:00 in summer, and
+      Tokyo at UTC+09:00 all year. To convert time between time zones, the tool turns your entered
+      wall-clock time into a single point in time (an instant), then reads that same instant in the
+      other zone. That is how a time in one timezone maps to another timezone: nothing about the actual
+      moment changes, only the label on the clock does. UTC is the neutral reference every zone is
+      measured from, which is why the result always shows the UTC time too.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A cross-office meeting.</strong> For example, 09:00 in New York on 8 July 2026 is 22:00
+      the same day in Tokyo, because Tokyo is 13 hours ahead on that date.
+    </p>
+    <p>
+      <strong>Reading a log.</strong> For example, a server writes 14:30 UTC; converting to Mumbai
+      (UTC+05:30) shows 20:00 local, so you know when the event really happened for you.
+    </p>
+    <p>
+      <strong>A date-line crossing.</strong> For example, 21:00 in Los Angeles converts to the next
+      morning in Sydney, and the tool flags that the converted time lands on a different calendar day.
+    </p>
+  </section>
+
+  <section id="offsets-vs-dst">
+    <h2>UTC Offset vs Daylight Saving Time <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A UTC offset is how far a zone sits from UTC at a given moment, like UTC+05:30. Daylight saving
+      time is a seasonal shift that changes that offset, usually by one hour, for part of the year. The
+      UTC offset versus daylight saving time distinction matters because the gap between two cities is
+      not fixed: London and New York are five hours apart for most of the year but four hours apart on
+      the days their clocks change on different dates. This is also where GMT versus UTC confuses
+      people. GMT is a timezone that happens to equal UTC in winter, while UTC is the fixed standard
+      that never shifts. Reading offsets for the exact date, as this tool does, avoids that trap.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Assuming the gap is fixed all year">
+      <p>
+        A common mistake is to memorise that a city is a set number of hours ahead and apply it in
+        every season. Daylight saving time moves the UTC offset, so the difference between cities can
+        change twice a year. Always convert for the specific date rather than a remembered gap.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Ignoring the calendar day">
+      <p>
+        When two zones are far apart, the converted time often lands on a different day. Booking a call
+        for "Tuesday 9am" in one city can mean Monday night or Wednesday morning in another. Check the
+        date the converter shows, not just the clock time.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Everything runs locally">
+      <p>
+        The conversion uses the IANA timezone data built into your browser, so nothing you type is
+        uploaded or stored on a server. The page works offline once loaded, and the time difference
+        between cities is computed on your device.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

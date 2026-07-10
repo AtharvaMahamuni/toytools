@@ -1,0 +1,159 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To convert CSV to tab-separated values, paste the comma-separated text into the input
+      pane. The converter parses the CSV first, then rewrites it with tabs between fields, so
+      a quoted cell like <code>"Smith, Jane"</code> stays one column instead of splitting on
+      its comma. This delimiter conversion updates as you type, the output is ready to paste
+      into a spreadsheet as columns, and nothing leaves your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try The CSV to TSV Converter →</a>
+  </section>
+
+  <section id="what-is-tsv">
+    <h2>What Is TSV? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      TSV stands for tab-separated values. It stores the same table as CSV, but the fields on
+      each line are separated by a tab character instead of a comma. Because tabs almost never
+      appear inside real data, TSV sidesteps most of the quoting rules that CSV needs. That is
+      why command-line tools like <code>cut</code> and <code>awk</code>, database bulk loaders,
+      and clipboard pastes into Excel or Google Sheets all favour it. When you copy a range
+      from a spreadsheet, what lands on your clipboard is already TSV.
+    </p>
+    <p>
+      When is TSV better than CSV? Use it whenever the target expects tab-delimited input or
+      when quoting rules keep tripping you up. A tab-delimited converter earns its keep with
+      fields that contain commas, currency values, or free text, because those force constant
+      quoting in CSV but stay clean in a csv tsv conversion. Stay with CSV when the receiving
+      system names CSV explicitly, since it remains the wider default for data exchange.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The input is parsed as real CSV first, following RFC 4180 quoting, so quoted fields,
+      embedded commas, escaped quotes, and multi-line cells are understood as data rather than
+      structure. The parser turns the text into a grid of rows and cells. Each row is then
+      re-serialized with a tab between cells. Quoting is rebuilt for the new delimiter: a cell
+      that was quoted only because it held a comma no longer needs quotes in TSV, so they are
+      dropped. A cell that contains a tab, a quote character, or a line break stays quoted,
+      with inner quotes doubled, exactly as the CSV convention prescribes.
+    </p>
+    <p>
+      Nothing inside a cell is altered. Leading zeros, number formatting, and blank lines
+      survive unchanged, because only the delimiter and the quoting around cells are rewritten.
+      A summary line reports the row and column count so you can confirm the shape matches the
+      source.
+    </p>
+  </section>
+
+  <section id="find-and-replace">
+    <h2>Parsing Conversion vs Find-and-Replace <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tempting shortcut is to open the file and replace every comma with a tab. It works
+      until the first quoted field. Replacing commas with tabs corrupts quoted cells: a value
+      like <code>"Paris, France"</code> becomes two columns, every following field shifts, and
+      the row no longer lines up with its header. A parsing conversion reads the quotes and
+      knows which commas are delimiters and which are data. That distinction is the whole point
+      of the tool, and it is why a genuine CSV to TSV converter is safer than a text editor's
+      replace command or a spreadsheet save-as.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Pasting into a spreadsheet as columns.</strong> For example, you have a CSV in a
+      chat message and want it in Excel as proper columns. Convert it here, copy the tab
+      separated values, and paste: Excel and Google Sheets both split the text into separate
+      columns automatically, with no import dialog.
+    </p>
+    <p>
+      <strong>A name field with a comma.</strong> For example, the row
+      <code>1,"Doe, John",NYC</code> has a quoted comma. Input: three CSV columns. Output:
+      three tab-separated columns, writing <code>Doe, John</code> as a single cell. A
+      find-and-replace would wrongly make four.
+    </p>
+    <p>
+      <strong>Feeding a Unix pipeline.</strong> For example, a bulk loader or a
+      <code>cut -f2</code> command expects tab-delimited input. Convert the export to TSV first
+      and the columns line up for field-based tools that do not parse CSV quoting.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Assuming TSV needs no quoting at all">
+      <p>
+        It is a myth that TSV does not need any quoting. Tabs are rare inside data, but not
+        impossible: a cell can contain a tab, a newline, or a quote character. When it does,
+        that cell still needs quoting or your import will split it in two. This converter
+        quotes exactly those cells and leaves the rest bare.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Converting with find-and-replace">
+      <p>
+        Swapping commas for tabs by hand corrupts any quoted cell that contains a comma. If a
+        converted file split a quoted cell in two, this is why. Parse the CSV instead of
+        editing its text, so embedded commas stay inside their field.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Clean first, then convert">
+      <p>
+        Delimiter conversion does not remove blank rows or trim whitespace. If the export is
+        messy, run it through the <a href={withBase('/tool/developer-utilities/csv-cleaner/')}>CSV
+        cleaner</a> first, then convert the tidy result. Everything runs in your browser, so a
+        sensitive export is never uploaded, and the page works offline once loaded.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -48,12 +48,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="per-label">
-    <h2>It Works One Label At A Time <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>Punycode Applies Per Label, Not the Whole URL <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A domain is a series of labels separated by dots. Punycode converts each label on its own and
-      only touches the ones that actually contain non-ASCII characters. In <code>café.example.com</code>
-      only <code>café</code> needs encoding, so the result is <code>xn--caf-dma.example.com</code> — the
+      A domain is a series of labels separated by dots, and Punycode applies per label, not the
+      whole URL. This idn converter changes each label on its own and only touches the ones that
+      actually contain non-ASCII characters. In <code>café.example.com</code> only
+      <code>café</code> needs encoding, so the result is <code>xn--caf-dma.example.com</code>. The
       <code>example</code> and <code>com</code> labels are already ASCII and pass through untouched.
+      Run unicode to punycode in one direction, or punycode to unicode to decode, and the tool
+      handles each label independently.
     </p>
   </section>
 
@@ -61,12 +64,70 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Punycode And Lookalike Domains <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Because many alphabets contain characters that look almost identical to Latin letters, a domain
-      can be registered that is visually indistinguishable from a trusted one — a homograph attack.
-      Decoding a suspicious <code>xn--</code> domain reveals the actual characters behind it, which is a
-      quick way to tell a genuine site from an impostor.
+      can be registered that is visually indistinguishable from a trusted one, a homograph attack.
+      Decoding a suspicious <code>xn--</code> domain with an xn-- converter reveals the actual
+      characters behind it, which is a quick way to tell a genuine site from an impostor.
     </p>
     <ReferenceBlock type="note" heading="Encoding, not security">
       <p>Punycode is a reversible representation. It is not encryption and provides no secrecy; its job is compatibility, not protection.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="punycode-vs-utf8">
+    <h2>Punycode vs UTF-8 <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Punycode vs UTF-8 is a common point of confusion. UTF-8 is how Unicode text is stored as
+      bytes almost everywhere, including the visible part of a web page and its path. Punycode is
+      a narrower scheme used only for the hostname, where the DNS alphabet forbids raw UTF-8. So a
+      full address can hold UTF-8 in its path while its domain labels are Punycode. They solve
+      different problems: UTF-8 encodes any text as bytes, while Punycode squeezes one domain label
+      into the letters, digits, and hyphens that DNS allows.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A German domain.</strong> For example, input: <code>münchen.de</code>. Output:
+      <code>xn--mnchen-3ya.de</code>. Only the first label changes; the <code>de</code> suffix is
+      already ASCII.
+    </p>
+    <p>
+      <strong>Checking a suspicious link.</strong> For example, an email links to
+      <code>xn--pple-43d.com</code>. Decode it and the label reads <code>аpple</code> with a
+      Cyrillic first letter, exposing a lookalike of <code>apple.com</code>.
+    </p>
+    <p>
+      <strong>An emoji domain.</strong> For example, input: <code>💩.la</code>. Output:
+      <code>xn--ls8h.la</code>, showing that any Unicode label, not just accented Latin, encodes
+      the same way.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Encoding the whole URL at once">
+      <p>
+        Punycode is only for domain labels, not the path or query string. Pasting a full URL and
+        expecting the whole thing to encode is a mistake: the path stays UTF-8. Convert the
+        hostname, and leave everything after the first slash alone.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Trusting a name because it looks familiar">
+      <p>
+        A domain that reads like a brand you know can hide non-Latin characters. When a link
+        starts with <code>xn--</code>, decode it before you trust it, because the displayed name
+        is not always the real one.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Runs in your browser">
+      <p>
+        Both directions run entirely on your device. Nothing you paste is uploaded, logged, or
+        shared, and the page works offline once loaded.
+      </p>
     </ReferenceBlock>
   </section>
 </GuideLayout>

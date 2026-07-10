@@ -16,7 +16,7 @@ export const config: ToolConfig = {
     'sample text',
   ],
   isNew: true,
-  updatedAt: '2026-07-05',
+  updatedAt: '2026-07-10',
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-placeholder',

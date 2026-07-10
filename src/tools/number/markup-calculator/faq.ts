@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
     id: 'markup-faq-5',
     question: 'What does a 100% markup mean?',
     answer:
-      'A 100% markup means you sell for double the cost: a $60 item priced at $120. Note that doubling the price is only a 50% margin, not 100% — another reminder that markup and margin are not interchangeable.',
+      'A 100% markup means you sell for double the cost: a $60 item priced at $120. Note that doubling the price is only a 50% margin, not 100%, another reminder that markup and margin are not interchangeable.',
   },
 ];

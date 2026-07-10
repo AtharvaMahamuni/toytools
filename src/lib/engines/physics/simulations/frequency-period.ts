@@ -51,6 +51,7 @@ const frequencyPeriodSim: SimulationDef = {
   ],
   formula: {
     expression: 'T = 1 / f',
+    substitution: '1 / {frequency}',
     terms: [
       { symbol: 'T', label: 'Period', measurementId: 'period' },
       { symbol: 'f', label: 'Frequency', paramId: 'frequency' },

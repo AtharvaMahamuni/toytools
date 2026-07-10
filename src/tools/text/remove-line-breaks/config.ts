@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Remove line breaks and join wrapped text into one paragraph.',
   categorySlug: 'text-utilities',
   tags: ['remove line breaks', 'delete line breaks', 'strip newlines', 'join lines', 'remove hard returns', 'unwrap text', 'remove line breaks online'],
-  updatedAt: '2026-06-28',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

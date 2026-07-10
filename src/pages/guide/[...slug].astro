@@ -3,12 +3,19 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
+import AgeCalculatorGuide from '../../tools/datetime/age-calculator/Guide.astro';
+import DateDifferenceCalculatorGuide from '../../tools/datetime/date-difference-calculator/Guide.astro';
+import TimezoneConverterGuide from '../../tools/datetime/timezone-converter/Guide.astro';
+import UnixTimestampConverterGuide from '../../tools/datetime/unix-timestamp-converter/Guide.astro';
+import CronExpressionParserGuide from '../../tools/datetime/cron-expression-parser/Guide.astro';
 import QrCodeGeneratorGuide from '../../tools/generate/qr-code-generator/Guide.astro';
 import LoremIpsumGeneratorGuide from '../../tools/generate/lorem-ipsum-generator/Guide.astro';
 import RandomStringGeneratorGuide from '../../tools/generate/random-string-generator/Guide.astro';
 import UuidGeneratorGuide from '../../tools/generate/uuid-generator/Guide.astro';
 import PasswordGeneratorGuide from '../../tools/generate/password-generator/Guide.astro';
 import CsvDiffGuide from '../../tools/developer-utilities/csv-diff/Guide.astro';
+import CsvCleanerGuide from '../../tools/developer-utilities/csv-cleaner/Guide.astro';
+import CsvToTsvGuide from '../../tools/developer-utilities/csv-to-tsv/Guide.astro';
 import CagrCalculatorGuide from '../../tools/finance/cagr-calculator/Guide.astro';
 import RoiCalculatorGuide from '../../tools/finance/roi-calculator/Guide.astro';
 import WordFrequencyCounterGuide from '../../tools/text/word-frequency-counter/Guide.astro';
@@ -87,17 +94,27 @@ import InflationGuide             from '../../tools/finance/inflation-calculator
 import SavingsGoalGuide           from '../../tools/finance/savings-goal-calculator/Guide.astro';
 import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calculator/Guide.astro';
 import WaveSpeedSimulatorGuide    from '../../tools/physics/wave-speed-simulator/Guide.astro';
+import FrequencyPeriodSimulatorGuide from '../../tools/physics/frequency-period-simulator/Guide.astro';
+import PendulumSimulatorGuide from '../../tools/physics/pendulum-simulator/Guide.astro';
+import HeatTransferSimulatorGuide from '../../tools/physics/heat-transfer-simulator/Guide.astro';
 import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator/Guide.astro';
 
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
+  'age-calculator': AgeCalculatorGuide,
+  'date-difference-calculator': DateDifferenceCalculatorGuide,
+  'timezone-converter': TimezoneConverterGuide,
+  'unix-timestamp-converter': UnixTimestampConverterGuide,
+  'cron-expression-parser': CronExpressionParserGuide,
   'qr-code-generator': QrCodeGeneratorGuide,
   'lorem-ipsum-generator': LoremIpsumGeneratorGuide,
   'random-string-generator': RandomStringGeneratorGuide,
   'uuid-generator': UuidGeneratorGuide,
   'password-generator': PasswordGeneratorGuide,
   'csv-diff': CsvDiffGuide,
+  'csv-cleaner': CsvCleanerGuide,
+  'csv-to-tsv': CsvToTsvGuide,
   'cagr-calculator': CagrCalculatorGuide,
   'roi-calculator': RoiCalculatorGuide,
   'word-frequency-counter': WordFrequencyCounterGuide,
@@ -168,6 +185,9 @@ const guidesBySlug: Record<RegisteredGuideSlug, any> = {
   'savings-goal-calculator':      SavingsGoalGuide,
   'emergency-fund-calculator':    EmergencyFundGuide,
   'wave-speed-simulator':         WaveSpeedSimulatorGuide,
+  'frequency-period-simulator':   FrequencyPeriodSimulatorGuide,
+  'pendulum-simulator':           PendulumSimulatorGuide,
+  'heat-transfer-simulator':      HeatTransferSimulatorGuide,
   'scientific-calculator':        ScientificCalculatorGuide,
 };
 

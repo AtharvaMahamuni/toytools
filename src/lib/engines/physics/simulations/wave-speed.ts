@@ -65,6 +65,7 @@ const waveSpeedSim: SimulationDef = {
   ],
   formula: {
     expression: 'v = f × λ',
+    substitution: '{frequency} × {wavelength}',
     terms: [
       { symbol: 'v', label: 'Wave speed', measurementId: 'waveSpeed' },
       { symbol: 'f', label: 'Frequency', paramId: 'frequency' },

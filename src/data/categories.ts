@@ -52,6 +52,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#0369A1',
     segment: 'physics',
   },
+  {
+    slug: 'date-time',
+    name: 'Date & Time',
+    description: 'Calculate ages and durations, convert time zones and timestamps, and work with dates, all in your browser.',
+    accent: '#7C3AED',
+    segment: 'datetime',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

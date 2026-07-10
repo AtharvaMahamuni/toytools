@@ -1,0 +1,193 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To clean a messy CSV, paste it into the input pane. In one pass the tool removes
+      fully empty rows, trims stray spaces from every cell, drops the phantom columns that
+      trailing commas leave behind, and squares ragged rows to the header width. The cleaned
+      CSV updates as you type, a summary line tells you exactly what changed
+      (<code>3 empty rows removed · 12 cells trimmed · 40 data rows kept</code>), and nothing
+      leaves your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try The CSV Cleaner →</a>
+  </section>
+
+  <section id="what-makes-a-csv-invalid">
+    <h2>What Makes a CSV File Invalid <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A CSV is invalid when its rows do not agree on shape. The header declares a number of
+      columns, and every data row is expected to match it. Three things break that contract:
+      a trailing comma adds a column that is not really there, a short row is missing a value,
+      and blank separator rows carry no columns at all. Whitespace padding is a subtler
+      failure. The file parses, but <code>"Ada "</code> no longer equals <code>"Ada"</code>,
+      so lookups and joins silently miss. CSV cleanup targets exactly these defects: it
+      squares the rows, drops the phantom columns, and removes empty rows so a strict parser
+      accepts the file.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The file is parsed as real CSV first, following RFC 4180, so quoted fields, embedded
+      commas, and multi-line cells survive the cleanup intact. Four fixes then run over the
+      parsed rows. Any row where every cell is blank is dropped, which removes the separator
+      rows that reporting tools and spreadsheet exports insert. Every remaining cell
+      has leading and trailing whitespace stripped, so <code>" Paris "</code> becomes
+      <code>Paris</code>. Trailing empty cells, the artifact of a stray comma at the end of a
+      line, are removed rather than kept as empty columns.
+    </p>
+    <p>
+      The tool then reads the column count from the cleaned header row and squares every
+      other row to it. Rows that are too short are padded with empty cells so a database
+      importer sees a consistent shape. Rows that carry more values than the header are left
+      intact rather than truncated, because deleting a real value silently is worse than a
+      wide row you can see. The result is re-serialized through the shared CSV core, which
+      also normalizes quoting to the RFC 4180 minimum, so only the fields that need quotes
+      keep them.
+    </p>
+  </section>
+
+  <section id="reading-the-result">
+    <h2>Reading the Summary <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The summary above the output reports what the pass did, counted, not guessed. It lists
+      how many empty rows were removed, how many cells were trimmed, how many ragged rows
+      were squared and to how many columns, and how many data rows were kept. If a count is
+      zero it is left out, so a summary that reads only <code>40 data rows kept</code> tells
+      you the file was already clean. Read the counts before you trust the output: a large
+      trimmed-cells number explains why lookups and joins had stopped matching, and a
+      squared-rows number points at the exact problem an importer was rejecting.
+    </p>
+  </section>
+
+  <section id="cleaning-vs-alternatives">
+    <h2>Automated Cleaning vs Manual Spreadsheet Cleanup <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The instinct is to open the file in a spreadsheet and tidy it by hand. That works for
+      one visible problem, but opening and re-saving a CSV in Excel or Google Sheets
+      introduces new changes: it rewrites dates, strips leading zeros from ZIP codes and IDs,
+      changes the delimiter, or re-quotes fields. You fix one issue and create three you
+      cannot see. Automated cleanup that only removes blanks, trims whitespace, and squares
+      rows leaves every real value exactly as it was, which is what you want right before
+      automated processing. Reserve the spreadsheet for editing data, not for repairing
+      format.
+    </p>
+    <p>
+      Cleaning and converting are different jobs, so do not confuse them. Cleaning keeps the
+      file as CSV and fixes its shape in place. Converting changes the format, for example
+      turning the cleaned rows into JSON for an API. The right order is to clean csv first,
+      then convert, because a converter inherits every blank row and ragged line you leave
+      behind. Clean the file here, then send the output to the
+      <a href={withBase('/tool/developer-utilities/csv-to-json-converter/')}>CSV to JSON
+      converter</a> when you need a different format.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>An export an importer rejects.</strong> A report exports with a blank row
+      between sections and a trailing comma on the header, so the header looks like it has
+      four columns while the data rows have three. The importer fails with a column-count
+      error. Cleaning drops the blank rows and the phantom column, squares every row to three
+      columns, and the file imports.
+    </p>
+    <p>
+      <strong>Joins that stopped matching.</strong> A hand-edited file gained padding, so
+      <code>"ACME "</code> in one file no longer equals <code>"ACME"</code> in another and a
+      lookup returns nothing. The summary reports the trimmed-cell count, the values line up
+      again, and the join works.
+    </p>
+    <p>
+      <strong>A file that looks fine in a spreadsheet.</strong> The file opens cleanly in
+      Excel, so it seems valid, but a strict parser still rejects it over inconsistent row
+      lengths. Squaring the rows to the header width fixes the shape without touching the
+      data.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Assuming a file that opens in Excel is valid">
+      <p>
+        A CSV that opens in Excel is not necessarily valid for importers. Spreadsheets are
+        forgiving: they pad short rows, ignore trailing commas, and hide stray whitespace.
+        A database importer is not, so the same file that looks perfect on screen throws a
+        csv import error on upload. Run it through the cleaner to fix csv shape before you
+        trust it, and read the summary to see what was actually wrong.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Treating trailing commas as harmless">
+      <p>
+        Trailing commas are not harmless. A stray comma at the end of a header line adds a
+        column that no data row fills, so the file that once imported now fails a column-count
+        check. This csv fixer drops those phantom trailing columns as part of data
+        normalization, which is one of the most common import errors it resolves.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Fixing it by hand and re-saving">
+      <p>
+        Cleaning by hand in a spreadsheet and saving over the file introduces new
+        format changes: rewritten dates, dropped leading zeros, or a changed delimiter. Clean
+        the text directly so the values you did not touch stay byte-for-byte the same.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Cleaning never deletes your data">
+      <p>
+        The pass only removes blank rows and empty trailing cells and trims surrounding
+        whitespace. Non-empty values are never deleted, and rows wider than the header are
+        kept, not truncated. Everything runs in your browser, so a sensitive export is never
+        uploaded, logged, or shared, and the page works offline once loaded.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

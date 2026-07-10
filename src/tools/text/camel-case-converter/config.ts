@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert text to camelCase for variable and function names.',
   categorySlug: 'text-utilities',
   tags: ['camelcase', 'camel case converter', 'convert to camelcase', 'camelCase', 'variable name', 'javascript naming', 'camel case generator'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',

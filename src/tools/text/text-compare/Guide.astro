@@ -28,13 +28,24 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Text Compare shows you exactly what is different between two versions of a text. Paste
-      the original in the first box and the new version in the second. Lines that were added
-      appear in green with a <strong>+</strong> marker. Lines that were removed appear in red
-      with a <strong>-</strong> marker. Unchanged lines appear greyed out with a space marker.
-      A similarity percentage shows how much of the text is shared between the two versions.
+      This diff checker lets you compare text and see exactly what is different between two
+      versions. Paste the original in the first box and the new version in the second to compare two
+      texts side-by-side. This text diff marks the added and removed lines: additions appear in green
+      with a <strong>+</strong> marker, removals in red with a <strong>-</strong> marker, and
+      unchanged lines are greyed out. A similarity percentage shows how much of the text is shared.
     </p>
     <a href={toolHref} class="cta-link">Try Text Compare →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why Text Comparison Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Spotting the text difference between two drafts by eye is slow and error-prone: a moved clause
+      or a deleted sentence is easy to miss. Automatic change detection does the reading for you,
+      putting the two versions side-by-side and marking every line that differs. That matters when
+      the stakes are real, such as a contract edit, a policy update, or a paragraph that changed
+      between reviews, where knowing exactly what moved is the whole point.
+    </p>
   </section>
 
   <section id="how-to-use">
@@ -56,13 +67,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       on the command line:
     </p>
     <ul>
-      <li><strong>+</strong> (green background) — line present in the new text but not the original</li>
-      <li><strong>-</strong> (red background) — line present in the original but not the new text</li>
-      <li><strong>space</strong> (muted) — line present in both texts, unchanged</li>
+      <li><strong>+</strong> (green background): line present in the new text but not the original</li>
+      <li><strong>-</strong> (red background): line present in the original but not the new text</li>
+      <li><strong>space</strong> (muted): line present in both texts, unchanged</li>
     </ul>
     <p>
-      The stats bar above the diff shows the total counts of added, removed, and unchanged
-      lines, plus a similarity percentage.
+      How are differences detected? The tool aligns the two inputs line by line and marks any line
+      that appears on only one side. One consequence: whitespace and case differences can show as
+      changes, because "Hello" and "hello ", or a line with a trailing tab, are not identical
+      strings. Remember a diff shows what changed, it does not merge: it reports the added and
+      removed lines and leaves the editing to you. The stats bar above shows the totals plus a
+      similarity percentage.
     </p>
     <ReferenceBlock type="note" heading="Line-level comparison">
       <p>

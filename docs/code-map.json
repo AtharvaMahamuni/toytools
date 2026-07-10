@@ -191,6 +191,25 @@
         "thermodynamics"
       ],
       "toolCount": 4
+    },
+    "datetime": {
+      "name": "Date & Time Engine",
+      "category": "date-time",
+      "patterns": [
+        "datetime-calculate",
+        "datetime-convert",
+        "datetime-schedule"
+      ],
+      "runtimeGlobal": "runDateTime",
+      "sharedWidget": "src/tools/_shared/DateTimeWidget.astro",
+      "supportedFamilies": [
+        "age",
+        "duration",
+        "timezone",
+        "timestamp",
+        "schedule"
+      ],
+      "toolCount": 5
     }
   },
   "toolGroups": {
@@ -289,6 +308,111 @@
     }
   },
   "tools": {
+    "age-calculator": {
+      "name": "Age Calculator",
+      "dir": "src/tools/datetime/age-calculator",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/age-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "age",
+      "processorId": "age",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "date-difference-calculator": {
+      "name": "Date Difference Calculator",
+      "dir": "src/tools/datetime/date-difference-calculator",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/date-difference-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "duration",
+      "processorId": "date-difference",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "timezone-converter": {
+      "name": "Timezone Converter",
+      "dir": "src/tools/datetime/timezone-converter",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/timezone-converter/",
+      "engine": "datetime",
+      "pattern": "datetime-convert",
+      "family": "timezone",
+      "processorId": "timezone",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "unix-timestamp-converter": {
+      "name": "Unix Timestamp Converter",
+      "dir": "src/tools/datetime/unix-timestamp-converter",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/unix-timestamp-converter/",
+      "engine": "datetime",
+      "pattern": "datetime-convert",
+      "family": "timestamp",
+      "processorId": "unix-timestamp",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "cron-expression-parser": {
+      "name": "Cron Expression Parser",
+      "dir": "src/tools/datetime/cron-expression-parser",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/cron-expression-parser/",
+      "engine": "datetime",
+      "pattern": "datetime-schedule",
+      "family": "schedule",
+      "processorId": "cron",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "qr-code-generator": {
       "name": "QR Code Generator",
       "dir": "src/tools/generate/qr-code-generator",
@@ -405,12 +529,13 @@
       "processorId": "csv-clean",
       "toolGroup": "csv-tools",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -425,12 +550,13 @@
       "processorId": "csv-to-tsv",
       "toolGroup": "csv-tools",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -1957,12 +2083,13 @@
       "processorId": "frequency-period",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -1977,12 +2104,13 @@
       "processorId": "pendulum",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -1997,12 +2125,13 @@
       "processorId": "heat-transfer",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     }

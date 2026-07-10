@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Convert text to sentence case — capitalize the first letter of each sentence.',
   categorySlug: 'text-utilities',
   tags: ['sentence case', 'sentence case converter', 'capitalize first letter', 'capitalize sentences', 'fix capitalization', 'sentence case text', 'capitalize first letter of sentence'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-09',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',

@@ -38,10 +38,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="why-it-matters">
     <h2>Why Clean Slugs Matter <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A slug is the readable tail of a web address, like "how-to-slugify-text". Clean, keyword-bearing
-      slugs are easy to read, easy to share, and give search engines a clear signal about the page.
-      Slugs full of spaces, capital letters, or symbols get percent-encoded into noise and look
-      untrustworthy in search results.
+      A URL slug is the readable tail of a web address, like "how-to-slugify-text", and the slug is
+      only that final segment, not the full URL path with its domain and folders. What makes a slug
+      SEO-friendly is being short, lowercase, and keyword-bearing: such a permalink is easy to read,
+      easy to share, and gives search engines a clear signal about the page. Slugs full of spaces,
+      capital letters, or symbols get percent-encoded into noise and look untrustworthy in search
+      results, which is why a url slug generator folds them to web-safe text.
     </p>
     <ReferenceBlock type="key-idea" heading="One slug per line">
       <p>
@@ -61,6 +63,23 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,
       protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A blog title.</strong> For example, input: <code>My First Post!</code>. Output:
+      <code>my-first-post</code>, a permalink ready to paste into a CMS.
+    </p>
+    <p>
+      <strong>Accents folded.</strong> For example, this text to slug step turns
+      <code>Crème Brûlée Recipe</code> into <code>creme-brulee-recipe</code>, stripping accents to
+      plain ASCII.
+    </p>
+    <p>
+      <strong>A whole list at once.</strong> For example, paste ten titles and the slug generator
+      returns ten slugs, one per line, so a permalink generator run covers a full batch.
     </p>
   </section>
 

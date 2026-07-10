@@ -35,12 +35,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="what-is-crc32">
-    <h2>What Is CRC32? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>What Is CRC32 and How It Works <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      CRC stands for cyclic redundancy check. It treats your data as one long number and divides it
-      by a fixed constant; the remainder is the checksum. That sounds abstract, but the effect is
-      practical: flipping even a single bit almost always changes the remainder, so corruption stands
-      out immediately.
+      CRC stands for cyclic redundancy check. This CRC32 checksum works by treating your data as one
+      long number and dividing it by a fixed constant; the remainder is the checksum. That sounds
+      abstract, but the effect is practical error detection: flipping even a single bit almost always
+      changes the remainder, so corruption stands out immediately. That is the whole basis of the
+      data integrity check a checksum generator provides.
     </p>
     <p>
       The "32" means the result is 32 bits wide, which is why you always see eight hexadecimal
@@ -75,6 +76,35 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       value, and whether bits are reflected. This tool uses the IEEE 802.3 / ISO-HDLC variant
       (polynomial <code>0xEDB88320</code>) that ZIP and PNG use, so its output matches those formats.
       If another calculator gives a different result, it is almost certainly using a different variant.
+    </p>
+  </section>
+
+  <section id="crc32-vs-hashes">
+    <h2>CRC32 vs MD5 vs Cryptographic Hashes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CRC32 vs MD5 comes down to width and purpose. CRC32 is a 32-bit cyclic redundancy check built
+      for speed and accidental-error detection; MD5 is a 128-bit hash that spreads changes more
+      widely but is still broken for security. The deeper split is checksum vs cryptographic hash: a
+      checksum like CRC32 only flags accidents, while a cryptographic hash such as SHA-256 resists a
+      deliberate forger. Use CRC32 for a fast integrity check, MD5 only for non-security fingerprints,
+      and SHA-256 when tampering is a real threat.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Verify a transfer.</strong> For example, compute the CRC32 of a file before upload and
+      again after download. If both read the same eight hex digits, the data integrity held.
+    </p>
+    <p>
+      <strong>Spot a one-bit change.</strong> For example, hashing <code>hello</code> and
+      <code>hallo</code> yields completely different checksums, which is how a cyclic redundancy check
+      catches a single flipped character.
+    </p>
+    <p>
+      <strong>A cache key.</strong> For example, use the CRC32 checksum of an input as a cheap cache
+      key where speed matters and security does not.
     </p>
   </section>
 </GuideLayout>

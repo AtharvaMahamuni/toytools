@@ -28,9 +28,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A reading time calculator is a read time estimator that shows you how long to read any piece of text
-      by dividing the word count by a standard reading speed. At 200 words per minute (the commonly cited average for adult silent reading) a 1,000-word article takes approximately 5 minutes
-      to read.
+      A reading time calculator is a read time estimator that shows the time to read any piece of text
+      by dividing the word count by a standard reading speed. At 200 words per minute (the commonly cited average for adult silent reading) a 1,000-word article gives an estimated reading time of about 5 minutes,
+      the "5 min read" label you see on blogs.
     </p>
     <a href={toolHref} class="cta-link">Try The Reading Time Calculator →</a>
   </section>
@@ -95,9 +95,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <ReferenceBlock type="note" heading="Reading speed varies significantly by reader and content">
       <p>
-        The 200 wpm figure is a population average. Individual reading speeds range from 150 to
-        400 wpm depending on reading habits, familiarity with the subject, and content density.
-        Use the estimate as a rough guide: actual reading time will vary.
+        Reading speed is not the same for every reader. The 200 wpm figure is a population average.
+        Individual reading speeds range from 150 to 400 wpm depending on reading habits, familiarity
+        with the subject, and content density. Use the estimate as a rough guide: actual reading time
+        will vary.
       </p>
     </ReferenceBlock>
   </section>
@@ -114,10 +115,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Applying reading time to non-prose content">
       <p>
-        Reading time calculators are calibrated for prose: continuous narrative text. Do not apply
-        the estimate to code blocks, tables, listicles, or heavily formatted reference pages.
-        A page that is 40% code and 60% prose will show an inflated reading time because the
-        word counter counts code tokens as words.
+        Reading time calculators are calibrated for prose: continuous narrative text. Images and code
+        change the real time, so do not apply the estimate to code blocks, tables, listicles, or
+        heavily formatted reference pages. A page that is 40% code and 60% prose will show an inflated
+        reading time because the word counter counts code tokens as words, while an image-heavy page
+        reads faster than its word count suggests.
       </p>
     </ReferenceBlock>
   </section>

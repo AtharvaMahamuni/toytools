@@ -28,10 +28,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      This kebab case converter (also called hyphen case) lets you convert to kebab-case
-      instantly, writing everything in lowercase and joining words with hyphens. It will also
-      slugify text for URLs: "User Profile Image" becomes "user-profile-image". It is the
-      standard for CSS class names, HTML IDs, URL slugs, and command-line flags.
+      This kebab case converter (also called hyphen case, dash case, or slug case) lets you convert
+      to kebab-case instantly, writing everything in lowercase and using a hyphen separator between
+      words. As a url slug generator it will slugify text for URLs: "User Profile Image" becomes
+      "user-profile-image". It is the standard for CSS class names, HTML IDs, URL slugs, file naming,
+      and command-line flags.
     </p>
     <a href={toolHref} class="cta-link">Try The kebab-case Converter →</a>
   </section>
@@ -40,13 +41,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Where kebab-case Is Used <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The web favors kebab-case: CSS selectors (<code>.nav-item</code>), custom properties
-      (<code>--color-primary</code>), URL slugs, and filenames all read well with hyphens. Search
-      engines also split hyphenated slugs into separate words, which helps readability and SEO.
+      (<code>--color-primary</code>), URL slugs, and filenames all read well with hyphens. To make a
+      CSS-class-safe name, kebab-case is the natural fit, and for file naming it avoids spaces that
+      break shell commands. Search engines also split hyphenated slugs into separate words, which
+      helps readability and SEO, so turning a title into a URL slug is one of its most common jobs.
     </p>
     <ReferenceBlock type="common-mistake" heading="Not for code identifiers">
       <p>
-        Most programming languages interpret a hyphen as subtraction, so kebab-case can't be used
-        for variable or function names. Reserve it for CSS, HTML, URLs, and filenames.
+        Hyphens are invalid in most code identifiers: programming languages interpret a hyphen as
+        subtraction, so kebab-case can't be used for variable or function names. Reserve it for CSS,
+        HTML, URLs, and filenames.
       </p>
     </ReferenceBlock>
   </section>
@@ -61,6 +65,18 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device, protecting your privacy: nothing is uploaded to a server, and results appear instantly.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A blog title to a slug.</strong> For example, "My First Blog Post" becomes
+      "my-first-blog-post", ready to drop into a URL.
+    </p>
+    <p>
+      <strong>A component name to a CSS class.</strong> For example, "PrimaryButton" becomes
+      "primary-button", a CSS-class-safe name with a hyphen separator between words.
     </p>
   </section>
 

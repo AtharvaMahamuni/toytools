@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Strip accents and diacritics, converting text to plain ASCII letters.',
   categorySlug: 'text-utilities',
   tags: ['remove accents', 'strip diacritics', 'remove diacritical marks', 'accents to plain text', 'unaccent text', 'normalize accents', 'remove accents online'],
-  updatedAt: '2026-06-28',
+  updatedAt: '2026-07-10',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

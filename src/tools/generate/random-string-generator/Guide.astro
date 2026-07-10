@@ -32,10 +32,11 @@ const uuidHref = withBase(`/tool/${category.segment}/uuid-generator/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A random string is a run of characters with no pattern, used mostly by software: an API key, a
-      session token, a nonce, or a unique name. This tool builds one in your browser. Set the length,
-      choose which character sets to allow or type your own alphabet, and copy the result. Each
-      character is a secure random draw, and the tool shows a live entropy estimate so you can size a
-      token correctly. Nothing leaves your device.
+      session token, a nonce, or a unique name. This tool handles random string generation in your
+      browser, doubling as a token generator, an api key generator, a nonce generator, a general key
+      generator, and a random text generator. Set the length, choose which character sets to allow or
+      type your own alphabet, and copy the result. Each character is a secure random draw, and the tool
+      shows a live entropy estimate so you can size a token correctly. Nothing leaves your device.
     </p>
     <a href={toolHref} class="cta-link">Open The Random String Generator →</a>
   </section>
@@ -77,11 +78,11 @@ const uuidHref = withBase(`/tool/${category.segment}/uuid-generator/`);
       so the string uses precisely your characters and nothing else.
     </p>
     <p>
-      As you adjust the options, the entropy readout updates. Entropy is the length multiplied by the
-      base-2 logarithm of the alphabet size, reported in bits. It is the honest measure of guessing
-      difficulty: a 24-character alphanumeric string carries about 143 bits, well past the 128-bit mark
-      that is considered safe for tokens. The strength label turns that number into a word so you can
-      judge at a glance.
+      As you adjust the options, the entropy readout updates. This is how string entropy is measured:
+      entropy is the length multiplied by the base-2 logarithm of the alphabet size, reported in bits.
+      It is the honest measure of guessing difficulty: a 24-character alphanumeric string carries about
+      143 bits, well past the 128-bit mark that is considered safe for tokens. The strength label turns
+      that number into a word so you can judge at a glance.
     </p>
   </section>
 

@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'btc-faq-4',
     question: 'Why do I get an error about a multiple of eight?',
     answer:
-      'Every byte is exactly eight bits, so the total number of 0s and 1s must be divisible by eight. If you are one or two digits off, a group is incomplete and cannot be decoded — check for a missing or extra bit.',
+      'Every byte is exactly eight bits, so the total number of 0s and 1s must be divisible by eight. If you are one or two digits off, a group is incomplete and cannot be decoded. Check for a missing or extra bit.',
   },
   {
     id: 'btc-faq-5',

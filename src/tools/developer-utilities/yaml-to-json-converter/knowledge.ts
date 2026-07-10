@@ -44,7 +44,7 @@ export const knowledge: Knowledge = {
     'Importing YAML data into a database or system that stores JSON',
   ],
   commonMistakes: [
-    'Using tab characters for YAML indentation (tabs are not allowed)',
+    'Indenting the YAML input with tab characters, which is invalid and fails to parse',
     'Expecting comments to be preserved in the JSON output',
     'Assuming YAML timestamps stay as dates rather than strings',
     'Leaving special characters unquoted, causing parse errors',

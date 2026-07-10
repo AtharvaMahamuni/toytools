@@ -45,7 +45,7 @@ export const knowledge: Knowledge = {
     'Converting a JSON OpenAPI spec section into YAML for readability',
   ],
   commonMistakes: [
-    'Using tab characters for YAML indentation (tabs are not allowed)',
+    'Expecting YAML that uses tab indentation, when the spec requires spaces',
     'Leaving numeric-looking strings unquoted in YAML output',
     'Misaligning indentation in nested YAML structures',
     'Expecting YAML documents without --- to be invalid',

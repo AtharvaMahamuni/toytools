@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Trim leading and trailing whitespace from every line.',
   categorySlug: 'text-utilities',
   tags: ['trim text', 'trim whitespace', 'remove leading spaces', 'remove trailing spaces', 'strip whitespace', 'trim lines', 'remove spaces from start and end'],
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-07-10',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

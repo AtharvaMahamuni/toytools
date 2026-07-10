@@ -7,7 +7,7 @@ export const config: ToolConfig = {
   description: 'Watch a travelling wave in real time and see how frequency and wavelength set its speed. Drag the wave, change any value, and explore v = f × λ live.',
   categorySlug: 'physics',
   tags: ['wave speed', 'wave speed calculator', 'v = f λ', 'frequency and wavelength', 'wave simulation', 'travelling wave', 'wave physics', 'interactive wave'],
-  updatedAt: '2026-07-07',
+  updatedAt: '2026-07-10',
   isNew: true,
   trustVariant: 'offline',
   engine: 'physics',

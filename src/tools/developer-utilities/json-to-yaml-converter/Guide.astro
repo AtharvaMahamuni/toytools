@@ -30,16 +30,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A JSON to YAML converter translates JSON's brace-and-bracket syntax into YAML's
-      indentation-based format. Paste in <code>&#123;"name":"Alice","active":true&#125;</code> and
-      you get <code>name: Alice</code> / <code>active: true</code> — the same data, no
-      punctuation noise. The converter on this page also handles the reverse: paste YAML
-      and get back clean, formatted JSON.
+      indentation-based format. This data format conversion turns
+      <code>&#123;"name":"Alice","active":true&#125;</code> into
+      <code>name: Alice</code> / <code>active: true</code>, the same data, no
+      punctuation noise. This json yaml converter also handles the reverse yaml to json
+      direction: paste YAML and get back clean, formatted JSON.
     </p>
     <p>
-      Use this tool to prepare JSON data for Kubernetes manifests, Docker Compose files,
-      Ansible playbooks, GitHub Actions workflows, and any configuration system that expects
-      YAML. Four options let you control indentation, key order, document markers, and array
-      style.
+      A json to yaml online step like this prepares JSON data for kubernetes yaml manifests,
+      docker compose yaml files, ansible yaml playbooks, GitHub Actions workflows, and any
+      configuration system that expects YAML. Four options let you control indentation, key
+      order, document markers, and array style.
     </p>
     <a href={toolHref} class="cta-link">Open the JSON to YAML Converter →</a>
   </section>
@@ -49,7 +50,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       JSON and YAML represent the same abstract data model: mappings (key-value pairs),
       sequences (ordered lists), and scalars (strings, numbers, booleans, nulls). The
-      conversion is a syntax translation — the structure is preserved exactly.
+      conversion is a syntax translation, and the structure is preserved exactly.
     </p>
     <p>
       JSON objects become YAML block mappings. Each key-value pair moves to its own line;
@@ -60,9 +61,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       Scalars are mostly preserved as-is, with one important exception: strings that would
-      be misread by a YAML parser are automatically quoted. A string like <code>"10001"</code>
-      would be parsed as the integer 10001 without quotes; the converter detects this and
-      wraps it in double quotes to preserve the string type.
+      be misread by a YAML parser are automatically quoted. For example, a string like
+      <code>"10001"</code> would be parsed as the integer 10001 without quotes; the converter
+      detects this and wraps it in double quotes to preserve the string type.
     </p>
     <ReferenceBlock type="key-idea" heading="Indentation is structure in YAML">
       <p>In JSON, brackets and braces encode structure explicitly. In YAML, whitespace indentation encodes it. A two-space shift changes which object a key belongs to. This makes YAML sensitive to copy-paste errors but very readable when formatted consistently.</p>
@@ -72,14 +73,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="yaml-to-json">
     <h2>Converting YAML Back to JSON <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Switch the converter to YAML → JSON mode and paste any YAML document. The tool
-      parses the YAML and outputs pretty-printed, 2-space-indented JSON. This is useful
-      when you need to pass YAML configuration into an API, validate it against a JSON
-      Schema, or process it with code that lacks a YAML parser.
+      To turn YAML config back into JSON, switch the converter to YAML to JSON mode and paste
+      any YAML document. This yaml to json converter parses the YAML and outputs pretty-printed,
+      2-space-indented JSON. That is useful when you need to pass YAML configuration into an API,
+      validate it against a JSON Schema, or process it with code that lacks a YAML parser.
     </p>
     <p>
-      The converter handles YAML features that have no direct JSON equivalent. Timestamps
-      (like <code>2024-01-01</code>) become ISO 8601 strings. YAML null values become JSON
+      The converter handles YAML features that have no direct JSON equivalent. For example,
+      timestamps like <code>2024-01-01</code> become ISO 8601 strings. YAML null values become JSON
       <code>null</code>. Boolean variants like <code>yes</code>, <code>no</code>,
       <code>on</code>, and <code>off</code> become <code>true</code> or <code>false</code>.
     </p>
@@ -95,8 +96,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       </li>
       <li>
         <strong>Docker Compose files.</strong> Docker Compose uses YAML for service
-        definitions. Converting a JSON service structure to YAML is a common step when
-        automating container configuration.
+        definitions. To create a Docker Compose file from JSON data, convert a JSON service
+        structure to docker compose yaml, a common step when automating container configuration.
       </li>
       <li>
         <strong>Ansible playbooks and variables.</strong> Ansible uses YAML for playbooks,
@@ -120,7 +121,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>JSON vs YAML: Which to Use <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Both formats represent the same data and are equally expressive for standard JSON
-      types. The choice is mostly about context and tooling.
+      types, so a yaml converter online is really a formatting aid, not a data change. The
+      choice between them is mostly about context and tooling, and a yaml json converter lets
+      you move in whichever direction a given tool expects.
     </p>
     <p>
       JSON is the right choice for APIs, inter-service communication, and data storage.
@@ -142,7 +145,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
 
     <ReferenceBlock type="common-mistake" heading="Using tabs for indentation">
-      <p>YAML parsers reject tab characters for indentation — only spaces are allowed. The converter always produces space-only indentation, but if you edit the YAML by hand and accidentally insert a tab, the parser will reject the document with a cryptic error.</p>
+      <p>YAML parsers reject tab characters for indentation, and only spaces are allowed. The converter always produces space-only indentation, but if you edit the YAML by hand and accidentally insert a tab, the parser will reject the document with a cryptic error.</p>
     </ReferenceBlock>
 
     <ReferenceBlock type="common-mistake" heading="Not quoting string values that look like numbers or booleans">
@@ -154,7 +157,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
 
     <ReferenceBlock type="common-mistake" heading="Expecting YAML to support all JSON structures exactly">
-      <p>JSON supports arbitrary string keys (including keys with spaces, colons, or special characters). YAML supports these too, but they must be quoted. The converter handles this automatically — keys like <code>"my key"</code> or <code>"key:with:colons"</code> are wrapped in double quotes in the output.</p>
+      <p>JSON supports arbitrary string keys (including keys with spaces, colons, or special characters). YAML supports these too, but they must be quoted. The converter handles this automatically, so keys like <code>"my key"</code> or <code>"key:with:colons"</code> are wrapped in double quotes in the output.</p>
     </ReferenceBlock>
   </section>
 

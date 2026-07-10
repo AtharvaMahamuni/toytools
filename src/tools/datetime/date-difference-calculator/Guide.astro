@@ -1,0 +1,137 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The date difference is the duration between dates, and this date difference calculator reports
+      the days between two dates along with the same gap in weeks and in years, months, and days.
+      Enter a start date and an end date and it also counts the weekdays in the range. As a days
+      between dates and time between dates tool it is exact: it steps through the calendar and
+      accounts for leap years and each month's real length.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Date Difference Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the Duration Is Measured <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To count the days between two dates, the tool converts each date to a day number and subtracts,
+      so the total-days figure is a plain, exact count. The years-months-days breakdown is built the
+      other way, one unit at a time: subtract the day, then the month, then the year, borrowing the
+      real length of the preceding month whenever the day comes out negative. That is how the duration
+      between two dates is measured without ever assuming a fixed month length. Total weeks is simply
+      the number of complete seven-day weeks inside the total days.
+    </p>
+  </section>
+
+  <section id="business-days">
+    <h2>What Business Days Mean in a Date Range <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Alongside the calendar totals, this business days calculator reports a weekday count: the number
+      of Monday-to-Friday days in the range. What business days mean in a date range is simply the
+      calendar days with Saturdays and Sundays removed. To find the number of weekdays between two
+      dates, the tool counts whole weeks (five weekdays each) and then checks the leftover days one by
+      one. Public holidays are left in, because they differ by country, so treat the weekday count as
+      working days before local holidays.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A project span.</strong> For example, from 1 January 2026 to 8 July 2026 is 6 months and
+      7 days, which is 188 days, 26 weeks between dates, and 134 weekdays.
+    </p>
+    <p>
+      <strong>A countdown.</strong> For example, entering today as the start and a deadline as the end
+      shows how many days between dates remain, and how many of those are working days.
+    </p>
+    <p>
+      <strong>Reversed dates.</strong> For example, if you enter the later date first, the tool still
+      reports the same span and notes that the dates are in reverse order.
+    </p>
+  </section>
+
+  <section id="totals-vs-business">
+    <h2>Calendar Duration vs Total Days vs Business Days <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The three views answer different questions. The calendar duration versus total days choice is
+      about phrasing: "6 months and 7 days" and "188 days" describe the identical gap, which is why
+      total days and the years-months-days breakdown always agree. Total days versus business days is
+      a real difference: total days counts every calendar day, while business days count only weekdays.
+      Use calendar months and weeks for how long something lasts, and the weekday count when you are
+      planning work that skips weekends.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Approximating a month as 30 days">
+      <p>
+        Months are not all 30 days, so estimating a duration with a flat 30-day month drifts over
+        long ranges. This tool borrows the real length of each preceding month, so the years, months,
+        and days are exact rather than approximate.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Counting calendar days when you need business days">
+      <p>
+        A five-week task is 35 calendar days but only 25 weekdays. If your deadline depends on working
+        days, read the weekday count, not the total-days figure, and subtract any public holidays that
+        apply in your country.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Order does not change the length">
+      <p>
+        The order of the two dates does not change the length of the span, so a start after the end
+        gives the same duration. Everything runs in your browser: nothing you type is uploaded, and
+        the page works offline once loaded.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

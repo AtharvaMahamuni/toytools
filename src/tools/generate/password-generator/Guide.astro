@@ -29,12 +29,12 @@ const categoryHref = withBase(`/category/${category.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A strong password is long and random. The most reliable way to get one is to let a tool build
-      it for you: choose a length of 16 characters or more, allow a mix of uppercase, lowercase,
-      numbers, and symbols, and copy the result. The generator on this page does exactly that,
-      entirely inside your browser, and shows a live estimate of how hard the password is to guess.
-      You do not need to invent anything or remember any rules. Pick a length, press Copy, and store
-      the password in a password manager.
+      A secure password is long and random. The most reliable way to get one is to let a tool handle
+      the password generation for you: choose a length of 16 characters or more, allow a mix of
+      uppercase, lowercase, numbers, and symbols, and copy the result. This random password generator
+      does exactly that, entirely inside your browser, and shows a live estimate of password strength.
+      As a strong password generator and password maker, it means you do not need to invent anything
+      or remember any rules. Pick a length, press Copy, and store the password in a password manager.
     </p>
     <a href={toolHref} class="cta-link">Open The Password Generator →</a>
   </section>
@@ -50,7 +50,7 @@ const categoryHref = withBase(`/category/${category.slug}/`);
     </p>
     <p>
       A random password defeats both attacks. It has no pattern to predict, and because you generate
-      a different one for every account, a leak from one site cannot unlock the others. The single
+      a different one for every account, a leak from one site cannot open the others. The single
       most valuable habit in personal security is using a unique, random password for every account,
       and a generator is what makes that habit practical.
     </p>
@@ -80,11 +80,11 @@ const categoryHref = withBase(`/category/${category.slug}/`);
     </p>
     <p>
       As you adjust the options, the tool shows two numbers: the entropy in bits and a strength
-      label. Entropy is the honest measure of how hard the password is to guess. It equals the length
-      multiplied by the base-2 logarithm of the pool size. In plain terms, every extra character
-      multiplies the number of possible passwords, and a bigger pool multiplies it further. The
-      strength label just turns that bit count into words, from Very weak to Very strong, so you can
-      judge at a glance.
+      label. This is how password entropy is measured: entropy equals the length multiplied by the
+      base-2 logarithm of the pool size, an honest measure of how hard the password is to guess. In
+      plain terms, every extra character multiplies the number of possible passwords, and a bigger
+      pool multiplies it further. The strength label just turns that bit count into words, from Very
+      weak to Very strong, so you can judge password strength at a glance.
     </p>
   </section>
 
@@ -113,8 +113,9 @@ const categoryHref = withBase(`/category/${category.slug}/`);
       </li>
     </ul>
     <p>
-      The pattern is clear: adding length raises strength quickly and reliably, while adding character
-      sets helps a little. When you are unsure, reach for the slider before the toggles.
+      The pattern is clear, and it is the heart of the length vs complexity debate: this is why length
+      matters more than complexity. Adding length raises strength quickly and reliably, while adding
+      character sets helps a little. When you are unsure, reach for the slider before the toggles.
     </p>
   </section>
 
@@ -142,8 +143,8 @@ const categoryHref = withBase(`/category/${category.slug}/`);
     <p>
       Generating a password beats inventing one for several reasons. A generator removes human
       patterns, and humans are predictable: we favor names, dates, keyboard runs, and common
-      substitutions like a zero for an O. A generator also makes strong passwords effortless, so you
-      are not tempted to reuse a weaker one. It gives you an honest strength estimate up front instead
+      substitutions like a zero for an O. A generator also makes a strong password quick to create, so
+      you are not tempted to reuse a weaker one. It gives you an honest strength estimate up front instead
       of a false sense of security from a password that merely looks complicated.
     </p>
     <p>

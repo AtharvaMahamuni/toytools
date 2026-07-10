@@ -86,6 +86,12 @@ export interface FormulaDef {
   /** Human-readable expression, e.g. 'v = f × λ'. */
   expression: string;
   terms: FormulaTerm[];
+  /**
+   * Optional right-hand-side template used to render a live "worked" line, with {paramId}
+   * placeholders substituted for the current values, e.g. '{frequency} × {wavelength}'. When the
+   * formula has editable inputs (paramId terms), the panel shows: outputSymbol = <this> = answer.
+   */
+  substitution?: string;
 }
 
 export interface GraphSeries {

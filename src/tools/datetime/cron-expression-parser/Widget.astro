@@ -1,0 +1,9 @@
+---
+// Cron Expression Parser — a thin wrapper over the shared DateTimeWidget. Tool logic lives in the
+// datetime engine (src/lib/engines/datetime/calculators/cron.ts), resolved at runtime via
+// ToyTools.runDateTime.
+import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
+import { config } from './config';
+---
+
+<DateTimeWidget slug={config.slug} dateTimeId="cron" config={config} emptyText="Enter a cron expression like */15 * * * * to see what it means and when it runs." />
