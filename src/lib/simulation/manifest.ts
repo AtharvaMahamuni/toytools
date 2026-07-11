@@ -2,9 +2,10 @@
 //
 // A simulation is authored as two separated concerns (Problem 13: never mix metadata, runtime, and
 // rendering):
-//   - SimulationManifest  = pure DATA: educational metadata, concepts, equations, SEO, plus the
-//     declarative param/preset/formula shape. This is what build-time generators read to emit the
-//     tool config, knowledge overlay, FAQ, guide, related tools, SEO, and JSON-LD. No closures.
+//   - SimulationManifest  = pure DATA authored ONCE: identity, concepts, equations, educational
+//     prose, SEO, and the authored content surfaces (examples, FAQ, guide). Build-time generators
+//     read this to emit the tool config, knowledge overlay, FAQ, guide registration, and SEO — so
+//     the same fact is never re-typed across knowledge.ts / faq.ts / Guide.astro / config.ts.
 //   - SimulationModel     = pure BEHAVIOR: init/step, measurement compute, graph sampling, pointer
 //     handling, narrative, and draw. No educational prose, no SEO.
 //
@@ -22,6 +23,7 @@ import type {
   SimulationDef,
   Viewport,
 } from './types';
+import type { IntentGroups, RelationshipReference, WorkflowStage } from '@lib/knowledge/types';
 
 /** Bump when the manifest shape changes incompatibly; lets V1/V2 manifests coexist mid-migration. */
 export const SIMULATION_SCHEMA_VERSION = 1 as const;
@@ -57,6 +59,8 @@ export interface ConceptSet {
   primary: string[];
   secondary: string[];
   related?: string[];
+  /** Extra surface forms for the EntityMatcher (beyond concepts + title). */
+  aliases?: string[];
 }
 
 export interface EquationVariable {
@@ -78,9 +82,14 @@ export interface Equation {
 }
 
 export interface EducationalMeta {
+  /** Knowledge-graph summary, <= 160 chars. */
+  summary: string;
+  intentGroups: IntentGroups;
+  /** Short misconception statements for the knowledge graph. */
   commonMistakes: string[];
   realWorldUseCases: string[];
-  commonQuestions: string[];
+  audience: string[];
+  workflowStage: WorkflowStage[];
 }
 
 export interface SeoMeta {
@@ -91,6 +100,64 @@ export interface SeoMeta {
   keywords: string[];
 }
 
+/** A widget "real-world example" card. */
+export interface ExampleCard {
+  title: string;
+  body: string;
+}
+
+/** One authored FAQ. The question also seeds knowledge.commonQuestions. */
+export interface FaqEntry {
+  question: string;
+  answer: string;
+}
+
+/** A common-mistake block rendered in the generated guide (prose, not just the short statement). */
+export interface GuideMistake {
+  heading: string;
+  body: string;
+  /** ReferenceBlock variant; defaults to 'common-mistake'. */
+  type?: 'common-mistake' | 'note';
+}
+
+/** One generated guide body section (a heading + a paragraph of authored prose). */
+export interface GuideSection {
+  id: string;
+  heading: string;
+  body: string;
+}
+
+/** The authored guide content, expanded by the generator into a rendered guide page. */
+export interface GuideManifest {
+  slug: string;
+  title: string;
+  /** Guide meta description, <= 160 chars. */
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  /** The Quick Answer paragraph (definition + key equation + the CTA is auto-appended). */
+  quickAnswer: string;
+  /** Concept sections after the Quick Answer (How X Works, ...). */
+  sections: GuideSection[];
+  /** The Common Mistakes blocks. */
+  mistakes: GuideMistake[];
+}
+
+/** Authored relationship overlay (non-derivable workflow edges). */
+export interface RelationshipOverlay {
+  usedWith?: RelationshipReference[];
+  alternatives?: RelationshipReference[];
+  nextSteps?: RelationshipReference[];
+}
+
+/** Tool-page presentation metadata that maps to ToolConfig. */
+export interface PresentationMeta {
+  tags: string[];
+  updatedAt: string;
+  isNew?: boolean;
+  trustVariant?: 'private' | 'offline' | 'local';
+}
+
 /** The declarative half: everything a generator needs to emit content, SEO, and relationships. */
 export interface SimulationManifest {
   schemaVersion: typeof SIMULATION_SCHEMA_VERSION;
@@ -99,6 +166,11 @@ export interface SimulationManifest {
   equations: Equation[];
   educational: EducationalMeta;
   seo: SeoMeta;
+  presentation: PresentationMeta;
+  examples: ExampleCard[];
+  faq: FaqEntry[];
+  guide: GuideManifest;
+  relationships?: RelationshipOverlay;
   // Declarative runtime shape also surfaced to the widget at build time:
   paramBehavior: 'continuous' | 'restart';
   aspect?: number;

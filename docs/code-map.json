@@ -184,7 +184,7 @@
         "simulate"
       ],
       "runtimeGlobal": "",
-      "sharedWidget": "src/tools/_shared/PhysicsWidget.astro",
+      "sharedWidget": "src/tools/_shared/SimulationWidget.astro",
       "supportedFamilies": [
         "mechanics",
         "waves",

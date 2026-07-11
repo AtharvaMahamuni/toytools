@@ -1,0 +1,70 @@
+---
+// Generic simulation guide: renders a full guide page from a SimulationManifest, so no per-sim
+// Guide.astro is needed. The guide prose is authored once in the manifest (quickAnswer + sections
+// + mistakes) and expanded here, mirroring the hand-authored guide structure (Quick Answer + CTA,
+// concept sections, Common Mistakes ReferenceBlocks).
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+import type { SimulationManifest } from '@lib/simulation/manifest';
+
+interface Props {
+  manifest: SimulationManifest;
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const { manifest, ...rest } = Astro.props;
+const meta = manifest.metadata;
+const category = categories.find((c) => c.slug === meta.category)!;
+const toolHref = withBase(`/tool/${category.segment}/${meta.slug}/`);
+---
+
+<GuideLayout {...rest} toolSlug={meta.slug} toolName={meta.title} toolCategorySlug={meta.category}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>{manifest.guide.quickAnswer}</p>
+    <a href={toolHref} class="cta-link">Open The {meta.title} &rarr;</a>
+  </section>
+
+  {manifest.guide.sections.map((section) => (
+    <section id={section.id}>
+      <h2>{section.heading} <span class="gold-dot" aria-hidden="true"></span></h2>
+      <p>{section.body}</p>
+    </section>
+  ))}
+
+  {manifest.guide.mistakes.length > 0 && (
+    <section id="common-mistakes">
+      <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+      {manifest.guide.mistakes.map((mistake) => (
+        <ReferenceBlock type={mistake.type ?? 'common-mistake'} heading={mistake.heading}>
+          <p>{mistake.body}</p>
+        </ReferenceBlock>
+      ))}
+    </section>
+  )}
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

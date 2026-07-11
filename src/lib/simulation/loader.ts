@@ -12,6 +12,7 @@ const modules = import.meta.glob<{ default: SimulationDef }>([
   './simulations/*.ts',
   '!./simulations/*.test.ts',
   '!./simulations/*.draw.ts',
+  '!./simulations/*.manifest.ts',
   '!./simulations/registry.ts',
 ]);
 

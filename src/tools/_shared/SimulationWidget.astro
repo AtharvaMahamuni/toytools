@@ -1,5 +1,5 @@
 ---
-// PhysicsWidget — the ONE widget every physics simulation wraps. It renders the whole
+// SimulationWidget — the ONE widget every physics simulation wraps. It renders the whole
 // universal layout (canvas → playback → parameter sliders + presets → live measurement
 // cards → live formula → animated graph → observations → explanation → real-world examples)
 // AT BUILD TIME from the tool's SimulationDef, then ships a single bundled script that
@@ -25,7 +25,7 @@ interface Props {
 
 const { config, simulationId, examples = [] } = Astro.props;
 const sim = SIMULATIONS[simulationId];
-if (!sim) throw new Error(`[PhysicsWidget] Unknown simulation id "${simulationId}"`);
+if (!sim) throw new Error(`[SimulationWidget] Unknown simulation id "${simulationId}"`);
 
 const slug = config.slug;
 const cards = sim.measurements.filter((m) => !m.hidden);

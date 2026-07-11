@@ -1,7 +1,7 @@
 // Boot/orchestration layer for the Physics Playground — finds every [data-physics-sim]
 // widget on the page, lazy-loads its one simulation module, and wires the shared UI
 // (playback bar, sliders, presets, measurement cards, formula panel, graph, observations,
-// live region) to the simulation loop. PhysicsWidget.astro renders the markup at build
+// live region) to the simulation loop. SimulationWidget.astro renders the markup at build
 // time; this module only reads data-* hooks, so the two form one contract.
 //
 // Browser-glue module — excluded from unit coverage; exercised by the Playwright suite.

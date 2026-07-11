@@ -37,7 +37,7 @@ function stubEnv(reduce = false): void {
   (window as unknown as { matchMedia: typeof mm }).matchMedia = mm;
 }
 
-/** Build the exact data-* DOM PhysicsWidget renders for a simulation, into document.body. */
+/** Build the exact data-* DOM SimulationWidget renders for a simulation, into document.body. */
 function mountWidget(def: SimulationDef, slug: string): HTMLElement {
   const root = document.createElement('section');
   root.setAttribute('data-physics-sim', '');
