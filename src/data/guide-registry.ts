@@ -7,7 +7,6 @@
 // parse Astro components. `validate-registry` checks every tool that declares `guide:` appears here.
 
 export const registeredGuideSlugs = [
-  'projectile-motion-simulator',
   'age-calculator',
   'date-difference-calculator',
   'timezone-converter',
@@ -99,4 +98,13 @@ export const registeredGuideSlugs = [
 
 export type RegisteredGuideSlug = (typeof registeredGuideSlugs)[number];
 
-export const registeredGuideSlugSet: ReadonlySet<string> = new Set(registeredGuideSlugs);
+// Simulation guides are rendered generically by SimulationGuide.astro from their manifest, so they
+// are NOT in the typed tuple above (no static component import) but ARE registered guides. Adding
+// them to the set keeps validate-registry's "tool declares a guide -> must be registered" check
+// satisfied while keeping the guide-route-map drift check scoped to statically imported guides.
+import { simulationGuideSlugs } from '@lib/simulation/derived';
+
+export const registeredGuideSlugSet: ReadonlySet<string> = new Set([
+  ...registeredGuideSlugs,
+  ...simulationGuideSlugs,
+]);

@@ -3,7 +3,8 @@ import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
 import type { RegisteredGuideSlug } from '@data/guide-registry';
-import ProjectileMotionSimulatorGuide from '../../tools/physics/projectile-motion-simulator/Guide.astro';
+import SimulationGuide from '@tools/_shared/SimulationGuide.astro';
+import { manifestBySlug } from '@lib/simulation/manifests';
 import AgeCalculatorGuide from '../../tools/datetime/age-calculator/Guide.astro';
 import DateDifferenceCalculatorGuide from '../../tools/datetime/date-difference-calculator/Guide.astro';
 import TimezoneConverterGuide from '../../tools/datetime/timezone-converter/Guide.astro';
@@ -103,7 +104,6 @@ import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator
 // Typed against the registry's slug union — TS fails the build if this map and
 // `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
 const guidesBySlug: Record<RegisteredGuideSlug, any> = {
-  'projectile-motion-simulator': ProjectileMotionSimulatorGuide,
   'age-calculator': AgeCalculatorGuide,
   'date-difference-calculator': DateDifferenceCalculatorGuide,
   'timezone-converter': TimezoneConverterGuide,
@@ -205,10 +205,22 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { tool } = Astro.props;
+// Simulation guides render generically from their manifest; everything else uses its static
+// Guide.astro component from the typed map above.
+const simManifest = manifestBySlug.get(tool.slug);
 const GuideComp = guidesBySlug[tool.slug];
 ---
 
-{GuideComp && (
+{simManifest ? (
+  <SimulationGuide
+    manifest={simManifest}
+    title={tool.guide!.title}
+    description={tool.guide!.description}
+    readMinutes={tool.guide!.readMinutes}
+    updatedAt={tool.guide!.updatedAt}
+    entry={tool}
+  />
+) : GuideComp && (
   <GuideComp
     title={tool.guide!.title}
     description={tool.guide!.description}

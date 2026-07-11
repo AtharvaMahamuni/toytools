@@ -1,5 +1,5 @@
 import type { FAQItem } from './types';
-import { items as projectileMotionSimulatorFaqs } from '@tools/physics/projectile-motion-simulator/faq';
+import { simulationFaqsBySlug } from '@lib/simulation/derived';
 import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
 import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-difference-calculator/faq';
 import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
@@ -96,7 +96,7 @@ import { items as pendulumFaqs }              from '@tools/physics/pendulum-simu
 import { items as heatTransferFaqs }          from '@tools/physics/heat-transfer-simulator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
-  'projectile-motion-simulator': projectileMotionSimulatorFaqs,
+  ...simulationFaqsBySlug,
   'age-calculator': ageCalculatorFaqs,
   'date-difference-calculator': dateDifferenceCalculatorFaqs,
   'timezone-converter': timezoneConverterFaqs,

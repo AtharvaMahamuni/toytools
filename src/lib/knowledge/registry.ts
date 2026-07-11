@@ -5,7 +5,7 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
-import { knowledge as projectileMotionSimulator } from '@tools/physics/projectile-motion-simulator/knowledge';
+import { simulationKnowledge } from '@lib/simulation/derived';
 import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowledge';
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
@@ -118,7 +118,7 @@ import { knowledge as heatTransferSimulator }      from '@tools/physics/heat-tra
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
-  projectileMotionSimulator,
+  ...simulationKnowledge,
   ageCalculator,
   dateDifferenceCalculator,
   timezoneConverter,

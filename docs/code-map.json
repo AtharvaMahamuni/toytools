@@ -319,13 +319,7 @@
       "family": "mechanics",
       "processorId": "projectile-motion",
       "toolGroup": "",
-      "files": [
-        "Guide.astro",
-        "Widget.astro",
-        "config.ts",
-        "faq.ts",
-        "knowledge.ts"
-      ],
+      "files": [],
       "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true

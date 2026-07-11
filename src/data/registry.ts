@@ -1,5 +1,5 @@
 import type { ToolConfig } from './types';
-import { config as projectileMotionSimulator } from '@tools/physics/projectile-motion-simulator/config';
+import { simulationTools } from '@lib/simulation/derived';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
@@ -93,9 +93,11 @@ import { config as frequencyPeriodSimulator }     from '@tools/physics/frequency
 import { config as pendulumSimulator }            from '@tools/physics/pendulum-simulator/config';
 import { config as heatTransferSimulator }        from '@tools/physics/heat-transfer-simulator/config';
 
-// Add/remove a tool: one import line above + one array entry below
+// Add/remove a tool: one import line above + one array entry below.
+// Simulation tools are DERIVED from their manifests (src/lib/simulation) and spread in here, so
+// they need no per-tool config.ts or registry line.
 export const tools: ToolConfig[] = [
-  projectileMotionSimulator,
+  ...simulationTools,
   ageCalculator,
   dateDifferenceCalculator,
   timezoneConverter,
