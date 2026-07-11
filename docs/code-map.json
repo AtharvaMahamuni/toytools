@@ -186,11 +186,12 @@
       "runtimeGlobal": "",
       "sharedWidget": "src/tools/_shared/PhysicsWidget.astro",
       "supportedFamilies": [
+        "mechanics",
         "waves",
         "oscillations",
         "thermodynamics"
       ],
-      "toolCount": 4
+      "toolCount": 5
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -308,6 +309,27 @@
     }
   },
   "tools": {
+    "projectile-motion-simulator": {
+      "name": "Projectile Motion Simulator",
+      "dir": "src/tools/physics/projectile-motion-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/projectile-motion-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "mechanics",
+      "processorId": "projectile-motion",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "age-calculator": {
       "name": "Age Calculator",
       "dir": "src/tools/datetime/age-calculator",

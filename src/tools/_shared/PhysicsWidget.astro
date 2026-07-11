@@ -6,10 +6,10 @@
 // lazy-loads exactly that one simulation and wires the interactions in boot.ts.
 //
 // It is simulation-agnostic: everything specific to a tool lives in its SimulationDef
-// (src/lib/engines/physics/simulations/<id>.ts) and the examples prop. If a new physics tool
+// (src/lib/simulation/simulations/<id>.ts) and the examples prop. If a new physics tool
 // ever needs to edit this file, the engine has failed — add a SimulationDef instead.
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
-import { SIMULATIONS } from '@lib/engines/physics/simulations/registry';
+import { SIMULATIONS } from '@lib/simulation/simulations/registry';
 import type { ToolConfig } from '@data/types';
 
 interface Example {
@@ -222,8 +222,8 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
 <CategoryDiscovery toolSlug={slug} />
 
 <script>
-  import { initPhysicsWidgets } from '@lib/engines/physics/boot';
-  initPhysicsWidgets();
+  import { initSimulations } from '@lib/simulation/boot';
+  initSimulations();
 </script>
 
 <style>

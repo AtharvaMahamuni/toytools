@@ -7,6 +7,7 @@
 // parse Astro components. `validate-registry` checks every tool that declares `guide:` appears here.
 
 export const registeredGuideSlugs = [
+  'projectile-motion-simulator',
   'age-calculator',
   'date-difference-calculator',
   'timezone-converter',

@@ -6,7 +6,7 @@
 // the whole wiring — readouts, formula, presets, reset, play state, and direct manipulation —
 // against the REAL wave-speed SimulationDef, so it can't drift from the engine.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { initPhysicsWidgets } from './boot';
+import { initSimulations } from './boot';
 import { SIMULATIONS } from './simulations/registry';
 import { primeCanvas } from './mock-ctx.testutil';
 import type { SimulationDef } from './types';
@@ -147,7 +147,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('populates measurements, formula, observations, and explanation on init', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
 
     // v = f × λ = 1 × 2 = 2.00 m/s at defaults.
@@ -164,7 +164,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('recomputes when a slider moves', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
 
     const freq = slider(root, 'frequency');
@@ -177,7 +177,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('applies a preset to every declared parameter', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
 
     const oceanBtn = [...root.querySelectorAll<HTMLButtonElement>('[data-sim-preset]')].find(
@@ -192,7 +192,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('reset restores the defaults', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
 
     const freq = slider(root, 'frequency');
@@ -207,7 +207,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('toggles play/pause state', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
     const play = root.querySelector<HTMLButtonElement>('[data-sim-play]')!;
     expect(play.getAttribute('aria-pressed')).toBe('true'); // autoplaying
@@ -221,7 +221,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('makes speed buttons mutually exclusive', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
     const speeds = [...root.querySelectorAll<HTMLButtonElement>('[data-sim-speed]')];
     const half = speeds.find((b) => b.getAttribute('data-sim-speed') === '0.5')!;
@@ -232,7 +232,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('responds to a pointer drag on the canvas (direct manipulation)', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
 
     const canvas = root.querySelector<HTMLCanvasElement>('[data-sim-canvas]')!;
@@ -255,7 +255,7 @@ describe('boot — reduced motion', () => {
 
   it('starts paused and does not schedule a frame', async () => {
     const root = mountWidget(wave, 'wave-speed-simulator');
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
     expect(root.querySelector('[data-sim-play]')!.getAttribute('aria-pressed')).toBe('false');
     expect(root.querySelector('[data-sim-play]')!.textContent).toBe('Play');
@@ -281,7 +281,7 @@ describe('boot — failure handling', () => {
     root.append(canvas, fallback);
     document.body.append(root);
 
-    initPhysicsWidgets(document);
+    initSimulations(document);
     await flush();
     expect(fallback.hasAttribute('hidden')).toBe(false); // fallback revealed
   });
@@ -291,7 +291,7 @@ describe('boot — failure handling', () => {
     root.setAttribute('data-physics-sim', '');
     root.setAttribute('data-simulation-id', 'wave-speed');
     document.body.append(root);
-    expect(() => initPhysicsWidgets(document)).not.toThrow();
+    expect(() => initSimulations(document)).not.toThrow();
     await flush();
   });
 });

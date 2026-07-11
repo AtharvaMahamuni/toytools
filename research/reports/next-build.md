@@ -1,29 +1,32 @@
 # Recommended Next Build
 
-Generated: 2026-07-04T13:22:26.983Z
+Generated: 2026-07-11T08:46:37.754Z
 
-## CSV Column Picker  (`csv-column-picker`)
+## Projectile Motion Simulator  (`projectile-motion-simulator`)
 
-**Opportunity score:** 70.8 / 100
+**Opportunity score:** 79.8 / 100
 
 ### Why build it
+- High search demand
 - Weak / incomplete incumbents
-- Reuses the existing csv engine
+- Reuses the existing physics engine
 - Low implementation cost
-- Creates 5 internal links
+- Creates 4 internal links
 
 ### Why incumbents are weak
-- awk is dev-only
-- spreadsheets choke on big files
+- phet uses dated UX and heavy downloads
+- calculators show no live arc
+- no drag-to-aim interaction
+- not mobile-first
 
 ### Why ToyTools can win
-- Ships on the proven csv engine - consistent UX, fast to build.
+- Ships on the proven physics engine - consistent UX, fast to build.
 - Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).
 - Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.
 
 ### Engine
-- Reuses existing engine: `csv`
-- Future tools this unlocks: csv-diff, csv-to-tsv, csv-cleaner
+- Reuses existing engine: `physics`
+- Future tools this unlocks: ohms-law-simulator, shm-spring-simulator, ideal-gas-law-simulator, doppler-effect-simulator, momentum-collision-simulator, inclined-plane-simulator
 
 ### Estimates
 - Implementation effort: **medium**
@@ -31,7 +34,7 @@ Generated: 2026-07-04T13:22:26.983Z
 - Maintenance cost: **low**
 
 ### Suggested supporting content
-- Guides: What is CSV Column Selection?; How to csv column selection online; CSV Column Picker vs the alternatives
-- FAQs: How do I csv column selection?; Is CSV Column Picker free and private?; Does CSV Column Picker avoid "awk is dev-only"?
-- Internal links / related tools: csv-to-json-converter, json-to-csv-converter, csv-cleaner, csv-diff, csv-to-tsv
+- Guides: What is Projectile Motion?; How to projectile motion online; Projectile Motion Simulator vs the alternatives
+- FAQs: How do I projectile motion?; Is Projectile Motion Simulator free and private?; Does Projectile Motion Simulator avoid "phet uses dated UX and heavy downloads"?
+- Internal links / related tools: pendulum-simulator, frequency-period-simulator, heat-transfer-simulator, wave-speed-simulator
 - Schema: SoftwareApplication, FAQPage

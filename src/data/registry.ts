@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { config as projectileMotionSimulator } from '@tools/physics/projectile-motion-simulator/config';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
@@ -94,6 +95,7 @@ import { config as heatTransferSimulator }        from '@tools/physics/heat-tran
 
 // Add/remove a tool: one import line above + one array entry below
 export const tools: ToolConfig[] = [
+  projectileMotionSimulator,
   ageCalculator,
   dateDifferenceCalculator,
   timezoneConverter,

@@ -15,9 +15,9 @@ import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS, financeFields } from '@lib/engines/finance/registry';
 import { DATETIME_TOOLS, dateTimeFields } from '@lib/engines/datetime/registry';
-import { SIMULATIONS } from '@lib/engines/physics/simulations/registry';
-import { SUBSTEP } from '@lib/engines/physics/loop';
-import type { SimState } from '@lib/engines/physics/types';
+import { SIMULATIONS } from '@lib/simulation/simulations/registry';
+import { SUBSTEP } from '@lib/simulation/loop';
+import type { SimState } from '@lib/simulation/types';
 
 const byEngine = (id: string) => tools.filter(t => t.engine === id);
 

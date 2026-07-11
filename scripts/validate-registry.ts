@@ -12,7 +12,7 @@ import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
 import { GENERATORS } from '../src/lib/generation/registry';
-import { SIMULATIONS } from '../src/lib/engines/physics/simulations/registry';
+import { SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 
 // KNOWN engines/patterns derive from the engine manifest — single source of truth.
 const KNOWN_ENGINES = engineIds;

@@ -103,6 +103,57 @@ export const RESEARCH_TAXONOMY: ResearchTaxonomy = [
       },
     ],
   },
+  {
+    // Physics Playground: all families reuse the existing 'physics' simulate engine (one model +
+    // one draw file per tool), so these are high-reuse, low-cost expansions of the shipped cluster.
+    domain: 'physics',
+    transformations: [
+      {
+        transformation: 'Mechanics',
+        engine: 'physics',
+        expected: [
+          'projectile-motion-simulator',
+          'momentum-collision-simulator',
+          'inclined-plane-simulator',
+          'free-fall-simulator',
+        ],
+      },
+      {
+        transformation: 'Electricity',
+        engine: 'physics',
+        expected: [
+          'ohms-law-simulator',
+          'series-parallel-resistance-simulator',
+        ],
+      },
+      {
+        transformation: 'Waves',
+        engine: 'physics',
+        expected: [
+          'wave-speed-simulator',
+          'doppler-effect-simulator',
+          'wave-interference-simulator',
+        ],
+      },
+      {
+        transformation: 'Oscillations',
+        engine: 'physics',
+        expected: [
+          'pendulum-simulator',
+          'frequency-period-simulator',
+          'shm-spring-simulator',
+        ],
+      },
+      {
+        transformation: 'Thermodynamics',
+        engine: 'physics',
+        expected: [
+          'heat-transfer-simulator',
+          'ideal-gas-law-simulator',
+        ],
+      },
+    ],
+  },
 ];
 
 /** All (domain, transformation, engine, expected-slug) rows — never throws. */

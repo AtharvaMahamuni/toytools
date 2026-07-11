@@ -25,7 +25,7 @@ interface ToyToolsState {
   };
 }
 
-export function initPhysicsWidgets(doc: Document = document): void {
+export function initSimulations(doc: Document = document): void {
   doc.querySelectorAll<HTMLElement>('[data-physics-sim]').forEach((root) => {
     void bootWidget(root);
   });
