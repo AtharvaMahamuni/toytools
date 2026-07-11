@@ -145,19 +145,19 @@ export const manifest: SimulationManifest = {
         id: 'how-it-works',
         heading: 'How Projectile Motion Works',
         body:
-          'The key idea is that horizontal and vertical motion are independent. Gravity only pulls downward, so it changes the vertical velocity while leaving the horizontal velocity untouched. The projectile therefore drifts sideways at a steady rate while it rises, slows, stops at the peak, and falls. Combine the two and the path is a symmetric parabola. For example, watch the velocity arrow in the simulator: its horizontal length never changes, but its vertical part shrinks to zero at the top and grows again on the way down.',
+          'The key idea in this corner of kinematics is that horizontal and vertical motion are independent. Gravity only pulls downward, so it changes the vertical velocity while the horizontal velocity stays constant during the whole flight. The projectile therefore drifts sideways at a steady rate while it rises, slows, stops at the peak, and falls. Combine the two and the path is a symmetric parabola. For example, watch the velocity arrow in the simulator: its horizontal length never changes, but its vertical part shrinks to zero at the top and grows again on the way down.',
       },
       {
         id: 'maximum-range',
         heading: 'Why 45 Degrees Gives the Maximum Range',
         body:
-          'Range depends on sin(2 theta), and the sine function is largest at 90 degrees, so the range peaks when twice the angle is 90, meaning the angle is 45 degrees. Steeper than that and the projectile spends too much of its speed climbing; shallower and it runs out of airtime before it covers ground. For example, set the speed to 25 m/s and sweep the angle slider: the landing marker reaches furthest exactly at 45 degrees and falls off on either side. To calculate the range of a projectile by hand, square the speed, multiply by the sine of twice the angle, then divide by gravity.',
+          'The projectile range depends on sin(2 theta), and the sine function is largest at 90 degrees, so the range peaks when twice the angle is 90, meaning the angle is 45 degrees. Steeper than that and the projectile spends too much of its speed climbing; shallower and it runs out of airtime before it covers ground. For example, set the speed to 25 m/s and sweep the angle slider: the landing marker reaches furthest exactly at 45 degrees and falls off on either side. To calculate the range of a projectile by hand, square the speed, multiply by the sine of twice the angle, then divide by gravity.',
       },
       {
         id: 'angle-tradeoff',
         heading: 'How Launch Angle Trades Distance for Height',
         body:
-          'Two angles that add up to 90 degrees, such as 30 and 60, give the same range but very different flights. The steeper launch reaches a higher peak and stays airborne longer, while the shallower one is faster and lower. For example, set 60 degrees and note the tall, slow arc, then set 30 degrees and watch a flat, quick shot land in the same spot. This is why a lofted pass and a driven pass can cover the same distance while looking nothing alike.',
+          'Complementary launch angles compared this way, two angles that add up to 90 degrees such as 30 and 60, give the same range but very different flights. The steeper launch reaches a higher peak and stays airborne longer, while the shallower one is faster and lower. For example, set 60 degrees and note the tall, slow arc, then set 30 degrees and watch a flat, quick shot land in the same spot. This is why a lofted pass and a driven pass can cover the same distance while looking nothing alike.',
       },
       {
         id: 'gravity',
@@ -179,9 +179,9 @@ export const manifest: SimulationManifest = {
       },
       {
         type: 'note',
-        heading: 'How to aim the launch',
+        heading: 'How to aim the launch by dragging',
         body:
-          'Drag from the launcher in the bottom-left of the canvas: the direction sets the angle and the length sets the speed, like pulling back a slingshot. You can also use the sliders for exact values. Everything runs in your browser, nothing is uploaded, and it works offline. To see gravity shape a different kind of motion, carry on to the pendulum simulator.',
+          'Aim the launch by dragging from the launcher in the bottom-left of the canvas: the direction sets the angle and the length sets the speed, like pulling back a slingshot. You can also use the sliders for exact values. Everything runs in your browser, nothing is uploaded, and it works offline. To see gravity shape a different kind of motion, carry on to the pendulum simulator.',
       },
     ],
   },
