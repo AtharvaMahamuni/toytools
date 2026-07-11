@@ -100,8 +100,8 @@ export interface GraphSeries {
   /** Palette key used to stroke this series. */
   color: 'accent' | 'danger' | 'ink' | 'muted';
   /**
-   * space mode: value at spatial coordinate x for the current state.
-   * time mode: current value (x is unused); the renderer keeps the rolling history.
+   * snapshot mode: value at spatial coordinate x for the current state.
+   * stream mode: current value (x is unused); the renderer keeps the rolling history.
    */
   sample(s: SimState, x: number): number;
 }
@@ -110,11 +110,11 @@ export interface GraphSeries {
 export interface GraphDef {
   xLabel: string;
   yLabel: string;
-  /** 'space' samples series across xRange each frame; 'time' traces values against s.t. */
-  mode: 'space' | 'time';
-  /** time mode: seconds of history kept on screen (default 8). */
+  /** 'snapshot' resamples series across xRange each frame; 'stream' traces values against s.t. */
+  mode: 'snapshot' | 'stream';
+  /** stream mode: seconds of history kept on screen (default 8). */
   window?: number;
-  /** space mode: the sampled spatial domain. */
+  /** snapshot mode: the sampled spatial domain. */
   xRange?(s: SimState): [number, number];
   yRange(s: SimState): [number, number];
   series: GraphSeries[];

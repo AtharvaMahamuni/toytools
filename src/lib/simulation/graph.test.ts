@@ -23,7 +23,7 @@ const vp: Viewport = {
 const state = (t: number): SimState => ({ t, params: {}, vars: { v: Math.sin(t) } });
 
 const spaceGraph: GraphDef = {
-  mode: 'space',
+  mode: 'snapshot',
   xLabel: 'x',
   yLabel: 'y',
   xRange: () => [0, 8],
@@ -32,7 +32,7 @@ const spaceGraph: GraphDef = {
 };
 
 const timeGraph: GraphDef = {
-  mode: 'time',
+  mode: 'stream',
   window: 4,
   xLabel: 'Time',
   yLabel: 'Value',
@@ -43,10 +43,10 @@ const timeGraph: GraphDef = {
   ],
 };
 
-describe('graph renderer — space mode', () => {
+describe('graph renderer — snapshot mode', () => {
   it('draws a static curve across the x range without throwing', () => {
     const r = createGraphRenderer(spaceGraph);
-    r.push(state(0)); // no-op in space mode
+    r.push(state(0)); // no-op in snapshot mode
     expect(() => r.draw(makeMockCtx(), state(1), vp)).not.toThrow();
   });
 
@@ -57,7 +57,7 @@ describe('graph renderer — space mode', () => {
   });
 });
 
-describe('graph renderer — time mode', () => {
+describe('graph renderer — stream mode', () => {
   it('accumulates history, draws a multi-series legend, and evicts old points', () => {
     const r = createGraphRenderer(timeGraph);
     // Push a dense series of samples spanning past the 4 s window.

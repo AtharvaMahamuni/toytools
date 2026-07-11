@@ -6,6 +6,7 @@
 // Pure model + config; all canvas work lives in heat-transfer.draw.ts.
 
 import type { SimState, SimulationDef } from '../types';
+import { streamGraph } from '../graphs';
 import { drawHeatTransfer } from './heat-transfer.draw';
 
 /** Combined heat capacity m·c per block (kJ/°C) — fixed so Q reads in honest units. */
@@ -71,17 +72,15 @@ const heatTransferSim: SimulationDef = {
       { symbol: 'ΔT', label: 'Block A temperature change', measurementId: 'deltaA' },
     ],
   },
-  graph: {
-    mode: 'time',
-    window: 20,
-    xLabel: 'Time (s)',
+  graph: streamGraph({
     yLabel: 'Temperature (°C)',
+    window: 20,
     yRange: () => [0, 100],
     series: [
       { id: 'ta', label: 'Block A', color: 'danger', sample: (s) => s.vars.ta },
       { id: 'tb', label: 'Block B', color: 'accent', sample: (s) => s.vars.tb },
     ],
-  },
+  }),
   observations: [
     (s) => {
       if (isAtEquilibrium(s)) {

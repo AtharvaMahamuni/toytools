@@ -5,6 +5,7 @@
 // Pure model + config; all canvas work lives in pendulum.draw.ts.
 
 import type { SimState, SimulationDef } from '../types';
+import { singleStream } from '../graphs';
 import { drawPendulum } from './pendulum.draw';
 
 export const PENDULUM_MASS_KG = 1;
@@ -107,24 +108,17 @@ const pendulumSim: SimulationDef = {
       { symbol: 'g', label: 'Gravity', paramId: 'gravity' },
     ],
   },
-  graph: {
-    mode: 'time',
-    window: 10,
-    xLabel: 'Time (s)',
+  graph: singleStream({
     yLabel: 'Angle (°)',
+    window: 10,
     yRange: (s) => {
       const a = Math.max(s.params.angle, 10);
       return [-a * 1.15, a * 1.15];
     },
-    series: [
-      {
-        id: 'theta',
-        label: 'θ(t)',
-        color: 'accent',
-        sample: (s) => (s.vars.theta * 180) / Math.PI,
-      },
-    ],
-  },
+    id: 'theta',
+    label: 'θ(t)',
+    sample: (s) => (s.vars.theta * 180) / Math.PI,
+  }),
   observations: [
     (s) => {
       const pe = potentialEnergy(s);

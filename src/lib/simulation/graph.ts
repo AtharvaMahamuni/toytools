@@ -12,7 +12,7 @@ import type { GraphDef, Palette, SimState, Viewport } from './types';
 const MARGIN = { top: 12, right: 14, bottom: 30, left: 48 };
 const DEFAULT_WINDOW = 8;
 const SPACE_SAMPLES = 160;
-/** Time-mode history resolution — dense enough for smooth traces at any speed. */
+/** Stream-mode history resolution — dense enough for smooth traces at any speed. */
 const TRACE_MIN_DT = 1 / 60;
 
 interface TracePoint {
@@ -21,7 +21,7 @@ interface TracePoint {
 }
 
 export interface GraphRenderer {
-  /** time mode: record the current values against s.t. No-op in space mode. */
+  /** stream mode: record the current values against s.t. No-op in snapshot mode. */
   push(s: SimState): void;
   draw(ctx: CanvasRenderingContext2D, s: SimState, vp: Viewport): void;
   /** Drop accumulated history (reset / restart-on-param-change). */
@@ -33,7 +33,7 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
   const windowSec = def.window ?? DEFAULT_WINDOW;
 
   function push(s: SimState): void {
-    if (def.mode !== 'time') return;
+    if (def.mode !== 'stream') return;
     for (const series of def.series) {
       let trace = traces.get(series.id);
       if (!trace) {
@@ -121,7 +121,7 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
     for (const series of def.series) {
       ctx.strokeStyle = vp.palette[series.color];
       ctx.beginPath();
-      if (def.mode === 'space') {
+      if (def.mode === 'snapshot') {
         const [xMin, xMax] = def.xRange ? def.xRange(s) : [0, 1];
         const xSpan = xMax - xMin || 1;
         for (let i = 0; i <= SPACE_SAMPLES; i++) {

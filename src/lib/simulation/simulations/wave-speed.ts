@@ -2,6 +2,7 @@
 // Pure model + config; all canvas work lives in wave-speed.draw.ts.
 
 import type { SimState, SimulationDef } from '../types';
+import { singleStream } from '../graphs';
 import { drawWaveSpeed } from './wave-speed.draw';
 
 /** Spatial domain of the simulation and graph, in metres. */
@@ -72,21 +73,14 @@ const waveSpeedSim: SimulationDef = {
       { symbol: 'λ', label: 'Wavelength', paramId: 'wavelength' },
     ],
   },
-  graph: {
-    mode: 'time',
-    window: 6,
-    xLabel: 'Time (s)',
+  graph: singleStream({
     yLabel: 'Displacement at x = 0 (m)',
+    window: 6,
     yRange: () => [-1.1, 1.1],
-    series: [
-      {
-        id: 'y0',
-        label: 'y(0, t)',
-        color: 'accent',
-        sample: (s) => displacement(s.params, 0, s.t),
-      },
-    ],
-  },
+    id: 'y0',
+    label: 'y(0, t)',
+    sample: (s) => displacement(s.params, 0, s.t),
+  }),
   observations: [
     (s) => {
       const v = waveSpeed(s.params);

@@ -6,6 +6,7 @@
 // Pure model + config; all canvas work lives in projectile-motion.draw.ts.
 
 import type { SimState, SimulationDef } from '../types';
+import { singleSnapshot } from '../graphs';
 import { drawProjectileMotion } from './projectile-motion.draw';
 
 /** Seconds the projectile rests on the ground before the flight replays. */
@@ -102,21 +103,15 @@ const projectileMotionSim: SimulationDef = {
       { symbol: 'g', label: 'Gravity', paramId: 'gravity' },
     ],
   },
-  graph: {
-    mode: 'space',
+  graph: singleSnapshot({
     xLabel: 'Horizontal distance (m)',
     yLabel: 'Height (m)',
     xRange: (s) => [0, Math.max(range(s.params), 1)],
     yRange: (s) => [0, Math.max(maxHeight(s.params) * 1.15, 1)],
-    series: [
-      {
-        id: 'trajectory',
-        label: 'Trajectory',
-        color: 'accent',
-        sample: (s, x) => heightAtX(s.params, x),
-      },
-    ],
-  },
+    id: 'trajectory',
+    label: 'Trajectory',
+    sample: (s, x) => heightAtX(s.params, x),
+  }),
   observations: [
     (s) => {
       const R = range(s.params);

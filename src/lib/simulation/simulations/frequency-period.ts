@@ -2,6 +2,7 @@
 // reciprocal pair T = 1/f tangible. Pure model + config; canvas in frequency-period.draw.ts.
 
 import type { SimState, SimulationDef } from '../types';
+import { singleStream } from '../graphs';
 import { drawFrequencyPeriod } from './frequency-period.draw';
 
 /** Fixed display amplitude (m) — this explorer is about timing, not size. */
@@ -57,16 +58,14 @@ const frequencyPeriodSim: SimulationDef = {
       { symbol: 'f', label: 'Frequency', paramId: 'frequency' },
     ],
   },
-  graph: {
-    mode: 'time',
-    window: 6,
-    xLabel: 'Time (s)',
+  graph: singleStream({
     yLabel: 'Displacement (m)',
+    window: 6,
     yRange: () => [-OSC_AMPLITUDE * 1.15, OSC_AMPLITUDE * 1.15],
-    series: [
-      { id: 'y', label: 'y(t)', color: 'accent', sample: (s) => oscillation(s.params, s.t) },
-    ],
-  },
+    id: 'y',
+    label: 'y(t)',
+    sample: (s) => oscillation(s.params, s.t),
+  }),
   observations: [
     (s) => {
       const T = period(s.params);
