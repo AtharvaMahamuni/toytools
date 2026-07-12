@@ -14,6 +14,7 @@ import ohmsLaw from '../../simulations/ohms-law';
 import shmSpring from '../../simulations/shm-spring';
 import idealGasLaw from '../../simulations/ideal-gas-law';
 import momentumCollision from '../../simulations/momentum-collision';
+import inclinedPlane from '../../simulations/inclined-plane';
 
 export const physicsDomain: SimulationDomain = {
   id: 'physics',
@@ -28,5 +29,6 @@ export const physicsDomain: SimulationDomain = {
     'shm-spring': shmSpring,
     'ideal-gas-law': idealGasLaw,
     'momentum-collision': momentumCollision,
+    'inclined-plane': inclinedPlane,
   },
 };

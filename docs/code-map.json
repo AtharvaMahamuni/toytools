@@ -192,7 +192,7 @@
         "thermodynamics",
         "electricity"
       ],
-      "toolCount": 9
+      "toolCount": 10
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -439,6 +439,21 @@
       "pattern": "simulate",
       "family": "mechanics",
       "processorId": "momentum-collision",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "inclined-plane-simulator": {
+      "name": "Inclined Plane Simulator",
+      "dir": "src/tools/physics/inclined-plane-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/inclined-plane-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "mechanics",
+      "processorId": "inclined-plane",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
