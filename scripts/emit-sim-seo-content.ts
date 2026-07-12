@@ -20,7 +20,12 @@ function guideAstro(m: SimulationManifest): string {
   const g = m.guide;
   const dot = '<span class="gold-dot" aria-hidden="true"></span>';
   const sections = g.sections
-    .map((s) => `  <section id="${s.id}">\n    <h2>${s.heading} ${dot}</h2>\n    <p>${s.body}</p>\n  </section>`)
+    .map((s) => {
+      const bullets = s.bullets?.length
+        ? `\n    <ul>${s.bullets.map((b) => `<li>${b}</li>`).join('')}</ul>`
+        : '';
+      return `  <section id="${s.id}">\n    <h2>${s.heading} ${dot}</h2>\n    <p>${s.body}</p>${bullets}\n  </section>`;
+    })
     .join('\n\n');
   const mistakes = g.mistakes
     .map(

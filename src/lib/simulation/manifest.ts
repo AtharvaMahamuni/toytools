@@ -120,11 +120,13 @@ export interface GuideMistake {
   type?: 'common-mistake' | 'note';
 }
 
-/** One generated guide body section (a heading + a paragraph of authored prose). */
+/** One generated guide body section (a heading + a paragraph of authored prose + optional bullets). */
 export interface GuideSection {
   id: string;
   heading: string;
   body: string;
+  /** Optional bullet list rendered under the paragraph. */
+  bullets?: string[];
 }
 
 /** The authored guide content, expanded by the generator into a rendered guide page. */

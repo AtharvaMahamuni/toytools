@@ -36,6 +36,9 @@ const toolHref = withBase(`/tool/${category.segment}/${meta.slug}/`);
     <section id={section.id}>
       <h2>{section.heading} <span class="gold-dot" aria-hidden="true"></span></h2>
       <p>{section.body}</p>
+      {section.bullets && section.bullets.length > 0 && (
+        <ul>{section.bullets.map((b) => <li>{b}</li>)}</ul>
+      )}
     </section>
   ))}
 

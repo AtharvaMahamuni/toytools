@@ -324,6 +324,21 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "wave-speed-simulator": {
+      "name": "Wave Speed Simulator",
+      "dir": "src/tools/physics/wave-speed-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/wave-speed-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "waves",
+      "processorId": "wave-speed",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "age-calculator": {
       "name": "Age Calculator",
       "dir": "src/tools/datetime/age-calculator",
@@ -2055,27 +2070,6 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
-      "files": [
-        "Guide.astro",
-        "Widget.astro",
-        "config.ts",
-        "faq.ts",
-        "knowledge.ts"
-      ],
-      "guideRegistered": true,
-      "faqRegistered": true,
-      "knowledgeRegistered": true
-    },
-    "wave-speed-simulator": {
-      "name": "Wave Speed Simulator",
-      "dir": "src/tools/physics/wave-speed-simulator",
-      "categorySlug": "physics",
-      "url": "/tool/physics/wave-speed-simulator/",
-      "engine": "physics",
-      "pattern": "simulate",
-      "family": "waves",
-      "processorId": "wave-speed",
       "toolGroup": "",
       "files": [
         "Guide.astro",

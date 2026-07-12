@@ -93,7 +93,6 @@ export const registeredGuideSlugs = [
   'savings-goal-calculator',
   'emergency-fund-calculator',
   'scientific-calculator',
-  'wave-speed-simulator',
 ] as const;
 
 export type RegisteredGuideSlug = (typeof registeredGuideSlugs)[number];
