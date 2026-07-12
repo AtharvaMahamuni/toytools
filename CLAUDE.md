@@ -169,6 +169,14 @@ Most edits are local, but a few changes ripple across files. When you make one o
 - **Add a FAQ / knowledge file** → register in `src/data/faq-registry.ts` /
   `src/lib/knowledge/registry.ts`. An authored file left unregistered is an orphan (it never
   renders) and `validate-architecture` fails the build.
+- **Add a simulation** (physics playground) → the exception to the tool checklist: author
+  `src/lib/simulation/simulations/<id>.{ts,draw.ts,manifest.ts}` (+ `<id>.test.ts`), register the
+  model in `src/lib/simulation/plugins/physics/index.ts` and the manifest in
+  `src/lib/simulation/manifests.ts`, and add the slug to `tests/e2e/physics.spec.ts`. Every site
+  surface (config/knowledge/faq/guide/SEO) is **derived** from the manifest at build time and spread
+  into the registries, so there are **no per-sim `config.ts`/`knowledge.ts`/`faq.ts`/`Guide.astro`/
+  `Widget.astro` files** and **no registry edits**. Gate content with `npm run seo:gate:sim -- <slug>`.
+  See `ARCHITECTURE.md` → "Simulation Platform".
 - **Rename a category** (slug or segment) → `src/data/categories.ts`, every tool's
   `categorySlug`, and add a noindex redirect stub in `src/data/tool-redirects.ts` for the old URL.
   Never delete the old URL silently.

@@ -434,6 +434,60 @@ registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashin
 > resolver, driven by a descriptor-driven generic widget. See `docs/date-time-engine.md` for the
 > full Phase F1 design.
 
+## Simulation Platform (`src/lib/simulation/`)
+
+The Physics Playground is a **domain-neutral simulation engine** designed to scale to thousands of
+interactive simulators. It inverts the usual tool authoring flow: a simulator is **one declarative
+manifest + one pure model** (+ optional custom renderer), and *every* site surface it needs
+(`ToolConfig`, knowledge, FAQ, guide, SEO, relationships) is **derived at build time** from the
+manifest. There are **no per-simulation `config.ts`/`knowledge.ts`/`faq.ts`/`Guide.astro`/
+`Widget.astro` files** — generic components render any sim from its manifest.
+
+**The two authored artifacts per sim** (under `src/lib/simulation/simulations/`):
+
+- **`<id>.ts`** — the `SimulationDef` (pure model): `params`, `presets`, `init`/`step`,
+  `measurements`, `formula`, `graph`, `observations`, `explanation`, `pointer`, and a `draw` imported
+  from the sibling `<id>.draw.ts`. Models stay DOM-free (unit-testable); `*.draw.ts` owns all canvas
+  work and is excluded from coverage. Register the model in `src/lib/simulation/plugins/physics/index.ts`.
+- **`<id>.manifest.ts`** — the `SimulationManifest` (declarative content): metadata, concepts,
+  equations, `educational` (intents/mistakes/use-cases), `seo`, `presentation`, `examples`, `faq`,
+  `guide` (sections + mistakes), `relationships`; it spreads `params/presets/formula/paramBehavior/
+  aspect` from the model. Register it in `src/lib/simulation/manifests.ts` (`MANIFESTS`).
+
+**Derivation (no codegen, no generated files).** `src/lib/simulation/derived.ts` computes
+`simulationTools`/`simulationKnowledge`/`simulationFaqsBySlug`/`simulationGuideSlugs` from
+`MANIFESTS` at build time, the same way `categories.ts` derives its surfaces. These are **spread**
+into `src/data/registry.ts`, `src/lib/knowledge/registry.ts`, `src/data/faq-registry.ts`, and
+`guide-registry.ts`'s `registeredGuideSlugSet` (sims are **not** in the typed guide tuple, so the
+guide-route drift check stays scoped to statically imported guides). The tool route renders
+`SimulationWidget.astro` and the guide route renders `SimulationGuide.astro` for any tool whose slug
+has a manifest.
+
+**Reusable libraries** (so sim #N reuses, never copy-pastes): `render/` (math, vector, angle, units
+incl. `GAS_CONSTANT_R`, physics kernels `resolveCollision1D`/`kineticEnergy`/`springPotential`),
+`graphs/` (`streamGraph`/`snapshotGraph`/`singleStream`/`singleSnapshot` builders), and `canvas.ts`
+(`clear`/`drawGrid`/`drawArrow`/`drawLabel`). `contract.ts`'s `expectSimulation(def)` is run over the
+whole registry by `contract.test.ts`, so a new sim is covered automatically; per-sim `<id>.test.ts`
+holds only its numeric assertions.
+
+**Plugin seam.** `SIMULATIONS` is composed from domain plugins (`composeDomains(DOMAINS)` in
+`simulations/registry.ts`); physics is the first `SimulationDomain`. A second subject (chemistry,
+electronics, ...) is a new `plugins/<domain>/` bundle added to `DOMAINS` with no engine changes.
+
+**seo:gate for sims.** The seo-engine sidecar reads Guide/faq/config prose from disk, so
+`scripts/emit-sim-seo-content.ts` renders synthetic content from each manifest into
+`seo-engine/.sim-content/<slug>/` (gitignored) and `findToolDir` falls back there. Gate a sim with
+`npm run seo:gate:sim -- <slug>` (emits + refreshes the content graph + gates). The gate's
+intent/entity coverage is **lexical** (all declared key terms must appear as substrings), so manifest
+prose must literally contain them.
+
+**Adding a simulation:** author `<id>.ts` + `<id>.draw.ts` + `<id>.manifest.ts` (+ `<id>.test.ts`);
+register the model in the physics plugin and the manifest in `MANIFESTS`; add the slug to the
+`tests/e2e/physics.spec.ts` boot list; then `npm run map:generate`, `npm run seo:gate:sim -- <slug>`,
+`npm run build`, `npm run test:e2e -- physics.spec.ts`. **Zero edits** to `registry.ts`/knowledge/faq/
+guide registries. `family` is a free-form string (e.g. `electricity`); the `simulate` pattern already
+has a category-section row.
+
 ## Platform Metadata & Manifests
 
 - **Engine manifest** (`src/data/engines.ts`) — `engineRegistry` is the platform-level list of every
