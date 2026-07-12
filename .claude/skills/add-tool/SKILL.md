@@ -47,6 +47,15 @@ write. For "where does X live", read `docs/code-map.json` first.
 ## Decision tree
 
 ```
+Are you adding an interactive SIMULATION (physics playground)?
+├── YES → do NOT use this scaffold or the registry checklist. A sim is manifest-driven:
+│         author src/lib/simulation/simulations/<id>.{ts,draw.ts,manifest.ts} (+ <id>.test.ts),
+│         register the model in plugins/physics/index.ts and the manifest in manifests.ts, add the
+│         slug to tests/e2e/physics.spec.ts. Config/knowledge/faq/guide/SEO derive from the manifest;
+│         no registry edits. Gate with `npm run seo:gate:sim -- <slug>`.
+│         See ARCHITECTURE.md → "Simulation Platform".
+└── NO ↓
+
 Are you adding a new engine type that doesn't exist yet?
 ├── YES → read references/add-engine.md first, then references/add-tool.md
 └── NO  → run `npm run scaffold:tool` (see "Fastest path" above) to generate + wire the tool,

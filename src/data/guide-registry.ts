@@ -20,9 +20,6 @@ export const registeredGuideSlugs = [
   'csv-diff',
   'csv-cleaner',
   'csv-to-tsv',
-  'frequency-period-simulator',
-  'pendulum-simulator',
-  'heat-transfer-simulator',
   'cagr-calculator',
   'roi-calculator',
   'word-frequency-counter',
@@ -93,9 +90,17 @@ export const registeredGuideSlugs = [
   'savings-goal-calculator',
   'emergency-fund-calculator',
   'scientific-calculator',
-  'wave-speed-simulator',
 ] as const;
 
 export type RegisteredGuideSlug = (typeof registeredGuideSlugs)[number];
 
-export const registeredGuideSlugSet: ReadonlySet<string> = new Set(registeredGuideSlugs);
+// Simulation guides are rendered generically by SimulationGuide.astro from their manifest, so they
+// are NOT in the typed tuple above (no static component import) but ARE registered guides. Adding
+// them to the set keeps validate-registry's "tool declares a guide -> must be registered" check
+// satisfied while keeping the guide-route-map drift check scoped to statically imported guides.
+import { simulationGuideSlugs } from '@lib/simulation/derived';
+
+export const registeredGuideSlugSet: ReadonlySet<string> = new Set([
+  ...registeredGuideSlugs,
+  ...simulationGuideSlugs,
+]);

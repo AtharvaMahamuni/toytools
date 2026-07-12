@@ -10,6 +10,9 @@ import { faqsByToolSlug } from '@data/faq-registry';
 import { getToolGroup } from '@data/tool-groups';
 import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
+import { manifestBySlug } from '@lib/simulation/manifests';
+import { simulationSchemas } from '@lib/simulation/schema';
+import SimulationWidget from '@tools/_shared/SimulationWidget.astro';
 
 export const getStaticPaths = (() => {
   return tools.map(tool => {
@@ -51,20 +54,28 @@ const faqSchema = faqItems.length > 0 ? {
   })),
 } : null;
 
-// Discover all Widget.astro files — glob resolves at build time, key lookup picks the right one
+// Simulation tools render the generic SimulationWidget from their manifest (no per-tool
+// Widget.astro). Every other tool resolves its own Widget.astro via the build-time glob.
+const simManifest = manifestBySlug.get(tool.slug);
+// Sims also advertise sim-specific structured data (LearningResource + HowTo) derived from the
+// manifest, on top of the generic SoftwareApplication/FAQPage schema every tool emits.
+const simSchemas = simManifest ? simulationSchemas(simManifest, Astro.url.href) : [];
 const widgets = import.meta.glob<{ default: unknown }>('../../../tools/*/*/Widget.astro');
 const widgetPath = `../../../tools/${category.segment}/${tool.slug}/Widget.astro`;
-const WidgetModule = await widgets[widgetPath]?.();
+const WidgetModule = simManifest ? null : await widgets[widgetPath]?.();
 const Widget = WidgetModule?.default as any;
-if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"`);
+if (!simManifest && !Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"`);
 ---
 
 <ToolLayout tool={tool} category={category}>
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  {simSchemas.map(schema => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 
   {tool.toolGroup && <GroupSwitcher tool={tool} />}
 
-  <Widget />
+  {simManifest
+    ? <SimulationWidget config={tool} simulationId={simManifest.metadata.processorId} examples={simManifest.examples} />
+    : <Widget />}
 
   <ToolNavRow
     faqItems={faqItems}

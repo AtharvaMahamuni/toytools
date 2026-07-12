@@ -1,4 +1,5 @@
 import type { FAQItem } from './types';
+import { simulationFaqsBySlug } from '@lib/simulation/derived';
 import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
 import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-difference-calculator/faq';
 import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
@@ -89,12 +90,9 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 import { items as scientificCalculatorFaqs }  from '@tools/number/scientific-calculator/faq';
 // Physics
-import { items as waveSpeedFaqs }             from '@tools/physics/wave-speed-simulator/faq';
-import { items as frequencyPeriodFaqs }       from '@tools/physics/frequency-period-simulator/faq';
-import { items as pendulumFaqs }              from '@tools/physics/pendulum-simulator/faq';
-import { items as heatTransferFaqs }          from '@tools/physics/heat-transfer-simulator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
+  ...simulationFaqsBySlug,
   'age-calculator': ageCalculatorFaqs,
   'date-difference-calculator': dateDifferenceCalculatorFaqs,
   'timezone-converter': timezoneConverterFaqs,
@@ -178,8 +176,4 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'savings-goal-calculator':      savingsGoalFaqs,
   'emergency-fund-calculator':    emergencyFundFaqs,
   'scientific-calculator':        scientificCalculatorFaqs,
-  'wave-speed-simulator':         waveSpeedFaqs,
-  'frequency-period-simulator':   frequencyPeriodFaqs,
-  'pendulum-simulator':           pendulumFaqs,
-  'heat-transfer-simulator':      heatTransferFaqs,
 };

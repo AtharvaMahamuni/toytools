@@ -36,6 +36,7 @@ seo-engine/dist/
 # Ignore the *contents* (not the dirs) so the .gitkeep placeholders below
 # still re-include — a negation can't rescue a file under an ignored dir.
 seo-engine/cache/*
+seo-engine/.sim-content/
 seo-engine/research/raw/*
 seo-engine/research/processed/*
 seo-engine/research/reddit/*

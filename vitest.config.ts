@@ -16,9 +16,9 @@ export default defineConfig({
         // visibilitychange / pointer capture). Its behaviour is asserted by boot.test.ts
         // (happy-dom) and the Playwright physics suite in a real browser; the branchy
         // environment glue is not meaningfully measurable in vitest.
-        'src/lib/engines/physics/boot.ts',
+        'src/lib/simulation/boot.ts',
         // Pure canvas draw routines — exercised by the stub-context draw smoke and e2e.
-        'src/lib/engines/physics/simulations/*.draw.ts',
+        'src/lib/simulation/simulations/*.draw.ts',
       ],
       reporter: ['text', 'html', 'json-summary'],
       thresholds: {

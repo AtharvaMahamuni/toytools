@@ -118,6 +118,13 @@ test.describe('every physics tool', () => {
     'frequency-period-simulator',
     'pendulum-simulator',
     'heat-transfer-simulator',
+    'projectile-motion-simulator',
+    'ohms-law-simulator',
+    'shm-spring-simulator',
+    'ideal-gas-law-simulator',
+    'momentum-collision-simulator',
+    'inclined-plane-simulator',
+    'doppler-effect-simulator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);

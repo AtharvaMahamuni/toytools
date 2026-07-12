@@ -12,7 +12,9 @@ import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
 import { GENERATORS } from '../src/lib/generation/registry';
-import { SIMULATIONS } from '../src/lib/engines/physics/simulations/registry';
+import { SIMULATIONS } from '../src/lib/simulation/simulations/registry';
+import { MANIFESTS } from '../src/lib/simulation/manifests';
+import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
 
 // KNOWN engines/patterns derive from the engine manifest — single source of truth.
 const KNOWN_ENGINES = engineIds;
@@ -163,6 +165,23 @@ for (const group of toolGroups) {
       errors.push(`Tool group "${group.id}" member "${member.slug}" has engine/pattern "${memberTool.engine}/${memberTool.pattern}" — all members must share "${groupEngine}/${groupPattern}" (a group is one experience)`);
     }
   }
+}
+
+// ---- Simulation manifests: schemaVersion + model wiring ----
+// Sims are derived from their manifests (no per-tool config), so the manifest is the contract.
+// Guard the schemaVersion (an outdated manifest must fail the build, mirroring validate-knowledge)
+// and that every manifest's processorId resolves to a registered model.
+const simSlugsSeen = new Set<string>();
+for (const manifest of MANIFESTS) {
+  const { slug, processorId } = manifest.metadata;
+  if (manifest.schemaVersion !== SIMULATION_SCHEMA_VERSION) {
+    errors.push(`Simulation manifest "${slug}" has schemaVersion ${manifest.schemaVersion}, expected ${SIMULATION_SCHEMA_VERSION} — update the manifest to the current shape`);
+  }
+  if (!SIMULATIONS[processorId]) {
+    errors.push(`Simulation manifest "${slug}" references processorId "${processorId}" with no registered model — add it to src/lib/simulation/plugins/physics/index.ts`);
+  }
+  if (simSlugsSeen.has(slug)) errors.push(`Duplicate simulation manifest slug: "${slug}"`);
+  simSlugsSeen.add(slug);
 }
 
 if (errors.length > 0) {

@@ -77,9 +77,9 @@ const engineDefs: EngineDef[] = [
   { id: 'generation', name: 'Generation Engine', category: 'generate', patterns: ['generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code'], runtimeGlobal: 'runGeneration', sharedWidget: 'GeneratorWidget.astro' },
   // Physics Playground: interactive canvas simulations. runtimeGlobal is '' — unlike the
   // string-transform engines, physics does NOT attach to window.ToyTools in ToyToolsRuntime
-  // (that loads site-wide). Instead PhysicsWidget ships a bundled per-page script that
+  // (that loads site-wide). Instead SimulationWidget ships a bundled per-page script that
   // lazy-loads one simulation module, so physics code never touches non-physics pages.
-  { id: 'physics', name: 'Physics Playground Engine', category: 'physics', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'PhysicsWidget.astro' },
+  { id: 'physics', name: 'Physics Playground Engine', category: 'physics', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'SimulationWidget.astro' },
   // Date & Time: date/duration/timezone/timestamp/schedule tools. Reuses the platform experience
   // renderer (ToyTools.experience) for output; runtimeGlobal runDateTime resolves the calculator.
   { id: 'datetime', name: 'Date & Time Engine', category: 'date-time', patterns: ['datetime-calculate', 'datetime-convert', 'datetime-schedule'], runtimeGlobal: 'runDateTime', sharedWidget: 'DateTimeWidget.astro' },

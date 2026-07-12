@@ -1,4 +1,5 @@
 import type { ToolConfig } from './types';
+import { simulationTools } from '@lib/simulation/derived';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
@@ -87,13 +88,12 @@ import { config as savingsGoalCalculator }       from '@tools/finance/savings-go
 import { config as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/config';
 import { config as scientificCalculator }        from '@tools/number/scientific-calculator/config';
 // Physics — physics playground engine
-import { config as waveSpeedSimulator }           from '@tools/physics/wave-speed-simulator/config';
-import { config as frequencyPeriodSimulator }     from '@tools/physics/frequency-period-simulator/config';
-import { config as pendulumSimulator }            from '@tools/physics/pendulum-simulator/config';
-import { config as heatTransferSimulator }        from '@tools/physics/heat-transfer-simulator/config';
 
-// Add/remove a tool: one import line above + one array entry below
+// Add/remove a tool: one import line above + one array entry below.
+// Simulation tools are DERIVED from their manifests (src/lib/simulation) and spread in here, so
+// they need no per-tool config.ts or registry line.
 export const tools: ToolConfig[] = [
+  ...simulationTools,
   ageCalculator,
   dateDifferenceCalculator,
   timezoneConverter,
@@ -177,10 +177,6 @@ export const tools: ToolConfig[] = [
   savingsGoalCalculator,
   emergencyFundCalculator,
   scientificCalculator,
-  waveSpeedSimulator,
-  frequencyPeriodSimulator,
-  pendulumSimulator,
-  heatTransferSimulator,
 ];
 
 export const toolsWithGuide = tools.filter(t => t.guide !== undefined);

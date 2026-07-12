@@ -5,6 +5,7 @@
 // Adding a tool's knowledge: one import line + one KNOWLEDGE_ENTRIES entry below.
 
 import type { Knowledge } from './types';
+import { simulationKnowledge } from '@lib/simulation/derived';
 import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowledge';
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
@@ -110,13 +111,10 @@ import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergen
 import { knowledge as scientificCalculator }        from '@tools/number/scientific-calculator/knowledge';
 
 // --- Physics ---
-import { knowledge as waveSpeedSimulator }         from '@tools/physics/wave-speed-simulator/knowledge';
-import { knowledge as frequencyPeriodSimulator }   from '@tools/physics/frequency-period-simulator/knowledge';
-import { knowledge as pendulumSimulator }          from '@tools/physics/pendulum-simulator/knowledge';
-import { knowledge as heatTransferSimulator }      from '@tools/physics/heat-transfer-simulator/knowledge';
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
+  ...simulationKnowledge,
   ageCalculator,
   dateDifferenceCalculator,
   timezoneConverter,
@@ -200,10 +198,6 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   savingsGoalCalculator,
   emergencyFundCalculator,
   scientificCalculator,
-  waveSpeedSimulator,
-  frequencyPeriodSimulator,
-  pendulumSimulator,
-  heatTransferSimulator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

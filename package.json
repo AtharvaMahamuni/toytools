@@ -40,6 +40,8 @@
     "seo:audit": "npm --prefix seo-engine run seo:audit",
     "seo:scaffold": "npm --prefix seo-engine run seo:scaffold --",
     "seo:graph": "npx tsx scripts/export-content-graph.ts",
+    "emit:sim-seo-content": "npx tsx scripts/emit-sim-seo-content.ts",
+    "seo:gate:sim": "npm run emit:sim-seo-content && npm run seo:graph && npm run seo:gate --",
     "seo:doctor": "npm --prefix seo-engine run seo:doctor",
     "seo:status": "npm --prefix seo-engine run seo:status --",
     "seo:writing": "npm --prefix seo-engine run seo:writing --",

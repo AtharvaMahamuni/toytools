@@ -46,6 +46,10 @@ function findToolDir(slug: string): string | null {
       }
     }
   } catch {}
+  // Simulation tools have no per-tool source dir: their guide/faq prose is emitted from the
+  // manifest into seo-engine/.sim-content/<slug>/ by `npm run emit:sim-seo-content`.
+  const simContent = join(ROOT, '.sim-content', slug);
+  if (existsSync(simContent)) return simContent;
   return null;
 }
 
