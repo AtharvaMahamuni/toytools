@@ -10,6 +10,7 @@ import frequencyPeriod from '../../simulations/frequency-period';
 import pendulum from '../../simulations/pendulum';
 import heatTransfer from '../../simulations/heat-transfer';
 import projectileMotion from '../../simulations/projectile-motion';
+import ohmsLaw from '../../simulations/ohms-law';
 
 export const physicsDomain: SimulationDomain = {
   id: 'physics',
@@ -20,5 +21,6 @@ export const physicsDomain: SimulationDomain = {
     pendulum,
     'heat-transfer': heatTransfer,
     'projectile-motion': projectileMotion,
+    'ohms-law': ohmsLaw,
   },
 };

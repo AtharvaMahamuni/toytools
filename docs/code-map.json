@@ -189,9 +189,10 @@
         "mechanics",
         "waves",
         "oscillations",
-        "thermodynamics"
+        "thermodynamics",
+        "electricity"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -378,6 +379,21 @@
       "pattern": "simulate",
       "family": "thermodynamics",
       "processorId": "heat-transfer",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "ohms-law-simulator": {
+      "name": "Ohm's Law Simulator",
+      "dir": "src/tools/physics/ohms-law-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/ohms-law-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "electricity",
+      "processorId": "ohms-law",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

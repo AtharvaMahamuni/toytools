@@ -119,6 +119,7 @@ test.describe('every physics tool', () => {
     'pendulum-simulator',
     'heat-transfer-simulator',
     'projectile-motion-simulator',
+    'ohms-law-simulator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);

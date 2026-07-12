@@ -9,8 +9,9 @@ import { manifest as waveSpeed } from './simulations/wave-speed.manifest';
 import { manifest as frequencyPeriod } from './simulations/frequency-period.manifest';
 import { manifest as pendulum } from './simulations/pendulum.manifest';
 import { manifest as heatTransfer } from './simulations/heat-transfer.manifest';
+import { manifest as ohmsLaw } from './simulations/ohms-law.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));
