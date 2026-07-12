@@ -193,14 +193,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'frequency-period-simulator', reason: 'Both turn a core physics equation into a live, adjustable readout', strength: 0.5 },
-    ],
-    nextSteps: [
-      { slug: 'wave-speed-simulator', reason: 'Explore another everyday physics law interactively', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: ohmsLaw.paramBehavior,
   aspect: ohmsLaw.aspect,
   params: ohmsLaw.params,

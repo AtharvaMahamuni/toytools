@@ -181,14 +181,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'wave-speed-simulator', reason: 'Use the frequency here inside the wave speed equation', strength: 0.9 },
-    ],
-    nextSteps: [
-      { slug: 'pendulum-simulator', reason: 'See a real oscillator whose period follows the same idea', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: frequencyPeriod.paramBehavior,
   aspect: frequencyPeriod.aspect,
   params: frequencyPeriod.params,

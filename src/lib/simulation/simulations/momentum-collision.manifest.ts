@@ -184,14 +184,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'projectile-motion-simulator', reason: 'Both apply Newtonian mechanics to moving bodies', strength: 0.6 },
-    ],
-    nextSteps: [
-      { slug: 'projectile-motion-simulator', reason: 'Explore motion under gravity next', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: momentumCollision.paramBehavior,
   aspect: momentumCollision.aspect,
   params: momentumCollision.params,

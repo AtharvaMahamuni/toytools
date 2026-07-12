@@ -193,14 +193,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'frequency-period-simulator', reason: 'Relate the spring period to frequency and angular frequency', strength: 0.85 },
-    ],
-    nextSteps: [
-      { slug: 'pendulum-simulator', reason: 'Compare with another classic oscillator', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: shmSpring.paramBehavior,
   aspect: shmSpring.aspect,
   params: shmSpring.params,

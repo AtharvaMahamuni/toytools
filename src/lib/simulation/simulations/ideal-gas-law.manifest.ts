@@ -184,14 +184,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'heat-transfer-simulator', reason: 'Both explore how temperature drives thermodynamic behavior', strength: 0.6 },
-    ],
-    nextSteps: [
-      { slug: 'heat-transfer-simulator', reason: 'See heat flow and thermal equilibrium next', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: idealGasLaw.paramBehavior,
   aspect: idealGasLaw.aspect,
   params: idealGasLaw.params,

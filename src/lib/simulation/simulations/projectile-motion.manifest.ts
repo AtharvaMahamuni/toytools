@@ -185,14 +185,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'pendulum-simulator', reason: 'Contrast projectile motion with an oscillating system under gravity', strength: 0.7 },
-    ],
-    nextSteps: [
-      { slug: 'pendulum-simulator', reason: 'See gravity shape a different kind of motion', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: projectileMotion.paramBehavior,
   aspect: projectileMotion.aspect,
   params: projectileMotion.params,

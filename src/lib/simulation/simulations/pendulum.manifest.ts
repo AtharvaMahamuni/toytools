@@ -177,14 +177,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'frequency-period-simulator', reason: 'Relate the pendulum period to frequency', strength: 0.85 },
-    ],
-    nextSteps: [
-      { slug: 'wave-speed-simulator', reason: 'See how oscillations combine into a travelling wave', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: pendulum.paramBehavior,
   aspect: pendulum.aspect,
   params: pendulum.params,

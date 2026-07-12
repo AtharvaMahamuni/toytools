@@ -177,14 +177,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'pendulum-simulator', reason: 'Compare energy conservation in mechanics and heat', strength: 0.6 },
-    ],
-    nextSteps: [
-      { slug: 'wave-speed-simulator', reason: 'Explore another everyday physics phenomenon interactively', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: heatTransfer.paramBehavior,
   aspect: heatTransfer.aspect,
   params: heatTransfer.params,

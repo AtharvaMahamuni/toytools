@@ -183,14 +183,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'wave-speed-simulator', reason: 'Build on the wave speed relationship v = f times lambda', strength: 0.85 },
-    ],
-    nextSteps: [
-      { slug: 'frequency-period-simulator', reason: 'Revisit how frequency and period relate', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: dopplerEffect.paramBehavior,
   aspect: dopplerEffect.aspect,
   params: dopplerEffect.params,

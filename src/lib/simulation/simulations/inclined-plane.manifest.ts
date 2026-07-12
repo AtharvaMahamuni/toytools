@@ -182,14 +182,7 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
-  relationships: {
-    usedWith: [
-      { slug: 'projectile-motion-simulator', reason: 'Both resolve motion under gravity into components', strength: 0.6 },
-    ],
-    nextSteps: [
-      { slug: 'projectile-motion-simulator', reason: 'See motion under gravity once the block leaves the ramp', priority: 1 },
-    ],
-  },
+  // relationships are auto-derived from shared concepts/quantities/family (see relations.ts).
   paramBehavior: inclinedPlane.paramBehavior,
   aspect: inclinedPlane.aspect,
   params: inclinedPlane.params,

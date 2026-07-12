@@ -8,10 +8,10 @@ import type { FAQItem, ToolConfig } from '@data/types';
 import type { EngineId, PatternId } from '@data/engines';
 import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
 import type { SimulationDef } from './types';
-import type { SimulationManifest } from './manifest';
+import type { SimulationManifest, RelationshipOverlay } from './manifest';
 
 /** The ToolConfig for a simulation tool (spread into src/data/registry.ts). */
-export function toolConfigFrom(manifest: SimulationManifest): ToolConfig {
+export function toolConfigFrom(manifest: SimulationManifest, relations: RelationshipOverlay): ToolConfig {
   const m = manifest.metadata;
   return {
     slug: m.slug,
@@ -27,7 +27,7 @@ export function toolConfigFrom(manifest: SimulationManifest): ToolConfig {
     pattern: 'simulate' as PatternId,
     family: m.family,
     processorId: m.processorId,
-    relatedTools: relatedToolSlugs(manifest),
+    relatedTools: relatedToolSlugs(relations),
     guide: {
       slug: manifest.guide.slug,
       categorySlug: m.category,
@@ -40,9 +40,9 @@ export function toolConfigFrom(manifest: SimulationManifest): ToolConfig {
 }
 
 /** The knowledge overlay for a simulation (spread into the knowledge registry). */
-export function knowledgeFrom(manifest: SimulationManifest, def: SimulationDef): Knowledge {
+export function knowledgeFrom(manifest: SimulationManifest, def: SimulationDef, relations: RelationshipOverlay): Knowledge {
   const m = manifest.metadata;
-  const rel = manifest.relationships ?? {};
+  const rel = relations;
   return {
     schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
     slug: m.slug,
@@ -78,16 +78,16 @@ export function faqItemsFrom(manifest: SimulationManifest): FAQItem[] {
 }
 
 /**
- * Related tool slugs for the config. Prefers the authored relationship overlay (usedWith +
- * nextSteps + alternatives, de-duplicated, order-preserving); the tier/concept auto-deriver in
+ * Related tool slugs for the config, from the resolved relationship overlay (usedWith + nextSteps +
+ * alternatives, de-duplicated, order-preserving). The overlay is normally DERIVED from shared
+ * concepts/quantities/family (src/lib/simulation/relations.ts); the tier/concept auto-deriver in
  * src/lib/tools/related.ts remains the runtime fallback for the visible related strip.
  */
-export function relatedToolSlugs(manifest: SimulationManifest): string[] {
-  const rel = manifest.relationships ?? {};
+export function relatedToolSlugs(relations: RelationshipOverlay): string[] {
   const slugs = [
-    ...(rel.usedWith ?? []),
-    ...(rel.nextSteps ?? []),
-    ...(rel.alternatives ?? []),
+    ...(relations.usedWith ?? []),
+    ...(relations.nextSteps ?? []),
+    ...(relations.alternatives ?? []),
   ].map((r) => r.slug);
   return [...new Set(slugs)];
 }

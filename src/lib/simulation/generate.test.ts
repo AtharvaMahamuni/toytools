@@ -1,11 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { faqItemsFrom, knowledgeFrom, relatedToolSlugs, toolConfigFrom } from './generate';
+import { resolveRelations } from './relations';
+import { MANIFESTS } from './manifests';
 import { manifest as projectileManifest } from './simulations/projectile-motion.manifest';
 import projectileDef from './simulations/projectile-motion';
 
+const projectileRelations = resolveRelations(projectileManifest, MANIFESTS);
+
 describe('simulation generators (projectile-motion)', () => {
   it('derives a valid ToolConfig from the manifest', () => {
-    const cfg = toolConfigFrom(projectileManifest);
+    const cfg = toolConfigFrom(projectileManifest, projectileRelations);
     expect(cfg.slug).toBe('projectile-motion-simulator');
     expect(cfg.name).toBe('Projectile Motion Simulator');
     expect(cfg.engine).toBe('physics');
@@ -16,11 +20,14 @@ describe('simulation generators (projectile-motion)', () => {
     expect(cfg.description).toBe(projectileManifest.seo.description);
     expect(cfg.tags).toEqual(projectileManifest.presentation.tags);
     expect(cfg.guide?.slug).toBe('how-projectile-motion-works');
-    expect(cfg.relatedTools).toContain('pendulum-simulator');
+    // relatedTools are auto-derived: non-empty, other real sims, never self.
+    expect(cfg.relatedTools!.length).toBeGreaterThan(0);
+    expect(cfg.relatedTools).not.toContain('projectile-motion-simulator');
+    for (const slug of cfg.relatedTools!) expect(slug).toMatch(/-simulator$/);
   });
 
   it('derives a knowledge overlay whose commonQuestions are a subset of the FAQ', () => {
-    const k = knowledgeFrom(projectileManifest, projectileDef);
+    const k = knowledgeFrom(projectileManifest, projectileDef, projectileRelations);
     expect(k.slug).toBe('projectile-motion-simulator');
     expect(k.category).toBe('physics');
     expect(k.primaryConcepts).toEqual(['projectile motion']);
@@ -30,6 +37,9 @@ describe('simulation generators (projectile-motion)', () => {
     // Outputs come from the runtime measurement labels.
     expect(k.outputs).toEqual(projectileDef.measurements.filter((m) => !m.hidden).map((m) => m.label));
     expect(k.inputs).toEqual(projectileManifest.params.map((p) => p.label));
+    // Relationship edges are the derived overlay.
+    expect(k.usedWith).toEqual(projectileRelations.usedWith ?? []);
+    expect(k.nextSteps).toEqual(projectileRelations.nextSteps ?? []);
   });
 
   it('derives FAQ items with stable ids matching the authored questions', () => {
@@ -42,7 +52,13 @@ describe('simulation generators (projectile-motion)', () => {
     expect(faqs.some((f) => f.answer.includes('—'))).toBe(false);
   });
 
-  it('prefers the authored relationship overlay for related tools', () => {
-    expect(relatedToolSlugs(projectileManifest)).toEqual(['pendulum-simulator']);
+  it('related tool slugs come from the resolved relationship overlay', () => {
+    const slugs = relatedToolSlugs(projectileRelations);
+    const expected = [
+      ...(projectileRelations.usedWith ?? []),
+      ...(projectileRelations.nextSteps ?? []),
+      ...(projectileRelations.alternatives ?? []),
+    ].map((r) => r.slug);
+    expect(slugs).toEqual([...new Set(expected)]);
   });
 });

@@ -10,7 +10,8 @@ import type { Knowledge } from '@lib/knowledge/types';
 import { MANIFESTS } from './manifests';
 import { SIMULATIONS } from './simulations/registry';
 import { faqItemsFrom, knowledgeFrom, toolConfigFrom } from './generate';
-import type { SimulationManifest } from './manifest';
+import { resolveRelations } from './relations';
+import type { SimulationManifest, RelationshipOverlay } from './manifest';
 
 function defFor(m: SimulationManifest) {
   const def = SIMULATIONS[m.metadata.processorId];
@@ -18,11 +19,24 @@ function defFor(m: SimulationManifest) {
   return def;
 }
 
+/**
+ * Resolved relationship overlay per sim, derived once from shared concepts/quantities/family across
+ * the whole manifest set (an explicit manifest override wins). Every generated surface reads this,
+ * so related tools are auto-derived rather than hand-authored per sim.
+ */
+const relationsFor: Map<string, RelationshipOverlay> = new Map(
+  MANIFESTS.map((m) => [m.metadata.slug, resolveRelations(m, MANIFESTS)]),
+);
+
 /** ToolConfig for every simulation, spread into src/data/registry.ts. */
-export const simulationTools: ToolConfig[] = MANIFESTS.map(toolConfigFrom);
+export const simulationTools: ToolConfig[] = MANIFESTS.map((m) =>
+  toolConfigFrom(m, relationsFor.get(m.metadata.slug)!),
+);
 
 /** Knowledge overlay for every simulation, spread into the knowledge registry. */
-export const simulationKnowledge: Knowledge[] = MANIFESTS.map((m) => knowledgeFrom(m, defFor(m)));
+export const simulationKnowledge: Knowledge[] = MANIFESTS.map((m) =>
+  knowledgeFrom(m, defFor(m), relationsFor.get(m.metadata.slug)!),
+);
 
 /** FAQ items keyed by tool slug, spread into src/data/faq-registry.ts. */
 export const simulationFaqsBySlug: Record<string, FAQItem[]> = Object.fromEntries(

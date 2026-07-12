@@ -10,6 +10,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
 import { faqItemsFrom, relatedToolSlugs } from '../src/lib/simulation/generate';
+import { resolveRelations } from '../src/lib/simulation/relations';
 import type { SimulationManifest } from '../src/lib/simulation/manifest';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -71,7 +72,7 @@ export const config = {
   seoTitle: ${JSON.stringify(m.seo.title)},
   description: ${JSON.stringify(m.seo.description)},
   tags: ${JSON.stringify(m.presentation.tags)},
-  relatedTools: ${JSON.stringify(relatedToolSlugs(m))},
+  relatedTools: ${JSON.stringify(relatedToolSlugs(resolveRelations(m, MANIFESTS)))},
 };
 `;
 }
