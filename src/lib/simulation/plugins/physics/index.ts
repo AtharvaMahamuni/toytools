@@ -12,6 +12,7 @@ import heatTransfer from '../../simulations/heat-transfer';
 import projectileMotion from '../../simulations/projectile-motion';
 import ohmsLaw from '../../simulations/ohms-law';
 import shmSpring from '../../simulations/shm-spring';
+import idealGasLaw from '../../simulations/ideal-gas-law';
 
 export const physicsDomain: SimulationDomain = {
   id: 'physics',
@@ -24,5 +25,6 @@ export const physicsDomain: SimulationDomain = {
     'projectile-motion': projectileMotion,
     'ohms-law': ohmsLaw,
     'shm-spring': shmSpring,
+    'ideal-gas-law': idealGasLaw,
   },
 };

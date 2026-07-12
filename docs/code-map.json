@@ -192,7 +192,7 @@
         "thermodynamics",
         "electricity"
       ],
-      "toolCount": 7
+      "toolCount": 8
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -409,6 +409,21 @@
       "pattern": "simulate",
       "family": "oscillations",
       "processorId": "shm-spring",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "ideal-gas-law-simulator": {
+      "name": "Ideal Gas Law Simulator",
+      "dir": "src/tools/physics/ideal-gas-law-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/ideal-gas-law-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "thermodynamics",
+      "processorId": "ideal-gas-law",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
