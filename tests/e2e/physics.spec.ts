@@ -124,6 +124,7 @@ test.describe('every physics tool', () => {
     'ideal-gas-law-simulator',
     'momentum-collision-simulator',
     'inclined-plane-simulator',
+    'doppler-effect-simulator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);

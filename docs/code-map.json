@@ -192,7 +192,7 @@
         "thermodynamics",
         "electricity"
       ],
-      "toolCount": 10
+      "toolCount": 11
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -454,6 +454,21 @@
       "pattern": "simulate",
       "family": "mechanics",
       "processorId": "inclined-plane",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "doppler-effect-simulator": {
+      "name": "Doppler Effect Simulator",
+      "dir": "src/tools/physics/doppler-effect-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/doppler-effect-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "waves",
+      "processorId": "doppler-effect",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
