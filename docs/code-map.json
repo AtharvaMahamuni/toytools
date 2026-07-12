@@ -192,7 +192,7 @@
         "thermodynamics",
         "electricity"
       ],
-      "toolCount": 8
+      "toolCount": 9
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -424,6 +424,21 @@
       "pattern": "simulate",
       "family": "thermodynamics",
       "processorId": "ideal-gas-law",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "momentum-collision-simulator": {
+      "name": "Momentum Collision Simulator",
+      "dir": "src/tools/physics/momentum-collision-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/momentum-collision-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "mechanics",
+      "processorId": "momentum-collision",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

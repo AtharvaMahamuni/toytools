@@ -13,6 +13,7 @@ import projectileMotion from '../../simulations/projectile-motion';
 import ohmsLaw from '../../simulations/ohms-law';
 import shmSpring from '../../simulations/shm-spring';
 import idealGasLaw from '../../simulations/ideal-gas-law';
+import momentumCollision from '../../simulations/momentum-collision';
 
 export const physicsDomain: SimulationDomain = {
   id: 'physics',
@@ -26,5 +27,6 @@ export const physicsDomain: SimulationDomain = {
     'ohms-law': ohmsLaw,
     'shm-spring': shmSpring,
     'ideal-gas-law': idealGasLaw,
+    'momentum-collision': momentumCollision,
   },
 };

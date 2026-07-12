@@ -122,6 +122,7 @@ test.describe('every physics tool', () => {
     'ohms-law-simulator',
     'shm-spring-simulator',
     'ideal-gas-law-simulator',
+    'momentum-collision-simulator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);

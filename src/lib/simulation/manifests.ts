@@ -12,8 +12,9 @@ import { manifest as heatTransfer } from './simulations/heat-transfer.manifest';
 import { manifest as ohmsLaw } from './simulations/ohms-law.manifest';
 import { manifest as shmSpring } from './simulations/shm-spring.manifest';
 import { manifest as idealGasLaw } from './simulations/ideal-gas-law.manifest';
+import { manifest as momentumCollision } from './simulations/momentum-collision.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));
