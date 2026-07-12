@@ -111,7 +111,6 @@ import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergen
 import { knowledge as scientificCalculator }        from '@tools/number/scientific-calculator/knowledge';
 
 // --- Physics ---
-import { knowledge as heatTransferSimulator }      from '@tools/physics/heat-transfer-simulator/knowledge';
 
 /** Every authored knowledge entry. */
 export const KNOWLEDGE_ENTRIES: Knowledge[] = [
@@ -199,7 +198,6 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   savingsGoalCalculator,
   emergencyFundCalculator,
   scientificCalculator,
-  heatTransferSimulator,
 ];
 
 /** Build a slug → Knowledge map from a list. Pure, so tests can pass fixtures. */

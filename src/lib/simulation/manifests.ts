@@ -8,8 +8,9 @@ import { manifest as projectileMotion } from './simulations/projectile-motion.ma
 import { manifest as waveSpeed } from './simulations/wave-speed.manifest';
 import { manifest as frequencyPeriod } from './simulations/frequency-period.manifest';
 import { manifest as pendulum } from './simulations/pendulum.manifest';
+import { manifest as heatTransfer } from './simulations/heat-transfer.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));

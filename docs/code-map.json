@@ -369,6 +369,21 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "heat-transfer-simulator": {
+      "name": "Heat Transfer Simulator",
+      "dir": "src/tools/physics/heat-transfer-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/heat-transfer-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "thermodynamics",
+      "processorId": "heat-transfer",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "age-calculator": {
       "name": "Age Calculator",
       "dir": "src/tools/datetime/age-calculator",
@@ -2100,27 +2115,6 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
-      "files": [
-        "Guide.astro",
-        "Widget.astro",
-        "config.ts",
-        "faq.ts",
-        "knowledge.ts"
-      ],
-      "guideRegistered": true,
-      "faqRegistered": true,
-      "knowledgeRegistered": true
-    },
-    "heat-transfer-simulator": {
-      "name": "Heat Transfer Simulator",
-      "dir": "src/tools/physics/heat-transfer-simulator",
-      "categorySlug": "physics",
-      "url": "/tool/physics/heat-transfer-simulator/",
-      "engine": "physics",
-      "pattern": "simulate",
-      "family": "thermodynamics",
-      "processorId": "heat-transfer",
       "toolGroup": "",
       "files": [
         "Guide.astro",

@@ -90,7 +90,6 @@ import { items as savingsGoalFaqs }           from '@tools/finance/savings-goal-
 import { items as emergencyFundFaqs }         from '@tools/finance/emergency-fund-calculator/faq';
 import { items as scientificCalculatorFaqs }  from '@tools/number/scientific-calculator/faq';
 // Physics
-import { items as heatTransferFaqs }          from '@tools/physics/heat-transfer-simulator/faq';
 
 export const faqsByToolSlug: Record<string, FAQItem[]> = {
   ...simulationFaqsBySlug,
@@ -177,5 +176,4 @@ export const faqsByToolSlug: Record<string, FAQItem[]> = {
   'savings-goal-calculator':      savingsGoalFaqs,
   'emergency-fund-calculator':    emergencyFundFaqs,
   'scientific-calculator':        scientificCalculatorFaqs,
-  'heat-transfer-simulator':      heatTransferFaqs,
 };
