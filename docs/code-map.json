@@ -354,6 +354,21 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "pendulum-simulator": {
+      "name": "Pendulum Simulator",
+      "dir": "src/tools/physics/pendulum-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/pendulum-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "oscillations",
+      "processorId": "pendulum",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "age-calculator": {
       "name": "Age Calculator",
       "dir": "src/tools/datetime/age-calculator",
@@ -2085,27 +2100,6 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
-      "files": [
-        "Guide.astro",
-        "Widget.astro",
-        "config.ts",
-        "faq.ts",
-        "knowledge.ts"
-      ],
-      "guideRegistered": true,
-      "faqRegistered": true,
-      "knowledgeRegistered": true
-    },
-    "pendulum-simulator": {
-      "name": "Pendulum Simulator",
-      "dir": "src/tools/physics/pendulum-simulator",
-      "categorySlug": "physics",
-      "url": "/tool/physics/pendulum-simulator/",
-      "engine": "physics",
-      "pattern": "simulate",
-      "family": "oscillations",
-      "processorId": "pendulum",
       "toolGroup": "",
       "files": [
         "Guide.astro",
