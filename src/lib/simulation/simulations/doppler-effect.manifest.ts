@@ -129,7 +129,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-the-doppler-effect-works',
     title: 'How the Doppler Effect Works',
     description:
-      'Why a moving source shifts the observed frequency, how to calculate the Doppler shift, why a siren drops in pitch as it passes, and what the Mach number changes.',
+      'Why a moving source shifts the observed frequency, how to calculate the Doppler shift, and why a siren drops in pitch as it passes.',
     readMinutes: 5,
     updatedAt: 'Jul 2026',
     quickAnswer:

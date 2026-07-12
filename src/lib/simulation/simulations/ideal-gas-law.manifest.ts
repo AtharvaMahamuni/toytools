@@ -129,7 +129,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-the-ideal-gas-law-works',
     title: 'How the Ideal Gas Law Works: PV = nRT',
     description:
-      'A visual guide to the ideal gas law: what pressure, volume, temperature, and moles mean, why PV = nRT, and how compressing or heating a gas changes its pressure.',
+      'A visual guide to the ideal gas law: what pressure, volume, temperature, and moles mean, why PV = nRT, and how heating or compressing a gas changes it.',
     readMinutes: 5,
     updatedAt: 'Jul 2026',
     quickAnswer:

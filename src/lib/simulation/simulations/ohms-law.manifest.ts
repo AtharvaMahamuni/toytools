@@ -138,7 +138,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-ohms-law-works',
     title: "How Ohm's Law Works: I = V / R",
     description:
-      "A visual guide to Ohm's law: what voltage, current, and resistance each mean, why I = V / R, how power P = V times I heats the resistor, and how to size a resistor.",
+      "A visual guide to Ohm's law: what voltage, current, and resistance mean, why I = V / R, and how power P = V times I heats the resistor.",
     readMinutes: 5,
     updatedAt: 'Jul 2026',
     quickAnswer:

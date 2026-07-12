@@ -139,7 +139,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-a-mass-on-a-spring-oscillates',
     title: 'How a Mass on a Spring Oscillates',
     description:
-      'Why a mass on a spring performs simple harmonic motion, how the period T = 2 pi times the square root of m / k works, and how energy trades between spring and motion.',
+      'How a mass on a spring performs simple harmonic motion, why its period is T = 2 pi times the square root of m / k, and why amplitude does not change it.',
     readMinutes: 5,
     updatedAt: 'Jul 2026',
     quickAnswer:

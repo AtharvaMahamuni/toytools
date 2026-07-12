@@ -32,6 +32,28 @@ describe('simulation JSON-LD schema', () => {
     expect(steps[2].text).toContain('I = V / R');
   });
 
+  it('handles hour and missing learning-time hints', () => {
+    const hours = { ...ohms, metadata: { ...ohms.metadata, estimatedLearningTime: '1 h' } };
+    expect(learningResourceSchema(hours, URL).timeRequired).toBe('PT1H');
+    const none = { ...ohms, metadata: { ...ohms.metadata, estimatedLearningTime: undefined } };
+    expect(learningResourceSchema(none, URL).timeRequired).toBeUndefined();
+    // HowTo falls back to a default totalTime when the hint is unparseable.
+    const odd = { ...ohms, metadata: { ...ohms.metadata, estimatedLearningTime: 'a while' } };
+    expect(howToSchema(odd, URL).totalTime).toBe('PT2M');
+  });
+
+  it('builds a HowTo even when a manifest declares no equations', () => {
+    const noEq = { ...ohms, equations: [] };
+    const steps = howToSchema(noEq, URL).step as { text: string }[];
+    expect(steps).toHaveLength(3);
+    expect(steps[2].text.toLowerCase()).toContain('readouts');
+  });
+
+  it('omits educationalLevel when schoolLevel is absent', () => {
+    const noLevel = { ...ohms, metadata: { ...ohms.metadata, schoolLevel: undefined } };
+    expect(learningResourceSchema(noLevel, URL).educationalLevel).toBeUndefined();
+  });
+
   it('produces valid, serializable JSON-LD for every manifest', () => {
     for (const m of MANIFESTS) {
       const schemas = simulationSchemas(m, URL);

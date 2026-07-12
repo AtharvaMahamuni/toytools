@@ -127,7 +127,7 @@ export const manifest: SimulationManifest = {
     slug: 'how-wave-speed-works',
     title: 'How Wave Speed Works: v = f times lambda',
     description:
-      'A visual guide to wave speed: what frequency, wavelength, and amplitude each change, why v = f times lambda, and what does and does not affect how fast a wave travels.',
+      'A visual guide to wave speed: what frequency, wavelength, and amplitude change, why v = f times lambda, and what does not affect a wave speed.',
     readMinutes: 5,
     updatedAt: 'Jul 2026',
     quickAnswer:
