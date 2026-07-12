@@ -20,7 +20,6 @@ export const registeredGuideSlugs = [
   'csv-diff',
   'csv-cleaner',
   'csv-to-tsv',
-  'frequency-period-simulator',
   'pendulum-simulator',
   'heat-transfer-simulator',
   'cagr-calculator',

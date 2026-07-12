@@ -339,6 +339,21 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "frequency-period-simulator": {
+      "name": "Frequency & Period Simulator",
+      "dir": "src/tools/physics/frequency-period-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/frequency-period-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "oscillations",
+      "processorId": "frequency-period",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "age-calculator": {
       "name": "Age Calculator",
       "dir": "src/tools/datetime/age-calculator",
@@ -2070,27 +2085,6 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
-      "files": [
-        "Guide.astro",
-        "Widget.astro",
-        "config.ts",
-        "faq.ts",
-        "knowledge.ts"
-      ],
-      "guideRegistered": true,
-      "faqRegistered": true,
-      "knowledgeRegistered": true
-    },
-    "frequency-period-simulator": {
-      "name": "Frequency & Period Simulator",
-      "dir": "src/tools/physics/frequency-period-simulator",
-      "categorySlug": "physics",
-      "url": "/tool/physics/frequency-period-simulator/",
-      "engine": "physics",
-      "pattern": "simulate",
-      "family": "oscillations",
-      "processorId": "frequency-period",
       "toolGroup": "",
       "files": [
         "Guide.astro",

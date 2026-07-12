@@ -88,7 +88,6 @@ import { config as savingsGoalCalculator }       from '@tools/finance/savings-go
 import { config as emergencyFundCalculator }     from '@tools/finance/emergency-fund-calculator/config';
 import { config as scientificCalculator }        from '@tools/number/scientific-calculator/config';
 // Physics — physics playground engine
-import { config as frequencyPeriodSimulator }     from '@tools/physics/frequency-period-simulator/config';
 import { config as pendulumSimulator }            from '@tools/physics/pendulum-simulator/config';
 import { config as heatTransferSimulator }        from '@tools/physics/heat-transfer-simulator/config';
 
@@ -180,7 +179,6 @@ export const tools: ToolConfig[] = [
   savingsGoalCalculator,
   emergencyFundCalculator,
   scientificCalculator,
-  frequencyPeriodSimulator,
   pendulumSimulator,
   heatTransferSimulator,
 ];

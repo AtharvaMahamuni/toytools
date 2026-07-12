@@ -111,7 +111,6 @@ import { knowledge as emergencyFundCalculator }     from '@tools/finance/emergen
 import { knowledge as scientificCalculator }        from '@tools/number/scientific-calculator/knowledge';
 
 // --- Physics ---
-import { knowledge as frequencyPeriodSimulator }   from '@tools/physics/frequency-period-simulator/knowledge';
 import { knowledge as pendulumSimulator }          from '@tools/physics/pendulum-simulator/knowledge';
 import { knowledge as heatTransferSimulator }      from '@tools/physics/heat-transfer-simulator/knowledge';
 
@@ -201,7 +200,6 @@ export const KNOWLEDGE_ENTRIES: Knowledge[] = [
   savingsGoalCalculator,
   emergencyFundCalculator,
   scientificCalculator,
-  frequencyPeriodSimulator,
   pendulumSimulator,
   heatTransferSimulator,
 ];
