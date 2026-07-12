@@ -461,7 +461,9 @@ into `src/data/registry.ts`, `src/lib/knowledge/registry.ts`, `src/data/faq-regi
 `guide-registry.ts`'s `registeredGuideSlugSet` (sims are **not** in the typed guide tuple, so the
 guide-route drift check stays scoped to statically imported guides). The tool route renders
 `SimulationWidget.astro` and the guide route renders `SimulationGuide.astro` for any tool whose slug
-has a manifest.
+has a manifest. On top of the generic `SoftwareApplication`/`FAQPage` schema every tool emits, a sim
+page also emits sim-specific JSON-LD derived in `schema.ts` (`LearningResource` with what it teaches +
+`educationalLevel` + equation `DefinedTerm`s, and a `HowTo` for operating it).
 
 **Auto-derived relationships.** `relations.ts` derives each sim's `usedWith`/`nextSteps` (and thus
 `config.relatedTools`) from what manifests actually **share** — concepts, exposed quantities (param +

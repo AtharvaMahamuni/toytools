@@ -11,6 +11,7 @@ import { getToolGroup } from '@data/tool-groups';
 import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
 import { manifestBySlug } from '@lib/simulation/manifests';
+import { simulationSchemas } from '@lib/simulation/schema';
 import SimulationWidget from '@tools/_shared/SimulationWidget.astro';
 
 export const getStaticPaths = (() => {
@@ -56,6 +57,9 @@ const faqSchema = faqItems.length > 0 ? {
 // Simulation tools render the generic SimulationWidget from their manifest (no per-tool
 // Widget.astro). Every other tool resolves its own Widget.astro via the build-time glob.
 const simManifest = manifestBySlug.get(tool.slug);
+// Sims also advertise sim-specific structured data (LearningResource + HowTo) derived from the
+// manifest, on top of the generic SoftwareApplication/FAQPage schema every tool emits.
+const simSchemas = simManifest ? simulationSchemas(simManifest, Astro.url.href) : [];
 const widgets = import.meta.glob<{ default: unknown }>('../../../tools/*/*/Widget.astro');
 const widgetPath = `../../../tools/${category.segment}/${tool.slug}/Widget.astro`;
 const WidgetModule = simManifest ? null : await widgets[widgetPath]?.();
@@ -65,6 +69,7 @@ if (!simManifest && !Widget) throw new Error(`No Widget.astro found for tool slu
 
 <ToolLayout tool={tool} category={category}>
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  {simSchemas.map(schema => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 
   {tool.toolGroup && <GroupSwitcher tool={tool} />}
 
