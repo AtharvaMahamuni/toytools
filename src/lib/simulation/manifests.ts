@@ -10,8 +10,9 @@ import { manifest as frequencyPeriod } from './simulations/frequency-period.mani
 import { manifest as pendulum } from './simulations/pendulum.manifest';
 import { manifest as heatTransfer } from './simulations/heat-transfer.manifest';
 import { manifest as ohmsLaw } from './simulations/ohms-law.manifest';
+import { manifest as shmSpring } from './simulations/shm-spring.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));

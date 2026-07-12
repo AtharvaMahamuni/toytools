@@ -192,7 +192,7 @@
         "thermodynamics",
         "electricity"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -394,6 +394,21 @@
       "pattern": "simulate",
       "family": "electricity",
       "processorId": "ohms-law",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "shm-spring-simulator": {
+      "name": "Mass on a Spring Simulator",
+      "dir": "src/tools/physics/shm-spring-simulator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/shm-spring-simulator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "oscillations",
+      "processorId": "shm-spring",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
