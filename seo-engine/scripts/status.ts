@@ -134,7 +134,7 @@ function buildStatus(slug: string, tool: GraphTool): ToolStatus {
       actions.push({
         step: 'write-knowledge',
         command: `npm run seo:gate -- ${slug}`,
-        why: `Guide and FAQ exist but src/tools/${tool.segment}/${slug}/knowledge.ts is missing. Author it (overlay fields only: concepts, intents, use cases, mistakes, questions, usedWith/alternatives/nextSteps) and register it in src/lib/knowledge/registry.ts; the audit's Knowledge Sync section then checks it stays consistent. No research needed.`,
+        why: `Guide and FAQ exist but src/tools/${tool.segment}/${slug}/knowledge.ts is missing. Author it (overlay fields only: concepts, intents, use cases, mistakes, questions, usedWith/alternatives/nextSteps) and run npm run registries:generate (registration is derived from the file); the audit's Knowledge Sync section then checks it stays consistent. No research needed.`,
       });
       return {
         slug,
@@ -151,14 +151,14 @@ function buildStatus(slug: string, tool: GraphTool): ToolStatus {
     if (!checks.guideRegistered || !checks.faqRegistered || !checks.knowledgeRegistered) {
       state = 'needs-registration';
       const missing = [
-        !checks.guideRegistered && 'guide (config.ts guide field + src/pages/guide/[...slug].astro import + registeredGuideSlugs)',
-        !checks.faqRegistered && 'faq (src/data/faq-registry.ts)',
-        !checks.knowledgeRegistered && 'knowledge (src/lib/knowledge/registry.ts)',
+        !checks.guideRegistered && 'guide (config.ts guide field + Guide.astro on disk)',
+        !checks.faqRegistered && 'faq (faq.ts on disk)',
+        !checks.knowledgeRegistered && 'knowledge (knowledge.ts on disk)',
       ].filter(Boolean).join('; ');
       actions.push({
         step: 'register',
-        command: 'npm run seo:graph && npm run build',
-        why: `Authored but not registered: ${missing}. Apply the registration snippets from output/${slug}/PROMPT.md (run seo:scaffold first if it doesn't exist), then re-export the graph and build.`,
+        command: 'npm run registries:generate && npm run seo:graph && npm run build',
+        why: `Authored but not registered: ${missing}. Registration is derived from the tool directory — regenerate the barrels, then re-export the graph and build.`,
       });
     } else if (!checks.auditPresent || checks.auditStale) {
       state = 'needs-audit';

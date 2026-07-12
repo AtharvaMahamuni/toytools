@@ -63,14 +63,16 @@ registered in `src/data/faq-registry.ts`.
   examples (real values), common mistakes, comparisons.
 - Target 1,100-2,600 words.
 
-## Registration (three places, all required)
+## Registration (two authored pieces + one command)
 
 1. `config.ts`: add the `guide` field (`slug`, `categorySlug` = URL segment,
    `title`, `description` max 160 chars, `readMinutes`, `updatedAt`).
-2. `src/pages/guide/[...slug].astro`: static import + `guidesBySlug` map entry.
-3. `src/data/guide-registry.ts`: add the tool slug to `registeredGuideSlugs`.
+2. `Guide.astro` in the tool directory (the route discovers it via glob).
+3. Run `npm run registries:generate` (never hand-edit `guide-registry.ts`,
+   its `.generated.ts`, or the guide route).
 
-`npm run build` fails if any of the three is missing or inconsistent.
+`npm run build` fails when `guide:` is declared without a `Guide.astro`, and
+when the generated barrels are stale.
 
 ## When editing an existing guide, never touch
 

@@ -2,188 +2,22 @@
 import type { GetStaticPaths } from 'astro';
 import { toolsWithGuide } from '@data/registry';
 import { categories }     from '@data/categories';
-import type { RegisteredGuideSlug } from '@data/guide-registry';
 import SimulationGuide from '@tools/_shared/SimulationGuide.astro';
 import { manifestBySlug } from '@lib/simulation/manifests';
-import AgeCalculatorGuide from '../../tools/datetime/age-calculator/Guide.astro';
-import DateDifferenceCalculatorGuide from '../../tools/datetime/date-difference-calculator/Guide.astro';
-import TimezoneConverterGuide from '../../tools/datetime/timezone-converter/Guide.astro';
-import UnixTimestampConverterGuide from '../../tools/datetime/unix-timestamp-converter/Guide.astro';
-import CronExpressionParserGuide from '../../tools/datetime/cron-expression-parser/Guide.astro';
-import QrCodeGeneratorGuide from '../../tools/generate/qr-code-generator/Guide.astro';
-import LoremIpsumGeneratorGuide from '../../tools/generate/lorem-ipsum-generator/Guide.astro';
-import RandomStringGeneratorGuide from '../../tools/generate/random-string-generator/Guide.astro';
-import UuidGeneratorGuide from '../../tools/generate/uuid-generator/Guide.astro';
-import PasswordGeneratorGuide from '../../tools/generate/password-generator/Guide.astro';
-import CsvDiffGuide from '../../tools/developer-utilities/csv-diff/Guide.astro';
-import CsvCleanerGuide from '../../tools/developer-utilities/csv-cleaner/Guide.astro';
-import CsvToTsvGuide from '../../tools/developer-utilities/csv-to-tsv/Guide.astro';
-import CagrCalculatorGuide from '../../tools/finance/cagr-calculator/Guide.astro';
-import RoiCalculatorGuide from '../../tools/finance/roi-calculator/Guide.astro';
-import WordFrequencyCounterGuide from '../../tools/text/word-frequency-counter/Guide.astro';
-import RemoveEmojiGuide from '../../tools/text/remove-emoji/Guide.astro';
-import Rot13EncoderDecoderGuide from '../../tools/developer-utilities/rot13-encoder-decoder/Guide.astro';
-import JsonEscapeGuide from '../../tools/developer-utilities/json-escape/Guide.astro';
-import SipCalculatorGuide from '../../tools/finance/sip-calculator/Guide.astro';
-import RemoveAccentsGuide from '../../tools/text/remove-accents/Guide.astro';
-import SlugifyTextGuide from '../../tools/text/slugify-text/Guide.astro';
-import RemoveLineBreaksGuide from '../../tools/text/remove-line-breaks/Guide.astro';
-import ReverseTextGuide from '../../tools/text/reverse-text/Guide.astro';
-import TaxCalculatorGuide from '../../tools/number/tax-calculator/Guide.astro';
-import MarkupCalculatorGuide from '../../tools/number/markup-calculator/Guide.astro';
-import PunycodeConverterGuide from '../../tools/developer-utilities/punycode-converter/Guide.astro';
-import Crc32HashGeneratorGuide from '../../tools/developer-utilities/crc32-hash-generator/Guide.astro';
-import BinaryTextConverterGuide from '../../tools/developer-utilities/binary-text-converter/Guide.astro';
 
-// Static imports — one per tool with a guide
-import TodoListGuide           from '../../tools/productivity/todo-list/Guide.astro';
-import NotepadGuide            from '../../tools/productivity/notepad/Guide.astro';
-import KeepScreenAwakeGuide    from '../../tools/productivity/keep-screen-awake/Guide.astro';
-import Base64Guide             from '../../tools/developer-utilities/base64-encoder-decoder/Guide.astro';
-import UrlEncoderDecoderGuide  from '../../tools/developer-utilities/url-encoder-decoder/Guide.astro';
-import HtmlEntityEncoderDecoderGuide from '../../tools/developer-utilities/html-entity-encoder-decoder/Guide.astro';
-// Developer utilities — hashing engine
-import Md5HashGeneratorGuide    from '../../tools/developer-utilities/md5-hash-generator/Guide.astro';
-import Sha1HashGeneratorGuide   from '../../tools/developer-utilities/sha1-hash-generator/Guide.astro';
-import Sha256HashGeneratorGuide from '../../tools/developer-utilities/sha256-hash-generator/Guide.astro';
-import HexEncoderDecoderGuide  from '../../tools/developer-utilities/hex-encoder-decoder/Guide.astro';
-import JsonToCsvConverterGuide  from '../../tools/developer-utilities/json-to-csv-converter/Guide.astro';
-import CsvToJsonConverterGuide  from '../../tools/developer-utilities/csv-to-json-converter/Guide.astro';
-import JsonToYamlConverterGuide from '../../tools/developer-utilities/json-to-yaml-converter/Guide.astro';
-import YamlToJsonConverterGuide from '../../tools/developer-utilities/yaml-to-json-converter/Guide.astro';
-import JsonTreeViewerGuide      from '../../tools/developer-utilities/json-tree-viewer/Guide.astro';
-import JwtDecoderGuide          from '../../tools/developer-utilities/jwt-decoder/Guide.astro';
-import Sha512HashGeneratorGuide from '../../tools/developer-utilities/sha512-hash-generator/Guide.astro';
-import DiscountCalculatorGuide  from '../../tools/number/discount-calculator/Guide.astro';
-import MarginCalculatorGuide    from '../../tools/number/margin-calculator/Guide.astro';
-import TipCalculatorGuide       from '../../tools/number/tip-calculator/Guide.astro';
-// Developer utilities — structured-data engine
-import JsonFormatterGuide  from '../../tools/developer-utilities/json-formatter/Guide.astro';
-import JsonMinifierGuide   from '../../tools/developer-utilities/json-minifier/Guide.astro';
-import JsonValidatorGuide  from '../../tools/developer-utilities/json-validator/Guide.astro';
-import PercentageCalculatorGuide from '../../tools/number/percentage-calculator/Guide.astro';
-import WordCounterGuide        from '../../tools/text/word-counter/Guide.astro';
-import PomodoroTimerGuide      from '../../tools/productivity/pomodoro-timer/Guide.astro';
-// Text processor engine — transform family
-import UppercaseConverterGuide    from '../../tools/text/uppercase-converter/Guide.astro';
-import LowercaseConverterGuide    from '../../tools/text/lowercase-converter/Guide.astro';
-import TitleCaseConverterGuide    from '../../tools/text/title-case-converter/Guide.astro';
-import SentenceCaseConverterGuide from '../../tools/text/sentence-case-converter/Guide.astro';
-import CamelCaseConverterGuide    from '../../tools/text/camel-case-converter/Guide.astro';
-import SnakeCaseConverterGuide    from '../../tools/text/snake-case-converter/Guide.astro';
-import KebabCaseConverterGuide    from '../../tools/text/kebab-case-converter/Guide.astro';
-// Text processor engine — cleanup family
-import RemoveExtraSpacesGuide     from '../../tools/text/remove-extra-spaces/Guide.astro';
-import RemoveBlankLinesGuide      from '../../tools/text/remove-blank-lines/Guide.astro';
-import RemoveDuplicateLinesGuide  from '../../tools/text/remove-duplicate-lines/Guide.astro';
-import TrimTextGuide              from '../../tools/text/trim-text/Guide.astro';
-import NormalizeWhitespaceGuide   from '../../tools/text/normalize-whitespace/Guide.astro';
-import RemoveTabsGuide            from '../../tools/text/remove-tabs/Guide.astro';
-// Text analysis tools
-import CharacterCounterGuide      from '../../tools/text/character-counter/Guide.astro';
-import ReadingTimeCalculatorGuide from '../../tools/text/reading-time-calculator/Guide.astro';
-import SentenceCounterGuide       from '../../tools/text/sentence-counter/Guide.astro';
-import ParagraphCounterGuide      from '../../tools/text/paragraph-counter/Guide.astro';
-import LetterCounterGuide         from '../../tools/text/letter-counter/Guide.astro';
-import LineCounterGuide           from '../../tools/text/line-counter/Guide.astro';
-import SpaceCounterGuide          from '../../tools/text/space-counter/Guide.astro';
-import FindReplaceGuide           from '../../tools/text/find-replace/Guide.astro';
-import TextCompareGuide           from '../../tools/text/text-compare/Guide.astro';
-// Money & Finance
-import CompoundInterestGuide      from '../../tools/finance/compound-interest-calculator/Guide.astro';
-import RuleOf72Guide              from '../../tools/finance/rule-of-72-calculator/Guide.astro';
-import InflationGuide             from '../../tools/finance/inflation-calculator/Guide.astro';
-import SavingsGoalGuide           from '../../tools/finance/savings-goal-calculator/Guide.astro';
-import EmergencyFundGuide         from '../../tools/finance/emergency-fund-calculator/Guide.astro';
-import ScientificCalculatorGuide  from '../../tools/number/scientific-calculator/Guide.astro';
-
-// Typed against the registry's slug union — TS fails the build if this map and
-// `registeredGuideSlugs` (src/data/guide-registry.ts) ever drift apart.
-const guidesBySlug: Record<RegisteredGuideSlug, any> = {
-  'age-calculator': AgeCalculatorGuide,
-  'date-difference-calculator': DateDifferenceCalculatorGuide,
-  'timezone-converter': TimezoneConverterGuide,
-  'unix-timestamp-converter': UnixTimestampConverterGuide,
-  'cron-expression-parser': CronExpressionParserGuide,
-  'qr-code-generator': QrCodeGeneratorGuide,
-  'lorem-ipsum-generator': LoremIpsumGeneratorGuide,
-  'random-string-generator': RandomStringGeneratorGuide,
-  'uuid-generator': UuidGeneratorGuide,
-  'password-generator': PasswordGeneratorGuide,
-  'csv-diff': CsvDiffGuide,
-  'csv-cleaner': CsvCleanerGuide,
-  'csv-to-tsv': CsvToTsvGuide,
-  'cagr-calculator': CagrCalculatorGuide,
-  'roi-calculator': RoiCalculatorGuide,
-  'word-frequency-counter': WordFrequencyCounterGuide,
-  'remove-emoji': RemoveEmojiGuide,
-  'rot13-encoder-decoder': Rot13EncoderDecoderGuide,
-  'json-escape': JsonEscapeGuide,
-  'sip-calculator': SipCalculatorGuide,
-  'remove-accents': RemoveAccentsGuide,
-  'slugify-text': SlugifyTextGuide,
-  'remove-line-breaks': RemoveLineBreaksGuide,
-  'reverse-text': ReverseTextGuide,
-  'tax-calculator': TaxCalculatorGuide,
-  'markup-calculator': MarkupCalculatorGuide,
-  'punycode-converter': PunycodeConverterGuide,
-  'crc32-hash-generator': Crc32HashGeneratorGuide,
-  'binary-text-converter': BinaryTextConverterGuide,
-  'todo-list':              TodoListGuide,
-  'notepad':                NotepadGuide,
-  'keep-screen-awake':      KeepScreenAwakeGuide,
-  'base64-encoder-decoder': Base64Guide,
-  'url-encoder-decoder':    UrlEncoderDecoderGuide,
-  'html-entity-encoder-decoder': HtmlEntityEncoderDecoderGuide,
-  'md5-hash-generator':          Md5HashGeneratorGuide,
-  'sha1-hash-generator':         Sha1HashGeneratorGuide,
-  'sha256-hash-generator':       Sha256HashGeneratorGuide,
-  'hex-encoder-decoder':         HexEncoderDecoderGuide,
-  'json-to-csv-converter':       JsonToCsvConverterGuide,
-  'csv-to-json-converter':       CsvToJsonConverterGuide,
-  'json-to-yaml-converter':      JsonToYamlConverterGuide,
-  'yaml-to-json-converter':      YamlToJsonConverterGuide,
-  'json-tree-viewer':            JsonTreeViewerGuide,
-  'jwt-decoder':                 JwtDecoderGuide,
-  'sha512-hash-generator':       Sha512HashGeneratorGuide,
-  'discount-calculator':         DiscountCalculatorGuide,
-  'margin-calculator':           MarginCalculatorGuide,
-  'tip-calculator':              TipCalculatorGuide,
-  'json-formatter':              JsonFormatterGuide,
-  'json-minifier':               JsonMinifierGuide,
-  'json-validator':              JsonValidatorGuide,
-  'percentage-calculator':  PercentageCalculatorGuide,
-  'word-counter':           WordCounterGuide,
-  'pomodoro-timer':         PomodoroTimerGuide,
-  'uppercase-converter':    UppercaseConverterGuide,
-  'lowercase-converter':    LowercaseConverterGuide,
-  'title-case-converter':   TitleCaseConverterGuide,
-  'sentence-case-converter': SentenceCaseConverterGuide,
-  'camel-case-converter':   CamelCaseConverterGuide,
-  'snake-case-converter':   SnakeCaseConverterGuide,
-  'kebab-case-converter':   KebabCaseConverterGuide,
-  'remove-extra-spaces':    RemoveExtraSpacesGuide,
-  'remove-blank-lines':     RemoveBlankLinesGuide,
-  'remove-duplicate-lines': RemoveDuplicateLinesGuide,
-  'trim-text':              TrimTextGuide,
-  'normalize-whitespace':   NormalizeWhitespaceGuide,
-  'remove-tabs':            RemoveTabsGuide,
-  'character-counter':      CharacterCounterGuide,
-  'reading-time-calculator': ReadingTimeCalculatorGuide,
-  'sentence-counter':       SentenceCounterGuide,
-  'paragraph-counter':      ParagraphCounterGuide,
-  'letter-counter':         LetterCounterGuide,
-  'line-counter':           LineCounterGuide,
-  'space-counter':          SpaceCounterGuide,
-  'find-replace':           FindReplaceGuide,
-  'text-compare':           TextCompareGuide,
-  'compound-interest-calculator': CompoundInterestGuide,
-  'rule-of-72-calculator':        RuleOf72Guide,
-  'inflation-calculator':         InflationGuide,
-  'savings-goal-calculator':      SavingsGoalGuide,
-  'emergency-fund-calculator':    EmergencyFundGuide,
-  'scientific-calculator':        ScientificCalculatorGuide,
-};
+// Guide components are DISCOVERED from the filesystem, mirroring guide-registry.generated.ts:
+// authoring src/tools/<segment>/<slug>/Guide.astro is what wires a guide into this route. The
+// glob and the generated registry both derive from Guide.astro presence on disk, so the route map
+// and the slug list cannot drift apart. (import.meta.glob is Vite-only, which is fine here — this
+// .astro file is never imported by tsx scripts; those read guide-registry.ts instead.)
+const guideModules = import.meta.glob<{ default: any }>('../../tools/*/*/Guide.astro', {
+  eager: true,
+});
+const guidesBySlug: Record<string, any> = {};
+for (const [path, mod] of Object.entries(guideModules)) {
+  const slug = path.split('/').at(-2)!;
+  guidesBySlug[slug] = mod.default;
+}
 
 export const getStaticPaths = (() => {
   return toolsWithGuide.map(tool => {
@@ -197,8 +31,8 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { tool } = Astro.props;
-// Simulation guides render generically from their manifest; everything else uses its static
-// Guide.astro component from the typed map above.
+// Simulation guides render generically from their manifest; everything else uses its discovered
+// Guide.astro component from the glob map above.
 const simManifest = manifestBySlug.get(tool.slug);
 const GuideComp = guidesBySlug[tool.slug];
 ---

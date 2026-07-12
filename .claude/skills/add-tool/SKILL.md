@@ -9,9 +9,10 @@ One contract. Every agent that adds a tool or engine MUST follow it in order.
 
 ## Fastest path: scaffold the tool, then fill it in
 
-For a tool on an existing engine, do **not** hand-create files and hand-edit five registries —
-run the generator. It writes the tool directory and wires every registry (registry, faq-registry,
-guide-registry + the guide route, knowledge registry) in one step:
+For a tool on an existing engine, run the generator. Registration is **derived from the
+directory contract** — the scaffold writes the tool directory, then regenerates the registration
+barrels (`npm run registries:generate` — never hand-edit any `*.generated.ts` file or the
+registry hubs) and the code map:
 
 ```sh
 npm run scaffold:tool -- --slug my-tool --name "My Tool" --category text-utilities \
@@ -69,14 +70,14 @@ Does the tool need a guide, FAQ, or knowledge file?
 
 | Concern | Source of truth |
 |---------|----------------|
-| Tool registration (all tools) | `src/data/registry.ts` |
+| Tool registration (all tools) | the tool directory itself — barrels derive via `npm run registries:generate` |
 | Category definitions | `src/data/categories.ts` |
 | Engine + pattern definitions | `src/data/engines.ts` |
 | Tool groups | `src/data/tool-groups.ts` |
 | Category page sections | `src/data/category-sections.ts` |
-| FAQs | `src/data/faq-registry.ts` |
-| Guides | `src/data/guide-registry.ts` + `src/pages/guide/[...slug].astro` |
-| Knowledge graph | `src/lib/knowledge/registry.ts` |
+| FAQs | `faq.ts` in the tool dir (derived into `faq-registry.generated.ts`) |
+| Guides | `Guide.astro` in the tool dir (glob-discovered by the guide route) |
+| Knowledge graph | `knowledge.ts` in the tool dir (derived into `knowledge/registry.generated.ts`) |
 | Text processor impls | `src/lib/text/processors/registry.ts` |
 | Encoding impls | `src/lib/engines/encoding/registry.ts` |
 | Hashing impls | `src/lib/engines/hashing/registry.ts` |

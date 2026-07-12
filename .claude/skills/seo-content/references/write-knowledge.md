@@ -46,12 +46,12 @@ Relationship slugs must be real registered tools (the build resolves them).
 
 Keep these three short (2-4 entries each) so sync stays easy.
 
-## Registration (one place)
+## Registration (derived — one command)
 
-`src/lib/knowledge/registry.ts`:
+Registration derives from `knowledge.ts` presence in the tool directory. After authoring it, run:
 
-```ts
-import { knowledge as <camelCase> } from '@tools/<segment>/<slug>/knowledge';
-// in KNOWLEDGE_ENTRIES:
-<camelCase>,
+```sh
+npm run registries:generate
 ```
+
+Never hand-edit `src/lib/knowledge/registry.ts` or its `registry.generated.ts`.

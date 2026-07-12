@@ -154,20 +154,18 @@ Valid `formatter` values: `'integer'`, `'duration'`, `'percentage'`, `'decimal'`
 
 ## Phase 3 — Platform registration
 
-Each file below gets **one import line + one entry**. No other changes.
+Tool/FAQ/guide/knowledge registration is **derived from the tool directory** — never hand-edit
+`src/data/registry.ts`, `faq-registry.ts`, `guide-registry.ts`, `src/lib/knowledge/registry.ts`,
+any `*.generated.ts` barrel, or the guide route. After authoring (or removing) files in
+`src/tools/<segment>/<slug>/`, run:
 
-### `src/data/registry.ts` (always required)
-
-```ts
-// Add import at the top with similar tools:
-import { config as myTool } from '@tools/text/my-tool-slug/config';
-
-// Add entry in the tools array:
-export const tools: ToolConfig[] = [
-  // ...existing
-  myTool,
-];
+```sh
+npm run registries:generate   # scaffold:tool already runs this for you
 ```
+
+`validate-architecture` fails the build if the generated barrels are stale, so a forgotten
+regenerate cannot slip through. The files below are the only ones that still take hand edits,
+and only in the listed cases.
 
 ### `src/data/category-sections.ts` (only if `pattern` is new)
 

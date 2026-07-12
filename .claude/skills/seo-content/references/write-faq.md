@@ -29,15 +29,15 @@ export const items: FAQItem[] = [
 Tone references: `src/tools/developer/json-formatter/faq.ts`,
 `src/tools/text/character-counter/faq.ts`.
 
-## Registration (one place)
+## Registration (derived — one command)
 
-`src/data/faq-registry.ts`:
+Registration derives from `faq.ts` presence in the tool directory. After authoring it, run:
 
-```ts
-import { items as <camelCase>Faqs } from '@tools/<segment>/<slug>/faq';
-// in faqsByToolSlug:
-'<slug>': <camelCase>Faqs,
+```sh
+npm run registries:generate
 ```
+
+Never hand-edit `src/data/faq-registry.ts` or `faq-registry.generated.ts`.
 
 There is **no** `faq` field in `config.ts` (it was removed). Do not create
 pages under `src/pages/faq/` or entries in `faq-redirects.ts` (legacy redirect

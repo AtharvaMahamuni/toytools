@@ -160,15 +160,16 @@ Most edits are local, but a few changes ripple across files. When you make one o
   *and* `engineDefs`; the unions and the defs are cross-checked). `KNOWN_ENGINES`/`KNOWN_PATTERNS`
   derive from here — never edit the validator. Add a `pattern → section` row in
   `src/data/category-sections.ts`. If it has a runtime, wire it into `ToyToolsRuntime`.
-- **Add a tool** → `src/tools/<segment>/<slug>/{config.ts,Widget.astro}` + one import/entry in
-  `src/data/registry.ts`. A `processorId` must resolve in its engine registry **and** be unique
-  (collisions now fail `validate-registry`).
-- **Add a guide** → `guide:` in config + `Guide.astro` + slug in `src/data/guide-registry.ts`
-  **and** import in `src/pages/guide/[...slug].astro`. Missing the route import renders an empty
-  page — `validate-architecture` now catches it.
-- **Add a FAQ / knowledge file** → register in `src/data/faq-registry.ts` /
-  `src/lib/knowledge/registry.ts`. An authored file left unregistered is an orphan (it never
-  renders) and `validate-architecture` fails the build.
+- **Add a tool** → author `src/tools/<segment>/<slug>/{config.ts,Widget.astro}` and run
+  `npm run registries:generate` (scaffold runs it for you) — registration is **derived** from the
+  directory, never hand-edited (`*.generated.ts` barrels; `validate-architecture` fails the build
+  when they are stale). A `processorId` must resolve in its engine registry **and** be unique
+  (collisions fail `validate-registry`).
+- **Add a guide** → `guide:` in config + `Guide.astro` in the tool dir + regenerate. The guide
+  route discovers components via `import.meta.glob`, so there is no route map to edit; a `guide:`
+  declared without a `Guide.astro` on disk fails `validate-architecture`.
+- **Add a FAQ / knowledge file** → author `faq.ts` / `knowledge.ts` in the tool dir + regenerate.
+  File presence **is** registration; orphans are impossible while the generated barrels are fresh.
 - **Add a simulation** (physics playground) → the exception to the tool checklist: author
   `src/lib/simulation/simulations/<id>.{ts,draw.ts,manifest.ts}` (+ `<id>.test.ts`), register the
   model in `src/lib/simulation/plugins/physics/index.ts` and the manifest in
@@ -214,9 +215,9 @@ npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <cat> --engine
   --pattern <pattern> --family <family> [--processor-id <id>] [--faq] [--guide] [--dry-run]
 ```
 
-writes `src/tools/<segment>/<slug>/` (config + widget + optional faq/guide/knowledge stubs), wires
-**all five registries** (registry, faq-registry, guide-registry + the guide route, knowledge
-registry), and regenerates the code map. Engine-backed tools get a real 3-line widget wrapping the
+writes `src/tools/<segment>/<slug>/` (config + widget + optional faq/guide/knowledge stubs), then
+regenerates the **derived registration barrels** (`npm run registries:generate`) and the code map —
+registration follows from the directory contract; no registry file is ever hand-edited. Engine-backed tools get a real 3-line widget wrapping the
 engine's shared widget; bespoke engines get a placeholder. Fill the TODO stubs (for a new
 engine-backed transform, also the engine impl + its registry entry + `*.test.ts` — keep browser
 APIs inside methods, never at module top-level), then `npm run build` (validate-registry +
@@ -303,9 +304,12 @@ src/data/
 ├── types.ts            # ToolConfig, GuideConfig, FAQItem, Category, EcosystemEntry
 ├── categories.ts       # Category definitions (accent colors, segments)
 ├── engines.ts          # Engine manifest — single source of truth for engines/patterns
-├── registry.ts         # Single source of truth — imports all tool configs
-├── faq-registry.ts     # Imports all faq.ts files by tool slug
-├── guide-registry.ts   # registeredGuideSlugs — declared guides must appear here
+├── registry.ts         # Single source of truth — merges sims + registry.generated.ts
+├── registry.generated.ts    # GENERATED barrel (npm run registries:generate) — never hand-edit
+├── faq-registry.ts     # faqsByToolSlug — merges sims + faq-registry.generated.ts
+├── faq-registry.generated.ts # GENERATED barrel — never hand-edit
+├── guide-registry.ts   # registeredGuideSlugs — derived from Guide.astro presence on disk
+├── guide-registry.generated.ts # GENERATED barrel — never hand-edit
 ├── tool-groups.ts      # Tool group definitions (unified workspaces)
 ├── category-sections.ts# pattern → category-page section rows
 ├── metadata.ts         # Shared SEO/metadata helpers

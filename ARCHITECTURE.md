@@ -156,12 +156,14 @@ tool has registered items. FAQ items come from `faqsByToolSlug` (`src/data/faq-r
 there is **no `faq` field on ToolConfig** and no standalone FAQ pages; the old `/faq/` URLs are
 noindex redirect stubs generated from `src/data/faq-redirects.ts` (never add new entries).
 
-**Registration-drift guard.** A tool can declare `guide:` in `config.ts` yet be missing from the
-guide route's import map, rendering empty with no build error.
-`src/data/guide-registry.ts` exports `registeredGuideSlugs` (a `.astro`-free slug list so `tsx` can
-import it from the validator; the `guidesBySlug` component map in the guide route is typed
-`Record<RegisteredGuideSlug, …>`, so TS catches drift between the two). `scripts/validate-registry.ts`
-fails the build when a tool declares a guide but isn't registered in `guide-registry.ts`.
+**Registration-drift guard.** Guide registration is **derived from the filesystem**: the guide
+route discovers components via `import.meta.glob` over `src/tools/*/*/Guide.astro`, and
+`src/data/guide-registry.ts` re-exports the generated slug list (`guide-registry.generated.ts`,
+written by `npm run registries:generate` from the same Guide.astro presence — a `.astro`-free
+module so `tsx` validators can import it). Route map and slug list therefore cannot drift: both
+derive from the same files on disk. `scripts/validate-registry.ts` still fails the build when a
+tool declares `guide:` without being registered (i.e. no `Guide.astro` authored), and
+`validate-architecture` errors when the generated barrels are stale.
 
 ---
 
@@ -458,8 +460,9 @@ manifest. There are **no per-simulation `config.ts`/`knowledge.ts`/`faq.ts`/`Gui
 `simulationTools`/`simulationKnowledge`/`simulationFaqsBySlug`/`simulationGuideSlugs` from
 `MANIFESTS` at build time, the same way `categories.ts` derives its surfaces. These are **spread**
 into `src/data/registry.ts`, `src/lib/knowledge/registry.ts`, `src/data/faq-registry.ts`, and
-`guide-registry.ts`'s `registeredGuideSlugSet` (sims are **not** in the typed guide tuple, so the
-guide-route drift check stays scoped to statically imported guides). The tool route renders
+`guide-registry.ts`'s `registeredGuideSlugSet` (sims are **not** in the authored guide list — they
+have no `Guide.astro` on disk, so the glob-discovered route map never includes them). The tool
+route renders
 `SimulationWidget.astro` and the guide route renders `SimulationGuide.astro` for any tool whose slug
 has a manifest. On top of the generic `SoftwareApplication`/`FAQPage` schema every tool emits, a sim
 page also emits sim-specific JSON-LD derived in `schema.ts` (`LearningResource` with what it teaches +
@@ -529,8 +532,10 @@ proven `getRelatedTools()` algorithm, not a second system.
   (constants, not closed unions) so new node/relation types need no code change; each tool declares a
   `workflowStage`. Every file carries `schemaVersion` (`KNOWLEDGE_SCHEMA_VERSION`) so V1/V2 coexist.
 - **Co-located source** — each tool's `knowledge.ts` sits beside its `config.ts` and exports
-  `const knowledge: Knowledge`. `src/lib/knowledge/registry.ts` is the explicit-import hub (mirrors
-  `data/registry.ts`; not `import.meta.glob`, so tsx scripts + vitest + Astro all consume it).
+  `const knowledge: Knowledge`. Registration is derived: `src/lib/knowledge/registry.generated.ts`
+  (written by `npm run registries:generate`) imports every knowledge.ts explicitly (not
+  `import.meta.glob`, so tsx scripts + vitest + Astro all consume it), and
+  `src/lib/knowledge/registry.ts` merges it with the simulation-derived entries.
 - **Derive + overlay** (`graph.ts`) — `buildGraph()` produces tool/guide/faq/category nodes and edges.
   `relatedTools/Guides/Faqs` are **derived** from engine→pattern→family→category (reusing
   `getRelatedTools` + new `getRelatedGuides`/`getRelatedFaqs` in `src/lib/tools/related.ts`) with
@@ -650,17 +655,22 @@ a click-to-reveal side panel (description, source path, patterns/families, tools
 
 ## Registration Pattern
 
-Every tool requires exactly two registration steps:
+**A tool exists because its directory conforms to the contract** — registration is derived, never
+hand-edited. Author `src/tools/<segment>/<slug>/` (config.ts required; faq.ts / knowledge.ts /
+Guide.astro optional) and run `npm run registries:generate` (scaffold:tool runs it for you). The
+generator writes four committed barrels — `src/data/registry.generated.ts`,
+`faq-registry.generated.ts`, `guide-registry.generated.ts`, `src/lib/knowledge/registry.generated.ts`
+— as explicit static imports (not `import.meta.glob`) so tsx scripts, vitest, and Astro all consume
+them. The hand-written hubs (`registry.ts`, `faq-registry.ts`, `guide-registry.ts`,
+`knowledge/registry.ts`) only merge the barrels with the simulation-derived surfaces and keep the
+public export names stable. `validate-architecture` byte-compares the barrels and fails the build
+when they are stale.
 
-1. **`src/data/registry.ts`** — one import + one array entry
-2. **`src/pages/tool/[category]/[slug].astro`** — already glob-based (`../../../tools/*/*/Widget.astro`), no change needed for new tools
-
-For guides: add a static import in `src/pages/guide/[...slug].astro`.
-For FAQs: add an import in `src/data/faq-registry.ts`.
-For knowledge: add `knowledge.ts` beside `config.ts` and one import + entry in
-`src/lib/knowledge/registry.ts`. Derived related tools/guides/FAQs are automatic; author only the
-overlay fields (`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`). Missing knowledge
-WARNs; invalid knowledge fails the build.
+Widget and guide routes are glob-based (`tools/*/*/Widget.astro`, `tools/*/*/Guide.astro`) — file
+presence wires the route; no page file is edited for a new tool. Derived related
+tools/guides/FAQs are automatic; author only the knowledge overlay fields
+(`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`). Missing knowledge WARNs;
+invalid knowledge fails the build.
 
 ---
 

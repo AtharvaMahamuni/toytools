@@ -29,26 +29,23 @@ export const items: FAQItem[] = [
 ];
 ```
 
-### Step 2 — Register in `src/data/faq-registry.ts`
+### Step 2 — Regenerate the registration barrels
 
-Add **one import line + one entry** in `faqsByToolSlug`:
-
-```ts
-import { items as myToolFaqs } from '@tools/text/my-tool-slug/faq';
-
-export const faqsByToolSlug: Record<string, FAQItem[]> = {
-  // ...existing
-  'my-tool-slug': myToolFaqs,
-};
+```sh
+npm run registries:generate
 ```
 
-That's it. The tool page automatically renders the FAQ accordion.
+Registration is derived from `faq.ts` presence in the tool directory — never hand-edit
+`faq-registry.ts` or `faq-registry.generated.ts`. The tool page automatically renders the FAQ
+accordion.
 
 ---
 
 ## Guide
 
-A guide is a standalone page at `/guide/<category>/<guide-slug>/`. Guides require three registrations that must stay in sync — the build fails if they drift.
+A guide is a standalone page at `/guide/<category>/<guide-slug>/`. Two authored pieces — the
+`guide:` field in config.ts and the `Guide.astro` file — plus one regenerate; the route map and
+slug registry both derive from `Guide.astro` presence, so they cannot drift.
 
 ### Step 1 — Add `guide` field to `config.ts`
 
@@ -83,31 +80,16 @@ import { config } from './config';
 
 Consult `seo-content` skill (`references/write-guide.md`) for full guide structure conventions.
 
-### Step 3 — Register in `src/data/guide-registry.ts`
+### Step 3 — Regenerate the registration barrels
 
-Add the tool's slug to the `registeredGuideSlugs` array:
-
-```ts
-export const registeredGuideSlugs = [
-  // ...existing slugs
-  'my-tool-slug',
-];
+```sh
+npm run registries:generate
 ```
 
-### Step 4 — Register in `src/pages/guide/[...slug].astro`
-
-Add **one import + one map entry** in `guidesBySlug`:
-
-```ts
-import MyToolGuide from '../../tools/text/my-tool-slug/Guide.astro';
-
-const guidesBySlug = {
-  // ...existing
-  'my-tool-slug': MyToolGuide,
-};
-```
-
-All three (config.guide, registeredGuideSlugs, guidesBySlug) must reference the same slug. `validate-registry.ts` enforces this and fails the build on mismatch.
+The guide route discovers `Guide.astro` components via `import.meta.glob`, and
+`guide-registry.generated.ts` derives the slug list from the same file presence — never hand-edit
+either. `validate-registry.ts` fails the build when config declares `guide:` but no `Guide.astro`
+exists (and `validate-architecture` when the barrels are stale).
 
 ---
 
@@ -171,18 +153,14 @@ export const knowledge: Knowledge = {
 
 All `slug` values in `usedWith`/`alternatives`/`nextSteps` must resolve to registered tools.
 
-### Step 3 — Register in `src/lib/knowledge/registry.ts`
+### Step 3 — Regenerate the registration barrels
 
-Add **one import + one array entry**:
-
-```ts
-import { knowledge as myTool } from '@tools/text/my-tool-slug/knowledge';
-
-export const KNOWLEDGE_ENTRIES: Knowledge[] = [
-  // ...existing
-  myTool,
-];
+```sh
+npm run registries:generate
 ```
+
+Registration derives from `knowledge.ts` presence in the tool directory — never hand-edit
+`src/lib/knowledge/registry.ts` or its `registry.generated.ts`.
 
 ### Validation
 

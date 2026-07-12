@@ -1,9 +1,10 @@
-// scaffold-tool — generate a tool directory AND wire every registry in one command.
+// scaffold-tool — generate a tool directory; registration is derived, not edited.
 //
-// Adding a fully-loaded tool by hand touches up to five files (registry, faq-registry,
-// guide-registry + the guide route, knowledge registry) on top of the tool directory itself.
-// This collapses that into one step: it writes config.ts + Widget.astro (+ optional faq/guide/
-// knowledge stubs) and inserts the matching import + entry into each registry via stable anchors.
+// Registration barrels (registry/faq/guide/knowledge *.generated.ts + the glob-driven guide
+// route) DERIVE from the tool tree, so this script only writes the tool directory (config.ts +
+// Widget.astro + optional faq/guide/knowledge stubs) and re-runs `generate-registries` to refresh
+// the barrels. The one thing still hand-wired is a NEW engine impl (its engine registry entry),
+// which this script also scaffolds via stable anchors when the processorId does not resolve yet.
 // Idempotent (refuses an existing slug), supports --dry-run, and runs the validators at the end.
 //
 // Usage:
@@ -45,9 +46,11 @@ function parseArgs(argv: string[]): Record<string, string | boolean> {
 const args = parseArgs(process.argv.slice(2));
 const dryRun = Boolean(args['dry-run']);
 
-// Registry edits happen after this process imported the registries, so the committed
-// code map is regenerated in a fresh process (validate-architecture fails on staleness).
-function regenerateCodeMap() {
+// Tool-tree edits happen after this process imported the registries, so the committed
+// registration barrels + code map are regenerated in fresh processes (validate-architecture
+// fails on staleness of either). Order matters: barrels first, then the code map reads them.
+function regenerateDerived() {
+  execSync('npx tsx scripts/generate-registries.ts', { cwd: repoRoot, stdio: 'inherit' });
   execSync('npx tsx scripts/export-code-map.ts', { cwd: repoRoot, stdio: 'inherit' });
 }
 
@@ -58,12 +61,11 @@ function die(msg: string): never {
 
 // ---- remove mode (the clean inverse of scaffold) --------------------------------------------
 // `npm run scaffold:tool -- --remove --slug <slug> [--dry-run]` deletes the tool directory and
-// strips its import + entry from every registry. Flag-independent: it removes whatever lines
-// match the slug's signature, so it works whether or not the tool had faq/guide/knowledge.
+// regenerates the derived registration barrels (which drop the tool automatically). Only a
+// now-unused engine impl still needs its registry lines stripped by hand here.
 if (args.remove) {
   const rslug = String(args.slug ?? '');
   if (!rslug) die('--remove needs --slug');
-  const rcamel = rslug.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
   // Locate the tool's segment directory on disk.
   const toolsRoot = join(repoRoot, 'src', 'tools');
   let rseg = '';
@@ -72,13 +74,9 @@ if (args.remove) {
   }
   if (!rseg) die(`no tool directory found for slug "${rslug}"`);
 
-  const dropSpecs: { file: string; drop: (l: string) => boolean }[] = [
-    { file: 'src/data/registry.ts', drop: l => l.includes(`@tools/${rseg}/${rslug}/config'`) || l.trim() === `${rcamel},` },
-    { file: 'src/data/faq-registry.ts', drop: l => l.includes(`@tools/${rseg}/${rslug}/faq'`) || l.trim().startsWith(`'${rslug}':`) },
-    { file: 'src/data/guide-registry.ts', drop: l => l.trim() === `'${rslug}',` },
-    { file: 'src/pages/guide/[...slug].astro', drop: l => l.includes(`tools/${rseg}/${rslug}/Guide.astro`) || l.trim().startsWith(`'${rslug}':`) },
-    { file: 'src/lib/knowledge/registry.ts', drop: l => l.includes(`@tools/${rseg}/${rslug}/knowledge'`) || l.trim() === `${rcamel},` },
-  ];
+  // Registration is derived, so removal is: delete the directory, regenerate the barrels. Only
+  // an engine impl that no other tool uses still has hand-wired registry lines to strip.
+  const dropSpecs: { file: string; drop: (l: string) => boolean }[] = [];
 
   // If the tool has an engine impl no other tool uses, remove the impl + its registry lines
   // too (the inverse of the scaffold-time impl stub). A shared processorId is left alone.
@@ -123,7 +121,7 @@ if (args.remove) {
     console.log(`  - ${implToDelete} (engine impl, no other tool uses "${rpid}")`);
     if (!dryRun) rmSync(join(repoRoot, implToDelete), { force: true });
   }
-  if (!dryRun) regenerateCodeMap();
+  if (!dryRun) regenerateDerived();
   console.log(`\n[scaffold-tool] ${dryRun ? 'dry run complete — nothing changed.' : 'removed. Run `npm run build` to confirm.'}`);
   process.exit(0);
 }
@@ -160,10 +158,6 @@ if (REGISTRY_ENGINES.has(engine) && !processorId) {
 const segment = categories.find(c => c.slug === category)!.segment;
 const today = new Date().toISOString().slice(0, 10);
 const monthYear = new Date().toLocaleString('en-US', { month: 'short', year: 'numeric' });
-
-// camelCase / PascalCase from the slug
-const camel = slug.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
-const Pascal = camel.charAt(0).toUpperCase() + camel.slice(1);
 
 // ---- file templates -------------------------------------------------------------------------
 const WIDGETS: Record<string, { comp: string; prop: string }> = {
@@ -303,64 +297,11 @@ function knowledgeSource(): string {
   return `import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';\n\n// TODO: fill in real, tool-specific content. Empty relationship arrays are valid to start.\nexport const knowledge: Knowledge = {\n  schemaVersion: KNOWLEDGE_SCHEMA_VERSION,\n  slug: '${slug}',\n  title: '${name}',\n  category: '${category}',\n  summary: 'TODO: one-line summary (<=160 chars).',\n  primaryConcepts: ['${slug.replace(/-/g, ' ')}'],\n  secondaryConcepts: [],\n  intentGroups: {\n    informational: [],\n    howTo: [],\n    comparison: [],\n    misconception: [],\n    troubleshooting: [],\n  },\n  realWorldUseCases: [],\n  commonMistakes: [],\n  commonQuestions: [],\n  usedWith: [],\n  alternatives: [],\n  nextSteps: [],\n  workflowStage: ['transform'],\n  keywords: [],\n  entityAliases: [],\n};\n`;
 }
 
-// ---- registry insertion (anchor-based, idempotent) ------------------------------------------
+// ---- engine-registry insertion (anchor-based, idempotent) -----------------------------------
+// Tool registration is derived (generate-registries runs after the files are written); the only
+// remaining anchor edits wire a NEW engine impl into its engine registry.
 interface Edit { file: string; anchor: string; line: string; }
 const edits: Edit[] = [];
-
-edits.push({
-  file: 'src/data/registry.ts',
-  anchor: `import type { ToolConfig } from './types';`,
-  line: `import { config as ${camel} } from '@tools/${segment}/${slug}/config';`,
-});
-edits.push({
-  file: 'src/data/registry.ts',
-  anchor: `export const tools: ToolConfig[] = [`,
-  line: `  ${camel},`,
-});
-
-if (wantFaq) {
-  edits.push({
-    file: 'src/data/faq-registry.ts',
-    anchor: `import type { FAQItem } from './types';`,
-    line: `import { items as ${camel}Faqs } from '@tools/${segment}/${slug}/faq';`,
-  });
-  edits.push({
-    file: 'src/data/faq-registry.ts',
-    anchor: `export const faqsByToolSlug: Record<string, FAQItem[]> = {`,
-    line: `  '${slug}': ${camel}Faqs,`,
-  });
-}
-
-if (wantGuide) {
-  edits.push({
-    file: 'src/data/guide-registry.ts',
-    anchor: `export const registeredGuideSlugs = [`,
-    line: `  '${slug}',`,
-  });
-  edits.push({
-    file: 'src/pages/guide/[...slug].astro',
-    anchor: `import type { RegisteredGuideSlug } from '@data/guide-registry';`,
-    line: `import ${Pascal}Guide from '../../tools/${segment}/${slug}/Guide.astro';`,
-  });
-  edits.push({
-    file: 'src/pages/guide/[...slug].astro',
-    anchor: `const guidesBySlug: Record<RegisteredGuideSlug, any> = {`,
-    line: `  '${slug}': ${Pascal}Guide,`,
-  });
-}
-
-if (wantKnowledge) {
-  edits.push({
-    file: 'src/lib/knowledge/registry.ts',
-    anchor: `import type { Knowledge } from './types';`,
-    line: `import { knowledge as ${camel} } from '@tools/${segment}/${slug}/knowledge';`,
-  });
-  edits.push({
-    file: 'src/lib/knowledge/registry.ts',
-    anchor: `export const KNOWLEDGE_ENTRIES: Knowledge[] = [`,
-    line: `  ${camel},`,
-  });
-}
 
 function applyEdit(e: Edit): void {
   const path = join(repoRoot, e.file);
@@ -396,15 +337,15 @@ for (const f of files) {
   console.log(`  + ${f.path.replace(repoRoot + '/', '')}`);
   if (!dryRun) { mkdirSync(dirname(f.path), { recursive: true }); writeFileSync(f.path, f.body); }
 }
-console.log('[scaffold-tool] registry edits:');
+if (edits.length) console.log('[scaffold-tool] engine-registry edits:');
 for (const e of edits) { console.log(`  ~ ${e.file}  +  ${e.line.trim()}`); applyEdit(e); }
 
 if (dryRun) {
-  console.log('\n[scaffold-tool] dry run complete — nothing written.');
+  console.log('\n[scaffold-tool] dry run complete — nothing written. (Registration barrels regenerate on the real run.)');
   process.exit(0);
 }
 
-regenerateCodeMap();
+regenerateDerived();
 
 console.log('\n[scaffold-tool] done. Next: fill the TODOs, then run `npm run build` (validators + render) and `npm run test:e2e`.');
 if (implSpec) console.log(`[scaffold-tool] NOTE: implement ${implSpec.implPath} (currently a passthrough stub) and add cases to ${implSpec.testFile}.`);

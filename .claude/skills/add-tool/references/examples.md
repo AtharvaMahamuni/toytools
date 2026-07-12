@@ -274,15 +274,8 @@ import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 
 ---
 
-## `src/data/registry.ts` — import pattern
+## Registration — derived, not edited
 
-```ts
-// Group imports by engine type, matching the existing comment sections:
-import { config as myNewTool } from '@tools/text/my-new-tool/config';
-
-// In the tools array:
-export const tools: ToolConfig[] = [
-  // ...existing
-  myNewTool,
-];
-```
+There is no registry import to write. Once `src/tools/<segment>/<slug>/config.ts` exists, run
+`npm run registries:generate` (scaffold:tool does this automatically) and the tool is registered
+via `src/data/registry.generated.ts`. Never hand-edit the registry hubs or `*.generated.ts` files.

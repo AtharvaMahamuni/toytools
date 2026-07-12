@@ -17,6 +17,7 @@ import { dirname, join } from 'node:path';
 
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
+import { simulationGuideSlugs } from '../src/lib/simulation/derived';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
 import { ENCODERS } from '../src/lib/engines/encoding/registry';
 import { HASHERS } from '../src/lib/engines/hashing/registry';
@@ -25,11 +26,10 @@ import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { KNOWLEDGE } from '../src/lib/knowledge/registry';
-import { faqsByToolSlug } from '../src/data/faq-registry';
-import { registeredGuideSlugs } from '../src/data/guide-registry';
 import { knownPatterns } from '../src/data/engines';
 import { sectionsByPattern } from '../src/data/category-sections';
 import { serializeCodeMap, CODE_MAP_PATH } from './export-code-map';
+import { staleGeneratedFiles } from './generate-registries';
 
 const strict = process.argv.includes('--strict');
 const errors: string[] = [];
@@ -58,41 +58,40 @@ for (const segment of readdirSync(toolsDir, { withFileTypes: true })) {
   }
 }
 
-// ---- 2. Orphan files: authored on disk but not wired into the registry that renders them -----
-for (const { slug, files } of toolDirs) {
+// ---- 2. Generated-registry freshness: registration is DERIVED from the tool tree -------------
+// Registration barrels (registry/faq/guide/knowledge *.generated.ts) are written by
+// `npm run registries:generate` from the same directory scan as above. A stale barrel is the
+// derived-registration analogue of the old orphan-file class: content authored on disk that never
+// renders. Rebuild in memory and byte-compare, mirroring the code-map check below.
+for (const stale of staleGeneratedFiles()) {
+  err(`${stale} is stale (tool tree changed) — run \`npm run registries:generate\``);
+}
+
+// Belt and braces: the generated barrel spreads into src/data/registry.ts, so a conforming dir
+// missing from `tools` means the hub module itself was tampered with.
+for (const { slug } of toolDirs) {
   if (!toolBySlug.has(slug)) {
-    err(`Tool directory "${slug}" has config.ts but no entry in src/data/registry.ts`);
-    continue;
-  }
-  if (files.has('faq.ts') && !((faqsByToolSlug[slug]?.length ?? 0) > 0)) {
-    err(`Orphan FAQ: src/tools/.../${slug}/faq.ts exists but "${slug}" is not in faqsByToolSlug — its FAQ never renders (register it in src/data/faq-registry.ts)`);
-  }
-  if (files.has('knowledge.ts') && !KNOWLEDGE.has(slug)) {
-    err(`Orphan knowledge: src/tools/.../${slug}/knowledge.ts exists but "${slug}" is not in the knowledge registry (add it to src/lib/knowledge/registry.ts)`);
-  }
-  const tool = toolBySlug.get(slug);
-  if (files.has('Guide.astro')) {
-    if (!tool?.guide) {
-      warn(`Guide.astro present for "${slug}" but its config.ts declares no guide: — the page is unreachable`);
-    } else if (!registeredGuideSlugs.includes(slug as never)) {
-      err(`Orphan guide: "${slug}" has Guide.astro + guide config but is not in registeredGuideSlugs (src/data/guide-registry.ts)`);
-    }
+    err(`Tool directory "${slug}" has config.ts but is missing from the registry — regenerate (npm run registries:generate) and check src/data/registry.ts spreads registry.generated.ts`);
   }
 }
 
-// ---- 3. Guide-route completeness: every registered slug must be wired into the route map -----
-// astro build does not type-check the `Record<RegisteredGuideSlug, …>` constraint, so a slug
-// registered without its import renders an EMPTY guide page silently. Verify by text.
-const routeFile = join(repoRoot, 'src', 'pages', 'guide', '[...slug].astro');
-if (existsSync(routeFile)) {
-  const routeSrc = readFileSync(routeFile, 'utf8');
-  for (const slug of registeredGuideSlugs) {
-    if (!routeSrc.includes(`'${slug}':`)) {
-      err(`Guide "${slug}" is in registeredGuideSlugs but has no entry in guidesBySlug (src/pages/guide/[...slug].astro) — the guide page renders empty`);
-    }
+// ---- 3. Guide completeness: a declared guide must have a component to render -----------------
+// The guide route discovers components via import.meta.glob over Guide.astro files, so a tool
+// whose config declares `guide:` without a Guide.astro on disk gets a route that renders EMPTY
+// (no build error without this check). Simulation guides render generically from their manifest
+// and need no Guide.astro.
+const simGuideSet = new Set<string>(simulationGuideSlugs);
+for (const tool of tools) {
+  if (!tool.guide || simGuideSet.has(tool.slug)) continue;
+  const dir = toolDirs.find(d => d.slug === tool.slug);
+  if (dir && !dir.files.has('Guide.astro')) {
+    err(`Tool "${tool.slug}" declares guide: in config.ts but has no Guide.astro on disk — the guide page renders empty (author src/tools/${dir.segment}/${tool.slug}/Guide.astro)`);
   }
-} else {
-  err('Could not find src/pages/guide/[...slug].astro to verify guide-route completeness');
+}
+for (const { slug, files } of toolDirs) {
+  if (files.has('Guide.astro') && !toolBySlug.get(slug)?.guide) {
+    warn(`Guide.astro present for "${slug}" but its config.ts declares no guide: — the page is unreachable`);
+  }
 }
 
 // ---- 4. Unused engine-registry entries: a registered processor no tool claims is dead code ---

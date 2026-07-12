@@ -1,103 +1,23 @@
 // Source of truth for which tool slugs have a guide wired into the guide route.
 //
-// The actual `Guide.astro` components are imported in `src/pages/guide/[...slug].astro`
-// (a .astro file — its component map is typed `Record<RegisteredGuideSlug, …>`, so TypeScript
-// fails the build if this list and the component map ever drift apart). This module stays free of
-// `.astro` imports so it can be imported by `scripts/validate-registry.ts` under tsx, which cannot
-// parse Astro components. `validate-registry` checks every tool that declares `guide:` appears here.
+// Guide registration is DERIVED from the filesystem: authoring
+// src/tools/<segment>/<slug>/Guide.astro registers it (`guide-registry.generated.ts` is written by
+// `npm run registries:generate`). The guide route (src/pages/guide/[...slug].astro) discovers the
+// same components with import.meta.glob, so the list and the route map cannot drift: both derive
+// from Guide.astro presence on disk. This module stays free of `.astro` imports so it can be
+// imported by scripts/validate-registry.ts under tsx, which cannot parse Astro components.
+// validate-registry checks every tool that declares `guide:` appears here.
 
-export const registeredGuideSlugs = [
-  'age-calculator',
-  'date-difference-calculator',
-  'timezone-converter',
-  'unix-timestamp-converter',
-  'cron-expression-parser',
-  'qr-code-generator',
-  'lorem-ipsum-generator',
-  'random-string-generator',
-  'uuid-generator',
-  'password-generator',
-  'csv-diff',
-  'csv-cleaner',
-  'csv-to-tsv',
-  'cagr-calculator',
-  'roi-calculator',
-  'word-frequency-counter',
-  'remove-emoji',
-  'rot13-encoder-decoder',
-  'json-escape',
-  'sip-calculator',
-  'remove-accents',
-  'slugify-text',
-  'remove-line-breaks',
-  'reverse-text',
-  'tax-calculator',
-  'markup-calculator',
-  'punycode-converter',
-  'crc32-hash-generator',
-  'binary-text-converter',
-  'todo-list',
-  'notepad',
-  'keep-screen-awake',
-  'base64-encoder-decoder',
-  'url-encoder-decoder',
-  'html-entity-encoder-decoder',
-  'md5-hash-generator',
-  'sha1-hash-generator',
-  'sha256-hash-generator',
-  'hex-encoder-decoder',
-  'json-to-csv-converter',
-  'csv-to-json-converter',
-  'json-to-yaml-converter',
-  'yaml-to-json-converter',
-  'json-tree-viewer',
-  'jwt-decoder',
-  'sha512-hash-generator',
-  'discount-calculator',
-  'margin-calculator',
-  'tip-calculator',
-  'json-formatter',
-  'json-minifier',
-  'json-validator',
-  'percentage-calculator',
-  'word-counter',
-  'pomodoro-timer',
-  'uppercase-converter',
-  'lowercase-converter',
-  'title-case-converter',
-  'sentence-case-converter',
-  'camel-case-converter',
-  'snake-case-converter',
-  'kebab-case-converter',
-  'remove-extra-spaces',
-  'remove-blank-lines',
-  'remove-duplicate-lines',
-  'trim-text',
-  'normalize-whitespace',
-  'remove-tabs',
-  'character-counter',
-  'reading-time-calculator',
-  'sentence-counter',
-  'paragraph-counter',
-  'letter-counter',
-  'line-counter',
-  'space-counter',
-  'find-replace',
-  'text-compare',
-  'compound-interest-calculator',
-  'rule-of-72-calculator',
-  'inflation-calculator',
-  'savings-goal-calculator',
-  'emergency-fund-calculator',
-  'scientific-calculator',
-] as const;
+import { authoredGuideSlugs } from './guide-registry.generated';
+
+export const registeredGuideSlugs = authoredGuideSlugs;
 
 export type RegisteredGuideSlug = (typeof registeredGuideSlugs)[number];
 
 // Simulation guides are rendered generically by SimulationGuide.astro from their manifest, so they
-// are NOT in the typed tuple above (no static component import) but ARE registered guides. Adding
+// are NOT in the authored list above (no Guide.astro on disk) but ARE registered guides. Adding
 // them to the set keeps validate-registry's "tool declares a guide -> must be registered" check
-// satisfied while keeping the guide-route-map drift check scoped to statically imported guides.
+// satisfied.
 import { simulationGuideSlugs } from '@lib/simulation/derived';
 
 export const registeredGuideSlugSet: ReadonlySet<string> = new Set([
