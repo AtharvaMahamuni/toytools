@@ -463,6 +463,13 @@ guide-route drift check stays scoped to statically imported guides). The tool ro
 `SimulationWidget.astro` and the guide route renders `SimulationGuide.astro` for any tool whose slug
 has a manifest.
 
+**Auto-derived relationships.** `relations.ts` derives each sim's `usedWith`/`nextSteps` (and thus
+`config.relatedTools`) from what manifests actually **share** — concepts, exposed quantities (param +
+equation-variable labels), and family — with `nextSteps` following the difficulty progression and a
+same-category fallback so no sim derives an empty list. `derived.ts` resolves these once across all
+manifests; a manifest may still set an explicit `relationships` overlay to override. This is why the
+manifests carry no hand-authored related-tool lists.
+
 **Reusable libraries** (so sim #N reuses, never copy-pastes): `render/` (math, vector, angle, units
 incl. `GAS_CONSTANT_R`, physics kernels `resolveCollision1D`/`kineticEnergy`/`springPotential`),
 `graphs/` (`streamGraph`/`snapshotGraph`/`singleStream`/`singleSnapshot` builders), and `canvas.ts`
