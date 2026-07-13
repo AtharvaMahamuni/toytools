@@ -103,6 +103,25 @@ hypotheses are data in `src/lib/research/taxonomy.ts`. To change recommendations
 > weak incumbents, why ToyTools can win, the reusable engine and what it unlocks, suggested
 > guides/FAQs/links, effort/SEO/maintenance estimates), then implement via the **`add-tool`** skill.
 
+## Agent roster (`.claude/agents/`)
+
+Skills are in-conversation playbooks (the main session does the work); agents are fresh-context
+workers for fan-out or scheduled runs. Four project agents, each with an objective exit condition:
+
+- **`research-intelligence`** — runs the RIE, returns the evidence-backed "what to build next";
+  hands implementation back to the caller (never builds).
+- **`tool-builder`** — builds ONE named tool end-to-end (scaffold → engine + tests → widget →
+  content → build/e2e/seo:gate green, single ready branch). For parallel production spawn one per
+  tool in worktree isolation; registration is derived, so parallel builds don't conflict. Stops
+  and reports if the tool needs a new engine (caller-level decision).
+- **`content-writer`** — writes/upgrades ONE tool's guide/FAQ/knowledge, driving seo:status →
+  seo:gate to exit 0. Content only; one agent per slug for batch work.
+- **`site-auditor`** — read-only sweep (build, health, duplication, Quality Guardian, indexing
+  coverage, seo:status table) returning one triaged report. Never fixes; scheduled/weekly use.
+
+The main session stays the orchestrator: engine selection for novel tool types and RIE dataset
+authorship are the two judgment calls never delegated to agents.
+
 ```sh
 npm run quality:pr      # Quality Guardian — per-PR crawl/validate/autofix pass (quality-guardian/)
 npm run quality:weekly  # Quality Guardian — scheduled full-site sweep
