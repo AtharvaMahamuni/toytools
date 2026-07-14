@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics', 'datetime',
+  'physics', 'datetime', 'math-lab',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -83,6 +83,10 @@ const engineDefs: EngineDef[] = [
   // Date & Time: date/duration/timezone/timestamp/schedule tools. Reuses the platform experience
   // renderer (ToyTools.experience) for output; runtimeGlobal runDateTime resolves the calculator.
   { id: 'datetime', name: 'Date & Time Engine', category: 'date-time', patterns: ['datetime-calculate', 'datetime-convert', 'datetime-schedule'], runtimeGlobal: 'runDateTime', sharedWidget: 'DateTimeWidget.astro' },
+  // Applied Math Lab: the second domain plugin on the generic simulation platform (see
+  // src/lib/simulation/plugins/math/). Same runtime story as physics: no ToyTools global,
+  // SimulationWidget lazy-loads exactly one simulation module per page.
+  { id: 'math-lab', name: 'Math Lab Engine', category: 'applied-math', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'SimulationWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {

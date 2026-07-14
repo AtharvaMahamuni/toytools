@@ -53,6 +53,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     segment: 'physics',
   },
   {
+    slug: 'applied-math',
+    name: 'Applied Math',
+    description: 'Interactive math you can see and touch. Drag angles, morph curves, and watch sin, cos, and the rest come alive in your browser.',
+    accent: '#BE123C',
+    segment: 'math',
+  },
+  {
     slug: 'date-time',
     name: 'Date & Time',
     description: 'Calculate ages and durations, convert time zones and timestamps, and work with dates, all in your browser.',

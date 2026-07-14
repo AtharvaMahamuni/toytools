@@ -12,7 +12,7 @@ import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
 import { GENERATORS } from '../src/lib/generation/registry';
-import { SIMULATIONS } from '../src/lib/simulation/simulations/registry';
+import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
 import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
 
@@ -30,7 +30,9 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
   finance: FINANCE_CALCULATORS,
   csv: CSV_TOOLS,
   generation: GENERATORS,
-  physics: SIMULATIONS,
+  // Each simulation domain plugin resolves only its own slice of the composed simulation map,
+  // so e.g. a physics tool cannot claim a math-lab processorId.
+  ...Object.fromEntries(DOMAINS.map(d => [d.id, d.simulations])),
 };
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
@@ -178,7 +180,7 @@ for (const manifest of MANIFESTS) {
     errors.push(`Simulation manifest "${slug}" has schemaVersion ${manifest.schemaVersion}, expected ${SIMULATION_SCHEMA_VERSION} — update the manifest to the current shape`);
   }
   if (!SIMULATIONS[processorId]) {
-    errors.push(`Simulation manifest "${slug}" references processorId "${processorId}" with no registered model — add it to src/lib/simulation/plugins/physics/index.ts`);
+    errors.push(`Simulation manifest "${slug}" references processorId "${processorId}" with no registered model — register it in its domain plugin (src/lib/simulation/plugins/<domain>/index.ts)`);
   }
   if (simSlugsSeen.has(slug)) errors.push(`Duplicate simulation manifest slug: "${slug}"`);
   simSlugsSeen.add(slug);
