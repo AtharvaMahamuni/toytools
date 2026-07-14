@@ -104,6 +104,44 @@ export const RESEARCH_TAXONOMY: ResearchTaxonomy = [
     ],
   },
   {
+    // Applied Mathematics: 'math-lab' is the simulation-platform math domain (interactive
+    // explorables, one model + draw + manifest per tool); 'math' is the classic-tool engine for
+    // data-input calculators. Neither is built yet; see docs/analysis/2026-07-14-applied-math-
+    // category-plan.md for the launch plan.
+    domain: 'math',
+    transformations: [
+      {
+        transformation: 'Interactive Explorables',
+        engine: 'math-lab',
+        expected: [
+          'unit-circle-explorer',
+          'quadratic-equation-explorer',
+          'probability-simulator',
+          'function-grapher',
+          'linear-regression-playground',
+          'normal-distribution-visualizer',
+          'derivative-visualizer',
+          'monte-carlo-pi-estimator',
+          'fourier-series-visualizer',
+        ],
+      },
+      {
+        transformation: 'Math Calculators',
+        engine: 'math',
+        expected: [
+          'statistics-visualizer',
+          'matrix-calculator',
+          'triangle-solver',
+          'fraction-calculator',
+          'prime-factorization-calculator',
+          'combinations-permutations-calculator',
+          'gcd-lcm-calculator',
+          'z-score-calculator',
+        ],
+      },
+    ],
+  },
+  {
     // Physics Playground: all families reuse the existing 'physics' simulate engine (one model +
     // one draw file per tool), so these are high-reuse, low-cost expansions of the shipped cluster.
     domain: 'physics',

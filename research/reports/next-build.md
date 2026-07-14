@@ -1,37 +1,38 @@
 # Recommended Next Build
 
-Generated: 2026-07-12T08:38:16.725Z
+Generated: 2026-07-14T18:15:11.060Z
 
-## CSV Column Picker  (`csv-column-picker`)
+## Unit Circle Explorer  (`unit-circle-explorer`)
 
-**Opportunity score:** 70.8 / 100
+**Opportunity score:** 71.4 / 100
 
 ### Why build it
+- High search demand
 - Weak / incomplete incumbents
-- Reuses the existing csv engine
+- Implies a new math-lab engine
 - Low implementation cost
-- Creates 5 internal links
 
 ### Why incumbents are weak
-- awk is dev-only
-- spreadsheets choke on big files
+- static charts to memorize
+- mathsisfun applet is dated and desktop-only
+- no drag interaction on mobile
+- no live sine wave tracing
 
 ### Why ToyTools can win
-- Ships on the proven csv engine - consistent UX, fast to build.
+- Anchors a new math-lab engine that unlocks 6 tools.
 - Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).
 - Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.
 
 ### Engine
-- Reuses existing engine: `csv`
-- Future tools this unlocks: csv-diff, csv-to-tsv, csv-cleaner
+- Anchors a NEW engine: `math-lab`
+- Future tools this unlocks: quadratic-equation-explorer, probability-simulator, normal-distribution-visualizer, linear-regression-playground, function-grapher
 
 ### Estimates
-- Implementation effort: **medium**
+- Implementation effort: **low**
 - Long-term SEO value: **high**
-- Maintenance cost: **low**
+- Maintenance cost: **medium**
 
 ### Suggested supporting content
-- Guides: What is CSV Column Selection?; How to csv column selection online; CSV Column Picker vs the alternatives
-- FAQs: How do I csv column selection?; Is CSV Column Picker free and private?; Does CSV Column Picker avoid "awk is dev-only"?
-- Internal links / related tools: csv-to-json-converter, json-to-csv-converter, csv-cleaner, csv-diff, csv-to-tsv
+- Guides: What is Unit Circle?; How to unit circle online; Unit Circle Explorer vs the alternatives
+- FAQs: How do I unit circle?; Is Unit Circle Explorer free and private?; Does Unit Circle Explorer avoid "static charts to memorize"?
 - Schema: SoftwareApplication, FAQPage

@@ -1,7 +1,59 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-04T13:22:26.983Z",
+  "generatedAt": "2026-07-14T18:15:11.060Z",
   "engines": [
+    {
+      "engine": "math-lab",
+      "exists": false,
+      "confidence": 0.97,
+      "transformations": [
+        "Function Graphing",
+        "Linear Regression",
+        "Normal Distribution",
+        "Probability",
+        "Quadratic Equations",
+        "Unit Circle"
+      ],
+      "unlocksTools": [
+        "unit-circle-explorer",
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "normal-distribution-visualizer",
+        "linear-regression-playground",
+        "function-grapher"
+      ],
+      "topScore": 71.4,
+      "rationale": [
+        "6 opportunities share the missing \"math-lab\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 6 tools."
+      ]
+    },
+    {
+      "engine": "math",
+      "exists": false,
+      "confidence": 0.97,
+      "transformations": [
+        "Combinatorics",
+        "Descriptive Statistics",
+        "Fractions",
+        "Matrices",
+        "Number Theory",
+        "Triangles"
+      ],
+      "unlocksTools": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator",
+        "statistics-visualizer",
+        "matrix-calculator",
+        "triangle-solver"
+      ],
+      "topScore": 69.4,
+      "rationale": [
+        "6 opportunities share the missing \"math\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 6 tools."
+      ]
+    },
     {
       "engine": "loan",
       "exists": false,
@@ -36,30 +88,6 @@
       "rationale": [
         "2 opportunities share the missing \"budget\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
-      ]
-    },
-    {
-      "engine": "datetime",
-      "exists": false,
-      "confidence": 0.97,
-      "transformations": [
-        "Age Calculation",
-        "Cron Parsing",
-        "Date Difference",
-        "Timestamp Conversion",
-        "Timezone Conversion"
-      ],
-      "unlocksTools": [
-        "unix-timestamp-converter",
-        "age-calculator",
-        "date-difference-calculator",
-        "timezone-converter",
-        "cron-expression-parser"
-      ],
-      "topScore": 65,
-      "rationale": [
-        "5 opportunities share the missing \"datetime\" engine.",
-        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 5 tools."
       ]
     },
     {

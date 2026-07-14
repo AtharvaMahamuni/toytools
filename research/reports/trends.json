@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-04T13:22:26.983Z",
+  "generatedAt": "2026-07-14T18:15:11.060Z",
   "trends": [
     {
       "transformation": "Line Break Removal",
@@ -21,6 +21,12 @@
       "meanScore": 80.8
     },
     {
+      "transformation": "Projectile Motion",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 79.8
+    },
+    {
       "transformation": "Slugification",
       "count": 1,
       "meanDemand": 0.8,
@@ -39,10 +45,22 @@
       "meanScore": 79.1
     },
     {
+      "transformation": "Ohm's Law",
+      "count": 1,
+      "meanDemand": 0.95,
+      "meanScore": 78.9
+    },
+    {
       "transformation": "JSON String Escaping",
       "count": 1,
       "meanDemand": 0.76,
       "meanScore": 78.8
+    },
+    {
+      "transformation": "Simple Harmonic Motion",
+      "count": 1,
+      "meanDemand": 0.68,
+      "meanScore": 78.5
     },
     {
       "transformation": "CSV Diff",
@@ -69,6 +87,18 @@
       "meanScore": 77
     },
     {
+      "transformation": "Ideal Gas Law",
+      "count": 1,
+      "meanDemand": 0.82,
+      "meanScore": 76.5
+    },
+    {
+      "transformation": "Timestamp Conversion",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 76.2
+    },
+    {
       "transformation": "Emoji Removal",
       "count": 1,
       "meanDemand": 0.66,
@@ -81,10 +111,40 @@
       "meanScore": 75.2
     },
     {
+      "transformation": "Doppler Effect",
+      "count": 1,
+      "meanDemand": 0.78,
+      "meanScore": 75
+    },
+    {
       "transformation": "CSV Cleaning",
       "count": 1,
       "meanDemand": 0.7,
       "meanScore": 74.1
+    },
+    {
+      "transformation": "Momentum and Collisions",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 73.8
+    },
+    {
+      "transformation": "Age Calculation",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 73.7
+    },
+    {
+      "transformation": "Date Difference",
+      "count": 1,
+      "meanDemand": 0.85,
+      "meanScore": 73.6
+    },
+    {
+      "transformation": "Inclined Plane and Friction",
+      "count": 1,
+      "meanDemand": 0.62,
+      "meanScore": 73
     },
     {
       "transformation": "Checksum (CRC32)",
@@ -93,10 +153,34 @@
       "meanScore": 72.5
     },
     {
+      "transformation": "Unit Circle",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 71.4
+    },
+    {
+      "transformation": "Quadratic Equations",
+      "count": 1,
+      "meanDemand": 0.94,
+      "meanScore": 71.3
+    },
+    {
       "transformation": "CSV Column Selection",
       "count": 1,
       "meanDemand": 0.6,
       "meanScore": 70.8
+    },
+    {
+      "transformation": "Fractions",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 69.4
+    },
+    {
+      "transformation": "Combinatorics",
+      "count": 1,
+      "meanDemand": 0.78,
+      "meanScore": 69
     },
     {
       "transformation": "Word Frequency Analysis",
@@ -105,10 +189,40 @@
       "meanScore": 68.8
     },
     {
+      "transformation": "Number Theory",
+      "count": 1,
+      "meanDemand": 0.75,
+      "meanScore": 68.1
+    },
+    {
+      "transformation": "Timezone Conversion",
+      "count": 1,
+      "meanDemand": 0.8,
+      "meanScore": 67.4
+    },
+    {
       "transformation": "Loan Amortization",
       "count": 1,
       "meanDemand": 0.96,
       "meanScore": 67.2
+    },
+    {
+      "transformation": "Probability",
+      "count": 1,
+      "meanDemand": 0.85,
+      "meanScore": 67.2
+    },
+    {
+      "transformation": "Descriptive Statistics",
+      "count": 1,
+      "meanDemand": 0.92,
+      "meanScore": 66.9
+    },
+    {
+      "transformation": "Cron Parsing",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 66.2
     },
     {
       "transformation": "Net Worth",
@@ -123,10 +237,10 @@
       "meanScore": 65.5
     },
     {
-      "transformation": "Timestamp Conversion",
+      "transformation": "Matrices",
       "count": 1,
-      "meanDemand": 0.9,
-      "meanScore": 65
+      "meanDemand": 0.88,
+      "meanScore": 64.8
     },
     {
       "transformation": "Salary Conversion",
@@ -135,34 +249,34 @@
       "meanScore": 64.8
     },
     {
-      "transformation": "Age Calculation",
+      "transformation": "Triangles",
       "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 62.5
+      "meanDemand": 0.8,
+      "meanScore": 64.6
     },
     {
-      "transformation": "Date Difference",
+      "transformation": "Normal Distribution",
       "count": 1,
-      "meanDemand": 0.85,
-      "meanScore": 62.4
+      "meanDemand": 0.76,
+      "meanScore": 63.3
+    },
+    {
+      "transformation": "Linear Regression",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 62.3
+    },
+    {
+      "transformation": "Function Graphing",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 60.2
     },
     {
       "transformation": "Retirement Projection",
       "count": 1,
       "meanDemand": 0.94,
       "meanScore": 59.5
-    },
-    {
-      "transformation": "Timezone Conversion",
-      "count": 1,
-      "meanDemand": 0.8,
-      "meanScore": 56.2
-    },
-    {
-      "transformation": "Cron Parsing",
-      "count": 1,
-      "meanDemand": 0.72,
-      "meanScore": 55
     }
   ]
 }

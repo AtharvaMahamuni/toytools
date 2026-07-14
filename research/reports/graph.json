@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-04T13:22:26.983Z",
+  "generatedAt": "2026-07-14T18:15:11.060Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -8,9 +8,27 @@
       "transformation": "Age Calculation",
       "engine": "datetime",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
     },
     {
       "id": "base64-encoder-decoder",
@@ -105,6 +123,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "combinations-permutations-calculator",
+      "title": "Combinations & Permutations Calculator",
+      "transformation": "Combinatorics",
+      "engine": "math",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "compound-interest-calculator",
       "title": "Compound Interest Calculator",
       "transformation": "interest",
@@ -148,9 +176,27 @@
       "transformation": "Cron Parsing",
       "engine": "datetime",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
     },
     {
       "id": "csv-cleaner",
@@ -168,7 +214,9 @@
       "relatedGuides": [
         "csv-to-json-converter",
         "remove-blank-lines",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
@@ -194,7 +242,9 @@
       "relatedGuides": [
         "csv-to-json-converter",
         "json-to-csv-converter",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
@@ -220,7 +270,9 @@
       "relatedGuides": [
         "text-compare",
         "csv-to-json-converter",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "text-compare",
@@ -254,7 +306,9 @@
       ],
       "relatedGuides": [
         "csv-to-json-converter",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
@@ -269,9 +323,51 @@
       "transformation": "Date Difference",
       "engine": "datetime",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "doppler-effect-simulator",
+      "title": "Doppler Effect Simulator",
+      "transformation": "Doppler Effect",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "wave-speed-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "wave-speed-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ]
     },
     {
       "id": "emergency-fund-calculator",
@@ -288,6 +384,46 @@
       "title": "Find and Replace",
       "transformation": "find-replace",
       "engine": "text-interactive",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "fraction-calculator",
+      "title": "Fraction Calculator",
+      "transformation": "Fractions",
+      "engine": "math",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "frequency-period-simulator",
+      "title": "Frequency & Period Simulator",
+      "transformation": "oscillations",
+      "engine": "physics",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "function-grapher",
+      "title": "Function Grapher",
+      "transformation": "Function Graphing",
+      "engine": "math-lab",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "heat-transfer-simulator",
+      "title": "Heat Transfer Simulator",
+      "transformation": "thermodynamics",
+      "engine": "physics",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -312,6 +448,54 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "ideal-gas-law-simulator",
+      "title": "Ideal Gas Law Simulator",
+      "transformation": "Ideal Gas Law",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "heat-transfer-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "heat-transfer-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ]
+    },
+    {
+      "id": "inclined-plane-simulator",
+      "title": "Inclined Plane Simulator",
+      "transformation": "Inclined Plane and Friction",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ]
     },
     {
       "id": "inflation-calculator",
@@ -435,6 +619,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "linear-regression-playground",
+      "title": "Linear Regression Playground",
+      "transformation": "Linear Regression",
+      "engine": "math-lab",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "loan-calculator",
       "title": "Loan Calculator",
       "transformation": "Loan Amortization",
@@ -461,6 +655,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "matrix-calculator",
+      "title": "Matrix Calculator",
+      "transformation": "Matrices",
+      "engine": "math",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "md5-hash-generator",
       "title": "MD5 Hash Generator",
       "transformation": "cryptographic",
@@ -469,6 +673,30 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "momentum-collision-simulator",
+      "title": "Momentum & Collision Simulator",
+      "transformation": "Momentum and Collisions",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ]
     },
     {
       "id": "mortgage-calculator",
@@ -506,6 +734,16 @@
       ]
     },
     {
+      "id": "normal-distribution-visualizer",
+      "title": "Normal Distribution Visualizer",
+      "transformation": "Normal Distribution",
+      "engine": "math-lab",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "normalize-whitespace",
       "title": "Normalize Whitespace",
       "transformation": "cleanup",
@@ -516,10 +754,44 @@
       "relatedFaqs": []
     },
     {
+      "id": "ohms-law-simulator",
+      "title": "Ohm's Law Simulator",
+      "transformation": "Ohm's Law",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ]
+    },
+    {
       "id": "paragraph-counter",
       "title": "Paragraph Counter",
       "transformation": "text-counting",
       "engine": "text-analysis",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "pendulum-simulator",
+      "title": "Pendulum Simulator",
+      "transformation": "oscillations",
+      "engine": "physics",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -536,11 +808,65 @@
       "relatedFaqs": []
     },
     {
+      "id": "prime-factorization-calculator",
+      "title": "Prime Factorization Calculator",
+      "transformation": "Number Theory",
+      "engine": "math",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "probability-simulator",
+      "title": "Probability Lab",
+      "transformation": "Probability",
+      "engine": "math-lab",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "projectile-motion-simulator",
+      "title": "Projectile Motion Simulator",
+      "transformation": "Projectile Motion",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ]
+    },
+    {
       "id": "punycode-converter",
       "title": "Punycode Converter",
       "transformation": "web",
       "engine": "encoding",
       "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "quadratic-equation-explorer",
+      "title": "Quadratic Equation Explorer",
+      "transformation": "Quadratic Equations",
+      "engine": "math-lab",
+      "existing": false,
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
@@ -850,6 +1176,30 @@
       "relatedFaqs": []
     },
     {
+      "id": "shm-spring-simulator",
+      "title": "Spring (SHM) Simulator",
+      "transformation": "Simple Harmonic Motion",
+      "engine": "physics",
+      "existing": false,
+      "relatedTools": [
+        "pendulum-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ]
+    },
+    {
       "id": "sip-calculator",
       "title": "SIP Calculator",
       "transformation": "Systematic Investment Plan",
@@ -912,6 +1262,16 @@
       ]
     },
     {
+      "id": "statistics-visualizer",
+      "title": "Statistics Visualizer",
+      "transformation": "Descriptive Statistics",
+      "engine": "math",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "text-compare",
       "title": "Text Compare",
       "transformation": "text-compare",
@@ -927,6 +1287,44 @@
       "transformation": "Timezone Conversion",
       "engine": "datetime",
       "existing": false,
+      "relatedTools": [
+        "timezone-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "timezone-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "timezone-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "triangle-solver",
+      "title": "Triangle Solver",
+      "transformation": "Triangles",
+      "engine": "math",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "unit-circle-explorer",
+      "title": "Unit Circle Explorer",
+      "transformation": "Unit Circle",
+      "engine": "math-lab",
+      "existing": false,
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
@@ -937,15 +1335,43 @@
       "transformation": "Timestamp Conversion",
       "engine": "datetime",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter"
+      ],
+      "relatedGuides": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter"
+      ],
+      "relatedFaqs": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter"
+      ]
     },
     {
       "id": "uppercase-converter",
       "title": "Uppercase Converter",
       "transformation": "transform",
       "engine": "text-processor",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "wave-speed-simulator",
+      "title": "Wave Speed Simulator",
+      "transformation": "waves",
+      "engine": "physics",
       "existing": true,
       "relatedTools": [],
       "relatedGuides": [],
@@ -1060,6 +1486,26 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "combinations-permutations-calculator",
+      "to": "matrix-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "combinations-permutations-calculator",
+      "to": "prime-factorization-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "combinations-permutations-calculator",
+      "to": "statistics-visualizer",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "combinations-permutations-calculator",
+      "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
       "from": "crc32-hash-generator",
       "to": "md5-hash-generator",
       "kind": "links-to-tool"
@@ -1170,6 +1616,96 @@
       "kind": "shares-engine"
     },
     {
+      "from": "doppler-effect-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "doppler-effect-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "doppler-effect-simulator",
+      "to": "inclined-plane-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "doppler-effect-simulator",
+      "to": "momentum-collision-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "doppler-effect-simulator",
+      "to": "wave-speed-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "fraction-calculator",
+      "to": "combinations-permutations-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "fraction-calculator",
+      "to": "matrix-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "fraction-calculator",
+      "to": "prime-factorization-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "fraction-calculator",
+      "to": "statistics-visualizer",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "fraction-calculator",
+      "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ideal-gas-law-simulator",
+      "to": "doppler-effect-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ideal-gas-law-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "ideal-gas-law-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "ideal-gas-law-simulator",
+      "to": "inclined-plane-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ideal-gas-law-simulator",
+      "to": "momentum-collision-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "inclined-plane-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "inclined-plane-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "inclined-plane-simulator",
+      "to": "pendulum-simulator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "json-escape",
       "to": "csv-to-json-converter",
       "kind": "links-to-tool"
@@ -1200,6 +1736,11 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "linear-regression-playground",
+      "to": "function-grapher",
+      "kind": "shares-engine"
+    },
+    {
       "from": "loan-calculator",
       "to": "compound-interest-calculator",
       "kind": "links-to-tool"
@@ -1208,6 +1749,31 @@
       "from": "loan-calculator",
       "to": "mortgage-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "matrix-calculator",
+      "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "momentum-collision-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "momentum-collision-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "momentum-collision-simulator",
+      "to": "inclined-plane-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "momentum-collision-simulator",
+      "to": "pendulum-simulator",
+      "kind": "links-to-tool"
     },
     {
       "from": "mortgage-calculator",
@@ -1228,6 +1794,146 @@
       "from": "net-worth-calculator",
       "to": "savings-goal-calculator",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "normal-distribution-visualizer",
+      "to": "function-grapher",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "normal-distribution-visualizer",
+      "to": "linear-regression-playground",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "doppler-effect-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "ideal-gas-law-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "inclined-plane-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "momentum-collision-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-simulator",
+      "to": "shm-spring-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "prime-factorization-calculator",
+      "to": "matrix-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "prime-factorization-calculator",
+      "to": "statistics-visualizer",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "prime-factorization-calculator",
+      "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "probability-simulator",
+      "to": "function-grapher",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "probability-simulator",
+      "to": "linear-regression-playground",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "probability-simulator",
+      "to": "normal-distribution-visualizer",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "doppler-effect-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "ideal-gas-law-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "inclined-plane-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "momentum-collision-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "ohms-law-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "pendulum-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "projectile-motion-simulator",
+      "to": "shm-spring-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "quadratic-equation-explorer",
+      "to": "function-grapher",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "quadratic-equation-explorer",
+      "to": "linear-regression-playground",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "quadratic-equation-explorer",
+      "to": "normal-distribution-visualizer",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "quadratic-equation-explorer",
+      "to": "probability-simulator",
+      "kind": "shares-engine"
     },
     {
       "from": "remove-accents",
@@ -1440,6 +2146,41 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "shm-spring-simulator",
+      "to": "doppler-effect-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "shm-spring-simulator",
+      "to": "frequency-period-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "shm-spring-simulator",
+      "to": "heat-transfer-simulator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "shm-spring-simulator",
+      "to": "ideal-gas-law-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "shm-spring-simulator",
+      "to": "inclined-plane-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "shm-spring-simulator",
+      "to": "momentum-collision-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "shm-spring-simulator",
+      "to": "pendulum-simulator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "sip-calculator",
       "to": "cagr-calculator",
       "kind": "shares-engine"
@@ -1505,8 +2246,43 @@
       "kind": "shares-engine"
     },
     {
+      "from": "statistics-visualizer",
+      "to": "matrix-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "statistics-visualizer",
+      "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
       "from": "timezone-converter",
       "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unit-circle-explorer",
+      "to": "function-grapher",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unit-circle-explorer",
+      "to": "linear-regression-playground",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unit-circle-explorer",
+      "to": "normal-distribution-visualizer",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unit-circle-explorer",
+      "to": "probability-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unit-circle-explorer",
+      "to": "quadratic-equation-explorer",
       "kind": "shares-engine"
     },
     {

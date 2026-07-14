@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-04T13:22:26.983Z",
+  "generatedAt": "2026-07-14T18:15:11.060Z",
   "clusters": [
     {
       "id": "line-break-removal",
@@ -107,6 +107,37 @@
       ]
     },
     {
+      "id": "projectile-motion",
+      "transformation": "Projectile Motion",
+      "engine": "physics",
+      "members": [
+        "projectile-motion-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 79.8,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "pendulum-simulator"
+      ]
+    },
+    {
       "id": "slugification",
       "transformation": "Slugification",
       "engine": "text-processor",
@@ -201,6 +232,37 @@
       ]
     },
     {
+      "id": "ohm-s-law",
+      "transformation": "Ohm's Law",
+      "engine": "physics",
+      "members": [
+        "ohms-law-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 78.9,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ]
+    },
+    {
       "id": "json-string-escaping",
       "transformation": "JSON String Escaping",
       "engine": "structured-data",
@@ -226,6 +288,37 @@
         "json-to-csv-converter",
         "json-to-yaml-converter",
         "json-tree-viewer"
+      ]
+    },
+    {
+      "id": "simple-harmonic-motion",
+      "transformation": "Simple Harmonic Motion",
+      "engine": "physics",
+      "members": [
+        "shm-spring-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 78.5,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "pendulum-simulator"
       ]
     },
     {
@@ -345,6 +438,61 @@
       ]
     },
     {
+      "id": "ideal-gas-law",
+      "transformation": "Ideal Gas Law",
+      "engine": "physics",
+      "members": [
+        "ideal-gas-law-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 76.5,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ]
+    },
+    {
+      "id": "timestamp-conversion",
+      "transformation": "Timestamp Conversion",
+      "engine": "datetime",
+      "members": [
+        "unix-timestamp-converter"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 1,
+      "meanScore": 76.2,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
       "id": "emoji-removal",
       "transformation": "Emoji Removal",
       "engine": "text-processor",
@@ -404,6 +552,37 @@
       ]
     },
     {
+      "id": "doppler-effect",
+      "transformation": "Doppler Effect",
+      "engine": "physics",
+      "members": [
+        "doppler-effect-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 75,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "wave-speed-simulator"
+      ]
+    },
+    {
       "id": "csv-cleaning",
       "transformation": "CSV Cleaning",
       "engine": "csv",
@@ -423,6 +602,116 @@
         "csv-to-json-converter",
         "csv-to-tsv",
         "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "momentum-and-collisions",
+      "transformation": "Momentum and Collisions",
+      "engine": "physics",
+      "members": [
+        "momentum-collision-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 73.8,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "pendulum-simulator"
+      ]
+    },
+    {
+      "id": "age-calculation",
+      "transformation": "Age Calculation",
+      "engine": "datetime",
+      "members": [
+        "age-calculator"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 1,
+      "meanScore": 73.7,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "date-difference",
+      "transformation": "Date Difference",
+      "engine": "datetime",
+      "members": [
+        "date-difference-calculator"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 1,
+      "meanScore": 73.6,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "inclined-plane-and-friction",
+      "transformation": "Inclined Plane and Friction",
+      "engine": "physics",
+      "members": [
+        "inclined-plane-simulator"
+      ],
+      "existingMembers": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator",
+        "ohms-law-simulator",
+        "pendulum-simulator",
+        "projectile-motion-simulator",
+        "shm-spring-simulator",
+        "wave-speed-simulator"
+      ],
+      "size": 1,
+      "meanScore": 73,
+      "internalLinks": [
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "pendulum-simulator"
       ]
     },
     {
@@ -450,6 +739,30 @@
       ]
     },
     {
+      "id": "unit-circle",
+      "transformation": "Unit Circle",
+      "engine": "math-lab",
+      "members": [
+        "unit-circle-explorer"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 71.4,
+      "internalLinks": []
+    },
+    {
+      "id": "quadratic-equations",
+      "transformation": "Quadratic Equations",
+      "engine": "math-lab",
+      "members": [
+        "quadratic-equation-explorer"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 71.3,
+      "internalLinks": []
+    },
+    {
       "id": "csv-column-selection",
       "transformation": "CSV Column Selection",
       "engine": "csv",
@@ -470,6 +783,30 @@
         "csv-to-tsv",
         "json-to-csv-converter"
       ]
+    },
+    {
+      "id": "fractions",
+      "transformation": "Fractions",
+      "engine": "math",
+      "members": [
+        "fraction-calculator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 69.4,
+      "internalLinks": []
+    },
+    {
+      "id": "combinatorics",
+      "transformation": "Combinatorics",
+      "engine": "math",
+      "members": [
+        "combinations-permutations-calculator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 69,
+      "internalLinks": []
     },
     {
       "id": "word-frequency-analysis",
@@ -501,6 +838,42 @@
       ]
     },
     {
+      "id": "number-theory",
+      "transformation": "Number Theory",
+      "engine": "math",
+      "members": [
+        "prime-factorization-calculator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 68.1,
+      "internalLinks": []
+    },
+    {
+      "id": "timezone-conversion",
+      "transformation": "Timezone Conversion",
+      "engine": "datetime",
+      "members": [
+        "timezone-converter"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 1,
+      "meanScore": 67.4,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
       "id": "loan-amortization",
       "transformation": "Loan Amortization",
       "engine": "loan",
@@ -512,6 +885,54 @@
       "meanScore": 67.2,
       "internalLinks": [
         "compound-interest-calculator"
+      ]
+    },
+    {
+      "id": "probability",
+      "transformation": "Probability",
+      "engine": "math-lab",
+      "members": [
+        "probability-simulator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 67.2,
+      "internalLinks": []
+    },
+    {
+      "id": "descriptive-statistics",
+      "transformation": "Descriptive Statistics",
+      "engine": "math",
+      "members": [
+        "statistics-visualizer"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 66.9,
+      "internalLinks": []
+    },
+    {
+      "id": "cron-parsing",
+      "transformation": "Cron Parsing",
+      "engine": "datetime",
+      "members": [
+        "cron-expression-parser"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 1,
+      "meanScore": 66.2,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
       ]
     },
     {
@@ -544,15 +965,15 @@
       ]
     },
     {
-      "id": "timestamp-conversion",
-      "transformation": "Timestamp Conversion",
-      "engine": "datetime",
+      "id": "matrices",
+      "transformation": "Matrices",
+      "engine": "math",
       "members": [
-        "unix-timestamp-converter"
+        "matrix-calculator"
       ],
       "existingMembers": [],
       "size": 1,
-      "meanScore": 65,
+      "meanScore": 64.8,
       "internalLinks": []
     },
     {
@@ -570,27 +991,51 @@
       ]
     },
     {
-      "id": "age-calculation",
-      "transformation": "Age Calculation",
-      "engine": "datetime",
+      "id": "triangles",
+      "transformation": "Triangles",
+      "engine": "math",
       "members": [
-        "age-calculator"
+        "triangle-solver"
       ],
       "existingMembers": [],
       "size": 1,
-      "meanScore": 62.5,
+      "meanScore": 64.6,
       "internalLinks": []
     },
     {
-      "id": "date-difference",
-      "transformation": "Date Difference",
-      "engine": "datetime",
+      "id": "normal-distribution",
+      "transformation": "Normal Distribution",
+      "engine": "math-lab",
       "members": [
-        "date-difference-calculator"
+        "normal-distribution-visualizer"
       ],
       "existingMembers": [],
       "size": 1,
-      "meanScore": 62.4,
+      "meanScore": 63.3,
+      "internalLinks": []
+    },
+    {
+      "id": "linear-regression",
+      "transformation": "Linear Regression",
+      "engine": "math-lab",
+      "members": [
+        "linear-regression-playground"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 62.3,
+      "internalLinks": []
+    },
+    {
+      "id": "function-graphing",
+      "transformation": "Function Graphing",
+      "engine": "math-lab",
+      "members": [
+        "function-grapher"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 60.2,
       "internalLinks": []
     },
     {
@@ -608,30 +1053,6 @@
         "inflation-calculator",
         "savings-goal-calculator"
       ]
-    },
-    {
-      "id": "timezone-conversion",
-      "transformation": "Timezone Conversion",
-      "engine": "datetime",
-      "members": [
-        "timezone-converter"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 56.2,
-      "internalLinks": []
-    },
-    {
-      "id": "cron-parsing",
-      "transformation": "Cron Parsing",
-      "engine": "datetime",
-      "members": [
-        "cron-expression-parser"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 55,
-      "internalLinks": []
     }
   ]
 }

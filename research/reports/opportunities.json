@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-04T13:22:26.983Z",
+  "generatedAt": "2026-07-14T18:15:11.060Z",
   "opportunities": [
     {
       "id": "remove-line-breaks",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -92,7 +92,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -166,7 +166,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -221,6 +221,76 @@
       "engineExists": true
     },
     {
+      "id": "projectile-motion-simulator",
+      "title": "Projectile Motion Simulator",
+      "problem": "I want to see how launch angle and speed change a projectile's range, peak height, and time of flight along a live trajectory.",
+      "userIntent": "informational",
+      "workflow": "input → Projectile Motion → output",
+      "transformation": "Projectile Motion",
+      "proposedTool": "projectile-motion-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "projectile motion simulator",
+        "projectile motion calculator",
+        "trajectory calculator",
+        "range of a projectile",
+        "horizontal projectile calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "phet.colorado.edu",
+        "omnicalculator.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "phet uses dated UX and heavy downloads",
+        "calculators show no live arc",
+        "no drag-to-aim interaction",
+        "not mobile-first"
+      ],
+      "relatedProblems": [
+        "max height",
+        "time of flight",
+        "horizontal range",
+        "launch angle"
+      ],
+      "relatedTools": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.69,
+      "searchDemand": 0.9,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.38,
+      "localizationPotential": 0.82,
+      "confidence": 0.8,
+      "finalScore": 79.8,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "slugify-text",
       "title": "Slugify Text",
       "problem": "I need to turn a blog post title into a clean, lowercase, hyphenated URL slug.",
@@ -239,7 +309,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -312,7 +382,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -383,7 +453,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -438,6 +508,75 @@
       "engineExists": true
     },
     {
+      "id": "ohms-law-simulator",
+      "title": "Ohm's Law Simulator",
+      "problem": "I want to change voltage and resistance and see the resulting current and power, ideally with the circuit reacting live.",
+      "userIntent": "transactional",
+      "workflow": "input → Ohm's Law → output",
+      "transformation": "Ohm's Law",
+      "proposedTool": "ohms-law-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "ohms law calculator",
+        "ohm's law simulator",
+        "voltage current resistance calculator",
+        "power calculator ohms law",
+        "V=IR calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "calculator.net",
+        "omnicalculator.com",
+        "allaboutcircuits.com"
+      ],
+      "solutionWeaknesses": [
+        "static forms with no animation",
+        "ad heavy",
+        "no visual of current flow",
+        "not mobile-first"
+      ],
+      "relatedProblems": [
+        "power dissipation",
+        "series and parallel resistance",
+        "current draw"
+      ],
+      "relatedTools": [
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.52,
+      "searchDemand": 0.95,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.98,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.85,
+      "confidence": 0.8,
+      "finalScore": 78.9,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "json-escape",
       "title": "JSON Escape / Unescape",
       "problem": "I need to escape a block of text so it is a valid JSON string value (quotes, newlines).",
@@ -456,7 +595,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -511,6 +650,74 @@
       "engineExists": true
     },
     {
+      "id": "shm-spring-simulator",
+      "title": "Spring (SHM) Simulator",
+      "problem": "I want to hang a mass on a spring, release it, and watch it oscillate while position, velocity, and energy trade back and forth.",
+      "userIntent": "informational",
+      "workflow": "input → Simple Harmonic Motion → output",
+      "transformation": "Simple Harmonic Motion",
+      "proposedTool": "shm-spring-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "simple harmonic motion simulator",
+        "spring oscillation calculator",
+        "hookes law simulator",
+        "mass spring calculator",
+        "SHM period calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "phet.colorado.edu",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "static calculators",
+        "no live bobbing spring",
+        "no energy trade view"
+      ],
+      "relatedProblems": [
+        "spring period",
+        "hooke's law",
+        "restoring force",
+        "energy in oscillation"
+      ],
+      "relatedTools": [
+        "pendulum-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.73,
+      "searchDemand": 0.68,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 78.5,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "csv-diff",
       "title": "CSV Diff",
       "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
@@ -529,7 +736,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -553,7 +760,9 @@
       "relatedGuides": [
         "text-compare",
         "csv-to-json-converter",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "text-compare",
@@ -595,7 +804,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -668,7 +877,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -740,7 +949,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -794,6 +1003,142 @@
       "engineExists": true
     },
     {
+      "id": "ideal-gas-law-simulator",
+      "title": "Ideal Gas Law Simulator",
+      "problem": "I want to change temperature, volume, and amount of gas and watch pressure emerge from particle collisions in a box.",
+      "userIntent": "transactional",
+      "workflow": "input → Ideal Gas Law → output",
+      "transformation": "Ideal Gas Law",
+      "proposedTool": "ideal-gas-law-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "ideal gas law calculator",
+        "pv=nrt calculator",
+        "gas law simulator",
+        "boyles law simulator",
+        "charles law calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "phet.colorado.edu"
+      ],
+      "solutionWeaknesses": [
+        "static calculators with no particle view",
+        "phet is heavy and dated",
+        "no live piston interaction"
+      ],
+      "relatedProblems": [
+        "boyle's law",
+        "charles's law",
+        "pressure from collisions",
+        "gas temperature"
+      ],
+      "relatedTools": [
+        "heat-transfer-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "heat-transfer-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator",
+        "momentum-collision-simulator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.6,
+      "searchDemand": 0.82,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.93,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.82,
+      "confidence": 0.8,
+      "finalScore": 76.5,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "unix-timestamp-converter",
+      "title": "Unix Timestamp Converter",
+      "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Timestamp Conversion → date/time",
+      "transformation": "Timestamp Conversion",
+      "proposedTool": "unix-timestamp-converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "unix timestamp converter",
+        "epoch to date",
+        "timestamp to date",
+        "epoch converter"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "epochconverter.com"
+      ],
+      "solutionWeaknesses": [
+        "single incumbent dominates",
+        "dated UI",
+        "ad-supported"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "timezone conversion"
+      ],
+      "relatedTools": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter"
+      ],
+      "relatedGuides": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter"
+      ],
+      "relatedFaqs": [
+        "unix-timestamp-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.53,
+      "searchDemand": 0.9,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.84,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 76.2,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "remove-emoji",
       "title": "Remove Emoji",
       "problem": "I need to strip all emoji and pictographs out of a block of text before importing it.",
@@ -811,7 +1156,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -882,7 +1227,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -902,7 +1247,9 @@
       ],
       "relatedGuides": [
         "csv-to-json-converter",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
@@ -922,6 +1269,72 @@
       "localizationPotential": 0.9,
       "confidence": 0.64,
       "finalScore": 75.2,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "doppler-effect-simulator",
+      "title": "Doppler Effect Simulator",
+      "problem": "I want to move a wave source and observer and watch the wavefronts bunch up ahead and stretch behind, with the shifted frequency shown live.",
+      "userIntent": "informational",
+      "workflow": "input → Doppler Effect → output",
+      "transformation": "Doppler Effect",
+      "proposedTool": "doppler-effect-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "doppler effect simulator",
+        "doppler effect calculator",
+        "doppler shift frequency",
+        "moving source frequency shift"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "phet.colorado.edu",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "phet dated and heavy",
+        "calculators show a number but no wavefronts",
+        "no drag interaction"
+      ],
+      "relatedProblems": [
+        "frequency shift",
+        "sonic boom",
+        "redshift and blueshift"
+      ],
+      "relatedTools": [
+        "wave-speed-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "wave-speed-simulator",
+        "frequency-period-simulator",
+        "doppler-effect-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.68,
+      "searchDemand": 0.78,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.79,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.36,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 75,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -945,7 +1358,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -967,7 +1380,9 @@
       "relatedGuides": [
         "csv-to-json-converter",
         "remove-blank-lines",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
@@ -988,6 +1403,276 @@
       "localizationPotential": 0.86,
       "confidence": 0.8,
       "finalScore": 74.1,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "momentum-collision-simulator",
+      "title": "Momentum & Collision Simulator",
+      "problem": "I want to set the mass and velocity of two carts, collide them, and see momentum conserved while kinetic energy changes from elastic to inelastic.",
+      "userIntent": "informational",
+      "workflow": "input → Momentum and Collisions → output",
+      "transformation": "Momentum and Collisions",
+      "proposedTool": "momentum-collision-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "momentum collision simulator",
+        "conservation of momentum calculator",
+        "elastic collision calculator",
+        "inelastic collision simulator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "phet.colorado.edu",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "calculators show no impact animation",
+        "phet dated",
+        "no elastic-to-inelastic slider"
+      ],
+      "relatedProblems": [
+        "conservation of momentum",
+        "elastic collision",
+        "inelastic collision",
+        "kinetic energy loss"
+      ],
+      "relatedTools": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.7,
+      "searchDemand": 0.72,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 73.8,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "age-calculator",
+      "title": "Age Calculator",
+      "problem": "I want to calculate an exact age in years, months and days from a birth date.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Age Calculation → date/time",
+      "transformation": "Age Calculation",
+      "proposedTool": "age-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "age calculator from birthdate",
+        "age calculator",
+        "calculate age from date of birth",
+        "how old am i"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "generic calculator hub",
+        "no shareable clean result"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "countdown"
+      ],
+      "relatedTools": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.78,
+      "confidence": 0.8,
+      "finalScore": 73.7,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "date-difference-calculator",
+      "title": "Date Difference Calculator",
+      "problem": "I need the number of days/weeks/months between two dates.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Date Difference → date/time",
+      "transformation": "Date Difference",
+      "proposedTool": "date-difference-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "date difference calculator",
+        "days between two dates",
+        "date duration calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "timeanddate.com"
+      ],
+      "solutionWeaknesses": [
+        "cluttered with ads",
+        "slow",
+        "overloaded with options"
+      ],
+      "relatedProblems": [
+        "age calculator",
+        "business days"
+      ],
+      "relatedTools": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.56,
+      "searchDemand": 0.85,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.7,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 73.6,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "inclined-plane-simulator",
+      "title": "Inclined Plane Simulator",
+      "problem": "I want to set the ramp angle, friction, and mass and see the force vectors and whether a block slides or stays put.",
+      "userIntent": "transactional",
+      "workflow": "input → Inclined Plane and Friction → output",
+      "transformation": "Inclined Plane and Friction",
+      "proposedTool": "inclined-plane-simulator",
+      "proposedEngine": "physics",
+      "searchQueries": [
+        "inclined plane friction calculator",
+        "inclined plane calculator",
+        "friction on a ramp calculator",
+        "inclined plane simulator",
+        "block on a slope physics",
+        "coefficient of friction calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "phet.colorado.edu"
+      ],
+      "solutionWeaknesses": [
+        "no free-body vector diagram",
+        "static calculators",
+        "no slide-or-stay animation"
+      ],
+      "relatedProblems": [
+        "free body diagram",
+        "static friction",
+        "kinetic friction",
+        "normal force"
+      ],
+      "relatedTools": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "pendulum-simulator",
+        "doppler-effect-simulator",
+        "frequency-period-simulator",
+        "heat-transfer-simulator",
+        "ideal-gas-law-simulator",
+        "inclined-plane-simulator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.93,
+      "competitionScore": 0.76,
+      "searchDemand": 0.62,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.85,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.32,
+      "localizationPotential": 0.78,
+      "confidence": 0.8,
+      "finalScore": 73,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -1010,7 +1695,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -1060,6 +1745,118 @@
       "engineExists": true
     },
     {
+      "id": "unit-circle-explorer",
+      "title": "Unit Circle Explorer",
+      "problem": "I want to drag an angle around the unit circle and see sin, cos, and tan update live with the reference triangle and a tracing sine wave.",
+      "userIntent": "informational",
+      "workflow": "input → Unit Circle → output",
+      "transformation": "Unit Circle",
+      "proposedTool": "unit-circle-explorer",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "unit circle",
+        "unit circle calculator",
+        "interactive unit circle",
+        "sin cos tan values",
+        "unit circle radians and degrees"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "mathsisfun.com",
+        "khanacademy.org",
+        "static chart PDFs"
+      ],
+      "solutionWeaknesses": [
+        "static charts to memorize",
+        "mathsisfun applet is dated and desktop-only",
+        "no drag interaction on mobile",
+        "no live sine wave tracing"
+      ],
+      "relatedProblems": [
+        "radians to degrees",
+        "special angles",
+        "reference angles",
+        "sine wave"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.64,
+      "searchDemand": 0.88,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.38,
+      "localizationPotential": 0.8,
+      "confidence": 0.8,
+      "finalScore": 71.4,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "quadratic-equation-explorer",
+      "title": "Quadratic Equation Explorer",
+      "problem": "I want to slide the coefficients a, b, and c and watch the parabola, roots, vertex, and discriminant change, with the formula worked step by step.",
+      "userIntent": "transactional",
+      "workflow": "input → Quadratic Equations → output",
+      "transformation": "Quadratic Equations",
+      "proposedTool": "quadratic-equation-explorer",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "quadratic formula calculator",
+        "quadratic equation solver",
+        "find roots of quadratic equation",
+        "parabola vertex calculator",
+        "discriminant calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "symbolab.com",
+        "calculator.net",
+        "mathpapa.com"
+      ],
+      "solutionWeaknesses": [
+        "static forms with no parabola",
+        "steps behind a paywall",
+        "ad heavy",
+        "no coefficient sliders"
+      ],
+      "relatedProblems": [
+        "vertex form",
+        "axis of symmetry",
+        "discriminant",
+        "completing the square"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.97,
+      "competitionScore": 0.49,
+      "searchDemand": 0.94,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.98,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.85,
+      "confidence": 0.8,
+      "finalScore": 71.3,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "csv-column-picker",
       "title": "CSV Column Picker",
       "problem": "I want to pick out specific columns from a CSV and drop the rest.",
@@ -1077,7 +1874,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -1100,7 +1897,9 @@
       "relatedGuides": [
         "csv-to-json-converter",
         "json-to-csv-converter",
-        "csv-diff"
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
       ],
       "relatedFaqs": [
         "csv-to-json-converter",
@@ -1126,6 +1925,118 @@
       "engineExists": true
     },
     {
+      "id": "fraction-calculator",
+      "title": "Fraction Calculator",
+      "problem": "I want to add, subtract, multiply, or divide fractions and mixed numbers and see the simplification worked step by step.",
+      "userIntent": "transactional",
+      "workflow": "input → Fractions → output",
+      "transformation": "Fractions",
+      "proposedTool": "fraction-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "fraction calculator",
+        "adding fractions calculator",
+        "simplify fractions",
+        "mixed number calculator",
+        "fraction to decimal"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "calculator.net",
+        "mathway.com",
+        "calculatorsoup.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "steps paywalled or missing",
+        "no visual fraction bars",
+        "cluttered forms"
+      ],
+      "relatedProblems": [
+        "least common denominator",
+        "simplifying fractions",
+        "mixed numbers",
+        "equivalent fractions"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.44,
+      "searchDemand": 0.9,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "confidence": 0.8,
+      "finalScore": 69.4,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "combinations-permutations-calculator",
+      "title": "Combinations & Permutations Calculator",
+      "problem": "I want to compute nCr and nPr with the formula expanded and a visual of how many ways items can be chosen or arranged.",
+      "userIntent": "transactional",
+      "workflow": "input → Combinatorics → output",
+      "transformation": "Combinatorics",
+      "proposedTool": "combinations-permutations-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "combination calculator",
+        "permutation calculator",
+        "ncr calculator",
+        "npr calculator",
+        "how many combinations"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "calculator.net",
+        "calculatorsoup.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "formula shown without expansion",
+        "no visual of choices",
+        "ad heavy",
+        "combinations and permutations on separate pages"
+      ],
+      "relatedProblems": [
+        "factorial",
+        "with or without repetition",
+        "binomial coefficient",
+        "counting principle"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.64,
+      "searchDemand": 0.78,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.91,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.82,
+      "confidence": 0.8,
+      "finalScore": 69,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "word-frequency-counter",
       "title": "Word Frequency Counter",
       "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
@@ -1143,7 +2054,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -1196,6 +2107,129 @@
       "engineExists": true
     },
     {
+      "id": "prime-factorization-calculator",
+      "title": "Prime Factorization Calculator",
+      "problem": "I want to enter a number and see its prime factor tree built visually, plus GCF and LCM against a second number.",
+      "userIntent": "transactional",
+      "workflow": "input → Number Theory → output",
+      "transformation": "Number Theory",
+      "proposedTool": "prime-factorization-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "prime factorization calculator",
+        "factor tree calculator",
+        "gcf calculator",
+        "lcm calculator",
+        "greatest common factor"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "calculatorsoup.com",
+        "calculator.net",
+        "mathwarehouse.com"
+      ],
+      "solutionWeaknesses": [
+        "no visual factor tree",
+        "ad heavy",
+        "gcf and lcm split across separate pages",
+        "no exponent form output"
+      ],
+      "relatedProblems": [
+        "greatest common factor",
+        "least common multiple",
+        "divisibility rules",
+        "prime numbers"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.62,
+      "searchDemand": 0.75,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.85,
+      "confidence": 0.8,
+      "finalScore": 68.1,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "timezone-converter",
+      "title": "Timezone Converter",
+      "problem": "I need to convert a meeting time from one timezone to another.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Timezone Conversion → date/time",
+      "transformation": "Timezone Conversion",
+      "proposedTool": "timezone-converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "timezone converter",
+        "time zone conversion",
+        "convert time between zones"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "worldtimebuddy"
+      ],
+      "solutionWeaknesses": [
+        "heavy app",
+        "account upsell",
+        "overkill for a single conversion"
+      ],
+      "relatedProblems": [
+        "unix timestamp",
+        "meeting planner"
+      ],
+      "relatedTools": [
+        "timezone-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "timezone-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "timezone-converter",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.54,
+      "searchDemand": 0.8,
+      "implementationCost": 0.4,
+      "engineReuse": 1,
+      "seoPotential": 0.68,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.84,
+      "confidence": 0.8,
+      "finalScore": 67.4,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "loan-calculator",
       "title": "Loan Calculator",
       "problem": "I need monthly payments and total interest for a loan over a term.",
@@ -1213,7 +2247,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -1255,6 +2289,185 @@
       "engineExists": false
     },
     {
+      "id": "probability-simulator",
+      "title": "Probability Lab",
+      "problem": "I want to run thousands of animated coin flips or dice rolls and watch the empirical frequency converge on the theoretical probability.",
+      "userIntent": "informational",
+      "workflow": "input → Probability → output",
+      "transformation": "Probability",
+      "proposedTool": "probability-simulator",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "coin flip probability simulator",
+        "dice roll simulator",
+        "probability calculator",
+        "law of large numbers demonstration",
+        "coin toss experiment online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "random.org",
+        "calculator.net",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "bare dice rollers with no statistics",
+        "static probability forms",
+        "no convergence chart",
+        "geogebra applets are slow and dated"
+      ],
+      "relatedProblems": [
+        "law of large numbers",
+        "expected value",
+        "relative frequency",
+        "sample size"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.69,
+      "searchDemand": 0.85,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.37,
+      "localizationPotential": 0.82,
+      "confidence": 0.8,
+      "finalScore": 67.2,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "statistics-visualizer",
+      "title": "Statistics Visualizer",
+      "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
+      "userIntent": "transactional",
+      "workflow": "input → Descriptive Statistics → output",
+      "transformation": "Descriptive Statistics",
+      "proposedTool": "statistics-visualizer",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "standard deviation calculator",
+        "mean median mode calculator",
+        "quartile calculator",
+        "histogram maker",
+        "box plot generator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "calculator.net",
+        "socscistatistics.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "tables of numbers with no chart",
+        "ad heavy",
+        "data uploaded to a server",
+        "no combined histogram and box plot view"
+      ],
+      "relatedProblems": [
+        "variance",
+        "interquartile range",
+        "outliers",
+        "population vs sample"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.52,
+      "searchDemand": 0.92,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.97,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.84,
+      "confidence": 0.8,
+      "finalScore": 66.9,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "cron-expression-parser",
+      "title": "Cron Expression Parser",
+      "problem": "I need to understand what a cron expression means in plain English and when it next runs.",
+      "userIntent": "informational",
+      "workflow": "date/time → Cron Parsing → date/time",
+      "transformation": "Cron Parsing",
+      "proposedTool": "cron-expression-parser",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "cron expression parser",
+        "crontab explained",
+        "cron to human readable",
+        "cron next run"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "crontab.guru"
+      ],
+      "solutionWeaknesses": [
+        "single incumbent",
+        "no offline/private mode"
+      ],
+      "relatedProblems": [
+        "timestamp conversion",
+        "scheduling"
+      ],
+      "relatedTools": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.84,
+      "competitionScore": 0.54,
+      "searchDemand": 0.72,
+      "implementationCost": 0.4,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.92,
+      "confidence": 0.8,
+      "finalScore": 66.2,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "net-worth-calculator",
       "title": "Net Worth Calculator",
       "problem": "I want to total my assets minus liabilities to see my net worth.",
@@ -1271,7 +2484,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -1330,7 +2543,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -1371,51 +2584,57 @@
       "engineExists": false
     },
     {
-      "id": "unix-timestamp-converter",
-      "title": "Unix Timestamp Converter",
-      "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
-      "userIntent": "transactional",
-      "workflow": "date/time → Timestamp Conversion → date/time",
-      "transformation": "Timestamp Conversion",
-      "proposedTool": "unix-timestamp-converter",
-      "proposedEngine": "datetime",
+      "id": "matrix-calculator",
+      "title": "Matrix Calculator",
+      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
+      "userIntent": "howTo",
+      "workflow": "input → Matrices → output",
+      "transformation": "Matrices",
+      "proposedTool": "matrix-calculator",
+      "proposedEngine": "math",
       "searchQueries": [
-        "unix timestamp converter",
-        "epoch to date",
-        "timestamp to date",
-        "epoch converter"
+        "matrix multiplication calculator",
+        "determinant calculator",
+        "inverse matrix calculator",
+        "rref calculator",
+        "matrix calculator with steps"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
-        "epochconverter.com"
+        "matrixcalc.org",
+        "symbolab.com",
+        "wolframalpha.com"
       ],
       "solutionWeaknesses": [
-        "single incumbent dominates",
-        "dated UI",
-        "ad-supported"
+        "cluttered 2000s-era UI",
+        "steps paywalled",
+        "ad heavy",
+        "painful matrix entry on mobile"
       ],
       "relatedProblems": [
-        "date difference",
-        "timezone conversion"
+        "determinant",
+        "matrix inverse",
+        "row reduction",
+        "systems of equations"
       ],
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": [],
       "difficulty": "medium",
-      "evergreenScore": 0.92,
-      "competitionScore": 0.53,
-      "searchDemand": 0.9,
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
       "implementationCost": 0.6,
       "engineReuse": 0.3,
-      "seoPotential": 0.84,
+      "seoPotential": 0.95,
       "topicClusterPotential": 0,
       "commercialPotential": 0.58,
-      "localizationPotential": 0.88,
+      "localizationPotential": 0.85,
       "confidence": 0.8,
-      "finalScore": 65,
+      "finalScore": 64.8,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
@@ -1438,7 +2657,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -1479,99 +2698,225 @@
       "engineExists": false
     },
     {
-      "id": "age-calculator",
-      "title": "Age Calculator",
-      "problem": "I want to calculate an exact age in years, months and days from a birth date.",
+      "id": "triangle-solver",
+      "title": "Triangle Solver",
+      "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
       "userIntent": "transactional",
-      "workflow": "date/time → Age Calculation → date/time",
-      "transformation": "Age Calculation",
-      "proposedTool": "age-calculator",
-      "proposedEngine": "datetime",
+      "workflow": "input → Triangles → output",
+      "transformation": "Triangles",
+      "proposedTool": "triangle-solver",
+      "proposedEngine": "math",
       "searchQueries": [
-        "age calculator from birthdate",
-        "age calculator",
-        "calculate age from date of birth",
-        "how old am i"
+        "triangle calculator",
+        "solve triangle",
+        "law of cosines calculator",
+        "law of sines calculator",
+        "pythagorean theorem calculator"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
-        "calculator.net"
+        "calculator.net",
+        "omnicalculator.com",
+        "triangle-calculator.com"
       ],
       "solutionWeaknesses": [
-        "generic calculator hub",
-        "no shareable clean result"
+        "no drawn-to-scale figure",
+        "ad heavy",
+        "unclear which side-angle combinations are valid",
+        "no ambiguous case explanation"
       ],
       "relatedProblems": [
-        "date difference",
-        "countdown"
+        "law of sines",
+        "law of cosines",
+        "triangle area",
+        "ambiguous case"
       ],
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": [],
       "difficulty": "medium",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.46,
-      "searchDemand": 0.88,
+      "evergreenScore": 0.95,
+      "competitionScore": 0.59,
+      "searchDemand": 0.8,
       "implementationCost": 0.6,
       "engineReuse": 0.3,
-      "seoPotential": 0.83,
+      "seoPotential": 0.92,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.78,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.8,
       "confidence": 0.8,
-      "finalScore": 62.5,
+      "finalScore": 64.6,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
     },
     {
-      "id": "date-difference-calculator",
-      "title": "Date Difference Calculator",
-      "problem": "I need the number of days/weeks/months between two dates.",
+      "id": "normal-distribution-visualizer",
+      "title": "Normal Distribution Visualizer",
+      "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
       "userIntent": "transactional",
-      "workflow": "date/time → Date Difference → date/time",
-      "transformation": "Date Difference",
-      "proposedTool": "date-difference-calculator",
-      "proposedEngine": "datetime",
+      "workflow": "input → Normal Distribution → output",
+      "transformation": "Normal Distribution",
+      "proposedTool": "normal-distribution-visualizer",
+      "proposedEngine": "math-lab",
       "searchQueries": [
-        "date difference calculator",
-        "days between two dates",
-        "date duration calculator"
+        "normal distribution calculator",
+        "z score calculator",
+        "bell curve generator",
+        "empirical rule calculator",
+        "area under normal curve"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
-        "timeanddate.com"
+        "calculator.net",
+        "onlinestatbook.com",
+        "geogebra.org"
       ],
       "solutionWeaknesses": [
-        "cluttered with ads",
-        "slow",
-        "overloaded with options"
+        "static forms with tiny fixed charts",
+        "dated applets",
+        "no draggable mean and sigma",
+        "no shaded area interaction"
       ],
       "relatedProblems": [
-        "age calculator",
-        "business days"
+        "z score",
+        "empirical rule",
+        "percentiles",
+        "standardizing data"
       ],
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": [],
       "difficulty": "medium",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.56,
-      "searchDemand": 0.85,
+      "evergreenScore": 0.94,
+      "competitionScore": 0.61,
+      "searchDemand": 0.76,
       "implementationCost": 0.6,
       "engineReuse": 0.3,
-      "seoPotential": 0.7,
+      "seoPotential": 0.9,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.57,
+      "commercialPotential": 0.35,
       "localizationPotential": 0.8,
       "confidence": 0.8,
-      "finalScore": 62.4,
+      "finalScore": 63.3,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "linear-regression-playground",
+      "title": "Linear Regression Playground",
+      "problem": "I want to tap points onto a scatter plot and watch the least-squares line, equation, and R squared update as I add, drag, or remove points.",
+      "userIntent": "troubleshooting",
+      "workflow": "input → Linear Regression → output",
+      "transformation": "Linear Regression",
+      "proposedTool": "linear-regression-playground",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "line of best fit calculator",
+        "linear regression calculator",
+        "least squares calculator",
+        "scatter plot maker",
+        "r squared calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "desmos.com",
+        "socscistatistics.com",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "form-based input with no point dragging",
+        "no live residuals view",
+        "dated applets",
+        "no touch-first interaction"
+      ],
+      "relatedProblems": [
+        "correlation",
+        "residuals",
+        "slope and intercept",
+        "outlier influence"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "medium",
+      "evergreenScore": 0.93,
+      "competitionScore": 0.66,
+      "searchDemand": 0.7,
+      "implementationCost": 0.6,
+      "engineReuse": 0.3,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.78,
+      "confidence": 0.8,
+      "finalScore": 62.3,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "function-grapher",
+      "title": "Function Grapher",
+      "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
+      "userIntent": "transactional",
+      "workflow": "input → Function Graphing → output",
+      "transformation": "Function Graphing",
+      "proposedTool": "function-grapher",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "function grapher",
+        "graphing calculator online",
+        "plot a function online",
+        "equation grapher",
+        "graph maker math"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "existingSolutions": [
+        "desmos.com",
+        "geogebra.org",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "heavy apps pushing accounts and classes",
+        "slow first paint",
+        "overkill for one quick plot",
+        "wolfram paywalls step detail"
+      ],
+      "relatedProblems": [
+        "domain and range",
+        "intercepts",
+        "asymptotes",
+        "transformations of functions"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "high",
+      "evergreenScore": 0.97,
+      "competitionScore": 0.39,
+      "searchDemand": 0.9,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
+      "confidence": 0.8,
+      "finalScore": 60.2,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
@@ -1593,7 +2938,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
+      "discoveredAt": "2026-07-14T18:15:11.060Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -1635,104 +2980,6 @@
       "localizationPotential": 0.82,
       "confidence": 0.8,
       "finalScore": 59.5,
-      "status": "discovered",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "timezone-converter",
-      "title": "Timezone Converter",
-      "problem": "I need to convert a meeting time from one timezone to another.",
-      "userIntent": "transactional",
-      "workflow": "date/time → Timezone Conversion → date/time",
-      "transformation": "Timezone Conversion",
-      "proposedTool": "timezone-converter",
-      "proposedEngine": "datetime",
-      "searchQueries": [
-        "timezone converter",
-        "time zone conversion",
-        "convert time between zones"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
-      "existingSolutions": [
-        "worldtimebuddy"
-      ],
-      "solutionWeaknesses": [
-        "heavy app",
-        "account upsell",
-        "overkill for a single conversion"
-      ],
-      "relatedProblems": [
-        "unix timestamp",
-        "meeting planner"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "high",
-      "evergreenScore": 0.86,
-      "competitionScore": 0.54,
-      "searchDemand": 0.8,
-      "implementationCost": 0.3,
-      "engineReuse": 0.3,
-      "seoPotential": 0.68,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.84,
-      "confidence": 0.8,
-      "finalScore": 56.2,
-      "status": "discovered",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "cron-expression-parser",
-      "title": "Cron Expression Parser",
-      "problem": "I need to understand what a cron expression means in plain English and when it next runs.",
-      "userIntent": "informational",
-      "workflow": "date/time → Cron Parsing → date/time",
-      "transformation": "Cron Parsing",
-      "proposedTool": "cron-expression-parser",
-      "proposedEngine": "datetime",
-      "searchQueries": [
-        "cron expression parser",
-        "crontab explained",
-        "cron to human readable",
-        "cron next run"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-04T13:22:26.983Z",
-      "existingSolutions": [
-        "crontab.guru"
-      ],
-      "solutionWeaknesses": [
-        "single incumbent",
-        "no offline/private mode"
-      ],
-      "relatedProblems": [
-        "timestamp conversion",
-        "scheduling"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "high",
-      "evergreenScore": 0.84,
-      "competitionScore": 0.54,
-      "searchDemand": 0.72,
-      "implementationCost": 0.3,
-      "engineReuse": 0.3,
-      "seoPotential": 0.77,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.34,
-      "localizationPotential": 0.92,
-      "confidence": 0.8,
-      "finalScore": 55,
       "status": "discovered",
       "gap": "engine-missing",
       "engineExists": false

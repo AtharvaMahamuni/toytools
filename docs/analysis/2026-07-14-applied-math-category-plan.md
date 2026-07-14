@@ -128,6 +128,24 @@ prime-factorization, gcd-lcm-calculator, combinations-permutations-calculator,
 normal-distribution-visualizer, derivative-visualizer, monte-carlo-pi-estimator,
 fourier-series-visualizer, scientific-calculator.
 
+## Phase 0 result (same day): RIE-confirmed ordering
+
+`research/datasets/math.json` (12 records) + the `math` taxonomy domain are seeded;
+`research:validate` passes. The math cluster now tops the whole roadmap and `math-lab` is the #1
+missing engine (confidence 0.97). Scores: unit-circle-explorer 71.4, quadratic-equation-explorer
+71.3, fraction-calculator 69.4, combinations-permutations-calculator 69.0,
+prime-factorization-calculator 68.1, probability-simulator 67.2, statistics-visualizer 66.9,
+matrix-calculator 64.8, triangle-solver 64.6, normal-distribution-visualizer 63.3,
+linear-regression-playground 62.3, function-grapher 60.2.
+
+**Adopted launch five (evidence order):** unit-circle-explorer, quadratic-equation-explorer,
+fraction-calculator, combinations-permutations-calculator, prime-factorization-calculator.
+Probability Lab and Statistics Visualizer move to wave 2; the function grapher (and its expression
+parser) is deferred until the category has traction, since it scored last on honest
+difficulty/competition inputs. The launch still leads with the two interactive explorables, and
+the three calculators get visual treatments (fraction bars, choice diagrams, factor trees) to keep
+the category's interactive identity.
+
 ## Effort and risk
 
 - unit-circle / quadratic / probability: comparable to a physics sim each (the shipped cluster

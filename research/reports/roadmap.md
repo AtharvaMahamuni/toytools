@@ -1,23 +1,32 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-07-11T08:46:37.754Z
+Generated: 2026-07-14T18:15:11.060Z
 
-Discovered 34 signals -> 34 unique opportunities (12 recommended, 21 already shipped). Top score 81.6. Missing-engine candidates: 0.
+Discovered 46 signals -> 46 unique opportunities (17 recommended, 28 already shipped). Top score 81.6. Missing-engine candidates: 2.
 
 ## Immediate builds (top tier)
-- **Projectile Motion Simulator** (`projectile-motion-simulator`) - score 79.8, reuses physics. High search demand; Weak / incomplete incumbents; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
-- **Ohm's Law Simulator** (`ohms-law-simulator`) - score 78.9, reuses physics. High search demand; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
-- **Spring (SHM) Simulator** (`shm-spring-simulator`) - score 78.5, reuses physics. Weak / incomplete incumbents; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
-- **Ideal Gas Law Simulator** (`ideal-gas-law-simulator`) - score 76.5, reuses physics. High search demand; Weak / incomplete incumbents; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
-- **Doppler Effect Simulator** (`doppler-effect-simulator`) - score 75, reuses physics. High search demand; Weak / incomplete incumbents; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
+_None above the immediate bar._
 
 ## Quick wins (low effort, recommended)
-- **Momentum & Collision Simulator** (`momentum-collision-simulator`) - score 73.8, reuses physics. Weak / incomplete incumbents; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
-- **Inclined Plane Simulator** (`inclined-plane-simulator`) - score 73, reuses physics. Weak / incomplete incumbents; Reuses the existing physics engine; Low implementation cost; Creates 4 internal links.
+- **Unit Circle Explorer** (`unit-circle-explorer`) - score 71.4, new math-lab engine. High search demand; Weak / incomplete incumbents; Implies a new math-lab engine; Low implementation cost.
+- **Quadratic Equation Explorer** (`quadratic-equation-explorer`) - score 71.3, new math-lab engine. High search demand; Implies a new math-lab engine; Low implementation cost.
 - **CSV Column Picker** (`csv-column-picker`) - score 70.8, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
+- **Fraction Calculator** (`fraction-calculator`) - score 69.4, new math engine. High search demand; Implies a new math engine; Low implementation cost.
+- **Combinations & Permutations Calculator** (`combinations-permutations-calculator`) - score 69, new math engine. High search demand; Weak / incomplete incumbents; Implies a new math engine; Low implementation cost.
+- **Prime Factorization Calculator** (`prime-factorization-calculator`) - score 68.1, new math engine. High search demand; Weak / incomplete incumbents; Implies a new math engine; Low implementation cost.
 - **Net Worth Calculator** (`net-worth-calculator`) - score 65.9, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links.
 
 ## Missing engines (new reusable engines this evidence justifies)
+### math-lab (confidence 0.97) - unlocks 6
+- 6 opportunities share the missing "math-lab" engine.
+- Cluster ≥ 3 → justifies a new reusable engine that unlocks 6 tools.
+- Tools: unit-circle-explorer, quadratic-equation-explorer, probability-simulator, normal-distribution-visualizer, linear-regression-playground, function-grapher
+
+### math (confidence 0.97) - unlocks 6
+- 6 opportunities share the missing "math" engine.
+- Cluster ≥ 3 → justifies a new reusable engine that unlocks 6 tools.
+- Tools: fraction-calculator, combinations-permutations-calculator, prime-factorization-calculator, statistics-visualizer, matrix-calculator, triangle-solver
+
 ### loan (confidence 0.65) - unlocks 2
 - 2 opportunities share the missing "loan" engine.
 - Below the 3-tool bar for a new engine - revisit as more demand accrues.
@@ -59,14 +68,26 @@ Discovered 34 signals -> 34 unique opportunities (12 recommended, 21 already shi
 - **Date Difference** (datetime) - 1 tool(s), mean score 73.6.
 - **Inclined Plane and Friction** (physics) - 1 tool(s), mean score 73.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 72.5.
+- **Unit Circle** (math-lab) - 1 tool(s), mean score 71.4.
+- **Quadratic Equations** (math-lab) - 1 tool(s), mean score 71.3.
 - **CSV Column Selection** (csv) - 1 tool(s), mean score 70.8.
+- **Fractions** (math) - 1 tool(s), mean score 69.4.
+- **Combinatorics** (math) - 1 tool(s), mean score 69.
 - **Word Frequency Analysis** (text-analysis) - 1 tool(s), mean score 68.8.
+- **Number Theory** (math) - 1 tool(s), mean score 68.1.
 - **Timezone Conversion** (datetime) - 1 tool(s), mean score 67.4.
 - **Loan Amortization** (loan) - 1 tool(s), mean score 67.2.
+- **Probability** (math-lab) - 1 tool(s), mean score 67.2.
+- **Descriptive Statistics** (math) - 1 tool(s), mean score 66.9.
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 66.2.
 - **Net Worth** (budget) - 1 tool(s), mean score 65.9.
 - **Mortgage Amortization** (loan) - 1 tool(s), mean score 65.5.
+- **Matrices** (math) - 1 tool(s), mean score 64.8.
 - **Salary Conversion** (budget) - 1 tool(s), mean score 64.8.
+- **Triangles** (math) - 1 tool(s), mean score 64.6.
+- **Normal Distribution** (math-lab) - 1 tool(s), mean score 63.3.
+- **Linear Regression** (math-lab) - 1 tool(s), mean score 62.3.
+- **Function Graphing** (math-lab) - 1 tool(s), mean score 60.2.
 - **Retirement Projection** (retirement) - 1 tool(s), mean score 59.5.
 
 ## Emerging trends (by transformation)
