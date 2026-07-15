@@ -47,6 +47,7 @@ import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/kno
 import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
+import { knowledge as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/knowledge';
 import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
@@ -134,6 +135,7 @@ export const authoredKnowledge: Knowledge[] = [
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
+  primeFactorizationCalculator,
   punycodeConverter,
   qrCodeGenerator,
   randomStringGenerator,

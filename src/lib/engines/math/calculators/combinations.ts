@@ -40,7 +40,6 @@ export const combinationsCalculator: MathCalculator = {
       min: 0,
       max: MAX_COMBINATORICS_N,
       step: 1,
-      required: true,
     },
     {
       id: 'r',
@@ -50,7 +49,6 @@ export const combinationsCalculator: MathCalculator = {
       min: 0,
       max: MAX_COMBINATORICS_N,
       step: 1,
-      required: true,
     },
     {
       id: 'mode',

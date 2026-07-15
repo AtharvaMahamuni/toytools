@@ -47,6 +47,7 @@ import { config as paragraphCounter } from '@tools/text/paragraph-counter/config
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
+import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
@@ -134,6 +135,7 @@ export const toolConfigs: ToolConfig[] = [
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
+  primeFactorizationCalculator,
   punycodeConverter,
   qrCodeGenerator,
   randomStringGenerator,

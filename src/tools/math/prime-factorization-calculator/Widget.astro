@@ -1,0 +1,9 @@
+---
+// Prime Factorization Calculator — a thin wrapper over the shared MathWidget. Tool logic lives in
+// the math engine (src/lib/engines/math/calculators/prime-factorization.ts), resolved at runtime
+// via ToyTools.runMath.
+import MathWidget from '@tools/_shared/MathWidget.astro';
+import { config } from './config';
+---
+
+<MathWidget slug={config.slug} mathId="prime-factorization" config={config} emptyText="Enter a whole number to factor it into primes." />

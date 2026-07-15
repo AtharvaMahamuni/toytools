@@ -8,10 +8,12 @@ import type { MathCalculator, MathFieldDef, MathInput, MathOpts, MathResult } fr
 import { calculationError } from '@lib/results/index';
 import { fractionCalculator } from './calculators/fraction';
 import { combinationsCalculator } from './calculators/combinations';
+import { primeFactorizationCalculator } from './calculators/prime-factorization';
 
 export const MATH_CALCULATORS: Record<string, MathCalculator> = {
   fraction: fractionCalculator,
   combinations: combinationsCalculator,
+  'prime-factorization': primeFactorizationCalculator,
 };
 
 /**

@@ -70,6 +70,23 @@ test.describe('combinations & permutations calculator (math engine)', () => {
   });
 });
 
+test.describe('prime factorization calculator (math engine)', () => {
+  test('factors live and derives GCF/LCM from a second number', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/prime-factorization-calculator/');
+    const hero = page.locator('#prime-factorization-calculator-hero');
+    await expect(hero).toHaveText('2³ × 3² × 5'); // default 360
+    await page.locator('[data-field-id="number"]').fill('97');
+    await expect(hero).toHaveText('97 (prime)');
+    await page.locator('[data-field-id="number"]').fill('36');
+    await page.locator('[data-field-id="second"]').fill('60');
+    const experience = page.locator('#prime-factorization-calculator-experience');
+    await expect(experience).toContainText('12'); // GCF
+    await expect(experience).toContainText('180'); // LCM
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
 test.describe('unit circle explorer', () => {
   test('the angle slider drives the trig measurements', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);

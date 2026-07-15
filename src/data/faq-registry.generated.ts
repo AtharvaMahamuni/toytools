@@ -47,6 +47,7 @@ import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
+import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
 import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
@@ -134,6 +135,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'password-generator': passwordGeneratorFaqs,
   'percentage-calculator': percentageCalculatorFaqs,
   'pomodoro-timer': pomodoroTimerFaqs,
+  'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
   'qr-code-generator': qrCodeGeneratorFaqs,
   'random-string-generator': randomStringGeneratorFaqs,

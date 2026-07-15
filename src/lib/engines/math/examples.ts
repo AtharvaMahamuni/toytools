@@ -60,6 +60,24 @@ export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
     expect: { count: 10000 },
     narrative: 'Each of the 4 slots has 10 digit choices, so 10^4 = 10,000 possible PINs.',
   },
+  {
+    id: 'prime-factorization-360',
+    engine: 'math',
+    ref: 'prime-factorization',
+    title: 'Factor 360',
+    inputs: { number: 360, second: '' },
+    expect: { factorization: 360, divisors: 24 },
+    narrative: '360 = 2³ × 3² × 5, and its 24 divisors follow from (3+1) × (2+1) × (1+1).',
+  },
+  {
+    id: 'prime-gcf-lcm',
+    engine: 'math',
+    ref: 'prime-factorization',
+    title: 'GCF and LCM of 36 and 60',
+    inputs: { number: 36, second: 60 },
+    expect: { gcf: 12, lcm: 180 },
+    narrative: '36 = 2² × 3² and 60 = 2² × 3 × 5 share 2² × 3 = 12 (GCF); taking the higher exponents gives 2² × 3² × 5 = 180 (LCM).',
+  },
 ];
 
 export const MATH_EXAMPLE_MAP = buildExampleRegistry(MATH_EXAMPLES);

@@ -70,6 +70,40 @@ describe('combinations calculator', () => {
   });
 });
 
+describe('prime factorization calculator', () => {
+  it('narrates the trial divisions and reports divisors', () => {
+    const res = runMath('prime-factorization', { number: 360, second: '' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('2³ × 3² × 5');
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('360 ÷ 2 = 180');
+    expect(text).toContain('2³ divides in');
+    expect(res.metrics.find((c) => c.id === 'divisors')?.raw).toBe(24);
+    expect(res.metrics.find((c) => c.id === 'isPrime')?.value).toBe('No');
+  });
+
+  it('recognises primes', () => {
+    const res = runMath('prime-factorization', { number: 97, second: '' }, {});
+    expect(res.hero?.value).toBe('97 (prime)');
+    expect(res.metrics.find((c) => c.id === 'isPrime')?.value).toBe('Yes');
+  });
+
+  it('derives GCF and LCM from shared and combined exponents', () => {
+    const res = runMath('prime-factorization', { number: 36, second: 60 }, {});
+    expect(res.metrics.find((c) => c.id === 'gcf')?.raw).toBe(12);
+    expect(res.metrics.find((c) => c.id === 'lcm')?.raw).toBe(180);
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('LOWER exponents');
+    const coprime = runMath('prime-factorization', { number: 9, second: 10 }, {});
+    expect((coprime.insights ?? []).map((i) => i.text).join(' ')).toContain('coprime');
+  });
+
+  it('rejects out-of-range input', () => {
+    expect(runMath('prime-factorization', { number: 1, second: '' }, {}).uiState).toBe('validation-error');
+    expect(runMath('prime-factorization', { number: 2.5, second: '' }, {}).uiState).toBe('validation-error');
+  });
+});
+
 describe('fraction calculator', () => {
   it('narrates the LCD steps for unlike denominators', () => {
     const res = runMath('fraction', { first: '1/2', op: 'add', second: '3/4' }, {});

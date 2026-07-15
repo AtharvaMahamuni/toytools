@@ -1,0 +1,144 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What the fundamental theorem of arithmetic says is simple: every whole number above 1
+      breaks into prime numbers in exactly one way. To find the prime factorization, divide out the smallest
+      prime repeatedly, then the next, until 1 remains. For example, 360 = 2³ × 3² × 5. From two
+      factorizations you can read the greatest common factor (shared primes, lower exponents) and
+      the least common multiple (all primes, higher exponents) without any guessing. This prime
+      factorization calculator narrates the divisions, works as a gcf calculator and lcm calculator
+      against a second number, and counts divisors from the exponents.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Prime Factorization Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Prime Factorization Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The method is trial division, the tidy version of a factor tree. Start with the smallest
+      prime, 2, and divide as many times as it fits: 360 becomes 180, 90, then 45, so 2³ divides
+      in. Move to 3: 45 becomes 15, then 5, so 3² divides in. The remainder 5 is itself prime, and
+      the chain reads 360 = 2³ × 3² × 5. Two facts make this fast. First, you only ever need to
+      test primes, because any composite divisor would have been consumed by its own prime parts
+      earlier. Second, you only need primes up to the square root of what remains: factors pair up
+      around the square root, so if nothing at or below it divides, the remainder is prime.
+      Therefore even a number near a trillion settles in at most a million quick divisions.
+    </p>
+  </section>
+
+  <section id="gcf-lcm">
+    <h2>Reading GCF and LCM off the Exponents <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Once two numbers are factored, their greatest common factor and least common multiple stop
+      being search problems. Line the factorizations up prime by prime. The GCF collects the primes
+      both numbers share, each at its lower exponent, because a common factor cannot use more of a
+      prime than either number owns. The LCM collects every prime that appears anywhere, each at
+      its higher exponent, because a common multiple must cover both. For 36 = 2² × 3² and
+      60 = 2² × 3 × 5 that gives GCF = 2² × 3 = 12 and LCM = 2² × 3² × 5 = 180. The whole
+      GCF versus LCM distinction is lower-versus-higher exponents. When two numbers
+      share no prime at all they are coprime numbers and the GCF is 1. The GCF is what simplifies a
+      fraction in one step, and the LCM is the least common denominator when adding fractions.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>For example, factor 360.</strong> The chain 360 → 180 → 90 → 45 → 15 → 5 → 1 gives 2³ × 3² × 5, and (3+1) × (2+1) × (1+1) = 24 divisors follow from the exponents alone.</p>
+    <p><strong>GCF and LCM of 36 and 60.</strong> Shared primes at lower exponents: 2² × 3 = 12. All primes at higher exponents: 2² × 3² × 5 = 180.</p>
+    <p><strong>Is 97 prime?</strong> Only 2, 3, 5, and 7 sit at or below √97; none divides 97, so it is prime, no further checks needed.</p>
+  </section>
+
+  <section id="calculator-vs-alternatives">
+    <h2>This Calculator vs the Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Drawing a factor tree by hand teaches the idea but gets error-prone past two digits, and a
+      pocket calculator can divide yet never tells you which prime to try next. Most online tools
+      print the factorization as a bare answer. Here the trial divisions are narrated line by line,
+      exactly the working a teacher expects, and this factor tree calculator doubles as a
+      prime factor calculator, a primality check, and a gcf and lcm calculator in one pass.
+      However, the point of the steps is practice: cover the answer, factor by hand, then compare chains.
+    </p>
+  </section>
+
+  <section id="divisors">
+    <h2>Counting Divisors Without Listing Them <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Building a divisor of 2³ × 3² × 5 means deciding how many 2s to include (0 to 3), how many 3s
+      (0 to 2), and how many 5s (0 or 1). Choices multiply: 4 × 3 × 2 = 24 divisors, no listing
+      required. The same idea explains why highly divisible numbers such as 360 were used for
+      calendars and circles: small primes at generous exponents create many divisors.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Add one to each exponent and multiply">
+      <p>The divisor count of p^a × q^b × r^c is (a+1)(b+1)(c+1). One extra choice per prime covers the option of leaving it out entirely.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Counting 1 as prime">
+      <p>
+        One is not a prime number. If it were, factorizations would never be unique (6 = 1 × 2 × 3 =
+        1 × 1 × 2 × 3, endlessly), and the fundamental theorem of arithmetic would collapse. Primes
+        start at 2.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Swapping GCF and LCM">
+      <p>
+        The greatest common factor is never larger than either number; the least common multiple is
+        never smaller. If your "GCF" of 36 and 60 came out above 36, you took the higher exponents
+        and computed the LCM instead.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Where the input cap comes from">
+      <p>Trial division tests primes up to √n, so the tool caps input at one trillion to keep every factorization instant. Everything runs in your browser and works offline.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

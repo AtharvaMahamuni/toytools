@@ -37,7 +37,6 @@ export const fractionCalculator: MathCalculator = {
       type: 'text',
       default: '1/2',
       placeholder: 'e.g. 3/4, 7, or 1 2/3',
-      required: true,
     },
     {
       id: 'op',
@@ -57,7 +56,6 @@ export const fractionCalculator: MathCalculator = {
       type: 'text',
       default: '3/4',
       placeholder: 'e.g. 3/4, 7, or 1 2/3',
-      required: true,
     },
   ],
 

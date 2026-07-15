@@ -237,9 +237,10 @@
       "sharedWidget": "src/tools/_shared/MathWidget.astro",
       "supportedFamilies": [
         "combinatorics",
-        "fractions"
+        "fractions",
+        "number-theory"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -1466,6 +1467,27 @@
       "pattern": "stateful",
       "family": "timer",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "prime-factorization-calculator": {
+      "name": "Prime Factorization Calculator",
+      "dir": "src/tools/math/prime-factorization-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/prime-factorization-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "number-theory",
+      "processorId": "prime-factorization",
       "toolGroup": "",
       "files": [
         "Guide.astro",
