@@ -49,6 +49,27 @@ test.describe('unit circle explorer', () => {
     await expect(page.locator('[data-measurement="sin"]')).toHaveText(/0\.500/);
   });
 
+  test('the graph docks as a PiP and expands to full size', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    const pip = page.locator('[data-graph-pip]');
+    const dock = page.locator('[data-graph-dock]');
+    // Default: mini graph over the canvas corner, full dock hidden.
+    await expect(pip.locator('[data-sim-graph]')).toBeVisible();
+    await expect(dock).toBeHidden();
+    // Expand → the same canvas node moves into the full-width dock.
+    await pip.getByRole('button', { name: /full size/i }).click();
+    await expect(dock.locator('[data-sim-graph]')).toBeVisible();
+    await expect(pip).toBeHidden();
+    // The choice persists across a reload.
+    await page.reload();
+    await expect(page.locator('[data-graph-dock] [data-sim-graph]')).toBeVisible();
+    await expect(page.locator('[data-graph-pip]')).toBeHidden();
+    // Pin it back over the canvas.
+    await page.getByRole('button', { name: /Pin the graph/i }).click();
+    await expect(page.locator('[data-graph-pip] [data-sim-graph]')).toBeVisible();
+    await expect(page.locator('[data-graph-dock]')).toBeHidden();
+  });
+
   test('dragging the point around the circle sets the angle', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);
     await page.getByRole('button', { name: 'Pause' }).click();

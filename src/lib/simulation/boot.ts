@@ -363,6 +363,41 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     canvas.addEventListener('pointercancel', endDrag);
   }
 
+  // ── Graph dock: the ONE graph canvas lives either in the PiP over the sim canvas (default,
+  // glanceable without scrolling) or in the full-width dock below. Moving the node preserves the
+  // renderer state (traces live in the GraphRenderer, the bitmap in the canvas); only the backing
+  // store must be re-fitted to the new client width, which resizeCanvases() does. ───────────────
+  const pipDock = root.querySelector<HTMLElement>('[data-graph-pip]');
+  const fullDock = root.querySelector<HTMLElement>('[data-graph-dock]');
+  const GRAPH_VIEW_KEY = 'toytools.sim.graph-view';
+  if (graphCanvas && pipDock && fullDock) {
+    const setGraphView = (view: 'pip' | 'full', persistChoice: boolean): void => {
+      (view === 'pip' ? pipDock : fullDock).appendChild(graphCanvas);
+      pipDock.hidden = view !== 'pip';
+      fullDock.hidden = view !== 'full';
+      if (persistChoice) {
+        try {
+          localStorage.setItem(GRAPH_VIEW_KEY, view);
+        } catch {
+          /* storage unavailable (private mode) — the toggle still works for this page */
+        }
+      }
+      resizeCanvases();
+    };
+    for (const btn of root.querySelectorAll<HTMLButtonElement>('[data-graph-view]')) {
+      btn.addEventListener('click', () =>
+        setGraphView(btn.getAttribute('data-graph-view') === 'full' ? 'full' : 'pip', true),
+      );
+    }
+    let view: 'pip' | 'full' = 'pip';
+    try {
+      if (localStorage.getItem(GRAPH_VIEW_KEY) === 'full') view = 'full';
+    } catch {
+      /* ignore */
+    }
+    setGraphView(view, false);
+  }
+
   // ── Environment: resize, tab visibility, theme changes ───────────────────────────────────
   observeResize(canvas.parentElement ?? canvas, resizeCanvases);
 
