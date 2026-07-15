@@ -16,13 +16,16 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-explorer']) {
+  for (const slug of ['unit-circle-explorer', 'quadratic-equation-explorer']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);
       await expect(page.locator('[data-sim-canvas]')).toBeVisible();
       await expect(page.locator('[data-sim-fallback]')).toBeHidden();
-      await expect(page.locator('[data-sim-graph]')).toBeVisible();
+      // The graph tile is optional (the quadratic's canvas IS its graph).
+      if (await page.locator('[data-sim-graph]').count()) {
+        await expect(page.locator('[data-sim-graph]')).toBeVisible();
+      }
       await page.waitForTimeout(200);
       expect(errors, errors.join('\n')).toEqual([]);
     });

@@ -6,11 +6,13 @@
 
 import type { SimulationDomain } from '../../domain';
 import unitCircle from '../../simulations/unit-circle';
+import quadratic from '../../simulations/quadratic';
 
 export const mathDomain: SimulationDomain = {
   id: 'math-lab',
   label: 'Applied Math',
   simulations: {
     'unit-circle': unitCircle,
+    quadratic,
   },
 };

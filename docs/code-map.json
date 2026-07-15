@@ -222,9 +222,10 @@
       "runtimeGlobal": "",
       "sharedWidget": "src/tools/_shared/SimulationWidget.astro",
       "supportedFamilies": [
-        "trigonometry"
+        "trigonometry",
+        "algebra"
       ],
-      "toolCount": 1
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -497,6 +498,21 @@
       "pattern": "simulate",
       "family": "trigonometry",
       "processorId": "unit-circle",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "quadratic-equation-explorer": {
+      "name": "Quadratic Equation Explorer",
+      "dir": "src/tools/math/quadratic-equation-explorer",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/quadratic-equation-explorer/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "algebra",
+      "processorId": "quadratic",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
