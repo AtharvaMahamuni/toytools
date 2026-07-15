@@ -76,7 +76,11 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   let palette = readPalette();
   const aspect = def.aspect ?? 16 / 9;
   let stage = sizeCanvas(canvas, aspect, palette);
-  let graphStage = graphCanvas ? sizeCanvas(graphCanvas, 5 / 2, palette) : null;
+  // The graph is a compact strip inside the stage: short-and-wide on desktop so the whole
+  // interactive loop fits one viewport, taller on narrow screens so the trace stays readable.
+  const graphAspect = (el: HTMLCanvasElement): number =>
+    (el.clientWidth || el.parentElement?.clientWidth || 0) < 480 ? 5 / 2 : 9 / 2;
+  let graphStage = graphCanvas ? sizeCanvas(graphCanvas, graphAspect(graphCanvas), palette) : null;
   const graph: GraphRenderer | null = def.graph ? createGraphRenderer(def.graph) : null;
 
   // ── Formula-as-calculator: paramId terms rendered as number boxes; the measurement term is the
@@ -88,7 +92,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
 
   function resizeCanvases(): void {
     stage = sizeCanvas(canvas!, aspect, palette);
-    if (graphCanvas) graphStage = sizeCanvas(graphCanvas, 5 / 2, palette);
+    if (graphCanvas) graphStage = sizeCanvas(graphCanvas, graphAspect(graphCanvas), palette);
     render();
   }
 
@@ -361,41 +365,6 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     };
     canvas.addEventListener('pointerup', endDrag);
     canvas.addEventListener('pointercancel', endDrag);
-  }
-
-  // ── Graph dock: the ONE graph canvas lives either in the PiP over the sim canvas (default,
-  // glanceable without scrolling) or in the full-width dock below. Moving the node preserves the
-  // renderer state (traces live in the GraphRenderer, the bitmap in the canvas); only the backing
-  // store must be re-fitted to the new client width, which resizeCanvases() does. ───────────────
-  const pipDock = root.querySelector<HTMLElement>('[data-graph-pip]');
-  const fullDock = root.querySelector<HTMLElement>('[data-graph-dock]');
-  const GRAPH_VIEW_KEY = 'toytools.sim.graph-view';
-  if (graphCanvas && pipDock && fullDock) {
-    const setGraphView = (view: 'pip' | 'full', persistChoice: boolean): void => {
-      (view === 'pip' ? pipDock : fullDock).appendChild(graphCanvas);
-      pipDock.hidden = view !== 'pip';
-      fullDock.hidden = view !== 'full';
-      if (persistChoice) {
-        try {
-          localStorage.setItem(GRAPH_VIEW_KEY, view);
-        } catch {
-          /* storage unavailable (private mode) — the toggle still works for this page */
-        }
-      }
-      resizeCanvases();
-    };
-    for (const btn of root.querySelectorAll<HTMLButtonElement>('[data-graph-view]')) {
-      btn.addEventListener('click', () =>
-        setGraphView(btn.getAttribute('data-graph-view') === 'full' ? 'full' : 'pip', true),
-      );
-    }
-    let view: 'pip' | 'full' = 'pip';
-    try {
-      if (localStorage.getItem(GRAPH_VIEW_KEY) === 'full') view = 'full';
-    } catch {
-      /* ignore */
-    }
-    setGraphView(view, false);
   }
 
   // ── Environment: resize, tab visibility, theme changes ───────────────────────────────────
