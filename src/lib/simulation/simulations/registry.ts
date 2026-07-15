@@ -9,9 +9,10 @@
 import type { SimulationDef } from '../types';
 import { composeDomains, type SimulationDomain } from '../domain';
 import { physicsDomain } from '../plugins/physics';
+import { mathDomain } from '../plugins/math';
 
 /** Every registered simulation domain. Add a subject here to plug it into the engine. */
-export const DOMAINS: SimulationDomain[] = [physicsDomain];
+export const DOMAINS: SimulationDomain[] = [physicsDomain, mathDomain];
 
 export const SIMULATIONS: Record<string, SimulationDef> = composeDomains(DOMAINS);
 

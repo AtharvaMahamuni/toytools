@@ -15,8 +15,9 @@ import { manifest as idealGasLaw } from './simulations/ideal-gas-law.manifest';
 import { manifest as momentumCollision } from './simulations/momentum-collision.manifest';
 import { manifest as inclinedPlane } from './simulations/inclined-plane.manifest';
 import { manifest as dopplerEffect } from './simulations/doppler-effect.manifest';
+import { manifest as unitCircle } from './simulations/unit-circle.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));

@@ -212,6 +212,19 @@
         "timestamp"
       ],
       "toolCount": 5
+    },
+    "math-lab": {
+      "name": "Math Lab Engine",
+      "category": "applied-math",
+      "patterns": [
+        "simulate"
+      ],
+      "runtimeGlobal": "",
+      "sharedWidget": "src/tools/_shared/SimulationWidget.astro",
+      "supportedFamilies": [
+        "trigonometry"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -469,6 +482,21 @@
       "pattern": "simulate",
       "family": "waves",
       "processorId": "doppler-effect",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "unit-circle-explorer": {
+      "name": "Unit Circle Explorer",
+      "dir": "src/tools/math/unit-circle-explorer",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/unit-circle-explorer/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "trigonometry",
+      "processorId": "unit-circle",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

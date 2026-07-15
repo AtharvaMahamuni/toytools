@@ -1,0 +1,77 @@
+// Deep suite for the Applied Math simulation domain (math-lab engine). Generic render/a11y smoke
+// is covered by smoke.spec.ts; this asserts the interactive behaviour of each math sim: boot,
+// animation, the slider → measurement wiring, and on-canvas dragging. Add each new math sim's
+// slug to the boot list below (the math twin of physics.spec.ts).
+import { test, expect, type Page, type Locator } from '@playwright/test';
+
+const UNIT_CIRCLE = '/tool/math/unit-circle-explorer/';
+
+function guardConsole(page: Page): string[] {
+  const errors: string[] = [];
+  page.on('console', (msg) => {
+    if (msg.type() === 'error') errors.push(msg.text());
+  });
+  page.on('pageerror', (err) => errors.push(String(err)));
+  return errors;
+}
+
+test.describe('every math tool', () => {
+  for (const slug of ['unit-circle-explorer']) {
+    test(`${slug} boots its canvas without console errors`, async ({ page }) => {
+      const errors = guardConsole(page);
+      await page.goto(`/tool/math/${slug}/`);
+      await expect(page.locator('[data-sim-canvas]')).toBeVisible();
+      await expect(page.locator('[data-sim-fallback]')).toBeHidden();
+      await expect(page.locator('[data-sim-graph]')).toBeVisible();
+      await page.waitForTimeout(200);
+      expect(errors, errors.join('\n')).toEqual([]);
+    });
+  }
+});
+
+test.describe('unit circle explorer', () => {
+  test('the angle slider drives the trig measurements', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    // 90°: sin θ = 1, cos θ = 0.
+    await page.getByLabel(/Angle θ/).fill('90');
+    await expect(page.locator('[data-measurement="sin"]')).toHaveText(/1\.000/);
+    await expect(page.locator('[data-measurement="cos"]')).toHaveText(/0\.000/);
+    // The tan readout is clamped, never Infinity/NaN.
+    const tan = (await page.locator('[data-measurement="tan"]').textContent())!;
+    expect(tan).not.toMatch(/Infinity|NaN/);
+  });
+
+  test('a preset jumps to its special angle', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: '30°', exact: true }).click();
+    await expect(page.locator('[data-measurement="sin"]')).toHaveText(/0\.500/);
+  });
+
+  test('dragging the point around the circle sets the angle', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    expect(await page.getByLabel(/Angle θ/).inputValue()).toBe('45'); // default
+    // Drag to straight above the circle centre (0.28, 0.52) → 90°.
+    const canvas = page.locator('[data-sim-canvas]');
+    const box = (await canvas.boundingBox())!;
+    const pts: [number, number][] = [
+      [0.4, 0.35],
+      [0.34, 0.25],
+      [0.28, 0.18],
+    ].map(([x, y]) => [box.x + box.width * x, box.y + box.height * y]);
+    await canvas.evaluate((el, points: [number, number][]) => {
+      const fire = (type: string, x: number, y: number) =>
+        el.dispatchEvent(
+          new PointerEvent(type, { clientX: x, clientY: y, pointerId: 1, bubbles: true, cancelable: true }),
+        );
+      fire('pointerdown', points[0][0], points[0][1]);
+      for (let i = 1; i < points.length; i++) fire('pointermove', points[i][0], points[i][1]);
+      fire('pointerup', points[points.length - 1][0], points[points.length - 1][1]);
+    }, pts);
+    const angle = Number(await page.getByLabel(/Angle θ/).inputValue());
+    expect(angle).toBeGreaterThan(70);
+    expect(angle).toBeLessThan(110);
+  });
+});

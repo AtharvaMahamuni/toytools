@@ -450,7 +450,8 @@ manifest. There are **no per-simulation `config.ts`/`knowledge.ts`/`faq.ts`/`Gui
 - **`<id>.ts`** — the `SimulationDef` (pure model): `params`, `presets`, `init`/`step`,
   `measurements`, `formula`, `graph`, `observations`, `explanation`, `pointer`, and a `draw` imported
   from the sibling `<id>.draw.ts`. Models stay DOM-free (unit-testable); `*.draw.ts` owns all canvas
-  work and is excluded from coverage. Register the model in `src/lib/simulation/plugins/physics/index.ts`.
+  work and is excluded from coverage. Register the model in its domain plugin
+  (`src/lib/simulation/plugins/<domain>/index.ts` — `physics/` and `math/` exist).
 - **`<id>.manifest.ts`** — the `SimulationManifest` (declarative content): metadata, concepts,
   equations, `educational` (intents/mistakes/use-cases), `seo`, `presentation`, `examples`, `faq`,
   `guide` (sections + mistakes), `relationships`; it spreads `params/presets/formula/paramBehavior/
@@ -483,8 +484,11 @@ whole registry by `contract.test.ts`, so a new sim is covered automatically; per
 holds only its numeric assertions.
 
 **Plugin seam.** `SIMULATIONS` is composed from domain plugins (`composeDomains(DOMAINS)` in
-`simulations/registry.ts`); physics is the first `SimulationDomain`. A second subject (chemistry,
-electronics, ...) is a new `plugins/<domain>/` bundle added to `DOMAINS` with no engine changes.
+`simulations/registry.ts`); physics was the first `SimulationDomain` and applied math (`math-lab`,
+category `applied-math`) is the second — its domain id doubles as the tools' engine id, since
+`generate.ts` derives `ToolConfig.engine` from `metadata.domain`. A further subject (chemistry,
+electronics, ...) is a new `plugins/<domain>/` bundle added to `DOMAINS` plus its engine row in
+`src/data/engines.ts`, with no engine-core changes.
 
 **seo:gate for sims.** The seo-engine sidecar reads Guide/faq/config prose from disk, so
 `scripts/emit-sim-seo-content.ts` renders synthetic content from each manifest into
@@ -494,9 +498,10 @@ intent/entity coverage is **lexical** (all declared key terms must appear as sub
 prose must literally contain them.
 
 **Adding a simulation:** author `<id>.ts` + `<id>.draw.ts` + `<id>.manifest.ts` (+ `<id>.test.ts`);
-register the model in the physics plugin and the manifest in `MANIFESTS`; add the slug to the
-`tests/e2e/physics.spec.ts` boot list; then `npm run map:generate`, `npm run seo:gate:sim -- <slug>`,
-`npm run build`, `npm run test:e2e -- physics.spec.ts`. **Zero edits** to `registry.ts`/knowledge/faq/
+register the model in its domain plugin and the manifest in `MANIFESTS`; add the slug to the
+domain's e2e boot list (`tests/e2e/physics.spec.ts` / `tests/e2e/math.spec.ts`); then
+`npm run map:generate`, `npm run seo:gate:sim -- <slug>`, `npm run build`, and
+`npm run test:e2e -- <domain>.spec.ts`. **Zero edits** to `registry.ts`/knowledge/faq/
 guide registries. `family` is a free-form string (e.g. `electricity`); the `simulate` pattern already
 has a category-section row.
 
