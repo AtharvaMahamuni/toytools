@@ -49,10 +49,10 @@ test.describe('unit circle explorer', () => {
     await expect(page.locator('[data-measurement="sin"]')).toHaveText(/0\.500/);
   });
 
-  test('the graph strip lives in the console and never overlays the scene', async ({ page }) => {
+  test('the graph tile lives in the dashboard and never overlays the scene', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);
     const canvas = page.locator('[data-sim-canvas]');
-    const graph = page.locator('.phys-console [data-sim-graph]');
+    const graph = page.locator('.phys-dash [data-sim-graph]');
     await expect(graph).toBeVisible();
     // In-flow beside/below the canvas — the boxes never intersect.
     const c = (await canvas.boundingBox())!;
@@ -62,18 +62,23 @@ test.describe('unit circle explorer', () => {
     expect(overlap).toBe(false);
   });
 
-  test('console panels reorder via the grip and the order persists', async ({ page }) => {
+  test('dashboard tiles reorder via the arrow buttons and the order persists', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);
     const order = () =>
       page.$$eval('[data-sim-panel]', (els) => els.map((e) => e.getAttribute('data-sim-panel')));
-    expect(await order()).toEqual(['controls', 'measurements', 'graph']);
-    // Keyboard path (deterministic): ArrowUp on the graph grip moves it above measurements.
-    await page.locator('[data-sim-panel="graph"] [data-panel-grip]').focus();
-    await page.keyboard.press('ArrowUp');
-    expect(await order()).toEqual(['controls', 'graph', 'measurements']);
+    expect(await order()).toEqual(['controls', 'measurements', 'graph', 'formula']);
+    // ↑ on the graph tile moves it one slot earlier.
+    await page.locator('[data-sim-panel="graph"] [data-panel-move="up"]').click();
+    expect(await order()).toEqual(['controls', 'graph', 'measurements', 'formula']);
+    // ↓ on the controls tile moves it one slot later.
+    await page.locator('[data-sim-panel="controls"] [data-panel-move="down"]').click();
+    expect(await order()).toEqual(['graph', 'controls', 'measurements', 'formula']);
+    // ↑ on the first tile is a no-op.
+    await page.locator('[data-sim-panel="graph"] [data-panel-move="up"]').click();
+    expect(await order()).toEqual(['graph', 'controls', 'measurements', 'formula']);
     // The order persists across a reload (and thus across simulations).
     await page.reload();
-    expect(await order()).toEqual(['controls', 'graph', 'measurements']);
+    expect(await order()).toEqual(['graph', 'controls', 'measurements', 'formula']);
   });
 
   test('dragging the point around the circle sets the angle', async ({ page }) => {
