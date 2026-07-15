@@ -17,6 +17,7 @@
   import { runJwt } from '@lib/engines/jwt/registry';
   import { runFinance } from '@lib/engines/finance/registry';
   import { runDateTime } from '@lib/engines/datetime/registry';
+  import { runMath } from '@lib/engines/math/registry';
   import { runGeneration } from '@lib/generation/registry';
   import { renderExperience } from '@lib/experience/render';
   import { diffLines, diffStats } from '@lib/text/compare';
@@ -90,6 +91,7 @@
   TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
   TT.runFinance = runFinance; // ToyTools.runFinance(id, input, { currency }) → InteractiveResult
   TT.runDateTime = runDateTime; // ToyTools.runDateTime(id, input, { timezone?, locale? }) → InteractiveResult
+  TT.runMath = runMath; // ToyTools.runMath(id, input, { locale? }) → InteractiveResult
   TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]

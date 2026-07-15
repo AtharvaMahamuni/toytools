@@ -19,6 +19,7 @@ import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-diff
 import { items as discountCalculatorFaqs } from '@tools/number/discount-calculator/faq';
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
+import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
@@ -104,6 +105,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'discount-calculator': discountCalculatorFaqs,
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'find-replace': findReplaceFaqs,
+  'fraction-calculator': fractionCalculatorFaqs,
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'inflation-calculator': inflationCalculatorFaqs,

@@ -226,6 +226,19 @@
         "algebra"
       ],
       "toolCount": 2
+    },
+    "math": {
+      "name": "Math Calculator Engine",
+      "category": "applied-math",
+      "patterns": [
+        "math-calculate"
+      ],
+      "runtimeGlobal": "runMath",
+      "sharedWidget": "src/tools/_shared/MathWidget.astro",
+      "supportedFamilies": [
+        "fractions"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -864,6 +877,27 @@
       "pattern": "text-interactive",
       "family": "find-replace",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "fraction-calculator": {
+      "name": "Fraction Calculator",
+      "dir": "src/tools/math/fraction-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/fraction-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "fractions",
+      "processorId": "fraction",
       "toolGroup": "",
       "files": [
         "Guide.astro",

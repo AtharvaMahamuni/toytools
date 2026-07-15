@@ -1,0 +1,9 @@
+---
+// Fraction Calculator — a thin wrapper over the shared MathWidget, which renders the field schema
+// and delegates all output to the platform experience renderer. Tool logic lives in the math
+// engine (src/lib/engines/math/calculators/fraction.ts), resolved at runtime via ToyTools.runMath.
+import MathWidget from '@tools/_shared/MathWidget.astro';
+import { config } from './config';
+---
+
+<MathWidget slug={config.slug} mathId="fraction" config={config} emptyText="Enter two fractions to calculate." />

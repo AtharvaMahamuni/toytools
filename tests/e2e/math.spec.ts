@@ -32,6 +32,28 @@ test.describe('every math tool', () => {
   }
 });
 
+test.describe('fraction calculator (math engine)', () => {
+  test('computes live, reacts to operation changes, and validates input', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/fraction-calculator/');
+    const hero = page.locator('#fraction-calculator-hero');
+    // Defaults 1/2 + 3/4 compute on load once the runtime attaches.
+    await expect(hero).toHaveText('5/4');
+    // Switching the operation recomputes: 1/2 ÷ 3/4 = 2/3.
+    await page.locator('[data-field-id="op"]').selectOption('divide');
+    await expect(hero).toHaveText('2/3');
+    // Mixed numbers: 1 1/2 × 2 2/3 = 4.
+    await page.locator('[data-field-id="first"]').fill('1 1/2');
+    await page.locator('[data-field-id="op"]').selectOption('multiply');
+    await page.locator('[data-field-id="second"]').fill('2 2/3');
+    await expect(hero).toHaveText('4');
+    // Malformed input surfaces as a validation message, not a crash.
+    await page.locator('[data-field-id="first"]').fill('abc');
+    await expect(page.locator('#fraction-calculator-experience')).toContainText('whole number');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
 test.describe('unit circle explorer', () => {
   test('the angle slider drives the trig measurements', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);

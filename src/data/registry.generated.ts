@@ -19,6 +19,7 @@ import { config as dateDifferenceCalculator } from '@tools/datetime/date-differe
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
+import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
@@ -104,6 +105,7 @@ export const toolConfigs: ToolConfig[] = [
   discountCalculator,
   emergencyFundCalculator,
   findReplace,
+  fractionCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   inflationCalculator,

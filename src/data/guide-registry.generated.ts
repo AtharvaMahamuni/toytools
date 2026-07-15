@@ -19,6 +19,7 @@ export const authoredGuideSlugs = [
   'discount-calculator',
   'emergency-fund-calculator',
   'find-replace',
+  'fraction-calculator',
   'hex-encoder-decoder',
   'html-entity-encoder-decoder',
   'inflation-calculator',

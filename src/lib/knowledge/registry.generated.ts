@@ -19,6 +19,7 @@ import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-diff
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
+import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
@@ -104,6 +105,7 @@ export const authoredKnowledge: Knowledge[] = [
   discountCalculator,
   emergencyFundCalculator,
   findReplace,
+  fractionCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   inflationCalculator,

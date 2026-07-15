@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics', 'datetime', 'math-lab',
+  'physics', 'datetime', 'math-lab', 'math',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -46,7 +46,7 @@ const PATTERN_IDS = [
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
-  'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule',
+  'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -87,6 +87,10 @@ const engineDefs: EngineDef[] = [
   // src/lib/simulation/plugins/math/). Same runtime story as physics: no ToyTools global,
   // SimulationWidget lazy-loads exactly one simulation module per page.
   { id: 'math-lab', name: 'Math Lab Engine', category: 'applied-math', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'SimulationWidget.astro' },
+  // Math Calculator Engine: classic-tool sibling of math-lab for data-input calculators
+  // (fractions, combinatorics, primes). Mirrors the datetime engine: SmartField schemas in,
+  // InteractiveResult out, rendered by the platform experience layer.
+  { id: 'math', name: 'Math Calculator Engine', category: 'applied-math', patterns: ['math-calculate'], runtimeGlobal: 'runMath', sharedWidget: 'MathWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {
