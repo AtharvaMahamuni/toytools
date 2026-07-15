@@ -373,11 +373,15 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     canvas.addEventListener('pointercancel', endDrag);
   }
 
-  // ── Dashboard tiles: each tile's ↑/↓ arrow buttons move it one slot earlier/later among the
-  // tiles (the stage is fixed; the grid flows tiles around it). Order persists across all sims. ──
+  // ── Dashboard tiles: spatially-truthful reordering. Each tile shows only the arrows that point
+  // at a physical neighbor in the CURRENT layout (computed from geometry, so the same code is
+  // correct for the desktop grid and the stacked mobile column), and a click SWAPS the two tiles,
+  // moving the tile exactly where the arrow points. Order persists across all sims. ─────────────
   const consoleEl = root.querySelector<HTMLElement>('[data-sim-console]');
   const PANEL_ORDER_KEY = 'toytools.sim.panel-order';
   if (consoleEl) {
+    type MoveDir = 'up' | 'down' | 'left' | 'right';
+    const MOVE_DIRS: MoveDir[] = ['up', 'down', 'left', 'right'];
     const tiles = () => [...consoleEl.querySelectorAll<HTMLElement>('[data-sim-panel]')];
 
     const persistOrder = (): void => {
@@ -400,19 +404,64 @@ function wire(root: HTMLElement, def: SimulationDef): void {
       /* ignore */
     }
 
+    /** The tile this one would trade places with in that direction, or null at a layout edge.
+     *  Vertical neighbors must overlap horizontally (and vice versa) so diagonal tiles never
+     *  count; among candidates the nearest wins. */
+    const neighborIn = (panel: HTMLElement, dir: MoveDir): HTMLElement | null => {
+      const r = panel.getBoundingClientRect();
+      let best: HTMLElement | null = null;
+      let bestDist = Infinity;
+      for (const other of tiles()) {
+        if (other === panel) continue;
+        const q = other.getBoundingClientRect();
+        const xOverlap = Math.min(r.right, q.right) - Math.max(r.left, q.left);
+        const yOverlap = Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top);
+        let dist = Infinity;
+        if (dir === 'up' && xOverlap > 40 && q.top < r.top - 8) dist = r.top - q.top;
+        else if (dir === 'down' && xOverlap > 40 && q.top > r.top + 8) dist = q.top - r.top;
+        else if (dir === 'left' && yOverlap > 20 && q.left < r.left - 8) dist = r.left - q.left;
+        else if (dir === 'right' && yOverlap > 20 && q.left > r.left + 8) dist = q.left - r.left;
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = other;
+        }
+      }
+      return best;
+    };
+
+    const updateArrows = (): void => {
+      for (const panel of tiles()) {
+        for (const dir of MOVE_DIRS) {
+          const btn = panel.querySelector<HTMLButtonElement>(`[data-panel-move="${dir}"]`);
+          if (btn) btn.hidden = !neighborIn(panel, dir);
+        }
+      }
+    };
+
+    const swapTiles = (a: HTMLElement, b: HTMLElement): void => {
+      const marker = document.createComment('tile-swap');
+      b.replaceWith(marker);
+      a.replaceWith(b);
+      marker.replaceWith(a);
+    };
+
     for (const btn of consoleEl.querySelectorAll<HTMLButtonElement>('[data-panel-move]')) {
       btn.addEventListener('click', () => {
         const panel = btn.closest<HTMLElement>('[data-sim-panel]');
-        if (!panel) return;
-        const list = tiles();
-        const i = list.indexOf(panel);
-        const j = i + (btn.getAttribute('data-panel-move') === 'up' ? -1 : 1);
-        if (j < 0 || j >= list.length) return;
-        consoleEl.insertBefore(panel, j < i ? list[j] : list[j].nextSibling);
+        const dir = btn.getAttribute('data-panel-move') as MoveDir | null;
+        if (!panel || !dir) return;
+        const target = neighborIn(panel, dir);
+        if (!target) return;
+        swapTiles(panel, target);
         persistOrder();
         resizeCanvases();
+        updateArrows();
       });
     }
+
+    updateArrows();
+    // Crossing the 1024px breakpoint rearranges the grid — recompute which arrows apply.
+    observeResize(consoleEl, updateArrows);
   }
 
   // ── Environment: resize, tab visibility, theme changes ───────────────────────────────────

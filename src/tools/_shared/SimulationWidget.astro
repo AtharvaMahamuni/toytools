@@ -37,14 +37,23 @@ const speeds = [0.25, 0.5, 1, 2];
 const paramById = new Map(sim.params.map((p) => [p.id, p]));
 // A formula is "calculable" when at least one of its terms is an editable input (a paramId term).
 const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramById.has(t.paramId));
+// Tile movement arrows. All four render hidden; boot.ts reveals only the ones that point at a
+// physical neighbor in the current layout, and a click SWAPS the two tiles along that direction,
+// so an arrow always moves the tile exactly where it points.
+const MOVE_DIRS = [
+  ['left', '←'],
+  ['up', '↑'],
+  ['down', '↓'],
+  ['right', '→'],
+] as const;
 ---
 
 <section class="phys" data-physics-sim data-simulation-id={simulationId} data-slug={slug}>
-  <!-- Dashboard: the stage (canvas + playback) plus four reorderable tiles (Controls, Live
-       measurements, Graph, Formula) in one tight grid, so the whole interactive loop is visible
-       in a single viewport with no scrolling. The stage is fixed; each tile's ↑/↓ arrows move it
-       through the tile slots (right column top/bottom, bottom row left/right), and the order
-       persists across simulations (boot.ts). Stacks to one column below 1024px. -->
+  <!-- Dashboard: the stage (canvas + playback) plus the reorderable tiles (Controls, Live
+       measurements, Graph, Formula, Observations, What's happening) in one tight grid; the five
+       core panels fit a 1080p viewport with no scrolling. The stage is fixed; each tile offers
+       only the arrows that point at a physical neighbor and a click swaps the two tiles along
+       that direction. The order persists across simulations (boot.ts). Stacks below 1024px. -->
   <div class="phys-dash" data-sim-console>
   <!-- Stage: the simulation canvas + playback controls -->
   <div class="tool-panel phys-stage">
@@ -81,9 +90,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   <div class="phys-block phys-panel" data-sim-panel="controls">
     <div class="phys-panel-head">
       <h2 class="phys-h">Controls</h2>
-      <div class="phys-panel-arrows" role="group" aria-label="Reorder the Controls panel">
-        <button type="button" class="phys-panel-arrow" data-panel-move="up" aria-label="Move the Controls panel earlier">↑</button>
-        <button type="button" class="phys-panel-arrow" data-panel-move="down" aria-label="Move the Controls panel later">↓</button>
+      <div class="phys-panel-arrows" role="group" aria-label="Move the Controls panel">
+        {MOVE_DIRS.map(([dir, glyph]) => (
+          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Controls panel ${dir}`} hidden>{glyph}</button>
+        ))}
       </div>
     </div>
     <div class="phys-controls">
@@ -128,9 +138,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   <div class="phys-block phys-panel" data-sim-panel="measurements">
     <div class="phys-panel-head">
       <h2 class="phys-h">Live measurements</h2>
-      <div class="phys-panel-arrows" role="group" aria-label="Reorder the Live measurements panel">
-        <button type="button" class="phys-panel-arrow" data-panel-move="up" aria-label="Move the Live measurements panel earlier">↑</button>
-        <button type="button" class="phys-panel-arrow" data-panel-move="down" aria-label="Move the Live measurements panel later">↓</button>
+      <div class="phys-panel-arrows" role="group" aria-label="Move the Live measurements panel">
+        {MOVE_DIRS.map(([dir, glyph]) => (
+          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Live measurements panel ${dir}`} hidden>{glyph}</button>
+        ))}
       </div>
     </div>
     <div class="phys-cards">
@@ -152,9 +163,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     <div class="phys-block phys-panel" data-sim-panel="graph">
       <div class="phys-panel-head">
         <h2 class="phys-h">Graph</h2>
-        <div class="phys-panel-arrows" role="group" aria-label="Reorder the Graph panel">
-          <button type="button" class="phys-panel-arrow" data-panel-move="up" aria-label="Move the Graph panel earlier">↑</button>
-          <button type="button" class="phys-panel-arrow" data-panel-move="down" aria-label="Move the Graph panel later">↓</button>
+        <div class="phys-panel-arrows" role="group" aria-label="Move the Graph panel">
+          {MOVE_DIRS.map(([dir, glyph]) => (
+            <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Graph panel ${dir}`} hidden>{glyph}</button>
+          ))}
         </div>
       </div>
       <canvas class="phys-graph" data-sim-graph role="img" aria-label={`${config.name} graph`}></canvas>
@@ -168,9 +180,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     <div class="phys-block phys-panel" data-sim-panel="formula">
       <div class="phys-panel-head">
         <h2 class="phys-h">Formula</h2>
-        <div class="phys-panel-arrows" role="group" aria-label="Reorder the Formula panel">
-          <button type="button" class="phys-panel-arrow" data-panel-move="up" aria-label="Move the Formula panel earlier">↑</button>
-          <button type="button" class="phys-panel-arrow" data-panel-move="down" aria-label="Move the Formula panel later">↓</button>
+        <div class="phys-panel-arrows" role="group" aria-label="Move the Formula panel">
+          {MOVE_DIRS.map(([dir, glyph]) => (
+            <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Formula panel ${dir}`} hidden>{glyph}</button>
+          ))}
         </div>
       </div>
       <div class="phys-formula">
@@ -216,19 +229,31 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
       </div>
     </div>
   )}
-  </div><!-- /phys-dash -->
 
-  <!-- Observations + explanation (regenerated as the state changes) -->
-  <div class="phys-block phys-narrative">
-    <div>
+  <!-- Observations + explanation tiles (regenerated as the state changes) -->
+  <div class="phys-block phys-panel" data-sim-panel="observations">
+    <div class="phys-panel-head">
       <h2 class="phys-h">Observations</h2>
-      <ul class="phys-observations" data-sim-observations></ul>
+      <div class="phys-panel-arrows" role="group" aria-label="Move the Observations panel">
+        {MOVE_DIRS.map(([dir, glyph]) => (
+          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Observations panel ${dir}`} hidden>{glyph}</button>
+        ))}
+      </div>
     </div>
-    <div>
-      <h2 class="phys-h">What's happening</h2>
-      <p class="phys-explanation" data-sim-explanation></p>
-    </div>
+    <ul class="phys-observations" data-sim-observations></ul>
   </div>
+  <div class="phys-block phys-panel" data-sim-panel="explanation">
+    <div class="phys-panel-head">
+      <h2 class="phys-h">What's happening</h2>
+      <div class="phys-panel-arrows" role="group" aria-label="Move the What's happening panel">
+        {MOVE_DIRS.map(([dir, glyph]) => (
+          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the What's happening panel ${dir}`} hidden>{glyph}</button>
+        ))}
+      </div>
+    </div>
+    <p class="phys-explanation" data-sim-explanation></p>
+  </div>
+  </div><!-- /phys-dash -->
 
   <!-- Real-world examples (authored per tool) -->
   {examples.length > 0 && (
@@ -424,6 +449,9 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
 
   .phys-panel-arrow:hover { color: var(--color-accent-strong); }
 
+  /* The [hidden] attribute must win over display:flex — boot.ts hides arrows with no neighbor. */
+  .phys-panel-arrow[hidden] { display: none; }
+
   .phys-h {
     margin: 0;
     font-size: var(--text-lg);
@@ -591,12 +619,6 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     border: var(--border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
-  }
-
-  .phys-narrative {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--space-6);
   }
 
   .phys-observations {

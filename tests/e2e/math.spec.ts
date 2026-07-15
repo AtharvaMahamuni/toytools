@@ -62,23 +62,31 @@ test.describe('unit circle explorer', () => {
     expect(overlap).toBe(false);
   });
 
-  test('dashboard tiles reorder via the arrow buttons and the order persists', async ({ page }) => {
+  test('tiles swap with their physical neighbor along the arrow and persist', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);
     const order = () =>
       page.$$eval('[data-sim-panel]', (els) => els.map((e) => e.getAttribute('data-sim-panel')));
-    expect(await order()).toEqual(['controls', 'measurements', 'graph', 'formula']);
-    // ↑ on the graph tile moves it one slot earlier.
-    await page.locator('[data-sim-panel="graph"] [data-panel-move="up"]').click();
-    expect(await order()).toEqual(['controls', 'graph', 'measurements', 'formula']);
-    // ↓ on the controls tile moves it one slot later.
+    expect(await order()).toEqual(['controls', 'measurements', 'graph', 'formula', 'observations', 'explanation']);
+    // ↓ on Controls swaps it with the tile physically below it (Live measurements) in BOTH the
+    // desktop grid and the stacked mobile column.
     await page.locator('[data-sim-panel="controls"] [data-panel-move="down"]').click();
-    expect(await order()).toEqual(['graph', 'controls', 'measurements', 'formula']);
-    // ↑ on the first tile is a no-op.
-    await page.locator('[data-sim-panel="graph"] [data-panel-move="up"]').click();
-    expect(await order()).toEqual(['graph', 'controls', 'measurements', 'formula']);
+    expect(await order()).toEqual(['measurements', 'controls', 'graph', 'formula', 'observations', 'explanation']);
     // The order persists across a reload (and thus across simulations).
     await page.reload();
-    expect(await order()).toEqual(['graph', 'controls', 'measurements', 'formula']);
+    expect(await order()).toEqual(['measurements', 'controls', 'graph', 'formula', 'observations', 'explanation']);
+
+    if ((page.viewportSize()?.width ?? 0) >= 1024) {
+      // Desktop grid: the bottom-left Graph tile can swap right (Formula) but has nothing to its
+      // left (only spatially-truthful arrows are offered).
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="right"]')).toBeVisible();
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="left"]')).toBeHidden();
+      await page.locator('[data-sim-panel="graph"] [data-panel-move="right"]').click();
+      expect(await order()).toEqual(['measurements', 'controls', 'formula', 'graph', 'observations', 'explanation']);
+    } else {
+      // Stacked column: no sideways neighbors, so no sideways arrows.
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="right"]')).toBeHidden();
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="down"]')).toBeVisible();
+    }
   });
 
   test('dragging the point around the circle sets the angle', async ({ page }) => {
