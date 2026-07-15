@@ -9,7 +9,9 @@
 
 import type { GraphDef, Palette, SimState, Viewport } from './types';
 
-const MARGIN = { top: 12, right: 14, bottom: 30, left: 48 };
+// top leaves room for the horizontal header row (y-axis label + legend) — a rotated y label
+// clips on the compact console strip, so it is drawn upright above the plot instead.
+const MARGIN = { top: 28, right: 14, bottom: 30, left: 48 };
 const DEFAULT_WINDOW = 8;
 const SPACE_SAMPLES = 160;
 /** Stream-mode history resolution — dense enough for smooth traces at any speed. */
@@ -92,16 +94,15 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
       ctx.fillText(formatTick(value), f.x - 6, y);
     }
 
-    // Axis labels.
+    // Axis labels. The y label sits upright in the header row above the plot (a rotated label
+    // gets clipped when the strip is short); the legend joins it there for multi-series graphs.
     ctx.font = '12px "Geist Variable", system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
     ctx.fillText(def.xLabel, f.x + f.w / 2, vp.height - 8);
-    ctx.save();
-    ctx.translate(12, f.y + f.h / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText(def.yLabel, 0, 0);
-    ctx.restore();
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(def.yLabel, f.x, 13);
   }
 
   function draw(ctx: CanvasRenderingContext2D, s: SimState, vp: Viewport): void {
@@ -146,18 +147,18 @@ export function createGraphRenderer(def: GraphDef): GraphRenderer {
     }
     ctx.restore();
 
-    // Legend for multi-series graphs.
+    // Legend for multi-series graphs — in the header row beside the y label, clear of the plot.
     if (def.series.length > 1) {
       ctx.save();
       ctx.font = '12px "Geist Variable", system-ui, sans-serif';
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
-      let lx = f.x + 8;
+      let lx = f.x + ctx.measureText(def.yLabel).width + 20;
       for (const series of def.series) {
         ctx.fillStyle = vp.palette[series.color];
-        ctx.fillRect(lx, f.y + 6, 14, 3);
+        ctx.fillRect(lx, 12, 14, 3);
         ctx.fillStyle = vp.palette.muted;
-        ctx.fillText(series.label, lx + 18, f.y + 8);
+        ctx.fillText(series.label, lx + 18, 13);
         lx += 18 + ctx.measureText(series.label).width + 16;
       }
       ctx.restore();

@@ -76,10 +76,10 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   let palette = readPalette();
   const aspect = def.aspect ?? 16 / 9;
   let stage = sizeCanvas(canvas, aspect, palette);
-  // The graph is a compact strip inside the stage: short-and-wide on desktop so the whole
+  // The graph is a compact strip inside the console: short-and-wide on desktop so the whole
   // interactive loop fits one viewport, taller on narrow screens so the trace stays readable.
   const graphAspect = (el: HTMLCanvasElement): number =>
-    (el.clientWidth || el.parentElement?.clientWidth || 0) < 480 ? 5 / 2 : 9 / 2;
+    (el.clientWidth || el.parentElement?.clientWidth || 0) < 480 ? 5 / 2 : 7 / 2;
   let graphStage = graphCanvas ? sizeCanvas(graphCanvas, graphAspect(graphCanvas), palette) : null;
   const graph: GraphRenderer | null = def.graph ? createGraphRenderer(def.graph) : null;
 
@@ -365,6 +365,93 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     };
     canvas.addEventListener('pointerup', endDrag);
     canvas.addEventListener('pointercancel', endDrag);
+  }
+
+  // ── Console panels: each panel's grip drags (pointer) or arrow-keys the panel to a new spot
+  // in the console column. The order persists across all simulations. ────────────────────────
+  const consoleEl = root.querySelector<HTMLElement>('[data-sim-console]');
+  const PANEL_ORDER_KEY = 'toytools.sim.panel-order';
+  if (consoleEl) {
+    const panels = () => [...consoleEl.querySelectorAll<HTMLElement>('[data-sim-panel]')];
+
+    const persistOrder = (): void => {
+      try {
+        localStorage.setItem(PANEL_ORDER_KEY, panels().map((p) => p.dataset.simPanel ?? '').join(','));
+      } catch {
+        /* storage unavailable (private mode) — reordering still works for this page */
+      }
+    };
+
+    try {
+      const saved = localStorage.getItem(PANEL_ORDER_KEY);
+      if (saved) {
+        for (const id of saved.split(',')) {
+          const el = consoleEl.querySelector<HTMLElement>(`[data-sim-panel="${id}"]`);
+          if (el) consoleEl.appendChild(el);
+        }
+      }
+    } catch {
+      /* ignore */
+    }
+
+    for (const grip of consoleEl.querySelectorAll<HTMLElement>('[data-panel-grip]')) {
+      const panel = grip.closest<HTMLElement>('[data-sim-panel]');
+      if (!panel) continue;
+
+      grip.addEventListener('keydown', (ev) => {
+        if (ev.key !== 'ArrowUp' && ev.key !== 'ArrowDown') return;
+        ev.preventDefault();
+        if (ev.key === 'ArrowUp' && panel.previousElementSibling) {
+          consoleEl.insertBefore(panel, panel.previousElementSibling);
+        } else if (ev.key === 'ArrowDown' && panel.nextElementSibling) {
+          consoleEl.insertBefore(panel.nextElementSibling, panel);
+        } else {
+          return;
+        }
+        persistOrder();
+        resizeCanvases();
+        grip.focus();
+      });
+
+      grip.addEventListener('pointerdown', (ev) => {
+        ev.preventDefault();
+        try {
+          grip.setPointerCapture(ev.pointerId);
+        } catch {
+          /* synthetic events may lack an active pointer */
+        }
+        panel.classList.add('phys-panel--dragging');
+        const onMove = (e: Event): void => {
+          const y = (e as globalThis.PointerEvent).clientY;
+          // Crossing another panel's midpoint swaps the dragged panel past it.
+          for (const other of panels()) {
+            if (other === panel) continue;
+            const r = other.getBoundingClientRect();
+            const mid = r.top + r.height / 2;
+            const panelFollowsOther = !!(other.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING);
+            if (y < mid && panelFollowsOther) {
+              consoleEl.insertBefore(panel, other);
+              break;
+            }
+            if (y > mid && !panelFollowsOther) {
+              consoleEl.insertBefore(panel, other.nextSibling);
+              break;
+            }
+          }
+        };
+        const onUp = (): void => {
+          grip.removeEventListener('pointermove', onMove);
+          grip.removeEventListener('pointerup', onUp);
+          grip.removeEventListener('pointercancel', onUp);
+          panel.classList.remove('phys-panel--dragging');
+          persistOrder();
+          resizeCanvases();
+        };
+        grip.addEventListener('pointermove', onMove);
+        grip.addEventListener('pointerup', onUp);
+        grip.addEventListener('pointercancel', onUp);
+      });
+    }
   }
 
   // ── Environment: resize, tab visibility, theme changes ───────────────────────────────────

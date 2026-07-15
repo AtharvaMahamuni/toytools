@@ -62,6 +62,20 @@ test.describe('unit circle explorer', () => {
     expect(overlap).toBe(false);
   });
 
+  test('console panels reorder via the grip and the order persists', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    const order = () =>
+      page.$$eval('[data-sim-panel]', (els) => els.map((e) => e.getAttribute('data-sim-panel')));
+    expect(await order()).toEqual(['controls', 'measurements', 'graph']);
+    // Keyboard path (deterministic): ArrowUp on the graph grip moves it above measurements.
+    await page.locator('[data-sim-panel="graph"] [data-panel-grip]').focus();
+    await page.keyboard.press('ArrowUp');
+    expect(await order()).toEqual(['controls', 'graph', 'measurements']);
+    // The order persists across a reload (and thus across simulations).
+    await page.reload();
+    expect(await order()).toEqual(['controls', 'graph', 'measurements']);
+  });
+
   test('dragging the point around the circle sets the angle', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);
     await page.getByRole('button', { name: 'Pause' }).click();

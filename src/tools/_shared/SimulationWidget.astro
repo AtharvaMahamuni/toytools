@@ -75,11 +75,21 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     </div>
   </div>
 
-  <!-- Console: everything the user tweaks (sliders, presets) and reads (live measurements). -->
-  <div class="phys-console">
+  <!-- Console: everything the user tweaks (sliders, presets) and reads (live measurements,
+       graph). Each panel has a grip: drag it, or press the arrow keys on it, to reorder the
+       panels; the order persists across simulations (boot.ts). -->
+  <div class="phys-console" data-sim-console>
   <!-- Controls: parameter sliders + scenario presets -->
-  <div class="phys-block">
-    <h2 class="phys-h">Controls</h2>
+  <div class="phys-block phys-panel" data-sim-panel="controls">
+    <div class="phys-panel-head">
+      <h2 class="phys-h">Controls</h2>
+      <button
+        type="button"
+        class="phys-panel-grip"
+        data-panel-grip
+        aria-label="Move the Controls panel: drag, or press the up and down arrow keys"
+      >⠿</button>
+    </div>
     <div class="phys-controls">
       {sim.params.map((p) => (
         <div class="phys-control">
@@ -119,8 +129,16 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   </div>
 
   <!-- Live measurement cards -->
-  <div class="phys-block">
-    <h2 class="phys-h">Live measurements</h2>
+  <div class="phys-block phys-panel" data-sim-panel="measurements">
+    <div class="phys-panel-head">
+      <h2 class="phys-h">Live measurements</h2>
+      <button
+        type="button"
+        class="phys-panel-grip"
+        data-panel-grip
+        aria-label="Move the Live measurements panel: drag, or press the up and down arrow keys"
+      >⠿</button>
+    </div>
     <div class="phys-cards">
       {cards.map((m) => (
         <div class="phys-card">
@@ -137,8 +155,16 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
        overlay on the scene and no scrolling. boot.ts sizes it short-and-wide on desktop and
        taller on narrow screens. -->
   {sim.graph && (
-    <div class="phys-block">
-      <h2 class="phys-h">Graph</h2>
+    <div class="phys-block phys-panel" data-sim-panel="graph">
+      <div class="phys-panel-head">
+        <h2 class="phys-h">Graph</h2>
+        <button
+          type="button"
+          class="phys-panel-grip"
+          data-panel-grip
+          aria-label="Move the Graph panel: drag, or press the up and down arrow keys"
+        >⠿</button>
+      </div>
       <canvas class="phys-graph" data-sim-graph role="img" aria-label={`${config.name} graph`}></canvas>
     </div>
   )}
@@ -362,6 +388,35 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   }
 
   .phys-block { display: flex; flex-direction: column; gap: var(--space-3); }
+
+  /* Reorderable console panels: the grip is the drag/keyboard handle. */
+  .phys-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .phys-panel-grip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-target);
+    height: var(--touch-target);
+    margin-block: calc((var(--touch-target) - 24px) / -2); /* big hit area, compact header */
+    border: none;
+    background: none;
+    color: var(--color-text-subtle);
+    font-size: var(--text-lg);
+    cursor: grab;
+    touch-action: none; /* dragging the grip must not scroll the page */
+    transition: var(--transition-color);
+  }
+
+  .phys-panel-grip:hover { color: var(--color-text); }
+  .phys-panel-grip:active { cursor: grabbing; }
+
+  .phys-panel--dragging { opacity: 0.75; }
 
   .phys-h {
     margin: 0;
