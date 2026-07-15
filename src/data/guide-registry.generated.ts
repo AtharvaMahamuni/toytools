@@ -8,6 +8,7 @@ export const authoredGuideSlugs = [
   'cagr-calculator',
   'camel-case-converter',
   'character-counter',
+  'combinations-permutations-calculator',
   'compound-interest-calculator',
   'crc32-hash-generator',
   'cron-expression-parser',

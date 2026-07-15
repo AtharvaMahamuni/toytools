@@ -1,0 +1,9 @@
+---
+// Combinations & Permutations Calculator — a thin wrapper over the shared MathWidget. Tool logic
+// lives in the math engine (src/lib/engines/math/calculators/combinations.ts), resolved at
+// runtime via ToyTools.runMath.
+import MathWidget from '@tools/_shared/MathWidget.astro';
+import { config } from './config';
+---
+
+<MathWidget slug={config.slug} mathId="combinations" config={config} emptyText="Enter n and r to count the ways." />

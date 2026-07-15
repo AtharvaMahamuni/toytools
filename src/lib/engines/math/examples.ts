@@ -33,6 +33,33 @@ export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
     expect: { answer: 6, decimal: 6 },
     narrative: '3/4 ÷ 1/8 flips to 3/4 × 8/1 = 24/4 = 6: dividing by an eighth asks how many eighths fit.',
   },
+  {
+    id: 'combinations-lottery',
+    engine: 'math',
+    ref: 'combinations',
+    title: 'Lottery odds (49 choose 6)',
+    inputs: { n: 49, r: 6, mode: 'combinations', repetition: 'no' },
+    expect: { count: 13983816 },
+    narrative: 'C(49, 6) = 13,983,816: the classic 6-of-49 lottery has nearly 14 million possible tickets.',
+  },
+  {
+    id: 'permutations-podium',
+    engine: 'math',
+    ref: 'combinations',
+    title: 'Podium finishes (10 pick 3, order matters)',
+    inputs: { n: 10, r: 3, mode: 'permutations', repetition: 'no' },
+    expect: { count: 720 },
+    narrative: 'P(10, 3) = 10 × 9 × 8 = 720 gold-silver-bronze outcomes from ten runners.',
+  },
+  {
+    id: 'permutations-pin',
+    engine: 'math',
+    ref: 'combinations',
+    title: '4-digit PIN codes (repetition allowed)',
+    inputs: { n: 10, r: 4, mode: 'permutations', repetition: 'yes' },
+    expect: { count: 10000 },
+    narrative: 'Each of the 4 slots has 10 digit choices, so 10^4 = 10,000 possible PINs.',
+  },
 ];
 
 export const MATH_EXAMPLE_MAP = buildExampleRegistry(MATH_EXAMPLES);

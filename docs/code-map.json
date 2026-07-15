@@ -236,9 +236,10 @@
       "runtimeGlobal": "runMath",
       "sharedWidget": "src/tools/_shared/MathWidget.astro",
       "supportedFamilies": [
+        "combinatorics",
         "fractions"
       ],
-      "toolCount": 1
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -647,6 +648,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "combinations-permutations-calculator": {
+      "name": "Combinations & Permutations Calculator",
+      "dir": "src/tools/math/combinations-permutations-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/combinations-permutations-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "combinatorics",
+      "processorId": "combinations",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

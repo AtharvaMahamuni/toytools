@@ -8,6 +8,7 @@ import { knowledge as binaryTextConverter } from '@tools/developer-utilities/bin
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
+import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
 import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
@@ -94,6 +95,7 @@ export const authoredKnowledge: Knowledge[] = [
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
+  combinationsPermutationsCalculator,
   compoundInterestCalculator,
   crc32HashGenerator,
   cronExpressionParser,

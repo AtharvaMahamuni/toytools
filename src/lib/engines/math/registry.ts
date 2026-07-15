@@ -7,9 +7,11 @@
 import type { MathCalculator, MathFieldDef, MathInput, MathOpts, MathResult } from './types';
 import { calculationError } from '@lib/results/index';
 import { fractionCalculator } from './calculators/fraction';
+import { combinationsCalculator } from './calculators/combinations';
 
 export const MATH_CALCULATORS: Record<string, MathCalculator> = {
   fraction: fractionCalculator,
+  combinations: combinationsCalculator,
 };
 
 /**

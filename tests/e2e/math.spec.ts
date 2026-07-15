@@ -54,6 +54,22 @@ test.describe('fraction calculator (math engine)', () => {
   });
 });
 
+test.describe('combinations & permutations calculator (math engine)', () => {
+  test('counts live and switches between nCr and nPr', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/combinations-permutations-calculator/');
+    const hero = page.locator('#combinations-permutations-calculator-hero');
+    await expect(hero).toHaveText('10'); // C(5, 2)
+    await page.locator('[data-field-id="mode"]').selectOption('permutations');
+    await expect(hero).toHaveText('20'); // P(5, 2)
+    await page.locator('[data-field-id="mode"]').selectOption('combinations');
+    await page.locator('[data-field-id="n"]').fill('49');
+    await page.locator('[data-field-id="r"]').fill('6');
+    await expect(hero).toHaveText('13,983,816'); // the lottery classic
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
 test.describe('unit circle explorer', () => {
   test('the angle slider drives the trig measurements', async ({ page }) => {
     await page.goto(UNIT_CIRCLE);

@@ -1,0 +1,143 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Combinations and permutations answer "how many ways" questions, and the only difference is
+      whether order matters. When it does not, use the nCr calculator side: C(n, r) counts
+      selections, like teams or lottery tickets. When order matters, use the nPr calculator side:
+      P(n, r) counts arrangements, like podium finishes. For example, choosing 2 of 5 people gives
+      C(5, 2) = 10 teams, but seating 2 of 5 in a first and second chair gives P(5, 2) = 20
+      arrangements. This combinations permutations calculator works as a combination calculator
+      and a permutation calculator in one, with or without repetition, and it expands the formula
+      it used.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Combinations & Permutations Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Counting Ways Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Everything grows from the counting principle: choices multiply. Filling r slots from n items,
+      the first slot has n options, the next n - 1, and so on, which is the permutation formula
+      P(n, r) = n! / (n - r)!. If order is irrelevant, every selection of r items has been counted
+      r! times (once per shuffle), so divide it out: C(n, r) = n! / (r! × (n - r)!), the binomial
+      coefficient. Therefore the two counts always relate by P = C × r!, and asking "when order
+      matters" is the whole decision. The calculator states which formula it applied and works the
+      substitution, so how many combinations exist never arrives as an unexplained number.
+    </p>
+  </section>
+
+  <section id="repetition">
+    <h2>When Items May Repeat <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Repetition changes both formulas. Ordered with repetition is the easiest count in this guide:
+      every slot resets to all n choices, giving n^r; a 4-digit PIN is 10^4 = 10,000. Unordered
+      with repetition is the subtle one, counted by the stars and bars formula C(n + r - 1, r):
+      choosing 3 scoops from 4 flavors, repeats welcome, is C(6, 3) = 20. The repetition switch in
+      the calculator moves between all four cases and names the formula each time, which is the
+      fastest way to learn which one a word problem wants.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>For example, lottery odds.</strong> Six numbers from 49, order irrelevant: C(49, 6) = 13,983,816 possible tickets, which is why jackpots roll over.</p>
+    <p><strong>Podium finishes.</strong> Ten runners, three medals where gold, silver, and bronze differ: P(10, 3) = 10 × 9 × 8 = 720 outcomes.</p>
+    <p><strong>PIN codes.</strong> Four digit slots, each allowing all ten digits: 10^4 = 10,000 codes, which is why a 4-digit PIN is considered weak.</p>
+  </section>
+
+  <section id="calculator-vs-alternatives">
+    <h2>This Calculator vs the Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A scientific calculator has nCr and nPr buttons but tells you nothing about which to press,
+      and its floating-point display silently rounds counts beyond about 15 digits. A spreadsheet's
+      COMBIN and PERMUT functions share both problems. Working by hand teaches the most but factorials
+      explode fast. This tool computes on exact big integers, so C(1000, 500), a number with 300
+      digits, comes out exact, with a scientific form such as 2.70 × 10^299 beside it for reading.
+      However, the plain-language line under the result ("ways to choose 2 of 5 items when order
+      does not matter") is the real feature: it keeps the formula tied to the situation it counts.
+    </p>
+  </section>
+
+  <section id="order-matters">
+    <h2>Deciding Whether Order Matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The test is one question: if two outcomes contain the same items in a different sequence, are
+      they the same outcome? Teams, hands of cards, and pizza toppings say yes, so they are
+      combinations. Rankings, passwords, and seat assignments say no, so they are permutations.
+      Word problems rarely use either word, which is why practicing the translation matters more
+      than memorizing the formulas.
+    </p>
+    <ReferenceBlock type="key-idea" heading="P and C always differ by r!">
+      <p>Every unordered selection of r items can be shuffled r! ways, so P(n, r) = C(n, r) × r!. If your two answers do not differ by exactly r!, one of the counts is wrong.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Calling a lock combination a combination">
+      <p>
+        A combination lock is really a permutation lock: 31-17-04 opens it and 04-17-31 does not,
+        so order matters. The everyday word points at the wrong formula, which is exactly why
+        exam questions love this trap.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Choosing more than you have">
+      <p>
+        Without repetition, r cannot exceed n: you cannot deal 6 distinct cards from a 5-card
+        deck. If a problem seems to need r &gt; n, repetition is allowed somewhere, so switch the
+        repetition option rather than forcing the formula.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Reading astronomical counts">
+      <p>Counts grow brutally fast: C(60, 30) already exceeds 10^17. Use the scientific form for scale and the exact digits when the assignment demands them. Everything runs in your browser and works offline.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

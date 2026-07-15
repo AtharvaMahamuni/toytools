@@ -36,6 +36,40 @@ describe('worked examples', () => {
   });
 });
 
+describe('combinations calculator', () => {
+  it('expands the nCr formula with small factorials', () => {
+    const res = runMath('combinations', { n: 5, r: 2, mode: 'combinations', repetition: 'no' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('10');
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('n! / (r! × (n - r)!)');
+    expect(text).toContain('120 / (2 × 6)');
+    expect(text).toContain('ways to choose 2 of 5');
+  });
+
+  it('offers the counterpart count and handles repetition modes', () => {
+    const npr = runMath('combinations', { n: 10, r: 3, mode: 'permutations', repetition: 'no' }, {});
+    expect(npr.hero?.value).toBe('720');
+    expect(npr.metrics.find((c) => c.id === 'ncr')?.value).toBe('120');
+    const stars = runMath('combinations', { n: 4, r: 3, mode: 'combinations', repetition: 'yes' }, {});
+    expect(stars.hero?.value).toBe('20');
+    const pins = runMath('combinations', { n: 10, r: 4, mode: 'permutations', repetition: 'yes' }, {});
+    expect(pins.hero?.value).toBe('10,000');
+  });
+
+  it('shows a scientific approximation for astronomical counts', () => {
+    const res = runMath('combinations', { n: 1000, r: 500, mode: 'combinations', repetition: 'no' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.metrics.find((c) => c.id === 'approx')?.value).toMatch(/× 10\^/);
+  });
+
+  it('rejects r > n without repetition and out-of-range n', () => {
+    expect(runMath('combinations', { n: 5, r: 6, mode: 'combinations', repetition: 'no' }, {}).uiState).toBe('validation-error');
+    expect(runMath('combinations', { n: 1001, r: 1, mode: 'combinations', repetition: 'no' }, {}).uiState).toBe('validation-error');
+    expect(runMath('combinations', { n: 3.5, r: 1, mode: 'combinations', repetition: 'no' }, {}).uiState).toBe('validation-error');
+  });
+});
+
 describe('fraction calculator', () => {
   it('narrates the LCD steps for unlike denominators', () => {
     const res = runMath('fraction', { first: '1/2', op: 'add', second: '3/4' }, {});

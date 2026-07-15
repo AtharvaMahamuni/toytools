@@ -8,6 +8,7 @@ import { config as binaryTextConverter } from '@tools/developer-utilities/binary
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
+import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
@@ -94,6 +95,7 @@ export const toolConfigs: ToolConfig[] = [
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
+  combinationsPermutationsCalculator,
   compoundInterestCalculator,
   crc32HashGenerator,
   cronExpressionParser,

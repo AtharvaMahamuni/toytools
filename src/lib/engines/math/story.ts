@@ -24,6 +24,7 @@ export function assumption(label: string, value: string): Assumption {
 // sibling returns null and is filtered out, then lights up once that tool's slug lands in its PR.
 export const MATH_TOOL_PATH: Record<string, string> = {
   'fraction-calculator': '/tool/math/fraction-calculator/',
+  'combinations-permutations-calculator': '/tool/math/combinations-permutations-calculator/',
   'unit-circle-explorer': '/tool/math/unit-circle-explorer/',
   'quadratic-equation-explorer': '/tool/math/quadratic-equation-explorer/',
 };
