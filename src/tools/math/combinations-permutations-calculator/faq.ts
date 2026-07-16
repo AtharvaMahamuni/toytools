@@ -28,6 +28,21 @@ export const items: FAQItem[] = [
   },
   {
     id: 'combinations-permutations-calculator-faq-6',
+    question: 'What does nCr mean on a calculator?',
+    answer: 'nCr reads "n choose r": the number of ways to pick r items from n when order is irrelevant, also written C(n, r) or as the binomial coefficient. Its sibling button nPr counts ordered picks. So 5C2 = 10 teams of two from five people, while 5P2 = 20 ordered pairs. Enter the same n and r here and the tool shows both counts side by side with the formula worked.',
+  },
+  {
+    id: 'combinations-permutations-calculator-faq-7',
+    question: 'How many combinations does a 4-digit code have?',
+    answer: 'If digits may repeat and order matters (a PIN), it is 10^4 = 10,000, which is technically a permutation count even though people say "combinations". If each digit may appear once, it drops to P(10, 4) = 5,040. And if order truly did not matter, C(10, 4) = 210. The everyday phrase hides three different questions, which is exactly what the order and repetition switches untangle.',
+  },
+  {
+    id: 'combinations-permutations-calculator-faq-8',
+    question: 'What is a factorial?',
+    answer: 'n! ("n factorial") is the product of every whole number from n down to 1: 5! = 5 × 4 × 3 × 2 × 1 = 120, and by definition 0! = 1. It counts the ways to arrange n distinct items in a row, which is why both counting formulas are built from factorials. They grow explosively: 20! already exceeds 2.4 × 10^18, which is why this tool computes them with exact big integers.',
+  },
+  {
+    id: 'combinations-permutations-calculator-faq-9',
     question: 'Is anything I enter uploaded?',
     answer: 'No. The counting runs entirely in your browser. Nothing is sent to a server, there is no account, and the calculator works offline once the page has loaded.',
   },

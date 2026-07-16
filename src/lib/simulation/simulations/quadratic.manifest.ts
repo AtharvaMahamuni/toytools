@@ -130,6 +130,21 @@ export const manifest: SimulationManifest = {
         'Yes. The formula panel doubles as a quadratic equation solver: type your own a, b, and c into the number boxes and the parabola, roots, vertex, and discriminant all follow. The panel also shows the discriminant worked with your numbers, which is handy for checking each step of homework against the picture.',
     },
     {
+      question: 'What is the axis of symmetry of a parabola?',
+      answer:
+        'It is the vertical line x = -b / 2a that cuts the parabola into two mirror halves, passing exactly through the vertex. Everything on the curve pairs up across it, which is why the two roots always sit at equal distances from it. For example, x² - 2x - 3 has axis x = 1, and its roots -1 and 3 are each two units away. The explorer draws the axis as a dashed line so the mirror symmetry is visible while you drag.',
+    },
+    {
+      question: 'How do I convert standard form to vertex form?',
+      answer:
+        'Compute h = -b / 2a and k by substituting h back in, then write y = a(x - h)² + k. For example, x² - 2x - 3 gives h = 1 and k = -4, so the vertex form is y = (x - 1)² - 4. This is the same result completing the square produces, just reached through the vertex coordinates. Drag the vertex in the explorer and it performs the reverse conversion live, solving b and c from your chosen h and k.',
+    },
+    {
+      question: 'Should I factor or use the quadratic formula?',
+      answer:
+        'Factor when the roots are small whole numbers you can spot quickly: x² - 2x - 3 factors as (x - 3)(x + 1) in one step. Reach for the quadratic formula when factoring is not obvious within a few seconds, because it works on every quadratic, including ones with fractional, irrational, or no real roots. A useful habit: check the discriminant first, since a perfect-square Δ (like 16) signals that a clean factoring exists.',
+    },
+    {
       question: 'Does the explorer upload anything or need an account?',
       answer:
         'No. Everything runs in your browser on the HTML canvas: coefficients, roots, and the drawn parabola never leave your device. There is no account and the page keeps working offline once loaded.',

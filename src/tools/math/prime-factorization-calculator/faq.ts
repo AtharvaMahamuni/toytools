@@ -28,6 +28,21 @@ export const items: FAQItem[] = [
   },
   {
     id: 'prime-factorization-calculator-faq-6',
+    question: 'What is a factor tree?',
+    answer: 'A factor tree splits a number into any two factors, then keeps splitting each branch until every leaf is prime: 360 might branch into 36 × 10, then 6 × 6 and 2 × 5, and so on down to 2, 2, 2, 3, 3, 5. Whichever splits you choose, the leaves always come out the same, which is the uniqueness of prime factorization in action. The narrated divisions in this calculator are a factor tree flattened into a straight line.',
+  },
+  {
+    id: 'prime-factorization-calculator-faq-7',
+    question: 'What are coprime numbers?',
+    answer: 'Two numbers are coprime (relatively prime) when they share no prime factor, making their GCF exactly 1. For example, 9 = 3² and 10 = 2 × 5 are coprime even though neither is prime itself. Coprime denominators are the worst case for adding fractions, because the LCD becomes the full product. Enter two numbers and the calculator says outright when they are coprime.',
+  },
+  {
+    id: 'prime-factorization-calculator-faq-8',
+    question: 'Is 2 a prime number?',
+    answer: 'Yes, and it is the only even one. A prime needs exactly two divisors, 1 and itself, and 2 qualifies. Every other even number has 2 as an extra divisor, so it cannot be prime. That makes 2 the first prime and the reason factorization always starts by dividing out the 2s before moving to 3, 5, and 7.',
+  },
+  {
+    id: 'prime-factorization-calculator-faq-9',
     question: 'Is anything I enter uploaded?',
     answer: 'No. The factorization runs entirely in your browser. Nothing is sent to a server, there is no account, and the calculator works offline once the page has loaded.',
   },

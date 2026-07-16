@@ -28,6 +28,21 @@ export const items: FAQItem[] = [
   },
   {
     id: 'fraction-calculator-faq-6',
+    question: 'How do I convert a fraction to a decimal?',
+    answer: 'Divide the numerator by the denominator: 3/4 = 3 ÷ 4 = 0.75. Some fractions terminate (any denominator whose only prime factors are 2 and 5, like 8 or 20) while others repeat forever, like 1/3 = 0.333... The calculator shows the decimal beside every result, rounded to six places, while the fraction form stays exact.',
+  },
+  {
+    id: 'fraction-calculator-faq-7',
+    question: 'How do I find the least common denominator of two fractions?',
+    answer: 'Take the least common multiple of the two denominators. List multiples until they meet (4, 8, 12... and 6, 12: LCD = 12), or factor into primes and take every prime at its higher power. For 1/4 and 5/6: 4 = 2² and 6 = 2 × 3, so the LCD is 2² × 3 = 12. The calculator names the LCD it used in step form on every add or subtract.',
+  },
+  {
+    id: 'fraction-calculator-faq-8',
+    question: 'How do I compare two fractions to see which is bigger?',
+    answer: 'Put both over a common denominator and compare numerators: 2/3 vs 3/5 becomes 10/15 vs 9/15, so 2/3 is bigger. A quick shortcut is cross-multiplying (2 × 5 = 10 against 3 × 3 = 9, same verdict). Subtracting one from the other in the calculator does the comparison too: a positive result means the first fraction is larger.',
+  },
+  {
+    id: 'fraction-calculator-faq-9',
     question: 'Is anything I type uploaded?',
     answer: 'No. The arithmetic runs entirely in your browser using exact integer math. Nothing is sent to a server, there is no account, and the calculator keeps working offline once the page has loaded.',
   },
