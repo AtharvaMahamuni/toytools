@@ -6,6 +6,9 @@ import type { Provider, ProviderContext, RawOpportunity, SeedRecord } from '../.
 
 const DEFAULT_EVERGREEN = 80;
 const DEFAULT_LOCALIZATION = 50;
+// Candidate utility tools are algorithmic by selection, so the omitted-field default is high;
+// records should set it explicitly when the AI-vs-algorithm question is even debatable.
+const DEFAULT_ALGORITHMIC_FIT = 85;
 
 function toRaw(rec: SeedRecord): RawOpportunity {
   return {
@@ -27,6 +30,7 @@ function toRaw(rec: SeedRecord): RawOpportunity {
     evergreen: clamp(rec.evergreen ?? DEFAULT_EVERGREEN, 0, 100),
     difficulty: rec.difficulty,
     localization: clamp(rec.localization ?? DEFAULT_LOCALIZATION, 0, 100),
+    algorithmicFit: clamp(rec.algorithmicFit ?? DEFAULT_ALGORITHMIC_FIT, 0, 100),
   };
 }
 

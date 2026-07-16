@@ -1,7 +1,208 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-14T18:15:11.060Z",
+  "generatedAt": "2026-07-16T14:55:57.225Z",
   "opportunities": [
+    {
+      "id": "unit-circle-explorer",
+      "title": "Unit Circle Explorer",
+      "problem": "I want to drag an angle around the unit circle and see sin, cos, and tan update live with the reference triangle and a tracing sine wave.",
+      "userIntent": "informational",
+      "workflow": "input → Unit Circle → output",
+      "transformation": "Unit Circle",
+      "proposedTool": "unit-circle-explorer",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "unit circle",
+        "unit circle calculator",
+        "interactive unit circle",
+        "sin cos tan values",
+        "unit circle radians and degrees"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "mathsisfun.com",
+        "khanacademy.org",
+        "static chart PDFs"
+      ],
+      "solutionWeaknesses": [
+        "static charts to memorize",
+        "mathsisfun applet is dated and desktop-only",
+        "no drag interaction on mobile",
+        "no live sine wave tracing"
+      ],
+      "relatedProblems": [
+        "radians to degrees",
+        "special angles",
+        "reference angles",
+        "sine wave"
+      ],
+      "relatedTools": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.64,
+      "searchDemand": 0.88,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.38,
+      "localizationPotential": 0.8,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 83.9,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "quadratic-equation-explorer",
+      "title": "Quadratic Equation Explorer",
+      "problem": "I want to slide the coefficients a, b, and c and watch the parabola, roots, vertex, and discriminant change, with the formula worked step by step.",
+      "userIntent": "transactional",
+      "workflow": "input → Quadratic Equations → output",
+      "transformation": "Quadratic Equations",
+      "proposedTool": "quadratic-equation-explorer",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "quadratic formula calculator",
+        "quadratic equation solver",
+        "find roots of quadratic equation",
+        "parabola vertex calculator",
+        "discriminant calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "symbolab.com",
+        "calculator.net",
+        "mathpapa.com"
+      ],
+      "solutionWeaknesses": [
+        "static forms with no parabola",
+        "steps behind a paywall",
+        "ad heavy",
+        "no coefficient sliders"
+      ],
+      "relatedProblems": [
+        "vertex form",
+        "axis of symmetry",
+        "discriminant",
+        "completing the square"
+      ],
+      "relatedTools": [
+        "unit-circle-explorer",
+        "probability-simulator",
+        "quadratic-equation-explorer"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "unit-circle-explorer",
+        "probability-simulator",
+        "quadratic-equation-explorer"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.97,
+      "competitionScore": 0.49,
+      "searchDemand": 0.94,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.98,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 83.8,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "fraction-calculator",
+      "title": "Fraction Calculator",
+      "problem": "I want to add, subtract, multiply, or divide fractions and mixed numbers and see the simplification worked step by step.",
+      "userIntent": "transactional",
+      "workflow": "input → Fractions → output",
+      "transformation": "Fractions",
+      "proposedTool": "fraction-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "fraction calculator",
+        "adding fractions calculator",
+        "simplify fractions",
+        "mixed number calculator",
+        "fraction to decimal"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "calculator.net",
+        "mathway.com",
+        "calculatorsoup.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "steps paywalled or missing",
+        "no visual fraction bars",
+        "cluttered forms"
+      ],
+      "relatedProblems": [
+        "least common denominator",
+        "simplifying fractions",
+        "mixed numbers",
+        "equivalent fractions"
+      ],
+      "relatedTools": [
+        "prime-factorization-calculator",
+        "quadratic-equation-explorer",
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ],
+      "relatedGuides": [
+        "prime-factorization-calculator",
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ],
+      "relatedFaqs": [
+        "prime-factorization-calculator",
+        "quadratic-equation-explorer",
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.44,
+      "searchDemand": 0.9,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 82.1,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
     {
       "id": "remove-line-breaks",
       "title": "Remove Line Breaks",
@@ -21,7 +222,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -69,8 +270,80 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.37,
       "localizationPotential": 0.75,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 81.6,
+      "finalScore": 81.8,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "combinations-permutations-calculator",
+      "title": "Combinations & Permutations Calculator",
+      "problem": "I want to compute nCr and nPr with the formula expanded and a visual of how many ways items can be chosen or arranged.",
+      "userIntent": "transactional",
+      "workflow": "input → Combinatorics → output",
+      "transformation": "Combinatorics",
+      "proposedTool": "combinations-permutations-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "combination calculator",
+        "permutation calculator",
+        "ncr calculator",
+        "npr calculator",
+        "how many combinations"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "calculator.net",
+        "calculatorsoup.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "formula shown without expansion",
+        "no visual of choices",
+        "ad heavy",
+        "combinations and permutations on separate pages"
+      ],
+      "relatedProblems": [
+        "factorial",
+        "with or without repetition",
+        "binomial coefficient",
+        "counting principle"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "prime-factorization-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator"
+      ],
+      "relatedGuides": [
+        "prime-factorization-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator"
+      ],
+      "relatedFaqs": [
+        "probability-simulator",
+        "prime-factorization-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.64,
+      "searchDemand": 0.78,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.91,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.82,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 81.7,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -92,7 +365,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -141,8 +414,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.58,
       "localizationPotential": 0.95,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 80.9,
+      "finalScore": 81.2,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -166,7 +440,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -214,8 +488,78 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 80.8,
+      "finalScore": 81.1,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "prime-factorization-calculator",
+      "title": "Prime Factorization Calculator",
+      "problem": "I want to enter a number and see its prime factor tree built visually, plus GCF and LCM against a second number.",
+      "userIntent": "transactional",
+      "workflow": "input → Number Theory → output",
+      "transformation": "Number Theory",
+      "proposedTool": "prime-factorization-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "prime factorization calculator",
+        "factor tree calculator",
+        "gcf calculator",
+        "lcm calculator",
+        "greatest common factor"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "calculatorsoup.com",
+        "calculator.net",
+        "mathwarehouse.com"
+      ],
+      "solutionWeaknesses": [
+        "no visual factor tree",
+        "ad heavy",
+        "gcf and lcm split across separate pages",
+        "no exponent form output"
+      ],
+      "relatedProblems": [
+        "greatest common factor",
+        "least common multiple",
+        "divisibility rules",
+        "prime numbers"
+      ],
+      "relatedTools": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.62,
+      "searchDemand": 0.75,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 80.9,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -239,7 +583,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -284,8 +628,74 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.38,
       "localizationPotential": 0.82,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 79.8,
+      "finalScore": 80.2,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "probability-simulator",
+      "title": "Probability Lab",
+      "problem": "I want to run thousands of animated coin flips or dice rolls and watch the empirical frequency converge on the theoretical probability.",
+      "userIntent": "informational",
+      "workflow": "input → Probability → output",
+      "transformation": "Probability",
+      "proposedTool": "probability-simulator",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "coin flip probability simulator",
+        "dice roll simulator",
+        "probability calculator",
+        "law of large numbers demonstration",
+        "coin toss experiment online"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "random.org",
+        "calculator.net",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "bare dice rollers with no statistics",
+        "static probability forms",
+        "no convergence chart",
+        "geogebra applets are slow and dated"
+      ],
+      "relatedProblems": [
+        "law of large numbers",
+        "expected value",
+        "relative frequency",
+        "sample size"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.69,
+      "searchDemand": 0.85,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.37,
+      "localizationPotential": 0.82,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 80,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -309,7 +719,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -357,10 +767,82 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.7,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 79.6,
+      "finalScore": 80,
       "status": "already-exists",
       "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "statistics-visualizer",
+      "title": "Statistics Visualizer",
+      "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
+      "userIntent": "transactional",
+      "workflow": "input → Descriptive Statistics → output",
+      "transformation": "Descriptive Statistics",
+      "proposedTool": "statistics-visualizer",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "standard deviation calculator",
+        "mean median mode calculator",
+        "quartile calculator",
+        "histogram maker",
+        "box plot generator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "calculator.net",
+        "socscistatistics.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "tables of numbers with no chart",
+        "ad heavy",
+        "data uploaded to a server",
+        "no combined histogram and box plot view"
+      ],
+      "relatedProblems": [
+        "variance",
+        "interquartile range",
+        "outliers",
+        "population vs sample"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "probability-simulator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.52,
+      "searchDemand": 0.92,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.97,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.84,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 79.7,
+      "status": "recommended",
+      "gap": "cluster-missing",
       "engineExists": true
     },
     {
@@ -382,7 +864,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -430,8 +912,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.55,
       "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 79.1,
+      "finalScore": 79.6,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -453,7 +936,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -501,8 +984,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.58,
       "localizationPotential": 0.85,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 79.1,
+      "finalScore": 79.5,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -526,7 +1010,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -570,8 +1054,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.59,
       "localizationPotential": 0.85,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 78.9,
+      "finalScore": 79.4,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -595,7 +1080,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -643,8 +1128,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.35,
       "localizationPotential": 0.92,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 78.8,
+      "finalScore": 79.2,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -668,7 +1154,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -711,8 +1197,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.34,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 78.5,
+      "finalScore": 79,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -736,7 +1223,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -781,8 +1268,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 78.3,
+      "finalScore": 78.8,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -804,7 +1292,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -852,10 +1340,80 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 77.4,
+      "finalScore": 78,
       "status": "already-exists",
       "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "matrix-calculator",
+      "title": "Matrix Calculator",
+      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
+      "userIntent": "howTo",
+      "workflow": "input → Matrices → output",
+      "transformation": "Matrices",
+      "proposedTool": "matrix-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "matrix multiplication calculator",
+        "determinant calculator",
+        "inverse matrix calculator",
+        "rref calculator",
+        "matrix calculator with steps"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "matrixcalc.org",
+        "symbolab.com",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "cluttered 2000s-era UI",
+        "steps paywalled",
+        "ad heavy",
+        "painful matrix entry on mobile"
+      ],
+      "relatedProblems": [
+        "determinant",
+        "matrix inverse",
+        "row reduction",
+        "systems of equations"
+      ],
+      "relatedTools": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 77.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
       "engineExists": true
     },
     {
@@ -877,7 +1435,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -924,8 +1482,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.53,
       "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 77.2,
+      "finalScore": 77.8,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -949,7 +1508,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -996,10 +1555,82 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.34,
       "localizationPotential": 0.6,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 77,
+      "finalScore": 77.6,
       "status": "already-exists",
       "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "triangle-solver",
+      "title": "Triangle Solver",
+      "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
+      "userIntent": "transactional",
+      "workflow": "input → Triangles → output",
+      "transformation": "Triangles",
+      "proposedTool": "triangle-solver",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "triangle calculator",
+        "solve triangle",
+        "law of cosines calculator",
+        "law of sines calculator",
+        "pythagorean theorem calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "calculator.net",
+        "omnicalculator.com",
+        "triangle-calculator.com"
+      ],
+      "solutionWeaknesses": [
+        "no drawn-to-scale figure",
+        "ad heavy",
+        "unclear which side-angle combinations are valid",
+        "no ambiguous case explanation"
+      ],
+      "relatedProblems": [
+        "law of sines",
+        "law of cosines",
+        "triangle area",
+        "ambiguous case"
+      ],
+      "relatedTools": [
+        "unit-circle-explorer",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "unit-circle-explorer",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.59,
+      "searchDemand": 0.8,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.8,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 77.6,
+      "status": "recommended",
+      "gap": "cluster-missing",
       "engineExists": true
     },
     {
@@ -1021,7 +1652,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -1064,8 +1695,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.82,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 76.5,
+      "finalScore": 77.2,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -1088,7 +1720,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -1132,10 +1764,76 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.58,
       "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 76.2,
+      "finalScore": 76.9,
       "status": "already-exists",
       "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
+      "id": "normal-distribution-visualizer",
+      "title": "Normal Distribution Visualizer",
+      "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
+      "userIntent": "transactional",
+      "workflow": "input → Normal Distribution → output",
+      "transformation": "Normal Distribution",
+      "proposedTool": "normal-distribution-visualizer",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "normal distribution calculator",
+        "z score calculator",
+        "bell curve generator",
+        "empirical rule calculator",
+        "area under normal curve"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "calculator.net",
+        "onlinestatbook.com",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "static forms with tiny fixed charts",
+        "dated applets",
+        "no draggable mean and sigma",
+        "no shaded area interaction"
+      ],
+      "relatedProblems": [
+        "z score",
+        "empirical rule",
+        "percentiles",
+        "standardizing data"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.61,
+      "searchDemand": 0.76,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.35,
+      "localizationPotential": 0.8,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 76.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
       "engineExists": true
     },
     {
@@ -1156,7 +1854,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -1203,8 +1901,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.33,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 75.3,
+      "finalScore": 76.1,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -1227,7 +1926,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -1267,8 +1966,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.52,
       "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
       "confidence": 0.64,
-      "finalScore": 75.2,
+      "finalScore": 76,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -1291,7 +1991,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -1333,10 +2033,76 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.36,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 75,
+      "finalScore": 75.7,
       "status": "already-exists",
       "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "linear-regression-playground",
+      "title": "Linear Regression Playground",
+      "problem": "I want to tap points onto a scatter plot and watch the least-squares line, equation, and R squared update as I add, drag, or remove points.",
+      "userIntent": "troubleshooting",
+      "workflow": "input → Linear Regression → output",
+      "transformation": "Linear Regression",
+      "proposedTool": "linear-regression-playground",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "line of best fit calculator",
+        "linear regression calculator",
+        "least squares calculator",
+        "scatter plot maker",
+        "r squared calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "desmos.com",
+        "socscistatistics.com",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "form-based input with no point dragging",
+        "no live residuals view",
+        "dated applets",
+        "no touch-first interaction"
+      ],
+      "relatedProblems": [
+        "correlation",
+        "residuals",
+        "slope and intercept",
+        "outlier influence"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.93,
+      "competitionScore": 0.66,
+      "searchDemand": 0.7,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.34,
+      "localizationPotential": 0.78,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 75.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
       "engineExists": true
     },
     {
@@ -1358,7 +2124,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -1401,8 +2167,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.34,
       "localizationPotential": 0.86,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 74.1,
+      "finalScore": 74.9,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -1425,7 +2192,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -1468,8 +2235,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.34,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 73.8,
+      "finalScore": 74.6,
       "status": "already-exists",
       "gap": "guide-missing",
       "engineExists": true
@@ -1492,7 +2260,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1535,8 +2303,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.58,
       "localizationPotential": 0.78,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 73.7,
+      "finalScore": 74.5,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -1558,7 +2327,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -1602,8 +2371,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.57,
       "localizationPotential": 0.8,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 73.6,
+      "finalScore": 74.4,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -1628,7 +2398,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -1671,10 +2441,76 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.32,
       "localizationPotential": 0.78,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 73,
+      "finalScore": 73.9,
       "status": "already-exists",
       "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
+      "id": "function-grapher",
+      "title": "Function Grapher",
+      "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
+      "userIntent": "transactional",
+      "workflow": "input → Function Graphing → output",
+      "transformation": "Function Graphing",
+      "proposedTool": "function-grapher",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "function grapher",
+        "graphing calculator online",
+        "plot a function online",
+        "equation grapher",
+        "graph maker math"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "existingSolutions": [
+        "desmos.com",
+        "geogebra.org",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "heavy apps pushing accounts and classes",
+        "slow first paint",
+        "overkill for one quick plot",
+        "wolfram paywalls step detail"
+      ],
+      "relatedProblems": [
+        "domain and range",
+        "intercepts",
+        "asymptotes",
+        "transformations of functions"
+      ],
+      "relatedTools": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.97,
+      "competitionScore": 0.39,
+      "searchDemand": 0.9,
+      "implementationCost": 0.4,
+      "engineReuse": 1,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 73.6,
+      "status": "recommended",
+      "gap": "cluster-missing",
       "engineExists": true
     },
     {
@@ -1695,7 +2531,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -1738,123 +2574,12 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.51,
       "localizationPotential": 0.92,
+      "algorithmicFit": 0.85,
       "confidence": 0.64,
-      "finalScore": 72.5,
+      "finalScore": 73.5,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
-    },
-    {
-      "id": "unit-circle-explorer",
-      "title": "Unit Circle Explorer",
-      "problem": "I want to drag an angle around the unit circle and see sin, cos, and tan update live with the reference triangle and a tracing sine wave.",
-      "userIntent": "informational",
-      "workflow": "input → Unit Circle → output",
-      "transformation": "Unit Circle",
-      "proposedTool": "unit-circle-explorer",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "unit circle",
-        "unit circle calculator",
-        "interactive unit circle",
-        "sin cos tan values",
-        "unit circle radians and degrees"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "mathsisfun.com",
-        "khanacademy.org",
-        "static chart PDFs"
-      ],
-      "solutionWeaknesses": [
-        "static charts to memorize",
-        "mathsisfun applet is dated and desktop-only",
-        "no drag interaction on mobile",
-        "no live sine wave tracing"
-      ],
-      "relatedProblems": [
-        "radians to degrees",
-        "special angles",
-        "reference angles",
-        "sine wave"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.64,
-      "searchDemand": 0.88,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.38,
-      "localizationPotential": 0.8,
-      "confidence": 0.8,
-      "finalScore": 71.4,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "quadratic-equation-explorer",
-      "title": "Quadratic Equation Explorer",
-      "problem": "I want to slide the coefficients a, b, and c and watch the parabola, roots, vertex, and discriminant change, with the formula worked step by step.",
-      "userIntent": "transactional",
-      "workflow": "input → Quadratic Equations → output",
-      "transformation": "Quadratic Equations",
-      "proposedTool": "quadratic-equation-explorer",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "quadratic formula calculator",
-        "quadratic equation solver",
-        "find roots of quadratic equation",
-        "parabola vertex calculator",
-        "discriminant calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "symbolab.com",
-        "calculator.net",
-        "mathpapa.com"
-      ],
-      "solutionWeaknesses": [
-        "static forms with no parabola",
-        "steps behind a paywall",
-        "ad heavy",
-        "no coefficient sliders"
-      ],
-      "relatedProblems": [
-        "vertex form",
-        "axis of symmetry",
-        "discriminant",
-        "completing the square"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.97,
-      "competitionScore": 0.49,
-      "searchDemand": 0.94,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.98,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.59,
-      "localizationPotential": 0.85,
-      "confidence": 0.8,
-      "finalScore": 71.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
     },
     {
       "id": "csv-column-picker",
@@ -1874,7 +2599,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -1918,123 +2643,12 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.52,
       "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 70.8,
+      "finalScore": 71.9,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true
-    },
-    {
-      "id": "fraction-calculator",
-      "title": "Fraction Calculator",
-      "problem": "I want to add, subtract, multiply, or divide fractions and mixed numbers and see the simplification worked step by step.",
-      "userIntent": "transactional",
-      "workflow": "input → Fractions → output",
-      "transformation": "Fractions",
-      "proposedTool": "fraction-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "fraction calculator",
-        "adding fractions calculator",
-        "simplify fractions",
-        "mixed number calculator",
-        "fraction to decimal"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "calculator.net",
-        "mathway.com",
-        "calculatorsoup.com"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "steps paywalled or missing",
-        "no visual fraction bars",
-        "cluttered forms"
-      ],
-      "relatedProblems": [
-        "least common denominator",
-        "simplifying fractions",
-        "mixed numbers",
-        "equivalent fractions"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.44,
-      "searchDemand": 0.9,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.96,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.88,
-      "confidence": 0.8,
-      "finalScore": 69.4,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "combinations-permutations-calculator",
-      "title": "Combinations & Permutations Calculator",
-      "problem": "I want to compute nCr and nPr with the formula expanded and a visual of how many ways items can be chosen or arranged.",
-      "userIntent": "transactional",
-      "workflow": "input → Combinatorics → output",
-      "transformation": "Combinatorics",
-      "proposedTool": "combinations-permutations-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "combination calculator",
-        "permutation calculator",
-        "ncr calculator",
-        "npr calculator",
-        "how many combinations"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "calculator.net",
-        "calculatorsoup.com",
-        "omnicalculator.com"
-      ],
-      "solutionWeaknesses": [
-        "formula shown without expansion",
-        "no visual of choices",
-        "ad heavy",
-        "combinations and permutations on separate pages"
-      ],
-      "relatedProblems": [
-        "factorial",
-        "with or without repetition",
-        "binomial coefficient",
-        "counting principle"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.94,
-      "competitionScore": 0.64,
-      "searchDemand": 0.78,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.91,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.82,
-      "confidence": 0.8,
-      "finalScore": 69,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
     },
     {
       "id": "word-frequency-counter",
@@ -2054,7 +2668,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -2100,67 +2714,12 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.34,
       "localizationPotential": 0.65,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 68.8,
+      "finalScore": 70,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
-    },
-    {
-      "id": "prime-factorization-calculator",
-      "title": "Prime Factorization Calculator",
-      "problem": "I want to enter a number and see its prime factor tree built visually, plus GCF and LCM against a second number.",
-      "userIntent": "transactional",
-      "workflow": "input → Number Theory → output",
-      "transformation": "Number Theory",
-      "proposedTool": "prime-factorization-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "prime factorization calculator",
-        "factor tree calculator",
-        "gcf calculator",
-        "lcm calculator",
-        "greatest common factor"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "calculatorsoup.com",
-        "calculator.net",
-        "mathwarehouse.com"
-      ],
-      "solutionWeaknesses": [
-        "no visual factor tree",
-        "ad heavy",
-        "gcf and lcm split across separate pages",
-        "no exponent form output"
-      ],
-      "relatedProblems": [
-        "greatest common factor",
-        "least common multiple",
-        "divisibility rules",
-        "prime numbers"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.62,
-      "searchDemand": 0.75,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.9,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.55,
-      "localizationPotential": 0.85,
-      "confidence": 0.8,
-      "finalScore": 68.1,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
     },
     {
       "id": "timezone-converter",
@@ -2179,7 +2738,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -2223,8 +2782,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.84,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 67.4,
+      "finalScore": 68.7,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -2247,7 +2807,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -2282,120 +2842,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.59,
       "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 67.2,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "probability-simulator",
-      "title": "Probability Lab",
-      "problem": "I want to run thousands of animated coin flips or dice rolls and watch the empirical frequency converge on the theoretical probability.",
-      "userIntent": "informational",
-      "workflow": "input → Probability → output",
-      "transformation": "Probability",
-      "proposedTool": "probability-simulator",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "coin flip probability simulator",
-        "dice roll simulator",
-        "probability calculator",
-        "law of large numbers demonstration",
-        "coin toss experiment online"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "random.org",
-        "calculator.net",
-        "geogebra.org"
-      ],
-      "solutionWeaknesses": [
-        "bare dice rollers with no statistics",
-        "static probability forms",
-        "no convergence chart",
-        "geogebra applets are slow and dated"
-      ],
-      "relatedProblems": [
-        "law of large numbers",
-        "expected value",
-        "relative frequency",
-        "sample size"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.69,
-      "searchDemand": 0.85,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.94,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.37,
-      "localizationPotential": 0.82,
-      "confidence": 0.8,
-      "finalScore": 67.2,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "statistics-visualizer",
-      "title": "Statistics Visualizer",
-      "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
-      "userIntent": "transactional",
-      "workflow": "input → Descriptive Statistics → output",
-      "transformation": "Descriptive Statistics",
-      "proposedTool": "statistics-visualizer",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "standard deviation calculator",
-        "mean median mode calculator",
-        "quartile calculator",
-        "histogram maker",
-        "box plot generator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "calculator.net",
-        "socscistatistics.com",
-        "omnicalculator.com"
-      ],
-      "solutionWeaknesses": [
-        "tables of numbers with no chart",
-        "ad heavy",
-        "data uploaded to a server",
-        "no combined histogram and box plot view"
-      ],
-      "relatedProblems": [
-        "variance",
-        "interquartile range",
-        "outliers",
-        "population vs sample"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.52,
-      "searchDemand": 0.92,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.97,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.84,
-      "confidence": 0.8,
-      "finalScore": 66.9,
+      "finalScore": 68.5,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
@@ -2418,7 +2867,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -2461,8 +2910,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.34,
       "localizationPotential": 0.92,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 66.2,
+      "finalScore": 67.6,
       "status": "already-exists",
       "gap": "needs-improvement",
       "engineExists": true
@@ -2484,7 +2934,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -2519,8 +2969,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.56,
       "localizationPotential": 0.78,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 65.9,
+      "finalScore": 67.3,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
@@ -2543,7 +2994,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -2577,64 +3028,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.6,
       "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 65.5,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "matrix-calculator",
-      "title": "Matrix Calculator",
-      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
-      "userIntent": "howTo",
-      "workflow": "input → Matrices → output",
-      "transformation": "Matrices",
-      "proposedTool": "matrix-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "matrix multiplication calculator",
-        "determinant calculator",
-        "inverse matrix calculator",
-        "rref calculator",
-        "matrix calculator with steps"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "matrixcalc.org",
-        "symbolab.com",
-        "wolframalpha.com"
-      ],
-      "solutionWeaknesses": [
-        "cluttered 2000s-era UI",
-        "steps paywalled",
-        "ad heavy",
-        "painful matrix entry on mobile"
-      ],
-      "relatedProblems": [
-        "determinant",
-        "matrix inverse",
-        "row reduction",
-        "systems of equations"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.46,
-      "searchDemand": 0.88,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "confidence": 0.8,
-      "finalScore": 64.8,
+      "finalScore": 67,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
@@ -2657,7 +3053,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -2691,232 +3087,9 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.58,
       "localizationPotential": 0.88,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 64.8,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "triangle-solver",
-      "title": "Triangle Solver",
-      "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
-      "userIntent": "transactional",
-      "workflow": "input → Triangles → output",
-      "transformation": "Triangles",
-      "proposedTool": "triangle-solver",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "triangle calculator",
-        "solve triangle",
-        "law of cosines calculator",
-        "law of sines calculator",
-        "pythagorean theorem calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "calculator.net",
-        "omnicalculator.com",
-        "triangle-calculator.com"
-      ],
-      "solutionWeaknesses": [
-        "no drawn-to-scale figure",
-        "ad heavy",
-        "unclear which side-angle combinations are valid",
-        "no ambiguous case explanation"
-      ],
-      "relatedProblems": [
-        "law of sines",
-        "law of cosines",
-        "triangle area",
-        "ambiguous case"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.59,
-      "searchDemand": 0.8,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.92,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.8,
-      "confidence": 0.8,
-      "finalScore": 64.6,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "normal-distribution-visualizer",
-      "title": "Normal Distribution Visualizer",
-      "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
-      "userIntent": "transactional",
-      "workflow": "input → Normal Distribution → output",
-      "transformation": "Normal Distribution",
-      "proposedTool": "normal-distribution-visualizer",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "normal distribution calculator",
-        "z score calculator",
-        "bell curve generator",
-        "empirical rule calculator",
-        "area under normal curve"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "calculator.net",
-        "onlinestatbook.com",
-        "geogebra.org"
-      ],
-      "solutionWeaknesses": [
-        "static forms with tiny fixed charts",
-        "dated applets",
-        "no draggable mean and sigma",
-        "no shaded area interaction"
-      ],
-      "relatedProblems": [
-        "z score",
-        "empirical rule",
-        "percentiles",
-        "standardizing data"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.94,
-      "competitionScore": 0.61,
-      "searchDemand": 0.76,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.9,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.35,
-      "localizationPotential": 0.8,
-      "confidence": 0.8,
-      "finalScore": 63.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "linear-regression-playground",
-      "title": "Linear Regression Playground",
-      "problem": "I want to tap points onto a scatter plot and watch the least-squares line, equation, and R squared update as I add, drag, or remove points.",
-      "userIntent": "troubleshooting",
-      "workflow": "input → Linear Regression → output",
-      "transformation": "Linear Regression",
-      "proposedTool": "linear-regression-playground",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "line of best fit calculator",
-        "linear regression calculator",
-        "least squares calculator",
-        "scatter plot maker",
-        "r squared calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "desmos.com",
-        "socscistatistics.com",
-        "geogebra.org"
-      ],
-      "solutionWeaknesses": [
-        "form-based input with no point dragging",
-        "no live residuals view",
-        "dated applets",
-        "no touch-first interaction"
-      ],
-      "relatedProblems": [
-        "correlation",
-        "residuals",
-        "slope and intercept",
-        "outlier influence"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "medium",
-      "evergreenScore": 0.93,
-      "competitionScore": 0.66,
-      "searchDemand": 0.7,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.88,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.34,
-      "localizationPotential": 0.78,
-      "confidence": 0.8,
-      "finalScore": 62.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "function-grapher",
-      "title": "Function Grapher",
-      "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
-      "userIntent": "transactional",
-      "workflow": "input → Function Graphing → output",
-      "transformation": "Function Graphing",
-      "proposedTool": "function-grapher",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "function grapher",
-        "graphing calculator online",
-        "plot a function online",
-        "equation grapher",
-        "graph maker math"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
-      "existingSolutions": [
-        "desmos.com",
-        "geogebra.org",
-        "wolframalpha.com"
-      ],
-      "solutionWeaknesses": [
-        "heavy apps pushing accounts and classes",
-        "slow first paint",
-        "overkill for one quick plot",
-        "wolfram paywalls step detail"
-      ],
-      "relatedProblems": [
-        "domain and range",
-        "intercepts",
-        "asymptotes",
-        "transformations of functions"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "high",
-      "evergreenScore": 0.97,
-      "competitionScore": 0.39,
-      "searchDemand": 0.9,
-      "implementationCost": 0.3,
-      "engineReuse": 0.3,
-      "seoPotential": 0.96,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "confidence": 0.8,
-      "finalScore": 60.2,
+      "finalScore": 66.3,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
@@ -2938,7 +3111,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-14T18:15:11.060Z",
+      "discoveredAt": "2026-07-16T14:55:57.225Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -2978,9 +3151,10 @@
       "topicClusterPotential": 0,
       "commercialPotential": 0.59,
       "localizationPotential": 0.82,
+      "algorithmicFit": 0.85,
       "confidence": 0.8,
-      "finalScore": 59.5,
-      "status": "discovered",
+      "finalScore": 61.4,
+      "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
     }

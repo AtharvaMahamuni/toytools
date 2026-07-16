@@ -1,47 +1,47 @@
 id,proposedTool,title,transformation,proposedEngine,engineExists,gap,status,difficulty,searchDemand,competitionScore,evergreenScore,implementationCost,engineReuse,seoPotential,topicClusterPotential,localizationPotential,confidence,finalScore
-remove-line-breaks,remove-line-breaks,Remove Line Breaks,Line Break Removal,text-processor,true,needs-improvement,already-exists,low,0.84,0.7,0.9,1,1,0.94,0,0.75,0.8,81.6
-sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,needs-improvement,already-exists,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,80.9
-reverse-text,reverse-text,Reverse Text,Text Reversal,text-processor,true,needs-improvement,already-exists,low,0.78,0.73,0.88,1,1,0.91,0,0.8,0.8,80.8
-projectile-motion-simulator,projectile-motion-simulator,Projectile Motion Simulator,Projectile Motion,physics,true,guide-missing,already-exists,medium,0.9,0.69,0.96,0.7,1,0.96,0,0.82,0.8,79.8
-slugify-text,slugify-text,Slugify Text,Slugification,text-processor,true,needs-improvement,already-exists,low,0.8,0.66,0.86,1,1,0.92,0,0.7,0.8,79.6
-binary-text-converter,binary-text-converter,Binary Text Converter,Binary Encoding,encoding,true,needs-improvement,already-exists,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,79.1
-roi-calculator,roi-calculator,ROI Calculator,Return on Investment,finance,true,needs-improvement,already-exists,low,0.88,0.58,0.9,1,1,0.71,0,0.85,0.8,79.1
-ohms-law-simulator,ohms-law-simulator,Ohm's Law Simulator,Ohm's Law,physics,true,guide-missing,already-exists,medium,0.95,0.52,0.96,0.7,1,0.98,0,0.85,0.8,78.9
-json-escape,json-escape,JSON Escape / Unescape,JSON String Escaping,structured-data,true,needs-improvement,already-exists,low,0.76,0.63,0.88,1,1,0.9,0,0.92,0.8,78.8
-shm-spring-simulator,shm-spring-simulator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,78.5
-csv-diff,csv-diff,CSV Diff,CSV Diff,csv,true,needs-improvement,already-exists,medium,0.82,0.78,0.84,0.7,1,0.93,0,0.88,0.8,78.3
-cagr-calculator,cagr-calculator,CAGR Calculator,Compound Annual Growth Rate,finance,true,needs-improvement,already-exists,low,0.82,0.6,0.88,1,1,0.69,0,0.8,0.8,77.4
-rot13-encoder-decoder,rot13-encoder-decoder,ROT13 Encoder / Decoder,ROT13,encoding,true,needs-improvement,already-exists,low,0.64,0.74,0.84,1,1,0.86,0,0.9,0.8,77.2
-remove-accents,remove-accents,Remove Accents,Diacritic Removal,text-processor,true,needs-improvement,already-exists,low,0.7,0.72,0.85,1,1,0.88,0,0.6,0.8,77
-ideal-gas-law-simulator,ideal-gas-law-simulator,Ideal Gas Law Simulator,Ideal Gas Law,physics,true,guide-missing,already-exists,medium,0.82,0.6,0.95,0.7,1,0.93,0,0.82,0.8,76.5
-unix-timestamp-converter,unix-timestamp-converter,Unix Timestamp Converter,Timestamp Conversion,datetime,true,needs-improvement,already-exists,medium,0.9,0.53,0.92,0.7,1,0.84,0,0.88,0.8,76.2
-remove-emoji,remove-emoji,Remove Emoji,Emoji Removal,text-processor,true,needs-improvement,already-exists,low,0.66,0.76,0.78,1,1,0.74,0,0.8,0.8,75.3
-csv-to-tsv,csv-to-tsv,CSV to TSV,CSV/TSV Conversion,csv,true,needs-improvement,already-exists,low,0.58,0.82,0.8,1,1,0.71,0,0.9,0.64,75.2
-doppler-effect-simulator,doppler-effect-simulator,Doppler Effect Simulator,Doppler Effect,physics,true,guide-missing,already-exists,medium,0.78,0.68,0.94,0.7,1,0.79,0,0.8,0.8,75
-csv-cleaner,csv-cleaner,CSV Cleaner,CSV Cleaning,csv,true,needs-improvement,already-exists,medium,0.7,0.76,0.82,0.7,1,0.88,0,0.86,0.8,74.1
-momentum-collision-simulator,momentum-collision-simulator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,guide-missing,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,73.8
-age-calculator,age-calculator,Age Calculator,Age Calculation,datetime,true,needs-improvement,already-exists,medium,0.88,0.46,0.88,0.7,1,0.83,0,0.78,0.8,73.7
-date-difference-calculator,date-difference-calculator,Date Difference Calculator,Date Difference,datetime,true,needs-improvement,already-exists,medium,0.85,0.56,0.9,0.7,1,0.7,0,0.8,0.8,73.6
-inclined-plane-simulator,inclined-plane-simulator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,73
-crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,72.5
-unit-circle-explorer,unit-circle-explorer,Unit Circle Explorer,Unit Circle,math-lab,false,engine-missing,recommended,low,0.88,0.64,0.96,0.9,0.3,0.95,0,0.8,0.8,71.4
-quadratic-equation-explorer,quadratic-equation-explorer,Quadratic Equation Explorer,Quadratic Equations,math-lab,false,engine-missing,recommended,low,0.94,0.49,0.97,0.9,0.3,0.98,0,0.85,0.8,71.3
-csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,cluster-missing,recommended,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,70.8
-fraction-calculator,fraction-calculator,Fraction Calculator,Fractions,math,false,engine-missing,recommended,low,0.9,0.44,0.96,0.9,0.3,0.96,0,0.88,0.8,69.4
-combinations-permutations-calculator,combinations-permutations-calculator,Combinations & Permutations Calculator,Combinatorics,math,false,engine-missing,recommended,low,0.78,0.64,0.94,0.9,0.3,0.91,0,0.82,0.8,69
-word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,68.8
-prime-factorization-calculator,prime-factorization-calculator,Prime Factorization Calculator,Number Theory,math,false,engine-missing,recommended,low,0.75,0.62,0.95,0.9,0.3,0.9,0,0.85,0.8,68.1
-timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,67.4
-loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,67.2
-probability-simulator,probability-simulator,Probability Lab,Probability,math-lab,false,engine-missing,recommended,medium,0.85,0.69,0.95,0.6,0.3,0.94,0,0.82,0.8,67.2
-statistics-visualizer,statistics-visualizer,Statistics Visualizer,Descriptive Statistics,math,false,engine-missing,recommended,medium,0.92,0.52,0.96,0.6,0.3,0.97,0,0.84,0.8,66.9
-cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,66.2
-net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,65.9
-mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,65.5
-matrix-calculator,matrix-calculator,Matrix Calculator,Matrices,math,false,engine-missing,recommended,medium,0.88,0.46,0.95,0.6,0.3,0.95,0,0.85,0.8,64.8
-salary-calculator,salary-calculator,Salary Calculator,Salary Conversion,budget,false,engine-missing,recommended,medium,0.9,0.52,0.92,0.6,0.3,0.84,0,0.88,0.8,64.8
-triangle-solver,triangle-solver,Triangle Solver,Triangles,math,false,engine-missing,recommended,medium,0.8,0.59,0.95,0.6,0.3,0.92,0,0.8,0.8,64.6
-normal-distribution-visualizer,normal-distribution-visualizer,Normal Distribution Visualizer,Normal Distribution,math-lab,false,engine-missing,recommended,medium,0.76,0.61,0.94,0.6,0.3,0.9,0,0.8,0.8,63.3
-linear-regression-playground,linear-regression-playground,Linear Regression Playground,Linear Regression,math-lab,false,engine-missing,recommended,medium,0.7,0.66,0.93,0.6,0.3,0.88,0,0.78,0.8,62.3
-function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,false,engine-missing,recommended,high,0.9,0.39,0.97,0.3,0.3,0.96,0,0.85,0.8,60.2
-retirement-calculator,retirement-calculator,Retirement Calculator,Retirement Projection,retirement,false,engine-missing,discovered,high,0.94,0.46,0.94,0.3,0.3,0.74,0,0.82,0.8,59.5
+unit-circle-explorer,unit-circle-explorer,Unit Circle Explorer,Unit Circle,math-lab,true,guide-missing,already-exists,low,0.88,0.64,0.96,1,1,0.95,0,0.8,0.8,83.9
+quadratic-equation-explorer,quadratic-equation-explorer,Quadratic Equation Explorer,Quadratic Equations,math-lab,true,guide-missing,already-exists,low,0.94,0.49,0.97,1,1,0.98,0,0.85,0.8,83.8
+fraction-calculator,fraction-calculator,Fraction Calculator,Fractions,math,true,needs-improvement,already-exists,low,0.9,0.44,0.96,1,1,0.96,0,0.88,0.8,82.1
+remove-line-breaks,remove-line-breaks,Remove Line Breaks,Line Break Removal,text-processor,true,needs-improvement,already-exists,low,0.84,0.7,0.9,1,1,0.94,0,0.75,0.8,81.8
+combinations-permutations-calculator,combinations-permutations-calculator,Combinations & Permutations Calculator,Combinatorics,math,true,needs-improvement,already-exists,low,0.78,0.64,0.94,1,1,0.91,0,0.82,0.8,81.7
+sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,needs-improvement,already-exists,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,81.2
+reverse-text,reverse-text,Reverse Text,Text Reversal,text-processor,true,needs-improvement,already-exists,low,0.78,0.73,0.88,1,1,0.91,0,0.8,0.8,81.1
+prime-factorization-calculator,prime-factorization-calculator,Prime Factorization Calculator,Number Theory,math,true,needs-improvement,already-exists,low,0.75,0.62,0.95,1,1,0.9,0,0.85,0.8,80.9
+projectile-motion-simulator,projectile-motion-simulator,Projectile Motion Simulator,Projectile Motion,physics,true,guide-missing,already-exists,medium,0.9,0.69,0.96,0.7,1,0.96,0,0.82,0.8,80.2
+probability-simulator,probability-simulator,Probability Lab,Probability,math-lab,true,guide-missing,already-exists,medium,0.85,0.69,0.95,0.7,1,0.94,0,0.82,0.8,80
+slugify-text,slugify-text,Slugify Text,Slugification,text-processor,true,needs-improvement,already-exists,low,0.8,0.66,0.86,1,1,0.92,0,0.7,0.8,80
+statistics-visualizer,statistics-visualizer,Statistics Visualizer,Descriptive Statistics,math,true,cluster-missing,recommended,medium,0.92,0.52,0.96,0.7,1,0.97,0,0.84,0.8,79.7
+binary-text-converter,binary-text-converter,Binary Text Converter,Binary Encoding,encoding,true,needs-improvement,already-exists,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,79.6
+roi-calculator,roi-calculator,ROI Calculator,Return on Investment,finance,true,needs-improvement,already-exists,low,0.88,0.58,0.9,1,1,0.71,0,0.85,0.8,79.5
+ohms-law-simulator,ohms-law-simulator,Ohm's Law Simulator,Ohm's Law,physics,true,guide-missing,already-exists,medium,0.95,0.52,0.96,0.7,1,0.98,0,0.85,0.8,79.4
+json-escape,json-escape,JSON Escape / Unescape,JSON String Escaping,structured-data,true,needs-improvement,already-exists,low,0.76,0.63,0.88,1,1,0.9,0,0.92,0.8,79.2
+shm-spring-simulator,shm-spring-simulator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,79
+csv-diff,csv-diff,CSV Diff,CSV Diff,csv,true,needs-improvement,already-exists,medium,0.82,0.78,0.84,0.7,1,0.93,0,0.88,0.8,78.8
+cagr-calculator,cagr-calculator,CAGR Calculator,Compound Annual Growth Rate,finance,true,needs-improvement,already-exists,low,0.82,0.6,0.88,1,1,0.69,0,0.8,0.8,78
+matrix-calculator,matrix-calculator,Matrix Calculator,Matrices,math,true,cluster-missing,recommended,medium,0.88,0.46,0.95,0.7,1,0.95,0,0.85,0.8,77.8
+rot13-encoder-decoder,rot13-encoder-decoder,ROT13 Encoder / Decoder,ROT13,encoding,true,needs-improvement,already-exists,low,0.64,0.74,0.84,1,1,0.86,0,0.9,0.8,77.8
+remove-accents,remove-accents,Remove Accents,Diacritic Removal,text-processor,true,needs-improvement,already-exists,low,0.7,0.72,0.85,1,1,0.88,0,0.6,0.8,77.6
+triangle-solver,triangle-solver,Triangle Solver,Triangles,math,true,cluster-missing,recommended,medium,0.8,0.59,0.95,0.7,1,0.92,0,0.8,0.8,77.6
+ideal-gas-law-simulator,ideal-gas-law-simulator,Ideal Gas Law Simulator,Ideal Gas Law,physics,true,guide-missing,already-exists,medium,0.82,0.6,0.95,0.7,1,0.93,0,0.82,0.8,77.2
+unix-timestamp-converter,unix-timestamp-converter,Unix Timestamp Converter,Timestamp Conversion,datetime,true,needs-improvement,already-exists,medium,0.9,0.53,0.92,0.7,1,0.84,0,0.88,0.8,76.9
+normal-distribution-visualizer,normal-distribution-visualizer,Normal Distribution Visualizer,Normal Distribution,math-lab,true,cluster-missing,recommended,medium,0.76,0.61,0.94,0.7,1,0.9,0,0.8,0.8,76.4
+remove-emoji,remove-emoji,Remove Emoji,Emoji Removal,text-processor,true,needs-improvement,already-exists,low,0.66,0.76,0.78,1,1,0.74,0,0.8,0.8,76.1
+csv-to-tsv,csv-to-tsv,CSV to TSV,CSV/TSV Conversion,csv,true,needs-improvement,already-exists,low,0.58,0.82,0.8,1,1,0.71,0,0.9,0.64,76
+doppler-effect-simulator,doppler-effect-simulator,Doppler Effect Simulator,Doppler Effect,physics,true,guide-missing,already-exists,medium,0.78,0.68,0.94,0.7,1,0.79,0,0.8,0.8,75.7
+linear-regression-playground,linear-regression-playground,Linear Regression Playground,Linear Regression,math-lab,true,cluster-missing,recommended,medium,0.7,0.66,0.93,0.7,1,0.88,0,0.78,0.8,75.5
+csv-cleaner,csv-cleaner,CSV Cleaner,CSV Cleaning,csv,true,needs-improvement,already-exists,medium,0.7,0.76,0.82,0.7,1,0.88,0,0.86,0.8,74.9
+momentum-collision-simulator,momentum-collision-simulator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,guide-missing,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,74.6
+age-calculator,age-calculator,Age Calculator,Age Calculation,datetime,true,needs-improvement,already-exists,medium,0.88,0.46,0.88,0.7,1,0.83,0,0.78,0.8,74.5
+date-difference-calculator,date-difference-calculator,Date Difference Calculator,Date Difference,datetime,true,needs-improvement,already-exists,medium,0.85,0.56,0.9,0.7,1,0.7,0,0.8,0.8,74.4
+inclined-plane-simulator,inclined-plane-simulator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,73.9
+function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,true,cluster-missing,recommended,high,0.9,0.39,0.97,0.4,1,0.96,0,0.85,0.8,73.6
+crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,73.5
+csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,cluster-missing,recommended,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,71.9
+word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,70
+timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,68.7
+loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,68.5
+cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,67.6
+net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,67.3
+mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,67
+salary-calculator,salary-calculator,Salary Calculator,Salary Conversion,budget,false,engine-missing,recommended,medium,0.9,0.52,0.92,0.6,0.3,0.84,0,0.88,0.8,66.3
+retirement-calculator,retirement-calculator,Retirement Calculator,Retirement Projection,retirement,false,engine-missing,recommended,high,0.94,0.46,0.94,0.3,0.3,0.74,0,0.82,0.8,61.4

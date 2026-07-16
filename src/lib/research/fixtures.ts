@@ -27,6 +27,7 @@ export function raw(o: Partial<RawOpportunity> & Pick<RawOpportunity, 'proposedT
     evergreen: 80,
     difficulty: 'low',
     localization: 70,
+    algorithmicFit: 85,
     ...o,
   };
 }

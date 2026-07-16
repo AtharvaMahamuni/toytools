@@ -102,6 +102,13 @@ hypotheses are data in `src/lib/research/taxonomy.ts`. To change recommendations
 > **`research-intelligence` agent** — present the top scored opportunity *with reasoning* (demand,
 > weak incumbents, why ToyTools can win, the reusable engine and what it unlocks, suggested
 > guides/FAQs/links, effort/SEO/maintenance estimates), then implement via the **`add-tool`** skill.
+>
+> **Standing rule — AI vs algorithm.** For every tool suggestion, state whether a deterministic
+> algorithm or AI serves the need better. The RIE scores this per record (`algorithmicFit`, 0–100,
+> in `research/datasets/*.json`; weight in `src/lib/research/config.ts`): high fit (exact math,
+> conversions, simulations) is ToyTools' home turf; AI-shaped needs (generation, judgment,
+> summarization) are an architecture mismatch for a client-side static site AND a query class being
+> absorbed by chatbots, so they score down and the roadmap flags them with a CAUTION reason.
 
 ## Agent roster (`.claude/agents/`)
 

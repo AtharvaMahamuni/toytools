@@ -14,6 +14,7 @@ export interface OpportunityScores {
   topicClusterPotential: number; // 0–1
   commercialPotential: number; // 0–1
   localizationPotential: number; // 0–1
+  algorithmicFit: number; // 0–1 (1 = a deterministic algorithm solves the need exactly; low = AI-shaped)
 }
 
 export interface Opportunity {
@@ -52,6 +53,7 @@ export interface Opportunity {
   topicClusterPotential: number;
   commercialPotential: number;
   localizationPotential: number;
+  algorithmicFit: number;
 
   confidence: number; // 0–1
   finalScore: number; // 0–100 composite

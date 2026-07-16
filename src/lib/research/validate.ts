@@ -47,6 +47,8 @@ export function validateDatasets(datasets: SeedDataset[]): string[] {
       if (!DIFFICULTIES.includes(rec.difficulty)) errors.push(`${where}: invalid difficulty "${rec.difficulty}"`);
       if (!inRange(rec.demand, 0, 100)) errors.push(`${where}: demand out of range`);
       if (!inRange(rec.competition, 0, 100)) errors.push(`${where}: competition out of range`);
+      if (rec.algorithmicFit !== undefined && !inRange(rec.algorithmicFit, 0, 100))
+        errors.push(`${where}: algorithmicFit out of range`);
       if (!Array.isArray(rec.searchQueries) || rec.searchQueries.length === 0)
         errors.push(`${where}: searchQueries must be a non-empty array`);
       if (rec.proposedTool) {
@@ -85,6 +87,7 @@ export function validateReports(r: ResearchReports): string[] {
       ['topicClusterPotential', o.topicClusterPotential],
       ['commercialPotential', o.commercialPotential],
       ['localizationPotential', o.localizationPotential],
+      ['algorithmicFit', o.algorithmicFit],
       ['confidence', o.confidence],
     ];
     for (const [name, v] of unit) if (!inRange(v, 0, 1)) errors.push(`Opportunity ${o.id}: ${name} out of 0..1 (${v})`);

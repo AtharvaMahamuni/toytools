@@ -32,6 +32,10 @@ function reasonsFor(o: Opportunity): string[] {
   if (o.implementationCost >= THRESHOLDS.quickWinEase) r.push('Low implementation cost');
   if (o.topicClusterPotential >= 0.4) r.push('Strong topic-cluster potential');
   if (o.relatedTools.length >= 2) r.push(`Creates ${o.relatedTools.length} internal links`);
+  // The AI-vs-algorithm verdict: deterministic problems are the platform's home turf; AI-shaped
+  // needs are an architecture mismatch and their queries are being absorbed by chatbots.
+  if (o.algorithmicFit >= 0.9) r.push('Deterministic algorithm solves this exactly (AI adds nothing)');
+  else if (o.algorithmicFit < 0.5) r.push('CAUTION: AI-shaped need - a client-side algorithm may underserve it');
   return r;
 }
 
@@ -76,6 +80,7 @@ function makeNextBuild(o: Opportunity, engines: EngineRecommendations): NextBuil
   else whyWeCanWin.push(`Anchors a new ${o.proposedEngine} engine that unlocks ${unlocks.length + 1} tools.`);
   whyWeCanWin.push('Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).');
   if (o.competitionScore >= 0.6) whyWeCanWin.push('Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.');
+  if (o.algorithmicFit >= 0.9) whyWeCanWin.push('The need is exactly algorithmic: a deterministic tool beats an AI answer on speed, precision, and trust.');
 
   const schema = ['SoftwareApplication', 'FAQPage'];
   if (o.userIntent === 'howTo') schema.push('HowTo');

@@ -69,7 +69,7 @@ src/lib/research/
                    opportunity-score, cluster, engine-match, missing-engine, topic-cluster,
                    gaps, trend, guide-generator, faq-generator, roadmap
   scorers/         demand, competition, evergreen, implementation, engine-reuse, seo,
-                   localization, confidence
+                   localization, algorithmic-fit, confidence
   reports/         markdown, json, csv
 
 research/
@@ -122,7 +122,7 @@ Add `analyzers/<name>.ts` (a pure function), call it from `pipeline.ts`, extend 
 `models/opportunity.ts` is the single normalized schema every provider funnels into - no
 provider-specific fields survive past normalization. `id` is derived deterministically from
 `proposedTool` (stable across runs → dedup + stable tests). It carries evidence (problem,
-existingSolutions, solutionWeaknesses, searchQueries), the eight 0..1 signal scores, `confidence`,
+existingSolutions, solutionWeaknesses, searchQueries), the ten 0..1 signal scores, `confidence`,
 the `finalScore` (0..100), the catalog `gap` classification, and `status`.
 
 ## Scoring methodology
@@ -141,6 +141,13 @@ sum-normalized weighted blend (`SCORE_WEIGHTS` in `config.ts`), scaled to 0..100
 | topicClusterPotential | siblings sharing the transformation | computed in `opportunity-score` |
 | commercialPotential | transactional intent + demand | computed in `opportunity-score` |
 | localizationPotential | language independence | `localization` |
+| algorithmicFit | a deterministic algorithm (not AI) solves the need exactly | `algorithmic-fit` |
+
+`algorithmicFit` is the standing AI-vs-algorithm check: every candidate is scored on whether an
+exact client-side algorithm genuinely beats an AI answer (math, conversions, simulations = 100).
+AI-shaped needs (generation, judgment, summarization) score low, because they mismatch the
+static-site architecture and their queries are being absorbed by chatbots; the roadmap adds a
+CAUTION reason below 50. Set it per record in `research/datasets/*.json` (omitted = 85).
 
 `confidence` is the fraction of independent evidence signals that fired, boosted by corroborating
 providers. Tuning is data: edit `SCORE_WEIGHTS` / `THRESHOLDS`, never the analyzer logic.
