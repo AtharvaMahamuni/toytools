@@ -28,10 +28,10 @@ test.describe('homepage directory', () => {
     //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1),
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
     //   −8 text counters (9→1).
-    // 95 tools − 39 = 56 directory links (finance, generator, physics, applied-math, calculator,
+    // 100 tools − 39 = 61 directory links (finance, generator, physics, applied-math, calculator,
     // and date/time tools are not grouped; physics has 11 manifest-driven simulators and
-    // applied-math its first).
-    await expect(directory.locator('.dir-link')).toHaveCount(56);
+    // applied-math five wave-2 tools beside unit-circle).
+    await expect(directory.locator('.dir-link')).toHaveCount(61);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

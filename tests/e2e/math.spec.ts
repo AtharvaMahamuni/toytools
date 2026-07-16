@@ -16,7 +16,7 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-explorer', 'quadratic-equation-explorer']) {
+  for (const slug of ['unit-circle-explorer', 'quadratic-equation-explorer', 'probability-simulator']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);
@@ -84,6 +84,19 @@ test.describe('prime factorization calculator (math engine)', () => {
     await expect(experience).toContainText('12'); // GCF
     await expect(experience).toContainText('180'); // LCM
     expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
+test.describe('probability lab', () => {
+  test('accumulates trials while playing and the empirical frequency updates', async ({ page }) => {
+    await page.goto('/tool/math/probability-simulator/');
+    const trials = page.locator('[data-measurement="trials"]');
+    // Autoplay runs 8 trials/s — the counter leaves 0 almost immediately.
+    await expect(trials).not.toHaveText('0');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const count = Number((await trials.textContent())!.replace(/,/g, ''));
+    expect(count).toBeGreaterThan(0);
+    await expect(page.locator('[data-measurement="theoretical"]')).toHaveText(/0\.500/);
   });
 });
 

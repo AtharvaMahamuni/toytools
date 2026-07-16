@@ -223,9 +223,10 @@
       "sharedWidget": "src/tools/_shared/SimulationWidget.astro",
       "supportedFamilies": [
         "trigonometry",
-        "algebra"
+        "algebra",
+        "probability"
       ],
-      "toolCount": 2
+      "toolCount": 3
     },
     "math": {
       "name": "Math Calculator Engine",
@@ -528,6 +529,21 @@
       "pattern": "simulate",
       "family": "algebra",
       "processorId": "quadratic",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "probability-simulator": {
+      "name": "Probability Lab",
+      "dir": "src/tools/math/probability-simulator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/probability-simulator/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "probability",
+      "processorId": "probability",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,
