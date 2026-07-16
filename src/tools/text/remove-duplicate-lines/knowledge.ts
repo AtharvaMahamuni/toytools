@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Forgetting that case differences are treated as distinct',
   ],
   commonQuestions: [
-    'Is matching case-sensitive?',
-    'Are leading or trailing spaces considered?',
-    'Does it keep the first or last occurrence?',
+    'Is duplicate matching exact or case-insensitive?',
+    'How do I remove duplicate emails from a mailing list?',
+    'Why did the order of my lines change after deduplicating?',
   ],
   usedWith: [
     { slug: 'trim-text', reason: 'Trim edges first so true duplicates collapse', strength: 0.7 },

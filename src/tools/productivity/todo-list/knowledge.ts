@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Clearing browser data and losing the saved list',
   ],
   commonQuestions: [
-    'Do my tasks sync to other devices?',
-    'Are tasks saved if I close the tab?',
-    'Is any of this sent to a server?',
+    'Where are my tasks stored?',
+    'Do my tasks sync across devices?',
+    'Why did my tasks disappear?',
   ],
   usedWith: [
     { slug: 'pomodoro-timer', reason: 'Work through the list in focused intervals', strength: 0.7 },

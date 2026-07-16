@@ -49,4 +49,34 @@ export const items: FAQItem[] = [
     answer:
       'A task is an item that needs to be completed. A subtask is a smaller step that belongs to a larger task. For example, "Build homepage" is a task; "Write headline copy" and "Set up navigation" are subtasks. Subtasks help you make progress on complex tasks one step at a time.',
   },
+  {
+    id: 'todo-faq-9',
+    question: 'Is a to-do list saved without an account?',
+    answer:
+      'Yes, this to-do list saves without an account or sign-in. Every task you add, check off, or delete is written to browser storage immediately, so the checklist persists when you reload the page or restart the browser. For example, add "Book dentist appointment" tonight and it is still there tomorrow, checkbox state included. That makes it a good fit for tracking the steps of a one-off process, like moving apartments, without registering anywhere.',
+  },
+  {
+    id: 'todo-faq-10',
+    question: 'Do my tasks sync across devices?',
+    answer:
+      'No, tasks do not sync across devices. This is a browser to-do list backed by local storage, not cloud sync, so a checklist created on your laptop stays on your laptop. Expecting tasks to sync across devices is the most common misunderstanding about this tool. For example, opening the page on your phone shows an empty list, because the phone browser has its own separate storage. Keep one device as the home for each list.',
+  },
+  {
+    id: 'todo-faq-11',
+    question: 'Why did my tasks disappear?',
+    answer:
+      'Clearing browser data is the most common cause: deleting cookies or site data also wipes localStorage, and losing the saved list this way is permanent, so copy important checklists somewhere durable before a cleanup. Two other causes look identical. A private or incognito window discards storage when it closes, and a different browser or profile keeps its own storage. For example, a list written in Chrome will never appear in Firefox on the same computer.',
+  },
+  {
+    id: 'todo-faq-12',
+    question: 'Should I use a browser to-do list or a full task app?',
+    answer:
+      'Use a browser to-do list for short, private checklists you need right now, and a full task app when you need cloud sync, reminders, due dates, or collaboration. This tool opens instantly with no sign-up and keeps tasks on your device, which suits a daily list of five to ten items or a quick shopping or packing list. For example, a packing list for a weekend trip fits here; a three-month team project does not.',
+  },
+  {
+    id: 'todo-faq-13',
+    question: 'Where are my tasks stored?',
+    answer:
+      'Your tasks are stored in localStorage, a small storage area your browser keeps on this device. Nothing is uploaded, no server ever sees your checklist, and no account is needed; the page reads the saved tasks back each time it loads. For example, a task list written on your work laptop lives only in that browser on that machine. One honest caveat: clearing site data for this page erases the saved list along with it.',
+  },
 ];
