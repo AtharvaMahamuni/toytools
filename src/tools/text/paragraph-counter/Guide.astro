@@ -64,7 +64,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       What separates one paragraph from the next? A blank-line break. This tool splits the input on
       one or more consecutive blank lines, so that is how blank lines are interpreted: as separators.
-      Lines that contain only whitespace (spaces or tabs) are treated as blank. Each resulting
+      The separator line must be completely empty; a line holding only spaces or tabs does not
+      split the surrounding text. Each resulting
       non-empty block is counted as one paragraph. For example, three paragraphs separated by two
       blank lines each will still produce a count of 3; extra blank lines between paragraphs do not
       create additional counts.

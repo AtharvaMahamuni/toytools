@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Expecting rich formatting rather than plain text',
   ],
   commonQuestions: [
-    'Are my notes private to this device?',
-    'Does it save automatically?',
-    'Will my note survive a browser restart?',
+    'Does the online notepad autosave?',
+    'Where are my notes stored?',
+    'Why is my note not showing up on another device?',
   ],
   usedWith: [
     { slug: 'todo-list', reason: 'Pair free-form notes with discrete tasks', strength: 0.6 },

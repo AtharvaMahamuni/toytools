@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Assuming the file is clean because it renders fine in a spreadsheet',
   ],
   commonQuestions: [
-    'How do I remove empty rows from a CSV?',
-    'Why does my CSV import fail with a column count error?',
-    'Does cleaning delete any data?',
+    'What makes a CSV file invalid?',
+    'Why does my CSV open fine in Excel but fail to import?',
+    'Why did my lookups stop matching after a CSV export?',
   ],
   usedWith: [
     { slug: 'csv-diff', reason: 'Clean both files first so the diff shows real changes, not noise', strength: 0.8 },
