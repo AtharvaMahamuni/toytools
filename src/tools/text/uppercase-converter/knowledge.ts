@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Relying on CSS text-transform when the stored value must actually be uppercase',
   ],
   commonQuestions: [
-    'Does it change the underlying text or just the display?',
-    'How are numbers and symbols handled?',
-    'Will accented characters convert correctly?',
+    'Should I use CSS text-transform: uppercase or convert the text itself?',
+    'Is converting text to uppercase the same in every language?',
+    'Why did accented letters not uppercase as I expected?',
   ],
   usedWith: [
     { slug: 'lowercase-converter', reason: 'Flip back to lowercase when needed', strength: 0.6 },

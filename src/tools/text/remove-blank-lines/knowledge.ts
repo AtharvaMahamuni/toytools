@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Assuming whitespace-only lines are always treated as blank',
   ],
   commonQuestions: [
-    'Does it remove lines that contain only spaces or tabs?',
-    'Will it keep a single separator between sections?',
-    'How is this different from removing duplicate lines?',
+    'Why are lines with only spaces treated as blank?',
+    'Does removing blank lines destroy my paragraphs?',
+    'Why did my intentional spacing disappear after removing blank lines?',
   ],
   usedWith: [
     { slug: 'remove-duplicate-lines', reason: 'Compact then deduplicate the remaining lines', strength: 0.7 },

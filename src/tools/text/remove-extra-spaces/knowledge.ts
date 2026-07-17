@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Expecting it to convert tabs (use remove tabs or normalize whitespace)',
   ],
   commonQuestions: [
-    'Does it remove single spaces too?',
-    'Will it touch tabs or line breaks?',
-    'How is this different from trimming text?',
+    'Does it remove line breaks too?',
+    'Should I remove extra spaces or trim the whitespace at the edges?',
+    'Why does my text still have wide gaps after removing extra spaces?',
   ],
   usedWith: [
     { slug: 'trim-text', reason: 'Trim the edges after collapsing internal runs', strength: 0.7 },

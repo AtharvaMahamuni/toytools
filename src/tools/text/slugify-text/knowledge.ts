@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Confusing it with kebab-case, which does not strip accents to ASCII',
   ],
   commonQuestions: [
-    'Does it remove accents?',
-    'Can it slugify many lines at once?',
-    'Why were my symbols replaced with hyphens?',
+    'What is the difference between slugify and kebab-case?',
+    'Does slugify keep accented characters like é or ü?',
+    'Why does slugify make everything lowercase?',
   ],
   usedWith: [
     { slug: 'remove-accents', reason: 'Preview the accent-stripping step on its own', strength: 0.7 },
