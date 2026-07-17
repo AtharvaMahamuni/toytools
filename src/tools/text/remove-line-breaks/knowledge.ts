@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Confusing it with Remove Blank Lines, which keeps lines separate',
   ],
   commonQuestions: [
-    'Will it leave double spaces behind?',
+    'Does it leave double spaces where the breaks were?',
     'How is this different from removing blank lines?',
-    'Does it trim the start and end?',
+    'Why did my paragraph breaks disappear after removing line breaks?',
   ],
   usedWith: [
     { slug: 'remove-extra-spaces', reason: 'Tidy any remaining internal spacing after joining', strength: 0.7 },

@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Forgetting blank lines remain unless removed separately',
   ],
   commonQuestions: [
-    'Does it remove spaces between words?',
-    'Does it trim each line or just the whole block?',
-    'Will it remove empty lines too?',
+    'How do I strip indentation from pasted code?',
+    'Does trimming work per line or on the whole text block?',
+    'Why are there still spaces between words after trimming?',
   ],
   usedWith: [
     { slug: 'remove-extra-spaces', reason: 'Collapse internal runs after trimming the edges', strength: 0.7 },
