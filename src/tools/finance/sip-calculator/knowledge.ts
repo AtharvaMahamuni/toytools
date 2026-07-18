@@ -27,8 +27,8 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'What is a SIP?',
-    'How is the SIP maturity value calculated?',
-    'Is a SIP better than a lump sum?',
+    'Is it better to invest more each month or for a longer time?',
+    'Why does my SIP value differ from my fund statement?',
   ],
   usedWith: [
     { slug: 'inflation-calculator', reason: 'Convert the maturity value into current purchasing power', strength: 0.8 },

@@ -43,4 +43,22 @@ export const items: FAQItem[] = [
     answer:
       'Letter counting is useful when you need to measure only the alphabetic content of text: checking a password policy that requires a minimum number of letters, analysing the alphabetic density of text, or comparing how much of a text is composed of letters versus other characters.',
   },
+  {
+    id: 'lc-faq-8',
+    question: 'How do I check that a text field contains only letters?',
+    answer:
+      'Paste the value and compare the letter count to the total character count. When both numbers match, the field is purely alphabetic with no digits, spaces, or punctuation hiding inside it. For example, "Firstname" shows 9 letters and 9 characters, so it passes. "First Name" shows 9 letters but 10 characters, revealing the space, so it fails an alphabetic-only rule.',
+  },
+  {
+    id: 'lc-faq-9',
+    question: 'Why did my letter count drop after I deleted the numbers?',
+    answer:
+      'Deleting digits alone never changes the letter count, because this tool counts only alphabetic characters and never included the numbers to begin with. If your total fell, you removed letters at the same time. For example, "abc123" and "abc" both report 3 letters, but trimming to "ab" drops the total to 2. Check that you deleted only the 0 through 9 characters and left every alphabetic character in place.',
+  },
+  {
+    id: 'lc-faq-10',
+    question: 'Why do accented letters count the same as regular letters?',
+    answer:
+      'Accented letters each count as one letter, the same as any A through Z character, because the tool matches Unicode\'s letter category rather than plain ASCII. A standalone combining accent mark is not a letter, so it never adds to the total. For example, "café" reports 4 letters whether the é is a single character or an e followed by a separate accent mark, even though its character count changes.',
+  },
 ];
