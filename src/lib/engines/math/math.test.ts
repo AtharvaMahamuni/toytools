@@ -1,0 +1,130 @@
+// Calculator-level tests for the math engine: the registry contract (never-throws), each worked
+// example re-run against its expected card values, and the fraction calculator's step narration
+// and error paths.
+
+import { describe, expect, it } from 'vitest';
+import { MATH_CALCULATORS, mathFields, runMath } from './registry';
+import { MATH_EXAMPLES } from './examples';
+import type { InteractiveResult } from '@lib/results/types';
+
+function cardRaw(result: InteractiveResult, id: string): number | undefined {
+  if (result.hero?.id === id) return result.hero.raw;
+  return result.metrics.find((c) => c.id === id)?.raw;
+}
+
+describe('math registry', () => {
+  it('every calculator exposes fields and a calculate()', () => {
+    for (const [id, calc] of Object.entries(MATH_CALCULATORS)) {
+      expect(calc.id).toBe(id);
+      expect(mathFields(id).length).toBeGreaterThan(0);
+      expect(typeof calc.calculate).toBe('function');
+    }
+  });
+
+  it('unknown ids and thrown errors surface as calculation errors, never exceptions', () => {
+    expect(runMath('nope', {}, {}).uiState).toBe('calculation-error');
+  });
+});
+
+describe('worked examples', () => {
+  it.each(MATH_EXAMPLES.map((e) => [e.id, e] as const))('%s reproduces its expected values', (_id, ex) => {
+    const res = runMath(ex.ref, ex.inputs, {});
+    expect(res.uiState).toBe('success');
+    for (const [cardId, raw] of Object.entries(ex.expect ?? {})) {
+      expect(cardRaw(res, cardId), cardId).toBeCloseTo(raw, 6);
+    }
+  });
+});
+
+describe('combinations calculator', () => {
+  it('expands the nCr formula with small factorials', () => {
+    const res = runMath('combinations', { n: 5, r: 2, mode: 'combinations', repetition: 'no' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('10');
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('n! / (r! × (n - r)!)');
+    expect(text).toContain('120 / (2 × 6)');
+    expect(text).toContain('ways to choose 2 of 5');
+  });
+
+  it('offers the counterpart count and handles repetition modes', () => {
+    const npr = runMath('combinations', { n: 10, r: 3, mode: 'permutations', repetition: 'no' }, {});
+    expect(npr.hero?.value).toBe('720');
+    expect(npr.metrics.find((c) => c.id === 'ncr')?.value).toBe('120');
+    const stars = runMath('combinations', { n: 4, r: 3, mode: 'combinations', repetition: 'yes' }, {});
+    expect(stars.hero?.value).toBe('20');
+    const pins = runMath('combinations', { n: 10, r: 4, mode: 'permutations', repetition: 'yes' }, {});
+    expect(pins.hero?.value).toBe('10,000');
+  });
+
+  it('shows a scientific approximation for astronomical counts', () => {
+    const res = runMath('combinations', { n: 1000, r: 500, mode: 'combinations', repetition: 'no' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.metrics.find((c) => c.id === 'approx')?.value).toMatch(/× 10\^/);
+  });
+
+  it('rejects r > n without repetition and out-of-range n', () => {
+    expect(runMath('combinations', { n: 5, r: 6, mode: 'combinations', repetition: 'no' }, {}).uiState).toBe('validation-error');
+    expect(runMath('combinations', { n: 1001, r: 1, mode: 'combinations', repetition: 'no' }, {}).uiState).toBe('validation-error');
+    expect(runMath('combinations', { n: 3.5, r: 1, mode: 'combinations', repetition: 'no' }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('prime factorization calculator', () => {
+  it('narrates the trial divisions and reports divisors', () => {
+    const res = runMath('prime-factorization', { number: 360, second: '' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('2³ × 3² × 5');
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('360 ÷ 2 = 180');
+    expect(text).toContain('2³ divides in');
+    expect(res.metrics.find((c) => c.id === 'divisors')?.raw).toBe(24);
+    expect(res.metrics.find((c) => c.id === 'isPrime')?.value).toBe('No');
+  });
+
+  it('recognises primes', () => {
+    const res = runMath('prime-factorization', { number: 97, second: '' }, {});
+    expect(res.hero?.value).toBe('97 (prime)');
+    expect(res.metrics.find((c) => c.id === 'isPrime')?.value).toBe('Yes');
+  });
+
+  it('derives GCF and LCM from shared and combined exponents', () => {
+    const res = runMath('prime-factorization', { number: 36, second: 60 }, {});
+    expect(res.metrics.find((c) => c.id === 'gcf')?.raw).toBe(12);
+    expect(res.metrics.find((c) => c.id === 'lcm')?.raw).toBe(180);
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('LOWER exponents');
+    const coprime = runMath('prime-factorization', { number: 9, second: 10 }, {});
+    expect((coprime.insights ?? []).map((i) => i.text).join(' ')).toContain('coprime');
+  });
+
+  it('rejects out-of-range input', () => {
+    expect(runMath('prime-factorization', { number: 1, second: '' }, {}).uiState).toBe('validation-error');
+    expect(runMath('prime-factorization', { number: 2.5, second: '' }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('fraction calculator', () => {
+  it('narrates the LCD steps for unlike denominators', () => {
+    const res = runMath('fraction', { first: '1/2', op: 'add', second: '3/4' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.value).toBe('5/4');
+    const text = (res.insights ?? []).map((i) => i.text).join(' ');
+    expect(text).toContain('least common denominator');
+    expect(text).toContain('2/4');
+    expect(text).toContain('5/4');
+  });
+
+  it('simplifies and reports mixed + decimal forms', () => {
+    const res = runMath('fraction', { first: '1 1/2', op: 'multiply', second: '2 2/3' }, {});
+    expect(res.hero?.value).toBe('4');
+    expect(res.metrics.find((c) => c.id === 'mixed')?.value).toBe('4');
+    expect(res.metrics.find((c) => c.id === 'decimal')?.raw).toBe(4);
+  });
+
+  it('rejects malformed input and division by zero with validation errors', () => {
+    expect(runMath('fraction', { first: 'abc', op: 'add', second: '1/2' }, {}).uiState).toBe('validation-error');
+    expect(runMath('fraction', { first: '1/2', op: 'divide', second: '0' }, {}).uiState).toBe('validation-error');
+    expect(runMath('fraction', { first: '', op: 'add', second: '1/2' }, {}).uiState).toBe('validation-error');
+  });
+});

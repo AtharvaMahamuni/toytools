@@ -68,5 +68,6 @@ export const SCORERS = [
   'engine-reuse',
   'seo',
   'localization',
+  'algorithmic-fit',
   'confidence',
 ] as const;

@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Not expecting tabs and line breaks to be affected',
   ],
   commonQuestions: [
-    'Does it convert tabs to spaces?',
-    'Will it preserve paragraph breaks?',
-    'How is this broader than removing extra spaces?',
+    'What is whitespace normalization?',
+    'Which whitespace characters get standardized?',
+    'What is the difference between normalizing whitespace and trimming?',
   ],
   usedWith: [
     { slug: 'remove-tabs', reason: 'Handle tab characters as part of cleanup', strength: 0.7 },

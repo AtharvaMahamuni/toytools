@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Expecting it to also collapse spaces between words',
   ],
   commonQuestions: [
-    'Does it replace tabs with spaces or delete them?',
-    'How many spaces does each tab become?',
-    'Will it affect normal spaces?',
+    'Why do tabs cause alignment problems in text?',
+    'How do I clean up tabs after pasting from a spreadsheet?',
+    'Is a tab the same as four spaces?',
   ],
   usedWith: [
     { slug: 'normalize-whitespace', reason: 'Follow up by standardizing the remaining spacing', strength: 0.7 },

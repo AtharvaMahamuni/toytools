@@ -44,6 +44,24 @@ export const items: FAQItem[] = [
       'Google typically displays meta descriptions up to 155 to 160 characters before truncating. Best practice is to write descriptions between 120 and 158 characters: long enough to be informative, short enough to display in full. Meta titles are typically limited to 50 to 60 characters.',
   },
   {
+    id: 'cc-faq-9',
+    question: 'How do I fit my text into 280 characters?',
+    answer:
+      'Paste your draft, watch the characters with spaces total, and cut until it reads 280 or less, because X counts spaces, punctuation, and line breaks toward the limit. For example, a 306-character draft needs 26 characters removed: swap "in order to" for "to" (saves 9), delete filler adverbs, and remember each link occupies a flat 23 characters no matter its length. The total updates live as you edit, so trim phrase by phrase and stop the moment you reach 280.',
+  },
+  {
+    id: 'cc-faq-10',
+    question: 'Why does my emoji count as 2 characters?',
+    answer:
+      'Your emoji counts as 2 because this counter measures UTF-16 code units, and every emoji outside the Basic Multilingual Plane is stored as a surrogate pair of two units. For example, 😊 adds 2 to your total, the 🇺🇸 flag adds 4 (two regional indicator symbols), and a family emoji joined with zero-width joiners adds 8 or more. X applies the same rule, so the number you see here matches what its 280 limit deducts.',
+  },
+  {
+    id: 'cc-faq-11',
+    question: 'Do line breaks count as characters?',
+    answer:
+      'Yes, each line break adds exactly 1 to the characters with spaces total, because browsers normalize every pasted break to a single newline, including Windows CRLF pairs from Word or Notepad. For example, the two-line post "Launch day." plus a break plus "We are live." measures 24 characters, not 23. The without spaces figure excludes line breaks entirely, since a newline is whitespace, so check the with spaces number against any platform limit.',
+  },
+  {
     id: 'cc-faq-8',
     question: 'Is my text uploaded when I use this character counter?',
     answer:

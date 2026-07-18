@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Forgetting that digits and symbols are deliberately excluded',
   ],
   commonQuestions: [
-    'Does this count spaces or numbers?',
-    'How are accented or non-English letters handled?',
-    'What is the difference between letters and characters?',
+    'How do I check that a text field contains only letters?',
+    'Why did my letter count drop after I deleted the numbers?',
+    'Why do accented letters count the same as regular letters?',
   ],
   usedWith: [
     { slug: 'character-counter', reason: 'Compare letters against the full character total', strength: 0.7 },

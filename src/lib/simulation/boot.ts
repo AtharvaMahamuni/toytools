@@ -75,8 +75,18 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   // ── Canvases ──────────────────────────────────────────────────────────────────────────────
   let palette = readPalette();
   const aspect = def.aspect ?? 16 / 9;
+  // Cap the stage height so tall-aspect scenes (e.g. the 4:3 pendulum) don't push the dashboard
+  // below a 1080p fold. The cap narrows the canvas instead of squashing it: the declared aspect
+  // is preserved because the sims' pointer math depends on it.
+  const MAX_CANVAS_HEIGHT = 380;
+  canvas.style.maxWidth = `${Math.round(MAX_CANVAS_HEIGHT * aspect)}px`;
+  canvas.style.marginInline = 'auto';
   let stage = sizeCanvas(canvas, aspect, palette);
-  let graphStage = graphCanvas ? sizeCanvas(graphCanvas, 5 / 2, palette) : null;
+  // The graph is a compact strip inside the console: short-and-wide on desktop so the whole
+  // interactive loop fits one viewport, taller on narrow screens so the trace stays readable.
+  const graphAspect = (el: HTMLCanvasElement): number =>
+    (el.clientWidth || el.parentElement?.clientWidth || 0) < 480 ? 5 / 2 : 4;
+  let graphStage = graphCanvas ? sizeCanvas(graphCanvas, graphAspect(graphCanvas), palette) : null;
   const graph: GraphRenderer | null = def.graph ? createGraphRenderer(def.graph) : null;
 
   // ── Formula-as-calculator: paramId terms rendered as number boxes; the measurement term is the
@@ -88,7 +98,7 @@ function wire(root: HTMLElement, def: SimulationDef): void {
 
   function resizeCanvases(): void {
     stage = sizeCanvas(canvas!, aspect, palette);
-    if (graphCanvas) graphStage = sizeCanvas(graphCanvas, 5 / 2, palette);
+    if (graphCanvas) graphStage = sizeCanvas(graphCanvas, graphAspect(graphCanvas), palette);
     render();
   }
 
@@ -361,6 +371,97 @@ function wire(root: HTMLElement, def: SimulationDef): void {
     };
     canvas.addEventListener('pointerup', endDrag);
     canvas.addEventListener('pointercancel', endDrag);
+  }
+
+  // ── Dashboard tiles: spatially-truthful reordering. Each tile shows only the arrows that point
+  // at a physical neighbor in the CURRENT layout (computed from geometry, so the same code is
+  // correct for the desktop grid and the stacked mobile column), and a click SWAPS the two tiles,
+  // moving the tile exactly where the arrow points. Order persists across all sims. ─────────────
+  const consoleEl = root.querySelector<HTMLElement>('[data-sim-console]');
+  const PANEL_ORDER_KEY = 'toytools.sim.panel-order';
+  if (consoleEl) {
+    type MoveDir = 'up' | 'down' | 'left' | 'right';
+    const MOVE_DIRS: MoveDir[] = ['up', 'down', 'left', 'right'];
+    const tiles = () => [...consoleEl.querySelectorAll<HTMLElement>('[data-sim-panel]')];
+
+    const persistOrder = (): void => {
+      try {
+        localStorage.setItem(PANEL_ORDER_KEY, tiles().map((p) => p.dataset.simPanel ?? '').join(','));
+      } catch {
+        /* storage unavailable (private mode) — reordering still works for this page */
+      }
+    };
+
+    try {
+      const saved = localStorage.getItem(PANEL_ORDER_KEY);
+      if (saved) {
+        for (const id of saved.split(',')) {
+          const el = consoleEl.querySelector<HTMLElement>(`[data-sim-panel="${id}"]`);
+          if (el) consoleEl.appendChild(el);
+        }
+      }
+    } catch {
+      /* ignore */
+    }
+
+    /** The tile this one would trade places with in that direction, or null at a layout edge.
+     *  Vertical neighbors must overlap horizontally (and vice versa) so diagonal tiles never
+     *  count; among candidates the nearest wins. */
+    const neighborIn = (panel: HTMLElement, dir: MoveDir): HTMLElement | null => {
+      const r = panel.getBoundingClientRect();
+      let best: HTMLElement | null = null;
+      let bestDist = Infinity;
+      for (const other of tiles()) {
+        if (other === panel) continue;
+        const q = other.getBoundingClientRect();
+        const xOverlap = Math.min(r.right, q.right) - Math.max(r.left, q.left);
+        const yOverlap = Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top);
+        let dist = Infinity;
+        if (dir === 'up' && xOverlap > 40 && q.top < r.top - 8) dist = r.top - q.top;
+        else if (dir === 'down' && xOverlap > 40 && q.top > r.top + 8) dist = q.top - r.top;
+        else if (dir === 'left' && yOverlap > 20 && q.left < r.left - 8) dist = r.left - q.left;
+        else if (dir === 'right' && yOverlap > 20 && q.left > r.left + 8) dist = q.left - r.left;
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = other;
+        }
+      }
+      return best;
+    };
+
+    const updateArrows = (): void => {
+      for (const panel of tiles()) {
+        for (const dir of MOVE_DIRS) {
+          const btn = panel.querySelector<HTMLButtonElement>(`[data-panel-move="${dir}"]`);
+          if (btn) btn.hidden = !neighborIn(panel, dir);
+        }
+      }
+    };
+
+    const swapTiles = (a: HTMLElement, b: HTMLElement): void => {
+      const marker = document.createComment('tile-swap');
+      b.replaceWith(marker);
+      a.replaceWith(b);
+      marker.replaceWith(a);
+    };
+
+    for (const btn of consoleEl.querySelectorAll<HTMLButtonElement>('[data-panel-move]')) {
+      btn.addEventListener('click', () => {
+        const panel = btn.closest<HTMLElement>('[data-sim-panel]');
+        const dir = btn.getAttribute('data-panel-move') as MoveDir | null;
+        if (!panel || !dir) return;
+        const target = neighborIn(panel, dir);
+        if (!target) return;
+        swapTiles(panel, target);
+        persistOrder();
+        resizeCanvases();
+        updateArrows();
+      });
+    }
+
+    updateArrows();
+    // Crossing the 1024px breakpoint rearranges the grid — recompute which arrows apply.
+    observeResize(consoleEl, updateArrows);
   }
 
   // ── Environment: resize, tab visibility, theme changes ───────────────────────────────────

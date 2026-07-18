@@ -27,8 +27,8 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'How is CAGR calculated?',
-    'Why is CAGR lower than total growth divided by years?',
-    'Can CAGR be negative?',
+    'What is the difference between CAGR and average annual return?',
+    'Can two investments have the same CAGR but different risk?',
   ],
   usedWith: [
     { slug: 'roi-calculator', reason: 'See the same growth as a simple total return', strength: 0.9 },

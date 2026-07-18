@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Forgetting that case sensitivity can skip valid matches',
   ],
   commonQuestions: [
-    'Does it replace every occurrence at once?',
-    'Is matching case-sensitive?',
-    'Will it match text inside other words?',
+    'What is case-sensitive matching?',
+    'Does replace all change matches inside other words?',
+    'Is find and replace better than manual editing?',
   ],
   usedWith: [
     { slug: 'text-compare', reason: 'Diff before and after to confirm the edits', strength: 0.6 },

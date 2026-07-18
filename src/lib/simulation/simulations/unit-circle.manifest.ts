@@ -140,6 +140,21 @@ export const manifest: SimulationManifest = {
         'The classic set is 30°, 45°, and 60°, whose sine and cosine values are 1/2, √2/2, and √3/2 in different orders, plus the axis angles 0°, 90°, 180°, and 270°. Every other named angle on the standard unit circle chart is one of these reflected into another quadrant using a reference angle. Use the presets to jump straight to each special angle and watch which leg of the triangle carries which value.',
     },
     {
+      question: 'What is a reference angle and how do I find it?',
+      answer:
+        'The reference angle is the acute angle between the radius arm and the x-axis, always between 0° and 90°. To find it: subtract from 180° in quadrant II, subtract 180° in quadrant III, and subtract from 360° in quadrant IV. For example, 150° has reference angle 30°, so its sine and cosine have the same magnitudes as at 30° with only the signs changed. Drag through the quadrants and watch the triangle repeat itself in mirror image.',
+    },
+    {
+      question: 'How do I convert radians to degrees?',
+      answer:
+        'Multiply by 180/π. So π/3 radians × 180/π = 60°, and going the other way, degrees convert to radians by multiplying by π/180. The conversion works because a full turn is both 360° and 2π radians, so the two units are locked in that ratio. The explorer shows both readouts side by side, which makes the common conversions (π/6 = 30°, π/4 = 45°, π/2 = 90°) automatic with repetition.',
+    },
+    {
+      question: 'Why can sin and cos never be greater than 1?',
+      answer:
+        'Because they are coordinates of a point stuck on a circle of radius 1. The point can never be further than 1 unit from either axis, so both coordinates live in the range -1 to 1 forever. Tangent has no such cage: it is the ratio sin θ / cos θ, and as cos θ shrinks near 90° the ratio grows without limit. If a calculation hands you sin θ = 1.4, something upstream is wrong.',
+    },
+    {
       question: 'Does the explorer upload anything or need an account?',
       answer:
         'No. It is a static page that runs entirely in your browser: the circle, the trig values, and the traced wave are all computed locally on the HTML canvas. Nothing is sent anywhere, there is no account, and it keeps working offline once loaded.',

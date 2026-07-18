@@ -222,9 +222,26 @@
       "runtimeGlobal": "",
       "sharedWidget": "src/tools/_shared/SimulationWidget.astro",
       "supportedFamilies": [
-        "trigonometry"
+        "trigonometry",
+        "algebra",
+        "probability"
       ],
-      "toolCount": 1
+      "toolCount": 3
+    },
+    "math": {
+      "name": "Math Calculator Engine",
+      "category": "applied-math",
+      "patterns": [
+        "math-calculate"
+      ],
+      "runtimeGlobal": "runMath",
+      "sharedWidget": "src/tools/_shared/MathWidget.astro",
+      "supportedFamilies": [
+        "combinatorics",
+        "fractions",
+        "number-theory"
+      ],
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -503,6 +520,36 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "quadratic-equation-explorer": {
+      "name": "Quadratic Equation Explorer",
+      "dir": "src/tools/math/quadratic-equation-explorer",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/quadratic-equation-explorer/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "algebra",
+      "processorId": "quadratic",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "probability-simulator": {
+      "name": "Probability Lab",
+      "dir": "src/tools/math/probability-simulator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/probability-simulator/",
+      "engine": "math-lab",
+      "pattern": "simulate",
+      "family": "probability",
+      "processorId": "probability",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "age-calculator": {
       "name": "Age Calculator",
       "dir": "src/tools/datetime/age-calculator",
@@ -618,6 +665,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "combinations-permutations-calculator": {
+      "name": "Combinations & Permutations Calculator",
+      "dir": "src/tools/math/combinations-permutations-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/combinations-permutations-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "combinatorics",
+      "processorId": "combinations",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -848,6 +916,27 @@
       "pattern": "text-interactive",
       "family": "find-replace",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "fraction-calculator": {
+      "name": "Fraction Calculator",
+      "dir": "src/tools/math/fraction-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/fraction-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "fractions",
+      "processorId": "fraction",
       "toolGroup": "",
       "files": [
         "Guide.astro",
@@ -1394,6 +1483,27 @@
       "pattern": "stateful",
       "family": "timer",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "prime-factorization-calculator": {
+      "name": "Prime Factorization Calculator",
+      "dir": "src/tools/math/prime-factorization-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/prime-factorization-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "number-theory",
+      "processorId": "prime-factorization",
       "toolGroup": "",
       "files": [
         "Guide.astro",

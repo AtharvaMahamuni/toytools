@@ -1,0 +1,150 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Fraction arithmetic follows three rules. To add or subtract fractions, convert both to the
+      least common denominator and combine only the numerators. To multiply, go straight across:
+      numerator times numerator over denominator times denominator. To divide, flip the second
+      fraction and multiply. Whatever the operation, finish by simplifying with the greatest
+      common factor. For example, 1/2 + 3/4 = 2/4 + 3/4 = 5/4, which is 1 1/4. This fraction
+      calculator works those steps in front of you for fractions, whole numbers, and mixed numbers.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Fraction Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Fraction Arithmetic Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A fraction is a division waiting to happen, and its two parts only combine with matching
+      units. That is why adding fractions needs a common denominator: 1/2 and 3/4 are counted in
+      different-sized pieces, so you first re-cut both into quarters. The least common denominator
+      is the smallest re-cut that works, the LCM of the two denominators. Multiplication needs no
+      such step because (a/b) × (c/d) is just (a × c)/(b × d). Division uses the reciprocal:
+      dividing by 1/8 asks how many eighths fit, which is the same as multiplying by 8.
+      Therefore every problem in this calculator reduces to those three moves plus one cleanup:
+      to simplify fractions, divide the answer's top and bottom by their greatest common factor to
+      reach lowest terms. The moves are the same whether you add fractions with unlike denominators,
+      scale a recipe by multiplying 3/4 cup by 1 1/2, or combine woodworking measurements that come
+      in eighths and sixteenths.
+    </p>
+  </section>
+
+  <section id="mixed-numbers">
+    <h2>Mixed Numbers and Improper Fractions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A mixed number like 1 2/3 is a sum in disguise: 1 + 2/3. Before any arithmetic it is rewritten
+      as the improper fraction 5/3 (whole times denominator plus numerator, over the denominator),
+      because a single fraction is far easier to combine than a sum. The answer is then translated
+      back: 5/4 becomes 1 1/4 by taking out the whole part. To convert between improper fractions
+      and mixed numbers yourself, divide the numerator by the denominator for the whole part and
+      keep the remainder as the new numerator. The question of improper fraction versus mixed number
+      form is purely presentational, so the tool doubles as a mixed number calculator and always
+      reports both, and the fraction to decimal conversion sits alongside them, so you can hand in
+      whichever form was asked for.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>For example, 1/2 + 3/4.</strong> The LCD of 2 and 4 is 4, so convert: 2/4 + 3/4 = 5/4, which simplifies no further and reads 1 1/4 as a mixed number, 1.25 as a decimal.</p>
+    <p><strong>Multiplying mixed numbers: 1 1/2 × 2 2/3.</strong> Rewrite as 3/2 × 8/3 = 24/6, then simplify by the GCF 6 to get exactly 4.</p>
+    <p><strong>Dividing fractions: 3/4 ÷ 1/8.</strong> Flip and multiply: 3/4 × 8/1 = 24/4 = 6. Six eighths fit into three quarters.</p>
+  </section>
+
+  <section id="fraction-calculator-vs-alternatives">
+    <h2>Fraction Calculator vs the Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A regular calculator turns 1/2 + 3/4 into 1.25 and stops there: the decimal is correct, but
+      the fraction form and the reasoning are gone, and repeating decimals like 1/3 lose exactness
+      the moment they are typed. Working by hand keeps the reasoning but invites sign slips and
+      forgotten simplification. This tool keeps both: the arithmetic runs on exact whole numbers
+      internally, never floating point, so 1/3 stays 1/3, and every intermediate step is printed
+      so you can check your own work line by line. People reach for this fractions calculator as
+      an adding fractions calculator one day and a fraction simplifier the next; the same three
+      moves power all of it. However, do the first few by hand anyway; the steps here are the
+      marking scheme, not a replacement for learning the moves.
+    </p>
+  </section>
+
+  <section id="simplifying">
+    <h2>Simplifying with the Greatest Common Factor <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An answer counts as simplified when the numerator and denominator share no factor except 1.
+      The fastest route is dividing both by their greatest common factor in one move: 24/6 has
+      GCF 6, so it collapses straight to 4. Simplifying never changes the value, only the name of
+      the fraction, which is why 5/4 and 1 1/4 sit side by side in the results.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Why exact integers matter">
+      <p>The calculator computes on whole numbers (numerators and denominators) rather than decimals, so results like 1/3 + 1/6 = 1/2 come out exact instead of 0.49999999.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Adding straight across">
+      <p>
+        Adding fractions is not adding the numerators and the denominators separately: 1/2 + 3/4
+        is not 4/6. Numerators only combine once the denominators match, so convert to the least
+        common denominator first. Adding straight across is the single most common fraction error,
+        and the worked steps make it visible immediately.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Forgetting to flip when dividing">
+      <p>
+        Division uses the reciprocal of the second fraction only. Flipping the first one, or both,
+        gives a wrong answer that often looks plausible. The step line shows exactly which
+        fraction was flipped.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Negative mixed numbers">
+      <p>The sign of a mixed number applies to the whole value: -1 2/3 means -(1 + 2/3) = -5/3, matching the standard convention. Everything runs in your browser and works offline.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

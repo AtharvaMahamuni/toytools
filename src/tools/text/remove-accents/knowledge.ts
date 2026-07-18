@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Assuming it lowercases or reformats the text (it only removes marks)',
   ],
   commonQuestions: [
-    'Does it keep the base letters?',
-    'Will it change letters like ß?',
-    'Does it alter case or spacing?',
+    'What is Unicode normalization?',
+    'What is the difference between stripping accents and slugifying?',
+    'Why did ø, ß, or æ not change?',
   ],
   usedWith: [
     { slug: 'slugify-text', reason: 'Removing accents is the first step of building a URL slug', strength: 0.7 },

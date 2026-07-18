@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-14T18:15:11.060Z",
+  "generatedAt": "2026-07-16T14:55:57.225Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -128,9 +128,23 @@
       "transformation": "Combinatorics",
       "engine": "math",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "probability-simulator",
+        "prime-factorization-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator"
+      ],
+      "relatedGuides": [
+        "prime-factorization-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator"
+      ],
+      "relatedFaqs": [
+        "probability-simulator",
+        "prime-factorization-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator"
+      ]
     },
     {
       "id": "compound-interest-calculator",
@@ -395,9 +409,23 @@
       "transformation": "Fractions",
       "engine": "math",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "prime-factorization-calculator",
+        "quadratic-equation-explorer",
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ],
+      "relatedGuides": [
+        "prime-factorization-calculator",
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ],
+      "relatedFaqs": [
+        "prime-factorization-calculator",
+        "quadratic-equation-explorer",
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ]
     },
     {
       "id": "frequency-period-simulator",
@@ -415,9 +443,17 @@
       "transformation": "Function Graphing",
       "engine": "math-lab",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ]
     },
     {
       "id": "heat-transfer-simulator",
@@ -624,9 +660,17 @@
       "transformation": "Linear Regression",
       "engine": "math-lab",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ]
     },
     {
       "id": "loan-calculator",
@@ -660,9 +704,21 @@
       "transformation": "Matrices",
       "engine": "math",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ]
     },
     {
       "id": "md5-hash-generator",
@@ -739,9 +795,17 @@
       "transformation": "Normal Distribution",
       "engine": "math-lab",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ]
     },
     {
       "id": "normalize-whitespace",
@@ -813,9 +877,21 @@
       "transformation": "Number Theory",
       "engine": "math",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "fraction-calculator",
+        "combinations-permutations-calculator",
+        "prime-factorization-calculator"
+      ]
     },
     {
       "id": "probability-simulator",
@@ -823,9 +899,17 @@
       "transformation": "Probability",
       "engine": "math-lab",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "probability-simulator",
+        "quadratic-equation-explorer",
+        "unit-circle-explorer"
+      ]
     },
     {
       "id": "projectile-motion-simulator",
@@ -867,9 +951,17 @@
       "transformation": "Quadratic Equations",
       "engine": "math-lab",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "unit-circle-explorer",
+        "probability-simulator",
+        "quadratic-equation-explorer"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "unit-circle-explorer",
+        "probability-simulator",
+        "quadratic-equation-explorer"
+      ]
     },
     {
       "id": "reading-time-calculator",
@@ -1267,9 +1359,23 @@
       "transformation": "Descriptive Statistics",
       "engine": "math",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "probability-simulator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "probability-simulator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ]
     },
     {
       "id": "text-compare",
@@ -1315,9 +1421,23 @@
       "transformation": "Triangles",
       "engine": "math",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "unit-circle-explorer",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "unit-circle-explorer",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ]
     },
     {
       "id": "unit-circle-explorer",
@@ -1325,9 +1445,17 @@
       "transformation": "Unit Circle",
       "engine": "math-lab",
       "existing": false,
-      "relatedTools": [],
+      "relatedTools": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ],
       "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedFaqs": [
+        "quadratic-equation-explorer",
+        "probability-simulator",
+        "unit-circle-explorer"
+      ]
     },
     {
       "id": "unix-timestamp-converter",

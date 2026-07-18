@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Leaving trailing blank lines that register as empty paragraphs',
   ],
   commonQuestions: [
-    'What counts as a paragraph break?',
-    'Do single line breaks start a new paragraph?',
-    'How are bulleted lists counted?',
+    'What separates one paragraph from the next?',
+    'Do bullet points in a list count as separate paragraphs?',
+    'Why did my paragraph count change when I pasted from Word?',
   ],
   usedWith: [
     { slug: 'sentence-counter', reason: 'See how many sentences sit in each paragraph', strength: 0.6 },

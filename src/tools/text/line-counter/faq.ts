@@ -37,4 +37,22 @@ export const items: FAQItem[] = [
     answer:
       'Yes, blank lines are included in the total line count. A line that contains only spaces or tabs is counted as one line in the total but is excluded from the non-empty line count. Use the Non-Empty Lines metric to see only lines with actual content.',
   },
+  {
+    id: 'linec-faq-7',
+    question: 'How do I count rows in CSV data?',
+    answer:
+      'Paste the CSV data and read the line count, then subtract 1 for the header row. Each record sits on its own line ending in a newline character, so the line total equals your data rows plus the header. For example, a customer export with 200 people and one header line shows 201 lines, meaning 200 data rows. Read the non-empty line count to ignore any trailing blank line at the end of the file.',
+  },
+  {
+    id: 'linec-faq-8',
+    question: 'Do wrapped lines count as separate lines?',
+    answer:
+      'No, wrapped lines never count as separate lines. Word wrap is a visual effect where a long line reflows to fit a narrow box, and it inserts no newline character, so the count stays the same. For example, a 300-character sentence that spills across four rows in a slim textarea still counts as 1 line. Only a real newline, added when you press Enter, raises the line total.',
+  },
+  {
+    id: 'linec-faq-9',
+    question: 'What is the difference between a hard line break and a wrapped line?',
+    answer:
+      'A hard line break is a real newline character added when you press Enter, and it starts a new line in the count. A wrapped line is only the editor reflowing text to fit the box width, and it adds nothing to the total. For example, typing "Name" then Enter then "Email" gives 2 lines, but one long address that wraps across three rows stays 1 line. Resizing the window changes wrapping, never the line count.',
+  },
 ];

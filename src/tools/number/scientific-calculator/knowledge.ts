@@ -27,9 +27,9 @@ export const knowledge: Knowledge = {
     'Missing a closing parenthesis in a nested expression',
   ],
   commonQuestions: [
-    'What order of operations does the calculator follow?',
-    'How do I switch between degrees and radians?',
-    'What do the memory keys do?',
+    'What is a scientific calculator?',
+    'Why is my trig answer wrong?',
+    'Why does the calculator say the result is undefined?',
   ],
   usedWith: [
     { slug: 'percentage-calculator', reason: 'Reach for a dedicated tool when the whole task is a percentage', strength: 0.7 },

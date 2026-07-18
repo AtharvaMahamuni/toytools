@@ -9,16 +9,40 @@
       "proposedTool": "unit-circle-explorer",
       "proposedName": "Unit Circle Explorer",
       "proposedEngine": "math-lab",
-      "searchQueries": ["unit circle", "unit circle calculator", "interactive unit circle", "sin cos tan values", "unit circle radians and degrees"],
-      "existingSolutions": ["mathsisfun.com", "khanacademy.org", "static chart PDFs"],
-      "solutionWeaknesses": ["static charts to memorize", "mathsisfun applet is dated and desktop-only", "no drag interaction on mobile", "no live sine wave tracing"],
-      "relatedProblems": ["radians to degrees", "special angles", "reference angles", "sine wave"],
-      "relatedTools": ["quadratic-equation-explorer", "function-grapher"],
+      "searchQueries": [
+        "unit circle",
+        "unit circle calculator",
+        "interactive unit circle",
+        "sin cos tan values",
+        "unit circle radians and degrees"
+      ],
+      "existingSolutions": [
+        "mathsisfun.com",
+        "khanacademy.org",
+        "static chart PDFs"
+      ],
+      "solutionWeaknesses": [
+        "static charts to memorize",
+        "mathsisfun applet is dated and desktop-only",
+        "no drag interaction on mobile",
+        "no live sine wave tracing"
+      ],
+      "relatedProblems": [
+        "radians to degrees",
+        "special angles",
+        "reference angles",
+        "sine wave"
+      ],
+      "relatedTools": [
+        "quadratic-equation-explorer",
+        "function-grapher"
+      ],
       "demand": 88,
       "competition": 60,
       "evergreen": 96,
       "difficulty": "low",
-      "localization": 80
+      "localization": 80,
+      "algorithmicFit": 100
     },
     {
       "query": "quadratic formula calculator",
@@ -28,16 +52,40 @@
       "proposedTool": "quadratic-equation-explorer",
       "proposedName": "Quadratic Equation Explorer",
       "proposedEngine": "math-lab",
-      "searchQueries": ["quadratic formula calculator", "quadratic equation solver", "find roots of quadratic equation", "parabola vertex calculator", "discriminant calculator"],
-      "existingSolutions": ["symbolab.com", "calculator.net", "mathpapa.com"],
-      "solutionWeaknesses": ["static forms with no parabola", "steps behind a paywall", "ad heavy", "no coefficient sliders"],
-      "relatedProblems": ["vertex form", "axis of symmetry", "discriminant", "completing the square"],
-      "relatedTools": ["unit-circle-explorer", "function-grapher"],
+      "searchQueries": [
+        "quadratic formula calculator",
+        "quadratic equation solver",
+        "find roots of quadratic equation",
+        "parabola vertex calculator",
+        "discriminant calculator"
+      ],
+      "existingSolutions": [
+        "symbolab.com",
+        "calculator.net",
+        "mathpapa.com"
+      ],
+      "solutionWeaknesses": [
+        "static forms with no parabola",
+        "steps behind a paywall",
+        "ad heavy",
+        "no coefficient sliders"
+      ],
+      "relatedProblems": [
+        "vertex form",
+        "axis of symmetry",
+        "discriminant",
+        "completing the square"
+      ],
+      "relatedTools": [
+        "unit-circle-explorer",
+        "function-grapher"
+      ],
       "demand": 94,
       "competition": 75,
       "evergreen": 97,
       "difficulty": "low",
-      "localization": 85
+      "localization": 85,
+      "algorithmicFit": 100
     },
     {
       "query": "coin flip probability simulator",
@@ -47,16 +95,40 @@
       "proposedTool": "probability-simulator",
       "proposedName": "Probability Lab",
       "proposedEngine": "math-lab",
-      "searchQueries": ["coin flip probability simulator", "dice roll simulator", "probability calculator", "law of large numbers demonstration", "coin toss experiment online"],
-      "existingSolutions": ["random.org", "calculator.net", "geogebra.org"],
-      "solutionWeaknesses": ["bare dice rollers with no statistics", "static probability forms", "no convergence chart", "geogebra applets are slow and dated"],
-      "relatedProblems": ["law of large numbers", "expected value", "relative frequency", "sample size"],
-      "relatedTools": ["normal-distribution-visualizer", "statistics-visualizer"],
+      "searchQueries": [
+        "coin flip probability simulator",
+        "dice roll simulator",
+        "probability calculator",
+        "law of large numbers demonstration",
+        "coin toss experiment online"
+      ],
+      "existingSolutions": [
+        "random.org",
+        "calculator.net",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "bare dice rollers with no statistics",
+        "static probability forms",
+        "no convergence chart",
+        "geogebra applets are slow and dated"
+      ],
+      "relatedProblems": [
+        "law of large numbers",
+        "expected value",
+        "relative frequency",
+        "sample size"
+      ],
+      "relatedTools": [
+        "normal-distribution-visualizer",
+        "statistics-visualizer"
+      ],
       "demand": 85,
       "competition": 55,
       "evergreen": 95,
       "difficulty": "medium",
-      "localization": 82
+      "localization": 82,
+      "algorithmicFit": 100
     },
     {
       "query": "standard deviation calculator",
@@ -66,16 +138,40 @@
       "proposedTool": "statistics-visualizer",
       "proposedName": "Statistics Visualizer",
       "proposedEngine": "math",
-      "searchQueries": ["standard deviation calculator", "mean median mode calculator", "quartile calculator", "histogram maker", "box plot generator"],
-      "existingSolutions": ["calculator.net", "socscistatistics.com", "omnicalculator.com"],
-      "solutionWeaknesses": ["tables of numbers with no chart", "ad heavy", "data uploaded to a server", "no combined histogram and box plot view"],
-      "relatedProblems": ["variance", "interquartile range", "outliers", "population vs sample"],
-      "relatedTools": ["probability-simulator", "linear-regression-playground"],
+      "searchQueries": [
+        "standard deviation calculator",
+        "mean median mode calculator",
+        "quartile calculator",
+        "histogram maker",
+        "box plot generator"
+      ],
+      "existingSolutions": [
+        "calculator.net",
+        "socscistatistics.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "tables of numbers with no chart",
+        "ad heavy",
+        "data uploaded to a server",
+        "no combined histogram and box plot view"
+      ],
+      "relatedProblems": [
+        "variance",
+        "interquartile range",
+        "outliers",
+        "population vs sample"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "linear-regression-playground"
+      ],
       "demand": 92,
       "competition": 72,
       "evergreen": 96,
       "difficulty": "medium",
-      "localization": 84
+      "localization": 84,
+      "algorithmicFit": 100
     },
     {
       "query": "function grapher",
@@ -85,16 +181,40 @@
       "proposedTool": "function-grapher",
       "proposedName": "Function Grapher",
       "proposedEngine": "math-lab",
-      "searchQueries": ["function grapher", "graphing calculator online", "plot a function online", "equation grapher", "graph maker math"],
-      "existingSolutions": ["desmos.com", "geogebra.org", "wolframalpha.com"],
-      "solutionWeaknesses": ["heavy apps pushing accounts and classes", "slow first paint", "overkill for one quick plot", "wolfram paywalls step detail"],
-      "relatedProblems": ["domain and range", "intercepts", "asymptotes", "transformations of functions"],
-      "relatedTools": ["quadratic-equation-explorer", "derivative-visualizer"],
+      "searchQueries": [
+        "function grapher",
+        "graphing calculator online",
+        "plot a function online",
+        "equation grapher",
+        "graph maker math"
+      ],
+      "existingSolutions": [
+        "desmos.com",
+        "geogebra.org",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "heavy apps pushing accounts and classes",
+        "slow first paint",
+        "overkill for one quick plot",
+        "wolfram paywalls step detail"
+      ],
+      "relatedProblems": [
+        "domain and range",
+        "intercepts",
+        "asymptotes",
+        "transformations of functions"
+      ],
+      "relatedTools": [
+        "quadratic-equation-explorer",
+        "derivative-visualizer"
+      ],
       "demand": 90,
       "competition": 85,
       "evergreen": 97,
       "difficulty": "high",
-      "localization": 85
+      "localization": 85,
+      "algorithmicFit": 100
     },
     {
       "query": "matrix multiplication calculator",
@@ -104,16 +224,40 @@
       "proposedTool": "matrix-calculator",
       "proposedName": "Matrix Calculator",
       "proposedEngine": "math",
-      "searchQueries": ["matrix multiplication calculator", "determinant calculator", "inverse matrix calculator", "rref calculator", "matrix calculator with steps"],
-      "existingSolutions": ["matrixcalc.org", "symbolab.com", "wolframalpha.com"],
-      "solutionWeaknesses": ["cluttered 2000s-era UI", "steps paywalled", "ad heavy", "painful matrix entry on mobile"],
-      "relatedProblems": ["determinant", "matrix inverse", "row reduction", "systems of equations"],
-      "relatedTools": ["statistics-visualizer", "triangle-solver"],
+      "searchQueries": [
+        "matrix multiplication calculator",
+        "determinant calculator",
+        "inverse matrix calculator",
+        "rref calculator",
+        "matrix calculator with steps"
+      ],
+      "existingSolutions": [
+        "matrixcalc.org",
+        "symbolab.com",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "cluttered 2000s-era UI",
+        "steps paywalled",
+        "ad heavy",
+        "painful matrix entry on mobile"
+      ],
+      "relatedProblems": [
+        "determinant",
+        "matrix inverse",
+        "row reduction",
+        "systems of equations"
+      ],
+      "relatedTools": [
+        "statistics-visualizer",
+        "triangle-solver"
+      ],
       "demand": 88,
       "competition": 78,
       "evergreen": 95,
       "difficulty": "medium",
-      "localization": 85
+      "localization": 85,
+      "algorithmicFit": 100
     },
     {
       "query": "line of best fit calculator",
@@ -123,16 +267,40 @@
       "proposedTool": "linear-regression-playground",
       "proposedName": "Linear Regression Playground",
       "proposedEngine": "math-lab",
-      "searchQueries": ["line of best fit calculator", "linear regression calculator", "least squares calculator", "scatter plot maker", "r squared calculator"],
-      "existingSolutions": ["desmos.com", "socscistatistics.com", "geogebra.org"],
-      "solutionWeaknesses": ["form-based input with no point dragging", "no live residuals view", "dated applets", "no touch-first interaction"],
-      "relatedProblems": ["correlation", "residuals", "slope and intercept", "outlier influence"],
-      "relatedTools": ["statistics-visualizer", "normal-distribution-visualizer"],
+      "searchQueries": [
+        "line of best fit calculator",
+        "linear regression calculator",
+        "least squares calculator",
+        "scatter plot maker",
+        "r squared calculator"
+      ],
+      "existingSolutions": [
+        "desmos.com",
+        "socscistatistics.com",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "form-based input with no point dragging",
+        "no live residuals view",
+        "dated applets",
+        "no touch-first interaction"
+      ],
+      "relatedProblems": [
+        "correlation",
+        "residuals",
+        "slope and intercept",
+        "outlier influence"
+      ],
+      "relatedTools": [
+        "statistics-visualizer",
+        "normal-distribution-visualizer"
+      ],
       "demand": 70,
       "competition": 58,
       "evergreen": 93,
       "difficulty": "medium",
-      "localization": 78
+      "localization": 78,
+      "algorithmicFit": 100
     },
     {
       "query": "triangle calculator",
@@ -142,16 +310,40 @@
       "proposedTool": "triangle-solver",
       "proposedName": "Triangle Solver",
       "proposedEngine": "math",
-      "searchQueries": ["triangle calculator", "solve triangle", "law of cosines calculator", "law of sines calculator", "pythagorean theorem calculator"],
-      "existingSolutions": ["calculator.net", "omnicalculator.com", "triangle-calculator.com"],
-      "solutionWeaknesses": ["no drawn-to-scale figure", "ad heavy", "unclear which side-angle combinations are valid", "no ambiguous case explanation"],
-      "relatedProblems": ["law of sines", "law of cosines", "triangle area", "ambiguous case"],
-      "relatedTools": ["unit-circle-explorer", "matrix-calculator"],
+      "searchQueries": [
+        "triangle calculator",
+        "solve triangle",
+        "law of cosines calculator",
+        "law of sines calculator",
+        "pythagorean theorem calculator"
+      ],
+      "existingSolutions": [
+        "calculator.net",
+        "omnicalculator.com",
+        "triangle-calculator.com"
+      ],
+      "solutionWeaknesses": [
+        "no drawn-to-scale figure",
+        "ad heavy",
+        "unclear which side-angle combinations are valid",
+        "no ambiguous case explanation"
+      ],
+      "relatedProblems": [
+        "law of sines",
+        "law of cosines",
+        "triangle area",
+        "ambiguous case"
+      ],
+      "relatedTools": [
+        "unit-circle-explorer",
+        "matrix-calculator"
+      ],
       "demand": 80,
       "competition": 65,
       "evergreen": 95,
       "difficulty": "medium",
-      "localization": 80
+      "localization": 80,
+      "algorithmicFit": 100
     },
     {
       "query": "fraction calculator",
@@ -161,16 +353,40 @@
       "proposedTool": "fraction-calculator",
       "proposedName": "Fraction Calculator",
       "proposedEngine": "math",
-      "searchQueries": ["fraction calculator", "adding fractions calculator", "simplify fractions", "mixed number calculator", "fraction to decimal"],
-      "existingSolutions": ["calculator.net", "mathway.com", "calculatorsoup.com"],
-      "solutionWeaknesses": ["ad heavy", "steps paywalled or missing", "no visual fraction bars", "cluttered forms"],
-      "relatedProblems": ["least common denominator", "simplifying fractions", "mixed numbers", "equivalent fractions"],
-      "relatedTools": ["prime-factorization-calculator", "quadratic-equation-explorer"],
+      "searchQueries": [
+        "fraction calculator",
+        "adding fractions calculator",
+        "simplify fractions",
+        "mixed number calculator",
+        "fraction to decimal"
+      ],
+      "existingSolutions": [
+        "calculator.net",
+        "mathway.com",
+        "calculatorsoup.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "steps paywalled or missing",
+        "no visual fraction bars",
+        "cluttered forms"
+      ],
+      "relatedProblems": [
+        "least common denominator",
+        "simplifying fractions",
+        "mixed numbers",
+        "equivalent fractions"
+      ],
+      "relatedTools": [
+        "prime-factorization-calculator",
+        "quadratic-equation-explorer"
+      ],
       "demand": 90,
       "competition": 80,
       "evergreen": 96,
       "difficulty": "low",
-      "localization": 88
+      "localization": 88,
+      "algorithmicFit": 100
     },
     {
       "query": "prime factorization calculator",
@@ -180,16 +396,40 @@
       "proposedTool": "prime-factorization-calculator",
       "proposedName": "Prime Factorization Calculator",
       "proposedEngine": "math",
-      "searchQueries": ["prime factorization calculator", "factor tree calculator", "gcf calculator", "lcm calculator", "greatest common factor"],
-      "existingSolutions": ["calculatorsoup.com", "calculator.net", "mathwarehouse.com"],
-      "solutionWeaknesses": ["no visual factor tree", "ad heavy", "gcf and lcm split across separate pages", "no exponent form output"],
-      "relatedProblems": ["greatest common factor", "least common multiple", "divisibility rules", "prime numbers"],
-      "relatedTools": ["fraction-calculator", "combinations-permutations-calculator"],
+      "searchQueries": [
+        "prime factorization calculator",
+        "factor tree calculator",
+        "gcf calculator",
+        "lcm calculator",
+        "greatest common factor"
+      ],
+      "existingSolutions": [
+        "calculatorsoup.com",
+        "calculator.net",
+        "mathwarehouse.com"
+      ],
+      "solutionWeaknesses": [
+        "no visual factor tree",
+        "ad heavy",
+        "gcf and lcm split across separate pages",
+        "no exponent form output"
+      ],
+      "relatedProblems": [
+        "greatest common factor",
+        "least common multiple",
+        "divisibility rules",
+        "prime numbers"
+      ],
+      "relatedTools": [
+        "fraction-calculator",
+        "combinations-permutations-calculator"
+      ],
       "demand": 75,
       "competition": 62,
       "evergreen": 95,
       "difficulty": "low",
-      "localization": 85
+      "localization": 85,
+      "algorithmicFit": 100
     },
     {
       "query": "combination calculator",
@@ -199,16 +439,40 @@
       "proposedTool": "combinations-permutations-calculator",
       "proposedName": "Combinations & Permutations Calculator",
       "proposedEngine": "math",
-      "searchQueries": ["combination calculator", "permutation calculator", "ncr calculator", "npr calculator", "how many combinations"],
-      "existingSolutions": ["calculator.net", "calculatorsoup.com", "omnicalculator.com"],
-      "solutionWeaknesses": ["formula shown without expansion", "no visual of choices", "ad heavy", "combinations and permutations on separate pages"],
-      "relatedProblems": ["factorial", "with or without repetition", "binomial coefficient", "counting principle"],
-      "relatedTools": ["probability-simulator", "prime-factorization-calculator"],
+      "searchQueries": [
+        "combination calculator",
+        "permutation calculator",
+        "ncr calculator",
+        "npr calculator",
+        "how many combinations"
+      ],
+      "existingSolutions": [
+        "calculator.net",
+        "calculatorsoup.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "formula shown without expansion",
+        "no visual of choices",
+        "ad heavy",
+        "combinations and permutations on separate pages"
+      ],
+      "relatedProblems": [
+        "factorial",
+        "with or without repetition",
+        "binomial coefficient",
+        "counting principle"
+      ],
+      "relatedTools": [
+        "probability-simulator",
+        "prime-factorization-calculator"
+      ],
       "demand": 78,
       "competition": 60,
       "evergreen": 94,
       "difficulty": "low",
-      "localization": 82
+      "localization": 82,
+      "algorithmicFit": 100
     },
     {
       "query": "normal distribution calculator",
@@ -218,16 +482,40 @@
       "proposedTool": "normal-distribution-visualizer",
       "proposedName": "Normal Distribution Visualizer",
       "proposedEngine": "math-lab",
-      "searchQueries": ["normal distribution calculator", "z score calculator", "bell curve generator", "empirical rule calculator", "area under normal curve"],
-      "existingSolutions": ["calculator.net", "onlinestatbook.com", "geogebra.org"],
-      "solutionWeaknesses": ["static forms with tiny fixed charts", "dated applets", "no draggable mean and sigma", "no shaded area interaction"],
-      "relatedProblems": ["z score", "empirical rule", "percentiles", "standardizing data"],
-      "relatedTools": ["statistics-visualizer", "probability-simulator"],
+      "searchQueries": [
+        "normal distribution calculator",
+        "z score calculator",
+        "bell curve generator",
+        "empirical rule calculator",
+        "area under normal curve"
+      ],
+      "existingSolutions": [
+        "calculator.net",
+        "onlinestatbook.com",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "static forms with tiny fixed charts",
+        "dated applets",
+        "no draggable mean and sigma",
+        "no shaded area interaction"
+      ],
+      "relatedProblems": [
+        "z score",
+        "empirical rule",
+        "percentiles",
+        "standardizing data"
+      ],
+      "relatedTools": [
+        "statistics-visualizer",
+        "probability-simulator"
+      ],
       "demand": 76,
       "competition": 63,
       "evergreen": 94,
       "difficulty": "medium",
-      "localization": 80
+      "localization": 80,
+      "algorithmicFit": 100
     }
   ]
 }

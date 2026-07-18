@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Normalizing only one side of a comparison',
   ],
   commonQuestions: [
-    'Does lowercasing affect numbers or punctuation?',
-    'Is this safe for email normalization?',
-    'How do accented characters behave?',
+    'How do I normalize email addresses before storing them?',
+    'Why does my comparison still fail after converting to lowercase?',
+    'Why did some characters not change when I converted to lowercase?',
   ],
   usedWith: [
     { slug: 'uppercase-converter', reason: 'Switch to uppercase when needed', strength: 0.6 },

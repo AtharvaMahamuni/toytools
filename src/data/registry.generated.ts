@@ -8,6 +8,7 @@ import { config as binaryTextConverter } from '@tools/developer-utilities/binary
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
+import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
@@ -19,6 +20,7 @@ import { config as dateDifferenceCalculator } from '@tools/datetime/date-differe
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
+import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
@@ -45,6 +47,7 @@ import { config as paragraphCounter } from '@tools/text/paragraph-counter/config
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
+import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
@@ -93,6 +96,7 @@ export const toolConfigs: ToolConfig[] = [
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
+  combinationsPermutationsCalculator,
   compoundInterestCalculator,
   crc32HashGenerator,
   cronExpressionParser,
@@ -104,6 +108,7 @@ export const toolConfigs: ToolConfig[] = [
   discountCalculator,
   emergencyFundCalculator,
   findReplace,
+  fractionCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   inflationCalculator,
@@ -130,6 +135,7 @@ export const toolConfigs: ToolConfig[] = [
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
+  primeFactorizationCalculator,
   punycodeConverter,
   qrCodeGenerator,
   randomStringGenerator,

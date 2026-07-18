@@ -34,6 +34,13 @@ export interface SeedRecord {
   difficulty: Difficulty;
   /** Optional localization hint, 0–100 (language-independent tools score higher). */
   localization?: number;
+  /**
+   * 0–100: how well a DETERMINISTIC ALGORITHM (vs AI) solves this need. 100 = exact computation,
+   * conversion, or simulation (ToyTools' home turf); low = the need really wants generation or
+   * judgment, which a client-side static site cannot serve and AI chat is absorbing anyway.
+   * Defaults high when omitted, since candidate utility tools are algorithmic by selection.
+   */
+  algorithmicFit?: number;
 }
 
 /** A whole domain seed file. */
@@ -63,6 +70,7 @@ export interface RawOpportunity {
   evergreen: number;
   difficulty: Difficulty;
   localization: number;
+  algorithmicFit: number;
 }
 
 /** Read-only context handed to every provider. */

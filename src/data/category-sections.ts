@@ -29,6 +29,7 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'generate-placeholder': { title: 'Placeholder Text',        order: 3 },
   'generate-code':        { title: 'Codes & QR',              order: 4 },
   'simulate':             { title: 'Simulations',             order: 1 },
+  'math-calculate':       { title: 'Calculators',             order: 2 },
   'datetime-calculate':   { title: 'Calculate',               order: 1 },
   'datetime-convert':     { title: 'Convert',                 order: 2 },
   'datetime-schedule':    { title: 'Schedule',                order: 3 },

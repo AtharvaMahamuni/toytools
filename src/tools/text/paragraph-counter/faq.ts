@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'pc-faq-1',
     question: 'How does a paragraph counter work?',
     answer:
-      'A paragraph counter splits the text on blank lines. Each contiguous block of non-empty lines is counted as one paragraph. So "Line 1\nLine 2\n\nLine 3" contains two paragraphs: the first includes "Line 1" and "Line 2", and the second is "Line 3". Lines with only spaces or tabs are treated as blank.',
+      'A paragraph counter splits the text on blank lines. Each contiguous block of non-empty lines is counted as one paragraph. So "Line 1\nLine 2\n\nLine 3" contains two paragraphs: the first includes "Line 1" and "Line 2", and the second is "Line 3". Repeated blank lines collapse into a single break, so extra empty lines never add extra paragraphs.',
   },
   {
     id: 'pc-faq-2',
@@ -36,6 +36,30 @@ export const items: FAQItem[] = [
     question: 'Why would I want to count paragraphs?',
     answer:
       'Paragraph count is useful for checking structural consistency in long documents, matching a required format (some assignments specify a number of paragraphs), verifying that a document has not been accidentally merged into one block, and comparing the visual density of writing before and after editing.',
+  },
+  {
+    id: 'pc-faq-8',
+    question: 'What separates one paragraph from the next?',
+    answer:
+      'A completely empty line separates one paragraph from the next, which means pressing Enter twice between blocks. The separator line must contain nothing at all: a line holding only a space or a tab does not split the text, and the blocks around it merge into one paragraph. For example, "Intro block" followed by two Enter presses and "Body block" counts as 2 paragraphs; put a single space on the middle line and the count drops to 1.',
+  },
+  {
+    id: 'pc-faq-9',
+    question: 'What is the difference between a paragraph and a section?',
+    answer:
+      'A paragraph is one blank-line-delimited block of text, while a section is a larger unit that groups several paragraphs under a heading. This counter measures paragraphs, never sections. For example, a blog post with 3 headed sections might contain 12 paragraphs, and the counter reports 12. In plain text, a heading pasted on its own line with empty lines around it registers as a paragraph too, so subtract heading lines when you need body paragraphs only.',
+  },
+  {
+    id: 'pc-faq-10',
+    question: 'Do bullet points in a list count as separate paragraphs?',
+    answer:
+      'Bullet points count as separate paragraphs only when an empty line sits between them. A 5-item list typed on consecutive lines counts as one paragraph, because single line breaks do not create paragraph boundaries. The same 5 items with an empty line after each item count as 5 paragraphs. When a pasted list inflates your count, the source inserted blank lines between items; when it deflates the count, the items arrived on consecutive lines.',
+  },
+  {
+    id: 'pc-faq-11',
+    question: 'Why did my paragraph count change when I pasted from Word?',
+    answer:
+      'Pasting converts Word paragraph marks into plain newline characters, and when that conversion produces single newlines instead of empty lines, separate paragraphs merge into one block. For example, an 8-paragraph Word document can arrive as 1 paragraph if no empty lines survive the paste. Soft line wraps are never the cause: wrapping is purely visual and inserts no newline characters, so a long line that wraps across ten screen rows still counts as one paragraph.',
   },
   {
     id: 'pc-faq-7',

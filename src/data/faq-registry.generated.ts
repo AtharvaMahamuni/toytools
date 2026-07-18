@@ -8,6 +8,7 @@ import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/bin
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
+import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
@@ -19,6 +20,7 @@ import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-diff
 import { items as discountCalculatorFaqs } from '@tools/number/discount-calculator/faq';
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
+import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
@@ -45,6 +47,7 @@ import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
+import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
 import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
@@ -93,6 +96,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'cagr-calculator': cagrCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
+  'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
@@ -104,6 +108,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'discount-calculator': discountCalculatorFaqs,
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'find-replace': findReplaceFaqs,
+  'fraction-calculator': fractionCalculatorFaqs,
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
@@ -130,6 +135,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'password-generator': passwordGeneratorFaqs,
   'percentage-calculator': percentageCalculatorFaqs,
   'pomodoro-timer': pomodoroTimerFaqs,
+  'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
   'qr-code-generator': qrCodeGeneratorFaqs,
   'random-string-generator': randomStringGeneratorFaqs,

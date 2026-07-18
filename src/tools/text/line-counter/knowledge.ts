@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Forgetting a trailing blank line shifts the count by one',
   ],
   commonQuestions: [
-    'Do blank lines count toward the total?',
-    'Is the last line counted if it has no trailing newline?',
-    'Does word wrap create extra lines?',
+    'Do blank lines count?',
+    'How do I count rows in CSV data?',
+    'Do wrapped lines count as separate lines?',
   ],
   usedWith: [
     { slug: 'paragraph-counter', reason: 'Compare raw lines against paragraph blocks', strength: 0.6 },

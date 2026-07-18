@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Forgetting that reversing the whole block also moves line breaks',
   ],
   commonQuestions: [
-    'Does it reverse line order as well?',
-    'Will emoji break when reversed?',
-    'Is the text sent to a server?',
+    'What is backwards text used for?',
+    'How do I flip a string backwards?',
+    'Does reversing text also move line breaks?',
   ],
   usedWith: [
     { slug: 'uppercase-converter', reason: 'Restyle the flipped text after reversing', strength: 0.5 },

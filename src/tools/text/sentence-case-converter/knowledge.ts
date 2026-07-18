@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Confusing sentence case with simply making text lowercase',
   ],
   commonQuestions: [
-    'Does it keep names and brands capitalized?',
-    'How does it detect where a sentence starts?',
-    'How is this different from title case?',
+    'Why do product teams prefer sentence case for UI copy?',
+    'Are proper nouns still capitalized in sentence case?',
+    'Is sentence case the same as making everything lowercase?',
   ],
   usedWith: [
     { slug: 'title-case-converter', reason: 'Compare against headline-style capitalization', strength: 0.6 },

@@ -16,17 +16,88 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-explorer']) {
+  for (const slug of ['unit-circle-explorer', 'quadratic-equation-explorer', 'probability-simulator']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);
       await expect(page.locator('[data-sim-canvas]')).toBeVisible();
       await expect(page.locator('[data-sim-fallback]')).toBeHidden();
-      await expect(page.locator('[data-sim-graph]')).toBeVisible();
+      // The graph tile is optional (the quadratic's canvas IS its graph).
+      if (await page.locator('[data-sim-graph]').count()) {
+        await expect(page.locator('[data-sim-graph]')).toBeVisible();
+      }
       await page.waitForTimeout(200);
       expect(errors, errors.join('\n')).toEqual([]);
     });
   }
+});
+
+test.describe('fraction calculator (math engine)', () => {
+  test('computes live, reacts to operation changes, and validates input', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/fraction-calculator/');
+    const hero = page.locator('#fraction-calculator-hero');
+    // Defaults 1/2 + 3/4 compute on load once the runtime attaches.
+    await expect(hero).toHaveText('5/4');
+    // Switching the operation recomputes: 1/2 ÷ 3/4 = 2/3.
+    await page.locator('[data-field-id="op"]').selectOption('divide');
+    await expect(hero).toHaveText('2/3');
+    // Mixed numbers: 1 1/2 × 2 2/3 = 4.
+    await page.locator('[data-field-id="first"]').fill('1 1/2');
+    await page.locator('[data-field-id="op"]').selectOption('multiply');
+    await page.locator('[data-field-id="second"]').fill('2 2/3');
+    await expect(hero).toHaveText('4');
+    // Malformed input surfaces as a validation message, not a crash.
+    await page.locator('[data-field-id="first"]').fill('abc');
+    await expect(page.locator('#fraction-calculator-experience')).toContainText('whole number');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
+test.describe('combinations & permutations calculator (math engine)', () => {
+  test('counts live and switches between nCr and nPr', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/combinations-permutations-calculator/');
+    const hero = page.locator('#combinations-permutations-calculator-hero');
+    await expect(hero).toHaveText('10'); // C(5, 2)
+    await page.locator('[data-field-id="mode"]').selectOption('permutations');
+    await expect(hero).toHaveText('20'); // P(5, 2)
+    await page.locator('[data-field-id="mode"]').selectOption('combinations');
+    await page.locator('[data-field-id="n"]').fill('49');
+    await page.locator('[data-field-id="r"]').fill('6');
+    await expect(hero).toHaveText('13,983,816'); // the lottery classic
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
+test.describe('prime factorization calculator (math engine)', () => {
+  test('factors live and derives GCF/LCM from a second number', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/prime-factorization-calculator/');
+    const hero = page.locator('#prime-factorization-calculator-hero');
+    await expect(hero).toHaveText('2³ × 3² × 5'); // default 360
+    await page.locator('[data-field-id="number"]').fill('97');
+    await expect(hero).toHaveText('97 (prime)');
+    await page.locator('[data-field-id="number"]').fill('36');
+    await page.locator('[data-field-id="second"]').fill('60');
+    const experience = page.locator('#prime-factorization-calculator-experience');
+    await expect(experience).toContainText('12'); // GCF
+    await expect(experience).toContainText('180'); // LCM
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
+
+test.describe('probability lab', () => {
+  test('accumulates trials while playing and the empirical frequency updates', async ({ page }) => {
+    await page.goto('/tool/math/probability-simulator/');
+    const trials = page.locator('[data-measurement="trials"]');
+    // Autoplay runs 8 trials/s — the counter leaves 0 almost immediately.
+    await expect(trials).not.toHaveText('0');
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const count = Number((await trials.textContent())!.replace(/,/g, ''));
+    expect(count).toBeGreaterThan(0);
+    await expect(page.locator('[data-measurement="theoretical"]')).toHaveText(/0\.500/);
+  });
 });
 
 test.describe('unit circle explorer', () => {
@@ -47,6 +118,46 @@ test.describe('unit circle explorer', () => {
     await page.getByRole('button', { name: 'Pause' }).click();
     await page.getByRole('button', { name: '30°', exact: true }).click();
     await expect(page.locator('[data-measurement="sin"]')).toHaveText(/0\.500/);
+  });
+
+  test('the graph tile lives in the dashboard and never overlays the scene', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    const canvas = page.locator('[data-sim-canvas]');
+    const graph = page.locator('.phys-dash [data-sim-graph]');
+    await expect(graph).toBeVisible();
+    // In-flow beside/below the canvas — the boxes never intersect.
+    const c = (await canvas.boundingBox())!;
+    const g = (await graph.boundingBox())!;
+    const overlap =
+      g.x < c.x + c.width && c.x < g.x + g.width && g.y < c.y + c.height && c.y < g.y + g.height;
+    expect(overlap).toBe(false);
+  });
+
+  test('tiles swap with their physical neighbor along the arrow and persist', async ({ page }) => {
+    await page.goto(UNIT_CIRCLE);
+    const order = () =>
+      page.$$eval('[data-sim-panel]', (els) => els.map((e) => e.getAttribute('data-sim-panel')));
+    expect(await order()).toEqual(['controls', 'measurements', 'graph', 'formula', 'observations', 'explanation']);
+    // ↓ on Controls swaps it with the tile physically below it (Live measurements) in BOTH the
+    // desktop grid and the stacked mobile column.
+    await page.locator('[data-sim-panel="controls"] [data-panel-move="down"]').click();
+    expect(await order()).toEqual(['measurements', 'controls', 'graph', 'formula', 'observations', 'explanation']);
+    // The order persists across a reload (and thus across simulations).
+    await page.reload();
+    expect(await order()).toEqual(['measurements', 'controls', 'graph', 'formula', 'observations', 'explanation']);
+
+    if ((page.viewportSize()?.width ?? 0) >= 1024) {
+      // Desktop grid: the bottom-left Graph tile can swap right (Formula) but has nothing to its
+      // left (only spatially-truthful arrows are offered).
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="right"]')).toBeVisible();
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="left"]')).toBeHidden();
+      await page.locator('[data-sim-panel="graph"] [data-panel-move="right"]').click();
+      expect(await order()).toEqual(['measurements', 'controls', 'formula', 'graph', 'observations', 'explanation']);
+    } else {
+      // Stacked column: no sideways neighbors, so no sideways arrows.
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="right"]')).toBeHidden();
+      await expect(page.locator('[data-sim-panel="graph"] [data-panel-move="down"]')).toBeVisible();
+    }
   });
 
   test('dragging the point around the circle sets the angle', async ({ page }) => {

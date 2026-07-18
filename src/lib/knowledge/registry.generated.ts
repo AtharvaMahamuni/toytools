@@ -8,6 +8,7 @@ import { knowledge as binaryTextConverter } from '@tools/developer-utilities/bin
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
+import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
 import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
@@ -19,6 +20,7 @@ import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-diff
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
+import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
@@ -45,6 +47,7 @@ import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/kno
 import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
+import { knowledge as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/knowledge';
 import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
@@ -93,6 +96,7 @@ export const authoredKnowledge: Knowledge[] = [
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
+  combinationsPermutationsCalculator,
   compoundInterestCalculator,
   crc32HashGenerator,
   cronExpressionParser,
@@ -104,6 +108,7 @@ export const authoredKnowledge: Knowledge[] = [
   discountCalculator,
   emergencyFundCalculator,
   findReplace,
+  fractionCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   inflationCalculator,
@@ -130,6 +135,7 @@ export const authoredKnowledge: Knowledge[] = [
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
+  primeFactorizationCalculator,
   punycodeConverter,
   qrCodeGenerator,
   randomStringGenerator,

@@ -13,6 +13,9 @@ export const SCORE_WEIGHTS = {
   topicClusterPotential: 0.06,
   commercialPotential: 0.02,
   localizationPotential: 0.04,
+  // "Should this be an algorithm at all?" — deterministic problems are ToyTools' home turf;
+  // AI-shaped needs are an architecture mismatch AND a query class chatbots are absorbing.
+  algorithmicFit: 0.08,
 } as const;
 
 export const WEIGHT_SUM = Object.values(SCORE_WEIGHTS).reduce((a, b) => a + b, 0);

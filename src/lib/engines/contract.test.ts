@@ -15,6 +15,7 @@ import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS, financeFields } from '@lib/engines/finance/registry';
 import { DATETIME_TOOLS, dateTimeFields } from '@lib/engines/datetime/registry';
+import { MATH_CALCULATORS, mathFields } from '@lib/engines/math/registry';
 import { SIMULATIONS } from '@lib/simulation/simulations/registry';
 import { SUBSTEP } from '@lib/simulation/loop';
 import type { SimState } from '@lib/simulation/types';
@@ -108,6 +109,19 @@ describe('datetime engine', () => {
       expect(tool, `datetime tool "${processorId}" registered`).toBeDefined();
       expect(typeof tool.calculate).toBe('function');
       expect(dateTimeFields(processorId!).length).toBeGreaterThan(0);
+    },
+  );
+});
+
+// ── math: every tool resolves a calculator with a calculate() and renderable fields ───────────
+describe('math engine', () => {
+  it.each(byEngine('math').map(t => [t.slug, t.processorId] as const))(
+    '%s resolves a calculator with calculate() and fields',
+    (_slug, processorId) => {
+      const calc = MATH_CALCULATORS[processorId!];
+      expect(calc, `math calculator "${processorId}" registered`).toBeDefined();
+      expect(typeof calc.calculate).toBe('function');
+      expect(mathFields(processorId!).length).toBeGreaterThan(0);
     },
   );
 });

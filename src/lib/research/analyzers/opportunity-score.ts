@@ -20,6 +20,7 @@ import { scoreImplementation } from '../scorers/implementation';
 import { scoreEngineReuse } from '../scorers/engine-reuse';
 import { scoreSeo } from '../scorers/seo';
 import { scoreLocalization } from '../scorers/localization';
+import { scoreAlgorithmicFit } from '../scorers/algorithmic-fit';
 import { scoreConfidence } from '../scorers/confidence';
 
 export function scoreOpportunities(merged: MergedRaw[], inputs: ResearchInputs): Opportunity[] {
@@ -50,6 +51,7 @@ function normalizeAndScore(
   const engineReuse = scoreEngineReuse(raw, inputs);
   const seoPotential = scoreSeo(raw);
   const localizationPotential = scoreLocalization(raw);
+  const algorithmicFit = scoreAlgorithmicFit(raw);
 
   const tid = transformationId(raw.transformation);
   const clusterCount = siblings.get(tid) ?? 1;
@@ -67,7 +69,8 @@ function normalizeAndScore(
       SCORE_WEIGHTS.seoPotential * seoPotential +
       SCORE_WEIGHTS.topicClusterPotential * topicClusterPotential +
       SCORE_WEIGHTS.commercialPotential * commercialPotential +
-      SCORE_WEIGHTS.localizationPotential * localizationPotential) /
+      SCORE_WEIGHTS.localizationPotential * localizationPotential +
+      SCORE_WEIGHTS.algorithmicFit * algorithmicFit) /
       WEIGHT_SUM) *
       100,
   );
@@ -107,6 +110,7 @@ function normalizeAndScore(
     topicClusterPotential: round2(topicClusterPotential),
     commercialPotential: round2(commercialPotential),
     localizationPotential: round2(localizationPotential),
+    algorithmicFit: round2(algorithmicFit),
     confidence,
     finalScore,
     status: exists ? 'already-exists' : finalScore >= THRESHOLDS.recommend ? 'recommended' : 'discovered',

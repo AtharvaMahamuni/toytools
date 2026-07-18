@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Mixing underscores and hyphens in the same identifier',
   ],
   commonQuestions: [
-    'How is snake_case different from kebab-case?',
-    'Does it lowercase everything automatically?',
-    'How are existing underscores or hyphens handled?',
+    'What is snake_case?',
+    'Should I use snake_case or camelCase for variable names?',
+    'Why did the number in my text get its own underscore?',
   ],
   usedWith: [
     { slug: 'camel-case-converter', reason: 'Switch between code naming styles', strength: 0.7 },

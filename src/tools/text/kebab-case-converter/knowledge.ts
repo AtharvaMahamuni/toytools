@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Leaving punctuation that should be stripped from a slug',
   ],
   commonQuestions: [
-    'How is kebab-case different from snake_case?',
-    'Are special characters removed from the slug?',
-    'Can I use kebab-case for JavaScript variables?',
+    'How do I turn a blog title into a URL slug?',
+    'How do I make a CSS-class-safe name from a phrase?',
+    'Why did consecutive hyphens appear in my slug?',
   ],
   usedWith: [
     { slug: 'lowercase-converter', reason: 'Lowercase the text before slugifying', strength: 0.5 },

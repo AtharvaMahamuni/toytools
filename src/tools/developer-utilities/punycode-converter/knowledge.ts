@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Treating Punycode as a way to hide or secure a domain',
   ],
   commonQuestions: [
-    'What does xn-- at the start of a domain mean?',
-    'Why was only one part of my domain changed?',
-    'Is Punycode the same as URL encoding?',
+    'What is the difference between Punycode and UTF-8?',
+    'Is Punycode encryption?',
+    'Why will my xn-- string not decode?',
   ],
   usedWith: [
     { slug: 'url-encoder-decoder', reason: 'Percent-encode the path while Punycode handles the host', strength: 0.7 },

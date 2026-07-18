@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Overlooking trailing spaces because they are invisible',
   ],
   commonQuestions: [
-    'Does it count tabs and line breaks, or only spaces?',
-    'How can I tell if I have double spaces?',
-    'Are leading and trailing spaces included?',
+    'How do I audit whitespace before formatting text?',
+    'Do trailing spaces count in the space count?',
+    'Why are my tabs not counted as spaces?',
   ],
   usedWith: [
     { slug: 'character-counter', reason: 'See spaces as a share of total characters', strength: 0.6 },

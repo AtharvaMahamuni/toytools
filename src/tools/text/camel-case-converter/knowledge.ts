@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Leaving spaces or punctuation that break the identifier',
   ],
   commonQuestions: [
-    'What is the difference between camelCase and PascalCase?',
-    'How are acronyms and numbers handled?',
-    'Can I convert snake_case into camelCase here?',
+    'How is camelCase different from PascalCase?',
+    'How do I turn a phrase into a JSON key?',
+    'Should I write userId or userID in camelCase?',
   ],
   usedWith: [
     { slug: 'snake-case-converter', reason: 'Switch between code naming styles', strength: 0.7 },
