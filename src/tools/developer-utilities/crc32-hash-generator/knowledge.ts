@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Assuming a 32-bit checksum is collision-free (it is not)',
   ],
   commonQuestions: [
-    'Is CRC32 cryptographically secure?',
-    'How is CRC32 different from MD5 or SHA?',
-    'Can two different inputs share a CRC32?',
+    'What is a cyclic redundancy check?',
+    'Should I use CRC32 or MD5?',
+    'Does a matching CRC32 mean the file is authentic?',
   ],
   usedWith: [
     { slug: 'md5-hash-generator', reason: 'Compare a fast checksum against a fuller hash', strength: 0.6 },

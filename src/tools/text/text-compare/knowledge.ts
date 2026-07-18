@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Expecting it to merge the two texts rather than just show differences',
   ],
   commonQuestions: [
-    'Does it compare line by line or word by word?',
-    'Are whitespace and case treated as differences?',
-    'Can it merge the two versions?',
+    'What is the difference between a line-level diff and a character-level diff?',
+    'Why do trailing spaces show as differences in a text compare?',
+    'Why do reordered lines look like a full rewrite in a diff?',
   ],
   usedWith: [
     { slug: 'find-replace', reason: 'Apply fixes after spotting the differences', strength: 0.6 },

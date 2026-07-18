@@ -45,6 +45,30 @@ export const items: FAQItem[] = [
   },
   {
     id: 'cagr-faq-8',
+    question: 'How do I annualize growth over several years?',
+    answer:
+      'Raise the growth multiple to the power of one over the number of years, then subtract one; that turns any multi-year gain into a per-year rate. For example, revenue growing from $100,000 to $200,000 over five years is a 2x multiple, and 2^(1/5) minus 1 is 14.87% a year, not the 20% that simple division suggests. Enter the start, end, and period here and the calculator annualizes the growth for you.',
+  },
+  {
+    id: 'cagr-faq-9',
+    question: 'What is the difference between CAGR and average annual return?',
+    answer:
+      'Average annual return is the arithmetic mean of the yearly returns, while CAGR is the compound rate that connects the endpoints, and the average reads higher whenever returns vary. For example, $10,000 that doubles to $20,000 in year one and falls back to $10,000 in year two has an average annual return of 25% (plus 100% and minus 50%, averaged) but a CAGR of exactly 0%, because the money went nowhere. Judge results by the CAGR.',
+  },
+  {
+    id: 'cagr-faq-10',
+    question: 'Can two investments have the same CAGR but different risk?',
+    answer:
+      'Yes. CAGR is computed from two snapshots, the start and the end, so everything between them is invisible and two investments with the same CAGR can have very different risk. For example, one fund can climb from $10,000 to $20,000 over ten years in a near-straight line while another crashes to $6,000 in year five before recovering to the same $20,000; both report a 7.2% CAGR. Check drawdowns and volatility separately before treating the rates as equal.',
+  },
+  {
+    id: 'cagr-faq-11',
+    question: 'Why does my CAGR look so low compared to the total growth?',
+    answer:
+      'That gap is expected: each year compounds on the last, so the annual rate sits well below total growth divided by the years, and the difference widens as the period lengthens. For example, 400% total growth over 20 years is a 5x multiple but a CAGR of only 8.4%, nowhere near 20%. If the number still looks wrong, confirm the period is entered in years and that no deposits during the period inflated the ending value.',
+  },
+  {
+    id: 'cagr-faq-12',
     question: 'Is my financial data uploaded anywhere?',
     answer:
       'No. The formula runs locally on this page, so portfolio values and growth figures stay on your device. Nothing is transmitted or stored remotely, and the calculator continues to work if you lose your connection after loading it.',

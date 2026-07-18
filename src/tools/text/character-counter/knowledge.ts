@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Assuming one emoji equals one character (many are multi-code-point)',
   ],
   commonQuestions: [
-    'Does the count include spaces and punctuation?',
-    'How are emoji and accented letters counted?',
-    'What is the difference between characters and bytes?',
+    'How do I fit my text into 280 characters?',
+    'Why does my emoji count as 2 characters?',
+    'Do line breaks count as characters?',
   ],
   usedWith: [
     { slug: 'word-counter', reason: 'Track a word limit and a character limit together', strength: 0.6 },

@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Assuming all style guides title-case the same way',
   ],
   commonQuestions: [
-    'Which words are left lowercase?',
-    'Does it follow AP or Chicago style?',
-    'How are hyphenated words treated?',
+    'Should the word of or the be capitalized in a title?',
+    'How does title case handle hyphenated words like well-known?',
+    'Why did the converter capitalize a small word like and or in?',
   ],
   usedWith: [
     { slug: 'sentence-case-converter', reason: 'Compare against modern sentence-style headlines', strength: 0.6 },
