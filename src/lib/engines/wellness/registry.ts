@@ -8,10 +8,12 @@ import type { WellnessCalculator, WellnessFieldDef, WellnessInput, WellnessOpts,
 import { calculationError } from '@lib/results/index';
 import { bmiCalculator } from './calculators/bmi';
 import { tdeeCalculator } from './calculators/tdee';
+import { bodyFatCalculator } from './calculators/body-fat';
 
 export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   bmi: bmiCalculator,
   tdee: tdeeCalculator,
+  'body-fat': bodyFatCalculator,
 };
 
 /**

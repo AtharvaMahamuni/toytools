@@ -127,3 +127,37 @@ describe('tdee calculator', () => {
     expect(runWellness('tdee', { ...base, activity: 'olympian' }, {}).uiState).toBe('validation-error');
   });
 });
+
+describe('body-fat calculator', () => {
+  const male = { unit: 'metric', sex: 'male', height: 175, neck: 38, waist: 85, hip: 0, weight: 80 };
+
+  it('estimates body fat and splits weight into fat and lean mass when weight is given', () => {
+    const res = runWellness('body-fat', male, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBeCloseTo(16.9, 1);
+    const fat = res.metrics.find((c) => c.id === 'fat-mass')?.raw ?? 0;
+    const lean = res.metrics.find((c) => c.id === 'lean-mass')?.raw ?? 0;
+    expect(fat + lean).toBeCloseTo(80, 1);
+  });
+
+  it('omits the fat/lean split when no weight is entered', () => {
+    const res = runWellness('body-fat', { ...male, weight: 0 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.metrics.find((c) => c.id === 'fat-mass')).toBeUndefined();
+    expect(res.metrics.find((c) => c.id === 'lean-mass')).toBeUndefined();
+  });
+
+  it('requires the hip measurement for women', () => {
+    const noHip = runWellness('body-fat', { unit: 'metric', sex: 'female', height: 165, neck: 34, waist: 75 }, {});
+    expect(noHip.uiState).toBe('validation-error');
+    const withHip = runWellness('body-fat', { unit: 'metric', sex: 'female', height: 165, neck: 34, waist: 75, hip: 95 }, {});
+    expect(withHip.uiState).toBe('success');
+    expect(withHip.hero?.raw).toBeCloseTo(26.4, 1);
+  });
+
+  it('rejects a neck wider than the waist with an actionable message, not a crash', () => {
+    const res = runWellness('body-fat', { ...male, neck: 90, waist: 85 }, {});
+    expect(res.uiState).toBe('validation-error');
+    expect(res.error).toMatch(/neck/i);
+  });
+});

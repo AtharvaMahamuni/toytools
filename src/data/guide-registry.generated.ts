@@ -6,6 +6,7 @@ export const authoredGuideSlugs = [
   'base64-encoder-decoder',
   'binary-text-converter',
   'bmi-calculator',
+  'body-fat-calculator',
   'cagr-calculator',
   'camel-case-converter',
   'character-counter',

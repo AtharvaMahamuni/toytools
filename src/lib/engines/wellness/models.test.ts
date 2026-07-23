@@ -16,6 +16,8 @@ import {
   tdee,
   ACTIVITY_FACTOR,
   dailyCalorieDelta,
+  bodyFatNavy,
+  bodyFatCategory,
 } from './models';
 
 describe('unit conversion', () => {
@@ -52,6 +54,32 @@ describe('BMR and TDEE', () => {
     // 0.5 kg/week * 7700 kcal / 7 days = 550 kcal/day
     expect(dailyCalorieDelta(0.5)).toBeCloseTo(550, 6);
     expect(dailyCalorieDelta(-0.5)).toBeCloseTo(-550, 6);
+  });
+});
+
+describe('body fat (US Navy method)', () => {
+  it('matches hand-computed values for men (waist − neck) and women (waist + hip − neck)', () => {
+    expect(bodyFatNavy('male', 175, 38, 85)).toBeCloseTo(16.94, 1);
+    expect(bodyFatNavy('female', 165, 34, 75, 95)).toBeCloseTo(26.40, 1);
+  });
+
+  it('returns NaN instead of throwing when the log argument is non-positive', () => {
+    // Neck ≥ waist for a man makes waist − neck ≤ 0.
+    expect(Number.isNaN(bodyFatNavy('male', 175, 40, 38))).toBe(true);
+    expect(Number.isNaN(bodyFatNavy('female', 165, 200, 40, 40))).toBe(true);
+  });
+
+  it('classifies body fat on sex-specific ACE bands', () => {
+    // Men: <6 essential, <14 athletes, <18 fitness, <25 average, else above.
+    expect(bodyFatCategory('male', 5)).toBe('essential');
+    expect(bodyFatCategory('male', 12)).toBe('athletes');
+    expect(bodyFatCategory('male', 16)).toBe('fitness');
+    expect(bodyFatCategory('male', 22)).toBe('average');
+    expect(bodyFatCategory('male', 30)).toBe('obese');
+    // Women's bands sit higher.
+    expect(bodyFatCategory('female', 12)).toBe('essential');
+    expect(bodyFatCategory('female', 22)).toBe('fitness');
+    expect(bodyFatCategory('female', 35)).toBe('obese');
   });
 });
 

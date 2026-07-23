@@ -6,6 +6,7 @@ import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
 import { items as base64EncoderDecoderFaqs } from '@tools/developer-utilities/base64-encoder-decoder/faq';
 import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
 import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
+import { items as bodyFatCalculatorFaqs } from '@tools/health/body-fat-calculator/faq';
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
@@ -96,6 +97,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'base64-encoder-decoder': base64EncoderDecoderFaqs,
   'binary-text-converter': binaryTextConverterFaqs,
   'bmi-calculator': bmiCalculatorFaqs,
+  'body-fat-calculator': bodyFatCalculatorFaqs,
   'cagr-calculator': cagrCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,

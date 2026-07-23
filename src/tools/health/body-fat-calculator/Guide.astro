@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The U.S. Navy method estimates body fat from a few tape-measure readings rather than calipers or
+      a scan. Men enter their neck and waist; women add their hips. Combined with your height, those
+      circumferences go into a formula that returns a body fat percentage. Add your bodyweight and the
+      calculator also splits it into fat mass and lean mass. A man of 175 cm with a 38 cm neck and
+      85 cm waist estimates at about 17 percent body fat, which is the fitness range on the standard
+      scale.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Body Fat Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the Navy Method Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Fat and muscle sit differently around the body. Fat tends to gather at the waist and hips, while
+      the neck stays relatively lean, so the gap between those measurements carries information about
+      overall composition. The Navy formula was fitted against underwater weighing, the gold-standard
+      lab method, so that a handful of tape readings can approximate a result that normally needs a
+      tank of water. It needs no equipment beyond a cloth tape, which is why it became a practical
+      field test in the first place.
+    </p>
+  </section>
+
+  <section id="where-to-measure">
+    <h2>Where to Measure <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Accuracy lives and dies on consistent measuring. Take the neck just below the larynx, letting
+      the tape slope slightly downward at the front. Men measure the waist horizontally at the navel;
+      women take the waist at its narrowest point and the hips at the widest. Keep the tape level and
+      snug against the skin without digging in, and breathe normally rather than holding your breath or
+      pulling your stomach in. Measure in the morning before eating, and use the same routine every
+      time so your readings can be compared.
+    </p>
+  </section>
+
+  <section id="fat-and-lean-mass">
+    <h2>Fat Mass and Lean Mass <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Body fat percentage on its own is useful, but the split it implies is often more motivating.
+      Enter your bodyweight and the tool multiplies it by the percentage to give your fat mass, then
+      subtracts that to give your lean mass, which is everything else: muscle, bone, organs, and water.
+      When you are training, watching lean mass hold steady while fat mass falls is a much better sign
+      than the scale alone, because the scale cannot tell the two apart.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Track the trend, not the number">
+      <p>Any single tape reading carries a few points of error. Measure the same way each week and follow the direction of travel over a month. A falling trend is real progress even if one reading blips up.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="body-fat-vs-bmi">
+    <h2>Body Fat vs BMI <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      BMI uses only height and weight, so it treats a kilogram of muscle exactly like a kilogram of
+      fat. That is why a lean, muscular person can be flagged as overweight by BMI while carrying very
+      little fat. Body fat percentage measures composition directly, so it answers the question BMI
+      cannot: how much of your weight is actually fat. The two work well together, with BMI as the fast
+      first screen and body fat as the closer look.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Pulling the tape too tight">
+      <p>
+        A tape that compresses the skin reads smaller and skews the estimate low. Snug but not
+        digging in is the rule. If the tape leaves a mark, it was too tight.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Measuring inconsistently">
+      <p>
+        Different times of day, after meals, or at slightly different spots each week make readings
+        impossible to compare. Fix a routine, measure first thing in the morning, and repeat it
+        exactly so the trend means something.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="An estimate, not a scan">
+      <p>The tape method is a practical field estimate with a few points of error, not a lab measurement. For a precise figure, a DEXA scan is the reference. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

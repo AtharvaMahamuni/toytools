@@ -51,6 +51,24 @@ export const WELLNESS_EXAMPLES: WorkedExample<WellnessInput>[] = [
     expect: { bmr: 1320, tdee: 1815 },
     narrative: 'A 30-year-old woman of 60 kg and 165 cm has a BMR near 1,320 kcal and a lightly active TDEE around 1,815 kcal.',
   },
+  {
+    id: 'body-fat-male',
+    engine: 'wellness',
+    ref: 'body-fat',
+    title: 'Male, 175 cm, 38/85 neck/waist',
+    inputs: { unit: 'metric', sex: 'male', height: 175, neck: 38, waist: 85, hip: 0, weight: 80 },
+    expect: { 'body-fat': 16.9, 'fat-mass': 13.6 },
+    narrative: 'A man of 175 cm with a 38 cm neck and 85 cm waist estimates at about 16.9% body fat, or roughly 13.6 kg of fat on an 80 kg frame.',
+  },
+  {
+    id: 'body-fat-female',
+    engine: 'wellness',
+    ref: 'body-fat',
+    title: 'Female, 165 cm, 34/75/95',
+    inputs: { unit: 'metric', sex: 'female', height: 165, neck: 34, waist: 75, hip: 95, weight: 62 },
+    expect: { 'body-fat': 26.4 },
+    narrative: 'A woman of 165 cm measuring 34 cm neck, 75 cm waist, and 95 cm hip estimates at about 26.4% body fat.',
+  },
 ];
 
 export const WELLNESS_EXAMPLE_MAP = buildExampleRegistry(WELLNESS_EXAMPLES);

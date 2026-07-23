@@ -113,3 +113,48 @@ export const KCAL_PER_KG = 7700;
 export function dailyCalorieDelta(kgPerWeek: number): number {
   return (kgPerWeek * KCAL_PER_KG) / 7;
 }
+
+// ---- Body fat (US Navy circumference method) --------------------------------------------------
+
+/** Body fat percentage via the U.S. Navy tape-measure method (all lengths in cm, base-10 logs).
+ *  Men use waist − neck; women use waist + hip − neck. Returns NaN when the log argument is
+ *  non-positive (e.g. neck ≥ waist), which the calculator turns into a validation message. */
+export function bodyFatNavy(
+  sex: Sex,
+  heightCm: number,
+  neckCm: number,
+  waistCm: number,
+  hipCm = 0,
+): number {
+  if (sex === 'male') {
+    const inner = waistCm - neckCm;
+    if (inner <= 0 || heightCm <= 0) return NaN;
+    return 495 / (1.0324 - 0.19077 * Math.log10(inner) + 0.15456 * Math.log10(heightCm)) - 450;
+  }
+  const inner = waistCm + hipCm - neckCm;
+  if (inner <= 0 || heightCm <= 0) return NaN;
+  return 495 / (1.29579 - 0.35004 * Math.log10(inner) + 0.22100 * Math.log10(heightCm)) - 450;
+}
+
+export type BodyFatCategory = 'essential' | 'athletes' | 'fitness' | 'average' | 'obese';
+
+/** American Council on Exercise body-fat category, which differs by sex. */
+export function bodyFatCategory(sex: Sex, bodyFatPct: number): BodyFatCategory {
+  const t = sex === 'male'
+    ? { athletes: 6, fitness: 14, average: 18, obese: 25 }
+    : { athletes: 14, fitness: 21, average: 25, obese: 32 };
+  if (bodyFatPct < t.athletes) return 'essential';
+  if (bodyFatPct < t.fitness) return 'athletes';
+  if (bodyFatPct < t.average) return 'fitness';
+  if (bodyFatPct < t.obese) return 'average';
+  return 'obese';
+}
+
+/** Human label for a body-fat category. */
+export const BODY_FAT_CATEGORY_LABEL: Record<BodyFatCategory, string> = {
+  essential: 'Essential fat',
+  athletes: 'Athletes',
+  fitness: 'Fitness',
+  average: 'Average',
+  obese: 'Above average',
+};

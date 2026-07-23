@@ -255,7 +255,7 @@
         "body-composition",
         "energy"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -636,6 +636,27 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "bmi",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "body-fat-calculator": {
+      "name": "Body Fat Calculator",
+      "dir": "src/tools/health/body-fat-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/body-fat-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "body-fat",
       "toolGroup": "",
       "files": [
         "Guide.astro",
