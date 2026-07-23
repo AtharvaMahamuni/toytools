@@ -41,6 +41,7 @@ import { knowledge as letterCounter } from '@tools/text/letter-counter/knowledge
 import { knowledge as lineCounter } from '@tools/text/line-counter/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
 import { knowledge as lowercaseConverter } from '@tools/text/lowercase-converter/knowledge';
+import { knowledge as macroCalculator } from '@tools/health/macro-calculator/knowledge';
 import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
 import { knowledge as markupCalculator } from '@tools/number/markup-calculator/knowledge';
 import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/knowledge';
@@ -134,6 +135,7 @@ export const authoredKnowledge: Knowledge[] = [
   lineCounter,
   loremIpsumGenerator,
   lowercaseConverter,
+  macroCalculator,
   marginCalculator,
   markupCalculator,
   md5HashGenerator,

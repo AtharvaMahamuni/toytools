@@ -18,6 +18,7 @@ import {
   dailyCalorieDelta,
   bodyFatNavy,
   bodyFatCategory,
+  macroGrams,
 } from './models';
 
 describe('unit conversion', () => {
@@ -80,6 +81,22 @@ describe('body fat (US Navy method)', () => {
     expect(bodyFatCategory('female', 12)).toBe('essential');
     expect(bodyFatCategory('female', 22)).toBe('fitness');
     expect(bodyFatCategory('female', 35)).toBe('obese');
+  });
+});
+
+describe('macro grams', () => {
+  it('splits calories into grams using 4/4/9 kcal per gram', () => {
+    const g = macroGrams(2000, { carb: 50, protein: 20, fat: 30 });
+    expect(g.protein).toBeCloseTo(100, 6); // 2000*0.20/4
+    expect(g.carb).toBeCloseTo(250, 6); // 2000*0.50/4
+    expect(g.fat).toBeCloseTo(66.667, 3); // 2000*0.30/9
+  });
+
+  it('conserves calories: grams back to kcal equal the input (for a 100% split)', () => {
+    const cals = 1800;
+    const g = macroGrams(cals, { carb: 5, protein: 25, fat: 70 });
+    const back = g.protein * 4 + g.carb * 4 + g.fat * 9;
+    expect(back).toBeCloseTo(cals, 6);
   });
 });
 

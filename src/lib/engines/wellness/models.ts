@@ -158,3 +158,30 @@ export const BODY_FAT_CATEGORY_LABEL: Record<BodyFatCategory, string> = {
   average: 'Average',
   obese: 'Above average',
 };
+
+// ---- Macros (calorie split) -------------------------------------------------------------------
+
+/** Kilocalories per gram of each macronutrient. Protein and carbs give 4, fat gives 9. */
+export const KCAL_PER_G = { protein: 4, carb: 4, fat: 9 } as const;
+
+/** A macro split as whole-percentages of calories (carb/protein/fat), expected to sum to ~100. */
+export interface MacroSplit {
+  carb: number;
+  protein: number;
+  fat: number;
+}
+
+export interface MacroGrams {
+  protein: number;
+  carb: number;
+  fat: number;
+}
+
+/** Grams of each macronutrient for a calorie target under a percentage split. */
+export function macroGrams(calories: number, split: MacroSplit): MacroGrams {
+  return {
+    protein: (calories * split.protein) / 100 / KCAL_PER_G.protein,
+    carb: (calories * split.carb) / 100 / KCAL_PER_G.carb,
+    fat: (calories * split.fat) / 100 / KCAL_PER_G.fat,
+  };
+}

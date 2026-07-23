@@ -253,9 +253,10 @@
       "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
       "supportedFamilies": [
         "body-composition",
+        "nutrition",
         "energy"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -1386,6 +1387,27 @@
       "family": "transform",
       "processorId": "lowercase",
       "toolGroup": "case-converters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "macro-calculator": {
+      "name": "Macro Calculator",
+      "dir": "src/tools/health/macro-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/macro-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "nutrition",
+      "processorId": "macro",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

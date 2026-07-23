@@ -41,6 +41,7 @@ import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter/faq';
+import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
 import { items as marginCalculatorFaqs } from '@tools/number/margin-calculator/faq';
 import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
 import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-hash-generator/faq';
@@ -134,6 +135,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'line-counter': lineCounterFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'lowercase-converter': lowercaseConverterFaqs,
+  'macro-calculator': macroCalculatorFaqs,
   'margin-calculator': marginCalculatorFaqs,
   'markup-calculator': markupCalculatorFaqs,
   'md5-hash-generator': md5HashGeneratorFaqs,

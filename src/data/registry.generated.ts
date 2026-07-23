@@ -41,6 +41,7 @@ import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as lowercaseConverter } from '@tools/text/lowercase-converter/config';
+import { config as macroCalculator } from '@tools/health/macro-calculator/config';
 import { config as marginCalculator } from '@tools/number/margin-calculator/config';
 import { config as markupCalculator } from '@tools/number/markup-calculator/config';
 import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/config';
@@ -134,6 +135,7 @@ export const toolConfigs: ToolConfig[] = [
   lineCounter,
   loremIpsumGenerator,
   lowercaseConverter,
+  macroCalculator,
   marginCalculator,
   markupCalculator,
   md5HashGenerator,

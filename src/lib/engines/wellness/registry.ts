@@ -9,11 +9,13 @@ import { calculationError } from '@lib/results/index';
 import { bmiCalculator } from './calculators/bmi';
 import { tdeeCalculator } from './calculators/tdee';
 import { bodyFatCalculator } from './calculators/body-fat';
+import { macroCalculator } from './calculators/macro';
 
 export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   bmi: bmiCalculator,
   tdee: tdeeCalculator,
   'body-fat': bodyFatCalculator,
+  macro: macroCalculator,
 };
 
 /**

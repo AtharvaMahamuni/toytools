@@ -69,6 +69,24 @@ export const WELLNESS_EXAMPLES: WorkedExample<WellnessInput>[] = [
     expect: { 'body-fat': 26.4 },
     narrative: 'A woman of 165 cm measuring 34 cm neck, 75 cm waist, and 95 cm hip estimates at about 26.4% body fat.',
   },
+  {
+    id: 'macro-balanced-2000',
+    engine: 'wellness',
+    ref: 'macro',
+    title: '2,000 kcal, balanced',
+    inputs: { calories: 2000, diet: 'balanced' },
+    expect: { protein: 100, carb: 250, fat: 66.7 },
+    narrative: 'A balanced 2,000 kcal day is 100 g protein, 250 g carbs, and about 67 g fat.',
+  },
+  {
+    id: 'macro-keto-1800',
+    engine: 'wellness',
+    ref: 'macro',
+    title: '1,800 kcal, keto',
+    inputs: { calories: 1800, diet: 'keto' },
+    expect: { protein: 112.5, carb: 22.5, fat: 140 },
+    narrative: 'A 1,800 kcal keto split lands near 113 g protein, 23 g carbs, and 140 g fat, most calories coming from fat.',
+  },
 ];
 
 export const WELLNESS_EXAMPLE_MAP = buildExampleRegistry(WELLNESS_EXAMPLES);

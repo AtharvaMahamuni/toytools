@@ -41,6 +41,7 @@ export const authoredGuideSlugs = [
   'line-counter',
   'lorem-ipsum-generator',
   'lowercase-converter',
+  'macro-calculator',
   'margin-calculator',
   'markup-calculator',
   'md5-hash-generator',
