@@ -20,7 +20,18 @@ describe('tracker defs', () => {
   it('resolves known ids and returns undefined for unknown ones', () => {
     expect(getTrackerDef('water-intake')?.chart).toBe('bars');
     expect(getTrackerDef('body-weight')?.chart).toBe('line');
+    expect(getTrackerDef('move-today')?.addLabel).toBe('I moved today');
     expect(getTrackerDef('nope')).toBeUndefined();
+  });
+
+  it('treats the move-today habit as a goal-1 increment streak', () => {
+    const def = getTrackerDef('move-today')!;
+    expect(def.inputMode).toBe('increment');
+    expect(def.streakMode).toBe('goal');
+    expect(def.defaultGoal).toBe(1);
+    // One logged session meets the daily goal.
+    const entries = [{ date: '2026-07-23', value: 1 }];
+    expect(tracker.currentStreak(entries, '2026-07-23', def.defaultGoal!, def.streakMode)).toBe(1);
   });
 });
 

@@ -1,0 +1,114 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The hardest part of exercising more is not the workout, it is showing up day after day. This
+      tracker strips the habit down to a single tap: did you move today? A walk, a gym session, a bike
+      ride, or ten minutes of stretching all count. Each day you tap, your streak grows, and a month of
+      activity fills in on the chart. By keeping the daily bar low and the reward immediate, it carries
+      you through the fragile early weeks when a habit is most likely to die.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Move Today Tracker →</a>
+  </section>
+
+  <section id="why-low-bar">
+    <h2>Why a Low Bar Wins <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ambitious plans fail on the first busy day. An hour at the gym, five times a week, is easy to
+      skip the moment life gets in the way, and one skip often becomes many. A tiny daily action is
+      different: there is almost no day you cannot fit in some movement, so the chain rarely breaks. Once
+      the habit of showing up is solid, adding intensity and structure is easy. The habit comes first,
+      the details come later.
+    </p>
+  </section>
+
+  <section id="dont-break-the-chain">
+    <h2>Do Not Break the Chain <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The streak is the engine. Every logged day extends a visible chain, and once that chain has some
+      length you will not want to snap it. This "do not break the chain" effect is one of the most
+      reliable behaviour tools there is, precisely because the reward is immediate and concrete while the
+      fitness payoff is slow and abstract. The streak bridges the gap, giving you a reason to move today
+      even when the long-term goal feels far away.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Today gets grace">
+      <p>Your streak will not reset just because you have not logged yet today. Only a completed day with no movement breaks it, so an in-progress day is never held against you.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-to-use">
+    <h2>Using the Tracker <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Bookmark the page and tap the button once you have moved. That is the whole ritual. The streak and
+      the month chart update instantly, and the minus button undoes an accidental tap. You decide what
+      counts as movement, so set a definition you can honestly meet on your worst day, not your best. If
+      you want to log more than one session, tap again, but a single tap is all the streak needs.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Setting the bar too high">
+      <p>
+        If "movement" secretly means a full workout, you will skip it on hard days and lose the streak.
+        Define it as something you can do in ten minutes anywhere, and let the habit grow from there.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Quitting after one miss">
+      <p>
+        A broken streak is not a failure, it is a Tuesday. One missed day changes nothing about your
+        fitness. Restart the chain the next day and aim to beat your longest run.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Private by design">
+      <p>Your activity log is stored only in this browser on this device, never uploaded. Clearing your browser storage erases it, and the whole tracker runs offline.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

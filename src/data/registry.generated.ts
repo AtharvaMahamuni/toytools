@@ -47,6 +47,7 @@ import { config as macroCalculator } from '@tools/health/macro-calculator/config
 import { config as marginCalculator } from '@tools/number/margin-calculator/config';
 import { config as markupCalculator } from '@tools/number/markup-calculator/config';
 import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/config';
+import { config as moveTodayTracker } from '@tools/health/move-today-tracker/config';
 import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/config';
 import { config as notepad } from '@tools/productivity/notepad/config';
 import { config as paragraphCounter } from '@tools/text/paragraph-counter/config';
@@ -143,6 +144,7 @@ export const toolConfigs: ToolConfig[] = [
   marginCalculator,
   markupCalculator,
   md5HashGenerator,
+  moveTodayTracker,
   normalizeWhitespace,
   notepad,
   paragraphCounter,

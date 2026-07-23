@@ -271,7 +271,7 @@
         "measurement",
         "habit"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -1514,6 +1514,27 @@
       "family": "cryptographic",
       "processorId": "md5",
       "toolGroup": "hash-generators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "move-today-tracker": {
+      "name": "Move Today Tracker",
+      "dir": "src/tools/health/move-today-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/move-today-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "habit",
+      "processorId": "move-today",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

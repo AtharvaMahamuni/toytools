@@ -47,6 +47,7 @@ import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq
 import { items as marginCalculatorFaqs } from '@tools/number/margin-calculator/faq';
 import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
 import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-hash-generator/faq';
+import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
 import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq';
@@ -143,6 +144,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'margin-calculator': marginCalculatorFaqs,
   'markup-calculator': markupCalculatorFaqs,
   'md5-hash-generator': md5HashGeneratorFaqs,
+  'move-today-tracker': moveTodayTrackerFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
   'notepad': notepadFaqs,
   'paragraph-counter': paragraphCounterFaqs,

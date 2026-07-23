@@ -44,6 +44,8 @@ export interface TrackerDef {
   windowDays: number;
   /** Increment buttons (increment mode), e.g. [1] or [250]. */
   quickAdds?: number[];
+  /** Friendly label for a single-tap increment button (e.g. "I moved today"); falls back to "+N unit". */
+  addLabel?: string;
   /** Default daily goal; drives the progress ring and 'goal' streaks. */
   defaultGoal?: number;
   /** Label for the goal input; when omitted, no goal control is shown. */
@@ -65,6 +67,19 @@ export const TRACKER_DEFS: Record<string, TrackerDef> = {
     quickAdds: [1],
     defaultGoal: 8,
     goalLabel: 'Daily goal (glasses)',
+  },
+  'move-today': {
+    id: 'move-today',
+    unit: 'sessions',
+    inputMode: 'increment',
+    chart: 'bars',
+    streakMode: 'goal',
+    step: 1,
+    decimals: 0,
+    windowDays: 30,
+    quickAdds: [1],
+    defaultGoal: 1,
+    addLabel: 'I moved today',
   },
   'body-weight': {
     id: 'body-weight',

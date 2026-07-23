@@ -47,6 +47,7 @@ import { knowledge as macroCalculator } from '@tools/health/macro-calculator/kno
 import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
 import { knowledge as markupCalculator } from '@tools/number/markup-calculator/knowledge';
 import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/knowledge';
+import { knowledge as moveTodayTracker } from '@tools/health/move-today-tracker/knowledge';
 import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespace/knowledge';
 import { knowledge as notepad } from '@tools/productivity/notepad/knowledge';
 import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
@@ -143,6 +144,7 @@ export const authoredKnowledge: Knowledge[] = [
   marginCalculator,
   markupCalculator,
   md5HashGenerator,
+  moveTodayTracker,
   normalizeWhitespace,
   notepad,
   paragraphCounter,

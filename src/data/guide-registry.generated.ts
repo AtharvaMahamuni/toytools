@@ -47,6 +47,7 @@ export const authoredGuideSlugs = [
   'margin-calculator',
   'markup-calculator',
   'md5-hash-generator',
+  'move-today-tracker',
   'normalize-whitespace',
   'notepad',
   'paragraph-counter',
