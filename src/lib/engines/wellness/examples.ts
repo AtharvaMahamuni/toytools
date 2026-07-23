@@ -33,6 +33,24 @@ export const WELLNESS_EXAMPLES: WorkedExample<WellnessInput>[] = [
     expect: { bmi: 22.74 },
     narrative: '154 lb at 69 inches converts to a BMI of about 22.7, showing metric and imperial land in the same place.',
   },
+  {
+    id: 'tdee-male-moderate',
+    engine: 'wellness',
+    ref: 'tdee',
+    title: 'Male, 30, 70 kg, 175 cm, moderate',
+    inputs: { unit: 'metric', sex: 'male', age: 30, weight: 70, height: 175, activity: 'moderate' },
+    expect: { bmr: 1649, tdee: 2556 },
+    narrative: 'A 30-year-old man of 70 kg and 175 cm burns about 1,649 kcal at rest and roughly 2,556 kcal a day when moderately active.',
+  },
+  {
+    id: 'tdee-female-light',
+    engine: 'wellness',
+    ref: 'tdee',
+    title: 'Female, 30, 60 kg, 165 cm, light',
+    inputs: { unit: 'metric', sex: 'female', age: 30, weight: 60, height: 165, activity: 'light' },
+    expect: { bmr: 1320, tdee: 1815 },
+    narrative: 'A 30-year-old woman of 60 kg and 165 cm has a BMR near 1,320 kcal and a lightly active TDEE around 1,815 kcal.',
+  },
 ];
 
 export const WELLNESS_EXAMPLE_MAP = buildExampleRegistry(WELLNESS_EXAMPLES);

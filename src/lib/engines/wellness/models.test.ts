@@ -6,11 +6,16 @@ import {
   lbToKg,
   kgToLb,
   inToM,
+  inToCm,
   cmToM,
   bmi,
   bmiCategory,
   healthyWeightRangeKg,
   weightToHealthyKg,
+  bmrMifflinStJeor,
+  tdee,
+  ACTIVITY_FACTOR,
+  dailyCalorieDelta,
 } from './models';
 
 describe('unit conversion', () => {
@@ -22,6 +27,31 @@ describe('unit conversion', () => {
   it('converts height to metres', () => {
     expect(cmToM(175)).toBeCloseTo(1.75, 9);
     expect(inToM(69)).toBeCloseTo(1.7526, 4);
+  });
+
+  it('converts inches to centimetres', () => {
+    expect(inToCm(1)).toBeCloseTo(2.54, 9);
+    expect(inToCm(69)).toBeCloseTo(175.26, 6);
+  });
+});
+
+describe('BMR and TDEE', () => {
+  it('computes Mifflin-St Jeor with the correct sex constant', () => {
+    // Male: 10·70 + 6.25·175 − 5·30 + 5 = 1648.75
+    expect(bmrMifflinStJeor('male', 70, 175, 30)).toBeCloseTo(1648.75, 4);
+    // Female: same body, −161 instead of +5 => 166 less
+    expect(bmrMifflinStJeor('female', 70, 175, 30)).toBeCloseTo(1648.75 - 166, 4);
+  });
+
+  it('scales BMR by the activity factor', () => {
+    expect(tdee(1648.75, 'moderate')).toBeCloseTo(1648.75 * 1.55, 6);
+    expect(tdee(1648.75, 'sedentary')).toBeCloseTo(1648.75 * ACTIVITY_FACTOR.sedentary, 6);
+  });
+
+  it('converts a weekly weight change into a daily calorie gap', () => {
+    // 0.5 kg/week * 7700 kcal / 7 days = 550 kcal/day
+    expect(dailyCalorieDelta(0.5)).toBeCloseTo(550, 6);
+    expect(dailyCalorieDelta(-0.5)).toBeCloseTo(-550, 6);
   });
 });
 

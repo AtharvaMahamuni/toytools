@@ -76,6 +76,7 @@ export const authoredGuideSlugs = [
   'snake-case-converter',
   'space-counter',
   'tax-calculator',
+  'tdee-calculator',
   'text-compare',
   'timezone-converter',
   'tip-calculator',

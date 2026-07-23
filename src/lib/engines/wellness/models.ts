@@ -24,6 +24,11 @@ export function inToM(inches: number): number {
   return inches / IN_PER_M;
 }
 
+/** Inches to centimetres. */
+export function inToCm(inches: number): number {
+  return inches * 2.54;
+}
+
 /** Centimetres to metres. */
 export function cmToM(cm: number): number {
   return cm / CM_PER_M;
@@ -71,4 +76,40 @@ export function weightToHealthyKg(weightKg: number, heightM: number): number {
   if (weightKg > hi) return weightKg - hi;
   if (weightKg < lo) return weightKg - lo; // negative
   return 0;
+}
+
+// ---- BMR / TDEE (energy expenditure) ----------------------------------------------------------
+
+export type Sex = 'male' | 'female';
+
+/** Basal Metabolic Rate via the Mifflin-St Jeor equation (kcal/day):
+ *  10·kg + 6.25·cm − 5·age + s, where s = +5 for male, −161 for female. */
+export function bmrMifflinStJeor(sex: Sex, weightKg: number, heightCm: number, ageYears: number): number {
+  const base = 10 * weightKg + 6.25 * heightCm - 5 * ageYears;
+  return sex === 'male' ? base + 5 : base - 161;
+}
+
+export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very-active';
+
+/** Standard TDEE activity multipliers applied to BMR. */
+export const ACTIVITY_FACTOR: Record<ActivityLevel, number> = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  'very-active': 1.9,
+};
+
+/** Total Daily Energy Expenditure: BMR scaled by the activity factor (kcal/day). */
+export function tdee(bmr: number, activity: ActivityLevel): number {
+  return bmr * ACTIVITY_FACTOR[activity];
+}
+
+/** Kilocalories in a kilogram of body weight (energy density used for calorie-goal math). */
+export const KCAL_PER_KG = 7700;
+
+/** The daily calorie change for a target weekly weight change (kg/week). A 0.5 kg/week loss is a
+ *  deficit of 0.5·7700/7 ≈ 550 kcal/day. Positive kgPerWeek => surplus; negative => deficit. */
+export function dailyCalorieDelta(kgPerWeek: number): number {
+  return (kgPerWeek * KCAL_PER_KG) / 7;
 }

@@ -252,9 +252,10 @@
       "runtimeGlobal": "runWellness",
       "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
       "supportedFamilies": [
-        "body-composition"
+        "body-composition",
+        "energy"
       ],
-      "toolCount": 1
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -2105,6 +2106,27 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "tdee-calculator": {
+      "name": "TDEE Calculator",
+      "dir": "src/tools/health/tdee-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/tdee-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "energy",
+      "processorId": "tdee",
       "toolGroup": "",
       "files": [
         "Guide.astro",

@@ -84,3 +84,46 @@ describe('bmi calculator', () => {
     expect(runWellness('bmi', { unit: 'stones', weight: 70, height: 175 }, {}).uiState).toBe('validation-error');
   });
 });
+
+describe('tdee calculator', () => {
+  const base = { unit: 'metric', sex: 'male', age: 30, weight: 70, height: 175, activity: 'moderate' };
+
+  it('returns BMR and maintenance plus loss/gain targets', () => {
+    const res = runWellness('tdee', base, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBe(2556); // 1648.75 * 1.55
+    expect(res.metrics.find((c) => c.id === 'bmr')?.raw).toBe(1649);
+    const loss = res.metrics.find((c) => c.id === 'loss')?.raw ?? 0;
+    const gain = res.metrics.find((c) => c.id === 'gain')?.raw ?? 0;
+    // Loss target is below maintenance, gain is above, by ~550 kcal.
+    expect(gain - (res.hero?.raw ?? 0)).toBeCloseTo(550, 0);
+    expect((res.hero?.raw ?? 0) - loss).toBeCloseTo(550, 0);
+  });
+
+  it('applies the female sex constant (lower BMR than male, same body)', () => {
+    const male = runWellness('tdee', base, {});
+    const female = runWellness('tdee', { ...base, sex: 'female' }, {});
+    expect(female.metrics.find((c) => c.id === 'bmr')?.raw).toBeLessThan(
+      male.metrics.find((c) => c.id === 'bmr')?.raw ?? 0,
+    );
+  });
+
+  it('rises with a higher activity level', () => {
+    const sed = runWellness('tdee', { ...base, activity: 'sedentary' }, {});
+    const active = runWellness('tdee', { ...base, activity: 'very-active' }, {});
+    expect(active.hero?.raw).toBeGreaterThan(sed.hero?.raw ?? 0);
+  });
+
+  it('never lets the weight-loss target drop below BMR', () => {
+    // A small, very active person: the 0.5 kg/week deficit could otherwise fall under BMR.
+    const res = runWellness('tdee', { unit: 'metric', sex: 'female', age: 25, weight: 50, height: 160, activity: 'sedentary' }, {});
+    const bmr = res.metrics.find((c) => c.id === 'bmr')?.raw ?? 0;
+    const loss = res.metrics.find((c) => c.id === 'loss')?.raw ?? 0;
+    expect(loss).toBeGreaterThanOrEqual(bmr);
+  });
+
+  it('rejects a missing age or unknown activity level as validation errors', () => {
+    expect(runWellness('tdee', { ...base, age: '' }, {}).uiState).toBe('validation-error');
+    expect(runWellness('tdee', { ...base, activity: 'olympian' }, {}).uiState).toBe('validation-error');
+  });
+});

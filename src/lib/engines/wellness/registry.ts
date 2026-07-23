@@ -7,9 +7,11 @@
 import type { WellnessCalculator, WellnessFieldDef, WellnessInput, WellnessOpts, WellnessResult } from './types';
 import { calculationError } from '@lib/results/index';
 import { bmiCalculator } from './calculators/bmi';
+import { tdeeCalculator } from './calculators/tdee';
 
 export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   bmi: bmiCalculator,
+  tdee: tdeeCalculator,
 };
 
 /**

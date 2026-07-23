@@ -76,6 +76,7 @@ import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
 import { config as spaceCounter } from '@tools/text/space-counter/config';
 import { config as taxCalculator } from '@tools/number/tax-calculator/config';
+import { config as tdeeCalculator } from '@tools/health/tdee-calculator/config';
 import { config as textCompare } from '@tools/text/text-compare/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
 import { config as tipCalculator } from '@tools/number/tip-calculator/config';
@@ -165,6 +166,7 @@ export const toolConfigs: ToolConfig[] = [
   snakeCaseConverter,
   spaceCounter,
   taxCalculator,
+  tdeeCalculator,
   textCompare,
   timezoneConverter,
   tipCalculator,

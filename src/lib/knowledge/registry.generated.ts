@@ -76,6 +76,7 @@ import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
+import { knowledge as tdeeCalculator } from '@tools/health/tdee-calculator/knowledge';
 import { knowledge as textCompare } from '@tools/text/text-compare/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
 import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
@@ -165,6 +166,7 @@ export const authoredKnowledge: Knowledge[] = [
   snakeCaseConverter,
   spaceCounter,
   taxCalculator,
+  tdeeCalculator,
   textCompare,
   timezoneConverter,
   tipCalculator,

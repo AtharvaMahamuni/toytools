@@ -76,6 +76,7 @@ import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
 import { items as spaceCounterFaqs } from '@tools/text/space-counter/faq';
 import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
+import { items as tdeeCalculatorFaqs } from '@tools/health/tdee-calculator/faq';
 import { items as textCompareFaqs } from '@tools/text/text-compare/faq';
 import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
 import { items as tipCalculatorFaqs } from '@tools/number/tip-calculator/faq';
@@ -165,6 +166,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'snake-case-converter': snakeCaseConverterFaqs,
   'space-counter': spaceCounterFaqs,
   'tax-calculator': taxCalculatorFaqs,
+  'tdee-calculator': tdeeCalculatorFaqs,
   'text-compare': textCompareFaqs,
   'timezone-converter': timezoneConverterFaqs,
   'tip-calculator': tipCalculatorFaqs,

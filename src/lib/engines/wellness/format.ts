@@ -18,6 +18,12 @@ export function weight(kg: number, unit: 'metric' | 'imperial'): string {
   return unit === 'metric' ? `${num1(kg)} kg` : `${num1(kgToLb(kg))} lb`;
 }
 
+/** A whole number of kilocalories with grouping, e.g. calories(2477.6) -> "2,478 kcal". */
+export function calories(kcal: number): string {
+  if (!Number.isFinite(kcal)) return '0 kcal';
+  return `${Math.round(kcal).toLocaleString('en-US')} kcal`;
+}
+
 /** A weight range (kg lo/hi) rendered in the chosen unit, e.g. "56.5–76.1 kg". */
 export function weightRange(loKg: number, hiKg: number, unit: 'metric' | 'imperial'): string {
   if (!Number.isFinite(loKg) || !Number.isFinite(hiKg)) return weight(0, unit);
