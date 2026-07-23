@@ -88,6 +88,7 @@ import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp
 import { config as uppercaseConverter } from '@tools/text/uppercase-converter/config';
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
+import { config as waterIntakeTracker } from '@tools/health/water-intake-tracker/config';
 import { config as wordCounter } from '@tools/text/word-counter/config';
 import { config as wordFrequencyCounter } from '@tools/text/word-frequency-counter/config';
 import { config as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/config';
@@ -179,6 +180,7 @@ export const toolConfigs: ToolConfig[] = [
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,
+  waterIntakeTracker,
   wordCounter,
   wordFrequencyCounter,
   yamlToJsonConverter,

@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics', 'datetime', 'math-lab', 'math', 'wellness',
+  'physics', 'datetime', 'math-lab', 'math', 'wellness', 'tracker',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -47,7 +47,7 @@ const PATTERN_IDS = [
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
   'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
-  'health-calculate',
+  'health-calculate', 'health-track',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -96,6 +96,11 @@ const engineDefs: EngineDef[] = [
   // math/datetime engines: SmartField schemas in, InteractiveResult out, rendered by the platform
   // experience layer. runtimeGlobal runWellness resolves the calculator; no currency, no units DB.
   { id: 'wellness', name: 'Wellness Engine', category: 'health-fitness', patterns: ['health-calculate'], runtimeGlobal: 'runWellness', sharedWidget: 'WellnessWidget.astro' },
+  // Tracker Engine: stateful habit/measurement trackers (water, weight, ...). Unlike the calculator
+  // engines this is a repeat-entry log persisted in ToyTools.state, with streaks and a mini trend
+  // chart. Every tracker shares one TrackerWidget shell; a tracker is a declarative TrackerDef, and
+  // the pure model/viz + streak logic live in src/lib/engines/tracker/ (attached as ToyTools.tracker).
+  { id: 'tracker', name: 'Tracker Engine', category: 'health-fitness', patterns: ['health-track'], runtimeGlobal: 'tracker', sharedWidget: 'TrackerWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {

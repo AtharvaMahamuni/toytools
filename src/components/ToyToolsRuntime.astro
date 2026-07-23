@@ -19,6 +19,7 @@
   import { runDateTime } from '@lib/engines/datetime/registry';
   import { runMath } from '@lib/engines/math/registry';
   import { runWellness } from '@lib/engines/wellness/registry';
+  import { tracker } from '@lib/engines/tracker/registry';
   import { runGeneration } from '@lib/generation/registry';
   import { renderExperience } from '@lib/experience/render';
   import { diffLines, diffStats } from '@lib/text/compare';
@@ -94,6 +95,7 @@
   TT.runDateTime = runDateTime; // ToyTools.runDateTime(id, input, { timezone?, locale? }) → InteractiveResult
   TT.runMath = runMath; // ToyTools.runMath(id, input, { locale? }) → InteractiveResult
   TT.runWellness = runWellness; // ToyTools.runWellness(id, input, { locale? }) → InteractiveResult
+  TT.tracker = tracker; // ToyTools.tracker.* — stateful tracker model + streaks + inline-SVG charts
   TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]

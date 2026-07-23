@@ -256,6 +256,19 @@
         "energy"
       ],
       "toolCount": 3
+    },
+    "tracker": {
+      "name": "Tracker Engine",
+      "category": "health-fitness",
+      "patterns": [
+        "health-track"
+      ],
+      "runtimeGlobal": "tracker",
+      "sharedWidget": "src/tools/_shared/TrackerWidget.astro",
+      "supportedFamilies": [
+        "habit"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -2358,6 +2371,27 @@
       "pattern": "generate-identifier",
       "family": "identifier",
       "processorId": "uuid",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "water-intake-tracker": {
+      "name": "Water Intake Tracker",
+      "dir": "src/tools/health/water-intake-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/water-intake-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "habit",
+      "processorId": "water-intake",
       "toolGroup": "",
       "files": [
         "Guide.astro",

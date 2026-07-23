@@ -88,6 +88,7 @@ import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timest
 import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter/knowledge';
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
+import { knowledge as waterIntakeTracker } from '@tools/health/water-intake-tracker/knowledge';
 import { knowledge as wordCounter } from '@tools/text/word-counter/knowledge';
 import { knowledge as wordFrequencyCounter } from '@tools/text/word-frequency-counter/knowledge';
 import { knowledge as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/knowledge';
@@ -179,6 +180,7 @@ export const authoredKnowledge: Knowledge[] = [
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,
+  waterIntakeTracker,
   wordCounter,
   wordFrequencyCounter,
   yamlToJsonConverter,

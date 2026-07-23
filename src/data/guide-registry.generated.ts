@@ -88,6 +88,7 @@ export const authoredGuideSlugs = [
   'uppercase-converter',
   'url-encoder-decoder',
   'uuid-generator',
+  'water-intake-tracker',
   'word-counter',
   'word-frequency-counter',
   'yaml-to-json-converter',

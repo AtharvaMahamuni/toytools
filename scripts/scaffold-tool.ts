@@ -169,6 +169,7 @@ const WIDGETS: Record<string, { comp: string; prop: string }> = {
   finance:          { comp: 'FinanceWidget',        prop: 'financeId' },
   generation:       { comp: 'GeneratorWidget',      prop: 'generatorId' },
   wellness:         { comp: 'WellnessWidget',        prop: 'wellnessId' },
+  tracker:          { comp: 'TrackerWidget',          prop: 'trackerId' },
 };
 
 function widgetSource(): string {

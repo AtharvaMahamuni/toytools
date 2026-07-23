@@ -88,6 +88,7 @@ import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timest
 import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter/faq';
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
+import { items as waterIntakeTrackerFaqs } from '@tools/health/water-intake-tracker/faq';
 import { items as wordCounterFaqs } from '@tools/text/word-counter/faq';
 import { items as wordFrequencyCounterFaqs } from '@tools/text/word-frequency-counter/faq';
 import { items as yamlToJsonConverterFaqs } from '@tools/developer-utilities/yaml-to-json-converter/faq';
@@ -179,6 +180,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'uppercase-converter': uppercaseConverterFaqs,
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,
+  'water-intake-tracker': waterIntakeTrackerFaqs,
   'word-counter': wordCounterFaqs,
   'word-frequency-counter': wordFrequencyCounterFaqs,
   'yaml-to-json-converter': yamlToJsonConverterFaqs,
