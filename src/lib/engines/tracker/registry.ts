@@ -66,6 +66,21 @@ export const TRACKER_DEFS: Record<string, TrackerDef> = {
     defaultGoal: 8,
     goalLabel: 'Daily goal (glasses)',
   },
+  'body-weight': {
+    id: 'body-weight',
+    unit: 'kg',
+    inputMode: 'value',
+    chart: 'line',
+    streakMode: 'logged',
+    step: 0.1,
+    decimals: 1,
+    windowDays: 14,
+    goalLabel: 'Goal weight (optional)',
+    units: [
+      { value: 'kg', label: 'kg' },
+      { value: 'lb', label: 'lb' },
+    ],
+  },
 };
 
 export function getTrackerDef(id: string): TrackerDef | undefined {

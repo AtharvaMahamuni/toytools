@@ -19,7 +19,7 @@ export const config: ToolConfig = {
   pattern: 'health-calculate',
   family: 'body-composition',
   processorId: 'bmi',
-  relatedTools: ['tdee-calculator', 'body-fat-calculator'],
+  relatedTools: ['tdee-calculator', 'body-fat-calculator', 'body-weight-tracker'],
   guide: {
     slug: 'how-to-calculate-bmi',
     categorySlug: 'health-fitness',

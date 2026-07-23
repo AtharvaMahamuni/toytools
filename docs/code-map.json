@@ -266,9 +266,10 @@
       "runtimeGlobal": "tracker",
       "sharedWidget": "src/tools/_shared/TrackerWidget.astro",
       "supportedFamilies": [
+        "measurement",
         "habit"
       ],
-      "toolCount": 1
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -670,6 +671,27 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "body-fat",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "body-weight-tracker": {
+      "name": "Body Weight Tracker",
+      "dir": "src/tools/health/body-weight-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/body-weight-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "measurement",
+      "processorId": "body-weight",
       "toolGroup": "",
       "files": [
         "Guide.astro",

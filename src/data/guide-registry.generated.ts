@@ -7,6 +7,7 @@ export const authoredGuideSlugs = [
   'binary-text-converter',
   'bmi-calculator',
   'body-fat-calculator',
+  'body-weight-tracker',
   'cagr-calculator',
   'camel-case-converter',
   'character-counter',

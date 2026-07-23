@@ -7,6 +7,7 @@ import { knowledge as base64EncoderDecoder } from '@tools/developer-utilities/ba
 import { knowledge as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/knowledge';
 import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowledge';
 import { knowledge as bodyFatCalculator } from '@tools/health/body-fat-calculator/knowledge';
+import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracker/knowledge';
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
@@ -99,6 +100,7 @@ export const authoredKnowledge: Knowledge[] = [
   binaryTextConverter,
   bmiCalculator,
   bodyFatCalculator,
+  bodyWeightTracker,
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
