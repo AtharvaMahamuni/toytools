@@ -66,6 +66,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#7C3AED',
     segment: 'datetime',
   },
+  {
+    slug: 'health-fitness',
+    name: 'Health & Fitness',
+    description: 'Calculate fitness metrics, track your health, and build habits that stick, all privately in your browser.',
+    accent: '#DB2777',
+    segment: 'health',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

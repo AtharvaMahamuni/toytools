@@ -242,6 +242,34 @@
         "number-theory"
       ],
       "toolCount": 3
+    },
+    "wellness": {
+      "name": "Wellness Engine",
+      "category": "health-fitness",
+      "patterns": [
+        "health-calculate"
+      ],
+      "runtimeGlobal": "runWellness",
+      "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
+      "supportedFamilies": [
+        "body-composition",
+        "energy"
+      ],
+      "toolCount": 3
+    },
+    "tracker": {
+      "name": "Tracker Engine",
+      "category": "health-fitness",
+      "patterns": [
+        "health-track"
+      ],
+      "runtimeGlobal": "tracker",
+      "sharedWidget": "src/tools/_shared/TrackerWidget.astro",
+      "supportedFamilies": [
+        "measurement",
+        "habit"
+      ],
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -602,6 +630,69 @@
       "family": "binary-text",
       "processorId": "binary",
       "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "bmi-calculator": {
+      "name": "BMI Calculator",
+      "dir": "src/tools/health/bmi-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/bmi-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "bmi",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "body-fat-calculator": {
+      "name": "Body Fat Calculator",
+      "dir": "src/tools/health/body-fat-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/body-fat-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "body-fat",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "body-weight-tracker": {
+      "name": "Body Weight Tracker",
+      "dir": "src/tools/health/body-weight-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/body-weight-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "measurement",
+      "processorId": "body-weight",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2083,6 +2174,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "tdee-calculator": {
+      "name": "TDEE Calculator",
+      "dir": "src/tools/health/tdee-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/tdee-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "energy",
+      "processorId": "tdee",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "text-compare": {
       "name": "Text Compare",
       "dir": "src/tools/text/text-compare",
@@ -2281,6 +2393,27 @@
       "pattern": "generate-identifier",
       "family": "identifier",
       "processorId": "uuid",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "water-intake-tracker": {
+      "name": "Water Intake Tracker",
+      "dir": "src/tools/health/water-intake-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/water-intake-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "habit",
+      "processorId": "water-intake",
       "toolGroup": "",
       "files": [
         "Guide.astro",

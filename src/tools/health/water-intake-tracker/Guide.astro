@@ -1,0 +1,115 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The reason most people fail to drink enough water is not knowledge, it is consistency. This
+      tracker fixes that with one tap. Set a daily goal, the default is eight glasses of about 250 ml
+      each, then tap once every time you finish a glass. A progress ring fills toward the goal, a streak
+      counts the days you hit it, and a weekly chart shows the pattern. Everything stays in your browser,
+      so there is no account and nothing to install.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Water Intake Tracker →</a>
+  </section>
+
+  <section id="how-much">
+    <h2>How Much Water Do You Actually Need? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The familiar eight-glasses rule is a handy starting point, not a law. Your real need depends on
+      your body size, how active you are, the climate, and how much water you already get from food and
+      other drinks. A good practical signal is the colour of your urine: pale straw means you are well
+      hydrated, while darker means reach for a glass. Use the goal here as a target to aim at every day,
+      and nudge it up on hot days or when you train hard.
+    </p>
+  </section>
+
+  <section id="why-streaks">
+    <h2>Why a Goal and a Streak Work <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Habits form through repetition and small rewards, not willpower. A daily goal turns a vague
+      intention into a concrete target you either hit or miss, and a streak turns each hit into progress
+      you do not want to lose. That gentle "do not break the chain" pull is one of the most reliable
+      behaviour tools there is. The tracker leans into it: the ring gives you an immediate sense of how
+      close you are, and the streak count rewards showing up day after day.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Today gets grace">
+      <p>Your streak will not reset just because you have not finished logging today. Only a completed day below your goal breaks it, so an in-progress day is never held against you.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-to-use">
+    <h2>Using the Tracker <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Keep the page open or bookmark it, and tap the plus button each time you finish a glass. The big
+      number and ring update instantly, and once you pass the goal the day counts toward your streak.
+      The minus button fixes an accidental tap. At the bottom you can change the daily goal to whatever
+      fits you. The chart shows the last seven days with your goal marked as a dashed line, so a glance
+      tells you whether this week is on track.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Setting the goal too high">
+      <p>
+        An ambitious goal you miss every day kills momentum. Start at a level you can actually hit,
+        build the streak, and raise the target later. A goal you reach beats a goal you admire.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Logging from memory at night">
+      <p>
+        Guessing your whole day at bedtime defeats the point. Log each glass as you drink it. The one-tap
+        design exists precisely so logging in the moment costs you nothing.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Your data stays with you">
+      <p>The log is saved only in this browser on this device. There is no sync and no account, which keeps it private but also means clearing your browser storage erases the history. Everything runs offline.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

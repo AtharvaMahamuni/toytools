@@ -1,0 +1,122 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      TDEE is the total number of calories your body burns in a day. It is your Basal Metabolic Rate,
+      the energy you use at complete rest, multiplied by an activity factor between 1.2 and 1.9. This
+      calculator estimates BMR with the Mifflin-St Jeor equation from your sex, age, height, and
+      weight, scales it by your activity level, and then gives you concrete calorie targets: eat below
+      the maintenance number to lose weight, above it to gain. About 7,700 calories equals a kilogram,
+      so a 550 calorie daily gap moves roughly half a kilogram a week.
+    </p>
+    <a href={toolHref} class="cta-link">Try The TDEE Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How TDEE Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Your daily burn comes in two parts. The first and largest is BMR, the energy your body spends
+      just staying alive: keeping your heart beating, your lungs working, and your temperature steady.
+      For most people that is 60 to 70 percent of the total. The second part is everything you do on
+      top of that, from walking and typing to formal exercise. TDEE combines the two by taking your
+      BMR and multiplying it by a single activity factor, a shortcut that captures how much your
+      movement adds to the resting figure. A sedentary person uses a factor of 1.2, while someone
+      training hard most days uses up to 1.9.
+    </p>
+  </section>
+
+  <section id="bmr-formula">
+    <h2>The Mifflin-St Jeor Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      BMR here is estimated with the Mifflin-St Jeor equation, considered one of the most accurate for
+      the general population. For men it is 10 times weight in kilograms, plus 6.25 times height in
+      centimetres, minus 5 times age in years, plus 5. For women the final term is minus 161 instead
+      of plus 5. A 30-year-old man of 70 kg and 175 cm has a BMR of about 1,649 calories, and at a
+      moderate activity level his TDEE is roughly 2,556. If you enter imperial units, the calculator
+      converts pounds and inches first, so the result is the same either way.
+    </p>
+  </section>
+
+  <section id="calorie-goals">
+    <h2>Turning TDEE Into a Calorie Goal <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Weight change is mostly about the gap between what you eat and what you burn. Because a kilogram
+      of body weight holds about 7,700 calories, a daily deficit of 550 calories predicts around half
+      a kilogram of loss a week, and the same surplus predicts a similar gain. The tool lays out these
+      targets for you: a gentle loss, a steady loss, maintenance, and a gain. It floors any loss target
+      at your BMR, because eating below your resting requirement for long is neither comfortable nor
+      wise.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Estimate first, then measure">
+      <p>A formula cannot know your exact metabolism. Treat the calorie target as a starting hypothesis, then track your weight for two to three weeks and adjust. The scale is the real calculator.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Overstating activity level">
+      <p>
+        The activity factor has a big effect: jumping from moderate to very active can add several
+        hundred calories to the target. Most people move less than they think outside of workouts,
+        so when in doubt pick the lower level and let real results correct it.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Cutting below BMR">
+      <p>
+        Slashing calories under your BMR to lose faster tends to backfire: it is hard to sustain,
+        costs muscle, and often leads to rebound eating. A moderate deficit you can hold for months
+        beats an aggressive one you abandon in a week.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Give it time">
+      <p>Daily weight swings are mostly water and food in transit. Judge a calorie target by its two to three week trend, not by tomorrow's reading. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

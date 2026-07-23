@@ -5,6 +5,9 @@ import type { FAQItem } from './types';
 import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
 import { items as base64EncoderDecoderFaqs } from '@tools/developer-utilities/base64-encoder-decoder/faq';
 import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
+import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
+import { items as bodyFatCalculatorFaqs } from '@tools/health/body-fat-calculator/faq';
+import { items as bodyWeightTrackerFaqs } from '@tools/health/body-weight-tracker/faq';
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
@@ -75,6 +78,7 @@ import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
 import { items as spaceCounterFaqs } from '@tools/text/space-counter/faq';
 import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
+import { items as tdeeCalculatorFaqs } from '@tools/health/tdee-calculator/faq';
 import { items as textCompareFaqs } from '@tools/text/text-compare/faq';
 import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
 import { items as tipCalculatorFaqs } from '@tools/number/tip-calculator/faq';
@@ -85,6 +89,7 @@ import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timest
 import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter/faq';
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
+import { items as waterIntakeTrackerFaqs } from '@tools/health/water-intake-tracker/faq';
 import { items as wordCounterFaqs } from '@tools/text/word-counter/faq';
 import { items as wordFrequencyCounterFaqs } from '@tools/text/word-frequency-counter/faq';
 import { items as yamlToJsonConverterFaqs } from '@tools/developer-utilities/yaml-to-json-converter/faq';
@@ -93,6 +98,9 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'age-calculator': ageCalculatorFaqs,
   'base64-encoder-decoder': base64EncoderDecoderFaqs,
   'binary-text-converter': binaryTextConverterFaqs,
+  'bmi-calculator': bmiCalculatorFaqs,
+  'body-fat-calculator': bodyFatCalculatorFaqs,
+  'body-weight-tracker': bodyWeightTrackerFaqs,
   'cagr-calculator': cagrCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
@@ -163,6 +171,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'snake-case-converter': snakeCaseConverterFaqs,
   'space-counter': spaceCounterFaqs,
   'tax-calculator': taxCalculatorFaqs,
+  'tdee-calculator': tdeeCalculatorFaqs,
   'text-compare': textCompareFaqs,
   'timezone-converter': timezoneConverterFaqs,
   'tip-calculator': tipCalculatorFaqs,
@@ -173,6 +182,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'uppercase-converter': uppercaseConverterFaqs,
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,
+  'water-intake-tracker': waterIntakeTrackerFaqs,
   'word-counter': wordCounterFaqs,
   'word-frequency-counter': wordFrequencyCounterFaqs,
   'yaml-to-json-converter': yamlToJsonConverterFaqs,

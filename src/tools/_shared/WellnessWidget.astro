@@ -1,0 +1,219 @@
+---
+// WellnessWidget — the ONE wellness-calculator widget. Like MathWidget, DateTimeWidget, and
+// FinanceWidget it is deliberately THIN: it renders the input form from the tool's field schema
+// (via SmartInput) and delegates ALL result rendering to the platform ExperienceRenderer. It is
+// wellness-specific only in its wiring (ToyTools.runWellness); the input layer and the result
+// experience are platform-owned.
+//
+// If a new wellness tool ever requires editing this file, the architecture has failed — add a
+// calculator under src/lib/engines/wellness/calculators/ instead.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import SmartInput from '@components/inputs/SmartInput.astro';
+import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
+import { getWellnessCalculator } from '@lib/engines/wellness/registry';
+import { wellnessExamplesFor } from '@lib/engines/wellness/examples';
+import { DEFAULT_CAPABILITIES } from '@lib/results/types';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  wellnessId: string;
+  config: ToolConfig;
+  emptyText?: string;
+}
+
+const { slug, wellnessId, config, emptyText } = Astro.props;
+const tool = getWellnessCalculator(wellnessId);
+const fields = tool?.fields ?? [];
+const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
+const examples = wellnessExamplesFor(wellnessId).map((e) => e.inputs);
+const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
+const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+  <IoPanel
+    slot="input"
+    label="Details"
+    variant="prose"
+    data-wellness={wellnessId}
+    data-slug={slug}
+    data-defaults={JSON.stringify(defaults)}
+  >
+    <div class="io-body wellness-form" id={`${slug}-form`} data-wellness-form>
+      {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
+    </div>
+  </IoPanel>
+
+  <ExperienceRenderer
+    slot="output"
+    idPrefix={slug}
+    emptyText={resolvedEmpty}
+    layout={tool?.layout}
+    capabilities={caps}
+  />
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
+  {caps.loadExample && examples.length > 0 && (
+    <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+  )}
+  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
+</div>
+
+{examples.length > 0 && (
+  <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
+)}
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-wellness][data-slug]');
+    if (!root) return;
+    var wid = root.getAttribute('data-wellness');
+    var slug = root.getAttribute('data-slug');
+    var defaults = {};
+    try { defaults = JSON.parse(root.getAttribute('data-defaults') || '{}'); } catch (_) {}
+
+    var form = document.getElementById(slug + '-form');
+    var expRoot = document.getElementById(slug + '-experience');
+    var heroEl = document.getElementById(slug + '-hero');
+    if (!form || !expRoot) return;
+
+    var fieldEls = form.querySelectorAll('[data-field-id]');
+
+    function fieldById(id) {
+      for (var i = 0; i < fieldEls.length; i++) {
+        if (fieldEls[i].getAttribute('data-field-id') === id) return fieldEls[i];
+      }
+      return null;
+    }
+
+    // Non-numeric fields (select) carry their raw string as the value; numeric fields keep the
+    // canonical number in data-raw.
+    function isStringField(el) {
+      var t = el.getAttribute('data-field-type');
+      return t === 'select' || t === 'date' || t === 'datetime' || t === 'text';
+    }
+
+    function readValue(el) {
+      if (isStringField(el)) return el.value;
+      var raw = el.getAttribute('data-raw');
+      if (raw === '' || raw == null) return '';
+      var n = parseFloat(raw);
+      return isNaN(n) ? '' : n;
+    }
+
+    function setField(id, value) {
+      var el = fieldById(id);
+      if (!el) return;
+      el.value = value == null ? '' : String(value);
+      if (!isStringField(el)) el.setAttribute('data-raw', el.value);
+    }
+
+    function collect() {
+      var input = {};
+      var missingRequired = false;
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        var id = el.getAttribute('data-field-id');
+        var required = el.getAttribute('data-required') === 'true';
+        var v = readValue(el);
+        if (v === '' && required) missingRequired = true;
+        input[id] = v;
+      }
+      return { input: input, missingRequired: missingRequired };
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.runWellness && ToyTools.experience)) return;
+      var c = collect();
+      if (c.missingRequired) {
+        ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        return;
+      }
+      var res = ToyTools.runWellness(wid, c.input, {});
+      ToyTools.experience.render(expRoot, res);
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      var data = { fields: {} };
+      for (var i = 0; i < fieldEls.length; i++) {
+        data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
+      }
+      ToyTools.state.save(slug, data);
+    }
+
+    function applyValues(values) {
+      for (var id in values) setField(id, values[id]);
+    }
+
+    // Restore saved field values.
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var savedFields = (saved && saved.fields) || {};
+      for (var id in savedFields) setField(id, savedFields[id]);
+    } catch (_) {}
+
+    // Field input -> recompute + persist.
+    for (var i = 0; i < fieldEls.length; i++) {
+      fieldEls[i].addEventListener('change', function () { run(); persist(); });
+      fieldEls[i].addEventListener('input', function () { run(); persist(); });
+    }
+
+    // Reset to defaults (two-tap confirm).
+    var resetBtn = document.getElementById(slug + '-reset');
+    var resetTimer;
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      if (!resetBtn.classList.contains('is-confirming')) {
+        resetBtn.classList.add('is-confirming');
+        resetBtn.textContent = 'Confirm Reset';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () {
+          resetBtn.classList.remove('is-confirming');
+          resetBtn.textContent = 'Reset to Defaults';
+        }, 3000);
+        return;
+      }
+      resetBtn.classList.remove('is-confirming');
+      resetBtn.textContent = 'Reset to Defaults';
+      for (var id in defaults) setField(id, defaults[id]);
+      run(); persist();
+    });
+
+    // Load Example — cycles through the tool's worked examples.
+    var exampleNode = document.getElementById(slug + '-examples');
+    var exampleBtn = document.getElementById(slug + '-example');
+    var exampleIdx = 0;
+    if (exampleBtn && exampleNode) {
+      var examples = [];
+      try { examples = JSON.parse(exampleNode.textContent || '[]'); } catch (_) {}
+      exampleBtn.addEventListener('click', function () {
+        if (!examples.length) return;
+        applyValues(examples[exampleIdx % examples.length]);
+        exampleIdx++;
+        run(); persist();
+      });
+    }
+
+    // Copy the hero value.
+    var copyBtn = document.getElementById(slug + '-copy');
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var val = heroEl ? heroEl.textContent : '';
+      if (!val || val === '0') { if (window.ToyTools) ToyTools.toast('Nothing to copy yet!'); return; }
+      if (window.ToyTools) ToyTools.copy(val);
+      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+    });
+
+    // runWellness + experience attach via the deferred runtime module — wait so restored input renders.
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>

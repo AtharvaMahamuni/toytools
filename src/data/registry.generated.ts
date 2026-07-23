@@ -5,6 +5,9 @@ import type { ToolConfig } from './types';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/config';
 import { config as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/config';
+import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
+import { config as bodyFatCalculator } from '@tools/health/body-fat-calculator/config';
+import { config as bodyWeightTracker } from '@tools/health/body-weight-tracker/config';
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
@@ -75,6 +78,7 @@ import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
 import { config as spaceCounter } from '@tools/text/space-counter/config';
 import { config as taxCalculator } from '@tools/number/tax-calculator/config';
+import { config as tdeeCalculator } from '@tools/health/tdee-calculator/config';
 import { config as textCompare } from '@tools/text/text-compare/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
 import { config as tipCalculator } from '@tools/number/tip-calculator/config';
@@ -85,6 +89,7 @@ import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp
 import { config as uppercaseConverter } from '@tools/text/uppercase-converter/config';
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
+import { config as waterIntakeTracker } from '@tools/health/water-intake-tracker/config';
 import { config as wordCounter } from '@tools/text/word-counter/config';
 import { config as wordFrequencyCounter } from '@tools/text/word-frequency-counter/config';
 import { config as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/config';
@@ -93,6 +98,9 @@ export const toolConfigs: ToolConfig[] = [
   ageCalculator,
   base64EncoderDecoder,
   binaryTextConverter,
+  bmiCalculator,
+  bodyFatCalculator,
+  bodyWeightTracker,
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
@@ -163,6 +171,7 @@ export const toolConfigs: ToolConfig[] = [
   snakeCaseConverter,
   spaceCounter,
   taxCalculator,
+  tdeeCalculator,
   textCompare,
   timezoneConverter,
   tipCalculator,
@@ -173,6 +182,7 @@ export const toolConfigs: ToolConfig[] = [
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,
+  waterIntakeTracker,
   wordCounter,
   wordFrequencyCounter,
   yamlToJsonConverter,

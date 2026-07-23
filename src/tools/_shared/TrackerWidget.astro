@@ -1,0 +1,430 @@
+---
+// TrackerWidget — the ONE shell every habit/measurement tracker uses. Like the calculator widgets it
+// is thin: the interactive shape (increment vs value entry, bars vs line chart, goal control, unit
+// select) is driven entirely by the tracker's TrackerDef, and all logic (streaks, aggregates, chart
+// SVG) lives in the tested pure model behind ToyTools.tracker. Persistence is ToyTools.state, so a
+// tracker's history stays on the user's device.
+//
+// If a new tracker ever requires editing this file, add a TrackerDef in the tracker registry instead.
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+import { getTrackerDef } from '@lib/engines/tracker/registry';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  trackerId: string;
+  config: ToolConfig;
+}
+
+const { slug, trackerId, config } = Astro.props;
+const def = getTrackerDef(trackerId)!;
+const isIncrement = def.inputMode === 'increment';
+const showGoal = !!def.goalLabel;
+const showUnits = !!def.units?.length;
+---
+
+<section class="tracker" data-tracker={trackerId} data-slug={slug} data-def={JSON.stringify(def)}>
+  <p class="tracker-note">
+    Stored locally <span class="gold-dot" aria-hidden="true"></span> Never leaves your device
+  </p>
+
+  <div class="tracker-grid">
+    <!-- Today -->
+    <div class="tracker-today">
+      <p class="tracker-today-label">Today</p>
+      <div class="tracker-today-main">
+        {isIncrement && showGoal && (
+          <div class="tracker-ring" id={`${slug}-ring`} aria-hidden="true"></div>
+        )}
+        <div class="tracker-today-value-wrap">
+          <span class="tracker-today-value" id={`${slug}-today`} aria-live="polite">0</span>
+          <span class="tracker-today-unit" id={`${slug}-unit-label`}>{def.unit}</span>
+        </div>
+      </div>
+
+      {isIncrement ? (
+        <div class="tracker-actions" role="group" aria-label="Log today">
+          {(def.quickAdds ?? [1]).map((amt) => (
+            <button type="button" class="tracker-add" data-add={amt}>+{amt} {def.unit}</button>
+          ))}
+          <button type="button" class="tracker-sub" data-add={-(def.quickAdds?.[0] ?? 1)} aria-label="Remove one">−</button>
+        </div>
+      ) : (
+        <div class="tracker-actions tracker-actions--value">
+          <label class="tracker-input-label" for={`${slug}-input`}>Log today's {def.unit}</label>
+          <div class="tracker-input-row">
+            <input
+              id={`${slug}-input`}
+              class="tracker-input"
+              type="number"
+              inputmode="decimal"
+              step={def.step}
+              min="0"
+              placeholder={`e.g. 70`}
+            />
+            <button type="button" class="tracker-log" id={`${slug}-log`}>Log</button>
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Streaks + summary -->
+    <div class="tracker-stats">
+      <div class="tracker-stat">
+        <span class="tracker-stat-value" id={`${slug}-streak`}>0</span>
+        <span class="tracker-stat-label">🔥 Day streak</span>
+      </div>
+      <div class="tracker-stat">
+        <span class="tracker-stat-value" id={`${slug}-longest`}>0</span>
+        <span class="tracker-stat-label">Longest</span>
+      </div>
+      <div class="tracker-stat tracker-stat--wide">
+        <span class="tracker-stat-value tracker-summary" id={`${slug}-summary`}>—</span>
+        <span class="tracker-stat-label">Trend</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="tracker-chart-wrap">
+    <p class="tracker-chart-title">Last {def.windowDays} days</p>
+    <div class="tracker-chart" id={`${slug}-chart`} role="img" aria-label={`${config.name} history`}></div>
+    <p class="tracker-empty" id={`${slug}-empty`}>Log a few days to see your {def.chart === 'line' ? 'trend' : 'week'} take shape.</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="tracker-controls">
+    {showGoal && (
+      <label class="tracker-control">
+        <span>{def.goalLabel}</span>
+        <input id={`${slug}-goal`} class="tracker-goal" type="number" inputmode="decimal" step={def.step} min="0" placeholder="Optional" />
+      </label>
+    )}
+    {showUnits && (
+      <label class="tracker-control">
+        <span>Unit</span>
+        <select id={`${slug}-unit`} class="tracker-unit">
+          {def.units!.map((u) => <option value={u.value}>{u.label}</option>)}
+        </select>
+      </label>
+    )}
+    <button type="button" class="tracker-reset" id={`${slug}-reset`}>Clear all history</button>
+  </div>
+</section>
+
+<CategoryDiscovery toolSlug={slug} />
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('.tracker[data-tracker][data-slug]');
+    if (!root) return;
+    var slug = root.getAttribute('data-slug');
+    var def = {};
+    try { def = JSON.parse(root.getAttribute('data-def') || '{}'); } catch (_) { return; }
+
+    var $ = function (id) { return document.getElementById(slug + '-' + id); };
+    var todayEl = $('today');
+    var unitLabelEl = $('unit-label');
+    var streakEl = $('streak');
+    var longestEl = $('longest');
+    var summaryEl = $('summary');
+    var chartEl = $('chart');
+    var emptyEl = $('empty');
+    var ringEl = $('ring');
+    var goalEl = $('goal');
+    var unitEl = $('unit');
+
+    // ── State ────────────────────────────────────────────────────────────────
+    var state = { entries: [], goal: def.defaultGoal || 0, unit: (def.units && def.units[0] && def.units[0].value) || def.unit };
+
+    function load() {
+      try {
+        var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+        if (saved && Array.isArray(saved.entries)) state.entries = saved.entries;
+        if (saved && typeof saved.goal === 'number') state.goal = saved.goal;
+        if (saved && typeof saved.unit === 'string') state.unit = saved.unit;
+      } catch (_) {}
+    }
+    function persist() {
+      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, state);
+    }
+
+    function fmt(v) { return Number(v).toFixed(def.decimals || 0); }
+    function T() { return window.ToyTools && ToyTools.tracker; }
+
+    function weekdayLabel(iso) {
+      var parts = iso.split('-');
+      var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      return d.toLocaleDateString('en-US', { weekday: 'narrow' });
+    }
+    function dayLabel(iso) {
+      var parts = iso.split('-');
+      return String(Number(parts[2]));
+    }
+
+    // ── Render ───────────────────────────────────────────────────────────────
+    function render() {
+      var tr = T();
+      if (!tr) return;
+      var today = tr.todayIso();
+      var todayVal = tr.valueOn(state.entries, today);
+      if (todayEl) todayEl.textContent = fmt(todayVal);
+      if (unitLabelEl) unitLabelEl.textContent = state.unit;
+
+      var streak = tr.currentStreak(state.entries, today, state.goal, def.streakMode);
+      var longest = tr.longestStreak(state.entries, state.goal, def.streakMode);
+      if (streakEl) streakEl.textContent = String(streak);
+      if (longestEl) longestEl.textContent = String(longest);
+
+      // Progress ring (increment + goal only).
+      if (ringEl && def.streakMode === 'goal') {
+        ringEl.innerHTML = tr.progressRingSvg(todayVal, state.goal || 0);
+      }
+
+      var hasData = state.entries.length > 0;
+      if (emptyEl) emptyEl.hidden = hasData;
+      if (chartEl) chartEl.hidden = !hasData;
+
+      if (def.chart === 'bars') {
+        var series = tr.lastNDays(state.entries, today, def.windowDays).map(function (e) {
+          return { label: weekdayLabel(e.date), value: e.value };
+        });
+        if (chartEl && hasData) chartEl.innerHTML = tr.barsSvg(series, { goal: state.goal || 0 });
+        summarizeIncrement(tr, today);
+      } else {
+        // Line: actual entries within the window (no zero-fill so gaps do not crater the line).
+        var recent = state.entries.filter(function (e) {
+          return withinWindow(e.date, today, def.windowDays);
+        });
+        var pts = recent.map(function (e) { return { label: dayLabel(e.date), value: e.value }; });
+        var vals = recent.map(function (e) { return e.value; });
+        var avg = tr.movingAverage(vals, 3);
+        if (chartEl && hasData) chartEl.innerHTML = tr.lineSvg(pts, { avg: avg, goal: state.goal > 0 ? state.goal : undefined });
+        summarizeValue(recent);
+      }
+    }
+
+    function withinWindow(iso, today, n) {
+      var a = iso.split('-').map(Number), b = today.split('-').map(Number);
+      var da = Date.UTC(a[0], a[1] - 1, a[2]) / 86400000;
+      var db = Date.UTC(b[0], b[1] - 1, b[2]) / 86400000;
+      return db - da < n;
+    }
+
+    function summarizeIncrement(tr, today) {
+      if (!summaryEl) return;
+      var series = tr.lastNDays(state.entries, today, def.windowDays);
+      var sum = series.reduce(function (s, e) { return s + e.value; }, 0);
+      summaryEl.textContent = fmt(sum) + ' ' + def.unit + ' / ' + def.windowDays + 'd';
+    }
+
+    function summarizeValue(recent) {
+      if (!summaryEl) return;
+      if (recent.length < 2) { summaryEl.textContent = 'Log 2+ days'; return; }
+      var first = recent[0].value, last = recent[recent.length - 1].value;
+      var delta = last - first;
+      var arrow = delta > 0 ? '▲' : (delta < 0 ? '▼' : '→');
+      summaryEl.textContent = arrow + ' ' + fmt(Math.abs(delta)) + ' ' + state.unit;
+    }
+
+    // ── Actions ──────────────────────────────────────────────────────────────
+    function logDelta(delta) {
+      var tr = T();
+      if (!tr) return;
+      var today = tr.todayIso();
+      state.entries = tr.increment(state.entries, today, delta, def.step);
+      persist(); render();
+      if (delta > 0 && window.ToyTools) {
+        var s = tr.currentStreak(state.entries, today, state.goal, def.streakMode);
+        ToyTools.toast(s > 1 ? 'Logged! ' + s + '-day streak 🔥' : 'Logged!');
+      }
+    }
+    function logValue(v) {
+      var tr = T();
+      if (!tr || !(v > 0)) return;
+      var today = tr.todayIso();
+      state.entries = tr.upsert(state.entries, today, v);
+      persist(); render();
+      if (window.ToyTools) ToyTools.toast('Logged ' + fmt(v) + ' ' + state.unit);
+    }
+
+    root.querySelectorAll('[data-add]').forEach(function (btn) {
+      btn.addEventListener('click', function () { logDelta(Number(btn.getAttribute('data-add'))); });
+    });
+
+    var logBtn = $('log');
+    var inputEl = $('input');
+    if (logBtn && inputEl) {
+      var submit = function () {
+        var v = parseFloat(inputEl.value);
+        if (isFinite(v) && v > 0) { logValue(v); inputEl.value = ''; }
+      };
+      logBtn.addEventListener('click', submit);
+      inputEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+    }
+
+    if (goalEl) {
+      goalEl.addEventListener('input', function () {
+        var g = parseFloat(goalEl.value);
+        state.goal = isFinite(g) && g > 0 ? g : 0;
+        persist(); render();
+      });
+    }
+    if (unitEl) {
+      unitEl.addEventListener('change', function () { state.unit = unitEl.value; persist(); render(); });
+    }
+
+    var resetBtn = $('reset');
+    var resetTimer;
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      if (!resetBtn.classList.contains('is-confirming')) {
+        resetBtn.classList.add('is-confirming');
+        resetBtn.textContent = 'Tap again to clear everything';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () {
+          resetBtn.classList.remove('is-confirming');
+          resetBtn.textContent = 'Clear all history';
+        }, 3000);
+        return;
+      }
+      resetBtn.classList.remove('is-confirming');
+      resetBtn.textContent = 'Clear all history';
+      state.entries = [];
+      persist(); render();
+      if (window.ToyTools) ToyTools.toast('History cleared');
+    });
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    load();
+    if (goalEl && state.goal > 0) goalEl.value = String(state.goal);
+    if (unitEl) unitEl.value = state.unit;
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(render); else render();
+  })();
+</script>
+
+<style is:global>
+  .tracker { max-width: var(--width-tool); }
+  .tracker-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 640px) {
+    .tracker-grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
+  }
+  .tracker-today, .tracker-stats {
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .tracker-today-label, .tracker-chart-title {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+    margin-bottom: var(--space-3);
+  }
+  .tracker-today-main { display: flex; align-items: center; gap: var(--space-4); }
+  .tracker-ring { flex: none; width: 96px; height: 96px; }
+  .tracker-ring svg { width: 96px; height: 96px; }
+  .tracker-today-value-wrap { display: flex; align-items: baseline; gap: var(--space-2); }
+  .tracker-today-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-5xl);
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+  .tracker-today-unit { font-size: var(--text-lg); color: var(--color-text-muted); }
+  .tracker-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+  .tracker-add, .tracker-sub, .tracker-log {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: background-color 150ms, border-color 150ms;
+  }
+  .tracker-sub { background: var(--color-surface); color: var(--color-text); min-width: var(--touch-target); }
+  .tracker-add:hover, .tracker-log:hover { opacity: 0.92; }
+  .tracker-sub:hover { background: var(--color-surface-hover); border-color: var(--color-border-strong); }
+  .tracker-actions--value { flex-direction: column; align-items: stretch; }
+  .tracker-input-label { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .tracker-input-row { display: flex; gap: var(--space-2); }
+  .tracker-input {
+    flex: 1;
+    min-height: var(--touch-target);
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+  }
+  .tracker-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); align-content: center; }
+  .tracker-stat { display: flex; flex-direction: column; gap: var(--space-1); }
+  .tracker-stat--wide { grid-column: 1 / -1; }
+  .tracker-stat-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+  .tracker-summary { font-size: var(--text-xl); }
+  .tracker-stat-label { font-size: var(--text-xs); color: var(--color-text-subtle); }
+  .tracker-chart-wrap { margin-top: var(--space-6); }
+  .tracker-chart { width: 100%; }
+  .tracker-empty { color: var(--color-text-muted); font-size: var(--text-sm); }
+  .tracker-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: var(--border);
+  }
+  .tracker-control { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .tracker-goal, .tracker-unit {
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+  .tracker-reset {
+    margin-left: auto;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+  .tracker-reset.is-confirming { color: var(--color-danger); border-color: var(--color-danger); }
+
+  /* Chart theming — colours come from tokens so light/dark both read correctly. */
+  .tracker-chart .viz-bar { fill: var(--color-accent-subtle); }
+  .tracker-chart .viz-bar--met { fill: var(--color-accent); }
+  .tracker-chart .viz-line { stroke: var(--color-accent); stroke-width: 2; }
+  .tracker-chart .viz-avg { stroke: var(--color-text-subtle); stroke-width: 1.5; stroke-dasharray: 3 3; }
+  .tracker-chart .viz-dot { fill: var(--color-accent); }
+  .tracker-chart .viz-goal { stroke: var(--color-text-subtle); }
+  .tracker-chart .viz-axis { fill: var(--color-text-subtle); font-size: 9px; }
+  .tracker-ring .viz-ring-track { stroke: var(--color-surface-hover); }
+  .tracker-ring .viz-ring-fill { stroke: var(--color-accent); }
+  .tracker-ring .viz-ring-text { fill: var(--color-text); font-family: var(--font-mono); font-size: 22px; font-weight: 700; }
+</style>

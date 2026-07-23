@@ -1,0 +1,115 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The scale lies a little every day. Water, food, and sleep push it up and down by a kilogram or
+      more overnight, which has nothing to do with fat. The fix is to log your weight daily and follow
+      the trend rather than the reading. This tracker plots each weigh-in as a dot, draws a smoothed
+      moving-average line through them, and lets you mark a goal weight. The trend line is the number
+      that actually matters, and it all stays private in your browser.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Body Weight Tracker →</a>
+  </section>
+
+  <section id="trend-not-reading">
+    <h2>Watch the Trend, Not the Reading <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A single morning weight is one noisy sample of a value that naturally fluctuates. Eat something
+      salty, train hard, or sleep badly and you can be up a kilogram tomorrow with zero fat gained. If
+      you react to each reading you will ride an emotional rollercoaster and learn nothing. The trend
+      over a week or two, on the other hand, is honest: when it drifts down you are losing, when it
+      drifts up you are gaining, whatever any one day says.
+    </p>
+  </section>
+
+  <section id="moving-average">
+    <h2>How the Moving Average Helps <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A moving average takes your recent readings and averages them, so a single spike barely nudges
+      the line. It is the same trick weather forecasters and stock charts use to see signal through
+      noise. On this tracker the smoothed line sits over your daily dots, so you can watch the dots
+      scatter while the average glides steadily in the real direction. When the average is falling and
+      the dots are bouncing, trust the average.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One day is noise, two weeks is signal">
+      <p>Judge progress by where the average line has moved over ten to fourteen days, not by whether today was up or down from yesterday. The daily number is data, not a verdict.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-to-weigh">
+    <h2>How to Weigh Consistently <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Consistency beats precision. Weigh once a day, first thing in the morning, after using the
+      bathroom and before eating or drinking, wearing little or nothing. Use the same scale on the same
+      spot of floor. Then log the number here and move on with your day. Pick pounds or kilograms and
+      stick with it so your history stays comparable. Set a goal weight if you have one, and let the
+      dashed line quietly show how the trend is tracking toward it.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Panicking over a one-day jump">
+      <p>
+        An overnight rise is almost always water, not fat. It takes a large, sustained calorie surplus
+        to gain real weight. Log the number, let the average absorb it, and keep going.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Weighing at random times">
+      <p>
+        Weighing after meals, after workouts, or at different times of day adds noise that swamps the
+        real trend. Fix one time and one routine so the numbers can be compared to each other.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Private by design">
+      <p>Your weigh-ins are stored only in this browser on this device, never uploaded. That keeps them private and also means clearing your browser storage erases the history. The whole tracker runs offline.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

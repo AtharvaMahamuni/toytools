@@ -5,6 +5,9 @@ import type { Knowledge } from './types';
 import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowledge';
 import { knowledge as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/knowledge';
 import { knowledge as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/knowledge';
+import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowledge';
+import { knowledge as bodyFatCalculator } from '@tools/health/body-fat-calculator/knowledge';
+import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracker/knowledge';
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
@@ -75,6 +78,7 @@ import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
+import { knowledge as tdeeCalculator } from '@tools/health/tdee-calculator/knowledge';
 import { knowledge as textCompare } from '@tools/text/text-compare/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
 import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
@@ -85,6 +89,7 @@ import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timest
 import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter/knowledge';
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
+import { knowledge as waterIntakeTracker } from '@tools/health/water-intake-tracker/knowledge';
 import { knowledge as wordCounter } from '@tools/text/word-counter/knowledge';
 import { knowledge as wordFrequencyCounter } from '@tools/text/word-frequency-counter/knowledge';
 import { knowledge as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/knowledge';
@@ -93,6 +98,9 @@ export const authoredKnowledge: Knowledge[] = [
   ageCalculator,
   base64EncoderDecoder,
   binaryTextConverter,
+  bmiCalculator,
+  bodyFatCalculator,
+  bodyWeightTracker,
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
@@ -163,6 +171,7 @@ export const authoredKnowledge: Knowledge[] = [
   snakeCaseConverter,
   spaceCounter,
   taxCalculator,
+  tdeeCalculator,
   textCompare,
   timezoneConverter,
   tipCalculator,
@@ -173,6 +182,7 @@ export const authoredKnowledge: Knowledge[] = [
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,
+  waterIntakeTracker,
   wordCounter,
   wordFrequencyCounter,
   yamlToJsonConverter,
