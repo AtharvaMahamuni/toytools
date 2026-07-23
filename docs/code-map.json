@@ -242,6 +242,19 @@
         "number-theory"
       ],
       "toolCount": 3
+    },
+    "wellness": {
+      "name": "Wellness Engine",
+      "category": "health-fitness",
+      "patterns": [
+        "health-calculate"
+      ],
+      "runtimeGlobal": "runWellness",
+      "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
+      "supportedFamilies": [
+        "body-composition"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -602,6 +615,27 @@
       "family": "binary-text",
       "processorId": "binary",
       "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "bmi-calculator": {
+      "name": "BMI Calculator",
+      "dir": "src/tools/health/bmi-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/bmi-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "bmi",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

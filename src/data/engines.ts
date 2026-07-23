@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics', 'datetime', 'math-lab', 'math',
+  'physics', 'datetime', 'math-lab', 'math', 'wellness',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -47,6 +47,7 @@ const PATTERN_IDS = [
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
   'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
+  'health-calculate',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -91,6 +92,10 @@ const engineDefs: EngineDef[] = [
   // (fractions, combinatorics, primes). Mirrors the datetime engine: SmartField schemas in,
   // InteractiveResult out, rendered by the platform experience layer.
   { id: 'math', name: 'Math Calculator Engine', category: 'applied-math', patterns: ['math-calculate'], runtimeGlobal: 'runMath', sharedWidget: 'MathWidget.astro' },
+  // Wellness Engine: health & fitness metric calculators (BMI, TDEE, body fat, ...). Mirrors the
+  // math/datetime engines: SmartField schemas in, InteractiveResult out, rendered by the platform
+  // experience layer. runtimeGlobal runWellness resolves the calculator; no currency, no units DB.
+  { id: 'wellness', name: 'Wellness Engine', category: 'health-fitness', patterns: ['health-calculate'], runtimeGlobal: 'runWellness', sharedWidget: 'WellnessWidget.astro' },
 ];
 
 function familiesFor(engineId: string): string[] {

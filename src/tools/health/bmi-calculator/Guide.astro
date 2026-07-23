@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Body Mass Index is your weight in kilograms divided by the square of your height in metres.
+      A person who is 70 kg and 1.75 m tall has a BMI of 70 / (1.75 × 1.75), which is about 22.9.
+      For adults the World Health Organization reads that number against four bands: under 18.5 is
+      underweight, 18.5 to 24.9 is healthy, 25 to 29.9 is overweight, and 30 or above is obesity.
+      This calculator works it out in metric or imperial, names your band, and shows the actual
+      weight range that would keep you in the healthy zone at your height.
+    </p>
+    <a href={toolHref} class="cta-link">Try The BMI Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How BMI Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      BMI exists to turn two easy measurements, height and weight, into a single number that scales
+      fairly across tall and short people. Weight alone is misleading because a taller person is
+      expected to weigh more. Dividing by height squared cancels most of that height effect, so the
+      resulting figure can be compared against the same fixed bands for everyone. That is the whole
+      idea: one ratio, four categories, no equipment beyond a scale and a tape measure. If you enter
+      imperial units, the calculator first converts pounds to kilograms and inches to metres, then
+      applies the identical formula, which is why 154 lb at 69 inches and 69.9 kg at 175 cm land on
+      the same BMI.
+    </p>
+  </section>
+
+  <section id="categories">
+    <h2>Reading the WHO Categories <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The adult cut-offs are fixed numbers, not opinions: 18.5, 25, and 30. They come from large
+      population studies linking BMI bands to health risk on average. A BMI of 24.9 is healthy and
+      25.0 is overweight, but the boundary is a statistical line, not a cliff, so treat a figure
+      near an edge as "close to the line" rather than a hard verdict. Alongside your category the
+      tool shows the healthy weight range for your exact height, so instead of an abstract score you
+      see the concrete weights that would place you inside the 18.5 to 24.9 band.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>70 kg at 175 cm.</strong> BMI is 70 / (1.75)² = 22.9, comfortably inside the healthy 18.5 to 24.9 range.</p>
+    <p><strong>90 kg at 170 cm.</strong> BMI is 90 / (1.70)² = 31.1, which falls in the obesity band; the tool shows how many kilograms separate you from the healthy range.</p>
+    <p><strong>154 lb at 69 inches.</strong> Converted internally, that is a BMI of about 22.7, matching the metric result for the same body.</p>
+  </section>
+
+  <section id="limits">
+    <h2>What BMI Cannot See <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      BMI uses only height and weight, so it cannot tell muscle from fat or where fat sits on your
+      body. A muscular athlete can score as overweight while carrying very little fat, and an older
+      person who has lost muscle can score as healthy while carrying too much. It also was not
+      designed for children, for whom age and sex specific percentile charts are used instead. Read
+      BMI as a fast, free screening ratio that flags who might want a closer look, not as a diagnosis.
+      For a fuller picture, pair it with a body fat percentage estimate and a look at waist size.
+    </p>
+    <ReferenceBlock type="key-idea" heading="A screen, not a verdict">
+      <p>BMI is a population-level screening tool. It answers "is this worth a closer look?" well, and "how healthy is this specific person?" poorly. Use it as a starting point, not a conclusion.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Treating BMI as a diagnosis">
+      <p>
+        A BMI in the overweight band is a prompt to look closer, not a medical diagnosis. Body
+        composition, fitness, blood markers, and family history all matter. Two people with the
+        same BMI can be in very different health.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Mixing units">
+      <p>
+        Entering weight in pounds while height is still in centimetres produces a nonsense figure.
+        Pick metric or imperial with the toggle and enter both measurements in that system. The
+        calculator converts everything internally once the system is set.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Athletes and older adults">
+      <p>Because BMI cannot separate muscle from fat, it tends to overstate risk for very muscular people and understate it for those who have lost muscle with age. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

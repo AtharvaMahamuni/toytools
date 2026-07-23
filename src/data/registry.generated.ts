@@ -5,6 +5,7 @@ import type { ToolConfig } from './types';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/config';
 import { config as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/config';
+import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
@@ -93,6 +94,7 @@ export const toolConfigs: ToolConfig[] = [
   ageCalculator,
   base64EncoderDecoder,
   binaryTextConverter,
+  bmiCalculator,
   cagrCalculator,
   camelCaseConverter,
   characterCounter,

@@ -25,6 +25,7 @@ import { STRUCTURED_TOOLS } from '../src/lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { MATH_CALCULATORS } from '../src/lib/engines/math/registry';
+import { WELLNESS_CALCULATORS } from '../src/lib/engines/wellness/registry';
 import { DOMAINS } from '../src/lib/simulation/simulations/registry';
 import { KNOWLEDGE } from '../src/lib/knowledge/registry';
 import { knownPatterns } from '../src/data/engines';
@@ -107,6 +108,7 @@ const engineRegistries: Record<string, Record<string, unknown>> = {
   jwt: JWT_TOOLS,
   finance: FINANCE_CALCULATORS,
   math: MATH_CALCULATORS,
+  wellness: WELLNESS_CALCULATORS,
   // Each simulation domain plugin is its own engine id over its own slice of the composed
   // simulation map (physics, math-lab, ...), so a sim is only "unused" within its own domain.
   ...Object.fromEntries(DOMAINS.map(d => [d.id, d.simulations])),

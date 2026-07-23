@@ -150,7 +150,7 @@ if (!knownPatterns.has(pattern)) die(`unknown pattern "${pattern}" — declare i
 const eng = getEngine(engine)!;
 if (!eng.patterns.includes(pattern)) die(`pattern "${pattern}" is not owned by engine "${engine}" (allowed: ${eng.patterns.join(', ')})`);
 
-const REGISTRY_ENGINES = new Set(['text-processor', 'encoding', 'hashing', 'structured-data', 'jwt', 'finance', 'generation', 'physics']);
+const REGISTRY_ENGINES = new Set(['text-processor', 'encoding', 'hashing', 'structured-data', 'jwt', 'finance', 'generation', 'physics', 'wellness']);
 if (REGISTRY_ENGINES.has(engine) && !processorId) {
   die(`engine "${engine}" needs --processor-id (must resolve in that engine's registry)`);
 }
@@ -168,6 +168,7 @@ const WIDGETS: Record<string, { comp: string; prop: string }> = {
   jwt:              { comp: 'JwtWidget',            prop: 'jwtId' },
   finance:          { comp: 'FinanceWidget',        prop: 'financeId' },
   generation:       { comp: 'GeneratorWidget',      prop: 'generatorId' },
+  wellness:         { comp: 'WellnessWidget',        prop: 'wellnessId' },
 };
 
 function widgetSource(): string {

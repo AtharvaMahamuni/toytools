@@ -11,6 +11,7 @@ import { STRUCTURED_TOOLS } from '../src/lib/engines/structured-data/registry';
 import { JWT_TOOLS } from '../src/lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS } from '../src/lib/engines/finance/registry';
 import { MATH_CALCULATORS } from '../src/lib/engines/math/registry';
+import { WELLNESS_CALCULATORS } from '../src/lib/engines/wellness/registry';
 import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
 import { GENERATORS } from '../src/lib/generation/registry';
 import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
@@ -32,6 +33,7 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
   csv: CSV_TOOLS,
   generation: GENERATORS,
   math: MATH_CALCULATORS,
+  wellness: WELLNESS_CALCULATORS,
   // Each simulation domain plugin resolves only its own slice of the composed simulation map,
   // so e.g. a physics tool cannot claim a math-lab processorId.
   ...Object.fromEntries(DOMAINS.map(d => [d.id, d.simulations])),
