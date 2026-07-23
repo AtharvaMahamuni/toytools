@@ -105,6 +105,24 @@ export const WELLNESS_EXAMPLES: WorkedExample<WellnessInput>[] = [
     expect: { ideal: 57.7 },
     narrative: 'For a 165 cm woman the formulas average about 58 kg.',
   },
+  {
+    id: 'hr-zones-simple-30',
+    engine: 'wellness',
+    ref: 'heart-rate-zones',
+    title: 'Age 30, 220 − age',
+    inputs: { age: 30, method: 'simple', resting: 0 },
+    expect: { 'max-hr': 190, zone2: 114 },
+    narrative: 'At 30, 220 minus age gives a maximum near 190 bpm, with the Zone 2 fat-burn band around 114 to 133 bpm.',
+  },
+  {
+    id: 'hr-zones-karvonen-40',
+    engine: 'wellness',
+    ref: 'heart-rate-zones',
+    title: 'Age 40, Tanaka + resting 60',
+    inputs: { age: 40, method: 'tanaka', resting: 60 },
+    expect: { 'max-hr': 180, zone2: 132 },
+    narrative: 'At 40 with the Tanaka formula and a resting rate of 60, the Karvonen method personalises the zones, putting Zone 2 near 132 to 144 bpm.',
+  },
 ];
 
 export const WELLNESS_EXAMPLE_MAP = buildExampleRegistry(WELLNESS_EXAMPLES);

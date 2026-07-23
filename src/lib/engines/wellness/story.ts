@@ -23,8 +23,12 @@ export const WELLNESS_TOOL_PATH: Record<string, string> = {
   'bmi-calculator': '/tool/health/bmi-calculator/',
   'tdee-calculator': '/tool/health/tdee-calculator/',
   'body-fat-calculator': '/tool/health/body-fat-calculator/',
+  'macro-calculator': '/tool/health/macro-calculator/',
+  'ideal-weight-calculator': '/tool/health/ideal-weight-calculator/',
+  'heart-rate-zone-calculator': '/tool/health/heart-rate-zone-calculator/',
   'water-intake-tracker': '/tool/health/water-intake-tracker/',
   'body-weight-tracker': '/tool/health/body-weight-tracker/',
+  'move-today-tracker': '/tool/health/move-today-tracker/',
 };
 
 /** A decision linking to a sibling wellness tool, or null when that tool has not shipped yet. */

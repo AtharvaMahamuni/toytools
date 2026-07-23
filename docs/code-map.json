@@ -253,10 +253,11 @@
       "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
       "supportedFamilies": [
         "body-composition",
+        "cardio",
         "nutrition",
         "energy"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -1029,6 +1030,27 @@
       "pattern": "math-calculate",
       "family": "fractions",
       "processorId": "fraction",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "heart-rate-zone-calculator": {
+      "name": "Heart Rate Zone Calculator",
+      "dir": "src/tools/health/heart-rate-zone-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/heart-rate-zone-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "cardio",
+      "processorId": "heart-rate-zones",
       "toolGroup": "",
       "files": [
         "Guide.astro",

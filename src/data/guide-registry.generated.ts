@@ -24,6 +24,7 @@ export const authoredGuideSlugs = [
   'emergency-fund-calculator',
   'find-replace',
   'fraction-calculator',
+  'heart-rate-zone-calculator',
   'hex-encoder-decoder',
   'html-entity-encoder-decoder',
   'ideal-weight-calculator',

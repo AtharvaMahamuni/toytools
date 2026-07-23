@@ -209,3 +209,30 @@ describe('ideal-weight calculator', () => {
     expect(runWellness('ideal-weight', { unit: 'metric', sex: 'male' }, {}).uiState).toBe('validation-error');
   });
 });
+
+describe('heart-rate-zones calculator', () => {
+  it('reports max HR and five ascending zones (percent of max)', () => {
+    const res = runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 0 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBe(190);
+    const zoneLows = ['zone1', 'zone2', 'zone3', 'zone4', 'zone5'].map((id) => res.metrics.find((c) => c.id === id)!.raw!);
+    expect(zoneLows).toHaveLength(5);
+    // Each zone starts higher than the last.
+    for (let i = 1; i < zoneLows.length; i++) expect(zoneLows[i]).toBeGreaterThan(zoneLows[i - 1]);
+    expect(res.metrics.find((c) => c.id === 'zone2')?.raw).toBe(114); // 190 * 0.6
+  });
+
+  it('personalises zones with the Karvonen method when resting HR is given', () => {
+    const res = runWellness('heart-rate-zones', { age: 40, method: 'tanaka', resting: 60 }, {});
+    expect(res.hero?.raw).toBe(180); // 208 - 0.7*40
+    expect(res.metrics.find((c) => c.id === 'zone2')?.raw).toBe(132); // (180-60)*0.6 + 60
+  });
+
+  it('rejects a resting HR at or above the estimated maximum', () => {
+    expect(runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 200 }, {}).uiState).toBe('validation-error');
+  });
+
+  it('rejects a missing age as a validation error', () => {
+    expect(runWellness('heart-rate-zones', { age: '', method: 'simple', resting: 0 }, {}).uiState).toBe('validation-error');
+  });
+});

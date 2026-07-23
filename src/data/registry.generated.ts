@@ -24,6 +24,7 @@ import { config as discountCalculator } from '@tools/number/discount-calculator/
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
+import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
@@ -119,6 +120,7 @@ export const toolConfigs: ToolConfig[] = [
   emergencyFundCalculator,
   findReplace,
   fractionCalculator,
+  heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
   idealWeightCalculator,

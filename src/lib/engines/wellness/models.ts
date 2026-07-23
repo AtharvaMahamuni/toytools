@@ -214,3 +214,20 @@ export function idealWeight(sex: Sex, heightCm: number, formula: IdealWeightForm
   const c = formula[sex];
   return c.base + c.perInch * inchesOver60;
 }
+
+// ---- Heart rate (max HR + training zones) -----------------------------------------------------
+
+export type MaxHrMethod = 'simple' | 'tanaka';
+
+/** Estimated maximum heart rate (bpm). 'simple' is the familiar 220 − age; 'tanaka' is the more
+ *  accurate 208 − 0.7·age, which reads higher for older adults and lower for the young. */
+export function maxHeartRate(age: number, method: MaxHrMethod): number {
+  return method === 'tanaka' ? 208 - 0.7 * age : 220 - age;
+}
+
+/** The heart rate (bpm) at a fraction of intensity. When a resting HR is given, the Karvonen
+ *  heart-rate-reserve method is used (reserve·pct + rest); otherwise it is a plain percent of max. */
+export function heartRateAt(maxHr: number, restHr: number, pct: number): number {
+  if (restHr > 0) return (maxHr - restHr) * pct + restHr;
+  return maxHr * pct;
+}

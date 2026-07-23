@@ -21,6 +21,8 @@ import {
   macroGrams,
   idealWeight,
   IDEAL_WEIGHT_FORMULAS,
+  maxHeartRate,
+  heartRateAt,
 } from './models';
 
 describe('unit conversion', () => {
@@ -119,6 +121,24 @@ describe('ideal weight', () => {
     const female = idealWeight('female', 180, IDEAL_WEIGHT_FORMULAS.robinson);
     // Male base is higher AND grows faster per inch, so the gap exceeds the base gap of 3.
     expect(male - female).toBeGreaterThan(3);
+  });
+});
+
+describe('heart rate', () => {
+  it('estimates max HR by both formulas', () => {
+    expect(maxHeartRate(30, 'simple')).toBe(190); // 220 - 30
+    expect(maxHeartRate(40, 'tanaka')).toBeCloseTo(180, 6); // 208 - 0.7*40
+  });
+
+  it('uses a plain percent of max when no resting HR is given', () => {
+    expect(heartRateAt(190, 0, 0.6)).toBeCloseTo(114, 6);
+    expect(heartRateAt(190, 0, 0.7)).toBeCloseTo(133, 6);
+  });
+
+  it('switches to the Karvonen reserve method when a resting HR is present', () => {
+    // reserve = 180 - 60 = 120; 60% => 120*0.6 + 60 = 132
+    expect(heartRateAt(180, 60, 0.6)).toBeCloseTo(132, 6);
+    expect(heartRateAt(180, 60, 1.0)).toBeCloseTo(180, 6); // 100% returns max
   });
 });
 
