@@ -87,6 +87,24 @@ export const WELLNESS_EXAMPLES: WorkedExample<WellnessInput>[] = [
     expect: { protein: 112.5, carb: 22.5, fat: 140 },
     narrative: 'A 1,800 kcal keto split lands near 113 g protein, 23 g carbs, and 140 g fat, most calories coming from fat.',
   },
+  {
+    id: 'ideal-weight-male-180',
+    engine: 'wellness',
+    ref: 'ideal-weight',
+    title: 'Male, 180 cm',
+    inputs: { unit: 'metric', sex: 'male', height: 180 },
+    expect: { ideal: 74.1 },
+    narrative: 'For a 180 cm man the four classic formulas average about 74 kg, inside the wider BMI healthy range.',
+  },
+  {
+    id: 'ideal-weight-female-165',
+    engine: 'wellness',
+    ref: 'ideal-weight',
+    title: 'Female, 165 cm',
+    inputs: { unit: 'metric', sex: 'female', height: 165 },
+    expect: { ideal: 57.7 },
+    narrative: 'For a 165 cm woman the formulas average about 58 kg.',
+  },
 ];
 
 export const WELLNESS_EXAMPLE_MAP = buildExampleRegistry(WELLNESS_EXAMPLES);

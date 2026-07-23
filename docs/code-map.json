@@ -256,7 +256,7 @@
         "nutrition",
         "energy"
       ],
-      "toolCount": 4
+      "toolCount": 5
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -1072,6 +1072,27 @@
       "family": "web",
       "processorId": "html-entity",
       "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "ideal-weight-calculator": {
+      "name": "Ideal Weight Calculator",
+      "dir": "src/tools/health/ideal-weight-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/ideal-weight-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "ideal-weight",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

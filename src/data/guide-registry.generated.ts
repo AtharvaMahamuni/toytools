@@ -26,6 +26,7 @@ export const authoredGuideSlugs = [
   'fraction-calculator',
   'hex-encoder-decoder',
   'html-entity-encoder-decoder',
+  'ideal-weight-calculator',
   'inflation-calculator',
   'json-escape',
   'json-formatter',

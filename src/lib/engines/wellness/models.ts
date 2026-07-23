@@ -185,3 +185,32 @@ export function macroGrams(calories: number, split: MacroSplit): MacroGrams {
     fat: (calories * split.fat) / 100 / KCAL_PER_G.fat,
   };
 }
+
+// ---- Ideal weight (classic clinical formulas) -------------------------------------------------
+
+/** A linear ideal-body-weight formula: base weight (kg) at 5 ft plus a per-inch increment above it.
+ *  Both the base and the per-inch term are sex-specific (Devine happens to share a per-inch value).
+ *  All the classic formulas share this shape and differ only in the numbers. */
+export interface IdealWeightCoeffs {
+  base: number;
+  perInch: number;
+}
+export interface IdealWeightFormula {
+  male: IdealWeightCoeffs;
+  female: IdealWeightCoeffs;
+}
+
+export const IDEAL_WEIGHT_FORMULAS: Record<'devine' | 'robinson' | 'miller' | 'hamwi', IdealWeightFormula> = {
+  devine: { male: { base: 50, perInch: 2.3 }, female: { base: 45.5, perInch: 2.3 } },
+  robinson: { male: { base: 52, perInch: 1.9 }, female: { base: 49, perInch: 1.7 } },
+  miller: { male: { base: 56.2, perInch: 1.41 }, female: { base: 53.1, perInch: 1.36 } },
+  hamwi: { male: { base: 48, perInch: 2.7 }, female: { base: 45.5, perInch: 2.2 } },
+};
+
+/** Ideal body weight (kg) for a height, by one of the classic formulas. Heights below 5 ft
+ *  extrapolate linearly (the per-inch term goes negative), matching common calculator behaviour. */
+export function idealWeight(sex: Sex, heightCm: number, formula: IdealWeightFormula): number {
+  const inchesOver60 = heightCm / 2.54 - 60;
+  const c = formula[sex];
+  return c.base + c.perInch * inchesOver60;
+}

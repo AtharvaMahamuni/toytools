@@ -19,6 +19,8 @@ import {
   bodyFatNavy,
   bodyFatCategory,
   macroGrams,
+  idealWeight,
+  IDEAL_WEIGHT_FORMULAS,
 } from './models';
 
 describe('unit conversion', () => {
@@ -97,6 +99,26 @@ describe('macro grams', () => {
     const g = macroGrams(cals, { carb: 5, protein: 25, fat: 70 });
     const back = g.protein * 4 + g.carb * 4 + g.fat * 9;
     expect(back).toBeCloseTo(cals, 6);
+  });
+});
+
+describe('ideal weight', () => {
+  it('matches the Devine formula at 5 ft exactly (base weight, no inches over)', () => {
+    // 60 inches == 152.4 cm; the per-inch term is zero, so only the base remains.
+    expect(idealWeight('male', 152.4, IDEAL_WEIGHT_FORMULAS.devine)).toBeCloseTo(50, 6);
+    expect(idealWeight('female', 152.4, IDEAL_WEIGHT_FORMULAS.devine)).toBeCloseTo(45.5, 6);
+  });
+
+  it('adds the per-inch term above 5 ft (Devine male, 180 cm)', () => {
+    // 180 cm is 10.866 inches over 60; 50 + 2.3*10.866 ≈ 74.99
+    expect(idealWeight('male', 180, IDEAL_WEIGHT_FORMULAS.devine)).toBeCloseTo(74.99, 1);
+  });
+
+  it('uses sex-specific per-inch coefficients (Robinson male 1.9 vs female 1.7)', () => {
+    const male = idealWeight('male', 180, IDEAL_WEIGHT_FORMULAS.robinson);
+    const female = idealWeight('female', 180, IDEAL_WEIGHT_FORMULAS.robinson);
+    // Male base is higher AND grows faster per inch, so the gap exceeds the base gap of 3.
+    expect(male - female).toBeGreaterThan(3);
   });
 });
 

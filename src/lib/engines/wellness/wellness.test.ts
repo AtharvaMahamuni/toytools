@@ -184,3 +184,28 @@ describe('macro calculator', () => {
     expect(runWellness('macro', { calories: 2000, diet: 'paleo' }, {}).uiState).toBe('validation-error');
   });
 });
+
+describe('ideal-weight calculator', () => {
+  it('reports the four formulas, their average as the hero, and the BMI healthy range', () => {
+    const res = runWellness('ideal-weight', { unit: 'metric', sex: 'male', height: 180 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBeCloseTo(74.1, 1);
+    for (const id of ['devine', 'robinson', 'miller', 'hamwi', 'healthy-range']) {
+      expect(res.metrics.find((c) => c.id === id), id).toBeDefined();
+    }
+    // The hero average sits between the lowest and highest formula.
+    const vals = ['devine', 'robinson', 'miller', 'hamwi'].map((id) => res.metrics.find((c) => c.id === id)!.raw!);
+    expect(res.hero!.raw!).toBeGreaterThanOrEqual(Math.min(...vals));
+    expect(res.hero!.raw!).toBeLessThanOrEqual(Math.max(...vals));
+  });
+
+  it('agrees between metric and imperial for the same height', () => {
+    const metric = runWellness('ideal-weight', { unit: 'metric', sex: 'female', height: 165 }, {});
+    const imperial = runWellness('ideal-weight', { unit: 'imperial', sex: 'female', height: 165 / 2.54 }, {});
+    expect(metric.hero?.raw).toBeCloseTo(imperial.hero?.raw ?? 0, 1);
+  });
+
+  it('rejects a missing height as a validation error', () => {
+    expect(runWellness('ideal-weight', { unit: 'metric', sex: 'male' }, {}).uiState).toBe('validation-error');
+  });
+});

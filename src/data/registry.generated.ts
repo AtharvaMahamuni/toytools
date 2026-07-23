@@ -26,6 +26,7 @@ import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
+import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
@@ -120,6 +121,7 @@ export const toolConfigs: ToolConfig[] = [
   fractionCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
+  idealWeightCalculator,
   inflationCalculator,
   jsonEscape,
   jsonFormatter,
