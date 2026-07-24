@@ -31,6 +31,7 @@ import { DOMAINS } from '../src/lib/simulation/simulations/registry';
 import { KNOWLEDGE } from '../src/lib/knowledge/registry';
 import { knownPatterns } from '../src/data/engines';
 import { sectionsByPattern } from '../src/data/category-sections';
+import { ICON_PNG_SIZES } from '../src/lib/icons/sizes';
 import { serializeCodeMap, CODE_MAP_PATH } from './export-code-map';
 import { staleGeneratedFiles } from './generate-registries';
 
@@ -159,6 +160,21 @@ if (!existsSync(CODE_MAP_PATH)) {
   err('docs/code-map.json is missing — run `npm run map:generate`');
 } else if (readFileSync(CODE_MAP_PATH, 'utf8') !== serializeCodeMap()) {
   err('docs/code-map.json is stale (registries changed) — run `npm run map:generate`');
+}
+
+// ---- 8. Install-icon completeness: every tool must ship its committed PNG app icons ----------
+// The SVG icon is generated at build (endpoint), but the raster PNGs referenced by each tool's
+// web manifest + apple-touch-icon are committed static assets (public/icons/tool/). A tool without
+// them would advertise a broken install icon, so require the full set. Regenerate with
+// `npm run icons:generate`.
+const iconsDir = join(repoRoot, 'public', 'icons', 'tool');
+for (const tool of tools) {
+  for (const size of ICON_PNG_SIZES) {
+    const rel = `public/icons/tool/${tool.slug}-${size}.png`;
+    if (!existsSync(join(iconsDir, `${tool.slug}-${size}.png`))) {
+      err(`Tool "${tool.slug}" is missing its install icon ${rel} — run \`npm run icons:generate\``);
+    }
+  }
 }
 
 // ---- Report ---------------------------------------------------------------------------------

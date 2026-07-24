@@ -28,7 +28,8 @@ export const GET: APIRoute = ({ params }) => {
   const category = categories.find(c => c.slug === tool.categorySlug);
   const segment = category?.segment ?? tool.categorySlug;
   const toolUrl = withBase(`/tool/${segment}/${tool.slug}/`);
-  const iconUrl = withBase(`/icons/tool/${tool.slug}.svg`);
+  const svgUrl = withBase(`/icons/tool/${tool.slug}.svg`);
+  const png = (size: number) => withBase(`/icons/tool/${tool.slug}-${size}.png`);
   const { accent, background } = iconColors(tool);
 
   const manifest = {
@@ -46,9 +47,14 @@ export const GET: APIRoute = ({ params }) => {
     theme_color: accent,
     background_color: background,
     categories: category ? [category.name] : [],
+    // Raster icons (Chrome installability + splash) plus the scalable SVG. The
+    // full-bleed square doubles as the maskable icon since the glyph sits inside
+    // the safe zone.
     icons: [
-      { src: iconUrl, sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
-      { src: iconUrl, sizes: 'any', type: 'image/svg+xml', purpose: 'maskable' },
+      { src: png(192), sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: png(512), sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: png(512), sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      { src: svgUrl, sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
     ],
   };
 

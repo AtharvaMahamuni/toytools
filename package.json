@@ -11,6 +11,7 @@
     "validate:architecture": "npx tsx scripts/validate-architecture.ts",
     "map:generate": "npx tsx scripts/export-code-map.ts",
     "registries:generate": "npx tsx scripts/generate-registries.ts",
+    "icons:generate": "npx tsx scripts/generate-tool-icons.ts",
     "check:duplication": "npx tsx scripts/check-duplication.ts",
     "scaffold:tool": "npx tsx scripts/scaffold-tool.ts",
     "health": "npx tsx scripts/platform-health.ts",
@@ -69,6 +70,7 @@
     "@vitest/coverage-v8": "^4.1.8",
     "happy-dom": "^20.10.6",
     "playwright": "^1.60.0",
+    "sharp": "^0.35.3",
     "tsx": "^4.22.4",
     "vitest": "^4.1.8"
   }

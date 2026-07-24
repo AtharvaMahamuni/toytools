@@ -4,6 +4,7 @@ import { generatePageTitle } from '@lib/titles';
 import TrustNotice from '@components/tool/TrustNotice.astro';
 import InstallButton from '@tools/_shared/InstallButton.astro';
 import { iconColors } from '@lib/icons/tool-icon';
+import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
 import type { Tool, Category } from '@data/types';
 import { withBase } from '../lib/paths';
 
@@ -18,7 +19,8 @@ const { tool, category } = Astro.props;
 // own app (manifest + maskable icon + theme colour), all derived from the registry.
 const pwa = {
   manifestUrl: withBase(`/manifest/${tool.slug}.webmanifest`),
-  iconUrl: withBase(`/icons/tool/${tool.slug}.svg`),
+  // iOS ignores SVG for the home-screen icon, so apple-touch-icon points at a PNG.
+  iconUrl: withBase(`/icons/tool/${tool.slug}-${APPLE_TOUCH_SIZE}.png`),
   themeColor: iconColors(tool).accent,
   title: tool.name,
 };
