@@ -10,8 +10,11 @@
  *   2. Notification clicks — focus/open the right tab (used by the Pomodoro
  *      timer's break/finish notifications).
  *
- * It does NOT call clients.claim(), so it only controls pages loaded after it
- * activates (standard PWA behaviour; keeps automated test runs untouched).
+ * It calls clients.claim() on activate so it CONTROLS the current page right
+ * away. That control is what makes Chrome consider the site installable and fire
+ * beforeinstallprompt — without it, a fresh visit (every incognito session) has
+ * no controlling worker and the native install prompt never appears. Registration
+ * is skipped under automation, so test runs never register a claiming worker.
  * Bump CACHE whenever the caching behaviour changes so activate() purges the old
  * store. Everything is wrapped so a failure can never surface an error to the page.
  */
@@ -28,7 +31,8 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('activate', function (event) {
-  // Drop every cache that isn't the current version.
+  // Drop stale caches, then take control of open pages so this visit is
+  // controlled (required for Chrome's install prompt) instead of only the next.
   event.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(
@@ -36,6 +40,8 @@ self.addEventListener('activate', function (event) {
           return key !== CACHE ? caches.delete(key) : Promise.resolve();
         })
       );
+    }).then(function () {
+      return self.clients.claim();
     })
   );
 });
