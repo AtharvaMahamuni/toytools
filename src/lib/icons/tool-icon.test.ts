@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { tools } from '@data/registry';
 import { GLYPHS } from './glyphs';
 import { toolIconSvg, resolveGlyphId, iconColors, toolAccent } from './tool-icon';
+import { ICON_PNG_SIZES, APPLE_TOUCH_SIZE } from './sizes';
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
 
@@ -73,5 +74,11 @@ describe('tool install icons', () => {
 
   it('uses a fallback accent for an unknown category', () => {
     expect(toolAccent({ categorySlug: 'no-such-category' })).toMatch(HEX);
+  });
+
+  it('declares the raster sizes the manifest + apple-touch icon depend on', () => {
+    expect(ICON_PNG_SIZES).toContain(512);
+    expect(ICON_PNG_SIZES).toContain(APPLE_TOUCH_SIZE);
+    expect(ICON_PNG_SIZES.every(s => Number.isInteger(s) && s > 0)).toBe(true);
   });
 });
