@@ -161,3 +161,78 @@ describe('body-fat calculator', () => {
     expect(res.error).toMatch(/neck/i);
   });
 });
+
+describe('macro calculator', () => {
+  it('splits a calorie target into protein/carb/fat grams', () => {
+    const res = runWellness('macro', { calories: 2000, diet: 'balanced' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBeCloseTo(100, 1); // protein
+    expect(res.metrics.find((c) => c.id === 'carb')?.raw).toBeCloseTo(250, 1);
+    expect(res.metrics.find((c) => c.id === 'fat')?.raw).toBeCloseTo(66.7, 1);
+  });
+
+  it('changes the split per diet, keeping calories conserved', () => {
+    const keto = runWellness('macro', { calories: 1800, diet: 'keto' }, {});
+    const p = keto.hero?.raw ?? 0;
+    const c = keto.metrics.find((x) => x.id === 'carb')?.raw ?? 0;
+    const f = keto.metrics.find((x) => x.id === 'fat')?.raw ?? 0;
+    expect(p * 4 + c * 4 + f * 9).toBeCloseTo(1800, 0);
+  });
+
+  it('rejects zero calories and an unknown diet as validation errors', () => {
+    expect(runWellness('macro', { calories: 0, diet: 'balanced' }, {}).uiState).toBe('validation-error');
+    expect(runWellness('macro', { calories: 2000, diet: 'paleo' }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('ideal-weight calculator', () => {
+  it('reports the four formulas, their average as the hero, and the BMI healthy range', () => {
+    const res = runWellness('ideal-weight', { unit: 'metric', sex: 'male', height: 180 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBeCloseTo(74.1, 1);
+    for (const id of ['devine', 'robinson', 'miller', 'hamwi', 'healthy-range']) {
+      expect(res.metrics.find((c) => c.id === id), id).toBeDefined();
+    }
+    // The hero average sits between the lowest and highest formula.
+    const vals = ['devine', 'robinson', 'miller', 'hamwi'].map((id) => res.metrics.find((c) => c.id === id)!.raw!);
+    expect(res.hero!.raw!).toBeGreaterThanOrEqual(Math.min(...vals));
+    expect(res.hero!.raw!).toBeLessThanOrEqual(Math.max(...vals));
+  });
+
+  it('agrees between metric and imperial for the same height', () => {
+    const metric = runWellness('ideal-weight', { unit: 'metric', sex: 'female', height: 165 }, {});
+    const imperial = runWellness('ideal-weight', { unit: 'imperial', sex: 'female', height: 165 / 2.54 }, {});
+    expect(metric.hero?.raw).toBeCloseTo(imperial.hero?.raw ?? 0, 1);
+  });
+
+  it('rejects a missing height as a validation error', () => {
+    expect(runWellness('ideal-weight', { unit: 'metric', sex: 'male' }, {}).uiState).toBe('validation-error');
+  });
+});
+
+describe('heart-rate-zones calculator', () => {
+  it('reports max HR and five ascending zones (percent of max)', () => {
+    const res = runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 0 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBe(190);
+    const zoneLows = ['zone1', 'zone2', 'zone3', 'zone4', 'zone5'].map((id) => res.metrics.find((c) => c.id === id)!.raw!);
+    expect(zoneLows).toHaveLength(5);
+    // Each zone starts higher than the last.
+    for (let i = 1; i < zoneLows.length; i++) expect(zoneLows[i]).toBeGreaterThan(zoneLows[i - 1]);
+    expect(res.metrics.find((c) => c.id === 'zone2')?.raw).toBe(114); // 190 * 0.6
+  });
+
+  it('personalises zones with the Karvonen method when resting HR is given', () => {
+    const res = runWellness('heart-rate-zones', { age: 40, method: 'tanaka', resting: 60 }, {});
+    expect(res.hero?.raw).toBe(180); // 208 - 0.7*40
+    expect(res.metrics.find((c) => c.id === 'zone2')?.raw).toBe(132); // (180-60)*0.6 + 60
+  });
+
+  it('rejects a resting HR at or above the estimated maximum', () => {
+    expect(runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 200 }, {}).uiState).toBe('validation-error');
+  });
+
+  it('rejects a missing age as a validation error', () => {
+    expect(runWellness('heart-rate-zones', { age: '', method: 'simple', resting: 0 }, {}).uiState).toBe('validation-error');
+  });
+});

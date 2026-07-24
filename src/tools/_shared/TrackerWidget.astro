@@ -45,7 +45,7 @@ const showUnits = !!def.units?.length;
       {isIncrement ? (
         <div class="tracker-actions" role="group" aria-label="Log today">
           {(def.quickAdds ?? [1]).map((amt) => (
-            <button type="button" class="tracker-add" data-add={amt}>+{amt} {def.unit}</button>
+            <button type="button" class="tracker-add" data-add={amt}>{def.addLabel ?? `+${amt} ${def.unit}`}</button>
           ))}
           <button type="button" class="tracker-sub" data-add={-(def.quickAdds?.[0] ?? 1)} aria-label="Remove one">−</button>
         </div>

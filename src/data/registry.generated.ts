@@ -24,8 +24,10 @@ import { config as discountCalculator } from '@tools/number/discount-calculator/
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
+import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
+import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
@@ -41,9 +43,11 @@ import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as lowercaseConverter } from '@tools/text/lowercase-converter/config';
+import { config as macroCalculator } from '@tools/health/macro-calculator/config';
 import { config as marginCalculator } from '@tools/number/margin-calculator/config';
 import { config as markupCalculator } from '@tools/number/markup-calculator/config';
 import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/config';
+import { config as moveTodayTracker } from '@tools/health/move-today-tracker/config';
 import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/config';
 import { config as notepad } from '@tools/productivity/notepad/config';
 import { config as paragraphCounter } from '@tools/text/paragraph-counter/config';
@@ -117,8 +121,10 @@ export const toolConfigs: ToolConfig[] = [
   emergencyFundCalculator,
   findReplace,
   fractionCalculator,
+  heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
+  idealWeightCalculator,
   inflationCalculator,
   jsonEscape,
   jsonFormatter,
@@ -134,9 +140,11 @@ export const toolConfigs: ToolConfig[] = [
   lineCounter,
   loremIpsumGenerator,
   lowercaseConverter,
+  macroCalculator,
   marginCalculator,
   markupCalculator,
   md5HashGenerator,
+  moveTodayTracker,
   normalizeWhitespace,
   notepad,
   paragraphCounter,

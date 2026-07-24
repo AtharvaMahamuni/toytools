@@ -4,10 +4,10 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('homepage directory', () => {
-  test('renders nine category columns with collapsed tool groups', async ({ page }) => {
+  test('renders ten category columns with collapsed tool groups', async ({ page }) => {
     await page.goto('/');
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
-    await expect(directory.locator('.dir-column')).toHaveCount(9);
+    await expect(directory.locator('.dir-column')).toHaveCount(10);
 
     // Case converters collapse to a single entry that still covers every member slug.
     const caseEntry = directory.getByRole('link', { name: 'Case Converter' });
@@ -28,10 +28,10 @@ test.describe('homepage directory', () => {
     //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1),
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
     //   −8 text counters (9→1).
-    // 100 tools − 39 = 61 directory links (finance, generator, physics, applied-math, calculator,
-    // and date/time tools are not grouped; physics has 11 manifest-driven simulators and
-    // applied-math five wave-2 tools beside unit-circle).
-    await expect(directory.locator('.dir-link')).toHaveCount(61);
+    // 109 tools − 39 = 70 directory links (finance, generator, physics, applied-math, calculator,
+    // date/time, and the 9 health-fitness tools are not grouped; physics has 11 manifest-driven
+    // simulators and applied-math five wave-2 tools beside unit-circle).
+    await expect(directory.locator('.dir-link')).toHaveCount(70);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

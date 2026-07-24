@@ -24,8 +24,10 @@ import { items as discountCalculatorFaqs } from '@tools/number/discount-calculat
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
+import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-zone-calculator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
+import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as jsonFormatterFaqs } from '@tools/developer-utilities/json-formatter/faq';
@@ -41,9 +43,11 @@ import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter/faq';
+import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
 import { items as marginCalculatorFaqs } from '@tools/number/margin-calculator/faq';
 import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
 import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-hash-generator/faq';
+import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
 import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq';
@@ -117,8 +121,10 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'find-replace': findReplaceFaqs,
   'fraction-calculator': fractionCalculatorFaqs,
+  'heart-rate-zone-calculator': heartRateZoneCalculatorFaqs,
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
+  'ideal-weight-calculator': idealWeightCalculatorFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
   'json-escape': jsonEscapeFaqs,
   'json-formatter': jsonFormatterFaqs,
@@ -134,9 +140,11 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'line-counter': lineCounterFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'lowercase-converter': lowercaseConverterFaqs,
+  'macro-calculator': macroCalculatorFaqs,
   'margin-calculator': marginCalculatorFaqs,
   'markup-calculator': markupCalculatorFaqs,
   'md5-hash-generator': md5HashGeneratorFaqs,
+  'move-today-tracker': moveTodayTrackerFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
   'notepad': notepadFaqs,
   'paragraph-counter': paragraphCounterFaqs,

@@ -253,9 +253,11 @@
       "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
       "supportedFamilies": [
         "body-composition",
+        "cardio",
+        "nutrition",
         "energy"
       ],
-      "toolCount": 3
+      "toolCount": 6
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -269,7 +271,7 @@
         "measurement",
         "habit"
       ],
-      "toolCount": 2
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -1040,6 +1042,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "heart-rate-zone-calculator": {
+      "name": "Heart Rate Zone Calculator",
+      "dir": "src/tools/health/heart-rate-zone-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/heart-rate-zone-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "cardio",
+      "processorId": "heart-rate-zones",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "hex-encoder-decoder": {
       "name": "Hex Encoder & Decoder",
       "dir": "src/tools/developer-utilities/hex-encoder-decoder",
@@ -1071,6 +1094,27 @@
       "family": "web",
       "processorId": "html-entity",
       "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "ideal-weight-calculator": {
+      "name": "Ideal Weight Calculator",
+      "dir": "src/tools/health/ideal-weight-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/ideal-weight-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "body-composition",
+      "processorId": "ideal-weight",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1397,6 +1441,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "macro-calculator": {
+      "name": "Macro Calculator",
+      "dir": "src/tools/health/macro-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/macro-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "nutrition",
+      "processorId": "macro",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "margin-calculator": {
       "name": "Margin Calculator",
       "dir": "src/tools/number/margin-calculator",
@@ -1449,6 +1514,27 @@
       "family": "cryptographic",
       "processorId": "md5",
       "toolGroup": "hash-generators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "move-today-tracker": {
+      "name": "Move Today Tracker",
+      "dir": "src/tools/health/move-today-tracker",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/move-today-tracker/",
+      "engine": "tracker",
+      "pattern": "health-track",
+      "family": "habit",
+      "processorId": "move-today",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

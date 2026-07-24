@@ -24,8 +24,10 @@ import { knowledge as discountCalculator } from '@tools/number/discount-calculat
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
+import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/knowledge';
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
+import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
 import { knowledge as jsonEscape } from '@tools/developer-utilities/json-escape/knowledge';
 import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-formatter/knowledge';
@@ -41,9 +43,11 @@ import { knowledge as letterCounter } from '@tools/text/letter-counter/knowledge
 import { knowledge as lineCounter } from '@tools/text/line-counter/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
 import { knowledge as lowercaseConverter } from '@tools/text/lowercase-converter/knowledge';
+import { knowledge as macroCalculator } from '@tools/health/macro-calculator/knowledge';
 import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
 import { knowledge as markupCalculator } from '@tools/number/markup-calculator/knowledge';
 import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/knowledge';
+import { knowledge as moveTodayTracker } from '@tools/health/move-today-tracker/knowledge';
 import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespace/knowledge';
 import { knowledge as notepad } from '@tools/productivity/notepad/knowledge';
 import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
@@ -117,8 +121,10 @@ export const authoredKnowledge: Knowledge[] = [
   emergencyFundCalculator,
   findReplace,
   fractionCalculator,
+  heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
+  idealWeightCalculator,
   inflationCalculator,
   jsonEscape,
   jsonFormatter,
@@ -134,9 +140,11 @@ export const authoredKnowledge: Knowledge[] = [
   lineCounter,
   loremIpsumGenerator,
   lowercaseConverter,
+  macroCalculator,
   marginCalculator,
   markupCalculator,
   md5HashGenerator,
+  moveTodayTracker,
   normalizeWhitespace,
   notepad,
   paragraphCounter,

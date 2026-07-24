@@ -1,0 +1,117 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      There is no single ideal weight, which is why this tool shows several. The classic formulas,
+      Devine, Robinson, Miller, and Hamwi, each estimate a target weight from your height and sex, and
+      they disagree by a few kilograms because they were built at different times with different numbers.
+      Alongside them sits the modern BMI healthy range for your height. Read the formula average as a
+      central anchor and the BMI range as the realistic band around it, and pick a point inside that
+      band that suits your build.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Ideal Weight Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the Formulas Work <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every classic ideal-weight formula shares the same shape: a base weight for someone five feet
+      tall, plus a fixed amount added for each inch above that. Devine, the best known, uses 50 kg for
+      men and 45.5 kg for women, adding 2.3 kg per inch. The others simply pick different bases and
+      per-inch amounts, which is why their answers spread out. None of them uses anything beyond height
+      and sex, so they are fast to compute but blunt: two people the same height get the same estimate
+      regardless of frame or muscle.
+    </p>
+  </section>
+
+  <section id="why-they-disagree">
+    <h2>Why They Disagree <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The formulas were created for different eras and uses, several of them to help calculate
+      medication doses rather than to define fitness. Hamwi, from the 1960s, tends to sit highest;
+      Miller, from the 1980s, tends to sit lowest; Devine and Robinson land in between. Seeing all four
+      at once is the point. A single number pretends to a precision that does not exist, while a spread
+      of a few kilograms tells the truth: your target is approximate.
+    </p>
+  </section>
+
+  <section id="use-the-range">
+    <h2>Use the Range, Not the Point <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The modern approach skips the single-number formulas in favour of the BMI healthy-weight range,
+      which spans every weight giving a BMI between 18.5 and 24.9 at your height. It is deliberately
+      wide because healthy bodies come in different builds. Any weight inside that band is reasonable,
+      and where you aim within it depends on your frame, muscle, and how you feel and perform, not on a
+      formula from decades ago.
+    </p>
+    <ReferenceBlock type="key-idea" heading="A band, not a bullseye">
+      <p>Treat the formula average as a rough anchor and the BMI healthy range as your real target zone. Chasing one exact number ignores that healthy weight naturally varies with build.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Treating one number as the target">
+      <p>
+        Locking onto a single formula figure and grinding toward it to the kilogram ignores that the
+        formulas themselves disagree by several kilograms. Aim for the healthy range instead.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Ignoring muscle and frame">
+      <p>
+        Because the formulas see only height and sex, a muscular or broad-framed person will look
+        overweight by them while being perfectly healthy. Pair the estimate with a body fat check.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Track toward the range">
+      <p>Once you have a target zone, follow your weight trend toward it over weeks rather than reacting to daily swings. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

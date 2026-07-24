@@ -1,0 +1,118 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Macros are the three nutrients that give you calories: protein, carbohydrate, and fat. To
+      calculate them, take your daily calorie target, decide what share comes from each, then convert
+      to grams. Protein and carbs give 4 calories per gram, fat gives 9. So 20 percent of a 2,000
+      calorie day as protein is 400 calories, which is 100 grams. This calculator does the arithmetic
+      for balanced, high-protein, low-carb, and keto splits, so you can see the grams each one produces
+      side by side.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Macro Calculator →</a>
+  </section>
+
+  <section id="what-are-macros">
+    <h2>What Macros Actually Are <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every calorie you eat comes from one of three macronutrients. Protein builds and repairs tissue,
+      including muscle, and keeps you full. Carbohydrate is your body's quick fuel, especially for hard
+      training. Fat supports hormones and helps you absorb certain vitamins. Because each does a
+      different job, how you divide your calories between them changes how you feel and perform, even
+      when the calorie total stays the same. That division is your macro split.
+    </p>
+  </section>
+
+  <section id="calories-to-grams">
+    <h2>Turning Calories Into Grams <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The conversion rests on one fact: protein and carbohydrate each supply 4 calories per gram, while
+      fat supplies 9. So the steps are always the same. Take your calorie target, multiply by the
+      percentage for a macro to get its calories, then divide by that macro's calories per gram. On a
+      balanced 2,000 calorie day at 50 percent carbs, that is 1,000 carb calories divided by 4, or 250
+      grams. Fat's higher energy density is why a keto split, heavy on fat, produces far fewer total
+      grams of food than a balanced one at the same calories.
+    </p>
+  </section>
+
+  <section id="choosing-a-split">
+    <h2>Choosing a Split <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      There is no single correct ratio. A balanced split suits general health and everyday activity.
+      A higher-protein split helps with fat loss and muscle retention because protein is filling and
+      spares muscle in a deficit. Low-carb and keto shift fuel toward fat and can suit some people's
+      appetite and energy, though they are not magic. The best split is the one you can follow
+      consistently while hitting your calories, so start with the preset closest to your goal and adjust
+      by feel.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Calories first, macros second">
+      <p>Your calorie total drives weight change. Macros fine-tune performance, fullness, and body composition. Get the total right, then let the split do the rest.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Obsessing over the exact ratio">
+      <p>
+        Landing within about ten grams of each target is plenty. Chasing a perfect split to the gram
+        while ignoring your calorie total is effort spent on the wrong lever.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Forgetting fat is 9 calories a gram">
+      <p>
+        Fat packs more than twice the calories of protein or carbs per gram. A small amount of extra
+        oil or nut butter adds up fast, which is why fat grams look small even on a high-fat split.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Start from your TDEE">
+      <p>Macros need a calorie target to divide. Estimate yours with the TDEE calculator first, then split it here. Everything runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

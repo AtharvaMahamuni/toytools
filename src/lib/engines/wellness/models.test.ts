@@ -18,6 +18,11 @@ import {
   dailyCalorieDelta,
   bodyFatNavy,
   bodyFatCategory,
+  macroGrams,
+  idealWeight,
+  IDEAL_WEIGHT_FORMULAS,
+  maxHeartRate,
+  heartRateAt,
 } from './models';
 
 describe('unit conversion', () => {
@@ -80,6 +85,60 @@ describe('body fat (US Navy method)', () => {
     expect(bodyFatCategory('female', 12)).toBe('essential');
     expect(bodyFatCategory('female', 22)).toBe('fitness');
     expect(bodyFatCategory('female', 35)).toBe('obese');
+  });
+});
+
+describe('macro grams', () => {
+  it('splits calories into grams using 4/4/9 kcal per gram', () => {
+    const g = macroGrams(2000, { carb: 50, protein: 20, fat: 30 });
+    expect(g.protein).toBeCloseTo(100, 6); // 2000*0.20/4
+    expect(g.carb).toBeCloseTo(250, 6); // 2000*0.50/4
+    expect(g.fat).toBeCloseTo(66.667, 3); // 2000*0.30/9
+  });
+
+  it('conserves calories: grams back to kcal equal the input (for a 100% split)', () => {
+    const cals = 1800;
+    const g = macroGrams(cals, { carb: 5, protein: 25, fat: 70 });
+    const back = g.protein * 4 + g.carb * 4 + g.fat * 9;
+    expect(back).toBeCloseTo(cals, 6);
+  });
+});
+
+describe('ideal weight', () => {
+  it('matches the Devine formula at 5 ft exactly (base weight, no inches over)', () => {
+    // 60 inches == 152.4 cm; the per-inch term is zero, so only the base remains.
+    expect(idealWeight('male', 152.4, IDEAL_WEIGHT_FORMULAS.devine)).toBeCloseTo(50, 6);
+    expect(idealWeight('female', 152.4, IDEAL_WEIGHT_FORMULAS.devine)).toBeCloseTo(45.5, 6);
+  });
+
+  it('adds the per-inch term above 5 ft (Devine male, 180 cm)', () => {
+    // 180 cm is 10.866 inches over 60; 50 + 2.3*10.866 ≈ 74.99
+    expect(idealWeight('male', 180, IDEAL_WEIGHT_FORMULAS.devine)).toBeCloseTo(74.99, 1);
+  });
+
+  it('uses sex-specific per-inch coefficients (Robinson male 1.9 vs female 1.7)', () => {
+    const male = idealWeight('male', 180, IDEAL_WEIGHT_FORMULAS.robinson);
+    const female = idealWeight('female', 180, IDEAL_WEIGHT_FORMULAS.robinson);
+    // Male base is higher AND grows faster per inch, so the gap exceeds the base gap of 3.
+    expect(male - female).toBeGreaterThan(3);
+  });
+});
+
+describe('heart rate', () => {
+  it('estimates max HR by both formulas', () => {
+    expect(maxHeartRate(30, 'simple')).toBe(190); // 220 - 30
+    expect(maxHeartRate(40, 'tanaka')).toBeCloseTo(180, 6); // 208 - 0.7*40
+  });
+
+  it('uses a plain percent of max when no resting HR is given', () => {
+    expect(heartRateAt(190, 0, 0.6)).toBeCloseTo(114, 6);
+    expect(heartRateAt(190, 0, 0.7)).toBeCloseTo(133, 6);
+  });
+
+  it('switches to the Karvonen reserve method when a resting HR is present', () => {
+    // reserve = 180 - 60 = 120; 60% => 120*0.6 + 60 = 132
+    expect(heartRateAt(180, 60, 0.6)).toBeCloseTo(132, 6);
+    expect(heartRateAt(180, 60, 1.0)).toBeCloseTo(180, 6); // 100% returns max
   });
 });
 

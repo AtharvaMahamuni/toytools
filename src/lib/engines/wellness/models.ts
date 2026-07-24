@@ -158,3 +158,76 @@ export const BODY_FAT_CATEGORY_LABEL: Record<BodyFatCategory, string> = {
   average: 'Average',
   obese: 'Above average',
 };
+
+// ---- Macros (calorie split) -------------------------------------------------------------------
+
+/** Kilocalories per gram of each macronutrient. Protein and carbs give 4, fat gives 9. */
+export const KCAL_PER_G = { protein: 4, carb: 4, fat: 9 } as const;
+
+/** A macro split as whole-percentages of calories (carb/protein/fat), expected to sum to ~100. */
+export interface MacroSplit {
+  carb: number;
+  protein: number;
+  fat: number;
+}
+
+export interface MacroGrams {
+  protein: number;
+  carb: number;
+  fat: number;
+}
+
+/** Grams of each macronutrient for a calorie target under a percentage split. */
+export function macroGrams(calories: number, split: MacroSplit): MacroGrams {
+  return {
+    protein: (calories * split.protein) / 100 / KCAL_PER_G.protein,
+    carb: (calories * split.carb) / 100 / KCAL_PER_G.carb,
+    fat: (calories * split.fat) / 100 / KCAL_PER_G.fat,
+  };
+}
+
+// ---- Ideal weight (classic clinical formulas) -------------------------------------------------
+
+/** A linear ideal-body-weight formula: base weight (kg) at 5 ft plus a per-inch increment above it.
+ *  Both the base and the per-inch term are sex-specific (Devine happens to share a per-inch value).
+ *  All the classic formulas share this shape and differ only in the numbers. */
+export interface IdealWeightCoeffs {
+  base: number;
+  perInch: number;
+}
+export interface IdealWeightFormula {
+  male: IdealWeightCoeffs;
+  female: IdealWeightCoeffs;
+}
+
+export const IDEAL_WEIGHT_FORMULAS: Record<'devine' | 'robinson' | 'miller' | 'hamwi', IdealWeightFormula> = {
+  devine: { male: { base: 50, perInch: 2.3 }, female: { base: 45.5, perInch: 2.3 } },
+  robinson: { male: { base: 52, perInch: 1.9 }, female: { base: 49, perInch: 1.7 } },
+  miller: { male: { base: 56.2, perInch: 1.41 }, female: { base: 53.1, perInch: 1.36 } },
+  hamwi: { male: { base: 48, perInch: 2.7 }, female: { base: 45.5, perInch: 2.2 } },
+};
+
+/** Ideal body weight (kg) for a height, by one of the classic formulas. Heights below 5 ft
+ *  extrapolate linearly (the per-inch term goes negative), matching common calculator behaviour. */
+export function idealWeight(sex: Sex, heightCm: number, formula: IdealWeightFormula): number {
+  const inchesOver60 = heightCm / 2.54 - 60;
+  const c = formula[sex];
+  return c.base + c.perInch * inchesOver60;
+}
+
+// ---- Heart rate (max HR + training zones) -----------------------------------------------------
+
+export type MaxHrMethod = 'simple' | 'tanaka';
+
+/** Estimated maximum heart rate (bpm). 'simple' is the familiar 220 − age; 'tanaka' is the more
+ *  accurate 208 − 0.7·age, which reads higher for older adults and lower for the young. */
+export function maxHeartRate(age: number, method: MaxHrMethod): number {
+  return method === 'tanaka' ? 208 - 0.7 * age : 220 - age;
+}
+
+/** The heart rate (bpm) at a fraction of intensity. When a resting HR is given, the Karvonen
+ *  heart-rate-reserve method is used (reserve·pct + rest); otherwise it is a plain percent of max. */
+export function heartRateAt(maxHr: number, restHr: number, pct: number): number {
+  if (restHr > 0) return (maxHr - restHr) * pct + restHr;
+  return maxHr * pct;
+}

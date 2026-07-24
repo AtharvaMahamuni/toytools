@@ -1,0 +1,117 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Heart rate zones split your effort into five bands, from an easy warm-up to an all-out sprint,
+      each defined as a range of beats per minute. They are built from your maximum heart rate, which
+      this calculator estimates from your age using either the classic 220 minus age or the more
+      accurate Tanaka formula. Add your resting heart rate and it switches to the Karvonen method,
+      which personalises the zones to your fitness. Zone 2, around 60 to 70 percent of your maximum, is
+      the easy aerobic pace most endurance training should live in.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Heart Rate Zone Calculator →</a>
+  </section>
+
+  <section id="the-zones">
+    <h2>What the Zones Mean <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each zone trains something different. Zone 1, 50 to 60 percent, is a gentle warm-up or recovery.
+      Zone 2, 60 to 70 percent, is easy conversational effort that builds your aerobic base and is where
+      the bulk of endurance work belongs. Zone 3, 70 to 80 percent, is a moderate, slightly harder
+      steady effort. Zone 4, 80 to 90 percent, is hard work near your lactate threshold that raises your
+      ceiling. Zone 5, 90 to 100 percent, is maximal effort you can only hold for short bursts, used
+      sparingly in intervals.
+    </p>
+  </section>
+
+  <section id="max-heart-rate">
+    <h2>Estimating Maximum Heart Rate <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every zone is a fraction of your maximum heart rate, so the estimate of that maximum matters. The
+      familiar 220 minus age is easy to remember but rough, with real values scattered around ten beats
+      either way. The Tanaka formula, 208 minus 0.7 times your age, tracks the population a little better,
+      particularly for older adults. Neither is a substitute for a measured maximum from a hard supervised
+      test or a chest-strap monitor, but for planning everyday training they are close enough.
+    </p>
+  </section>
+
+  <section id="karvonen">
+    <h2>Personalising With the Karvonen Method <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A flat percentage of your maximum ignores how fit you are. The Karvonen method fixes that by working
+      from your heart-rate reserve, the difference between your resting and maximum heart rates. It takes a
+      percentage of that reserve and adds your resting rate back on. Because a fitter person has a lower
+      resting heart rate and therefore a bigger reserve, their zones shift to match. Add your resting heart
+      rate here and the zones recalculate to reflect your individual fitness.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Most training is easy">
+      <p>A common mistake is spending too much time in the moderate middle. Well-structured endurance plans keep most sessions easy in Zone 2 and reserve hard efforts for a small share of the week.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Trusting the formula as exact">
+      <p>
+        A formula maximum can be off by ten beats or more. If your monitor regularly shows readings above
+        the estimate during hard efforts, trust the monitor and adjust your zones accordingly.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Making easy days too hard">
+      <p>
+        Zone 2 should feel genuinely easy, a pace you could hold a conversation at. Creeping into Zone 3
+        on every run blunts recovery and stalls progress. Slow down to speed up.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Add your resting rate">
+      <p>Entering a morning resting heart rate switches the tool to the Karvonen method for zones tailored to your fitness. Everything runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
