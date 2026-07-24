@@ -2,13 +2,14 @@
 // Mobile-only "Install app" affordance for a tool page.
 //
 // Behaviour is decided at runtime:
-//   • Android/Chromium — captures beforeinstallprompt and installs on tap.
-//   • iOS Safari       — no install API exists, so it opens an instruction
-//                        sheet (Share → Add to Home Screen).
-//   • Already installed / desktop — never shown.
+//   • Android/Chromium — if the browser fired beforeinstallprompt we install
+//     natively in one tap; otherwise we show Chrome's manual steps (⋮ menu).
+//   • iOS Safari       — no install API exists, so we show the Share → Add to
+//                        Home Screen steps.
+// The instruction sheet is platform-aware, so Android never sees Safari steps.
 //
-// It ships hidden and is only revealed by JS when install is actually possible,
-// so it never renders as an unnamed/inert control (keeps the a11y smoke green).
+// Shown on mobile whenever the tool is not already running as an installed app,
+// so there is always a path to the home screen. Desktop is hidden via CSS.
 interface Props {
   toolName: string;
 }
@@ -29,7 +30,14 @@ const { toolName } = Astro.props;
     <div class="tt-install-panel">
       <h2 id="tt-install-sheet-title">Add to Home Screen</h2>
       <p>Install <strong>{toolName}</strong> so it opens like an app and works offline.</p>
-      <ol>
+
+      <ol data-steps="android" hidden>
+        <li>Open Chrome&rsquo;s menu <span class="tt-hint">(&#8942;, top-right)</span>.</li>
+        <li>Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+        <li>Confirm &mdash; the icon appears on your home screen.</li>
+      </ol>
+
+      <ol data-steps="ios" hidden>
         <li>
           Tap the <strong>Share</strong> button
           <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -38,8 +46,9 @@ const { toolName } = Astro.props;
           in Safari&rsquo;s toolbar.
         </li>
         <li>Choose <strong>Add to Home Screen</strong>.</li>
-        <li>Tap <strong>Add</strong> — the icon appears on your home screen.</li>
+        <li>Tap <strong>Add</strong>.</li>
       </ol>
+
       <button type="button" class="tt-install-done" data-close aria-label="Close install instructions">Got it</button>
     </div>
   </div>
@@ -95,6 +104,7 @@ const { toolName } = Astro.props;
   .tt-install-panel ol { margin: 0 0 var(--space-5); padding-left: var(--space-5); display: grid; gap: var(--space-2); }
   .tt-install-panel li { font-size: var(--text-sm); line-height: 1.5; }
   .tt-install-panel li svg { vertical-align: -3px; margin: 0 2px; }
+  .tt-hint { color: var(--color-text-muted); }
 
   .tt-install-done {
     width: 100%;
@@ -121,40 +131,56 @@ const { toolName } = Astro.props;
         return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
       } catch (e) { return false; }
     }
-    // Already installed → the button has no job.
+    // Already running as an installed app → the button has no job.
     if (isStandalone()) return;
 
     var ua = navigator.userAgent || '';
-    var isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+    // iPadOS Safari masquerades as a Mac (Macintosh UA + a touchscreen). Exclude
+    // Chrome/Android so Android — including desktop-site mode, which can also send
+    // a Macintosh UA — is never misdetected as iOS and shown Safari steps.
+    var isIOS = /iphone|ipad|ipod/i.test(ua) ||
+      (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1 && !/Chrome|CriOS|Chromium|Android/i.test(ua));
     var deferred = null;
 
-    function show() { btn.hidden = false; }
-    function hide() { btn.hidden = true; }
-
-    // Android / Chromium: intercept the native prompt and drive it from our button.
+    // Android/Chromium: capture the native prompt so our button can trigger it.
     window.addEventListener('beforeinstallprompt', function (e) {
       e.preventDefault();
       deferred = e;
-      show();
+      btn.hidden = false;
     });
     window.addEventListener('appinstalled', function () {
       deferred = null;
-      hide();
+      btn.hidden = true;
+      if (sheet) sheet.hidden = true;
       if (window.ToyTools && ToyTools.toast) ToyTools.toast('Installed to your home screen');
     });
 
-    // iOS has no install API — reveal the manual instruction sheet instead.
-    if (isIOS) show();
+    // Always offer a path on mobile (desktop is hidden by CSS). If a native
+    // prompt is available the tap installs directly; otherwise we show the
+    // correct manual steps for this platform.
+    btn.hidden = false;
+
+    function openSheet() {
+      if (!sheet) return;
+      var which = isIOS ? 'ios' : 'android';
+      var lists = sheet.querySelectorAll('[data-steps]');
+      for (var i = 0; i < lists.length; i++) {
+        lists[i].hidden = lists[i].getAttribute('data-steps') !== which;
+      }
+      sheet.hidden = false;
+    }
 
     btn.addEventListener('click', function () {
       if (deferred) {
         deferred.prompt();
-        if (deferred.userChoice) {
-          deferred.userChoice.then(function () { deferred = null; hide(); }).catch(function () {});
-        }
-      } else if (sheet) {
-        sheet.hidden = false;
+        // A captured prompt can only be used once.
+        var choice = deferred.userChoice;
+        deferred = null;
+        btn.hidden = true;
+        if (choice && choice.catch) choice.catch(function () {});
+        return;
       }
+      openSheet();
     });
 
     if (sheet) {
