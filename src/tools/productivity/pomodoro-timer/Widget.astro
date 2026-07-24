@@ -582,9 +582,11 @@ const iconUrl  = withBase('/favicon.ico');
   var toolUrl = (document.getElementById('pt-tool-url') || {}).content   || '/';
   var iconUrl = (document.getElementById('pt-icon-url') || {}).content   || '/favicon.ico';
 
-  // Service Worker registration
+  // Service Worker registration — used for break/finish notifications. Skipped
+  // under browser automation (navigator.webdriver) so E2E never registers the
+  // (now page-claiming) worker.
   var swReg = null;
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && !navigator.webdriver) {
     navigator.serviceWorker.register(swUrl).then(function (reg) { swReg = reg; }).catch(function () {});
   }
 
