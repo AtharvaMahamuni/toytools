@@ -5,12 +5,22 @@ import ToyToolsRuntime from '@components/ToyToolsRuntime.astro';
 import { withBase } from '../lib/paths';
 import '../styles/global.css';
 
+interface PwaMeta {
+  manifestUrl: string;
+  iconUrl: string;
+  themeColor: string;
+  title: string; // short app title for the home-screen label
+}
+
 interface Props {
   title: string;
   description: string;
   canonicalUrl?: string;
   maxWidth?: 'tool' | 'content' | 'shell' | 'category' | 'full';
   robots?: string;
+  /** When set (tool pages), emits the per-tool web manifest + install meta so the
+   *  tool can be added to the home screen as its own app. */
+  pwa?: PwaMeta;
 }
 
 const {
@@ -19,6 +29,7 @@ const {
   canonicalUrl,
   maxWidth = 'tool',
   robots = 'index,follow',
+  pwa,
 } = Astro.props;
 
 const pageTitle = title;
@@ -57,6 +68,18 @@ const maxWidthVar =
     <meta name="twitter:image" content={withBase('/favicon.svg')} />
     <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    {pwa && (
+      <>
+        <link rel="manifest" href={pwa.manifestUrl} />
+        <link rel="apple-touch-icon" href={pwa.iconUrl} />
+        <meta name="theme-color" content={pwa.themeColor} />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content={pwa.title} />
+        <meta name="application-name" content={pwa.title} />
+      </>
+    )}
     <!--
       Google Analytics is loaded from ToyToolsRuntime (client-side) and ONLY for
       real users. The analytics guard (src/lib/analytics/guard.ts) excludes dev,

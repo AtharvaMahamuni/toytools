@@ -50,6 +50,19 @@
   } else {
     TT.track = function () { /* analytics disabled for this session */ };
   }
+
+  // Progressive Web App — register the service worker so tools work offline and
+  // can be installed to the home screen. Gated exactly like analytics (real
+  // production users only: never in dev, E2E, automation, or localhost), so test
+  // runs and local previews are never controlled by a caching worker.
+  if (analyticsEnabled && 'serviceWorker' in navigator) {
+    const swUrl = (import.meta.env.BASE_URL || '/') + 'sw.js';
+    const swScope = import.meta.env.BASE_URL || '/';
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register(swUrl, { scope: swScope }).catch(() => { /* never break the UI */ });
+    });
+  }
+
   TT.analyze = analyzeText;
   TT.formatMetric = formatMetric;
   TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
