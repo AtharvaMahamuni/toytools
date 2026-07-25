@@ -34,6 +34,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       underweight, 18.5 to 24.9 is healthy, 25 to 29.9 is overweight, and 30 or above is obesity.
       This calculator works it out in metric or imperial, names your band, and shows the actual
       weight range that would keep you in the healthy zone at your height.
+      Also known as a body mass index calculator, a BMI checker, or a weight status calculator,
+      it measures where you sit today and how the BMI is calculated so the number is never a black box.
     </p>
     <a href={toolHref} class="cta-link">Try The BMI Calculator →</a>
   </section>
@@ -45,17 +47,19 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       fairly across tall and short people. Weight alone is misleading because a taller person is
       expected to weigh more. Dividing by height squared cancels most of that height effect, so the
       resulting figure can be compared against the same fixed bands for everyone. That is the whole
-      idea: one ratio, four categories, no equipment beyond a scale and a tape measure. If you enter
-      imperial units, the calculator first converts pounds to kilograms and inches to metres, then
-      applies the identical formula, which is why 154 lb at 69 inches and 69.9 kg at 175 cm land on
-      the same BMI.
+      idea: one ratio, four categories, no equipment beyond a scale and a tape measure.
+      The BMI formula is weight divided by height squared, and it is what the tool uses to convert between
+      metric and imperial. If you enter imperial units, the calculator first converts pounds to
+      kilograms and inches to metres, then applies the identical formula, which is why 154 lb at 69
+      inches and 69.9 kg at 175 cm land on the same BMI.
     </p>
   </section>
 
   <section id="categories">
     <h2>Reading the WHO Categories <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The adult cut-offs are fixed numbers, not opinions: 18.5, 25, and 30. They come from large
+      The WHO weight categories, also called the BMI categories, mean the same four fixed bands for
+      all adults: 18.5, 25, and 30. They come from large
       population studies linking BMI bands to health risk on average. A BMI of 24.9 is healthy and
       25.0 is overweight, but the boundary is a statistical line, not a cliff, so treat a figure
       near an edge as "close to the line" rather than a hard verdict. Alongside your category the
@@ -66,20 +70,23 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
   <section id="examples">
     <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p><strong>70 kg at 175 cm.</strong> BMI is 70 / (1.75)² = 22.9, comfortably inside the healthy 18.5 to 24.9 range.</p>
-    <p><strong>90 kg at 170 cm.</strong> BMI is 90 / (1.70)² = 31.1, which falls in the obesity band; the tool shows how many kilograms separate you from the healthy range.</p>
-    <p><strong>154 lb at 69 inches.</strong> Converted internally, that is a BMI of about 22.7, matching the metric result for the same body.</p>
+    <p><strong>70 kg at 175 cm.</strong> For example, BMI is 70 / (1.75)² = 22.9, comfortably inside the healthy 18.5 to 24.9 range. To find the healthy weight range for a given height, the tool shows roughly 56.7 kg to 76.3 kg here.</p>
+    <p><strong>90 kg at 170 cm.</strong> For example, BMI is 90 / (1.70)² = 31.1, which falls in the obesity band; the tool shows how many kilograms separate you from the healthy range.</p>
+    <p><strong>154 lb at 69 inches.</strong> For example, converted internally that is a BMI of about 22.7, matching the metric result for the same body.</p>
   </section>
 
   <section id="limits">
     <h2>What BMI Cannot See <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       BMI uses only height and weight, so it cannot tell muscle from fat or where fat sits on your
-      body. A muscular athlete can score as overweight while carrying very little fat, and an older
+      body. That is why BMI can mislabel very muscular or older bodies: a muscular athlete can score
+      as overweight while carrying very little fat, and an older
       person who has lost muscle can score as healthy while carrying too much. It also was not
       designed for children, for whom age and sex specific percentile charts are used instead. Read
       BMI as a fast, free screening ratio that flags who might want a closer look, not as a diagnosis.
-      For a fuller picture, pair it with a body fat percentage estimate and a look at waist size.
+      For a fuller picture, weigh BMI versus body fat percentage as a health measure: pair this
+      screen with a body fat percentage estimate and a look at waist size. In short, BMI is a
+      screening ratio, not a diagnosis, and cannot tell muscle from fat.
     </p>
     <ReferenceBlock type="key-idea" heading="A screen, not a verdict">
       <p>BMI is a population-level screening tool. It answers "is this worth a closer look?" well, and "how healthy is this specific person?" poorly. Use it as a starting point, not a conclusion.</p>

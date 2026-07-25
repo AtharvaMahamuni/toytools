@@ -34,6 +34,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       calculator also splits it into fat mass and lean mass. A man of 175 cm with a 38 cm neck and
       85 cm waist estimates at about 17 percent body fat, which is the fitness range on the standard
       scale.
+      Also a body fat percentage calculator and a body composition calculator, this navy body fat calculator
+      reports your body composition and lean body mass from a simple circumference measurement.
     </p>
     <a href={toolHref} class="cta-link">Try The Body Fat Calculator →</a>
   </section>
@@ -53,7 +55,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="where-to-measure">
     <h2>Where to Measure <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Accuracy lives and dies on consistent measuring. Take the neck just below the larynx, letting
+      Accuracy lives and dies on how you take neck, waist, and hip measurements correctly.
+      Take the neck just below the larynx, letting
       the tape slope slightly downward at the front. Men measure the waist horizontally at the navel;
       women take the waist at its narrowest point and the hips at the widest. Keep the tape level and
       snug against the skin without digging in, and breathe normally rather than holding your breath or
@@ -66,7 +69,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Fat Mass and Lean Mass <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Body fat percentage on its own is useful, but the split it implies is often more motivating.
-      Enter your bodyweight and the tool multiplies it by the percentage to give your fat mass, then
+      Enter your bodyweight to find fat mass and lean mass from bodyweight: the tool multiplies it by
+      the percentage to give your fat mass, then
       subtracts that to give your lean mass, which is everything else: muscle, bone, organs, and water.
       When you are training, watching lean mass hold steady while fat mass falls is a much better sign
       than the scale alone, because the scale cannot tell the two apart.
@@ -82,9 +86,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       BMI uses only height and weight, so it treats a kilogram of muscle exactly like a kilogram of
       fat. That is why a lean, muscular person can be flagged as overweight by BMI while carrying very
       little fat. Body fat percentage measures composition directly, so it answers the question BMI
-      cannot: how much of your weight is actually fat. The two work well together, with BMI as the fast
-      first screen and body fat as the closer look.
+      cannot: how much of your weight is actually fat. Comparing body fat percentage versus BMI, the two
+      work well together, with BMI as the fast first screen and body fat as the closer look.
     </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Man, 175 cm, 38 cm neck, 85 cm waist.</strong> For example, the Navy formula returns about 17 percent body fat, the fitness range on the standard scale.</p>
+    <p><strong>Woman, 165 cm, 32 cm neck, 74 cm waist, 96 cm hips.</strong> For example, that estimates near 24 percent, and at 62 kg it splits into roughly 15 kg fat mass and 47 kg lean mass.</p>
+    <p><strong>Same man, tape pulled tight.</strong> For example, two readings differ when the tape is pulled tighter: a 2 cm smaller waist can drop the estimate two whole points, which is why a snug, level tape matters.</p>
   </section>
 
   <section id="common-mistakes">

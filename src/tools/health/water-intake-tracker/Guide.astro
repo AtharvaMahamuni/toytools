@@ -33,6 +33,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       each, then tap once every time you finish a glass. A progress ring fills toward the goal, a streak
       counts the days you hit it, and a weekly chart shows the pattern. Everything stays in your browser,
       so there is no account and nothing to install.
+      This water intake tracking tool is a one-tap hydration tracker and water drinking tracker.
+      Set a daily water goal or daily hydration goal, keep a water log or daily water log, and build
+      a water streak that doubles as a habit streak.
     </p>
     <a href={toolHref} class="cta-link">Try The Water Intake Tracker →</a>
   </section>
@@ -40,7 +43,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-much">
     <h2>How Much Water Do You Actually Need? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The familiar eight-glasses rule is a handy starting point, not a law. Your real need depends on
+      The familiar eight-glasses rule is a rough guide, not a strict medical rule, and only a handy starting point. Your real need depends on
       your body size, how active you are, the climate, and how much water you already get from food and
       other drinks. A good practical signal is the colour of your urine: pale straw means you are well
       hydrated, while darker means reach for a glass. Use the goal here as a target to aim at every day,
@@ -68,9 +71,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       Keep the page open or bookmark it, and tap the plus button each time you finish a glass. The big
       number and ring update instantly, and once you pass the goal the day counts toward your streak.
       The minus button fixes an accidental tap. At the bottom you can change the daily goal to whatever
-      fits you. The chart shows the last seven days with your goal marked as a dashed line, so a glance
-      tells you whether this week is on track.
+      fits you. Whether you count in glasses versus millilitres for tracking water, the goal adjusts,
+      so it is easy to keep a hydration streak going. The chart shows the last seven days with your goal
+      marked as a dashed line, so a glance tells you whether this week is on track.
     </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Default goal, busy morning.</strong> For example, four taps by lunch fills the ring to 50 percent, so you can see at a glance you are halfway to eight glasses.</p>
+    <p><strong>A missed day.</strong> For example, this is what happens to the streak if a day is missed: the day closes below goal, the streak resets to zero, and the next hit starts a fresh count.</p>
+    <p><strong>Switching units.</strong> For example, set the goal to 2,000 ml instead of eight glasses and each 250 ml tap moves the ring the same way, just labelled in millilitres.</p>
   </section>
 
   <section id="common-mistakes">

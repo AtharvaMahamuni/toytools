@@ -34,6 +34,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       weight, scales it by your activity level, and then gives you concrete calorie targets: eat below
       the maintenance number to lose weight, above it to gain. About 7,700 calories equals a kilogram,
       so a 550 calorie daily gap moves roughly half a kilogram a week.
+      This daily calorie calculator works as a maintenance calorie calculator and an energy expenditure calculator:
+      it shows your maintenance calories, then a calorie deficit or a calorie surplus, scaled by the activity multiplier you pick.
     </p>
     <a href={toolHref} class="cta-link">Try The TDEE Calculator →</a>
   </section>
@@ -47,7 +49,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       top of that, from walking and typing to formal exercise. TDEE combines the two by taking your
       BMR and multiplying it by a single activity factor, a shortcut that captures how much your
       movement adds to the resting figure. A sedentary person uses a factor of 1.2, while someone
-      training hard most days uses up to 1.9.
+      training hard most days uses up to 1.9. To choose the right activity multiplier, weigh BMR versus
+      TDEE honestly: the resting figure is fixed, but the multiplier is where most people overestimate.
     </p>
   </section>
 
@@ -74,8 +77,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       wise.
     </p>
     <ReferenceBlock type="key-idea" heading="Estimate first, then measure">
-      <p>A formula cannot know your exact metabolism. Treat the calorie target as a starting hypothesis, then track your weight for two to three weeks and adjust. The scale is the real calculator.</p>
+      <p>A formula cannot know your exact metabolism. A calorie deficit versus surplus is the whole game, but TDEE is an estimate to test against the scale, not an exact measurement. Track your weight for two to three weeks and adjust. The scale is the real calculator.</p>
     </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Man, 30, 70 kg, 175 cm, moderate.</strong> For example, BMR is about 1,649 and, at an activity multiplier of 1.55, TDEE is roughly 2,556 maintenance calories.</p>
+    <p><strong>Aiming to lose.</strong> For example, a 550 calorie deficit sets the target near 2,006, predicting about half a kilogram off per week.</p>
+    <p><strong>Aiming to gain.</strong> For example, a 300 calorie surplus lifts the target to about 2,856, a slow steady gain that favours muscle over fat.</p>
   </section>
 
   <section id="common-mistakes">
