@@ -138,6 +138,56 @@ test.describe('result layout', () => {
   });
 });
 
+test.describe('density and alignment', () => {
+  const CALCULATORS = [
+    'bmi-calculator',
+    'tdee-calculator',
+    'macro-calculator',
+    'heart-rate-zone-calculator',
+    'body-fat-calculator',
+    'ideal-weight-calculator',
+  ];
+
+  test('the input form is its own height, not stretched to the result', async ({ page }, info) => {
+    test.skip(info.project.name !== 'chromium', 'equalization is a desktop-only rule');
+    for (const slug of CALCULATORS) {
+      await page.goto(`/tool/health/${slug}/`);
+      const { input, result } = await page.evaluate(() => {
+        const h = (el: Element | null) => (el ? Math.round(el.getBoundingClientRect().height) : 0);
+        return {
+          input: h(document.querySelector('.io-panel:not(.io-panel--result)')),
+          result: h(document.querySelector('.io-panel--result')),
+        };
+      });
+      // A short form next to a long result must NOT be padded out to match it.
+      expect(input, `${slug} form should not be stretched`).toBeLessThan(result);
+    }
+  });
+
+  test('the answer and its chart land above the fold', async ({ page }, info) => {
+    test.skip(info.project.name !== 'chromium', 'the phone stacks form-then-answer by design');
+    for (const slug of CALCULATORS) {
+      await page.goto(`/tool/health/${slug}/`);
+      const { chartBottom, vh } = await page.evaluate(() => {
+        const viz = document.querySelector('[data-section="visualization"]')!;
+        return {
+          chartBottom: Math.round(viz.getBoundingClientRect().bottom + window.scrollY),
+          vh: window.innerHeight,
+        };
+      });
+      expect(chartBottom, `${slug} chart must be visible without scrolling`).toBeLessThanOrEqual(vh);
+    }
+  });
+
+  test('the chart renders at its drawn size instead of stretching to the column', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    const width = await page.evaluate(
+      () => Math.round(document.querySelector('[data-viz] svg')!.getBoundingClientRect().width),
+    );
+    expect(width).toBeLessThanOrEqual(340);
+  });
+});
+
 test.describe('input controls', () => {
   test('segmented units switch the calculation in one tap', async ({ page }) => {
     const errors = guardConsole(page);

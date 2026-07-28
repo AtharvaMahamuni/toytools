@@ -108,8 +108,12 @@ Component: `src/tools/_shared/ToolSplit.astro`. Named slots `input` (left) and `
   pomodoro-timer (3-2). Single-column (no split): notepad, todo-list.
 - Generalizes the former `CompareLayout`; transform tools use `input-first`, answer-first tools
   (metrics) use `output-first`.
-- **Desktop height equalization** (in `tool-widget.css`): any split whose slots are `IoPanel`s
+- **Desktop height equalization** (in `tool-widget.css`): a split whose slots are `IoPanel`s
   stretches both columns to the same height — the naturally taller panel sets it, the other fills.
+  Correct for SYMMETRIC panes (an encoder's input/output textareas). Pass **`equalHeight={false}`**
+  when a short form faces a long result, or the form is padded out to match it (a 3-field calculator
+  was being stretched to ~1100px). The four schema-driven widgets (Wellness/Math/DateTime/Finance)
+  opt out; textarea pairs keep it.
 
 **Live tools:** text-processor tools (see Text Processor System below) and percentage-calculator
 update on input/option change — no Convert/Calculate buttons. Keep Copy/Clear only.
@@ -483,7 +487,9 @@ engines feel identical and a new engine inherits the whole experience for free.
   are never-throw: the error path is a returned object (`uiState`), not an exception.
 - **Renderer** (`src/lib/experience/render.ts` + `src/components/experience/ExperienceRenderer.astro`)
   — fills a static shell rather than building markup. Section **order is data** (the engine's
-  `layout`), applied via CSS `order`. Verbose sections (timeline, assumptions, explanation,
+  `layout`), applied via CSS `order`. `DEFAULT_LAYOUT` puts **visualization directly under the
+  hero**, ahead of the metric ledger: for a banded or part-to-whole result the chart is the answer
+  and the numbers are the detail. Verbose sections (timeline, assumptions, explanation,
   nextQuestions) are `<details>`: the answer, chart, insights, and decisions stay open, the
   read-if-curious material folds away.
 - **Capabilities** — an engine *declares* what it has (`visualization`, `timeline`, `loadExample`,

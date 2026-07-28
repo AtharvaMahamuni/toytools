@@ -32,7 +32,7 @@ const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
   <IoPanel
     slot="input"
     label="Details"

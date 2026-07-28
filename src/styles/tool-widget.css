@@ -76,7 +76,7 @@
 
 /* Hero metric — primary stat at the top of a result panel (.tm-hero block) */
 .tm-hero {
-  padding: var(--space-6);
+  padding: var(--space-5) var(--space-5) var(--space-4);
   display: flex;
   flex-direction: column;
 }
@@ -85,7 +85,7 @@
   display: block;
   min-width: 0;
   font-family: var(--font-mono);
-  font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+  font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
   font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
   /* >1 so a long currency string (e.g. ₹3,00,000.00) that wraps on a narrow screen does not
@@ -124,7 +124,7 @@
 .tm-stats {
   margin: 0;
   border-top: var(--border);
-  padding: var(--space-2) var(--space-6) var(--space-4);
+  padding: var(--space-1) var(--space-5) var(--space-3);
 }
 
 .tm-stat-row {
@@ -132,7 +132,7 @@
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-4);
-  padding-block: var(--space-3);
+  padding-block: var(--space-2);
 }
 
 .tm-stat-row + .tm-stat-row {
@@ -543,23 +543,34 @@
   }
 }
 
-/* Desktop height equalization: any split built from io-panels stretches both
-   columns to the same height — whichever panel is naturally taller sets it,
-   the other fills. This is what keeps input and output blocks symmetric. */
+/* Desktop height equalization: a split built from io-panels stretches both columns
+   to the same height — whichever panel is naturally taller sets it, the other
+   fills. This keeps SYMMETRIC blocks (an encoder's input/output textareas) reading
+   as one unit.
+
+   It is the wrong default when a short form faces a long result: a 3-field
+   calculator form would be stretched to match a 1100px result story, leaving ~700px
+   of empty box. Those widgets pass equalHeight={false} to ToolSplit. */
 @media (min-width: 1024px) {
-  .tool-split.tool-split:has(.io-panel) {
+  .tool-split.equal-height:has(.io-panel) {
     align-items: stretch;
   }
 
-  .tool-split:has(.io-panel) .ts-input,
-  .tool-split:has(.io-panel) .ts-output {
+  .tool-split.equal-height:has(.io-panel) .ts-input,
+  .tool-split.equal-height:has(.io-panel) .ts-output {
     display: flex;
     flex-direction: column;
   }
 
-  .ts-input .io-panel,
-  .ts-output .io-panel {
+  .tool-split.equal-height .ts-input .io-panel,
+  .tool-split.equal-height .ts-output .io-panel {
     flex: 1;
+  }
+
+  /* Natural height: each panel is as tall as its own content. The form no longer
+     pretends to be as long as the answer. */
+  .tool-split.natural-height:has(.io-panel) {
+    align-items: start;
   }
 }
 
@@ -768,7 +779,7 @@ body.tt-focus-lock {
 .experience-sections {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .experience-section { margin: 0; }
@@ -802,10 +813,12 @@ body.tt-focus-lock {
 .milestone.is-reached { color: var(--color-accent-strong); font-weight: var(--font-weight-medium); }
 
 .insight {
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   border: var(--border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
+  font-size: var(--text-sm);
+  line-height: 1.45;
 }
 .insight--positive { border-color: var(--color-accent); background: var(--color-accent-subtle); }
 .insight--caution { border-color: var(--color-danger); background: var(--color-danger-bg); }
@@ -861,7 +874,12 @@ body.tt-focus-lock {
    Deliberately NOT a red/amber/green judgment: the band you are aiming for
    carries the accent, every other band is neutral ink. Health results should
    inform, not moralise, and --color-danger is reserved for destructive actions. */
-.viz-mount { line-height: 0; } /* kill the inline-svg descender gap */
+.viz-mount {
+  line-height: 0; /* kill the inline-svg descender gap */
+  /* Charts are drawn at 320 wide. Without a cap they scale UP to the column width and
+     grow proportionally taller for no extra information. */
+  max-width: 340px;
+}
 .viz-mount .viz { display: block; overflow: visible; }
 
 .viz-caption {
@@ -992,3 +1010,25 @@ body.tt-focus-lock {
 
 .smart-slider::-webkit-slider-thumb { cursor: grab; }
 .smart-slider::-moz-range-thumb { cursor: grab; }
+
+/* ── Form density ────────────────────────────────────────────────────────────
+   A schema-driven form costs label + control + help per field, which on a
+   7-field calculator (body fat) ran past a phone screen on its own. Tighten the
+   per-field rhythm and drop the help line to --text-xs: it is supporting text,
+   not body copy, and at --text-sm it competed with the label above it.
+   Controls keep their 48px touch target. */
+.wellness-form .smart-input,
+.finance-form .smart-input,
+.datetime-form .smart-input,
+.math-form .smart-input {
+  gap: var(--space-1);
+}
+
+.widget-help {
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
+@media (max-width: 1023px) {
+  .io-body { gap: var(--space-2); }
+}

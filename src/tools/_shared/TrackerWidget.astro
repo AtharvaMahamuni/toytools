@@ -486,6 +486,14 @@ const showUnits = !!def.units?.length;
   @media (max-width: 640px) {
     .tracker-data { margin-left: 0; width: 100%; }
     .tracker-data-btn, .tracker-reset { flex: 1 1 auto; }
+
+    /* Tighten the phone layout so today's number, the streaks, and the chart land
+       in one screen instead of spilling just past the fold. */
+    .tracker-grid { gap: var(--space-3); }
+    .tracker-today, .tracker-stats { padding: var(--space-4); }
+    .tracker-stats { gap: var(--space-3); }
+    .tracker-stat-value { font-size: var(--text-xl); }
+    .tracker-controls { gap: var(--space-3); }
   }
   .tracker-reset.is-confirming { color: var(--color-danger); border-color: var(--color-danger); }
 
