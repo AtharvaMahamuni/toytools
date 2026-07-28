@@ -19,6 +19,7 @@ import {
 import { calories } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { partsSpec } from '@lib/visualization/types';
 
 const UNITS = ['metric', 'imperial'] as const;
 const SEXES = ['male', 'female'] as const;
@@ -35,7 +36,7 @@ const ACTIVITY_LABEL: Record<ActivityLevel, string> = {
 export const tdeeCalculator: WellnessCalculator = {
   id: 'tdee',
   family: 'energy',
-  capabilities: { loadExample: true },
+  capabilities: { loadExample: true, visualization: true },
   fields: [
     {
       id: 'unit',
@@ -136,6 +137,24 @@ export const tdeeCalculator: WellnessCalculator = {
     return successResult({
       hero,
       metrics,
+      // Where the daily burn actually comes from. Most people are surprised how much of it is BMR,
+      // which is the point: "eat less, move more" is mostly a conversation about the smaller slice.
+      visualization: partsSpec(
+        [
+          { id: 'bmr', label: 'At rest', value: Math.round(bmr), display: calories(bmr) },
+          {
+            id: 'activity',
+            label: 'Activity',
+            value: Math.round(maintain - bmr),
+            display: calories(maintain - bmr),
+          },
+        ],
+        {
+          kind: 'stacked',
+          title: 'What makes up your daily burn',
+          description: `Resting metabolism is ${Math.round((bmr / maintain) * 100)}% of your ${calories(maintain)} maintenance total.`,
+        },
+      ),
       assumptions: [
         assumption('Units', isMetric ? 'metric (kg, cm)' : 'imperial (lb, in)'),
         assumption('BMR formula', 'Mifflin-St Jeor'),

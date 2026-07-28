@@ -44,6 +44,26 @@ test.describe('bmi calculator (wellness engine)', () => {
     expect(errors, errors.join('\n')).toEqual([]);
   });
 
+  test('every wellness calculator draws its chart in a real browser', async ({ page }) => {
+    // Unit tests assert the SPEC; only a browser proves the SVG mounts and the capability flag,
+    // the renderer, and the CSS all line up. One case per chart kind.
+    const cases: { slug: string; marks: string }[] = [
+      { slug: 'body-fat-calculator', marks: '.viz-band' },
+      { slug: 'ideal-weight-calculator', marks: '.viz-band' },
+      { slug: 'tdee-calculator', marks: '.viz-part' },
+      { slug: 'macro-calculator', marks: '.viz-part' },
+      { slug: 'heart-rate-zone-calculator', marks: '.viz-bar--ranked' },
+    ];
+    for (const c of cases) {
+      const errors = guardConsole(page);
+      await page.goto(`/tool/health/${c.slug}/`);
+      const viz = page.locator(`[data-viz] svg`);
+      await expect(viz, c.slug).toBeVisible();
+      expect(await viz.locator(c.marks).count(), c.slug).toBeGreaterThan(1);
+      expect(errors, `${c.slug}: ${errors.join('\n')}`).toEqual([]);
+    }
+  });
+
   test('clears the chart when input is incomplete', async ({ page }) => {
     await page.goto('/tool/health/bmi-calculator/');
     await expect(page.locator('#bmi-calculator-experience [data-viz] svg')).toBeVisible();

@@ -138,11 +138,26 @@ export function bodyFatNavy(
 
 export type BodyFatCategory = 'essential' | 'athletes' | 'fitness' | 'average' | 'obese';
 
+/**
+ * American Council on Exercise body-fat boundaries, which differ by sex. `floor` is where the
+ * essential-fat band starts (the physiological minimum) and `ceiling` is where the drawn scale
+ * stops; both exist so the category logic and the band chart share one set of numbers.
+ */
+export const BODY_FAT_THRESHOLDS: Record<Sex, {
+  floor: number;
+  athletes: number;
+  fitness: number;
+  average: number;
+  obese: number;
+  ceiling: number;
+}> = {
+  male: { floor: 2, athletes: 6, fitness: 14, average: 18, obese: 25, ceiling: 40 },
+  female: { floor: 10, athletes: 14, fitness: 21, average: 25, obese: 32, ceiling: 45 },
+};
+
 /** American Council on Exercise body-fat category, which differs by sex. */
 export function bodyFatCategory(sex: Sex, bodyFatPct: number): BodyFatCategory {
-  const t = sex === 'male'
-    ? { athletes: 6, fitness: 14, average: 18, obese: 25 }
-    : { athletes: 14, fitness: 21, average: 25, obese: 32 };
+  const t = BODY_FAT_THRESHOLDS[sex];
   if (bodyFatPct < t.athletes) return 'essential';
   if (bodyFatPct < t.fitness) return 'athletes';
   if (bodyFatPct < t.average) return 'fitness';

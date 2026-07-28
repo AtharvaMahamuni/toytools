@@ -11,11 +11,14 @@ import {
   healthyWeightRangeKg,
   cmToM,
   inToCm,
+  kgToLb,
   type Sex,
 } from '../models';
 import { weight as fmtWeight, weightRange } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { bandSpec } from '@lib/visualization/types';
+import type { VizBand } from '@lib/visualization/types';
 
 const UNITS = ['metric', 'imperial'] as const;
 const SEXES = ['male', 'female'] as const;
@@ -23,7 +26,7 @@ const SEXES = ['male', 'female'] as const;
 export const idealWeightCalculator: WellnessCalculator = {
   id: 'ideal-weight',
   family: 'body-composition',
-  capabilities: { loadExample: true },
+  capabilities: { loadExample: true, visualization: true },
   fields: [
     {
       id: 'unit',
@@ -84,6 +87,22 @@ export const idealWeightCalculator: WellnessCalculator = {
       card('hamwi', 'Hamwi formula', fmtWeight(hamwi, unit.value), { raw: Number(hamwi.toFixed(1)) }),
     ];
 
+    // The tool's real message is "a healthy weight is a band, not a single point", which four
+    // sibling stat rows actively work against. Draw the BMI healthy range as the band, the average
+    // of the formulas as the marker, and the formula spread as the bracket underneath: the single
+    // number, its uncertainty, and the wider range it sits inside, all in one picture.
+    const toDisplay = (kg: number) => (isMetric ? kg : kgToLb(kg));
+    const formulaLo = Math.min(devine, robinson, miller, hamwi);
+    const formulaHi = Math.max(devine, robinson, miller, hamwi);
+    const scaleLo = Math.min(loKg, formulaLo) - 6;
+    const scaleHi = Math.max(hiKg, formulaHi) + 6;
+    const suffix = isMetric ? 'kg' : 'lb';
+    const bands: VizBand[] = [
+      { id: 'below', label: 'Below', from: toDisplay(scaleLo), to: toDisplay(loKg) },
+      { id: 'healthy', label: 'Healthy range', from: toDisplay(loKg), to: toDisplay(hiKg), tone: 'good' },
+      { id: 'above', label: 'Above', from: toDisplay(hiKg), to: toDisplay(scaleHi) },
+    ];
+
     const insights = [
       insight(
         `The four classic formulas land between ${fmtWeight(Math.min(devine, robinson, miller, hamwi), unit.value)} and ${fmtWeight(Math.max(devine, robinson, miller, hamwi), unit.value)}, averaging about ${fmtWeight(avg, unit.value)}.`,
@@ -101,6 +120,16 @@ export const idealWeightCalculator: WellnessCalculator = {
     return successResult({
       hero,
       metrics,
+      visualization: bandSpec(toDisplay(avg), bands, {
+        title: `Your ideal weight against the healthy range for your height, in ${suffix}`,
+        valueLabel: fmtWeight(avg, unit.value),
+        description: `The four formulas span ${weightRange(formulaLo, formulaHi, unit.value)}. The BMI healthy range is wider at ${weightRange(loKg, hiKg, unit.value)}.`,
+        highlight: {
+          from: toDisplay(formulaLo),
+          to: toDisplay(formulaHi),
+          label: 'the four formulas',
+        },
+      }),
       insights,
       assumptions: [
         assumption('Units', isMetric ? 'metric (cm)' : 'imperial (in)'),
