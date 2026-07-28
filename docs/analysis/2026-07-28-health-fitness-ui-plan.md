@@ -198,3 +198,39 @@ width are untouched.
 1. PR 7 default (relabel two sections) or the deferred family subsectioning?
 2. Snapshot cap of 50 and tracker prune at 2 years: confirm or adjust.
 3. Should export cover all `toytools:*` keys, or trackers and profile only?
+
+---
+
+## 7. Outcome (shipped 2026-07-29)
+
+Delivered as one branch, `health-fitness-ui-overhaul`, nine commits, one per workstream. The three
+open questions were resolved as: relabel the two sections (family subsectioning deferred), keep the
+50 / 2-year caps, and export **all** `toytools:*` keys so one file is a full backup.
+
+Deviations from the plan, and why:
+
+- **PR 7's "no renderer change" was wrong.** `layout` reorders sections; it cannot collapse them.
+  Collapsing `explanation` + `nextQuestions` needed the shell markup, so it landed platform-wide
+  (the same imbalance affects finance, datetime, and math) rather than as a health override.
+- **Sliders applied to `age` only.** `height`/`weight` bounds are unit-dependent (260 cm vs 102 in),
+  so a static slider range would be wrong in imperial. They stay numeric.
+- **`activity`/`diet`/`method` keep their selects.** Their labels are prose and wrap badly as pills.
+
+Three bugs surfaced that the plan did not anticipate, all found by the new browser coverage:
+
+1. **heart-rate-zones was broken on load.** `SmartInput` renders a numeric field defaulting to `0`
+   as blank, and `numberField` treats blank as missing, so an *optional* field hard-failed the
+   calculator: the page opened on "Enter your resting heart rate to calculate". Fixed with
+   `optionalNumberField`.
+2. **Stale charts outlived their result.** `renderExperience` returns early on the empty/error path,
+   so the visualization was never repainted. Painting now happens on both paths.
+3. **The hidden-attribute footgun, again** (cf. 852a052). An explicit `display` on the new profile
+   notice beat the UA `[hidden]` rule.
+
+Verification at merge: `npm run build` clean, 1756 unit tests, 500 e2e across desktop and Pixel 5.
+
+**Known gap, pre-existing and not addressed here:** all nine health tools fail `npm run seo:gate`
+(bmi-calculator scores overall 60 against a bar of 75; usefulness, seoCompleteness, toyToolsStyle,
+and highImpactActions are all under). Verified byte-identical on `main`, so this branch neither
+caused nor fixed it. It is content work and belongs to the `seo-content` skill or one
+`content-writer` agent per slug, not to a UI branch.

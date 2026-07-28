@@ -193,9 +193,28 @@ recent chips, section titles).
 
 - **Persistence** — `ToyTools.state.save/load/clear(toolId, data)` (on the runtime global in
   `ToyToolsRuntime.astro`). Versioned envelope `{ v: 1, data }` under `toytools:{toolId}`; never
-  throws; version mismatch → null (defaults). Tools restore on load. Pomodoro persists prefs only
+  throws. Tools restore on load. Pomodoro persists prefs only
   (never a running session); keep-screen-awake never restores an active wake lock. (Some complex
   tools still use their own `STORAGE_KEY`; the unified API is the default for new tools.)
+  - `save` is **capped** (50 KB, shared with `ToyTools.storage`) and **returns false + toasts** on a
+    quota failure. It must never fail silently: some tool data (a year of tracker entries) cannot be
+    recomputed the way a converter's last input can.
+  - `load` walks `ToyTools.state.MIGRATIONS` (`{ [fromVersion]: fn(data) → nextData }`) so bumping
+    `VERSION` migrates rather than discards. A version with no registered step still yields `null`
+    (caller falls back to defaults). **Register a migration step whenever you bump `VERSION`.**
+- **Portability** — `ToyTools.data.serialize/download/restore()` exports every `toytools:*` key as
+  one JSON backup and restores it. Restore **merges** (never wipes keys the file omits) and refuses
+  to write outside the `toytools:` namespace. `ToyTools.data.persist()` requests durable storage
+  (Safari evicts script-writable storage for origins without recent first-party interaction); call
+  it on a user action that writes real data, not on page load. Any widget holding irreplaceable data
+  should surface Export/Import (see `TrackerWidget.astro`).
+- **Body profile** — `ToyTools.profile` (`toytools:profile:body`) holds the facts several health
+  calculators each need (`unit/sex/age/height/weight`), so a user enters their body once. Its own
+  key, not a field of any tool's state, so it survives a schema change and exports independently.
+  `WellnessWidget` prefills any field whose id the profile knows; **a value saved by that tool wins
+  over the profile**, and the prefill is always stated on screen with a Forget control.
+  `profile.setDerived/getDerived` carries a number one tool produced into another's input; the pair
+  is declared as data on the calculator (`produces` / `consumes`), so neither tool knows the other.
 - **Recent tools** — `ToyTools.recordRecent(slug, segment)` (called by `ToolLayout`), read via
   `ToyTools.getRecent()`. Deduped, most-recent-first, capped at 10. Homepage shows up to 5 by cloning
   the matching `ToolCard` nodes; the section renders only when data exists.
@@ -452,6 +471,49 @@ registry. **Tests target the engine, not the tool** (`encoding.test.ts`, `hashin
 > primitive-first pure engine (`src/lib/engines/date/`) behind a single `ToyTools.runDateTool`
 > resolver, driven by a descriptor-driven generic widget. See `docs/date-time-engine.md` for the
 > full Phase F1 design.
+
+## Interactive Result Experience (`src/lib/results/`, `src/lib/experience/`, `src/lib/visualization/`, `src/components/inputs/`)
+
+The shared answer surface for every *interactive* engine (finance, datetime, math, wellness). An
+engine returns an `InteractiveResult` and never touches markup; one renderer draws it, so all four
+engines feel identical and a new engine inherits the whole experience for free.
+
+- **Contract** (`src/lib/results/types.ts`) — `hero`, `metrics`, `insights`, `milestones`,
+  `timeline`, `assumptions`, `explanation`, `nextQuestions`, `decisions`, `visualization`. Engines
+  are never-throw: the error path is a returned object (`uiState`), not an exception.
+- **Renderer** (`src/lib/experience/render.ts` + `src/components/experience/ExperienceRenderer.astro`)
+  — fills a static shell rather than building markup. Section **order is data** (the engine's
+  `layout`), applied via CSS `order`. Verbose sections (timeline, assumptions, explanation,
+  nextQuestions) are `<details>`: the answer, chart, insights, and decisions stay open, the
+  read-if-curious material folds away.
+- **Capabilities** — an engine *declares* what it has (`visualization`, `timeline`, `loadExample`,
+  …) instead of the renderer probing. A section renders only when its capability is on **and** the
+  data exists. Comparison is still a reserved seam.
+- **Visualization** (`src/lib/visualization/`) — an engine emits a **`VizSpec`** (kind + data),
+  never chart code. `render.ts` turns it into an inline SVG **string**: pure, DOM-free,
+  dependency-free, deterministic, every colour on a CSS class so themes work by construction, every
+  label escaped. Kinds drawn today: `band` (a value's position on a segmented scale), `stacked` /
+  `distribution`, `bars`, `line` / `area` (sparkline). Unsupported kinds and degenerate data return
+  an empty SVG, never a throw. Builders: `bandSpec`, `partsSpec`, `lineSpec`, `progressSpec`.
+  Also on the global as `ToyTools.viz.sparkline(values)` for widget inline scripts.
+- **Inputs** (`src/lib/inputs/field.ts` + `src/components/inputs/`) — an engine declares
+  `SmartFieldDef[]`; `SmartInput.astro` dispatches to the right accessible control and
+  `smartInput.client.ts` adds behaviour. Types: `currency`, `percent`, `number`, `integer`,
+  `duration`, `slider`, `select`, `segmented`, `date`, `datetime`, `text`.
+  - `segmented` (2 to 4 exclusive options) renders a pill row over a hidden input that stays the
+    single source of truth; its `value` property is redefined per instance so *any* assignment
+    (reset, example, prefill) repaints the pills without the caller knowing.
+  - `slider` **pairs** a range with the numeric control, never replaces it. Only use it where the
+    bounds are absolute: a unit-dependent range (cm vs in) would be wrong half the time.
+  - **Gotcha:** a numeric field whose `default` is `0` renders **blank** on purpose. An engine
+    reading such a field must treat blank as "not supplied" (see
+    `wellness/validation.ts:optionalNumberField`), or an optional input will hard-fail the tool.
+
+**Adding a chart to an engine:** set `capabilities.visualization = true` and return a `VizSpec`.
+Nothing else. If a new *kind* is needed, add it to `VizKind` + a renderer fn + tests in
+`src/lib/visualization/render.test.ts`; never draw inside a calculator.
+
+---
 
 ## Simulation Platform (`src/lib/simulation/`)
 
