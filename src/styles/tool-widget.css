@@ -623,6 +623,38 @@ body.tt-focus-lock {
   display: none;
 }
 
+/* ── Body profile notice ─────────────────────────────────────────────────────
+   Shown when the shared health profile prefilled a field. Quiet by design: it
+   states what was filled and offers an undo, so remembering your details is a
+   convenience the user can see rather than something that happens to them. */
+.wellness-profile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-strong);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
+/* An explicit display value overrides the [hidden] user-agent rule, so restore it. */
+.wellness-profile[hidden] { display: none; }
+
+.wellness-profile-forget {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* ── Platform input layer (Smart Inputs) ─────────────────────────────────────
    Engine-agnostic controls rendered by src/components/inputs/SmartInput.astro.
    Behaviour is added by smartInput.client.ts; these are the visuals only. */

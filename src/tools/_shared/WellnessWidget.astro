@@ -41,7 +41,13 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     data-wellness={wellnessId}
     data-slug={slug}
     data-defaults={JSON.stringify(defaults)}
+    data-produces={JSON.stringify(tool?.produces ?? [])}
+    data-consumes={JSON.stringify(tool?.consumes ?? [])}
   >
+    <p class="wellness-profile" id={`${slug}-profile`} hidden>
+      <span data-profile-text></span>
+      <button type="button" class="wellness-profile-forget" id={`${slug}-forget`}>Forget</button>
+    </p>
     <div class="io-body wellness-form" id={`${slug}-form`} data-wellness-form>
       {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
     </div>
@@ -78,6 +84,10 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     var slug = root.getAttribute('data-slug');
     var defaults = {};
     try { defaults = JSON.parse(root.getAttribute('data-defaults') || '{}'); } catch (_) {}
+    var produces = [];
+    try { produces = JSON.parse(root.getAttribute('data-produces') || '[]'); } catch (_) {}
+    var consumes = [];
+    try { consumes = JSON.parse(root.getAttribute('data-consumes') || '[]'); } catch (_) {}
 
     var form = document.getElementById(slug + '-form');
     var expRoot = document.getElementById(slug + '-experience');
@@ -138,6 +148,22 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       }
       var res = ToyTools.runWellness(wid, c.input, {});
       ToyTools.experience.render(expRoot, res);
+      publishDerived(res);
+    }
+
+    // Publish any result another calculator declares as its input, so the number travels.
+    function publishDerived(res) {
+      if (!res || !res.ok || !produces.length || !(window.ToyTools && ToyTools.profile)) return;
+      for (var i = 0; i < produces.length; i++) {
+        var spec = produces[i];
+        var cards = [res.hero].concat(res.metrics || []);
+        for (var j = 0; j < cards.length; j++) {
+          if (cards[j] && cards[j].id === spec.cardId && typeof cards[j].raw === 'number') {
+            ToyTools.profile.setDerived(spec.name, cards[j].raw);
+            break;
+          }
+        }
+      }
     }
 
     function persist() {
@@ -153,17 +179,99 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       for (var id in values) setField(id, values[id]);
     }
 
-    // Restore saved field values.
+    // ── Body profile ─────────────────────────────────────────────────────────
+    // Height, weight, age, sex and units are the same facts across these calculators, so they are
+    // remembered once and prefilled everywhere. Precedence is deliberate: this tool's own saved
+    // input wins over the shared profile, because a value you last typed HERE is the more specific
+    // answer. Whatever the profile filled is always stated on screen with a way to undo it.
+    var profileEl = document.getElementById(slug + '-profile');
+    var profileTextEl = profileEl && profileEl.querySelector('[data-profile-text]');
+    var forgetBtn = document.getElementById(slug + '-forget');
+
+    function profileFieldIds() {
+      var out = [];
+      if (!(window.ToyTools && ToyTools.profile)) return out;
+      var known = ToyTools.profile.FIELDS;
+      for (var i = 0; i < fieldEls.length; i++) {
+        var id = fieldEls[i].getAttribute('data-field-id');
+        if (known.indexOf(id) !== -1) out.push(id);
+      }
+      return out;
+    }
+
+    function showProfileNotice(usedIds, derivedNotes) {
+      if (!profileEl || !profileTextEl) return;
+      var parts = [];
+      if (usedIds.length) {
+        var summary = ToyTools.profile.summary();
+        parts.push(summary ? 'Using your saved details (' + summary + ').' : 'Using your saved details.');
+      }
+      for (var i = 0; i < derivedNotes.length; i++) parts.push(derivedNotes[i]);
+      if (!parts.length) { profileEl.hidden = true; return; }
+      profileTextEl.textContent = parts.join(' ');
+      profileEl.hidden = false;
+    }
+
+    function saveProfile() {
+      if (!(window.ToyTools && ToyTools.profile)) return;
+      var ids = profileFieldIds();
+      if (!ids.length) return;
+      var values = {};
+      for (var i = 0; i < ids.length; i++) {
+        var el = fieldById(ids[i]);
+        if (el) values[ids[i]] = el.value;
+      }
+      ToyTools.profile.merge(values);
+    }
+
+    // Restore: this tool's own saved input first, then the shared profile for anything still unset.
+    var savedFields = {};
     try {
       var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
-      var savedFields = (saved && saved.fields) || {};
+      savedFields = (saved && saved.fields) || {};
       for (var id in savedFields) setField(id, savedFields[id]);
     } catch (_) {}
 
-    // Field input -> recompute + persist.
+    var filledFromProfile = [];
+    var derivedNotes = [];
+    try {
+      if (window.ToyTools && ToyTools.profile) {
+        var prof = ToyTools.profile.get();
+        var ids = profileFieldIds();
+        for (var pi = 0; pi < ids.length; pi++) {
+          var pid = ids[pi];
+          var already = savedFields[pid];
+          if (already !== undefined && already !== '') continue;
+          if (prof[pid] === undefined || prof[pid] === '') continue;
+          setField(pid, prof[pid]);
+          filledFromProfile.push(pid);
+        }
+
+        // Numbers another calculator produced (e.g. TDEE -> the macro calculator's calorie target).
+        for (var ci = 0; ci < consumes.length; ci++) {
+          var spec = consumes[ci];
+          var savedHere = savedFields[spec.field];
+          if (savedHere !== undefined && savedHere !== '') continue;
+          var val = ToyTools.profile.getDerived(spec.name);
+          if (val === undefined || val === null || val === '') continue;
+          setField(spec.field, val);
+          derivedNotes.push(spec.note + ': ' + val + '. Change it above to override.');
+        }
+
+        showProfileNotice(filledFromProfile, derivedNotes);
+      }
+    } catch (_) {}
+
+    if (forgetBtn) forgetBtn.addEventListener('click', function () {
+      if (window.ToyTools && ToyTools.profile) ToyTools.profile.clear();
+      if (profileEl) profileEl.hidden = true;
+      if (window.ToyTools) ToyTools.toast('Saved details forgotten');
+    });
+
+    // Field input -> recompute + persist (locally and to the shared profile).
     for (var i = 0; i < fieldEls.length; i++) {
-      fieldEls[i].addEventListener('change', function () { run(); persist(); });
-      fieldEls[i].addEventListener('input', function () { run(); persist(); });
+      fieldEls[i].addEventListener('change', function () { run(); persist(); saveProfile(); });
+      fieldEls[i].addEventListener('input', function () { run(); persist(); saveProfile(); });
     }
 
     // Reset to defaults (two-tap confirm).

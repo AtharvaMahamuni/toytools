@@ -32,6 +32,7 @@ export const macroCalculator: WellnessCalculator = {
   id: 'macro',
   family: 'nutrition',
   capabilities: { loadExample: true, visualization: true },
+  consumes: [{ field: 'calories', name: 'maintenanceCalories', note: 'From your TDEE' }],
   fields: [
     {
       id: 'calories',

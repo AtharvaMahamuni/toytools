@@ -312,6 +312,68 @@
     }
   };
 
+  // Body profile — the facts about YOU that several health tools each need. Deliberately its own
+  // key rather than a field of any tool's state, so it survives one tool's schema change and exports
+  // on its own. Without it a user walking BMI -> TDEE -> body fat retypes height four times, units
+  // four times, sex three times and weight three times, on a phone.
+  //
+  // Only ever holds what a health calculator already asks for on screen. Nothing is inferred, and
+  // the widget always shows what it filled in, so this is a convenience, never a hidden dossier.
+  TT.profile = {
+    KEY: 'toytools:profile:body',
+    FIELDS: ['unit', 'sex', 'age', 'height', 'weight'],
+    get: function () {
+      try { return JSON.parse(localStorage.getItem(TT.profile.KEY)) || {}; } catch (_) { return {}; }
+    },
+    /** Merge in the recognised fields of `values`; blank/absent values never overwrite a good one. */
+    merge: function (values) {
+      var all = TT.profile.get();
+      var changed = false;
+      for (var i = 0; i < TT.profile.FIELDS.length; i++) {
+        var k = TT.profile.FIELDS[i];
+        var v = values[k];
+        if (v === undefined || v === null || v === '') continue;
+        if (String(all[k]) === String(v)) continue;
+        all[k] = v;
+        changed = true;
+      }
+      if (!changed) return all;
+      try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
+      return all;
+    },
+    clear: function () {
+      try { localStorage.removeItem(TT.profile.KEY); } catch (_) {}
+    },
+    /**
+     * A derived number one tool produced that another needs as INPUT (TDEE's maintenance calories
+     * are the macro calculator's starting point). Kept beside the profile rather than in either
+     * tool's state, since it belongs to neither.
+     */
+    setDerived: function (name, value) {
+      var all = TT.profile.get();
+      if (!all.derived) all.derived = {};
+      if (String(all.derived[name]) === String(value)) return;
+      all.derived[name] = value;
+      try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
+    },
+    getDerived: function (name) {
+      var d = TT.profile.get().derived;
+      return d ? d[name] : undefined;
+    },
+
+    /** Human summary for the "using your saved details" line, e.g. "male, 30, 175 cm, 70 kg". */
+    summary: function () {
+      var p = TT.profile.get();
+      var metric = p.unit !== 'imperial';
+      var bits = [];
+      if (p.sex) bits.push(p.sex);
+      if (p.age) bits.push(p.age);
+      if (p.height) bits.push(p.height + (metric ? ' cm' : ' in'));
+      if (p.weight) bits.push(p.weight + (metric ? ' kg' : ' lb'));
+      return bits.join(', ');
+    }
+  };
+
   // Interaction memory — cross-tool UI preferences (how the user likes to interact), distinct from
   // per-tool entered values (TT.state). One JSON blob under "toytools:prefs". Never throws. Engine-
   // agnostic: preferred currency, number format, expanded sections, timeline granularity, etc., so

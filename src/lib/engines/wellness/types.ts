@@ -31,6 +31,17 @@ export interface WellnessCalculator {
   layout?: SectionId[];
   /** Declared capabilities (the experience renderer + widget read these). */
   capabilities?: Partial<Capabilities>;
+  /**
+   * Results this calculator produces that ANOTHER calculator takes as input, published to the
+   * shared profile by card id. Declared as data so the widget stays generic: TDEE does not know
+   * the macro calculator exists, it only says "my `tdee` card is the maintenance-calorie figure".
+   */
+  produces?: { name: string; cardId: string }[];
+  /**
+   * Inputs this calculator can prefill from another's published result. `note` is shown verbatim
+   * beside the prefilled field, so the number is never silently borrowed.
+   */
+  consumes?: { field: string; name: string; note: string }[];
   /** Pure, synchronous, never-throws: builds an InteractiveResult (including the error path). */
   calculate(input: WellnessInput, opts: WellnessOpts): WellnessResult;
 }

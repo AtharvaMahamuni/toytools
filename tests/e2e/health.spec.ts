@@ -109,6 +109,70 @@ test.describe('storage durability', () => {
   });
 });
 
+test.describe('shared body profile', () => {
+  test('carries your details from one calculator to the next', async ({ page }) => {
+    const errors = guardConsole(page);
+
+    // Enter the body once, on BMI.
+    await page.goto('/tool/health/bmi-calculator/');
+    await page.locator('[data-field-id="weight"]').fill('82');
+    await page.locator('[data-field-id="height"]').fill('183');
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText('24.5');
+
+    // TDEE asks for the same facts and should already know them.
+    await page.goto('/tool/health/tdee-calculator/');
+    await expect(page.locator('[data-field-id="weight"]')).toHaveValue('82');
+    await expect(page.locator('[data-field-id="height"]')).toHaveValue('183');
+    // The prefill is stated, never silent.
+    const notice = page.locator('#tdee-calculator-profile');
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('saved details');
+    await expect(notice).toContainText('183 cm');
+
+    // Body fat asks for height too.
+    await page.goto('/tool/health/body-fat-calculator/');
+    await expect(page.locator('[data-field-id="height"]')).toHaveValue('183');
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('a value typed on this tool wins over the shared profile', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    await page.locator('[data-field-id="height"]').fill('183');
+
+    // Override height on TDEE only.
+    await page.goto('/tool/health/tdee-calculator/');
+    await page.locator('[data-field-id="height"]').fill('170');
+    await page.reload();
+    await expect(page.locator('[data-field-id="height"]')).toHaveValue('170');
+  });
+
+  test('carries the TDEE result into the macro calculator', async ({ page }) => {
+    await page.goto('/tool/health/tdee-calculator/');
+    const maintain = await page.locator('#tdee-calculator-hero').textContent();
+    expect(maintain).toBeTruthy();
+
+    await page.goto('/tool/health/macro-calculator/');
+    const notice = page.locator('#macro-calculator-profile');
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('From your TDEE');
+    // The calorie field carries the number rather than the tool's generic default.
+    const calories = await page.locator('[data-field-id="calories"]').inputValue();
+    expect(Number(calories.replace(/[^0-9.]/g, ''))).toBeGreaterThan(1000);
+  });
+
+  test('forget clears the saved details', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    await page.locator('[data-field-id="height"]').fill('183');
+    await page.goto('/tool/health/tdee-calculator/');
+    await expect(page.locator('#tdee-calculator-profile')).toBeVisible();
+    await page.locator('#tdee-calculator-forget').click();
+    await expect(page.locator('#tdee-calculator-profile')).toBeHidden();
+    const stored = await page.evaluate(() => localStorage.getItem('toytools:profile:body'));
+    expect(stored).toBeNull();
+  });
+});
+
 test.describe('tracker backup', () => {
   test('logs, exports a real file, clears, and restores the history', async ({ page }) => {
     const errors = guardConsole(page);

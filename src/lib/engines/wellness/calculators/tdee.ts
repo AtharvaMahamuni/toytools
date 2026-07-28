@@ -37,6 +37,9 @@ export const tdeeCalculator: WellnessCalculator = {
   id: 'tdee',
   family: 'energy',
   capabilities: { loadExample: true, visualization: true },
+  // The maintenance figure IS the macro calculator's starting input. Publishing it here means the
+  // number travels with the user instead of being read on one page and retyped on the next.
+  produces: [{ name: 'maintenanceCalories', cardId: 'tdee' }],
   fields: [
     {
       id: 'unit',
