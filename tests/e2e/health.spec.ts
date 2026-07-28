@@ -13,6 +13,102 @@ function guardConsole(page: Page): string[] {
   return errors;
 }
 
+// The storage runtime lives in an is:inline script, so it cannot be unit tested. These drive it
+// through the real browser API, including the failure paths that used to be swallowed silently.
+test.describe('storage durability', () => {
+  test('exports and restores every toytools key', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    const backup = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      TT.state.save('demo-tracker', { entries: [{ date: '2026-07-01', value: 6 }], goal: 8 });
+      TT.state.save('demo-other', { fields: { weight: '70' } });
+      return TT.data.serialize();
+    });
+    expect(backup).toContain('toytools.backup.v1');
+    expect(backup).toContain('demo-tracker');
+
+    const result = await page.evaluate((text) => {
+      const TT = (window as any).ToyTools;
+      localStorage.clear();
+      const r = TT.data.restore(text);
+      return { r, loaded: TT.state.load('demo-tracker') };
+    }, backup);
+    expect(result.r.ok).toBe(true);
+    expect(result.r.restored).toBeGreaterThanOrEqual(2);
+    expect(result.loaded.entries[0].value).toBe(6);
+  });
+
+  test('a restore merges rather than wiping unmentioned keys', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    const kept = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      TT.state.save('keep-me', { fields: { a: '1' } });
+      const backup = JSON.stringify({
+        format: 'toytools.backup.v1',
+        keys: { 'toytools:incoming': JSON.stringify({ v: 1, data: { fields: { b: '2' } } }) },
+      });
+      TT.data.restore(backup);
+      return { keep: TT.state.load('keep-me'), incoming: TT.state.load('incoming') };
+    });
+    expect(kept.keep.fields.a).toBe('1');
+    expect(kept.incoming.fields.b).toBe('2');
+  });
+
+  test('rejects a file that is not a ToyTools backup', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    const out = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      return [TT.data.restore('not json'), TT.data.restore('{"format":"something-else"}')];
+    });
+    expect(out[0].ok).toBe(false);
+    expect(out[1].ok).toBe(false);
+    expect(out[1].error).toContain('ToyTools backup');
+  });
+
+  test('never writes outside the toytools namespace', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    const leaked = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      TT.data.restore(JSON.stringify({
+        format: 'toytools.backup.v1',
+        keys: { 'evil-key': 'x', 'toytools:fine': '{"v":1,"data":{}}' },
+      }));
+      return localStorage.getItem('evil-key');
+    });
+    expect(leaked).toBeNull();
+  });
+
+  test('reports an oversized write instead of dropping it silently', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    const saved = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      return TT.state.save('too-big', { blob: 'x'.repeat(60000) });
+    });
+    expect(saved).toBe(false);
+    await expect(page.locator('#tt-toast')).toContainText('too much data');
+  });
+
+  test('migrates an older envelope instead of discarding it', async ({ page }) => {
+    await page.goto('/tool/health/water-intake-tracker/');
+    const out = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      // Simulate a future bump: v1 data on disk, runtime now at v2 with a step registered.
+      localStorage.setItem('toytools:migrate-me', JSON.stringify({ v: 1, data: { count: 3 } }));
+      TT.state.VERSION = 2;
+      TT.state.MIGRATIONS[1] = (d: any) => ({ total: d.count });
+      const migrated = TT.state.load('migrate-me');
+      // Without a registered step the caller still falls back to defaults rather than crashing.
+      delete TT.state.MIGRATIONS[1];
+      localStorage.setItem('toytools:no-step', JSON.stringify({ v: 1, data: { count: 9 } }));
+      const unmigratable = TT.state.load('no-step');
+      TT.state.VERSION = 1;
+      return { migrated, unmigratable };
+    });
+    expect(out.migrated).toEqual({ total: 3 });
+    expect(out.unmigratable).toBeNull();
+  });
+});
+
 test.describe('bmi calculator (wellness engine)', () => {
   test('renders a band chart that tracks the live value', async ({ page }) => {
     const errors = guardConsole(page);
