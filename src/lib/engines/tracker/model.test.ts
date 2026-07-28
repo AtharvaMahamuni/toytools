@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import {
   dayNumber,
   isoFromDayNumber,
+  prune,
   todayIso,
   upsert,
   increment,
@@ -133,5 +134,34 @@ describe('longestStreak', () => {
 describe('movingAverage', () => {
   it('averages a trailing window, clamping at the start', () => {
     expect(movingAverage([1, 2, 3, 4], 2)).toEqual([1, 1.5, 2.5, 3.5]);
+  });
+});
+
+describe('prune', () => {
+  const mk = (dates: string[]): Entry[] => dates.map((d, i) => ({ date: d, value: i + 1 }));
+
+  it('drops entries older than the day window', () => {
+    const out = prune(mk(['2024-01-01', '2026-07-01', '2026-07-20']), '2026-07-28', { maxDays: 730 });
+    expect(out.map((e) => e.date)).toEqual(['2026-07-01', '2026-07-20']);
+  });
+
+  it('keeps the most recent entries when the count cap bites', () => {
+    const entries = mk(['2026-07-25', '2026-07-26', '2026-07-27']);
+    const out = prune(entries, '2026-07-28', { maxEntries: 2 });
+    expect(out.map((e) => e.date)).toEqual(['2026-07-26', '2026-07-27']);
+  });
+
+  it('returns entries sorted oldest first', () => {
+    const out = prune(mk(['2026-07-27', '2026-07-25', '2026-07-26']), '2026-07-28');
+    expect(out.map((e) => e.date)).toEqual(['2026-07-25', '2026-07-26', '2026-07-27']);
+  });
+
+  it('leaves a normal history untouched', () => {
+    const entries = mk(['2026-07-26', '2026-07-27']);
+    expect(prune(entries, '2026-07-28')).toEqual(entries);
+  });
+
+  it('handles an empty log', () => {
+    expect(prune([], '2026-07-28')).toEqual([]);
   });
 });

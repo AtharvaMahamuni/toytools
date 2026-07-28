@@ -109,6 +109,51 @@ test.describe('storage durability', () => {
   });
 });
 
+test.describe('tracker backup', () => {
+  test('logs, exports a real file, clears, and restores the history', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/health/water-intake-tracker/');
+
+    // Log three glasses through the real UI.
+    const add = page.locator('[data-add="1"]');
+    for (let i = 0; i < 3; i++) await add.click();
+    await expect(page.locator('#water-intake-tracker-today')).toHaveText('3');
+
+    // Export downloads an actual file.
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.locator('#water-intake-tracker-export').click(),
+    ]);
+    expect(download.suggestedFilename()).toMatch(/^toytools-backup-\d{4}-\d{2}-\d{2}\.json$/);
+
+    // Clear everything (two-tap confirm), then confirm it is really gone.
+    const reset = page.locator('#water-intake-tracker-reset');
+    await reset.click();
+    await reset.click();
+    await expect(page.locator('#water-intake-tracker-today')).toHaveText('0');
+
+    // Read what actually landed on disk and feed it back through the restore path.
+    const fs = await import('node:fs/promises');
+    const text = await fs.readFile((await download.path())!, 'utf8');
+    const out = await page.evaluate((t) => {
+      const TT = (window as any).ToyTools;
+      const r = TT.data.restore(t);
+      return { r, state: TT.state.load('water-intake-tracker') };
+    }, text);
+    expect(out.r.ok).toBe(true);
+    expect(out.state.entries.reduce((s: number, e: any) => s + e.value, 0)).toBe(3);
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('shows backup controls alongside the destructive one', async ({ page }) => {
+    await page.goto('/tool/health/body-weight-tracker/');
+    await expect(page.locator('#body-weight-tracker-export')).toBeVisible();
+    await expect(page.locator('#body-weight-tracker-import')).toBeVisible();
+    await expect(page.locator('#body-weight-tracker-reset')).toBeVisible();
+  });
+});
+
 test.describe('bmi calculator (wellness engine)', () => {
   test('renders a band chart that tracks the live value', async ({ page }) => {
     const errors = guardConsole(page);
