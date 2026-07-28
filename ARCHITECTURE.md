@@ -272,6 +272,23 @@ tabular-nums`.
 measure — `.tool-description` reserves `2lh` on desktop so the widget and GroupSwitcher land at the
 same Y on every sibling page (pointer stability when clicking through pills).
 
+**Mobile & native feel.** ToyTools is phone-first, and every tool is installable to the home screen
+(per-tool manifest + maskable icon + `InstallButton`, offline via the service worker — see "Platform
+Metadata & Manifests"), so a tool must read as a **native app on a phone**, not a shrunk desktop page.
+Build from the mobile primitives the platform already provides rather than bespoke responsive CSS:
+`ToolSplit` (single column below 1024px), `IoPanel` (fixed-height, content-hug, empty-state hero
+centering — page geometry never shifts while typing), `HeroMetric` (answer-first on mobile),
+`ToolActions` (thumb-reach action row), `BackButton` (below 640px), and `ToyTools.mobileTooltip`
+(tap equivalent for hover tooltips). The lived-in rules: single column below 1024px with **no
+horizontal page scroll** (wide content — tables, code, JSON trees, diagrams — gets its own
+`overflow-x: auto`); answer-first stacking (output → input → actions); touch targets ≥
+`--touch-target` with a visible `:active` state since phones have no hover; mobile keyboards matched
+via `inputmode`/`type`/`enterkeyhint` with ≥16px inputs to avoid iOS focus-zoom; `env(safe-area-inset-*)`
+padding on fixed/overlay/full-bleed surfaces; and both standalone (installed) mode and offline kept
+usable. Canonical breakpoints are **1024 / 640 / 480px** — do not invent others. The **Pixel 5** e2e
+project is the enforcement gate. The actionable checklist is in `CLAUDE.md` → "Mobile-first & native
+feel (every tool)".
+
 ---
 
 ## Text Processor System
