@@ -144,11 +144,14 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       var c = collect();
       if (c.missingRequired) {
         ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        renderDelta(null);
         return;
       }
       var res = ToyTools.runWellness(wid, c.input, {});
       ToyTools.experience.render(expRoot, res);
       publishDerived(res);
+      recordSnapshot(res);
+      renderDelta(res);
     }
 
     // Publish any result another calculator declares as its input, so the number travels.
@@ -166,9 +169,67 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       }
     }
 
+    // ── Saved history ────────────────────────────────────────────────────────
+    // A calculator used to keep only the values you last typed, so every recalculation overwrote
+    // the last and your BMI from a month ago existed nowhere. Snapshots make a one-shot calculator
+    // worth returning to: at most one a day, capped, and only when the answer actually moved.
+    var HISTORY_MAX = 50;
+    var history = [];
+
+    function todayKey() {
+      var d = new Date();
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function recordSnapshot(res) {
+      if (!res || !res.ok || !res.hero || typeof res.hero.raw !== 'number') return;
+      var last = history[history.length - 1];
+      // One entry per day, and only when the number moved: tweaking an input ten times in a row
+      // is one visit, not ten data points.
+      if (last && last.raw === res.hero.raw) return;
+      if (last && last.day === todayKey()) history[history.length - 1] = { day: todayKey(), raw: res.hero.raw, value: res.hero.value };
+      else history.push({ day: todayKey(), raw: res.hero.raw, value: res.hero.value });
+      if (history.length > HISTORY_MAX) history = history.slice(history.length - HISTORY_MAX);
+    }
+
+    /** The change since the last DIFFERENT day's reading, or null when there is nothing to compare. */
+    function priorReading() {
+      var today = todayKey();
+      for (var i = history.length - 1; i >= 0; i--) {
+        if (history[i].day !== today) return history[i];
+      }
+      return null;
+    }
+
+    function renderDelta(res) {
+      var el = document.getElementById(slug + '-delta');
+      if (!el) return;
+      var prior = priorReading();
+      if (!res || !res.ok || !res.hero || typeof res.hero.raw !== 'number' || !prior) {
+        el.hidden = true;
+        return;
+      }
+      var diff = res.hero.raw - prior.raw;
+      var rounded = Math.round(diff * 100) / 100;
+      var text;
+      if (rounded === 0) text = 'Unchanged since your last check (' + prior.value + ').';
+      else text = (rounded > 0 ? 'Up ' : 'Down ') + Math.abs(rounded) + ' from your last check (' + prior.value + ').';
+      el.textContent = text;
+      el.hidden = false;
+
+      // A trend line, once there is a trend to show.
+      var sparkEl = document.getElementById(slug + '-spark');
+      if (sparkEl && window.ToyTools && ToyTools.viz && history.length > 2) {
+        sparkEl.innerHTML = ToyTools.viz.sparkline(history.map(function (h) { return h.raw; }));
+        sparkEl.hidden = false;
+      } else if (sparkEl) {
+        sparkEl.hidden = true;
+      }
+    }
+
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { fields: {} };
+      var data = { fields: {}, history: history };
       for (var i = 0; i < fieldEls.length; i++) {
         data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
       }
@@ -229,6 +290,7 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     try {
       var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
       savedFields = (saved && saved.fields) || {};
+      if (saved && Array.isArray(saved.history)) history = saved.history;
       for (var id in savedFields) setField(id, savedFields[id]);
     } catch (_) {}
 

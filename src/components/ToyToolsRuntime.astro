@@ -22,6 +22,7 @@
   import { tracker } from '@lib/engines/tracker/registry';
   import { runGeneration } from '@lib/generation/registry';
   import { renderExperience } from '@lib/experience/render';
+  import { sparklineSvg } from '@lib/visualization/render';
   import { diffLines, diffStats } from '@lib/text/compare';
   import { jsonExplorer } from '@lib/json/explorer';
   import { yamlSerializer } from '@lib/json/yaml';
@@ -111,6 +112,7 @@
   TT.tracker = tracker; // ToyTools.tracker.* — stateful tracker model + streaks + inline-SVG charts
   TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
+  TT.viz = { sparkline: sparklineSvg }; // ToyTools.viz.sparkline(values) → inline SVG trend line
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]
   TT.diffStats = diffStats; // ToyTools.diffStats(result) → { added, removed, unchanged, similarity }
   TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core

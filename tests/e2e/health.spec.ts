@@ -109,6 +109,70 @@ test.describe('storage durability', () => {
   });
 });
 
+test.describe('calculator history', () => {
+  test('shows the change since your last check and a trend once there is one', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/health/bmi-calculator/');
+
+    // First visit: nothing to compare against, so the panel stays as clean as before.
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText('22.9');
+    await expect(page.locator('#bmi-calculator-delta')).toBeHidden();
+
+    // Seed prior readings on earlier days, which is what a returning user would have.
+    await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      const saved = TT.state.load('bmi-calculator') || { fields: {} };
+      saved.history = [
+        { day: '2026-07-01', raw: 24.5, value: '24.5' },
+        { day: '2026-07-10', raw: 23.8, value: '23.8' },
+        { day: '2026-07-20', raw: 23.3, value: '23.3' },
+      ];
+      TT.state.save('bmi-calculator', saved);
+    });
+    await page.reload();
+
+    const delta = page.locator('#bmi-calculator-delta');
+    await expect(delta).toBeVisible();
+    await expect(delta).toContainText('Down 0.4');
+    await expect(delta).toContainText('23.3');
+
+    // Three prior points plus today is a trend worth drawing.
+    await expect(page.locator('#bmi-calculator-spark svg')).toBeVisible();
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('records at most one snapshot per day, and only when the answer moves', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    const weight = page.locator('[data-field-id="weight"]');
+    for (const v of ['71', '72', '73', '74']) {
+      await weight.fill(v);
+      await expect(page.locator('#bmi-calculator-hero')).not.toHaveText('22.9');
+    }
+    const history = await page.evaluate(() => (window as any).ToyTools.state.load('bmi-calculator').history);
+    // Four edits in one sitting is one visit, not four data points.
+    expect(history.length).toBe(1);
+    expect(history[0].raw).toBeCloseTo(24.2, 1);
+  });
+
+  test('keeps the history within its cap', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    const len = await page.evaluate(() => {
+      const TT = (window as any).ToyTools;
+      const saved = TT.state.load('bmi-calculator') || { fields: {} };
+      saved.history = Array.from({ length: 60 }, (_, i) => ({ day: `2026-01-${i + 1}`, raw: 20 + i, value: String(20 + i) }));
+      TT.state.save('bmi-calculator', saved);
+      return saved.history.length;
+    });
+    expect(len).toBe(60);
+    await page.reload();
+    await page.locator('[data-field-id="weight"]').fill('88');
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText('28.7');
+    const capped = await page.evaluate(() => (window as any).ToyTools.state.load('bmi-calculator').history.length);
+    expect(capped).toBeLessThanOrEqual(50);
+  });
+});
+
 test.describe('shared body profile', () => {
   test('carries your details from one calculator to the next', async ({ page }) => {
     const errors = guardConsole(page);

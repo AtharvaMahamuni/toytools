@@ -925,3 +925,21 @@ body.tt-focus-lock {
     gap: var(--space-1);
   }
 }
+
+/* Delta + trend under a hero metric. Only appears once there is saved history to
+   compare against, so a first visit is exactly as clean as it was before. */
+.hero-delta {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  line-height: 1.4;
+}
+.hero-delta[hidden] { display: none; }
+
+.hero-spark {
+  margin-top: var(--space-3);
+  width: 100%;
+  max-width: 320px;
+  line-height: 0;
+}
+.hero-spark[hidden] { display: none; }
