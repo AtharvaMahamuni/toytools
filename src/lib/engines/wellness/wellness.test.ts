@@ -83,6 +83,21 @@ describe('bmi calculator', () => {
   it('rejects an unknown unit system as a validation error', () => {
     expect(runWellness('bmi', { unit: 'stones', weight: 70, height: 175 }, {}).uiState).toBe('validation-error');
   });
+
+  it('emits a band visualization positioned at the computed BMI', () => {
+    const res = runWellness('bmi', { unit: 'metric', weight: 70, height: 175 }, {});
+    expect(res.visualization?.kind).toBe('band');
+    expect(res.visualization?.data.value).toBeCloseTo(22.86, 2);
+    expect(res.visualization?.data.bands?.map((b) => b.id)).toEqual([
+      'underweight',
+      'normal',
+      'overweight',
+      'obese',
+    ]);
+    // The band you are aiming for is the only toned one; the rest stay neutral ink.
+    expect(res.visualization?.data.bands?.filter((b) => b.tone).length).toBe(1);
+    expect(res.visualization?.description).toContain('kg');
+  });
 });
 
 describe('tdee calculator', () => {

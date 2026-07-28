@@ -90,6 +90,27 @@ function fillAssumptions(root: ParentNode, assumptions: Assumption[] | undefined
   return fillList(root, 'assumptions', assumptions, (a: Assumption) => statRow(a.label, a.value));
 }
 
+/**
+ * Paint (or clear) the visualization section. Called on BOTH the success and the empty/error path so
+ * a stale chart can never outlive the result that produced it. The markup comes from our own
+ * escaping renderer over engine data, never from user HTML, so innerHTML is safe here and keeps the
+ * chart a single string swap.
+ */
+function paintViz(root: HTMLElement, result: InteractiveResult | null): void {
+  const sec = $(root, '[data-section="visualization"]');
+  const mount = sec?.querySelector('[data-viz]') as HTMLElement | null;
+  const cap = $(root, '[data-viz-caption]');
+  const on = root.dataset.capVisualization === 'true' && !!result?.visualization;
+
+  if (mount) mount.innerHTML = on ? renderViz(result?.visualization) : '';
+  if (cap) {
+    const text = on ? result?.visualization?.description ?? '' : '';
+    cap.textContent = text;
+    cap.hidden = !text;
+  }
+  show(sec, on);
+}
+
 function applyLayout(root: ParentNode, layout: SectionId[]): void {
   layout.forEach((id, idx) => {
     const sec = $(root, `[data-section="${id}"]`);
@@ -130,6 +151,7 @@ export function renderExperience(
       emptyEl.dataset.state = result.uiState;
     }
     if (sectionsEl) sectionsEl.hidden = true;
+    paintViz(root, null);
     root.dataset.uiState = result.uiState;
     return;
   }
@@ -210,20 +232,5 @@ export function renderExperience(
   show($(root, '[data-section="comparison"]'), comparisonOn && !!(result.comparisons && result.comparisons.length));
 
   // Visualization — the engine emits a VizSpec, the platform renderer turns it into inline SVG.
-  // The markup is built by our own escaping renderer from engine data (never user HTML), so
-  // innerHTML is safe here and keeps the chart a single string swap.
-  const vizSec = $(root, '[data-section="visualization"]');
-  const vizMount = vizSec?.querySelector('[data-viz]') as HTMLElement | null;
-  const visualizationOn = root.dataset.capVisualization === 'true';
-  const hasViz = visualizationOn && !!result.visualization;
-  if (vizMount) vizMount.innerHTML = hasViz ? renderViz(result.visualization) : '';
-  if (hasViz) {
-    const cap = $(root, '[data-viz-caption]');
-    const text = result.visualization?.description ?? '';
-    if (cap) {
-      cap.textContent = text;
-      cap.hidden = !text;
-    }
-  }
-  show(vizSec, hasViz);
+  paintViz(root, result);
 }
