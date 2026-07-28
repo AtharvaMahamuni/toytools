@@ -109,6 +109,35 @@ test.describe('storage durability', () => {
   });
 });
 
+test.describe('result layout', () => {
+  test('folds the background away and keeps the answer open', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    const exp = page.locator('#bmi-calculator-experience');
+
+    // Open by default: the answer, the chart, and what to do next.
+    await expect(exp.locator('[data-section="hero"]')).toBeVisible();
+    await expect(exp.locator('[data-section="visualization"] svg')).toBeVisible();
+    await expect(exp.locator('[data-section="decisions"]')).toBeVisible();
+
+    // Folded: the read-if-curious material.
+    for (const section of ['explanation', 'nextQuestions', 'assumptions']) {
+      const el = exp.locator(`[data-section="${section}"]`);
+      await expect(el).toHaveJSProperty('open', false);
+    }
+
+    // Still reachable in one click.
+    await exp.locator('[data-section="explanation"] summary').click();
+    await expect(exp.locator('[data-section="explanation"]')).toHaveJSProperty('open', true);
+    await expect(exp.locator('[data-explanation]')).toContainText('BMI divides your weight');
+  });
+
+  test('the category reads as a journey, not a taxonomy', async ({ page }) => {
+    await page.goto('/category/health-fitness/');
+    await expect(page.getByText('Measure & Plan')).toBeVisible();
+    await expect(page.getByText('Keep It Up')).toBeVisible();
+  });
+});
+
 test.describe('input controls', () => {
   test('segmented units switch the calculation in one tap', async ({ page }) => {
     const errors = guardConsole(page);

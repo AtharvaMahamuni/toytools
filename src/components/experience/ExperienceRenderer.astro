@@ -5,8 +5,11 @@
 //
 // It renders the whole experience, not just numbers: hero -> metrics -> visualization -> timeline ->
 // milestones -> insights -> comparison -> assumptions -> explanation -> next questions -> decisions.
-// Verbose sections (timeline, assumptions) use native <details> for progressive disclosure. Any future
-// interactive engine reuses this component unchanged.
+// Verbose sections (timeline, assumptions, explanation, next questions) use native <details> for
+// progressive disclosure. Those four are the "read if curious" material: leaving them open turned a
+// result into a wall of prose on a phone, burying the decisions section underneath. The answer, the
+// chart, and what to do next stay open; the background folds away. Any future interactive engine
+// reuses this component unchanged.
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import { DEFAULT_LAYOUT, DEFAULT_CAPABILITIES } from '@lib/results/types';
 import type { SectionId, Capabilities } from '@lib/results/types';
@@ -78,14 +81,15 @@ const heroId = `${idPrefix}-hero`;
         <dl class="tm-stats" data-list></dl>
       </details>
 
-      <div class="experience-section" data-section="explanation" hidden>
+      <details class="experience-section experience-disclosure" data-section="explanation" hidden>
+        <summary>How this is calculated</summary>
         <p class="experience-explanation" data-explanation></p>
-      </div>
+      </details>
 
-      <div class="experience-section" data-section="nextQuestions" hidden>
-        <p class="experience-heading">Questions to explore</p>
+      <details class="experience-section experience-disclosure" data-section="nextQuestions" hidden>
+        <summary>Questions to explore</summary>
         <ul class="next-question-list" data-list></ul>
-      </div>
+      </details>
 
       <div class="experience-section" data-section="decisions" hidden>
         <p class="experience-heading">What to do next</p>

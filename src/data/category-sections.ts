@@ -33,6 +33,8 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'datetime-calculate':   { title: 'Calculate',               order: 1 },
   'datetime-convert':     { title: 'Convert',                 order: 2 },
   'datetime-schedule':    { title: 'Schedule',                order: 3 },
-  'health-calculate':     { title: 'Calculators',             order: 1 },
-  'health-track':         { title: 'Trackers & Logs',         order: 2 },
+  // Health reads as a journey rather than a toolbox: you measure, then you keep it up. The section
+  // titles say that instead of naming our own engine taxonomy back at the reader.
+  'health-calculate':     { title: 'Measure & Plan',          order: 1 },
+  'health-track':         { title: 'Keep It Up',              order: 2 },
 };
