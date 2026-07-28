@@ -821,6 +821,62 @@ body.tt-focus-lock {
 .experience-section[data-section="visualization"]:not([hidden]),
 .experience-section[data-section="comparison"]:not([hidden]) { display: block; }
 
+/* ── Platform visualization ──────────────────────────────────────────────────
+   Styling for the inline SVG built by src/lib/visualization/render.ts. Every
+   colour lands here as a CSS class (never a hard-coded fill in the renderer),
+   so a chart is theme-aware by construction.
+
+   Deliberately NOT a red/amber/green judgment: the band you are aiming for
+   carries the accent, every other band is neutral ink. Health results should
+   inform, not moralise, and --color-danger is reserved for destructive actions. */
+.viz-mount { line-height: 0; } /* kill the inline-svg descender gap */
+.viz-mount .viz { display: block; overflow: visible; }
+
+.viz-caption {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  line-height: 1.4;
+}
+
+/* Band scale */
+.viz-band { fill: var(--color-surface-hover); stroke: var(--color-bg); stroke-width: 1; }
+.viz-band--good { fill: var(--color-accent-subtle); }
+.viz-band-label {
+  fill: var(--color-text-subtle);
+  font-size: 9px;
+  font-family: var(--font-sans);
+}
+.viz-marker { fill: var(--color-accent); }
+.viz-marker-rule { stroke: var(--color-accent); stroke-width: 2; }
+.viz-marker-label {
+  fill: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+}
+.viz-axis, .viz-legend, .viz-row-label, .viz-row-value, .viz-highlight-label {
+  fill: var(--color-text-subtle);
+  font-size: 9px;
+  font-family: var(--font-sans);
+}
+.viz-row-value, .viz-axis { font-family: var(--font-mono); }
+.viz-highlight { stroke: var(--color-text-subtle); stroke-width: 1; }
+
+/* Part-to-whole. Four steps from accent to ink so a split reads without a legend lookup. */
+.viz-part { stroke: var(--color-bg); stroke-width: 1; }
+.viz-part--0 { fill: var(--color-accent); }
+.viz-part--1 { fill: var(--color-accent-subtle); }
+.viz-part--2 { fill: var(--color-border-strong); }
+.viz-part--3 { fill: var(--color-surface-hover); }
+
+/* Ranked bars */
+.viz-bar--ranked { fill: var(--color-accent-subtle); }
+
+/* Sparkline */
+.viz-spark { stroke: var(--color-accent); stroke-width: 2; }
+.viz-spark-dot { fill: var(--color-accent); }
+
 /* Phone refinements — the hero numeral and the boxed result sections are the tightest spots on a
    narrow screen (long currency strings, padded panels). Trim the side padding and the hero size so
    text keeps clear of the panel borders/hairlines instead of crowding or wrapping onto them. */

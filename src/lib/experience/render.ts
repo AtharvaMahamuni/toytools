@@ -15,6 +15,7 @@ import type {
   Assumption,
   Decision,
 } from '@lib/results/types';
+import { renderViz } from '@lib/visualization/render';
 
 interface RenderOptions {
   /** Section order; defaults to the shell's data-layout, then DEFAULT_LAYOUT. */
@@ -203,10 +204,26 @@ export function renderExperience(
     (p) => statRow(`Year ${p.year}`, p.display ?? String(p.value)),
   );
 
-  // Comparison + visualization are reserved seams: the engine emits the DATA (VizSpec, comparisons)
-  // for the future, but rendering is gated off by capability so nothing half-built shows in v1.
+  // Comparison stays a reserved seam: the engine emits the DATA for the future, but rendering is
+  // gated off by capability so nothing half-built shows.
   const comparisonOn = root.dataset.capComparison === 'true';
-  const visualizationOn = root.dataset.capVisualization === 'true';
   show($(root, '[data-section="comparison"]'), comparisonOn && !!(result.comparisons && result.comparisons.length));
-  show($(root, '[data-section="visualization"]'), visualizationOn && !!result.visualization);
+
+  // Visualization — the engine emits a VizSpec, the platform renderer turns it into inline SVG.
+  // The markup is built by our own escaping renderer from engine data (never user HTML), so
+  // innerHTML is safe here and keeps the chart a single string swap.
+  const vizSec = $(root, '[data-section="visualization"]');
+  const vizMount = vizSec?.querySelector('[data-viz]') as HTMLElement | null;
+  const visualizationOn = root.dataset.capVisualization === 'true';
+  const hasViz = visualizationOn && !!result.visualization;
+  if (vizMount) vizMount.innerHTML = hasViz ? renderViz(result.visualization) : '';
+  if (hasViz) {
+    const cap = $(root, '[data-viz-caption]');
+    const text = result.visualization?.description ?? '';
+    if (cap) {
+      cap.textContent = text;
+      cap.hidden = !text;
+    }
+  }
+  show(vizSec, hasViz);
 }
