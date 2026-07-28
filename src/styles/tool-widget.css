@@ -943,3 +943,52 @@ body.tt-focus-lock {
   line-height: 0;
 }
 .hero-spark[hidden] { display: none; }
+
+/* ── Segmented control ───────────────────────────────────────────────────────
+   For 2 to 4 mutually-exclusive options. A native <select> on a phone costs a
+   tap plus a system sheet and hides every option you did not choose; a pill row
+   shows all of them and costs one tap. */
+.smart-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.smart-segment {
+  flex: 1 1 auto;
+  min-height: var(--touch-target);
+  padding-inline: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: color 150ms, background-color 150ms, border-color 150ms;
+}
+
+.smart-segment:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+
+.smart-segment[aria-checked='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-strong);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Slider ──────────────────────────────────────────────────────────────────
+   Paired with the numeric control, never replacing it: dragging is faster on a
+   phone, typing is exact. Sized to the touch target so it is grabbable. */
+.smart-slider {
+  width: 100%;
+  margin-top: var(--space-1);
+  accent-color: var(--color-accent);
+  background: transparent;
+  cursor: pointer;
+}
+
+.smart-slider::-webkit-slider-thumb { cursor: grab; }
+.smart-slider::-moz-range-thumb { cursor: grab; }

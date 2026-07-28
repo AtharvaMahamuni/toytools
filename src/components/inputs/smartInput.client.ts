@@ -137,10 +137,83 @@ function enhance(field: HTMLInputElement): void {
   });
 }
 
+/**
+ * Segmented control: pills drive a hidden input that stays the single source of truth.
+ *
+ * The `value` property is redefined on the instance so that ANY assignment (a widget's setField, a
+ * reset, a loaded example, a profile prefill) repaints the pills. Without that, every one of those
+ * paths would need to know this control exists.
+ */
+function enhanceSegmented(group: HTMLElement): void {
+  if (ENHANCED.has(group)) return;
+  const input = group.querySelector<HTMLInputElement>('input[data-field-id]');
+  if (!input) return;
+  ENHANCED.add(group);
+
+  const pills = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-segment-value]'));
+  const paint = () => {
+    pills.forEach((p) => p.setAttribute('aria-checked', p.dataset.segmentValue === input.value ? 'true' : 'false'));
+  };
+
+  const nativeValue = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+  if (nativeValue?.get && nativeValue?.set) {
+    Object.defineProperty(input, 'value', {
+      configurable: true,
+      get() { return nativeValue.get!.call(input); },
+      set(v: string) { nativeValue.set!.call(input, v); paint(); },
+    });
+  }
+
+  pills.forEach((pill, i) => {
+    pill.addEventListener('click', () => {
+      input.value = pill.dataset.segmentValue ?? '';
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    // Arrow keys move between options, as a radiogroup should.
+    pill.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      const next = pills[(i + dir + pills.length) % pills.length];
+      next.focus();
+      next.click();
+    });
+  });
+
+  paint();
+}
+
+/**
+ * Slider: a range control paired with the numeric input, syncing both ways. The numeric input stays
+ * canonical, so nothing downstream reads the slider.
+ */
+function enhanceSlider(range: HTMLInputElement): void {
+  if (ENHANCED.has(range)) return;
+  const wrapper = range.closest('[data-smart-input]');
+  const field = wrapper?.querySelector<HTMLInputElement>('input[data-field-id]');
+  if (!field) return;
+  ENHANCED.add(range);
+
+  range.addEventListener('input', () => {
+    commit(field, Number(range.value), true);
+  });
+
+  // Follow the numeric input when it changes by any other route (typing, steppers, prefill).
+  field.addEventListener('change', () => {
+    const raw = rawOf(field);
+    if (Number.isFinite(raw)) range.value = String(raw);
+  });
+
+  const seed = rawOf(field);
+  if (Number.isFinite(seed)) range.value = String(seed);
+}
+
 function initAll(): void {
   document
     .querySelectorAll<HTMLInputElement>('[data-smart-input] input[data-field-id]')
     .forEach((el) => enhance(el));
+  document.querySelectorAll<HTMLElement>('[data-smart-input] .smart-segmented').forEach((el) => enhanceSegmented(el));
+  document.querySelectorAll<HTMLInputElement>('[data-smart-input] .smart-slider').forEach((el) => enhanceSlider(el));
 }
 
 if (typeof document !== 'undefined') {

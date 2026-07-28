@@ -44,7 +44,7 @@ export const tdeeCalculator: WellnessCalculator = {
     {
       id: 'unit',
       label: 'Units',
-      type: 'select',
+      type: 'segmented',
       default: 'metric',
       options: [
         { value: 'metric', label: 'Metric (kg, cm)' },
@@ -54,7 +54,7 @@ export const tdeeCalculator: WellnessCalculator = {
     {
       id: 'sex',
       label: 'Sex',
-      type: 'select',
+      type: 'segmented',
       default: 'male',
       options: [
         { value: 'male', label: 'Male' },
@@ -62,7 +62,7 @@ export const tdeeCalculator: WellnessCalculator = {
       ],
       help: 'Used by the BMR equation; enter the sex your body most closely matches metabolically.',
     },
-    { id: 'age', label: 'Age', type: 'integer', default: 30, min: 14, max: 120, step: 1, suffix: 'years' },
+    { id: 'age', label: 'Age', type: 'slider', default: 30, min: 14, max: 120, step: 1, suffix: 'years' },
     { id: 'weight', label: 'Weight', type: 'number', default: 70, min: 0, step: 0.1, help: 'Kilograms in metric, pounds in imperial.' },
     { id: 'height', label: 'Height', type: 'number', default: 175, min: 0, step: 0.1, help: 'Centimetres in metric, total inches in imperial.' },
     {

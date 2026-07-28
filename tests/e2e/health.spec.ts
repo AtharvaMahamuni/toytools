@@ -109,6 +109,72 @@ test.describe('storage durability', () => {
   });
 });
 
+test.describe('input controls', () => {
+  test('segmented units switch the calculation in one tap', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/health/bmi-calculator/');
+
+    const group = page.locator('.smart-segmented').first();
+    await expect(group).toHaveAttribute('role', 'radiogroup');
+    const metric = group.locator('[data-segment-value="metric"]');
+    const imperial = group.locator('[data-segment-value="imperial"]');
+    await expect(metric).toHaveAttribute('aria-checked', 'true');
+    await expect(imperial).toHaveAttribute('aria-checked', 'false');
+
+    // Values that are in range under BOTH systems, so the switch changes the answer rather than
+    // tripping the engine's unit-specific bounds.
+    await page.locator('[data-field-id="weight"]').fill('154');
+    await page.locator('[data-field-id="height"]').fill('69');
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText('323.5');
+
+    await imperial.click();
+    await expect(imperial).toHaveAttribute('aria-checked', 'true');
+    await expect(metric).toHaveAttribute('aria-checked', 'false');
+    // 154 lb at 69 in is a normal BMI; the one tap re-read every number.
+    await expect(page.locator('#bmi-calculator-hero')).toHaveText('22.7');
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('segmented control is keyboard navigable', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    const group = page.locator('.smart-segmented').first();
+    await group.locator('[data-segment-value="metric"]').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(group.locator('[data-segment-value="imperial"]')).toHaveAttribute('aria-checked', 'true');
+    await page.keyboard.press('ArrowLeft');
+    await expect(group.locator('[data-segment-value="metric"]')).toHaveAttribute('aria-checked', 'true');
+  });
+
+  test('pills repaint when the value is set by another code path', async ({ page }) => {
+    // Reset to defaults writes through setField, which knows nothing about segmented controls.
+    await page.goto('/tool/health/bmi-calculator/');
+    await page.locator('[data-segment-value="imperial"]').click();
+    const reset = page.locator('#bmi-calculator-reset');
+    await reset.click();
+    await reset.click();
+    await expect(page.locator('[data-segment-value="metric"]')).toHaveAttribute('aria-checked', 'true');
+  });
+
+  test('the age slider and its number field stay in sync both ways', async ({ page }) => {
+    await page.goto('/tool/health/tdee-calculator/');
+    const slider = page.locator('.smart-slider[data-slider-for="age"]');
+    const number = page.locator('[data-field-id="age"]');
+    await expect(slider).toHaveValue('30');
+
+    // Typing drives the slider.
+    await number.fill('55');
+    await number.blur();
+    await expect(slider).toHaveValue('55');
+
+    // Dragging drives the number and recomputes.
+    const before = await page.locator('#tdee-calculator-hero').textContent();
+    await slider.fill('20');
+    await expect(number).toHaveValue('20');
+    await expect(page.locator('#tdee-calculator-hero')).not.toHaveText(before ?? '');
+  });
+});
+
 test.describe('calculator history', () => {
   test('shows the change since your last check and a trend once there is one', async ({ page }) => {
     const errors = guardConsole(page);

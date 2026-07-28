@@ -107,7 +107,7 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     // canonical number in data-raw.
     function isStringField(el) {
       var t = el.getAttribute('data-field-type');
-      return t === 'select' || t === 'date' || t === 'datetime' || t === 'text';
+      return t === 'select' || t === 'segmented' || t === 'date' || t === 'datetime' || t === 'text';
     }
 
     function readValue(el) {

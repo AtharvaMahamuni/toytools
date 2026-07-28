@@ -44,7 +44,7 @@ export const bmiCalculator: WellnessCalculator = {
     {
       id: 'unit',
       label: 'Units',
-      type: 'select',
+      type: 'segmented',
       default: 'metric',
       options: [
         { value: 'metric', label: 'Metric (kg, cm)' },

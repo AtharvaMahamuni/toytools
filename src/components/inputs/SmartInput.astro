@@ -20,6 +20,8 @@ const { field, idPrefix } = Astro.props;
 const inputId = `${idPrefix}-f-${field.id}`;
 const helpId = field.help ? `${inputId}-help` : undefined;
 const isSelect = field.type === 'select';
+const isSegmented = field.type === 'segmented';
+const isSlider = field.type === 'slider';
 const isCurrency = field.type === 'currency';
 // Native string controls (date picker, datetime-local, free text) skip the numeric −/+ machinery.
 const isPlain = field.type === 'date' || field.type === 'datetime' || field.type === 'text';
@@ -46,7 +48,31 @@ function compactCurrency(value: number, code: string): string {
 <div class="smart-input" data-smart-input>
   <label class="widget-label" for={inputId}>{field.label}</label>
 
-  {isSelect ? (
+  {isSegmented ? (
+    /* A pill row instead of a native dropdown: every option is readable and one tap away. The
+       hidden input stays the single source of truth, so consumers read `.value` exactly as they
+       do for a select and nothing downstream had to learn a new control. */
+    <div class="smart-segmented" role="radiogroup" aria-label={field.label}>
+      <input
+        type="hidden"
+        id={inputId}
+        data-field-id={field.id}
+        data-field-type="segmented"
+        data-required={field.optional ? 'false' : 'true'}
+        value={String(field.default ?? '')}
+      />
+      {(field.options ?? []).map((o) => (
+        <button
+          type="button"
+          class="smart-segment"
+          role="radio"
+          data-segment-for={field.id}
+          data-segment-value={o.value}
+          aria-checked={String(field.default) === o.value ? 'true' : 'false'}
+        >{o.label}</button>
+      ))}
+    </div>
+  ) : isSelect ? (
     <select
       id={inputId}
       class="widget-select"
@@ -108,6 +134,22 @@ function compactCurrency(value: number, code: string): string {
       >+</button>
       {field.suffix && <span class="smart-suffix" aria-hidden="true">{field.suffix}</span>}
     </div>
+  )}
+
+  {isSlider && (
+    /* Paired with (never replacing) the numeric control above: dragging is faster on a phone,
+       typing is exact, and the numeric input remains the source of truth for every consumer. */
+    <input
+      type="range"
+      class="smart-slider"
+      data-slider-for={field.id}
+      min={field.min ?? 0}
+      max={field.max ?? 100}
+      step={field.step ?? 1}
+      value={String(field.default ?? field.min ?? 0)}
+      aria-label={`${field.label} slider`}
+      tabindex="-1"
+    />
   )}
 
   {field.help && <p class="widget-help" id={helpId}>{field.help}</p>}

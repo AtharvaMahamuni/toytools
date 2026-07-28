@@ -32,7 +32,7 @@ export const bodyFatCalculator: WellnessCalculator = {
     {
       id: 'unit',
       label: 'Units',
-      type: 'select',
+      type: 'segmented',
       default: 'metric',
       options: [
         { value: 'metric', label: 'Metric (cm, kg)' },
@@ -42,7 +42,7 @@ export const bodyFatCalculator: WellnessCalculator = {
     {
       id: 'sex',
       label: 'Sex',
-      type: 'select',
+      type: 'segmented',
       default: 'male',
       options: [
         { value: 'male', label: 'Male' },

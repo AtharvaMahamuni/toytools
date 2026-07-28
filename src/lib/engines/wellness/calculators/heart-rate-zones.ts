@@ -34,7 +34,7 @@ export const heartRateZonesCalculator: WellnessCalculator = {
   family: 'cardio',
   capabilities: { loadExample: true, visualization: true },
   fields: [
-    { id: 'age', label: 'Age', type: 'integer', default: 30, min: 10, max: 120, step: 1, suffix: 'years' },
+    { id: 'age', label: 'Age', type: 'slider', default: 30, min: 10, max: 120, step: 1, suffix: 'years' },
     {
       id: 'method',
       label: 'Max HR formula',

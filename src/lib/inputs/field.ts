@@ -9,6 +9,12 @@ export type SmartFieldType =
   | 'integer'
   | 'select'
   | 'duration'
+  // A bounded numeric quantity where the RANGE is meaningful (age, height, weight). Renders the
+  // normal numeric control plus a slider, so a phone user drags instead of stepping 175 to 183.
+  | 'slider'
+  // A small, mutually-exclusive choice (2 to 4 options) shown as a pill row rather than a native
+  // dropdown, so every option is readable and selectable in one tap.
+  | 'segmented'
   // Non-numeric controls. `date`/`datetime` render native pickers; `text` is a free-form string
   // (e.g. a cron expression). Their canonical value is the raw string, not a parsed number.
   | 'date'
@@ -54,7 +60,7 @@ export interface SmartFieldDef {
 }
 
 /** The field types whose canonical value is a parsed number (steppers, human-number parsing, grouping). */
-const NUMERIC_TYPES: readonly SmartFieldType[] = ['currency', 'percent', 'number', 'integer', 'duration'];
+const NUMERIC_TYPES: readonly SmartFieldType[] = ['currency', 'percent', 'number', 'integer', 'duration', 'slider'];
 
 /** Is this a numeric field (as opposed to select / date / datetime / text)? */
 export function isNumericField(type: SmartFieldType): boolean {
