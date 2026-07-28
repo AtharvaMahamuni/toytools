@@ -34,6 +34,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       accurate Tanaka formula. Add your resting heart rate and it switches to the Karvonen method,
       which personalises the zones to your fitness. Zone 2, around 60 to 70 percent of your maximum, is
       the easy aerobic pace most endurance training should live in.
+      As a max heart rate calculator, a target heart rate calculator, and a training zone calculator,
+      it turns your max heart rate into training zones and a target heart rate.
+      Add a resting pulse and it works from your heart rate reserve instead.
     </p>
     <a href={toolHref} class="cta-link">Try The Heart Rate Zone Calculator →</a>
   </section>
@@ -46,14 +49,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       the bulk of endurance work belongs. Zone 3, 70 to 80 percent, is a moderate, slightly harder
       steady effort. Zone 4, 80 to 90 percent, is hard work near your lactate threshold that raises your
       ceiling. Zone 5, 90 to 100 percent, is maximal effort you can only hold for short bursts, used
-      sparingly in intervals.
+      sparingly in intervals. Use these bands to find the fat-burning or aerobic zone at a glance.
     </p>
   </section>
 
   <section id="max-heart-rate">
     <h2>Estimating Maximum Heart Rate <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Every zone is a fraction of your maximum heart rate, so the estimate of that maximum matters. The
+      Every zone is a fraction of your maximum heart rate, so the estimate of that maximum matters. Here
+      is how maximum heart rate is estimated from age: 220 minus age versus the Tanaka formula, since max
+      heart rate formulas carry a spread of about ten beats. The
       familiar 220 minus age is easy to remember but rough, with real values scattered around ten beats
       either way. The Tanaka formula, 208 minus 0.7 times your age, tracks the population a little better,
       particularly for older adults. Neither is a substitute for a measured maximum from a hard supervised
@@ -73,6 +78,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="key-idea" heading="Most training is easy">
       <p>A common mistake is spending too much time in the moderate middle. Well-structured endurance plans keep most sessions easy in Zone 2 and reserve hard efforts for a small share of the week.</p>
     </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Age 40, 220 minus age.</strong> For example, that gives a max of 180, so Zone 2 runs from about 108 to 126 beats per minute.</p>
+    <p><strong>Age 40, Tanaka.</strong> For example, 208 minus 0.7 times 40 gives 180 too here, but the two methods drift apart for older ages, which is percent of max versus the Karvonen reserve method in miniature.</p>
+    <p><strong>Add a resting rate of 55.</strong> For example, the Karvonen method now sets Zone 2 near 130 to 143, higher than the flat-percentage version because your reserve is wide.</p>
   </section>
 
   <section id="common-mistakes">

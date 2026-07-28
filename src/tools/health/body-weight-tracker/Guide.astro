@@ -33,6 +33,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       the trend rather than the reading. This tracker plots each weigh-in as a dot, draws a smoothed
       moving-average line through them, and lets you mark a goal weight. The trend line is the number
       that actually matters, and it all stays private in your browser.
+      This body weight tracking tool is a simple weight log and weigh-in tracker: record a daily weigh-in,
+      watch the weight trend, and see through normal weight fluctuation. Even a daily weigh in takes seconds.
     </p>
     <a href={toolHref} class="cta-link">Try The Body Weight Tracker →</a>
   </section>
@@ -51,6 +53,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="moving-average">
     <h2>How the Moving Average Helps <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
+      Here is how it works: a moving average smooths daily weight noise, so a single weigh-in versus a
+      moving average is the difference between panic and signal.
       A moving average takes your recent readings and averages them, so a single spike barely nudges
       the line. It is the same trick weather forecasters and stock charts use to see signal through
       noise. On this tracker the smoothed line sits over your daily dots, so you can watch the dots
@@ -60,6 +64,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="key-idea" heading="One day is noise, two weeks is signal">
       <p>Judge progress by where the average line has moved over ten to fourteen days, not by whether today was up or down from yesterday. The daily number is data, not a verdict.</p>
     </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>A salty dinner.</strong> For example, you wake up 0.9 kg heavier, but the moving average barely moves, so the trend confirms nothing was really gained.</p>
+    <p><strong>Two steady weeks.</strong> For example, the daily dots scatter across a 1.5 kg band while the average drifts down 0.4 kg, which is real, honest progress.</p>
+    <p><strong>Nearing a goal.</strong> For example, the dashed goal line meets the trend line in about three weeks at the current rate, a projection no single weigh-in could give you.</p>
   </section>
 
   <section id="how-to-weigh">
@@ -78,7 +89,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <ReferenceBlock type="common-mistake" heading="Panicking over a one-day jump">
       <p>
-        An overnight rise is almost always water, not fat. It takes a large, sustained calorie surplus
+        An overnight rise is usually water, not fat, which is why weight bounces around from one day to
+        the next. It takes a large, sustained calorie surplus
         to gain real weight. Log the number, let the average absorb it, and keep going.
       </p>
     </ReferenceBlock>
