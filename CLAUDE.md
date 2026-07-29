@@ -155,6 +155,32 @@ path needs `GSC_SITE_URL` + `GSC_SA_KEY_JSON` (CI secrets); setup + the multi-pr
 
 Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.astro`. The tag ID is `G-WHD7CL44MX`. Since all pages go through `BaseLayout`, no further action is needed when adding new pages or tool types — the tag is inherited automatically. Do **not** add a second `gtag` snippet to individual pages or layouts.
 
+## Feedback & Product Discovery
+
+`/feedback/` collects **user problems** (not feature requests) and relays them to a private inbox
+via Web3Forms. Fully static: no backend, no database, no stored state. There are deliberately **no**
+thumbs, ratings, votes, counters, or analytics events in this system; its only output is email.
+Full docs: `docs/feedback.md`.
+
+- The contract lives in **one file**: `src/lib/feedback/templates.ts` owns both the form's questions
+  and the email they produce, and `templates.test.ts` pins the rendered body character for
+  character. Change a heading and the test fails — which is what stops the inbox filters silently
+  breaking.
+- `src/pages/feedback.astro` is a standalone content page, **not** a registry tool. It reaches the
+  sitemap and IndexNow through `STANDALONE_PAGES` in `src/lib/content/manifest.ts` (the `'page'`
+  content type) — that is the only edit needed to add another such page.
+- `FeedbackLink` is auto-included by `ToolLayout`, so every tool inherits it with **zero per-tool
+  edits**. No tool file ever mentions feedback.
+- **Never remove the environment guard in `submit.ts`.** It delegates to `isAnalyticsEnabled`
+  (`src/lib/analytics/guard.ts`) to refuse dev/localhost/automation/`PUBLIC_E2E`. The Playwright
+  suite drives this form on every PR across two projects; without it, CI emails the inbox on every
+  run. `tests/e2e/feedback.spec.ts` fails the run if anything reaches the relay.
+- The bug-report "include what I typed" opt-in is gated at **build time** by
+  `allowsInputCapture(engine, pattern)` — on `jwt`/`hashing`/`encoding`/`generate-credential` tools
+  the capturing script is not even emitted, because that input may be a live secret.
+- `PUBLIC_WEB3FORMS_KEY` is set in `.github/workflows/deploy.yml`. Without it the form composes the
+  email and shows it instead of sending, so local builds and forks can never reach the inbox.
+
 ## SEO Engine
 
 Local-first pipeline for researching, writing, and auditing tool content (guides, FAQs, knowledge files). The **`seo-content` skill** (`.claude/skills/seo-content/`) is the entry point for all content work — it routes through `seo:status` and the generated per-tool authoring brief.
