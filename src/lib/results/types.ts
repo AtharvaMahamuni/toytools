@@ -136,11 +136,17 @@ export type SectionId =
   | 'nextQuestions'
   | 'decisions';
 
-/** Default section order shared by every engine unless it overrides `layout`. */
+/**
+ * Default section order shared by every engine unless it overrides `layout`.
+ *
+ * Visualization sits directly under the hero, ahead of the metric ledger: for a banded or
+ * part-to-whole result the chart IS the answer, and the numbers behind it are the detail. Ordering
+ * it after the metrics pushed the chart below the fold on any tool with more than three rows.
+ */
 export const DEFAULT_LAYOUT: SectionId[] = [
   'hero',
-  'metrics',
   'visualization',
+  'metrics',
   'timeline',
   'milestones',
   'insights',

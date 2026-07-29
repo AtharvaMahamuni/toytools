@@ -32,7 +32,7 @@ const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
   <IoPanel
     slot="input"
     label="Details"
@@ -96,7 +96,7 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
     // numeric fields keep the canonical number in data-raw.
     function isStringField(el) {
       var t = el.getAttribute('data-field-type');
-      return t === 'select' || t === 'date' || t === 'datetime' || t === 'text';
+      return t === 'select' || t === 'segmented' || t === 'date' || t === 'datetime' || t === 'text';
     }
 
     function readValue(el) {

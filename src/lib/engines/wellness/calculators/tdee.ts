@@ -19,6 +19,7 @@ import {
 import { calories } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { partsSpec } from '@lib/visualization/types';
 
 const UNITS = ['metric', 'imperial'] as const;
 const SEXES = ['male', 'female'] as const;
@@ -35,12 +36,15 @@ const ACTIVITY_LABEL: Record<ActivityLevel, string> = {
 export const tdeeCalculator: WellnessCalculator = {
   id: 'tdee',
   family: 'energy',
-  capabilities: { loadExample: true },
+  capabilities: { loadExample: true, visualization: true },
+  // The maintenance figure IS the macro calculator's starting input. Publishing it here means the
+  // number travels with the user instead of being read on one page and retyped on the next.
+  produces: [{ name: 'maintenanceCalories', cardId: 'tdee' }],
   fields: [
     {
       id: 'unit',
       label: 'Units',
-      type: 'select',
+      type: 'segmented',
       default: 'metric',
       options: [
         { value: 'metric', label: 'Metric (kg, cm)' },
@@ -50,7 +54,7 @@ export const tdeeCalculator: WellnessCalculator = {
     {
       id: 'sex',
       label: 'Sex',
-      type: 'select',
+      type: 'segmented',
       default: 'male',
       options: [
         { value: 'male', label: 'Male' },
@@ -58,7 +62,7 @@ export const tdeeCalculator: WellnessCalculator = {
       ],
       help: 'Used by the BMR equation; enter the sex your body most closely matches metabolically.',
     },
-    { id: 'age', label: 'Age', type: 'integer', default: 30, min: 14, max: 120, step: 1, suffix: 'years' },
+    { id: 'age', label: 'Age', type: 'slider', default: 30, min: 14, max: 120, step: 1, suffix: 'years' },
     { id: 'weight', label: 'Weight', type: 'number', default: 70, min: 0, step: 0.1, help: 'Kilograms in metric, pounds in imperial.' },
     { id: 'height', label: 'Height', type: 'number', default: 175, min: 0, step: 0.1, help: 'Centimetres in metric, total inches in imperial.' },
     {
@@ -136,6 +140,24 @@ export const tdeeCalculator: WellnessCalculator = {
     return successResult({
       hero,
       metrics,
+      // Where the daily burn actually comes from. Most people are surprised how much of it is BMR,
+      // which is the point: "eat less, move more" is mostly a conversation about the smaller slice.
+      visualization: partsSpec(
+        [
+          { id: 'bmr', label: 'At rest', value: Math.round(bmr), display: calories(bmr) },
+          {
+            id: 'activity',
+            label: 'Activity',
+            value: Math.round(maintain - bmr),
+            display: calories(maintain - bmr),
+          },
+        ],
+        {
+          kind: 'stacked',
+          title: 'What makes up your daily burn',
+          description: `Resting metabolism is ${Math.round((bmr / maintain) * 100)}% of your ${calories(maintain)} maintenance total.`,
+        },
+      ),
       assumptions: [
         assumption('Units', isMetric ? 'metric (kg, cm)' : 'imperial (lb, in)'),
         assumption('BMR formula', 'Mifflin-St Jeor'),

@@ -19,18 +19,32 @@ import {
 import { num1, weight as fmtWeight, weightRange } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { bandSpec } from '@lib/visualization/types';
+import type { VizBand } from '@lib/visualization/types';
 
 const UNITS = ['metric', 'imperial'] as const;
+
+/**
+ * The WHO adult bands as a drawable scale. The axis stops at 15 and 40 because that is where the
+ * useful resolution is; the renderer clamps anything beyond to the nearest edge rather than
+ * stretching the scale for one outlier.
+ */
+const BMI_BANDS: VizBand[] = [
+  { id: 'underweight', label: 'Underweight', from: 15, to: 18.5 },
+  { id: 'normal', label: 'Healthy', from: 18.5, to: 25, tone: 'good' },
+  { id: 'overweight', label: 'Overweight', from: 25, to: 30 },
+  { id: 'obese', label: 'Obesity', from: 30, to: 40 },
+];
 
 export const bmiCalculator: WellnessCalculator = {
   id: 'bmi',
   family: 'body-composition',
-  capabilities: { loadExample: true },
+  capabilities: { loadExample: true, visualization: true },
   fields: [
     {
       id: 'unit',
       label: 'Units',
-      type: 'select',
+      type: 'segmented',
       default: 'metric',
       options: [
         { value: 'metric', label: 'Metric (kg, cm)' },
@@ -115,6 +129,11 @@ export const bmiCalculator: WellnessCalculator = {
     return successResult({
       hero,
       metrics,
+      visualization: bandSpec(value, BMI_BANDS, {
+        title: `Your BMI of ${num1(value)} on the WHO adult scale`,
+        valueLabel: num1(value),
+        description: `Healthy weight for your height: ${weightRange(loKg, hiKg, unit.value)}.`,
+      }),
       insights,
       milestones: [
         {

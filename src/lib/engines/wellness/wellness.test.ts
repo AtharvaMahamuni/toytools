@@ -83,6 +83,21 @@ describe('bmi calculator', () => {
   it('rejects an unknown unit system as a validation error', () => {
     expect(runWellness('bmi', { unit: 'stones', weight: 70, height: 175 }, {}).uiState).toBe('validation-error');
   });
+
+  it('emits a band visualization positioned at the computed BMI', () => {
+    const res = runWellness('bmi', { unit: 'metric', weight: 70, height: 175 }, {});
+    expect(res.visualization?.kind).toBe('band');
+    expect(res.visualization?.data.value).toBeCloseTo(22.86, 2);
+    expect(res.visualization?.data.bands?.map((b) => b.id)).toEqual([
+      'underweight',
+      'normal',
+      'overweight',
+      'obese',
+    ]);
+    // The band you are aiming for is the only toned one; the rest stay neutral ink.
+    expect(res.visualization?.data.bands?.filter((b) => b.tone).length).toBe(1);
+    expect(res.visualization?.description).toContain('kg');
+  });
 });
 
 describe('tdee calculator', () => {
@@ -234,5 +249,124 @@ describe('heart-rate-zones calculator', () => {
 
   it('rejects a missing age as a validation error', () => {
     expect(runWellness('heart-rate-zones', { age: '', method: 'simple', resting: 0 }, {}).uiState).toBe('validation-error');
+  });
+});
+
+// Every calculator that declares the visualization capability must actually emit a spec, and the
+// spec must match what the renderer can draw. This is the contract that keeps a capability flag
+// from drifting away from the data behind it.
+describe('wellness visualizations', () => {
+  const CASES: { id: string; input: Record<string, string | number>; kind: string }[] = [
+    { id: 'bmi', input: { unit: 'metric', weight: 70, height: 175 }, kind: 'band' },
+    {
+      id: 'body-fat',
+      input: { unit: 'metric', sex: 'male', height: 175, neck: 38, waist: 85, hip: 0, weight: 0 },
+      kind: 'band',
+    },
+    { id: 'ideal-weight', input: { unit: 'metric', sex: 'male', height: 175 }, kind: 'band' },
+    {
+      id: 'tdee',
+      input: { unit: 'metric', sex: 'male', age: 30, weight: 70, height: 175, activity: 'moderate' },
+      kind: 'stacked',
+    },
+    { id: 'macro', input: { calories: 2400, diet: 'balanced' }, kind: 'distribution' },
+    { id: 'heart-rate-zones', input: { age: 30, method: 'simple', resting: 0 }, kind: 'bars' },
+  ];
+
+  for (const c of CASES) {
+    it(`${c.id} emits a ${c.kind} spec the renderer can draw`, () => {
+      const res = runWellness(c.id, c.input, {});
+      expect(res.ok).toBe(true);
+      expect(res.visualization?.kind).toBe(c.kind);
+      const data = res.visualization!.data;
+      if (c.kind === 'band') {
+        expect(Number.isFinite(data.value)).toBe(true);
+        expect((data.bands ?? []).length).toBeGreaterThan(1);
+        // Exactly one band carries a tone: the chart informs, it does not grade every band.
+        expect((data.bands ?? []).filter((b) => b.tone).length).toBe(1);
+        // Contiguous and ascending, so the drawn scale has no gaps or overlaps.
+        (data.bands ?? []).forEach((b, i, arr) => {
+          expect(b.to).toBeGreaterThan(b.from);
+          if (i > 0) expect(b.from).toBe(arr[i - 1].to);
+        });
+      } else {
+        expect((data.parts ?? []).length).toBeGreaterThan(1);
+        (data.parts ?? []).forEach((p) => {
+          expect(Number.isFinite(p.value)).toBe(true);
+          expect(p.display).toBeTruthy();
+        });
+      }
+      expect(res.visualization?.description).toBeTruthy();
+    });
+  }
+
+  it('splits macros by calorie share, not by gram weight', () => {
+    // Fat is 9 kcal/g against 4 for protein and carbs, so gram widths would misdraw the same split.
+    const res = runWellness('macro', { calories: 2000, diet: 'balanced' }, {});
+    const parts = res.visualization!.data.parts!;
+    const total = parts.reduce((sum, p) => sum + p.value, 0);
+    expect(total).toBe(100);
+    expect(parts.every((p) => /g$/.test(p.display ?? ''))).toBe(true);
+  });
+
+  it('orders the heart-rate ladder hardest first', () => {
+    const res = runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 0 }, {});
+    const parts = res.visualization!.data.parts!;
+    expect(parts[0].id).toBe('zone5');
+    expect(parts[parts.length - 1].id).toBe('zone1');
+    expect(parts[0].value).toBeGreaterThan(parts[parts.length - 1].value);
+  });
+
+  it('keeps the body-fat scale sex-specific', () => {
+    const male = runWellness('body-fat', { unit: 'metric', sex: 'male', height: 175, neck: 38, waist: 85 }, {});
+    const female = runWellness('body-fat', { unit: 'metric', sex: 'female', height: 165, neck: 32, waist: 72, hip: 95 }, {});
+    expect(male.visualization?.data.bands?.[0].to).toBe(6);
+    expect(female.visualization?.data.bands?.[0].to).toBe(14);
+  });
+
+  it('draws the ideal-weight marker inside the healthy band for a typical height', () => {
+    const res = runWellness('ideal-weight', { unit: 'metric', sex: 'male', height: 175 }, {});
+    const data = res.visualization!.data;
+    const healthy = data.bands!.find((b) => b.id === 'healthy')!;
+    expect(data.value).toBeGreaterThanOrEqual(healthy.from);
+    expect(data.value).toBeLessThanOrEqual(healthy.to);
+    // The bracket shows the spread across the four formulas.
+    expect(data.highlight?.to).toBeGreaterThan(data.highlight!.from);
+  });
+
+  it('converts the ideal-weight scale into the chosen display unit', () => {
+    const metric = runWellness('ideal-weight', { unit: 'metric', sex: 'male', height: 175 }, {});
+    const imperial = runWellness('ideal-weight', { unit: 'imperial', sex: 'male', height: 69 }, {});
+    // Same body, different axis: pounds run about 2.2x the kilogram figure.
+    expect(imperial.visualization!.data.value!).toBeGreaterThan(metric.visualization!.data.value! * 2);
+  });
+});
+
+// Regression: SmartInput renders a numeric field whose default is 0 as BLANK, so a calculator that
+// ran an OPTIONAL field through numberField rejected its own default state. heart-rate-zones shipped
+// showing "Enter your resting heart rate to calculate" on first load, for a field labelled optional.
+describe('optional numeric fields', () => {
+  it('computes heart-rate zones with a blank resting heart rate', () => {
+    const res = runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: '' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.hero?.raw).toBe(190);
+    expect(res.assumptions?.find((a) => a.label === 'Zone method')?.value).toBe('percent of maximum');
+  });
+
+  it('still switches to Karvonen when a resting heart rate is supplied', () => {
+    const res = runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 60 }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.assumptions?.find((a) => a.label === 'Zone method')?.value).toContain('Karvonen');
+  });
+
+  it('still range-checks an optional field that IS supplied', () => {
+    expect(runWellness('heart-rate-zones', { age: 30, method: 'simple', resting: 500 }, {}).uiState)
+      .toBe('validation-error');
+  });
+
+  it('computes body fat with a blank optional bodyweight, omitting the mass split', () => {
+    const res = runWellness('body-fat', { unit: 'metric', sex: 'male', height: 175, neck: 38, waist: 85, weight: '' }, {});
+    expect(res.uiState).toBe('success');
+    expect(res.metrics.find((c) => c.id === 'fat-mass')).toBeUndefined();
   });
 });

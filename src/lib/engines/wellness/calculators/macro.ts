@@ -9,6 +9,7 @@ import { macroGrams, type MacroSplit } from '../models';
 import { num1 } from '../format';
 import { numberField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { partsSpec } from '@lib/visualization/types';
 
 const DIETS = ['balanced', 'high-protein', 'low-carb', 'keto'] as const;
 type Diet = (typeof DIETS)[number];
@@ -30,7 +31,8 @@ const DIET_LABEL: Record<Diet, string> = {
 export const macroCalculator: WellnessCalculator = {
   id: 'macro',
   family: 'nutrition',
-  capabilities: { loadExample: true },
+  capabilities: { loadExample: true, visualization: true },
+  consumes: [{ field: 'calories', name: 'maintenanceCalories', note: 'From your TDEE' }],
   fields: [
     {
       id: 'calories',
@@ -79,6 +81,21 @@ export const macroCalculator: WellnessCalculator = {
       card('split', 'Split (C/P/F)', `${split.carb}/${split.protein}/${split.fat}`),
     ];
 
+    // Split by CALORIES, not grams: the percentages are calorie shares, and fat carries 9 kcal/g
+    // against 4 for protein and carbs, so a gram-width bar would misrepresent the same split.
+    const viz = partsSpec(
+      [
+        { id: 'carb', label: 'Carbs', value: split.carb, display: `${num1(g.carb)} g` },
+        { id: 'protein', label: 'Protein', value: split.protein, display: `${num1(g.protein)} g` },
+        { id: 'fat', label: 'Fat', value: split.fat, display: `${num1(g.fat)} g` },
+      ],
+      {
+        kind: 'distribution',
+        title: 'Your macro split',
+        description: `${split.carb}% carbs, ${split.protein}% protein, ${split.fat}% fat of ${num1(cal.value)} kcal.`,
+      },
+    );
+
     const insights = [
       insight(
         `On a ${DIET_LABEL[diet.value as Diet].split(' (')[0].toLowerCase()} split, ${num1(cal.value)} kcal works out to ${num1(g.protein)} g protein, ${num1(g.carb)} g carbs, and ${num1(g.fat)} g fat a day.`,
@@ -96,6 +113,7 @@ export const macroCalculator: WellnessCalculator = {
     return successResult({
       hero,
       metrics,
+      visualization: viz,
       insights,
       assumptions: [
         assumption('Diet style', DIET_LABEL[diet.value as Diet]),

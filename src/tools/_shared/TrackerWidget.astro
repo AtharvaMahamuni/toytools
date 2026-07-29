@@ -108,7 +108,12 @@ const showUnits = !!def.units?.length;
         </select>
       </label>
     )}
-    <button type="button" class="tracker-reset" id={`${slug}-reset`}>Clear all history</button>
+    <div class="tracker-data">
+      <button type="button" class="tracker-data-btn" id={`${slug}-export`}>Export backup</button>
+      <button type="button" class="tracker-data-btn" id={`${slug}-import`}>Import backup</button>
+      <input type="file" accept="application/json,.json" id={`${slug}-file`} class="tracker-file" hidden />
+      <button type="button" class="tracker-reset" id={`${slug}-reset`}>Clear all history</button>
+    </div>
   </div>
 </section>
 
@@ -146,7 +151,11 @@ const showUnits = !!def.units?.length;
       } catch (_) {}
     }
     function persist() {
-      if (window.ToyTools && ToyTools.state) ToyTools.state.save(slug, state);
+      if (!(window.ToyTools && ToyTools.state)) return;
+      // Cap the log before writing so it can never grow without bound.
+      var tr = T();
+      if (tr && tr.prune) state.entries = tr.prune(state.entries, tr.todayIso());
+      ToyTools.state.save(slug, state);
     }
 
     function fmt(v) { return Number(v).toFixed(def.decimals || 0); }
@@ -228,9 +237,20 @@ const showUnits = !!def.units?.length;
     }
 
     // ── Actions ──────────────────────────────────────────────────────────────
+    // Ask the browser not to evict this origin, once, the first time real data is written. Safari
+    // caps script-writable storage for origins without recent first-party interaction, which is
+    // exactly someone who logs a weight once a week.
+    var askedToPersist = false;
+    function requestDurableStorage() {
+      if (askedToPersist) return;
+      askedToPersist = true;
+      if (window.ToyTools && ToyTools.data) ToyTools.data.persist();
+    }
+
     function logDelta(delta) {
       var tr = T();
       if (!tr) return;
+      requestDurableStorage();
       var today = tr.todayIso();
       state.entries = tr.increment(state.entries, today, delta, def.step);
       persist(); render();
@@ -242,6 +262,7 @@ const showUnits = !!def.units?.length;
     function logValue(v) {
       var tr = T();
       if (!tr || !(v > 0)) return;
+      requestDurableStorage();
       var today = tr.todayIso();
       state.entries = tr.upsert(state.entries, today, v);
       persist(); render();
@@ -293,6 +314,40 @@ const showUnits = !!def.units?.length;
       persist(); render();
       if (window.ToyTools) ToyTools.toast('History cleared');
     });
+
+    // ── Backup ───────────────────────────────────────────────────────────────
+    // The panel promises this data never leaves your device, which without a way OUT would make
+    // clearing site data permanent loss. Export writes every toytools:* key, so one file is a full
+    // backup; import merges, so restoring here cannot destroy another tool's data.
+    var exportBtn = $('export');
+    var importBtn = $('import');
+    var fileEl = $('file');
+
+    if (exportBtn) exportBtn.addEventListener('click', function () {
+      if (!(window.ToyTools && ToyTools.data)) return;
+      var count = ToyTools.data.download();
+      if (count > 0) ToyTools.toast('Exported ' + count + (count === 1 ? ' record' : ' records'));
+    });
+
+    if (importBtn && fileEl) {
+      importBtn.addEventListener('click', function () { fileEl.click(); });
+      fileEl.addEventListener('change', function () {
+        var file = fileEl.files && fileEl.files[0];
+        if (!file || !(window.ToyTools && ToyTools.data)) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          var res = ToyTools.data.restore(String(reader.result || ''));
+          if (!res.ok) { ToyTools.toast(res.error || 'Could not read that backup.'); return; }
+          load(); render();
+          if (goalEl && state.goal > 0) goalEl.value = String(state.goal);
+          if (unitEl) unitEl.value = state.unit;
+          ToyTools.toast('Restored ' + res.restored + (res.restored === 1 ? ' record' : ' records'));
+        };
+        reader.onerror = function () { ToyTools.toast('Could not read that file.'); };
+        reader.readAsText(file);
+        fileEl.value = ''; // let the same file be picked again
+      });
+    }
 
     // ── Init ─────────────────────────────────────────────────────────────────
     load();
@@ -404,8 +459,18 @@ const showUnits = !!def.units?.length;
     background: var(--color-bg);
     color: var(--color-text);
   }
-  .tracker-reset {
+  /* Data row: backup actions sit with the destructive one, so "get my data out" is
+     visible in the same glance as "delete my data". */
+  .tracker-data {
     margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .tracker-data-btn,
+  .tracker-reset {
     min-height: var(--touch-target);
     padding-inline: var(--space-4);
     border: var(--border);
@@ -413,6 +478,22 @@ const showUnits = !!def.units?.length;
     background: var(--color-surface);
     color: var(--color-text-muted);
     cursor: pointer;
+    transition: color 150ms, background-color 150ms, border-color 150ms;
+  }
+
+  .tracker-data-btn:hover { color: var(--color-text); background: var(--color-surface-hover); }
+
+  @media (max-width: 640px) {
+    .tracker-data { margin-left: 0; width: 100%; }
+    .tracker-data-btn, .tracker-reset { flex: 1 1 auto; }
+
+    /* Tighten the phone layout so today's number, the streaks, and the chart land
+       in one screen instead of spilling just past the fold. */
+    .tracker-grid { gap: var(--space-3); }
+    .tracker-today, .tracker-stats { padding: var(--space-4); }
+    .tracker-stats { gap: var(--space-3); }
+    .tracker-stat-value { font-size: var(--text-xl); }
+    .tracker-controls { gap: var(--space-3); }
   }
   .tracker-reset.is-confirming { color: var(--color-danger); border-color: var(--color-danger); }
 

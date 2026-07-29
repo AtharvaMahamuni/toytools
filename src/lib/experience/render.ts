@@ -15,6 +15,7 @@ import type {
   Assumption,
   Decision,
 } from '@lib/results/types';
+import { renderViz } from '@lib/visualization/render';
 
 interface RenderOptions {
   /** Section order; defaults to the shell's data-layout, then DEFAULT_LAYOUT. */
@@ -89,6 +90,27 @@ function fillAssumptions(root: ParentNode, assumptions: Assumption[] | undefined
   return fillList(root, 'assumptions', assumptions, (a: Assumption) => statRow(a.label, a.value));
 }
 
+/**
+ * Paint (or clear) the visualization section. Called on BOTH the success and the empty/error path so
+ * a stale chart can never outlive the result that produced it. The markup comes from our own
+ * escaping renderer over engine data, never from user HTML, so innerHTML is safe here and keeps the
+ * chart a single string swap.
+ */
+function paintViz(root: HTMLElement, result: InteractiveResult | null): void {
+  const sec = $(root, '[data-section="visualization"]');
+  const mount = sec?.querySelector('[data-viz]') as HTMLElement | null;
+  const cap = $(root, '[data-viz-caption]');
+  const on = root.dataset.capVisualization === 'true' && !!result?.visualization;
+
+  if (mount) mount.innerHTML = on ? renderViz(result?.visualization) : '';
+  if (cap) {
+    const text = on ? result?.visualization?.description ?? '' : '';
+    cap.textContent = text;
+    cap.hidden = !text;
+  }
+  show(sec, on);
+}
+
 function applyLayout(root: ParentNode, layout: SectionId[]): void {
   layout.forEach((id, idx) => {
     const sec = $(root, `[data-section="${id}"]`);
@@ -129,6 +151,7 @@ export function renderExperience(
       emptyEl.dataset.state = result.uiState;
     }
     if (sectionsEl) sectionsEl.hidden = true;
+    paintViz(root, null);
     root.dataset.uiState = result.uiState;
     return;
   }
@@ -203,10 +226,11 @@ export function renderExperience(
     (p) => statRow(`Year ${p.year}`, p.display ?? String(p.value)),
   );
 
-  // Comparison + visualization are reserved seams: the engine emits the DATA (VizSpec, comparisons)
-  // for the future, but rendering is gated off by capability so nothing half-built shows in v1.
+  // Comparison stays a reserved seam: the engine emits the DATA for the future, but rendering is
+  // gated off by capability so nothing half-built shows.
   const comparisonOn = root.dataset.capComparison === 'true';
-  const visualizationOn = root.dataset.capVisualization === 'true';
   show($(root, '[data-section="comparison"]'), comparisonOn && !!(result.comparisons && result.comparisons.length));
-  show($(root, '[data-section="visualization"]'), visualizationOn && !!result.visualization);
+
+  // Visualization — the engine emits a VizSpec, the platform renderer turns it into inline SVG.
+  paintViz(root, result);
 }

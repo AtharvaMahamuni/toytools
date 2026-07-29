@@ -3,10 +3,13 @@
 // section, in a flex column whose order is driven by the engine's `layout`) that the bundled
 // `renderExperience` (ToyTools.experience.render) fills from an InteractiveResult at runtime.
 //
-// It renders the whole experience, not just numbers: hero -> metrics -> visualization -> timeline ->
+// It renders the whole experience, not just numbers: hero -> visualization -> metrics -> timeline ->
 // milestones -> insights -> comparison -> assumptions -> explanation -> next questions -> decisions.
-// Verbose sections (timeline, assumptions) use native <details> for progressive disclosure. Any future
-// interactive engine reuses this component unchanged.
+// Verbose sections (timeline, assumptions, explanation, next questions) use native <details> for
+// progressive disclosure. Those four are the "read if curious" material: leaving them open turned a
+// result into a wall of prose on a phone, burying the decisions section underneath. The answer, the
+// chart, and what to do next stay open; the background folds away. Any future interactive engine
+// reuses this component unchanged.
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import { DEFAULT_LAYOUT, DEFAULT_CAPABILITIES } from '@lib/results/types';
 import type { SectionId, Capabilities } from '@lib/results/types';
@@ -42,14 +45,17 @@ const heroId = `${idPrefix}-hero`;
         <span class="hero-value" id={heroId} data-hero-value>0</span>
         <span class="hero-label" data-hero-label></span>
         <p class="hero-note" data-hero-note hidden></p>
+        <p class="hero-delta" id={`${idPrefix}-delta`} hidden></p>
+        <div class="hero-spark" id={`${idPrefix}-spark`} hidden></div>
       </div>
 
       <div class="experience-section" data-section="metrics" hidden>
         <dl class="tm-stats tm-secondary" aria-live="off"></dl>
       </div>
 
-      <div class="experience-section experience-placeholder" data-section="visualization" hidden>
-        <p class="experience-heading">Visualization</p>
+      <div class="experience-section experience-viz" data-section="visualization" hidden>
+        <div class="viz-mount" data-viz></div>
+        <p class="viz-caption" data-viz-caption hidden></p>
       </div>
 
       <details class="experience-section experience-disclosure" data-section="timeline" hidden>
@@ -75,14 +81,15 @@ const heroId = `${idPrefix}-hero`;
         <dl class="tm-stats" data-list></dl>
       </details>
 
-      <div class="experience-section" data-section="explanation" hidden>
+      <details class="experience-section experience-disclosure" data-section="explanation" hidden>
+        <summary>How this is calculated</summary>
         <p class="experience-explanation" data-explanation></p>
-      </div>
+      </details>
 
-      <div class="experience-section" data-section="nextQuestions" hidden>
-        <p class="experience-heading">Questions to explore</p>
+      <details class="experience-section experience-disclosure" data-section="nextQuestions" hidden>
+        <summary>Questions to explore</summary>
         <ul class="next-question-list" data-list></ul>
-      </div>
+      </details>
 
       <div class="experience-section" data-section="decisions" hidden>
         <p class="experience-heading">What to do next</p>

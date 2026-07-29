@@ -33,7 +33,7 @@ const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
   <IoPanel
     slot="input"
     label="Details"
@@ -41,7 +41,13 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     data-wellness={wellnessId}
     data-slug={slug}
     data-defaults={JSON.stringify(defaults)}
+    data-produces={JSON.stringify(tool?.produces ?? [])}
+    data-consumes={JSON.stringify(tool?.consumes ?? [])}
   >
+    <p class="wellness-profile" id={`${slug}-profile`} hidden>
+      <span data-profile-text></span>
+      <button type="button" class="wellness-profile-forget" id={`${slug}-forget`}>Forget</button>
+    </p>
     <div class="io-body wellness-form" id={`${slug}-form`} data-wellness-form>
       {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
     </div>
@@ -78,6 +84,10 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     var slug = root.getAttribute('data-slug');
     var defaults = {};
     try { defaults = JSON.parse(root.getAttribute('data-defaults') || '{}'); } catch (_) {}
+    var produces = [];
+    try { produces = JSON.parse(root.getAttribute('data-produces') || '[]'); } catch (_) {}
+    var consumes = [];
+    try { consumes = JSON.parse(root.getAttribute('data-consumes') || '[]'); } catch (_) {}
 
     var form = document.getElementById(slug + '-form');
     var expRoot = document.getElementById(slug + '-experience');
@@ -97,7 +107,7 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     // canonical number in data-raw.
     function isStringField(el) {
       var t = el.getAttribute('data-field-type');
-      return t === 'select' || t === 'date' || t === 'datetime' || t === 'text';
+      return t === 'select' || t === 'segmented' || t === 'date' || t === 'datetime' || t === 'text';
     }
 
     function readValue(el) {
@@ -134,15 +144,92 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       var c = collect();
       if (c.missingRequired) {
         ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        renderDelta(null);
         return;
       }
       var res = ToyTools.runWellness(wid, c.input, {});
       ToyTools.experience.render(expRoot, res);
+      publishDerived(res);
+      recordSnapshot(res);
+      renderDelta(res);
+    }
+
+    // Publish any result another calculator declares as its input, so the number travels.
+    function publishDerived(res) {
+      if (!res || !res.ok || !produces.length || !(window.ToyTools && ToyTools.profile)) return;
+      for (var i = 0; i < produces.length; i++) {
+        var spec = produces[i];
+        var cards = [res.hero].concat(res.metrics || []);
+        for (var j = 0; j < cards.length; j++) {
+          if (cards[j] && cards[j].id === spec.cardId && typeof cards[j].raw === 'number') {
+            ToyTools.profile.setDerived(spec.name, cards[j].raw);
+            break;
+          }
+        }
+      }
+    }
+
+    // ── Saved history ────────────────────────────────────────────────────────
+    // A calculator used to keep only the values you last typed, so every recalculation overwrote
+    // the last and your BMI from a month ago existed nowhere. Snapshots make a one-shot calculator
+    // worth returning to: at most one a day, capped, and only when the answer actually moved.
+    var HISTORY_MAX = 50;
+    var history = [];
+
+    function todayKey() {
+      var d = new Date();
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function recordSnapshot(res) {
+      if (!res || !res.ok || !res.hero || typeof res.hero.raw !== 'number') return;
+      var last = history[history.length - 1];
+      // One entry per day, and only when the number moved: tweaking an input ten times in a row
+      // is one visit, not ten data points.
+      if (last && last.raw === res.hero.raw) return;
+      if (last && last.day === todayKey()) history[history.length - 1] = { day: todayKey(), raw: res.hero.raw, value: res.hero.value };
+      else history.push({ day: todayKey(), raw: res.hero.raw, value: res.hero.value });
+      if (history.length > HISTORY_MAX) history = history.slice(history.length - HISTORY_MAX);
+    }
+
+    /** The change since the last DIFFERENT day's reading, or null when there is nothing to compare. */
+    function priorReading() {
+      var today = todayKey();
+      for (var i = history.length - 1; i >= 0; i--) {
+        if (history[i].day !== today) return history[i];
+      }
+      return null;
+    }
+
+    function renderDelta(res) {
+      var el = document.getElementById(slug + '-delta');
+      if (!el) return;
+      var prior = priorReading();
+      if (!res || !res.ok || !res.hero || typeof res.hero.raw !== 'number' || !prior) {
+        el.hidden = true;
+        return;
+      }
+      var diff = res.hero.raw - prior.raw;
+      var rounded = Math.round(diff * 100) / 100;
+      var text;
+      if (rounded === 0) text = 'Unchanged since your last check (' + prior.value + ').';
+      else text = (rounded > 0 ? 'Up ' : 'Down ') + Math.abs(rounded) + ' from your last check (' + prior.value + ').';
+      el.textContent = text;
+      el.hidden = false;
+
+      // A trend line, once there is a trend to show.
+      var sparkEl = document.getElementById(slug + '-spark');
+      if (sparkEl && window.ToyTools && ToyTools.viz && history.length > 2) {
+        sparkEl.innerHTML = ToyTools.viz.sparkline(history.map(function (h) { return h.raw; }));
+        sparkEl.hidden = false;
+      } else if (sparkEl) {
+        sparkEl.hidden = true;
+      }
     }
 
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
-      var data = { fields: {} };
+      var data = { fields: {}, history: history };
       for (var i = 0; i < fieldEls.length; i++) {
         data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
       }
@@ -153,17 +240,100 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       for (var id in values) setField(id, values[id]);
     }
 
-    // Restore saved field values.
+    // ── Body profile ─────────────────────────────────────────────────────────
+    // Height, weight, age, sex and units are the same facts across these calculators, so they are
+    // remembered once and prefilled everywhere. Precedence is deliberate: this tool's own saved
+    // input wins over the shared profile, because a value you last typed HERE is the more specific
+    // answer. Whatever the profile filled is always stated on screen with a way to undo it.
+    var profileEl = document.getElementById(slug + '-profile');
+    var profileTextEl = profileEl && profileEl.querySelector('[data-profile-text]');
+    var forgetBtn = document.getElementById(slug + '-forget');
+
+    function profileFieldIds() {
+      var out = [];
+      if (!(window.ToyTools && ToyTools.profile)) return out;
+      var known = ToyTools.profile.FIELDS;
+      for (var i = 0; i < fieldEls.length; i++) {
+        var id = fieldEls[i].getAttribute('data-field-id');
+        if (known.indexOf(id) !== -1) out.push(id);
+      }
+      return out;
+    }
+
+    function showProfileNotice(usedIds, derivedNotes) {
+      if (!profileEl || !profileTextEl) return;
+      var parts = [];
+      if (usedIds.length) {
+        var summary = ToyTools.profile.summary();
+        parts.push(summary ? 'Using your saved details (' + summary + ').' : 'Using your saved details.');
+      }
+      for (var i = 0; i < derivedNotes.length; i++) parts.push(derivedNotes[i]);
+      if (!parts.length) { profileEl.hidden = true; return; }
+      profileTextEl.textContent = parts.join(' ');
+      profileEl.hidden = false;
+    }
+
+    function saveProfile() {
+      if (!(window.ToyTools && ToyTools.profile)) return;
+      var ids = profileFieldIds();
+      if (!ids.length) return;
+      var values = {};
+      for (var i = 0; i < ids.length; i++) {
+        var el = fieldById(ids[i]);
+        if (el) values[ids[i]] = el.value;
+      }
+      ToyTools.profile.merge(values);
+    }
+
+    // Restore: this tool's own saved input first, then the shared profile for anything still unset.
+    var savedFields = {};
     try {
       var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
-      var savedFields = (saved && saved.fields) || {};
+      savedFields = (saved && saved.fields) || {};
+      if (saved && Array.isArray(saved.history)) history = saved.history;
       for (var id in savedFields) setField(id, savedFields[id]);
     } catch (_) {}
 
-    // Field input -> recompute + persist.
+    var filledFromProfile = [];
+    var derivedNotes = [];
+    try {
+      if (window.ToyTools && ToyTools.profile) {
+        var prof = ToyTools.profile.get();
+        var ids = profileFieldIds();
+        for (var pi = 0; pi < ids.length; pi++) {
+          var pid = ids[pi];
+          var already = savedFields[pid];
+          if (already !== undefined && already !== '') continue;
+          if (prof[pid] === undefined || prof[pid] === '') continue;
+          setField(pid, prof[pid]);
+          filledFromProfile.push(pid);
+        }
+
+        // Numbers another calculator produced (e.g. TDEE -> the macro calculator's calorie target).
+        for (var ci = 0; ci < consumes.length; ci++) {
+          var spec = consumes[ci];
+          var savedHere = savedFields[spec.field];
+          if (savedHere !== undefined && savedHere !== '') continue;
+          var val = ToyTools.profile.getDerived(spec.name);
+          if (val === undefined || val === null || val === '') continue;
+          setField(spec.field, val);
+          derivedNotes.push(spec.note + ': ' + val + '. Change it above to override.');
+        }
+
+        showProfileNotice(filledFromProfile, derivedNotes);
+      }
+    } catch (_) {}
+
+    if (forgetBtn) forgetBtn.addEventListener('click', function () {
+      if (window.ToyTools && ToyTools.profile) ToyTools.profile.clear();
+      if (profileEl) profileEl.hidden = true;
+      if (window.ToyTools) ToyTools.toast('Saved details forgotten');
+    });
+
+    // Field input -> recompute + persist (locally and to the shared profile).
     for (var i = 0; i < fieldEls.length; i++) {
-      fieldEls[i].addEventListener('change', function () { run(); persist(); });
-      fieldEls[i].addEventListener('input', function () { run(); persist(); });
+      fieldEls[i].addEventListener('change', function () { run(); persist(); saveProfile(); });
+      fieldEls[i].addEventListener('input', function () { run(); persist(); saveProfile(); });
     }
 
     // Reset to defaults (two-tap confirm).

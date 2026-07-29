@@ -10,13 +10,16 @@ import {
   bodyFatNavy,
   bodyFatCategory,
   BODY_FAT_CATEGORY_LABEL,
+  BODY_FAT_THRESHOLDS,
   lbToKg,
   inToCm,
   type Sex,
 } from '../models';
 import { num1, weight as fmtWeight } from '../format';
-import { numberField, positiveField, selectField } from '../validation';
+import { optionalNumberField, positiveField, selectField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
+import { bandSpec } from '@lib/visualization/types';
+import type { VizBand } from '@lib/visualization/types';
 
 const UNITS = ['metric', 'imperial'] as const;
 const SEXES = ['male', 'female'] as const;
@@ -24,12 +27,12 @@ const SEXES = ['male', 'female'] as const;
 export const bodyFatCalculator: WellnessCalculator = {
   id: 'body-fat',
   family: 'body-composition',
-  capabilities: { loadExample: true },
+  capabilities: { loadExample: true, visualization: true },
   fields: [
     {
       id: 'unit',
       label: 'Units',
-      type: 'select',
+      type: 'segmented',
       default: 'metric',
       options: [
         { value: 'metric', label: 'Metric (cm, kg)' },
@@ -39,7 +42,7 @@ export const bodyFatCalculator: WellnessCalculator = {
     {
       id: 'sex',
       label: 'Sex',
-      type: 'select',
+      type: 'segmented',
       default: 'male',
       options: [
         { value: 'male', label: 'Male' },
@@ -104,8 +107,19 @@ export const bodyFatCalculator: WellnessCalculator = {
       card('category', 'Category', label, { emphasis: 'primary' }),
     ];
 
+    // The ACE scale as a drawable band. "Fitness" carries the accent: it is the general-population
+    // target, whereas the athlete band is a training outcome rather than a goal to aim at.
+    const t = BODY_FAT_THRESHOLDS[sex.value as Sex];
+    const bands: VizBand[] = [
+      { id: 'essential', label: 'Essential', from: t.floor, to: t.athletes },
+      { id: 'athletes', label: 'Athletes', from: t.athletes, to: t.fitness },
+      { id: 'fitness', label: 'Fitness', from: t.fitness, to: t.average, tone: 'good' },
+      { id: 'average', label: 'Average', from: t.average, to: t.obese },
+      { id: 'obese', label: 'Above average', from: t.obese, to: t.ceiling },
+    ];
+
     // Optional fat/lean split when a bodyweight is given.
-    const w = numberField(input, 'weight', 'your bodyweight', { min: 0 });
+    const w = optionalNumberField(input, 'weight', 'your bodyweight', { min: 0 });
     if (w.ok && w.value > 0) {
       const weightKg = isMetric ? w.value : lbToKg(w.value);
       const fatKg = weightKg * (bf / 100);
@@ -128,6 +142,11 @@ export const bodyFatCalculator: WellnessCalculator = {
     return successResult({
       hero,
       metrics,
+      visualization: bandSpec(bf, bands, {
+        title: `Your body fat of ${num1(bf)}% on the ACE scale`,
+        valueLabel: `${num1(bf)}%`,
+        description: `ACE ranges for ${sex.value === 'male' ? 'men' : 'women'}. The tape method carries a few points of error, so watch the trend.`,
+      }),
       insights,
       assumptions: [
         assumption('Method', 'U.S. Navy circumference'),

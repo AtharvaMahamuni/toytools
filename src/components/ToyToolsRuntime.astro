@@ -22,6 +22,7 @@
   import { tracker } from '@lib/engines/tracker/registry';
   import { runGeneration } from '@lib/generation/registry';
   import { renderExperience } from '@lib/experience/render';
+  import { sparklineSvg } from '@lib/visualization/render';
   import { diffLines, diffStats } from '@lib/text/compare';
   import { jsonExplorer } from '@lib/json/explorer';
   import { yamlSerializer } from '@lib/json/yaml';
@@ -111,6 +112,7 @@
   TT.tracker = tracker; // ToyTools.tracker.* — stateful tracker model + streaks + inline-SVG charts
   TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
+  TT.viz = { sparkline: sparklineSvg }; // ToyTools.viz.sparkline(values) → inline SVG trend line
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]
   TT.diffStats = diffStats; // ToyTools.diffStats(result) → { added, removed, unchanged, similarity }
   TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core
@@ -175,24 +177,202 @@
   };
 
   // Versioned per-tool state: one JSON envelope per tool under "toytools:{toolId}".
-  // Never throws; corruption or a version mismatch yields null (caller uses defaults).
+  // Never throws; corruption yields null (caller uses defaults).
+  //
+  // Durability rules, because some of this data is irreplaceable (a year of weight
+  // logs cannot be recomputed the way a converter's last input can):
+  //  - a write that exceeds the cap or the browser quota TELLS the user instead of
+  //    failing silently, which is how a tracker could quietly stop saving,
+  //  - an older envelope is MIGRATED rather than discarded, so bumping VERSION no
+  //    longer means wiping everyone's history.
   TT.state = {
     PREFIX: 'toytools:',
     VERSION: 1,
+    // v -> fn(data) returning the next version's shape. Register a step per bump; load()
+    // walks them in order. A missing step means that version is unmigratable, so the
+    // caller falls back to defaults (the pre-existing behaviour) rather than crashing.
+    MIGRATIONS: {},
     save: function (toolId, data) {
-      try { localStorage.setItem(TT.state.PREFIX + toolId, JSON.stringify({ v: TT.state.VERSION, data: data })); } catch (_) {}
+      var payload;
+      try { payload = JSON.stringify({ v: TT.state.VERSION, data: data }); } catch (_) { return false; }
+      if (payload.length > TT.storage.MAX) {
+        TT.toast('That is too much data to save in this browser.');
+        return false;
+      }
+      try {
+        localStorage.setItem(TT.state.PREFIX + toolId, payload);
+        return true;
+      } catch (_) {
+        // Quota exhausted, or storage blocked (private mode, disabled cookies).
+        TT.toast('Could not save: this browser is out of storage space.');
+        return false;
+      }
     },
     load: function (toolId) {
       try {
         var raw = localStorage.getItem(TT.state.PREFIX + toolId);
         if (!raw) return null;
         var parsed = JSON.parse(raw);
-        if (parsed && parsed.v === TT.state.VERSION) return parsed.data;
-        return null;
+        if (!parsed || typeof parsed.v !== 'number') return null;
+        var v = parsed.v;
+        var data = parsed.data;
+        while (v < TT.state.VERSION) {
+          var step = TT.state.MIGRATIONS[v];
+          if (!step) return null;
+          data = step(data);
+          v++;
+        }
+        return v === TT.state.VERSION ? data : null;
       } catch (_) { return null; }
     },
     clear: function (toolId) {
       try { localStorage.removeItem(TT.state.PREFIX + toolId); } catch (_) {}
+    }
+  };
+
+  // Portability — the escape hatch behind the "never leaves your device" promise. Every
+  // tracker's log and every saved profile lives only in this browser, so without an export
+  // clearing site data is permanent loss. Covers every toytools:* key, so one file is a full
+  // backup and restoring it on a new device carries the whole account across.
+  TT.data = {
+    KEY_PREFIX: 'toytools:',
+    FORMAT: 'toytools.backup.v1',
+    collect: function () {
+      var out = {};
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf(TT.data.KEY_PREFIX) === 0) out[k] = localStorage.getItem(k);
+        }
+      } catch (_) {}
+      return out;
+    },
+    /** A JSON backup string of every toytools:* key. */
+    serialize: function () {
+      return JSON.stringify({ format: TT.data.FORMAT, exported: new Date().toISOString(), keys: TT.data.collect() }, null, 2);
+    },
+    /** Trigger a download of the backup. Returns the number of keys written. */
+    download: function () {
+      var payload = TT.data.serialize();
+      var count = Object.keys(TT.data.collect()).length;
+      try {
+        var blob = new Blob([payload], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'toytools-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      } catch (_) {
+        TT.toast('Could not export in this browser.');
+        return 0;
+      }
+      return count;
+    },
+    /**
+     * Restore a backup string. Merges (never wipes keys the file does not mention) so importing
+     * a tracker backup cannot destroy an unrelated tool's data. Returns { ok, restored, error }.
+     */
+    restore: function (text) {
+      var parsed;
+      try { parsed = JSON.parse(text); } catch (_) { return { ok: false, restored: 0, error: 'That file is not valid JSON.' }; }
+      if (!parsed || parsed.format !== TT.data.FORMAT || !parsed.keys || typeof parsed.keys !== 'object') {
+        return { ok: false, restored: 0, error: 'That is not a ToyTools backup file.' };
+      }
+      var restored = 0;
+      for (var k in parsed.keys) {
+        if (k.indexOf(TT.data.KEY_PREFIX) !== 0) continue; // never write outside our namespace
+        var val = parsed.keys[k];
+        if (typeof val !== 'string') continue;
+        try { localStorage.setItem(k, val); restored++; } catch (_) {
+          return { ok: false, restored: restored, error: 'Ran out of storage part-way through.' };
+        }
+      }
+      return { ok: true, restored: restored };
+    },
+    /**
+     * Ask the browser to exempt this origin from storage eviction. Safari caps script-writable
+     * storage for origins without recent first-party interaction, which is exactly the pattern of
+     * someone who logs a weight once a week. Best-effort and silent: never blocks or prompts.
+     */
+    persist: function () {
+      try {
+        if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
+      } catch (_) {}
+    },
+    /** Remaining share of the storage budget, 0..1, or null when the browser will not say. */
+    pressure: function () {
+      try {
+        if (!(navigator.storage && navigator.storage.estimate)) return Promise.resolve(null);
+        return navigator.storage.estimate().then(function (e) {
+          if (!e || !e.quota) return null;
+          return (e.usage || 0) / e.quota;
+        }).catch(function () { return null; });
+      } catch (_) { return Promise.resolve(null); }
+    }
+  };
+
+  // Body profile — the facts about YOU that several health tools each need. Deliberately its own
+  // key rather than a field of any tool's state, so it survives one tool's schema change and exports
+  // on its own. Without it a user walking BMI -> TDEE -> body fat retypes height four times, units
+  // four times, sex three times and weight three times, on a phone.
+  //
+  // Only ever holds what a health calculator already asks for on screen. Nothing is inferred, and
+  // the widget always shows what it filled in, so this is a convenience, never a hidden dossier.
+  TT.profile = {
+    KEY: 'toytools:profile:body',
+    FIELDS: ['unit', 'sex', 'age', 'height', 'weight'],
+    get: function () {
+      try { return JSON.parse(localStorage.getItem(TT.profile.KEY)) || {}; } catch (_) { return {}; }
+    },
+    /** Merge in the recognised fields of `values`; blank/absent values never overwrite a good one. */
+    merge: function (values) {
+      var all = TT.profile.get();
+      var changed = false;
+      for (var i = 0; i < TT.profile.FIELDS.length; i++) {
+        var k = TT.profile.FIELDS[i];
+        var v = values[k];
+        if (v === undefined || v === null || v === '') continue;
+        if (String(all[k]) === String(v)) continue;
+        all[k] = v;
+        changed = true;
+      }
+      if (!changed) return all;
+      try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
+      return all;
+    },
+    clear: function () {
+      try { localStorage.removeItem(TT.profile.KEY); } catch (_) {}
+    },
+    /**
+     * A derived number one tool produced that another needs as INPUT (TDEE's maintenance calories
+     * are the macro calculator's starting point). Kept beside the profile rather than in either
+     * tool's state, since it belongs to neither.
+     */
+    setDerived: function (name, value) {
+      var all = TT.profile.get();
+      if (!all.derived) all.derived = {};
+      if (String(all.derived[name]) === String(value)) return;
+      all.derived[name] = value;
+      try { localStorage.setItem(TT.profile.KEY, JSON.stringify(all)); } catch (_) {}
+    },
+    getDerived: function (name) {
+      var d = TT.profile.get().derived;
+      return d ? d[name] : undefined;
+    },
+
+    /** Human summary for the "using your saved details" line, e.g. "male, 30, 175 cm, 70 kg". */
+    summary: function () {
+      var p = TT.profile.get();
+      var metric = p.unit !== 'imperial';
+      var bits = [];
+      if (p.sex) bits.push(p.sex);
+      if (p.age) bits.push(p.age);
+      if (p.height) bits.push(p.height + (metric ? ' cm' : ' in'));
+      if (p.weight) bits.push(p.weight + (metric ? ' kg' : ' lb'));
+      return bits.join(', ');
     }
   };
 

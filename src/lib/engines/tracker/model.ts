@@ -132,3 +132,26 @@ export function movingAverage(values: number[], window: number): number[] {
   }
   return out;
 }
+
+/**
+ * Cap an entry log so it cannot grow without bound. Keeps every entry inside `maxDays` of `today`,
+ * and if that still exceeds `maxEntries`, keeps the most recent `maxEntries`. Pure and defensive:
+ * the newest data is always what survives, because a tracker's recent history is what the streaks,
+ * chart, and trend are computed from.
+ *
+ * At roughly 30 bytes a day the practical ceiling was never a quota problem, but "grows forever"
+ * is not a design, and an export/restore cycle should not carry a decade of dead rows.
+ */
+export function prune(
+  entries: Entry[],
+  today: string,
+  opts: { maxDays?: number; maxEntries?: number } = {},
+): Entry[] {
+  const maxDays = opts.maxDays ?? 730; // two years
+  const maxEntries = opts.maxEntries ?? 1000;
+  const cutoff = dayNumber(today) - maxDays;
+  const kept = entries
+    .filter((e) => dayNumber(e.date) > cutoff)
+    .sort((a, b) => dayNumber(a.date) - dayNumber(b.date));
+  return kept.length > maxEntries ? kept.slice(kept.length - maxEntries) : kept;
+}
