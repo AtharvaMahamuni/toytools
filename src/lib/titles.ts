@@ -1,4 +1,4 @@
-export type PageType = 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'language' | 'search' | 'architecture' | 'notFound';
+export type PageType = 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'language' | 'search' | 'architecture' | 'feedback' | 'notFound';
 
 export function generatePageTitle(type: PageType, name?: string): string {
   switch (type) {
@@ -10,6 +10,9 @@ export function generatePageTitle(type: PageType, name?: string): string {
     case 'language': return `ToyTools ${name}`;
     case 'search':   return 'Search ● ToyTools';
     case 'architecture': return 'Architecture ● ToyTools';
+    // The page's H1 greets whoever is already here; this title has to answer the query that
+    // brought them, so it names the two things people actually search for.
+    case 'feedback': return 'Suggest a Tool or Report an Issue ● ToyTools';
     case 'notFound': return 'Page Not Found ● ToyTools';
   }
 }

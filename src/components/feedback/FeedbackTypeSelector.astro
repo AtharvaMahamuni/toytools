@@ -1,0 +1,26 @@
+---
+// The kind-of-feedback control. A thin wrapper over the platform's segmented SmartInput
+// rather than a bespoke radio group: that control already ships the accessible radiogroup
+// semantics, arrow-key navigation, 48px pills, and the accent checked state, and it keeps a
+// hidden input as the single source of truth so reading the value is just `.value`.
+import SmartInput from '@components/inputs/SmartInput.astro';
+import { DEFAULT_FEEDBACK_TYPE, FEEDBACK_TYPES } from '@lib/feedback/config';
+import type { SmartFieldDef } from '@lib/inputs/field';
+
+interface Props {
+  /** Prefix for the control ids. The hidden input lands at `${idPrefix}-f-type`. */
+  idPrefix?: string;
+}
+
+const { idPrefix = 'feedback' } = Astro.props;
+
+const field: SmartFieldDef = {
+  id: 'type',
+  label: 'What kind of feedback is this?',
+  type: 'segmented',
+  default: DEFAULT_FEEDBACK_TYPE,
+  options: FEEDBACK_TYPES.map(type => ({ value: type.id, label: type.label })),
+};
+---
+
+<SmartInput field={field} idPrefix={idPrefix} />

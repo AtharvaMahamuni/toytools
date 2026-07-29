@@ -7,7 +7,7 @@
 // duplicate detection, and no stored submission history anywhere in this system.
 
 import { MIN_ANSWER_LENGTH } from './config';
-import { FIELDS_BY_TYPE, type FeedbackInput } from './templates';
+import { fieldsForType, type FeedbackInput } from './templates';
 
 export interface ValidationResult {
   ok: boolean;
@@ -25,7 +25,7 @@ const SHORT_MESSAGE = 'A little more detail would help.';
 export function validateFeedback(input: FeedbackInput): ValidationResult {
   const errors: Record<string, string> = {};
 
-  for (const field of FIELDS_BY_TYPE[input.type] ?? []) {
+  for (const field of fieldsForType(input.type)) {
     if (!field.required) continue;
 
     const answer = (input.values[field.id] ?? '').trim();

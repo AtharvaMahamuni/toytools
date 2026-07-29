@@ -27,7 +27,6 @@ export interface FeedbackField {
   help?: string;
   /** Single-line input vs fixed-height textarea. */
   control: 'text' | 'textarea';
-  required: boolean;
   /** Heading this answer appears under in the email. */
   section: EmailSection;
 }
@@ -56,131 +55,179 @@ export const EMAIL_SECTION_ORDER: readonly EmailSection[] = [
   'Example Output',
 ];
 
-const TOOL_FIELD = (required: boolean): FeedbackField => ({
-  id: 'tool',
-  label: 'Which tool?',
-  help: 'Filled in automatically when you arrive from a tool page. Edit it if it is wrong.',
-  control: 'text',
-  required,
-  section: 'Current Tool',
-});
-
-const EXAMPLE_FIELDS: FeedbackField[] = [
-  {
-    id: 'exampleInput',
-    label: 'Example input (optional)',
-    help: 'Real data helps more than a description. Paste a small sample.',
+/**
+ * Every question the form can ask, defined once.
+ *
+ * A field means the same thing wherever it appears, so it is declared here and referenced by
+ * id from FIELDS_BY_TYPE. That keeps the rendered form a single union of controls: switching
+ * type shows and hides existing fields instead of swapping in a duplicate set, so a half-typed
+ * answer survives a change of mind and no id is ever rendered twice.
+ */
+export const FIELD_DEFS: Readonly<Record<string, FeedbackField>> = {
+  tool: {
+    id: 'tool',
+    label: 'Which tool?',
+    help: 'Filled in for you when you arrive from a tool page. Edit it if it is wrong.',
+    control: 'text',
+    section: 'Current Tool',
+  },
+  goal: {
+    id: 'goal',
+    label: 'What are you trying to do?',
+    help: 'Convert… Calculate… Compare… Generate… Validate… Extract… Clean up…',
     control: 'textarea',
-    required: false,
+    section: 'Goal',
+  },
+  problem: {
+    id: 'problem',
+    label: 'What went wrong?',
+    help: 'What you did, and what the tool actually gave you.',
+    control: 'textarea',
+    section: 'Problem',
+  },
+  expected: {
+    id: 'expected',
+    label: 'What did you expect instead?',
+    help: 'The correct result, as far as you know it.',
+    control: 'textarea',
+    section: 'Ideal Solution',
+  },
+  today: {
+    id: 'today',
+    label: 'How do you do this today?',
+    help: '"I copy everything into a spreadsheet." "I use three different websites." "I work it out by hand."',
+    control: 'textarea',
+    section: 'Current Workflow',
+  },
+  frustration: {
+    id: 'frustration',
+    label: "What's frustrating about that?",
+    help: 'Too many ads. Too slow. Needs a login. Confusing. Not mobile friendly. Results are not trustworthy.',
+    control: 'textarea',
+    section: 'Problem',
+  },
+  ideal: {
+    id: 'ideal',
+    label: 'What would the ideal tool do?',
+    help: 'Describe the outcome you want, not how it should work inside.',
+    control: 'textarea',
+    section: 'Ideal Solution',
+  },
+  message: {
+    id: 'message',
+    label: 'Your feedback',
+    help: 'Anything at all. What works, what does not, what is missing.',
+    control: 'textarea',
+    section: 'Feedback',
+  },
+  exampleInput: {
+    id: 'exampleInput',
+    label: 'Example input',
+    help: 'Real data helps more than a description. A small sample is plenty.',
+    control: 'textarea',
     section: 'Example Input',
   },
-  {
+  exampleOutput: {
     id: 'exampleOutput',
-    label: 'Example output (optional)',
+    label: 'Example output',
     help: 'What the result should have been for that input.',
     control: 'textarea',
-    required: false,
     section: 'Example Output',
   },
-];
-
-const GOAL_FIELD: FeedbackField = {
-  id: 'goal',
-  label: 'What are you trying to do?',
-  help: 'Convert… Calculate… Compare… Generate… Validate… Extract… Clean up…',
-  control: 'textarea',
-  required: true,
-  section: 'Goal',
-};
-
-const TODAY_FIELD = (required: boolean): FeedbackField => ({
-  id: 'today',
-  label: required ? 'How do you do this today?' : 'How do you do this today? (optional)',
-  help: '"I copy everything into Excel." "I use three websites." "I calculate it manually."',
-  control: 'textarea',
-  required,
-  section: 'Current Workflow',
-});
-
-const FRUSTRATION_FIELD: FeedbackField = {
-  id: 'frustration',
-  label: "What's frustrating about that?",
-  help: 'Too many ads. Too slow. Needs a login. Confusing. Not mobile friendly. Results are not trustworthy.',
-  control: 'textarea',
-  required: true,
-  section: 'Problem',
-};
-
-const IDEAL_FIELD: FeedbackField = {
-  id: 'ideal',
-  label: 'What would the ideal tool do?',
-  help: 'Describe the outcome you want, not how it should work internally.',
-  control: 'textarea',
-  required: true,
-  section: 'Ideal Solution',
 };
 
 /**
- * The questions each submission type asks. Order here is the order on the page.
+ * The order fields are rendered in, for every type.
  *
- * The shape is deliberate: a new tool needs the full problem story, an improvement assumes
- * the tool already exists so the workflow question softens to optional, and a bug wants
- * observed-versus-expected instead of a discovery interview.
+ * One order serves all four because the questions that do not apply are hidden, and what
+ * remains still reads as a sensible interview: which tool, what are you doing, what broke,
+ * how you cope today, why that hurts, what you actually want, then optional examples.
  */
-export const FIELDS_BY_TYPE: Record<FeedbackType, readonly FeedbackField[]> = {
+export const FORM_FIELD_ORDER: readonly string[] = [
+  'tool',
+  'goal',
+  'problem',
+  'expected',
+  'today',
+  'frustration',
+  'ideal',
+  'message',
+  'exampleInput',
+  'exampleOutput',
+];
+
+/** A field as it applies to one submission type. */
+export interface TypeField {
+  id: string;
+  required: boolean;
+}
+
+/**
+ * Which questions each type asks, and which of them are required.
+ *
+ * The shape is deliberate: a new tool needs the full problem story, an improvement assumes the
+ * tool already exists so the workflow question relaxes to optional, a bug wants observed versus
+ * expected rather than a discovery interview, and general feedback gets out of the way.
+ */
+export const FIELDS_BY_TYPE: Record<FeedbackType, readonly TypeField[]> = {
   'new-tool': [
-    GOAL_FIELD,
-    TODAY_FIELD(true),
-    FRUSTRATION_FIELD,
-    IDEAL_FIELD,
-    TOOL_FIELD(false),
-    ...EXAMPLE_FIELDS,
+    { id: 'tool', required: false },
+    { id: 'goal', required: true },
+    { id: 'today', required: true },
+    { id: 'frustration', required: true },
+    { id: 'ideal', required: true },
+    { id: 'exampleInput', required: false },
+    { id: 'exampleOutput', required: false },
   ],
   improve: [
-    TOOL_FIELD(true),
-    GOAL_FIELD,
-    FRUSTRATION_FIELD,
-    IDEAL_FIELD,
-    TODAY_FIELD(false),
-    ...EXAMPLE_FIELDS,
+    { id: 'tool', required: true },
+    { id: 'goal', required: true },
+    { id: 'today', required: false },
+    { id: 'frustration', required: true },
+    { id: 'ideal', required: true },
+    { id: 'exampleInput', required: false },
+    { id: 'exampleOutput', required: false },
   ],
   bug: [
-    TOOL_FIELD(true),
-    {
-      id: 'problem',
-      label: 'What went wrong?',
-      help: 'What you did, and what the tool actually gave you.',
-      control: 'textarea',
-      required: true,
-      section: 'Problem',
-    },
-    {
-      id: 'expected',
-      label: 'What did you expect instead?',
-      help: 'The correct result, as far as you know it.',
-      control: 'textarea',
-      required: true,
-      section: 'Ideal Solution',
-    },
-    ...EXAMPLE_FIELDS,
+    { id: 'tool', required: true },
+    { id: 'problem', required: true },
+    { id: 'expected', required: true },
+    { id: 'exampleInput', required: false },
+    { id: 'exampleOutput', required: false },
   ],
   general: [
-    {
-      id: 'message',
-      label: 'Your feedback',
-      help: 'Anything at all. What works, what does not, what is missing.',
-      control: 'textarea',
-      required: true,
-      section: 'Feedback',
-    },
-    TOOL_FIELD(false),
+    { id: 'tool', required: false },
+    { id: 'message', required: true },
   ],
 };
 
-/** Every field id the form can produce, across all types. */
-export const ALL_FIELD_IDS: readonly string[] = Array.from(
-  new Set(Object.values(FIELDS_BY_TYPE).flatMap(fields => fields.map(f => f.id))),
-);
+/** A field definition joined with how it behaves for one particular type. */
+export type ResolvedField = FeedbackField & { required: boolean };
+
+/** The questions one type asks, in render order, with their definitions attached. */
+export function fieldsForType(type: FeedbackType): ResolvedField[] {
+  const applicable = new Map((FIELDS_BY_TYPE[type] ?? []).map(f => [f.id, f.required]));
+  return FORM_FIELD_ORDER.filter(id => applicable.has(id)).map(id => ({
+    ...FIELD_DEFS[id],
+    required: applicable.get(id)!,
+  }));
+}
+
+/** Which types show a given field, and which of them require it. Drives the form's markup. */
+export function fieldApplicability(id: string): {
+  shownFor: FeedbackType[];
+  requiredFor: FeedbackType[];
+} {
+  const shownFor: FeedbackType[] = [];
+  const requiredFor: FeedbackType[] = [];
+  for (const [type, fields] of Object.entries(FIELDS_BY_TYPE) as [FeedbackType, readonly TypeField[]][]) {
+    const match = fields.find(f => f.id === id);
+    if (!match) continue;
+    shownFor.push(type);
+    if (match.required) requiredFor.push(type);
+  }
+  return { shownFor, requiredFor };
+}
 
 // ── The submission ──────────────────────────────────────────────────────────────────────
 
@@ -264,7 +311,7 @@ export function composeBody(input: FeedbackInput, env: FeedbackEnv): string {
   // Answers are gathered by section rather than by field, so the reader sees the same
   // headings in the same order no matter which form produced the email.
   const bySection = new Map<EmailSection, string>();
-  for (const field of FIELDS_BY_TYPE[input.type]) {
+  for (const field of fieldsForType(input.type)) {
     const answer = value(input, field.id);
     if (answer) bySection.set(field.section, answer);
   }

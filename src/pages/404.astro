@@ -4,6 +4,7 @@ import { generatePageTitle } from '../lib/titles';
 import { withBase } from '../lib/paths';
 
 const homeUrl = withBase('/');
+const feedbackUrl = withBase('/feedback/');
 ---
 
 <BaseLayout
@@ -19,6 +20,9 @@ const homeUrl = withBase('/');
     <h1>Page not found</h1>
     <p class="message">That page doesn't exist or has been moved.</p>
     <a href={homeUrl} class="home-link">Take me home</a>
+    <p class="suggest-notice">
+      Looking for a tool that isn't here? <a href={feedbackUrl}>Suggest it</a>
+    </p>
     <p class="redirect-notice">Redirecting in <span id="countdown">5</span>s…</p>
   </div>
 </BaseLayout>
@@ -76,6 +80,30 @@ const homeUrl = withBase('/');
     text-decoration: none;
   }
 
+  /* A dead end is the moment someone is most sure of what they wanted and least likely to
+     find it, so it is worth one line asking them to say so. */
+  .suggest-notice {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .suggest-notice a {
+    display: inline-block;
+    min-height: var(--touch-target);
+    padding-block: var(--space-3);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .suggest-notice a:hover {
+    text-decoration: underline;
+  }
+
+  .suggest-notice a:active {
+    color: var(--color-accent-strong);
+  }
+
   .redirect-notice {
     font-size: var(--text-sm);
     color: var(--color-text-subtle);
@@ -86,7 +114,9 @@ const homeUrl = withBase('/');
 <script is:inline>
   (function () {
     var el = document.getElementById('countdown');
+    var notice = document.querySelector('.redirect-notice');
     var n = 5;
+
     var iv = setInterval(function () {
       n -= 1;
       if (el) el.textContent = String(n);
@@ -95,5 +125,17 @@ const homeUrl = withBase('/');
         window.location.href = document.querySelector('.home-link').getAttribute('href');
       }
     }, 1000);
+
+    // The page now offers a second thing to do, and yanking someone to the home page
+    // mid-thought would be worse than leaving them here. Any sign of a live person cancels
+    // the redirect; the automatic bounce is only for a tab nobody is looking at.
+    function cancel() {
+      clearInterval(iv);
+      if (notice) notice.remove();
+    }
+
+    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (event) {
+      window.addEventListener(event, cancel, { once: true, passive: true });
+    });
   })();
 </script>

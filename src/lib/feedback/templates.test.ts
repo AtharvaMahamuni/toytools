@@ -1,10 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import {
-  ALL_FIELD_IDS,
   EMAIL_SECTION_ORDER,
   FIELDS_BY_TYPE,
+  FIELD_DEFS,
+  FORM_FIELD_ORDER,
   composeBody,
   composeSubject,
+  fieldApplicability,
+  fieldsForType,
   shortLabel,
   type FeedbackEnv,
   type FeedbackInput,
@@ -93,9 +96,8 @@ describe('composeBody — the pinned email format', () => {
     );
     // Only the sections this type actually asks about appear; the ones present must follow
     // the declared order rather than the order the questions happened to be asked in.
-    const expected = EMAIL_SECTION_ORDER.filter(section =>
-      FIELDS_BY_TYPE['new-tool'].some(f => f.section === section),
-    );
+    const sections = new Set(fieldsForType('new-tool').map(f => f.section));
+    const expected = EMAIL_SECTION_ORDER.filter(section => sections.has(section));
     const positions = expected.map(section => body.indexOf(`\n${section}\n`));
     expect(positions.every(p => p >= 0)).toBe(true);
     expect([...positions]).toEqual([...positions].sort((a, b) => a - b));
@@ -180,40 +182,60 @@ describe('shortLabel', () => {
 });
 
 describe('form definitions', () => {
-  it('defines fields for every feedback type', () => {
+  it('asks questions for every feedback type', () => {
     for (const type of FEEDBACK_TYPES) {
-      expect(FIELDS_BY_TYPE[type.id].length).toBeGreaterThan(0);
+      expect(fieldsForType(type.id).length).toBeGreaterThan(0);
     }
   });
 
   it('maps every field to a section the email knows how to print', () => {
-    for (const fields of Object.values(FIELDS_BY_TYPE)) {
-      for (const field of fields) {
-        expect(EMAIL_SECTION_ORDER).toContain(field.section);
-      }
+    for (const field of Object.values(FIELD_DEFS)) {
+      expect(EMAIL_SECTION_ORDER).toContain(field.section);
     }
   });
 
-  it('asks each question at most once per type', () => {
+  it('references only declared fields, at most once per type', () => {
     for (const fields of Object.values(FIELDS_BY_TYPE)) {
       const ids = fields.map(f => f.id);
       expect(new Set(ids).size).toBe(ids.length);
+      for (const id of ids) expect(FIELD_DEFS[id]).toBeDefined();
     }
   });
 
-  it('exposes the union of field ids for the form to reset', () => {
-    expect(ALL_FIELD_IDS).toContain('tool');
-    expect(ALL_FIELD_IDS).toContain('goal');
-    expect(ALL_FIELD_IDS).toContain('message');
-    expect(new Set(ALL_FIELD_IDS).size).toBe(ALL_FIELD_IDS.length);
+  // The form renders one union of controls, so the render order must cover every field any
+  // type can ask for. A field missing here would simply never appear on the page.
+  it('gives every declared field a place in the render order', () => {
+    expect([...FORM_FIELD_ORDER].sort()).toEqual(Object.keys(FIELD_DEFS).sort());
   });
 
-  it('gives every field a label and every required answer a way to be typed', () => {
-    for (const fields of Object.values(FIELDS_BY_TYPE)) {
-      for (const field of fields) {
-        expect(field.label.length).toBeGreaterThan(0);
-        expect(['text', 'textarea']).toContain(field.control);
-      }
+  it('renders each type in the declared order', () => {
+    for (const type of FEEDBACK_TYPES) {
+      const ids = fieldsForType(type.id).map(f => f.id);
+      const positions = ids.map(id => FORM_FIELD_ORDER.indexOf(id));
+      expect(positions).toEqual([...positions].sort((a, b) => a - b));
     }
+  });
+
+  it('gives every field a label and a usable control', () => {
+    for (const field of Object.values(FIELD_DEFS)) {
+      expect(field.label.length).toBeGreaterThan(0);
+      expect(['text', 'textarea']).toContain(field.control);
+    }
+  });
+
+  it('reports where a field applies, so the markup can be rendered once', () => {
+    expect(fieldApplicability('tool')).toEqual({
+      shownFor: ['new-tool', 'improve', 'bug', 'general'],
+      requiredFor: ['improve', 'bug'],
+    });
+    expect(fieldApplicability('problem')).toEqual({
+      shownFor: ['bug'],
+      requiredFor: ['bug'],
+    });
+    expect(fieldApplicability('nonexistent')).toEqual({ shownFor: [], requiredFor: [] });
+  });
+
+  it('returns nothing for an unknown type instead of throwing', () => {
+    expect(fieldsForType('nonsense' as FeedbackInput['type'])).toEqual([]);
   });
 });

@@ -11,7 +11,16 @@ import { withBase } from '@lib/paths';
 // 'language' remains in the union for generatePageTitle('language', …), but the /{lang}/ stubs
 // are intentionally NOT emitted into the manifest: they are thin, near-duplicate landing pages,
 // so they carry robots="noindex,follow" and are excluded from both the sitemap and IndexNow.
-export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'language';
+// 'page' covers standalone indexable pages that are not derived from the registry — currently
+// just /feedback/. They are listed here rather than in each consumer so the sitemap, IndexNow,
+// and platform health all pick them up from the same place, exactly like a tool.
+export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'language' | 'page';
+
+/** Standalone indexable pages. /search/ and /architecture/ are deliberately absent: both are
+ *  noindex or excluded, and adding one here is what makes it public. */
+const STANDALONE_PAGES: { slug: string; path: string; priority: number; changefreq: string }[] = [
+  { slug: 'feedback', path: '/feedback/', priority: 0.6, changefreq: 'monthly' },
+];
 
 export interface ContentEntry {
   type: ContentType;
@@ -101,6 +110,19 @@ export function buildContentManifest(): ContentEntry[] {
         changefreq: 'monthly',
       });
     }
+  }
+
+  // Standalone pages. lastmod tracks the freshest tool: /feedback/ describes what the site
+  // builds and links every category, so it genuinely is stale whenever the catalogue moves.
+  for (const page of STANDALONE_PAGES) {
+    entries.push({
+      type: 'page',
+      slug: page.slug,
+      url: withBase(page.path),
+      updatedAt: latestUpdatedAt(tools),
+      priority: page.priority,
+      changefreq: page.changefreq,
+    });
   }
 
   // Language stubs (/{lang}/) are deliberately omitted — thin, near-duplicate pages carrying

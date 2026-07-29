@@ -1,0 +1,342 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import FeedbackForm from '@components/feedback/FeedbackForm.astro';
+import FaqAccordion from '@components/tool/FaqAccordion.astro';
+import { generatePageTitle } from '@lib/titles';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+import type { FAQItem } from '@data/types';
+
+// The visible H1 speaks to the person who is already here; the browser and search-result
+// title has to answer the query that brought them. They are separate levers, so each does
+// its own job instead of one compromise doing neither well.
+const description =
+  'Suggest a tool, report a bug, or describe a task you keep doing by hand. ToyTools is built from real problems people run into, and every submission is read.';
+
+const faqItems: FAQItem[] = [
+  {
+    id: 'feedback-faq-account',
+    question: 'Do I need an account?',
+    answer:
+      'No. There is nothing to sign up for and nothing to log into. Fill in the form and send it. You do not have to leave an email address either, though the form has nowhere to reply to if you do not.',
+  },
+  {
+    id: 'feedback-faq-public',
+    question: 'Will my suggestion be public?',
+    answer:
+      'No. Submissions go straight to a private inbox. There is no comment section, no public voting, and no list of requests on the site. If an idea does turn into a tool, the tool is public but your message is not.',
+  },
+  {
+    id: 'feedback-faq-read',
+    question: 'Will you actually read it?',
+    answer:
+      'Yes. ToyTools is small enough that every submission gets read by a person. That is exactly why the form asks four questions instead of showing one empty box: a handful of well-described problems is far more useful than a flood of one-line requests.',
+  },
+  {
+    id: 'feedback-faq-bug',
+    question: 'How do I report something that is broken?',
+    answer:
+      'Choose "Report a Bug" and describe what you did, what you got, and what you expected instead. If you arrived from the tool itself, you can tick one box to attach whatever you had typed into it, which usually turns a guess into a five-minute fix.',
+  },
+  {
+    id: 'feedback-faq-improve',
+    question: 'Can I ask for a change to a tool that already exists?',
+    answer:
+      'That is what "Improve an Existing Tool" is for, and it is often more valuable than a brand new suggestion. A tool that is nearly right for your work is a tool that only needs one more thing.',
+  },
+  {
+    id: 'feedback-faq-example-data',
+    question: 'Should I include example data?',
+    answer:
+      'If you can, yes. A small sample of real input and the result you expected removes all the guesswork. Do not paste anything private, secret, or personal: send a small anonymised sample that shows the same problem.',
+  },
+  {
+    id: 'feedback-faq-what-gets-built',
+    question: 'What kinds of tools does ToyTools build?',
+    answer:
+      'Things a browser can work out exactly and instantly, with no account and no server. For example, converting between formats, calculating a figure from a few numbers, cleaning up messy text, or checking whether something is valid. If a question has one correct answer, it is a good fit.',
+  },
+  {
+    id: 'feedback-faq-how-long',
+    question: 'How long does it take for something to get built?',
+    answer:
+      'There is no queue you can watch and no promised date. Suggestions are weighed against how many people hit the same problem, how badly the existing options handle it, and whether it can be done well in the browser. Some ideas ship quickly, and plenty never ship at all.',
+  },
+  {
+    id: 'feedback-faq-ai',
+    question: 'Can you build something that uses AI?',
+    answer:
+      'Almost certainly not, and it is worth explaining why. ToyTools runs entirely on your device with no server behind it, so there is nothing to run a model on. More to the point, a tool is only worth using here if it gives the same correct answer every time, and that is a different kind of question from the ones AI is good at.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: Astro.site ? new URL(withBase('/'), Astro.site).href : withBase('/'),
+    },
+    { '@type': 'ListItem', position: 2, name: 'Feedback' },
+  ],
+};
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Suggest a Tool or Report an Issue',
+  description,
+  url: Astro.url.href,
+  inLanguage: 'en',
+  isPartOf: { '@type': 'WebSite', name: 'ToyTools' },
+};
+---
+
+<BaseLayout
+  title={generatePageTitle('feedback')}
+  description={description}
+  maxWidth="tool"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <header class="feedback-header">
+    <h1>Help Improve ToyTools</h1>
+    <p class="feedback-intro">
+      ToyTools grows from real problems people run into. If you keep repeating a fiddly task,
+      wrestling with a calculation, cleaning up messy text, or hunting for a utility that does
+      not seem to exist, describe it here.
+    </p>
+    <p class="feedback-intro">
+      Tell us the problem rather than the solution. If it fits what ToyTools is (lightweight,
+      runs in your browser, keeps your data on your device, and gives an exact answer) it may
+      well get built.
+    </p>
+  </header>
+
+  <section class="feedback-form-section" aria-label="Send feedback">
+    <FeedbackForm />
+  </section>
+
+  <section class="feedback-prose">
+    <h2>What makes a great suggestion</h2>
+    <p>
+      The most useful thing you can send is not the name of a tool. It is a description of the
+      task you are stuck with.
+    </p>
+    <p>
+      "Build a CSV splitter" is a guess at a solution. "Every Monday I export a 4,000-row
+      report and have to break it into one file per region, and I do it by hand in a
+      spreadsheet because the sites I found all want an upload" is a problem. The second one
+      says how often it happens, what the data looks like, what you already tried, and why
+      that failed. It is enough to build something genuinely useful, and it often turns out
+      the right tool is not the one you would have asked for.
+    </p>
+    <p>
+      So the form asks four questions instead of showing one empty box. It takes about two
+      minutes, and it is the difference between a suggestion that can be acted on and one that
+      sits there.
+    </p>
+
+    <h2>What ToyTools builds</h2>
+    <p>
+      Every tool here follows the same rules, and the ones that work best share a shape:
+    </p>
+    <ul>
+      <li>
+        <strong>It runs in your browser.</strong> No upload, no processing on someone else's
+        machine. Your data never leaves your device, which is why these tools are safe to use
+        on a work laptop with real files.
+      </li>
+      <li>
+        <strong>It gives an exact answer.</strong> The same input always produces the same
+        output. For example, a date difference, a hash, a unit conversion, or a JSON
+        validation either is right or is not, and you can check it.
+      </li>
+      <li>
+        <strong>It works immediately.</strong> No account, no trial, no cookie banner between
+        you and the answer. Most tools here load and run before a typical site has finished
+        asking for consent.
+      </li>
+      <li>
+        <strong>It works on a phone, and offline.</strong> Every tool can be installed to your
+        home screen and keeps working with no connection, because there is nothing for it to
+        connect to.
+      </li>
+    </ul>
+
+    <h2>What ToyTools does not build, and why</h2>
+    <p>
+      This is worth reading before you send an idea, because it is the fastest way to tell
+      whether yours has a chance.
+    </p>
+    <ul>
+      <li>
+        <strong>Anything needing an account or a saved profile.</strong> There is no server
+        and no database, so there is nowhere for an account to live. This is a deliberate
+        limit, not a missing feature.
+      </li>
+      <li>
+        <strong>Collaboration and sharing.</strong> Shared documents, team workspaces, and
+        anything with a link other people can open all require something running somewhere.
+      </li>
+      <li>
+        <strong>Anything that must call a service.</strong> Live exchange rates, sending
+        email, looking up a domain, scraping a page. If the answer lives on someone else's
+        machine, a static site cannot fetch it for you honestly.
+      </li>
+      <li>
+        <strong>AI chat and content generation.</strong> There is no model to run here, and
+        more importantly these tools are for questions with one correct answer. Writing,
+        summarising, and judging are a genuinely different kind of task, and pretending
+        otherwise would make the tools worse.
+      </li>
+      <li>
+        <strong>Subjective judgment.</strong> Anything whose output is an opinion, a ranking
+        of taste, or a recommendation. If two reasonable people would expect different
+        answers, an algorithm is the wrong instrument.
+      </li>
+    </ul>
+    <p>
+      None of this means your idea is bad. It usually means it belongs somewhere other than a
+      static site, and saying so quickly is more useful than a polite silence.
+    </p>
+
+    <h2>How suggestions influence what gets built</h2>
+    <p>
+      Every submission is read. What happens next is not first-come-first-served: an idea is
+      weighed against how many people hit the same problem, how badly the tools that already
+      exist handle it, and whether it can be done properly with nothing but a browser.
+    </p>
+    <p>
+      A suggestion that arrives three times from three different people, describing the same
+      awkward workflow, moves quickly. One that needs a server does not move at all, however
+      well argued. And a problem you describe precisely will beat a tool you name vaguely,
+      every time.
+    </p>
+    <p>
+      There is no promise here that your request gets built. There is a promise that it gets
+      read by a person and honestly weighed.
+    </p>
+
+    <h2>Browse what already exists</h2>
+    <p>
+      Worth a look before you send: the tool you want may already be here under a name you did
+      not think to search for.
+    </p>
+    <ul class="feedback-categories">
+      {categories.map(category => (
+        <li>
+          <a href={withBase(`/category/${category.slug}/`)}>{category.name}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="feedback-faq" id="faq" aria-label="Common questions">
+    <h2>Common questions</h2>
+    <FaqAccordion items={faqItems} />
+  </section>
+</BaseLayout>
+
+<style>
+  .feedback-header {
+    padding-bottom: var(--space-8);
+  }
+
+  h1 {
+    margin-bottom: var(--space-4);
+  }
+
+  .feedback-intro {
+    max-width: 62ch;
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .feedback-intro + .feedback-intro {
+    margin-top: var(--space-3);
+  }
+
+  /* Section boundaries: one hairline drawn by the lower section, 32px rhythm.
+     See the recipe in src/styles/tool-widget.css. */
+  .feedback-form-section,
+  .feedback-prose,
+  .feedback-faq {
+    margin-top: var(--space-8);
+    border-top: var(--border);
+    padding-top: var(--space-8);
+  }
+
+  .feedback-prose h2,
+  .feedback-faq h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .feedback-prose h2:not(:first-child) {
+    margin-top: var(--space-8);
+  }
+
+  .feedback-prose p,
+  .feedback-prose li {
+    max-width: 68ch;
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .feedback-prose p + p {
+    margin-top: var(--space-3);
+  }
+
+  .feedback-prose ul {
+    margin-top: var(--space-3);
+    padding-left: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .feedback-prose strong {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .feedback-categories {
+    list-style: none;
+    padding-left: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .feedback-categories a {
+    display: inline-block;
+    min-height: var(--touch-target);
+    padding-block: var(--space-3);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .feedback-categories a:hover {
+    text-decoration: underline;
+  }
+
+  .feedback-categories a:active {
+    color: var(--color-accent-strong);
+  }
+</style>
