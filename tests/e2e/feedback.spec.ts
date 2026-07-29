@@ -2,22 +2,22 @@ import { test, expect, type Page } from '@playwright/test';
 
 // The feedback system in a real browser, on desktop and Pixel 5.
 //
-// The single most important assertion in this file is that nothing reaches the Web3Forms
-// relay. This suite runs on every pull request across two projects; if the guard ever
-// regressed, CI would quietly deliver a burst of test submissions to a real inbox. Every
-// test here therefore watches the network, not just the DOM.
-
-const RELAY = 'api.web3forms.com';
-
-/** Fail the test the moment anything tries to reach the relay. */
-async function forbidRelay(page: Page): Promise<void> {
-  await page.route(`**://${RELAY}/**`, route => {
-    throw new Error('A feedback submission escaped to the relay during an E2E run');
-  });
-}
+// There is no endpoint behind this form and no network call anywhere in it: the page composes a
+// message and hands it to the visitor's own mail client. So these tests verify the composed
+// mailto: URL and the copy fallback rather than a delivery.
+//
+// Under automation the click that opens the mail app is skipped, because an unhandled mailto:
+// would either hang the run or unload the page. The link is still in the DOM with a live href,
+// which is what the assertions read.
 
 const pill = (page: Page, type: string) => page.locator(`[data-segment-value="${type}"]`);
 const field = (page: Page, id: string) => page.locator(`[data-field="${id}"]`);
+
+/** The mailto: URL the form composed, decoded so assertions read like the message does. */
+async function composedMail(page: Page): Promise<string> {
+  const href = await page.locator('[data-mail-link]').getAttribute('href');
+  return decodeURIComponent(href ?? '');
+}
 
 test.describe('the link on a tool page', () => {
   test('sits at the bottom of the tool and carries the tool with it', async ({ page }) => {
@@ -43,10 +43,6 @@ test.describe('the link on a tool page', () => {
 });
 
 test.describe('the form', () => {
-  test.beforeEach(async ({ page }) => {
-    await forbidRelay(page);
-  });
-
   test('asks a different set of questions for each type', async ({ page }) => {
     await page.goto('/feedback/');
 
@@ -84,7 +80,7 @@ test.describe('the form', () => {
 
     await expect(page.locator('[data-error-for="goal"]')).toHaveText(/fill this in/i);
     await expect(page.locator('[data-status]')).toHaveText(/complete the highlighted/i);
-    await expect(page.locator('[data-preview]')).toBeHidden();
+    await expect(page.locator('[data-review]')).toBeHidden();
   });
 
   test('asks for more than a single word', async ({ page }) => {
@@ -98,7 +94,7 @@ test.describe('the form', () => {
     await expect(page.locator('[data-error-for="goal"]')).toHaveText(/more detail/i);
   });
 
-  test('composes the email without sending it, because this is not a real session', async ({ page }) => {
+  test('composes a mailto the visitor can send from their own mail app', async ({ page }) => {
     await page.goto('/feedback/?tool=word-counter');
     await pill(page, 'bug').click();
 
@@ -106,14 +102,48 @@ test.describe('the form', () => {
     await page.locator('#feedback-expected').fill('They should count as one, like Twitter does');
     await page.locator('[data-submit]').click();
 
-    const preview = page.locator('[data-preview]');
-    await expect(preview).toBeVisible();
+    const mail = await composedMail(page);
+    expect(mail).toContain('mailto:');
     // The pinned email format, seen end to end rather than only in a unit test.
-    await expect(preview).toContainText('Subject: [ToyTools] BUG · Word Counter');
-    await expect(preview).toContainText('Feedback Type');
-    await expect(preview).toContainText('Bug Report');
-    await expect(preview).toContainText('ToyTools Version');
-    await expect(page.locator('[data-status]')).toHaveText(/preview/i);
+    expect(mail).toContain('subject=[ToyTools] BUG · Word Counter');
+    expect(mail).toContain('Feedback Type');
+    expect(mail).toContain('Bug Report');
+    expect(mail).toContain('ToyTools Version');
+  });
+
+  // A mailto: link does nothing on a machine with no mail app, and it fails silently. The
+  // visible copy is what stops that being a dead end.
+  test('always shows the message so it can be copied, mail app or not', async ({ page }) => {
+    await page.goto('/feedback/?tool=word-counter');
+    await pill(page, 'bug').click();
+    await page.locator('#feedback-problem').fill('Emoji are counted as two characters each');
+    await page.locator('#feedback-expected').fill('They should count as one, like Twitter does');
+    await page.locator('[data-submit]').click();
+
+    const review = page.locator('[data-review]');
+    await expect(review).toBeVisible();
+    await expect(page.locator('[data-preview]')).toContainText('Feedback Type');
+    await expect(page.locator('[data-copy]')).toBeVisible();
+    // The destination has to be readable, since typing it by hand is the last resort.
+    await expect(page.locator('[data-address]')).toContainText('@');
+  });
+
+  test('copies the message to the clipboard', async ({ page, context, browserName }) => {
+    test.skip(browserName !== 'chromium', 'clipboard permissions are chromium-only here');
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+
+    await page.goto('/feedback/');
+    await page.locator('#feedback-goal').fill('Split a CSV export into one file per region');
+    await page.locator('#feedback-today').fill('I do it by hand in a spreadsheet every Monday');
+    await page.locator('#feedback-frustration').fill('It takes twenty minutes and I make mistakes');
+    await page.locator('#feedback-ideal').fill('Give me the separate files in one step');
+    await page.locator('[data-submit]').click();
+    await page.locator('[data-copy]').click();
+
+    await expect(page.locator('[data-copy]')).toHaveText(/copied/i);
+    const clipboard = await page.evaluate(() => navigator.clipboard.readText());
+    expect(clipboard).toContain('Feedback Type');
+    expect(clipboard).toContain('Split a CSV export into one file per region');
   });
 });
 
@@ -146,10 +176,6 @@ test.describe('arriving from somewhere', () => {
 });
 
 test.describe('the reproduction opt-in', () => {
-  test.beforeEach(async ({ page }) => {
-    await forbidRelay(page);
-  });
-
   test('offers to attach what you typed, on a bug, from an ordinary tool', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
     await page.locator('main textarea').first().fill('hello world from a real session');
@@ -177,7 +203,7 @@ test.describe('the reproduction opt-in', () => {
     await page.locator('[data-capture-toggle]').check();
     await page.locator('[data-submit]').click();
 
-    await expect(page.locator('[data-preview]')).toContainText('hello world from a real session');
+    expect(await composedMail(page)).toContain('hello world from a real session');
   });
 
   // The whole point of the engine-level gate: someone debugging a JWT decoder is holding a
@@ -194,6 +220,7 @@ test.describe('the reproduction opt-in', () => {
     await page.locator('#feedback-expected').fill('It should decode the payload the same way');
     await page.locator('[data-submit]').click();
 
+    expect(await composedMail(page)).not.toContain('signature');
     await expect(page.locator('[data-preview]')).not.toContainText('signature');
   });
 });

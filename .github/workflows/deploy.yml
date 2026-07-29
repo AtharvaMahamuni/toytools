@@ -38,11 +38,6 @@ jobs:
         run: npm run build
         env:
           KNOWLEDGE_REQUIRED: 'true'  # enforce 100% knowledge coverage on every deploy
-          # Web3Forms relay key for /feedback/. Public by design (it only permits submitting,
-          # never reading; the real protection is the domain allow-list in the Web3Forms
-          # dashboard). When the secret is unset the form composes the email and shows it
-          # instead of sending, so a fork or a local build can never reach the inbox.
-          PUBLIC_WEB3FORMS_KEY: ${{ secrets.PUBLIC_WEB3FORMS_KEY }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

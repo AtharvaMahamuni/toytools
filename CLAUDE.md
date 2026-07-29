@@ -157,29 +157,33 @@ Google Analytics (GA4) is included on every page via `src/layouts/BaseLayout.ast
 
 ## Feedback & Product Discovery
 
-`/feedback/` collects **user problems** (not feature requests) and relays them to a private inbox
-via Web3Forms. Fully static: no backend, no database, no stored state. There are deliberately **no**
-thumbs, ratings, votes, counters, or analytics events in this system; its only output is email.
+`/feedback/` collects **user problems** (not feature requests). Fully static with **no third party
+of any kind**: the page composes a structured message and hands it to the visitor's own mail client
+via a `mailto:` URL. No backend, no relay, no database, no stored state, no setup. There are
+deliberately **no** thumbs, ratings, votes, counters, or analytics events in this system.
 Full docs: `docs/feedback.md`.
 
+- **Do not introduce a form endpoint** (Web3Forms, Formspree, Netlify Forms, a serverless
+  function). A static page cannot send email, so any "fix" for that is a third-party server, which
+  is explicitly out of scope for this project. `mailto:` is the deliberate choice, not a stopgap.
 - The contract lives in **one file**: `src/lib/feedback/templates.ts` owns both the form's questions
   and the email they produce, and `templates.test.ts` pins the rendered body character for
   character. Change a heading and the test fails — which is what stops the inbox filters silently
   breaking.
+- **The composed message is always shown on the page** with a Copy button and the address in
+  selectable text. A `mailto:` does nothing at all, silently, on a machine with no mail client, so
+  the visible copy is the only thing that keeps that from being a dead end. Never remove it.
+- `deliver.ts` trims the **mailto** body to `MAX_MAILTO_LENGTH` (mail clients ignore over-long
+  URLs) while `composed.body` stays complete for copying. Trimming walks whole **code points**:
+  slicing mid-emoji leaves a lone surrogate and `encodeURIComponent` throws `URIError`.
 - `src/pages/feedback.astro` is a standalone content page, **not** a registry tool. It reaches the
   sitemap and IndexNow through `STANDALONE_PAGES` in `src/lib/content/manifest.ts` (the `'page'`
   content type) — that is the only edit needed to add another such page.
 - `FeedbackLink` is auto-included by `ToolLayout`, so every tool inherits it with **zero per-tool
   edits**. No tool file ever mentions feedback.
-- **Never remove the environment guard in `submit.ts`.** It delegates to `isAnalyticsEnabled`
-  (`src/lib/analytics/guard.ts`) to refuse dev/localhost/automation/`PUBLIC_E2E`. The Playwright
-  suite drives this form on every PR across two projects; without it, CI emails the inbox on every
-  run. `tests/e2e/feedback.spec.ts` fails the run if anything reaches the relay.
 - The bug-report "include what I typed" opt-in is gated at **build time** by
   `allowsInputCapture(engine, pattern)` — on `jwt`/`hashing`/`encoding`/`generate-credential` tools
   the capturing script is not even emitted, because that input may be a live secret.
-- `PUBLIC_WEB3FORMS_KEY` is set in `.github/workflows/deploy.yml`. Without it the form composes the
-  email and shows it instead of sending, so local builds and forks can never reach the inbox.
 
 ## SEO Engine
 

@@ -94,17 +94,27 @@ const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
     </label>
   </div>
 
-  {/* Honeypot. Positioned off-screen rather than display:none, because a bot that skips
-      hidden fields would sail past a display:none trap. No human ever reaches it. */}
-  <div class="feedback-honeypot" aria-hidden="true">
-    <label for="feedback-botcheck">Leave this field empty</label>
-    <input id="feedback-botcheck" type="text" name="botcheck" tabindex="-1" autocomplete="off" data-honeypot />
-  </div>
-
-  <button type="submit" class="primary-action feedback-submit" data-submit>Send feedback</button>
+  {/* No honeypot and no captcha, because there is no endpoint to abuse. The form opens the
+      visitor's own mail app; a bot filling it in achieves precisely nothing. */}
+  <button type="submit" class="primary-action feedback-submit" data-submit>
+    Write this email
+  </button>
 
   <p class="feedback-status" data-status role="status" aria-live="polite"></p>
-  <pre class="feedback-preview is-hidden" data-preview></pre>
+
+  {/* Shown after composing. A mailto link does nothing at all on a machine with no mail app,
+      and it fails silently, so the message is always visible here to copy instead. */}
+  <div class="feedback-review is-hidden" data-review>
+    <div class="feedback-review-actions">
+      <a class="feedback-mail-link" data-mail-link href="#">Open in your email app</a>
+      <button type="button" class="feedback-copy" data-copy>Copy message</button>
+    </div>
+    <p class="feedback-review-note">
+      Your email app should have opened with this message ready to send. If it did not, copy the
+      text below and email it to <code data-address></code>.
+    </p>
+    <pre class="feedback-preview" data-preview></pre>
+  </div>
 </form>
 
 <script type="application/json" data-feedback-tools is:inline set:html={JSON.stringify(toolIndex)}></script>
@@ -136,7 +146,7 @@ const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
   /* One column at every size. The form is a conversation, not a layout. */
   .feedback-field.is-hidden,
   .feedback-capture.is-hidden,
-  .feedback-preview.is-hidden {
+  .feedback-review.is-hidden {
     display: none;
   }
 
@@ -199,12 +209,59 @@ const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
     accent-color: var(--color-accent);
   }
 
-  .feedback-honeypot {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
+  .feedback-review {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .feedback-review-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .feedback-mail-link,
+  .feedback-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-5);
+    border: var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .feedback-mail-link:hover,
+  .feedback-copy:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .feedback-mail-link:active,
+  .feedback-copy:active {
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+  }
+
+  .feedback-review-note {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .feedback-review-note code {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    /* The address has to be selectable, since copying it by hand is the last-resort path. */
+    user-select: all;
   }
 
   .feedback-submit {
@@ -238,7 +295,7 @@ const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
     color: var(--color-danger);
   }
 
-  /* Preview mode: what local development and E2E runs see instead of a delivered email. */
+  /* The composed message, always visible after composing so it can be copied. */
   .feedback-preview {
     margin: 0;
     padding: var(--space-4);

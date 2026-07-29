@@ -15,7 +15,7 @@ import {
 } from '@lib/feedback/config';
 import { FORM_FIELD_ORDER, type FeedbackInput } from '@lib/feedback/templates';
 import { describeEnvironment } from '@lib/feedback/environment';
-import { submitFeedback } from '@lib/feedback/submit';
+import { prepareFeedback } from '@lib/feedback/deliver';
 import { APP_VERSION } from '@lib/version';
 // Imported for its enhancement pass, not just its side effect: the segmented control has to
 // be live before we prefill it from the URL, or assigning the value would not repaint the
@@ -92,12 +92,14 @@ export function initFeedbackForm(root: Document = document): void {
 
   const typeInput = root.querySelector<HTMLInputElement>('#feedback-f-type');
   const status = form.querySelector<HTMLElement>('[data-status]');
+  const review = form.querySelector<HTMLElement>('[data-review]');
   const preview = form.querySelector<HTMLElement>('[data-preview]');
-  const honeypot = form.querySelector<HTMLInputElement>('[data-honeypot]');
+  const mailLink = form.querySelector<HTMLAnchorElement>('[data-mail-link]');
+  const copyButton = form.querySelector<HTMLButtonElement>('[data-copy]');
+  const addressSlot = form.querySelector<HTMLElement>('[data-address]');
   const captureRow = form.querySelector<HTMLElement>('[data-capture-row]');
   const captureToggle = form.querySelector<HTMLInputElement>('[data-capture-toggle]');
   const captureLabel = form.querySelector<HTMLElement>('[data-capture-label]');
-  const submitButton = form.querySelector<HTMLButtonElement>('[data-submit]');
 
   const wrappers = Array.from(form.querySelectorAll<HTMLElement>('[data-field]'));
   const control = (id: string) =>
@@ -202,7 +204,10 @@ export function initFeedbackForm(root: Document = document): void {
     }
   }
 
-  async function onSubmit(event: SubmitEvent): Promise<void> {
+  /** The full message text, held for the copy button after a successful compose. */
+  let composedText = '';
+
+  function onSubmit(event: SubmitEvent): void {
     event.preventDefault();
     if (!status) return;
 
@@ -216,51 +221,68 @@ export function initFeedbackForm(root: Document = document): void {
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
 
-    if (submitButton) submitButton.disabled = true;
-    status.textContent = 'Sending…';
-    status.className = 'feedback-status';
+    const result = prepareFeedback(input, env);
 
-    const result = await submitFeedback(input, env, { honeypot: honeypot?.value });
-
-    if (submitButton) submitButton.disabled = false;
     status.textContent = result.message;
-    status.classList.add(
-      result.outcome === 'invalid' || result.outcome === 'error' ? 'is-error' : 'is-done',
-    );
+    status.className = 'feedback-status';
+    status.classList.add(result.outcome === 'invalid' ? 'is-error' : 'is-done');
 
     if (result.outcome === 'invalid') {
       showErrors(result.validation.errors);
+      review?.classList.add('is-hidden');
       return;
     }
 
     clearErrors();
 
-    // Preview mode is what local development and E2E runs get: the email is composed and
-    // shown, and nothing leaves the browser.
-    if (preview) {
-      if (result.outcome === 'preview') {
-        preview.textContent = `Subject: ${result.subject}\n\n${result.body}`;
-        preview.classList.remove('is-hidden');
-      } else {
-        preview.classList.add('is-hidden');
-      }
-    }
+    // The message is shown as well as handed to the mail client, never instead of it. A mailto
+    // link does nothing at all on a machine with no mail app configured, and it fails silently:
+    // no error, no navigation, just a button that appears broken. The visible copy is what makes
+    // that recoverable rather than a dead end.
+    // The subject rides along in the copied text. Someone pasting into a blank email would
+    // otherwise send a bare body, and the inbox filters key on the subject line.
+    composedText = `Subject: ${result.composed.subject}\n\n${result.composed.body}`;
+    if (preview) preview.textContent = composedText;
+    if (mailLink) mailLink.href = result.composed.mailto;
+    if (addressSlot) addressSlot.textContent = result.composed.address;
+    if (copyButton) copyButton.textContent = 'Copy message';
+    review?.classList.remove('is-hidden');
 
-    if (result.outcome === 'sent' || result.outcome === 'trapped') {
-      const keep = currentType();
-      form.reset();
-      // A native reset restores the hidden input without going through the segmented
-      // control's setter, so the pills would desync. Reassigning also keeps the person on
-      // the type they just used, which is friendlier than snapping back to the default.
-      if (typeInput) typeInput.value = keep;
-      clearCapture();
-      applyType();
+    // Now that it is folded into the message, drop the stashed input so a later visit to this
+    // page cannot offer up something stale from a tool they have long since left.
+    clearCapture();
+
+    // Hand it to the mail client. Skipped under automation, where an unhandled mailto: would
+    // either hang the run or bounce it out of the page; the link is still in the DOM for a test
+    // to inspect, which is what tests/e2e/feedback.spec.ts asserts on.
+    if (!navigator.webdriver) mailLink?.click();
+  }
+
+  async function onCopy(): Promise<void> {
+    if (!composedText) return;
+    try {
+      await navigator.clipboard.writeText(composedText);
+      if (copyButton) copyButton.textContent = 'Copied';
+    } catch {
+      // Clipboard access can be refused outright. Selecting the text is the fallback that
+      // always works, and it is one keystroke from being copied.
+      if (preview) {
+        const range = document.createRange();
+        range.selectNodeContents(preview);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      }
+      if (copyButton) copyButton.textContent = 'Select and copy';
     }
   }
 
   typeInput?.addEventListener('change', applyType);
   form.addEventListener('submit', event => {
-    void onSubmit(event as SubmitEvent);
+    onSubmit(event as SubmitEvent);
+  });
+  copyButton?.addEventListener('click', () => {
+    void onCopy();
   });
 
   applyQuery();

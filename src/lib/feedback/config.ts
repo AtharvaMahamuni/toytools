@@ -1,29 +1,44 @@
 // Feedback system configuration — every tunable value in one place.
 //
-// The feedback system is email-first and fully static: the browser composes a structured
-// message and hands it to Web3Forms, which relays it to the inbox. There is no backend,
-// no database, and no stored state of any kind.
+// The system is email-only and involves no third party at all. A static page cannot send an
+// email: there is no browser API for it, SMTP needs credentials that would be public, and every
+// hosted form endpoint is somebody else's server. So the page composes a structured message and
+// hands it to the visitor's own mail client via a mailto: URL. They press Send.
 //
-// Nothing here reads the DOM or the network; this module is safe to import from SSR,
-// from vitest, and from an Astro frontmatter block.
+// That constraint buys more than it costs. There is no endpoint to abuse, so no honeypot and no
+// spam surface. Nothing can be delivered without a human deliberately sending it, so there is no
+// risk of a test run or a script reaching the inbox. And the visitor reads the whole message,
+// including anything attached from a tool, before it leaves their machine.
+//
+// Nothing here reads the DOM or the network; this module is safe to import from SSR, from vitest,
+// and from an Astro frontmatter block.
 
-/** Web3Forms relay endpoint. The browser POSTs a plain form payload here. */
-export const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+// Destination address, kept in two halves and joined at runtime. A mailto: URL has to contain a
+// real address, so it is inherently visible to anyone who looks; splitting it defeats the naive
+// scrapers that harvest `text@text` patterns out of raw HTML and nothing more sophisticated.
+// This is friction for bulk harvesters, not privacy, and it should not be mistaken for it.
+const ADDRESS_LOCAL = 'atharvamahamunitemp';
+const ADDRESS_DOMAIN = 'gmail.com';
+
+/** The address feedback is addressed to. */
+export function feedbackAddress(): string {
+  return `${ADDRESS_LOCAL}@${ADDRESS_DOMAIN}`;
+}
 
 /**
- * Public access key. It is *meant* to be visible in the page HTML — the key only permits
- * submitting, never reading, and the real protection is the domain allow-list configured
- * in the Web3Forms dashboard. When it is absent the form runs in preview mode (composes
- * the email and shows it) so local development can never reach the inbox.
+ * Ceiling for a whole mailto: URL.
+ *
+ * Mail clients disagree about how much they will accept, and the historical floor is the Windows
+ * shell's roughly 2,048-character command limit. Anything longer is silently truncated or simply
+ * ignored, which would look like the button doing nothing. So the mailto body is trimmed to fit
+ * while the full text stays available to copy: nothing the visitor wrote is ever lost, it just
+ * may not all fit through the mail client.
  */
-export const WEB3FORMS_ACCESS_KEY: string = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+export const MAX_MAILTO_LENGTH = 1800;
 
-/**
- * Web3Forms' built-in honeypot field name. A real person never sees it; bots fill every
- * input they find, and Web3Forms drops any submission where it is non-empty. This is the
- * only anti-abuse measure in the system, and it costs a human nothing.
- */
-export const HONEYPOT_FIELD = 'botcheck';
+/** Appended to a body that had to be shortened, so the truncation is never silent. */
+export const TRUNCATION_NOTICE =
+  '\n\n[This message was shortened to fit your mail app. Use "Copy message" on the page to send the full version.]';
 
 /** Subject-line prefix. Every email starts with this, so one Gmail filter catches them all. */
 export const SUBJECT_PREFIX = '[ToyTools]';
