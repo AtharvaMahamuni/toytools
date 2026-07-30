@@ -1,0 +1,312 @@
+---
+// The feedback form.
+//
+// Every question any type can ask is rendered once, and switching type shows and hides them.
+// That is deliberate: it keeps ids unique, it means a half-typed answer survives a change of
+// mind, and it makes the whole thing work without re-rendering anything.
+//
+// The questions themselves come from src/lib/feedback/templates.ts, which also owns the email
+// they end up in, so a question and the heading it appears under cannot drift apart.
+import FeedbackTypeSelector from '@components/feedback/FeedbackTypeSelector.astro';
+import { FIELD_DEFS, FORM_FIELD_ORDER, fieldApplicability } from '@lib/feedback/templates';
+import { DEFAULT_FEEDBACK_TYPE, allowsInputCapture } from '@lib/feedback/config';
+import { tools } from '@data/registry';
+
+// The initial visible/required state is rendered server-side for the default type, so the
+// correct form is on screen in the first paint rather than after a class-toggling pass.
+const fields = FORM_FIELD_ORDER.map(id => {
+  const applicability = fieldApplicability(id);
+  return {
+    ...FIELD_DEFS[id],
+    ...applicability,
+    initiallyHidden: !applicability.shownFor.includes(DEFAULT_FEEDBACK_TYPE),
+    initiallyRequired: applicability.requiredFor.includes(DEFAULT_FEEDBACK_TYPE),
+  };
+});
+
+// Slug → [display name, may we offer to attach their input?]. The form runs on a page that
+// knows nothing about which tool someone came from, so the registry travels with it. Roughly
+// 4 KB for the whole catalogue, and it is what turns "?tool=word-counter" into "Word Counter"
+// in the email subject.
+const toolIndex: Record<string, [string, 0 | 1]> = Object.fromEntries(
+  tools.map(tool => [
+    tool.slug,
+    [tool.name, allowsInputCapture(tool.engine, tool.pattern) ? 1 : 0] as [string, 0 | 1],
+  ]),
+);
+---
+
+<form class="feedback-form" data-feedback-form novalidate>
+  <FeedbackTypeSelector idPrefix="feedback" />
+
+  <div class="feedback-fields">
+    {fields.map(field => (
+      <div
+        class:list={[
+          'feedback-field',
+          { 'is-hidden': field.initiallyHidden, 'is-required': field.initiallyRequired },
+        ]}
+        data-field={field.id}
+        data-shown-for={field.shownFor.join(' ')}
+        data-required-for={field.requiredFor.join(' ')}
+      >
+        <label class="widget-label" for={`feedback-${field.id}`}>
+          {field.label}
+          <span class="feedback-optional">optional</span>
+        </label>
+
+        {field.help && (
+          <p class="feedback-help" id={`feedback-${field.id}-help`}>{field.help}</p>
+        )}
+
+        {field.control === 'text' ? (
+          <input
+            class="widget-input"
+            type="text"
+            id={`feedback-${field.id}`}
+            name={field.id}
+            autocomplete="off"
+            enterkeyhint="next"
+            aria-describedby={field.help ? `feedback-${field.id}-help` : undefined}
+          />
+        ) : (
+          <textarea
+            class="widget-input feedback-textarea"
+            id={`feedback-${field.id}`}
+            name={field.id}
+            rows="4"
+            enterkeyhint="enter"
+            aria-describedby={field.help ? `feedback-${field.id}-help` : undefined}
+          />
+        )}
+
+        <p class="feedback-error" data-error-for={field.id} role="alert"></p>
+      </div>
+    ))}
+  </div>
+
+  {/* Shown only on a bug report, and only when the tool they came from left something safe
+      to attach. Unticked by default: sharing what you typed is a decision, not a default. */}
+  <div class="feedback-capture is-hidden" data-capture-row>
+    <label class="feedback-capture-label">
+      <input type="checkbox" data-capture-toggle />
+      <span data-capture-label>Include what I typed, so the problem can be reproduced</span>
+    </label>
+  </div>
+
+  {/* No honeypot and no captcha, because there is no endpoint to abuse. The form opens the
+      visitor's own mail app; a bot filling it in achieves precisely nothing. */}
+  <button type="submit" class="primary-action feedback-submit" data-submit>
+    Write this email
+  </button>
+
+  <p class="feedback-status" data-status role="status" aria-live="polite"></p>
+
+  {/* Shown after composing. A mailto link does nothing at all on a machine with no mail app,
+      and it fails silently, so the message is always visible here to copy instead. */}
+  <div class="feedback-review is-hidden" data-review>
+    <div class="feedback-review-actions">
+      <a class="feedback-mail-link" data-mail-link href="#">Open in your email app</a>
+      <button type="button" class="feedback-copy" data-copy>Copy message</button>
+    </div>
+    <p class="feedback-review-note">
+      Your email app should have opened with this message ready to send. If it did not, copy the
+      text below and email it to <code data-address></code>.
+    </p>
+    <pre class="feedback-preview" data-preview></pre>
+  </div>
+</form>
+
+<script type="application/json" data-feedback-tools is:inline set:html={JSON.stringify(toolIndex)}></script>
+
+<script>
+  import '@components/feedback/feedbackForm.client';
+</script>
+
+<style>
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    max-width: var(--width-tool);
+  }
+
+  .feedback-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  /* One column at every size. The form is a conversation, not a layout. */
+  .feedback-field.is-hidden,
+  .feedback-capture.is-hidden,
+  .feedback-review.is-hidden {
+    display: none;
+  }
+
+  .feedback-help {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  /* "optional" rides on the label so the answer to "must I fill this in?" is never more than
+     a glance away, and it moves as the selected type changes. */
+  .feedback-optional {
+    margin-left: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-subtle);
+  }
+
+  .feedback-field.is-required .feedback-optional {
+    display: none;
+  }
+
+  .feedback-textarea {
+    /* Fixed height with internal scroll. Auto-growing textareas are forbidden on this
+       project: five of them growing as you type would reflow the page continuously.
+       Vertical resize stays available because that is the reader's own deliberate act. */
+    min-height: 7.5rem;
+    resize: vertical;
+  }
+
+  .feedback-field.has-error .widget-input {
+    border-color: var(--color-danger);
+  }
+
+  .feedback-error {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-danger);
+  }
+
+  .feedback-error:empty {
+    display: none;
+  }
+
+  .feedback-capture-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    /* The whole row is the target, so the checkbox is not a 16px dot to hit on a phone. */
+    min-height: var(--touch-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  .feedback-capture-label input {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    accent-color: var(--color-accent);
+  }
+
+  .feedback-review {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .feedback-review-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .feedback-mail-link,
+  .feedback-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-5);
+    border: var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .feedback-mail-link:hover,
+  .feedback-copy:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .feedback-mail-link:active,
+  .feedback-copy:active {
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+  }
+
+  .feedback-review-note {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .feedback-review-note code {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    /* The address has to be selectable, since copying it by hand is the last-resort path. */
+    user-select: all;
+  }
+
+  .feedback-submit {
+    min-height: var(--touch-target);
+  }
+
+  .feedback-submit:active {
+    opacity: 0.85;
+  }
+
+  .feedback-submit:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .feedback-status {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .feedback-status:empty {
+    display: none;
+  }
+
+  .feedback-status.is-done {
+    color: var(--color-success);
+  }
+
+  .feedback-status.is-error {
+    color: var(--color-danger);
+  }
+
+  /* The composed message, always visible after composing so it can be copied. */
+  .feedback-preview {
+    margin: 0;
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    white-space: pre-wrap;
+    /* Long URLs and pasted samples scroll inside the box; the page body never does. */
+    overflow-x: auto;
+  }
+</style>

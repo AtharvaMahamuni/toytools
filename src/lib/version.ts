@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 5,
+  major: 6,
   minor: 0,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-07-16',
-  description: 'applied math: interactive explorables and exact calculators',
+  releaseDate: '2026-07-30',
+  description: 'feedback and product discovery: mailto-only, no third party',
 };
 
 export function formatVersion(config: VersionConfig): string {

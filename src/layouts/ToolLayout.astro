@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
 import TrustNotice from '@components/tool/TrustNotice.astro';
 import InstallButton from '@tools/_shared/InstallButton.astro';
+import FeedbackLink from '@components/feedback/FeedbackLink.astro';
 import { iconColors } from '@lib/icons/tool-icon';
 import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
 import type { Tool, Category } from '@data/types';
@@ -59,6 +60,10 @@ const softwareSchema = {
   </div>
 
   <slot />
+
+  {/* Last thing on every tool page, below the widget, the nav row, and the FAQ. Auto-included
+      here so every tool inherits it and no tool file ever mentions feedback. */}
+  <FeedbackLink tool={tool} />
 
   <script is:inline define:vars={{ slug: tool.slug, segment: category.segment }}>
     if (window.ToyTools && ToyTools.recordRecent) ToyTools.recordRecent(slug, segment);

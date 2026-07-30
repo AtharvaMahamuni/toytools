@@ -1,5 +1,6 @@
 ---
 import MadeInIndia from '@components/MadeInIndia.astro';
+import { withBase } from '@lib/paths';
 const year = new Date().getFullYear();
 ---
 
@@ -22,6 +23,7 @@ const year = new Date().getFullYear();
       <span class="gold-dot" aria-hidden="true"></span>
       <MadeInIndia />
     </div>
+    <a class="footer-link" href={withBase('/feedback/')}>Suggest a tool</a>
   </div>
 </footer>
 
@@ -43,6 +45,8 @@ const year = new Date().getFullYear();
     margin-inline: auto;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
@@ -51,6 +55,32 @@ const year = new Date().getFullYear();
     display: flex;
     align-items: center;
     gap: var(--space-3);
+  }
+
+  /* Sitewide, so every page carries one path to the feedback form. Pushed to the far end on
+     desktop; on a phone it wraps to its own line rather than crowding the brand row. */
+  .footer-link {
+    margin-left: auto;
+    display: inline-block;
+    min-height: var(--touch-target);
+    padding-block: var(--space-3);
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+
+  .footer-link:active {
+    color: var(--color-accent-strong);
+  }
+
+  @media (max-width: 640px) {
+    .footer-link {
+      margin-left: 0;
+    }
   }
 
   /* ── Hint words with tooltip ─────────────────────────────── */

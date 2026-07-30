@@ -6,7 +6,7 @@ import { renderSitemapIndex } from '@lib/sitemap/render';
 // seo-validator, and quality-guardian build-integrity all keep working unchanged.
 const SITE_FALLBACK = 'https://toytoolsapp.com';
 // No `languages` bucket: the /{lang}/ stubs are noindex and excluded from the manifest.
-const BUCKETS = ['tools', 'guides', 'categories'];
+const BUCKETS = ['tools', 'guides', 'categories', 'pages'];
 
 export const GET: APIRoute = ({ site }) => {
   const base = (site ?? new URL(SITE_FALLBACK)).href;

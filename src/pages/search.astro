@@ -38,7 +38,13 @@ function getCategoryName(slug: string): string {
         </article>
       ))}
     </div>
-    <p class="empty-state" id="empty-state" hidden>No matching tools found.</p>
+    {/* A search that finds nothing is the clearest statement of an unmet need anywhere on the
+        site: someone has told us exactly what they wanted, in their own words, at the moment
+        they wanted it. Carrying the query to the feedback form is the whole point. */}
+    <p class="empty-state" id="empty-state" hidden>
+      No matching tools found.
+      <a id="empty-suggest" href={withBase('/feedback/')}>Suggest it &rarr;</a>
+    </p>
   </section>
 </BaseLayout>
 
@@ -100,6 +106,25 @@ function getCategoryName(slug: string): string {
     color: var(--color-text-muted);
   }
 
+  .empty-state a {
+    display: inline-block;
+    min-height: var(--touch-target);
+    padding-block: var(--space-3);
+    margin-left: var(--space-2);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .empty-state a:hover {
+    text-decoration: underline;
+  }
+
+  .empty-state a:active {
+    color: var(--color-accent-strong);
+  }
+
   @media (min-width: 720px) {
     .search-page-form {
       flex-direction: row;
@@ -130,4 +155,15 @@ function getCategoryName(slug: string): string {
 
   if (count) count.textContent = query ? visible + ' matching tools' : items.length + ' tools available';
   if (empty) empty.hidden = visible !== 0;
+
+  // Hand the unmatched query to the feedback form, which opens on "Suggest a New Tool" with
+  // "what are you trying to do?" already filled in. The raw (uncased) term is used so it
+  // reads back the way they typed it.
+  var suggest = document.getElementById('empty-suggest');
+  if (suggest) {
+    var raw = (params.get('q') || '').trim();
+    var href = suggest.getAttribute('href') + '?type=new';
+    if (raw) href += '&q=' + encodeURIComponent(raw);
+    suggest.setAttribute('href', href);
+  }
 </script>
