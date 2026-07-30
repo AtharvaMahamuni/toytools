@@ -43,7 +43,16 @@ write. For "where does X live", read `docs/code-map.json` first.
 
 5. **`processorId` in `config.ts` must exactly match the `id` field** in the engine registry entry (e.g., `PROCESSORS`, `ENCODERS`, `HASHERS`, `STRUCTURED_TOOLS`). `validate-registry` now fails the build on an unknown id **or** a collision (two tools claiming the same id). The one residual silent case: a typo that happens to match a *different real* processor — so still double-check the id resolves to the transform you intend.
 
-6. **`npm run build` is the primary gate.** It runs `validate-registry.ts` + `validate-knowledge.ts` + `validate-architecture.ts` (orphan/drift detection), then Astro render + TypeScript in one pass. Run it before declaring done. Then **`npm run test:e2e`** (desktop + Pixel 5) — the build does NOT catch widget JS errors; e2e does, and it is a PR gate. Finish with `npm run health` for sitemap/manifest/knowledge coverage.
+6. **`npm run build` is the primary gate.** It runs `validate-registry.ts` + `validate-knowledge.ts` + `validate-architecture.ts` (orphan/drift detection), then Astro render + TypeScript in one pass, then `check-budget.ts`. Run it before declaring done. Then **`npm run test:e2e`** (desktop + Pixel 5) — the build does NOT catch widget JS errors; e2e does, and it is a PR gate. Finish with `npm run health` for sitemap/manifest/knowledge coverage.
+
+7. **The new tool's page must come in under the performance budget.** `check-budget.ts` runs last in `npm run build` and fails it, so this is enforced, not advisory. A tool page's ceiling is **60 KB gzipped total** (≤6 render-blocking stylesheets, ≤16 KB CSS, ≤24 KB JS, ≤34 KB HTML); a typical tool lands at 33-40 KB, so content has room. When a new tool trips it the cause is structural, not wordcount:
+   - **JS** → the engine is pulling something it should not, or an engine was statically imported back into `src/lib/runtime/index.ts`. Engine runtimes must stay lazy: add `src/lib/runtime/engines/<id>.ts` and register it in **both** maps in `src/lib/runtime/loaders.ts`.
+   - **Sheets/CSS** → a route globbed components outside its own segment and hoisted other tools' stylesheets onto the page. Never reintroduce a cross-segment widget glob.
+   - **HTML** → the widget renders markup it could render on demand, or the FAQ/JSON-LD ballooned.
+
+   **Fix the cause; never raise the budget to make a new tool fit.** Background: `docs/analysis/2026-07-31-critical-path-performance.md`.
+
+8. **Widgets must call engine APIs inside `ToyTools.onReady()`.** The core global (`state`, `toast`, `copy`, `storage`, `prefs`) exists during parse, but engine surfaces (`analyze`, `process`, `runDateTime`, `runMath`, …) load lazily per page and are **not** there when the widget's inline script first runs. `validate-registry` fails the build if a widget calls a `ToyTools.*` global its declared engine does not provide.
 
 ## Decision tree
 

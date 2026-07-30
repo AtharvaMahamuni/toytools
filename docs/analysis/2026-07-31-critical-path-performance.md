@@ -112,6 +112,32 @@ Headline for the pages that prompted this: a simulation page went from **124.4K 
 `npm run build` (all validators + strict TS), 1830 unit tests, and 546 Playwright E2E tests on
 Desktop Chrome **and** Pixel 5 all pass.
 
+## The budget is now a build gate
+
+Both regressions above were invisible to a green build, so the numbers became a contract:
+`scripts/check-budget.ts` runs last in `npm run build` and **fails it** when any page exceeds its
+kind's budget.
+
+| kind | sheets | CSS | JS | HTML | TOTAL | worst page today |
+|---|---|---|---|---|---|---|
+| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 51.0 KB (`json-tree-viewer`) |
+| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 28.4 KB |
+| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 19.0 KB |
+| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 32.6 KB (`/search/`) |
+
+The checker resolves the *actual* lazy chunks a page fetches — the engine in
+`<meta name="tt-engines">`, the model in `data-simulation-id` — rather than assuming none or all.
+Cross-checked against a Playwright network trace: identical on every page type, so it can gate the
+build without needing a browser.
+
+Negative-tested: statically importing two engines back into `src/lib/runtime/index.ts` (a two-line
+change) fails the build with **134 violations**.
+
+Known exception, capped rather than ignored: `/architecture/` at 167.7 KB gzipped, because the
+interactive Mermaid map pulls mermaid + cytoscape (~145 KB gz of JS). It is one internal diagnostic
+page, so it was left alone rather than widening the site-wide budget. If it ever matters, the fix is
+to lazy-load the renderer on viewport/interaction instead of at load.
+
 ## What was deliberately not done
 
 - **Inlining the remaining CSS.** `titles.SSNogQ0G.css` (33 KB raw) is the shared chunk every page

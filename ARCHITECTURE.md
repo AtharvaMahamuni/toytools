@@ -836,13 +836,36 @@ Missing knowledge WARNs; invalid knowledge fails the build.
 ## Build & Verification
 
 ```sh
-npm run build    # validate-registry (metadata + reference integrity) + Astro + TS strict — must pass before any PR
+npm run build    # validate-registry + validate-knowledge + validate-architecture, Astro + TS strict,
+                 # then check-budget — must pass before any PR
 npm run health   # post-build platform integrity superset (metadata, manifests, search index, sitemap output)
 npm run test     # vitest — engine-level tests (encoding/hashing/structured-data/manifest/metadata/search/sitemap)
+npm run check:budget  # per-page critical-path budget alone (needs an existing dist/)
 npm run dev      # dev server at localhost:4321
 ```
 
 No separate lint or test command. The build is the single verification step.
+
+### Performance budget (`scripts/check-budget.ts`)
+
+The last step of `npm run build`, and a **hard gate**: it measures the built `dist/` and fails the
+build when any page exceeds its kind's budget. Per page it sums render-blocking stylesheets, every
+JS chunk fetched on load, and the HTML document, all gzipped.
+
+It is accurate rather than approximate, which is what makes it usable as a gate. Both of the site's
+lazy-loading maps compile to the same shape,
+`<key>:()=>X(()=>import("./chunk.js"), __vite__mapDeps([...]))`, so the checker resolves exactly the
+chunks a page really pulls: the engine ids in `<meta name="tt-engines">` for the runtime's
+`ENGINE_LOADERS`, and `./simulations/<id>.ts` for `SimulationWidget`'s glob. Chunks reachable only
+under a key the page never asks for are correctly excluded. Verified against a real Playwright
+network trace: identical to the byte on every page type.
+
+Budgets (gzipped) live in `BUDGETS`; `EXCEPTIONS` holds pages whose weight is inherent to what they
+are (only `/architecture/`, the Mermaid map) and still caps them. **Raising a budget is a decision
+to spend every visitor's bandwidth — fix the cause instead**, and say why in the PR if you truly
+must. The three structural causes and what they mean are listed in `CLAUDE.md` →
+"Performance budget"; the full before/after is in
+`docs/analysis/2026-07-31-critical-path-performance.md`.
 
 ## E2E Testing (`tests/e2e/`)
 

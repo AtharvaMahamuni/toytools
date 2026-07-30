@@ -19,7 +19,7 @@ ASTRO_SITE=https://toytoolsapp.com npm run build
 > through to GitHub Pages' `404.html`, which carries `noindex,nofollow` — exactly the
 > "noindex detected in 'robots' meta tag" that Search Console flags.
 
-`npm run build` is the verification step — it runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together. There is no separate lint script.
+`npm run build` is the verification step — it runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together, then the **performance budget**. There is no separate lint script.
 
 ```sh
 npm run validate:architecture  # architectural lint pass (orphan files, dead registry entries,
@@ -40,6 +40,45 @@ npm run check:duplication      # near-duplicate authored content (descriptions, 
 `check-duplication.ts` flags content that reads mass-produced as the catalog scales (word-shingle
 Jaccard similarity). Sibling tools naturally trip it (hash generators, case converters), so it is
 informational by default; run before shipping a batch of new tool content.
+
+```sh
+npm run check:budget           # per-page critical-path budget (runs last in npm run build; needs dist/)
+npm run check:budget -- tool/text/word-counter   # print specific pages
+```
+
+## Performance budget (a hard gate for every new tool)
+
+**Every page has a byte budget and `npm run build` fails when one is exceeded.** This is not
+advisory. `scripts/check-budget.ts` measures the built `dist/` — render-blocking stylesheets, all JS
+the page fetches on load, and the HTML document, all gzipped — and compares each page against its
+kind's budget. It resolves the *actual* lazy chunks a page pulls (the engine named in
+`<meta name="tt-engines">`, the model named in `data-simulation-id`), so the numbers match a real
+browser trace exactly rather than over- or under-counting.
+
+Current budgets (gzipped) and the worst real page against each:
+
+| kind | sheets | CSS | JS | HTML | TOTAL | worst today |
+|---|---|---|---|---|---|---|
+| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 51.0 KB (`json-tree-viewer`) |
+| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 28.4 KB |
+| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 19.0 KB |
+| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 32.6 KB (`/search/`) |
+
+A typical new tool lands around **33-40 KB gzipped total**, so the budget has real headroom for
+content. If a new tool blows it, the cause is almost always structural, not the content:
+
+- **JS over budget** → the tool's engine is pulling something it should not, or an engine got
+  statically imported back into `src/lib/runtime/index.ts`. Engines must stay lazy (see
+  "Client Runtime" in `ARCHITECTURE.md`). A two-line static import regressed 134 pages when tested.
+- **Sheets/CSS over budget** → a route is globbing components outside its own segment, hoisting
+  other tools' stylesheets onto the page. Never reintroduce a cross-segment widget glob.
+- **HTML over budget** → the page is emitting far more markup than its siblings (runaway FAQ,
+  duplicated JSON-LD, a widget rendering per-item DOM it could render on demand).
+
+**Fix the cause; do not raise the budget.** Raising a number in `BUDGETS` is a decision to spend
+every visitor's bandwidth and needs a reason in the PR. `EXCEPTIONS` is for pages whose weight is
+inherent to what they are (only `/architecture/`, which renders the Mermaid map) and still caps
+them. Rationale and the full before/after: `docs/analysis/2026-07-31-critical-path-performance.md`.
 
 ```sh
 npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <cat> --engine <engine> \
