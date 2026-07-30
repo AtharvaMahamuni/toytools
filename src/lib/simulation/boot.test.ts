@@ -35,7 +35,33 @@ function stubEnv(reduce = false): void {
   });
   vi.stubGlobal('matchMedia', mm);
   (window as unknown as { matchMedia: typeof mm }).matchMedia = mm;
+
+  // Autoplay is deferred behind "canvas is on screen" + "main thread is idle" so the animation
+  // loop cannot compete with first paint. Stub both so the wait resolves immediately here and the
+  // tests below assert the post-deferral state; intersectAt keeps the trigger controllable.
+  intersectObserved = [];
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      constructor(private cb: (entries: { isIntersecting: boolean }[], o: unknown) => void) {}
+      observe(): void {
+        intersectObserved.push(() => this.cb([{ isIntersecting: true }], this));
+        if (autoIntersect) intersectObserved[intersectObserved.length - 1]!();
+      }
+      unobserve(): void {}
+      disconnect(): void {}
+    },
+  );
+  vi.stubGlobal('requestIdleCallback', (cb: () => void) => {
+    cb();
+    return 1;
+  });
 }
+
+/** Pending "the canvas came into view" triggers, so a test can withhold or fire them. */
+let intersectObserved: (() => void)[] = [];
+/** When false, observing does NOT immediately report the canvas as visible. */
+let autoIntersect = true;
 
 /** Build the exact data-* DOM SimulationWidget renders for a simulation, into document.body. */
 function mountWidget(def: SimulationDef, slug: string): HTMLElement {
@@ -140,6 +166,7 @@ const wave = SIMULATIONS['wave-speed'];
 afterEach(() => {
   document.body.innerHTML = '';
   vi.unstubAllGlobals();
+  autoIntersect = true;
 });
 
 describe('boot — wiring the wave-speed widget', () => {
@@ -203,6 +230,27 @@ describe('boot — wiring the wave-speed widget', () => {
     root.querySelector<HTMLButtonElement>('[data-sim-reset]')!.click();
     expect(freq.value).toBe('1');
     expect(measurement(root, 'waveSpeed')).toMatch(/2\.00 m\/s/);
+  });
+
+  it('draws the first frame immediately but withholds autoplay until the canvas is on screen', async () => {
+    autoIntersect = false; // observing no longer reports the canvas as visible
+    const root = mountWidget(wave, 'wave-speed-simulator');
+    initSimulations(document);
+    await flush();
+
+    // The static frame and every readout are already there — only the LOOP waits, so a widget
+    // below the fold is fully rendered and interactive without burning frames.
+    expect(measurement(root, 'waveSpeed')).toMatch(/2\.00 m\/s/);
+    const play = root.querySelector<HTMLButtonElement>('[data-sim-play]')!;
+    expect(play.getAttribute('aria-pressed')).toBe('false');
+    expect(play.textContent).toBe('Play');
+    expect(rafCb).toBeNull();
+
+    // Scrolled into view → autoplay starts.
+    intersectObserved.forEach((fire) => fire());
+    expect(play.getAttribute('aria-pressed')).toBe('true');
+    expect(play.textContent).toBe('Pause');
+    expect(rafCb).not.toBeNull();
   });
 
   it('toggles play/pause state', async () => {

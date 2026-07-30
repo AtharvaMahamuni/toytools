@@ -563,6 +563,17 @@ same-category fallback so no sim derives an empty list. `derived.ts` resolves th
 manifests; a manifest may still set an explicit `relationships` overlay to override. This is why the
 manifests carry no hand-authored related-tool lists.
 
+**Boot & autoplay timing** (`boot.ts`). Each sim page ships the shared engine core plus exactly one
+lazily-imported simulation chunk (`loader.ts`'s `import.meta.glob`), so cost is flat from sim #4 to
+sim #500. On boot the static first frame, every readout and all controls are wired **immediately** —
+a sim is fully rendered and interactive without animating. The `requestAnimationFrame` **loop** is
+deferred behind two gates: an `IntersectionObserver` on the canvas (a sim below the fold never burns
+a frame) and then `requestIdleCallback` (so physics integration and canvas drawing do not compete
+with first paint, which is the window Lighthouse scores for Total Blocking Time). Both gates degrade
+to starting anyway where unsupported, and `prefers-reduced-motion: reduce` still means no autoplay
+at all. `boot.test.ts` pins this: the first frame is present while `aria-pressed` is still `false`
+and no frame is scheduled, until the canvas is reported visible.
+
 **Reusable libraries** (so sim #N reuses, never copy-pastes): `render/` (math, vector, angle, units
 incl. `GAS_CONSTANT_R`, physics kernels `resolveCollision1D`/`kineticEnergy`/`springPotential`),
 `graphs/` (`streamGraph`/`snapshotGraph`/`singleStream`/`singleSnapshot` builders), and `canvas.ts`
