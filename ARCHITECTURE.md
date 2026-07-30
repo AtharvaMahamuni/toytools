@@ -345,9 +345,11 @@ processor into `PROCESSORS` (keyed by id, holding the rich object so metadata li
 `runProcessor(id, text)` — which resolves the processor and runs it, returning the input unchanged
 (with a `console.warn`) for an unknown id. It **never throws**.
 
-**Runtime exposure:** `ToyToolsRuntime.astro` bundles the registry and attaches
-`ToyTools.process = runProcessor` — exactly how `ToyTools.analyze` is bundled from the text-analysis
-engine. Widget inline scripts (which cannot import TS) call `ToyTools.process(processorId, text)`.
+**Runtime exposure:** `src/lib/runtime/engines/text-processor.ts` attaches
+`ToyTools.process = runProcessor` — exactly how `ToyTools.analyze` is attached from the
+text-analysis engine. Widget inline scripts (which cannot import TS) call
+`ToyTools.process(processorId, text)` inside `ToyTools.onReady()`. See "Client Runtime" below for
+why the wrapper is required.
 
 **Shared widget** (`src/tools/_shared/TextProcessorWidget.astro`, `pattern: 'text-processor'`):
 generic input → output. `ToolSplit ratio="1-1"` (50/50 desktop, stacks <1024px), live update on
@@ -589,6 +591,45 @@ domain's e2e boot list (`tests/e2e/physics.spec.ts` / `tests/e2e/math.spec.ts`);
 `npm run test:e2e -- <domain>.spec.ts`. **Zero edits** to `registry.ts`/knowledge/faq/
 guide registries. `family` is a free-form string (e.g. `electricity`); the `simulate` pattern already
 has a category-section row.
+
+## Client Runtime (`src/lib/runtime/`, `src/components/ToyToolsRuntime.astro`)
+
+`window.ToyTools` is assembled from two halves, and the split is what keeps the JS budget flat as
+engines are added.
+
+**Core — inline, always present.** The `<script is:inline>` in `ToyToolsRuntime.astro`: `toast`,
+`copy`, `storage`, `state` (versioned per-tool persistence + migrations), `data` (backup/restore),
+`profile`, `prefs`, `history`, `recordRecent`, `focus`, `mobileTooltip`, the global keyboard
+shortcuts, and the `onReady` queue. It ships inside the HTML, costs no request, and is usable while
+the page is still parsing.
+
+**Engines — lazy, one chunk per page.** `src/lib/runtime/index.ts` reads
+`<meta name="tt-engines">` (emitted by `BaseLayout` from `ToolLayout`'s `engines={[tool.engine]}`)
+and dynamically imports only those attach modules from `src/lib/runtime/engines/<id>.ts`. Two maps
+in `src/lib/runtime/loaders.ts` are the contract: `ENGINE_LOADERS` (engine id → `import()`) and
+`ENGINE_GLOBALS` (engine id → the `ToyTools.*` names it attaches).
+
+> **Why.** This was one bundle statically importing all ~18 engines: **231 KB raw / 78 KB gzipped of
+> engine code on every page**, including guides, the homepage, and physics simulations that use none
+> of it. Since `type="module"` is deferred it did not block FCP directly, but parsing and executing
+> it is pure main-thread time and drives Total Blocking Time, the heaviest-weighted Lighthouse
+> metric. A tool page now loads 2-13 KB gzipped; a non-tool page loads 2 KB.
+
+Rules when touching this:
+- A new engine with a browser runtime needs an attach module **and** entries in *both* maps.
+  `validate-registry` fails the build when the maps disagree, when an engine id is unknown, or when
+  any widget calls a `ToyTools.*` global its declared engine does not provide.
+- Engines legitimately absent from the maps: `calculator` and `productivity` (self-contained
+  bespoke widgets), `physics` and `math-lab` (`SimulationWidget` lazy-loads one simulation module
+  per page instead).
+- **Widgets must schedule engine work through `ToyTools.onReady()`.** Engine functions attach after
+  a network round-trip; the core does not. This was already the contract — the window is just wider.
+- Shared surfaces used by several engines (`experience`, `viz`) live in their own modules
+  (`src/lib/runtime/experience.ts`, `viz.ts`) and are imported by each engine that needs them, so
+  Vite emits them once as a shared chunk. `transform` is registered per-provider
+  (`src/lib/runtime/transform.ts`) so an encoding page does not pull the hashing engine.
+
+---
 
 ## Platform Metadata & Manifests
 

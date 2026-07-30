@@ -48,7 +48,7 @@ const softwareSchema = {
 };
 ---
 
-<BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="shell" pwa={pwa}>
+<BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="shell" pwa={pwa} engines={[tool.engine]}>
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
 

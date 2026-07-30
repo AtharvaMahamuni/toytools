@@ -215,7 +215,12 @@ Most edits are local, but a few changes ripple across files. When you make one o
 - **Add an engine or pattern** → declare it in `src/data/engines.ts` (`ENGINE_IDS`/`PATTERN_IDS`
   *and* `engineDefs`; the unions and the defs are cross-checked). `KNOWN_ENGINES`/`KNOWN_PATTERNS`
   derive from here — never edit the validator. Add a `pattern → section` row in
-  `src/data/category-sections.ts`. If it has a runtime, wire it into `ToyToolsRuntime`.
+  `src/data/category-sections.ts`. If it has a browser runtime, add an attach module at
+  `src/lib/runtime/engines/<id>.ts` and register it in **both** maps in `src/lib/runtime/loaders.ts`
+  (`ENGINE_LOADERS` = the lazy `import()`; `ENGINE_GLOBALS` = the `ToyTools.*` names it attaches).
+  Engine chunks are loaded **per page** from the tool's declared engine, so a global that is not
+  declared simply will not exist at runtime — `validate-registry` fails the build if a widget calls
+  one its engine does not provide.
 - **Add a tool** → author `src/tools/<segment>/<slug>/{config.ts,Widget.astro}` and run
   `npm run registries:generate` (scaffold runs it for you) — registration is **derived** from the
   directory, never hand-edited (`*.generated.ts` barrels; `validate-architecture` fails the build
@@ -394,6 +399,13 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
   - `ToyTools.storage.get/set/clear(key)` — localStorage with 50 KB cap
   - `ToyTools.copy(text)` — clipboard copy with toast feedback
 - localStorage key convention: `toytools.<slug>.<field>`, 50 KB cap
+- **The global arrives in two halves.** The *core* (`toast`, `copy`, `storage`, `state`, `prefs`,
+  `profile`, `history`, `focus`, `mobileTooltip`, `onReady`) is an inline script and exists during
+  parse — call it directly. The *engine* surfaces (`analyze`, `process`, `runDateTime`, `runHash`,
+  `runMath`, `experience`, …) load lazily, one chunk per page, so they do **not** exist yet when a
+  widget's inline script first runs. Anything that computes on load must be wrapped in
+  `ToyTools.onReady(function () { … })`. This has always been the contract; the wait is just a
+  round-trip longer now. See `src/lib/runtime/index.ts`.
 
 ### BackButton
 
