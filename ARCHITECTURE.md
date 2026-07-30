@@ -756,11 +756,28 @@ them. The hand-written hubs (`registry.ts`, `faq-registry.ts`, `guide-registry.t
 public export names stable. `validate-architecture` byte-compares the barrels and fails the build
 when they are stale.
 
-Widget and guide routes are glob-based (`tools/*/*/Widget.astro`, `tools/*/*/Guide.astro`) — file
-presence wires the route; no page file is edited for a new tool. Derived related
-tools/guides/FAQs are automatic; author only the knowledge overlay fields
-(`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`). Missing knowledge WARNs;
-invalid knowledge fails the build.
+It also writes **one tool route per category segment** — `src/pages/tool/<segment>/[slug].astro`,
+generated and committed like the barrels. These are thin: `getStaticPaths` filters the registry to
+that segment (`src/lib/tools/segment-paths.ts`) and the page passes the resolved widget into the
+shared body, `src/components/tool/ToolPage.astro`.
+
+> **Why per-segment and not one `[category]/[slug].astro` catch-all.** The catch-all resolved any
+> tool's widget with `import.meta.glob('../../../tools/*/*/Widget.astro')`, which puts *every*
+> widget in that route's module graph. Astro derives a page's stylesheet links from the whole
+> graph, so every tool page linked every bespoke widget's stylesheet: **11 render-blocking sheets,
+> ~100 KB, of which ~53 KB was unused on any given page**. A per-segment route globs only its own
+> segment, cutting a tool page to 3-5 sheets / ~48 KB. Simulation-only segments (physics) have no
+> `Widget.astro` at all, so they emit no glob and carry no widget CSS.
+>
+> Two constraints when touching the generator: the glob pattern must stay a **literal** (Vite
+> resolves it at build time), and `getStaticPaths` must use a **block-bodied** arrow — with a
+> single-expression body the Astro compiler folds the following statements into the
+> `getStaticPaths` scope, where reading `Astro.props` throws `UnavailableAstroGlobal`.
+
+Guide routes remain glob-based (`tools/*/*/Guide.astro`) — file presence wires the route; no page
+file is hand-edited for a new tool. Derived related tools/guides/FAQs are automatic; author only
+the knowledge overlay fields (`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`).
+Missing knowledge WARNs; invalid knowledge fails the build.
 
 ---
 

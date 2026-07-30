@@ -221,6 +221,12 @@ Most edits are local, but a few changes ripple across files. When you make one o
   directory, never hand-edited (`*.generated.ts` barrels; `validate-architecture` fails the build
   when they are stale). A `processorId` must resolve in its engine registry **and** be unique
   (collisions fail `validate-registry`).
+- **Add a category** → besides `src/data/categories.ts`, run `npm run registries:generate`: tool
+  routes are **one generated file per segment** (`src/pages/tool/<segment>/[slug].astro`), so a new
+  segment needs its route emitted. There is no `[category]/[slug].astro` catch-all — a single route
+  globbing `tools/*/*/Widget.astro` put every widget in its module graph, and Astro then linked
+  every bespoke widget's CSS on every tool page (11 render-blocking sheets, half of it unused).
+  Never reintroduce a cross-segment widget glob. See `ARCHITECTURE.md` → "Registration Pattern".
 - **Add a guide** → `guide:` in config + `Guide.astro` in the tool dir + regenerate. The guide
   route discovers components via `import.meta.glob`, so there is no route map to edit; a `guide:`
   declared without a `Guide.astro` on disk fails `validate-architecture`.

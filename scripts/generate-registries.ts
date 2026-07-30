@@ -20,9 +20,12 @@
 //
 //   npm run registries:generate
 
-import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { categories } from '../src/data/categories';
+import { tools as registryTools } from '../src/data/registry';
+import { manifestBySlug } from '../src/lib/simulation/manifests';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const toolsDir = join(repoRoot, 'src', 'tools');
@@ -122,11 +125,117 @@ ${entries.join('\n')}
 `;
 }
 
+// ── Per-segment tool routes ────────────────────────────────────────────────────────────────────
+//
+// One route file per category segment instead of a single `[category]/[slug].astro` catch-all.
+// The catch-all had to resolve any widget via `import.meta.glob('../../../tools/*/*/Widget.astro')`,
+// which put EVERY widget in that route's module graph; Astro derives a page's stylesheet links from
+// the whole graph, so every tool page shipped every bespoke widget's CSS (11 render-blocking sheets,
+// most of it unused). A per-segment route globs only its own segment, so a page carries its own
+// segment's widget CSS and nothing else — and the sim-only segments, which have no Widget.astro at
+// all, carry none. Generated (not hand-written) so a new category cannot silently miss its route:
+// validate-architecture byte-compares these and fails the build when stale.
+
+/** Category segments that own at least one tool, plus which flavours of tool they hold. */
+export function discoverSegments(tools: DiscoveredTool[]): { segment: string; hasWidgets: boolean; hasSims: boolean }[] {
+  const dirSegments = new Set(tools.map(t => t.segment));
+  const simSegments = new Set<string>();
+  const all = new Set(dirSegments);
+  for (const cat of categories) {
+    const owns = registryTools.some(t => t.categorySlug === cat.slug);
+    if (!owns) continue;
+    all.add(cat.segment);
+    // Sims are manifest-derived and have no src/tools/<segment>/<slug>/ directory, so a segment can
+    // be widget-less (physics) or mixed (math: 3 calculators + 3 simulations).
+    if (registryTools.some(t => t.categorySlug === cat.slug && manifestBySlug.has(t.slug))) {
+      simSegments.add(cat.segment);
+    }
+  }
+  return [...all]
+    .sort()
+    .map(segment => ({ segment, hasWidgets: dirSegments.has(segment), hasSims: simSegments.has(segment) }));
+}
+
+const ASTRO_HEADER = `---
+// GENERATED FILE — do not edit. Run \`npm run registries:generate\` to refresh.
+// One route per category segment, so this page's import.meta.glob reaches only THIS segment's
+// widgets and Astro does not hoist every other tool's CSS onto it. See scripts/generate-registries.ts.`;
+
+export function serializeSegmentRoute(seg: { segment: string; hasWidgets: boolean; hasSims: boolean }): string {
+  const { segment, hasWidgets, hasSims } = seg;
+  const imports = [
+    `import type { GetStaticPaths } from 'astro';`,
+    `import ToolPage from '@components/tool/ToolPage.astro';`,
+    `import { toolPathsForSegment } from '@lib/tools/segment-paths';`,
+  ];
+  if (hasSims) {
+    imports.push(
+      `import SimulationWidget from '@tools/_shared/SimulationWidget.astro';`,
+      `import { manifestBySlug } from '@lib/simulation/manifests';`,
+      `import { simulationSchemas } from '@lib/simulation/schema';`,
+    );
+  }
+
+  const body: string[] = [
+    ``,
+    // The arrow MUST have a block body. With a single-expression body the Astro compiler folds the
+    // statements that follow into the getStaticPaths scope, where `Astro` is a stub and reading
+    // Astro.props throws UnavailableAstroGlobal at build time.
+    `export const getStaticPaths = (() => {`,
+    `  return toolPathsForSegment('${segment}');`,
+    `}) satisfies GetStaticPaths;`,
+    ``,
+    `const { tool, category } = Astro.props;`,
+  ];
+
+  if (hasSims) {
+    body.push(
+      `const simManifest = manifestBySlug.get(tool.slug);`,
+      `const simSchemas = simManifest ? simulationSchemas(simManifest, Astro.url.href) : [];`,
+    );
+  }
+  if (hasWidgets) {
+    // A literal glob pattern is required — Vite resolves it at build time.
+    body.push(
+      `const widgets = import.meta.glob<{ default: unknown }>('../../../tools/${segment}/*/Widget.astro');`,
+      `const WidgetModule = ${hasSims ? 'simManifest ? null : ' : ''}await widgets[\`../../../tools/${segment}/\${tool.slug}/Widget.astro\`]?.();`,
+      `const Widget = WidgetModule?.default as any;`,
+      `if (${hasSims ? '!simManifest && ' : ''}!Widget) throw new Error(\`No Widget.astro found for tool slug "\${tool.slug}"\`);`,
+    );
+  }
+
+  const schemasAttr = hasSims ? ' extraSchemas={simSchemas}' : '';
+  let slot: string;
+  if (hasWidgets && hasSims) {
+    slot = `  {simManifest
+    ? <SimulationWidget config={tool} simulationId={simManifest.metadata.processorId} examples={simManifest.examples} />
+    : <Widget />}`;
+  } else if (hasSims) {
+    slot = `  <SimulationWidget config={tool} simulationId={simManifest!.metadata.processorId} examples={simManifest!.examples} />`;
+  } else {
+    slot = `  <Widget />`;
+  }
+
+  return `${ASTRO_HEADER}
+${imports.join('\n')}
+${body.join('\n')}
+---
+
+<ToolPage tool={tool} category={category}${schemasAttr}>
+${slot}
+</ToolPage>
+`;
+}
+
 export const GENERATED_FILES: { path: string; serialize: (t: DiscoveredTool[]) => string }[] = [
   { path: 'src/data/registry.generated.ts', serialize: serializeToolRegistry },
   { path: 'src/data/faq-registry.generated.ts', serialize: serializeFaqRegistry },
   { path: 'src/data/guide-registry.generated.ts', serialize: serializeGuideRegistry },
   { path: 'src/lib/knowledge/registry.generated.ts', serialize: serializeKnowledgeRegistry },
+  ...discoverSegments(discoverTools()).map(seg => ({
+    path: `src/pages/tool/${seg.segment}/[slug].astro`,
+    serialize: () => serializeSegmentRoute(seg),
+  })),
 ];
 
 /** Repo-relative paths of generated files that are stale (or missing) vs. the tool tree. */
@@ -146,7 +255,10 @@ function main() {
     const abs = join(repoRoot, path);
     const next = serialize(tools);
     const changed = !existsSync(abs) || readFileSync(abs, 'utf8') !== next;
-    if (changed) writeFileSync(abs, next);
+    if (changed) {
+      mkdirSync(dirname(abs), { recursive: true }); // a new category's route dir may not exist yet
+      writeFileSync(abs, next);
+    }
     console.log(`[generate-registries] ${changed ? 'wrote' : 'up-to-date'} ${path}`);
   }
   console.log(`[generate-registries] ${tools.length} tool dirs discovered.`);

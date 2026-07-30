@@ -1,0 +1,29 @@
+---
+// GENERATED FILE — do not edit. Run `npm run registries:generate` to refresh.
+// One route per category segment, so this page's import.meta.glob reaches only THIS segment's
+// widgets and Astro does not hoist every other tool's CSS onto it. See scripts/generate-registries.ts.
+import type { GetStaticPaths } from 'astro';
+import ToolPage from '@components/tool/ToolPage.astro';
+import { toolPathsForSegment } from '@lib/tools/segment-paths';
+import SimulationWidget from '@tools/_shared/SimulationWidget.astro';
+import { manifestBySlug } from '@lib/simulation/manifests';
+import { simulationSchemas } from '@lib/simulation/schema';
+
+export const getStaticPaths = (() => {
+  return toolPathsForSegment('math');
+}) satisfies GetStaticPaths;
+
+const { tool, category } = Astro.props;
+const simManifest = manifestBySlug.get(tool.slug);
+const simSchemas = simManifest ? simulationSchemas(simManifest, Astro.url.href) : [];
+const widgets = import.meta.glob<{ default: unknown }>('../../../tools/math/*/Widget.astro');
+const WidgetModule = simManifest ? null : await widgets[`../../../tools/math/${tool.slug}/Widget.astro`]?.();
+const Widget = WidgetModule?.default as any;
+if (!simManifest && !Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"`);
+---
+
+<ToolPage tool={tool} category={category} extraSchemas={simSchemas}>
+  {simManifest
+    ? <SimulationWidget config={tool} simulationId={simManifest.metadata.processorId} examples={simManifest.examples} />
+    : <Widget />}
+</ToolPage>
