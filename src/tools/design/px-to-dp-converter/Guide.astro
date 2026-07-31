@@ -1,0 +1,123 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      Phones and tablets pack wildly different numbers of physical pixels into the same physical inch.
+      A budget phone might have 160 pixels per inch while a flagship has 480 or more. If you sized a
+      button in raw pixels, it would look finger-friendly on one device and tiny on another. Density
+      units solve this: you design in a density-independent unit and the system multiplies it into the
+      right number of pixels for each screen. The PX to DP Converter does that multiplication for you.
+    </p>
+    <a href={toolHref} class="cta-link">Try the PX to DP Converter →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why density units matter</h2>
+    <p>
+      A dp (density-independent pixel) always describes the same physical size no matter how dense the
+      screen is. That means a 48dp touch target is comfortably tappable on every Android device,
+      because the platform scales it up on high-density screens automatically. Designing in dp keeps
+      layouts consistent across the whole device catalog instead of breaking on the next phone that
+      ships with a sharper display.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the conversion works</h2>
+    <p>
+      Android defines mdpi (160 dots per inch) as the baseline, where 1dp equals 1px. Every other
+      bucket is a multiple of that baseline. The formula is simply px = dp times (density / 160):
+    </p>
+    <ul>
+      <li>ldpi (120dpi) = 0.75x</li>
+      <li>mdpi (160dpi) = 1x (baseline)</li>
+      <li>hdpi (240dpi) = 1.5x</li>
+      <li>xhdpi (320dpi) = 2x</li>
+      <li>xxhdpi (480dpi) = 3x</li>
+      <li>xxxhdpi (640dpi) = 4x</li>
+    </ul>
+    <p>
+      sp (scale-independent pixels) uses the exact same math but is reserved for text, because it also
+      responds to the user's font-size accessibility setting. In other words, sp and dp use the same
+      pixel math but different purposes, which is why px to sp and px to dp give identical numbers here.
+      That shared multiply-by-density rule is the whole of density unit conversion, and it is what
+      android density buckets encode. iOS follows the same idea with points and integer @1x, @2x, and
+      @3x scale factors.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <p>
+      Here is the PX to DP Converter in action. For example, say a redline specifies 8dp of spacing. On
+      an mdpi screen that is 8px, on an xhdpi screen it is 16px, and on an xxxhdpi screen it is 32px. As
+      another example, a 24dp icon becomes 24, 36, 48, 72, and 96px across the buckets. Going the other
+      way, if you measure 32px in a screenshot taken on an xhdpi device, dividing by the 2x scale recovers
+      16dp. On iOS, a 10pt element renders at 10, 20, and 30px for @1x, @2x, and @3x.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes</h2>
+    <ul>
+      <li><strong>Treating dp as a fixed pixel count.</strong> 1dp is only 1px at mdpi; it grows with density. Always convert per bucket.</li>
+      <li><strong>Using dp for text.</strong> Body text should use sp so it honors the reader's font-size preference. Reserve dp for layout dimensions.</li>
+      <li><strong>Exporting one raster size.</strong> A single PNG will blur on high-density screens. Export per bucket, or use vector drawables that scale cleanly.</li>
+    </ul>
+  </section>
+
+  <section id="comparison">
+    <h2>Comparisons and alternatives</h2>
+    <p>
+      The PX to DP Converter is for native mobile work. If you are building for the web instead, reach
+      for the PX to REM Converter, where the analogous idea is sizing in rem so type scales with the
+      browser font setting. And when you need to size whole screens or images to a fixed proportion,
+      the Aspect Ratio Calculator solves the missing dimension. Comparing the PX to DP Converter vs
+      alternatives, single-bucket dp tools show one density at a time, while this one shows every Android
+      density and the iOS point scales at once, so one measurement covers both platforms.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Private and offline</h2>
+    <p>
+      Every conversion is arithmetic that runs in your browser. Nothing is uploaded, and the tool keeps
+      working with no connection once loaded, so it fits neatly into any mobile design workflow.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

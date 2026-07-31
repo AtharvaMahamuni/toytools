@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T14:55:57.225Z",
+  "generatedAt": "2026-07-31T11:08:09.391Z",
   "opportunities": [
     {
       "id": "unit-circle-explorer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -86,7 +86,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -133,6 +133,70 @@
       "engineExists": true
     },
     {
+      "id": "color-contrast-checker",
+      "title": "WCAG Color Contrast Checker",
+      "problem": "I need to check whether a text color and background color meet WCAG AA/AAA contrast so my UI is accessible.",
+      "userIntent": "transactional",
+      "workflow": "input → Contrast Ratio → output",
+      "transformation": "Contrast Ratio",
+      "proposedTool": "color-contrast-checker",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "color contrast checker wcag",
+        "color contrast checker",
+        "wcag contrast checker",
+        "contrast ratio calculator",
+        "aa aaa contrast checker",
+        "accessible color contrast"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "webaim.org/resources/contrastchecker",
+        "coolors.co/contrast-checker"
+      ],
+      "solutionWeaknesses": [
+        "ad-supported or upsell-driven",
+        "no nearest-accessible-color suggestion",
+        "desktop-only UI, not mobile-first"
+      ],
+      "relatedProblems": [
+        "color format conversion",
+        "colorblind simulation",
+        "accessible palette"
+      ],
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.56,
+      "searchDemand": 0.88,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 0.98,
+      "confidence": 0.8,
+      "finalScore": 83.4,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "fraction-calculator",
       "title": "Fraction Calculator",
       "problem": "I want to add, subtract, multiply, or divide fractions and mixed numbers and see the simplification worked step by step.",
@@ -151,7 +215,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -204,6 +268,71 @@
       "engineExists": true
     },
     {
+      "id": "color-format-converter",
+      "title": "Color Format Converter",
+      "problem": "I want to convert a color between HEX, RGB, HSL, HSV, OKLCH, and CMYK and copy the CSS value.",
+      "userIntent": "transactional",
+      "workflow": "input → Color Conversion → output",
+      "transformation": "Color Conversion",
+      "proposedTool": "color-format-converter",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "hex to rgb to hsl converter",
+        "hex to rgb",
+        "rgb to hex",
+        "hex to hsl",
+        "color converter",
+        "hex to oklch",
+        "rgb to cmyk"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "w3schools.com/colors",
+        "rgbtohex.net"
+      ],
+      "solutionWeaknesses": [
+        "no OKLCH / OKLAB (modern CSS) support",
+        "single-direction converters, not one unified tool",
+        "cluttered, ad-heavy"
+      ],
+      "relatedProblems": [
+        "contrast ratio",
+        "color shades",
+        "named css colors"
+      ],
+      "relatedTools": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedGuides": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedFaqs": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.4,
+      "searchDemand": 0.92,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.97,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 82,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "remove-line-breaks",
       "title": "Remove Line Breaks",
       "problem": "Pasted text has hard line breaks mid-sentence and I need it as one continuous paragraph.",
@@ -222,7 +351,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -296,7 +425,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -349,6 +478,73 @@
       "engineExists": true
     },
     {
+      "id": "px-to-rem-converter",
+      "title": "PX to REM Converter",
+      "problem": "I want to convert px to rem, em, and pt for CSS against a configurable root font size.",
+      "userIntent": "transactional",
+      "workflow": "input → CSS Unit Conversion → output",
+      "transformation": "CSS Unit Conversion",
+      "proposedTool": "px-to-rem-converter",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "px to rem converter",
+        "px to rem",
+        "rem to px",
+        "px to em",
+        "px to pt css",
+        "css unit converter"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "nekocalc.com/px-to-rem",
+        "pxtorem.com"
+      ],
+      "solutionWeaknesses": [
+        "single-direction, one-unit tools",
+        "no configurable root size persistence",
+        "ad-heavy, dated"
+      ],
+      "relatedProblems": [
+        "px to dp",
+        "modular type scale",
+        "aspect ratio"
+      ],
+      "relatedTools": [
+        "px-to-dp-converter",
+        "px-to-rem-converter",
+        "aspect-ratio-calculator"
+      ],
+      "relatedGuides": [
+        "px-to-dp-converter",
+        "px-to-rem-converter",
+        "aspect-ratio-calculator"
+      ],
+      "relatedFaqs": [
+        "px-to-dp-converter",
+        "px-to-rem-converter",
+        "aspect-ratio-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.52,
+      "searchDemand": 0.84,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 81.6,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "sip-calculator",
       "title": "SIP Calculator",
       "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
@@ -365,7 +561,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -440,7 +636,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -514,7 +710,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -565,6 +761,72 @@
       "engineExists": true
     },
     {
+      "id": "px-to-dp-converter",
+      "title": "PX to DP Converter",
+      "problem": "I want to convert px to dp and sp across Android density buckets (mdpi to xxxhdpi) and iOS pt.",
+      "userIntent": "transactional",
+      "workflow": "input → Density Unit Conversion → output",
+      "transformation": "Density Unit Conversion",
+      "proposedTool": "px-to-dp-converter",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "px to dp converter android",
+        "px to dp",
+        "dp to px",
+        "px to sp android",
+        "density independent pixels converter",
+        "px to pt ios"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "pixplicity.com/dp-px-converter",
+        "angrytools px to dp"
+      ],
+      "solutionWeaknesses": [
+        "single density bucket at a time",
+        "no web + native unit coverage in one tool",
+        "poor mobile UX"
+      ],
+      "relatedProblems": [
+        "px to rem",
+        "aspect ratio"
+      ],
+      "relatedTools": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedGuides": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.64,
+      "searchDemand": 0.72,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.89,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 80.3,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "projectile-motion-simulator",
       "title": "Projectile Motion Simulator",
       "problem": "I want to see how launch angle and speed change a projectile's range, peak height, and time of flight along a live trajectory.",
@@ -583,7 +845,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -654,7 +916,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -719,7 +981,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -775,6 +1037,71 @@
       "engineExists": true
     },
     {
+      "id": "aspect-ratio-calculator",
+      "title": "Aspect Ratio Calculator",
+      "problem": "I want to enter a width or height, lock an aspect ratio like 16:9, and get the missing dimension.",
+      "userIntent": "transactional",
+      "workflow": "input → Aspect Ratio → output",
+      "transformation": "Aspect Ratio",
+      "proposedTool": "aspect-ratio-calculator",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "aspect ratio calculator",
+        "16 9 calculator",
+        "ratio calculator pixels",
+        "resize keep aspect ratio",
+        "image dimension calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "andrew.hedges.name/experiments/aspect_ratio",
+        "calculateaspectratio.com"
+      ],
+      "solutionWeaknesses": [
+        "single-purpose, dated UIs",
+        "no common-ratio reference",
+        "ad-supported"
+      ],
+      "relatedProblems": [
+        "px to dp",
+        "type scale"
+      ],
+      "relatedTools": [
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "px-to-rem-converter"
+      ],
+      "relatedGuides": [
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "px-to-rem-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "px-to-rem-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.58,
+      "searchDemand": 0.74,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 79.8,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true
+    },
+    {
       "id": "statistics-visualizer",
       "title": "Statistics Visualizer",
       "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
@@ -793,7 +1120,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -864,7 +1191,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -936,7 +1263,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1010,7 +1337,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1080,7 +1407,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1154,7 +1481,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -1223,7 +1550,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1292,7 +1619,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -1366,7 +1693,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -1435,7 +1762,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -1508,7 +1835,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -1581,7 +1908,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1652,7 +1979,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -1703,6 +2030,135 @@
       "engineExists": true
     },
     {
+      "id": "color-shades-generator",
+      "title": "Color Shades & Tints Generator",
+      "problem": "I want to generate a full tint and shade scale (50 to 900) from one base color for a design token set.",
+      "userIntent": "transactional",
+      "workflow": "input → Color Scale → output",
+      "transformation": "Color Scale",
+      "proposedTool": "color-shades-generator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "color shades tints generator",
+        "color shades generator",
+        "tints and shades",
+        "color scale generator",
+        "tailwind color shades",
+        "50 to 900 color palette"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "uicolors.app",
+        "smart-swatch"
+      ],
+      "solutionWeaknesses": [
+        "opinionated single-purpose apps",
+        "no copyable CSS custom properties",
+        "no perceptual (OKLCH) spacing"
+      ],
+      "relatedProblems": [
+        "color conversion",
+        "perceptual gradient"
+      ],
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.6,
+      "searchDemand": 0.64,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.53,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 77.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "type-scale-generator",
+      "title": "Modular Type Scale Generator",
+      "problem": "I want to pick a base font size and ratio and generate a modular type scale as copyable rem CSS custom properties.",
+      "userIntent": "transactional",
+      "workflow": "input → Type Scale → output",
+      "transformation": "Type Scale",
+      "proposedTool": "type-scale-generator",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "modular type scale generator",
+        "type scale generator",
+        "modular scale",
+        "font size scale calculator",
+        "golden ratio typography",
+        "css type scale"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "typescale.com",
+        "type-scale.com"
+      ],
+      "solutionWeaknesses": [
+        "no copyable CSS custom properties",
+        "limited ratio presets",
+        "not mobile-first"
+      ],
+      "relatedProblems": [
+        "px to rem",
+        "aspect ratio"
+      ],
+      "relatedTools": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedGuides": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.68,
+      "searchDemand": 0.58,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 1,
+      "confidence": 0.64,
+      "finalScore": 76.9,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "unix-timestamp-converter",
       "title": "Unix Timestamp Converter",
       "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
@@ -1720,7 +2176,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -1790,7 +2246,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -1854,7 +2310,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -1926,7 +2382,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -1991,7 +2447,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2059,7 +2515,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -2106,6 +2562,68 @@
       "engineExists": true
     },
     {
+      "id": "colorblind-simulator",
+      "title": "Colorblind Simulator",
+      "problem": "I want to see how my palette or colors look to people with protanopia, deuteranopia, and tritanopia.",
+      "userIntent": "transactional",
+      "workflow": "input → Color Vision Simulation → output",
+      "transformation": "Color Vision Simulation",
+      "proposedTool": "colorblind-simulator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "colorblind simulator",
+        "color blindness simulator",
+        "deuteranopia simulator",
+        "protanopia color check",
+        "colorblind palette checker"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "coblis (color-blindness.com)",
+        "venngage colorblind simulator"
+      ],
+      "solutionWeaknesses": [
+        "image-upload only, no palette input",
+        "server-side upload (privacy)",
+        "no side-by-side type comparison"
+      ],
+      "relatedProblems": [
+        "contrast ratio",
+        "accessible palette"
+      ],
+      "relatedTools": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedGuides": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedFaqs": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.7,
+      "searchDemand": 0.66,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.53,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.95,
+      "confidence": 0.8,
+      "finalScore": 75.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "csv-cleaner",
       "title": "CSV Cleaner",
       "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
@@ -2124,7 +2642,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -2192,7 +2710,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2260,7 +2778,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -2327,7 +2845,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -2398,7 +2916,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -2467,7 +2985,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -2531,7 +3049,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -2599,7 +3117,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -2651,6 +3169,69 @@
       "engineExists": true
     },
     {
+      "id": "css-gradient-generator",
+      "title": "Perceptual Gradient Generator",
+      "problem": "I want to build a CSS gradient that interpolates in OKLCH so it avoids the muddy gray dead-zone of sRGB gradients, and copy the code.",
+      "userIntent": "transactional",
+      "workflow": "input → Perceptual Gradient → output",
+      "transformation": "Perceptual Gradient",
+      "proposedTool": "css-gradient-generator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "css gradient generator oklch",
+        "css gradient generator",
+        "oklch gradient",
+        "linear gradient generator",
+        "perceptual gradient",
+        "gradient css code"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "cssgradient.io",
+        "coolors gradient maker"
+      ],
+      "solutionWeaknesses": [
+        "sRGB interpolation produces muddy mid-tones",
+        "no OKLCH interpolation option",
+        "heavy UI, poor mobile experience"
+      ],
+      "relatedProblems": [
+        "color conversion",
+        "color shades"
+      ],
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.38,
+      "searchDemand": 0.7,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.95,
+      "confidence": 0.8,
+      "finalScore": 71.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "word-frequency-counter",
       "title": "Word Frequency Counter",
       "problem": "I want a word frequency breakdown of an article to see which terms repeat most.",
@@ -2668,7 +3249,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -2738,7 +3319,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -2807,7 +3388,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -2850,6 +3431,69 @@
       "engineExists": false
     },
     {
+      "id": "image-palette-extractor",
+      "title": "Image Palette Extractor",
+      "problem": "I want to upload an image and extract its dominant color palette without the image leaving my browser.",
+      "userIntent": "transactional",
+      "workflow": "input → Palette Extraction → output",
+      "transformation": "Palette Extraction",
+      "proposedTool": "image-palette-extractor",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "image color palette extractor",
+        "image color palette",
+        "extract colors from image",
+        "get palette from photo",
+        "dominant color from image",
+        "image to palette"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "imagecolorpicker.com",
+        "coolors image picker"
+      ],
+      "solutionWeaknesses": [
+        "uploads image to a server (privacy)",
+        "ad-supported",
+        "no client-side-only guarantee"
+      ],
+      "relatedProblems": [
+        "color conversion",
+        "color shades"
+      ],
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.82,
+      "competitionScore": 0.58,
+      "searchDemand": 0.68,
+      "implementationCost": 0.4,
+      "engineReuse": 1,
+      "seoPotential": 0.87,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.85,
+      "confidence": 0.8,
+      "finalScore": 68.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "cron-expression-parser",
       "title": "Cron Expression Parser",
       "problem": "I need to understand what a cron expression means in plain English and when it next runs.",
@@ -2867,7 +3511,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -2934,7 +3578,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -2994,7 +3638,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -3053,7 +3697,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -3111,7 +3755,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"

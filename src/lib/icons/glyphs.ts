@@ -142,6 +142,11 @@ export const GLYPHS: Record<string, string> = {
   ncr: t('nCr', 8),
   primeX: S + '<path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/>' + E,
 
+  // ── design & CSS ──────────────────────────────────────────────────────
+  swatch: S + '<circle cx="9" cy="9" r="5.5"/><path d="M12.5 5.5A5.5 5.5 0 0 1 18.5 15"/><path d="M14 14.5h5a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1h-8"/><circle cx="9" cy="9" r="0.6" fill="#fff"/>' + E,
+  ruler: S + '<path d="M4 8h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><path d="M8 8v3"/><path d="M12 8v4"/><path d="M16 8v3"/>' + E,
+  aspectFrame: S + '<path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/><path d="M8 9v6"/><path d="M8 9h6"/>' + E,
+
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,
 };

@@ -1,0 +1,116 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Value" variant="prose" data-tool="px-to-rem-converter">
+    <div class="io-body">
+      <label class="widget-label" for="ptr-value">Value</label>
+      <div class="ptr-row">
+        <input id="ptr-value" class="widget-input ptr-num" type="number" inputmode="decimal" step="any" placeholder="16" value="16" />
+        <select id="ptr-unit" class="widget-select ptr-unit" aria-label="From unit">
+          <option value="px" selected>px</option>
+          <option value="rem">rem</option>
+          <option value="em">em</option>
+          <option value="pt">pt</option>
+        </select>
+      </div>
+      <label class="widget-label" for="ptr-base">Root font size (px)</label>
+      <input id="ptr-base" class="widget-input ptr-num" type="number" inputmode="decimal" step="any" placeholder="16" value="16" />
+      <p class="ptr-note">Browsers default to a 16px root. Change it if your CSS sets a custom font size on the html element.</p>
+      <p class="ptr-error" id="ptr-error" hidden></p>
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Converted" variant="mono" result>
+    <ul class="ptr-out" id="ptr-out"></ul>
+  </IoPanel>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug="px-to-rem-converter" />
+
+<script is:inline>
+  (function () {
+    var valEl = document.getElementById('ptr-value');
+    var unitEl = document.getElementById('ptr-unit');
+    var baseEl = document.getElementById('ptr-base');
+    var outEl = document.getElementById('ptr-out');
+    var errEl = document.getElementById('ptr-error');
+    if (!valEl || !outEl) return;
+    var TT = window.ToyTools;
+    var ORDER = [['px', 'px'], ['rem', 'rem'], ['em', 'em'], ['pt', 'pt'], ['percent', '%']];
+
+    function render() {
+      var raw = valEl.value, baseRaw = baseEl.value;
+      var base = baseRaw === '' ? 16 : Number(baseRaw);
+      if (raw === '' || !Number.isFinite(Number(raw)) || !Number.isFinite(base) || base <= 0) {
+        outEl.innerHTML = '';
+        if (errEl) { errEl.textContent = 'Enter a number and a positive root size.'; errEl.hidden = false; }
+        return;
+      }
+      if (errEl) errEl.hidden = true;
+      var px = TT && TT.units ? TT.units.cssToPx(Number(raw), unitEl.value, base) : Number(raw);
+      var css = TT && TT.units ? TT.units.pxToCss(px, base) : { px: px, rem: 0, em: 0, pt: 0, percent: 0 };
+      outEl.innerHTML = ORDER.map(function (u) {
+        var v = css[u[0]];
+        var display = String(v) + u[1];
+        return '<li class="ptr-item' + (u[0] === unitEl.value ? ' is-source' : '') + '">' +
+          '<span class="ptr-label">' + u[1] + '</span>' +
+          '<code class="ptr-value">' + display + '</code>' +
+          '<button class="ptr-copy" type="button" aria-label="Copy ' + u[1] + '" data-copy="' + display + '">Copy</button>' +
+          '</li>';
+      }).join('');
+      persist();
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('px-to-rem-converter', { value: valEl.value, unit: unitEl.value, base: baseEl.value });
+    }
+
+    outEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.ptr-copy');
+      if (!btn) return;
+      if (TT && TT.copy) TT.copy(btn.getAttribute('data-copy'));
+      btn.classList.add('is-success'); btn.textContent = '✓';
+      setTimeout(function () { btn.classList.remove('is-success'); btn.textContent = 'Copy'; }, 1500);
+    });
+
+    valEl.addEventListener('input', render);
+    unitEl.addEventListener('change', render);
+    baseEl.addEventListener('input', render);
+
+    function boot() {
+      try {
+        var saved = TT && TT.state && TT.state.load('px-to-rem-converter');
+        if (saved) { if (saved.value != null) valEl.value = saved.value; if (saved.unit) unitEl.value = saved.unit; if (saved.base != null) baseEl.value = saved.base; }
+      } catch (_) {}
+      render();
+    }
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .ptr-row { display: flex; gap: var(--space-2); }
+  .ptr-num { flex: 1 1 auto; min-width: 0; }
+  .ptr-unit { flex: 0 0 auto; inline-size: 6rem; }
+  .ptr-note { font-size: var(--text-sm); color: var(--color-text-subtle); margin-top: var(--space-2); }
+  .ptr-error { font-size: var(--text-sm); color: var(--color-danger); margin-top: var(--space-2); }
+  .ptr-out { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); inline-size: 100%; }
+  .ptr-item {
+    display: grid; grid-template-columns: 3rem 1fr auto; align-items: center; gap: var(--space-2);
+    padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface);
+  }
+  .ptr-item.is-source { border-color: var(--color-accent); background: var(--color-accent-subtle); }
+  .ptr-label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.04em; }
+  .ptr-value { font-family: var(--font-mono); font-size: var(--text-base); font-variant-numeric: tabular-nums; overflow-x: auto; white-space: nowrap; }
+  .ptr-copy {
+    min-block-size: var(--touch-target); min-inline-size: 3rem; padding-inline: var(--space-2);
+    border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-sunken);
+    color: var(--color-text); font-size: var(--text-sm); cursor: pointer; transition: background-color 150ms, color 150ms, border-color 150ms;
+  }
+  .ptr-copy:active { background: var(--color-accent-subtle); }
+  .ptr-copy.is-success { background: var(--color-success-bg); border-color: var(--color-success); color: var(--color-success); }
+</style>

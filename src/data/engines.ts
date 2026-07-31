@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics', 'datetime', 'math-lab', 'math', 'wellness', 'tracker',
+  'physics', 'datetime', 'math-lab', 'math', 'wellness', 'tracker', 'color', 'units',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -47,7 +47,7 @@ const PATTERN_IDS = [
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
   'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
-  'health-calculate', 'health-track',
+  'health-calculate', 'health-track', 'color-convert', 'color-contrast', 'unit-convert', 'aspect-ratio',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -101,6 +101,12 @@ const engineDefs: EngineDef[] = [
   // chart. Every tracker shares one TrackerWidget shell; a tracker is a declarative TrackerDef, and
   // the pure model/viz + streak logic live in src/lib/engines/tracker/ (attached as ToyTools.tracker).
   { id: 'tracker', name: 'Tracker Engine', category: 'health-fitness', patterns: ['health-track'], runtimeGlobal: 'tracker', sharedWidget: 'TrackerWidget.astro' },
+  // Design & CSS: two deterministic client-side math engines with bespoke widgets (like the
+  // calculator engine — runtimeGlobal exposes a namespace object on ToyTools.*, no shared widget).
+  // 'color' does parse/convert/contrast across HEX/RGB/HSL/HSV/OKLCH/CMYK; 'units' does CSS +
+  // native unit math (px/rem/em/pt/dp/sp) and aspect-ratio solving.
+  { id: 'color', name: 'Color Engine', category: 'design-tools', patterns: ['color-convert', 'color-contrast'], runtimeGlobal: 'color' },
+  { id: 'units', name: 'CSS Unit Engine', category: 'design-tools', patterns: ['unit-convert', 'aspect-ratio'], runtimeGlobal: 'units' },
 ];
 
 function familiesFor(engineId: string): string[] {

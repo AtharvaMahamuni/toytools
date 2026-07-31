@@ -1,0 +1,167 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Color" variant="prose" data-tool="color-format-converter">
+    <div class="io-body">
+      <label class="widget-label" for="cfc-input">Enter a color</label>
+      <div class="cfc-input-row">
+        <input
+          id="cfc-input"
+          class="widget-input cfc-text"
+          type="text"
+          inputmode="text"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+          placeholder="#3366ff, rgb(51,102,255), teal"
+          value="#3366ff"
+        />
+        <input id="cfc-picker" class="cfc-picker" type="color" value="#3366ff" aria-label="Pick a color" />
+      </div>
+      <p class="cfc-error" id="cfc-error" hidden></p>
+      <p class="cfc-note">Accepts HEX, RGB, HSL, and common CSS color names.</p>
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Formats" variant="mono" result>
+    <div class="cfc-out">
+      <div class="cfc-swatch" id="cfc-swatch" aria-hidden="true"></div>
+      <ul class="cfc-formats" id="cfc-formats"></ul>
+    </div>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="cfc-copy" data-label="Copy all" type="button">Copy all</button>
+</div>
+
+<CategoryDiscovery toolSlug="color-format-converter" />
+
+<script is:inline>
+  (function () {
+    var textEl = document.getElementById('cfc-input');
+    var pickerEl = document.getElementById('cfc-picker');
+    var swatchEl = document.getElementById('cfc-swatch');
+    var listEl = document.getElementById('cfc-formats');
+    var errEl = document.getElementById('cfc-error');
+    var copyBtn = document.getElementById('cfc-copy');
+    if (!textEl || !listEl) return;
+    var TT = window.ToyTools;
+    var current = [];
+
+    function render() {
+      var val = textEl.value;
+      var res = TT && TT.color ? TT.color.formats(val) : null;
+      if (!res || !res.ok) {
+        current = [];
+        listEl.innerHTML = '';
+        swatchEl.style.background = 'transparent';
+        if (errEl) { errEl.textContent = (res && res.error) || 'Enter a color to convert.'; errEl.hidden = false; }
+        return;
+      }
+      if (errEl) errEl.hidden = true;
+      var hex = res.formats[0].value;
+      swatchEl.style.background = hex;
+      if (pickerEl && /^#[0-9a-f]{6}$/i.test(hex)) pickerEl.value = hex.slice(0, 7);
+      current = res.formats;
+      listEl.innerHTML = res.formats.map(function (f) {
+        var safe = f.value.replace(/"/g, '&quot;');
+        return '<li class="cfc-row">' +
+          '<span class="cfc-label">' + f.label + '</span>' +
+          '<code class="cfc-value">' + f.value + '</code>' +
+          '<button class="cfc-copy" type="button" aria-label="Copy ' + f.label + '" data-copy="' + safe + '">Copy</button>' +
+          '</li>';
+      }).join('');
+      persist();
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('color-format-converter', { value: textEl.value });
+    }
+
+    listEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.cfc-copy');
+      if (!btn) return;
+      var v = btn.getAttribute('data-copy');
+      if (TT && TT.copy) TT.copy(v);
+      btn.classList.add('is-success');
+      btn.textContent = '✓';
+      setTimeout(function () { btn.classList.remove('is-success'); btn.textContent = 'Copy'; }, 1500);
+    });
+
+    textEl.addEventListener('input', render);
+    if (pickerEl) pickerEl.addEventListener('input', function () { textEl.value = pickerEl.value; render(); });
+
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      if (!current.length) { TT && TT.toast && TT.toast('Nothing to copy!'); return; }
+      var all = current.map(function (f) { return f.label + ': ' + f.value; }).join('\n');
+      if (TT && TT.copy) TT.copy(all);
+      copyBtn.classList.add('is-success');
+      copyBtn.textContent = '✓ Copied';
+      setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy all'; }, 2000);
+    });
+
+    function boot() {
+      try {
+        var saved = TT && TT.state && TT.state.load('color-format-converter');
+        if (saved && saved.value) textEl.value = saved.value;
+      } catch (_) {}
+      render();
+    }
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .cfc-input-row { display: flex; gap: var(--space-2); align-items: stretch; }
+  .cfc-text { flex: 1 1 auto; min-width: 0; }
+  .cfc-picker {
+    flex: 0 0 auto;
+    inline-size: var(--touch-target);
+    block-size: var(--touch-target);
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: none;
+    cursor: pointer;
+  }
+  .cfc-note { font-size: var(--text-sm); color: var(--color-text-subtle); margin-top: var(--space-2); }
+  .cfc-error { font-size: var(--text-sm); color: var(--color-danger); margin-top: var(--space-2); }
+  .cfc-out { display: flex; flex-direction: column; gap: var(--space-3); inline-size: 100%; }
+  .cfc-swatch {
+    block-size: 96px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+  .cfc-formats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .cfc-row {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .cfc-label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.04em; }
+  .cfc-value { font-family: var(--font-mono); font-size: var(--text-sm); overflow-x: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .cfc-copy {
+    min-block-size: var(--touch-target);
+    min-inline-size: 3rem;
+    padding-inline: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-sunken);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: background-color 150ms, border-color 150ms, color 150ms;
+  }
+  .cfc-copy:active { background: var(--color-accent-subtle); }
+  .cfc-copy.is-success { background: var(--color-success-bg); border-color: var(--color-success); color: var(--color-success); }
+</style>

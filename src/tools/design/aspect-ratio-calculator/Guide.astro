@@ -1,0 +1,114 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      An aspect ratio is the proportion between an element's width and its height, written as two
+      numbers like 16:9. It describes shape, not size: a 16:9 frame is the same shape whether it is
+      1280 by 720 or 1920 by 1080. The Aspect Ratio Calculator lets you lock a ratio and solve the
+      dimension you are missing, so images, videos, and layout boxes keep their intended proportions.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Aspect Ratio Calculator →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why aspect ratio matters</h2>
+    <p>
+      When width and height drift out of their intended proportion, content distorts: faces stretch,
+      logos squash, and video shows black bars or gets cropped. Holding a consistent ratio keeps media
+      looking right and keeps responsive layouts predictable. It also matters for performance and
+      layout stability, since reserving the correct ratio for an image prevents the page from jumping
+      as it loads.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the math works</h2>
+    <p>
+      A ratio of W:H means height equals width times H divided by W, and width equals height times W
+      divided by H. To find the ratio of an existing size, divide both numbers by their greatest common
+      divisor. For 1920 by 1080 the greatest common divisor is 120, so it reduces to 16:9. The Aspect
+      Ratio Calculator runs both directions live: change the width and the height updates, change the
+      ratio and it re-solves, and it always shows the simplified ratio beside your dimensions. This is
+      how to resize while keeping the ratio, and it works as a 16:9 calculator or for any custom shape.
+      Note that aspect ratio is independent of absolute size, so the same ratio holds whether the image
+      is tiny or huge.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <p>
+      A few worked cases from the Aspect Ratio Calculator. For example, at 16:9 a 1600px wide banner
+      needs a height of 1600 times 9 divided by 16, which is 900px. As another example, at 4:3 an 800px
+      wide image is 600px tall. To fit a video into a 21:9 ultrawide hero that is 1400px wide, the height
+      is 600px. And entering 1080 by 1350 reveals a simplified ratio of 4:5, the common portrait size for
+      social posts.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes</h2>
+    <ul>
+      <li><strong>Editing both dimensions freely.</strong> Change only one and let the other solve, or you will break the ratio you wanted.</li>
+      <li><strong>Confusing resolution with ratio.</strong> 1280x720 and 1920x1080 are different resolutions but the same 16:9 ratio; a bigger resolution is not a different shape.</li>
+      <li><strong>Forgetting to simplify.</strong> 1920:1080 is correct but unwieldy; the reduced 16:9 is what you should specify.</li>
+    </ul>
+  </section>
+
+  <section id="comparison">
+    <h2>Comparisons and alternatives</h2>
+    <p>
+      The common ratios each suit a purpose: 16:9 for video and screens, 4:3 for older displays and
+      many photos, 3:2 for cameras, 21:9 for ultrawide and cinematic content, 1:1 for square social
+      posts, and 9:16 for vertical phone video. Once you have your pixel dimensions, the PX to REM
+      Converter turns them into scalable CSS units, and the PX to DP Converter does the same for native
+      mobile. Comparing the Aspect Ratio Calculator vs alternatives, fixed single-ratio tools force one
+      shape, while this one works as a general image dimension calculator, handling presets and any
+      custom ratio and previewing the shape as you type. It is the fastest way to resize keep aspect
+      ratio work correct on the first try.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Runs locally</h2>
+    <p>
+      All the arithmetic happens in your browser. Nothing you enter is uploaded, and the tool works
+      offline once loaded, so it is dependable inside any design or engineering workflow.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

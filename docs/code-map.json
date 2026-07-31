@@ -272,6 +272,35 @@
         "habit"
       ],
       "toolCount": 3
+    },
+    "color": {
+      "name": "Color Engine",
+      "category": "design-tools",
+      "patterns": [
+        "color-convert",
+        "color-contrast"
+      ],
+      "runtimeGlobal": "color",
+      "sharedWidget": "",
+      "supportedFamilies": [
+        "color"
+      ],
+      "toolCount": 2
+    },
+    "units": {
+      "name": "CSS Unit Engine",
+      "category": "design-tools",
+      "patterns": [
+        "unit-convert",
+        "aspect-ratio"
+      ],
+      "runtimeGlobal": "units",
+      "sharedWidget": "",
+      "supportedFamilies": [
+        "aspect",
+        "css-unit"
+      ],
+      "toolCount": 3
     }
   },
   "toolGroups": {
@@ -601,6 +630,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "aspect-ratio-calculator": {
+      "name": "Aspect Ratio Calculator",
+      "dir": "src/tools/design/aspect-ratio-calculator",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/aspect-ratio-calculator/",
+      "engine": "units",
+      "pattern": "aspect-ratio",
+      "family": "aspect",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "base64-encoder-decoder": {
       "name": "Base64 Encoder & Decoder",
       "dir": "src/tools/developer-utilities/base64-encoder-decoder",
@@ -758,6 +808,48 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "color-contrast-checker": {
+      "name": "WCAG Color Contrast Checker",
+      "dir": "src/tools/design/color-contrast-checker",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/color-contrast-checker/",
+      "engine": "color",
+      "pattern": "color-contrast",
+      "family": "color",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "color-format-converter": {
+      "name": "Color Format Converter",
+      "dir": "src/tools/design/color-format-converter",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/color-format-converter/",
+      "engine": "color",
+      "pattern": "color-convert",
+      "family": "color",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1703,6 +1795,48 @@
       "family": "web",
       "processorId": "punycode",
       "toolGroup": "encoders",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "px-to-dp-converter": {
+      "name": "PX to DP Converter",
+      "dir": "src/tools/design/px-to-dp-converter",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/px-to-dp-converter/",
+      "engine": "units",
+      "pattern": "unit-convert",
+      "family": "css-unit",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "px-to-rem-converter": {
+      "name": "PX to REM Converter",
+      "dir": "src/tools/design/px-to-rem-converter",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/px-to-rem-converter/",
+      "engine": "units",
+      "pattern": "unit-convert",
+      "family": "css-unit",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

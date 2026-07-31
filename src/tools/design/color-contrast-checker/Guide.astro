@@ -1,0 +1,113 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      Contrast is what makes text legible. If letters are too close in brightness to the surface behind
+      them, readers with low vision, aging eyes, or a sunlit phone cannot make them out. The Web Content
+      Accessibility Guidelines turn that into a measurable number, the contrast ratio between a text
+      color and its background. This WCAG color contrast checker computes that ratio and tells you which
+      accessibility levels the pair passes.
+    </p>
+    <a href={toolHref} class="cta-link">Try the WCAG Color Contrast Checker →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why it matters</h2>
+    <p>
+      Readable color is a legal and ethical baseline, not a nicety. Most accessibility laws reference
+      WCAG AA, so failing contrast can put a product out of compliance and, more importantly, shut real
+      users out. Good contrast also helps everyone: it keeps interfaces usable in bright sun, on cheap
+      screens, and for tired eyes. Checking early saves an expensive redesign when an audit flags the
+      problem later.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How it works</h2>
+    <p>
+      Every color has a relative luminance from 0 (black) to 1 (white) that models how bright it looks,
+      weighting green most and blue least. The contrast ratio takes the lighter luminance plus 0.05,
+      divided by the darker luminance plus 0.05, giving a value from 1 to 1 up to 21 to 1. The thresholds
+      are 4.5 to 1 for AA normal text, 3 to 1 for AA large text, 7 to 1 for AAA normal, and 4.5 to 1 for
+      AAA large. That is the AA vs AAA contrast requirements in one place, and this wcag contrast checker
+      shows all four verdicts at once. Note that contrast is symmetric, so text and background order does
+      not change the ratio: swapping them gives the same number.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <p>
+      For example, enter a text color of #767676 on a white background and the WCAG color contrast
+      checker reports 4.54 to 1, which just passes AA for normal text but fails AAA. As another example,
+      #999999 on white gives 2.85 to 1 and fails AA outright; press Suggest an accessible text color and
+      it darkens to about #767676 to reach the 4.5 to 1 bar while keeping the same neutral hue. Pure
+      black on white is the maximum, 21 to 1.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes</h2>
+    <ul>
+      <li><strong>Using the wrong text-size threshold.</strong> Large text (about 24px, or 18.66px bold) may use 3 to 1; do not apply that to small body text.</li>
+      <li><strong>Treating a pass as full accessibility.</strong> Passing contrast does not make a page fully accessible. This a11y contrast check is necessary but not sufficient, so also test focus states, labels, and screen readers.</li>
+      <li><strong>Relying on color alone.</strong> Never signal meaning with color by itself, since a passing ratio does not help colorblind users distinguish states.</li>
+    </ul>
+  </section>
+
+  <section id="comparison">
+    <h2>Comparisons and alternatives</h2>
+    <p>
+      Comparing this WCAG color contrast checker vs alternatives, many popular checkers stop at the
+      ratio; this one also suggests the nearest passing color so you can fix a failure in one tap. Pair
+      it with the Color Format Converter to turn an accessible color into the rgb() or oklch() value your
+      CSS needs. If you are aiming for the enhanced wcag aaa level, use the 7 to 1 result rather than the
+      4.5 to 1 AA bar. For a full picture, treat contrast as one required check alongside keyboard and
+      screen reader testing rather than the whole of accessibility.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Runs entirely in your browser</h2>
+    <p>
+      No color you enter leaves your device. The math runs locally, nothing is uploaded, and the tool
+      works offline once loaded, so you can check contrast even inside an internal tool with no internet
+      access.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

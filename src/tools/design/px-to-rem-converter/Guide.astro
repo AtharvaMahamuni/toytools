@@ -1,0 +1,112 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      CSS gives you several ways to express a length, and the most common four are px, rem, em, and pt.
+      They all describe size, but they anchor to different things, and knowing what each is relative to
+      is the difference between a layout that respects a reader's settings and one that ignores them.
+      This px to rem converter turns any value into all of them at once against the root font size you
+      choose.
+    </p>
+    <a href={toolHref} class="cta-link">Try the PX to REM Converter →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why it matters</h2>
+    <p>
+      When a reader bumps up their default font size for comfort, a layout built in rem grows with them:
+      text, padding, and gaps scale together from one root. A layout hard-coded in px stays fixed and can
+      become cramped or unreadable. In addition, sizing type and spacing in rem is a small change that
+      makes an interface far more accessible. As a result, most modern design systems prefer it over raw
+      pixels.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How it works</h2>
+    <p>
+      A rem is the pixel value divided by the root font size, which defaults to 16px. An em uses the same
+      math here, however, it is normally relative to the current element, so nested ems can compound.
+      Points, meanwhile, come from print: on the web 1 inch is 96px and 72pt, so 1px is 0.75pt.
+      Therefore the converter takes your number and chosen unit, resolves it to px against your root
+      size, and then expresses that px value as rem, em, pt, and percent, each with its own copy button.
+      Because a rem is defined against the root, the root font size directly affects rem: raise the root
+      and the same pixel size becomes fewer rem. That relationship is the whole of css unit conversion
+      here, and it also drives px to em, which shares the same base.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <p>
+      For example, at the default 16px root the px to rem converter turns 24px into 1.5rem, 12pt, and
+      150 percent. As another example, 40px becomes 2.5rem. If your stylesheet sets the root to 10px
+      using the 62.5 percent trick, set the root field to 10 and 24px then reads as 2.4rem, matching your
+      CSS exactly. To convert rem back to px, switch the unit to rem and enter a value: 1.5rem returns
+      24px, which is the rem to px direction. The px to em direction works the same way against your root.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes</h2>
+    <ul>
+      <li><strong>Assuming 1rem is always 16px.</strong> It equals the root font size, so a custom root changes every rem. Set the root field to match your CSS.</li>
+      <li><strong>Using em for global spacing.</strong> em and rem are not interchangeable when nested, because nested ems multiply while rem stays fixed to the root. Prefer rem for page-wide spacing scales.</li>
+      <li><strong>Rounding too aggressively.</strong> Keep a few decimals so a converted value does not visibly drift from the pixel design.</li>
+    </ul>
+  </section>
+
+  <section id="comparison">
+    <h2>Comparisons and alternatives</h2>
+    <p>
+      Comparing the px to rem converter vs alternatives, most online tools convert one direction and one
+      unit; this one shows px, rem, em, pt, and percent together against a root you control. For native
+      mobile work, the sibling PX to DP Converter does the equivalent job in Android dp and iOS points,
+      and the Aspect Ratio Calculator sizes elements to a fixed proportion. Reach for rem as your default,
+      px for hairline borders, and pt only when matching a print or design-tool spec.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Local and offline</h2>
+    <p>
+      The conversion is plain arithmetic that runs in your browser. Nothing is sent anywhere, and the
+      tool works with no connection once loaded, so it is safe to use on any project.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

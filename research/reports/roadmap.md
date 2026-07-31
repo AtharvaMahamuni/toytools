@@ -1,18 +1,22 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-07-16T14:55:57.225Z
+Generated: 2026-07-31T11:08:09.391Z
 
-Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shipped). Top score 83.9. Missing-engine candidates: 0.
+Discovered 56 signals -> 56 unique opportunities (17 recommended, 39 already shipped). Top score 83.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 - **Statistics Visualizer** (`statistics-visualizer`) - score 79.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Matrix Calculator** (`matrix-calculator`) - score 77.8, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Triangle Solver** (`triangle-solver`) - score 77.6, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Color Shades & Tints Generator** (`color-shades-generator`) - score 77.1, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Modular Type Scale Generator** (`type-scale-generator`) - score 76.9, reuses units. Weak / incomplete incumbents; Reuses the existing units engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Normal Distribution Visualizer** (`normal-distribution-visualizer`) - score 76.4, reuses math-lab. High search demand; Weak / incomplete incumbents; Reuses the existing math-lab engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Linear Regression Playground** (`linear-regression-playground`) - score 75.5, reuses math-lab. Weak / incomplete incumbents; Reuses the existing math-lab engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Colorblind Simulator** (`colorblind-simulator`) - score 75.4, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
 - **CSV Column Picker** (`csv-column-picker`) - score 71.9, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
+- **Perceptual Gradient Generator** (`css-gradient-generator`) - score 71.2, reuses color. Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 67.3, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links.
 
 ## Missing engines (new reusable engines this evidence justifies)
@@ -34,15 +38,20 @@ Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shi
 ## Topic clusters
 - **Unit Circle** (math-lab) - 1 tool(s), mean score 83.9.
 - **Quadratic Equations** (math-lab) - 1 tool(s), mean score 83.8.
+- **Contrast Ratio** (color) - 1 tool(s), mean score 83.4.
 - **Fractions** (math) - 1 tool(s), mean score 82.1.
+- **Color Conversion** (color) - 1 tool(s), mean score 82.
 - **Line Break Removal** (text-processor) - 1 tool(s), mean score 81.8.
 - **Combinatorics** (math) - 1 tool(s), mean score 81.7.
+- **CSS Unit Conversion** (units) - 1 tool(s), mean score 81.6.
 - **Systematic Investment Plan** (finance) - 1 tool(s), mean score 81.2.
 - **Text Reversal** (text-processor) - 1 tool(s), mean score 81.1.
 - **Number Theory** (math) - 1 tool(s), mean score 80.9.
+- **Density Unit Conversion** (units) - 1 tool(s), mean score 80.3.
 - **Projectile Motion** (physics) - 1 tool(s), mean score 80.2.
 - **Probability** (math-lab) - 1 tool(s), mean score 80.
 - **Slugification** (text-processor) - 1 tool(s), mean score 80.
+- **Aspect Ratio** (units) - 1 tool(s), mean score 79.8.
 - **Descriptive Statistics** (math) - 1 tool(s), mean score 79.7.
 - **Binary Encoding** (encoding) - 1 tool(s), mean score 79.6.
 - **Return on Investment** (finance) - 1 tool(s), mean score 79.5.
@@ -56,12 +65,15 @@ Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shi
 - **Diacritic Removal** (text-processor) - 1 tool(s), mean score 77.6.
 - **Triangles** (math) - 1 tool(s), mean score 77.6.
 - **Ideal Gas Law** (physics) - 1 tool(s), mean score 77.2.
+- **Color Scale** (color) - 1 tool(s), mean score 77.1.
 - **Timestamp Conversion** (datetime) - 1 tool(s), mean score 76.9.
+- **Type Scale** (units) - 1 tool(s), mean score 76.9.
 - **Normal Distribution** (math-lab) - 1 tool(s), mean score 76.4.
 - **Emoji Removal** (text-processor) - 1 tool(s), mean score 76.1.
 - **CSV/TSV Conversion** (csv) - 1 tool(s), mean score 76.
 - **Doppler Effect** (physics) - 1 tool(s), mean score 75.7.
 - **Linear Regression** (math-lab) - 1 tool(s), mean score 75.5.
+- **Color Vision Simulation** (color) - 1 tool(s), mean score 75.4.
 - **CSV Cleaning** (csv) - 1 tool(s), mean score 74.9.
 - **Momentum and Collisions** (physics) - 1 tool(s), mean score 74.6.
 - **Age Calculation** (datetime) - 1 tool(s), mean score 74.5.
@@ -70,9 +82,11 @@ Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shi
 - **Function Graphing** (math-lab) - 1 tool(s), mean score 73.6.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 73.5.
 - **CSV Column Selection** (csv) - 1 tool(s), mean score 71.9.
+- **Perceptual Gradient** (color) - 1 tool(s), mean score 71.2.
 - **Word Frequency Analysis** (text-analysis) - 1 tool(s), mean score 70.
 - **Timezone Conversion** (datetime) - 1 tool(s), mean score 68.7.
 - **Loan Amortization** (loan) - 1 tool(s), mean score 68.5.
+- **Palette Extraction** (color) - 1 tool(s), mean score 68.4.
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 67.6.
 - **Net Worth** (budget) - 1 tool(s), mean score 67.3.
 - **Mortgage Amortization** (loan) - 1 tool(s), mean score 67.
@@ -82,11 +96,11 @@ Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shi
 ## Emerging trends (by transformation)
 - Unit Circle: 1 signal(s), mean demand 0.88, mean score 83.9.
 - Quadratic Equations: 1 signal(s), mean demand 0.94, mean score 83.8.
+- Contrast Ratio: 1 signal(s), mean demand 0.88, mean score 83.4.
 - Fractions: 1 signal(s), mean demand 0.9, mean score 82.1.
+- Color Conversion: 1 signal(s), mean demand 0.92, mean score 82.
 - Line Break Removal: 1 signal(s), mean demand 0.84, mean score 81.8.
 - Combinatorics: 1 signal(s), mean demand 0.78, mean score 81.7.
+- CSS Unit Conversion: 1 signal(s), mean demand 0.84, mean score 81.6.
 - Systematic Investment Plan: 1 signal(s), mean demand 0.92, mean score 81.2.
 - Text Reversal: 1 signal(s), mean demand 0.78, mean score 81.1.
-- Number Theory: 1 signal(s), mean demand 0.75, mean score 80.9.
-- Projectile Motion: 1 signal(s), mean demand 0.9, mean score 80.2.
-- Probability: 1 signal(s), mean demand 0.85, mean score 80.

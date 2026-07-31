@@ -3,6 +3,7 @@
 
 export const authoredGuideSlugs = [
   'age-calculator',
+  'aspect-ratio-calculator',
   'base64-encoder-decoder',
   'binary-text-converter',
   'bmi-calculator',
@@ -11,6 +12,8 @@ export const authoredGuideSlugs = [
   'cagr-calculator',
   'camel-case-converter',
   'character-counter',
+  'color-contrast-checker',
+  'color-format-converter',
   'combinations-permutations-calculator',
   'compound-interest-calculator',
   'crc32-hash-generator',
@@ -56,6 +59,8 @@ export const authoredGuideSlugs = [
   'pomodoro-timer',
   'prime-factorization-calculator',
   'punycode-converter',
+  'px-to-dp-converter',
+  'px-to-rem-converter',
   'qr-code-generator',
   'random-string-generator',
   'reading-time-calculator',
