@@ -3,6 +3,7 @@
 
 import type { Knowledge } from './types';
 import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowledge';
+import { knowledge as aspectRatioCalculator } from '@tools/design/aspect-ratio-calculator/knowledge';
 import { knowledge as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/knowledge';
 import { knowledge as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/knowledge';
 import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowledge';
@@ -11,6 +12,8 @@ import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracke
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
+import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
+import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
@@ -56,6 +59,8 @@ import { knowledge as percentageCalculator } from '@tools/number/percentage-calc
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 import { knowledge as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/knowledge';
 import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
+import { knowledge as pxToDpConverter } from '@tools/design/px-to-dp-converter/knowledge';
+import { knowledge as pxToRemConverter } from '@tools/design/px-to-rem-converter/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
 import { knowledge as readingTimeCalculator } from '@tools/text/reading-time-calculator/knowledge';
@@ -100,6 +105,7 @@ import { knowledge as yamlToJsonConverter } from '@tools/developer-utilities/yam
 
 export const authoredKnowledge: Knowledge[] = [
   ageCalculator,
+  aspectRatioCalculator,
   base64EncoderDecoder,
   binaryTextConverter,
   bmiCalculator,
@@ -108,6 +114,8 @@ export const authoredKnowledge: Knowledge[] = [
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
+  colorContrastChecker,
+  colorFormatConverter,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   crc32HashGenerator,
@@ -153,6 +161,8 @@ export const authoredKnowledge: Knowledge[] = [
   pomodoroTimer,
   primeFactorizationCalculator,
   punycodeConverter,
+  pxToDpConverter,
+  pxToRemConverter,
   qrCodeGenerator,
   randomStringGenerator,
   readingTimeCalculator,

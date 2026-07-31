@@ -73,6 +73,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#DB2777',
     segment: 'health',
   },
+  {
+    slug: 'design-tools',
+    name: 'Design & CSS',
+    description: 'Convert colors, check WCAG contrast, and translate CSS and mobile units, all privately in your browser.',
+    accent: '#0EA5E9',
+    segment: 'design',
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

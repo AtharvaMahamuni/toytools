@@ -37,4 +37,8 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   // titles say that instead of naming our own engine taxonomy back at the reader.
   'health-calculate':     { title: 'Measure & Plan',          order: 1 },
   'health-track':         { title: 'Keep It Up',              order: 2 },
+  'color-convert':        { title: 'Color',                   order: 1 },
+  'color-contrast':       { title: 'Color',                   order: 1 },
+  'unit-convert':         { title: 'CSS & Mobile Units',      order: 2 },
+  'aspect-ratio':         { title: 'CSS & Mobile Units',      order: 2 },
 };

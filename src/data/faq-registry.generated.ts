@@ -3,6 +3,7 @@
 
 import type { FAQItem } from './types';
 import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
+import { items as aspectRatioCalculatorFaqs } from '@tools/design/aspect-ratio-calculator/faq';
 import { items as base64EncoderDecoderFaqs } from '@tools/developer-utilities/base64-encoder-decoder/faq';
 import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
 import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
@@ -11,6 +12,8 @@ import { items as bodyWeightTrackerFaqs } from '@tools/health/body-weight-tracke
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
+import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
+import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
@@ -56,6 +59,8 @@ import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calc
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
+import { items as pxToDpConverterFaqs } from '@tools/design/px-to-dp-converter/faq';
+import { items as pxToRemConverterFaqs } from '@tools/design/px-to-rem-converter/faq';
 import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
 import { items as readingTimeCalculatorFaqs } from '@tools/text/reading-time-calculator/faq';
@@ -100,6 +105,7 @@ import { items as yamlToJsonConverterFaqs } from '@tools/developer-utilities/yam
 
 export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'age-calculator': ageCalculatorFaqs,
+  'aspect-ratio-calculator': aspectRatioCalculatorFaqs,
   'base64-encoder-decoder': base64EncoderDecoderFaqs,
   'binary-text-converter': binaryTextConverterFaqs,
   'bmi-calculator': bmiCalculatorFaqs,
@@ -108,6 +114,8 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'cagr-calculator': cagrCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
+  'color-contrast-checker': colorContrastCheckerFaqs,
+  'color-format-converter': colorFormatConverterFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
@@ -153,6 +161,8 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'pomodoro-timer': pomodoroTimerFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
+  'px-to-dp-converter': pxToDpConverterFaqs,
+  'px-to-rem-converter': pxToRemConverterFaqs,
   'qr-code-generator': qrCodeGeneratorFaqs,
   'random-string-generator': randomStringGeneratorFaqs,
   'reading-time-calculator': readingTimeCalculatorFaqs,

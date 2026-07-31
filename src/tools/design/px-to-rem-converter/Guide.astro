@@ -1,0 +1,78 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      CSS gives you several ways to express a length, and the most common four are px, rem, em, and
+      pt. They all describe size, but they anchor to different things. Understanding what each one is
+      relative to is the difference between a layout that respects a reader's settings and one that
+      ignores them. This converter turns any value into all of them at once.
+    </p>
+  </section>
+
+  <section id="the-units">
+    <h2>What each unit is relative to</h2>
+    <ul>
+      <li><strong>px</strong> is an absolute CSS pixel. It never changes, which is exactly why it does not scale with a reader's font preference.</li>
+      <li><strong>rem</strong> is relative to the root font size set on the html element. One rem is 16px by default, so rem values scale when the root scales.</li>
+      <li><strong>em</strong> is relative to the font size of the current element, so nested ems can multiply together.</li>
+      <li><strong>pt</strong> is a print point. On the web 1 inch is 96px and 72pt, so 1px is 0.75pt.</li>
+    </ul>
+  </section>
+
+  <section id="how-to">
+    <h2>Converting a value</h2>
+    <p>
+      Enter a number and choose the unit you are starting from. Set the root font size if your CSS
+      changes it from the 16px default. The tool shows the equivalent px, rem, em, pt, and percent
+      values, and you can copy any single result. Because everything is anchored to the root size you
+      set, the numbers match what your stylesheet will actually render.
+    </p>
+  </section>
+
+  <section id="why-rem">
+    <h2>Why designers move to rem</h2>
+    <p>
+      When a reader bumps up their default font size for comfort, a layout built in rem grows with
+      them: text, padding, and gaps all scale from the same root. A layout hard-coded in px stays
+      fixed and can become cramped or unreadable. Sizing type and spacing in rem is a small change
+      that makes an interface far more accessible, which is why most modern design systems prefer it.
+    </p>
+  </section>
+
+  <section id="root-trick">
+    <h2>The 62.5 percent root trick</h2>
+    <p>
+      Some codebases set the html font size to 62.5 percent, which makes the root 10px so that 1rem
+      equals 10px and the math is easy: 2.4rem is 24px. If your project does this, set the root field
+      to 10 here and the conversions will line up with your stylesheet. Otherwise leave it at 16.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Local and offline</h2>
+    <p>
+      The conversion is plain arithmetic that runs in your browser. Nothing is sent anywhere, and the
+      tool works with no connection once loaded, so it is safe to use on any project.
+    </p>
+  </section>
+</GuideLayout>

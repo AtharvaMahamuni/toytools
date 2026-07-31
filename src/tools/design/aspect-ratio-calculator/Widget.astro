@@ -1,0 +1,157 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Dimensions" variant="prose" data-tool="aspect-ratio-calculator">
+    <div class="io-body">
+      <label class="widget-label" for="arc-preset">Aspect ratio</label>
+      <select id="arc-preset" class="widget-select">
+        <option value="16:9" selected>16:9 (widescreen)</option>
+        <option value="4:3">4:3 (standard)</option>
+        <option value="3:2">3:2 (photo)</option>
+        <option value="21:9">21:9 (ultrawide)</option>
+        <option value="1:1">1:1 (square)</option>
+        <option value="9:16">9:16 (vertical)</option>
+        <option value="custom">Custom</option>
+      </select>
+      <div class="arc-ratio-row">
+        <input id="arc-rw" class="widget-input arc-num" type="number" inputmode="decimal" step="any" min="0" value="16" aria-label="Ratio width" />
+        <span class="arc-colon">:</span>
+        <input id="arc-rh" class="widget-input arc-num" type="number" inputmode="decimal" step="any" min="0" value="9" aria-label="Ratio height" />
+      </div>
+      <label class="widget-label" for="arc-width">Width (px)</label>
+      <input id="arc-width" class="widget-input arc-num" type="number" inputmode="decimal" step="any" min="0" placeholder="1920" value="1920" />
+      <label class="widget-label" for="arc-height">Height (px)</label>
+      <input id="arc-height" class="widget-input arc-num" type="number" inputmode="decimal" step="any" min="0" placeholder="1080" value="1080" />
+      <p class="arc-error" id="arc-error" hidden></p>
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="arc-out">
+      <div class="arc-hero">
+        <span class="hero-value" id="arc-dims">1920 &times; 1080</span>
+        <span class="hero-label" id="arc-ratio-label">16:9</span>
+      </div>
+      <div class="arc-preview-frame">
+        <div class="arc-preview" id="arc-preview"></div>
+      </div>
+      <button class="action-btn action-btn--copy arc-copy" id="arc-copy" type="button">Copy dimensions</button>
+    </div>
+  </IoPanel>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug="aspect-ratio-calculator" />
+
+<script is:inline>
+  (function () {
+    var presetEl = document.getElementById('arc-preset');
+    var rwEl = document.getElementById('arc-rw');
+    var rhEl = document.getElementById('arc-rh');
+    var wEl = document.getElementById('arc-width');
+    var hEl = document.getElementById('arc-height');
+    var dimsEl = document.getElementById('arc-dims');
+    var ratioLabelEl = document.getElementById('arc-ratio-label');
+    var previewEl = document.getElementById('arc-preview');
+    var errEl = document.getElementById('arc-error');
+    var copyBtn = document.getElementById('arc-copy');
+    if (!wEl || !hEl) return;
+    var TT = window.ToyTools;
+
+    function num(el) { return el.value === '' ? NaN : Number(el.value); }
+
+    function solve(from) {
+      var rw = num(rwEl), rh = num(rhEl);
+      if (!(rw > 0) || !(rh > 0)) { fail('Enter a valid ratio like 16:9.'); return; }
+      var res;
+      if (from === 'height') {
+        var h = num(hEl);
+        if (!(h > 0)) { fail('Enter a width or height.'); return; }
+        res = TT && TT.units ? TT.units.aspect({ height: h, ratioW: rw, ratioH: rh }) : null;
+        if (res && !res.error) wEl.value = res.width;
+      } else {
+        var w = num(wEl);
+        if (!(w > 0)) { fail('Enter a width or height.'); return; }
+        res = TT && TT.units ? TT.units.aspect({ width: w, ratioW: rw, ratioH: rh }) : null;
+        if (res && !res.error) hEl.value = res.height;
+      }
+      if (!res || res.error) { fail(res && res.error ? res.error : 'Enter valid values.'); return; }
+      show(res);
+    }
+
+    function show(res) {
+      if (errEl) errEl.hidden = true;
+      dimsEl.innerHTML = res.width + ' &times; ' + res.height;
+      ratioLabelEl.textContent = res.ratio;
+      var pct = (res.ratioH / res.ratioW) * 100;
+      previewEl.style.paddingBottom = pct + '%';
+      persist();
+    }
+
+    function fail(msg) {
+      if (errEl) { errEl.textContent = msg; errEl.hidden = false; }
+    }
+
+    function applyPreset() {
+      if (presetEl.value === 'custom') return;
+      var parts = presetEl.value.split(':');
+      rwEl.value = parts[0]; rhEl.value = parts[1];
+      solve('width');
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('aspect-ratio-calculator', { preset: presetEl.value, rw: rwEl.value, rh: rhEl.value, w: wEl.value, h: hEl.value });
+    }
+
+    presetEl.addEventListener('change', applyPreset);
+    rwEl.addEventListener('input', function () { presetEl.value = 'custom'; solve('width'); });
+    rhEl.addEventListener('input', function () { presetEl.value = 'custom'; solve('width'); });
+    wEl.addEventListener('input', function () { solve('width'); });
+    hEl.addEventListener('input', function () { solve('height'); });
+
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var text = num(wEl) + ' x ' + num(hEl);
+      if (!(num(wEl) > 0) || !(num(hEl) > 0)) { TT && TT.toast && TT.toast('Nothing to copy!'); return; }
+      if (TT && TT.copy) TT.copy(text);
+      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
+      setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy dimensions'; }, 2000);
+    });
+
+    function boot() {
+      try {
+        var saved = TT && TT.state && TT.state.load('aspect-ratio-calculator');
+        if (saved) {
+          if (saved.preset) presetEl.value = saved.preset;
+          if (saved.rw != null) rwEl.value = saved.rw;
+          if (saved.rh != null) rhEl.value = saved.rh;
+          if (saved.w != null) wEl.value = saved.w;
+          if (saved.h != null) hEl.value = saved.h;
+        }
+      } catch (_) {}
+      solve('width');
+    }
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .arc-ratio-row { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+  .arc-num { min-width: 0; }
+  .arc-ratio-row .arc-num { flex: 1 1 0; }
+  .arc-colon { font-weight: 700; font-size: var(--text-lg); }
+  .arc-error { font-size: var(--text-sm); color: var(--color-danger); margin-top: var(--space-2); }
+  .arc-out { display: flex; flex-direction: column; gap: var(--space-4); inline-size: 100%; align-items: center; }
+  .arc-hero { text-align: center; }
+  .arc-hero .hero-value { font-family: var(--font-mono); font-size: clamp(var(--text-2xl), 7vw, var(--text-4xl)); font-weight: 700; font-variant-numeric: tabular-nums; display: block; }
+  .arc-hero .hero-label { font-size: var(--text-sm); color: var(--color-text-subtle); }
+  .arc-preview-frame { inline-size: 100%; max-inline-size: 320px; display: flex; align-items: center; justify-content: center; }
+  .arc-preview {
+    inline-size: 100%; position: relative; height: 0;
+    background: var(--color-accent-subtle); border: 2px solid var(--color-accent);
+    border-radius: var(--radius-md); transition: padding-bottom 200ms;
+  }
+  .arc-copy { align-self: stretch; }
+</style>

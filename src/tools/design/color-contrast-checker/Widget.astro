@@ -1,0 +1,167 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Colors" variant="prose" data-tool="color-contrast-checker">
+    <div class="io-body">
+      <label class="widget-label" for="ccc-fg">Text color</label>
+      <div class="ccc-input-row">
+        <input id="ccc-fg" class="widget-input ccc-text" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="#5a5a5a" value="#5a5a5a" />
+        <input id="ccc-fg-pick" class="ccc-picker" type="color" value="#5a5a5a" aria-label="Pick text color" />
+      </div>
+      <label class="widget-label" for="ccc-bg">Background color</label>
+      <div class="ccc-input-row">
+        <input id="ccc-bg" class="widget-input ccc-text" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="#ffffff" value="#ffffff" />
+        <input id="ccc-bg-pick" class="ccc-picker" type="color" value="#ffffff" aria-label="Pick background color" />
+      </div>
+      <p class="ccc-error" id="ccc-error" hidden></p>
+      <button class="ccc-suggest" id="ccc-suggest" type="button" hidden>Suggest an accessible text color</button>
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="prose" result>
+    <div class="ccc-out">
+      <div class="ccc-sample" id="ccc-sample">
+        <span class="ccc-sample-lg">Large text</span>
+        <span class="ccc-sample-sm">Normal body text sample</span>
+      </div>
+      <div class="ccc-hero">
+        <span class="hero-value" id="ccc-ratio">1.00</span>
+        <span class="hero-label">contrast ratio</span>
+      </div>
+      <ul class="ccc-levels" id="ccc-levels" hidden>
+        <li class="ccc-level" data-level="aaNormal"><span>AA</span><small>Normal</small><b class="ccc-badge"></b></li>
+        <li class="ccc-level" data-level="aaLarge"><span>AA</span><small>Large</small><b class="ccc-badge"></b></li>
+        <li class="ccc-level" data-level="aaaNormal"><span>AAA</span><small>Normal</small><b class="ccc-badge"></b></li>
+        <li class="ccc-level" data-level="aaaLarge"><span>AAA</span><small>Large</small><b class="ccc-badge"></b></li>
+      </ul>
+      <p class="empty-hint" id="ccc-hint">Enter two colors to check contrast.</p>
+    </div>
+  </IoPanel>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug="color-contrast-checker" />
+
+<script is:inline>
+  (function () {
+    var fgEl = document.getElementById('ccc-fg');
+    var bgEl = document.getElementById('ccc-bg');
+    var fgPick = document.getElementById('ccc-fg-pick');
+    var bgPick = document.getElementById('ccc-bg-pick');
+    var ratioEl = document.getElementById('ccc-ratio');
+    var levelsEl = document.getElementById('ccc-levels');
+    var hintEl = document.getElementById('ccc-hint');
+    var errEl = document.getElementById('ccc-error');
+    var sampleEl = document.getElementById('ccc-sample');
+    var suggestBtn = document.getElementById('ccc-suggest');
+    if (!fgEl || !bgEl) return;
+    var TT = window.ToyTools;
+
+    function syncPicker(pick, hex) {
+      if (pick && /^#[0-9a-f]{6}$/i.test(hex)) pick.value = hex.slice(0, 7);
+    }
+
+    function render() {
+      var res = TT && TT.color ? TT.color.check(fgEl.value, bgEl.value) : null;
+      if (!res || !res.ok) {
+        if (errEl) { errEl.textContent = (res && res.error) || 'Enter two colors.'; errEl.hidden = false; }
+        if (levelsEl) levelsEl.hidden = true;
+        if (hintEl) hintEl.hidden = false;
+        if (suggestBtn) suggestBtn.hidden = true;
+        ratioEl.textContent = '1.00';
+        return;
+      }
+      if (errEl) errEl.hidden = true;
+      if (hintEl) hintEl.hidden = true;
+      var lv = res.levels;
+      ratioEl.textContent = lv.ratioLabel;
+      // Preview
+      var fgHex = TT.color.hex(res.fg), bgHex = TT.color.hex(res.bg);
+      sampleEl.style.background = bgHex;
+      sampleEl.style.color = fgHex;
+      syncPicker(fgPick, fgHex); syncPicker(bgPick, bgHex);
+      // Badges
+      levelsEl.hidden = false;
+      var items = levelsEl.querySelectorAll('.ccc-level');
+      items.forEach(function (li) {
+        var pass = lv[li.getAttribute('data-level')];
+        var badge = li.querySelector('.ccc-badge');
+        badge.textContent = pass ? 'Pass' : 'Fail';
+        li.classList.toggle('is-pass', !!pass);
+        li.classList.toggle('is-fail', !pass);
+      });
+      // Suggest only when AA normal fails
+      if (suggestBtn) suggestBtn.hidden = !!lv.aaNormal;
+      persist();
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('color-contrast-checker', { fg: fgEl.value, bg: bgEl.value });
+    }
+
+    fgEl.addEventListener('input', render);
+    bgEl.addEventListener('input', render);
+    if (fgPick) fgPick.addEventListener('input', function () { fgEl.value = fgPick.value; render(); });
+    if (bgPick) bgPick.addEventListener('input', function () { bgEl.value = bgPick.value; render(); });
+
+    if (suggestBtn) suggestBtn.addEventListener('click', function () {
+      if (!TT || !TT.color) return;
+      var fixed = TT.color.suggest(fgEl.value, bgEl.value, 4.5);
+      fgEl.value = fixed;
+      render();
+      if (TT.toast) TT.toast('Adjusted text color to meet AA.');
+    });
+
+    function boot() {
+      try {
+        var saved = TT && TT.state && TT.state.load('color-contrast-checker');
+        if (saved) { if (saved.fg) fgEl.value = saved.fg; if (saved.bg) bgEl.value = saved.bg; }
+      } catch (_) {}
+      render();
+    }
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .ccc-input-row { display: flex; gap: var(--space-2); align-items: stretch; margin-bottom: var(--space-3); }
+  .ccc-text { flex: 1 1 auto; min-width: 0; }
+  .ccc-picker {
+    flex: 0 0 auto; inline-size: var(--touch-target); block-size: var(--touch-target);
+    padding: 0; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: none; cursor: pointer;
+  }
+  .ccc-error { font-size: var(--text-sm); color: var(--color-danger); margin-top: var(--space-1); }
+  .ccc-suggest {
+    margin-top: var(--space-2); min-block-size: var(--touch-target); padding-inline: var(--space-3);
+    border: 1px solid var(--color-accent); border-radius: var(--radius-md);
+    background: var(--color-accent-subtle); color: var(--color-accent-strong);
+    font-size: var(--text-sm); font-weight: 600; cursor: pointer;
+    transition: background-color 150ms, border-color 150ms;
+  }
+  .ccc-suggest:active { background: var(--color-accent); color: var(--color-surface); }
+  .ccc-out { display: flex; flex-direction: column; gap: var(--space-4); inline-size: 100%; }
+  .ccc-sample {
+    border-radius: var(--radius-md); border: 1px solid var(--color-border);
+    padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);
+  }
+  .ccc-sample-lg { font-size: var(--text-2xl); font-weight: 700; }
+  .ccc-sample-sm { font-size: var(--text-base); }
+  .ccc-hero { text-align: center; }
+  .ccc-hero .hero-value { font-family: var(--font-mono); font-size: clamp(var(--text-3xl), 8vw, var(--text-5xl)); font-weight: 700; font-variant-numeric: tabular-nums; display: block; }
+  .ccc-hero .hero-label { font-size: var(--text-sm); color: var(--color-text-subtle); }
+  .ccc-levels { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .ccc-level {
+    display: flex; align-items: center; gap: var(--space-2);
+    padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--color-border);
+  }
+  .ccc-level span { font-weight: 700; }
+  .ccc-level small { color: var(--color-text-subtle); font-size: var(--text-xs); }
+  .ccc-badge { margin-left: auto; font-size: var(--text-xs); font-weight: 700; padding: 2px 8px; border-radius: var(--radius-sm); }
+  .ccc-level.is-pass { background: var(--color-success-bg); border-color: var(--color-success); }
+  .ccc-level.is-pass .ccc-badge { color: var(--color-success); }
+  .ccc-level.is-fail { background: var(--color-danger-bg); border-color: var(--color-danger); }
+  .ccc-level.is-fail .ccc-badge { color: var(--color-danger); }
+</style>

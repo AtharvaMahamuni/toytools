@@ -21,6 +21,8 @@
   import { runWellness } from '@lib/engines/wellness/registry';
   import { tracker } from '@lib/engines/tracker/registry';
   import { runGeneration } from '@lib/generation/registry';
+  import { color } from '@lib/engines/color/registry';
+  import { units } from '@lib/engines/units/registry';
   import { renderExperience } from '@lib/experience/render';
   import { sparklineSvg } from '@lib/visualization/render';
   import { diffLines, diffStats } from '@lib/text/compare';
@@ -111,6 +113,8 @@
   TT.runWellness = runWellness; // ToyTools.runWellness(id, input, { locale? }) → InteractiveResult
   TT.tracker = tracker; // ToyTools.tracker.* — stateful tracker model + streaks + inline-SVG charts
   TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
+  TT.color = color; // ToyTools.color.parse/formats/check/wcag/suggest — color math namespace
+  TT.units = units; // ToyTools.units.pxToRem/pxToDp/aspectRatio — CSS + mobile unit math namespace
   TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
   TT.viz = { sparkline: sparklineSvg }; // ToyTools.viz.sparkline(values) → inline SVG trend line
   TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]

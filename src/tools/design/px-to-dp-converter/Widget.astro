@@ -1,0 +1,137 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
+---
+
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="input" label="Value" variant="prose" data-tool="px-to-dp-converter">
+    <div class="io-body">
+      <label class="widget-label" for="ptd-mode">Convert</label>
+      <select id="ptd-mode" class="widget-select">
+        <option value="dp2px" selected>dp / sp to px (per density)</option>
+        <option value="px2dp">px to dp (at a density)</option>
+      </select>
+      <label class="widget-label" for="ptd-value">Value</label>
+      <input id="ptd-value" class="widget-input ptd-num" type="number" inputmode="decimal" step="any" placeholder="8" value="8" />
+      <div id="ptd-density-wrap" hidden>
+        <label class="widget-label" for="ptd-density">Source density</label>
+        <select id="ptd-density" class="widget-select"></select>
+      </div>
+      <p class="ptd-note" id="ptd-note">dp and sp are density-independent. 1dp = 1px at mdpi (160dpi) and scales up from there.</p>
+      <p class="ptd-error" id="ptd-error" hidden></p>
+    </div>
+  </IoPanel>
+
+  <IoPanel slot="output" label="Result" variant="mono" result>
+    <ul class="ptd-out" id="ptd-out"></ul>
+  </IoPanel>
+</ToolSplit>
+
+<CategoryDiscovery toolSlug="px-to-dp-converter" />
+
+<script is:inline>
+  (function () {
+    var modeEl = document.getElementById('ptd-mode');
+    var valEl = document.getElementById('ptd-value');
+    var densWrap = document.getElementById('ptd-density-wrap');
+    var densEl = document.getElementById('ptd-density');
+    var outEl = document.getElementById('ptd-out');
+    var errEl = document.getElementById('ptd-error');
+    var noteEl = document.getElementById('ptd-note');
+    if (!valEl || !outEl) return;
+    var TT = window.ToyTools;
+
+    function fillDensities() {
+      if (!TT || !TT.units || !densEl || densEl.options.length) return;
+      densEl.innerHTML = TT.units.buckets.map(function (b) {
+        return '<option value="' + b.scale + '"' + (b.id === 'xhdpi' ? ' selected' : '') + '>' + b.label + ' (' + b.dpi + 'dpi, ' + b.scale + 'x)</option>';
+      }).join('');
+    }
+
+    function render() {
+      var raw = valEl.value;
+      if (raw === '' || !Number.isFinite(Number(raw))) {
+        outEl.innerHTML = '';
+        if (errEl) { errEl.textContent = 'Enter a number.'; errEl.hidden = false; }
+        return;
+      }
+      if (errEl) errEl.hidden = true;
+      var n = Number(raw);
+      if (modeEl.value === 'dp2px') {
+        densWrap.hidden = true;
+        noteEl.textContent = 'dp and sp are density-independent. 1dp = 1px at mdpi (160dpi) and scales up from there.';
+        var buckets = TT && TT.units ? TT.units.dpToPxBuckets(n) : [];
+        var ios = TT && TT.units ? TT.units.ptToPxIos(n) : { scale1: n, scale2: n * 2, scale3: n * 3 };
+        var rows = buckets.map(function (b) {
+          return row(b.label, b.px + 'px', b.id === 'mdpi');
+        });
+        rows.push(row('iOS @1x / @2x / @3x', ios.scale1 + ' / ' + ios.scale2 + ' / ' + ios.scale3 + 'px', false));
+        outEl.innerHTML = rows.join('');
+      } else {
+        densWrap.hidden = false;
+        fillDensities();
+        noteEl.textContent = 'Enter a pixel measurement taken at the chosen density to recover the dp value.';
+        var scale = Number(densEl.value) || 1;
+        var dp = TT && TT.units ? TT.units.pxToDp(n, scale) : n / scale;
+        outEl.innerHTML = row('dp / sp', dp + 'dp', true);
+      }
+      persist();
+    }
+
+    function row(label, value, source) {
+      return '<li class="ptd-item' + (source ? ' is-source' : '') + '">' +
+        '<span class="ptd-label">' + label + '</span>' +
+        '<code class="ptd-value">' + value + '</code>' +
+        '<button class="ptd-copy" type="button" aria-label="Copy ' + label + '" data-copy="' + value + '">Copy</button>' +
+        '</li>';
+    }
+
+    function persist() {
+      if (TT && TT.state) TT.state.save('px-to-dp-converter', { mode: modeEl.value, value: valEl.value, density: densEl ? densEl.value : '' });
+    }
+
+    outEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.ptd-copy');
+      if (!btn) return;
+      if (TT && TT.copy) TT.copy(btn.getAttribute('data-copy'));
+      btn.classList.add('is-success'); btn.textContent = '✓';
+      setTimeout(function () { btn.classList.remove('is-success'); btn.textContent = 'Copy'; }, 1500);
+    });
+
+    modeEl.addEventListener('change', render);
+    valEl.addEventListener('input', render);
+    if (densEl) densEl.addEventListener('change', render);
+
+    function boot() {
+      fillDensities();
+      try {
+        var saved = TT && TT.state && TT.state.load('px-to-dp-converter');
+        if (saved) { if (saved.mode) modeEl.value = saved.mode; if (saved.value != null) valEl.value = saved.value; if (saved.density && densEl) densEl.value = saved.density; }
+      } catch (_) {}
+      render();
+    }
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .ptd-num { inline-size: 100%; }
+  .ptd-note { font-size: var(--text-sm); color: var(--color-text-subtle); margin-top: var(--space-2); }
+  .ptd-error { font-size: var(--text-sm); color: var(--color-danger); margin-top: var(--space-2); }
+  .ptd-out { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); inline-size: 100%; }
+  .ptd-item {
+    display: grid; grid-template-columns: minmax(6rem, auto) 1fr auto; align-items: center; gap: var(--space-2);
+    padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface);
+  }
+  .ptd-item.is-source { border-color: var(--color-accent); background: var(--color-accent-subtle); }
+  .ptd-label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-subtle); }
+  .ptd-value { font-family: var(--font-mono); font-size: var(--text-base); font-variant-numeric: tabular-nums; overflow-x: auto; white-space: nowrap; }
+  .ptd-copy {
+    min-block-size: var(--touch-target); min-inline-size: 3rem; padding-inline: var(--space-2);
+    border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-sunken);
+    color: var(--color-text); font-size: var(--text-sm); cursor: pointer; transition: background-color 150ms, color 150ms, border-color 150ms;
+  }
+  .ptd-copy:active { background: var(--color-accent-subtle); }
+  .ptd-copy.is-success { background: var(--color-success-bg); border-color: var(--color-success); color: var(--color-success); }
+</style>

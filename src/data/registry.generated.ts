@@ -3,6 +3,7 @@
 
 import type { ToolConfig } from './types';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
+import { config as aspectRatioCalculator } from '@tools/design/aspect-ratio-calculator/config';
 import { config as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/config';
 import { config as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/config';
 import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
@@ -11,6 +12,8 @@ import { config as bodyWeightTracker } from '@tools/health/body-weight-tracker/c
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
+import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
+import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
@@ -56,6 +59,8 @@ import { config as percentageCalculator } from '@tools/number/percentage-calcula
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
+import { config as pxToDpConverter } from '@tools/design/px-to-dp-converter/config';
+import { config as pxToRemConverter } from '@tools/design/px-to-rem-converter/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
 import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
@@ -100,6 +105,7 @@ import { config as yamlToJsonConverter } from '@tools/developer-utilities/yaml-t
 
 export const toolConfigs: ToolConfig[] = [
   ageCalculator,
+  aspectRatioCalculator,
   base64EncoderDecoder,
   binaryTextConverter,
   bmiCalculator,
@@ -108,6 +114,8 @@ export const toolConfigs: ToolConfig[] = [
   cagrCalculator,
   camelCaseConverter,
   characterCounter,
+  colorContrastChecker,
+  colorFormatConverter,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   crc32HashGenerator,
@@ -153,6 +161,8 @@ export const toolConfigs: ToolConfig[] = [
   pomodoroTimer,
   primeFactorizationCalculator,
   punycodeConverter,
+  pxToDpConverter,
+  pxToRemConverter,
   qrCodeGenerator,
   randomStringGenerator,
   readingTimeCalculator,

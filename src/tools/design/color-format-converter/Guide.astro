@@ -1,0 +1,84 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      A color format is just a different way of writing the same color. A screen mixes red, green,
+      and blue light to make every pixel, and each format describes that mix from a different angle:
+      HEX and RGB name the raw channels, HSL and HSV describe hue and brightness, OKLCH describes how
+      light a color actually looks, and CMYK approximates the inks a printer would use. Converting
+      between them lets you copy the exact value the tool in front of you expects.
+    </p>
+  </section>
+
+  <section id="the-formats">
+    <h2>What each format encodes</h2>
+    <ul>
+      <li><strong>HEX</strong> writes the red, green, and blue channels as two hexadecimal digits each, so #3366ff is 51 red, 102 green, 255 blue. An optional pair on the end sets alpha.</li>
+      <li><strong>RGB</strong> writes those same channels as plain numbers from 0 to 255, which is easier to read and edit by hand.</li>
+      <li><strong>HSL</strong> describes a color by hue (an angle on the color wheel), saturation, and lightness, so nudging the hue is one number away.</li>
+      <li><strong>HSV</strong> is close to HSL but swaps lightness for value, which many color pickers use internally.</li>
+      <li><strong>OKLCH</strong> uses lightness, chroma, and hue in a perceptually uniform space, so equal lightness looks equally bright to the eye.</li>
+      <li><strong>CMYK</strong> estimates the cyan, magenta, yellow, and black inks a printer would combine, as a screen-based approximation.</li>
+    </ul>
+  </section>
+
+  <section id="how-to">
+    <h2>How to convert a color</h2>
+    <p>
+      Type or paste any color into the input. You can use a hex code with or without the hash, an
+      rgb() or hsl() function, or a common CSS name like teal. Every format updates the moment you
+      type, and the picker beside the field lets you drag to a new color instead. Press the copy
+      button on any row to grab that single value, or use Copy all to take the whole set.
+    </p>
+  </section>
+
+  <section id="hsl-vs-oklch">
+    <h2>When to reach for OKLCH over HSL</h2>
+    <p>
+      HSL is convenient but its lightness is not perceptual: a fully saturated yellow at 50 percent
+      lightness looks far brighter than a blue at the same number. That is why HSL shade scales often
+      have a muddy or uneven step. OKLCH fixes this because its lightness matches what your eye sees,
+      so a scale built by holding chroma and hue steady while stepping lightness produces even,
+      predictable shades. If you are generating design tokens or gradients, prefer OKLCH.
+    </p>
+  </section>
+
+  <section id="print-note">
+    <h2>A note on CMYK and print</h2>
+    <p>
+      The CMYK value here is a direct formula from sRGB, the color space screens use. Real printing
+      depends on the specific inks, paper stock, and ICC profile of your press, so the same CMYK
+      numbers can look different on different machines. Use this value as a quick reference, and ask
+      your printer for their profile when color accuracy matters.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Private by design</h2>
+    <p>
+      Every conversion happens in your browser. No color you enter is uploaded or stored on a server,
+      and the tool keeps working with no network once the page has loaded, so you can install it and
+      use it offline.
+    </p>
+  </section>
+</GuideLayout>

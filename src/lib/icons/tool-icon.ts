@@ -79,6 +79,10 @@ const FAMILY_GLYPH: Record<string, string> = {
   combinatorics: 'ncr',
   fractions: 'frac',
   'number-theory': 'primeX',
+  // design & CSS
+  color: 'swatch',
+  'css-unit': 'ruler',
+  aspect: 'aspectFrame',
 };
 
 // ── per-slug override → glyph ─────────────────────────────────────────────

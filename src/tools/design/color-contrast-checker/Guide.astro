@@ -1,0 +1,87 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      Contrast is what makes text legible. If the letters are too close in brightness to the surface
+      behind them, readers with low vision, aging eyes, or a sunlit phone screen simply cannot make
+      them out. The Web Content Accessibility Guidelines (WCAG) turn that into a measurable number:
+      the contrast ratio between a text color and its background. This tool computes that ratio and
+      tells you which accessibility levels the pair passes.
+    </p>
+  </section>
+
+  <section id="the-ratio">
+    <h2>How the contrast ratio works</h2>
+    <p>
+      Every color has a relative luminance, a value from 0 (black) to 1 (white) that models how
+      bright it looks to the human eye. Green contributes most to that brightness and blue the least.
+      The contrast ratio takes the lighter color's luminance plus 0.05, divided by the darker color's
+      luminance plus 0.05. The result runs from 1 to 1, when the two colors are identical, up to 21
+      to 1 for pure black on pure white. A higher number means easier reading.
+    </p>
+  </section>
+
+  <section id="thresholds">
+    <h2>The AA and AAA thresholds</h2>
+    <ul>
+      <li><strong>AA, normal text:</strong> at least 4.5 to 1. This is the level most laws and design systems require.</li>
+      <li><strong>AA, large text:</strong> at least 3 to 1, because bigger letters stay readable at lower contrast.</li>
+      <li><strong>AAA, normal text:</strong> at least 7 to 1, the enhanced level for maximum readability.</li>
+      <li><strong>AAA, large text:</strong> at least 4.5 to 1.</li>
+    </ul>
+    <p>
+      Large text means about 24px for regular weight or about 18.66px when bold. The checker shows all
+      four verdicts side by side so you never have to remember which threshold applies.
+    </p>
+  </section>
+
+  <section id="how-to">
+    <h2>Checking and fixing a color pair</h2>
+    <p>
+      Enter your text color and background color, by typing a value or dragging the picker. The ratio
+      and the four pass or fail badges update as you go, and the preview panel shows real sample text
+      in your colors. If the text color fails AA, press Suggest an accessible text color: the tool
+      keeps your hue and saturation and finds the nearest lightness that reaches 4.5 to 1, so your
+      color stays on brand while becoming readable.
+    </p>
+  </section>
+
+  <section id="beyond-contrast">
+    <h2>Contrast is necessary, not sufficient</h2>
+    <p>
+      Passing every contrast check is a real win, but it is one slice of accessibility. Make sure
+      information is never carried by color alone, that keyboard focus is visible, that interactive
+      elements have clear labels, and that content works with a screen reader. Use the ratio as a
+      firm minimum, then test the rest of the experience.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Runs entirely in your browser</h2>
+    <p>
+      No color you enter leaves your device. The math runs locally, nothing is uploaded, and the tool
+      works offline once loaded, so you can check contrast even inside an internal design tool with no
+      internet access.
+    </p>
+  </section>
+</GuideLayout>
