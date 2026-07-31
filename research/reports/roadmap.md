@@ -1,8 +1,8 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-07-16T14:55:57.225Z
+Generated: 2026-07-31T09:18:50.711Z
 
-Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shipped). Top score 83.9. Missing-engine candidates: 0.
+Discovered 56 signals -> 56 unique opportunities (21 recommended, 34 already shipped). Top score 83.9. Missing-engine candidates: 2.
 
 ## Immediate builds (top tier)
 - **Statistics Visualizer** (`statistics-visualizer`) - score 79.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
@@ -12,10 +12,27 @@ Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shi
 - **Linear Regression Playground** (`linear-regression-playground`) - score 75.5, reuses math-lab. Weak / incomplete incumbents; Reuses the existing math-lab engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
+- **WCAG Color Contrast Checker** (`color-contrast-checker`) - score 73, new color engine. High search demand; Implies a new color engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
 - **CSV Column Picker** (`csv-column-picker`) - score 71.9, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
+- **Color Format Converter** (`color-format-converter`) - score 71.7, new color engine. High search demand; Implies a new color engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
+- **PX to REM Converter** (`px-to-rem-converter`) - score 71.3, new units engine. High search demand; Implies a new units engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
+- **PX to DP Converter** (`px-to-dp-converter`) - score 69.9, new units engine. Weak / incomplete incumbents; Implies a new units engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Aspect Ratio Calculator** (`aspect-ratio-calculator`) - score 69.5, new units engine. Implies a new units engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 67.3, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links.
+- **Color Shades & Tints Generator** (`color-shades-generator`) - score 66.8, new color engine. Weak / incomplete incumbents; Implies a new color engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Modular Type Scale Generator** (`type-scale-generator`) - score 66.5, new units engine. Weak / incomplete incumbents; Implies a new units engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Missing engines (new reusable engines this evidence justifies)
+### color (confidence 0.97) - unlocks 6
+- 6 opportunities share the missing "color" engine.
+- Cluster ≥ 3 → justifies a new reusable engine that unlocks 6 tools.
+- Tools: color-contrast-checker, color-format-converter, color-shades-generator, colorblind-simulator, css-gradient-generator, image-palette-extractor
+
+### units (confidence 0.95) - unlocks 4
+- 4 opportunities share the missing "units" engine.
+- Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools.
+- Tools: px-to-rem-converter, px-to-dp-converter, aspect-ratio-calculator, type-scale-generator
+
 ### loan (confidence 0.65) - unlocks 2
 - 2 opportunities share the missing "loan" engine.
 - Below the 3-tool bar for a new engine - revisit as more demand accrues.
@@ -69,15 +86,25 @@ Discovered 46 signals -> 46 unique opportunities (12 recommended, 34 already shi
 - **Inclined Plane and Friction** (physics) - 1 tool(s), mean score 73.9.
 - **Function Graphing** (math-lab) - 1 tool(s), mean score 73.6.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 73.5.
+- **Contrast Ratio** (color) - 1 tool(s), mean score 73.
 - **CSV Column Selection** (csv) - 1 tool(s), mean score 71.9.
+- **Color Conversion** (color) - 1 tool(s), mean score 71.7.
+- **CSS Unit Conversion** (units) - 1 tool(s), mean score 71.3.
 - **Word Frequency Analysis** (text-analysis) - 1 tool(s), mean score 70.
+- **Density Unit Conversion** (units) - 1 tool(s), mean score 69.9.
+- **Aspect Ratio** (units) - 1 tool(s), mean score 69.5.
 - **Timezone Conversion** (datetime) - 1 tool(s), mean score 68.7.
 - **Loan Amortization** (loan) - 1 tool(s), mean score 68.5.
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 67.6.
 - **Net Worth** (budget) - 1 tool(s), mean score 67.3.
 - **Mortgage Amortization** (loan) - 1 tool(s), mean score 67.
+- **Color Scale** (color) - 1 tool(s), mean score 66.8.
+- **Type Scale** (units) - 1 tool(s), mean score 66.5.
 - **Salary Conversion** (budget) - 1 tool(s), mean score 66.3.
+- **Color Vision Simulation** (color) - 1 tool(s), mean score 65.
 - **Retirement Projection** (retirement) - 1 tool(s), mean score 61.4.
+- **Perceptual Gradient** (color) - 1 tool(s), mean score 60.9.
+- **Palette Extraction** (color) - 1 tool(s), mean score 58.
 
 ## Emerging trends (by transformation)
 - Unit Circle: 1 signal(s), mean demand 0.88, mean score 83.9.

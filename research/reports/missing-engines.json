@@ -1,7 +1,55 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T14:55:57.225Z",
+  "generatedAt": "2026-07-31T09:18:50.711Z",
   "engines": [
+    {
+      "engine": "color",
+      "exists": false,
+      "confidence": 0.97,
+      "transformations": [
+        "Color Conversion",
+        "Color Scale",
+        "Color Vision Simulation",
+        "Contrast Ratio",
+        "Palette Extraction",
+        "Perceptual Gradient"
+      ],
+      "unlocksTools": [
+        "color-contrast-checker",
+        "color-format-converter",
+        "color-shades-generator",
+        "colorblind-simulator",
+        "css-gradient-generator",
+        "image-palette-extractor"
+      ],
+      "topScore": 73,
+      "rationale": [
+        "6 opportunities share the missing \"color\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 6 tools."
+      ]
+    },
+    {
+      "engine": "units",
+      "exists": false,
+      "confidence": 0.95,
+      "transformations": [
+        "Aspect Ratio",
+        "CSS Unit Conversion",
+        "Density Unit Conversion",
+        "Type Scale"
+      ],
+      "unlocksTools": [
+        "px-to-rem-converter",
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "type-scale-generator"
+      ],
+      "topScore": 71.3,
+      "rationale": [
+        "4 opportunities share the missing \"units\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
+      ]
+    },
     {
       "engine": "loan",
       "exists": false,

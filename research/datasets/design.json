@@ -1,0 +1,306 @@
+{
+  "domain": "design",
+  "records": [
+    {
+      "query": "color contrast checker wcag",
+      "problem": "I need to check whether a text color and background color meet WCAG AA/AAA contrast so my UI is accessible.",
+      "intent": "transactional",
+      "transformation": "Contrast Ratio",
+      "proposedTool": "color-contrast-checker",
+      "proposedName": "WCAG Color Contrast Checker",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "color contrast checker",
+        "wcag contrast checker",
+        "contrast ratio calculator",
+        "aa aaa contrast checker",
+        "accessible color contrast"
+      ],
+      "existingSolutions": ["webaim.org/resources/contrastchecker", "coolors.co/contrast-checker"],
+      "solutionWeaknesses": [
+        "ad-supported or upsell-driven",
+        "no nearest-accessible-color suggestion",
+        "desktop-only UI, not mobile-first"
+      ],
+      "relatedProblems": ["color format conversion", "colorblind simulation", "accessible palette"],
+      "relatedTools": ["color-format-converter", "colorblind-simulator"],
+      "demand": 88,
+      "competition": 62,
+      "evergreen": 95,
+      "difficulty": "low",
+      "localization": 95,
+      "algorithmicFit": 98
+    },
+    {
+      "query": "hex to rgb to hsl converter",
+      "problem": "I want to convert a color between HEX, RGB, HSL, HSV, OKLCH, and CMYK and copy the CSS value.",
+      "intent": "transactional",
+      "transformation": "Color Conversion",
+      "proposedTool": "color-format-converter",
+      "proposedName": "Color Format Converter",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "hex to rgb",
+        "rgb to hex",
+        "hex to hsl",
+        "color converter",
+        "hex to oklch",
+        "rgb to cmyk"
+      ],
+      "existingSolutions": ["w3schools.com/colors", "rgbtohex.net"],
+      "solutionWeaknesses": [
+        "no OKLCH / OKLAB (modern CSS) support",
+        "single-direction converters, not one unified tool",
+        "cluttered, ad-heavy"
+      ],
+      "relatedProblems": ["contrast ratio", "color shades", "named css colors"],
+      "relatedTools": ["color-contrast-checker", "color-shades-generator"],
+      "demand": 92,
+      "competition": 78,
+      "evergreen": 94,
+      "difficulty": "low",
+      "localization": 96,
+      "algorithmicFit": 100
+    },
+    {
+      "query": "colorblind simulator",
+      "problem": "I want to see how my palette or colors look to people with protanopia, deuteranopia, and tritanopia.",
+      "intent": "transactional",
+      "transformation": "Color Vision Simulation",
+      "proposedTool": "colorblind-simulator",
+      "proposedName": "Colorblind Simulator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "colorblind simulator",
+        "color blindness simulator",
+        "deuteranopia simulator",
+        "protanopia color check",
+        "colorblind palette checker"
+      ],
+      "existingSolutions": ["coblis (color-blindness.com)", "venngage colorblind simulator"],
+      "solutionWeaknesses": [
+        "image-upload only, no palette input",
+        "server-side upload (privacy)",
+        "no side-by-side type comparison"
+      ],
+      "relatedProblems": ["contrast ratio", "accessible palette"],
+      "relatedTools": ["color-contrast-checker", "color-format-converter"],
+      "demand": 66,
+      "competition": 48,
+      "evergreen": 90,
+      "difficulty": "medium",
+      "localization": 94,
+      "algorithmicFit": 95
+    },
+    {
+      "query": "css gradient generator oklch",
+      "problem": "I want to build a CSS gradient that interpolates in OKLCH so it avoids the muddy gray dead-zone of sRGB gradients, and copy the code.",
+      "intent": "transactional",
+      "transformation": "Perceptual Gradient",
+      "proposedTool": "css-gradient-generator",
+      "proposedName": "Perceptual Gradient Generator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "css gradient generator",
+        "oklch gradient",
+        "linear gradient generator",
+        "perceptual gradient",
+        "gradient css code"
+      ],
+      "existingSolutions": ["cssgradient.io", "coolors gradient maker"],
+      "solutionWeaknesses": [
+        "sRGB interpolation produces muddy mid-tones",
+        "no OKLCH interpolation option",
+        "heavy UI, poor mobile experience"
+      ],
+      "relatedProblems": ["color conversion", "color shades"],
+      "relatedTools": ["color-format-converter", "color-shades-generator"],
+      "demand": 70,
+      "competition": 80,
+      "evergreen": 88,
+      "difficulty": "medium",
+      "localization": 90,
+      "algorithmicFit": 95
+    },
+    {
+      "query": "color shades tints generator",
+      "problem": "I want to generate a full tint and shade scale (50 to 900) from one base color for a design token set.",
+      "intent": "transactional",
+      "transformation": "Color Scale",
+      "proposedTool": "color-shades-generator",
+      "proposedName": "Color Shades & Tints Generator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "color shades generator",
+        "tints and shades",
+        "color scale generator",
+        "tailwind color shades",
+        "50 to 900 color palette"
+      ],
+      "existingSolutions": ["uicolors.app", "smart-swatch"],
+      "solutionWeaknesses": [
+        "opinionated single-purpose apps",
+        "no copyable CSS custom properties",
+        "no perceptual (OKLCH) spacing"
+      ],
+      "relatedProblems": ["color conversion", "perceptual gradient"],
+      "relatedTools": ["color-format-converter", "css-gradient-generator"],
+      "demand": 64,
+      "competition": 58,
+      "evergreen": 86,
+      "difficulty": "low",
+      "localization": 92,
+      "algorithmicFit": 100
+    },
+    {
+      "query": "image color palette extractor",
+      "problem": "I want to upload an image and extract its dominant color palette without the image leaving my browser.",
+      "intent": "transactional",
+      "transformation": "Palette Extraction",
+      "proposedTool": "image-palette-extractor",
+      "proposedName": "Image Palette Extractor",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "image color palette",
+        "extract colors from image",
+        "get palette from photo",
+        "dominant color from image",
+        "image to palette"
+      ],
+      "existingSolutions": ["imagecolorpicker.com", "coolors image picker"],
+      "solutionWeaknesses": [
+        "uploads image to a server (privacy)",
+        "ad-supported",
+        "no client-side-only guarantee"
+      ],
+      "relatedProblems": ["color conversion", "color shades"],
+      "relatedTools": ["color-format-converter", "color-shades-generator"],
+      "demand": 68,
+      "competition": 60,
+      "evergreen": 82,
+      "difficulty": "high",
+      "localization": 90,
+      "algorithmicFit": 85
+    },
+    {
+      "query": "px to rem converter",
+      "problem": "I want to convert px to rem, em, and pt for CSS against a configurable root font size.",
+      "intent": "transactional",
+      "transformation": "CSS Unit Conversion",
+      "proposedTool": "px-to-rem-converter",
+      "proposedName": "PX to REM Converter",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "px to rem",
+        "rem to px",
+        "px to em",
+        "px to pt css",
+        "css unit converter"
+      ],
+      "existingSolutions": ["nekocalc.com/px-to-rem", "pxtorem.com"],
+      "solutionWeaknesses": [
+        "single-direction, one-unit tools",
+        "no configurable root size persistence",
+        "ad-heavy, dated"
+      ],
+      "relatedProblems": ["px to dp", "modular type scale", "aspect ratio"],
+      "relatedTools": ["px-to-dp-converter", "type-scale-generator"],
+      "demand": 84,
+      "competition": 66,
+      "evergreen": 92,
+      "difficulty": "low",
+      "localization": 96,
+      "algorithmicFit": 100
+    },
+    {
+      "query": "px to dp converter android",
+      "problem": "I want to convert px to dp and sp across Android density buckets (mdpi to xxxhdpi) and iOS pt.",
+      "intent": "transactional",
+      "transformation": "Density Unit Conversion",
+      "proposedTool": "px-to-dp-converter",
+      "proposedName": "PX to DP Converter",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "px to dp",
+        "dp to px",
+        "px to sp android",
+        "density independent pixels converter",
+        "px to pt ios"
+      ],
+      "existingSolutions": ["pixplicity.com/dp-px-converter", "angrytools px to dp"],
+      "solutionWeaknesses": [
+        "single density bucket at a time",
+        "no web + native unit coverage in one tool",
+        "poor mobile UX"
+      ],
+      "relatedProblems": ["px to rem", "aspect ratio"],
+      "relatedTools": ["px-to-rem-converter", "aspect-ratio-calculator"],
+      "demand": 72,
+      "competition": 54,
+      "evergreen": 90,
+      "difficulty": "low",
+      "localization": 96,
+      "algorithmicFit": 100
+    },
+    {
+      "query": "modular type scale generator",
+      "problem": "I want to pick a base font size and ratio and generate a modular type scale as copyable rem CSS custom properties.",
+      "intent": "transactional",
+      "transformation": "Type Scale",
+      "proposedTool": "type-scale-generator",
+      "proposedName": "Modular Type Scale Generator",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "type scale generator",
+        "modular scale",
+        "font size scale calculator",
+        "golden ratio typography",
+        "css type scale"
+      ],
+      "existingSolutions": ["typescale.com", "type-scale.com"],
+      "solutionWeaknesses": [
+        "no copyable CSS custom properties",
+        "limited ratio presets",
+        "not mobile-first"
+      ],
+      "relatedProblems": ["px to rem", "aspect ratio"],
+      "relatedTools": ["px-to-rem-converter", "aspect-ratio-calculator"],
+      "demand": 58,
+      "competition": 50,
+      "evergreen": 88,
+      "difficulty": "low",
+      "localization": 88,
+      "algorithmicFit": 100
+    },
+    {
+      "query": "aspect ratio calculator",
+      "problem": "I want to enter a width or height, lock an aspect ratio like 16:9, and get the missing dimension.",
+      "intent": "transactional",
+      "transformation": "Aspect Ratio",
+      "proposedTool": "aspect-ratio-calculator",
+      "proposedName": "Aspect Ratio Calculator",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "aspect ratio calculator",
+        "16 9 calculator",
+        "ratio calculator pixels",
+        "resize keep aspect ratio",
+        "image dimension calculator"
+      ],
+      "existingSolutions": ["andrew.hedges.name/experiments/aspect_ratio", "calculateaspectratio.com"],
+      "solutionWeaknesses": [
+        "single-purpose, dated UIs",
+        "no common-ratio reference",
+        "ad-supported"
+      ],
+      "relatedProblems": ["px to dp", "type scale"],
+      "relatedTools": ["px-to-dp-converter", "type-scale-generator"],
+      "demand": 74,
+      "competition": 60,
+      "evergreen": 90,
+      "difficulty": "low",
+      "localization": 95,
+      "algorithmicFit": 100
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T14:55:57.225Z",
+  "generatedAt": "2026-07-31T09:18:50.711Z",
   "top": [
     {
       "id": "statistics-visualizer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -92,7 +92,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -161,7 +161,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -232,7 +232,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -297,7 +297,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -362,7 +362,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -409,6 +409,61 @@
       "engineExists": true
     },
     {
+      "id": "color-contrast-checker",
+      "title": "WCAG Color Contrast Checker",
+      "problem": "I need to check whether a text color and background color meet WCAG AA/AAA contrast so my UI is accessible.",
+      "userIntent": "transactional",
+      "workflow": "input → Contrast Ratio → output",
+      "transformation": "Contrast Ratio",
+      "proposedTool": "color-contrast-checker",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "color contrast checker wcag",
+        "color contrast checker",
+        "wcag contrast checker",
+        "contrast ratio calculator",
+        "aa aaa contrast checker",
+        "accessible color contrast"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "existingSolutions": [
+        "webaim.org/resources/contrastchecker",
+        "coolors.co/contrast-checker"
+      ],
+      "solutionWeaknesses": [
+        "ad-supported or upsell-driven",
+        "no nearest-accessible-color suggestion",
+        "desktop-only UI, not mobile-first"
+      ],
+      "relatedProblems": [
+        "color format conversion",
+        "colorblind simulation",
+        "accessible palette"
+      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.56,
+      "searchDemand": 0.88,
+      "implementationCost": 0.9,
+      "engineReuse": 0.3,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 0.98,
+      "confidence": 0.8,
+      "finalScore": 73,
+      "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
       "id": "csv-column-picker",
       "title": "CSV Column Picker",
       "problem": "I want to pick out specific columns from a CSV and drop the rest.",
@@ -426,7 +481,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -478,179 +533,112 @@
       "engineExists": true
     },
     {
-      "id": "loan-calculator",
-      "title": "Loan Calculator",
-      "problem": "I need monthly payments and total interest for a loan over a term.",
+      "id": "color-format-converter",
+      "title": "Color Format Converter",
+      "problem": "I want to convert a color between HEX, RGB, HSL, HSV, OKLCH, and CMYK and copy the CSS value.",
       "userIntent": "transactional",
-      "workflow": "input → Loan Amortization → output",
-      "transformation": "Loan Amortization",
-      "proposedTool": "loan-calculator",
-      "proposedEngine": "loan",
+      "workflow": "input → Color Conversion → output",
+      "transformation": "Color Conversion",
+      "proposedTool": "color-format-converter",
+      "proposedEngine": "color",
       "searchQueries": [
-        "loan calculator",
-        "monthly payment calculator",
-        "loan interest calculator",
-        "loan emi calculator"
+        "hex to rgb to hsl converter",
+        "hex to rgb",
+        "rgb to hex",
+        "hex to hsl",
+        "color converter",
+        "hex to oklch",
+        "rgb to cmyk"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
-        "bankrate.com",
-        "calculator.net"
+        "w3schools.com/colors",
+        "rgbtohex.net"
       ],
       "solutionWeaknesses": [
-        "ad heavy",
-        "slow",
-        "no shareable result",
-        "cluttered"
+        "no OKLCH / OKLAB (modern CSS) support",
+        "single-direction converters, not one unified tool",
+        "cluttered, ad-heavy"
       ],
       "relatedProblems": [
-        "mortgage payment",
-        "amortization schedule",
-        "extra payments"
+        "contrast ratio",
+        "color shades",
+        "named css colors"
       ],
-      "relatedTools": [
-        "compound-interest-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.54,
-      "searchDemand": 0.96,
-      "implementationCost": 0.6,
-      "engineReuse": 0.3,
-      "seoPotential": 0.86,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.59,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.85,
-      "confidence": 0.8,
-      "finalScore": 68.5,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "net-worth-calculator",
-      "title": "Net Worth Calculator",
-      "problem": "I want to total my assets minus liabilities to see my net worth.",
-      "userIntent": "transactional",
-      "workflow": "input → Net Worth → output",
-      "transformation": "Net Worth",
-      "proposedTool": "net-worth-calculator",
-      "proposedEngine": "budget",
-      "searchQueries": [
-        "net worth calculator",
-        "assets minus liabilities",
-        "personal net worth"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
-      "existingSolutions": [
-        "nerdwallet.com"
-      ],
-      "solutionWeaknesses": [
-        "account sign up",
-        "tries to sell products"
-      ],
-      "relatedProblems": [
-        "budgeting",
-        "savings",
-        "emergency fund"
-      ],
-      "relatedTools": [
-        "emergency-fund-calculator",
-        "savings-goal-calculator"
-      ],
-      "relatedGuides": [
-        "emergency-fund-calculator",
-        "savings-goal-calculator"
-      ],
-      "relatedFaqs": [
-        "emergency-fund-calculator",
-        "savings-goal-calculator"
-      ],
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
       "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.62,
-      "searchDemand": 0.8,
+      "evergreenScore": 0.94,
+      "competitionScore": 0.4,
+      "searchDemand": 0.92,
       "implementationCost": 0.9,
       "engineReuse": 0.3,
-      "seoPotential": 0.68,
+      "seoPotential": 0.97,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.78,
-      "algorithmicFit": 0.85,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 1,
       "confidence": 0.8,
-      "finalScore": 67.3,
+      "finalScore": 71.7,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false
     },
     {
-      "id": "mortgage-calculator",
-      "title": "Mortgage Calculator",
-      "problem": "I want monthly mortgage payments including principal and interest over 15 to 30 years.",
+      "id": "px-to-rem-converter",
+      "title": "PX to REM Converter",
+      "problem": "I want to convert px to rem, em, and pt for CSS against a configurable root font size.",
       "userIntent": "transactional",
-      "workflow": "input → Mortgage Amortization → output",
-      "transformation": "Mortgage Amortization",
-      "proposedTool": "mortgage-calculator",
-      "proposedEngine": "loan",
+      "workflow": "input → CSS Unit Conversion → output",
+      "transformation": "CSS Unit Conversion",
+      "proposedTool": "px-to-rem-converter",
+      "proposedEngine": "units",
       "searchQueries": [
-        "mortgage calculator",
-        "home loan calculator",
-        "monthly mortgage payment",
-        "mortgage amortization"
+        "px to rem converter",
+        "px to rem",
+        "rem to px",
+        "px to em",
+        "px to pt css",
+        "css unit converter"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-16T14:55:57.225Z",
+      "discoveredAt": "2026-07-31T09:18:50.711Z",
       "existingSolutions": [
-        "zillow.com",
-        "bankrate.com"
+        "nekocalc.com/px-to-rem",
+        "pxtorem.com"
       ],
       "solutionWeaknesses": [
-        "lead capture forms",
-        "ads",
-        "requires sign in for full features"
+        "single-direction, one-unit tools",
+        "no configurable root size persistence",
+        "ad-heavy, dated"
       ],
       "relatedProblems": [
-        "loan payment",
-        "amortization schedule",
-        "refinance"
+        "px to dp",
+        "modular type scale",
+        "aspect ratio"
       ],
-      "relatedTools": [
-        "compound-interest-calculator"
-      ],
-      "relatedGuides": [
-        "compound-interest-calculator"
-      ],
-      "relatedFaqs": [
-        "compound-interest-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.4,
-      "searchDemand": 0.98,
-      "implementationCost": 0.6,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": [],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.52,
+      "searchDemand": 0.84,
+      "implementationCost": 0.9,
       "engineReuse": 0.3,
-      "seoPotential": 0.87,
+      "seoPotential": 0.94,
       "topicClusterPotential": 0,
-      "commercialPotential": 0.6,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.85,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 1,
       "confidence": 0.8,
-      "finalScore": 67,
+      "finalScore": 71.3,
       "status": "recommended",
       "gap": "engine-missing",
       "engineExists": false

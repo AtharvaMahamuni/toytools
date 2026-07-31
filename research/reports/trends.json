@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T14:55:57.225Z",
+  "generatedAt": "2026-07-31T09:18:50.711Z",
   "trends": [
     {
       "transformation": "Unit Circle",
@@ -225,16 +225,46 @@
       "meanScore": 73.5
     },
     {
+      "transformation": "Contrast Ratio",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 73
+    },
+    {
       "transformation": "CSV Column Selection",
       "count": 1,
       "meanDemand": 0.6,
       "meanScore": 71.9
     },
     {
+      "transformation": "Color Conversion",
+      "count": 1,
+      "meanDemand": 0.92,
+      "meanScore": 71.7
+    },
+    {
+      "transformation": "CSS Unit Conversion",
+      "count": 1,
+      "meanDemand": 0.84,
+      "meanScore": 71.3
+    },
+    {
       "transformation": "Word Frequency Analysis",
       "count": 1,
       "meanDemand": 0.72,
       "meanScore": 70
+    },
+    {
+      "transformation": "Density Unit Conversion",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 69.9
+    },
+    {
+      "transformation": "Aspect Ratio",
+      "count": 1,
+      "meanDemand": 0.74,
+      "meanScore": 69.5
     },
     {
       "transformation": "Timezone Conversion",
@@ -267,16 +297,46 @@
       "meanScore": 67
     },
     {
+      "transformation": "Color Scale",
+      "count": 1,
+      "meanDemand": 0.64,
+      "meanScore": 66.8
+    },
+    {
+      "transformation": "Type Scale",
+      "count": 1,
+      "meanDemand": 0.58,
+      "meanScore": 66.5
+    },
+    {
       "transformation": "Salary Conversion",
       "count": 1,
       "meanDemand": 0.9,
       "meanScore": 66.3
     },
     {
+      "transformation": "Color Vision Simulation",
+      "count": 1,
+      "meanDemand": 0.66,
+      "meanScore": 65
+    },
+    {
       "transformation": "Retirement Projection",
       "count": 1,
       "meanDemand": 0.94,
       "meanScore": 61.4
+    },
+    {
+      "transformation": "Perceptual Gradient",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 60.9
+    },
+    {
+      "transformation": "Palette Extraction",
+      "count": 1,
+      "meanDemand": 0.68,
+      "meanScore": 58
     }
   ]
 }

@@ -36,12 +36,22 @@ date-difference-calculator,date-difference-calculator,Date Difference Calculator
 inclined-plane-simulator,inclined-plane-simulator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,73.9
 function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,true,cluster-missing,recommended,high,0.9,0.39,0.97,0.4,1,0.96,0,0.85,0.8,73.6
 crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,73.5
+color-contrast-checker,color-contrast-checker,WCAG Color Contrast Checker,Contrast Ratio,color,false,engine-missing,recommended,low,0.88,0.56,0.95,0.9,0.3,0.95,0,0.95,0.8,73
 csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,cluster-missing,recommended,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,71.9
+color-format-converter,color-format-converter,Color Format Converter,Color Conversion,color,false,engine-missing,recommended,low,0.92,0.4,0.94,0.9,0.3,0.97,0,0.96,0.8,71.7
+px-to-rem-converter,px-to-rem-converter,PX to REM Converter,CSS Unit Conversion,units,false,engine-missing,recommended,low,0.84,0.52,0.92,0.9,0.3,0.94,0,0.96,0.8,71.3
 word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,70
+px-to-dp-converter,px-to-dp-converter,PX to DP Converter,Density Unit Conversion,units,false,engine-missing,recommended,low,0.72,0.64,0.9,0.9,0.3,0.89,0,0.96,0.8,69.9
+aspect-ratio-calculator,aspect-ratio-calculator,Aspect Ratio Calculator,Aspect Ratio,units,false,engine-missing,recommended,low,0.74,0.58,0.9,0.9,0.3,0.9,0,0.95,0.8,69.5
 timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,68.7
 loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,68.5
 cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,67.6
 net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,67.3
 mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,67
+color-shades-generator,color-shades-generator,Color Shades & Tints Generator,Color Scale,color,false,engine-missing,recommended,low,0.64,0.6,0.86,0.9,0.3,0.86,0,0.92,0.8,66.8
+type-scale-generator,type-scale-generator,Modular Type Scale Generator,Type Scale,units,false,engine-missing,recommended,low,0.58,0.68,0.88,0.9,0.3,0.83,0,0.88,0.64,66.5
 salary-calculator,salary-calculator,Salary Calculator,Salary Conversion,budget,false,engine-missing,recommended,medium,0.9,0.52,0.92,0.6,0.3,0.84,0,0.88,0.8,66.3
+colorblind-simulator,colorblind-simulator,Colorblind Simulator,Color Vision Simulation,color,false,engine-missing,recommended,medium,0.66,0.7,0.9,0.6,0.3,0.86,0,0.94,0.8,65
 retirement-calculator,retirement-calculator,Retirement Calculator,Retirement Projection,retirement,false,engine-missing,recommended,high,0.94,0.46,0.94,0.3,0.3,0.74,0,0.82,0.8,61.4
+css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,false,engine-missing,recommended,medium,0.7,0.38,0.88,0.6,0.3,0.88,0,0.9,0.8,60.9
+image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,false,engine-missing,discovered,high,0.68,0.58,0.82,0.3,0.3,0.87,0,0.9,0.8,58

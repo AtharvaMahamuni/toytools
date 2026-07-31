@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T14:55:57.225Z",
+  "generatedAt": "2026-07-31T09:18:50.711Z",
   "clusters": [
     {
       "id": "unit-circle",
@@ -983,6 +983,18 @@
       ]
     },
     {
+      "id": "contrast-ratio",
+      "transformation": "Contrast Ratio",
+      "engine": "color",
+      "members": [
+        "color-contrast-checker"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 73,
+      "internalLinks": []
+    },
+    {
       "id": "csv-column-selection",
       "transformation": "CSV Column Selection",
       "engine": "csv",
@@ -1003,6 +1015,30 @@
         "csv-to-tsv",
         "json-to-csv-converter"
       ]
+    },
+    {
+      "id": "color-conversion",
+      "transformation": "Color Conversion",
+      "engine": "color",
+      "members": [
+        "color-format-converter"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 71.7,
+      "internalLinks": []
+    },
+    {
+      "id": "css-unit-conversion",
+      "transformation": "CSS Unit Conversion",
+      "engine": "units",
+      "members": [
+        "px-to-rem-converter"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 71.3,
+      "internalLinks": []
     },
     {
       "id": "word-frequency-analysis",
@@ -1032,6 +1068,30 @@
         "reading-time-calculator",
         "word-counter"
       ]
+    },
+    {
+      "id": "density-unit-conversion",
+      "transformation": "Density Unit Conversion",
+      "engine": "units",
+      "members": [
+        "px-to-dp-converter"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 69.9,
+      "internalLinks": []
+    },
+    {
+      "id": "aspect-ratio",
+      "transformation": "Aspect Ratio",
+      "engine": "units",
+      "members": [
+        "aspect-ratio-calculator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 69.5,
+      "internalLinks": []
     },
     {
       "id": "timezone-conversion",
@@ -1125,6 +1185,30 @@
       ]
     },
     {
+      "id": "color-scale",
+      "transformation": "Color Scale",
+      "engine": "color",
+      "members": [
+        "color-shades-generator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 66.8,
+      "internalLinks": []
+    },
+    {
+      "id": "type-scale",
+      "transformation": "Type Scale",
+      "engine": "units",
+      "members": [
+        "type-scale-generator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 66.5,
+      "internalLinks": []
+    },
+    {
       "id": "salary-conversion",
       "transformation": "Salary Conversion",
       "engine": "budget",
@@ -1137,6 +1221,18 @@
       "internalLinks": [
         "percentage-calculator"
       ]
+    },
+    {
+      "id": "color-vision-simulation",
+      "transformation": "Color Vision Simulation",
+      "engine": "color",
+      "members": [
+        "colorblind-simulator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 65,
+      "internalLinks": []
     },
     {
       "id": "retirement-projection",
@@ -1153,6 +1249,30 @@
         "inflation-calculator",
         "savings-goal-calculator"
       ]
+    },
+    {
+      "id": "perceptual-gradient",
+      "transformation": "Perceptual Gradient",
+      "engine": "color",
+      "members": [
+        "css-gradient-generator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 60.9,
+      "internalLinks": []
+    },
+    {
+      "id": "palette-extraction",
+      "transformation": "Palette Extraction",
+      "engine": "color",
+      "members": [
+        "image-palette-extractor"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 58,
+      "internalLinks": []
     }
   ]
 }

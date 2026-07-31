@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T14:55:57.225Z",
+  "generatedAt": "2026-07-31T09:18:50.711Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -29,6 +29,16 @@
         "timezone-converter",
         "unix-timestamp-converter"
       ]
+    },
+    {
+      "id": "aspect-ratio-calculator",
+      "title": "Aspect Ratio Calculator",
+      "transformation": "Aspect Ratio",
+      "engine": "units",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "base64-encoder-decoder",
@@ -123,6 +133,46 @@
       "relatedFaqs": []
     },
     {
+      "id": "color-contrast-checker",
+      "title": "WCAG Color Contrast Checker",
+      "transformation": "Contrast Ratio",
+      "engine": "color",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "color-format-converter",
+      "title": "Color Format Converter",
+      "transformation": "Color Conversion",
+      "engine": "color",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "color-shades-generator",
+      "title": "Color Shades & Tints Generator",
+      "transformation": "Color Scale",
+      "engine": "color",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "colorblind-simulator",
+      "title": "Colorblind Simulator",
+      "transformation": "Color Vision Simulation",
+      "engine": "color",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "combinations-permutations-calculator",
       "title": "Combinations & Permutations Calculator",
       "transformation": "Combinatorics",
@@ -211,6 +261,16 @@
         "timezone-converter",
         "unix-timestamp-converter"
       ]
+    },
+    {
+      "id": "css-gradient-generator",
+      "title": "Perceptual Gradient Generator",
+      "transformation": "Perceptual Gradient",
+      "engine": "color",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "csv-cleaner",
@@ -508,6 +568,16 @@
         "inclined-plane-simulator",
         "momentum-collision-simulator"
       ]
+    },
+    {
+      "id": "image-palette-extractor",
+      "title": "Image Palette Extractor",
+      "transformation": "Palette Extraction",
+      "engine": "color",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "inclined-plane-simulator",
@@ -941,6 +1011,26 @@
       "transformation": "web",
       "engine": "encoding",
       "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "px-to-dp-converter",
+      "title": "PX to DP Converter",
+      "transformation": "Density Unit Conversion",
+      "engine": "units",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "px-to-rem-converter",
+      "title": "PX to REM Converter",
+      "transformation": "CSS Unit Conversion",
+      "engine": "units",
+      "existing": false,
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
@@ -1440,6 +1530,16 @@
       ]
     },
     {
+      "id": "type-scale-generator",
+      "title": "Modular Type Scale Generator",
+      "transformation": "Type Scale",
+      "engine": "units",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "unit-circle-explorer",
       "title": "Unit Circle Explorer",
       "transformation": "Unit Circle",
@@ -1569,6 +1669,16 @@
       "kind": "shares-engine"
     },
     {
+      "from": "aspect-ratio-calculator",
+      "to": "type-scale-generator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "aspect-ratio-calculator",
+      "to": "type-scale-generator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "binary-text-converter",
       "to": "base64-encoder-decoder",
       "kind": "links-to-tool"
@@ -1614,6 +1724,96 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "color-contrast-checker",
+      "to": "color-format-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-contrast-checker",
+      "to": "color-shades-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-contrast-checker",
+      "to": "colorblind-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-contrast-checker",
+      "to": "css-gradient-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-contrast-checker",
+      "to": "image-palette-extractor",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-format-converter",
+      "to": "color-contrast-checker",
+      "kind": "related-problem"
+    },
+    {
+      "from": "color-format-converter",
+      "to": "color-shades-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-format-converter",
+      "to": "colorblind-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-format-converter",
+      "to": "css-gradient-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-format-converter",
+      "to": "image-palette-extractor",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-shades-generator",
+      "to": "color-format-converter",
+      "kind": "related-problem"
+    },
+    {
+      "from": "color-shades-generator",
+      "to": "colorblind-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-shades-generator",
+      "to": "css-gradient-generator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "color-shades-generator",
+      "to": "css-gradient-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "color-shades-generator",
+      "to": "image-palette-extractor",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "colorblind-simulator",
+      "to": "color-contrast-checker",
+      "kind": "related-problem"
+    },
+    {
+      "from": "colorblind-simulator",
+      "to": "css-gradient-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "colorblind-simulator",
+      "to": "image-palette-extractor",
+      "kind": "shares-engine"
+    },
+    {
       "from": "combinations-permutations-calculator",
       "to": "matrix-calculator",
       "kind": "shares-engine"
@@ -1657,6 +1857,16 @@
       "from": "cron-expression-parser",
       "to": "unix-timestamp-converter",
       "kind": "related-problem"
+    },
+    {
+      "from": "css-gradient-generator",
+      "to": "color-format-converter",
+      "kind": "related-problem"
+    },
+    {
+      "from": "css-gradient-generator",
+      "to": "image-palette-extractor",
+      "kind": "shares-engine"
     },
     {
       "from": "csv-cleaner",
@@ -1817,6 +2027,11 @@
       "from": "ideal-gas-law-simulator",
       "to": "momentum-collision-simulator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "image-palette-extractor",
+      "to": "color-format-converter",
+      "kind": "related-problem"
     },
     {
       "from": "inclined-plane-simulator",
@@ -2041,6 +2256,41 @@
     {
       "from": "projectile-motion-simulator",
       "to": "shm-spring-simulator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "px-to-dp-converter",
+      "to": "aspect-ratio-calculator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "px-to-dp-converter",
+      "to": "aspect-ratio-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "px-to-dp-converter",
+      "to": "type-scale-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "px-to-rem-converter",
+      "to": "aspect-ratio-calculator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "px-to-rem-converter",
+      "to": "aspect-ratio-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "px-to-rem-converter",
+      "to": "px-to-dp-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "px-to-rem-converter",
+      "to": "type-scale-generator",
       "kind": "shares-engine"
     },
     {
@@ -2387,6 +2637,11 @@
       "from": "timezone-converter",
       "to": "cron-expression-parser",
       "kind": "shares-engine"
+    },
+    {
+      "from": "type-scale-generator",
+      "to": "aspect-ratio-calculator",
+      "kind": "related-problem"
     },
     {
       "from": "unit-circle-explorer",

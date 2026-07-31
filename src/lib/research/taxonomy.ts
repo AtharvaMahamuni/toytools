@@ -192,6 +192,37 @@ export const RESEARCH_TAXONOMY: ResearchTaxonomy = [
       },
     ],
   },
+  {
+    // Design & Color: two not-yet-built engines. 'color' is a deterministic color-math engine
+    // (parse/convert/contrast/simulate across HEX/RGB/HSL/HSV/OKLCH/CMYK); 'units' is CSS + native
+    // unit math (px/rem/em/pt/dp/sp, type scales, aspect ratios). Both are high algorithmic-fit
+    // clusters, so a single engine build unlocks a family. See research/datasets/design.json.
+    domain: 'design',
+    transformations: [
+      {
+        transformation: 'Color Engine',
+        engine: 'color',
+        expected: [
+          'color-contrast-checker',
+          'color-format-converter',
+          'colorblind-simulator',
+          'css-gradient-generator',
+          'color-shades-generator',
+          'image-palette-extractor',
+        ],
+      },
+      {
+        transformation: 'CSS Unit Engine',
+        engine: 'units',
+        expected: [
+          'px-to-rem-converter',
+          'px-to-dp-converter',
+          'type-scale-generator',
+          'aspect-ratio-calculator',
+        ],
+      },
+    ],
+  },
 ];
 
 /** All (domain, transformation, engine, expected-slug) rows — never throws. */
