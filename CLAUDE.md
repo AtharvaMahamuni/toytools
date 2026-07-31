@@ -19,7 +19,7 @@ ASTRO_SITE=https://toytoolsapp.com npm run build
 > through to GitHub Pages' `404.html`, which carries `noindex,nofollow` — exactly the
 > "noindex detected in 'robots' meta tag" that Search Console flags.
 
-`npm run build` is the verification step — it runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together. There is no separate lint script.
+`npm run build` is the verification step — it runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together, then the **performance budget**. There is no separate lint script.
 
 ```sh
 npm run validate:architecture  # architectural lint pass (orphan files, dead registry entries,
@@ -40,6 +40,45 @@ npm run check:duplication      # near-duplicate authored content (descriptions, 
 `check-duplication.ts` flags content that reads mass-produced as the catalog scales (word-shingle
 Jaccard similarity). Sibling tools naturally trip it (hash generators, case converters), so it is
 informational by default; run before shipping a batch of new tool content.
+
+```sh
+npm run check:budget           # per-page critical-path budget (runs last in npm run build; needs dist/)
+npm run check:budget -- tool/text/word-counter   # print specific pages
+```
+
+## Performance budget (a hard gate for every new tool)
+
+**Every page has a byte budget and `npm run build` fails when one is exceeded.** This is not
+advisory. `scripts/check-budget.ts` measures the built `dist/` — render-blocking stylesheets, all JS
+the page fetches on load, and the HTML document, all gzipped — and compares each page against its
+kind's budget. It resolves the *actual* lazy chunks a page pulls (the engine named in
+`<meta name="tt-engines">`, the model named in `data-simulation-id`), so the numbers match a real
+browser trace exactly rather than over- or under-counting.
+
+Current budgets (gzipped) and the worst real page against each:
+
+| kind | sheets | CSS | JS | HTML | TOTAL | worst today |
+|---|---|---|---|---|---|---|
+| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 51.0 KB (`json-tree-viewer`) |
+| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 28.4 KB |
+| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 19.0 KB |
+| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 32.6 KB (`/search/`) |
+
+A typical new tool lands around **33-40 KB gzipped total**, so the budget has real headroom for
+content. If a new tool blows it, the cause is almost always structural, not the content:
+
+- **JS over budget** → the tool's engine is pulling something it should not, or an engine got
+  statically imported back into `src/lib/runtime/index.ts`. Engines must stay lazy (see
+  "Client Runtime" in `ARCHITECTURE.md`). A two-line static import regressed 134 pages when tested.
+- **Sheets/CSS over budget** → a route is globbing components outside its own segment, hoisting
+  other tools' stylesheets onto the page. Never reintroduce a cross-segment widget glob.
+- **HTML over budget** → the page is emitting far more markup than its siblings (runaway FAQ,
+  duplicated JSON-LD, a widget rendering per-item DOM it could render on demand).
+
+**Fix the cause; do not raise the budget.** Raising a number in `BUDGETS` is a decision to spend
+every visitor's bandwidth and needs a reason in the PR. `EXCEPTIONS` is for pages whose weight is
+inherent to what they are (only `/architecture/`, which renders the Mermaid map) and still caps
+them. Rationale and the full before/after: `docs/analysis/2026-07-31-critical-path-performance.md`.
 
 ```sh
 npm run scaffold:tool -- --slug <slug> --name "<Name>" --category <cat> --engine <engine> \
@@ -215,12 +254,23 @@ Most edits are local, but a few changes ripple across files. When you make one o
 - **Add an engine or pattern** → declare it in `src/data/engines.ts` (`ENGINE_IDS`/`PATTERN_IDS`
   *and* `engineDefs`; the unions and the defs are cross-checked). `KNOWN_ENGINES`/`KNOWN_PATTERNS`
   derive from here — never edit the validator. Add a `pattern → section` row in
-  `src/data/category-sections.ts`. If it has a runtime, wire it into `ToyToolsRuntime`.
+  `src/data/category-sections.ts`. If it has a browser runtime, add an attach module at
+  `src/lib/runtime/engines/<id>.ts` and register it in **both** maps in `src/lib/runtime/loaders.ts`
+  (`ENGINE_LOADERS` = the lazy `import()`; `ENGINE_GLOBALS` = the `ToyTools.*` names it attaches).
+  Engine chunks are loaded **per page** from the tool's declared engine, so a global that is not
+  declared simply will not exist at runtime — `validate-registry` fails the build if a widget calls
+  one its engine does not provide.
 - **Add a tool** → author `src/tools/<segment>/<slug>/{config.ts,Widget.astro}` and run
   `npm run registries:generate` (scaffold runs it for you) — registration is **derived** from the
   directory, never hand-edited (`*.generated.ts` barrels; `validate-architecture` fails the build
   when they are stale). A `processorId` must resolve in its engine registry **and** be unique
   (collisions fail `validate-registry`).
+- **Add a category** → besides `src/data/categories.ts`, run `npm run registries:generate`: tool
+  routes are **one generated file per segment** (`src/pages/tool/<segment>/[slug].astro`), so a new
+  segment needs its route emitted. There is no `[category]/[slug].astro` catch-all — a single route
+  globbing `tools/*/*/Widget.astro` put every widget in its module graph, and Astro then linked
+  every bespoke widget's CSS on every tool page (11 render-blocking sheets, half of it unused).
+  Never reintroduce a cross-segment widget glob. See `ARCHITECTURE.md` → "Registration Pattern".
 - **Add a guide** → `guide:` in config + `Guide.astro` in the tool dir + regenerate. The guide
   route discovers components via `import.meta.glob`, so there is no route map to edit; a `guide:`
   declared without a `Guide.astro` on disk fails `validate-architecture`.
@@ -388,6 +438,13 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
   - `ToyTools.storage.get/set/clear(key)` — localStorage with 50 KB cap
   - `ToyTools.copy(text)` — clipboard copy with toast feedback
 - localStorage key convention: `toytools.<slug>.<field>`, 50 KB cap
+- **The global arrives in two halves.** The *core* (`toast`, `copy`, `storage`, `state`, `prefs`,
+  `profile`, `history`, `focus`, `mobileTooltip`, `onReady`) is an inline script and exists during
+  parse — call it directly. The *engine* surfaces (`analyze`, `process`, `runDateTime`, `runHash`,
+  `runMath`, `experience`, …) load lazily, one chunk per page, so they do **not** exist yet when a
+  widget's inline script first runs. Anything that computes on load must be wrapped in
+  `ToyTools.onReady(function () { … })`. This has always been the contract; the wait is just a
+  round-trip longer now. See `src/lib/runtime/index.ts`.
 
 ### BackButton
 

@@ -345,9 +345,11 @@ processor into `PROCESSORS` (keyed by id, holding the rich object so metadata li
 `runProcessor(id, text)` — which resolves the processor and runs it, returning the input unchanged
 (with a `console.warn`) for an unknown id. It **never throws**.
 
-**Runtime exposure:** `ToyToolsRuntime.astro` bundles the registry and attaches
-`ToyTools.process = runProcessor` — exactly how `ToyTools.analyze` is bundled from the text-analysis
-engine. Widget inline scripts (which cannot import TS) call `ToyTools.process(processorId, text)`.
+**Runtime exposure:** `src/lib/runtime/engines/text-processor.ts` attaches
+`ToyTools.process = runProcessor` — exactly how `ToyTools.analyze` is attached from the
+text-analysis engine. Widget inline scripts (which cannot import TS) call
+`ToyTools.process(processorId, text)` inside `ToyTools.onReady()`. See "Client Runtime" below for
+why the wrapper is required.
 
 **Shared widget** (`src/tools/_shared/TextProcessorWidget.astro`, `pattern: 'text-processor'`):
 generic input → output. `ToolSplit ratio="1-1"` (50/50 desktop, stacks <1024px), live update on
@@ -561,6 +563,17 @@ same-category fallback so no sim derives an empty list. `derived.ts` resolves th
 manifests; a manifest may still set an explicit `relationships` overlay to override. This is why the
 manifests carry no hand-authored related-tool lists.
 
+**Boot & autoplay timing** (`boot.ts`). Each sim page ships the shared engine core plus exactly one
+lazily-imported simulation chunk (`loader.ts`'s `import.meta.glob`), so cost is flat from sim #4 to
+sim #500. On boot the static first frame, every readout and all controls are wired **immediately** —
+a sim is fully rendered and interactive without animating. The `requestAnimationFrame` **loop** is
+deferred behind two gates: an `IntersectionObserver` on the canvas (a sim below the fold never burns
+a frame) and then `requestIdleCallback` (so physics integration and canvas drawing do not compete
+with first paint, which is the window Lighthouse scores for Total Blocking Time). Both gates degrade
+to starting anyway where unsupported, and `prefers-reduced-motion: reduce` still means no autoplay
+at all. `boot.test.ts` pins this: the first frame is present while `aria-pressed` is still `false`
+and no frame is scheduled, until the canvas is reported visible.
+
 **Reusable libraries** (so sim #N reuses, never copy-pastes): `render/` (math, vector, angle, units
 incl. `GAS_CONSTANT_R`, physics kernels `resolveCollision1D`/`kineticEnergy`/`springPotential`),
 `graphs/` (`streamGraph`/`snapshotGraph`/`singleStream`/`singleSnapshot` builders), and `canvas.ts`
@@ -589,6 +602,45 @@ domain's e2e boot list (`tests/e2e/physics.spec.ts` / `tests/e2e/math.spec.ts`);
 `npm run test:e2e -- <domain>.spec.ts`. **Zero edits** to `registry.ts`/knowledge/faq/
 guide registries. `family` is a free-form string (e.g. `electricity`); the `simulate` pattern already
 has a category-section row.
+
+## Client Runtime (`src/lib/runtime/`, `src/components/ToyToolsRuntime.astro`)
+
+`window.ToyTools` is assembled from two halves, and the split is what keeps the JS budget flat as
+engines are added.
+
+**Core — inline, always present.** The `<script is:inline>` in `ToyToolsRuntime.astro`: `toast`,
+`copy`, `storage`, `state` (versioned per-tool persistence + migrations), `data` (backup/restore),
+`profile`, `prefs`, `history`, `recordRecent`, `focus`, `mobileTooltip`, the global keyboard
+shortcuts, and the `onReady` queue. It ships inside the HTML, costs no request, and is usable while
+the page is still parsing.
+
+**Engines — lazy, one chunk per page.** `src/lib/runtime/index.ts` reads
+`<meta name="tt-engines">` (emitted by `BaseLayout` from `ToolLayout`'s `engines={[tool.engine]}`)
+and dynamically imports only those attach modules from `src/lib/runtime/engines/<id>.ts`. Two maps
+in `src/lib/runtime/loaders.ts` are the contract: `ENGINE_LOADERS` (engine id → `import()`) and
+`ENGINE_GLOBALS` (engine id → the `ToyTools.*` names it attaches).
+
+> **Why.** This was one bundle statically importing all ~18 engines: **231 KB raw / 78 KB gzipped of
+> engine code on every page**, including guides, the homepage, and physics simulations that use none
+> of it. Since `type="module"` is deferred it did not block FCP directly, but parsing and executing
+> it is pure main-thread time and drives Total Blocking Time, the heaviest-weighted Lighthouse
+> metric. A tool page now loads 2-13 KB gzipped; a non-tool page loads 2 KB.
+
+Rules when touching this:
+- A new engine with a browser runtime needs an attach module **and** entries in *both* maps.
+  `validate-registry` fails the build when the maps disagree, when an engine id is unknown, or when
+  any widget calls a `ToyTools.*` global its declared engine does not provide.
+- Engines legitimately absent from the maps: `calculator` and `productivity` (self-contained
+  bespoke widgets), `physics` and `math-lab` (`SimulationWidget` lazy-loads one simulation module
+  per page instead).
+- **Widgets must schedule engine work through `ToyTools.onReady()`.** Engine functions attach after
+  a network round-trip; the core does not. This was already the contract — the window is just wider.
+- Shared surfaces used by several engines (`experience`, `viz`) live in their own modules
+  (`src/lib/runtime/experience.ts`, `viz.ts`) and are imported by each engine that needs them, so
+  Vite emits them once as a shared chunk. `transform` is registered per-provider
+  (`src/lib/runtime/transform.ts`) so an encoding page does not pull the hashing engine.
+
+---
 
 ## Platform Metadata & Manifests
 
@@ -756,24 +808,64 @@ them. The hand-written hubs (`registry.ts`, `faq-registry.ts`, `guide-registry.t
 public export names stable. `validate-architecture` byte-compares the barrels and fails the build
 when they are stale.
 
-Widget and guide routes are glob-based (`tools/*/*/Widget.astro`, `tools/*/*/Guide.astro`) — file
-presence wires the route; no page file is edited for a new tool. Derived related
-tools/guides/FAQs are automatic; author only the knowledge overlay fields
-(`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`). Missing knowledge WARNs;
-invalid knowledge fails the build.
+It also writes **one tool route per category segment** — `src/pages/tool/<segment>/[slug].astro`,
+generated and committed like the barrels. These are thin: `getStaticPaths` filters the registry to
+that segment (`src/lib/tools/segment-paths.ts`) and the page passes the resolved widget into the
+shared body, `src/components/tool/ToolPage.astro`.
+
+> **Why per-segment and not one `[category]/[slug].astro` catch-all.** The catch-all resolved any
+> tool's widget with `import.meta.glob('../../../tools/*/*/Widget.astro')`, which puts *every*
+> widget in that route's module graph. Astro derives a page's stylesheet links from the whole
+> graph, so every tool page linked every bespoke widget's stylesheet: **11 render-blocking sheets,
+> ~100 KB, of which ~53 KB was unused on any given page**. A per-segment route globs only its own
+> segment, cutting a tool page to 3-5 sheets / ~48 KB. Simulation-only segments (physics) have no
+> `Widget.astro` at all, so they emit no glob and carry no widget CSS.
+>
+> Two constraints when touching the generator: the glob pattern must stay a **literal** (Vite
+> resolves it at build time), and `getStaticPaths` must use a **block-bodied** arrow — with a
+> single-expression body the Astro compiler folds the following statements into the
+> `getStaticPaths` scope, where reading `Astro.props` throws `UnavailableAstroGlobal`.
+
+Guide routes remain glob-based (`tools/*/*/Guide.astro`) — file presence wires the route; no page
+file is hand-edited for a new tool. Derived related tools/guides/FAQs are automatic; author only
+the knowledge overlay fields (`usedWith`/`alternatives`/`nextSteps`, concepts, `workflowStage`).
+Missing knowledge WARNs; invalid knowledge fails the build.
 
 ---
 
 ## Build & Verification
 
 ```sh
-npm run build    # validate-registry (metadata + reference integrity) + Astro + TS strict — must pass before any PR
+npm run build    # validate-registry + validate-knowledge + validate-architecture, Astro + TS strict,
+                 # then check-budget — must pass before any PR
 npm run health   # post-build platform integrity superset (metadata, manifests, search index, sitemap output)
 npm run test     # vitest — engine-level tests (encoding/hashing/structured-data/manifest/metadata/search/sitemap)
+npm run check:budget  # per-page critical-path budget alone (needs an existing dist/)
 npm run dev      # dev server at localhost:4321
 ```
 
 No separate lint or test command. The build is the single verification step.
+
+### Performance budget (`scripts/check-budget.ts`)
+
+The last step of `npm run build`, and a **hard gate**: it measures the built `dist/` and fails the
+build when any page exceeds its kind's budget. Per page it sums render-blocking stylesheets, every
+JS chunk fetched on load, and the HTML document, all gzipped.
+
+It is accurate rather than approximate, which is what makes it usable as a gate. Both of the site's
+lazy-loading maps compile to the same shape,
+`<key>:()=>X(()=>import("./chunk.js"), __vite__mapDeps([...]))`, so the checker resolves exactly the
+chunks a page really pulls: the engine ids in `<meta name="tt-engines">` for the runtime's
+`ENGINE_LOADERS`, and `./simulations/<id>.ts` for `SimulationWidget`'s glob. Chunks reachable only
+under a key the page never asks for are correctly excluded. Verified against a real Playwright
+network trace: identical to the byte on every page type.
+
+Budgets (gzipped) live in `BUDGETS`; `EXCEPTIONS` holds pages whose weight is inherent to what they
+are (only `/architecture/`, the Mermaid map) and still caps them. **Raising a budget is a decision
+to spend every visitor's bandwidth — fix the cause instead**, and say why in the PR if you truly
+must. The three structural causes and what they mean are listed in `CLAUDE.md` →
+"Performance budget"; the full before/after is in
+`docs/analysis/2026-07-31-critical-path-performance.md`.
 
 ## E2E Testing (`tests/e2e/`)
 

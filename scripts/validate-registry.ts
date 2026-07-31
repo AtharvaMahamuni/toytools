@@ -1,6 +1,10 @@
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
-import { engineIds, knownPatterns, getEngine } from '../src/data/engines';
+import { engineIds, knownPatterns, getEngine, engineRegistry } from '../src/data/engines';
+import { ENGINE_GLOBALS, RUNTIME_ENGINE_IDS } from '../src/lib/runtime/loaders';
+import { readFileSync, existsSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { getToolMetadata } from '../src/data/metadata';
 import { registeredGuideSlugSet } from '../src/data/guide-registry';
 import { toolGroups, getToolGroup } from '../src/data/tool-groups';
@@ -18,6 +22,8 @@ import { GENERATORS } from '../src/lib/generation/registry';
 import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
 import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
+
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // KNOWN engines/patterns derive from the engine manifest — single source of truth.
 const KNOWN_ENGINES = engineIds;
@@ -190,6 +196,66 @@ for (const manifest of MANIFESTS) {
   }
   if (simSlugsSeen.has(slug)) errors.push(`Duplicate simulation manifest slug: "${slug}"`);
   simSlugsSeen.add(slug);
+}
+
+// ---- Runtime engine globals: every ToyTools.* a widget calls must actually be loaded ----
+// The deferred runtime ships ONE engine chunk per page, chosen from the tool's declared engine
+// (BaseLayout emits <meta name="tt-engines">). So a widget calling a global its engine does not
+// provide is now a runtime TypeError on a real page — invisible to tsc, because these are inline
+// browser scripts talking to an untyped global. This check is the replacement for the old
+// safety net of "every engine is always loaded anyway".
+{
+  const CORE_GLOBALS = new Set([
+    // Defined by the inline half of ToyToolsRuntime.astro — always present, no chunk needed.
+    'ready', '_readyCbs', 'onReady', 'track', 'toast', 'storage', 'state', 'data', 'profile',
+    'prefs', 'history', 'recordRecent', 'getRecent', 'focus', 'mobileTooltip', 'copy',
+  ]);
+  const usedGlobals = (file: string): string[] => {
+    if (!existsSync(file)) return [];
+    const src = readFileSync(file, 'utf8');
+    const found = new Set<string>();
+    // Widgets reach the global as `ToyTools.x` or via a local alias `var TT = window.ToyTools`.
+    for (const m of src.matchAll(/\b(?:ToyTools|TT)\.([A-Za-z_$][\w$]*)/g)) found.add(m[1]);
+    return [...found];
+  };
+  const check = (file: string, engineId: string, label: string) => {
+    const provided = new Set([...(ENGINE_GLOBALS[engineId] ?? []), ...CORE_GLOBALS]);
+    for (const g of usedGlobals(file)) {
+      if (provided.has(g)) continue;
+      errors.push(
+        `${label} calls ToyTools.${g}, which engine "${engineId}" does not load. ` +
+        `Either declare it in ENGINE_GLOBALS (src/lib/runtime/loaders.ts) and attach it in ` +
+        `src/lib/runtime/engines/${engineId}.ts, or stop using it here.`,
+      );
+    }
+  };
+
+  // Shared widgets are rendered for every tool on their engine.
+  for (const engine of engineRegistry) {
+    if (!engine.sharedWidget) continue;
+    check(join(repoRoot, 'src/tools/_shared', engine.sharedWidget), engine.id, `Shared widget ${engine.sharedWidget}`);
+  }
+  // Bespoke per-tool widgets.
+  for (const tool of tools) {
+    const category = categories.find(c => c.slug === tool.categorySlug);
+    if (!category) continue;
+    const widget = join(repoRoot, 'src/tools', category.segment, tool.slug, 'Widget.astro');
+    check(widget, tool.engine, `Tool "${tool.slug}" widget`);
+  }
+  // Every engine that declares runtime globals must have a loader, and vice versa.
+  for (const id of Object.keys(ENGINE_GLOBALS)) {
+    if (!RUNTIME_ENGINE_IDS.includes(id)) {
+      errors.push(`ENGINE_GLOBALS declares "${id}" but ENGINE_LOADERS has no entry — add the import() in src/lib/runtime/loaders.ts`);
+    }
+    if (!engineIds.has(id)) {
+      errors.push(`ENGINE_GLOBALS declares unknown engine "${id}" — register it in src/data/engines.ts`);
+    }
+  }
+  for (const id of RUNTIME_ENGINE_IDS) {
+    if (!ENGINE_GLOBALS[id]) {
+      errors.push(`ENGINE_LOADERS has "${id}" but ENGINE_GLOBALS does not list what it attaches — validators cannot check widgets against it`);
+    }
+  }
 }
 
 if (errors.length > 0) {

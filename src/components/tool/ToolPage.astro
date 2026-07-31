@@ -1,31 +1,37 @@
 ---
-import type { GetStaticPaths } from 'astro';
+// The tool page body, shared by every per-segment route in src/pages/tool/<segment>/[slug].astro.
+//
+// Why this is a component and not the route itself: a single catch-all route had to resolve any
+// tool's Widget.astro via `import.meta.glob('../../../tools/*/*/Widget.astro')`, which makes EVERY
+// widget part of that route's module graph. Astro collects page CSS from the whole graph, so every
+// tool page linked every bespoke widget's stylesheet — 11 render-blocking sheets, ~53 KB of it
+// unused on any given page, on the critical path. The per-segment routes each glob only their own
+// segment, so a page now ships its own segment's widget CSS and nothing else (and the sim segments,
+// which have no Widget.astro at all, ship none).
+//
+// The widget itself arrives through the default slot: the route decides whether that is a
+// SimulationWidget or the tool's own Widget.astro, so this component never imports either and
+// therefore never drags sim CSS onto a text page (or vice versa).
 import ToolLayout from '@layouts/ToolLayout.astro';
 import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
 import ToolNavRow from '@components/tool/ToolNavRow.astro';
-import { tools }      from '@data/registry';
+import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
 import { getToolGroup } from '@data/tool-groups';
 import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
-import { manifestBySlug } from '@lib/simulation/manifests';
-import { simulationSchemas } from '@lib/simulation/schema';
-import SimulationWidget from '@tools/_shared/SimulationWidget.astro';
+import type { Tool, Category } from '@data/types';
 
-export const getStaticPaths = (() => {
-  return tools.map(tool => {
-    const category = categories.find(c => c.slug === tool.categorySlug);
-    if (!category) throw new Error(`Category "${tool.categorySlug}" not found for tool "${tool.slug}"`);
-    return {
-      params: { category: category.segment, slug: tool.slug },
-      props:  { tool, category },
-    };
-  });
-}) satisfies GetStaticPaths;
+interface Props {
+  tool: Tool;
+  category: Category;
+  /** Extra JSON-LD blocks (sims add LearningResource + HowTo on top of the generic schema). */
+  extraSchemas?: unknown[];
+}
 
-const { tool, category } = Astro.props;
+const { tool, category, extraSchemas = [] } = Astro.props;
 
 // Group siblings are already linked by the GroupSwitcher above the widget —
 // exclude them from the Related strip so it surfaces other tools instead.
@@ -53,29 +59,15 @@ const faqSchema = faqItems.length > 0 ? {
     acceptedAnswer: { '@type': 'Answer', text: item.answer },
   })),
 } : null;
-
-// Simulation tools render the generic SimulationWidget from their manifest (no per-tool
-// Widget.astro). Every other tool resolves its own Widget.astro via the build-time glob.
-const simManifest = manifestBySlug.get(tool.slug);
-// Sims also advertise sim-specific structured data (LearningResource + HowTo) derived from the
-// manifest, on top of the generic SoftwareApplication/FAQPage schema every tool emits.
-const simSchemas = simManifest ? simulationSchemas(simManifest, Astro.url.href) : [];
-const widgets = import.meta.glob<{ default: unknown }>('../../../tools/*/*/Widget.astro');
-const widgetPath = `../../../tools/${category.segment}/${tool.slug}/Widget.astro`;
-const WidgetModule = simManifest ? null : await widgets[widgetPath]?.();
-const Widget = WidgetModule?.default as any;
-if (!simManifest && !Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"`);
 ---
 
 <ToolLayout tool={tool} category={category}>
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
-  {simSchemas.map(schema => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+  {extraSchemas.map(schema => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 
   {tool.toolGroup && <GroupSwitcher tool={tool} />}
 
-  {simManifest
-    ? <SimulationWidget config={tool} simulationId={simManifest.metadata.processorId} examples={simManifest.examples} />
-    : <Widget />}
+  <slot />
 
   <ToolNavRow
     faqItems={faqItems}

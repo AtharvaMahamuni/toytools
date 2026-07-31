@@ -1,135 +1,19 @@
 ---
-// Shared client-side runtime — inlined once in BaseLayout.
-// Exposes window.ToyTools global so all Widget inline scripts can call
-// ToyTools.toast(), ToyTools.storage.get/set/clear(), ToyTools.copy(),
-// ToyTools.analyze(), ToyTools.formatMetric().
+// Shared client-side runtime — included once by BaseLayout. Exposes the window.ToyTools global
+// that every Widget inline script talks to.
+//
+// Two halves, deliberately:
+//  - the INLINE script below: everything that must exist while the page is still parsing (state,
+//    toast, copy, storage, prefs, profile, history, focus, keyboard shortcuts) plus the onReady
+//    queue. No network cost; it ships as part of the HTML.
+//  - the BUNDLED module: the engine surfaces (analyze, runDateTime, runHash, ...), loaded lazily,
+//    one chunk per engine, driven by the <meta name="tt-engines"> BaseLayout emits for the page.
+//    See src/lib/runtime/index.ts for why, and for the readiness contract.
 ---
 
-<!-- Bundled: attaches text engine to the ToyTools global (single source of truth) -->
+<!-- Deferred: platform glue (analytics, service worker) + the page's declared engines only -->
 <script>
-  import { analyzeText } from '@lib/text/analysis';
-  import { formatMetric } from '@lib/text/formatters';
-  import { runProcessor } from '@lib/text/processors/registry';
-  import { runEncoding, encodingProvider } from '@lib/engines/encoding/registry';
-  import { runHash, hashingProvider } from '@lib/engines/hashing/registry';
-  import { runStructuredData } from '@lib/engines/structured-data/registry';
-  import { runCsv } from '@lib/engines/csv/registry';
-  import { runJwt } from '@lib/engines/jwt/registry';
-  import { runFinance } from '@lib/engines/finance/registry';
-  import { runDateTime } from '@lib/engines/datetime/registry';
-  import { runMath } from '@lib/engines/math/registry';
-  import { runWellness } from '@lib/engines/wellness/registry';
-  import { tracker } from '@lib/engines/tracker/registry';
-  import { runGeneration } from '@lib/generation/registry';
-  import { color } from '@lib/engines/color/registry';
-  import { units } from '@lib/engines/units/registry';
-  import { renderExperience } from '@lib/experience/render';
-  import { sparklineSvg } from '@lib/visualization/render';
-  import { diffLines, diffStats } from '@lib/text/compare';
-  import { jsonExplorer } from '@lib/json/explorer';
-  import { yamlSerializer } from '@lib/json/yaml';
-  import { csvSerializer } from '@lib/csv/csv';
-  import { analyticsEnabled, GA_MEASUREMENT_ID } from '@lib/analytics/guard';
-  const TT = ((window as any).ToyTools ??= {});
-
-  // Google Analytics — loaded here (not in BaseLayout) so it can be fully gated
-  // by the analytics guard. For real users it injects gtag.js and wires
-  // ToyTools.track(name, params); for tests/dev/localhost/automation it stays a
-  // no-op and never makes a network request. All custom events must go through
-  // ToyTools.track — never call gtag() directly.
-  if (analyticsEnabled) {
-    const w = window as any;
-    w.dataLayer = w.dataLayer || [];
-    w.gtag = w.gtag || function () { w.dataLayer.push(arguments); };
-    w.gtag('js', new Date());
-    w.gtag('config', GA_MEASUREMENT_ID);
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
-    document.head.appendChild(s);
-    TT.track = function (name: string, params?: Record<string, unknown>) {
-      try { w.gtag('event', name, params); } catch (_) { /* never break the UI */ }
-    };
-  } else {
-    TT.track = function () { /* analytics disabled for this session */ };
-  }
-
-  // Progressive Web App — register the service worker so tools work offline and
-  // can be installed to the home screen. Gated exactly like analytics (real
-  // production users only: never in dev, E2E, automation, or localhost), so test
-  // runs and local previews are never controlled by a caching worker.
-  if (analyticsEnabled && 'serviceWorker' in navigator) {
-    const swUrl = (import.meta.env.BASE_URL || '/') + 'sw.js';
-    const swScope = import.meta.env.BASE_URL || '/';
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register(swUrl, { scope: swScope }).catch(() => { /* never break the UI */ });
-    });
-  }
-
-  TT.analyze = analyzeText;
-  TT.formatMetric = formatMetric;
-  TT.process = runProcessor; // ToyTools.process(processorId, text) → transformed text
-  TT.runEncoding = runEncoding; // ToyTools.runEncoding(id, mode, text) → { ok, output, error }
-
-  // Generic transform facade — engine-agnostic surface the ConverterWidget speaks.
-  // Dispatches by `kind` to a registered provider; encoding is the first. New kinds
-  // (hashing, rot13, base32, …) register here without touching the widget. Every verb
-  // degrades to a safe neutral default when a kind has no provider yet.
-  const TRANSFORM_PROVIDERS: Record<string, typeof encodingProvider> = {
-    encoding: encodingProvider,
-    hashing: hashingProvider,
-  };
-  TT.transform = {
-    run: (kind: string, id: string, mode: string, input: string) => {
-      const p = TRANSFORM_PROVIDERS[kind];
-      return p ? p.run(id, mode, input) : { ok: true, output: input };
-    },
-    detect: (kind: string, id: string, input: string) => {
-      const p = TRANSFORM_PROVIDERS[kind];
-      return p ? p.detect(id, input) : { mode: 'encode', confidence: 'low' };
-    },
-    validate: (kind: string, id: string, mode: string, input: string) => {
-      const p = TRANSFORM_PROVIDERS[kind];
-      return p ? p.validate(id, mode, input) : { ok: true };
-    },
-    meta: (kind: string, id: string, input: string, output: string, mode: string) => {
-      const p = TRANSFORM_PROVIDERS[kind];
-      return p ? p.meta(id, input, output, mode) : [];
-    },
-    info: (kind: string, id: string) => {
-      const p = TRANSFORM_PROVIDERS[kind];
-      return p
-        ? p.info(id)
-        : { displayName: id, reversible: true, modes: { forward: 'encode', inverse: 'decode' } };
-    },
-  };
-  TT.runHash = runHash; // ToyTools.runHash(id, text) → Promise<string> (hex digest)
-  TT.runStructuredData = runStructuredData; // ToyTools.runStructuredData(id, input) → { ok, output, error }
-  TT.runCsv = runCsv; // ToyTools.runCsv(id, input, second?) → { ok, output, error, summary }
-  TT.runJwt = runJwt; // ToyTools.runJwt(id, token) → { ok, decoded, error }
-  TT.runFinance = runFinance; // ToyTools.runFinance(id, input, { currency }) → InteractiveResult
-  TT.runDateTime = runDateTime; // ToyTools.runDateTime(id, input, { timezone?, locale? }) → InteractiveResult
-  TT.runMath = runMath; // ToyTools.runMath(id, input, { locale? }) → InteractiveResult
-  TT.runWellness = runWellness; // ToyTools.runWellness(id, input, { locale? }) → InteractiveResult
-  TT.tracker = tracker; // ToyTools.tracker.* — stateful tracker model + streaks + inline-SVG charts
-  TT.runGeneration = runGeneration; // ToyTools.runGeneration(id, options) → GenerationResult
-  TT.color = color; // ToyTools.color.parse/formats/check/wcag/suggest — color math namespace
-  TT.units = units; // ToyTools.units.pxToRem/pxToDp/aspectRatio — CSS + mobile unit math namespace
-  TT.experience = { render: renderExperience }; // ToyTools.experience.render(root, result) → fills the experience shell
-  TT.viz = { sparkline: sparklineSvg }; // ToyTools.viz.sparkline(values) → inline SVG trend line
-  TT.diff = diffLines; // ToyTools.diff(a, b) → DiffResult[]
-  TT.diffStats = diffStats; // ToyTools.diffStats(result) → { added, removed, unchanged, similarity }
-  TT.json = jsonExplorer; // ToyTools.json.parse/stats/search — reusable JSON Explorer Core
-  TT.yaml = yamlSerializer; // ToyTools.yaml.serialize(value, opts) → YAML string
-  TT.csv = csvSerializer; // ToyTools.csv.parse(text, opts) / .serialize(rows, headers) — CSV core
-
-  // These engine fns attach via this *deferred module*, but widget inline scripts run
-  // during parse — so a widget's first render can't call them yet. Flush onReady() now.
-  TT.ready = true;
-  if (TT._readyCbs) {
-    TT._readyCbs.forEach((fn: () => void) => { try { fn(); } catch (_) { /* ignore */ } });
-    TT._readyCbs = [];
-  }
+  import '@lib/runtime';
 </script>
 
 <script is:inline>

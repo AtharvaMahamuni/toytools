@@ -491,11 +491,57 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', onThemeChange);
 
   // ── First paint. Reduced motion starts paused on a static frame; Play stays available. ───
+  // The static frame is drawn immediately so the canvas is never blank once JS has run, and so the
+  // controls are interactive right away. Only the animation LOOP waits (see below).
   refreshAll();
   reflectPlayState();
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
+  if (!reduceMotion) autoplayWhenSettled(canvas, loop, reflectPlayState);
+}
+
+/**
+ * Start the animation loop once the page has settled and the canvas is actually on screen.
+ *
+ * Autoplay is deliberate — a simulation that sits still reads as broken — but starting a 60 fps
+ * rAF loop the instant the module evaluates means physics integration, canvas drawing and readout
+ * formatting all compete with first paint, which is exactly the window Lighthouse scores for
+ * Total Blocking Time. Waiting for an idle callback moves that work after the page is usable, and
+ * the IntersectionObserver means a simulation scrolled out of view never burns a frame at all.
+ *
+ * Both waits degrade to "just start it": an unsupported IntersectionObserver falls through to the
+ * idle path, and an unsupported requestIdleCallback falls back to a short timeout.
+ */
+function autoplayWhenSettled(
+  canvas: HTMLCanvasElement,
+  loop: SimulationLoop,
+  reflectPlayState: () => void,
+): void {
+  const begin = (): void => {
+    if (loop.running()) return;
     loop.play();
     reflectPlayState();
+  };
+  const whenIdle = (): void => {
+    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => void })
+      .requestIdleCallback;
+    if (ric) ric(begin, { timeout: 1000 });
+    else setTimeout(begin, 150);
+  };
+
+  if (typeof IntersectionObserver === 'undefined') {
+    whenIdle();
+    return;
   }
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        io.disconnect(); // one-shot: the user can pause/play by hand from here on
+        whenIdle();
+        return;
+      }
+    },
+    { rootMargin: '150px' },
+  );
+  io.observe(canvas);
 }
