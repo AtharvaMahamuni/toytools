@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T09:18:50.711Z",
+  "generatedAt": "2026-07-31T11:08:09.391Z",
   "clusters": [
     {
       "id": "unit-circle",
@@ -43,6 +43,24 @@
       ]
     },
     {
+      "id": "contrast-ratio",
+      "transformation": "Contrast Ratio",
+      "engine": "color",
+      "members": [
+        "color-contrast-checker"
+      ],
+      "existingMembers": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "size": 1,
+      "meanScore": 83.4,
+      "internalLinks": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ]
+    },
+    {
       "id": "fractions",
       "transformation": "Fractions",
       "engine": "math",
@@ -61,6 +79,24 @@
         "fraction-calculator",
         "prime-factorization-calculator",
         "quadratic-equation-explorer"
+      ]
+    },
+    {
+      "id": "color-conversion",
+      "transformation": "Color Conversion",
+      "engine": "color",
+      "members": [
+        "color-format-converter"
+      ],
+      "existingMembers": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "size": 1,
+      "meanScore": 82,
+      "internalLinks": [
+        "color-contrast-checker",
+        "color-format-converter"
       ]
     },
     {
@@ -120,6 +156,26 @@
         "fraction-calculator",
         "prime-factorization-calculator",
         "probability-simulator"
+      ]
+    },
+    {
+      "id": "css-unit-conversion",
+      "transformation": "CSS Unit Conversion",
+      "engine": "units",
+      "members": [
+        "px-to-rem-converter"
+      ],
+      "existingMembers": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
+      ],
+      "size": 1,
+      "meanScore": 81.6,
+      "internalLinks": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
       ]
     },
     {
@@ -209,6 +265,26 @@
       ]
     },
     {
+      "id": "density-unit-conversion",
+      "transformation": "Density Unit Conversion",
+      "engine": "units",
+      "members": [
+        "px-to-dp-converter"
+      ],
+      "existingMembers": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
+      ],
+      "size": 1,
+      "meanScore": 80.3,
+      "internalLinks": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
+      ]
+    },
+    {
       "id": "projectile-motion",
       "transformation": "Projectile Motion",
       "engine": "physics",
@@ -295,6 +371,26 @@
         "normalize-whitespace",
         "remove-accents",
         "remove-blank-lines"
+      ]
+    },
+    {
+      "id": "aspect-ratio",
+      "transformation": "Aspect Ratio",
+      "engine": "units",
+      "members": [
+        "aspect-ratio-calculator"
+      ],
+      "existingMembers": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
+      ],
+      "size": 1,
+      "meanScore": 79.8,
+      "internalLinks": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
       ]
     },
     {
@@ -653,6 +749,24 @@
       ]
     },
     {
+      "id": "color-scale",
+      "transformation": "Color Scale",
+      "engine": "color",
+      "members": [
+        "color-shades-generator"
+      ],
+      "existingMembers": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "size": 1,
+      "meanScore": 77.1,
+      "internalLinks": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ]
+    },
+    {
       "id": "timestamp-conversion",
       "transformation": "Timestamp Conversion",
       "engine": "datetime",
@@ -674,6 +788,26 @@
         "date-difference-calculator",
         "timezone-converter",
         "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "type-scale",
+      "transformation": "Type Scale",
+      "engine": "units",
+      "members": [
+        "type-scale-generator"
+      ],
+      "existingMembers": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
+      ],
+      "size": 1,
+      "meanScore": 76.9,
+      "internalLinks": [
+        "aspect-ratio-calculator",
+        "px-to-dp-converter",
+        "px-to-rem-converter"
       ]
     },
     {
@@ -804,6 +938,24 @@
         "probability-simulator",
         "quadratic-equation-explorer",
         "unit-circle-explorer"
+      ]
+    },
+    {
+      "id": "color-vision-simulation",
+      "transformation": "Color Vision Simulation",
+      "engine": "color",
+      "members": [
+        "colorblind-simulator"
+      ],
+      "existingMembers": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "size": 1,
+      "meanScore": 75.4,
+      "internalLinks": [
+        "color-contrast-checker",
+        "color-format-converter"
       ]
     },
     {
@@ -983,18 +1135,6 @@
       ]
     },
     {
-      "id": "contrast-ratio",
-      "transformation": "Contrast Ratio",
-      "engine": "color",
-      "members": [
-        "color-contrast-checker"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 73,
-      "internalLinks": []
-    },
-    {
       "id": "csv-column-selection",
       "transformation": "CSV Column Selection",
       "engine": "csv",
@@ -1017,28 +1157,22 @@
       ]
     },
     {
-      "id": "color-conversion",
-      "transformation": "Color Conversion",
+      "id": "perceptual-gradient",
+      "transformation": "Perceptual Gradient",
       "engine": "color",
       "members": [
+        "css-gradient-generator"
+      ],
+      "existingMembers": [
+        "color-contrast-checker",
         "color-format-converter"
       ],
-      "existingMembers": [],
       "size": 1,
-      "meanScore": 71.7,
-      "internalLinks": []
-    },
-    {
-      "id": "css-unit-conversion",
-      "transformation": "CSS Unit Conversion",
-      "engine": "units",
-      "members": [
-        "px-to-rem-converter"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 71.3,
-      "internalLinks": []
+      "meanScore": 71.2,
+      "internalLinks": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ]
     },
     {
       "id": "word-frequency-analysis",
@@ -1068,30 +1202,6 @@
         "reading-time-calculator",
         "word-counter"
       ]
-    },
-    {
-      "id": "density-unit-conversion",
-      "transformation": "Density Unit Conversion",
-      "engine": "units",
-      "members": [
-        "px-to-dp-converter"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 69.9,
-      "internalLinks": []
-    },
-    {
-      "id": "aspect-ratio",
-      "transformation": "Aspect Ratio",
-      "engine": "units",
-      "members": [
-        "aspect-ratio-calculator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 69.5,
-      "internalLinks": []
     },
     {
       "id": "timezone-conversion",
@@ -1129,6 +1239,24 @@
       "meanScore": 68.5,
       "internalLinks": [
         "compound-interest-calculator"
+      ]
+    },
+    {
+      "id": "palette-extraction",
+      "transformation": "Palette Extraction",
+      "engine": "color",
+      "members": [
+        "image-palette-extractor"
+      ],
+      "existingMembers": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "size": 1,
+      "meanScore": 68.4,
+      "internalLinks": [
+        "color-contrast-checker",
+        "color-format-converter"
       ]
     },
     {
@@ -1185,30 +1313,6 @@
       ]
     },
     {
-      "id": "color-scale",
-      "transformation": "Color Scale",
-      "engine": "color",
-      "members": [
-        "color-shades-generator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 66.8,
-      "internalLinks": []
-    },
-    {
-      "id": "type-scale",
-      "transformation": "Type Scale",
-      "engine": "units",
-      "members": [
-        "type-scale-generator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 66.5,
-      "internalLinks": []
-    },
-    {
       "id": "salary-conversion",
       "transformation": "Salary Conversion",
       "engine": "budget",
@@ -1221,18 +1325,6 @@
       "internalLinks": [
         "percentage-calculator"
       ]
-    },
-    {
-      "id": "color-vision-simulation",
-      "transformation": "Color Vision Simulation",
-      "engine": "color",
-      "members": [
-        "colorblind-simulator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 65,
-      "internalLinks": []
     },
     {
       "id": "retirement-projection",
@@ -1249,30 +1341,6 @@
         "inflation-calculator",
         "savings-goal-calculator"
       ]
-    },
-    {
-      "id": "perceptual-gradient",
-      "transformation": "Perceptual Gradient",
-      "engine": "color",
-      "members": [
-        "css-gradient-generator"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 60.9,
-      "internalLinks": []
-    },
-    {
-      "id": "palette-extraction",
-      "transformation": "Palette Extraction",
-      "engine": "color",
-      "members": [
-        "image-palette-extractor"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 58,
-      "internalLinks": []
     }
   ]
 }

@@ -10,4 +10,13 @@ export const config: ToolConfig = {
   engine: 'units',
   pattern: 'unit-convert',
   family: 'css-unit',
+  relatedTools: ['px-to-rem-converter', 'aspect-ratio-calculator'],
+  guide: {
+    slug: 'px-to-dp-converter',
+    categorySlug: 'design',
+    title: 'DP, SP, and PX: How Android and iOS Density Units Work',
+    description: 'Understand density-independent pixels, how dp and sp convert to px across Android buckets, and how iOS points compare.',
+    readMinutes: 5,
+    updatedAt: 'Jul 2026',
+  },
 };

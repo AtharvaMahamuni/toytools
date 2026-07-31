@@ -10,4 +10,13 @@ export const config: ToolConfig = {
   engine: 'units',
   pattern: 'aspect-ratio',
   family: 'aspect',
+  relatedTools: ['px-to-rem-converter', 'px-to-dp-converter'],
+  guide: {
+    slug: 'aspect-ratio-calculator',
+    categorySlug: 'design',
+    title: 'Aspect Ratios Explained: 16:9, Resizing, and the Math',
+    description: 'Understand what an aspect ratio is, how to solve a missing width or height, and how to resize images and video without distortion.',
+    readMinutes: 5,
+    updatedAt: 'Jul 2026',
+  },
 };

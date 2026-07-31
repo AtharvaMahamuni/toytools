@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T09:18:50.711Z",
+  "generatedAt": "2026-07-31T11:08:09.391Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -36,9 +36,21 @@
       "transformation": "Aspect Ratio",
       "engine": "units",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "px-to-rem-converter"
+      ],
+      "relatedGuides": [
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "px-to-rem-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-dp-converter",
+        "aspect-ratio-calculator",
+        "px-to-rem-converter"
+      ]
     },
     {
       "id": "base64-encoder-decoder",
@@ -138,9 +150,18 @@
       "transformation": "Contrast Ratio",
       "engine": "color",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ]
     },
     {
       "id": "color-format-converter",
@@ -148,9 +169,18 @@
       "transformation": "Color Conversion",
       "engine": "color",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedGuides": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedFaqs": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ]
     },
     {
       "id": "color-shades-generator",
@@ -158,9 +188,18 @@
       "transformation": "Color Scale",
       "engine": "color",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ]
     },
     {
       "id": "colorblind-simulator",
@@ -168,9 +207,18 @@
       "transformation": "Color Vision Simulation",
       "engine": "color",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedGuides": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedFaqs": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ]
     },
     {
       "id": "combinations-permutations-calculator",
@@ -268,9 +316,18 @@
       "transformation": "Perceptual Gradient",
       "engine": "color",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ]
     },
     {
       "id": "csv-cleaner",
@@ -575,9 +632,18 @@
       "transformation": "Palette Extraction",
       "engine": "color",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ]
     },
     {
       "id": "inclined-plane-simulator",
@@ -1021,9 +1087,21 @@
       "transformation": "Density Unit Conversion",
       "engine": "units",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedGuides": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ]
     },
     {
       "id": "px-to-rem-converter",
@@ -1031,9 +1109,21 @@
       "transformation": "CSS Unit Conversion",
       "engine": "units",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "px-to-dp-converter",
+        "px-to-rem-converter",
+        "aspect-ratio-calculator"
+      ],
+      "relatedGuides": [
+        "px-to-dp-converter",
+        "px-to-rem-converter",
+        "aspect-ratio-calculator"
+      ],
+      "relatedFaqs": [
+        "px-to-dp-converter",
+        "px-to-rem-converter",
+        "aspect-ratio-calculator"
+      ]
     },
     {
       "id": "quadratic-equation-explorer",
@@ -1535,9 +1625,21 @@
       "transformation": "Type Scale",
       "engine": "units",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedGuides": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ]
     },
     {
       "id": "unit-circle-explorer",

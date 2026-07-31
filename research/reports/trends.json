@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T09:18:50.711Z",
+  "generatedAt": "2026-07-31T11:08:09.391Z",
   "trends": [
     {
       "transformation": "Unit Circle",
@@ -15,10 +15,22 @@
       "meanScore": 83.8
     },
     {
+      "transformation": "Contrast Ratio",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 83.4
+    },
+    {
       "transformation": "Fractions",
       "count": 1,
       "meanDemand": 0.9,
       "meanScore": 82.1
+    },
+    {
+      "transformation": "Color Conversion",
+      "count": 1,
+      "meanDemand": 0.92,
+      "meanScore": 82
     },
     {
       "transformation": "Line Break Removal",
@@ -31,6 +43,12 @@
       "count": 1,
       "meanDemand": 0.78,
       "meanScore": 81.7
+    },
+    {
+      "transformation": "CSS Unit Conversion",
+      "count": 1,
+      "meanDemand": 0.84,
+      "meanScore": 81.6
     },
     {
       "transformation": "Systematic Investment Plan",
@@ -51,6 +69,12 @@
       "meanScore": 80.9
     },
     {
+      "transformation": "Density Unit Conversion",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 80.3
+    },
+    {
       "transformation": "Projectile Motion",
       "count": 1,
       "meanDemand": 0.9,
@@ -67,6 +91,12 @@
       "count": 1,
       "meanDemand": 0.8,
       "meanScore": 80
+    },
+    {
+      "transformation": "Aspect Ratio",
+      "count": 1,
+      "meanDemand": 0.74,
+      "meanScore": 79.8
     },
     {
       "transformation": "Descriptive Statistics",
@@ -147,9 +177,21 @@
       "meanScore": 77.2
     },
     {
+      "transformation": "Color Scale",
+      "count": 1,
+      "meanDemand": 0.64,
+      "meanScore": 77.1
+    },
+    {
       "transformation": "Timestamp Conversion",
       "count": 1,
       "meanDemand": 0.9,
+      "meanScore": 76.9
+    },
+    {
+      "transformation": "Type Scale",
+      "count": 1,
+      "meanDemand": 0.58,
       "meanScore": 76.9
     },
     {
@@ -181,6 +223,12 @@
       "count": 1,
       "meanDemand": 0.7,
       "meanScore": 75.5
+    },
+    {
+      "transformation": "Color Vision Simulation",
+      "count": 1,
+      "meanDemand": 0.66,
+      "meanScore": 75.4
     },
     {
       "transformation": "CSV Cleaning",
@@ -225,46 +273,22 @@
       "meanScore": 73.5
     },
     {
-      "transformation": "Contrast Ratio",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 73
-    },
-    {
       "transformation": "CSV Column Selection",
       "count": 1,
       "meanDemand": 0.6,
       "meanScore": 71.9
     },
     {
-      "transformation": "Color Conversion",
+      "transformation": "Perceptual Gradient",
       "count": 1,
-      "meanDemand": 0.92,
-      "meanScore": 71.7
-    },
-    {
-      "transformation": "CSS Unit Conversion",
-      "count": 1,
-      "meanDemand": 0.84,
-      "meanScore": 71.3
+      "meanDemand": 0.7,
+      "meanScore": 71.2
     },
     {
       "transformation": "Word Frequency Analysis",
       "count": 1,
       "meanDemand": 0.72,
       "meanScore": 70
-    },
-    {
-      "transformation": "Density Unit Conversion",
-      "count": 1,
-      "meanDemand": 0.72,
-      "meanScore": 69.9
-    },
-    {
-      "transformation": "Aspect Ratio",
-      "count": 1,
-      "meanDemand": 0.74,
-      "meanScore": 69.5
     },
     {
       "transformation": "Timezone Conversion",
@@ -277,6 +301,12 @@
       "count": 1,
       "meanDemand": 0.96,
       "meanScore": 68.5
+    },
+    {
+      "transformation": "Palette Extraction",
+      "count": 1,
+      "meanDemand": 0.68,
+      "meanScore": 68.4
     },
     {
       "transformation": "Cron Parsing",
@@ -297,46 +327,16 @@
       "meanScore": 67
     },
     {
-      "transformation": "Color Scale",
-      "count": 1,
-      "meanDemand": 0.64,
-      "meanScore": 66.8
-    },
-    {
-      "transformation": "Type Scale",
-      "count": 1,
-      "meanDemand": 0.58,
-      "meanScore": 66.5
-    },
-    {
       "transformation": "Salary Conversion",
       "count": 1,
       "meanDemand": 0.9,
       "meanScore": 66.3
     },
     {
-      "transformation": "Color Vision Simulation",
-      "count": 1,
-      "meanDemand": 0.66,
-      "meanScore": 65
-    },
-    {
       "transformation": "Retirement Projection",
       "count": 1,
       "meanDemand": 0.94,
       "meanScore": 61.4
-    },
-    {
-      "transformation": "Perceptual Gradient",
-      "count": 1,
-      "meanDemand": 0.7,
-      "meanScore": 60.9
-    },
-    {
-      "transformation": "Palette Extraction",
-      "count": 1,
-      "meanDemand": 0.68,
-      "meanScore": 58
     }
   ]
 }

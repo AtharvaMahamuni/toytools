@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T09:18:50.711Z",
+  "generatedAt": "2026-07-31T11:08:09.391Z",
   "top": [
     {
       "id": "statistics-visualizer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -92,7 +92,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -161,7 +161,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -214,6 +214,135 @@
       "engineExists": true
     },
     {
+      "id": "color-shades-generator",
+      "title": "Color Shades & Tints Generator",
+      "problem": "I want to generate a full tint and shade scale (50 to 900) from one base color for a design token set.",
+      "userIntent": "transactional",
+      "workflow": "input → Color Scale → output",
+      "transformation": "Color Scale",
+      "proposedTool": "color-shades-generator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "color shades tints generator",
+        "color shades generator",
+        "tints and shades",
+        "color scale generator",
+        "tailwind color shades",
+        "50 to 900 color palette"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "uicolors.app",
+        "smart-swatch"
+      ],
+      "solutionWeaknesses": [
+        "opinionated single-purpose apps",
+        "no copyable CSS custom properties",
+        "no perceptual (OKLCH) spacing"
+      ],
+      "relatedProblems": [
+        "color conversion",
+        "perceptual gradient"
+      ],
+      "relatedTools": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedGuides": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "relatedFaqs": [
+        "color-format-converter",
+        "color-contrast-checker"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.86,
+      "competitionScore": 0.6,
+      "searchDemand": 0.64,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.53,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 77.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "type-scale-generator",
+      "title": "Modular Type Scale Generator",
+      "problem": "I want to pick a base font size and ratio and generate a modular type scale as copyable rem CSS custom properties.",
+      "userIntent": "transactional",
+      "workflow": "input → Type Scale → output",
+      "transformation": "Type Scale",
+      "proposedTool": "type-scale-generator",
+      "proposedEngine": "units",
+      "searchQueries": [
+        "modular type scale generator",
+        "type scale generator",
+        "modular scale",
+        "font size scale calculator",
+        "golden ratio typography",
+        "css type scale"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "typescale.com",
+        "type-scale.com"
+      ],
+      "solutionWeaknesses": [
+        "no copyable CSS custom properties",
+        "limited ratio presets",
+        "not mobile-first"
+      ],
+      "relatedProblems": [
+        "px to rem",
+        "aspect ratio"
+      ],
+      "relatedTools": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedGuides": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "relatedFaqs": [
+        "px-to-rem-converter",
+        "aspect-ratio-calculator",
+        "px-to-dp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.68,
+      "searchDemand": 0.58,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 1,
+      "confidence": 0.64,
+      "finalScore": 76.9,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "normal-distribution-visualizer",
       "title": "Normal Distribution Visualizer",
       "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
@@ -232,7 +361,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -297,7 +426,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -344,6 +473,68 @@
       "engineExists": true
     },
     {
+      "id": "colorblind-simulator",
+      "title": "Colorblind Simulator",
+      "problem": "I want to see how my palette or colors look to people with protanopia, deuteranopia, and tritanopia.",
+      "userIntent": "transactional",
+      "workflow": "input → Color Vision Simulation → output",
+      "transformation": "Color Vision Simulation",
+      "proposedTool": "colorblind-simulator",
+      "proposedEngine": "color",
+      "searchQueries": [
+        "colorblind simulator",
+        "color blindness simulator",
+        "deuteranopia simulator",
+        "protanopia color check",
+        "colorblind palette checker"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "existingSolutions": [
+        "coblis (color-blindness.com)",
+        "venngage colorblind simulator"
+      ],
+      "solutionWeaknesses": [
+        "image-upload only, no palette input",
+        "server-side upload (privacy)",
+        "no side-by-side type comparison"
+      ],
+      "relatedProblems": [
+        "contrast ratio",
+        "accessible palette"
+      ],
+      "relatedTools": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedGuides": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "relatedFaqs": [
+        "color-contrast-checker",
+        "color-format-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.7,
+      "searchDemand": 0.66,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.86,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.53,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.95,
+      "confidence": 0.8,
+      "finalScore": 75.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "function-grapher",
       "title": "Function Grapher",
       "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
@@ -362,7 +553,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -409,61 +600,6 @@
       "engineExists": true
     },
     {
-      "id": "color-contrast-checker",
-      "title": "WCAG Color Contrast Checker",
-      "problem": "I need to check whether a text color and background color meet WCAG AA/AAA contrast so my UI is accessible.",
-      "userIntent": "transactional",
-      "workflow": "input → Contrast Ratio → output",
-      "transformation": "Contrast Ratio",
-      "proposedTool": "color-contrast-checker",
-      "proposedEngine": "color",
-      "searchQueries": [
-        "color contrast checker wcag",
-        "color contrast checker",
-        "wcag contrast checker",
-        "contrast ratio calculator",
-        "aa aaa contrast checker",
-        "accessible color contrast"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
-      "existingSolutions": [
-        "webaim.org/resources/contrastchecker",
-        "coolors.co/contrast-checker"
-      ],
-      "solutionWeaknesses": [
-        "ad-supported or upsell-driven",
-        "no nearest-accessible-color suggestion",
-        "desktop-only UI, not mobile-first"
-      ],
-      "relatedProblems": [
-        "color format conversion",
-        "colorblind simulation",
-        "accessible palette"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.56,
-      "searchDemand": 0.88,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.95,
-      "algorithmicFit": 0.98,
-      "confidence": 0.8,
-      "finalScore": 73,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
       "id": "csv-column-picker",
       "title": "CSV Column Picker",
       "problem": "I want to pick out specific columns from a CSV and drop the rest.",
@@ -481,7 +617,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
+      "discoveredAt": "2026-07-31T11:08:09.391Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -531,117 +667,6 @@
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true
-    },
-    {
-      "id": "color-format-converter",
-      "title": "Color Format Converter",
-      "problem": "I want to convert a color between HEX, RGB, HSL, HSV, OKLCH, and CMYK and copy the CSS value.",
-      "userIntent": "transactional",
-      "workflow": "input → Color Conversion → output",
-      "transformation": "Color Conversion",
-      "proposedTool": "color-format-converter",
-      "proposedEngine": "color",
-      "searchQueries": [
-        "hex to rgb to hsl converter",
-        "hex to rgb",
-        "rgb to hex",
-        "hex to hsl",
-        "color converter",
-        "hex to oklch",
-        "rgb to cmyk"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
-      "existingSolutions": [
-        "w3schools.com/colors",
-        "rgbtohex.net"
-      ],
-      "solutionWeaknesses": [
-        "no OKLCH / OKLAB (modern CSS) support",
-        "single-direction converters, not one unified tool",
-        "cluttered, ad-heavy"
-      ],
-      "relatedProblems": [
-        "contrast ratio",
-        "color shades",
-        "named css colors"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.94,
-      "competitionScore": 0.4,
-      "searchDemand": 0.92,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.97,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.96,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 71.7,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
-    },
-    {
-      "id": "px-to-rem-converter",
-      "title": "PX to REM Converter",
-      "problem": "I want to convert px to rem, em, and pt for CSS against a configurable root font size.",
-      "userIntent": "transactional",
-      "workflow": "input → CSS Unit Conversion → output",
-      "transformation": "CSS Unit Conversion",
-      "proposedTool": "px-to-rem-converter",
-      "proposedEngine": "units",
-      "searchQueries": [
-        "px to rem converter",
-        "px to rem",
-        "rem to px",
-        "px to em",
-        "px to pt css",
-        "css unit converter"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T09:18:50.711Z",
-      "existingSolutions": [
-        "nekocalc.com/px-to-rem",
-        "pxtorem.com"
-      ],
-      "solutionWeaknesses": [
-        "single-direction, one-unit tools",
-        "no configurable root size persistence",
-        "ad-heavy, dated"
-      ],
-      "relatedProblems": [
-        "px to dp",
-        "modular type scale",
-        "aspect ratio"
-      ],
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": [],
-      "difficulty": "low",
-      "evergreenScore": 0.92,
-      "competitionScore": 0.52,
-      "searchDemand": 0.84,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.94,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.57,
-      "localizationPotential": 0.96,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 71.3,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false
     }
   ]
 }

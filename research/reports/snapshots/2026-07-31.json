@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T09:18:50.711Z",
+  "generatedAt": "2026-07-31T11:08:09.391Z",
   "discovered": 56,
   "deduped": 56,
-  "alreadyExists": 34,
-  "recommended": 21,
-  "missingEngines": 2,
+  "alreadyExists": 39,
+  "recommended": 17,
+  "missingEngines": 0,
   "topScore": 83.9,
   "nextBuild": "statistics-visualizer"
 }

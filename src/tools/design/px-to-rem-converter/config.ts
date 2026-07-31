@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   engine: 'units',
   pattern: 'unit-convert',
   family: 'css-unit',
+  relatedTools: ['px-to-dp-converter', 'aspect-ratio-calculator'],
   guide: {
     slug: 'px-to-rem-converter',
     categorySlug: 'design',

@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   engine: 'color',
   pattern: 'color-convert',
   family: 'color',
+  relatedTools: ['color-contrast-checker'],
   guide: {
     slug: 'color-format-converter',
     categorySlug: 'design',

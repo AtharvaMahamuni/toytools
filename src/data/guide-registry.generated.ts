@@ -3,6 +3,7 @@
 
 export const authoredGuideSlugs = [
   'age-calculator',
+  'aspect-ratio-calculator',
   'base64-encoder-decoder',
   'binary-text-converter',
   'bmi-calculator',
@@ -58,6 +59,7 @@ export const authoredGuideSlugs = [
   'pomodoro-timer',
   'prime-factorization-calculator',
   'punycode-converter',
+  'px-to-dp-converter',
   'px-to-rem-converter',
   'qr-code-generator',
   'random-string-generator',

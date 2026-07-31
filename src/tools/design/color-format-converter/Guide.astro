@@ -1,6 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
 interface Props {
@@ -11,6 +13,8 @@ interface Props {
   entry: EcosystemEntry;
 }
 const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 ---
 
 <GuideLayout
@@ -22,54 +26,69 @@ const props = Astro.props;
   <section id="overview">
     <h2>Overview</h2>
     <p>
-      A color format is just a different way of writing the same color. A screen mixes red, green,
-      and blue light to make every pixel, and each format describes that mix from a different angle:
-      HEX and RGB name the raw channels, HSL and HSV describe hue and brightness, OKLCH describes how
-      light a color actually looks, and CMYK approximates the inks a printer would use. Converting
-      between them lets you copy the exact value the tool in front of you expects.
+      A color format is just a different way of writing the same color. A screen mixes red, green, and
+      blue light for every pixel, and each format describes that mix from a different angle: HEX and
+      RGB name the raw channels, HSL and HSV describe hue and brightness, OKLCH describes how light a
+      color actually looks, and CMYK approximates printer inks. This color format converter turns any
+      one of them into all the others at once so you can copy exactly the value your tool expects.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Color Format Converter →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why it matters</h2>
+    <p>
+      Different tools speak different color dialects. A design file hands you a hex code, a CSS variable
+      wants rgb() or oklch(), and a print mockup needs CMYK. Retyping a color by eye across those
+      formats invites mistakes and drifts your brand color. Converting once, accurately, keeps a single
+      color identical everywhere it appears, which is the difference between a consistent design system
+      and a slightly-off palette.
     </p>
   </section>
 
-  <section id="the-formats">
-    <h2>What each format encodes</h2>
+  <section id="how-it-works">
+    <h2>How it works</h2>
+    <p>
+      Every conversion routes through sRGB, the color space your screen uses. The tool parses your
+      input into red, green, and blue channels, then derives each format from there. So what does a HEX
+      color encode? Two hexadecimal digits per channel, which is why hex to rgb is a direct read and
+      rgb to hex is its exact inverse. RGB writes those channels as 0 to 255 numbers, and HSL and HSV as
+      hue plus brightness. OKLCH converts the channels into a perceptually uniform space so its lightness
+      matches what the eye sees, and CMYK is a direct formula that estimates ink coverage. This single
+      hub is all of color format conversion, and alpha transparency is preserved through the formats that
+      support it.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <p>
+      For example, enter #3366ff and the color format converter shows rgb(51, 102, 255), hsl(220, 100%,
+      60%), and oklch(0.55 0.23 264). As another example, the name teal resolves to #008080 and
+      rgb(0, 128, 128). Enter an 8-digit hex like #3366ff80 and the alpha of 0.5 carries into the rgba
+      and hsla outputs. Each row has its own copy button, so grabbing just the OKLCH value takes one tap.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes</h2>
     <ul>
-      <li><strong>HEX</strong> writes the red, green, and blue channels as two hexadecimal digits each, so #3366ff is 51 red, 102 green, 255 blue. An optional pair on the end sets alpha.</li>
-      <li><strong>RGB</strong> writes those same channels as plain numbers from 0 to 255, which is easier to read and edit by hand.</li>
-      <li><strong>HSL</strong> describes a color by hue (an angle on the color wheel), saturation, and lightness, so nudging the hue is one number away.</li>
-      <li><strong>HSV</strong> is close to HSL but swaps lightness for value, which many color pickers use internally.</li>
-      <li><strong>OKLCH</strong> uses lightness, chroma, and hue in a perceptually uniform space, so equal lightness looks equally bright to the eye.</li>
-      <li><strong>CMYK</strong> estimates the cyan, magenta, yellow, and black inks a printer would combine, as a screen-based approximation.</li>
+      <li><strong>Trusting CMYK as a print proof.</strong> The CMYK here is a screen-based approximation. For accurate print color, use your printer's ICC profile.</li>
+      <li><strong>Assuming HSL lightness is perceptual.</strong> Two HSL colors with the same lightness can look very different in brightness. OKLCH is the format that fixes this.</li>
+      <li><strong>Dropping alpha.</strong> If your color has transparency, copy from a format that keeps it, such as the rgba or oklch output, not the 6-digit hex.</li>
     </ul>
   </section>
 
-  <section id="how-to">
-    <h2>How to convert a color</h2>
+  <section id="comparison">
+    <h2>Comparisons and alternatives</h2>
     <p>
-      Type or paste any color into the input. You can use a hex code with or without the hash, an
-      rgb() or hsl() function, or a common CSS name like teal. Every format updates the moment you
-      type, and the picker beside the field lets you drag to a new color instead. Press the copy
-      button on any row to grab that single value, or use Copy all to take the whole set.
-    </p>
-  </section>
-
-  <section id="hsl-vs-oklch">
-    <h2>When to reach for OKLCH over HSL</h2>
-    <p>
-      HSL is convenient but its lightness is not perceptual: a fully saturated yellow at 50 percent
-      lightness looks far brighter than a blue at the same number. That is why HSL shade scales often
-      have a muddy or uneven step. OKLCH fixes this because its lightness matches what your eye sees,
-      so a scale built by holding chroma and hue steady while stepping lightness produces even,
-      predictable shades. If you are generating design tokens or gradients, prefer OKLCH.
-    </p>
-  </section>
-
-  <section id="print-note">
-    <h2>A note on CMYK and print</h2>
-    <p>
-      The CMYK value here is a direct formula from sRGB, the color space screens use. Real printing
-      depends on the specific inks, paper stock, and ICC profile of your press, so the same CMYK
-      numbers can look different on different machines. Use this value as a quick reference, and ask
-      your printer for their profile when color accuracy matters.
+      When you compare the color format converter vs alternatives like single-direction hex-to-rgb
+      pages, the difference is breadth: this tool shows all six formats together, including modern
+      OKLCH that many older converters omit. On the question of HSL vs OKLCH for building shades, choose
+      HSL when you want to nudge hue by hand, and OKLCH when you are building even shade scales or
+      gradients, because its lightness is perceptual. Once you have a color you like, the natural next
+      step is the WCAG Color Contrast Checker, which tells you whether that color is readable on its
+      background.
     </p>
   </section>
 
@@ -77,8 +96,18 @@ const props = Astro.props;
     <h2>Private by design</h2>
     <p>
       Every conversion happens in your browser. No color you enter is uploaded or stored on a server,
-      and the tool keeps working with no network once the page has loaded, so you can install it and
-      use it offline.
+      and the tool keeps working with no network once loaded, so you can install it and use it offline.
     </p>
   </section>
 </GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
