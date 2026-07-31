@@ -1,6 +1,6 @@
 # Adding a New Engine Type
 
-Use this reference only when the tool you are building requires an engine that does not yet exist in the platform. For tools that fit an existing engine (`text-processor`, `encoding`, `hashing`, `structured-data`, `text-analysis`), go to `add-tool.md` directly.
+Use this reference only when the tool you are building requires an engine that does not yet exist in the platform. There are 20 engines today (see `references/engine-types.md` for the full list and `src/data/engines.ts` for the authoritative source) — for tools that fit an existing one, go to `add-tool.md` directly.
 
 ---
 

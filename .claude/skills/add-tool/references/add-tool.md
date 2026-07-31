@@ -4,9 +4,14 @@ Work through each phase in order. Every numbered item is a file change.
 
 ---
 
-## Phase 1 — Engine implementation (skip for `text-analysis`)
+## Phase 1 — Engine implementation
 
-Each pluggable engine has a dedicated lib directory and registry. Create the impl file, then add exactly **one import + one map entry** to the registry.
+Skip this phase entirely for `text-analysis` (no impl) and for the five bespoke/namespace engines
+— `calculator`, `productivity`, `text-interactive`, `color`, `units` — which have no registry to
+add an entry to; go straight to Phase 2 and write the tool's own `<script is:inline>`. Full
+interface + rules for every engine: `references/engine-types.md`.
+
+For every other engine: create the impl file, then add exactly **one import + one map entry** to the registry.
 
 ### text-processor
 ```
@@ -40,6 +45,50 @@ Registry: `src/lib/engines/structured-data/registry.ts` → add to `STRUCTURED_T
 
 ### text-analysis
 No impl needed. The shared `analyzeText()` in `src/lib/text/analysis.ts` is the only implementation. Skip to Phase 2.
+
+### jwt
+```
+src/lib/engines/jwt/<id>.ts
+```
+Impl file exports one `const` matching `JwtTool { id, family, decode(token): JwtDecoded, sample? }`. `decode` may throw — the registry resolver catches it.
+Registry: `src/lib/engines/jwt/registry.ts` → add to `JWT_TOOLS` map.
+
+### finance / datetime / math / wellness
+These four share one shape: `SmartFieldDef[]` fields in, `InteractiveResult` out (never throws —
+build the error case with `calculationError()`). See `references/engine-types.md` → "The platform
+experience calculators" for the full interface and a worked example.
+```
+src/lib/engines/finance/calculators/<id>.ts     → FINANCE_CALCULATORS   in registry.ts
+src/lib/engines/datetime/calculators/<id>.ts    → DATETIME_TOOLS        in registry.ts
+src/lib/engines/math/calculators/<id>.ts        → MATH_CALCULATORS      in registry.ts
+src/lib/engines/wellness/calculators/<id>.ts    → WELLNESS_CALCULATORS  in registry.ts
+```
+
+### csv
+```
+src/lib/engines/csv/<id>.ts
+```
+Impl file exports one `const` matching `CsvTool { id, family, inputs: 1 | 2, execute(input, second?): CsvResult }`. `execute` must never throw.
+Registry: `src/lib/engines/csv/registry.ts` → add to `CSV_TOOLS` map.
+
+### generation
+```
+src/lib/generation/generators/<id>.ts
+```
+Impl file exports one `const` matching `Generator { id, family, fields: GeneratorField[], generate(options): GenerationResult }`. Randomness must live inside `generate()`, never at module top-level.
+Registry: `src/lib/generation/registry.ts` → add to `GENERATORS` map.
+
+### tracker
+```
+src/lib/engines/tracker/registry.ts → add a TrackerDef entry to TRACKER_DEFS
+```
+No impl file — a tracker is pure data (`{ id, unit, inputMode, chart, streakMode, step, decimals, windowDays, ... }`). The shared `model.ts`/`viz.ts` logic never changes.
+
+### calculator / productivity / text-interactive / color / units
+No registry, no impl file, no shared widget. Skip straight to Phase 2 and write a fully bespoke
+`Widget.astro` (ToolSplit/IoPanel composition + its own `<script is:inline>`), calling
+`ToyTools.color.*` / `ToyTools.units.*` directly for those two engines. See
+`references/engine-types.md` for the namespace surfaces and rules.
 
 ---
 
@@ -84,7 +133,8 @@ export const config: ToolConfig = {
 };
 ```
 
-**Segment → categorySlug mapping:**
+**Segment → categorySlug mapping** (authoritative list: `src/data/categories.ts`; cross-check
+`docs/code-map.json` if unsure):
 
 | Directory segment | categorySlug |
 |------------------|-------------|
@@ -92,6 +142,13 @@ export const config: ToolConfig = {
 | `developer-utilities/` | `developer-utilities` |
 | `number/` | `number-utilities` |
 | `productivity/` | `productivity` |
+| `finance/` | `money-finance` |
+| `generate/` | `generate` |
+| `physics/` | `physics` |
+| `math/` | `applied-math` |
+| `datetime/` | `date-time` |
+| `health/` | `health-fitness` |
+| `design/` | `design-tools` |
 
 ### `Widget.astro`
 
@@ -149,6 +206,59 @@ import TextMetricWidget from '@tools/_shared/TextMetricWidget.astro';
 ```
 Valid `metric` keys: `words`, `characters`, `charactersNoSpaces`, `sentences`, `paragraphs`, `lines`, `readingTime`, `speakingTime`, `uniqueWords`, `averageWordLength`, `averageSentenceLength`.
 Valid `formatter` values: `'integer'`, `'duration'`, `'percentage'`, `'decimal'`.
+
+**jwt:**
+```astro
+---
+import JwtWidget from '@tools/_shared/JwtWidget.astro';
+import { config } from './config';
+---
+<JwtWidget slug={config.slug} jwtId={config.processorId!} config={config} />
+```
+
+**finance / datetime / math / wellness** (identical shape — only the widget name and id prop change):
+```astro
+---
+import FinanceWidget from '@tools/_shared/FinanceWidget.astro';
+import { config } from './config';
+---
+<FinanceWidget slug={config.slug} financeId={config.processorId!} config={config} />
+```
+Swap `FinanceWidget`/`financeId` for `DateTimeWidget`/`dateTimeId`, `MathWidget`/`mathId`, or
+`WellnessWidget`/`wellnessId`. An optional `emptyText="..."` prop sets the pre-input placeholder copy.
+
+**csv:**
+```astro
+---
+import CsvWidget from '@tools/_shared/CsvWidget.astro';
+import { config } from './config';
+---
+<CsvWidget slug={config.slug} csvId={config.processorId!} config={config} />
+```
+
+**generation:**
+```astro
+---
+import GeneratorWidget from '@tools/_shared/GeneratorWidget.astro';
+import { config } from './config';
+---
+<GeneratorWidget slug={config.slug} generatorId={config.processorId!} config={config} />
+```
+
+**tracker:**
+```astro
+---
+import TrackerWidget from '@tools/_shared/TrackerWidget.astro';
+import { config } from './config';
+---
+<TrackerWidget slug={config.slug} trackerId={config.processorId!} config={config} />
+```
+
+**calculator / productivity / text-interactive / color / units:**
+No shared widget — write a bespoke `Widget.astro` with `ToolSplit`/`IoPanel` composition and its
+own `<script is:inline>`. See any existing tool in that engine (`docs/code-map.json`) for a
+starting point, and `references/engine-types.md` for the `ToyTools.color`/`ToyTools.units`
+namespace surface when applicable.
 
 ---
 

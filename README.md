@@ -77,7 +77,7 @@ build if any of these drift (missing, orphaned, unregistered, or duplicated).
 | Route | Source |
 |---|---|
 | `/` | `src/pages/index.astro` |
-| `/tool/{segment}/{slug}/` | `src/pages/tool/[category]/[slug].astro` |
+| `/tool/{segment}/{slug}/` | `src/pages/tool/<segment>/[slug].astro` (one generated route file per segment — no cross-segment catch-all) |
 | `/category/{slug}/` | `src/pages/category/[slug].astro` |
 | `/guide/{category}/{slug}/` | `src/pages/guide/[...slug].astro` |
 | `/search` | `src/pages/search.astro` (noindex) |
@@ -132,7 +132,8 @@ Deployment is automatic via `.github/workflows/deploy.yml` on every push to `mai
 ## Project Vision
 
 A platform for small, fast, focused utility tools. Each tool solves exactly one problem. No
-accounts. No upsells. ~48 tools across Text, Number, Developer, and Productivity categories.
+accounts. No upsells. 114+ tools across Text, Number, Developer, Productivity, Money & Finance,
+Generators, Physics, Applied Math, Date & Time, Health & Fitness, and Design & CSS categories.
 
 Design principles (frozen):
 
