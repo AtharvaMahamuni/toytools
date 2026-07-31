@@ -14,7 +14,7 @@ export const config: ToolConfig = {
   guide: {
     slug: 'aspect-ratio-calculator',
     categorySlug: 'design',
-    title: 'Aspect Ratios Explained: 16:9, Resizing, and the Math',
+    title: 'Aspect Ratios Explained: 16:9, Resizing, and Math',
     description: 'Understand what an aspect ratio is, how to solve a missing width or height, and how to resize images and video without distortion.',
     readMinutes: 5,
     updatedAt: 'Jul 2026',

@@ -14,7 +14,7 @@ export const config: ToolConfig = {
   guide: {
     slug: 'px-to-dp-converter',
     categorySlug: 'design',
-    title: 'DP, SP, and PX: How Android and iOS Density Units Work',
+    title: 'DP, SP, and PX: Android and iOS Density Units',
     description: 'Understand density-independent pixels, how dp and sp convert to px across Android buckets, and how iOS points compare.',
     readMinutes: 5,
     updatedAt: 'Jul 2026',
