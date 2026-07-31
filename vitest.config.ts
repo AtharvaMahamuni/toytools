@@ -19,6 +19,20 @@ export default defineConfig({
         'src/lib/simulation/boot.ts',
         // Pure canvas draw routines — exercised by the stub-context draw smoke and e2e.
         'src/lib/simulation/simulations/*.draw.ts',
+        // Deferred-runtime glue, same rationale as boot.ts: index.ts is DOM lookup + dynamic
+        // import orchestration and platform.ts is gtag/service-worker registration — both only
+        // mean anything in a browser, and both are exercised by the Playwright suite (every spec
+        // waits on the ToyTools global these files populate). The parts with real logic are NOT
+        // excluded and are unit-tested: transform.ts (provider dispatch + neutral fallbacks) and
+        // loaders.ts (the two maps).
+        'src/lib/runtime/index.ts',
+        'src/lib/runtime/platform.ts',
+        // One-line attach modules — `TT.x = engineFn`. No branches, nothing to assert beyond the
+        // maps in loaders.ts, which loaders.test.ts already walks (it imports every one of these
+        // and asserts the attach export).
+        'src/lib/runtime/engines/*.ts',
+        'src/lib/runtime/experience.ts',
+        'src/lib/runtime/viz.ts',
       ],
       reporter: ['text', 'html', 'json-summary'],
       thresholds: {
