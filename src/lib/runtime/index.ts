@@ -15,12 +15,15 @@
 // now. TT.ready flips once, after the declared engines have attached (or failed to).
 
 import { attachPlatform } from './platform';
+import { attachOverlays } from './overlays';
 import { ENGINE_LOADERS } from './loaders';
 import type { ToyToolsGlobal } from './types';
 
 const TT: ToyToolsGlobal = ((window as any).ToyTools ??= {});
 
 attachPlatform(TT);
+// Listeners only. The palette chunk they import is fetched on first use, never at load.
+attachOverlays();
 
 /** Engine ids this page declared, e.g. "datetime". Empty on non-tool pages. */
 function declaredEngines(): string[] {

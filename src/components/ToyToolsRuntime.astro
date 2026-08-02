@@ -465,19 +465,19 @@
   };
 
   // ── Global keyboard shortcuts ─────────────────────────────────────────
-  // "/" focuses search; Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the
-  // primary Copy/Clear actions. Never hijacks normal typing (except Esc-to-blur).
+  // Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the primary Copy/Clear
+  // actions. Never hijacks normal typing (except Esc-to-blur).
+  //
+  // "/", Ctrl/Cmd+K and "?" are NOT here: they open the palette and the shortcut
+  // help, which live in the interaction-loaded chunk, so they are wired from the
+  // deferred half (src/lib/runtime/overlays.ts). "/" used to focus "#q", an
+  // element that only ever existed on the home page.
   function isTyping(el) {
     if (!el) return false;
     var tag = el.tagName;
     return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
   }
   document.addEventListener('keydown', function (e) {
-    if (e.key === '/' && !isTyping(document.activeElement) && !e.metaKey && !e.ctrlKey && !e.altKey) {
-      var q = document.getElementById('q');
-      if (q) { e.preventDefault(); q.focus(); }
-      return;
-    }
     if (e.key === 'Escape' && isTyping(document.activeElement)) {
       document.activeElement.blur();
       return;

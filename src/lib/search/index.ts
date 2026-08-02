@@ -12,7 +12,7 @@ import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { searchAliases } from '@data/search-aliases';
 import { withBase } from '@lib/paths';
-import type { RankableEntry } from './rank';
+import type { ClientIndex, SearchEntry } from './types';
 
 export interface SearchDocument {
   slug: string;
@@ -48,36 +48,12 @@ export function buildSearchIndex(): SearchDocument[] {
  *     repeat the slug in every record;
  *   - the category and segment strings, which are interned into the shared tables below because
  *     114 entries share 11 categories.
- * `entryUrl()` is the one place that reassembles a URL, shared by every consumer.
+ *
+ * The shape and entryUrl() live in ./types, which imports nothing, so the browser can use them
+ * without pulling the registry into a chunk meant to be a few kilobytes.
  */
-export interface SearchEntry extends RankableEntry {
-  /** slug */
-  s: string;
-  /** display name */
-  n: string;
-  /** index into ClientIndex.g (URL segment) */
-  g: number;
-  /** index into ClientIndex.c (category display name) */
-  c: number;
-  /** lowercased extra search terms: tags, keywords, family, category, aliases */
-  k: string[];
-}
-
-export interface ClientIndex {
-  /** base path, so the client never has to know about BASE_URL */
-  b: string;
-  /** interned URL segments */
-  g: string[];
-  /** interned category display names */
-  c: string[];
-  /** entries, sorted by display name */
-  t: SearchEntry[];
-}
-
-/** Rebuild an entry's URL. The inverse of the interning above; keep the two in step. */
-export function entryUrl(index: ClientIndex, entry: SearchEntry): string {
-  return `${index.b}/tool/${index.g[entry.g]}/${entry.s}/`;
-}
+export type { SearchEntry, ClientIndex } from './types';
+export { entryUrl, entryCategory } from './types';
 
 export function buildClientIndex(): ClientIndex {
   const segmentOf = new Map(categories.map(c => [c.slug, c.segment]));

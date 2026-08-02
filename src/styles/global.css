@@ -146,6 +146,189 @@ a:hover {
   opacity: 1;
 }
 
+/* ── Overlay sheets (TT.sheet) ───────────────────────────────────────────
+   Shared shell for the command palette and the shortcut help. Centred dialog above 640px,
+   bottom sheet below it, because a phone-sized modal that starts in the middle of the screen
+   puts its controls out of thumb reach. Safe-area padding so nothing hides behind the home
+   indicator. Only color/background/border transition, per the design language. */
+.tt-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 45%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: var(--z-overlay);
+}
+
+.tt-sheet-backdrop.tt-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tt-sheet-lock {
+  overflow: hidden;
+}
+
+.tt-sheet {
+  position: fixed;
+  z-index: calc(var(--z-overlay) + 1);
+  background: var(--color-bg);
+  border: var(--border);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tt-sheet[hidden] {
+  display: none;
+}
+
+/* Phones: bottom sheet, full width, clear of the home indicator. */
+.tt-sheet {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85vh;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@media (min-width: 640px) {
+  .tt-sheet {
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    top: 10vh;
+    transform: translateX(-50%);
+    width: min(560px, calc(100vw - 2 * var(--space-6)));
+    max-height: 70vh;
+    border-radius: var(--radius-md);
+    padding-bottom: 0;
+  }
+}
+
+/* Command palette */
+.tt-palette-head {
+  padding: var(--space-3);
+  border-bottom: var(--border);
+}
+
+.tt-palette-input {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0 var(--space-3);
+  font-size: var(--text-base); /* never below 16px, or iOS zooms on focus */
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: var(--border);
+  border-radius: var(--radius-md);
+}
+
+.tt-palette-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.tt-palette-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.tt-palette-list li.is-active,
+.tt-palette-list li:hover {
+  background: var(--color-surface-hover);
+}
+
+.tt-palette-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.tt-palette-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+}
+
+.tt-palette-status {
+  margin: 0;
+  padding: var(--space-3);
+  border-top: var(--border);
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+}
+
+/* Shortcut help */
+.tt-help {
+  padding: var(--space-5);
+  gap: var(--space-4);
+}
+
+.tt-help-title {
+  font-size: var(--text-lg);
+  margin: 0;
+}
+
+.tt-help-list {
+  margin: 0;
+  overflow-y: auto;
+}
+
+.tt-help-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+}
+
+.tt-help-row dt {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tt-help-row dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  text-align: right;
+}
+
+.tt-help kbd {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 2px 6px;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  white-space: nowrap;
+}
+
+.tt-help-close {
+  min-height: var(--touch-target);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.tt-help-close:active {
+  background: var(--color-bg-tertiary);
+}
+
 /* ── Cross-document View Transitions ─────────────────────────────────────
    CSS-only smooth cross-fade between same-origin navigations (Chrome 126+,
    Safari 18.2+). Older browsers simply do a normal navigation. Makes tool-group

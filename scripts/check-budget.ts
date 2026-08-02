@@ -81,6 +81,15 @@ const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number
     maxKb: 12,
     why: 'the catalog the palette, /search/ and /404/ fetch on first use',
   },
+  {
+    // The modal primitive, command palette and shortcut help. Imported on the first "/", Ctrl+K,
+    // "?" or nav-search click, so no page pays for it at load. /search/ and /404/ import the same
+    // module rather than ./search/rank directly, which is what keeps this ONE chunk to measure.
+    label: 'palette chunk',
+    match: /^palette\.[A-Za-z0-9_-]+\.js$/,
+    maxKb: 6,
+    why: 'palette, shortcut help and ranking, imported on first use',
+  },
 ];
 
 const kb = (bytes: number) => bytes / 1024;

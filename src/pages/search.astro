@@ -32,6 +32,7 @@ function getCategoryName(slug: string): string {
       {tools.map(tool => (
         <article
           data-search-item
+          data-slug={tool.slug}
           data-search={`${tool.name} ${tool.description} ${tool.tags.join(' ')} ${(tool.keywords ?? []).join(' ')} ${tool.family ?? ''} ${getCategoryName(tool.categorySlug)}`.toLowerCase()}
         >
           <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
@@ -165,5 +166,92 @@ function getCategoryName(slug: string): string {
     var href = suggest.getAttribute('href') + '?type=new';
     if (raw) href += '&q=' + encodeURIComponent(raw);
     suggest.setAttribute('href', href);
+  }
+</script>
+
+{/*
+  The inline script above is the no-network first pass: it applies ?q= immediately so a shared
+  search link never flashes all 114 cards. This module then upgrades the page to the real thing:
+  typing filters live (the old script only ran once, so nothing happened until you submitted),
+  results REORDER by score rather than merely hiding, and aliases and typos work because it is the
+  same ranking the palette uses. It imports from lib/palette so both stay on one measured chunk.
+*/}
+<script>
+  import { loadIndex, rankEntries, entryCategory } from '@lib/palette';
+
+  const form = document.querySelector<HTMLFormElement>('.search-page-form');
+  const input = document.getElementById('search-page-query') as HTMLInputElement | null;
+  const grid = document.getElementById('search-results');
+  const count = document.getElementById('result-count');
+  const empty = document.getElementById('empty-state');
+  const suggest = document.getElementById('empty-suggest');
+
+  if (input && grid && count) {
+    // [data-search-item] and not [data-slug]: ToolCard's inner <a> carries data-slug too, so the
+    // looser selector matches the anchor as well and ends up hiding that instead of the card.
+    const cards = new Map<string, HTMLElement>();
+    for (const el of grid.querySelectorAll<HTMLElement>('[data-search-item]')) {
+      cards.set(el.dataset.slug!, el);
+    }
+
+    void loadIndex().then((index) => {
+      if (!index) return; // offline: the inline substring pass above still works
+
+      const apply = (raw: string) => {
+        const query = raw.trim();
+
+        if (!query) {
+          for (const el of cards.values()) el.hidden = false;
+          count.textContent = `${cards.size} tools available`;
+          if (empty) empty.hidden = true;
+          return;
+        }
+
+        const ranked = rankEntries(index.t, query);
+        const matched = new Set(ranked.map((e) => e.s));
+        for (const [slug, el] of cards) el.hidden = !matched.has(slug);
+        // Reordering is why this beats hiding: the best answer moves to the top of the page
+        // instead of staying wherever the alphabet put it.
+        for (const entry of ranked) {
+          const el = cards.get(entry.s);
+          if (el) grid.appendChild(el);
+        }
+
+        count.textContent = `${ranked.length} matching tool${ranked.length === 1 ? '' : 's'}`;
+        if (empty) empty.hidden = ranked.length !== 0;
+        if (suggest && !ranked.length) {
+          suggest.setAttribute('href', `${index.b}/feedback/?type=new&q=${encodeURIComponent(query)}`);
+        }
+        if (ranked.length) {
+          const top = ranked[0]!;
+          count.title = `Best match: ${top.n} (${entryCategory(index, top)})`;
+        }
+      };
+
+      let timer: number | undefined;
+      input.addEventListener('input', () => {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          apply(input.value);
+          // Keep the address bar in step so the result set is shareable and survives a reload.
+          const url = new URL(window.location.href);
+          if (input.value.trim()) url.searchParams.set('q', input.value.trim());
+          else url.searchParams.delete('q');
+          window.history.replaceState(null, '', url);
+        }, 120);
+      });
+
+      // Submitting would reload the page for a result set that is already on screen.
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        window.clearTimeout(timer);
+        apply(input.value);
+      });
+
+      apply(input.value);
+      // Marks the upgrade from the inline substring pass to real ranking. Tests wait on this
+      // rather than a timeout, and it makes the two-stage behaviour visible when debugging.
+      grid.dataset.searchReady = 'true';
+    });
   }
 </script>
