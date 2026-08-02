@@ -1,12 +1,21 @@
 id,proposedTool,title,transformation,proposedEngine,engineExists,gap,status,difficulty,searchDemand,competitionScore,evergreenScore,implementationCost,engineReuse,seoPotential,topicClusterPotential,localizationPotential,confidence,finalScore
+one-rep-max-calculator,one-rep-max-calculator,One Rep Max Calculator,Fitness Performance Calculation,wellness,true,cluster-missing,recommended,low,0.85,0.62,0.95,1,1,0.94,0.5,0.92,0.8,86.1
+running-pace-calculator,running-pace-calculator,Running Pace Calculator,Fitness Performance Calculation,wellness,true,cluster-missing,recommended,low,0.9,0.54,0.95,1,1,0.96,0.5,0.88,0.8,86
+calorie-deficit-calculator,calorie-deficit-calculator,Calorie Deficit Calculator,Energy And Nutrition Planning,wellness,true,cluster-missing,recommended,low,0.82,0.59,0.92,1,1,0.93,0.5,0.9,0.8,84.2
+pregnancy-due-date-calculator,pregnancy-due-date-calculator,Pregnancy Due Date Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.88,0.46,0.95,1,1,0.95,0.5,0.88,0.8,84.2
 unit-circle-explorer,unit-circle-explorer,Unit Circle Explorer,Unit Circle,math-lab,true,guide-missing,already-exists,low,0.88,0.64,0.96,1,1,0.95,0,0.8,0.8,83.9
 quadratic-equation-explorer,quadratic-equation-explorer,Quadratic Equation Explorer,Quadratic Equations,math-lab,true,guide-missing,already-exists,low,0.94,0.49,0.97,1,1,0.98,0,0.85,0.8,83.8
+sleep-cycle-calculator,sleep-cycle-calculator,Sleep Cycle Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.78,0.63,0.92,1,1,0.91,0.5,0.9,0.8,83.8
 color-contrast-checker,color-contrast-checker,WCAG Color Contrast Checker,Contrast Ratio,color,true,needs-improvement,already-exists,low,0.88,0.56,0.95,1,1,0.95,0,0.95,0.8,83.4
+bmr-calculator,bmr-calculator,BMR Calculator,Energy And Nutrition Planning,wellness,true,cluster-missing,recommended,low,0.8,0.46,0.95,1,1,0.92,0.5,0.9,0.8,82.4
 fraction-calculator,fraction-calculator,Fraction Calculator,Fractions,math,true,needs-improvement,already-exists,low,0.9,0.44,0.96,1,1,0.96,0,0.88,0.8,82.1
 color-format-converter,color-format-converter,Color Format Converter,Color Conversion,color,true,needs-improvement,already-exists,low,0.92,0.4,0.94,1,1,0.97,0,0.96,0.8,82
+ovulation-calculator,ovulation-calculator,Ovulation Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.8,0.48,0.92,1,1,0.92,0.5,0.88,0.8,81.8
 remove-line-breaks,remove-line-breaks,Remove Line Breaks,Line Break Removal,text-processor,true,needs-improvement,already-exists,low,0.84,0.7,0.9,1,1,0.94,0,0.75,0.8,81.8
 combinations-permutations-calculator,combinations-permutations-calculator,Combinations & Permutations Calculator,Combinatorics,math,true,needs-improvement,already-exists,low,0.78,0.64,0.94,1,1,0.91,0,0.82,0.8,81.7
 px-to-rem-converter,px-to-rem-converter,PX to REM Converter,CSS Unit Conversion,units,true,needs-improvement,already-exists,low,0.84,0.52,0.92,1,1,0.94,0,0.96,0.8,81.6
+blood-pressure-tracker,blood-pressure-tracker,Blood Pressure Tracker,Personal Health Logging,tracker,true,cluster-missing,recommended,low,0.62,0.79,0.95,1,1,0.85,0.25,0.92,0.8,81.2
+protein-intake-calculator,protein-intake-calculator,Protein Intake Calculator,Energy And Nutrition Planning,wellness,true,cluster-missing,recommended,low,0.7,0.63,0.9,1,1,0.88,0.5,0.88,0.8,81.2
 sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,needs-improvement,already-exists,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,81.2
 reverse-text,reverse-text,Reverse Text,Text Reversal,text-processor,true,needs-improvement,already-exists,low,0.78,0.73,0.88,1,1,0.91,0,0.8,0.8,81.1
 prime-factorization-calculator,prime-factorization-calculator,Prime Factorization Calculator,Number Theory,math,true,needs-improvement,already-exists,low,0.75,0.62,0.95,1,1,0.9,0,0.85,0.8,80.9
@@ -17,7 +26,10 @@ slugify-text,slugify-text,Slugify Text,Slugification,text-processor,true,needs-i
 aspect-ratio-calculator,aspect-ratio-calculator,Aspect Ratio Calculator,Aspect Ratio,units,true,needs-improvement,already-exists,low,0.74,0.58,0.9,1,1,0.9,0,0.95,0.8,79.8
 statistics-visualizer,statistics-visualizer,Statistics Visualizer,Descriptive Statistics,math,true,cluster-missing,recommended,medium,0.92,0.52,0.96,0.7,1,0.97,0,0.84,0.8,79.7
 binary-text-converter,binary-text-converter,Binary Text Converter,Binary Encoding,encoding,true,needs-improvement,already-exists,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,79.6
+lean-body-mass-calculator,lean-body-mass-calculator,Lean Body Mass Calculator,Body Composition Calculation,wellness,true,cluster-missing,recommended,low,0.55,0.7,0.92,1,1,0.82,0.5,0.92,0.64,79.5
 roi-calculator,roi-calculator,ROI Calculator,Return on Investment,finance,true,needs-improvement,already-exists,low,0.88,0.58,0.9,1,1,0.71,0,0.85,0.8,79.5
+waist-to-hip-ratio-calculator,waist-to-hip-ratio-calculator,Waist to Hip Ratio Calculator,Body Composition Calculation,wellness,true,cluster-missing,recommended,low,0.52,0.73,0.92,1,1,0.81,0.5,0.95,0.64,79.5
+body-surface-area-calculator,body-surface-area-calculator,Body Surface Area Calculator,Body Composition Calculation,wellness,true,cluster-missing,recommended,low,0.48,0.76,0.95,1,1,0.79,0.5,0.96,0.64,79.4
 ohms-law-simulator,ohms-law-simulator,Ohm's Law Simulator,Ohm's Law,physics,true,guide-missing,already-exists,medium,0.95,0.52,0.96,0.7,1,0.98,0,0.85,0.8,79.4
 json-escape,json-escape,JSON Escape / Unescape,JSON String Escaping,structured-data,true,needs-improvement,already-exists,low,0.76,0.63,0.88,1,1,0.9,0,0.92,0.8,79.2
 shm-spring-simulator,shm-spring-simulator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,79
@@ -37,9 +49,11 @@ csv-to-tsv,csv-to-tsv,CSV to TSV,CSV/TSV Conversion,csv,true,needs-improvement,a
 doppler-effect-simulator,doppler-effect-simulator,Doppler Effect Simulator,Doppler Effect,physics,true,guide-missing,already-exists,medium,0.78,0.68,0.94,0.7,1,0.79,0,0.8,0.8,75.7
 linear-regression-playground,linear-regression-playground,Linear Regression Playground,Linear Regression,math-lab,true,cluster-missing,recommended,medium,0.7,0.66,0.93,0.7,1,0.88,0,0.78,0.8,75.5
 colorblind-simulator,colorblind-simulator,Colorblind Simulator,Color Vision Simulation,color,true,cluster-missing,recommended,medium,0.66,0.7,0.9,0.7,1,0.86,0,0.94,0.8,75.4
+vo2-max-calculator,vo2-max-calculator,VO2 Max Calculator,Fitness Performance Calculation,wellness,true,cluster-missing,recommended,medium,0.58,0.68,0.9,0.7,1,0.83,0.5,0.85,0.64,75.2
 csv-cleaner,csv-cleaner,CSV Cleaner,CSV Cleaning,csv,true,needs-improvement,already-exists,medium,0.7,0.76,0.82,0.7,1,0.88,0,0.86,0.8,74.9
 momentum-collision-simulator,momentum-collision-simulator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,guide-missing,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,74.6
 age-calculator,age-calculator,Age Calculator,Age Calculation,datetime,true,needs-improvement,already-exists,medium,0.88,0.46,0.88,0.7,1,0.83,0,0.78,0.8,74.5
+sleep-hours-tracker,sleep-hours-tracker,Sleep Hours Tracker,Personal Health Logging,tracker,true,cluster-missing,recommended,low,0.5,0.6,0.88,1,1,0.8,0.25,0.9,0.64,74.5
 date-difference-calculator,date-difference-calculator,Date Difference Calculator,Date Difference,datetime,true,needs-improvement,already-exists,medium,0.85,0.56,0.9,0.7,1,0.7,0,0.8,0.8,74.4
 inclined-plane-simulator,inclined-plane-simulator,Inclined Plane Simulator,Inclined Plane and Friction,physics,true,guide-missing,already-exists,medium,0.62,0.76,0.93,0.7,1,0.85,0,0.78,0.8,73.9
 function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,true,cluster-missing,recommended,high,0.9,0.39,0.97,0.4,1,0.96,0,0.85,0.8,73.6
@@ -55,3 +69,4 @@ net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,
 mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,67
 salary-calculator,salary-calculator,Salary Calculator,Salary Conversion,budget,false,engine-missing,recommended,medium,0.9,0.52,0.92,0.6,0.3,0.84,0,0.88,0.8,66.3
 retirement-calculator,retirement-calculator,Retirement Calculator,Retirement Projection,retirement,false,engine-missing,recommended,high,0.94,0.46,0.94,0.3,0.3,0.74,0,0.82,0.8,61.4
+meal-plan-generator,meal-plan-generator,Meal Plan Generator,Nutrition Authoring,meal-planning,false,engine-missing,discovered,high,0.75,0.3,0.6,0.3,0.3,0.9,0,0.4,0.64,46.6

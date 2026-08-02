@@ -1,7 +1,682 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T11:08:09.391Z",
+  "generatedAt": "2026-08-02T19:01:19.070Z",
   "top": [
+    {
+      "id": "one-rep-max-calculator",
+      "title": "One Rep Max Calculator",
+      "problem": "I lifted a weight for several reps and want the single heaviest lift I could manage, so I can set training percentages.",
+      "userIntent": "transactional",
+      "workflow": "input → Fitness Performance Calculation → output",
+      "transformation": "Fitness Performance Calculation",
+      "proposedTool": "one-rep-max-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "one rep max calculator",
+        "1rm calculator",
+        "max bench press calculator",
+        "epley formula calculator",
+        "brzycki 1rm"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "strengthlevel.com",
+        "bodybuilding.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "single formula only",
+        "no percentage training table",
+        "desktop-first layout"
+      ],
+      "relatedProblems": [
+        "training percentages",
+        "rep max conversion",
+        "progressive overload planning"
+      ],
+      "relatedTools": [
+        "body-weight-tracker",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator"
+      ],
+      "relatedGuides": [
+        "body-weight-tracker",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator"
+      ],
+      "relatedFaqs": [
+        "body-weight-tracker",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.62,
+      "searchDemand": 0.85,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.97,
+      "confidence": 0.8,
+      "finalScore": 86.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "running-pace-calculator",
+      "title": "Running Pace Calculator",
+      "problem": "Knowing two of distance, finish time, and speed per kilometre, I need the third to plan how fast to run a race.",
+      "userIntent": "transactional",
+      "workflow": "input → Fitness Performance Calculation → output",
+      "transformation": "Fitness Performance Calculation",
+      "proposedTool": "running-pace-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "running pace calculator",
+        "pace calculator",
+        "marathon time calculator",
+        "min per km calculator",
+        "race split calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "runnersworld.com",
+        "calculator.net",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no split table",
+        "imperial only by default",
+        "slow to load"
+      ],
+      "relatedProblems": [
+        "split times",
+        "goal race pace",
+        "treadmill speed conversion"
+      ],
+      "relatedTools": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedGuides": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedFaqs": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.54,
+      "searchDemand": 0.9,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.97,
+      "confidence": 0.8,
+      "finalScore": 86,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "calorie-deficit-calculator",
+      "title": "Calorie Deficit Calculator",
+      "problem": "Given how far below maintenance I eat daily, show how many weeks until I reach a target weight.",
+      "userIntent": "transactional",
+      "workflow": "input → Energy And Nutrition Planning → output",
+      "transformation": "Energy And Nutrition Planning",
+      "proposedTool": "calorie-deficit-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "calorie deficit calculator",
+        "weight loss timeline calculator",
+        "how long to lose weight",
+        "deficit to lose 1kg per week",
+        "goal weight date calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "calculator.net",
+        "healthline.com",
+        "myfitnesspal.com"
+      ],
+      "solutionWeaknesses": [
+        "requires signup",
+        "ad heavy",
+        "no timeline chart",
+        "assumes a fixed 7700 kcal rule without stating it"
+      ],
+      "relatedProblems": [
+        "safe deficit range",
+        "plateau expectations",
+        "maintenance recalculation"
+      ],
+      "relatedTools": [
+        "tdee-calculator",
+        "body-weight-tracker",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedGuides": [
+        "tdee-calculator",
+        "body-weight-tracker",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedFaqs": [
+        "tdee-calculator",
+        "body-weight-tracker",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.59,
+      "searchDemand": 0.82,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.93,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.92,
+      "confidence": 0.8,
+      "finalScore": 84.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "pregnancy-due-date-calculator",
+      "title": "Pregnancy Due Date Calculator",
+      "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Health Date Calculation → date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "pregnancy-due-date-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "due date calculator",
+        "pregnancy due date calculator",
+        "naegele rule calculator",
+        "how many weeks pregnant am i",
+        "estimated delivery date"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "whattoexpect.com",
+        "babycenter.com",
+        "mayoclinic.org"
+      ],
+      "solutionWeaknesses": [
+        "requires signup for the full timeline",
+        "heavy tracking scripts",
+        "upsells products",
+        "slow on mobile"
+      ],
+      "relatedProblems": [
+        "gestational age today",
+        "trimester boundaries",
+        "conception date estimate"
+      ],
+      "relatedTools": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.95,
+      "confidence": 0.8,
+      "finalScore": 84.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "sleep-cycle-calculator",
+      "title": "Sleep Cycle Calculator",
+      "problem": "Counting backward in ninety-minute cycles from when my alarm rings shows which bedtimes avoid waking mid-cycle.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Health Date Calculation → date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "sleep-cycle-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "sleep calculator",
+        "sleep cycle calculator",
+        "what time should i go to bed",
+        "bedtime calculator",
+        "90 minute sleep cycles"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "sleepfoundation.org",
+        "sleepyti.me",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no wake-time and bed-time in one view",
+        "ignores time to fall asleep"
+      ],
+      "relatedProblems": [
+        "sleep latency allowance",
+        "nap length",
+        "wake window planning"
+      ],
+      "relatedTools": [
+        "move-today-tracker",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "move-today-tracker",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "move-today-tracker",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.63,
+      "searchDemand": 0.78,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.91,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.93,
+      "confidence": 0.8,
+      "finalScore": 83.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "bmr-calculator",
+      "title": "BMR Calculator",
+      "problem": "I want the energy my body burns at complete rest, before any activity multiplier is applied.",
+      "userIntent": "transactional",
+      "workflow": "input → Energy And Nutrition Planning → output",
+      "transformation": "Energy And Nutrition Planning",
+      "proposedTool": "bmr-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "bmr calculator",
+        "basal metabolic rate calculator",
+        "mifflin st jeor calculator",
+        "harris benedict equation",
+        "resting metabolic rate"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "calculator.net",
+        "healthline.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "formula choice hidden",
+        "no comparison between equations"
+      ],
+      "relatedProblems": [
+        "equation selection",
+        "activity multipliers",
+        "metabolic adaptation"
+      ],
+      "relatedTools": [
+        "tdee-calculator",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedGuides": [
+        "tdee-calculator",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedFaqs": [
+        "tdee-calculator",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.8,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.96,
+      "confidence": 0.8,
+      "finalScore": 82.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "ovulation-calculator",
+      "title": "Ovulation Calculator",
+      "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Health Date Calculation → date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "ovulation-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "ovulation calculator",
+        "fertile window calculator",
+        "period tracker calculator",
+        "when am i ovulating",
+        "conception date calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "babycenter.com",
+        "clearblue.com",
+        "flo.health"
+      ],
+      "solutionWeaknesses": [
+        "pushes an app install",
+        "requires an account",
+        "sends personal cycle data to a server",
+        "ad heavy"
+      ],
+      "relatedProblems": [
+        "cycle length variation",
+        "luteal phase length",
+        "next period date"
+      ],
+      "relatedTools": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.48,
+      "searchDemand": 0.8,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.9,
+      "confidence": 0.8,
+      "finalScore": 81.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "blood-pressure-tracker",
+      "title": "Blood Pressure Tracker",
+      "problem": "Logging systolic and diastolic readings over weeks reveals a trend worth showing a doctor.",
+      "userIntent": "transactional",
+      "workflow": "input → Personal Health Logging → output",
+      "transformation": "Personal Health Logging",
+      "proposedTool": "blood-pressure-tracker",
+      "proposedEngine": "tracker",
+      "searchQueries": [
+        "blood pressure log",
+        "blood pressure tracker",
+        "bp chart printable",
+        "record blood pressure readings",
+        "blood pressure diary"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "heart.org",
+        "printable PDF charts",
+        "phone app stores"
+      ],
+      "solutionWeaknesses": [
+        "printable PDFs only",
+        "apps require an account",
+        "readings leave the device",
+        "no trend view"
+      ],
+      "relatedProblems": [
+        "reading categories",
+        "morning versus evening readings",
+        "sharing a summary with a clinician"
+      ],
+      "relatedTools": [
+        "body-weight-tracker",
+        "water-intake-tracker",
+        "move-today-tracker"
+      ],
+      "relatedGuides": [
+        "body-weight-tracker",
+        "water-intake-tracker",
+        "move-today-tracker"
+      ],
+      "relatedFaqs": [
+        "body-weight-tracker",
+        "water-intake-tracker",
+        "move-today-tracker"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.79,
+      "searchDemand": 0.62,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.85,
+      "topicClusterPotential": 0.25,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.92,
+      "confidence": 0.8,
+      "finalScore": 81.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "protein-intake-calculator",
+      "title": "Protein Intake Calculator",
+      "problem": "I need a daily gram target for protein from bodyweight and whether I am cutting, maintaining, or building muscle.",
+      "userIntent": "transactional",
+      "workflow": "input → Energy And Nutrition Planning → output",
+      "transformation": "Energy And Nutrition Planning",
+      "proposedTool": "protein-intake-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "protein intake calculator",
+        "how much protein per day",
+        "protein per kg bodyweight",
+        "daily protein calculator",
+        "protein for muscle gain"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "healthline.com",
+        "bodybuilding.com",
+        "examine.com"
+      ],
+      "solutionWeaknesses": [
+        "article-first with the calculator buried",
+        "email gate",
+        "single recommendation with no range"
+      ],
+      "relatedProblems": [
+        "guideline ranges by goal",
+        "protein timing",
+        "lean mass versus total mass basis"
+      ],
+      "relatedTools": [
+        "macro-calculator",
+        "tdee-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedGuides": [
+        "macro-calculator",
+        "tdee-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedFaqs": [
+        "macro-calculator",
+        "tdee-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.63,
+      "searchDemand": 0.7,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.88,
+      "confidence": 0.8,
+      "finalScore": 81.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
     {
       "id": "statistics-visualizer",
       "title": "Statistics Visualizer",
@@ -21,7 +696,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -69,601 +744,6 @@
       "algorithmicFit": 1,
       "confidence": 0.8,
       "finalScore": 79.7,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "matrix-calculator",
-      "title": "Matrix Calculator",
-      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
-      "userIntent": "howTo",
-      "workflow": "input → Matrices → output",
-      "transformation": "Matrices",
-      "proposedTool": "matrix-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "matrix multiplication calculator",
-        "determinant calculator",
-        "inverse matrix calculator",
-        "rref calculator",
-        "matrix calculator with steps"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "matrixcalc.org",
-        "symbolab.com",
-        "wolframalpha.com"
-      ],
-      "solutionWeaknesses": [
-        "cluttered 2000s-era UI",
-        "steps paywalled",
-        "ad heavy",
-        "painful matrix entry on mobile"
-      ],
-      "relatedProblems": [
-        "determinant",
-        "matrix inverse",
-        "row reduction",
-        "systems of equations"
-      ],
-      "relatedTools": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedGuides": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedFaqs": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.46,
-      "searchDemand": 0.88,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 77.8,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "triangle-solver",
-      "title": "Triangle Solver",
-      "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
-      "userIntent": "transactional",
-      "workflow": "input → Triangles → output",
-      "transformation": "Triangles",
-      "proposedTool": "triangle-solver",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "triangle calculator",
-        "solve triangle",
-        "law of cosines calculator",
-        "law of sines calculator",
-        "pythagorean theorem calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "calculator.net",
-        "omnicalculator.com",
-        "triangle-calculator.com"
-      ],
-      "solutionWeaknesses": [
-        "no drawn-to-scale figure",
-        "ad heavy",
-        "unclear which side-angle combinations are valid",
-        "no ambiguous case explanation"
-      ],
-      "relatedProblems": [
-        "law of sines",
-        "law of cosines",
-        "triangle area",
-        "ambiguous case"
-      ],
-      "relatedTools": [
-        "unit-circle-explorer",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedGuides": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedFaqs": [
-        "unit-circle-explorer",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.59,
-      "searchDemand": 0.8,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.92,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.8,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 77.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "color-shades-generator",
-      "title": "Color Shades & Tints Generator",
-      "problem": "I want to generate a full tint and shade scale (50 to 900) from one base color for a design token set.",
-      "userIntent": "transactional",
-      "workflow": "input → Color Scale → output",
-      "transformation": "Color Scale",
-      "proposedTool": "color-shades-generator",
-      "proposedEngine": "color",
-      "searchQueries": [
-        "color shades tints generator",
-        "color shades generator",
-        "tints and shades",
-        "color scale generator",
-        "tailwind color shades",
-        "50 to 900 color palette"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "uicolors.app",
-        "smart-swatch"
-      ],
-      "solutionWeaknesses": [
-        "opinionated single-purpose apps",
-        "no copyable CSS custom properties",
-        "no perceptual (OKLCH) spacing"
-      ],
-      "relatedProblems": [
-        "color conversion",
-        "perceptual gradient"
-      ],
-      "relatedTools": [
-        "color-format-converter",
-        "color-contrast-checker"
-      ],
-      "relatedGuides": [
-        "color-format-converter",
-        "color-contrast-checker"
-      ],
-      "relatedFaqs": [
-        "color-format-converter",
-        "color-contrast-checker"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.86,
-      "competitionScore": 0.6,
-      "searchDemand": 0.64,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.86,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.53,
-      "localizationPotential": 0.92,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 77.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "type-scale-generator",
-      "title": "Modular Type Scale Generator",
-      "problem": "I want to pick a base font size and ratio and generate a modular type scale as copyable rem CSS custom properties.",
-      "userIntent": "transactional",
-      "workflow": "input → Type Scale → output",
-      "transformation": "Type Scale",
-      "proposedTool": "type-scale-generator",
-      "proposedEngine": "units",
-      "searchQueries": [
-        "modular type scale generator",
-        "type scale generator",
-        "modular scale",
-        "font size scale calculator",
-        "golden ratio typography",
-        "css type scale"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "typescale.com",
-        "type-scale.com"
-      ],
-      "solutionWeaknesses": [
-        "no copyable CSS custom properties",
-        "limited ratio presets",
-        "not mobile-first"
-      ],
-      "relatedProblems": [
-        "px to rem",
-        "aspect ratio"
-      ],
-      "relatedTools": [
-        "px-to-rem-converter",
-        "aspect-ratio-calculator",
-        "px-to-dp-converter"
-      ],
-      "relatedGuides": [
-        "px-to-rem-converter",
-        "aspect-ratio-calculator",
-        "px-to-dp-converter"
-      ],
-      "relatedFaqs": [
-        "px-to-rem-converter",
-        "aspect-ratio-calculator",
-        "px-to-dp-converter"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.88,
-      "competitionScore": 0.68,
-      "searchDemand": 0.58,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.83,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.52,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 1,
-      "confidence": 0.64,
-      "finalScore": 76.9,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "normal-distribution-visualizer",
-      "title": "Normal Distribution Visualizer",
-      "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
-      "userIntent": "transactional",
-      "workflow": "input → Normal Distribution → output",
-      "transformation": "Normal Distribution",
-      "proposedTool": "normal-distribution-visualizer",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "normal distribution calculator",
-        "z score calculator",
-        "bell curve generator",
-        "empirical rule calculator",
-        "area under normal curve"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "calculator.net",
-        "onlinestatbook.com",
-        "geogebra.org"
-      ],
-      "solutionWeaknesses": [
-        "static forms with tiny fixed charts",
-        "dated applets",
-        "no draggable mean and sigma",
-        "no shaded area interaction"
-      ],
-      "relatedProblems": [
-        "z score",
-        "empirical rule",
-        "percentiles",
-        "standardizing data"
-      ],
-      "relatedTools": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
-      ],
-      "relatedGuides": [],
-      "relatedFaqs": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.94,
-      "competitionScore": 0.61,
-      "searchDemand": 0.76,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.9,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.35,
-      "localizationPotential": 0.8,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 76.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "linear-regression-playground",
-      "title": "Linear Regression Playground",
-      "problem": "I want to tap points onto a scatter plot and watch the least-squares line, equation, and R squared update as I add, drag, or remove points.",
-      "userIntent": "troubleshooting",
-      "workflow": "input → Linear Regression → output",
-      "transformation": "Linear Regression",
-      "proposedTool": "linear-regression-playground",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "line of best fit calculator",
-        "linear regression calculator",
-        "least squares calculator",
-        "scatter plot maker",
-        "r squared calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "desmos.com",
-        "socscistatistics.com",
-        "geogebra.org"
-      ],
-      "solutionWeaknesses": [
-        "form-based input with no point dragging",
-        "no live residuals view",
-        "dated applets",
-        "no touch-first interaction"
-      ],
-      "relatedProblems": [
-        "correlation",
-        "residuals",
-        "slope and intercept",
-        "outlier influence"
-      ],
-      "relatedTools": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
-      ],
-      "relatedGuides": [],
-      "relatedFaqs": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.93,
-      "competitionScore": 0.66,
-      "searchDemand": 0.7,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.88,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.34,
-      "localizationPotential": 0.78,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 75.5,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "colorblind-simulator",
-      "title": "Colorblind Simulator",
-      "problem": "I want to see how my palette or colors look to people with protanopia, deuteranopia, and tritanopia.",
-      "userIntent": "transactional",
-      "workflow": "input → Color Vision Simulation → output",
-      "transformation": "Color Vision Simulation",
-      "proposedTool": "colorblind-simulator",
-      "proposedEngine": "color",
-      "searchQueries": [
-        "colorblind simulator",
-        "color blindness simulator",
-        "deuteranopia simulator",
-        "protanopia color check",
-        "colorblind palette checker"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "coblis (color-blindness.com)",
-        "venngage colorblind simulator"
-      ],
-      "solutionWeaknesses": [
-        "image-upload only, no palette input",
-        "server-side upload (privacy)",
-        "no side-by-side type comparison"
-      ],
-      "relatedProblems": [
-        "contrast ratio",
-        "accessible palette"
-      ],
-      "relatedTools": [
-        "color-contrast-checker",
-        "color-format-converter"
-      ],
-      "relatedGuides": [
-        "color-contrast-checker",
-        "color-format-converter"
-      ],
-      "relatedFaqs": [
-        "color-contrast-checker",
-        "color-format-converter"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.7,
-      "searchDemand": 0.66,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.86,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.53,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.95,
-      "confidence": 0.8,
-      "finalScore": 75.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "function-grapher",
-      "title": "Function Grapher",
-      "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
-      "userIntent": "transactional",
-      "workflow": "input → Function Graphing → output",
-      "transformation": "Function Graphing",
-      "proposedTool": "function-grapher",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "function grapher",
-        "graphing calculator online",
-        "plot a function online",
-        "equation grapher",
-        "graph maker math"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "desmos.com",
-        "geogebra.org",
-        "wolframalpha.com"
-      ],
-      "solutionWeaknesses": [
-        "heavy apps pushing accounts and classes",
-        "slow first paint",
-        "overkill for one quick plot",
-        "wolfram paywalls step detail"
-      ],
-      "relatedProblems": [
-        "domain and range",
-        "intercepts",
-        "asymptotes",
-        "transformations of functions"
-      ],
-      "relatedTools": [
-        "quadratic-equation-explorer",
-        "probability-simulator",
-        "unit-circle-explorer"
-      ],
-      "relatedGuides": [],
-      "relatedFaqs": [
-        "quadratic-equation-explorer",
-        "probability-simulator",
-        "unit-circle-explorer"
-      ],
-      "difficulty": "high",
-      "evergreenScore": 0.97,
-      "competitionScore": 0.39,
-      "searchDemand": 0.9,
-      "implementationCost": 0.4,
-      "engineReuse": 1,
-      "seoPotential": 0.96,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "algorithmicFit": 1,
-      "confidence": 0.8,
-      "finalScore": 73.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "csv-column-picker",
-      "title": "CSV Column Picker",
-      "problem": "I want to pick out specific columns from a CSV and drop the rest.",
-      "userIntent": "transactional",
-      "workflow": "CSV → CSV Column Selection → CSV",
-      "transformation": "CSV Column Selection",
-      "proposedTool": "csv-column-picker",
-      "proposedEngine": "csv",
-      "searchQueries": [
-        "csv column extractor",
-        "csv column picker",
-        "extract columns from csv",
-        "select csv columns online"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
-      "existingSolutions": [
-        "spreadsheet copy/paste",
-        "awk for devs"
-      ],
-      "solutionWeaknesses": [
-        "awk is dev-only",
-        "spreadsheets choke on big files"
-      ],
-      "relatedProblems": [
-        "csv cleaning",
-        "csv to json"
-      ],
-      "relatedTools": [
-        "csv-to-json-converter",
-        "json-to-csv-converter",
-        "csv-cleaner",
-        "csv-diff",
-        "csv-to-tsv"
-      ],
-      "relatedGuides": [
-        "csv-to-json-converter",
-        "json-to-csv-converter",
-        "csv-cleaner",
-        "csv-diff",
-        "csv-to-tsv"
-      ],
-      "relatedFaqs": [
-        "csv-to-json-converter",
-        "json-to-csv-converter",
-        "csv-cleaner",
-        "csv-diff",
-        "csv-to-tsv"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.8,
-      "competitionScore": 0.78,
-      "searchDemand": 0.6,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.72,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.52,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.85,
-      "confidence": 0.8,
-      "finalScore": 71.9,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true

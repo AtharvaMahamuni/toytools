@@ -1,7 +1,312 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T11:08:09.391Z",
+  "generatedAt": "2026-08-02T19:01:19.070Z",
   "opportunities": [
+    {
+      "id": "one-rep-max-calculator",
+      "title": "One Rep Max Calculator",
+      "problem": "I lifted a weight for several reps and want the single heaviest lift I could manage, so I can set training percentages.",
+      "userIntent": "transactional",
+      "workflow": "input → Fitness Performance Calculation → output",
+      "transformation": "Fitness Performance Calculation",
+      "proposedTool": "one-rep-max-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "one rep max calculator",
+        "1rm calculator",
+        "max bench press calculator",
+        "epley formula calculator",
+        "brzycki 1rm"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "strengthlevel.com",
+        "bodybuilding.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "single formula only",
+        "no percentage training table",
+        "desktop-first layout"
+      ],
+      "relatedProblems": [
+        "training percentages",
+        "rep max conversion",
+        "progressive overload planning"
+      ],
+      "relatedTools": [
+        "body-weight-tracker",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator"
+      ],
+      "relatedGuides": [
+        "body-weight-tracker",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator"
+      ],
+      "relatedFaqs": [
+        "body-weight-tracker",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.62,
+      "searchDemand": 0.85,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.97,
+      "confidence": 0.8,
+      "finalScore": 86.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "running-pace-calculator",
+      "title": "Running Pace Calculator",
+      "problem": "Knowing two of distance, finish time, and speed per kilometre, I need the third to plan how fast to run a race.",
+      "userIntent": "transactional",
+      "workflow": "input → Fitness Performance Calculation → output",
+      "transformation": "Fitness Performance Calculation",
+      "proposedTool": "running-pace-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "running pace calculator",
+        "pace calculator",
+        "marathon time calculator",
+        "min per km calculator",
+        "race split calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "runnersworld.com",
+        "calculator.net",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no split table",
+        "imperial only by default",
+        "slow to load"
+      ],
+      "relatedProblems": [
+        "split times",
+        "goal race pace",
+        "treadmill speed conversion"
+      ],
+      "relatedTools": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedGuides": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedFaqs": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.54,
+      "searchDemand": 0.9,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.96,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.97,
+      "confidence": 0.8,
+      "finalScore": 86,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "calorie-deficit-calculator",
+      "title": "Calorie Deficit Calculator",
+      "problem": "Given how far below maintenance I eat daily, show how many weeks until I reach a target weight.",
+      "userIntent": "transactional",
+      "workflow": "input → Energy And Nutrition Planning → output",
+      "transformation": "Energy And Nutrition Planning",
+      "proposedTool": "calorie-deficit-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "calorie deficit calculator",
+        "weight loss timeline calculator",
+        "how long to lose weight",
+        "deficit to lose 1kg per week",
+        "goal weight date calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "calculator.net",
+        "healthline.com",
+        "myfitnesspal.com"
+      ],
+      "solutionWeaknesses": [
+        "requires signup",
+        "ad heavy",
+        "no timeline chart",
+        "assumes a fixed 7700 kcal rule without stating it"
+      ],
+      "relatedProblems": [
+        "safe deficit range",
+        "plateau expectations",
+        "maintenance recalculation"
+      ],
+      "relatedTools": [
+        "tdee-calculator",
+        "body-weight-tracker",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedGuides": [
+        "tdee-calculator",
+        "body-weight-tracker",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedFaqs": [
+        "tdee-calculator",
+        "body-weight-tracker",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.59,
+      "searchDemand": 0.82,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.93,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.92,
+      "confidence": 0.8,
+      "finalScore": 84.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "pregnancy-due-date-calculator",
+      "title": "Pregnancy Due Date Calculator",
+      "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Health Date Calculation → date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "pregnancy-due-date-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "due date calculator",
+        "pregnancy due date calculator",
+        "naegele rule calculator",
+        "how many weeks pregnant am i",
+        "estimated delivery date"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "whattoexpect.com",
+        "babycenter.com",
+        "mayoclinic.org"
+      ],
+      "solutionWeaknesses": [
+        "requires signup for the full timeline",
+        "heavy tracking scripts",
+        "upsells products",
+        "slow on mobile"
+      ],
+      "relatedProblems": [
+        "gestational age today",
+        "trimester boundaries",
+        "conception date estimate"
+      ],
+      "relatedTools": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.95,
+      "confidence": 0.8,
+      "finalScore": 84.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
     {
       "id": "unit-circle-explorer",
       "title": "Unit Circle Explorer",
@@ -21,7 +326,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -86,7 +391,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -133,6 +438,82 @@
       "engineExists": true
     },
     {
+      "id": "sleep-cycle-calculator",
+      "title": "Sleep Cycle Calculator",
+      "problem": "Counting backward in ninety-minute cycles from when my alarm rings shows which bedtimes avoid waking mid-cycle.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Health Date Calculation → date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "sleep-cycle-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "sleep calculator",
+        "sleep cycle calculator",
+        "what time should i go to bed",
+        "bedtime calculator",
+        "90 minute sleep cycles"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "sleepfoundation.org",
+        "sleepyti.me",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no wake-time and bed-time in one view",
+        "ignores time to fall asleep"
+      ],
+      "relatedProblems": [
+        "sleep latency allowance",
+        "nap length",
+        "wake window planning"
+      ],
+      "relatedTools": [
+        "move-today-tracker",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "move-today-tracker",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "move-today-tracker",
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.63,
+      "searchDemand": 0.78,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.91,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.93,
+      "confidence": 0.8,
+      "finalScore": 83.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "color-contrast-checker",
       "title": "WCAG Color Contrast Checker",
       "problem": "I need to check whether a text color and background color meet WCAG AA/AAA contrast so my UI is accessible.",
@@ -152,7 +533,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -197,6 +578,82 @@
       "engineExists": true
     },
     {
+      "id": "bmr-calculator",
+      "title": "BMR Calculator",
+      "problem": "I want the energy my body burns at complete rest, before any activity multiplier is applied.",
+      "userIntent": "transactional",
+      "workflow": "input → Energy And Nutrition Planning → output",
+      "transformation": "Energy And Nutrition Planning",
+      "proposedTool": "bmr-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "bmr calculator",
+        "basal metabolic rate calculator",
+        "mifflin st jeor calculator",
+        "harris benedict equation",
+        "resting metabolic rate"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "calculator.net",
+        "healthline.com",
+        "omnicalculator.com"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "formula choice hidden",
+        "no comparison between equations"
+      ],
+      "relatedProblems": [
+        "equation selection",
+        "activity multipliers",
+        "metabolic adaptation"
+      ],
+      "relatedTools": [
+        "tdee-calculator",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedGuides": [
+        "tdee-calculator",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedFaqs": [
+        "tdee-calculator",
+        "macro-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.8,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.96,
+      "confidence": 0.8,
+      "finalScore": 82.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "fraction-calculator",
       "title": "Fraction Calculator",
       "problem": "I want to add, subtract, multiply, or divide fractions and mixed numbers and see the simplification worked step by step.",
@@ -215,7 +672,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -288,7 +745,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -333,6 +790,80 @@
       "engineExists": true
     },
     {
+      "id": "ovulation-calculator",
+      "title": "Ovulation Calculator",
+      "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
+      "userIntent": "transactional",
+      "workflow": "date/time → Health Date Calculation → date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "ovulation-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "ovulation calculator",
+        "fertile window calculator",
+        "period tracker calculator",
+        "when am i ovulating",
+        "conception date calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "babycenter.com",
+        "clearblue.com",
+        "flo.health"
+      ],
+      "solutionWeaknesses": [
+        "pushes an app install",
+        "requires an account",
+        "sends personal cycle data to a server",
+        "ad heavy"
+      ],
+      "relatedProblems": [
+        "cycle length variation",
+        "luteal phase length",
+        "next period date"
+      ],
+      "relatedTools": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.48,
+      "searchDemand": 0.8,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.9,
+      "confidence": 0.8,
+      "finalScore": 81.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "remove-line-breaks",
       "title": "Remove Line Breaks",
       "problem": "Pasted text has hard line breaks mid-sentence and I need it as one continuous paragraph.",
@@ -351,7 +882,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -425,7 +956,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -497,7 +1028,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -545,6 +1076,150 @@
       "engineExists": true
     },
     {
+      "id": "blood-pressure-tracker",
+      "title": "Blood Pressure Tracker",
+      "problem": "Logging systolic and diastolic readings over weeks reveals a trend worth showing a doctor.",
+      "userIntent": "transactional",
+      "workflow": "input → Personal Health Logging → output",
+      "transformation": "Personal Health Logging",
+      "proposedTool": "blood-pressure-tracker",
+      "proposedEngine": "tracker",
+      "searchQueries": [
+        "blood pressure log",
+        "blood pressure tracker",
+        "bp chart printable",
+        "record blood pressure readings",
+        "blood pressure diary"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "heart.org",
+        "printable PDF charts",
+        "phone app stores"
+      ],
+      "solutionWeaknesses": [
+        "printable PDFs only",
+        "apps require an account",
+        "readings leave the device",
+        "no trend view"
+      ],
+      "relatedProblems": [
+        "reading categories",
+        "morning versus evening readings",
+        "sharing a summary with a clinician"
+      ],
+      "relatedTools": [
+        "body-weight-tracker",
+        "water-intake-tracker",
+        "move-today-tracker"
+      ],
+      "relatedGuides": [
+        "body-weight-tracker",
+        "water-intake-tracker",
+        "move-today-tracker"
+      ],
+      "relatedFaqs": [
+        "body-weight-tracker",
+        "water-intake-tracker",
+        "move-today-tracker"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.79,
+      "searchDemand": 0.62,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.85,
+      "topicClusterPotential": 0.25,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.92,
+      "confidence": 0.8,
+      "finalScore": 81.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "protein-intake-calculator",
+      "title": "Protein Intake Calculator",
+      "problem": "I need a daily gram target for protein from bodyweight and whether I am cutting, maintaining, or building muscle.",
+      "userIntent": "transactional",
+      "workflow": "input → Energy And Nutrition Planning → output",
+      "transformation": "Energy And Nutrition Planning",
+      "proposedTool": "protein-intake-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "protein intake calculator",
+        "how much protein per day",
+        "protein per kg bodyweight",
+        "daily protein calculator",
+        "protein for muscle gain"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "healthline.com",
+        "bodybuilding.com",
+        "examine.com"
+      ],
+      "solutionWeaknesses": [
+        "article-first with the calculator buried",
+        "email gate",
+        "single recommendation with no range"
+      ],
+      "relatedProblems": [
+        "guideline ranges by goal",
+        "protein timing",
+        "lean mass versus total mass basis"
+      ],
+      "relatedTools": [
+        "macro-calculator",
+        "tdee-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedGuides": [
+        "macro-calculator",
+        "tdee-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "relatedFaqs": [
+        "macro-calculator",
+        "tdee-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.63,
+      "searchDemand": 0.7,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.88,
+      "confidence": 0.8,
+      "finalScore": 81.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "sip-calculator",
       "title": "SIP Calculator",
       "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
@@ -561,7 +1236,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -636,7 +1311,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -710,7 +1385,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -780,7 +1455,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -845,7 +1520,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -916,7 +1591,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -981,7 +1656,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1055,7 +1730,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1120,7 +1795,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1191,7 +1866,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1247,6 +1922,81 @@
       "engineExists": true
     },
     {
+      "id": "lean-body-mass-calculator",
+      "title": "Lean Body Mass Calculator",
+      "problem": "Separating fat mass from everything else in my bodyweight tells me how much muscle and bone I carry.",
+      "userIntent": "transactional",
+      "workflow": "input → Body Composition Calculation → output",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "lean-body-mass-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "lean body mass calculator",
+        "lbm calculator",
+        "boer formula calculator",
+        "fat free mass calculator",
+        "muscle mass estimate"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no formula comparison",
+        "no link to body fat percentage"
+      ],
+      "relatedProblems": [
+        "formula selection",
+        "fat free mass index",
+        "drug dosing by lean mass"
+      ],
+      "relatedTools": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedGuides": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedFaqs": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.7,
+      "searchDemand": 0.55,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.82,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.51,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.95,
+      "confidence": 0.64,
+      "finalScore": 79.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "roi-calculator",
       "title": "ROI Calculator",
       "problem": "I need the return on investment and annualized return for an investment.",
@@ -1263,7 +2013,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -1319,6 +2069,157 @@
       "engineExists": true
     },
     {
+      "id": "waist-to-hip-ratio-calculator",
+      "title": "Waist to Hip Ratio Calculator",
+      "problem": "Measuring around my middle and hips gives a ratio that flags central adiposity better than overall mass does.",
+      "userIntent": "transactional",
+      "workflow": "input → Body Composition Calculation → output",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "waist-to-hip-ratio-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "waist to hip ratio calculator",
+        "whr calculator",
+        "waist hip ratio risk",
+        "central obesity calculator",
+        "waist to height ratio"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "calculator.net",
+        "who.int",
+        "healthline.com"
+      ],
+      "solutionWeaknesses": [
+        "no risk band shown",
+        "measurement technique not explained",
+        "ad heavy"
+      ],
+      "relatedProblems": [
+        "where to place the tape",
+        "risk thresholds by sex",
+        "ratio versus BMI"
+      ],
+      "relatedTools": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedGuides": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedFaqs": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.73,
+      "searchDemand": 0.52,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.81,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 0.97,
+      "confidence": 0.64,
+      "finalScore": 79.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "body-surface-area-calculator",
+      "title": "Body Surface Area Calculator",
+      "problem": "Clinical dosing and cardiac index use square metres of skin, computed from stature and mass.",
+      "userIntent": "transactional",
+      "workflow": "input → Body Composition Calculation → output",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "body-surface-area-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "body surface area calculator",
+        "bsa calculator",
+        "mosteller formula",
+        "du bois bsa",
+        "bsa for chemotherapy dosing"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "mdcalc.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "signup wall on clinical sites",
+        "one formula only",
+        "no plain-language explanation"
+      ],
+      "relatedProblems": [
+        "formula variance",
+        "paediatric dosing",
+        "cardiac index"
+      ],
+      "relatedTools": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedGuides": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedFaqs": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "heart-rate-zone-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.76,
+      "searchDemand": 0.48,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.79,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 0.98,
+      "confidence": 0.64,
+      "finalScore": 79.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "ohms-law-simulator",
       "title": "Ohm's Law Simulator",
       "problem": "I want to change voltage and resistance and see the resulting current and power, ideally with the circuit reacting live.",
@@ -1337,7 +2238,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1407,7 +2308,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1481,7 +2382,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -1550,7 +2451,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1619,7 +2520,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -1693,7 +2594,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -1762,7 +2663,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -1835,7 +2736,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -1908,7 +2809,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1979,7 +2880,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -2049,7 +2950,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2112,7 +3013,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -2176,7 +3077,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2246,7 +3147,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -2310,7 +3211,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -2382,7 +3283,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -2447,7 +3348,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2515,7 +3416,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -2580,7 +3481,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -2624,6 +3525,81 @@
       "engineExists": true
     },
     {
+      "id": "vo2-max-calculator",
+      "title": "VO2 Max Calculator",
+      "problem": "A twelve-minute run or a resting pulse reading estimates the oxygen my body uses at maximum effort.",
+      "userIntent": "transactional",
+      "workflow": "input → Fitness Performance Calculation → output",
+      "transformation": "Fitness Performance Calculation",
+      "proposedTool": "vo2-max-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "vo2 max calculator",
+        "cooper test calculator",
+        "aerobic capacity calculator",
+        "vo2max from resting heart rate",
+        "fitness age calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "healthline.com"
+      ],
+      "solutionWeaknesses": [
+        "one estimation method only",
+        "no fitness-percentile context",
+        "ad heavy"
+      ],
+      "relatedProblems": [
+        "cardio fitness percentile",
+        "cooper test scoring",
+        "training zone anchoring"
+      ],
+      "relatedTools": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedGuides": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "relatedFaqs": [
+        "heart-rate-zone-calculator",
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.68,
+      "searchDemand": 0.58,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 0.9,
+      "confidence": 0.64,
+      "finalScore": 75.2,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "csv-cleaner",
       "title": "CSV Cleaner",
       "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
@@ -2642,7 +3618,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -2710,7 +3686,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2778,7 +3754,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -2829,6 +3805,72 @@
       "engineExists": true
     },
     {
+      "id": "sleep-hours-tracker",
+      "title": "Sleep Hours Tracker",
+      "problem": "Recording how many hours I actually slept each night surfaces a weekly average and a streak.",
+      "userIntent": "transactional",
+      "workflow": "input → Personal Health Logging → output",
+      "transformation": "Personal Health Logging",
+      "proposedTool": "sleep-hours-tracker",
+      "proposedEngine": "tracker",
+      "searchQueries": [
+        "sleep tracker",
+        "sleep log",
+        "hours of sleep tracker",
+        "sleep diary template",
+        "weekly sleep average"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "phone app stores",
+        "wearable companion apps"
+      ],
+      "solutionWeaknesses": [
+        "needs a wearable",
+        "account required",
+        "data uploaded to a vendor"
+      ],
+      "relatedProblems": [
+        "weekly average",
+        "consistency streaks",
+        "sleep debt"
+      ],
+      "relatedTools": [
+        "move-today-tracker",
+        "water-intake-tracker",
+        "body-weight-tracker"
+      ],
+      "relatedGuides": [
+        "move-today-tracker",
+        "water-intake-tracker",
+        "body-weight-tracker"
+      ],
+      "relatedFaqs": [
+        "move-today-tracker",
+        "water-intake-tracker",
+        "body-weight-tracker"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.88,
+      "competitionScore": 0.6,
+      "searchDemand": 0.5,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.8,
+      "topicClusterPotential": 0.25,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.9,
+      "confidence": 0.64,
+      "finalScore": 74.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "date-difference-calculator",
       "title": "Date Difference Calculator",
       "problem": "I need the number of days/weeks/months between two dates.",
@@ -2845,7 +3887,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -2916,7 +3958,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -2985,7 +4027,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -3049,7 +4091,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -3117,7 +4159,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -3188,7 +4230,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -3249,7 +4291,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -3319,7 +4361,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -3388,7 +4430,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -3450,7 +4492,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -3511,7 +4553,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -3578,7 +4620,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -3638,7 +4680,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -3697,7 +4739,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -3755,7 +4797,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-07-31T11:08:09.391Z",
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -3799,6 +4841,66 @@
       "confidence": 0.8,
       "finalScore": 61.4,
       "status": "recommended",
+      "gap": "engine-missing",
+      "engineExists": false
+    },
+    {
+      "id": "meal-plan-generator",
+      "title": "Meal Plan Generator",
+      "problem": "I want a week of meals invented for me that hit my macros and leave out foods I dislike.",
+      "userIntent": "transactional",
+      "workflow": "input → Nutrition Authoring → output",
+      "transformation": "Nutrition Authoring",
+      "proposedTool": "meal-plan-generator",
+      "proposedEngine": "meal-planning",
+      "searchQueries": [
+        "meal plan generator",
+        "weekly meal planner",
+        "macro meal plan",
+        "diet plan generator",
+        "meal prep planner"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "existingSolutions": [
+        "eatthismuch.com",
+        "myfitnesspal.com",
+        "chatbots"
+      ],
+      "solutionWeaknesses": [
+        "subscription required",
+        "recipe database is proprietary"
+      ],
+      "relatedProblems": [
+        "recipe substitution",
+        "grocery list building",
+        "dietary restrictions"
+      ],
+      "relatedTools": [
+        "macro-calculator"
+      ],
+      "relatedGuides": [
+        "macro-calculator"
+      ],
+      "relatedFaqs": [
+        "macro-calculator"
+      ],
+      "difficulty": "high",
+      "evergreenScore": 0.6,
+      "competitionScore": 0.3,
+      "searchDemand": 0.75,
+      "implementationCost": 0.3,
+      "engineReuse": 0.3,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.4,
+      "algorithmicFit": 0.22,
+      "confidence": 0.64,
+      "finalScore": 46.6,
+      "status": "discovered",
       "gap": "engine-missing",
       "engineExists": false
     }

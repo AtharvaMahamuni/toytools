@@ -101,6 +101,87 @@ export const EXPANSION_TAXONOMY: ExpansionTaxonomy = [
       },
     ],
   },
+  {
+    engine: 'wellness',
+    families: [
+      {
+        family: 'body-composition',
+        expected: [
+          'bmi-calculator',
+          'body-fat-calculator',
+          'ideal-weight-calculator',
+          'lean-body-mass-calculator',
+          'waist-to-hip-ratio-calculator',
+          'body-surface-area-calculator',
+        ],
+      },
+      {
+        family: 'energy',
+        expected: [
+          'tdee-calculator',
+          'bmr-calculator',
+          'calorie-deficit-calculator',
+        ],
+      },
+      {
+        family: 'cardio',
+        expected: [
+          'heart-rate-zone-calculator',
+          'running-pace-calculator',
+          'vo2-max-calculator',
+        ],
+      },
+      {
+        family: 'nutrition',
+        expected: [
+          'macro-calculator',
+          'protein-intake-calculator',
+        ],
+      },
+      // No shipped tool yet — the first strength-training member would open this family.
+      {
+        family: 'strength',
+        expected: [
+          'one-rep-max-calculator',
+        ],
+      },
+    ],
+  },
+  {
+    engine: 'tracker',
+    families: [
+      {
+        family: 'measurement',
+        expected: [
+          'body-weight-tracker',
+          'blood-pressure-tracker',
+        ],
+      },
+      {
+        family: 'habit',
+        expected: [
+          'water-intake-tracker',
+          'move-today-tracker',
+          'sleep-hours-tracker',
+        ],
+      },
+    ],
+  },
+  {
+    engine: 'datetime',
+    families: [
+      // Health questions that are really date arithmetic, so they reuse the datetime engine
+      // rather than wellness. Engine selection is confirmed per tool at build time.
+      {
+        family: 'health-date',
+        expected: [
+          'sleep-cycle-calculator',
+          'pregnancy-due-date-calculator',
+          'ovulation-calculator',
+        ],
+      },
+    ],
+  },
 ];
 
 /** Expected tool slugs for an engine/family. Never throws; unknown lookups return []. */

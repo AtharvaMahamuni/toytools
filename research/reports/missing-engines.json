@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T11:08:09.391Z",
+  "generatedAt": "2026-08-02T19:01:19.070Z",
   "engines": [
     {
       "engine": "loan",
@@ -51,6 +51,22 @@
       "topScore": 61.4,
       "rationale": [
         "1 opportunity share the missing \"retirement\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
+    {
+      "engine": "meal-planning",
+      "exists": false,
+      "confidence": 0.5,
+      "transformations": [
+        "Nutrition Authoring"
+      ],
+      "unlocksTools": [
+        "meal-plan-generator"
+      ],
+      "topScore": 46.6,
+      "rationale": [
+        "1 opportunity share the missing \"meal-planning\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     }
