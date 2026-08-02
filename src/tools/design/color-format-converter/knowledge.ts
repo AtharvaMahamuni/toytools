@@ -28,7 +28,7 @@ export const knowledge: Knowledge = {
   commonQuestions: [
     'How do I convert HEX to RGB?',
     'What is OKLCH and when should I use it?',
-    'Does the converter keep alpha transparency?',
+    'Does this converter support alpha transparency?',
   ],
   usedWith: [
     { slug: 'color-contrast-checker', reason: 'Check the converted color against its background for accessibility', strength: 0.7 },

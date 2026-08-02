@@ -48,8 +48,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-it-works">
     <h2>How the math works</h2>
     <p>
-      A ratio of W:H means height equals width times H divided by W, and width equals height times W
-      divided by H. To find the ratio of an existing size, divide both numbers by their greatest common
+      A ratio of W:H is the width to height ratio: height equals width times H divided by W, and width
+      equals height times W divided by H. To resize proportionally, change one dimension and solve for
+      the other. Ratio simplification works by dividing both numbers by their greatest common
       divisor. For 1920 by 1080 the greatest common divisor is 120, so it reduces to 16:9. The Aspect
       Ratio Calculator runs both directions live: change the width and the height updates, change the
       ratio and it re-solves, and it always shows the simplified ratio beside your dimensions. This is
@@ -87,9 +88,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       posts, and 9:16 for vertical phone video. Once you have your pixel dimensions, the PX to REM
       Converter turns them into scalable CSS units, and the PX to DP Converter does the same for native
       mobile. Comparing the Aspect Ratio Calculator vs alternatives, fixed single-ratio tools force one
-      shape, while this one works as a general image dimension calculator, handling presets and any
-      custom ratio and previewing the shape as you type. It is the fastest way to resize keep aspect
-      ratio work correct on the first try.
+      shape, whereas this one doubles as an image dimension calculator and a resolution calculator,
+      handling presets and any custom ratio and previewing the shape as you type. Therefore it gets
+      resize keep aspect ratio work right on the first try.
     </p>
   </section>
 

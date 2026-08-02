@@ -14,7 +14,7 @@ export const items: FAQItem[] = [
   {
     id: 'macro-calculator-faq-3',
     question: 'How much protein should I eat?',
-    answer: 'A common evidence-based range is roughly 1.6 to 2.2 grams of protein per kilogram of bodyweight for people who train, which for many lands between 100 and 160 grams a day. The percentage-based splits here often fall in that zone, but if you have your bodyweight handy you can sanity-check the protein figure against that range and pick the split that gets you there.',
+    answer: 'A common evidence-based range is roughly 1.6 to 2.2 grams of protein per kilogram of bodyweight for people who train, which for many lands between 100 and 160 grams a day. The percentage-based splits here commonly fall in that zone, but if you have your bodyweight handy you can sanity-check the protein figure against that range and pick the split that gets you there.',
   },
   {
     id: 'macro-calculator-faq-4',

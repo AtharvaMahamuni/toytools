@@ -29,6 +29,6 @@ export const items: FAQItem[] = [
   {
     id: 'water-intake-tracker-faq-6',
     question: 'Does drinking more water have real benefits?',
-    answer: 'Staying adequately hydrated supports energy, concentration, temperature regulation, and kidney function, and mild dehydration is a common hidden cause of afternoon fatigue and headaches. You do not need to overdo it: once your urine is pale straw-coloured you are generally well hydrated. The tracker just helps you stay consistent rather than pushing an extreme target.',
+    answer: 'Staying adequately hydrated supports energy, concentration, temperature regulation, and kidney function, and mild dehydration is a common hidden cause of afternoon fatigue and headaches. You do not need to overdo it: once your urine is pale straw-coloured you are well hydrated. The tracker just helps you stay consistent rather than pushing an extreme target.',
   },
 ];

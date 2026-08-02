@@ -24,7 +24,7 @@ export const items: FAQItem[] = [
   {
     id: 'tdee-calculator-faq-5',
     question: 'Why is my weight not changing at the calculated calories?',
-    answer: 'Usually the activity level was set too high, or the food intake is higher than logged, since portions are easy to underestimate. Give any target two to three weeks before judging it, because water weight masks fat change day to day. If the trend is genuinely flat while eating below the estimate, lower the target by about 150 to 200 kcal and reassess.',
+    answer: 'The most common cause is an activity level set too high, or food intake higher than logged, since portions are easy to underestimate. Give any target two to three weeks before judging it, because water weight masks fat change day to day. If the trend is genuinely flat while eating below the estimate, lower the target by about 150 to 200 kcal and reassess.',
   },
   {
     id: 'tdee-calculator-faq-6',

@@ -52,11 +52,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       Every conversion routes through sRGB, the color space your screen uses. The tool parses your
       input into red, green, and blue channels, then derives each format from there. So what does a HEX
       color encode? Two hexadecimal digits per channel, which is why hex to rgb is a direct read and
-      rgb to hex is its exact inverse. RGB writes those channels as 0 to 255 numbers, and HSL and HSV as
-      hue plus brightness. OKLCH converts the channels into a perceptually uniform space so its lightness
-      matches what the eye sees, and CMYK is a direct formula that estimates ink coverage. This single
-      hub is all of color format conversion, and alpha transparency is preserved through the formats that
-      support it.
+      rgb to hex is its exact inverse. RGB writes those channels as 0 to 255 numbers, whereas HSL and HSV
+      describe hue plus brightness, so hex to hsl re-expresses the same channels as an angle and two
+      percentages. OKLCH converts the channels into a perceptually uniform space so its lightness
+      matches what the eye sees, which is what hex to oklch gives you. CMYK is a direct formula that
+      estimates ink coverage, therefore rgb to cmyk is an approximation rather than an exact mapping.
+      This single hub is all of color format conversion, and alpha transparency is preserved through the
+      formats that support it.
     </p>
   </section>
 
@@ -84,8 +86,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       When you compare the color format converter vs alternatives like single-direction hex-to-rgb
       pages, the difference is breadth: this tool shows all six formats together, including modern
-      OKLCH that many older converters omit. On the question of HSL vs OKLCH for building shades, choose
-      HSL when you want to nudge hue by hand, and OKLCH when you are building even shade scales or
+      OKLCH that many older converters omit. Depending on the listing, the same utility is called
+      a css color converter, a plain color converter, a hex converter, or a colour converter in
+      British spelling. On the question of HSL vs OKLCH for building shades, reading the HSL of a color lets you
+      tweak its hue or saturation by hand, whereas OKLCH suits even shade scales or
       gradients, because its lightness is perceptual. Once you have a color you like, the natural next
       step is the WCAG Color Contrast Checker, which tells you whether that color is readable on its
       background.

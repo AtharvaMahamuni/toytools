@@ -40,7 +40,7 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'How many glasses of water should I drink a day?',
-    'What happens to my streak if I miss a day?',
+    'How does the streak work?',
     'Is my data private?',
   ],
   usedWith: [],

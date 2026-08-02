@@ -26,9 +26,9 @@ export const knowledge: Knowledge = {
     'Using normal-text thresholds for text that qualifies as large, or the reverse',
   ],
   commonQuestions: [
-    'What contrast ratio passes WCAG AA?',
+    'What contrast ratio do I need to pass WCAG?',
     'What counts as large text?',
-    'How do I fix colors that fail contrast?',
+    'My colors fail. How do I fix them?',
   ],
   usedWith: [
     { slug: 'color-format-converter', reason: 'Convert a passing color into the format your CSS needs', strength: 0.7 },

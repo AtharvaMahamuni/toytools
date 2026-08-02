@@ -28,6 +28,11 @@ export const items: FAQItem[] = [
   },
   {
     id: 'move-today-tracker-faq-6',
+    question: 'How do I build an exercise habit?',
+    answer: 'Set the bar low enough that no day can defeat it. A ten-minute walk logged every day builds the habit of showing up faster than an hour at the gym five times a week, because the ambitious plan breaks on the first busy day and one skip turns into many. Log the day, watch the chain extend, and add intensity only once showing up is automatic. The habit comes first and the details come later.',
+  },
+  {
+    id: 'move-today-tracker-faq-7',
     question: 'Is my activity data private?',
     answer: 'Completely. Everything is stored only in this browser on this device, with no account and nothing sent to a server. That keeps your log private, and it also means the history lives on this one device. The clear-all button, or clearing your browser storage, erases it for good.',
   },
