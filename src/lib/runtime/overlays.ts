@@ -26,10 +26,17 @@ export function attachOverlays(): void {
   // The nav search is an <a href="/search/">, so it works with no JS at all. Intercepting the
   // click is the enhancement, not the mechanism.
   document.addEventListener('click', (e) => {
-    const trigger = (e.target as HTMLElement | null)?.closest?.('[data-palette-open]');
-    if (!trigger) return;
-    e.preventDefault();
-    void overlays().then((m) => m.openPalette());
+    const el = e.target as HTMLElement | null;
+    if (el?.closest?.('[data-palette-open]')) {
+      e.preventDefault();
+      void overlays().then((m) => m.openPalette());
+      return;
+    }
+    // The footer link exists because a shortcut whose only trigger is a shortcut helps nobody.
+    if (el?.closest?.('[data-shortcuts-open]')) {
+      e.preventDefault();
+      void overlays().then((m) => m.openHelp());
+    }
   });
 
   document.addEventListener('keydown', (e) => {

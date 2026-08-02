@@ -1,0 +1,179 @@
+---
+// Privacy. Every claim here is traceable to code, and the page says plainly what it cannot claim:
+// analytics does load for real visitors. The footer has always asserted "Private" as a tooltip
+// with nothing behind it; this is the thing behind it.
+//
+// If you change the analytics guard, the storage keys, the service worker or the feedback
+// delivery path, change this page in the same commit.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+import { GA_MEASUREMENT_ID } from '@lib/analytics/guard';
+
+const description =
+  'What ToyTools stores, what it sends, and what never leaves your device. Every tool runs in your browser; there is no account, no database, and no server that sees your input.';
+
+const updated = '3 August 2026';
+---
+
+<BaseLayout title={generatePageTitle('privacy')} description={description} maxWidth="tool">
+  <article class="page-doc">
+    <h1>Privacy</h1>
+    <p class="lede">{description}</p>
+    <p class="updated">Last updated {updated}</p>
+
+    <h2>The short version</h2>
+    <ul>
+      <li>Every tool runs entirely in your browser. What you type into a tool is never sent anywhere.</li>
+      <li>There is no account, no login, and no database. Nothing is stored against your identity because there is no identity to store it against.</li>
+      <li>Anything a tool saves for you is saved on your device, and you can export or delete all of it from <a href={withBase('/settings/')}>Settings</a>.</li>
+      <li>Google Analytics does load for ordinary visitors. That is the one thing on this site that reports back, and it is described below.</li>
+    </ul>
+
+    <h2>What runs in your browser</h2>
+    <p>
+      ToyTools is a static site. There is no application server. When you open a tool, the page and
+      its code are downloaded and everything after that happens on your machine: the text you paste
+      into a word counter, the numbers in a loan calculator, the token in a JWT decoder. None of it
+      is transmitted, because there is nothing on the other end to transmit it to.
+    </p>
+    <p>
+      This is also why the tools keep working with no network once you have loaded them, and why
+      they can be installed to your home screen and used offline.
+    </p>
+
+    <h2>What is stored on your device</h2>
+    <p>
+      Some tools remember things between visits, for example a notepad's contents, a tracker's log,
+      or your preferred currency. That data is written to your browser's local storage under keys
+      beginning <code>toytools:</code> and <code>toytools.</code>, and it stays on that device in
+      that browser. It is never uploaded.
+    </p>
+    <ul>
+      <li><strong>Per-tool state</strong> (<code>toytools:&lt;tool&gt;</code>) such as notes, todo items and tracker entries.</li>
+      <li><strong>Preferences</strong> (<code>toytools:prefs</code>) such as display currency, and the theme (<code>toytools.theme</code>).</li>
+      <li><strong>Body profile</strong> (<code>toytools:profile:body</code>) if you have used the health calculators, so several of them do not each ask for the same details.</li>
+      <li><strong>Favourites and recently used tools</strong>, to make the catalog navigable.</li>
+      <li><strong>Recent conversions</strong> for some tools, in session storage, which the browser discards when you close the tab.</li>
+    </ul>
+    <p>
+      Clearing your browser's site data erases all of it permanently. Because some of it is not
+      recoverable, such as months of tracker entries, there is an export on the
+      <a href={withBase('/settings/')}>Settings</a> page that writes everything to a single JSON
+      file you can keep or move to another device.
+    </p>
+
+    <h2>What is sent, and to whom</h2>
+    <h3>Google Analytics</h3>
+    <p>
+      This site loads Google Analytics (measurement ID <code>{GA_MEASUREMENT_ID}</code>) to count
+      visits and see which tools get used. It records the usual things a web analytics product
+      records: pages viewed, approximate location derived from your IP address, device and browser
+      type, and referrer. It does not receive anything you type into a tool, because no tool ever
+      passes its input to it.
+    </p>
+    <p>
+      Analytics is deliberately not loaded when the site is running locally, under automated
+      browser testing, or on <code>localhost</code>, so development and test traffic never reaches
+      it. If you use a tracker blocker or browser-level blocking, nothing on the site depends on
+      analytics loading and everything keeps working.
+    </p>
+
+    <h3>Feedback</h3>
+    <p>
+      The <a href={withBase('/feedback/')}>feedback page</a> does not submit anywhere. It composes a
+      message and hands it to your own email client, so you can see exactly what is being sent
+      before you send it, and you are the one sending it. There is no form endpoint, no relay and
+      no database. If you tick the option to include what you typed into a tool, that text goes into
+      the message you can read; on tools where the input could be a secret, such as the JWT decoder
+      and the hash generators, the option is not offered at all.
+    </p>
+
+    <h3>Links you share</h3>
+    <p>
+      Calculators such as the compound interest and date difference tools put their inputs in the
+      page address, so you can bookmark a calculation or send it to someone. That only ever contains
+      the numbers you entered into that calculator. The health tools never do this on their own,
+      because your body measurements should not end up in your browser history or in a link by
+      accident; they have a "Copy link" button you press deliberately. Tools whose input may be a
+      secret never put anything in the address at all, and offer no link action.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      ToyTools sets no cookies of its own. Google Analytics sets its own cookies to recognise repeat
+      visits. Everything the site itself remembers uses local storage, not cookies.
+    </p>
+
+    <h2>Other services</h2>
+    <p>
+      There are none. No advertising, no comment system, no embedded videos, no chat widget, no
+      social buttons, and no web fonts fetched from a third-party CDN (the fonts are served from
+      this site). The service worker that makes tools work offline stores pages in your browser's
+      own cache and talks to nothing else.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      ToyTools is a general-purpose set of utilities and is not directed at children. It asks for no
+      personal information at any point.
+    </p>
+
+    <h2>Questions</h2>
+    <p>
+      Ask through the <a href={withBase('/feedback/')}>feedback page</a>. If something on this page
+      does not match what the site actually does, that is a bug worth reporting.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc {
+    padding: var(--space-10) 0 var(--space-12);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+  }
+
+  .updated {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    margin-top: var(--space-2);
+  }
+
+  .page-doc h2 {
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .page-doc h3 {
+    margin-top: var(--space-6);
+    font-size: var(--text-base);
+  }
+
+  .page-doc p,
+  .page-doc ul {
+    margin-top: var(--space-4);
+    line-height: var(--line-height-relaxed, 1.7);
+  }
+
+  .page-doc ul {
+    padding-left: var(--space-5);
+  }
+
+  .page-doc li {
+    margin-top: var(--space-2);
+  }
+
+  .page-doc code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    background: var(--color-surface);
+    padding: 1px 4px;
+    border-radius: var(--radius-sm);
+  }
+</style>

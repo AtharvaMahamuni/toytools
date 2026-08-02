@@ -5,7 +5,11 @@ import { APP_VERSION } from '../lib/version';
 
 <header role="banner">
   <div class="nav-inner">
-    <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span><span class="nav-version" aria-label={`ToyTools ${APP_VERSION}`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Alpha Version</strong>Major UI revamp under progress.<br/>Try out the new finance utility tools!</span></span></a>
+    <span class="nav-brand">
+      <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span></a>
+      {/* The badge advertised a version with nothing to click through to; it links to the changelog now. */}
+      <a href={withBase('/changelog/')} class="nav-version" aria-label={`ToyTools ${APP_VERSION}, see changelog`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Alpha Version</strong>Major UI revamp under progress.<br/>See what has changed.</span></a>
+    </span>
     {/*
       A real link to the working search page, upgraded by JS into the command palette. Without it
       there is no way to reach another tool from a tool page except going home, and the "/" shortcut
@@ -85,6 +89,11 @@ import { APP_VERSION } from '../lib/version';
     margin-left: 5px;
   }
 
+  .nav-brand {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
   .nav-version {
     position: relative;
     font-size: 12px;
@@ -93,7 +102,13 @@ import { APP_VERSION } from '../lib/version';
     color: var(--color-text-subtle);
     margin-left: 8px;
     white-space: nowrap;
-    cursor: default;
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .nav-version:hover {
+    color: var(--color-text);
+    text-decoration: none;
   }
 
   @media (max-width: 640px) {
@@ -259,8 +274,9 @@ import { APP_VERSION } from '../lib/version';
     var stored = localStorage.getItem('toytools.theme') || 'system';
     applyTheme(stored);
 
-    var versionEl = document.querySelector('.nav-version');
-    if (versionEl && window.ToyTools) ToyTools.mobileTooltip(versionEl, 'Alpha version — features may change');
+    // No mobileTooltip on the version badge any more: it is a link to the changelog now, and
+    // mobileTooltip preventDefaults on touch devices, so it would swallow the tap and show a
+    // toast instead of navigating. The changelog says what the toast said, and more.
 
     var toggleBtn = document.querySelector('[data-theme-toggle]');
     if (toggleBtn) {

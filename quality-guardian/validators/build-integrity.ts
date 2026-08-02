@@ -11,6 +11,7 @@ export const buildIntegrityValidator: Validator = {
     // Required generated artifacts
     const required = [
       { file: 'robots.txt', code: 'missing-robots' },
+      { file: 'llms.txt', code: 'missing-llms-txt' },
       { file: 'sitemap-index.xml', code: 'missing-sitemap' },
       { file: '404.html', code: 'missing-404' },
       { file: 'route-manifest.json', code: 'missing-manifest' },

@@ -1,0 +1,327 @@
+---
+// Settings: the one place to see and control everything the site has stored for you.
+//
+// TT.data (export, import, storage pressure) has existed for a while and its only consumer was
+// TrackerWidget, so the backup path was reachable from the health trackers and nowhere else.
+// Someone who used the finance or productivity tools had no way to it at all, and there was no
+// global delete anywhere. This is that surface.
+//
+// noindex: it is a personal control panel, not content. It is deliberately absent from the sitemap.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+
+const description =
+  'Manage what ToyTools has saved on this device: export a backup, restore one, or delete everything.';
+---
+
+<BaseLayout
+  title={generatePageTitle('settings')}
+  description={description}
+  maxWidth="tool"
+  robots="noindex,follow"
+>
+  <article class="settings">
+    <h1>Settings</h1>
+    <p class="lede">
+      Everything below lives in this browser on this device and has never been uploaded. See
+      <a href={withBase('/privacy/')}>privacy</a> for exactly what is stored and why.
+    </p>
+
+    <section class="block">
+      <h2>Appearance</h2>
+      <p class="block-help">Follows your system setting unless you choose otherwise.</p>
+      <div class="choices" role="group" aria-label="Theme">
+        <button type="button" class="choice" data-theme-choice="light">Light</button>
+        <button type="button" class="choice" data-theme-choice="dark">Dark</button>
+        <button type="button" class="choice" data-theme-choice="system">System</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Your data</h2>
+      <p class="block-help" id="storage-summary">Checking what is stored…</p>
+
+      <div class="actions">
+        <button type="button" class="choice" id="export-btn">Export backup</button>
+        <button type="button" class="choice" id="import-btn">Import backup</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden />
+      </div>
+      <p class="block-help">
+        The export is a single JSON file holding every saved note, tracker entry and preference.
+        Importing merges it in: nothing already on this device is wiped by a restore. Some of this
+        data cannot be recreated, so a backup before clearing your browser is worth the ten seconds.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Saved tool data</h2>
+      <p class="block-help">Everything this browser is holding, newest first.</p>
+      <ul class="key-list" id="key-list"></ul>
+      <p class="block-help" id="key-empty" hidden>Nothing saved yet.</p>
+    </section>
+
+    <section class="block block--danger">
+      <h2>Delete everything</h2>
+      <p class="block-help">
+        Removes every note, tracker log, saved profile, preference and favourite from this browser.
+        This cannot be undone, and there is no copy anywhere else. Export first if you might want it.
+      </p>
+      <button type="button" class="choice choice--danger" id="delete-btn" data-label="Delete everything">
+        Delete everything
+      </button>
+    </section>
+  </article>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var TT = window.ToyTools;
+    if (!TT) return;
+
+    // ── Appearance ──────────────────────────────────────────────────────────
+    // Same 'toytools.theme' key the nav toggle and the pre-paint script in BaseLayout use.
+    var themeBtns = document.querySelectorAll('[data-theme-choice]');
+    function paintTheme() {
+      var current = localStorage.getItem('toytools.theme') || 'system';
+      for (var i = 0; i < themeBtns.length; i++) {
+        var on = themeBtns[i].getAttribute('data-theme-choice') === current;
+        themeBtns[i].classList.toggle('is-active', on);
+        themeBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+    }
+    for (var i = 0; i < themeBtns.length; i++) {
+      themeBtns[i].addEventListener('click', function () {
+        var choice = this.getAttribute('data-theme-choice');
+        try {
+          if (choice === 'system') {
+            localStorage.removeItem('toytools.theme');
+            delete document.documentElement.dataset.theme;
+          } else {
+            localStorage.setItem('toytools.theme', choice);
+            document.documentElement.dataset.theme = choice;
+          }
+        } catch (_) {}
+        paintTheme();
+      });
+    }
+    paintTheme();
+
+    // ── What is stored ──────────────────────────────────────────────────────
+    // Friendly names for the shared keys; anything else is a tool slug.
+    var LABELS = {
+      'toytools:prefs': 'Preferences',
+      'toytools:profile:body': 'Body profile (height, weight, age)',
+      'toytools:favorites': 'Favourite tools',
+      'toytools:recent-tools': 'Recently used tools',
+      'toytools.theme': 'Theme'
+    };
+
+    function storedKeys() {
+      var out = [];
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf('toytools') === 0) out.push(k);
+        }
+      } catch (_) {}
+      return out.sort();
+    }
+
+    function humanSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      return (bytes / 1024).toFixed(1) + ' KB';
+    }
+
+    function renderKeys() {
+      var list = document.getElementById('key-list');
+      var empty = document.getElementById('key-empty');
+      var summary = document.getElementById('storage-summary');
+      if (!list) return;
+
+      var keys = storedKeys();
+      var total = 0;
+      list.innerHTML = '';
+
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var value = '';
+        try { value = localStorage.getItem(key) || ''; } catch (_) {}
+        total += value.length;
+
+        var label = LABELS[key] || key.replace(/^toytools[:.]/, '').replace(/-/g, ' ');
+        var li = document.createElement('li');
+        var name = document.createElement('span');
+        name.className = 'key-name';
+        name.textContent = label;
+        var size = document.createElement('span');
+        size.className = 'key-size';
+        size.textContent = humanSize(value.length);
+        li.appendChild(name);
+        li.appendChild(size);
+        list.appendChild(li);
+      }
+
+      if (empty) empty.hidden = keys.length !== 0;
+      if (summary) {
+        summary.textContent = keys.length
+          ? keys.length + ' item' + (keys.length === 1 ? '' : 's') + ' saved, ' + humanSize(total) + ' in total.'
+          : 'Nothing is saved on this device yet.';
+      }
+    }
+    renderKeys();
+
+    // ── Export / import ─────────────────────────────────────────────────────
+    var exportBtn = document.getElementById('export-btn');
+    if (exportBtn) exportBtn.addEventListener('click', function () {
+      if (!TT.data) return;
+      var count = TT.data.download();
+      if (count) TT.toast('Exported ' + count + ' item' + (count === 1 ? '' : 's') + '.');
+    });
+
+    var importBtn = document.getElementById('import-btn');
+    var importFile = document.getElementById('import-file');
+    if (importBtn && importFile) {
+      importBtn.addEventListener('click', function () { importFile.click(); });
+      importFile.addEventListener('change', function () {
+        var file = importFile.files && importFile.files[0];
+        if (!file || !TT.data) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          var res = TT.data.restore(String(reader.result || ''));
+          if (res.ok) {
+            TT.toast('Restored ' + res.restored + ' item' + (res.restored === 1 ? '' : 's') + '.');
+            renderKeys();
+          } else {
+            TT.toast(res.error || 'Could not read that file.');
+          }
+        };
+        reader.readAsText(file);
+        importFile.value = '';
+      });
+    }
+
+    // ── Delete everything ───────────────────────────────────────────────────
+    // Two taps, because one tap on a phone is far too easy and none of this is recoverable.
+    var deleteBtn = document.getElementById('delete-btn');
+    var deleteTimer;
+    if (deleteBtn) deleteBtn.addEventListener('click', function () {
+      if (!deleteBtn.classList.contains('is-confirming')) {
+        deleteBtn.classList.add('is-confirming');
+        deleteBtn.textContent = 'Tap again to delete everything';
+        clearTimeout(deleteTimer);
+        deleteTimer = setTimeout(function () {
+          deleteBtn.classList.remove('is-confirming');
+          deleteBtn.textContent = 'Delete everything';
+        }, 4000);
+        return;
+      }
+      clearTimeout(deleteTimer);
+      deleteBtn.classList.remove('is-confirming');
+      deleteBtn.textContent = 'Delete everything';
+
+      // Both namespaces: state and preferences use "toytools:", the theme uses "toytools.".
+      var keys = storedKeys();
+      for (var i = 0; i < keys.length; i++) {
+        try { localStorage.removeItem(keys[i]); } catch (_) {}
+      }
+      try { sessionStorage.clear(); } catch (_) {}
+      delete document.documentElement.dataset.theme;
+      paintTheme();
+      renderKeys();
+      TT.toast('Deleted ' + keys.length + ' item' + (keys.length === 1 ? '' : 's') + '.');
+    });
+  })();
+</script>
+
+<style>
+  .settings {
+    padding: var(--space-10) 0 var(--space-12);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+  }
+
+  .block {
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .block-help {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    line-height: var(--line-height-relaxed, 1.7);
+  }
+
+  .choices,
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .choice {
+    min-height: var(--touch-target);
+    padding: 0 var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .choice:active {
+    background: var(--color-bg-tertiary);
+  }
+
+  .choice.is-active {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    border-color: var(--color-accent);
+  }
+
+  .choice--danger {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+  }
+
+  .choice--danger.is-confirming {
+    background: var(--color-danger);
+    color: var(--color-text-inverse);
+  }
+
+  .key-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-4) 0 0;
+  }
+
+  .key-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: var(--border);
+    font-size: var(--text-sm);
+  }
+
+  .key-name {
+    text-transform: capitalize;
+  }
+
+  .key-size {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

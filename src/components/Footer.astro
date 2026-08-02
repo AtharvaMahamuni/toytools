@@ -23,7 +23,16 @@ const year = new Date().getFullYear();
       <span class="gold-dot" aria-hidden="true"></span>
       <MadeInIndia />
     </div>
-    <a class="footer-link" href={withBase('/feedback/')}>Suggest a tool</a>
+    <nav class="footer-links" aria-label="Site information">
+      <a class="footer-link" href={withBase('/feedback/')}>Suggest a tool</a>
+      <a class="footer-link" href={withBase('/about/')}>About</a>
+      <a class="footer-link" href={withBase('/privacy/')}>Privacy</a>
+      <a class="footer-link" href={withBase('/changelog/')}>Changelog</a>
+      <a class="footer-link" href={withBase('/settings/')}>Settings</a>
+      {/* Opens the same sheet as "?", because a shortcut whose only trigger is a shortcut
+          helps nobody. Hidden on phones, where there is no keyboard to shortcut with. */}
+      <button type="button" class="footer-link footer-shortcuts" data-shortcuts-open>Shortcuts</button>
+    </nav>
   </div>
 </footer>
 
@@ -59,14 +68,35 @@ const year = new Date().getFullYear();
 
   /* Sitewide, so every page carries one path to the feedback form. Pushed to the far end on
      desktop; on a phone it wraps to its own line rather than crowding the brand row. */
-  .footer-link {
+  .footer-links {
     margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+  }
+
+  .footer-link {
     display: inline-block;
     min-height: var(--touch-target);
     padding-block: var(--space-3);
     color: var(--color-accent);
     text-decoration: none;
     transition: var(--transition-color);
+  }
+
+  /* A <button> in a row of links: strip the chrome so it reads as one of them. */
+  .footer-shortcuts {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    .footer-shortcuts {
+      display: none;
+    }
   }
 
   .footer-link:hover {
@@ -78,7 +108,7 @@ const year = new Date().getFullYear();
   }
 
   @media (max-width: 640px) {
-    .footer-link {
+    .footer-links {
       margin-left: 0;
     }
   }
