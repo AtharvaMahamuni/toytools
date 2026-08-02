@@ -39,19 +39,20 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Why it matters</h2>
     <p>
       When a reader bumps up their default font size for comfort, a layout built in rem grows with them:
-      text, padding, and gaps scale together from one root. A layout hard-coded in px stays fixed and can
-      become cramped or unreadable. In addition, sizing type and spacing in rem is a small change that
-      makes an interface far more accessible. As a result, most modern design systems prefer it over raw
-      pixels.
+      text, padding, and gaps scale together from one root. In contrast, a layout hard-coded in px stays
+      fixed and can become cramped or unreadable. Furthermore, sizing type and spacing in rem is a small
+      change that makes an interface far more accessible. As a result, most modern design systems prefer
+      it over raw pixels.
     </p>
   </section>
 
   <section id="how-it-works">
     <h2>How it works</h2>
     <p>
-      A rem is the pixel value divided by the root font size, which defaults to 16px. An em uses the same
-      math here, however, it is normally relative to the current element, so nested ems can compound.
-      Points, meanwhile, come from print: on the web 1 inch is 96px and 72pt, so 1px is 0.75pt.
+      A rem is the pixel value divided by the root font size, which defaults to 16px. The rem unit
+      anchors to the document root, whereas the em unit uses the same math here but is normally relative
+      to the current element, so nested ems can compound. Points, meanwhile, come from print: on the web
+      1 inch is 96px and 72pt, so 1px is 0.75pt.
       Therefore the converter takes your number and chosen unit, resolves it to px against your root
       size, and then expresses that px value as rem, em, pt, and percent, each with its own copy button.
       Because a rem is defined against the root, the root font size directly affects rem: raise the root
@@ -66,8 +67,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       For example, at the default 16px root the px to rem converter turns 24px into 1.5rem, 12pt, and
       150 percent. As another example, 40px becomes 2.5rem. If your stylesheet sets the root to 10px
       using the 62.5 percent trick, set the root field to 10 and 24px then reads as 2.4rem, matching your
-      CSS exactly. To convert rem back to px, switch the unit to rem and enter a value: 1.5rem returns
-      24px, which is the rem to px direction. The px to em direction works the same way against your root.
+      CSS exactly. However, to convert rem back to px, switch the unit to rem and enter a value: 1.5rem
+      returns 24px, which is the rem to px direction. Thus the px to em direction works the same way
+      against your root.
     </p>
   </section>
 
@@ -84,10 +86,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Comparisons and alternatives</h2>
     <p>
       Comparing the px to rem converter vs alternatives, most online tools convert one direction and one
-      unit; this one shows px, rem, em, pt, and percent together against a root you control. For native
-      mobile work, the sibling PX to DP Converter does the equivalent job in Android dp and iOS points,
-      and the Aspect Ratio Calculator sizes elements to a fixed proportion. Reach for rem as your default,
-      px for hairline borders, and pt only when matching a print or design-tool spec.
+      unit; this one shows px, rem, em, pt, and percent together against a root you control. Listings
+      vary in what they call it: px rem converter, rem calculator, css unit converter, or simply
+      pixels to rem.
+      Additionally, for native mobile work, the sibling PX to DP Converter does the equivalent job in
+      Android dp and iOS points, whereas the Aspect Ratio Calculator sizes elements to a fixed
+      proportion. Reach for rem as your default, px for hairline borders, and pt only when matching a
+      print or design-tool spec.
     </p>
   </section>
 

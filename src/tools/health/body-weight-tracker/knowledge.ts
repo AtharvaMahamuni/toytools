@@ -41,7 +41,7 @@ export const knowledge: Knowledge = {
   commonQuestions: [
     'Why does my weight go up and down day to day?',
     'How often should I weigh myself?',
-    'What is a moving average and why use it?',
+    'What is the moving average line for?',
   ],
   usedWith: [],
   alternatives: [],

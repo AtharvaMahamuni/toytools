@@ -4,7 +4,7 @@ export const items: FAQItem[] = [
   {
     id: 'heart-rate-zone-calculator-faq-1',
     question: 'What are the five heart rate zones?',
-    answer: 'They are effort bands defined as ranges of your maximum heart rate. Zone 1 (50 to 60 percent) is a very light warm-up. Zone 2 (60 to 70 percent) is easy aerobic work, often called the base or fat-burning zone. Zone 3 (70 to 80 percent) is steady moderate effort. Zone 4 (80 to 90 percent) is hard, near your threshold. Zone 5 (90 to 100 percent) is an all-out maximum effort you can only hold briefly.',
+    answer: 'They are effort bands defined as ranges of your maximum heart rate. Zone 1 (50 to 60 percent) is a very light warm-up. Zone 2 (60 to 70 percent) is easy aerobic work, commonly called the base or fat-burning zone. Zone 3 (70 to 80 percent) is steady moderate effort. Zone 4 (80 to 90 percent) is hard, near your threshold. Zone 5 (90 to 100 percent) is an all-out maximum effort you can only hold briefly.',
   },
   {
     id: 'heart-rate-zone-calculator-faq-2',

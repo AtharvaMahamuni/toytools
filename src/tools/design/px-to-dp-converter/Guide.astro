@@ -27,7 +27,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Overview</h2>
     <p>
       Phones and tablets pack wildly different numbers of physical pixels into the same physical inch.
-      A budget phone might have 160 pixels per inch while a flagship has 480 or more. If you sized a
+      A budget phone has 160 pixels per inch while a flagship has 480 or more. If you sized a
       button in raw pixels, it would look finger-friendly on one device and tiny on another. Density
       units solve this: you design in a density-independent unit and the system multiplies it into the
       right number of pixels for each screen. The PX to DP Converter does that multiplication for you.
@@ -39,7 +39,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Why density units matter</h2>
     <p>
       A dp (density-independent pixel) always describes the same physical size no matter how dense the
-      screen is. That means a 48dp touch target is comfortably tappable on every Android device,
+      screen is. Android's own documentation spells these out as density independent pixels.
+      Consequently, a 48dp touch target is comfortably tappable on every Android device,
       because the platform scales it up on high-density screens automatically. Designing in dp keeps
       layouts consistent across the whole device catalog instead of breaking on the next phone that
       ships with a sharper display.
@@ -64,6 +65,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       sp (scale-independent pixels) uses the exact same math but is reserved for text, because it also
       responds to the user's font-size accessibility setting. In other words, sp and dp use the same
       pixel math but different purposes, which is why px to sp and px to dp give identical numbers here.
+      The reverse holds too, so sp to px and dp to px agree at any density bucket.
       That shared multiply-by-density rule is the whole of density unit conversion, and it is what
       android density buckets encode. iOS follows the same idea with points and integer @1x, @2x, and
       @3x scale factors.
@@ -97,8 +99,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       for the PX to REM Converter, where the analogous idea is sizing in rem so type scales with the
       browser font setting. And when you need to size whole screens or images to a fixed proportion,
       the Aspect Ratio Calculator solves the missing dimension. Comparing the PX to DP Converter vs
-      alternatives, single-bucket dp tools show one density at a time, while this one shows every Android
-      density and the iOS point scales at once, so one measurement covers both platforms.
+      alternatives, single-bucket dp tools show one density at a time, whereas this one shows every
+      Android density and the iOS point scales at once, so one measurement covers both platforms.
+      Listings sometimes file the same utility under dp px converter or density unit converter.
     </p>
   </section>
 

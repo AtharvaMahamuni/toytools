@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-31T11:08:09.391Z",
+  "generatedAt": "2026-08-02T19:01:19.070Z",
   "clusters": [
     {
       "id": "unit-circle",
@@ -58,6 +58,91 @@
       "internalLinks": [
         "color-contrast-checker",
         "color-format-converter"
+      ]
+    },
+    {
+      "id": "health-date-calculation",
+      "transformation": "Health Date Calculation",
+      "engine": "datetime",
+      "members": [
+        "pregnancy-due-date-calculator",
+        "sleep-cycle-calculator",
+        "ovulation-calculator"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 3,
+      "meanScore": 83.3,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "move-today-tracker",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "energy-and-nutrition-planning",
+      "transformation": "Energy And Nutrition Planning",
+      "engine": "wellness",
+      "members": [
+        "calorie-deficit-calculator",
+        "bmr-calculator",
+        "protein-intake-calculator"
+      ],
+      "existingMembers": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "size": 3,
+      "meanScore": 82.6,
+      "internalLinks": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "body-weight-tracker",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ]
+    },
+    {
+      "id": "fitness-performance-calculation",
+      "transformation": "Fitness Performance Calculation",
+      "engine": "wellness",
+      "members": [
+        "one-rep-max-calculator",
+        "running-pace-calculator",
+        "vo2-max-calculator"
+      ],
+      "existingMembers": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "size": 3,
+      "meanScore": 82.4,
+      "internalLinks": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "body-weight-tracker",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
       ]
     },
     {
@@ -443,6 +528,34 @@
       ]
     },
     {
+      "id": "body-composition-calculation",
+      "transformation": "Body Composition Calculation",
+      "engine": "wellness",
+      "members": [
+        "lean-body-mass-calculator",
+        "waist-to-hip-ratio-calculator",
+        "body-surface-area-calculator"
+      ],
+      "existingMembers": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ],
+      "size": 3,
+      "meanScore": 79.5,
+      "internalLinks": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "heart-rate-zone-calculator",
+        "ideal-weight-calculator",
+        "macro-calculator",
+        "tdee-calculator"
+      ]
+    },
+    {
       "id": "return-on-investment",
       "transformation": "Return on Investment",
       "engine": "finance",
@@ -608,6 +721,27 @@
         "inflation-calculator",
         "roi-calculator",
         "rule-of-72-calculator"
+      ]
+    },
+    {
+      "id": "personal-health-logging",
+      "transformation": "Personal Health Logging",
+      "engine": "tracker",
+      "members": [
+        "blood-pressure-tracker",
+        "sleep-hours-tracker"
+      ],
+      "existingMembers": [
+        "body-weight-tracker",
+        "move-today-tracker",
+        "water-intake-tracker"
+      ],
+      "size": 2,
+      "meanScore": 77.9,
+      "internalLinks": [
+        "body-weight-tracker",
+        "move-today-tracker",
+        "water-intake-tracker"
       ]
     },
     {
@@ -1340,6 +1474,20 @@
         "compound-interest-calculator",
         "inflation-calculator",
         "savings-goal-calculator"
+      ]
+    },
+    {
+      "id": "nutrition-authoring",
+      "transformation": "Nutrition Authoring",
+      "engine": "meal-planning",
+      "members": [
+        "meal-plan-generator"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 46.6,
+      "internalLinks": [
+        "macro-calculator"
       ]
     }
   ]
