@@ -62,8 +62,41 @@ const EXCEPTIONS: Record<string, { budget: Budget; why: string }> = {
   },
 };
 
+// Assets fetched on a USER INTERACTION, never at load. These are invisible to the per-page
+// measurement above (they are not <script src> tags and not engine chunks named in tt-engines),
+// so without this they would be an unmeasured way to add weight to the site. They are kept out of
+// the per-page totals on purpose: counting a byte the page never fetches at load would make the
+// critical-path table mean something else. They get their own ceiling instead.
+//
+// A missing asset is a failure, not a pass: a rename would otherwise silently disable the check.
+const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number; why: string }[] = [
+  {
+    // Measured 7.9K gz at 114 tools (2026-08-03). The ceiling leaves room for roughly 40 more
+    // tools before it needs revisiting. Two payload experiments are already spent: interning
+    // categories and segments saved 0.4K and is in; interning the search terms made it 2.3K
+    // WORSE, because only 990 of 1191 terms are unique and integer ids defeat gzip's substring
+    // matching. If this trips, shrink what each tool contributes before touching the number.
+    label: 'search index',
+    match: 'search-index.json',
+    maxKb: 12,
+    why: 'the catalog the palette, /search/ and /404/ fetch on first use',
+  },
+];
+
 const kb = (bytes: number) => bytes / 1024;
 const gz = (buf: Buffer) => gzipSync(buf).length;
+
+/** Locate one interaction asset in dist/ (root for exact names, _assets/ for hashed chunks). */
+function findAsset(match: RegExp | string): string | null {
+  if (typeof match === 'string') {
+    const direct = join(DIST, match);
+    return existsSync(direct) ? direct : null;
+  }
+  const assetDir = join(DIST, '_assets');
+  if (!existsSync(assetDir)) return null;
+  const hit = readdirSync(assetDir).find((name) => match.test(name));
+  return hit ? join(assetDir, hit) : null;
+}
 
 function pageKind(rel: string): keyof typeof BUDGETS | null {
   if (rel.startsWith('tool/')) return 'tool';
@@ -210,6 +243,25 @@ for (const m of measured) {
   if (kb(m.totalGz) > b.totalKb) over('TOTAL', kb(m.totalGz), b.totalKb, 'KB gz');
 }
 
+// Interaction-loaded assets — measured separately, never folded into the per-page totals.
+const interaction = INTERACTION_ASSETS.map((asset) => {
+  const path = findAsset(asset.match);
+  if (!path) {
+    failures.push(
+      `interaction asset "${asset.label}" not found in dist/ — it was renamed or is no longer built, ` +
+      'so its ceiling is silently unenforced. Fix the matcher in INTERACTION_ASSETS.',
+    );
+    return { ...asset, gzBytes: null as number | null };
+  }
+  const gzBytes = gz(readFileSync(path));
+  if (kb(gzBytes) > asset.maxKb) {
+    failures.push(
+      `interaction asset "${asset.label}" ${kb(gzBytes).toFixed(1)}KB gz exceeds ${asset.maxKb}KB gz`,
+    );
+  }
+  return { ...asset, gzBytes };
+});
+
 // Worst page per kind — the number that matters, and the one to quote when changing a budget.
 const kinds = [...new Set(measured.map((m) => m.kind))].sort();
 console.log('\n[check-budget] worst page per kind (gzipped):\n');
@@ -226,6 +278,14 @@ for (const kind of kinds) {
     `${(kb(worst.jsGz).toFixed(1) + 'K').padEnd(7)} ${(kb(worst.htmlGz).toFixed(1) + 'K').padEnd(7)} ` +
     `${(kb(worst.totalGz).toFixed(1) + 'K').padEnd(7)} ${(b.totalKb + 'K').padEnd(7)} /${worst.rel}/`,
   );
+}
+
+if (interaction.length > 0) {
+  console.log('\n  loaded on interaction (not on the critical path, capped separately):');
+  for (const a of interaction) {
+    const size = a.gzBytes === null ? 'MISSING' : `${kb(a.gzBytes).toFixed(1)}K of ${a.maxKb}K`;
+    console.log(`    ${a.label.padEnd(16)} ${size.padEnd(16)} ${a.why}`);
+  }
 }
 
 if (failures.length > 0) {
