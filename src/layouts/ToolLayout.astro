@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
 import TrustNotice from '@components/tool/TrustNotice.astro';
 import InstallButton from '@tools/_shared/InstallButton.astro';
+import FavoriteButton from '@components/tool/FavoriteButton.astro';
 import FeedbackLink from '@components/feedback/FeedbackLink.astro';
 import { iconColors } from '@lib/icons/tool-icon';
 import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
@@ -56,7 +57,10 @@ const softwareSchema = {
     <h1>{tool.name}</h1>
     <p class="tool-description">{tool.description}</p>
     <TrustNotice variant={tool.trustVariant ?? 'private'} />
-    <InstallButton toolName={tool.name} />
+    <div class="tool-header-actions">
+      <FavoriteButton slug={tool.slug} name={tool.name} />
+      <InstallButton toolName={tool.name} />
+    </div>
   </div>
 
   <slot />
@@ -75,6 +79,15 @@ const softwareSchema = {
     padding-bottom: var(--space-8);
     border-bottom: var(--border);
     margin-bottom: var(--space-8);
+  }
+
+  /* Wraps rather than compresses: InstallButton is mobile-only, so this row is often one item. */
+  .tool-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
   }
 
   h1 {

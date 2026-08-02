@@ -49,6 +49,11 @@ import { tools } from '@data/registry';
     </p>
   </section>
 
+  <p class="recent-row" id="favorite-row" hidden>
+    <span class="recent-label">Favourites:</span>
+    <span id="favorite-chips"></span>
+  </p>
+
   <p class="recent-row" id="recent-row" hidden>
     <span class="recent-label">Recent:</span>
     <span id="recent-chips"></span>
@@ -66,12 +71,6 @@ import { tools } from '@data/registry';
 
   <script is:inline>
     (function () {
-      var recent = (window.ToyTools && ToyTools.getRecent) ? ToyTools.getRecent() : [];
-      if (!recent.length) return;
-      var chips = document.getElementById('recent-chips');
-      var row = document.getElementById('recent-row');
-      if (!chips || !row) return;
-
       function findLink(slug) {
         var direct = document.querySelector('.dir-link[data-slug="' + slug + '"]');
         if (direct) return direct;
@@ -84,26 +83,48 @@ import { tools } from '@data/registry';
         return null;
       }
 
-      var added = 0;
-      var seen = {};
-      recent.forEach(function (entry) {
-        if (added >= 5 || !entry || !entry.slug) return;
-        var link = findLink(entry.slug);
-        if (!link || seen[link.getAttribute('href')]) return;
-        seen[link.getAttribute('href')] = true;
-        if (added > 0) {
-          var sep = document.createElement('span');
-          sep.className = 'recent-sep';
-          sep.setAttribute('aria-hidden', 'true');
-          sep.textContent = '·';
-          chips.appendChild(sep);
-        }
-        var a = link.cloneNode(true);
-        a.className = 'recent-chip';
-        chips.appendChild(a);
-        added++;
-      });
-      if (added > 0) row.hidden = false;
+      // Both rows are the same chip strip over a list of slugs, so they share one renderer.
+      // The directory below is already rendered server-side, so a chip is a clone of the real
+      // link: no URLs to rebuild and no second source of truth for a tool's name.
+      function renderRow(slugs, chipsId, rowId, limit) {
+        var chips = document.getElementById(chipsId);
+        var row = document.getElementById(rowId);
+        if (!chips || !row || !slugs.length) return;
+
+        var added = 0;
+        var seen = {};
+        slugs.forEach(function (slug) {
+          if (added >= limit || !slug) return;
+          var link = findLink(slug);
+          if (!link || seen[link.getAttribute('href')]) return;
+          seen[link.getAttribute('href')] = true;
+          if (added > 0) {
+            var sep = document.createElement('span');
+            sep.className = 'recent-sep';
+            sep.setAttribute('aria-hidden', 'true');
+            sep.textContent = '·';
+            chips.appendChild(sep);
+          }
+          var a = link.cloneNode(true);
+          a.className = 'recent-chip';
+          chips.appendChild(a);
+          added++;
+        });
+        if (added > 0) row.hidden = false;
+      }
+
+      var TT = window.ToyTools;
+      var favorites = (TT && TT.favorites) ? TT.favorites.list() : [];
+      var recent = (TT && TT.getRecent) ? TT.getRecent() : [];
+
+      renderRow(favorites, 'favorite-chips', 'favorite-row', 6);
+      // A tool that is already pinned above does not need repeating as "recent".
+      renderRow(
+        recent.map(function (e) { return e && e.slug; }).filter(function (slug) {
+          return slug && favorites.indexOf(slug) === -1;
+        }),
+        'recent-chips', 'recent-row', 5
+      );
     })();
   </script>
 </BaseLayout>

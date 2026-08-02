@@ -465,6 +465,33 @@
     TT.toast('Copied!');
   };
 
+  // ── Favourites ────────────────────────────────────────────────────────
+  // Recents answer "where was I", favourites answer "the three tools I actually use". With a
+  // catalog this size the second question is the one that turns a visitor into a returning one.
+  // Slugs only, capped, never throws.
+  TT.favorites = {
+    KEY: 'toytools:favorites',
+    MAX: 50,
+    list: function () {
+      try {
+        var parsed = JSON.parse(localStorage.getItem(TT.favorites.KEY) || '[]');
+        return Object.prototype.toString.call(parsed) === '[object Array]' ? parsed : [];
+      } catch (_) { return []; }
+    },
+    has: function (slug) {
+      return TT.favorites.list().indexOf(slug) !== -1;
+    },
+    /** Adds or removes, returning the new state so a caller can paint without re-reading. */
+    toggle: function (slug) {
+      var list = TT.favorites.list();
+      var at = list.indexOf(slug);
+      if (at === -1) list.unshift(slug); else list.splice(at, 1);
+      if (list.length > TT.favorites.MAX) list.length = TT.favorites.MAX;
+      try { localStorage.setItem(TT.favorites.KEY, JSON.stringify(list)); } catch (_) {}
+      return at === -1;
+    }
+  };
+
   // ── Shareable URL state ───────────────────────────────────────────────
   // Putting a calculator's inputs in the address bar is what makes a result bookmarkable,
   // reloadable and sendable to someone else. Two rules keep it from being a liability:
