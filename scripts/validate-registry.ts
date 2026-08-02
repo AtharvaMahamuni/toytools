@@ -209,7 +209,7 @@ for (const manifest of MANIFESTS) {
   const CORE_GLOBALS = new Set([
     // Defined by the inline half of ToyToolsRuntime.astro — always present, no chunk needed.
     'ready', '_readyCbs', 'onReady', 'track', 'toast', 'storage', 'state', 'data', 'profile',
-    'prefs', 'history', 'recordRecent', 'getRecent', 'focus', 'mobileTooltip', 'copy',
+    'prefs', 'history', 'recordRecent', 'getRecent', 'focus', 'mobileTooltip', 'copy', 'url',
   ]);
   const usedGlobals = (file: string): string[] => {
     if (!existsSync(file)) return [];
