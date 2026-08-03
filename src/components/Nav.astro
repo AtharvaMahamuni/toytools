@@ -4,7 +4,7 @@ import { APP_VERSION } from '../lib/version';
 ---
 
 <header role="banner">
-  <div class="nav-inner">
+  <nav class="nav-inner" aria-label="Main">
     <span class="nav-brand">
       <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span></a>
       {/* The badge advertised a version with nothing to click through to; it links to the changelog now. */}
@@ -48,7 +48,7 @@ import { APP_VERSION } from '../lib/version';
         </svg>
       </span>
     </button>
-  </div>
+  </nav>
 </header>
 
 <style>

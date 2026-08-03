@@ -43,6 +43,31 @@ test.describe('information pages', () => {
   });
 });
 
+test.describe('offline fallback page', () => {
+  // The service worker itself is NOT exercised here: registration is deliberately skipped under
+  // automation (see src/lib/analytics/guard.ts), so no worker ever controls the page in E2E. What
+  // is covered is the page the worker serves, which is where the bugs would be anyway.
+  test('is not indexed', async ({ page }) => {
+    await page.goto('/offline/');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('You are offline');
+  });
+
+  test('lists tools this browser has already opened', async ({ page }) => {
+    await page.goto('/tool/text/reverse-text/');
+    await page.goto('/offline/');
+
+    const available = page.locator('#available');
+    await expect(available).toBeVisible();
+    await expect(available.getByRole('link', { name: /reverse text/i })).toBeVisible();
+  });
+
+  test('says nothing is available when nothing has been opened', async ({ page }) => {
+    await page.goto('/offline/');
+    await expect(page.locator('#available')).toBeHidden();
+  });
+});
+
 test.describe('settings', () => {
   test('is not indexed', async ({ page }) => {
     await page.goto('/settings/');

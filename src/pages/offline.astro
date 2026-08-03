@@ -1,0 +1,140 @@
+---
+// Shown when a navigation fails and the page is not in the cache. Previously the service worker
+// fell back to the cached home page, which is a confusing thing to be handed when you tapped a
+// tool: it looks like the tool moved rather than like the network is down.
+//
+// Deliberately small and fully static. It lists what this browser can still open, read from
+// localStorage, because "you are offline" is only useful next to "here is what still works".
+//
+// noindex and absent from the sitemap: it is a fallback, not content.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+
+const description = 'You are offline. Tools you have already opened still work.';
+---
+
+<BaseLayout
+  title={generatePageTitle('offline')}
+  description={description}
+  maxWidth="tool"
+  robots="noindex,follow"
+>
+  <div class="offline">
+    <h1>You are offline</h1>
+    <p class="message">
+      That page has not been opened on this device yet, so there is no copy of it here. Every tool
+      you have already visited still works: they run entirely in your browser and need no network.
+    </p>
+
+    <section class="available" id="available" hidden>
+      <h2>Ready to use now</h2>
+      <ul id="available-list"></ul>
+    </section>
+
+    <p class="retry">
+      <a href={withBase('/')}>Go to the home page</a>
+      <button type="button" id="retry-btn">Try again</button>
+    </p>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var TT = window.ToyTools;
+    var list = document.getElementById('available-list');
+    var section = document.getElementById('available');
+    if (!TT || !list || !section) return;
+
+    // Favourites first, then recents. Both hold slugs this browser has seen, which is a good
+    // proxy for "already cached".
+    var seen = {};
+    var entries = [];
+
+    (TT.favorites ? TT.favorites.list() : []).forEach(function (slug) {
+      if (slug && !seen[slug]) { seen[slug] = true; entries.push({ slug: slug, category: null }); }
+    });
+    (TT.getRecent ? TT.getRecent() : []).forEach(function (e) {
+      if (e && e.slug && !seen[e.slug]) { seen[e.slug] = true; entries.push(e); }
+    });
+
+    var added = 0;
+    entries.forEach(function (entry) {
+      // A recent entry carries its segment; a favourite does not, so it is only linkable when it
+      // has also been visited. Guessing a URL here would produce a second dead end.
+      if (!entry.category || added >= 8) return;
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '/tool/' + entry.category + '/' + entry.slug + '/';
+      a.textContent = entry.slug.replace(/-/g, ' ');
+      li.appendChild(a);
+      list.appendChild(li);
+      added++;
+    });
+
+    if (added) section.hidden = false;
+
+    var retry = document.getElementById('retry-btn');
+    if (retry) retry.addEventListener('click', function () { window.location.reload(); });
+  })();
+</script>
+
+<style>
+  .offline {
+    padding: var(--space-16) 0 var(--space-12);
+  }
+
+  .message {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-relaxed, 1.7);
+  }
+
+  .available {
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .available h2 {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+  }
+
+  .available ul {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-3);
+  }
+
+  .available li a {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    text-transform: capitalize;
+  }
+
+  .retry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  #retry-btn {
+    min-height: var(--touch-target);
+    padding: 0 var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+
+  #retry-btn:active {
+    background: var(--color-bg-tertiary);
+  }
+</style>

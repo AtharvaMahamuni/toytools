@@ -1,5 +1,5 @@
 export type PageType =
-  | 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'language' | 'search' | 'architecture'
+  | 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'search' | 'architecture'
   | 'feedback' | 'privacy' | 'about' | 'changelog' | 'settings' | 'offline' | 'notFound';
 
 export function generatePageTitle(type: PageType, name?: string): string {
@@ -9,7 +9,6 @@ export function generatePageTitle(type: PageType, name?: string): string {
     case 'guide':    return `${name} ● ToyTools Guide`;
     case 'faq':      return `${name} FAQ ● ToyTools`;
     case 'category': return `${name} ● ToyTools`;
-    case 'language': return `ToyTools ${name}`;
     case 'search':   return 'Search ● ToyTools';
     case 'architecture': return 'Architecture ● ToyTools';
     // The page's H1 greets whoever is already here; this title has to answer the query that

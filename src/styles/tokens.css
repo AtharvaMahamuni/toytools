@@ -9,13 +9,15 @@
   --color-gold:           #906620;
   --color-gold-highlight: #E6C15A;
   --color-gold-subtle:    rgba(200, 155, 60, 0.15);
+  --color-gold-strong:    #7D5A1C;  /* gold TEXT on gold-subtle — AA (5.3:1); plain gold is 4.3:1 */
 
   /* Semantic status — success stays brighter/cooler than the forest accent;
      it tints transient state only (copy/valid), never links or focus. */
   --color-success:        #16a34a;
   --color-success-bg:     rgba(34, 197, 94, 0.10);
-  --color-danger:         #dc2626;
+  --color-danger:         #dc2626;   /* fills, borders, icons */
   --color-danger-bg:      rgba(220, 38, 38, 0.10);
+  --color-danger-strong:  #B91C1C;   /* danger TEXT on a surface — AA (5.8:1); plain danger is 4.3:1 */
 
   /* Surfaces — "Warm Paper": warm off-whites instead of stark #fff */
   --color-bg:             #FAF9F7;
@@ -128,11 +130,13 @@
     --color-gold:           #D4A017;
     --color-gold-highlight: #F2C94C;
     --color-gold-subtle:    rgba(212, 160, 23, 0.18);
+    --color-gold-strong:    #D4A017;  /* already 6:1 on the dark tint; no darkening needed */
 
     --color-success:       #34d399;
     --color-success-bg:    rgba(52, 211, 153, 0.14);
     --color-danger:        #ef4444;
     --color-danger-bg:     rgba(239, 68, 68, 0.14);
+    --color-danger-strong: #F45C5C;  /* #ef4444 as text is 4.47:1 on dark surface, just under AA */
 
     --color-bg:             #181614;
     --color-surface:        #1F1D1A;
@@ -157,11 +161,13 @@
   --color-gold:           #D4A017;
   --color-gold-highlight: #F2C94C;
   --color-gold-subtle:    rgba(212, 160, 23, 0.18);
+  --color-gold-strong:    #D4A017;
 
   --color-success:       #34d399;
   --color-success-bg:    rgba(52, 211, 153, 0.14);
   --color-danger:        #ef4444;
   --color-danger-bg:     rgba(239, 68, 68, 0.14);
+  --color-danger-strong: #F45C5C;
 
   --color-bg:             #181614;
   --color-surface:        #1F1D1A;

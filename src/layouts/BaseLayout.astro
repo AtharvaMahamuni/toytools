@@ -97,8 +97,13 @@ const maxWidthVar =
   </head>
   <body>
     <ToyToolsRuntime />
+    {/* First focusable thing on the page. Every page carries nav, breadcrumb, tool, related tools,
+        FAQ and footer, so without this a keyboard or screen reader user traverses the whole chrome
+        on each of 270+ pages before reaching the thing they came for. Visible only on focus. */}
+    <a class="skip-link" href="#main">Skip to content</a>
     <Nav />
-    <main>
+    {/* tabindex="-1" so the skip link can actually move focus here, not just scroll. */}
+    <main id="main" tabindex="-1">
       <div class="page-content" style={`max-width: ${maxWidthVar};`}>
         <slot />
       </div>

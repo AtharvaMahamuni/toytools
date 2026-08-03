@@ -123,6 +123,31 @@ a:hover {
   }
 }
 
+/* Skip link — off-screen until focused, then a normal button at the top left.
+   Never display:none: that would take it out of the tab order, which is the entire point. */
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: 0;
+  z-index: calc(var(--z-nav) + 1);
+  transform: translateY(-200%);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: var(--border);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* The skip target must not draw a focus ring when it is merely scrolled to. */
+main:focus {
+  outline: none;
+}
+
 /* Toast notification */
 #tt-toast {
   position: fixed;
@@ -340,5 +365,85 @@ a:hover {
 @media (prefers-reduced-motion: reduce) {
   @view-transition {
     navigation: none;
+  }
+}
+
+/* ── Print ───────────────────────────────────────────────────────────────
+   People print and save-as-PDF from the calculators (loan schedules, macro targets, conversions)
+   and from the guides. Without this the output carries the nav, theme toggle, install button,
+   feedback link and related tools, and every fixed-height panel clips its own content at the
+   panel edge, which is the one thing that makes the printout useless.
+
+   Roughly 0.3K gzipped against 4K of CSS headroom, and cheaper here than a fifth stylesheet
+   request via <link media="print">. */
+@media print {
+  /* Chrome, not content. */
+  header,
+  footer,
+  .skip-link,
+  .breadcrumb,
+  .tool-actions,
+  .tool-header-actions,
+  .install-button,
+  .feedback-link,
+  .category-discovery,
+  .related-tools,
+  .tool-nav-row,
+  .group-switcher,
+  .tt-sheet,
+  .tt-sheet-backdrop,
+  #tt-toast {
+    display: none !important;
+  }
+
+  /* Fixed-height panels scroll on screen; on paper they must simply be as tall as they are. */
+  .io-panel,
+  .io-body,
+  .tm-output,
+  textarea,
+  pre {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Printing the dark palette wastes ink and reads badly, whatever the screen was set to. */
+  :root,
+  :root[data-theme='dark'],
+  :root[data-theme='light'] {
+    --color-bg: #FFFFFF;
+    --color-surface: #FFFFFF;
+    --color-surface-hover: #FFFFFF;
+    --color-bg-tertiary: #FFFFFF;
+    --color-text: #000000;
+    --color-text-muted: #333333;
+    --color-text-subtle: #555555;
+  }
+
+  body {
+    background: #FFFFFF;
+    color: #000000;
+  }
+
+  main {
+    max-width: none;
+  }
+
+  /* A guide's links are worthless on paper unless the destination comes with them. */
+  .guide-content a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+
+  h1, h2, h3 {
+    break-after: avoid;
+  }
+
+  .stat-card,
+  .faq-item,
+  tr,
+  li {
+    break-inside: avoid;
   }
 }

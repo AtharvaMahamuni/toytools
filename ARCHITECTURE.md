@@ -653,7 +653,7 @@ Rules when touching this:
   `guide?.slug → guideSlug`, etc.) so configs are never rewritten and there is no second metadata
   system. Every tool — including the legacy productivity/calculator tools — exposes the full contract.
 - **Content manifest** (`src/lib/content/manifest.ts`) — `buildContentManifest()` is the canonical
-  registry-derived list of every indexable surface (home/tool/guide/faq/category/language). It is the
+  registry-derived list of every indexable surface (home/tool/guide/faq/category/page). It is the
   single source the sitemap derives from; search and related-content can derive from it next.
 - **Search prep** (`src/lib/search/`) — `buildSearchIndex()` produces a serializable index from the
   metadata contract. Architecture only; no UI yet.
@@ -769,7 +769,8 @@ deterministic. On demand via **`npm run research`** (NOT in `npm run build`). Fu
 Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**
 (filename preserved so `robots.txt`, the astro.config `seoValidator`, and quality-guardian
 build-integrity keep working), referencing five semantic buckets under `src/pages/sitemaps/`:
-`tools.xml`, `guides.xml`, `faqs.xml`, `categories.xml` (+ home), `languages.xml`. Each endpoint
+`tools.xml`, `guides.xml`, `categories.xml` (+ home), `pages.xml` (the standalone about/privacy/
+changelog/feedback pages). Each endpoint
 filters `buildContentManifest()` by type and renders via `src/lib/sitemap/render.ts`, building
 absolute, trailing-slashed `<loc>`s as `new URL(withBase(path), Astro.site)`. `quality-guardian`'s
 sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/faqs appear in the

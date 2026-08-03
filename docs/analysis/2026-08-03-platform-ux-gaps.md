@@ -2,7 +2,9 @@
 
 Date: 2026-08-03
 Scope: platform layer only (nav, runtime, layouts, service worker, standalone pages). No new tools.
-Status: plan. Nothing here is built yet.
+Status: **implemented** on branch `platform-ux`, six commits, all twelve workstreams. The plan
+below is preserved as written; what actually happened, including where reality differed, is in
+section 8 at the end.
 
 This is the implementation plan for twelve gaps found by reading the platform layer rather than the
 tool registry. Each workstream states the evidence (file and line), the design, the exact files it
@@ -438,3 +440,41 @@ Six PRs, each independently shippable, each green on `npm run build` (validators
 No new tools, no new engines, no changes to the RIE, Content Intelligence, Knowledge Graph or SEO
 Engine, no third-party services of any kind (the feedback system's `mailto:` constraint stands), no
 accounts, no server. Everything above stays a static, client-side, offline-capable site.
+
+
+## 8. Outcome (same day)
+
+All six PRs landed as six commits on one branch. Build, 1918 unit tests and 660 e2e tests
+(Desktop + Pixel 5) green at the end of each.
+
+**Budget, measured.** Worst tool page went 51.0K -> 54.6K gzipped of its 60K budget: +1.0K CSS,
++0.3K JS, +2.1K HTML for site-wide search, URL state, favourites, breadcrumb and the skip link.
+The two interaction-loaded assets sit outside the critical path under their own ceilings: search
+index 7.9K of 12K, palette chunk 3.1K of 6K.
+
+**Where the plan was wrong.**
+
+- W0.3 put the dialog primitive in the inline runtime. Measured, that cost 1.1K gzipped of HTML on
+  every one of 272 pages for code only ever needed after an interaction. It moved into the palette
+  chunk; the inline half now holds only the trigger listeners.
+- The plan assumed "/" would open the palette everywhere. Text tools autofocus their textarea, so
+  "/" correctly belongs to the person typing. Ctrl/Cmd+K is the reliable shortcut and is what the
+  nav advertises; "/" still works wherever no field has focus.
+- The 8K ceiling guessed for the search index was below its measured 7.9K, leaving no room at all.
+  Interning categories and segments saved 0.4K and stayed; interning the search terms cost 2.3K
+  MORE and was reverted. The ceiling is 12K against a measured 7.9K.
+- Two contrast failures surfaced that the plan did not anticipate, both at 4.31:1 where AA needs
+  4.5: the new delete button, and `.ref-heading` on every guide's common-mistake block, which was
+  pre-existing. Fixed with `--color-gold-strong` and `--color-danger-strong`, matching the existing
+  `--color-accent-strong` pattern rather than changing the brand colors.
+- Adding a visible breadcrumb plus a favourite-button row pushed the health calculators' chart
+  below the fold, which their e2e suite requires it to stay above. The star moved onto the title
+  line instead, which costs only the difference between the heading height and the button height.
+
+**Known gaps.**
+
+- The service worker's offline behaviour is not covered by e2e: registration is deliberately
+  skipped under automation, so no worker controls the page in Playwright. The `/offline/` page it
+  serves is covered; the worker itself is not.
+- `/search/` eagerly loads the palette chunk (JS 2.0K -> 6.2K on that page). That is deliberate:
+  filtering must work immediately on a search page, and the page has 48K of budget.

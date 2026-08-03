@@ -468,11 +468,15 @@ URL structure (singular, not plural):
 - `/category/{slug}/` — category pages
 - `/guide/{category}/{slug}/` — guide pages
 - `/faq/{category}/{slug}/` — redirect stubs only (→ tool page `#faq`; see faq-redirects.ts)
-- `/{lang}/` — per-language landing stubs (e.g. `/es/`, `/ja/`, `/zh-hk/`) in `src/pages/{lang}/index.astro`.
-  These are localized hero stubs, **`robots="noindex,follow"`**, and in no sitemap — they exist to greet
-  non-English visitors and link back to the (English) tool catalog. Use the `language` page type in
-  `generatePageTitle`. `generatePageTitle` (`src/lib/titles.ts`) covers: `home`/`tool`/`guide`/`faq`/
-  `category`/`language`/`search`/`architecture`/`notFound`.
+- Standalone pages: `/about/`, `/privacy/`, `/changelog/`, `/feedback/` (indexable, in the sitemap via
+  `STANDALONE_PAGES`), plus `/settings/`, `/offline/`, `/search/`, `/architecture/` (noindex, never in a
+  sitemap). `generatePageTitle` (`src/lib/titles.ts`) covers: `home`/`tool`/`guide`/`faq`/`category`/
+  `search`/`architecture`/`feedback`/`privacy`/`about`/`changelog`/`settings`/`offline`/`notFound`.
+
+> The 28 `/{lang}/` landing stubs were **deleted** on 2026-08-03. They carried `noindex` and were linked
+> from nowhere on the site, so nothing could rank them and nobody could reach them. Do not reintroduce
+> them as stubs: real localization means indexable pages with `hreflang`, which is a different project.
+> See `docs/analysis/2026-08-03-platform-ux-gaps.md`.
 
 **Discovery surfaces:** the homepage renders `ToolDirectory.astro` (compact per-category link
 columns; tool groups collapse to one entry) and category pages render `CategoryToolList.astro`

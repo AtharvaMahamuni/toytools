@@ -289,7 +289,9 @@ const description =
   }
 
   .choice--danger {
-    color: var(--color-danger);
+    /* -strong for the label; plain --color-danger is 4.31:1 on the surface. The border is
+       decoration and can stay the brighter red. */
+    color: var(--color-danger-strong);
     border-color: var(--color-danger);
   }
 
