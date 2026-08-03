@@ -29,6 +29,11 @@ export const WELLNESS_TOOL_PATH: Record<string, string> = {
   'water-intake-tracker': '/tool/health/water-intake-tracker/',
   'body-weight-tracker': '/tool/health/body-weight-tracker/',
   'move-today-tracker': '/tool/health/move-today-tracker/',
+  'bmr-calculator': '/tool/health/bmr-calculator/',
+  'calorie-deficit-calculator': '/tool/health/calorie-deficit-calculator/',
+  'protein-intake-calculator': '/tool/health/protein-intake-calculator/',
+  'one-rep-max-calculator': '/tool/health/one-rep-max-calculator/',
+  'running-pace-calculator': '/tool/health/running-pace-calculator/',
 };
 
 /** A decision linking to a sibling wellness tool, or null when that tool has not shipped yet. */

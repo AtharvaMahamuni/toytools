@@ -253,11 +253,12 @@
       "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
       "supportedFamilies": [
         "body-composition",
+        "energy",
         "cardio",
         "nutrition",
-        "energy"
+        "fitness-performance"
       ],
-      "toolCount": 6
+      "toolCount": 11
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -386,14 +387,19 @@
       ]
     },
     "body-metrics": {
-      "name": "Body Metrics",
+      "name": "Health Calculator",
       "members": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
+        "bmr-calculator",
         "tdee-calculator",
+        "calorie-deficit-calculator",
         "macro-calculator",
-        "heart-rate-zone-calculator"
+        "protein-intake-calculator",
+        "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator"
       ]
     },
     "health-trackers": {
@@ -755,6 +761,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "bmr-calculator": {
+      "name": "BMR Calculator",
+      "dir": "src/tools/health/bmr-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/bmr-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "energy",
+      "processorId": "bmr",
+      "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "body-fat-calculator": {
       "name": "Body Fat Calculator",
       "dir": "src/tools/health/body-fat-calculator",
@@ -807,6 +834,27 @@
       "family": "interest",
       "processorId": "cagr",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "calorie-deficit-calculator": {
+      "name": "Calorie Deficit Calculator",
+      "dir": "src/tools/health/calorie-deficit-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/calorie-deficit-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "energy",
+      "processorId": "calorie-deficit",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1721,6 +1769,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "one-rep-max-calculator": {
+      "name": "One Rep Max Calculator",
+      "dir": "src/tools/health/one-rep-max-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/one-rep-max-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "fitness-performance",
+      "processorId": "one-rep-max",
+      "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "paragraph-counter": {
       "name": "Paragraph Counter",
       "dir": "src/tools/text/paragraph-counter",
@@ -1815,6 +1884,27 @@
       "family": "number-theory",
       "processorId": "prime-factorization",
       "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "protein-intake-calculator": {
+      "name": "Protein Intake Calculator",
+      "dir": "src/tools/health/protein-intake-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/protein-intake-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "nutrition",
+      "processorId": "protein-intake",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2172,6 +2262,27 @@
       "family": "interest",
       "processorId": "rule-of-72",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "running-pace-calculator": {
+      "name": "Running Pace Calculator",
+      "dir": "src/tools/health/running-pace-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/running-pace-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "fitness-performance",
+      "processorId": "running-pace",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",

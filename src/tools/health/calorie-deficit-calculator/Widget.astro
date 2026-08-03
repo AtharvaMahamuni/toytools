@@ -1,0 +1,6 @@
+---
+import WellnessWidget from '@tools/_shared/WellnessWidget.astro';
+import { config } from './config';
+---
+
+<WellnessWidget slug={config.slug} wellnessId={config.processorId!} config={config} emptyText="Enter your details and how fast you want to lose to see your daily calorie target and how long the goal takes." />

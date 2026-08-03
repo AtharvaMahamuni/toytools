@@ -59,10 +59,10 @@ Current budgets (gzipped) and the worst real page against each:
 
 | kind | sheets | CSS | JS | HTML | TOTAL | worst today |
 |---|---|---|---|---|---|---|
-| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 51.0 KB (`json-tree-viewer`) |
-| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 28.4 KB |
-| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 19.0 KB |
-| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 32.6 KB (`/search/`) |
+| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 54.6 KB (`json-tree-viewer`) |
+| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 31.4 KB |
+| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 21.9 KB |
+| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 41.7 KB (`/search/`) |
 
 A typical new tool lands around **33-40 KB gzipped total**, so the budget has real headroom for
 content. If a new tool blows it, the cause is almost always structural, not the content:
@@ -70,6 +70,12 @@ content. If a new tool blows it, the cause is almost always structural, not the 
 - **JS over budget** → the tool's engine is pulling something it should not, or an engine got
   statically imported back into `src/lib/runtime/index.ts`. Engines must stay lazy (see
   "Client Runtime" in `ARCHITECTURE.md`). A two-line static import regressed 134 pages when tested.
+  A second shape of this: an engine whose runtime module imports its **whole processor registry**,
+  so every new tool on that engine makes every existing page on it heavier. `wellness` hit its
+  budget that way at eleven calculators and now loads exactly one, keyed by the widget's
+  `data-wellness` attribute (`src/lib/engines/wellness/lazy.ts`; `check-budget.ts` follows that
+  attribute the same way it follows `data-simulation-id`). Prefer this the moment an engine passes
+  a handful of processors.
 - **Sheets/CSS over budget** → a route is globbing components outside its own segment, hoisting
   other tools' stylesheets onto the page. Never reintroduce a cross-segment widget glob.
 - **HTML over budget** → the page is emitting far more markup than its siblings (runaway FAQ,
@@ -288,6 +294,13 @@ Most edits are local, but a few changes ripple across files. When you make one o
 - **Rename a category** (slug or segment) → `src/data/categories.ts`, every tool's
   `categorySlug`, and add a noindex redirect stub in `src/data/tool-redirects.ts` for the old URL.
   Never delete the old URL silently.
+- **Rename a tool slug** → the new slug wherever it is authored (`config.ts`, or a simulation
+  manifest's `metadata.slug`), **plus** a `src/data/tool-redirects.ts` entry mapping the retired
+  `<segment>/<old-slug>` path to the new tool. `src/pages/tool/[...oldPath].astro` turns every
+  entry into a noindex meta-refresh stub, which is the only thing standing between a previously
+  indexed URL and the noindex 404 page. Then sweep the slug through `src/data/search-aliases.ts`,
+  the e2e specs, `research/datasets/*.json`, any `relatedTools`, and rerun `icons:generate`
+  (deleting the old PNGs) and `map:generate`.
 - **Verify UI changes in a real browser** with `npm run test:e2e` (desktop + Pixel 5). Build/unit
   tests do not catch widget JS errors; e2e does and is a PR gate.
 

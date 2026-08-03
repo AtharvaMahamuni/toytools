@@ -7,9 +7,11 @@ import { items as aspectRatioCalculatorFaqs } from '@tools/design/aspect-ratio-c
 import { items as base64EncoderDecoderFaqs } from '@tools/developer-utilities/base64-encoder-decoder/faq';
 import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
 import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
+import { items as bmrCalculatorFaqs } from '@tools/health/bmr-calculator/faq';
 import { items as bodyFatCalculatorFaqs } from '@tools/health/body-fat-calculator/faq';
 import { items as bodyWeightTrackerFaqs } from '@tools/health/body-weight-tracker/faq';
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
+import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-deficit-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
@@ -53,11 +55,13 @@ import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-ha
 import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
+import { items as oneRepMaxCalculatorFaqs } from '@tools/health/one-rep-max-calculator/faq';
 import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq';
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
+import { items as proteinIntakeCalculatorFaqs } from '@tools/health/protein-intake-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
 import { items as pxToDpConverterFaqs } from '@tools/design/px-to-dp-converter/faq';
 import { items as pxToRemConverterFaqs } from '@tools/design/px-to-rem-converter/faq';
@@ -75,6 +79,7 @@ import { items as reverseTextFaqs } from '@tools/text/reverse-text/faq';
 import { items as roiCalculatorFaqs } from '@tools/finance/roi-calculator/faq';
 import { items as rot13EncoderDecoderFaqs } from '@tools/developer-utilities/rot13-encoder-decoder/faq';
 import { items as ruleOf72CalculatorFaqs } from '@tools/finance/rule-of-72-calculator/faq';
+import { items as runningPaceCalculatorFaqs } from '@tools/health/running-pace-calculator/faq';
 import { items as savingsGoalCalculatorFaqs } from '@tools/finance/savings-goal-calculator/faq';
 import { items as scientificCalculatorFaqs } from '@tools/number/scientific-calculator/faq';
 import { items as sentenceCaseConverterFaqs } from '@tools/text/sentence-case-converter/faq';
@@ -109,9 +114,11 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'base64-encoder-decoder': base64EncoderDecoderFaqs,
   'binary-text-converter': binaryTextConverterFaqs,
   'bmi-calculator': bmiCalculatorFaqs,
+  'bmr-calculator': bmrCalculatorFaqs,
   'body-fat-calculator': bodyFatCalculatorFaqs,
   'body-weight-tracker': bodyWeightTrackerFaqs,
   'cagr-calculator': cagrCalculatorFaqs,
+  'calorie-deficit-calculator': calorieDeficitCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
@@ -155,11 +162,13 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'move-today-tracker': moveTodayTrackerFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
   'notepad': notepadFaqs,
+  'one-rep-max-calculator': oneRepMaxCalculatorFaqs,
   'paragraph-counter': paragraphCounterFaqs,
   'password-generator': passwordGeneratorFaqs,
   'percentage-calculator': percentageCalculatorFaqs,
   'pomodoro-timer': pomodoroTimerFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
+  'protein-intake-calculator': proteinIntakeCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
   'px-to-dp-converter': pxToDpConverterFaqs,
   'px-to-rem-converter': pxToRemConverterFaqs,
@@ -177,6 +186,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'roi-calculator': roiCalculatorFaqs,
   'rot13-encoder-decoder': rot13EncoderDecoderFaqs,
   'rule-of-72-calculator': ruleOf72CalculatorFaqs,
+  'running-pace-calculator': runningPaceCalculatorFaqs,
   'savings-goal-calculator': savingsGoalCalculatorFaqs,
   'scientific-calculator': scientificCalculatorFaqs,
   'sentence-case-converter': sentenceCaseConverterFaqs,

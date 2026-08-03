@@ -2,6 +2,44 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.0] - 2026-08-04
+
+Acting on `docs/analysis/2026-08-03-text-cluster-ranking-factors.md`, which found that the text
+cluster ranks because of structure rather than content depth. No previously live URL broke.
+
+### Added
+- Five tools on the existing `wellness` engine, taken from the top of `npm run research:next`:
+  **BMR Calculator**, **Calorie Deficit Calculator**, **Protein Intake Calculator**,
+  **One Rep Max Calculator**, and **Running Pace Calculator**. Each ships with a guide, six FAQs,
+  and a knowledge overlay, and each passes `seo:gate`.
+- Per-calculator code splitting for the wellness engine (`src/lib/engines/wellness/lazy.ts`). A page
+  now loads only the calculator it declares on `data-wellness` instead of all eleven, which cut
+  wellness page JS from 24.1 KB to 13.1 KB gzipped and makes further fan-out on that engine free.
+- Four tool groups on clusters that already shared an engine and pattern but linked only the three
+  siblings `RelatedTools` derives: `body-metrics` (11 members, "Health Calculator"),
+  `growth-calculators` (6), `everyday-calculators` (6), and `health-trackers` (3).
+
+### Changed
+- Every physics and applied-math simulation was renamed from what it is to what people search for:
+  `pendulum-simulator` became `pendulum-period-calculator`, `shm-spring-simulator` became
+  `simple-harmonic-motion-calculator`, `quadratic-equation-explorer` became
+  `quadratic-equation-solver`, and eleven more. The pages themselves are unchanged; only the name
+  and the address moved.
+- All fourteen retired URLs serve a noindex stub that meta-refreshes to the new page and declares it
+  canonical, so they hand over their link equity instead of falling through to the 404 page. The
+  redirect route is now a rest param (`src/pages/tool/[...oldPath].astro`), because a slug rename
+  keeps its segment and a per-segment stub route would collide with the generated tool route.
+- The health calculators' above-the-fold rule now pins the hero answer and the start of its chart
+  rather than the whole chart: the group switcher's pill row costs about 56px, which the three
+  tallest calculators no longer have to spare.
+
+### Fixed
+- `src/lib/runtime/index.ts` was not awaiting an engine's `attach()`, so an async attach would never
+  have finished before `TT.ready` flipped. The type already permitted `Promise<void>`.
+- Numeric fields defaulting to zero are marked optional on the new calculators. `SmartInput` renders
+  such a field blank, and the widget refuses to compute while a required field is blank, so the
+  calorie-deficit goal weight and the running-pace hours and seconds silently blocked the result.
+
 ## [alpha-v6.0] - 2026-07-30
 
 ### Added
