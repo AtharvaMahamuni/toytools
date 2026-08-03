@@ -8,8 +8,8 @@ import pendulum from './pendulum';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Pendulum Simulator',
-    slug: 'pendulum-simulator',
+    title: 'Pendulum Period Calculator',
+    slug: 'pendulum-period-calculator',
     processorId: 'pendulum',
     domain: 'physics',
     category: 'physics',
@@ -74,13 +74,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Pendulum Simulator: Period, Energy & Gravity',
+    title: 'Pendulum Period Calculator: Length, Gravity & Energy',
     description:
       'Drag the bob and let it swing. Change length, angle, and gravity and watch the period, velocity, and potential-to-kinetic energy trade update live.',
     keywords: ['pendulum', 'pendulum period', 'simple harmonic motion', 'potential energy', 'kinetic energy', 'gravity'],
   },
   presentation: {
-    tags: ['pendulum', 'pendulum simulator', 'pendulum period', 'simple harmonic motion', 'potential and kinetic energy', 'gravity', 'oscillation', 'T = 2 pi sqrt L over g'],
+    tags: ['pendulum period calculator', 'pendulum', 'pendulum simulator', 'pendulum period', 'simple harmonic motion', 'potential and kinetic energy', 'gravity', 'oscillation', 'T = 2 pi sqrt L over g'],
     updatedAt: '2026-07-09',
     isNew: true,
     trustVariant: 'offline',

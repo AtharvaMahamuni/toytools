@@ -9,8 +9,8 @@ import frequencyPeriod from './frequency-period';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Frequency & Period Simulator',
-    slug: 'frequency-period-simulator',
+    title: 'Frequency and Period Calculator',
+    slug: 'frequency-period-calculator',
     processorId: 'frequency-period',
     domain: 'physics',
     category: 'physics',
@@ -83,13 +83,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Frequency & Period Simulator: T = 1 / f',
+    title: 'Frequency and Period Calculator: T = 1 / f',
     description:
       'See how frequency and period are two views of one motion. Tap a beat or drag the slider and watch the period and angular frequency update live.',
     keywords: ['frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'hertz'],
   },
   presentation: {
-    tags: ['frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'frequency to period', 'hertz', 'cycles per second'],
+    tags: ['frequency to period calculator', 'frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'frequency to period', 'hertz', 'cycles per second'],
     updatedAt: '2026-07-09',
     isNew: true,
     trustVariant: 'offline',

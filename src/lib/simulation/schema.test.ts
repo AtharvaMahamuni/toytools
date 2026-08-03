@@ -2,14 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { learningResourceSchema, howToSchema, simulationSchemas } from './schema';
 import { MANIFESTS } from './manifests';
 
-const URL = 'https://toytoolsapp.com/tool/physics/ohms-law-simulator/';
-const ohms = MANIFESTS.find((m) => m.metadata.slug === 'ohms-law-simulator')!;
+const URL = 'https://toytoolsapp.com/tool/physics/ohms-law-calculator/';
+const ohms = MANIFESTS.find((m) => m.metadata.slug === 'ohms-law-calculator')!;
 
 describe('simulation JSON-LD schema', () => {
   it('builds a LearningResource that teaches the concepts and equations', () => {
     const lr = learningResourceSchema(ohms, URL);
     expect(lr['@type']).toBe('LearningResource');
-    expect(lr.name).toBe("Ohm's Law Simulator");
+    expect(lr.name).toBe("Ohm's Law Calculator");
     expect(lr.url).toBe(URL);
     expect(lr.isAccessibleForFree).toBe(true);
     const teaches = lr.teaches as { name: string }[];
@@ -26,7 +26,7 @@ describe('simulation JSON-LD schema', () => {
   it('builds a HowTo with concrete steps and the primary equation', () => {
     const ht = howToSchema(ohms, URL);
     expect(ht['@type']).toBe('HowTo');
-    expect(ht.name).toBe("How to use the Ohm's Law Simulator");
+    expect(ht.name).toBe("How to use the Ohm's Law Calculator");
     const steps = ht.step as { text: string }[];
     expect(steps).toHaveLength(3);
     expect(steps[2].text).toContain('I = V / R');

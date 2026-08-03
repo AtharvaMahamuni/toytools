@@ -6,7 +6,7 @@
       "problem": "I want to drag an angle around the unit circle and see sin, cos, and tan update live with the reference triangle and a tracing sine wave.",
       "intent": "informational",
       "transformation": "Unit Circle",
-      "proposedTool": "unit-circle-explorer",
+      "proposedTool": "unit-circle-calculator",
       "proposedName": "Unit Circle Explorer",
       "proposedEngine": "math-lab",
       "searchQueries": [
@@ -34,7 +34,7 @@
         "sine wave"
       ],
       "relatedTools": [
-        "quadratic-equation-explorer",
+        "quadratic-equation-solver",
         "function-grapher"
       ],
       "demand": 88,
@@ -49,7 +49,7 @@
       "problem": "I want to slide the coefficients a, b, and c and watch the parabola, roots, vertex, and discriminant change, with the formula worked step by step.",
       "intent": "transactional",
       "transformation": "Quadratic Equations",
-      "proposedTool": "quadratic-equation-explorer",
+      "proposedTool": "quadratic-equation-solver",
       "proposedName": "Quadratic Equation Explorer",
       "proposedEngine": "math-lab",
       "searchQueries": [
@@ -77,7 +77,7 @@
         "completing the square"
       ],
       "relatedTools": [
-        "unit-circle-explorer",
+        "unit-circle-calculator",
         "function-grapher"
       ],
       "demand": 94,
@@ -92,7 +92,7 @@
       "problem": "I want to run thousands of animated coin flips or dice rolls and watch the empirical frequency converge on the theoretical probability.",
       "intent": "informational",
       "transformation": "Probability",
-      "proposedTool": "probability-simulator",
+      "proposedTool": "probability-calculator",
       "proposedName": "Probability Lab",
       "proposedEngine": "math-lab",
       "searchQueries": [
@@ -163,7 +163,7 @@
         "population vs sample"
       ],
       "relatedTools": [
-        "probability-simulator",
+        "probability-calculator",
         "linear-regression-playground"
       ],
       "demand": 92,
@@ -206,7 +206,7 @@
         "transformations of functions"
       ],
       "relatedTools": [
-        "quadratic-equation-explorer",
+        "quadratic-equation-solver",
         "derivative-visualizer"
       ],
       "demand": 90,
@@ -335,7 +335,7 @@
         "ambiguous case"
       ],
       "relatedTools": [
-        "unit-circle-explorer",
+        "unit-circle-calculator",
         "matrix-calculator"
       ],
       "demand": 80,
@@ -379,7 +379,7 @@
       ],
       "relatedTools": [
         "prime-factorization-calculator",
-        "quadratic-equation-explorer"
+        "quadratic-equation-solver"
       ],
       "demand": 90,
       "competition": 80,
@@ -464,7 +464,7 @@
         "counting principle"
       ],
       "relatedTools": [
-        "probability-simulator",
+        "probability-calculator",
         "prime-factorization-calculator"
       ],
       "demand": 78,
@@ -508,7 +508,7 @@
       ],
       "relatedTools": [
         "statistics-visualizer",
-        "probability-simulator"
+        "probability-calculator"
       ],
       "demand": 76,
       "competition": 63,

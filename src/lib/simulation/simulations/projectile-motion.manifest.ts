@@ -10,8 +10,8 @@ import projectileMotion from './projectile-motion';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Projectile Motion Simulator',
-    slug: 'projectile-motion-simulator',
+    title: 'Projectile Motion Calculator',
+    slug: 'projectile-motion-calculator',
     processorId: 'projectile-motion',
     domain: 'physics',
     category: 'physics',
@@ -77,7 +77,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Projectile Motion Simulator: Range, Height & Angle',
+    title: 'Projectile Motion Calculator: Range, Height & Angle',
     description:
       'Drag to aim a launch, then watch the arc fly. Change speed, angle, and gravity and see range, peak height, and time of flight update live.',
     keywords: ['projectile motion', 'range of a projectile', 'launch angle', 'trajectory', 'time of flight', 'kinematics'],

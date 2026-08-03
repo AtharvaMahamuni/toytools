@@ -14,7 +14,7 @@ export const config: ToolConfig = {
   pattern: 'math-calculate',
   family: 'number-theory',
   processorId: 'prime-factorization',
-  relatedTools: ['fraction-calculator', 'combinations-permutations-calculator', 'quadratic-equation-explorer'],
+  relatedTools: ['fraction-calculator', 'combinations-permutations-calculator', 'quadratic-equation-solver'],
   guide: {
     slug: 'prime-factorization-calculator',
     categorySlug: 'applied-math',

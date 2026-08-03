@@ -39,16 +39,16 @@ describe('deriveSimRelations', () => {
   it('links the two waves-family sims that share wave speed and frequency', () => {
     // wave-speed and doppler-effect are both in the waves family and share the wave-speed and
     // frequency concepts/quantities, so each should surface the other as a top match.
-    const wave = deriveSimRelations(get('wave-speed-simulator'), MANIFESTS).usedWith.map((r) => r.slug);
-    expect(wave).toContain('doppler-effect-simulator');
-    const doppler = deriveSimRelations(get('doppler-effect-simulator'), MANIFESTS).usedWith.map((r) => r.slug);
-    expect(doppler).toContain('wave-speed-simulator');
+    const wave = deriveSimRelations(get('wave-speed-calculator'), MANIFESTS).usedWith.map((r) => r.slug);
+    expect(wave).toContain('doppler-effect-calculator');
+    const doppler = deriveSimRelations(get('doppler-effect-calculator'), MANIFESTS).usedWith.map((r) => r.slug);
+    expect(doppler).toContain('wave-speed-calculator');
   });
 
   it('links the two thermodynamics sims by family', () => {
-    const rel = deriveSimRelations(get('ideal-gas-law-simulator'), MANIFESTS);
+    const rel = deriveSimRelations(get('ideal-gas-law-calculator'), MANIFESTS);
     const slugs = [...rel.usedWith, ...rel.nextSteps].map((r) => r.slug);
-    expect(slugs).toContain('heat-transfer-simulator');
+    expect(slugs).toContain('heat-transfer-calculator');
   });
 
   it('every usedWith edge carries a reason and a strength', () => {
@@ -62,7 +62,7 @@ describe('deriveSimRelations', () => {
   });
 
   it('resolveRelations returns derived edges when no manifest override is present', () => {
-    const m = get('ohms-law-simulator');
+    const m = get('ohms-law-calculator');
     expect(m.relationships).toBeUndefined();
     const resolved = resolveRelations(m, MANIFESTS);
     expect(resolved.usedWith).toEqual(deriveSimRelations(m, MANIFESTS).usedWith);

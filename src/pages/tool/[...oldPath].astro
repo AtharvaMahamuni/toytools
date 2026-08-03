@@ -1,11 +1,15 @@
 ---
-// Redirect stubs for the deprecated `/tool/developer/{slug}/` URLs.
+// Redirect stubs for every retired `/tool/...` URL.
 //
-// The Developer category segment was renamed `developer` → `developer-utilities`, moving
-// every developer tool to `/tool/developer-utilities/{slug}/`. Each previously-indexed
-// old URL serves a minimal shell that immediately meta-refreshes to the current tool page
-// and declares it canonical — preserving link equity instead of 404ing. These stubs are
-// intentionally noindex and NOT in any sitemap. See src/data/tool-redirects.ts.
+// A rest param rather than one route per segment, because a slug rename keeps the segment: the
+// retired `/tool/physics/pendulum-simulator/` lives under the same `physics/` prefix as the live
+// tool routes, so a `physics/[slug].astro` stub route would collide with the generated one. This
+// route owns nothing but the paths listed in src/data/tool-redirects.ts, and Astro's more specific
+// per-segment routes win for every live tool.
+//
+// Each stub meta-refreshes to the current tool page and declares it canonical, so the old URL
+// hands its link equity over instead of 404ing into the noindex 404.html. Intentionally noindex
+// and in no sitemap.
 import type { GetStaticPaths } from 'astro';
 import { toolRedirects } from '@data/tool-redirects';
 import { tools }      from '@data/registry';
@@ -18,11 +22,13 @@ export const getStaticPaths = (() => {
     if (!tool) throw new Error(`tool-redirects: unknown tool slug "${redirect.toolSlug}"`);
     const category = categories.find(c => c.slug === tool.categorySlug);
     if (!category) throw new Error(`tool-redirects: unresolved category for "${tool.slug}"`);
-    // oldPath is 'developer/{slug}'; this route owns the 'developer/' prefix, so the
-    // dynamic param is just the trailing slug.
+    const livePath = `/tool/${category.segment}/${tool.slug}/`;
+    if (`tool/${redirect.oldPath}` === livePath.slice(1).replace(/\/$/, '')) {
+      throw new Error(`tool-redirects: "${redirect.oldPath}" is a live tool URL, not a retired one`);
+    }
     return {
-      params: { slug: redirect.toolSlug },
-      props:  { toolName: tool.name, toolPath: `/tool/${category.segment}/${tool.slug}/` },
+      params: { oldPath: redirect.oldPath },
+      props:  { toolName: tool.name, toolPath: livePath },
     };
   });
 }) satisfies GetStaticPaths;

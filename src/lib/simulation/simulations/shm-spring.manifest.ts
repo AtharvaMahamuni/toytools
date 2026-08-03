@@ -9,8 +9,8 @@ import shmSpring from './shm-spring';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Mass on a Spring Simulator',
-    slug: 'shm-spring-simulator',
+    title: 'Simple Harmonic Motion Calculator',
+    slug: 'simple-harmonic-motion-calculator',
     processorId: 'shm-spring',
     domain: 'physics',
     category: 'physics',
@@ -86,13 +86,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Mass on a Spring Simulator: Simple Harmonic Motion',
+    title: 'Simple Harmonic Motion Calculator: Mass on a Spring',
     description:
       'Watch simple harmonic motion live. Set the mass, spring constant, and amplitude and see the period, speed, and energy of a mass on a spring update instantly.',
     keywords: ['simple harmonic motion', 'mass on a spring', 'spring constant', 'period of oscillation', 'shm', 'angular frequency'],
   },
   presentation: {
-    tags: ['simple harmonic motion', 'mass on a spring', 'spring constant', 'oscillation', 'period', 'SHM simulator', 'Hooke\'s law', 'physics'],
+    tags: ['simple harmonic motion calculator', 'simple harmonic motion', 'mass on a spring', 'spring constant', 'oscillation', 'period', 'SHM simulator', 'Hooke\'s law', 'physics'],
     updatedAt: '2026-07-12',
     isNew: true,
     trustVariant: 'offline',

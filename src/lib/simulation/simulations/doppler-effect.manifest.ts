@@ -9,8 +9,8 @@ import dopplerEffect from './doppler-effect';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Doppler Effect Simulator',
-    slug: 'doppler-effect-simulator',
+    title: 'Doppler Effect Calculator',
+    slug: 'doppler-effect-calculator',
     processorId: 'doppler-effect',
     domain: 'physics',
     category: 'physics',
@@ -76,13 +76,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Doppler Effect Simulator: Why Sirens Change Pitch',
+    title: 'Doppler Effect Calculator: Why Sirens Change Pitch',
     description:
       'See the Doppler effect in action. Move a source and watch its wavefronts bunch up ahead and stretch behind while the observed frequency shifts up and down.',
     keywords: ['Doppler effect', 'Doppler shift', 'wavefront', 'frequency shift', 'siren pitch', 'doppler effect simulator'],
   },
   presentation: {
-    tags: ['Doppler effect', 'Doppler shift', 'wavefront', 'frequency', 'pitch', 'sound waves', 'waves', 'physics simulator'],
+    tags: ['doppler effect calculator', 'Doppler effect', 'Doppler shift', 'wavefront', 'frequency', 'pitch', 'sound waves', 'waves', 'physics simulator'],
     updatedAt: '2026-07-12',
     isNew: true,
     trustVariant: 'offline',

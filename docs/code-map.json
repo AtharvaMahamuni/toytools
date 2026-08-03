@@ -440,11 +440,11 @@
     }
   },
   "tools": {
-    "projectile-motion-simulator": {
-      "name": "Projectile Motion Simulator",
-      "dir": "src/tools/physics/projectile-motion-simulator",
+    "projectile-motion-calculator": {
+      "name": "Projectile Motion Calculator",
+      "dir": "src/tools/physics/projectile-motion-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/projectile-motion-simulator/",
+      "url": "/tool/physics/projectile-motion-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "mechanics",
@@ -455,11 +455,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "wave-speed-simulator": {
-      "name": "Wave Speed Simulator",
-      "dir": "src/tools/physics/wave-speed-simulator",
+    "wave-speed-calculator": {
+      "name": "Wave Speed Calculator",
+      "dir": "src/tools/physics/wave-speed-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/wave-speed-simulator/",
+      "url": "/tool/physics/wave-speed-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "waves",
@@ -470,11 +470,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "frequency-period-simulator": {
-      "name": "Frequency & Period Simulator",
-      "dir": "src/tools/physics/frequency-period-simulator",
+    "frequency-period-calculator": {
+      "name": "Frequency and Period Calculator",
+      "dir": "src/tools/physics/frequency-period-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/frequency-period-simulator/",
+      "url": "/tool/physics/frequency-period-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "oscillations",
@@ -485,11 +485,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "pendulum-simulator": {
-      "name": "Pendulum Simulator",
-      "dir": "src/tools/physics/pendulum-simulator",
+    "pendulum-period-calculator": {
+      "name": "Pendulum Period Calculator",
+      "dir": "src/tools/physics/pendulum-period-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/pendulum-simulator/",
+      "url": "/tool/physics/pendulum-period-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "oscillations",
@@ -500,11 +500,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "heat-transfer-simulator": {
-      "name": "Heat Transfer Simulator",
-      "dir": "src/tools/physics/heat-transfer-simulator",
+    "heat-transfer-calculator": {
+      "name": "Heat Transfer Calculator",
+      "dir": "src/tools/physics/heat-transfer-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/heat-transfer-simulator/",
+      "url": "/tool/physics/heat-transfer-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "thermodynamics",
@@ -515,11 +515,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "ohms-law-simulator": {
-      "name": "Ohm's Law Simulator",
-      "dir": "src/tools/physics/ohms-law-simulator",
+    "ohms-law-calculator": {
+      "name": "Ohm's Law Calculator",
+      "dir": "src/tools/physics/ohms-law-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/ohms-law-simulator/",
+      "url": "/tool/physics/ohms-law-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "electricity",
@@ -530,11 +530,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "shm-spring-simulator": {
-      "name": "Mass on a Spring Simulator",
-      "dir": "src/tools/physics/shm-spring-simulator",
+    "simple-harmonic-motion-calculator": {
+      "name": "Simple Harmonic Motion Calculator",
+      "dir": "src/tools/physics/simple-harmonic-motion-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/shm-spring-simulator/",
+      "url": "/tool/physics/simple-harmonic-motion-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "oscillations",
@@ -545,11 +545,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "ideal-gas-law-simulator": {
-      "name": "Ideal Gas Law Simulator",
-      "dir": "src/tools/physics/ideal-gas-law-simulator",
+    "ideal-gas-law-calculator": {
+      "name": "Ideal Gas Law Calculator",
+      "dir": "src/tools/physics/ideal-gas-law-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/ideal-gas-law-simulator/",
+      "url": "/tool/physics/ideal-gas-law-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "thermodynamics",
@@ -560,11 +560,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "momentum-collision-simulator": {
-      "name": "Momentum Collision Simulator",
-      "dir": "src/tools/physics/momentum-collision-simulator",
+    "momentum-collision-calculator": {
+      "name": "Momentum and Collision Calculator",
+      "dir": "src/tools/physics/momentum-collision-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/momentum-collision-simulator/",
+      "url": "/tool/physics/momentum-collision-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "mechanics",
@@ -575,11 +575,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "inclined-plane-simulator": {
-      "name": "Inclined Plane Simulator",
-      "dir": "src/tools/physics/inclined-plane-simulator",
+    "inclined-plane-calculator": {
+      "name": "Inclined Plane Calculator",
+      "dir": "src/tools/physics/inclined-plane-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/inclined-plane-simulator/",
+      "url": "/tool/physics/inclined-plane-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "mechanics",
@@ -590,11 +590,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "doppler-effect-simulator": {
-      "name": "Doppler Effect Simulator",
-      "dir": "src/tools/physics/doppler-effect-simulator",
+    "doppler-effect-calculator": {
+      "name": "Doppler Effect Calculator",
+      "dir": "src/tools/physics/doppler-effect-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/doppler-effect-simulator/",
+      "url": "/tool/physics/doppler-effect-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "waves",
@@ -605,11 +605,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "unit-circle-explorer": {
-      "name": "Unit Circle Explorer",
-      "dir": "src/tools/math/unit-circle-explorer",
+    "unit-circle-calculator": {
+      "name": "Unit Circle Calculator",
+      "dir": "src/tools/math/unit-circle-calculator",
       "categorySlug": "applied-math",
-      "url": "/tool/math/unit-circle-explorer/",
+      "url": "/tool/math/unit-circle-calculator/",
       "engine": "math-lab",
       "pattern": "simulate",
       "family": "trigonometry",
@@ -620,11 +620,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "quadratic-equation-explorer": {
-      "name": "Quadratic Equation Explorer",
-      "dir": "src/tools/math/quadratic-equation-explorer",
+    "quadratic-equation-solver": {
+      "name": "Quadratic Equation Solver",
+      "dir": "src/tools/math/quadratic-equation-solver",
       "categorySlug": "applied-math",
-      "url": "/tool/math/quadratic-equation-explorer/",
+      "url": "/tool/math/quadratic-equation-solver/",
       "engine": "math-lab",
       "pattern": "simulate",
       "family": "algebra",
@@ -635,11 +635,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "probability-simulator": {
-      "name": "Probability Lab",
-      "dir": "src/tools/math/probability-simulator",
+    "probability-calculator": {
+      "name": "Probability Calculator",
+      "dir": "src/tools/math/probability-calculator",
       "categorySlug": "applied-math",
-      "url": "/tool/math/probability-simulator/",
+      "url": "/tool/math/probability-calculator/",
       "engine": "math-lab",
       "pattern": "simulate",
       "family": "probability",

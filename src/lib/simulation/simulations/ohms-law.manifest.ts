@@ -8,8 +8,8 @@ import ohmsLaw from './ohms-law';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: "Ohm's Law Simulator",
-    slug: 'ohms-law-simulator',
+    title: "Ohm's Law Calculator",
+    slug: 'ohms-law-calculator',
     processorId: 'ohms-law',
     domain: 'physics',
     category: 'physics',
@@ -85,7 +85,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: "Ohm's Law Simulator: I = V / R",
+    title: "Ohm's Law Calculator: I = V / R",
     description:
       "See Ohm's law come alive. Set the voltage and resistance and watch the current, power, and charge flow update live in an interactive circuit.",
     keywords: ["Ohm's law", 'I = V / R', 'voltage current resistance', 'electrical power', 'circuit simulator', 'ohms law calculator'],

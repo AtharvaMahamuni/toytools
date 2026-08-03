@@ -5,7 +5,7 @@
 // reduced-motion starts paused.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 
-const FLAGSHIP = '/tool/physics/wave-speed-simulator/';
+const FLAGSHIP = '/tool/physics/wave-speed-calculator/';
 
 /** Data-URL fingerprint of the simulation canvas — changes iff the scene repainted. */
 async function canvasFingerprint(canvas: Locator): Promise<string> {
@@ -114,17 +114,17 @@ test.describe('reduced motion', () => {
 
 test.describe('every physics tool', () => {
   for (const slug of [
-    'wave-speed-simulator',
-    'frequency-period-simulator',
-    'pendulum-simulator',
-    'heat-transfer-simulator',
-    'projectile-motion-simulator',
-    'ohms-law-simulator',
-    'shm-spring-simulator',
-    'ideal-gas-law-simulator',
-    'momentum-collision-simulator',
-    'inclined-plane-simulator',
-    'doppler-effect-simulator',
+    'wave-speed-calculator',
+    'frequency-period-calculator',
+    'pendulum-period-calculator',
+    'heat-transfer-calculator',
+    'projectile-motion-calculator',
+    'ohms-law-calculator',
+    'simple-harmonic-motion-calculator',
+    'ideal-gas-law-calculator',
+    'momentum-collision-calculator',
+    'inclined-plane-calculator',
+    'doppler-effect-calculator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
@@ -182,7 +182,7 @@ test.describe('canvas direct manipulation', () => {
   });
 
   test('pendulum: grabbing the bob sets a release angle', async ({ page }) => {
-    await page.goto('/tool/physics/pendulum-simulator/');
+    await page.goto('/tool/physics/pendulum-period-calculator/');
     await page.getByRole('button', { name: 'Pause' }).click();
     expect(await page.getByLabel(/Initial angle/).inputValue()).toBe('20'); // default
     // Grab and drag well to the right of the pivot → a large release angle, distinct from default.
@@ -191,7 +191,7 @@ test.describe('canvas direct manipulation', () => {
   });
 
   test('heat: dragging a block changes its temperature', async ({ page }) => {
-    await page.goto('/tool/physics/heat-transfer-simulator/');
+    await page.goto('/tool/physics/heat-transfer-calculator/');
     await page.getByRole('button', { name: 'Pause' }).click();
     // Drag the left block (A) to the bottom → cools it toward 0 °C.
     await pointerDrag(page.locator('[data-sim-canvas]'), [0.2, 0.4], [0.2, 0.95]);
@@ -219,11 +219,11 @@ test.describe('theme', () => {
 test.describe('formula calculator', () => {
   test('typing a value solves the formula, shows the worked line, and moves the slider', async ({ page }) => {
     const errors = guardConsole(page);
-    await page.goto(FLAGSHIP); // wave-speed-simulator: v = f × λ
+    await page.goto(FLAGSHIP); // wave-speed-calculator: v = f × λ
     await page.getByRole('button', { name: 'Pause' }).click();
 
-    const freq = page.locator('#wave-speed-simulator-fx-frequency');
-    const wavelength = page.locator('#wave-speed-simulator-fx-wavelength');
+    const freq = page.locator('#wave-speed-calculator-fx-frequency');
+    const wavelength = page.locator('#wave-speed-calculator-fx-wavelength');
     const answer = page.locator('[data-term-value="v"]');
     const worked = page.locator('[data-formula-worked]');
 
@@ -241,7 +241,7 @@ test.describe('formula calculator', () => {
   test('clamps an out-of-range entry to the parameter limit', async ({ page }) => {
     await page.goto(FLAGSHIP);
     await page.getByRole('button', { name: 'Pause' }).click();
-    const freq = page.locator('#wave-speed-simulator-fx-frequency');
+    const freq = page.locator('#wave-speed-calculator-fx-frequency');
     await freq.fill('99'); // max frequency is 3 → clamps; v = 3 × 2 = 6.00
     await freq.blur();
     await expect(freq).toHaveValue('3');
@@ -254,11 +254,11 @@ test.describe('formula calculator', () => {
     const slider = page.locator('[data-param="wavelength"]');
     await slider.fill('3');
     await slider.dispatchEvent('input');
-    await expect(page.locator('#wave-speed-simulator-fx-wavelength')).toHaveValue('3');
+    await expect(page.locator('#wave-speed-calculator-fx-wavelength')).toHaveValue('3');
   });
 
   test('a formula with no editable inputs stays display-only', async ({ page }) => {
-    await page.goto('/tool/physics/heat-transfer-simulator/'); // Q = m × c × ΔT (both terms computed)
+    await page.goto('/tool/physics/heat-transfer-calculator/'); // Q = m × c × ΔT (both terms computed)
     await expect(page.locator('.phys-formula')).toBeVisible();
     await expect(page.locator('[data-formula-input]')).toHaveCount(0);
   });

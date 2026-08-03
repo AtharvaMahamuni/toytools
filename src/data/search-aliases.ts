@@ -106,11 +106,11 @@ export const searchAliases: Record<string, string[]> = {
   'fraction-calculator': ['simplify fraction'],
   'percentage-calculator': ['percent of', 'percent change'],
   'prime-factorization-calculator': ['prime factors'],
-  'probability-simulator': ['dice odds', 'coin flip'],
-  'quadratic-equation-explorer': ['quadratic formula', 'roots of equation'],
+  'probability-calculator': ['dice odds', 'coin flip'],
+  'quadratic-equation-solver': ['quadratic formula', 'roots of equation'],
   // Not "calculator": it is a word in twenty tool names, so it can only ever rank behind them.
   'scientific-calculator': ['trigonometry calculator', 'logarithm calculator'],
-  'unit-circle-explorer': ['sin cos tan', 'trig circle'],
+  'unit-circle-calculator': ['sin cos tan', 'trig circle'],
 
   // Date and time
   'age-calculator': ['how old am i', 'birthday age'],
@@ -136,14 +136,14 @@ export const searchAliases: Record<string, string[]> = {
   'todo-list': ['task list', 'checklist'],
 
   // Physics playground
-  'doppler-effect-simulator': ['doppler shift'],
-  'heat-transfer-simulator': ['conduction'],
-  'ideal-gas-law-simulator': ['pv nrt'],
-  'inclined-plane-simulator': ['ramp friction'],
-  'momentum-collision-simulator': ['elastic collision'],
-  'ohms-law-simulator': ['ohm law', 'voltage current resistance'],
-  'pendulum-simulator': ['swing period'],
-  'projectile-motion-simulator': ['trajectory'],
-  'shm-spring-simulator': ['harmonic motion', 'spring oscillation'],
-  'wave-speed-simulator': ['wavelength frequency'],
+  'doppler-effect-calculator': ['doppler shift'],
+  'heat-transfer-calculator': ['conduction'],
+  'ideal-gas-law-calculator': ['pv nrt'],
+  'inclined-plane-calculator': ['ramp friction'],
+  'momentum-collision-calculator': ['elastic collision'],
+  'ohms-law-calculator': ['ohm law', 'voltage current resistance'],
+  'pendulum-period-calculator': ['swing period'],
+  'projectile-motion-calculator': ['trajectory'],
+  'simple-harmonic-motion-calculator': ['harmonic motion', 'spring oscillation'],
+  'wave-speed-calculator': ['wavelength frequency'],
 };

@@ -39,7 +39,7 @@ export const knowledge: Knowledge = {
   ],
   nextSteps: [
     { slug: 'tip-calculator', reason: 'Jump to a task-specific calculator for everyday sums', priority: 1 },
-    { slug: 'wave-speed-simulator', reason: 'Put the numbers to work in an interactive physics simulation', priority: 2 },
+    { slug: 'wave-speed-calculator', reason: 'Put the numbers to work in an interactive physics simulation', priority: 2 },
   ],
   workflowStage: ['transform'],
   keywords: ['scientific calculator', 'online calculator', 'trig calculator', 'log calculator', 'order of operations', 'degrees radians'],
