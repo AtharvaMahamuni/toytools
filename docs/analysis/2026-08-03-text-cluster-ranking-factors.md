@@ -106,8 +106,33 @@ The ungrouped stragglers inside the winning clusters are the low outliers: `jwt-
 every member link to every sibling, so an N-member group hands each member N-1 inbound links.
 
 This is net of a real cost. `ToolDirectory.astro` collapses a group to a **single** homepage entry
-pointing at `group.members[0]`, so non-first members lose their homepage link. For a nine-member
-group that is minus one inbound against plus eight, which is why the measured net is positive.
+pointing at `group.members[0]`, so non-first members lose their homepage link.
+
+### 3a. How much of that gap grouping actually causes (correction)
+
+The two tables above overstate the causal effect of grouping, and the difference changes what is
+worth doing first. Two things inflate them:
+
+- **`RelatedTools` already links siblings.** `ToolPage.astro` excludes group members from
+  `RelatedTools` because the switcher covers them, so grouping partly *replaces* links rather than
+  adding them. Measured in `dist/`, every tool in every ungrouped candidate group already links to
+  exactly **3** siblings.
+- **Selection effect.** The ungrouped stragglers inside the winning clusters (`jwt-decoder` at 4,
+  `text-compare` at 8) are one-off tools with few natural relations. They are low because they are
+  unlike their neighbours, not only because they are ungrouped.
+
+Modelled per member, from measured current state:
+
+| candidate group | n | sibling links now | after grouping | net per member |
+|---|---|---|---|---|
+| wellness body metrics | 6 | 3.0 | 5 | +2, minus 1 homepage |
+| finance growth | 6 | 3.0 | 5 | +2, minus 1 homepage |
+| number-utilities calculate | 7 | 3.0 | 6 | +3, minus 1 homepage |
+
+So roughly **+1 to +2 inbound links per page**, not the +6 the headline control suggested. Group
+size is what makes it pay: a nine-member text group yields 8 sibling links against the same 3
+baseline. Grouping is cheap, safe, and worth doing, but it is a supporting move. The ranking result
+came from factors 1 and 2, which put more pages against more exact queries.
 
 ### 4. Niche authority requirements
 
@@ -140,10 +165,30 @@ Do not treat guide word count as the lever. The data says it is not one.
 **Retrofit tool groups on existing engine-sharing clusters.** No URL changes, no new pages, no
 content. It is a `toolGroup` field per member plus a `src/data/tool-groups.ts` entry.
 `validate-registry.ts` enforces bidirectional membership and same engine/pattern across members, so
-the constraint is that members must already share an engine and pattern. Obvious candidates:
-health-fitness body metrics (`bmi-calculator`, `body-fat-calculator`, `ideal-weight-calculator`,
-`tdee-calculator`, all `wellness`/`health-calculate`), health trackers, money-finance growth
-calculators, and the percentage/markup/margin/discount set in number-utilities.
+the constraint is that members must already share an engine and pattern. Valid candidates, by
+engine/pattern, measured from the registry:
+
+| group | engine/pattern | n | members |
+|---|---|---|---|
+| wellness body metrics | `wellness`/`health-calculate` | 6 | bmi, body-fat, heart-rate-zone, ideal-weight, macro, tdee |
+| health trackers | `tracker`/`health-track` | 3 | body-weight, move-today, water-intake |
+| finance growth | `finance`/`finance-growth` | 6 | cagr, compound-interest, inflation, roi, rule-of-72, sip |
+| finance planning | `finance`/`finance-planning` | 2 | emergency-fund, savings-goal |
+| everyday calculators | `calculator`/`calculate` | 7 | discount, margin, markup, percentage, scientific, tax, tip |
+| datetime calculate | `datetime`/`datetime-calculate` | 2 | age, date-difference |
+| datetime convert | `datetime`/`datetime-convert` | 2 | timezone, unix-timestamp |
+| px converters | `units`/`unit-convert` | 2 | px-to-dp, px-to-rem |
+| credential generators | `generation`/`generate-credential` | 2 | password, random-string |
+
+Worth knowing before doing this: **only `TextProcessorWidget` and `ConverterWidget` implement the
+shared `group:{id}` state key.** `WellnessWidget`, `FinanceWidget`, `MathWidget`, `DateTimeWidget`
+and `GeneratorWidget` do not, so a retrofitted group renders the switcher (real crawlable links,
+works without JS) without carrying input across members. For calculators that is correct behaviour
+rather than a gap: BMI takes height and weight, macro takes goals, and sharing those would be wrong.
+The shared-input workspace only makes sense where members operate on the same input, which is why
+text has it.
+
+Prefer the larger groups. At n=2 the net is close to zero once the homepage collapse is counted.
 
 **Variant fan-out on shipped engines.** New pages on existing engines, which is the text cluster's
 actual playbook. Route through the RIE rather than intuition, per the standing rule in `CLAUDE.md`.
