@@ -385,6 +385,47 @@
         "remove-emoji"
       ]
     },
+    "body-metrics": {
+      "name": "Body Metrics",
+      "members": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "tdee-calculator",
+        "macro-calculator",
+        "heart-rate-zone-calculator"
+      ]
+    },
+    "health-trackers": {
+      "name": "Daily Tracker",
+      "members": [
+        "water-intake-tracker",
+        "body-weight-tracker",
+        "move-today-tracker"
+      ]
+    },
+    "growth-calculators": {
+      "name": "Growth Calculator",
+      "members": [
+        "compound-interest-calculator",
+        "sip-calculator",
+        "cagr-calculator",
+        "roi-calculator",
+        "rule-of-72-calculator",
+        "inflation-calculator"
+      ]
+    },
+    "everyday-calculators": {
+      "name": "Everyday Calculator",
+      "members": [
+        "percentage-calculator",
+        "discount-calculator",
+        "tip-calculator",
+        "tax-calculator",
+        "margin-calculator",
+        "markup-calculator"
+      ]
+    },
     "case-converters": {
       "name": "Case Converter",
       "members": [
@@ -702,7 +743,7 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "bmi",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -723,7 +764,7 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "body-fat",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -744,7 +785,7 @@
       "pattern": "health-track",
       "family": "measurement",
       "processorId": "body-weight",
-      "toolGroup": "",
+      "toolGroup": "health-trackers",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -765,7 +806,7 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "cagr",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -891,7 +932,7 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "compound-interest",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1059,7 +1100,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1143,7 +1184,7 @@
       "pattern": "health-calculate",
       "family": "cardio",
       "processorId": "heart-rate-zones",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1206,7 +1247,7 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "ideal-weight",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1227,7 +1268,7 @@
       "pattern": "finance-growth",
       "family": "inflation",
       "processorId": "inflation",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1542,7 +1583,7 @@
       "pattern": "health-calculate",
       "family": "nutrition",
       "processorId": "macro",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1563,7 +1604,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1584,7 +1625,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1626,7 +1667,7 @@
       "pattern": "health-track",
       "family": "habit",
       "processorId": "move-today",
-      "toolGroup": "",
+      "toolGroup": "health-trackers",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1731,7 +1772,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2088,7 +2129,7 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "roi",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2130,7 +2171,7 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "rule-of-72",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2298,7 +2339,7 @@
       "pattern": "finance-growth",
       "family": "savings",
       "processorId": "sip",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2382,7 +2423,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2403,7 +2444,7 @@
       "pattern": "health-calculate",
       "family": "energy",
       "processorId": "tdee",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2466,7 +2507,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2634,7 +2675,7 @@
       "pattern": "health-track",
       "family": "habit",
       "processorId": "water-intake",
-      "toolGroup": "",
+      "toolGroup": "health-trackers",
       "files": [
         "Guide.astro",
         "Widget.astro",

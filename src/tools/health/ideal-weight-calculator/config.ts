@@ -18,6 +18,7 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'body-composition',
+  toolGroup: 'body-metrics',
   processorId: 'ideal-weight',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'body-weight-tracker'],
   guide: {

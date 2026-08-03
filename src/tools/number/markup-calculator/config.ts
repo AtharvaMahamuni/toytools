@@ -11,6 +11,7 @@ export const config: ToolConfig = {
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',
+  toolGroup: 'everyday-calculators',
   relatedTools: ['margin-calculator', 'percentage-calculator'],
   guide: {
     slug: 'markup-vs-margin',

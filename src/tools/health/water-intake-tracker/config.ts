@@ -18,6 +18,7 @@ export const config: ToolConfig = {
   engine: 'tracker',
   pattern: 'health-track',
   family: 'habit',
+  toolGroup: 'health-trackers',
   processorId: 'water-intake',
   relatedTools: ['body-weight-tracker', 'move-today-tracker', 'tdee-calculator'],
   guide: {
