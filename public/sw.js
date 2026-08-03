@@ -19,13 +19,19 @@
  * store. Everything is wrapped so a failure can never surface an error to the page.
  */
 
-var CACHE = 'toytools-cache-v2';
+var CACHE = 'toytools-cache-v3';
+
+// Runtime cache ceiling. Every successful same-origin GET is cached, which over time means the
+// whole site plus every asset. Trimming oldest-first keeps that bounded; the Cache API preserves
+// insertion order, so the first keys are the least recently added.
+var MAX_ENTRIES = 150;
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE).then(function (cache) {
-      return cache.addAll(['/']).catch(function () { /* offline at install — fine */ });
+      // '/offline/' is the navigation fallback and must be present before it is ever needed.
+      return cache.addAll(['/', '/offline/']).catch(function () { /* offline at install — fine */ });
     })
   );
 });
@@ -48,6 +54,21 @@ self.addEventListener('activate', function (event) {
 
 function isCacheable(response) {
   return response && response.status === 200 && response.type === 'basic'; // same-origin, non-opaque
+}
+
+// Keep the runtime cache from growing without limit. Never trims the two precached entries.
+function trim(cache) {
+  return cache.keys().then(function (keys) {
+    if (keys.length <= MAX_ENTRIES) return;
+    var excess = keys.length - MAX_ENTRIES;
+    var kills = [];
+    for (var i = 0; i < keys.length && kills.length < excess; i++) {
+      var path = new URL(keys[i].url).pathname;
+      if (path === '/' || path === '/offline/') continue;
+      kills.push(cache.delete(keys[i]));
+    }
+    return Promise.all(kills);
+  }).catch(function () {});
 }
 
 self.addEventListener('fetch', function (event) {
@@ -74,7 +95,7 @@ self.addEventListener('fetch', function (event) {
         if (isCacheable(response)) {
           var copy = response.clone();
           caches.open(CACHE).then(function (cache) {
-            cache.put(request, copy).catch(function () {});
+            cache.put(request, copy).then(function () { return trim(cache); }).catch(function () {});
           }).catch(function () {});
         }
         return response;
@@ -83,7 +104,13 @@ self.addEventListener('fetch', function (event) {
         // Offline: serve the cached copy, then the cached root for navigations.
         return caches.match(request).then(function (cached) {
           if (cached) return cached;
-          if (isNav) return caches.match('/').then(function (root) { return root || Response.error(); });
+          // Falling back to '/' made a failed tool navigation look like the tool had moved.
+          // The offline page says what actually happened and lists what still opens.
+          if (isNav) {
+            return caches.match('/offline/').then(function (page) {
+              return page || caches.match('/').then(function (root) { return root || Response.error(); });
+            });
+          }
           return Response.error();
         });
       })

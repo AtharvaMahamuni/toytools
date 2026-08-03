@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.3",
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.60.0",
     "@types/js-yaml": "^4.0.9",
     "@vitest/coverage-v8": "^4.1.8",

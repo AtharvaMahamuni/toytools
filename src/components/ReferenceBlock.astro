@@ -58,7 +58,9 @@ const label = heading ?? defaultHeadings[type];
   }
 
   .ref-block[data-type="common-mistake"] .ref-heading {
-    color: var(--color-gold);
+    /* Text, not decoration: plain --color-gold is 4.31:1 on this block's tint, just under AA.
+       Same reason --color-accent-strong exists for the accent. */
+    color: var(--color-gold-strong);
   }
 
   :global(.ref-block p:not(.ref-heading)) {

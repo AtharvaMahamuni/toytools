@@ -1,0 +1,81 @@
+---
+// Star toggle for a tool. Auto-included by ToolLayout, so every tool inherits it with no per-tool
+// edit, the same way InstallButton and FeedbackLink are.
+//
+// Rendered unpressed and filled in on load: the page is static and cached, so the markup cannot
+// know whether this visitor has starred it.
+interface Props {
+  slug: string;
+  name: string;
+}
+
+const { slug, name } = Astro.props;
+---
+
+<button
+  type="button"
+  class="favorite-btn"
+  data-favorite={slug}
+  aria-pressed="false"
+  aria-label={`Add ${name} to favourites`}
+>
+  <svg class="favorite-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"
+       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </svg>
+  <span class="favorite-label">Favourite</span>
+</button>
+
+<script is:inline define:vars={{ slug, name }}>
+  (function () {
+    var btn = document.querySelector('[data-favorite="' + slug + '"]');
+    if (!btn || !(window.ToyTools && ToyTools.favorites)) return;
+
+    function paint(on) {
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('is-on', on);
+      btn.setAttribute('aria-label', (on ? 'Remove ' : 'Add ') + name + (on ? ' from' : ' to') + ' favourites');
+      var label = btn.querySelector('.favorite-label');
+      if (label) label.textContent = on ? 'Favourited' : 'Favourite';
+    }
+
+    paint(ToyTools.favorites.has(slug));
+
+    btn.addEventListener('click', function () {
+      var on = ToyTools.favorites.toggle(slug);
+      paint(on);
+      ToyTools.toast(on ? 'Added to favourites' : 'Removed from favourites');
+    });
+  })();
+</script>
+
+<style>
+  .favorite-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    padding: 0 var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .favorite-btn:active {
+    background: var(--color-bg-tertiary);
+  }
+
+  .favorite-btn.is-on {
+    color: var(--color-accent-strong);
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+  }
+
+  .favorite-btn.is-on .favorite-icon {
+    fill: currentColor;
+  }
+</style>

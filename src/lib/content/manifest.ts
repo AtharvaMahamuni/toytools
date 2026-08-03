@@ -1,5 +1,5 @@
 // Content Manifest — the canonical, registry-derived list of every indexable surface
-// (home, tools, guides, categories, language stubs). Sitemaps, and future search /
+// (home, tools, guides, categories, standalone pages). Sitemaps, and future search /
 // related-content systems, all derive from this single source rather than maintaining
 // their own lists. Pure and build-time; no I/O.
 
@@ -8,18 +8,19 @@ import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
 import { withBase } from '@lib/paths';
 
-// 'language' remains in the union for generatePageTitle('language', …), but the /{lang}/ stubs
-// are intentionally NOT emitted into the manifest: they are thin, near-duplicate landing pages,
-// so they carry robots="noindex,follow" and are excluded from both the sitemap and IndexNow.
-// 'page' covers standalone indexable pages that are not derived from the registry — currently
-// just /feedback/. They are listed here rather than in each consumer so the sitemap, IndexNow,
-// and platform health all pick them up from the same place, exactly like a tool.
-export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'language' | 'page';
+// 'page' covers standalone indexable pages that are not derived from the registry (feedback,
+// about, privacy, changelog). They are listed here rather than in each consumer so the sitemap,
+// IndexNow, and platform health all pick them up from the same place, exactly like a tool.
+export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'page';
 
-/** Standalone indexable pages. /search/ and /architecture/ are deliberately absent: both are
- *  noindex or excluded, and adding one here is what makes it public. */
+/** Standalone indexable pages. Adding one here is what makes it public, so the absences are
+ *  deliberate: /search/ and /architecture/ are noindex or excluded, and /settings/ and /offline/
+ *  are personal surfaces rather than content. */
 const STANDALONE_PAGES: { slug: string; path: string; priority: number; changefreq: string }[] = [
   { slug: 'feedback', path: '/feedback/', priority: 0.6, changefreq: 'monthly' },
+  { slug: 'about', path: '/about/', priority: 0.5, changefreq: 'monthly' },
+  { slug: 'privacy', path: '/privacy/', priority: 0.4, changefreq: 'yearly' },
+  { slug: 'changelog', path: '/changelog/', priority: 0.4, changefreq: 'monthly' },
 ];
 
 export interface ContentEntry {
@@ -125,9 +126,9 @@ export function buildContentManifest(): ContentEntry[] {
     });
   }
 
-  // Language stubs (/{lang}/) are deliberately omitted — thin, near-duplicate pages carrying
-  // robots="noindex,follow". Keeping them out of the manifest excludes them from the sitemap
-  // and IndexNow in one place. See ContentType note above.
+  // The /{lang}/ landing stubs used to be omitted here on purpose. They have since been deleted
+  // outright: noindex plus unlinked from anywhere on the site meant nobody could reach them and
+  // nothing could rank them. See docs/analysis/2026-08-03-platform-ux-gaps.md.
 
   return entries;
 }

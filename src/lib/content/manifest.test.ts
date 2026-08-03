@@ -27,9 +27,6 @@ describe('buildContentManifest', () => {
     expect(wordCounter?.faqExists).toBe((faqsByToolSlug['word-counter']?.length ?? 0) > 0);
   });
 
-  it('omits the thin language stubs (noindex, excluded from sitemap + IndexNow)', () =>
-    expect(contentByType('language')).toHaveLength(0));
-
   it('every URL ends with a trailing slash', () =>
     manifest.forEach(e => expect(e.url.endsWith('/')).toBe(true)));
 

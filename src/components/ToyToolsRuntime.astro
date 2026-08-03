@@ -19,6 +19,7 @@
 <script is:inline>
 (function (TT) {
   var _toastTimer;
+  var _urlTimer;
 
   // Engine readiness: this inline script runs during parse (so state/toast/copy are
   // available immediately), but analyze/formatMetric/runEncoding/etc. attach via a
@@ -464,20 +465,103 @@
     TT.toast('Copied!');
   };
 
+  // ── Favourites ────────────────────────────────────────────────────────
+  // Recents answer "where was I", favourites answer "the three tools I actually use". With a
+  // catalog this size the second question is the one that turns a visitor into a returning one.
+  // Slugs only, capped, never throws.
+  TT.favorites = {
+    KEY: 'toytools:favorites',
+    MAX: 50,
+    list: function () {
+      try {
+        var parsed = JSON.parse(localStorage.getItem(TT.favorites.KEY) || '[]');
+        return Object.prototype.toString.call(parsed) === '[object Array]' ? parsed : [];
+      } catch (_) { return []; }
+    },
+    has: function (slug) {
+      return TT.favorites.list().indexOf(slug) !== -1;
+    },
+    /** Adds or removes, returning the new state so a caller can paint without re-reading. */
+    toggle: function (slug) {
+      var list = TT.favorites.list();
+      var at = list.indexOf(slug);
+      if (at === -1) list.unshift(slug); else list.splice(at, 1);
+      if (list.length > TT.favorites.MAX) list.length = TT.favorites.MAX;
+      try { localStorage.setItem(TT.favorites.KEY, JSON.stringify(list)); } catch (_) {}
+      return at === -1;
+    }
+  };
+
+  // ── Shareable URL state ───────────────────────────────────────────────
+  // Putting a calculator's inputs in the address bar is what makes a result bookmarkable,
+  // reloadable and sendable to someone else. Two rules keep it from being a liability:
+  //
+  //  - replaceState only. pushState would turn every keystroke into a back-button trap.
+  //  - whether a tool may use this at all is decided at BUILD time (src/lib/url-state.ts) from
+  //    its engine/pattern and arrives as data-url-state on the widget. Nothing here can opt a
+  //    JWT decoder or a hash generator in, and the health tools are explicit-action only.
+  TT.url = {
+    MAX: 1500,
+    /** Current query as a plain object. */
+    read: function () {
+      var out = {};
+      try {
+        var params = new URLSearchParams(location.search);
+        params.forEach(function (v, k) { out[k] = v; });
+      } catch (_) {}
+      return out;
+    },
+    /** Absolute URL for these values, or null when it would be too long to survive being pasted. */
+    build: function (values) {
+      var qs;
+      try { qs = new URLSearchParams(); } catch (_) { return null; }
+      for (var k in values) {
+        var v = values[k];
+        if (v !== '' && v !== null && v !== undefined) qs.set(k, String(v));
+      }
+      var q = qs.toString();
+      // A silently truncated link is worse than no link: it looks like it worked.
+      if (q.length > TT.url.MAX) return null;
+      return location.origin + location.pathname + (q ? '?' + q : '');
+    },
+    /** Debounced replaceState. Auto-sync tools only; never call this from a manual-mode tool. */
+    write: function (values) {
+      clearTimeout(_urlTimer);
+      _urlTimer = setTimeout(function () {
+        var url = TT.url.build(values);
+        if (!url) return;
+        try { history.replaceState(null, '', url); } catch (_) {}
+      }, 300);
+    },
+    /**
+     * Hand the link to the OS share sheet where there is one (phones), otherwise the clipboard.
+     * This is the only path a manual-mode tool ever uses.
+     */
+    share: function (values, title) {
+      var url = TT.url.build(values);
+      if (!url) { TT.toast('Too much data to put in a link.'); return; }
+      if (navigator.share) {
+        navigator.share({ title: title || document.title, url: url }).catch(function () {});
+        return;
+      }
+      TT.copy(url);
+    }
+  };
+
   // ── Global keyboard shortcuts ─────────────────────────────────────────
-  // "/" focuses search; Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the
-  // primary Copy/Clear actions. Never hijacks normal typing (except Esc-to-blur).
+  // Esc blurs an active field; Ctrl/Cmd+Shift+C/X drive the primary Copy/Clear
+  // actions. Never hijacks normal typing (except Esc-to-blur).
+  //
+  // "/", Ctrl/Cmd+K and "?" are NOT here: they open the palette and the shortcut
+  // help, which live in the interaction-loaded chunk, so they are wired from the
+  // deferred half (src/lib/runtime/overlays.ts). "/" used to focus "#q", an
+  // element that only ever existed on the home page.
   function isTyping(el) {
     if (!el) return false;
     var tag = el.tagName;
     return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
   }
   document.addEventListener('keydown', function (e) {
-    if (e.key === '/' && !isTyping(document.activeElement) && !e.metaKey && !e.ctrlKey && !e.altKey) {
-      var q = document.getElementById('q');
-      if (q) { e.preventDefault(); q.focus(); }
-      return;
-    }
     if (e.key === 'Escape' && isTyping(document.activeElement)) {
       document.activeElement.blur();
       return;

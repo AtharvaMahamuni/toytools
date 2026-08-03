@@ -1,0 +1,129 @@
+---
+// Renders the committed CHANGELOG.md. The nav version badge has advertised "Alpha Version, major
+// UI revamp under progress" with nothing to click through to; this is where it goes.
+//
+// Parsed from the file at build time rather than copied, so `npm run version:bump` is the only
+// place a release is ever written down.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+import { parseChangelog, renderInline } from '@lib/changelog';
+import { APP_VERSION } from '@lib/version';
+
+const description =
+  'What has changed in ToyTools, release by release: new tools, engines, and fixes.';
+
+// Newest releases only. The file grows forever; the page should not.
+const MAX_RELEASES = 20;
+const source = readFileSync(join(process.cwd(), 'CHANGELOG.md'), 'utf8');
+const releases = parseChangelog(source).slice(0, MAX_RELEASES);
+const truncated = parseChangelog(source).length > releases.length;
+---
+
+<BaseLayout title={generatePageTitle('changelog')} description={description} maxWidth="tool">
+  <article class="page-doc">
+    <h1>Changelog</h1>
+    <p class="lede">{description}</p>
+    <p class="current">Currently running <code>{APP_VERSION}</code>.</p>
+
+    {releases.map((release) => (
+      <section class="release">
+        <h2>
+          {release.version}
+          <span class="release-date">{release.date}</span>
+        </h2>
+        {release.sections.map((section) => (
+          <div class="release-section">
+            <h3>{section.title}</h3>
+            <ul>
+              {section.items.map((item) => <li set:html={renderInline(item)} />)}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ))}
+
+    {truncated && (
+      <p class="note">Older releases are in <code>CHANGELOG.md</code> in the repository.</p>
+    )}
+
+    <p class="note">
+      Something here not working the way it reads?
+      <a href={withBase('/feedback/')}>Report it</a>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc {
+    padding: var(--space-10) 0 var(--space-12);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+  }
+
+  .current {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    margin-top: var(--space-2);
+  }
+
+  .release {
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .release h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+  }
+
+  .release-date {
+    font-family: var(--font-sans, inherit);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--color-text-subtle);
+  }
+
+  .release-section {
+    margin-top: var(--space-5);
+  }
+
+  .release-section h3 {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+  }
+
+  .release-section ul {
+    margin-top: var(--space-3);
+    padding-left: var(--space-5);
+  }
+
+  .release-section li {
+    margin-top: var(--space-2);
+    line-height: var(--line-height-relaxed, 1.7);
+  }
+
+  .note {
+    margin-top: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  .page-doc code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    background: var(--color-surface);
+    padding: 1px 4px;
+    border-radius: var(--radius-sm);
+  }
+</style>

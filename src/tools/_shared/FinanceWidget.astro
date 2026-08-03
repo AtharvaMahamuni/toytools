@@ -15,6 +15,7 @@ import { getFinanceCalculator } from '@lib/engines/finance/registry';
 import { financeExamplesFor } from '@lib/engines/finance/examples';
 import { SUPPORTED_CURRENCIES, groupingFor } from '@lib/inputs/currency';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
+import { urlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -32,6 +33,11 @@ const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
 const examples = financeExamplesFor(financeId).map((e) => e.inputs);
 const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your values to calculate, visualize milestones, and see what happens over time.';
+
+// "A shareable link to this calculation" is the most requested thing an online calculator does, and
+// finance inputs are impersonal amounts, so these auto-sync. The mode is decided at build time from
+// the registry, never here: see src/lib/url-state.ts.
+const urlMode = urlStateMode(config.engine, config.pattern);
 
 // Per-currency client metadata: tentative magnitude factor + the locale that drives grouping (Indian
 // for INR). The widget scales default amounts/presets to the active currency and formats chip labels
@@ -53,6 +59,7 @@ const currencyMeta = Object.fromEntries(
     data-slug={slug}
     data-defaults={JSON.stringify(defaults)}
     data-currency-meta={JSON.stringify(currencyMeta)}
+    data-url-state={urlMode}
   >
     <CurrencyInput slot="header-end" id={`${slug}-currency`} />
 
@@ -84,6 +91,9 @@ const currencyMeta = Object.fromEntries(
   )}
   {caps.undo && (
     <button class="action-btn" id={`${slug}-undo`} type="button" hidden>Undo</button>
+  )}
+  {urlMode !== 'off' && (
+    <button class="action-btn" id={`${slug}-share`} data-label="Copy link" type="button">Copy link</button>
   )}
   <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
 </div>
@@ -268,6 +278,24 @@ const currencyMeta = Object.fromEntries(
       ToyTools.experience.render(expRoot, res);
     }
 
+    // ── Shareable link ────────────────────────────────────────────────────────
+    // urlMode is decided at build time from the tool's engine/pattern (src/lib/url-state.ts) and
+    // arrives as an attribute; the client cannot widen it. Finance tools are "auto", so the
+    // address bar follows the inputs and a reload or a shared link reproduces the calculation.
+    var urlMode = root.getAttribute('data-url-state') || 'off';
+
+    /** Absolute field values (raw, unformatted) plus the display currency. */
+    function shareValues() {
+      var out = {};
+      if (currencyEl) out.currency = currencyEl.value;
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        var v = readValue(el);
+        if (v !== '' && v !== null && v !== undefined) out[el.getAttribute('data-field-id')] = v;
+      }
+      return out;
+    }
+
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
       var data = { currency: currencyEl ? currencyEl.value : 'USD', fields: {} };
@@ -275,6 +303,9 @@ const currencyMeta = Object.fromEntries(
         data.fields[fieldEls[i].getAttribute('data-field-id')] = { value: fieldEls[i].value, raw: fieldEls[i].getAttribute('data-raw') };
       }
       ToyTools.state.save(slug, data);
+      // Every mutation path in this widget ends in persist(), so syncing here covers typing,
+      // currency changes, preset chips, scenarios, undo and reset in one place.
+      if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
     }
 
     // Restore: currency from cross-tool prefs first, then per-tool saved state.
@@ -303,6 +334,29 @@ const currencyMeta = Object.fromEntries(
       }
       relabelPresets(prevCurrency);
     } catch (_) {}
+
+    // A shared link beats saved state: someone followed it to see THOSE numbers, not the ones
+    // they last typed. Values in the link are absolute and already in its currency, so they are
+    // applied as-is rather than scaled the way the USD-baseline scenario chips are.
+    if (urlMode !== 'off') {
+      try {
+        var incoming = (window.ToyTools && ToyTools.url) ? ToyTools.url.read() : {};
+        if (incoming.currency && currencyEl) {
+          currencyEl.value = incoming.currency;
+          prevCurrency = incoming.currency;
+          relabelPresets(prevCurrency);
+        }
+        var linkCode = currencyEl ? currencyEl.value : 'USD';
+        for (var uid in incoming) {
+          if (uid === 'currency') continue;
+          var uel = fieldById(uid);
+          if (!uel) continue;
+          var unum = parseFloat(incoming[uid]);
+          if (isCurrencyField(uel) && !isNaN(unum)) setMoney(uel, unum, linkCode);
+          else setField(uid, incoming[uid]);
+        }
+      } catch (_) {}
+    }
 
     // Field input -> recompute + persist.
     for (var i = 0; i < fieldEls.length; i++) {
@@ -365,6 +419,21 @@ const currencyMeta = Object.fromEntries(
         applyValues(values);
         run(); persist();
       });
+    });
+
+    // Copy link / share.
+    var shareBtn = document.getElementById(slug + '-share');
+    if (shareBtn) shareBtn.addEventListener('click', function () {
+      if (!(window.ToyTools && ToyTools.url)) return;
+      ToyTools.url.share(shareValues(), document.title);
+      if (!navigator.share) {
+        shareBtn.classList.add('is-success');
+        shareBtn.textContent = '✓ Link copied';
+        setTimeout(function () {
+          shareBtn.classList.remove('is-success');
+          shareBtn.textContent = 'Copy link';
+        }, 2000);
+      }
     });
 
     // Undo.

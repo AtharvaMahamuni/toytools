@@ -20,6 +20,11 @@ const feedbackUrl = withBase('/feedback/');
     <h1>Page not found</h1>
     <p class="message">That page doesn't exist or has been moved.</p>
     <a href={homeUrl} class="home-link">Take me home</a>
+    {/* Filled in from the attempted URL — a mistyped or dead tool link usually names the tool. */}
+    <section class="nf-suggestions" id="nf-suggestions" hidden>
+      <h2>Were you looking for one of these?</h2>
+      <ul id="nf-suggestion-list"></ul>
+    </section>
     <p class="suggest-notice">
       Looking for a tool that isn't here? <a href={feedbackUrl}>Suggest it</a>
     </p>
@@ -80,6 +85,32 @@ const feedbackUrl = withBase('/feedback/');
     text-decoration: none;
   }
 
+  .nf-suggestions {
+    margin-top: var(--space-8);
+    width: 100%;
+  }
+
+  .nf-suggestions h2 {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .nf-suggestions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .nf-suggestions li a {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-target);
+  }
+
   /* A dead end is the moment someone is most sure of what they wanted and least likely to
      find it, so it is worth one line asking them to say so. */
   .suggest-notice {
@@ -137,5 +168,40 @@ const feedbackUrl = withBase('/feedback/');
     ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (event) {
       window.addEventListener(event, cancel, { once: true, passive: true });
     });
+
+    // Suggestions arriving is itself a reason to stay put, so the countdown stops for them too.
+    window.addEventListener('tt:suggestions', cancel, { once: true });
   })();
+</script>
+
+{/*
+  A 404 almost always carries the answer in its own URL: "/tool/text/word-countr/" is one edit from
+  a real tool. Ranking the path against the catalog turns a dead end into a working link, using the
+  same index and scoring as the palette.
+*/}
+<script>
+  import { loadIndex, rankEntries, entryUrl } from '@lib/palette';
+
+  const section = document.getElementById('nf-suggestions');
+  const list = document.getElementById('nf-suggestion-list');
+
+  if (section && list) {
+    // The last meaningful path segment is the slug someone tried; hyphens become a normal query.
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const guess = (parts[parts.length - 1] ?? '').replace(/\.[a-z]+$/i, '').replace(/-/g, ' ');
+
+    if (guess) {
+      void loadIndex().then((index) => {
+        if (!index) return;
+        const hits = rankEntries(index.t, guess, 3);
+        if (!hits.length) return;
+
+        list.innerHTML = hits
+          .map((e) => `<li><a href="${entryUrl(index, e)}">${e.n.replace(/[&<>"]/g, '')}</a></li>`)
+          .join('');
+        section.hidden = false;
+        window.dispatchEvent(new Event('tt:suggestions'));
+      });
+    }
+  }
 </script>

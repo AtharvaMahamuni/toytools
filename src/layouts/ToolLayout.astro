@@ -3,6 +3,8 @@ import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
 import TrustNotice from '@components/tool/TrustNotice.astro';
 import InstallButton from '@tools/_shared/InstallButton.astro';
+import FavoriteButton from '@components/tool/FavoriteButton.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
 import FeedbackLink from '@components/feedback/FeedbackLink.astro';
 import { iconColors } from '@lib/icons/tool-icon';
 import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
@@ -52,11 +54,31 @@ const softwareSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
 
+  {/* The BreadcrumbList schema above has always been emitted here with no visible counterpart.
+      Guides and category pages already render this component; tool pages now match.
+
+      The star shares this row rather than taking one of its own. On the health calculators the
+      answer and its chart are required to land above the fold (tests/e2e/health.spec.ts), and a
+      second 48px row spent that budget: giving the star the empty right half of a row already
+      being drawn costs nothing extra. */}
+  <Breadcrumb
+    items={[
+      { label: 'Home', href: withBase('/') },
+      { label: category.name, href: withBase(`/category/${category.slug}/`) },
+      { label: tool.name },
+    ]}
+  />
+
   <div class="tool-header">
-    <h1>{tool.name}</h1>
+    <div class="tool-title-row">
+      <h1>{tool.name}</h1>
+      <FavoriteButton slug={tool.slug} name={tool.name} />
+    </div>
     <p class="tool-description">{tool.description}</p>
     <TrustNotice variant={tool.trustVariant ?? 'private'} />
-    <InstallButton toolName={tool.name} />
+    <div class="tool-header-actions">
+      <InstallButton toolName={tool.name} />
+    </div>
   </div>
 
   <slot />
@@ -75,6 +97,26 @@ const softwareSchema = {
     padding-bottom: var(--space-8);
     border-bottom: var(--border);
     margin-bottom: var(--space-8);
+  }
+
+  /* The star sits on the title line rather than in a row of its own. On the health calculators
+     the answer and its chart must land above the fold (tests/e2e/health.spec.ts), and a separate
+     48px row spent that budget; sharing a line the page already draws costs only the difference
+     between the heading's height and the button's. */
+  .tool-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .tool-title-row h1 {
+    min-width: 0;
+  }
+
+  /* InstallButton is mobile-only, so this collapses to nothing on desktop. */
+  .tool-header-actions:empty {
+    display: none;
   }
 
   h1 {

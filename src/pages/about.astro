@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+
+const description =
+  'ToyTools is a set of small, fast utilities that run entirely in your browser. No accounts, no uploads, no servers. Here is what it is and how it is built.';
+
+// Derived so the page cannot quietly go stale as the catalog grows.
+const toolCount = tools.length;
+const categoryCount = categories.length;
+const guideCount = tools.filter(t => t.guide !== undefined).length;
+---
+
+<BaseLayout title={generatePageTitle('about')} description={description} maxWidth="tool">
+  <article class="page-doc">
+    <h1>About ToyTools</h1>
+    <p class="lede">{description}</p>
+
+    <h2>What it is</h2>
+    <p>
+      {toolCount} utilities across {categoryCount} categories: counting and cleaning text, converting
+      and encoding data, working out money and dates, and a set of interactive physics and maths
+      playgrounds. Each one does a single job, opens instantly, and needs nothing from you before it
+      works. {guideCount} of them come with a written guide for the times the tool alone is not the
+      whole answer.
+    </p>
+
+    <h2>How it works</h2>
+    <p>
+      Every tool runs in your browser. There is no application server, no database and no account
+      system, which is not a limitation being worked around but the design: a utility that computes
+      a word count or a loan schedule has no business uploading your text or your salary to anyone.
+      It also means the tools stay fast, keep working offline, and can be installed to a phone's
+      home screen as their own app.
+    </p>
+    <p>
+      The site is generated ahead of time and served as static files, so what reaches your browser
+      is a page and a small amount of code, not a framework. Pages have a byte budget that the build
+      enforces; if a change makes a page heavier than its budget, the build fails rather than
+      quietly spending your bandwidth. What that costs and what it buys is in the
+      <a href={withBase('/privacy/')}>privacy page</a> and the
+      <a href={withBase('/architecture/')}>architecture map</a>.
+    </p>
+
+    <h2>How tools get chosen</h2>
+    <p>
+      Not by guessing. New tools are picked from evidence about what people are actually trying to
+      do and where the existing options are weak, and anything better served by a conversation with
+      an AI than by an exact algorithm is deliberately left alone. ToyTools is for the things with a
+      right answer: conversions, counts, calculations, simulations.
+    </p>
+    <p>
+      The most useful thing you can send is a problem rather than a feature request. If you keep
+      doing something by hand, that is worth knowing about.
+      <a href={withBase('/feedback/')}>Tell us what you were trying to do</a>.
+    </p>
+
+    <h2>Elsewhere on the site</h2>
+    <ul>
+      <li><a href={withBase('/architecture/')}>Architecture</a> — an interactive map of how the site is put together, generated from the catalog itself.</li>
+      <li><a href={withBase('/changelog/')}>Changelog</a> — what has changed, release by release.</li>
+      <li><a href={withBase('/privacy/')}>Privacy</a> — what is stored, what is sent, and what never leaves your device.</li>
+      <li><a href={withBase('/settings/')}>Settings</a> — export, import or delete everything the site has saved for you.</li>
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc {
+    padding: var(--space-10) 0 var(--space-12);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+  }
+
+  .page-doc h2 {
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .page-doc p,
+  .page-doc ul {
+    margin-top: var(--space-4);
+    line-height: var(--line-height-relaxed, 1.7);
+  }
+
+  .page-doc ul {
+    padding-left: var(--space-5);
+  }
+
+  .page-doc li {
+    margin-top: var(--space-2);
+  }
+</style>

@@ -49,11 +49,6 @@ describe('generatePageTitle', () => {
     expect(title.length).toBeGreaterThan(0);
   });
 
-  it('language — includes language name', () => {
-    const title = generatePageTitle('language', 'Python');
-    expect(title).toContain('Python');
-  });
-
   it('tool and guide titles differ for same name', () => {
     expect(generatePageTitle('tool', 'Word Counter')).not.toBe(generatePageTitle('guide', 'Word Counter'));
   });
@@ -88,9 +83,5 @@ describe('generatePageTitle', () => {
 
   it('exact notFound title format', () => {
     expect(generatePageTitle('notFound')).toBe('Page Not Found ● ToyTools');
-  });
-
-  it('exact language title format', () => {
-    expect(generatePageTitle('language', 'Python')).toBe('ToyTools Python');
   });
 });

@@ -15,6 +15,7 @@ import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro'
 import { getWellnessCalculator } from '@lib/engines/wellness/registry';
 import { wellnessExamplesFor } from '@lib/engines/wellness/examples';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
+import { urlStateMode } from '@lib/url-state';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -25,6 +26,10 @@ interface Props {
 }
 
 const { slug, wellnessId, config, emptyText } = Astro.props;
+
+// Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
+// "auto" syncs the address bar as you type; "manual" only builds a link when asked.
+const urlMode = urlStateMode(config.engine, config.pattern);
 const tool = getWellnessCalculator(wellnessId);
 const fields = tool?.fields ?? [];
 const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
@@ -40,6 +45,7 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     variant="prose"
     data-wellness={wellnessId}
     data-slug={slug}
+    data-url-state={urlMode}
     data-defaults={JSON.stringify(defaults)}
     data-produces={JSON.stringify(tool?.produces ?? [])}
     data-consumes={JSON.stringify(tool?.consumes ?? [])}
@@ -66,6 +72,9 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
   <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
   {caps.loadExample && examples.length > 0 && (
     <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+  )}
+  {urlMode !== 'off' && (
+    <button class="action-btn" id={`${slug}-share`} data-label="Copy link" type="button">Copy link</button>
   )}
   <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
 </div>
@@ -227,6 +236,21 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       }
     }
 
+    // ── Shareable link ────────────────────────────────────────────────────────
+    // The mode arrives as an attribute and is decided at build time; the client cannot widen it.
+    var urlMode = root.getAttribute('data-url-state') || 'off';
+
+    /** Current field values, raw and unformatted, for a link. */
+    function shareValues() {
+      var out = {};
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        var v = readValue(el);
+        if (v !== '' && v !== null && v !== undefined) out[el.getAttribute('data-field-id')] = v;
+      }
+      return out;
+    }
+
     function persist() {
       if (!(window.ToyTools && ToyTools.state)) return;
       var data = { fields: {}, history: history };
@@ -234,6 +258,8 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
         data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
       }
       ToyTools.state.save(slug, data);
+      // Every mutation path ends in persist(), so one call here covers typing, presets and reset.
+      if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
     }
 
     function applyValues(values) {
@@ -294,6 +320,14 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       for (var id in savedFields) setField(id, savedFields[id]);
     } catch (_) {}
 
+    // A shared link beats saved state: someone followed it to see THOSE values.
+    if (urlMode !== 'off') {
+      try {
+        var incoming = (window.ToyTools && ToyTools.url) ? ToyTools.url.read() : {};
+        for (var uid in incoming) if (fieldById(uid)) setField(uid, incoming[uid]);
+      } catch (_) {}
+    }
+
     var filledFromProfile = [];
     var derivedNotes = [];
     try {
@@ -335,6 +369,21 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       fieldEls[i].addEventListener('change', function () { run(); persist(); saveProfile(); });
       fieldEls[i].addEventListener('input', function () { run(); persist(); saveProfile(); });
     }
+
+    // Copy link / share.
+    var shareBtn = document.getElementById(slug + '-share');
+    if (shareBtn) shareBtn.addEventListener('click', function () {
+      if (!(window.ToyTools && ToyTools.url)) return;
+      ToyTools.url.share(shareValues(), document.title);
+      if (!navigator.share) {
+        shareBtn.classList.add('is-success');
+        shareBtn.textContent = '✓ Link copied';
+        setTimeout(function () {
+          shareBtn.classList.remove('is-success');
+          shareBtn.textContent = 'Copy link';
+        }, 2000);
+      }
+    });
 
     // Reset to defaults (two-tap confirm).
     var resetBtn = document.getElementById(slug + '-reset');

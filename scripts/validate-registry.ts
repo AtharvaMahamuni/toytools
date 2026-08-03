@@ -1,5 +1,6 @@
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
+import { searchAliases } from '../src/data/search-aliases';
 import { engineIds, knownPatterns, getEngine, engineRegistry } from '../src/data/engines';
 import { ENGINE_GLOBALS, RUNTIME_ENGINE_IDS } from '../src/lib/runtime/loaders';
 import { readFileSync, existsSync } from 'node:fs';
@@ -208,7 +209,7 @@ for (const manifest of MANIFESTS) {
   const CORE_GLOBALS = new Set([
     // Defined by the inline half of ToyToolsRuntime.astro — always present, no chunk needed.
     'ready', '_readyCbs', 'onReady', 'track', 'toast', 'storage', 'state', 'data', 'profile',
-    'prefs', 'history', 'recordRecent', 'getRecent', 'focus', 'mobileTooltip', 'copy',
+    'prefs', 'history', 'recordRecent', 'getRecent', 'focus', 'mobileTooltip', 'copy', 'url',
   ]);
   const usedGlobals = (file: string): string[] => {
     if (!existsSync(file)) return [];
@@ -254,6 +255,31 @@ for (const manifest of MANIFESTS) {
   for (const id of RUNTIME_ENGINE_IDS) {
     if (!ENGINE_GLOBALS[id]) {
       errors.push(`ENGINE_LOADERS has "${id}" but ENGINE_GLOBALS does not list what it attaches — validators cannot check widgets against it`);
+    }
+  }
+}
+
+// ── Search aliases ────────────────────────────────────────────────────────────
+// Aliases are the vocabulary layer over the catalog (src/data/search-aliases.ts). A key that is
+// not a slug silently does nothing, and one phrase claimed by two tools makes ranking arbitrary,
+// so both are build failures rather than quiet dead weight.
+{
+  const slugs = new Set(tools.map(t => t.slug));
+  const owner = new Map<string, string>();
+  for (const [slug, phrases] of Object.entries(searchAliases)) {
+    if (!slugs.has(slug)) {
+      errors.push(`search-aliases: "${slug}" is not a registered tool slug — remove it or fix the spelling`);
+    }
+    for (const phrase of phrases) {
+      if (phrase !== phrase.trim().toLowerCase()) {
+        errors.push(`search-aliases: "${phrase}" (${slug}) must be lowercase and trimmed — the index never sees it otherwise`);
+      }
+      const existing = owner.get(phrase);
+      if (existing) {
+        errors.push(`search-aliases: "${phrase}" is claimed by both "${existing}" and "${slug}" — one phrase, one tool`);
+      } else {
+        owner.set(phrase, slug);
+      }
     }
   }
 }

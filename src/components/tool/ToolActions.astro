@@ -1,4 +1,6 @@
 ---
+import { allowsUrlState } from '@lib/url-state';
+
 interface Props {
   copyTarget?: string;
   clearTarget?: string;
@@ -8,11 +10,20 @@ interface Props {
   // single-textarea tools (input doubles as the editable content); engine
   // widgets with a separate output element should pass it explicitly.
   downloadTarget?: string;
+  // Render the "Copy link" / "Share" action. Pass the tool's engine and pattern and the
+  // build-time policy decides; never pass a hardcoded true. On a tool whose input may be a
+  // secret the button is not rendered at all — not disabled, absent.
+  shareEngine?: string;
+  sharePattern?: string;
 }
 
-const { copyTarget, clearTarget, pasteTarget, downloadFilename, downloadTarget } = Astro.props;
+const {
+  copyTarget, clearTarget, pasteTarget, downloadFilename, downloadTarget,
+  shareEngine, sharePattern,
+} = Astro.props;
 const resolvedDownloadTarget = downloadTarget || clearTarget;
-const hasAny = copyTarget || clearTarget || pasteTarget;
+const canShare = (shareEngine || sharePattern) ? allowsUrlState(shareEngine, sharePattern) : false;
+const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
 ---
 
 {hasAny && (
@@ -48,6 +59,16 @@ const hasAny = copyTarget || clearTarget || pasteTarget;
         aria-label="Clear text"
       >
         Clear
+      </button>
+    )}
+    {canShare && (
+      <button
+        class="action-btn action-btn--share"
+        data-action="share"
+        data-label="Copy link"
+        aria-label="Copy a link to this result"
+      >
+        Copy link
       </button>
     )}
     {downloadFilename && resolvedDownloadTarget && (
@@ -114,6 +135,18 @@ const hasAny = copyTarget || clearTarget || pasteTarget;
       if (!target.value.trim()) { TT?.toast('Nothing to copy!'); return; }
       TT?.copy(target.value);
       arm(btn, 'is-success', '✓ Copied', 2000);
+      return;
+    }
+
+    // The values come from the widget, not the DOM: only the widget knows which of its fields
+    // are worth sharing. It registers ToyTools.url.provider; without one there is nothing to share.
+    if (action === 'share') {
+      const provider = TT?.url?.provider;
+      const values = typeof provider === 'function' ? provider() : null;
+      if (!values || !Object.keys(values).length) { TT?.toast('Nothing to link to yet.'); return; }
+      TT.url.share(values, document.title);
+      // navigator.share opens the OS sheet and says so itself; the clipboard path needs feedback.
+      if (!navigator.share) arm(btn, 'is-success', '✓ Link copied', 2000);
       return;
     }
 
