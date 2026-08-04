@@ -27,11 +27,12 @@ test.describe('homepage directory', () => {
     // All tools, with every tool group collapsed to a single entry:
     //   −6 case converters (7→1), −2 JSON tools (3→1), −1 JSON↔YAML (2→1), −1 JSON↔CSV (2→1),
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
-    //   −8 text counters (9→1).
-    // 114 tools − 39 grouped-collapse = 75 directory links (finance, generator, physics, applied-math,
-    // calculator, date/time, the 9 health-fitness tools, and the 5 design tools are not grouped;
-    // physics has 11 manifest-driven simulators and applied-math five wave-2 tools beside unit-circle).
-    await expect(directory.locator('.dir-link')).toHaveCount(75);
+    //   −8 text counters (9→1), −10 health calculators (11→1), −2 daily trackers (3→1),
+    //   −5 growth calculators (6→1), −5 everyday calculators (6→1).
+    // 119 tools − 61 grouped-collapse = 58 directory links (generator, physics, applied-math,
+    // date/time, scientific-calculator and the 5 design tools stay ungrouped; physics has 11
+    // manifest-driven simulators and applied-math five wave-2 tools beside unit-circle).
+    await expect(directory.locator('.dir-link')).toHaveCount(58);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

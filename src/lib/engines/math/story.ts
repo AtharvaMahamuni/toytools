@@ -26,9 +26,9 @@ export const MATH_TOOL_PATH: Record<string, string> = {
   'fraction-calculator': '/tool/math/fraction-calculator/',
   'combinations-permutations-calculator': '/tool/math/combinations-permutations-calculator/',
   'prime-factorization-calculator': '/tool/math/prime-factorization-calculator/',
-  'probability-simulator': '/tool/math/probability-simulator/',
-  'unit-circle-explorer': '/tool/math/unit-circle-explorer/',
-  'quadratic-equation-explorer': '/tool/math/quadratic-equation-explorer/',
+  'probability-calculator': '/tool/math/probability-calculator/',
+  'unit-circle-calculator': '/tool/math/unit-circle-calculator/',
+  'quadratic-equation-solver': '/tool/math/quadratic-equation-solver/',
 };
 
 /** A decision linking to a sibling math tool, or null when that tool has not shipped yet. */

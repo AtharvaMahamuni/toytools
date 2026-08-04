@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   engine: 'finance',
   pattern: 'finance-growth',
   family: 'interest',
+  toolGroup: 'growth-calculators',
   processorId: 'roi',
   relatedTools: ['cagr-calculator', 'compound-interest-calculator', 'inflation-calculator'],
   guide: {

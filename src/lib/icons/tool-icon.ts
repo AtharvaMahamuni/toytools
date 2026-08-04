@@ -48,6 +48,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   cardio: 'heartPulse',
   energy: 'flame',
   nutrition: 'pie',
+  'fitness-performance': 'chartUp',
   habit: 'droplet',
   measurement: 'scaleLine',
   // date-time
@@ -164,6 +165,9 @@ const SLUG_GLYPH: Record<string, string> = {
   'tdee-calculator': 'flame',
   'macro-calculator': 'pie',
   'heart-rate-zone-calculator': 'heartPulse',
+  'running-pace-calculator': 'footsteps',
+  'bmr-calculator': 'gauge',
+  'protein-intake-calculator': 'pie',
 
   // generate — flagships
   'qr-code-generator': 'qr',

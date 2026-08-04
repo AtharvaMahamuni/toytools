@@ -8,8 +8,8 @@ import heatTransfer from './heat-transfer';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Heat Transfer Simulator',
-    slug: 'heat-transfer-simulator',
+    title: 'Heat Transfer Calculator',
+    slug: 'heat-transfer-calculator',
     processorId: 'heat-transfer',
     domain: 'physics',
     category: 'physics',
@@ -74,13 +74,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Heat Transfer Simulator: Watch Blocks Reach Equilibrium',
+    title: 'Heat Transfer Calculator: Watch Blocks Reach Equilibrium',
     description:
       'Watch heat flow from a hot block to a cold one until they reach the same temperature. Drag a block to set its heat and see equilibrium happen live.',
     keywords: ['heat transfer', 'thermal equilibrium', 'conduction', 'heat flow', 'temperature', 'thermodynamics'],
   },
   presentation: {
-    tags: ['heat transfer', 'thermal equilibrium', 'conduction', 'heat flow', 'temperature', 'thermodynamics', 'newton cooling', 'heat simulator'],
+    tags: ['heat transfer calculator', 'heat transfer', 'thermal equilibrium', 'conduction', 'heat flow', 'temperature', 'thermodynamics', 'newton cooling', 'heat simulator'],
     updatedAt: '2026-07-09',
     isNew: true,
     trustVariant: 'offline',

@@ -9,8 +9,8 @@ import inclinedPlane from './inclined-plane';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Inclined Plane Simulator',
-    slug: 'inclined-plane-simulator',
+    title: 'Inclined Plane Calculator',
+    slug: 'inclined-plane-calculator',
     processorId: 'inclined-plane',
     domain: 'physics',
     category: 'physics',
@@ -75,7 +75,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Inclined Plane Simulator: Forces on a Ramp',
+    title: 'Inclined Plane Calculator: Forces on a Ramp',
     description:
       'Watch a block on a ramp slide or hold still. Set the angle, mass, and friction and see the force components and acceleration a = g(sinθ - μcosθ) live.',
     keywords: ['inclined plane', 'ramp physics', 'friction', 'normal force', 'components of gravity', 'inclined plane calculator'],

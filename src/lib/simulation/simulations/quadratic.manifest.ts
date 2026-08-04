@@ -9,8 +9,8 @@ import quadratic from './quadratic';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Quadratic Equation Explorer',
-    slug: 'quadratic-equation-explorer',
+    title: 'Quadratic Equation Solver',
+    slug: 'quadratic-equation-solver',
     processorId: 'quadratic',
     domain: 'math-lab',
     category: 'applied-math',
@@ -86,7 +86,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Quadratic Equation Explorer: Roots & Parabola',
+    title: 'Quadratic Equation Solver: Roots & Parabola',
     description:
       'Solve ax² + bx + c = 0 visually. Slide the coefficients or drag the vertex and watch the roots, discriminant, and axis of symmetry update on a live parabola.',
     keywords: ['quadratic formula', 'quadratic equation solver', 'discriminant', 'parabola', 'vertex form', 'axis of symmetry'],

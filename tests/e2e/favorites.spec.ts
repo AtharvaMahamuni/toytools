@@ -44,12 +44,14 @@ test.describe('favourites', () => {
   test('a favourite is not repeated in the recent row', async ({ page }) => {
     await page.goto('/tool/text/reverse-text/');
     await page.locator('[data-favorite="reverse-text"]').click();
-    await page.goto('/tool/number/tip-calculator/');
+    // Scientific Calculator is deliberately ungrouped, so it surfaces under its own name here
+    // (a grouped tool would collapse to its group entry, which is the next test's subject).
+    await page.goto('/tool/number/scientific-calculator/');
 
     await page.goto('/');
     await expect(page.locator('#favorite-chips').getByRole('link', { name: 'Reverse Text' })).toBeVisible();
     await expect(page.locator('#recent-chips').getByRole('link', { name: 'Reverse Text' })).toHaveCount(0);
-    await expect(page.locator('#recent-chips').getByRole('link', { name: 'Tip Calculator' })).toBeVisible();
+    await expect(page.locator('#recent-chips').getByRole('link', { name: 'Scientific Calculator' })).toBeVisible();
   });
 
   test('favourites lead the palette before anything is typed', async ({ page }) => {

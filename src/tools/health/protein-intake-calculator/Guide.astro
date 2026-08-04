@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How much protein a day the guidelines support scales with body weight and with what you are
+      asking your muscles to do. This daily protein calculator, or
+      protein requirement calculator, applies protein per kg from the ISSN and ACSM position
+      stands: 0.8 to 1.0 for general health, 1.2 to 1.6 when active, 1.6 to 2.2 when strength
+      training, and up to 2.4 while losing fat. To calculate daily protein from body weight and
+      training goal for a 70 kg person, that is roughly 56
+      grams of protein per day at the low end and 168 at the high one. The answer is a range rather
+      than a number because the research reports ranges,
+      and the per-meal split matters too: protein distribution across the day drives muscle protein
+      synthesis more than the daily total alone.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Protein Intake Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How It Works: Setting Protein Needs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Protein does two jobs at once: it supplies amino acids for building and repairing tissue, and
+      it protects existing muscle when energy is short. Both scale with how much tissue you carry and
+      how much damage you are doing to it, which is why the recommendation is written per kilogram of
+      body weight rather than as a flat number. Training raises the requirement because repair
+      demand rises. Dieting raises it again, because the body will otherwise meet part of its energy
+      need from muscle.
+    </p>
+  </section>
+
+  <section id="the-rda-trap">
+    <h2>The RDA Is a Floor, Not a Target <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The recommended dietary allowance of 0.8 g per kilogram is widely quoted as the amount a person
+      needs, which is a misreading. It is the intake that prevents deficiency in most sedentary
+      adults: the point below which something goes wrong, not the point above which nothing improves.
+      Trials in trained people consistently find better outcomes between 1.6 and 2.2 g per kilogram,
+      and the gap between the two figures is why so much protein advice appears to contradict itself.
+    </p>
+  </section>
+
+  <section id="distribution">
+    <h2>Spreading It Across Meals <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Muscle protein synthesis responds per meal, and the response saturates at roughly 0.4 g per
+      kilogram in a sitting. Past that, the extra is still used, but for energy rather than for
+      building. So 140 g eaten as four meals of 35 g stimulates more total synthesis than 40 g at
+      lunch and 100 g at dinner, even though the daily total is identical. The calculator shows the
+      per-meal figure next to the daily one so the plan is actionable rather than aspirational.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Total body weight versus lean mass as the basis">
+      <p>These figures use total body weight, which is what the guidelines and most calculators do. If you carry a lot of fat, applying the same grams per kilogram to lean body mass gives a tighter and more realistic target.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>70 kg, strength training, three meals.</strong> For example, the range is 112 to 154 g a day, a midpoint of 133 g, which is about 44 g in each meal.</p>
+    <p><strong>60 kg, mostly sedentary, three meals.</strong> For example, the range is 48 to 60 g, a midpoint of 54 g, roughly 18 g a meal, which one serving of most protein foods covers.</p>
+    <p><strong>85 kg, losing fat, four meals.</strong> For example, the range is 153 to 204 g, a midpoint of 179 g, about 45 g a meal, and 716 of the day's calories come from protein alone.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Back-loading protein to dinner">
+      <p>
+        A single large evening serving hits the daily total but wastes most of the extra above the
+        per-meal saturation point. Moving 30 g of it to breakfast changes nothing about the total and
+        adds a second full synthesis response to the day.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Using a training figure for a sedentary week">
+      <p>
+        The strength band assumes you are actually lifting. Applying 2 g per kilogram during a month
+        off displaces carbohydrate and fat without any repair demand to justify it. Match the goal
+        setting to the week you are really having.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="More is not better past the range">
+      <p>Intakes up to about 2 g per kilogram have not been shown to harm healthy kidneys, and controlled trials at higher intakes found no adverse markers. The limit is practical: past the top of your band, extra protein simply crowds out other food. Anyone with existing kidney disease should follow medical advice instead. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

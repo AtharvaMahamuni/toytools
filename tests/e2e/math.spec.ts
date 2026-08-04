@@ -4,7 +4,7 @@
 // slug to the boot list below (the math twin of physics.spec.ts).
 import { test, expect, type Page, type Locator } from '@playwright/test';
 
-const UNIT_CIRCLE = '/tool/math/unit-circle-explorer/';
+const UNIT_CIRCLE = '/tool/math/unit-circle-calculator/';
 
 function guardConsole(page: Page): string[] {
   const errors: string[] = [];
@@ -16,7 +16,7 @@ function guardConsole(page: Page): string[] {
 }
 
 test.describe('every math tool', () => {
-  for (const slug of ['unit-circle-explorer', 'quadratic-equation-explorer', 'probability-simulator']) {
+  for (const slug of ['unit-circle-calculator', 'quadratic-equation-solver', 'probability-calculator']) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
       await page.goto(`/tool/math/${slug}/`);
@@ -89,7 +89,7 @@ test.describe('prime factorization calculator (math engine)', () => {
 
 test.describe('probability lab', () => {
   test('accumulates trials while playing and the empirical frequency updates', async ({ page }) => {
-    await page.goto('/tool/math/probability-simulator/');
+    await page.goto('/tool/math/probability-calculator/');
     const trials = page.locator('[data-measurement="trials"]');
     // Autoplay runs 8 trials/s — the counter leaves 0 almost immediately.
     await expect(trials).not.toHaveText('0');

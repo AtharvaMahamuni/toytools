@@ -134,7 +134,7 @@ export const fractionCalculator: MathCalculator = {
       ],
       decisions: decisions([
         toolDecision('Factor the GCF and LCM behind the simplification', 'prime-factorization-calculator'),
-        toolDecision('Explore another applied-math tool', 'quadratic-equation-explorer'),
+        toolDecision('Explore another applied-math tool', 'quadratic-equation-solver'),
       ]),
       nextQuestions: ['What is the LCD of two denominators?', 'How do I simplify a fraction by hand?'],
       explanation:

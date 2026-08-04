@@ -253,11 +253,12 @@
       "sharedWidget": "src/tools/_shared/WellnessWidget.astro",
       "supportedFamilies": [
         "body-composition",
+        "energy",
         "cardio",
         "nutrition",
-        "energy"
+        "fitness-performance"
       ],
-      "toolCount": 6
+      "toolCount": 11
     },
     "tracker": {
       "name": "Tracker Engine",
@@ -385,6 +386,52 @@
         "remove-emoji"
       ]
     },
+    "body-metrics": {
+      "name": "Health Calculator",
+      "members": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "tdee-calculator",
+        "calorie-deficit-calculator",
+        "macro-calculator",
+        "protein-intake-calculator",
+        "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator"
+      ]
+    },
+    "health-trackers": {
+      "name": "Daily Tracker",
+      "members": [
+        "water-intake-tracker",
+        "body-weight-tracker",
+        "move-today-tracker"
+      ]
+    },
+    "growth-calculators": {
+      "name": "Growth Calculator",
+      "members": [
+        "compound-interest-calculator",
+        "sip-calculator",
+        "cagr-calculator",
+        "roi-calculator",
+        "rule-of-72-calculator",
+        "inflation-calculator"
+      ]
+    },
+    "everyday-calculators": {
+      "name": "Everyday Calculator",
+      "members": [
+        "percentage-calculator",
+        "discount-calculator",
+        "tip-calculator",
+        "tax-calculator",
+        "margin-calculator",
+        "markup-calculator"
+      ]
+    },
     "case-converters": {
       "name": "Case Converter",
       "members": [
@@ -399,11 +446,11 @@
     }
   },
   "tools": {
-    "projectile-motion-simulator": {
-      "name": "Projectile Motion Simulator",
-      "dir": "src/tools/physics/projectile-motion-simulator",
+    "projectile-motion-calculator": {
+      "name": "Projectile Motion Calculator",
+      "dir": "src/tools/physics/projectile-motion-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/projectile-motion-simulator/",
+      "url": "/tool/physics/projectile-motion-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "mechanics",
@@ -414,11 +461,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "wave-speed-simulator": {
-      "name": "Wave Speed Simulator",
-      "dir": "src/tools/physics/wave-speed-simulator",
+    "wave-speed-calculator": {
+      "name": "Wave Speed Calculator",
+      "dir": "src/tools/physics/wave-speed-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/wave-speed-simulator/",
+      "url": "/tool/physics/wave-speed-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "waves",
@@ -429,11 +476,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "frequency-period-simulator": {
-      "name": "Frequency & Period Simulator",
-      "dir": "src/tools/physics/frequency-period-simulator",
+    "frequency-period-calculator": {
+      "name": "Frequency and Period Calculator",
+      "dir": "src/tools/physics/frequency-period-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/frequency-period-simulator/",
+      "url": "/tool/physics/frequency-period-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "oscillations",
@@ -444,11 +491,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "pendulum-simulator": {
-      "name": "Pendulum Simulator",
-      "dir": "src/tools/physics/pendulum-simulator",
+    "pendulum-period-calculator": {
+      "name": "Pendulum Period Calculator",
+      "dir": "src/tools/physics/pendulum-period-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/pendulum-simulator/",
+      "url": "/tool/physics/pendulum-period-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "oscillations",
@@ -459,11 +506,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "heat-transfer-simulator": {
-      "name": "Heat Transfer Simulator",
-      "dir": "src/tools/physics/heat-transfer-simulator",
+    "heat-transfer-calculator": {
+      "name": "Heat Transfer Calculator",
+      "dir": "src/tools/physics/heat-transfer-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/heat-transfer-simulator/",
+      "url": "/tool/physics/heat-transfer-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "thermodynamics",
@@ -474,11 +521,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "ohms-law-simulator": {
-      "name": "Ohm's Law Simulator",
-      "dir": "src/tools/physics/ohms-law-simulator",
+    "ohms-law-calculator": {
+      "name": "Ohm's Law Calculator",
+      "dir": "src/tools/physics/ohms-law-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/ohms-law-simulator/",
+      "url": "/tool/physics/ohms-law-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "electricity",
@@ -489,11 +536,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "shm-spring-simulator": {
-      "name": "Mass on a Spring Simulator",
-      "dir": "src/tools/physics/shm-spring-simulator",
+    "simple-harmonic-motion-calculator": {
+      "name": "Simple Harmonic Motion Calculator",
+      "dir": "src/tools/physics/simple-harmonic-motion-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/shm-spring-simulator/",
+      "url": "/tool/physics/simple-harmonic-motion-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "oscillations",
@@ -504,11 +551,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "ideal-gas-law-simulator": {
-      "name": "Ideal Gas Law Simulator",
-      "dir": "src/tools/physics/ideal-gas-law-simulator",
+    "ideal-gas-law-calculator": {
+      "name": "Ideal Gas Law Calculator",
+      "dir": "src/tools/physics/ideal-gas-law-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/ideal-gas-law-simulator/",
+      "url": "/tool/physics/ideal-gas-law-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "thermodynamics",
@@ -519,11 +566,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "momentum-collision-simulator": {
-      "name": "Momentum Collision Simulator",
-      "dir": "src/tools/physics/momentum-collision-simulator",
+    "momentum-collision-calculator": {
+      "name": "Momentum and Collision Calculator",
+      "dir": "src/tools/physics/momentum-collision-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/momentum-collision-simulator/",
+      "url": "/tool/physics/momentum-collision-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "mechanics",
@@ -534,11 +581,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "inclined-plane-simulator": {
-      "name": "Inclined Plane Simulator",
-      "dir": "src/tools/physics/inclined-plane-simulator",
+    "inclined-plane-calculator": {
+      "name": "Inclined Plane Calculator",
+      "dir": "src/tools/physics/inclined-plane-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/inclined-plane-simulator/",
+      "url": "/tool/physics/inclined-plane-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "mechanics",
@@ -549,11 +596,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "doppler-effect-simulator": {
-      "name": "Doppler Effect Simulator",
-      "dir": "src/tools/physics/doppler-effect-simulator",
+    "doppler-effect-calculator": {
+      "name": "Doppler Effect Calculator",
+      "dir": "src/tools/physics/doppler-effect-calculator",
       "categorySlug": "physics",
-      "url": "/tool/physics/doppler-effect-simulator/",
+      "url": "/tool/physics/doppler-effect-calculator/",
       "engine": "physics",
       "pattern": "simulate",
       "family": "waves",
@@ -564,11 +611,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "unit-circle-explorer": {
-      "name": "Unit Circle Explorer",
-      "dir": "src/tools/math/unit-circle-explorer",
+    "unit-circle-calculator": {
+      "name": "Unit Circle Calculator",
+      "dir": "src/tools/math/unit-circle-calculator",
       "categorySlug": "applied-math",
-      "url": "/tool/math/unit-circle-explorer/",
+      "url": "/tool/math/unit-circle-calculator/",
       "engine": "math-lab",
       "pattern": "simulate",
       "family": "trigonometry",
@@ -579,11 +626,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "quadratic-equation-explorer": {
-      "name": "Quadratic Equation Explorer",
-      "dir": "src/tools/math/quadratic-equation-explorer",
+    "quadratic-equation-solver": {
+      "name": "Quadratic Equation Solver",
+      "dir": "src/tools/math/quadratic-equation-solver",
       "categorySlug": "applied-math",
-      "url": "/tool/math/quadratic-equation-explorer/",
+      "url": "/tool/math/quadratic-equation-solver/",
       "engine": "math-lab",
       "pattern": "simulate",
       "family": "algebra",
@@ -594,11 +641,11 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
-    "probability-simulator": {
-      "name": "Probability Lab",
-      "dir": "src/tools/math/probability-simulator",
+    "probability-calculator": {
+      "name": "Probability Calculator",
+      "dir": "src/tools/math/probability-calculator",
       "categorySlug": "applied-math",
-      "url": "/tool/math/probability-simulator/",
+      "url": "/tool/math/probability-calculator/",
       "engine": "math-lab",
       "pattern": "simulate",
       "family": "probability",
@@ -702,7 +749,28 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "bmi",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "bmr-calculator": {
+      "name": "BMR Calculator",
+      "dir": "src/tools/health/bmr-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/bmr-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "energy",
+      "processorId": "bmr",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -723,7 +791,7 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "body-fat",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -744,7 +812,7 @@
       "pattern": "health-track",
       "family": "measurement",
       "processorId": "body-weight",
-      "toolGroup": "",
+      "toolGroup": "health-trackers",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -765,7 +833,28 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "cagr",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "calorie-deficit-calculator": {
+      "name": "Calorie Deficit Calculator",
+      "dir": "src/tools/health/calorie-deficit-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/calorie-deficit-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "energy",
+      "processorId": "calorie-deficit",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -891,7 +980,7 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "compound-interest",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1059,7 +1148,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1143,7 +1232,7 @@
       "pattern": "health-calculate",
       "family": "cardio",
       "processorId": "heart-rate-zones",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1206,7 +1295,7 @@
       "pattern": "health-calculate",
       "family": "body-composition",
       "processorId": "ideal-weight",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1227,7 +1316,7 @@
       "pattern": "finance-growth",
       "family": "inflation",
       "processorId": "inflation",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1542,7 +1631,7 @@
       "pattern": "health-calculate",
       "family": "nutrition",
       "processorId": "macro",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1563,7 +1652,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1584,7 +1673,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1626,7 +1715,7 @@
       "pattern": "health-track",
       "family": "habit",
       "processorId": "move-today",
-      "toolGroup": "",
+      "toolGroup": "health-trackers",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1669,6 +1758,27 @@
       "family": "note",
       "processorId": "",
       "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "one-rep-max-calculator": {
+      "name": "One Rep Max Calculator",
+      "dir": "src/tools/health/one-rep-max-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/one-rep-max-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "fitness-performance",
+      "processorId": "one-rep-max",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1731,7 +1841,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1774,6 +1884,27 @@
       "family": "number-theory",
       "processorId": "prime-factorization",
       "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "protein-intake-calculator": {
+      "name": "Protein Intake Calculator",
+      "dir": "src/tools/health/protein-intake-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/protein-intake-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "nutrition",
+      "processorId": "protein-intake",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2088,7 +2219,7 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "roi",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2130,7 +2261,28 @@
       "pattern": "finance-growth",
       "family": "interest",
       "processorId": "rule-of-72",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "running-pace-calculator": {
+      "name": "Running Pace Calculator",
+      "dir": "src/tools/health/running-pace-calculator",
+      "categorySlug": "health-fitness",
+      "url": "/tool/health/running-pace-calculator/",
+      "engine": "wellness",
+      "pattern": "health-calculate",
+      "family": "fitness-performance",
+      "processorId": "running-pace",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2298,7 +2450,7 @@
       "pattern": "finance-growth",
       "family": "savings",
       "processorId": "sip",
-      "toolGroup": "",
+      "toolGroup": "growth-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2382,7 +2534,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2403,7 +2555,7 @@
       "pattern": "health-calculate",
       "family": "energy",
       "processorId": "tdee",
-      "toolGroup": "",
+      "toolGroup": "body-metrics",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2466,7 +2618,7 @@
       "pattern": "calculate",
       "family": "arithmetic",
       "processorId": "",
-      "toolGroup": "",
+      "toolGroup": "everyday-calculators",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2634,7 +2786,7 @@
       "pattern": "health-track",
       "family": "habit",
       "processorId": "water-intake",
-      "toolGroup": "",
+      "toolGroup": "health-trackers",
       "files": [
         "Guide.astro",
         "Widget.astro",

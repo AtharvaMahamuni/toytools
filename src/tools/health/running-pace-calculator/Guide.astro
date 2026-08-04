@@ -1,0 +1,140 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What running pace means and how it differs from speed is the first thing to settle: pace is
+      time divided by distance, read as minutes and seconds per kilometre or per
+      mile, while speed is distance over time. This pace calculator, or
+      race pace calculator, takes a distance and a finish time and returns both, plus speed in
+      km/h and mph, plus predicted 5K, 10K, half marathon, and
+      marathon pace and finish times. For example, 5 km in
+      25 minutes is 5:00 per kilometre, 8:03 per mile, and 12 km/h. The
+      race time prediction uses the
+      Riegel formula, which raises the distance ratio to the power 1.06, so the predicted pace slows
+      as the race gets longer rather than staying flat.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Running Pace Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Pace Is Calculated: Pace Versus Speed <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Total your time in seconds, divide by the distance, and you have pace. Speed is the same
+      relationship inverted: distance over time. Runners think in pace because a race target is a
+      time, and holding 5:00 per kilometre is a concrete instruction you can check on a watch every
+      kilometre. Treadmills and cycling computers use speed instead, which is why converting between
+      the two comes up constantly. Choosing between
+      pace per kilometre versus pace per mile is just as arbitrary: a mile is 1.609 kilometres, so
+      mile pace is always the larger number, and the tool prints both.
+    </p>
+  </section>
+
+  <section id="riegel">
+    <h2>The Riegel Formula <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How a shorter race predicts a longer one was settled by Peter Riegel in 1977: predicted time
+      equals your known time multiplied by
+      the ratio of the distances raised to the power 1.06. The exponent is the whole idea. If running
+      were purely a matter of holding one speed, it would be exactly 1, and doubling the distance
+      would exactly double the time. At 1.06, doubling the distance multiplies time by about 2.08,
+      which matches the few percent of slowdown real runners show over longer races. It is a small
+      number with a large cumulative effect by the time you reach a marathon, which is why the same
+      endurance model serves as a general race time predictor and as a
+      marathon time predictor in particular.
+    </p>
+  </section>
+
+  <section id="how-far-to-trust-it">
+    <h2>How Far to Trust the Prediction <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The model is most reliable within about a factor of three of the distance you ran. A 5K
+      predicts a 10K well and a half marathon acceptably; a marathon is more than eight times the
+      distance and the prediction quietly assumes marathon-specific training you may not have done.
+      Runners without a long-run base routinely finish 20 to 30 minutes behind their predicted
+      marathon. The prediction describes potential from your current fitness, not what would happen
+      if you started one tomorrow.
+    </p>
+    <ReferenceBlock type="key-idea" heading="What a typical 5K pace looks like">
+      <p>Good is relative to where you started, but some markers help. A 30 minute 5K is 6:00 per kilometre and is a solid recreational time; 25 minutes is 5:00 per kilometre and puts you ahead of most club beginners; under 20 minutes, at 4:00 per kilometre, is competitive club running.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="key-idea" heading="Feed it a flat, evenly paced effort">
+      <p>The model assumes flat ground and even pacing throughout. A downhill course or a strong tailwind flatters every prediction that follows it, and a hilly trail run understates your road form. A race or a proper time trial gives the most useful input.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>5 km in 25:00.</strong> For example, that is 5:00 per kilometre, 8:03 per mile, 12 km/h, and predicts a 10K near 51:50.</p>
+    <p><strong>10 km in 45:00.</strong> For example, 4:30 per kilometre predicts a half marathon around 1:39:40 and a marathon around 3:27:40.</p>
+    <p><strong>Half marathon in 1:45:00.</strong> For example, 4:58 per kilometre predicts a marathon near 3:38:50, which is inside the range Riegel handles well.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Extrapolating a marathon from a 5K">
+      <p>
+        This is the furthest stretch the model allows and it flatters badly. Endurance at 42 km is a
+        different quality from speed at 5 km, and the formula cannot see whether you have trained it.
+        Predict from the longest honest race you have run.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Planning a race at a pace you held once">
+      <p>
+        A single fast kilometre in training is not race pace. Prediction inputs should be efforts
+        sustained over the full distance, at an even effort, on ground comparable to the race you are
+        planning.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Pace is per unit, so lower is faster">
+      <p>Pace and speed move in opposite directions, which trips people up when comparing the two. If your pace number falls you have got quicker; if your speed number falls you have not. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

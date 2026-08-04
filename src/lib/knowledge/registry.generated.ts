@@ -7,9 +7,11 @@ import { knowledge as aspectRatioCalculator } from '@tools/design/aspect-ratio-c
 import { knowledge as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/knowledge';
 import { knowledge as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/knowledge';
 import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowledge';
+import { knowledge as bmrCalculator } from '@tools/health/bmr-calculator/knowledge';
 import { knowledge as bodyFatCalculator } from '@tools/health/body-fat-calculator/knowledge';
 import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracker/knowledge';
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
+import { knowledge as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
@@ -53,11 +55,13 @@ import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-ha
 import { knowledge as moveTodayTracker } from '@tools/health/move-today-tracker/knowledge';
 import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespace/knowledge';
 import { knowledge as notepad } from '@tools/productivity/notepad/knowledge';
+import { knowledge as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/knowledge';
 import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
 import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
 import { knowledge as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/knowledge';
+import { knowledge as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/knowledge';
 import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
 import { knowledge as pxToDpConverter } from '@tools/design/px-to-dp-converter/knowledge';
 import { knowledge as pxToRemConverter } from '@tools/design/px-to-rem-converter/knowledge';
@@ -75,6 +79,7 @@ import { knowledge as reverseText } from '@tools/text/reverse-text/knowledge';
 import { knowledge as roiCalculator } from '@tools/finance/roi-calculator/knowledge';
 import { knowledge as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/knowledge';
 import { knowledge as ruleOf72Calculator } from '@tools/finance/rule-of-72-calculator/knowledge';
+import { knowledge as runningPaceCalculator } from '@tools/health/running-pace-calculator/knowledge';
 import { knowledge as savingsGoalCalculator } from '@tools/finance/savings-goal-calculator/knowledge';
 import { knowledge as scientificCalculator } from '@tools/number/scientific-calculator/knowledge';
 import { knowledge as sentenceCaseConverter } from '@tools/text/sentence-case-converter/knowledge';
@@ -109,9 +114,11 @@ export const authoredKnowledge: Knowledge[] = [
   base64EncoderDecoder,
   binaryTextConverter,
   bmiCalculator,
+  bmrCalculator,
   bodyFatCalculator,
   bodyWeightTracker,
   cagrCalculator,
+  calorieDeficitCalculator,
   camelCaseConverter,
   characterCounter,
   colorContrastChecker,
@@ -155,11 +162,13 @@ export const authoredKnowledge: Knowledge[] = [
   moveTodayTracker,
   normalizeWhitespace,
   notepad,
+  oneRepMaxCalculator,
   paragraphCounter,
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
   primeFactorizationCalculator,
+  proteinIntakeCalculator,
   punycodeConverter,
   pxToDpConverter,
   pxToRemConverter,
@@ -177,6 +186,7 @@ export const authoredKnowledge: Knowledge[] = [
   roiCalculator,
   rot13EncoderDecoder,
   ruleOf72Calculator,
+  runningPaceCalculator,
   savingsGoalCalculator,
   scientificCalculator,
   sentenceCaseConverter,

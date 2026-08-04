@@ -49,7 +49,10 @@ const siblings = members.filter(m => !m.active);
   .group-switcher {
     display: flex;
     gap: var(--space-2);
-    margin-bottom: var(--space-6);
+    /* A control strip, not a section: it sits closer to the tool it switches than a section gap
+       would put it, and the reclaimed height is what keeps the answer above the fold on the
+       calculator pages (tests/e2e/health.spec.ts pins that). */
+    margin-bottom: var(--space-5);
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;

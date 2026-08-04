@@ -14,7 +14,7 @@ export const config: ToolConfig = {
   pattern: 'math-calculate',
   family: 'combinatorics',
   processorId: 'combinations',
-  relatedTools: ['fraction-calculator', 'quadratic-equation-explorer', 'unit-circle-explorer'],
+  relatedTools: ['fraction-calculator', 'quadratic-equation-solver', 'unit-circle-calculator'],
   guide: {
     slug: 'combinations-permutations-calculator',
     categorySlug: 'applied-math',

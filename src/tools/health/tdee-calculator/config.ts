@@ -18,6 +18,7 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'energy',
+  toolGroup: 'body-metrics',
   processorId: 'tdee',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'macro-calculator'],
   guide: {

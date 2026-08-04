@@ -9,8 +9,8 @@ import idealGasLaw from './ideal-gas-law';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Ideal Gas Law Simulator',
-    slug: 'ideal-gas-law-simulator',
+    title: 'Ideal Gas Law Calculator',
+    slug: 'ideal-gas-law-calculator',
     processorId: 'ideal-gas-law',
     domain: 'physics',
     category: 'physics',
@@ -76,13 +76,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Ideal Gas Law Simulator: PV = nRT',
+    title: 'Ideal Gas Law Calculator: PV = nRT',
     description:
       'See the ideal gas law come alive. Set the temperature, volume, and amount and watch the pressure and the gas particles respond through PV = nRT.',
     keywords: ['ideal gas law', 'PV = nRT', 'gas pressure', 'gas laws', 'Boyle\'s law', 'gas law simulator'],
   },
   presentation: {
-    tags: ['ideal gas law', 'PV = nRT', 'gas pressure', 'volume', 'temperature', 'Boyle\'s law', 'thermodynamics', 'gas simulator'],
+    tags: ['ideal gas law calculator', 'ideal gas law', 'PV = nRT', 'gas pressure', 'volume', 'temperature', 'Boyle\'s law', 'thermodynamics', 'gas simulator'],
     updatedAt: '2026-07-12',
     isNew: true,
     trustVariant: 'offline',

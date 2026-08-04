@@ -1,0 +1,55 @@
+---
+// Redirect stubs for every retired `/tool/...` URL.
+//
+// A rest param rather than one route per segment, because a slug rename keeps the segment: the
+// retired `/tool/physics/pendulum-simulator/` lives under the same `physics/` prefix as the live
+// tool routes, so a `physics/[slug].astro` stub route would collide with the generated one. This
+// route owns nothing but the paths listed in src/data/tool-redirects.ts, and Astro's more specific
+// per-segment routes win for every live tool.
+//
+// Each stub meta-refreshes to the current tool page and declares it canonical, so the old URL
+// hands its link equity over instead of 404ing into the noindex 404.html. Intentionally noindex
+// and in no sitemap.
+import type { GetStaticPaths } from 'astro';
+import { toolRedirects } from '@data/tool-redirects';
+import { tools }      from '@data/registry';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+
+export const getStaticPaths = (() => {
+  return toolRedirects.map(redirect => {
+    const tool = tools.find(t => t.slug === redirect.toolSlug);
+    if (!tool) throw new Error(`tool-redirects: unknown tool slug "${redirect.toolSlug}"`);
+    const category = categories.find(c => c.slug === tool.categorySlug);
+    if (!category) throw new Error(`tool-redirects: unresolved category for "${tool.slug}"`);
+    const livePath = `/tool/${category.segment}/${tool.slug}/`;
+    if (`tool/${redirect.oldPath}` === livePath.slice(1).replace(/\/$/, '')) {
+      throw new Error(`tool-redirects: "${redirect.oldPath}" is a live tool URL, not a retired one`);
+    }
+    return {
+      params: { oldPath: redirect.oldPath },
+      props:  { toolName: tool.name, toolPath: livePath },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { toolName, toolPath } = Astro.props;
+
+const target = withBase(toolPath);
+const canonical = Astro.site ? new URL(withBase(toolPath), Astro.site).href : withBase(toolPath);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{toolName} — moved</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>This tool has moved. <a href={target}>Continue to {toolName}</a>.</p>
+  </body>
+</html>

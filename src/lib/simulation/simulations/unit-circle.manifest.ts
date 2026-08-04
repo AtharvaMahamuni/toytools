@@ -9,8 +9,8 @@ import unitCircle from './unit-circle';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Unit Circle Explorer',
-    slug: 'unit-circle-explorer',
+    title: 'Unit Circle Calculator',
+    slug: 'unit-circle-calculator',
     processorId: 'unit-circle',
     domain: 'math-lab',
     category: 'applied-math',
@@ -96,7 +96,7 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Unit Circle Explorer: Interactive Sin, Cos & Tan',
+    title: 'Unit Circle Calculator: Interactive Sin, Cos & Tan',
     description:
       'Drag a point around an interactive unit circle. Watch sin, cos, and tan update live, see the reference triangle, and trace the sine wave in your browser.',
     keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles'],

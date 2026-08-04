@@ -110,8 +110,11 @@ jobs:
       - name: Gate changed tools
         run: |
           base="${{ github.event.pull_request.base.sha }}"
-          slugs=$(git diff --name-only "$base" HEAD -- 'src/tools/*/*/' \
-            | sed -E 's#src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)
+          # Pathspec is 'src/tools/', not 'src/tools/*/*/': git does not expand the latter, so this
+          # matched nothing and the gate ran on zero tools on every PR until 2026-08-04.
+          slugs=$(git diff --name-only "$base" HEAD -- 'src/tools/' \
+            | grep -E '^src/tools/[^/]+/[^/]+/' \
+            | sed -E 's#^src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)
           if [ -z "$slugs" ]; then
             echo "No tool directories changed — nothing to gate."
             exit 0

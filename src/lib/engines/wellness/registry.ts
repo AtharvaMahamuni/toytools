@@ -12,6 +12,11 @@ import { bodyFatCalculator } from './calculators/body-fat';
 import { macroCalculator } from './calculators/macro';
 import { idealWeightCalculator } from './calculators/ideal-weight';
 import { heartRateZonesCalculator } from './calculators/heart-rate-zones';
+import { bmrCalculator } from './calculators/bmr';
+import { calorieDeficitCalculator } from './calculators/calorie-deficit';
+import { proteinIntakeCalculator } from './calculators/protein-intake';
+import { oneRepMaxCalculator } from './calculators/one-rep-max';
+import { runningPaceCalculator } from './calculators/running-pace';
 
 export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   bmi: bmiCalculator,
@@ -20,6 +25,11 @@ export const WELLNESS_CALCULATORS: Record<string, WellnessCalculator> = {
   macro: macroCalculator,
   'ideal-weight': idealWeightCalculator,
   'heart-rate-zones': heartRateZonesCalculator,
+  bmr: bmrCalculator,
+  'calorie-deficit': calorieDeficitCalculator,
+  'protein-intake': proteinIntakeCalculator,
+  'one-rep-max': oneRepMaxCalculator,
+  'running-pace': runningPaceCalculator,
 };
 
 /**

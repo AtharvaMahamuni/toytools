@@ -1,0 +1,135 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A one rep max is the heaviest load you could lift once with good form, and it is the number
+      strength programs are written against. This 1RM calculator, or max lift calculator, estimates
+      it from a submaximal set
+      you actually completed, running the Epley, Brzycki, Lombardi, and O'Conner formulas at once and
+      averaging them. The Epley formula multiplies the weight by 1 plus reps divided by 30, so 100 kg
+      for 5 reps estimates about 117 kg; the brzycki formula divides by a falling linear term and
+      reads slightly lower. The result also converts straight into the
+      training percentage table, from 95 percent for doubles down to 65 percent for sets of fifteen,
+      so progressive overload needs no arithmetic.
+    </p>
+    <a href={toolHref} class="cta-link">Try The One Rep Max Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the Estimate Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      There is a stable relationship between how heavy a load is relative to your maximum and how
+      many times you can move it. Roughly 90 percent of a max allows four reps, 80 percent allows
+      eight, 70 percent allows twelve. Every estimation formula is a curve fitted to that
+      relationship, run backwards: given the weight and the reps, what maximum would produce that
+      pairing. This is why the reliability of the answer depends entirely on the set being taken
+      close to failure. A comfortable set of eight describes a different curve than a brutal one.
+    </p>
+  </section>
+
+  <section id="formulas">
+    <h2>Epley Versus Brzycki, and Why Four Formulas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How the estimation formulas are derived is the same story four times: each is a curve fitted
+      to the reps-versus-load relationship, then run backwards.
+      Epley uses a linear rep term, Brzycki divides by a falling linear term, and Lombardi and
+      O'Conner fit different curves again. At three to five reps they agree within a couple of
+      percent, so the choice is irrelevant. At twelve or more they can diverge by ten percent or
+      more, because a long set is limited by muscular endurance rather than by peak force, and
+      endurance varies enormously between lifters. Showing the spread rather than one number is the
+      honest presentation: when the formulas disagree, that disagreement is information about how far
+      you extrapolated.
+    </p>
+  </section>
+
+  <section id="training-percentages">
+    <h2>Turning a Max Into Working Weights <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Programs are written in percentages because they scale to any lifter. What percentage of a
+      max suits each training goal is well established: strength work generally
+      sits at 85 percent and above for one to five reps, hypertrophy at 70 to 85 percent for six to
+      twelve, and muscular endurance below 70 percent. The percentage table in the result does the
+      conversion for you, so five sets of five at 80 percent becomes a bar weight rather than a
+      calculation. Re-estimate every few weeks as the submaximal set gets easier and the whole table
+      moves with it.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Estimate from three to five reps">
+      <p>Low-rep sets barely extrapolate, so the estimate is reliable, and the set is still safe to perform. Above ten reps the formulas model the wrong quality and the answer drifts. A hard set of four beats a heavier set you cut short.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>100 kg for 5 reps.</strong> For example, Epley gives 117 kg and Brzycki 113 kg, an average near 115, so a program calling for 80 percent means about 92 kg.</p>
+    <p><strong>60 kg for 3 reps.</strong> For example, the four formulas land between 64 and 66 kg, a spread of under 4 percent, which is the tightest range you can get from an estimate.</p>
+    <p><strong>80 kg for 12 reps.</strong> For example, Brzycki reads 115 kg and Epley 112 kg, but a 15 rep set from the same lifter might imply 120, which is the drift a high-rep estimate carries.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Estimating from a set you stopped early">
+      <p>
+        Reps left in reserve make the estimate too low, and the whole percentage table then
+        undershoots. If you could have made two more, the input weight and reps describe a lighter
+        effort than your true capacity. Take the set close to failure or accept a conservative answer.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Attempting the estimate straight away">
+      <p>
+        The number says what the arithmetic expects, not what your joints and technique will produce
+        today. Work up in singles across several sets, use safety bars or a spotter, and stop when
+        bar speed collapses or form breaks.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Best on the big lifts">
+      <p>Squat, bench press, deadlift, and overhead press behave predictably. On isolation work and on lifts where balance fails before the muscle does, the rep-to-load relationship is much noisier. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

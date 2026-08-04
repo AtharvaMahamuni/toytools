@@ -7,9 +7,11 @@ import { config as aspectRatioCalculator } from '@tools/design/aspect-ratio-calc
 import { config as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/config';
 import { config as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/config';
 import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
+import { config as bmrCalculator } from '@tools/health/bmr-calculator/config';
 import { config as bodyFatCalculator } from '@tools/health/body-fat-calculator/config';
 import { config as bodyWeightTracker } from '@tools/health/body-weight-tracker/config';
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
+import { config as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
@@ -53,11 +55,13 @@ import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-
 import { config as moveTodayTracker } from '@tools/health/move-today-tracker/config';
 import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/config';
 import { config as notepad } from '@tools/productivity/notepad/config';
+import { config as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/config';
 import { config as paragraphCounter } from '@tools/text/paragraph-counter/config';
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
+import { config as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
 import { config as pxToDpConverter } from '@tools/design/px-to-dp-converter/config';
 import { config as pxToRemConverter } from '@tools/design/px-to-rem-converter/config';
@@ -75,6 +79,7 @@ import { config as reverseText } from '@tools/text/reverse-text/config';
 import { config as roiCalculator } from '@tools/finance/roi-calculator/config';
 import { config as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/config';
 import { config as ruleOf72Calculator } from '@tools/finance/rule-of-72-calculator/config';
+import { config as runningPaceCalculator } from '@tools/health/running-pace-calculator/config';
 import { config as savingsGoalCalculator } from '@tools/finance/savings-goal-calculator/config';
 import { config as scientificCalculator } from '@tools/number/scientific-calculator/config';
 import { config as sentenceCaseConverter } from '@tools/text/sentence-case-converter/config';
@@ -109,9 +114,11 @@ export const toolConfigs: ToolConfig[] = [
   base64EncoderDecoder,
   binaryTextConverter,
   bmiCalculator,
+  bmrCalculator,
   bodyFatCalculator,
   bodyWeightTracker,
   cagrCalculator,
+  calorieDeficitCalculator,
   camelCaseConverter,
   characterCounter,
   colorContrastChecker,
@@ -155,11 +162,13 @@ export const toolConfigs: ToolConfig[] = [
   moveTodayTracker,
   normalizeWhitespace,
   notepad,
+  oneRepMaxCalculator,
   paragraphCounter,
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
   primeFactorizationCalculator,
+  proteinIntakeCalculator,
   punycodeConverter,
   pxToDpConverter,
   pxToRemConverter,
@@ -177,6 +186,7 @@ export const toolConfigs: ToolConfig[] = [
   roiCalculator,
   rot13EncoderDecoder,
   ruleOf72Calculator,
+  runningPaceCalculator,
   savingsGoalCalculator,
   scientificCalculator,
   sentenceCaseConverter,

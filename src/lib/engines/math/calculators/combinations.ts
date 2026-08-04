@@ -166,7 +166,7 @@ export const combinationsCalculator: MathCalculator = {
       ],
       decisions: decisions([
         toolDecision('Work with the factorials as fractions', 'fraction-calculator'),
-        toolDecision('See probabilities converge in the Probability Lab', 'probability-simulator'),
+        toolDecision('See probabilities converge in the Probability Lab', 'probability-calculator'),
       ]),
       nextQuestions: ['When does order matter?', 'What is the stars-and-bars formula?'],
       explanation: isComb

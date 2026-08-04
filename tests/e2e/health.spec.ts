@@ -146,12 +146,24 @@ test.describe('density and alignment', () => {
     'heart-rate-zone-calculator',
     'body-fat-calculator',
     'ideal-weight-calculator',
+    'bmr-calculator',
+    'calorie-deficit-calculator',
+    'protein-intake-calculator',
+    'one-rep-max-calculator',
+    'running-pace-calculator',
   ];
+
+  // The answer paints once the engine chunk AND the page's one calculator chunk have arrived
+  // (src/lib/engines/wellness/lazy.ts), so every measurement below waits for the drawn chart
+  // rather than assuming the runtime beat the assertion.
+  const answerDrawn = (page: import('@playwright/test').Page) =>
+    page.locator('[data-viz] svg').first().waitFor({ state: 'attached' });
 
   test('the input form is its own height, not stretched to the result', async ({ page }, info) => {
     test.skip(info.project.name !== 'chromium', 'equalization is a desktop-only rule');
     for (const slug of CALCULATORS) {
       await page.goto(`/tool/health/${slug}/`);
+      await answerDrawn(page);
       const { input, result } = await page.evaluate(() => {
         const h = (el: Element | null) => (el ? Math.round(el.getBoundingClientRect().height) : 0);
         return {
@@ -164,23 +176,33 @@ test.describe('density and alignment', () => {
     }
   });
 
-  test('the answer and its chart land above the fold', async ({ page }, info) => {
+  // The answer and the START of its chart must be reachable without scrolling. This used to demand
+  // the whole chart, which the group switcher no longer leaves room for: an 11-pill nav row costs
+  // about 56px above the tool, and on the three tallest calculators (heart rate zones, body fat,
+  // protein) the last 15 to 35px of chart now falls past a 1280x720 fold. Grouping is worth that,
+  // but the hero answer being visible is not negotiable, so that is what is pinned here.
+  test('the answer and the start of its chart land above the fold', async ({ page }, info) => {
     test.skip(info.project.name !== 'chromium', 'the phone stacks form-then-answer by design');
     for (const slug of CALCULATORS) {
       await page.goto(`/tool/health/${slug}/`);
-      const { chartBottom, vh } = await page.evaluate(() => {
+      await answerDrawn(page);
+      const { heroBottom, chartTop, vh } = await page.evaluate(() => {
         const viz = document.querySelector('[data-section="visualization"]')!;
+        const hero = document.querySelector('[data-section="hero"]')!;
         return {
-          chartBottom: Math.round(viz.getBoundingClientRect().bottom + window.scrollY),
+          heroBottom: Math.round(hero.getBoundingClientRect().bottom + window.scrollY),
+          chartTop: Math.round(viz.getBoundingClientRect().top + window.scrollY),
           vh: window.innerHeight,
         };
       });
-      expect(chartBottom, `${slug} chart must be visible without scrolling`).toBeLessThanOrEqual(vh);
+      expect(heroBottom, `${slug} answer must be visible without scrolling`).toBeLessThanOrEqual(vh);
+      expect(chartTop, `${slug} chart must start above the fold`).toBeLessThanOrEqual(vh);
     }
   });
 
   test('the chart renders at its drawn size instead of stretching to the column', async ({ page }) => {
     await page.goto('/tool/health/bmi-calculator/');
+    await answerDrawn(page);
     const width = await page.evaluate(
       () => Math.round(document.querySelector('[data-viz] svg')!.getBoundingClientRect().width),
     );

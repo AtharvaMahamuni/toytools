@@ -17,19 +17,21 @@ Run each instrument, capture failures, and keep going (one failing instrument mu
 sweep - note it and continue):
 
 1. `npm install` only if node_modules is missing.
-2. `npm run build` - validators (registry / knowledge / architecture) + render + strict TS. This
-   also produces `dist/`, which later steps need.
-3. `npm run test` - engine unit tests.
-4. `npm run health` - post-build integrity superset (registry/manifest/sitemap/knowledge coverage).
-5. `npm run check:duplication` - near-duplicate authored content (WARN-only; report the worst
+2. `npm run verify` - the PR gate in one command: unit tests, coverage thresholds, the build with
+   `KNOWLEDGE_REQUIRED=true`, platform health, Quality Guardian, `seo:gate` on changed tools, and
+   e2e on desktop + Pixel 5. It reports every failing step rather than stopping at the first, and
+   it produces the `dist/` the steps below read. Report its summary block verbatim.
+   Run the commands inside it individually only to dig into a failure it reported.
+3. `npm run check:duplication` - near-duplicate authored content (WARN-only; report the worst
    pairs and whether any cluster is trending toward sameness).
-6. `npm run quality:weekly` - Quality Guardian full-site sweep (links, metadata, schema,
-   accessibility); read its reports from `quality-guardian/reports/`.
-7. Indexing coverage: `npm run check:indexing -- --dry-run` (validates the URL list without
+4. `npm run quality:weekly` - Quality Guardian full-site sweep (links, metadata, schema,
+   accessibility), which is broader than the per-PR pass `verify` runs; read its reports from
+   `quality-guardian/reports/`.
+5. Indexing coverage: `npm run check:indexing -- --dry-run` (validates the URL list without
    credentials). Only run the live path if GSC_SITE_URL + GSC_SA_KEY_JSON are present. Read the
    newest report in `quality-guardian/reports/indexing/` and call out the crawled-not-indexed
    ratio per category - that number is the growth governor.
-8. `npm run seo:status` (site-wide table) - list tools below `done` state or failing the gate.
+6. `npm run seo:status` (site-wide table) - list tools below `done` state or failing the gate.
 
 ## Report format (your final message)
 

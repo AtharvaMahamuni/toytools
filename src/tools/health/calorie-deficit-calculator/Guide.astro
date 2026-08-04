@@ -1,0 +1,141 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A calorie deficit is the gap between what your body burns in a day and what you eat. This
+      weight loss calorie calculator estimates your maintenance calories from a Mifflin-St Jeor
+      basal metabolic rate scaled by activity, then subtracts the gap your chosen
+      weight loss rate needs.
+      Where the 7,700 kcal per kilogram figure comes from is body fat itself: roughly that much
+      energy is stored in a kilogram of it, so losing half a kilogram a
+      week takes a deficit of about 550 calories a day. The daily calorie target is floored at your
+      BMR, so an aggressive rate never produces a number you should not eat, which makes this a
+      quick way of checking whether an app-suggested target is dangerously low. Enter a goal weight
+      and the timeline answers how long it will take me to lose weight at the rate I picked.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Calorie Deficit Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How a Calorie Deficit Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Energy balance is the whole mechanism. Eat less than you burn and your body makes up the
+      difference from stored energy, mostly fat; eat more and it stores the surplus. The size of the
+      gap sets the rate. The calculator works backwards from the rate you want: it converts your
+      weekly target into a daily energy shortfall, subtracts that from maintenance calories, and
+      gives you the number to eat. Everything upstream of that is an estimate, which is why the tool
+      shows maintenance, the deficit, and the resting floor side by side rather than a single figure
+      to obey.
+    </p>
+  </section>
+
+  <section id="choosing-a-rate">
+    <h2>Choosing a Rate of Loss <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How fast weight loss can safely go has a well-supported answer: 0.5 to 1 percent of body
+      weight a week. At 80 kg that is 0.4 to 0.8 kg,
+      needing a deficit of roughly 440 to 880 calories a day, which is what the
+      calories to lose weight at that rate work out to. Read as a
+      weight loss calculator or as a cutting calorie calculator, the arithmetic is the same.
+      A gentle deficit versus an aggressive one is the only real choice on this page, and slower is
+      not weaker: gentle deficits
+      preserve muscle better, leave enough energy to train hard, and survive a bad week without
+      collapsing. Aggressive rates lose more lean tissue, and the practical failure mode is not
+      danger but abandonment, usually inside a fortnight. Pick the rate you could still be running in
+      two months.
+    </p>
+  </section>
+
+  <section id="adaptation">
+    <h2>Why the Target Moves <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A lighter body is cheaper to run. Lose 5 kg and your maintenance falls by roughly 50 to 100
+      calories a day, which quietly narrows the deficit you set at the start. Metabolic adaptation
+      shrinks it a little further, as the body trims non-exercise movement and resting expenditure in
+      response to sustained energy shortage. Neither effect is dramatic, and neither is a broken
+      metabolism, but together they explain most stalls at week eight or ten.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Adjust the target as body weight falls">
+      <p>Re-run the numbers every 4 to 5 kg. The deficit that worked at your starting weight is a smaller deficit now, and eventually it is maintenance. Weekly averages, not single weigh-ins, are what should trigger the change.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Man, 30, 90 kg, 180 cm, moderately active, 0.5 kg a week.</strong> For example, maintenance lands near 2,900 calories, so the target is about 2,350 with a deficit of 550.</p>
+    <p><strong>The same man asking for 1 kg a week.</strong> For example, the deficit would be 1,100, putting intake near 1,800, which is above his BMR of about 1,800 but leaves almost no margin.</p>
+    <p><strong>Woman, 35, 65 kg, 165 cm, lightly active, 1 kg a week.</strong> For example, maintenance is near 1,900, so a 1,100 deficit would fall below her BMR of about 1,350; the target holds at the floor and the achievable rate drops to roughly 0.5 kg a week.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Choosing the most aggressive rate available">
+      <p>
+        The fastest option looks like the efficient one, and it is the option most often abandoned.
+        A deficit you hold for four months beats one you hold for nine days, and the slower plan
+        usually arrives at the goal weight first because it never restarts.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Reading one weigh-in as progress">
+      <p>
+        Daily weight moves with water, salt, glycogen, and food still in transit, easily by a
+        kilogram in either direction. A fortnight of genuine fat loss can hide behind that noise.
+        Weigh at the same time each day and judge the weekly average.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="The timeline is a best case">
+      <p>Enter a goal weight and the tool will estimate how many weeks a goal weight will take, but that number assumes the deficit holds every day and your burn stays put. Neither is true, so a 20 week estimate often runs 24. Use it to tell a two month project from a six month one. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Eating less versus moving more to widen the gap">
+      <p>Both work, and together they beat either alone. Cutting food is the more measurable lever: a 500 calorie reduction is straightforward, while a 500 calorie workout is a serious session that also raises appetite. Adding activity lets you eat more while still losing, which most people find easier to sustain.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

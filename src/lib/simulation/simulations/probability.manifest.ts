@@ -9,8 +9,8 @@ import probability from './probability';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Probability Lab',
-    slug: 'probability-simulator',
+    title: 'Probability Calculator',
+    slug: 'probability-calculator',
     processorId: 'probability',
     domain: 'math-lab',
     category: 'applied-math',
@@ -83,13 +83,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Probability Lab: Coin Flips & Law of Large Numbers',
+    title: 'Probability Calculator: Coin Flips & Law of Large Numbers',
     description:
       'Flip a coin or roll a die thousands of times and watch the empirical frequency converge on the theoretical probability. The law of large numbers, animated.',
     keywords: ['coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment'],
   },
   presentation: {
-    tags: ['probability', 'coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment', 'sample size'],
+    tags: ['probability calculator', 'probability', 'coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment', 'sample size'],
     updatedAt: '2026-07-16',
     isNew: true,
     trustVariant: 'offline',

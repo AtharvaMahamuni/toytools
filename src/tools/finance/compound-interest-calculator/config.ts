@@ -13,6 +13,7 @@ export const config: ToolConfig = {
   engine: 'finance',
   pattern: 'finance-growth',
   family: 'interest',
+  toolGroup: 'growth-calculators',
   processorId: 'compound-interest',
   relatedTools: ['savings-goal-calculator', 'rule-of-72-calculator', 'inflation-calculator'],
   guide: {

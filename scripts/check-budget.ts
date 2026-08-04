@@ -217,10 +217,13 @@ function measure(rel: string): Measured | null {
   // Simulation pages additionally lazy-load exactly one model, keyed by the widget's data attribute.
   const simIds = [...html.matchAll(/data-simulation-id="([^"]+)"/g)]
     .map((m) => `./simulations/${m[1]}.ts`);
+  // Wellness pages likewise lazy-load exactly one calculator, keyed by the widget's data attribute
+  // (src/lib/engines/wellness/lazy.ts uses the same ids as its import() map keys).
+  const wellnessIds = [...html.matchAll(/data-wellness="([^"]+)"/g)].map((m) => m[1]!);
 
   const scripts = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1]!);
   let jsGz = 0;
-  for (const href of collectJs(scripts, [...engines, ...simIds])) {
+  for (const href of collectJs(scripts, [...engines, ...simIds, ...wellnessIds])) {
     const buf = asset(href);
     if (buf) jsGz += gz(buf);
   }

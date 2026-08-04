@@ -51,6 +51,7 @@ export interface CrawledPage {
   internalLinks: string[];         // resolved URL paths this page links to
   jsonLdBlocks: ParsedJsonLd[];
   robots: string;                  // <meta name="robots"> content
+  isRedirectStub: boolean;         // has <meta http-equiv="refresh"> — a retired URL kept alive
   fileSizeBytes: number;
   // Phase 2B fields (populated by html-parser even in Phase 2A, used only in 2B)
   altMissingCount: number;

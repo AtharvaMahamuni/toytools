@@ -1,0 +1,142 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What basal metabolic rate measures is the energy your body spends staying alive while
+      completely at rest: circulation, breathing, holding temperature, and repairing tissue.
+      This basal metabolic rate calculator estimates it with the Mifflin St Jeor equation
+      (usually written Mifflin-St Jeor) from your sex, age, height, and weight, then shows what each
+      activity multiplier adds on top. The key thing to know is that BMR
+      is not what you should eat. It is the resting floor, and total daily energy expenditure, the
+      number that answers how much to eat, is BMR multiplied by an activity factor between 1.2 and
+      1.9. Finding the resting figure an app used before it applied its own multiplier is a good use
+      of this metabolism calculator, which is also called a
+      resting metabolic rate calculator.
+    </p>
+    <a href={toolHref} class="cta-link">Try The BMR Calculator →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How BMR Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Even lying still in a dark room, your body is expensive to run. The brain, liver, heart, and
+      kidneys account for most of it despite weighing very little, which is why resting energy
+      expenditure scales with overall body size rather than with how much you exercise. For most
+      adults, resting metabolic rate is 60 to 70 percent of the whole day's burn. That proportion is
+      the honest reason "eat less, move more" is mostly a conversation about the smaller slice: your
+      activity is real, but it sits on top of a much larger fixed cost you cannot negotiate with.
+    </p>
+  </section>
+
+  <section id="mifflin-st-jeor">
+    <h2>The Mifflin-St Jeor Equation <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The formula is 10 times weight in kilograms, plus 6.25 times height in centimetres, minus 5
+      times age in years, then plus 5 for men or minus 161 for women. Weight is the dominant term,
+      height comes second, and age subtracts slowly over a lifetime. The sex term is a flat offset of
+      166 calories, which is why two people of identical size get different figures. Published in
+      1990, the Mifflin-St Jeor equation replaced the 1919 Harris-Benedict equation because
+      Harris-Benedict tends to overestimate resting energy for modern body compositions by around 5
+      percent.
+    </p>
+    <p>
+      That is how the equation is built, and it explains what a normal BMR looks like at a
+      given size and age: there is no single normal figure, because the dominant term is your body
+      mass. A 30 year old man of 175 cm and 70 kg lands near 1,650 calories a day; a woman of the
+      same age at 165 cm and 60 kg lands near 1,320. A figure that looks low next to someone else's
+      usually means you are smaller or older, not that your metabolism is broken.
+    </p>
+  </section>
+
+  <section id="bmr-vs-tdee">
+    <h2>BMR Versus TDEE <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The two get confused constantly, and the confusion is expensive. BMR is rest; total daily
+      energy expenditure is rest plus everything else, including the energy spent digesting food.
+      A sedentary day multiplies BMR by 1.2, a moderately active one by 1.55, and hard daily training
+      by 1.9. Eating at your BMR while living a moderately active life is a deficit of several hundred
+      calories a day, which is a far more aggressive cut than most people mean to make. The
+      calculator shows all five multipliers at once so the size of that choice is visible before you
+      commit to one.
+    </p>
+    <ReferenceBlock type="key-idea" heading="BMR is a floor, not a target">
+      <p>Set your eating target against maintenance, and treat basal metabolic rate as the line you do not cut below without medical supervision. A slow metabolism is rarely the reason weight will not move; a misjudged activity multiplier usually is.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p><strong>Man, 30, 70 kg, 175 cm.</strong> For example, BMR is about 1,649 calories a day, roughly 69 calories every hour spent doing nothing at all.</p>
+    <p><strong>Woman, 30, 60 kg, 165 cm.</strong> For example, BMR is about 1,320 calories. The gap to the case above is mostly size, with 166 calories of it coming from the sex term.</p>
+    <p><strong>Same man, moderately active.</strong> For example, multiplying 1,649 by 1.55 gives roughly 2,556 calories, so activity is adding over 900 calories to the resting figure.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <ReferenceBlock type="common-mistake" heading="Eating at BMR instead of maintenance">
+      <p>
+        This is the single most common misreading. Eating your BMR means eating nothing for the
+        activity you actually did, which produces a much steeper deficit than intended, poor training
+        quality, and the rebound that follows. Use the maintenance figure as the reference point.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting the formula to see your muscle">
+      <p>
+        Muscle burns roughly 13 calories per kilogram a day at rest against about 4.5 for fat, so
+        composition does matter. The equation works only from height, weight, age, and sex, so a
+        lean, muscular person will be underestimated and someone carrying more fat slightly
+        overestimated.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="An estimate, not a measurement">
+      <p>Measuring resting metabolic rate properly needs indirect calorimetry in a lab. Two people the same weight get different BMR figures in real life for reasons a formula cannot see. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

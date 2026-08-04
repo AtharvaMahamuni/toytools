@@ -173,7 +173,7 @@ describe('boot — wiring the wave-speed widget', () => {
   beforeEach(() => stubEnv(false));
 
   it('populates measurements, formula, observations, and explanation on init', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
 
@@ -190,7 +190,7 @@ describe('boot — wiring the wave-speed widget', () => {
   });
 
   it('recomputes when a slider moves', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
 
@@ -203,7 +203,7 @@ describe('boot — wiring the wave-speed widget', () => {
   });
 
   it('applies a preset to every declared parameter', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
 
@@ -218,7 +218,7 @@ describe('boot — wiring the wave-speed widget', () => {
   });
 
   it('reset restores the defaults', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
 
@@ -234,7 +234,7 @@ describe('boot — wiring the wave-speed widget', () => {
 
   it('draws the first frame immediately but withholds autoplay until the canvas is on screen', async () => {
     autoIntersect = false; // observing no longer reports the canvas as visible
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
 
@@ -254,7 +254,7 @@ describe('boot — wiring the wave-speed widget', () => {
   });
 
   it('toggles play/pause state', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
     const play = root.querySelector<HTMLButtonElement>('[data-sim-play]')!;
@@ -268,7 +268,7 @@ describe('boot — wiring the wave-speed widget', () => {
   });
 
   it('makes speed buttons mutually exclusive', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
     const speeds = [...root.querySelectorAll<HTMLButtonElement>('[data-sim-speed]')];
@@ -279,7 +279,7 @@ describe('boot — wiring the wave-speed widget', () => {
   });
 
   it('responds to a pointer drag on the canvas (direct manipulation)', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
 
@@ -302,7 +302,7 @@ describe('boot — reduced motion', () => {
   beforeEach(() => stubEnv(true));
 
   it('starts paused and does not schedule a frame', async () => {
-    const root = mountWidget(wave, 'wave-speed-simulator');
+    const root = mountWidget(wave, 'wave-speed-calculator');
     initSimulations(document);
     await flush();
     expect(root.querySelector('[data-sim-play]')!.getAttribute('aria-pressed')).toBe('false');

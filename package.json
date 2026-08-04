@@ -34,6 +34,8 @@
     "test:e2e:report": "playwright show-report",
     "preview": "astro preview",
     "astro": "astro",
+    "verify": "bash scripts/verify.sh",
+    "verify:fast": "bash scripts/verify.sh --fast",
     "version:bump": "npx tsx scripts/bump-version.ts",
     "version:show": "node -e \"console.log(require('./src/lib/version.ts').APP_VERSION)\"",
     "seo:research": "npm --prefix seo-engine run seo:research --",

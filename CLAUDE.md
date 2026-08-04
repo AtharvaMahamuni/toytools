@@ -2,6 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## The done-condition: `npm run verify`
+
+**Any change to shipped code is finished when `npm run verify` exits 0, and not before.**
+
+```sh
+npm run verify        # the gate. Mirrors .github/workflows/quality-guardian.yml step for step.
+npm run verify:fast   # everything except e2e — inner loop only, NOT a done-condition.
+```
+
+It runs, in order: unit tests, the coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true`,
+the platform health check, Quality Guardian, `seo:gate` on every tool directory the branch touched,
+and e2e on desktop **and** Pixel 5. Every step runs even after an earlier one fails, so one pass
+reports every problem. Takes about three minutes.
+
+This exists because `build` + `test` + `test:e2e` is **not** the gate and never was: it skips the
+coverage thresholds, the health check and Quality Guardian entirely. Work that passed those three
+still arrived as a red PR (14 redirect stubs tripping the canonical validator, 2026-08-04). A
+**Stop hook** (`.claude/hooks/verify-on-stop.sh`, wired in `.claude/settings.json`) now runs
+`verify` automatically whenever a turn ends having touched `src/`, `scripts/`, `tests/`, `public/`,
+`quality-guardian/`, `seo-engine/` or the build config, and blocks on failure. Touch
+`.claude/.skip-verify` to opt a session out deliberately.
+
+**If a step in the workflow changes, change `scripts/verify.sh` in the same commit, and the reverse.**
+A check that only one of them runs is a check that catches nothing.
+
+Never weaken a check to get past it: no raising a budget, deleting an assertion, or adding a
+validator exemption without saying so explicitly and giving the reason.
+
 ## Commands
 
 ```sh
@@ -19,7 +47,7 @@ ASTRO_SITE=https://toytoolsapp.com npm run build
 > through to GitHub Pages' `404.html`, which carries `noindex,nofollow` — exactly the
 > "noindex detected in 'robots' meta tag" that Search Console flags.
 
-`npm run build` is the verification step — it runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together, then the **performance budget**. There is no separate lint script.
+`npm run build` runs the registry/knowledge/**architecture** validators, then Astro rendering and strict TypeScript together, then the **performance budget**. There is no separate lint script. It is one step inside `npm run verify`, not the verification step on its own.
 
 ```sh
 npm run validate:architecture  # architectural lint pass (orphan files, dead registry entries,
@@ -59,10 +87,10 @@ Current budgets (gzipped) and the worst real page against each:
 
 | kind | sheets | CSS | JS | HTML | TOTAL | worst today |
 |---|---|---|---|---|---|---|
-| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 51.0 KB (`json-tree-viewer`) |
-| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 28.4 KB |
-| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 19.0 KB |
-| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 32.6 KB (`/search/`) |
+| tool | 6 | 16 KB | 24 KB | 34 KB | **60 KB** | 54.6 KB (`json-tree-viewer`) |
+| guide | 4 | 13 KB | 8 KB | 26 KB | 42 KB | 31.4 KB |
+| category | 4 | 12 KB | 8 KB | 26 KB | 40 KB | 21.9 KB |
+| page | 4 | 12 KB | 12 KB | 30 KB | 48 KB | 41.7 KB (`/search/`) |
 
 A typical new tool lands around **33-40 KB gzipped total**, so the budget has real headroom for
 content. If a new tool blows it, the cause is almost always structural, not the content:
@@ -70,6 +98,12 @@ content. If a new tool blows it, the cause is almost always structural, not the 
 - **JS over budget** → the tool's engine is pulling something it should not, or an engine got
   statically imported back into `src/lib/runtime/index.ts`. Engines must stay lazy (see
   "Client Runtime" in `ARCHITECTURE.md`). A two-line static import regressed 134 pages when tested.
+  A second shape of this: an engine whose runtime module imports its **whole processor registry**,
+  so every new tool on that engine makes every existing page on it heavier. `wellness` hit its
+  budget that way at eleven calculators and now loads exactly one, keyed by the widget's
+  `data-wellness` attribute (`src/lib/engines/wellness/lazy.ts`; `check-budget.ts` follows that
+  attribute the same way it follows `data-simulation-id`). Prefer this the moment an engine passes
+  a handful of processors.
 - **Sheets/CSS over budget** → a route is globbing components outside its own segment, hoisting
   other tools' stylesheets onto the page. Never reintroduce a cross-segment widget glob.
 - **HTML over budget** → the page is emitting far more markup than its siblings (runaway FAQ,
@@ -177,8 +211,14 @@ npm run version:show     # print the current APP_VERSION
 
 **Quality Guardian** (`quality-guardian/` — a self-contained sub-project with its own
 `package.json`) crawls the built site and runs validators/autofixers (links, metadata, schema,
-accessibility). It is **not** part of `npm run build`; it runs on its own CI workflow. Treat it
-like `seo-engine/`: a tooling sidecar, not part of the site bundle.
+accessibility). It is **not** part of `npm run build`; it runs on its own CI workflow and inside
+`npm run verify`. Treat it like `seo-engine/`: a tooling sidecar, not part of the site bundle.
+
+Its validators read the crawled page, so **exemptions must be structural, not a list of paths**.
+The canonical and sitemap validators skip redirect stubs by detecting the `<meta http-equiv=
+"refresh">` (`CrawledPage.isRedirectStub`), because the previous hardcoded prefix list
+(`/faq/`, `/tool/developer/`) went stale the first time a tool slug was renamed and turned a routine
+migration into a red PR. If you find yourself adding a path to a validator, derive the rule instead.
 
 ## Indexing coverage
 
@@ -288,8 +328,16 @@ Most edits are local, but a few changes ripple across files. When you make one o
 - **Rename a category** (slug or segment) → `src/data/categories.ts`, every tool's
   `categorySlug`, and add a noindex redirect stub in `src/data/tool-redirects.ts` for the old URL.
   Never delete the old URL silently.
+- **Rename a tool slug** → the new slug wherever it is authored (`config.ts`, or a simulation
+  manifest's `metadata.slug`), **plus** a `src/data/tool-redirects.ts` entry mapping the retired
+  `<segment>/<old-slug>` path to the new tool. `src/pages/tool/[...oldPath].astro` turns every
+  entry into a noindex meta-refresh stub, which is the only thing standing between a previously
+  indexed URL and the noindex 404 page. Then sweep the slug through `src/data/search-aliases.ts`,
+  the e2e specs, `research/datasets/*.json`, any `relatedTools`, and rerun `icons:generate`
+  (deleting the old PNGs) and `map:generate`.
 - **Verify UI changes in a real browser** with `npm run test:e2e` (desktop + Pixel 5). Build/unit
-  tests do not catch widget JS errors; e2e does and is a PR gate.
+  tests do not catch widget JS errors; e2e does and is a PR gate. It is the last step of
+  `npm run verify`, which is what you should actually run before calling anything done.
 
 ### Knowledge Graph (Phase D/E)
 

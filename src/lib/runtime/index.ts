@@ -50,7 +50,9 @@ void Promise.all(
     const load = ENGINE_LOADERS[id];
     if (!load) return; // engines with no browser runtime (physics, calculator, ...) are not an error
     try {
-      (await load()).attach(TT);
+      // Awaited: AttachFn may be async (wellness fetches its one calculator chunk here), and
+      // TT.ready must not flip until every engine has finished hanging its functions off TT.
+      await (await load()).attach(TT);
     } catch (_) {
       // A failed engine chunk must still let the page finish booting: widgets guard on the
       // functions they need, and the alternative is a permanently un-flushed onReady queue.

@@ -10,8 +10,8 @@ const projectileRelations = resolveRelations(projectileManifest, MANIFESTS);
 describe('simulation generators (projectile-motion)', () => {
   it('derives a valid ToolConfig from the manifest', () => {
     const cfg = toolConfigFrom(projectileManifest, projectileRelations);
-    expect(cfg.slug).toBe('projectile-motion-simulator');
-    expect(cfg.name).toBe('Projectile Motion Simulator');
+    expect(cfg.slug).toBe('projectile-motion-calculator');
+    expect(cfg.name).toBe('Projectile Motion Calculator');
     expect(cfg.engine).toBe('physics');
     expect(cfg.pattern).toBe('simulate');
     expect(cfg.family).toBe('mechanics');
@@ -22,13 +22,14 @@ describe('simulation generators (projectile-motion)', () => {
     expect(cfg.guide?.slug).toBe('how-projectile-motion-works');
     // relatedTools are auto-derived: non-empty, other real sims, never self.
     expect(cfg.relatedTools!.length).toBeGreaterThan(0);
-    expect(cfg.relatedTools).not.toContain('projectile-motion-simulator');
-    for (const slug of cfg.relatedTools!) expect(slug).toMatch(/-simulator$/);
+    expect(cfg.relatedTools).not.toContain('projectile-motion-calculator');
+    const simSlugs = new Set(MANIFESTS.map((m) => m.metadata.slug));
+    for (const slug of cfg.relatedTools!) expect(simSlugs.has(slug)).toBe(true);
   });
 
   it('derives a knowledge overlay whose commonQuestions are a subset of the FAQ', () => {
     const k = knowledgeFrom(projectileManifest, projectileDef, projectileRelations);
-    expect(k.slug).toBe('projectile-motion-simulator');
+    expect(k.slug).toBe('projectile-motion-calculator');
     expect(k.category).toBe('physics');
     expect(k.primaryConcepts).toEqual(['projectile motion']);
     // Knowledge-Sync: every knowledge.commonQuestion must be an authored FAQ question.
@@ -45,7 +46,7 @@ describe('simulation generators (projectile-motion)', () => {
   it('derives FAQ items with stable ids matching the authored questions', () => {
     const faqs = faqItemsFrom(projectileManifest);
     expect(faqs).toHaveLength(projectileManifest.faq.length);
-    expect(faqs[0].id).toBe('projectile-motion-simulator-faq-1');
+    expect(faqs[0].id).toBe('projectile-motion-calculator-faq-1');
     expect(faqs[0].question).toBe(projectileManifest.faq[0].question);
     expect(faqs.every((f) => f.answer.length > 0)).toBe(true);
     // No em-dashes anywhere in generated FAQ answers (the gate forbids them).

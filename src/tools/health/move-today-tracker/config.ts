@@ -18,6 +18,7 @@ export const config: ToolConfig = {
   engine: 'tracker',
   pattern: 'health-track',
   family: 'habit',
+  toolGroup: 'health-trackers',
   processorId: 'move-today',
   relatedTools: ['water-intake-tracker', 'body-weight-tracker', 'heart-rate-zone-calculator'],
   guide: {

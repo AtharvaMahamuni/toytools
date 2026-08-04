@@ -246,3 +246,126 @@ export function heartRateAt(maxHr: number, restHr: number, pct: number): number 
   if (restHr > 0) return (maxHr - restHr) * pct + restHr;
   return maxHr * pct;
 }
+
+// ---- Protein intake ---------------------------------------------------------------------------
+
+export type ProteinGoal = 'sedentary' | 'active' | 'endurance' | 'strength' | 'fat-loss';
+
+/** Grams of protein per kilogram of body weight per day, as a low-to-high range. The bands follow
+ *  the position stands of the ISSN and the ACSM/AND/DC joint statement, which give ranges rather
+ *  than single numbers because individual needs vary with training load and calorie intake. */
+export const PROTEIN_G_PER_KG: Record<ProteinGoal, [number, number]> = {
+  sedentary: [0.8, 1.0],
+  active: [1.2, 1.6],
+  endurance: [1.2, 1.6],
+  strength: [1.6, 2.2],
+  'fat-loss': [1.8, 2.4],
+};
+
+export const PROTEIN_GOAL_LABEL: Record<ProteinGoal, string> = {
+  sedentary: 'Mostly sedentary',
+  active: 'Generally active',
+  endurance: 'Endurance training',
+  strength: 'Strength training',
+  'fat-loss': 'Losing fat',
+};
+
+/** Daily protein range (grams) for a body weight and goal. */
+export function proteinRangeG(weightKg: number, goal: ProteinGoal): [number, number] {
+  const [lo, hi] = PROTEIN_G_PER_KG[goal];
+  return [weightKg * lo, weightKg * hi];
+}
+
+// ---- One rep max ------------------------------------------------------------------------------
+
+export type OneRepMaxFormula = 'epley' | 'brzycki' | 'lombardi' | 'oconner';
+
+/** Estimated one-rep max (same unit as `weight`) from a set taken close to failure. The four
+ *  formulas are all curve fits to the same reps-versus-load relationship, which is why they agree
+ *  closely at low reps and drift apart above about ten. */
+export function oneRepMax(weight: number, reps: number, formula: OneRepMaxFormula): number {
+  if (reps <= 1) return weight;
+  switch (formula) {
+    case 'epley':
+      return weight * (1 + reps / 30);
+    case 'brzycki':
+      // Undefined at 37 reps, where the denominator hits zero; clamp well before that.
+      return reps >= 36 ? NaN : weight * (36 / (37 - reps));
+    case 'lombardi':
+      return weight * Math.pow(reps, 0.1);
+    case 'oconner':
+      return weight * (1 + reps / 40);
+  }
+}
+
+export const ONE_REP_MAX_FORMULA_LABEL: Record<OneRepMaxFormula, string> = {
+  epley: 'Epley',
+  brzycki: 'Brzycki',
+  lombardi: 'Lombardi',
+  oconner: "O'Conner",
+};
+
+/** The percentages of a one-rep max a training program is normally written against, with the reps
+ *  most lifters can hold at each. These are the inverse of the Epley curve, rounded to the whole
+ *  reps a program would actually prescribe. */
+export const ONE_REP_MAX_TABLE: { pct: number; reps: number }[] = [
+  { pct: 100, reps: 1 },
+  { pct: 95, reps: 2 },
+  { pct: 90, reps: 4 },
+  { pct: 85, reps: 6 },
+  { pct: 80, reps: 8 },
+  { pct: 75, reps: 10 },
+  { pct: 70, reps: 12 },
+  { pct: 65, reps: 15 },
+];
+
+// ---- Running pace -----------------------------------------------------------------------------
+
+export const KM_PER_MI = 1.609344;
+
+export function miToKm(mi: number): number {
+  return mi * KM_PER_MI;
+}
+
+export function kmToMi(km: number): number {
+  return km / KM_PER_MI;
+}
+
+/** Seconds per kilometre for a distance covered in a total time. */
+export function paceSecPerKm(distanceKm: number, totalSeconds: number): number {
+  return totalSeconds / distanceKm;
+}
+
+/** A pace in seconds rendered as the m:ss every runner reads it as. */
+export function formatPace(secondsPerUnit: number): string {
+  const total = Math.round(secondsPerUnit);
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+/** A duration in seconds rendered as h:mm:ss, dropping the hour when there is none. */
+export function formatDuration(seconds: number): string {
+  const total = Math.round(seconds);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  const mm = String(m).padStart(h > 0 ? 2 : 1, '0');
+  return h > 0 ? `${h}:${mm}:${String(s).padStart(2, '0')}` : `${mm}:${String(s).padStart(2, '0')}`;
+}
+
+/** Riegel's endurance model: t2 = t1 · (d2 / d1)^1.06. The exponent above 1 is what encodes the
+ *  fact that pace slows as distance grows, so it predicts a slower pace over longer races. */
+export const RIEGEL_EXPONENT = 1.06;
+
+export function riegelPredict(knownSeconds: number, knownKm: number, targetKm: number): number {
+  return knownSeconds * Math.pow(targetKm / knownKm, RIEGEL_EXPONENT);
+}
+
+/** The race distances a pace calculator predicts against, in kilometres. */
+export const RACE_DISTANCES: { id: string; label: string; km: number }[] = [
+  { id: '5k', label: '5K', km: 5 },
+  { id: '10k', label: '10K', km: 10 },
+  { id: 'half', label: 'Half marathon', km: 21.0975 },
+  { id: 'full', label: 'Marathon', km: 42.195 },
+];

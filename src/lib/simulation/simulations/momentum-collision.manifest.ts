@@ -9,8 +9,8 @@ import momentumCollision from './momentum-collision';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Momentum Collision Simulator',
-    slug: 'momentum-collision-simulator',
+    title: 'Momentum and Collision Calculator',
+    slug: 'momentum-collision-calculator',
     processorId: 'momentum-collision',
     domain: 'physics',
     category: 'physics',
@@ -77,13 +77,13 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Momentum Collision Simulator: Conservation of Momentum',
+    title: 'Momentum and Collision Calculator: Conservation of Momentum',
     description:
       'Collide two carts and watch conservation of momentum in action. Set the masses, speed, and restitution and compare elastic vs inelastic collisions live.',
     keywords: ['conservation of momentum', 'elastic collision', 'inelastic collision', 'momentum', 'collision simulator', 'coefficient of restitution'],
   },
   presentation: {
-    tags: ['conservation of momentum', 'elastic collision', 'inelastic collision', 'momentum', 'kinetic energy', 'restitution', 'collision simulator', 'mechanics'],
+    tags: ['momentum calculator', 'conservation of momentum', 'elastic collision', 'inelastic collision', 'momentum', 'kinetic energy', 'restitution', 'collision simulator', 'mechanics'],
     updatedAt: '2026-07-12',
     isNew: true,
     trustVariant: 'offline',

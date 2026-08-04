@@ -116,6 +116,56 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    id: 'body-metrics',
+    name: 'Health Calculator',
+    members: [
+      { slug: 'bmi-calculator',                label: 'BMI'             },
+      { slug: 'body-fat-calculator',           label: 'Body Fat'        },
+      { slug: 'ideal-weight-calculator',       label: 'Ideal Weight'    },
+      { slug: 'bmr-calculator',                label: 'BMR'             },
+      { slug: 'tdee-calculator',               label: 'TDEE'            },
+      { slug: 'calorie-deficit-calculator',    label: 'Calorie Deficit' },
+      { slug: 'macro-calculator',              label: 'Macros'          },
+      { slug: 'protein-intake-calculator',     label: 'Protein'         },
+      { slug: 'heart-rate-zone-calculator',    label: 'Heart Rate'      },
+      { slug: 'one-rep-max-calculator',        label: 'One Rep Max'     },
+      { slug: 'running-pace-calculator',       label: 'Running Pace'    },
+    ],
+  },
+  {
+    id: 'health-trackers',
+    name: 'Daily Tracker',
+    members: [
+      { slug: 'water-intake-tracker', label: 'Water'    },
+      { slug: 'body-weight-tracker',  label: 'Weight'   },
+      { slug: 'move-today-tracker',   label: 'Movement' },
+    ],
+  },
+  {
+    id: 'growth-calculators',
+    name: 'Growth Calculator',
+    members: [
+      { slug: 'compound-interest-calculator', label: 'Compound Interest' },
+      { slug: 'sip-calculator',               label: 'SIP'               },
+      { slug: 'cagr-calculator',              label: 'CAGR'              },
+      { slug: 'roi-calculator',               label: 'ROI'               },
+      { slug: 'rule-of-72-calculator',        label: 'Rule of 72'        },
+      { slug: 'inflation-calculator',         label: 'Inflation'         },
+    ],
+  },
+  {
+    id: 'everyday-calculators',
+    name: 'Everyday Calculator',
+    members: [
+      { slug: 'percentage-calculator', label: 'Percentage' },
+      { slug: 'discount-calculator',   label: 'Discount'   },
+      { slug: 'tip-calculator',        label: 'Tip'        },
+      { slug: 'tax-calculator',        label: 'Tax'        },
+      { slug: 'margin-calculator',     label: 'Margin'     },
+      { slug: 'markup-calculator',     label: 'Markup'     },
+    ],
+  },
+  {
     id: 'case-converters',
     name: 'Case Converter',
     members: [

@@ -31,7 +31,7 @@ export const SIMULATION_SCHEMA_VERSION = 1 as const;
 export interface SimulationMetadata {
   /** Display name, e.g. 'Projectile Motion Simulator'. */
   title: string;
-  /** Tool slug (kebab), e.g. 'projectile-motion-simulator'. */
+  /** Tool slug (kebab), e.g. 'projectile-motion-calculator'. */
   slug: string;
   /** Runtime simulation id == SimulationDef.id, e.g. 'projectile-motion'. */
   processorId: string;

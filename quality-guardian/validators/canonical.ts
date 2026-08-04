@@ -12,16 +12,13 @@ export const canonicalValidator: Validator = {
 
     for (const page of pages) {
       if (page.urlPath === '/404.html') continue;
-      // /faq/ pages are noindex redirect stubs — their canonical intentionally points
-      // to the tool page, not back to themselves. Skip the self-reference check.
-      if (page.urlPath.startsWith('/faq/')) continue;
-      // /tool/developer/ pages are noindex redirect stubs from the segment rename
-      // (developer → developer-utilities); their canonical intentionally points to the
-      // new tool URL, not back to themselves. See src/data/tool-redirects.ts.
-      if (page.urlPath.startsWith('/tool/developer/')) continue;
-      // /category/developer-tools/ is the noindex redirect stub for the renamed category
-      // slug (developer-tools → developer-utilities); canonical points to the new URL.
-      if (page.urlPath === '/category/developer-tools/') continue;
+      // Redirect stubs are the whole point of this exemption: a retired URL kept alive points its
+      // canonical at the page that replaced it, which is what hands the link equity over. Detected
+      // by the meta refresh rather than by a list of path prefixes, because that list went stale
+      // the first time a tool slug was renamed (14 simulation URLs, 2026-08-04) and a validator
+      // that has to be edited for every migration is a validator that blocks the migration.
+      // Sources: src/data/tool-redirects.ts, src/data/faq-redirects.ts.
+      if (page.isRedirectStub) continue;
       if (!page.canonical) continue; // missing canonical caught by build-integrity
 
       const c = page.canonical;

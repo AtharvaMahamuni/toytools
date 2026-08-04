@@ -18,6 +18,7 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'cardio',
+  toolGroup: 'body-metrics',
   processorId: 'heart-rate-zones',
   relatedTools: ['tdee-calculator'],
   guide: {
