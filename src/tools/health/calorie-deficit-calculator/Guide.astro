@@ -29,12 +29,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A calorie deficit is the gap between what your body burns in a day and what you eat. This
-      weight loss calculator estimates your maintenance calories from a Mifflin-St Jeor basal
-      metabolic rate scaled by activity, then subtracts the gap your chosen rate of loss needs.
-      Because roughly 7,700 calories are stored in a kilogram of body fat, losing half a kilogram a
+      weight loss calorie calculator estimates your maintenance calories from a Mifflin-St Jeor
+      basal metabolic rate scaled by activity, then subtracts the gap your chosen
+      weight loss rate needs.
+      Where the 7,700 kcal per kilogram figure comes from is body fat itself: roughly that much
+      energy is stored in a kilogram of it, so losing half a kilogram a
       week takes a deficit of about 550 calories a day. The daily calorie target is floored at your
-      BMR, so an aggressive rate never produces a number you should not eat. Enter a goal weight and
-      the timeline shows how many weeks the plan takes.
+      BMR, so an aggressive rate never produces a number you should not eat, which makes this a
+      quick way of checking whether an app-suggested target is dangerously low. Enter a goal weight
+      and the timeline answers how long it will take me to lose weight at the rate I picked.
     </p>
     <a href={toolHref} class="cta-link">Try The Calorie Deficit Calculator →</a>
   </section>
@@ -55,8 +58,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="choosing-a-rate">
     <h2>Choosing a Rate of Loss <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A sensible range is 0.5 to 1 percent of body weight a week. At 80 kg that is 0.4 to 0.8 kg,
-      needing a deficit of roughly 440 to 880 calories a day. Slower is not weaker: gentle deficits
+      How fast weight loss can safely go has a well-supported answer: 0.5 to 1 percent of body
+      weight a week. At 80 kg that is 0.4 to 0.8 kg,
+      needing a deficit of roughly 440 to 880 calories a day, which is what the
+      calories to lose weight at that rate work out to. Read as a
+      weight loss calculator or as a cutting calorie calculator, the arithmetic is the same.
+      A gentle deficit versus an aggressive one is the only real choice on this page, and slower is
+      not weaker: gentle deficits
       preserve muscle better, leave enough energy to train hard, and survive a bad week without
       collapsing. Aggressive rates lose more lean tissue, and the practical failure mode is not
       danger but abandonment, usually inside a fortnight. Pick the rate you could still be running in
@@ -73,7 +81,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       response to sustained energy shortage. Neither effect is dramatic, and neither is a broken
       metabolism, but together they explain most stalls at week eight or ten.
     </p>
-    <ReferenceBlock type="key-idea" heading="Recalculate as you go">
+    <ReferenceBlock type="key-idea" heading="Adjust the target as body weight falls">
       <p>Re-run the numbers every 4 to 5 kg. The deficit that worked at your starting weight is a smaller deficit now, and eventually it is maintenance. Weekly averages, not single weigh-ins, are what should trigger the change.</p>
     </ReferenceBlock>
   </section>
@@ -105,7 +113,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </ReferenceBlock>
 
     <ReferenceBlock type="note" heading="The timeline is a best case">
-      <p>Weeks to goal assumes the deficit holds every day and your burn stays put. Neither is true, so a 20 week estimate often runs 24. Use it to tell a two month project from a six month one. Everything here runs in your browser and never leaves your device.</p>
+      <p>Enter a goal weight and the tool will estimate how many weeks a goal weight will take, but that number assumes the deficit holds every day and your burn stays put. Neither is true, so a 20 week estimate often runs 24. Use it to tell a two month project from a six month one. Everything here runs in your browser and never leaves your device.</p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="note" heading="Eating less versus moving more to widen the gap">
+      <p>Both work, and together they beat either alone. Cutting food is the more measurable lever: a 500 calorie reduction is straightforward, while a 500 calorie workout is a serious session that also raises appetite. Adding activity lets you eat more while still losing, which most people find easier to sustain.</p>
     </ReferenceBlock>
   </section>
 </GuideLayout>

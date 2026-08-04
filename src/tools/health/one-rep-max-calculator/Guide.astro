@@ -29,12 +29,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A one rep max is the heaviest load you could lift once with good form, and it is the number
-      strength programs are written against. This 1RM calculator estimates it from a submaximal set
+      strength programs are written against. This 1RM calculator, or max lift calculator, estimates
+      it from a submaximal set
       you actually completed, running the Epley, Brzycki, Lombardi, and O'Conner formulas at once and
       averaging them. The Epley formula multiplies the weight by 1 plus reps divided by 30, so 100 kg
-      for 5 reps estimates about 117 kg. The result also converts straight into the training
-      percentage table, from 95 percent for doubles down to 65 percent for sets of fifteen, so
-      progressive overload needs no arithmetic.
+      for 5 reps estimates about 117 kg; the brzycki formula divides by a falling linear term and
+      reads slightly lower. The result also converts straight into the
+      training percentage table, from 95 percent for doubles down to 65 percent for sets of fifteen,
+      so progressive overload needs no arithmetic.
     </p>
     <a href={toolHref} class="cta-link">Try The One Rep Max Calculator →</a>
   </section>
@@ -52,8 +54,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="formulas">
-    <h2>Why Four Formulas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>Epley Versus Brzycki, and Why Four Formulas <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
+      How the estimation formulas are derived is the same story four times: each is a curve fitted
+      to the reps-versus-load relationship, then run backwards.
       Epley uses a linear rep term, Brzycki divides by a falling linear term, and Lombardi and
       O'Conner fit different curves again. At three to five reps they agree within a couple of
       percent, so the choice is irrelevant. At twelve or more they can diverge by ten percent or
@@ -67,7 +71,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="training-percentages">
     <h2>Turning a Max Into Working Weights <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Programs are written in percentages because they scale to any lifter. Strength work generally
+      Programs are written in percentages because they scale to any lifter. What percentage of a
+      max suits each training goal is well established: strength work generally
       sits at 85 percent and above for one to five reps, hypertrophy at 70 to 85 percent for six to
       twelve, and muscular endurance below 70 percent. The percentage table in the result does the
       conversion for you, so five sets of five at 80 percent becomes a bar weight rather than a

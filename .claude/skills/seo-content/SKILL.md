@@ -27,9 +27,13 @@ One workflow, one entry point. All commands run from the project root.
 3. **You are not done until both pass:**
 
    ```sh
-   npm run build                  # registration + knowledge validation + Astro/TS
-   npm run seo:gate -- <slug>     # quality gate, exits 0 only at the bar
+   npm run seo:gate -- <slug>     # quality gate, exits 0 only at the bar — the inner loop
+   npm run verify                 # the done-condition: the PR gate in one command
    ```
+
+   `verify` is what catches everything the gate does not: content changes still move a page's HTML
+   weight against the per-page budget, and Quality Guardian's metadata and canonical validators run
+   there, not in `npm run build`.
 
    Gate failing: read `seo-engine/reports/tool-content-intelligence-<slug>.json`,
    apply the High Impact actions, re-run. Maximum 3 fix iterations, then stop

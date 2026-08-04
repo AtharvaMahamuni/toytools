@@ -45,6 +45,11 @@ export function parseHtml(filePath: string, urlPath: string, siteUrl: string): C
   const twitterTitle = $('meta[name="twitter:title"]').attr('content')?.trim() ?? '';
   const twitterDescription = $('meta[name="twitter:description"]').attr('content')?.trim() ?? '';
   const robots = $('meta[name="robots"]').attr('content')?.trim() ?? '';
+  // A retired URL kept alive as a redirect stub (src/data/tool-redirects.ts + faq-redirects.ts).
+  // Detected structurally rather than by a list of path prefixes, so a future slug rename needs no
+  // edit here: the stub IS the meta-refresh, and validators that assume a self-canonical or real
+  // content must skip it.
+  const isRedirectStub = $('meta[http-equiv="refresh"]').length > 0;
 
   // Headings
   const h1s: string[] = [];
@@ -122,6 +127,7 @@ export function parseHtml(filePath: string, urlPath: string, siteUrl: string): C
     internalLinks: [...new Set(internalLinks)],
     jsonLdBlocks,
     robots,
+    isRedirectStub,
     fileSizeBytes,
     altMissingCount,
     ariaLabelMissingCount,

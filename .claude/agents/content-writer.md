@@ -24,13 +24,15 @@ binding contract for structure and style.
    hand-edit the registry hubs, `*.generated.ts` barrels, or the guide route.
 4. Keep knowledge in sync: knowledge.ts commonQuestions must match faq.ts questions;
    commonMistakes and realWorldUseCases must appear in the guide or FAQ prose.
-5. Gate loop until both exit 0:
+5. Gate loop. Iterate on the single tool, then prove the whole gate:
    ```sh
-   npm run build
-   npm run seo:gate -- <slug>   # simulations: npm run seo:gate:sim -- <slug>
+   npm run seo:gate -- <slug>   # inner loop; simulations: npm run seo:gate:sim -- <slug>
+   npm run verify               # the done-condition. Mirrors the PR workflow exactly.
    ```
    Read the gate's JSON report (`seo-engine/reports/tool-content-intelligence-<slug>.json`) to
-   see exactly which category failed, fix the content, re-run.
+   see exactly which category failed, fix the content, re-run. `verify` is what catches the rest:
+   content edits still move HTML weight (the per-page budget), Quality Guardian's metadata and
+   canonical validators, and platform health. `npm run build` alone does not run those.
 6. Commit on completion with a message naming the slug and the final gate score.
 
 ## Rules

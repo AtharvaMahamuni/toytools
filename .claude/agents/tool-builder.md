@@ -35,13 +35,16 @@ read `docs/code-map.json` first for "where does X live", and follow the `add-too
 5. Content: fill config/guide/FAQ/knowledge stubs with real, original prose per the `seo-content`
    skill. Hard rules: NO em-dashes anywhere; guide.description <= 160 chars; knowledge
    commonQuestions must match faq.ts; commonMistakes/realWorldUseCases must appear in the prose.
-6. Gate loop until ALL of these exit 0, fixing and re-running - never weakening a check:
+6. Gate loop until `npm run verify` exits 0, fixing and re-running - never weakening a check.
    ```sh
-   npm run build          # validators + render + strict TS
-   npm run test           # engine unit tests
-   npm run test:e2e       # desktop + Pixel 5; build does NOT catch widget JS errors
-   npm run seo:gate -- <slug>
+   npm run verify:fast    # inner loop: everything except e2e. NOT a done-condition.
+   npm run verify         # the done-condition. Mirrors the PR workflow exactly.
    ```
+   `verify` runs unit tests, the coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true`,
+   the platform health check, Quality Guardian, `seo:gate` on every tool directory this branch
+   touched, and e2e on desktop AND Pixel 5. Running only `build`/`test`/`test:e2e` is what let a
+   red PR through before: those three miss coverage, health and Quality Guardian entirely. Do not
+   substitute the individual commands for `verify`; run them only to iterate on one failure.
 7. Commit stepwise on a branch (engine, then tool+content, then fixes) - one branch per tool,
    fully ready, per the single-PR rule. End commit messages with the project's co-author line.
 

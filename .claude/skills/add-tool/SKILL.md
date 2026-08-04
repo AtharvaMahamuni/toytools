@@ -27,7 +27,7 @@ real 3-line widget; other engines get a placeholder Widget.astro to implement by
 **engine impl stub + its registry import/entry** for `text-processor`/`encoding`/`structured-data`
 (a passthrough you must implement, plus test cases in the engine's colocated `*.test.ts`; hashing
 and jwt impls stay hand-written). It emits TODO stubs for config/faq/guide/knowledge — fill them
-with real content, then run `npm run build` and `npm run test:e2e`. `--remove` is the full inverse
+with real content, then run `npm run verify`. `--remove` is the full inverse
 (including an engine impl no other tool uses). The rest of this contract still applies to what you
 write. For "where does X live", read `docs/code-map.json` first.
 
@@ -43,7 +43,7 @@ write. For "where does X live", read `docs/code-map.json` first.
 
 5. **`processorId` in `config.ts` must exactly match the `id` field** in the engine registry entry (e.g., `PROCESSORS`, `ENCODERS`, `HASHERS`, `STRUCTURED_TOOLS`). `validate-registry` now fails the build on an unknown id **or** a collision (two tools claiming the same id). The one residual silent case: a typo that happens to match a *different real* processor — so still double-check the id resolves to the transform you intend.
 
-6. **`npm run build` is the primary gate.** It runs `validate-registry.ts` + `validate-knowledge.ts` + `validate-architecture.ts` (orphan/drift detection), then Astro render + TypeScript in one pass, then `check-budget.ts`. Run it before declaring done. Then **`npm run test:e2e`** (desktop + Pixel 5) — the build does NOT catch widget JS errors; e2e does, and it is a PR gate. Finish with `npm run health` for sitemap/manifest/knowledge coverage.
+6. **`npm run verify` is the gate, and the only done-condition.** It mirrors the PR workflow step for step: unit tests, coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true` (validators + Astro render + TypeScript + `check-budget.ts`), platform health, Quality Guardian, `seo:gate` on every tool directory the branch touched, and e2e on desktop + Pixel 5. Use `npm run verify:fast` (no e2e) to iterate, but never call a tool done on it. Running `build` + `test` + `test:e2e` by hand is what let a red PR through: those three skip coverage, health and Quality Guardian entirely.
 
 7. **The new tool's page must come in under the performance budget.** `check-budget.ts` runs last in `npm run build` and fails it, so this is enforced, not advisory. A tool page's ceiling is **60 KB gzipped total** (≤6 render-blocking stylesheets, ≤16 KB CSS, ≤24 KB JS, ≤34 KB HTML); a typical tool lands at 33-40 KB, so content has room. When a new tool trips it the cause is structural, not wordcount:
    - **JS** → the engine is pulling something it should not, or an engine was statically imported back into `src/lib/runtime/index.ts`. Engine runtimes must stay lazy: add `src/lib/runtime/engines/<id>.ts` and register it in **both** maps in `src/lib/runtime/loaders.ts`.
