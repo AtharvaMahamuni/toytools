@@ -7,7 +7,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     Stored locally <span class="gold-dot" aria-hidden="true"></span> Never leaves your device
   </p>
   <div class="todo-add">
-    <input id="todo-new-task" type="text" aria-label="Add a task" placeholder="Add a task..." autocomplete="off" />
+    <input id="todo-new-task" type="text" aria-label="Add a task" placeholder="Add a task..." autocomplete="off" enterkeyhint="done" />
     <button id="todo-add-btn" type="button">Add</button>
   </div>
   <div class="todo-toolbar">
@@ -22,11 +22,16 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   </div>
   <div id="todo-list-container" aria-live="polite"></div>
   <div class="todo-footer">
-    <div id="todo-progress" class="todo-progress" aria-live="polite"></div>
-    <label class="todo-hide-label">
-      <input type="checkbox" id="todo-hide-completed" aria-label="Hide completed tasks" />
-      Hide Completed
-    </label>
+    <div class="todo-footer-row">
+      <div id="todo-progress" class="todo-progress" aria-live="polite"></div>
+      <label class="todo-hide-label">
+        <input type="checkbox" id="todo-hide-completed" aria-label="Hide completed tasks" />
+        Hide Completed
+      </label>
+    </div>
+    <div id="todo-progress-track" class="todo-progress-track" hidden aria-hidden="true">
+      <div id="todo-progress-bar" class="todo-progress-bar"></div>
+    </div>
   </div>
 </section>
 
@@ -154,15 +159,69 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
   .todo-task {
     border-top: var(--border);
-    padding-block: var(--space-2);
+    padding-block: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    transition: box-shadow var(--duration-normal) ease,
+                background-color var(--duration-normal) ease,
+                opacity var(--duration-normal) ease,
+                transform var(--duration-normal) ease;
+  }
+
+  /* The row being dragged lifts off the list as a card. */
+  .todo-task.todo-dragging {
+    border-top-color: transparent;
+    background: var(--color-bg);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+    cursor: grabbing;
+    position: relative;
+    z-index: 2;
+  }
+  .todo-task.todo-collapsing {
+    opacity: 0;
+    transform: translateX(8px);
   }
 
   .todo-task-row {
     display: flex;
     align-items: flex-start;
-    gap: var(--space-3);
-    min-height: var(--touch-target);
+    gap: var(--space-2);
   }
+
+  /* Six-dot grip. Aligns to the first line of the title (line box = 1.5rem). */
+  .todo-drag-handle,
+  .todo-subtask-drag {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--color-text-subtle);
+    cursor: grab;
+    border-radius: var(--radius-sm);
+    touch-action: none;
+    opacity: 0;
+    transition: opacity var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+  }
+  .todo-drag-handle svg,
+  .todo-subtask-drag svg { width: 16px; height: 16px; display: block; }
+  .todo-subtask-drag { width: 20px; height: 20px; }
+  .todo-subtask-drag svg { width: 14px; height: 14px; }
+
+  .todo-task-row:hover .todo-drag-handle,
+  .todo-task:focus-within .todo-drag-handle,
+  .todo-subtask-row:hover .todo-subtask-drag,
+  .todo-subtask-row:focus-within .todo-subtask-drag {
+    opacity: 1;
+  }
+  .todo-drag-handle:hover,
+  .todo-subtask-drag:hover { color: var(--color-text); background: var(--color-bg-tertiary); }
+  .todo-drag-handle:active,
+  .todo-subtask-drag:active { cursor: grabbing; }
 
   /* Minimal custom checkbox — square, hollow → accent fill + check on done */
   .todo-checkbox,
@@ -182,7 +241,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-checkbox {
     width: 20px;
     height: 20px;
-    /* Center the box against the first line of the title (line-height 1.5 * 1rem) */
+    /* Center the 20px box against the first line of the title (1.5rem = 24px box). */
     margin-top: calc((1.5rem - 20px) / 2);
   }
 
@@ -195,7 +254,9 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     border-color: var(--color-accent);
   }
 
-  .todo-checkbox:checked::after {
+  /* The tick — drawn with a rotated border corner. */
+  .todo-checkbox::after,
+  .todo-subtask-checkbox::after {
     content: '';
     position: absolute;
     left: 6px;
@@ -204,12 +265,49 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     height: 10px;
     border: solid var(--color-text-inverse);
     border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    transform: rotate(45deg) scale(0);
+    opacity: 0;
+    transition: opacity var(--duration-fast) ease, transform var(--duration-fast) ease;
+  }
+  .todo-checkbox:checked::after,
+  .todo-subtask-checkbox:checked::after {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+  }
+  .todo-subtask-checkbox::after {
+    left: 4.5px;
+    top: 1.5px;
+    width: 4px;
+    height: 8px;
+  }
+
+  /* Satisfying pop, fired from JS on genuine user toggle only (not on re-render). */
+  .todo-checkbox.todo-pop,
+  .todo-subtask-checkbox.todo-pop { animation: todo-box-pop var(--duration-normal) var(--ease-default); }
+  .todo-checkbox.todo-pop::after,
+  .todo-subtask-checkbox.todo-pop::after { animation: todo-check-in var(--duration-normal) var(--ease-default); }
+
+  @keyframes todo-box-pop {
+    0%   { transform: scale(1); }
+    45%  { transform: scale(0.86); }
+    100% { transform: scale(1); }
+  }
+  @keyframes todo-check-in {
+    0%   { transform: rotate(45deg) scale(0); opacity: 0; }
+    60%  { transform: rotate(45deg) scale(1.25); opacity: 1; }
+    100% { transform: rotate(45deg) scale(1); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .todo-checkbox.todo-pop,
+    .todo-subtask-checkbox.todo-pop,
+    .todo-checkbox.todo-pop::after,
+    .todo-subtask-checkbox.todo-pop::after { animation: none; }
+    .todo-checkbox::after,
+    .todo-subtask-checkbox::after { transition: none; }
   }
 
   .todo-title {
     flex: 1;
-    align-self: center;
     font-size: var(--text-base);
     line-height: 1.5;
     transition: color var(--duration-fast) ease;
@@ -221,26 +319,25 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     color: var(--color-text-subtle);
   }
 
-  /* Minimal delete — hollow ✕ glyph, reveals on hover/focus */
+  /* Minimal delete — quiet ✕ glyph, reveals on hover/focus, aligns to first line. */
   .todo-delete,
   .todo-subtask-delete {
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     background: none;
     border: none;
     color: var(--color-text-subtle);
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     line-height: 1;
     font-family: inherit;
     cursor: pointer;
     border-radius: var(--radius-sm);
     opacity: 0;
     transition: opacity var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
-    align-self: center;
   }
 
   .todo-task-row:hover .todo-delete,
@@ -250,10 +347,12 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     opacity: 1;
   }
 
-  /* Touch devices have no hover — delete buttons must stay visible. */
+  /* Touch devices have no hover — drag handles and delete stay visible. */
   @media (hover: none) {
     .todo-delete,
-    .todo-subtask-delete {
+    .todo-subtask-delete,
+    .todo-drag-handle,
+    .todo-subtask-drag {
       opacity: 1;
     }
   }
@@ -265,7 +364,8 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   }
 
   .todo-subtasks {
-    padding-left: calc(20px + var(--space-3));
+    /* Indent past the drag handle so subtasks nest under the parent checkbox column. */
+    padding-left: calc(24px + var(--space-2));
     display: flex;
     flex-direction: column;
     margin-top: var(--space-1);
@@ -274,26 +374,23 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-subtask-row {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    min-height: 40px;
+    gap: var(--space-2);
+    min-height: 36px;
     padding-block: var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    transition: box-shadow var(--duration-normal) ease;
+  }
+  .todo-subtask-row.todo-dragging {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    cursor: grabbing;
+    position: relative;
+    z-index: 2;
   }
 
   .todo-subtask-checkbox {
     width: 16px;
     height: 16px;
-  }
-
-  .todo-subtask-checkbox:checked::after {
-    content: '';
-    position: absolute;
-    left: 4.5px;
-    top: 1.5px;
-    width: 4px;
-    height: 8px;
-    border: solid var(--color-text-inverse);
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
   }
 
   .todo-subtask-title {
@@ -312,7 +409,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-add-subtask {
     display: flex;
     gap: var(--space-2);
-    padding-left: calc(20px + var(--space-3));
+    padding-left: calc(24px + var(--space-2));
     margin-top: var(--space-2);
   }
 
@@ -349,18 +446,47 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
   .todo-footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: var(--space-3);
     margin-top: var(--space-4);
     padding-top: var(--space-4);
     border-top: var(--border);
   }
 
+  .todo-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
   .todo-progress {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Unique touch: a slim completion bar under the footer summary. */
+  .todo-progress-track {
+    height: 4px;
+    width: 100%;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .todo-progress-track[hidden] { display: none; }
+
+  .todo-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--color-accent);
+    border-radius: var(--radius-sm);
+    transition: width var(--duration-normal) var(--ease-default);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .todo-progress-bar { transition: none; }
+    .todo-task { transition: none; }
   }
 
   .todo-hide-label {
@@ -415,6 +541,12 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     var STORAGE_KEY = 'toytools.todo.tasks';
     var tasks = [];
 
+    // A six-dot grip glyph, inline so it inherits currentColor and needs no asset.
+    var GRIP_SVG = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">' +
+      '<circle cx="5" cy="3" r="1.4"/><circle cx="11" cy="3" r="1.4"/>' +
+      '<circle cx="5" cy="8" r="1.4"/><circle cx="11" cy="8" r="1.4"/>' +
+      '<circle cx="5" cy="13" r="1.4"/><circle cx="11" cy="13" r="1.4"/></svg>';
+
     function loadTasks() {
       try {
         var saved = localStorage.getItem(STORAGE_KEY);
@@ -433,14 +565,11 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       return Date.now().toString(36) + Math.random().toString(36).slice(2);
     }
 
+    function findTask(id) { return tasks.find(function (x) { return x.id === id; }); }
+
     function addTask(title) {
       tasks.unshift({ id: uid(), title: title, completed: false, createdAt: new Date().toISOString(), subtasks: [] });
       saveTasks(); render();
-    }
-
-    function toggleTask(id) {
-      var t = tasks.find(function (x) { return x.id === id; });
-      if (t) { t.completed = !t.completed; saveTasks(); render(); }
     }
 
     function deleteTask(id) {
@@ -449,80 +578,231 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     }
 
     function addSubtask(taskId, title) {
-      var t = tasks.find(function (x) { return x.id === taskId; });
+      var t = findTask(taskId);
       if (t) { t.subtasks.push({ id: uid(), title: title, completed: false }); saveTasks(); render(); }
     }
 
-    function toggleSubtask(taskId, subId) {
-      var t = tasks.find(function (x) { return x.id === taskId; });
-      if (t) {
-        var s = t.subtasks.find(function (x) { return x.id === subId; });
-        if (s) { s.completed = !s.completed; saveTasks(); render(); }
-      }
-    }
-
     function deleteSubtask(taskId, subId) {
-      var t = tasks.find(function (x) { return x.id === taskId; });
+      var t = findTask(taskId);
       if (t) { t.subtasks = t.subtasks.filter(function (x) { return x.id !== subId; }); saveTasks(); render(); }
     }
 
-    function createSubtaskEl(taskId, sub) {
+    // ---- Pointer + keyboard drag-to-reorder -------------------------------
+    // Handle-only drag that works with mouse and touch (Pointer Events), plus
+    // ArrowUp/ArrowDown when the grip is focused. Live-reorders the DOM, then
+    // commits the new order back to the data model on drop.
+    function makeSortable(handle, item, container, commit) {
+      var dragging = false, pid = null;
+
+      function siblings() {
+        var out = [];
+        Array.prototype.forEach.call(container.children, function (c) {
+          if (c !== item && c.hasAttribute('data-id')) out.push(c);
+        });
+        return out;
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        var y = e.clientY;
+        var sibs = siblings(), placed = false;
+        for (var i = 0; i < sibs.length; i++) {
+          var r = sibs[i].getBoundingClientRect();
+          if (y < r.top + r.height / 2) { container.insertBefore(item, sibs[i]); placed = true; break; }
+        }
+        if (!placed) container.appendChild(item);
+      }
+
+      function onUp() {
+        if (!dragging) return;
+        dragging = false;
+        item.classList.remove('todo-dragging');
+        try { handle.releasePointerCapture(pid); } catch (_) {}
+        document.removeEventListener('pointermove', onMove);
+        document.removeEventListener('pointerup', onUp);
+        document.removeEventListener('pointercancel', onUp);
+        commit();
+      }
+
+      handle.addEventListener('pointerdown', function (e) {
+        if (e.button != null && e.button > 0) return; // primary button / touch only
+        e.preventDefault();
+        dragging = true; pid = e.pointerId;
+        item.classList.add('todo-dragging');
+        try { handle.setPointerCapture(pid); } catch (_) {}
+        document.addEventListener('pointermove', onMove);
+        document.addEventListener('pointerup', onUp);
+        document.addEventListener('pointercancel', onUp);
+      });
+
+      handle.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+        e.preventDefault();
+        if (e.key === 'ArrowUp') {
+          var prev = item.previousElementSibling;
+          if (prev && prev.hasAttribute('data-id')) container.insertBefore(item, prev);
+        } else {
+          var next = item.nextElementSibling;
+          if (next && next.hasAttribute('data-id')) container.insertBefore(next, item);
+        }
+        commit();
+        handle.focus();
+      });
+    }
+
+    function domOrderIds(container) {
+      var ids = [];
+      Array.prototype.forEach.call(container.children, function (c) {
+        var id = c.getAttribute('data-id');
+        if (id) ids.push(id);
+      });
+      return ids;
+    }
+
+    // Reorder top-level tasks from the DOM. When "Hide Completed" filters some
+    // out, only the visible slots are reshuffled; hidden tasks keep their spot.
+    function commitTaskOrder(container) {
+      var domIds = domOrderIds(container);
+      var visible = {};
+      domIds.forEach(function (id) { visible[id] = true; });
+      var byId = {};
+      tasks.forEach(function (t) { byId[t.id] = t; });
+      var vi = 0;
+      tasks = tasks.map(function (t) {
+        if (visible[t.id]) { var nt = byId[domIds[vi]]; vi++; return nt || t; }
+        return t;
+      });
+      saveTasks();
+    }
+
+    function commitSubtaskOrder(taskId, container) {
+      var t = findTask(taskId);
+      if (!t) return;
+      var domIds = domOrderIds(container);
+      var byId = {};
+      t.subtasks.forEach(function (s) { byId[s.id] = s; });
+      var reordered = domIds.map(function (id) { return byId[id]; }).filter(Boolean);
+      if (reordered.length === t.subtasks.length) { t.subtasks = reordered; saveTasks(); }
+    }
+
+    // ---- Surgical toggles (no full re-render, so the pop animation shows) --
+    function popCheckbox(cb) {
+      cb.classList.remove('todo-pop');
+      // Force reflow so re-adding the class restarts the animation.
+      void cb.offsetWidth;
+      cb.classList.add('todo-pop');
+      setTimeout(function () { cb.classList.remove('todo-pop'); }, 260);
+    }
+
+    function toggleTask(task, itemEl, cb) {
+      task.completed = cb.checked;
+      saveTasks();
+      if (task.completed) popCheckbox(cb);
+      itemEl.classList.toggle('todo-task--done', task.completed);
+
+      var hideEl = document.getElementById('todo-hide-completed');
+      if (hideEl && hideEl.checked && task.completed) {
+        // Collapse the row out, then drop it from the DOM (data already saved).
+        itemEl.classList.add('todo-collapsing');
+        setTimeout(function () { if (itemEl.parentNode) itemEl.parentNode.removeChild(itemEl); updateProgress(); }, 200);
+      } else {
+        updateProgress();
+      }
+    }
+
+    function toggleSubtask(sub, rowEl, cb) {
+      sub.completed = cb.checked;
+      saveTasks();
+      if (sub.completed) popCheckbox(cb);
+      rowEl.classList.toggle('todo-subtask--done', sub.completed);
+    }
+
+    // ---- Rendering ---------------------------------------------------------
+    function makeHandle(cls, label) {
+      var h = document.createElement('button');
+      h.type = 'button'; h.className = cls; h.innerHTML = GRIP_SVG;
+      h.setAttribute('aria-label', label);
+      h.title = label;
+      return h;
+    }
+
+    function createSubtaskEl(taskId, sub, subList) {
       var row = document.createElement('div');
       row.className = 'todo-subtask-row' + (sub.completed ? ' todo-subtask--done' : '');
+      row.setAttribute('data-id', sub.id);
+
+      var handle = makeHandle('todo-subtask-drag', 'Reorder subtask, or use arrow keys');
       var cb = document.createElement('input');
       cb.type = 'checkbox'; cb.className = 'todo-subtask-checkbox'; cb.checked = sub.completed;
-      cb.addEventListener('change', function () { toggleSubtask(taskId, sub.id); });
+      cb.setAttribute('aria-label', sub.title);
+      cb.addEventListener('change', function () { toggleSubtask(sub, row, cb); });
       var title = document.createElement('span');
       title.className = 'todo-subtask-title'; title.textContent = sub.title;
       var del = document.createElement('button');
       del.type = 'button'; del.className = 'todo-subtask-delete'; del.textContent = '✕';
       del.setAttribute('aria-label', 'Delete subtask');
       del.addEventListener('click', function () { deleteSubtask(taskId, sub.id); });
-      row.appendChild(cb); row.appendChild(title); row.appendChild(del);
+
+      row.appendChild(handle); row.appendChild(cb); row.appendChild(title); row.appendChild(del);
+      makeSortable(handle, row, subList, function () { commitSubtaskOrder(taskId, subList); });
       return row;
     }
 
-    function createTaskEl(task) {
+    function createTaskEl(task, container) {
       var item = document.createElement('div');
       item.className = 'todo-task' + (task.completed ? ' todo-task--done' : '');
+      item.setAttribute('data-id', task.id);
+
       var row = document.createElement('div'); row.className = 'todo-task-row';
+      var handle = makeHandle('todo-drag-handle', 'Reorder task, or use arrow keys');
       var cb = document.createElement('input');
       cb.type = 'checkbox'; cb.className = 'todo-checkbox'; cb.checked = task.completed;
-      cb.addEventListener('change', function () { toggleTask(task.id); });
+      cb.setAttribute('aria-label', task.title);
+      cb.addEventListener('change', function () { toggleTask(task, item, cb); });
       var title = document.createElement('span');
       title.className = 'todo-title'; title.textContent = task.title;
       var del = document.createElement('button');
       del.type = 'button'; del.className = 'todo-delete'; del.textContent = '✕';
       del.setAttribute('aria-label', 'Delete task');
       del.addEventListener('click', function () { deleteTask(task.id); });
-      row.appendChild(cb); row.appendChild(title); row.appendChild(del);
+      row.appendChild(handle); row.appendChild(cb); row.appendChild(title); row.appendChild(del);
       item.appendChild(row);
 
-      if (task.subtasks.length > 0) {
-        var subList = document.createElement('div'); subList.className = 'todo-subtasks';
-        task.subtasks.forEach(function (sub) { subList.appendChild(createSubtaskEl(task.id, sub)); });
-        item.appendChild(subList);
-      }
+      var subList = document.createElement('div'); subList.className = 'todo-subtasks';
+      task.subtasks.forEach(function (sub) { subList.appendChild(createSubtaskEl(task.id, sub, subList)); });
+      if (task.subtasks.length > 0) item.appendChild(subList);
 
       var addSub = document.createElement('div'); addSub.className = 'todo-add-subtask';
       var subInput = document.createElement('input');
       subInput.type = 'text'; subInput.placeholder = 'Add subtask...'; subInput.autocomplete = 'off';
-      subInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') { var val = subInput.value.trim(); if (val) addSubtask(task.id, val); }
-      });
+      subInput.setAttribute('enterkeyhint', 'done');
+      function submitSub() { var val = subInput.value.trim(); if (val) addSubtask(task.id, val); }
+      subInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitSub(); });
       var subBtn = document.createElement('button');
       subBtn.type = 'button'; subBtn.className = 'todo-add-subtask-btn'; subBtn.textContent = 'Add Subtask';
-      subBtn.addEventListener('click', function () { var val = subInput.value.trim(); if (val) addSubtask(task.id, val); });
+      subBtn.addEventListener('click', submitSub);
       addSub.appendChild(subInput); addSub.appendChild(subBtn);
       item.appendChild(addSub);
+
+      makeSortable(handle, item, container, function () { commitTaskOrder(container); });
       return item;
     }
 
     function updateProgress() {
-      var el = document.getElementById('todo-progress'); if (!el) return;
-      var total = tasks.length; if (total === 0) { el.textContent = ''; return; }
+      var el = document.getElementById('todo-progress');
+      var track = document.getElementById('todo-progress-track');
+      var bar = document.getElementById('todo-progress-bar');
+      var total = tasks.length;
+      if (total === 0) {
+        if (el) el.textContent = '';
+        if (track) track.hidden = true;
+        return;
+      }
       var done = tasks.filter(function (t) { return t.completed; }).length;
-      el.textContent = done + ' of ' + total + ' completed ● ' + Math.round((done / total) * 100) + '%';
+      var pct = Math.round((done / total) * 100);
+      if (el) el.textContent = done + ' of ' + total + ' completed ● ' + pct + '%';
+      if (track) track.hidden = false;
+      if (bar) bar.style.width = pct + '%';
     }
 
     function render() {
@@ -536,7 +816,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
         container.appendChild(empty); updateProgress(); return;
       }
       var visible = hideCompleted ? tasks.filter(function (t) { return !t.completed; }) : tasks;
-      visible.forEach(function (task) { container.appendChild(createTaskEl(task)); });
+      visible.forEach(function (task) { container.appendChild(createTaskEl(task, container)); });
       updateProgress();
     }
 
