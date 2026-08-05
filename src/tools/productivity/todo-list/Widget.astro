@@ -12,10 +12,12 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   </div>
   <div class="todo-toolbar">
     <button id="todo-fullscreen" type="button" aria-pressed="false">Full Screen</button>
-    <span class="gold-dot" aria-hidden="true"></span>
     <button id="todo-distraction" type="button" aria-pressed="false">Remove Distractions</button>
-    <span class="gold-dot" aria-hidden="true"></span>
     <button id="todo-wake" type="button" aria-pressed="false">Keep Awake</button>
+    <span id="todo-wake-timer" class="todo-wake-timer" hidden aria-live="polite">
+      <span class="todo-wake-dot" aria-hidden="true"></span>
+      <span id="todo-wake-elapsed" class="todo-wake-elapsed">00:00:00</span>
+    </span>
     <button id="todo-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
   </div>
   <div id="todo-list-container" aria-live="polite"></div>
@@ -36,7 +38,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-storage-note {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-3);
   }
 
   .todo-add {
@@ -59,7 +61,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-add button {
     min-height: var(--touch-target);
     padding-inline: var(--space-5);
-    border: var(--border-strong);
+    border: none;
     border-radius: var(--radius-md);
     background: var(--color-accent);
     color: var(--color-text-inverse);
@@ -71,13 +73,14 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   }
 
   .todo-add button:hover { opacity: 0.9; }
+  .todo-add button:active { opacity: 0.8; }
 
   .todo-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
-    padding-block: var(--space-2);
+    padding-block: var(--space-3);
   }
 
   .todo-toolbar button {
@@ -98,9 +101,42 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     border-color: var(--color-text-muted);
   }
 
+  .todo-toolbar button:active { background: var(--color-bg-tertiary); }
+
   .todo-toolbar button[aria-pressed="true"] {
-    color: var(--color-text);
+    color: var(--color-accent-strong);
     border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+  }
+
+  /* Elapsed timer shown while Keep Awake is active */
+  .todo-wake-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding-inline: var(--space-3);
+    min-height: var(--touch-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .todo-wake-timer[hidden] { display: none; }
+
+  .todo-wake-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+    animation: dot-breathe 5s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .todo-wake-dot { animation: none; }
+  }
+
+  .todo-wake-elapsed {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
   }
 
   #todo-list-container {
@@ -113,11 +149,12 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     padding: var(--space-8) 0;
     color: var(--color-text-subtle);
     font-size: var(--text-sm);
+    text-align: center;
   }
 
   .todo-task {
     border-top: var(--border);
-    padding-block: var(--space-3);
+    padding-block: var(--space-2);
   }
 
   .todo-task-row {
@@ -127,20 +164,54 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     min-height: var(--touch-target);
   }
 
-  .todo-checkbox {
+  /* Minimal custom checkbox — square, hollow → accent fill + check on done */
+  .todo-checkbox,
+  .todo-subtask-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
     flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-    margin-top: var(--space-1);
-    accent-color: var(--color-accent);
+    box-sizing: border-box;
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
     cursor: pointer;
+    position: relative;
+    transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  }
+
+  .todo-checkbox {
+    width: 20px;
+    height: 20px;
+    /* Center the box against the first line of the title (line-height 1.5 * 1rem) */
+    margin-top: calc((1.5rem - 20px) / 2);
+  }
+
+  .todo-checkbox:hover,
+  .todo-subtask-checkbox:hover { border-color: var(--color-accent); }
+
+  .todo-checkbox:checked,
+  .todo-subtask-checkbox:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .todo-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--color-text-inverse);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
   }
 
   .todo-title {
     flex: 1;
     align-self: center;
     font-size: var(--text-base);
-    line-height: var(--leading-relaxed);
+    line-height: 1.5;
     transition: color var(--duration-fast) ease;
     word-break: break-word;
   }
@@ -150,19 +221,25 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     color: var(--color-text-subtle);
   }
 
+  /* Minimal delete — hollow ✕ glyph, reveals on hover/focus */
   .todo-delete,
   .todo-subtask-delete {
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
     background: none;
     border: none;
     color: var(--color-text-subtle);
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
+    line-height: 1;
     font-family: inherit;
     cursor: pointer;
-    padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-sm);
     opacity: 0;
-    transition: opacity var(--duration-fast) ease, color var(--duration-fast) ease;
+    transition: opacity var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
     align-self: center;
   }
 
@@ -182,10 +259,13 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   }
 
   .todo-delete:hover,
-  .todo-subtask-delete:hover { color: var(--color-text); }
+  .todo-subtask-delete:hover {
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+  }
 
   .todo-subtasks {
-    padding-left: var(--space-9);
+    padding-left: calc(20px + var(--space-3));
     display: flex;
     flex-direction: column;
     margin-top: var(--space-1);
@@ -194,18 +274,26 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-subtask-row {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    min-height: 44px;
-    border-top: var(--border);
-    padding-block: var(--space-2);
+    gap: var(--space-3);
+    min-height: 40px;
+    padding-block: var(--space-1);
   }
 
   .todo-subtask-checkbox {
-    flex-shrink: 0;
-    width: 14px;
-    height: 14px;
-    accent-color: var(--color-accent);
-    cursor: pointer;
+    width: 16px;
+    height: 16px;
+  }
+
+  .todo-subtask-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 4.5px;
+    top: 1.5px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--color-text-inverse);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
   }
 
   .todo-subtask-title {
@@ -224,13 +312,13 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-add-subtask {
     display: flex;
     gap: var(--space-2);
-    padding-left: var(--space-9);
+    padding-left: calc(20px + var(--space-3));
     margin-top: var(--space-2);
   }
 
   .todo-add-subtask input {
     flex: 1;
-    min-height: 44px;
+    min-height: 40px;
     padding: var(--space-2) var(--space-3);
     border: var(--border);
     border-radius: var(--radius-md);
@@ -241,7 +329,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   }
 
   .todo-add-subtask-btn {
-    min-height: 44px;
+    min-height: 40px;
     padding-inline: var(--space-3);
     border: var(--border);
     border-radius: var(--radius-md);
@@ -286,10 +374,36 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   }
 
   .todo-hide-label input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
-    accent-color: var(--color-accent);
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
     cursor: pointer;
+    position: relative;
+    transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  }
+
+  .todo-hide-label input[type="checkbox"]:hover { border-color: var(--color-accent); }
+
+  .todo-hide-label input[type="checkbox"]:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .todo-hide-label input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4.5px;
+    top: 1.5px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--color-text-inverse);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
   }
 </style>
 
@@ -361,7 +475,8 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       var title = document.createElement('span');
       title.className = 'todo-subtask-title'; title.textContent = sub.title;
       var del = document.createElement('button');
-      del.type = 'button'; del.className = 'todo-subtask-delete'; del.textContent = 'Delete';
+      del.type = 'button'; del.className = 'todo-subtask-delete'; del.textContent = '✕';
+      del.setAttribute('aria-label', 'Delete subtask');
       del.addEventListener('click', function () { deleteSubtask(taskId, sub.id); });
       row.appendChild(cb); row.appendChild(title); row.appendChild(del);
       return row;
@@ -377,7 +492,8 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       var title = document.createElement('span');
       title.className = 'todo-title'; title.textContent = task.title;
       var del = document.createElement('button');
-      del.type = 'button'; del.className = 'todo-delete'; del.textContent = 'Delete';
+      del.type = 'button'; del.className = 'todo-delete'; del.textContent = '✕';
+      del.setAttribute('aria-label', 'Delete task');
       del.addEventListener('click', function () { deleteTask(task.id); });
       row.appendChild(cb); row.appendChild(title); row.appendChild(del);
       item.appendChild(row);
@@ -440,13 +556,41 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
     loadTasks(); render();
 
+    // Keep Awake elapsed timer — shown only while the wake lock is held.
+    var wakeTimer = document.getElementById('todo-wake-timer');
+    var wakeElapsed = document.getElementById('todo-wake-elapsed');
+    var wakeStart = null, wakeInterval = null;
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function renderElapsed() {
+      if (!wakeElapsed || wakeStart === null) return;
+      var s = Math.floor((Date.now() - wakeStart) / 1000);
+      var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+      wakeElapsed.textContent = pad(h) + ':' + pad(m) + ':' + pad(sec);
+    }
+
+    function startWakeTimer() {
+      wakeStart = Date.now();
+      renderElapsed();
+      if (wakeTimer) wakeTimer.hidden = false;
+      wakeInterval = setInterval(renderElapsed, 1000);
+    }
+
+    function stopWakeTimer() {
+      if (wakeInterval) { clearInterval(wakeInterval); wakeInterval = null; }
+      wakeStart = null;
+      if (wakeTimer) wakeTimer.hidden = true;
+    }
+
     ToyTools.focus.attach({
       panel: document.querySelector('.tool-panel[data-tool="todo-list"]'),
       fsBtn: document.getElementById('todo-fullscreen'),
       rdBtn: document.getElementById('todo-distraction'),
       wakeBtn: document.getElementById('todo-wake'),
       exitBtn: document.getElementById('todo-focus-exit'),
-      onEnter: function () { newTaskInput.focus(); }
+      onEnter: function () { newTaskInput.focus(); },
+      onWakeChange: function (on) { if (on) startWakeTimer(); else stopWakeTimer(); }
     });
   })();
 </script>

@@ -361,6 +361,7 @@
       var wakeLock = null, wakeOn = false;
 
       function setPressed(btn, on) { if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      function notifyWake(on) { if (typeof opts.onWakeChange === 'function') opts.onWakeChange(on); }
 
       function enter(useNative) {
         if (active) return;
@@ -400,17 +401,19 @@
             wakeLock = null;
             if (wakeOn) document.addEventListener('visibilitychange', reacquire);
           });
-        }).catch(function () { wakeOn = false; setPressed(opts.wakeBtn, false); });
+        }).catch(function () { wakeOn = false; setPressed(opts.wakeBtn, false); notifyWake(false); });
       }
       function toggleWake() {
         if (wakeOn) {
           wakeOn = false; setPressed(opts.wakeBtn, false);
           document.removeEventListener('visibilitychange', reacquire);
           if (wakeLock) { wakeLock.release(); wakeLock = null; }
+          notifyWake(false);
           TT.toast('Screen wake released');
         } else {
           wakeOn = true; setPressed(opts.wakeBtn, true);
           requestWake();
+          notifyWake(true);
           TT.toast('Keeping screen awake');
         }
       }
