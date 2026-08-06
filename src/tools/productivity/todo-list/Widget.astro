@@ -715,6 +715,7 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       saveTasks();
       if (sub.completed) popCheckbox(cb);
       rowEl.classList.toggle('todo-subtask--done', sub.completed);
+      updateProgress();
     }
 
     // ---- Rendering ---------------------------------------------------------
@@ -792,13 +793,18 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
       var el = document.getElementById('todo-progress');
       var track = document.getElementById('todo-progress-track');
       var bar = document.getElementById('todo-progress-bar');
-      var total = tasks.length;
-      if (total === 0) {
+      if (tasks.length === 0) {
         if (el) el.textContent = '';
         if (track) track.hidden = true;
         return;
       }
-      var done = tasks.filter(function (t) { return t.completed; }).length;
+      // Count every checkable item — each task and each of its subtasks — so the
+      // percentage reflects subtask progress, not just top-level tasks.
+      var total = 0, done = 0;
+      tasks.forEach(function (t) {
+        total += 1; if (t.completed) done += 1;
+        t.subtasks.forEach(function (s) { total += 1; if (s.completed) done += 1; });
+      });
       var pct = Math.round((done / total) * 100);
       if (el) el.textContent = done + ' of ' + total + ' completed ● ' + pct + '%';
       if (track) track.hidden = false;
