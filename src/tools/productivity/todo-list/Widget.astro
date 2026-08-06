@@ -11,9 +11,18 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     <button id="todo-add-btn" type="button">Add</button>
   </div>
   <div class="todo-toolbar">
-    <button id="todo-fullscreen" type="button" aria-pressed="false">Full Screen</button>
-    <button id="todo-distraction" type="button" aria-pressed="false">Remove Distractions</button>
-    <button id="todo-wake" type="button" aria-pressed="false">Keep Awake</button>
+    <button id="todo-fullscreen" type="button" class="todo-tool-btn" aria-pressed="false">
+      <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2H2v4M10 2h4v4M6 14H2v-4M10 14h4v-4"/></svg>
+      <span>Full Screen</span>
+    </button>
+    <button id="todo-distraction" type="button" class="todo-tool-btn" aria-pressed="false">
+      <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/></svg>
+      <span>Remove Distractions</span>
+    </button>
+    <button id="todo-wake" type="button" class="todo-tool-btn" aria-pressed="false">
+      <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M2.6 2.6l1 1M12.4 12.4l1 1M1.5 8h1.5M13 8h1.5M2.6 13.4l1-1M12.4 3.6l1-1"/></svg>
+      <span>Keep Awake</span>
+    </button>
     <span id="todo-wake-timer" class="todo-wake-timer" hidden aria-live="polite">
       <span class="todo-wake-dot" aria-hidden="true"></span>
       <span id="todo-wake-elapsed" class="todo-wake-elapsed">00:00:00</span>
@@ -80,39 +89,41 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
   .todo-add button:hover { opacity: 0.9; }
   .todo-add button:active { opacity: 0.8; }
 
-  /* Quiet, borderless utility controls so the task list is what draws the eye. */
+  /* Understated pill toggles — clearly tappable buttons, but lighter than the
+     task list so the tasks lead. A filled accent state reads "on" at a glance. */
   .todo-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1);
-    padding-block: var(--space-2);
-    margin-inline: calc(var(--space-2) * -1);
+    gap: var(--space-2);
+    padding-block: var(--space-3);
   }
 
-  .todo-toolbar button:not(.tt-focus-exit) {
+  .todo-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     min-height: var(--touch-target);
-    padding-inline: var(--space-2);
-    background: transparent;
-    border: none;
-    border-radius: var(--radius-sm);
-    color: var(--color-text-subtle);
+    padding-inline: var(--space-3);
+    background: var(--color-bg);
+    border: var(--border);
+    border-radius: var(--radius-full, 999px);
+    color: var(--color-text-muted);
     font-size: var(--text-sm);
     font-family: inherit;
     cursor: pointer;
-    transition: var(--transition-color);
+    transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
   }
 
-  .todo-toolbar button:not(.tt-focus-exit):hover {
-    color: var(--color-text);
-    background: var(--color-bg-tertiary);
-  }
+  .todo-tool-icon { width: 15px; height: 15px; flex-shrink: 0; }
 
-  .todo-toolbar button:not(.tt-focus-exit):active { background: var(--color-bg-tertiary); }
+  .todo-tool-btn:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .todo-tool-btn:active { background: var(--color-bg-tertiary); }
 
-  .todo-toolbar button[aria-pressed="true"]:not(.tt-focus-exit) {
+  .todo-tool-btn[aria-pressed="true"] {
     color: var(--color-accent-strong);
     background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
   }
 
   /* Elapsed timer shown while Keep Awake is active */
@@ -391,7 +402,8 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     opacity: 1;
   }
 
-  /* Touch devices have no hover — reveal handles and actions. */
+  /* Touch devices have no hover — reveal handles and actions, and give them
+     real finger-sized hit areas with room to breathe between them. */
   @media (hover: none) {
     .todo-add-sub,
     .todo-delete,
@@ -400,6 +412,17 @@ import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
     .todo-subtask-drag {
       opacity: 1;
     }
+    .todo-actions { gap: var(--space-2); }
+    /* Controls taller than the first text line get re-centered on it (the
+       checkbox does the same with a positive margin), so nothing drifts low. */
+    .todo-add-sub,
+    .todo-delete { width: 40px; height: 40px; margin-top: calc((1.5rem - 40px) / 2); }
+    .todo-count { height: 40px; padding-inline: var(--space-3); margin-top: calc((1.5rem - 40px) / 2); }
+    .todo-drag-handle { width: 32px; height: 32px; margin-top: calc((1.5rem - 32px) / 2); }
+    .todo-subtask-delete { width: 36px; height: 36px; }
+    .todo-subtask-drag { width: 28px; height: 28px; }
+    .todo-task-row { min-height: 40px; }
+    .todo-subtask-row { min-height: 40px; }
   }
 
   .todo-add-sub:hover { color: var(--color-accent-strong); background: var(--color-accent-subtle); }
