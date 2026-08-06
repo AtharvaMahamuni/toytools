@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.0.1] - 2026-08-06
+
+### Fixed
+- `npm run version:bump` inlined its description argument straight into a single-quoted TS string
+  literal, so a summary containing an apostrophe wrote a `src/lib/version.ts` that no longer
+  parsed: the bump meant to record a release was the thing that broke the next build. Backslashes,
+  quotes and newlines are now escaped, and the value round-trips exactly.
+
+### Changed
+- `CLAUDE.md` states the versioning rule the project had been following by habit: a PR that adds or
+  modifies a tool is a minor bump, one that adds a category or an engine is a major bump, anything
+  else that ships is a patch, and every one of them writes a CHANGELOG entry in the same PR.
+
 ## [alpha-v7.0] - 2026-08-04
 
 Acting on `docs/analysis/2026-08-03-text-cluster-ranking-factors.md`, which found that the text
