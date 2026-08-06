@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 0,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-04',
-  description: '',
+  releaseDate: '2026-08-06',
+  description: 'escape the version description so a bump cannot break the build',
 };
 
 export function formatVersion(config: VersionConfig): string {

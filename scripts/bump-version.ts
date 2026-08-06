@@ -71,6 +71,20 @@ function getNextVersion(current: VersionConfig, bumpType: BumpType): VersionConf
   }
 }
 
+/**
+ * Render a value as a single-quoted TS string literal. The description comes from the command
+ * line, so an apostrophe ("don't") would otherwise close the literal and leave version.ts
+ * unparseable — a bump that breaks the next build.
+ */
+function tsString(value: string): string {
+  const escaped = value
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r/g, '\\r')
+    .replace(/\n/g, '\\n');
+  return `'${escaped}'`;
+}
+
 function writeVersionFile(config: VersionConfig): void {
   const content = `export type VersionStatus = 'alpha' | 'beta' | 'stable';
 
@@ -89,7 +103,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: ${config.patch},
   status: '${config.status}',
   releaseDate: '${config.releaseDate}',
-  description: '${config.description}',
+  description: ${tsString(config.description)},
 };
 
 export function formatVersion(config: VersionConfig): string {
