@@ -145,19 +145,21 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="device-compatibility">
     <h2>Device Compatibility <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The Wake Lock API is a web standard, but not all browsers have implemented it yet:
+      The Wake Lock API is a web standard, and every major browser engine now ships it. What
+      matters is the version you are running:
     </p>
     <ul>
       <li><strong>Chrome on Android</strong>, Supported. Open this page in Chrome on your Android phone or tablet.</li>
       <li><strong>Chrome on desktop (Windows, macOS, Linux)</strong>: Supported.</li>
       <li><strong>Microsoft Edge</strong>, Supported. Edge is Chromium-based and includes the API.</li>
       <li><strong>Samsung Internet</strong>: Supported on recent versions.</li>
-      <li><strong>Safari on iOS and macOS</strong>, Limited or no support. Apple has not yet fully implemented the Wake Lock API in Safari.</li>
-      <li><strong>Firefox</strong>: Not supported. Mozilla has not yet implemented the API.</li>
+      <li><strong>Safari on iOS and macOS</strong>: Supported from Safari 16.4 onwards. Older iPhones and Macs need the device setting instead.</li>
+      <li><strong>Firefox</strong>: Supported from Firefox 126 onwards.</li>
     </ul>
     <p>
-      If your browser does not support the API, the tool will display a message and suggest
-      using your device settings instead.
+      If your browser is too old for the API, the tool detects that on load, disables the
+      button rather than pretending to work, and shows the exact device setting for your
+      platform instead.
     </p>
   </section>
 

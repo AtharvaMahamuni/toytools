@@ -2,6 +2,65 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.1] - 2026-08-06
+
+Keep Screen Awake rebuilt around the two things the tool is actually for: proving an invisible
+promise, and being looked at from across a room. No URL changed, and no registration moved.
+
+### Added
+- **Ambient mode** replaces the old "Remove Distractions" corner text. A centred full-screen clock
+  with the session state, two dim levels for a dark room, controls that fade after four seconds and
+  return on a tap, and a slow drift so a phone left on for hours does not risk OLED burn-in. It is
+  padded with `env(safe-area-inset-*)`, which the previous overlay was not, so nothing hides behind
+  a notch or the home indicator.
+- **A battery guard.** Where the Battery Status API is available the current charge is shown, and a
+  session releases itself at 15% while unplugged. Keeping a display lit is the largest power draw a
+  page can cause, so the tool that asks for it is the one that should watch the cost.
+- **End-of-session alerts**: an optional chime, a vibration, and an optional browser notification. A
+  timed session ends exactly when nobody is looking at the screen.
+- **A today line** (`Today: 2 sessions / 48m awake`), matching the Pomodoro stats row.
+- **A shareable session length.** Choosing a duration writes `?d=<minutes>` with `replaceState`, so
+  `?d=30` reopens the tool set to 30 minutes without filling the back button.
+- `Space` toggles the session, matching Pomodoro's shortcut.
+- `tests/e2e/keep-screen-awake.spec.ts`: ten specs on desktop and Pixel 5. The tool previously had
+  only generic smoke coverage despite being the most stateful thing in its category. The Wake Lock
+  API is stubbed via `addInitScript` because a headless browser is not a visible screen.
+
+### Changed
+- The widget is now composed from `IoPanel` instead of hand-written panel markup, and the timer is a
+  hero numeral inside a progress ring rather than `--text-xl` body text. The answer is the timer;
+  it used to render at the same size as the word "Sleeping".
+- **The primary control is a full-width button, not a 32x18px switch.** The one control the tool
+  lives by was a quarter of the platform's 48px minimum touch target. Every control in the widget
+  now has a visible `:active` state, since phones have no hover.
+- Mobile order is answer-first (`stackOrder="output-first"`): status above setup, not below it.
+- Duration presets are visible on arrival instead of hidden behind a "Tool Settings" disclosure, and
+  read as intents ("Until I stop") rather than glyphs (the bare infinity symbol).
+- Six competing status elements collapsed to one: the ring glows gold while a lock is held.
+- Settings moved from two dot-namespaced `localStorage` keys to `ToyTools.state`, so they now ride
+  along in `ToyTools.data` exports. Existing keys migrate on first load.
+- Unsupported browsers get the exact device setting for their platform instead of one generic line.
+- The FAQ and guide said Safari and Firefox did not support the Wake Lock API. Safari has shipped it
+  since 16.4 and Firefox since 126, so the tool's own compatibility answers were turning users away
+  from a feature their browser had.
+
+### Fixed
+- **A lock dropped while the tab stayed visible was never re-acquired.** The release handler only
+  registered a `visibilitychange` listener, which cannot fire on a page that never became hidden, so
+  a lock revoked by a battery saver or an OS power policy was gone permanently while the UI went on
+  showing "Awake" over a sleeping screen. Re-acquisition is now attempted every second from the
+  ticker whenever the session is running, the page is visible and no lock is held, and a lock that is
+  gone is reported as "Lock lost, reconnecting" rather than hidden. Pinned by an e2e spec.
+- A failed re-acquire called `setInactiveState()`, which never cleared the interval, leaving the
+  timer running behind a "Sleeping" label until it fired a completion for a session that was not
+  running. Every visible element now derives from one state object in one `render()`.
+- The status label faded out and swapped text on a 150ms timeout, so rapid toggling could settle on
+  the wrong label, and the status was invisible at the exact moment it was needed.
+- `aria-live="polite"` sat on the ticking numerals, making a screen reader announce the clock once a
+  second forever. The live region now carries state changes only.
+- The custom-minutes ceiling was enforced by the `max` attribute alone, so a typed `9000` was
+  accepted as 150 hours. Clearing the field no longer silently leaves the previous duration armed.
+
 ## [alpha-v7.0.1] - 2026-08-06
 
 ### Fixed
