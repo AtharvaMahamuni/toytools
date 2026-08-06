@@ -205,7 +205,7 @@ authorship are the two judgment calls never delegated to agents.
 ```sh
 npm run quality:pr      # Quality Guardian — per-PR crawl/validate/autofix pass (quality-guardian/)
 npm run quality:weekly  # Quality Guardian — scheduled full-site sweep
-npm run version:bump     # bump src/lib/version.ts (APP_VERSION) + CHANGELOG.md
+npm run version:bump major|minor|patch "<summary>"  # bump src/lib/version.ts (APP_VERSION)
 npm run version:show     # print the current APP_VERSION
 ```
 
@@ -219,6 +219,53 @@ The canonical and sitemap validators skip redirect stubs by detecting the `<meta
 "refresh">` (`CrawledPage.isRedirectStub`), because the previous hardcoded prefix list
 (`/faq/`, `/tool/developer/`) went stale the first time a tool slug was renamed and turned a routine
 migration into a red PR. If you find yourself adding a path to a validator, derive the rule instead.
+
+## Versioning & changelog
+
+**Every PR that changes what the site ships bumps the version and adds a CHANGELOG entry, in the
+same PR.** The version lives in `src/lib/version.ts` (`VERSION_CONFIG` → `APP_VERSION`) and is
+rendered in the site footer and on `/changelog/`, so a shipped change with a stale version is a
+change nobody can tell landed.
+
+| what the PR does | bump | command |
+|---|---|---|
+| adds a tool, or modifies an existing tool (widget, engine processor, content, group membership) | **minor** (`X.Y` → `X.Y+1`, status stays `alpha`) | `npm run version:bump minor "<summary>"` |
+| adds a **category** (`src/data/categories.ts`) or an **engine** (`src/data/engines.ts`) | **major** (`X` → `X+1.0`, status resets to `alpha`) | `npm run version:bump major "<summary>"` |
+| everything else that ships: bug fix, platform/layout/token change, build or SEO tooling | **patch** | `npm run version:bump patch "<summary>"` |
+| docs, tests, CI config, or research datasets only | none | — |
+
+Resolving the ambiguous cases, so two PRs never answer them differently:
+
+- **One bump per PR, not per tool or per commit.** A batch that adds five tools is a single minor
+  bump, not five. Bump once, at the end, when the change is otherwise complete.
+- **The highest applicable bump wins.** A PR that adds a new engine *and* the first tool on it is a
+  **major** bump only. A new pattern rides along with whatever else the PR does; it is not a
+  category or an engine and does not by itself force a major.
+- **Removing a tool** (`scaffold:tool --remove`) is a modification: minor. Removing a category or
+  engine is major.
+- **A tool slug or category rename is a modification of that tool**, so it is a minor bump even
+  though the redirect stub is the visible part of the diff.
+
+`npm run version:bump <major|minor|patch> "<description>"` rewrites `src/lib/version.ts` only. The
+description is inlined into a single-quoted TS string, so keep apostrophes out of it or the next
+build fails to parse the file.
+**It does not touch `CHANGELOG.md` — that entry is written by hand**, and the change is not done
+without it. Add a new section at the top of `CHANGELOG.md` matching the version the bump just
+printed, in the Keep a Changelog format the file already uses:
+
+```md
+## [alpha-v8.0] - 2026-08-06
+
+### Added
+### Changed
+### Fixed
+```
+
+Keep only the subsections that have content, and write entries about what a visitor or the next
+maintainer would notice (which URLs appeared, what broke and why), not a file-by-file diff summary
+— the surrounding entries are the style reference. `npm run version:show` prints the current
+`APP_VERSION`; `formatVersion` omits `.0` patches, so `alpha-v7.1` and `alpha-v7.1.2` are both
+well-formed and the heading must match exactly what the bump reported.
 
 ## Indexing coverage
 
@@ -338,6 +385,9 @@ Most edits are local, but a few changes ripple across files. When you make one o
 - **Verify UI changes in a real browser** with `npm run test:e2e` (desktop + Pixel 5). Build/unit
   tests do not catch widget JS errors; e2e does and is a PR gate. It is the last step of
   `npm run verify`, which is what you should actually run before calling anything done.
+- **Ship any of the above** → bump `src/lib/version.ts` and add the `CHANGELOG.md` entry in the
+  same PR: **minor** for a tool added or modified, **major** for a new category or engine. Rules
+  and the exact commands: "Versioning & changelog" below.
 
 ### Knowledge Graph (Phase D/E)
 
