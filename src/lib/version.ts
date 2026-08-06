@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 0,
-  patch: 1,
+  minor: 1,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-06',
-  description: 'escape the version description so a bump cannot break the build',
+  description: 'Keep Screen Awake rebuild: honest lock state, ambient mode, phone-first controls',
 };
 
 export function formatVersion(config: VersionConfig): string {

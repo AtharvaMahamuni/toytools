@@ -1,275 +1,479 @@
 ---
+// Keep Screen Awake.
+//
+// The whole product is a promise about something invisible: "the screen you are looking at would
+// have slept, and it did not." Two consequences shape this widget.
+//
+//   1. Trust is the feature. The UI must never claim "Awake" while the lock is actually gone, so
+//      every frame of the status is derived from the live WakeLockSentinel, and a lock lost mid
+//      session is reported and retried rather than hidden.
+//   2. The screen is the product. Most sessions are a propped-up phone read across a room, so the
+//      ambient view is a first-class surface, not a hidden "remove distractions" mode.
+//
+// One render() derives every visible element from one state object. The previous version mutated
+// six elements from five call sites and could desync (a failed re-acquire left the ticker running
+// behind a "Sleeping" label).
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { withBase } from '@lib/paths';
+
+const toolUrl = withBase('/tool/productivity/keep-screen-awake/');
+const iconUrl = withBase('/favicon.ico');
 ---
 
-<ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={true}>
-<div slot="input" class="wl-inputs">
-  <div id="wl-unsupported" hidden class="wl-unsupported">
-    Screen Wake Lock is not supported in this browser.
-    <span class="wl-unsupported-hint">You can still prevent sleep using your device settings.</span>
-  </div>
-  <button id="wl-time-toggle" type="button" class="wl-text-action">
-    Tool Settings ▾
-  </button>
-  <div id="wl-time-options" hidden class="wl-time-options-panel">
-    <div class="wl-duration-grid">
-      <button data-duration="0"    class="wl-dur selected wl-dur-inf" type="button">∞</button>
-      <button data-duration="900"  class="wl-dur" type="button">15 min</button>
-      <button data-duration="1800" class="wl-dur" type="button">30 min</button>
-      <button data-duration="3600" class="wl-dur" type="button">1 hour</button>
-      <button data-duration="7200" class="wl-dur" type="button">2 hours</button>
-      <input id="wl-custom-min" type="number" min="1" max="480" placeholder="Custom Time in Min" aria-label="Custom time in minutes" class="wl-custom-input" />
+<!-- URLs for the completion notification (no import.meta.env inside is:inline) -->
+<meta id="wl-tool-url" content={toolUrl} />
+<meta id="wl-icon-url" content={iconUrl} />
+
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+
+<!-- ── Status: the answer, first on mobile ───────────────────────────────── -->
+<div slot="output">
+  <IoPanel label="Screen" result={true} class="wl-panel">
+    <div class="wl-stage" data-state="idle" id="wl-stage">
+      <div class="wl-ring-wrapper">
+        <div class="wl-lamp" aria-hidden="true"></div>
+        <svg viewBox="0 0 200 200" class="wl-ring-svg" aria-hidden="true">
+          <circle class="wl-ring-track" cx="100" cy="100" r="85" />
+          <circle
+            id="wl-ring-progress"
+            class="wl-ring-progress"
+            cx="100" cy="100" r="85"
+            stroke-dasharray="534"
+            stroke-dashoffset="534"
+          />
+        </svg>
+        <div class="wl-hero-overlay">
+          <span id="wl-hero" class="wl-hero">0:00</span>
+          <span id="wl-hero-label" class="wl-hero-label">Ready</span>
+        </div>
+      </div>
+
+      <p id="wl-live" class="wl-sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <button id="wl-toggle" type="button" class="wl-primary" aria-pressed="false">
+        Keep Screen Awake
+      </button>
+
+      <p id="wl-lock" class="wl-lock" data-lock="none">Ready when you are.</p>
+
+      <dl id="wl-meta" class="wl-meta" hidden>
+        <div class="wl-meta-row"><dt>Started</dt><dd id="wl-started-value"></dd></div>
+        <div id="wl-ends-row" class="wl-meta-row" hidden><dt>Ends</dt><dd id="wl-ends-value"></dd></div>
+      </dl>
+
+      <p id="wl-today" class="wl-today" hidden></p>
+
+      <div class="wl-view-actions">
+        <button id="wl-ambient-btn" type="button" class="wl-text-btn">Ambient mode</button>
+      </div>
     </div>
-    <div class="wl-format-row">
-      <button data-format="12" class="wl-fmt selected" type="button">12h</button>
-      <button data-format="24" class="wl-fmt" type="button">24h</button>
-    </div>
-  </div>
+  </IoPanel>
 </div>
 
-<div slot="output" class="wl-status">
-  <div class="wl-status-row">
-    <button id="wl-toggle" type="button" class="wl-toggle-switch" role="switch" aria-checked="false" aria-label="Keep screen awake">
-      <span class="wl-toggle-knob"></span>
-    </button>
-    <span id="wl-label" class="wl-status-label wl-fade">Sleeping</span>
-  </div>
-  <div id="wl-timer" class="wl-timer wl-off">
-    <span id="wl-timer-label" class="wl-timer-meta">Awake From</span>
-    <span id="wl-timer-value" class="wl-timer-value" aria-live="polite" aria-atomic="true">00h 00m 00s</span>
-  </div>
-  <div class="wl-meta-block wl-off">
-    <span id="wl-started-label" class="wl-timer-meta">Started At</span>
-    <span id="wl-started-value" class="wl-ends-value"></span>
-    <span id="wl-ends-label"   class="wl-timer-meta wl-fade wl-off">Ends At</span>
-    <span id="wl-ends-value"   class="wl-ends-value wl-fade wl-off"></span>
-  </div>
-  <p id="wl-msg" class="wl-msg wl-fade">Ready when you are.</p>
-  <div class="wl-view-actions">
-    <button id="wl-fs-btn" type="button" class="wl-fs-btn" aria-label="Enter full screen">Full Screen</button>
-    <span class="gold-dot" aria-hidden="true"></span>
-    <button id="wl-rd-btn" type="button" class="wl-fs-btn" aria-label="Remove distractions">Remove Distractions</button>
-  </div>
+<!-- ── Session setup ─────────────────────────────────────────────────────── -->
+<div slot="input">
+  <IoPanel label="Session" class="wl-panel">
+    <div class="io-body">
+      <div id="wl-unsupported" hidden class="wl-unsupported">
+        <p class="wl-unsupported-title">This browser cannot hold a wake lock.</p>
+        <p id="wl-unsupported-hint" class="wl-unsupported-hint"></p>
+      </div>
+
+      <fieldset class="wl-fieldset">
+        <legend class="wl-legend">Keep awake for</legend>
+        <div class="wl-duration-grid" role="group" aria-label="Session length">
+          <button data-duration="0"    class="wl-dur is-selected" type="button">Until I stop</button>
+          <button data-duration="900"  class="wl-dur" type="button">15 min</button>
+          <button data-duration="1800" class="wl-dur" type="button">30 min</button>
+          <button data-duration="3600" class="wl-dur" type="button">1 hour</button>
+          <button data-duration="7200" class="wl-dur" type="button">2 hours</button>
+        </div>
+        <div class="wl-custom-row">
+          <label class="wl-custom-label" for="wl-custom-min">Custom</label>
+          <input
+            id="wl-custom-min"
+            type="number"
+            min="1"
+            max="480"
+            inputmode="numeric"
+            enterkeyhint="done"
+            autocomplete="off"
+            placeholder="minutes"
+            class="wl-custom-input"
+          />
+        </div>
+      </fieldset>
+
+      <details class="wl-options">
+        <summary class="wl-options-summary">Alerts and display</summary>
+        <div class="wl-options-body">
+          <label class="wl-check-row">
+            <input id="wl-sound" type="checkbox" class="wl-checkbox" />
+            <span>Chime when the session ends</span>
+          </label>
+          <label class="wl-check-row">
+            <input id="wl-notify" type="checkbox" class="wl-checkbox" />
+            <span>Browser notification when it ends</span>
+          </label>
+          <label id="wl-guard-row" class="wl-check-row" hidden>
+            <input id="wl-guard" type="checkbox" class="wl-checkbox" />
+            <span>Release below 15% battery</span>
+          </label>
+          <div class="wl-format-row" role="group" aria-label="Clock format">
+            <span class="wl-format-label">Clock</span>
+            <button data-format="12" class="wl-fmt is-selected" type="button">12h</button>
+            <button data-format="24" class="wl-fmt" type="button">24h</button>
+          </div>
+          <p id="wl-battery" class="wl-battery" hidden></p>
+        </div>
+      </details>
+    </div>
+  </IoPanel>
 </div>
+
 </ToolSplit>
 
 <CategoryDiscovery toolSlug="keep-screen-awake" />
 
-
-
-<div id="wl-fullscreen" class="wl-fullscreen" data-state="inactive" hidden>
-  <div class="wl-fs-content">
-    <div class="wl-fs-status-row">
-      <span id="wl-fs-dot" class="wl-dot wl-fs-dot" data-state="inactive" aria-hidden="true"></span>
-      <span id="wl-fs-label" class="wl-fs-label">Sleeping</span>
-    </div>
-    <div id="wl-fs-timer" hidden class="wl-fs-timer">
-      <span id="wl-fs-timer-label" class="wl-fs-timer-meta">Awake From</span>
-      <span id="wl-fs-timer-value" class="wl-fs-timer-value">00h 00m 00s</span>
-    </div>
-    <div class="wl-fs-meta-block">
-      <div id="wl-fs-started" hidden class="wl-fs-meta-row">
-        <span class="wl-fs-timer-meta">Started At</span>
-        <span id="wl-fs-started-value" class="wl-fs-meta-value"></span>
+<!-- ── Ambient view ──────────────────────────────────────────────────────── -->
+<!-- The propped-up-phone surface: a big clock read across a room. Controls fade out so the
+     screen is calm, and the whole block drifts slowly so an OLED left on for two hours does
+     not burn in. -->
+<div id="wl-ambient" class="wl-ambient" data-state="idle" data-dim="0" data-chrome="on" hidden>
+  <div class="wl-ambient-drift">
+    <div class="wl-ambient-content">
+      <span id="wl-amb-clock" class="wl-amb-clock">00:00</span>
+      <div class="wl-amb-status">
+        <span id="wl-amb-dot" class="wl-amb-dot" data-state="idle" aria-hidden="true"></span>
+        <span id="wl-amb-state" class="wl-amb-state">Sleeping</span>
       </div>
-      <div id="wl-fs-ends" hidden class="wl-fs-meta-row">
-        <span class="wl-fs-timer-meta">Ends At</span>
-        <span id="wl-fs-ends-value" class="wl-fs-meta-value"></span>
+      <div id="wl-amb-timer" class="wl-amb-timer" hidden>
+        <span id="wl-amb-timer-label" class="wl-amb-meta">Remaining</span>
+        <span id="wl-amb-timer-value" class="wl-amb-timer-value">0:00</span>
+      </div>
+      <div id="wl-amb-ends" class="wl-amb-ends" hidden>
+        <span class="wl-amb-meta">Ends at</span>
+        <span id="wl-amb-ends-value" class="wl-amb-ends-value"></span>
       </div>
     </div>
   </div>
-  <button id="wl-fs-exit" type="button" class="wl-fs-exit" aria-label="Exit full screen">✕</button>
+
+  <div id="wl-amb-controls" class="wl-amb-controls">
+    <button id="wl-amb-toggle" type="button" class="wl-amb-btn">Keep Awake</button>
+    <button id="wl-amb-dim"    type="button" class="wl-amb-btn wl-amb-btn--quiet">Dim</button>
+    <button id="wl-amb-exit"   type="button" class="wl-amb-btn wl-amb-btn--quiet">Exit</button>
+  </div>
 </div>
 
-<style is:global>
-  .wl-fade { transition: opacity 200ms ease; }
-  .wl-off  { opacity: 0; pointer-events: none; }
-
-  .wl-inputs {
-    padding: var(--space-6);
-    border: var(--border);
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+<style>
+  .wl-sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
 
-  .wl-unsupported {
-    padding: var(--space-4);
-    background: var(--color-bg-tertiary);
-    border: var(--border);
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+  /* ── Status stage ──────────────────────────────────────────────────────── */
+  .wl-stage {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-6) var(--space-5);
+    text-align: center;
   }
-  .wl-unsupported[hidden] { display: none; }
 
-  .wl-unsupported-hint { color: var(--color-text-subtle); }
-
-  .wl-text-action {
-    background: none; border: none; padding: 0;
-    color: var(--color-text-muted); font-size: var(--text-sm); font-family: inherit;
-    cursor: pointer; text-align: left;
-    transition: color var(--duration-fast) ease; width: fit-content;
+  .wl-ring-wrapper {
+    position: relative; width: 200px; height: 200px; flex-shrink: 0;
   }
-  .wl-text-action:hover { color: var(--color-text); }
 
-  .wl-time-options-panel { display: flex; flex-direction: column; gap: var(--space-3); }
-  .wl-time-options-panel[hidden] { display: none; }
-
-  .wl-duration-grid { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-  .wl-format-row { display: flex; gap: var(--space-2); align-items: center; }
-
-  .wl-fmt, .wl-dur {
-    min-height: 36px; padding-inline: var(--space-3);
-    border: var(--border); border-radius: var(--radius-md);
-    background: transparent; color: var(--color-text-muted);
-    font-size: var(--text-xs); font-family: inherit; cursor: pointer;
-    transition: var(--transition-color);
+  /* The lamp: the single "it is on" signal. Gold is the brand's live colour, so the ring
+     glowing is the whole status readout — no separate dot, label and message competing. */
+  .wl-lamp {
+    position: absolute; inset: -10%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-gold-subtle) 0%, transparent 68%);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-default);
   }
-  .wl-fmt:hover, .wl-dur:hover { color: var(--color-text); border-color: var(--color-text-muted); }
-  .wl-fmt.selected, .wl-dur.selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
-  .wl-dur:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
-  .wl-dur-inf { font-size: var(--text-2xl); line-height: 1; }
-
-  .wl-custom-input {
-    min-height: 36px; width: 140px; padding-inline: var(--space-2);
-    border: var(--border); border-radius: var(--radius-md);
-    background: transparent; color: var(--color-text-muted);
-    font-size: var(--text-xs); font-family: inherit; text-align: center;
-    transition: var(--transition-color);
-  }
-  .wl-custom-input:focus { outline: none; border-color: var(--color-text-muted); color: var(--color-text); }
-  .wl-custom-input.selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
-  .wl-custom-input:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
-
-  .wl-toggle-switch {
-    display: inline-flex; align-items: center; flex-shrink: 0;
-    width: 32px; height: 18px; border-radius: 9px;
-    border: 1.5px solid var(--color-text-subtle); background: transparent;
-    cursor: pointer; padding: 3px;
-    transition: background-color var(--duration-normal) ease, border-color var(--duration-normal) ease;
-  }
-  .wl-toggle-switch:disabled { opacity: 0.55; cursor: not-allowed; }
-  .wl-toggle-knob {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--color-text-subtle); flex-shrink: 0;
-    transition: transform var(--duration-normal) ease, background-color var(--duration-normal) ease;
-  }
-  .wl-toggle-switch[aria-checked="true"] { border-color: var(--color-gold); background: var(--color-gold-subtle); }
-  .wl-toggle-switch[aria-checked="true"] .wl-toggle-knob {
-    transform: translateX(14px); background: var(--color-gold);
+  .wl-stage[data-state="active"] .wl-lamp {
+    opacity: 1;
     animation: dot-breathe 5s ease-in-out infinite;
   }
 
-  .wl-status {
-    padding: var(--space-8) var(--space-6);
-    border: var(--border); border-radius: var(--radius-md); text-align: center;
-    display: flex; flex-direction: column; align-items: center;
-    gap: var(--space-3); min-height: 260px; justify-content: flex-start;
+  .wl-ring-svg { position: relative; width: 100%; height: 100%; }
+  .wl-ring-track { fill: none; stroke: var(--color-border); stroke-width: 6; }
+  .wl-ring-progress {
+    fill: none; stroke: var(--color-gold); stroke-width: 6; stroke-linecap: round;
+    transform-origin: 100px 100px; transform: rotate(-90deg);
   }
-  .wl-status-row { display: flex; align-items: center; gap: var(--space-3); }
+  .wl-stage[data-state="completed"] .wl-ring-progress { stroke: var(--color-success); }
 
-  .wl-dot {
-    display: inline-block; width: 10px; height: 10px;
-    border-radius: 50%; flex-shrink: 0;
-  }
-  .wl-dot[data-state="inactive"] { background: transparent; border: 2px solid var(--color-text-subtle); }
-  .wl-dot[data-state="active"] { background: var(--color-gold); border: none; animation: dot-breathe 5s ease-in-out infinite; }
-  .wl-dot[data-state="completed"] { background: var(--color-success); border: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .wl-toggle-switch[aria-checked="true"] .wl-toggle-knob { animation: none; }
-    .wl-dot[data-state="active"] { animation: none; }
+  .wl-hero-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: var(--space-1);
   }
 
-  .wl-status-label {
-    font-size: var(--text-xl); font-weight: var(--font-weight-semibold);
-    min-width: 110px; text-align: left;
+  .wl-hero {
+    font-family: var(--font-mono);
+    font-size: clamp(var(--text-2xl), 7vw, var(--text-4xl));
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
   }
 
-  .wl-timer {
-    display: flex; flex-direction: column; align-items: center; gap: var(--space-1);
-    overflow: hidden; max-height: 80px;
-    transition: max-height 250ms ease, opacity 200ms ease;
-  }
-  .wl-timer.wl-off { max-height: 0; opacity: 0; pointer-events: none; }
-
-  .wl-timer-meta {
-    font-size: var(--text-xs); color: var(--color-text-muted);
-    text-transform: uppercase; letter-spacing: 0.08em;
-  }
-  .wl-timer-value {
-    font-family: var(--font-mono); font-size: var(--text-xl);
-    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold);
+  .wl-hero-label {
+    font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-text-muted);
   }
 
-  .wl-meta-block {
-    display: grid; grid-template-columns: max-content 1fr;
-    column-gap: var(--space-3); row-gap: var(--space-2); align-items: baseline;
-    overflow: hidden; max-height: 80px;
-    transition: max-height 250ms ease, opacity 200ms ease;
+  /* ── Primary control ───────────────────────────────────────────────────── */
+  /* The kill switch was an 18px toggle: the one control that matters, a quarter of the
+     minimum touch target. It is now a full-width press target with a real pressed state,
+     because phones have no hover. */
+  .wl-primary {
+    width: 100%; max-width: 280px;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-6);
+    background: var(--color-text); color: var(--color-bg);
+    border: 1px solid var(--color-text); border-radius: var(--radius-md);
+    font-size: var(--text-sm); font-weight: var(--font-weight-semibold);
+    font-family: inherit; cursor: pointer;
+    transition: var(--transition-color);
   }
-  .wl-meta-block.wl-off { max-height: 0; opacity: 0; pointer-events: none; }
+  .wl-primary:hover { background: var(--color-text-muted); border-color: var(--color-text-muted); }
+  .wl-primary:active { background: var(--color-text-muted); border-color: var(--color-text-muted); }
+  .wl-primary[aria-pressed="true"] {
+    background: var(--color-gold-subtle);
+    color: var(--color-gold-strong);
+    border-color: var(--color-gold);
+  }
+  .wl-primary:disabled { opacity: 0.55; cursor: not-allowed; }
 
-  .wl-ends-value { color: var(--color-text); font-weight: var(--font-weight-medium); }
+  .wl-lock {
+    margin: 0;
+    font-size: var(--text-sm); color: var(--color-text-muted);
+  }
+  .wl-lock[data-lock="held"]    { color: var(--color-text-muted); }
+  .wl-lock[data-lock="lost"]    { color: var(--color-danger); }
+  .wl-lock[data-lock="done"]    { color: var(--color-success); }
 
-  .wl-msg { font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; transition: opacity 200ms ease; }
+  .wl-meta {
+    margin: 0;
+    display: grid; grid-template-columns: max-content max-content;
+    column-gap: var(--space-4); row-gap: var(--space-1);
+    justify-content: center; align-items: baseline;
+    font-size: var(--text-sm);
+  }
+  .wl-meta[hidden] { display: none; }
+  .wl-meta-row { display: contents; }
+  .wl-meta-row[hidden] { display: none; }
+  .wl-meta dt {
+    font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-text-muted); text-align: right;
+  }
+  .wl-meta dd { margin: 0; font-weight: var(--font-weight-medium); font-variant-numeric: tabular-nums; }
 
-  .wl-view-actions { display: flex; align-items: center; gap: var(--space-2); }
+  .wl-today {
+    margin: 0; font-size: var(--text-xs); color: var(--color-text-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+  .wl-today[hidden] { display: none; }
 
-  .wl-fs-btn {
-    background: none; border: none; padding: 0;
+  .wl-view-actions { margin-top: auto; padding-top: var(--space-2); }
+
+  .wl-text-btn {
+    min-height: var(--touch-target);
+    background: none; border: none; padding-inline: var(--space-2);
     color: var(--color-text-subtle); font-size: var(--text-xs); font-family: inherit;
     cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
-    transition: color var(--duration-fast) ease;
+    transition: var(--transition-color);
   }
-  .wl-fs-btn:hover { color: var(--color-text-muted); }
+  .wl-text-btn:hover, .wl-text-btn:active { color: var(--color-text); }
 
-  .wl-fullscreen {
-    position: fixed; inset: 0; z-index: 9999; background: var(--color-overlay-bg);
+  /* ── Session setup ─────────────────────────────────────────────────────── */
+  .wl-unsupported {
+    padding: var(--space-3);
+    background: var(--color-bg-tertiary, var(--color-surface));
+    border: var(--border); border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+  }
+  .wl-unsupported[hidden] { display: none; }
+  .wl-unsupported-title { margin: 0 0 var(--space-1); font-weight: var(--font-weight-medium); }
+  .wl-unsupported-hint  { margin: 0; color: var(--color-text-muted); }
+
+  .wl-fieldset { border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+  .wl-legend {
+    padding: 0; font-size: var(--text-xs); font-weight: var(--font-weight-medium);
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted);
+  }
+
+  /* Duration is the one decision a visitor comes here to make. It used to sit behind a
+     disclosure labelled "Tool Settings"; it is now the first thing in the panel. */
+  .wl-duration-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: var(--space-2);
+  }
+
+  .wl-dur, .wl-fmt {
+    min-height: var(--touch-target); padding-inline: var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: transparent; color: var(--color-text-muted);
+    font-size: var(--text-sm); font-family: inherit; cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .wl-dur:hover, .wl-fmt:hover,
+  .wl-dur:active, .wl-fmt:active {
+    color: var(--color-text); background: var(--color-surface-hover); border-color: var(--color-border-strong);
+  }
+  .wl-dur.is-selected, .wl-fmt.is-selected {
+    background: var(--color-text); color: var(--color-bg); border-color: var(--color-text);
+  }
+  .wl-dur:disabled, .wl-fmt:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .wl-custom-row { display: flex; align-items: center; gap: var(--space-3); }
+  .wl-custom-label { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+  .wl-custom-input {
+    min-height: var(--touch-target); width: 120px; padding-inline: var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: transparent; color: var(--color-text);
+    /* >=16px so iOS does not zoom the page on focus. */
+    font-size: var(--text-base); font-family: inherit;
+    transition: var(--transition-color);
+  }
+  .wl-custom-input.is-selected { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  .wl-custom-input:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .wl-options { border-top: var(--border); padding-top: var(--space-3); }
+  .wl-options-summary {
+    min-height: var(--touch-target); display: flex; align-items: center;
+    font-size: var(--text-sm); color: var(--color-text-muted); cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .wl-options-summary:hover, .wl-options-summary:active { color: var(--color-text); }
+  .wl-options-body { display: flex; flex-direction: column; gap: var(--space-1); padding-top: var(--space-2); }
+
+  .wl-check-row {
+    display: flex; align-items: center; gap: var(--space-3);
+    min-height: var(--touch-target);
+    font-size: var(--text-sm); color: var(--color-text); cursor: pointer;
+  }
+  .wl-check-row[hidden] { display: none; }
+  .wl-checkbox { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--color-gold); cursor: pointer; }
+
+  .wl-format-row { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch-target); }
+  .wl-format-label { font-size: var(--text-sm); color: var(--color-text-muted); margin-right: auto; }
+  .wl-fmt { min-width: 56px; }
+
+  .wl-battery { margin: 0; font-size: var(--text-xs); color: var(--color-text-subtle); }
+  .wl-battery[hidden] { display: none; }
+
+  /* ── Ambient view ──────────────────────────────────────────────────────── */
+  .wl-ambient {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--color-overlay-bg);
     transition: background-color 600ms ease;
-    display: flex; align-items: flex-end; justify-content: flex-start; padding: var(--space-8);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    /* Notch and home-indicator safe: this is the surface most likely to be viewed on a phone. */
+    padding:
+      max(var(--space-8), env(safe-area-inset-top))
+      max(var(--space-8), env(safe-area-inset-right))
+      max(var(--space-8), env(safe-area-inset-bottom))
+      max(var(--space-8), env(safe-area-inset-left));
   }
-  .wl-fullscreen[hidden] { display: none; }
+  .wl-ambient[hidden] { display: none; }
   /* Per-state scene tints — intentional immersive palette, theme-invariant */
-  .wl-fullscreen[data-state="active"]    { background: #16100A; }
-  .wl-fullscreen[data-state="completed"] { background: #071A0D; }
+  .wl-ambient[data-state="active"]    { background: #16100A; }
+  .wl-ambient[data-state="completed"] { background: #071A0D; }
 
-  .wl-fs-content { display: flex; flex-direction: column; gap: var(--space-3); }
-  .wl-fs-status-row { display: flex; align-items: center; gap: var(--space-3); }
-  .wl-fs-dot { width: 12px; height: 12px; }
+  .wl-ambient[data-dim="1"] .wl-ambient-drift { opacity: 0.6; }
+  .wl-ambient[data-dim="2"] .wl-ambient-drift { opacity: 0.3; }
 
-  .wl-fs-label { font-size: var(--text-xl); font-weight: var(--font-weight-semibold); color: var(--color-overlay-text); }
-
-  .wl-fs-timer { display: flex; flex-direction: column; gap: var(--space-1); }
-  .wl-fs-timer[hidden] { display: none; }
-
-  .wl-fs-timer-meta { font-size: var(--text-xs); color: var(--color-overlay-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-  .wl-fs-timer-value {
-    font-family: var(--font-mono); font-size: var(--text-xl);
-    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: var(--color-overlay-text);
+  /* Slow drift: static bright numerals held for hours are exactly how OLED burn-in happens. */
+  .wl-ambient-drift {
+    animation: wl-drift 120s ease-in-out infinite;
+    transition: opacity var(--duration-normal) var(--ease-default);
   }
 
-  .wl-fs-meta-block {
-    display: grid; grid-template-columns: max-content auto;
-    column-gap: var(--space-3); row-gap: var(--space-2); align-items: baseline;
+  @keyframes wl-drift {
+    0%, 100% { transform: translate(-10px, -8px); }
+    50%      { transform: translate(10px, 8px); }
   }
-  .wl-fs-meta-row { display: contents; }
-  .wl-fs-meta-row[hidden] { display: none; }
-  .wl-fs-meta-value { font-size: var(--text-sm); color: var(--color-overlay-muted); font-weight: var(--font-weight-medium); }
 
-  .wl-fs-exit {
-    position: absolute; top: var(--space-6); right: var(--space-6);
-    background: none; border: none; padding: var(--space-2);
-    color: var(--color-overlay-muted); font-size: var(--text-lg); font-family: inherit;
-    cursor: pointer; transition: color var(--duration-fast) ease; line-height: 1;
+  .wl-ambient-content {
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
+    text-align: center;
   }
-  .wl-fs-exit:hover { color: var(--color-overlay-text); }
+
+  .wl-amb-clock {
+    font-family: var(--font-mono);
+    font-size: clamp(var(--text-4xl), 18vw, 7rem);
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1; color: var(--color-overlay-text);
+  }
+
+  .wl-amb-status { display: flex; align-items: center; gap: var(--space-3); }
+  .wl-amb-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .wl-amb-dot[data-state="idle"]      { background: transparent; border: 2px solid var(--color-overlay-muted); }
+  .wl-amb-dot[data-state="active"]    { background: var(--color-gold); animation: dot-breathe 5s ease-in-out infinite; }
+  .wl-amb-dot[data-state="completed"] { background: var(--color-success); }
+
+  .wl-amb-state {
+    font-size: var(--text-base); font-weight: var(--font-weight-semibold);
+    color: var(--color-overlay-text);
+  }
+
+  .wl-amb-timer, .wl-amb-ends { display: flex; align-items: baseline; gap: var(--space-3); }
+  .wl-amb-timer[hidden], .wl-amb-ends[hidden] { display: none; }
+
+  .wl-amb-meta {
+    font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-overlay-muted);
+  }
+  .wl-amb-timer-value {
+    font-family: var(--font-mono); font-size: var(--text-2xl);
+    font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold);
+    color: var(--color-overlay-text);
+  }
+  .wl-amb-ends-value {
+    font-size: var(--text-sm); font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums; color: var(--color-overlay-muted);
+  }
+
+  /* Controls fade out so the ambient screen is calm, and come back on any tap. */
+  .wl-amb-controls {
+    position: absolute;
+    bottom: max(var(--space-6), env(safe-area-inset-bottom));
+    left: 50%; transform: translateX(-50%);
+    display: flex; gap: var(--space-2);
+    transition: opacity var(--duration-normal) var(--ease-default);
+  }
+  .wl-ambient[data-chrome="off"] .wl-amb-controls { opacity: 0; pointer-events: none; }
+
+  .wl-amb-btn {
+    min-height: var(--touch-target); padding-inline: var(--space-5);
+    border: 1px solid var(--color-overlay-border); border-radius: var(--radius-md);
+    background: transparent; color: var(--color-overlay-text);
+    font-size: var(--text-sm); font-weight: var(--font-weight-medium); font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+  .wl-amb-btn:hover, .wl-amb-btn:active { background: rgba(255, 255, 255, 0.1); }
+  .wl-amb-btn--quiet { color: var(--color-overlay-muted); }
+
+  @media (max-width: 480px) {
+    .wl-ring-wrapper { width: 168px; height: 168px; }
+    .wl-stage { padding: var(--space-5) var(--space-4); gap: var(--space-3); }
+    .wl-amb-btn { padding-inline: var(--space-3); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wl-stage[data-state="active"] .wl-lamp,
+    .wl-amb-dot[data-state="active"] { animation: none; }
+    .wl-ambient-drift { animation: none; }
+  }
 </style>
 
 <script is:inline>
@@ -277,277 +481,669 @@ import { withBase } from '@lib/paths';
     var toggleBtn = document.getElementById('wl-toggle');
     if (!toggleBtn) return;
 
-    var STORAGE_KEY = 'toytools.keep-screen-awake.duration';
-    var FORMAT_KEY  = 'toytools.keep-screen-awake.timeformat';
-    var label        = document.getElementById('wl-label');
-    var msg          = document.getElementById('wl-msg');
-    var timerEl      = document.getElementById('wl-timer');
-    var timerLabel   = document.getElementById('wl-timer-label');
-    var timerValue   = document.getElementById('wl-timer-value');
-    var endsLabel    = document.getElementById('wl-ends-label');
-    var endsValue    = document.getElementById('wl-ends-value');
+    var TOOL_ID    = 'keep-screen-awake';
+    var LEGACY_DUR = 'toytools.keep-screen-awake.duration';
+    var LEGACY_FMT = 'toytools.keep-screen-awake.timeformat';
+    var RING_CIRC  = 534;
+
+    var stage        = document.getElementById('wl-stage');
+    var hero         = document.getElementById('wl-hero');
+    var heroLabel    = document.getElementById('wl-hero-label');
+    var ring         = document.getElementById('wl-ring-progress');
+    var live         = document.getElementById('wl-live');
+    var lockLine     = document.getElementById('wl-lock');
+    var metaEl       = document.getElementById('wl-meta');
     var startedValue = document.getElementById('wl-started-value');
-    var metaBlock    = document.querySelector('.wl-meta-block');
-    var timeToggle   = document.getElementById('wl-time-toggle');
-    var timeOptions  = document.getElementById('wl-time-options');
+    var endsRow      = document.getElementById('wl-ends-row');
+    var endsValue    = document.getElementById('wl-ends-value');
+    var todayEl      = document.getElementById('wl-today');
     var customInput  = document.getElementById('wl-custom-min');
     var unsupported  = document.getElementById('wl-unsupported');
-    var fsBtn        = document.getElementById('wl-fs-btn');
-    var rdBtn        = document.getElementById('wl-rd-btn');
-    var fsOverlay    = document.getElementById('wl-fullscreen');
-    var fsExit       = document.getElementById('wl-fs-exit');
-    var fsDot        = document.getElementById('wl-fs-dot');
-    var fsLabel      = document.getElementById('wl-fs-label');
-    var fsTimer      = document.getElementById('wl-fs-timer');
-    var fsTimerLabel = document.getElementById('wl-fs-timer-label');
-    var fsTimerValue = document.getElementById('wl-fs-timer-value');
-    var fsStarted    = document.getElementById('wl-fs-started');
-    var fsStartedVal = document.getElementById('wl-fs-started-value');
-    var fsEnds       = document.getElementById('wl-fs-ends');
-    var fsEndsVal    = document.getElementById('wl-fs-ends-value');
+    var unsupHint    = document.getElementById('wl-unsupported-hint');
+    var soundBox     = document.getElementById('wl-sound');
+    var notifyBox    = document.getElementById('wl-notify');
+    var guardBox     = document.getElementById('wl-guard');
+    var guardRow     = document.getElementById('wl-guard-row');
+    var batteryEl    = document.getElementById('wl-battery');
+    var ambientBtn   = document.getElementById('wl-ambient-btn');
 
-    if (!('wakeLock' in navigator)) {
-      if (unsupported) unsupported.hidden = false;
-      toggleBtn.disabled = true;
-      return;
-    }
+    var amb          = document.getElementById('wl-ambient');
+    var ambClock     = document.getElementById('wl-amb-clock');
+    var ambDot       = document.getElementById('wl-amb-dot');
+    var ambState     = document.getElementById('wl-amb-state');
+    var ambTimer     = document.getElementById('wl-amb-timer');
+    var ambTimerLbl  = document.getElementById('wl-amb-timer-label');
+    var ambTimerVal  = document.getElementById('wl-amb-timer-value');
+    var ambEnds      = document.getElementById('wl-amb-ends');
+    var ambEndsVal   = document.getElementById('wl-amb-ends-value');
+    var ambToggle    = document.getElementById('wl-amb-toggle');
+    var ambDim       = document.getElementById('wl-amb-dim');
+    var ambExit      = document.getElementById('wl-amb-exit');
 
-    var wakeLock = null, tickInterval = null, startTime = null, endTime = null;
-    var sessionRunning = false, selectedDuration = 0, timeFormat = '12';
+    var toolUrlMeta = document.getElementById('wl-tool-url');
+    var iconUrlMeta = document.getElementById('wl-icon-url');
+    var toolUrl = toolUrlMeta ? toolUrlMeta.getAttribute('content') : '/';
+    var iconUrl = iconUrlMeta ? iconUrlMeta.getAttribute('content') : '';
+
+    var supported = 'wakeLock' in navigator;
+
+    // ── State ────────────────────────────────────────────────────────────
+    // Every visible element is derived from this in render(). Nothing else writes the DOM.
+    var S = {
+      phase: 'idle',        // 'idle' | 'active' | 'completed'
+      startTime: null,
+      endTime: null,        // null = open ended
+      duration: 0,          // seconds; 0 = open ended
+      lockHeld: false,
+      lostAt: null,         // when a held lock went away mid session
+      format: '12',
+      sound: false,
+      notify: false,
+      guard: true,
+      today: { date: '', sessions: 0, seconds: 0 },
+    };
+
+    var wakeLock = null;
+    var lockPending = false;
+    var ticker = null;
     var origTitle = document.title;
+    var chromeTimer = null;
 
-    function showEl(el) { if (el) el.classList.remove('wl-off'); }
-    function hideEl(el) { if (el) el.classList.add('wl-off'); }
+    // ── Persistence (ToyTools.state, so settings ride along in the data backup) ──
+    var TT = window.ToyTools;
 
-    function setLabelText(text) {
-      if (!label) return;
-      hideEl(label);
-      setTimeout(function () { label.textContent = text; showEl(label); }, 150);
+    function todayKey() {
+      var d = new Date();
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
     }
 
-    function setSelectedDuration(dur) {
-      selectedDuration = dur;
-      document.querySelectorAll('.wl-dur').forEach(function (btn) {
-        btn.classList.toggle('selected', btn.getAttribute('data-duration') === String(dur));
+    function persist() {
+      if (!TT || !TT.state) return;
+      TT.state.save(TOOL_ID, {
+        duration: S.duration,
+        format: S.format,
+        sound: S.sound,
+        notify: S.notify,
+        guard: S.guard,
+        today: S.today,
       });
-      if (customInput) customInput.classList.remove('selected');
+    }
+
+    function restore() {
+      var saved = TT && TT.state ? TT.state.load(TOOL_ID) : null;
+
+      // One-time migration off the old dot-namespaced keys, which sat outside `toytools:`
+      // and were therefore missing from ToyTools.data exports.
+      if (!saved) {
+        saved = {};
+        try {
+          var ld = localStorage.getItem(LEGACY_DUR);
+          if (ld !== null && !isNaN(parseInt(ld, 10))) saved.duration = parseInt(ld, 10);
+          var lf = localStorage.getItem(LEGACY_FMT);
+          if (lf === '12' || lf === '24') saved.format = lf;
+          localStorage.removeItem(LEGACY_DUR);
+          localStorage.removeItem(LEGACY_FMT);
+        } catch (_) {}
+      }
+
+      if (typeof saved.duration === 'number' && saved.duration >= 0) S.duration = saved.duration;
+      if (saved.format === '12' || saved.format === '24') S.format = saved.format;
+      if (typeof saved.sound === 'boolean') S.sound = saved.sound;
+      if (typeof saved.notify === 'boolean') S.notify = saved.notify;
+      if (typeof saved.guard === 'boolean') S.guard = saved.guard;
+      if (saved.today && saved.today.date === todayKey()) S.today = saved.today;
+      else S.today = { date: todayKey(), sessions: 0, seconds: 0 };
+    }
+
+    // ── Formatting ───────────────────────────────────────────────────────
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function formatClock(totalSeconds) {
+      var s = Math.max(0, Math.floor(totalSeconds));
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      // No leading "00h" on a 15 minute session: show only the units in play.
+      return h > 0 ? h + ':' + pad(m) + ':' + pad(sec) : m + ':' + pad(sec);
+    }
+
+    function formatTimeOfDay(date) {
+      if (S.format === '24') return pad(date.getHours()) + ':' + pad(date.getMinutes());
+      return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function formatMinutes(totalSeconds) {
+      var mins = Math.round(totalSeconds / 60);
+      if (mins < 60) return mins + 'm';
+      var h = Math.floor(mins / 60);
+      var m = mins % 60;
+      return m === 0 ? h + 'h' : h + 'h ' + m + 'm';
+    }
+
+    // ── Render: one function, one source of truth ────────────────────────
+    function elapsedSeconds() {
+      return S.startTime ? Math.floor((Date.now() - S.startTime) / 1000) : 0;
+    }
+
+    function remainingSeconds() {
+      return S.endTime ? Math.max(0, Math.floor((S.endTime - Date.now()) / 1000)) : 0;
+    }
+
+    function heroSeconds() {
+      if (S.phase === 'idle') return S.duration;         // preview of the session about to start
+      if (S.phase === 'completed') return S.lastElapsed || 0;
+      return S.endTime ? remainingSeconds() : elapsedSeconds();
+    }
+
+    function lockText() {
+      if (S.phase === 'completed') return 'Session complete.';
+      if (S.phase === 'idle') return supported ? 'Ready when you are.' : 'Use your device settings instead.';
+      if (S.lockHeld) return 'Wake lock held by your device.';
+      return 'Lock lost. Reconnecting...';
+    }
+
+    function lockKind() {
+      if (S.phase === 'completed') return 'done';
+      if (S.phase === 'active') return S.lockHeld ? 'held' : 'lost';
+      return 'none';
+    }
+
+    function render() {
+      var active = S.phase === 'active';
+
+      if (stage) stage.dataset.state = S.phase;
+
+      if (hero) hero.textContent = formatClock(heroSeconds());
+      if (heroLabel) {
+        heroLabel.textContent =
+          S.phase === 'idle'      ? (S.duration > 0 ? 'Planned' : 'Ready')
+          : S.phase === 'completed' ? 'Total awake'
+          : S.endTime               ? 'Remaining'
+          : 'Awake for';
+      }
+
+      if (ring) {
+        var fraction = 0;
+        if (S.phase === 'completed') fraction = 1;
+        else if (active && S.endTime && S.duration > 0) {
+          fraction = Math.min(1, Math.max(0, 1 - remainingSeconds() / S.duration));
+        }
+        ring.setAttribute('stroke-dashoffset', String(RING_CIRC * (1 - fraction)));
+      }
+
+      toggleBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      toggleBtn.textContent = active ? 'Stop' : 'Keep Screen Awake';
+
+      if (lockLine) {
+        lockLine.textContent = lockText();
+        lockLine.dataset.lock = lockKind();
+      }
+
+      var showMeta = S.phase !== 'idle' && S.startTime !== null;
+      if (metaEl) metaEl.hidden = !showMeta;
+      if (showMeta && startedValue) startedValue.textContent = formatTimeOfDay(new Date(S.startTime));
+      if (endsRow) endsRow.hidden = !(active && S.endTime);
+      if (active && S.endTime && endsValue) endsValue.textContent = formatTimeOfDay(new Date(S.endTime));
+
+      if (todayEl) {
+        var has = S.today.sessions > 0;
+        todayEl.hidden = !has;
+        if (has) {
+          todayEl.textContent =
+            'Today: ' + S.today.sessions + (S.today.sessions === 1 ? ' session' : ' sessions') +
+            ' / ' + formatMinutes(S.today.seconds) + ' awake';
+        }
+      }
+
+      // Duration controls are frozen for the length of a session.
+      setControlsDisabled(active);
+      renderDurationSelection();
+      renderAmbient();
+
+      document.title = active ? 'Awake / Keep Screen Awake' : origTitle;
+    }
+
+    // The live region announces STATE, never the ticking numerals. A per-second aria-live
+    // on the timer made a screen reader read the clock aloud once a second, forever.
+    function announce(text) { if (live) live.textContent = text; }
+
+    function setControlsDisabled(disabled) {
+      document.querySelectorAll('.wl-dur').forEach(function (b) { b.disabled = disabled; });
+      if (customInput) customInput.disabled = disabled;
+    }
+
+    function renderDurationSelection() {
+      var matchedPreset = false;
+      document.querySelectorAll('.wl-dur').forEach(function (btn) {
+        var on = parseInt(btn.getAttribute('data-duration'), 10) === S.duration;
+        btn.classList.toggle('is-selected', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (on) matchedPreset = true;
+      });
+      if (customInput) customInput.classList.toggle('is-selected', !matchedPreset && S.duration > 0);
+    }
+
+    function renderAmbient() {
+      if (!amb || amb.hidden) return;
+      amb.dataset.state = S.phase;
+      if (ambClock) ambClock.textContent = formatTimeOfDay(new Date());
+      if (ambDot) ambDot.dataset.state = S.phase;
+      if (ambState) {
+        ambState.textContent =
+          S.phase === 'active' ? (S.lockHeld ? 'Awake' : 'Reconnecting')
+          : S.phase === 'completed' ? 'Completed'
+          : 'Sleeping';
+      }
+      if (ambTimer) ambTimer.hidden = S.phase === 'idle';
+      if (ambTimerLbl) {
+        ambTimerLbl.textContent =
+          S.phase === 'completed' ? 'Total awake' : S.endTime ? 'Remaining' : 'Awake for';
+      }
+      if (ambTimerVal) ambTimerVal.textContent = formatClock(heroSeconds());
+      if (ambEnds) ambEnds.hidden = !(S.phase === 'active' && S.endTime);
+      if (S.phase === 'active' && S.endTime && ambEndsVal) {
+        ambEndsVal.textContent = formatTimeOfDay(new Date(S.endTime));
+      }
+      if (ambToggle) ambToggle.textContent = S.phase === 'active' ? 'Stop' : 'Keep Awake';
+    }
+
+    // ── Wake lock ────────────────────────────────────────────────────────
+    function requestLock() {
+      if (!supported || lockPending || wakeLock) return Promise.resolve(false);
+      lockPending = true;
+      return navigator.wakeLock.request('screen').then(function (sentinel) {
+        lockPending = false;
+        wakeLock = sentinel;
+        S.lockHeld = true;
+        S.lostAt = null;
+        sentinel.addEventListener('release', function () {
+          wakeLock = null;
+          if (S.phase === 'active') {
+            // The old build only retried on visibilitychange, so a lock dropped while the tab
+            // stayed visible (battery saver, OS power policy) was never re-acquired and the UI
+            // went on claiming "Awake" over a sleeping screen. ensureLock() in the ticker now
+            // retries every second regardless of what caused the release.
+            S.lockHeld = false;
+            S.lostAt = Date.now();
+            announce('Wake lock lost. Reconnecting.');
+            render();
+          }
+        });
+        render();
+        return true;
+      }).catch(function () {
+        lockPending = false;
+        S.lockHeld = false;
+        render();
+        return false;
+      });
+    }
+
+    function releaseLock() {
+      if (!wakeLock) return;
+      try { wakeLock.release(); } catch (_) {}
+      wakeLock = null;
+      S.lockHeld = false;
+    }
+
+    /** Re-acquire whenever we are running, visible and lockless. Cheap and unconditional. */
+    function ensureLock() {
+      if (S.phase !== 'active' || wakeLock || lockPending) return;
+      if (document.visibilityState !== 'visible') return;
+      requestLock();
+    }
+
+    // ── Battery ──────────────────────────────────────────────────────────
+    // Keeping a display lit is the largest power draw a page can cause, so the tool that asks
+    // for it should be the one that watches the cost.
+    var battery = null;
+
+    function renderBattery() {
+      if (!battery || !batteryEl) return;
+      var pct = Math.round(battery.level * 100);
+      batteryEl.hidden = false;
+      batteryEl.textContent = 'Battery ' + pct + '%' + (battery.charging ? ' and charging' : '');
+      if (guardRow) guardRow.hidden = false;
+    }
+
+    function checkBatteryGuard() {
+      if (!battery || !S.guard || S.phase !== 'active') return;
+      if (battery.charging) return;
+      if (battery.level > 0.15) return;
+      stop('Stopped at ' + Math.round(battery.level * 100) + '% battery to protect your charge.');
+    }
+
+    if (navigator.getBattery) {
+      try {
+        navigator.getBattery().then(function (b) {
+          battery = b;
+          renderBattery();
+          b.addEventListener('levelchange', function () { renderBattery(); checkBatteryGuard(); });
+          b.addEventListener('chargingchange', function () { renderBattery(); checkBatteryGuard(); });
+        }).catch(function () {});
+      } catch (_) {}
+    }
+
+    // ── End-of-session alerts ────────────────────────────────────────────
+    // A timed session ends precisely when you are not looking at the screen, so a silent
+    // "Completed" label is no signal at all.
+    function chime() {
+      if (!S.sound) return;
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        [660, 880].forEach(function (freq, i) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.frequency.value = freq;
+          var at = ctx.currentTime + i * 0.18;
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(0.25, at + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.35);
+          osc.start(at); osc.stop(at + 0.4);
+        });
+      } catch (_) {}
+    }
+
+    function buzz() {
+      try { if (navigator.vibrate) navigator.vibrate([120, 60, 120]); } catch (_) {}
+    }
+
+    function notifyDone(body) {
+      if (!S.notify) return;
+      if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+      try {
+        var n = new Notification('Screen released', { body: body, icon: iconUrl, data: { url: toolUrl } });
+        n.onclick = function () { window.focus(); n.close(); };
+      } catch (_) {}
+    }
+
+    // ── Session lifecycle ────────────────────────────────────────────────
+    function recordSession(seconds) {
+      if (seconds < 1) return;
+      if (S.today.date !== todayKey()) S.today = { date: todayKey(), sessions: 0, seconds: 0 };
+      S.today.sessions += 1;
+      S.today.seconds += seconds;
+      persist();
+    }
+
+    function start() {
+      if (!supported) return;
+      S.startTime = Date.now();
+      S.endTime = S.duration > 0 ? S.startTime + S.duration * 1000 : null;
+      S.phase = 'active';
+      S.lockHeld = false;
+      S.lastElapsed = 0;
+
+      requestLock().then(function (ok) {
+        if (!ok && !wakeLock) {
+          // Could not get a lock at all: do not pretend the session is running.
+          S.phase = 'idle';
+          S.startTime = null;
+          S.endTime = null;
+          stopTicker();
+          announce('Could not acquire a wake lock.');
+          render();
+        }
+      });
+
+      startTicker();
+      announce(S.endTime ? 'Screen kept awake for ' + formatMinutes(S.duration) + '.' : 'Screen kept awake.');
+      render();
+    }
+
+    function stop(message) {
+      if (S.phase !== 'active') return;
+      var elapsed = elapsedSeconds();
+      S.lastElapsed = elapsed;
+      stopTicker();
+      releaseLock();
+      recordSession(elapsed);
+      S.phase = 'idle';
+      S.startTime = null;
+      S.endTime = null;
+      announce(message || 'Screen released.');
+      render();
+      if (message && lockLine) lockLine.textContent = message;
+    }
+
+    function complete() {
+      var elapsed = elapsedSeconds();
+      S.lastElapsed = S.duration > 0 ? S.duration : elapsed;
+      stopTicker();
+      releaseLock();
+      recordSession(S.lastElapsed);
+      S.phase = 'completed';
+      S.endTime = null;
+      chime(); buzz();
+      notifyDone('Your ' + formatMinutes(S.lastElapsed) + ' session finished.');
+      announce('Session complete after ' + formatMinutes(S.lastElapsed) + '.');
+      render();
+    }
+
+    function startTicker() {
+      stopTicker();
+      ticker = setInterval(tick, 1000);
+    }
+
+    function stopTicker() {
+      if (ticker) clearInterval(ticker);
+      ticker = null;
+    }
+
+    function tick() {
+      if (S.phase !== 'active') { stopTicker(); return; }
+      if (S.endTime && Date.now() >= S.endTime) { complete(); return; }
+      ensureLock();
+      checkBatteryGuard();
+      render();
+    }
+
+    function toggle() {
+      if (S.phase === 'active') stop();
+      else start();
+    }
+
+    toggleBtn.addEventListener('click', toggle);
+
+    // ── Duration controls ────────────────────────────────────────────────
+    function setDuration(seconds) {
+      S.duration = seconds;
+      persist();
+      syncUrl();
+      render();
     }
 
     document.querySelectorAll('.wl-dur').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var val = btn.getAttribute('data-duration');
-        setSelectedDuration(parseInt(val, 10));
-        try { localStorage.setItem(STORAGE_KEY, val); } catch (_) {}
+        if (customInput) customInput.value = '';
+        setDuration(parseInt(btn.getAttribute('data-duration'), 10));
       });
     });
 
     if (customInput) {
       customInput.addEventListener('input', function () {
         var mins = parseInt(customInput.value, 10);
-        if (mins > 0) {
-          selectedDuration = mins * 60;
-          document.querySelectorAll('.wl-dur').forEach(function (b) { b.classList.remove('selected'); });
-          customInput.classList.add('selected');
-          try { localStorage.setItem(STORAGE_KEY, String(selectedDuration)); } catch (_) {}
+        if (isNaN(mins) || mins < 1) return;
+        // The max attribute only constrains the spinner; typed values need the same ceiling.
+        if (mins > 480) { mins = 480; customInput.value = '480'; }
+        setDuration(mins * 60);
+      });
+    }
+
+    document.querySelectorAll('.wl-fmt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        S.format = btn.getAttribute('data-format');
+        document.querySelectorAll('.wl-fmt').forEach(function (b) {
+          b.classList.toggle('is-selected', b === btn);
+        });
+        persist();
+        render();
+      });
+    });
+
+    if (soundBox) {
+      soundBox.addEventListener('change', function () { S.sound = soundBox.checked; persist(); });
+    }
+
+    if (notifyBox) {
+      notifyBox.addEventListener('change', function () {
+        S.notify = notifyBox.checked;
+        persist();
+        if (S.notify && typeof Notification !== 'undefined' && Notification.permission === 'default') {
+          try { Notification.requestPermission(); } catch (_) {}
         }
       });
     }
 
-    if (timeToggle && timeOptions) {
-      timeToggle.addEventListener('click', function () {
-        timeOptions.hidden = !timeOptions.hidden;
-        timeToggle.textContent = timeOptions.hidden ? 'Tool Settings ▾' : 'Tool Settings ▴';
-      });
+    if (guardBox) {
+      guardBox.addEventListener('change', function () { S.guard = guardBox.checked; persist(); });
     }
 
-    try {
-      var saved = localStorage.getItem(STORAGE_KEY);
-      if (saved !== null) { var sn = parseInt(saved, 10); if (!isNaN(sn)) setSelectedDuration(sn); }
-    } catch (_) {}
-
-    function setTimeFormat(fmt) {
-      timeFormat = fmt;
-      document.querySelectorAll('.wl-fmt').forEach(function (btn) {
-        btn.classList.toggle('selected', btn.getAttribute('data-format') === fmt);
-      });
-      try { localStorage.setItem(FORMAT_KEY, fmt); } catch (_) {}
-      if (startTime) { var s = formatTime(new Date(startTime)); if (startedValue) startedValue.textContent = s; if (fsStartedVal) fsStartedVal.textContent = s; }
-      if (endTime)   { var e = formatTime(new Date(endTime));   if (endsValue)    endsValue.textContent    = e; if (fsEndsVal)    fsEndsVal.textContent    = e; }
+    // ── Shareable link ───────────────────────────────────────────────────
+    // replaceState, never pushState: choosing a duration must not fill the back button.
+    function syncUrl() {
+      try {
+        var url = new URL(window.location.href);
+        if (S.duration > 0) url.searchParams.set('d', String(Math.round(S.duration / 60)));
+        else url.searchParams.delete('d');
+        window.history.replaceState(null, '', url.toString());
+      } catch (_) {}
     }
 
-    document.querySelectorAll('.wl-fmt').forEach(function (btn) {
-      btn.addEventListener('click', function () { setTimeFormat(btn.getAttribute('data-format')); });
+    function readUrl() {
+      try {
+        var raw = new URL(window.location.href).searchParams.get('d');
+        if (raw === null) return false;
+        var mins = parseInt(raw, 10);
+        if (isNaN(mins) || mins < 0) return false;
+        S.duration = Math.min(480, mins) * 60;
+        if (S.duration > 0 && customInput) {
+          var preset = document.querySelector('.wl-dur[data-duration="' + S.duration + '"]');
+          if (!preset) customInput.value = String(Math.min(480, mins));
+        }
+        return true;
+      } catch (_) { return false; }
+    }
+
+    // ── Ambient view ─────────────────────────────────────────────────────
+    function armChromeTimer() {
+      if (chromeTimer) clearTimeout(chromeTimer);
+      if (amb) amb.dataset.chrome = 'on';
+      chromeTimer = setTimeout(function () { if (amb) amb.dataset.chrome = 'off'; }, 4000);
+    }
+
+    function openAmbient() {
+      if (!amb) return;
+      amb.hidden = false;
+      document.body.style.overflow = 'hidden';
+      armChromeTimer();
+      renderAmbient();
+      var el = document.documentElement;
+      var req = el.requestFullscreen || el.webkitRequestFullscreen;
+      // Native fullscreen is a bonus, not a requirement: the overlay stands on its own if the
+      // browser refuses. Swallow the rejection so it never surfaces as a page error.
+      if (req) {
+        try {
+          var p = req.call(el);
+          if (p && p.catch) p.catch(function () {});
+        } catch (_) {}
+      }
+    }
+
+    function closeAmbient() {
+      if (!amb) return;
+      amb.hidden = true;
+      document.body.style.overflow = '';
+      if (chromeTimer) { clearTimeout(chromeTimer); chromeTimer = null; }
+      var exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit && (document.fullscreenElement || document.webkitFullscreenElement)) {
+        try {
+          var p = exit.call(document);
+          if (p && p.catch) p.catch(function () {});
+        } catch (_) {}
+      }
+    }
+
+    if (ambientBtn) ambientBtn.addEventListener('click', openAmbient);
+    if (ambExit) ambExit.addEventListener('click', function (e) { e.stopPropagation(); closeAmbient(); });
+    if (ambToggle) ambToggle.addEventListener('click', function (e) { e.stopPropagation(); toggle(); armChromeTimer(); });
+    if (ambDim) {
+      ambDim.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var next = ((parseInt(amb.dataset.dim, 10) || 0) + 1) % 3;
+        amb.dataset.dim = String(next);
+        armChromeTimer();
+      });
+    }
+    if (amb) amb.addEventListener('click', armChromeTimer);
+
+    document.addEventListener('fullscreenchange', function () {
+      if (!document.fullscreenElement && amb && !amb.hidden) closeAmbient();
+    });
+    document.addEventListener('webkitfullscreenchange', function () {
+      if (!document.webkitFullscreenElement && amb && !amb.hidden) closeAmbient();
     });
 
-    try {
-      var sf = localStorage.getItem(FORMAT_KEY);
-      if (sf === '12' || sf === '24') setTimeFormat(sf);
-    } catch (_) {}
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
-    function formatDuration(s) {
-      var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-      return pad(h) + 'h ' + pad(m) + 'm ' + pad(sec) + 's';
-    }
-
-    function formatTime(date) {
-      if (timeFormat === '24') return pad(date.getHours()) + ':' + pad(date.getMinutes());
-      return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    }
-
-    function lockDuration() {
-      document.querySelectorAll('.wl-dur').forEach(function (b) { b.disabled = true; });
-      if (customInput) customInput.disabled = true;
-    }
-
-    function unlockDuration() {
-      document.querySelectorAll('.wl-dur').forEach(function (b) { b.disabled = false; });
-      if (customInput) customInput.disabled = false;
-    }
-
-    function syncFullscreen(state) {
-      if (!fsOverlay) return;
-      fsOverlay.dataset.state = state;
-      if (fsDot)   fsDot.dataset.state = state;
-      if (fsLabel) fsLabel.textContent = state === 'active' ? 'Awake' : state === 'completed' ? 'Completed' : 'Sleeping';
-      if (fsTimer) fsTimer.hidden      = (state === 'inactive');
-      if (fsTimerLabel) fsTimerLabel.textContent = state === 'active' ? (endTime ? 'Remaining' : 'Awake From') : 'Session Ended';
-      if (fsTimerValue && state !== 'active') fsTimerValue.textContent = '';
-      if (fsStarted) fsStarted.hidden = (state === 'inactive');
-      if (fsEnds)    fsEnds.hidden    = !(state === 'active' && endTime);
-    }
-
-    function setInactiveState() {
-      sessionRunning = false; toggleBtn.setAttribute('aria-checked', 'false');
-      setLabelText('Sleeping');
-      if (msg) { msg.textContent = 'Ready when you are.'; showEl(msg); }
-      hideEl(timerEl); hideEl(metaBlock); unlockDuration();
-      document.title = origTitle; syncFullscreen('inactive');
-    }
-
-    function setActiveState() {
-      lockDuration(); toggleBtn.setAttribute('aria-checked', 'true');
-      setLabelText('Awake'); hideEl(msg); showEl(timerEl);
-      if (timerLabel) timerLabel.textContent = endTime ? 'Remaining' : 'Awake From';
-      showEl(metaBlock);
-      var startedStr = formatTime(new Date(startTime));
-      if (startedValue) startedValue.textContent = startedStr;
-      if (endTime) {
-        showEl(endsLabel);
-        if (endsValue) { endsValue.textContent = formatTime(new Date(endTime)); showEl(endsValue); }
-      } else {
-        hideEl(endsLabel); hideEl(endsValue);
-      }
-      if (fsStartedVal) fsStartedVal.textContent = startedStr;
-      if (fsEndsVal)    fsEndsVal.textContent    = endTime ? formatTime(new Date(endTime)) : '';
-      document.title = '● Awake — Keep Screen Awake'; syncFullscreen('active');
-    }
-
-    function setCompletedState() {
-      sessionRunning = false; toggleBtn.setAttribute('aria-checked', 'false');
-      setLabelText('Completed'); showEl(timerEl);
-      if (timerLabel) timerLabel.textContent = 'Session Ended';
-      if (timerValue) timerValue.textContent = '';
-      hideEl(endsLabel); hideEl(endsValue);
-      if (msg) {
-        if (endTime) {
-          var mins = Math.round((endTime - startTime) / 60000);
-          msg.textContent = 'Session completed after ' + mins + ' minute' + (mins === 1 ? '' : 's') + '.';
-        } else { msg.textContent = 'Session ended.'; }
-        showEl(msg);
-      }
-      unlockDuration(); document.title = origTitle; syncFullscreen('completed');
-    }
-
-    function tick() {
-      var now = Date.now();
-      if (endTime && now >= endTime) {
-        clearInterval(tickInterval); tickInterval = null;
-        if (wakeLock) { wakeLock.release(); wakeLock = null; }
-        setCompletedState(); return;
-      }
-      if (!timerValue) return;
-      var display = endTime
-        ? formatDuration(Math.max(0, Math.floor((endTime - now) / 1000)))
-        : formatDuration(Math.floor((now - startTime) / 1000));
-      timerValue.textContent = display;
-      if (fsTimerValue) fsTimerValue.textContent = display;
-    }
-
-    function reacquireOnVisible() {
-      if (document.visibilityState === 'visible' && sessionRunning && wakeLock === null) {
-        document.removeEventListener('visibilitychange', reacquireOnVisible);
-        requestWakeLock();
-      }
-    }
-
-    function requestWakeLock() {
-      navigator.wakeLock.request('screen').then(function (lock) {
-        wakeLock = lock;
-        lock.addEventListener('release', function () {
-          wakeLock = null;
-          if (sessionRunning) document.addEventListener('visibilitychange', reacquireOnVisible);
-        });
-      }).catch(function () { setInactiveState(); });
-    }
-
-    function activate() {
-      var dur = selectedDuration;
-      if (timeOptions) timeOptions.hidden = true;
-      if (timeToggle)  timeToggle.textContent = 'Tool Settings ▾';
-      startTime = Date.now(); endTime = dur > 0 ? startTime + dur * 1000 : null;
-      sessionRunning = true;
-      requestWakeLock(); setActiveState(); tick();
-      tickInterval = setInterval(tick, 1000);
-    }
-
-    function deactivate() {
-      sessionRunning = false; clearInterval(tickInterval); tickInterval = null;
-      document.removeEventListener('visibilitychange', reacquireOnVisible);
-      if (wakeLock) { wakeLock.release(); wakeLock = null; }
-      setInactiveState();
-    }
-
-    toggleBtn.addEventListener('click', function () {
-      if (sessionRunning) deactivate(); else activate();
-    });
-
-    function showOverlay() {
-      if (!fsOverlay) return;
-      fsOverlay.hidden = false;
-      syncFullscreen(sessionRunning ? 'active' : label && label.textContent === 'Completed' ? 'completed' : 'inactive');
-      if (sessionRunning && fsTimerValue && timerValue) fsTimerValue.textContent = timerValue.textContent;
-    }
-
-    function hideOverlay() { if (fsOverlay) fsOverlay.hidden = true; }
-
-    function exitNativeFullscreen() {
-      var exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
-      if (exit && (document.fullscreenElement || document.webkitFullscreenElement)) exit.call(document);
-    }
-
-    if (fsBtn && fsOverlay) {
-      fsBtn.addEventListener('click', function () {
-        var el = document.documentElement;
-        var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-        if (req) req.call(el).then(showOverlay).catch(showOverlay);
-        else showOverlay();
-      });
-    }
-
-    if (fsExit && fsOverlay) {
-      fsExit.addEventListener('click', function () { hideOverlay(); exitNativeFullscreen(); });
-    }
-
-    if (rdBtn) rdBtn.addEventListener('click', showOverlay);
-
-    document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement) hideOverlay(); });
-    document.addEventListener('webkitfullscreenchange', function () { if (!document.webkitFullscreenElement) hideOverlay(); });
-
+    // ── Keyboard ─────────────────────────────────────────────────────────
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && fsOverlay && !fsOverlay.hidden &&
-          !document.fullscreenElement && !document.webkitFullscreenElement) hideOverlay();
+      if (e.key === 'Escape' && amb && !amb.hidden) { closeAmbient(); return; }
+      if (e.code !== 'Space' || e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target;
+      if (!t) return;
+      var tag = t.tagName;
+      // Never hijack typing, and never double-fire on a focused button (Space already clicks it).
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON' ||
+          tag === 'SUMMARY' || t.isContentEditable) return;
+      if (!supported) return;
+      e.preventDefault();
+      toggle();
     });
+
+    // ── Re-acquisition hooks ─────────────────────────────────────────────
+    // The ticker is the workhorse; these just make the recovery immediate instead of
+    // up to a second late when the user comes back.
+    document.addEventListener('visibilitychange', ensureLock);
+    window.addEventListener('pageshow', ensureLock);
+    window.addEventListener('focus', ensureLock);
+
+    // A running session must not survive a reload as a *claim* without a lock behind it,
+    // so nothing is restored here beyond preferences.
+    window.addEventListener('pagehide', function () { releaseLock(); });
+
+    // ── Unsupported browsers ─────────────────────────────────────────────
+    function deviceHint() {
+      var ua = navigator.userAgent;
+      if (/iPhone|iPad|iPod/i.test(ua)) return 'On iOS: Settings > Display & Brightness > Auto-Lock > Never.';
+      if (/Android/i.test(ua))         return 'On Android: Settings > Display > Screen timeout.';
+      if (/Mac OS X/i.test(ua))        return 'On macOS: System Settings > Lock Screen > Turn display off.';
+      if (/Windows/i.test(ua))         return 'On Windows: Settings > System > Power & battery > Screen and sleep.';
+      return 'Set your screen timeout in your device display settings.';
+    }
+
+    if (!supported) {
+      if (unsupported) unsupported.hidden = false;
+      if (unsupHint) unsupHint.textContent = deviceHint();
+      toggleBtn.disabled = true;
+    }
+
+    // ── Boot ─────────────────────────────────────────────────────────────
+    restore();
+    // A link beats saved state: a shared /?d=30 must reproduce that session length. Nothing is
+    // written back on load, so arriving on a clean URL leaves it clean.
+    readUrl();
+
+    if (soundBox)  soundBox.checked  = S.sound;
+    if (notifyBox) notifyBox.checked = S.notify;
+    if (guardBox)  guardBox.checked  = S.guard;
+    document.querySelectorAll('.wl-fmt').forEach(function (b) {
+      b.classList.toggle('is-selected', b.getAttribute('data-format') === S.format);
+    });
+
+    render();
+
+    // The ambient clock keeps ticking even with no session running: a propped-up phone
+    // showing a dead clock is not an ambient display.
+    setInterval(function () { if (amb && !amb.hidden) renderAmbient(); }, 1000);
   })();
 </script>
