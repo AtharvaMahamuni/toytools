@@ -604,6 +604,13 @@ body.tt-focus-lock {
   border-bottom: none;
 }
 
+/* The panel is a fixed-height flex column; without this its children shrink to
+   fit and a taller-than-viewport list overflows its box onto the footer. Pin
+   them to their natural height so the panel scrolls as one column instead. */
+.tool-panel.tt-focus > * {
+  flex-shrink: 0;
+}
+
 .notepad-panel.tt-focus textarea {
   min-height: 70vh;
 }
