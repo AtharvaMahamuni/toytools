@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 1,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-06',
-  description: 'Keep Screen Awake rebuild: honest lock state, ambient mode, phone-first controls',
+  releaseDate: '2026-08-07',
+  description: 'Category-first homepage index with the full tool directory behind a disclosure',
 };
 
 export function formatVersion(config: VersionConfig): string {

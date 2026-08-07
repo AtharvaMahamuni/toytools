@@ -2,15 +2,15 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../lib/titles';
 import HeroSearch from '@components/HeroSearch.astro';
+import CategoryIndex from '@components/CategoryIndex.astro';
 import ToolDirectory from '@components/ToolDirectory.astro';
-import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 ---
 
 <BaseLayout
   title={generatePageTitle('home')}
   description="Free, private, browser-based tools for everyday tasks. No sign-up, no tracking."
-  maxWidth="category"
+  maxWidth="content"
 >
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
@@ -43,9 +43,11 @@ import { tools } from '@data/registry';
     <p class="hero-tagline">The simplest place on the internet to get things done.</p>
     <HeroSearch />
     <p class="hero-sub">
-      <span>Lightweight</span>
+      <span>{tools.length} tools</span>
       <span class="gold-dot" aria-hidden="true"></span>
-      <span>Private</span>
+      <span>Everything runs in your browser</span>
+      <span class="gold-dot" aria-hidden="true"></span>
+      <span>No sign-up, nothing uploaded</span>
     </p>
   </section>
 
@@ -60,14 +62,20 @@ import { tools } from '@data/registry';
   </p>
 
   <section class="section">
-    <ToolDirectory />
+    <CategoryIndex />
   </section>
 
-  <p class="ecosystem-row">
-    <span>{categories.length} Categories</span>
-    <span class="gold-dot" aria-hidden="true"></span>
-    <span>{tools.length} Tools</span>
-  </p>
+  {/* The full directory still ships in the HTML, closed. It is the power-user path and it
+      keeps every tool one internal link from the homepage; what it is not, any more, is the
+      first thing a visitor has to read. */}
+  <details class="all-tools">
+    <summary class="all-tools-summary">
+      Browse all {tools.length} tools
+    </summary>
+    <div class="all-tools-body">
+      <ToolDirectory />
+    </div>
+  </details>
 
   <script is:inline>
     (function () {
@@ -160,6 +168,7 @@ import { tools } from '@data/registry';
   .hero-sub {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-subtle);
@@ -210,14 +219,47 @@ import { tools } from '@data/registry';
     padding-bottom: var(--space-8);
   }
 
-  .ecosystem-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: var(--text-sm);
-    color: var(--color-text-subtle);
+  /* ── All-tools disclosure ─────────────────────────────────── */
+
+  .all-tools {
     padding-top: var(--space-8);
     border-top: var(--border);
-    max-width: unset;
+  }
+
+  .all-tools-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    list-style: none;
+    transition: var(--transition-color);
+  }
+
+  /* Safari draws its own disclosure triangle through `list-style: none`. */
+  .all-tools-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .all-tools-summary::before {
+    content: '+';
+    font-size: var(--text-base);
+    line-height: 1;
+    color: var(--color-text-subtle);
+  }
+
+  .all-tools[open] .all-tools-summary::before {
+    content: '−';
+  }
+
+  .all-tools-summary:hover,
+  .all-tools-summary:active {
+    color: var(--color-text);
+  }
+
+  .all-tools-body {
+    padding-top: var(--space-6);
   }
 </style>

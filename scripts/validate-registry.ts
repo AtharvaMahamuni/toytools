@@ -182,6 +182,30 @@ for (const group of toolGroups) {
   }
 }
 
+// Category highlights: the three example tools each category shows on the homepage index.
+// A stale slug here does not throw at build time, it just silently drops an example from the
+// homepage, which is exactly the kind of drift a rename causes and nobody notices.
+for (const category of categories) {
+  const highlights = category.highlights ?? [];
+  if (highlights.length > 3) {
+    errors.push(`Category "${category.slug}" lists ${highlights.length} highlights — the homepage index renders at most 3`);
+  }
+  const highlightsSeen = new Set<string>();
+  for (const slug of highlights) {
+    if (highlightsSeen.has(slug)) {
+      errors.push(`Category "${category.slug}" lists highlight "${slug}" more than once`);
+    }
+    highlightsSeen.add(slug);
+
+    const highlighted = tools.find(t => t.slug === slug);
+    if (!highlighted) {
+      errors.push(`Category "${category.slug}" highlights unknown tool "${slug}" — fix the slug in src/data/categories.ts`);
+    } else if (highlighted.categorySlug !== category.slug) {
+      errors.push(`Category "${category.slug}" highlights "${slug}", which belongs to "${highlighted.categorySlug}" — a highlight must be a tool in its own category`);
+    }
+  }
+}
+
 // ---- Simulation manifests: schemaVersion + model wiring ----
 // Sims are derived from their manifests (no per-tool config), so the manifest is the contract.
 // Guard the schemaVersion (an outdated manifest must fail the build, mirroring validate-knowledge)

@@ -576,8 +576,11 @@ URL structure (singular, not plural):
 > them as stubs: real localization means indexable pages with `hreflang`, which is a different project.
 > See `docs/analysis/2026-08-03-platform-ux-gaps.md`.
 
-**Discovery surfaces:** the homepage renders `ToolDirectory.astro` (compact per-category link
-columns; tool groups collapse to one entry) and category pages render `CategoryToolList.astro`
+**Discovery surfaces:** the homepage leads with `CategoryIndex.astro` (one row per category: accent
+dot, name, count, `tagline`, and three `highlights` example tools authored in
+`src/data/categories.ts` and validated by `validate-registry`), with `ToolDirectory.astro` (compact
+per-category link columns; tool groups collapse to one entry) below it inside a closed `<details>`
+so every tool keeps a homepage link. Category pages render `CategoryToolList.astro`
 (sectioned rows from `src/data/category-sections.ts` — add a `pattern → section` row there when
 registering a new pattern). No tile grids. See `ARCHITECTURE.md` → "Discovery surfaces".
 

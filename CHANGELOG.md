@@ -2,6 +2,30 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.1.1] - 2026-08-07
+
+The homepage stopped listing tools and started describing the catalog. It led with all 58
+directory entries as bare names, which rendered as roughly 9,800px of undifferentiated grey links
+on a Pixel 5: complete, but unreadable, and silent about what any category actually does.
+
+### Added
+- **A category index on the homepage.** Eleven rows, two columns on desktop and one on a phone,
+  each with an accent dot, the category name, its tool count, a one-line tagline and three named
+  example tools. The examples are authored per category, so they can name the tools people arrive
+  looking for, including ones the directory hides behind a collapsed group entry (BMI Calculator
+  and TDEE Calculator both sat inside a single "Health Calculator" link before).
+- **A "Browse all 119 tools" disclosure** holding the full directory. It ships closed, so the
+  complete catalog is still one click and still one internal link away from the homepage without
+  being the first thing anyone has to read.
+
+### Changed
+- The homepage is now 2,438px tall on a Pixel 5, down from 9,815px, and 1,465px on desktop.
+- The hero states what the site actually is: "119 tools", "Everything runs in your browser",
+  "No sign-up, nothing uploaded", replacing "Lightweight / Private". The tool and category counts
+  moved into that line, so the old counter row at the foot of the page is gone.
+- The homepage renders at content width (1100px) rather than shell width (1440px), which keeps
+  the category rows a readable line length instead of stretching them across the viewport.
+
 ## [alpha-v7.1] - 2026-08-06
 
 Keep Screen Awake rebuilt around the two things the tool is actually for: proving an invisible

@@ -175,11 +175,22 @@ tool declares `guide:` without being registered (i.e. no `Guide.astro` authored)
 
 Both discovery pages are compact, registry-derived indexes — no tile grids.
 
-- **Homepage** (`src/pages/index.astro`): hero search, a localStorage-driven `Recent:` chip row,
-  then `ToolDirectory.astro` — one column per category (4→2→1 responsive), header links to the
-  category page, body is plain text links. Tool-group members collapse into one entry (the seven
-  case converters render as a single "Case Converter" link); the entry carries
-  `data-group-slugs` so the recent-chips script can resolve any visited member back to it.
+- **Homepage** (`src/pages/index.astro`): hero search, a localStorage-driven `Favourites:`/`Recent:`
+  chip row, then `CategoryIndex.astro` — one row per category (2→1 responsive) carrying an accent
+  dot, the category name, its tool count, a short `tagline` and three named example tools
+  (`highlights` in `src/data/categories.ts`, pinned by `validate-registry`). The full
+  `ToolDirectory.astro` follows inside a **closed `<details>`** ("Browse all N tools"): one column
+  per category (4→2→1), plain text links, tool-group members collapsed into one entry (the seven
+  case converters render as a single "Case Converter" link) carrying `data-group-slugs` so the
+  recent-chips script can resolve any visited member back to it.
+  - The directory led the page until 2026-08-07. It is complete but not legible: 58 bare tool
+    names rendered as ~9,800px of undifferentiated links on a Pixel 5 and said nothing about what
+    any category does. Leading with categories cut that to ~2,400px. It still ships in the HTML,
+    closed, so every tool stays one internal link from the homepage.
+  - **The chips clone `.dir-link` nodes**, so the directory must stay in the DOM. A closed
+    `<details>` keeps its contents queryable (and clonable) while hiding them, which is why the
+    disclosure is markup and not a build-time omission. It also keeps them out of the
+    accessibility tree, so Playwright role queries against the directory must open it first.
 - **Category pages** (`src/pages/category/[slug].astro` → `CategoryToolList.astro`): full-width
   rows (name + one-line description) grouped under section headings derived from
   `src/data/category-sections.ts` (declarative `pattern → {title, order}`; extend it when
