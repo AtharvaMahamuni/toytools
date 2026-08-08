@@ -54,6 +54,11 @@ engine distribution and content registration.
 The number that decides whether a page reads as a tool or as a document: how far down the first
 screen you must look before you can do anything.
 
+> **Superseded, 2026-08-08.** The table below sampled ten tools. Phase 0 instrumented the whole
+> registry (`tests/e2e/fold.spec.ts`) and the real distribution is worse: see 1.2b. The sample
+> missed the worst case by 37 points. Keep the table for the desktop comparison, which the full
+> run does not measure.
+
 | tool | Pixel 5 first control | share of fold | desktop |
 |---|---|---|---|
 | age-calculator | 548px | 75% | 38% |
@@ -65,9 +70,28 @@ screen you must look before you can do anything.
 | pomodoro-timer | 753px | **104%** | 41% |
 | password-generator | 1013px | **139%** | 51% |
 
-Desktop is healthy. **On a phone the tool starts at 74% to 139% of the first screen**, and on three
-of the ten sampled tools it does not appear on the first screen at all. `.tool-header` alone costs
-235px to 324px depending on the tool.
+Desktop is healthy at 38% to 55%. `.tool-header` alone costs 235px to 324px depending on the tool.
+
+### 1.2b The full registry, measured (119 tools, Pixel 5, 727px viewport)
+
+Two distinct numbers, because they fail for different reasons:
+
+| measure | min | median | worst |
+|---|---|---|---|
+| **chrome**: where the tool begins (`.tool-header` bottom / viewport) | 51% | **59%** | **74.8%** (`combinations-permutations-calculator`) |
+| **fold**: where the tool becomes usable (first control / viewport) | 61% | **80%** | **175.8%** (`lorem-ipsum-generator`) |
+
+- **30 of 119 tools (25%) put no interactive control on the first screen at all.**
+- 94 of 119 (79%) are worse than the 74% the base64 sample showed.
+- On the median tool, **59% of the phone's first screen is spent before the tool starts.**
+
+The two measures must be held separately, which the sample did not reveal. The *chrome* number is
+platform-owned (nav, breadcrumb, title, description, trust, install) and near-identical on every
+page, so it is what the identity phases actually move. The *fold* number is widget-owned and is
+partly legitimate: `lorem-ipsum-generator` measures 176% because mobile stacking is answer-first by
+design (output above input, per `CLAUDE.md`), not because it has a masthead. Holding that one to a
+tight ceiling would be a test demanding the design rules be broken, so it is a loose guard while
+chrome carries the real ratchet.
 
 This is the single strongest finding, because it contradicts a hard rule the project already
 states. `CLAUDE.md` says ToyTools is phone first, that most visits are mobile, and that a tool is
@@ -94,6 +118,11 @@ The two universal H2s, present on **119 of 119** pages:
 So on 84 pages the entire H2 inventory is an install dialog title and the word "Questions". On
 `base64-encoder-decoder` the full list is `["Add to Home Screen", "Recent conversions", "Common
 Questions"]`.
+
+**Measured once instrumented (phase 0): only 22 of 119 tool pages (18.5%) carry a single H2 that
+names a concept.** That is worse than the 29% first estimated here, because the estimate counted a
+page's third heading as concept-bearing when it is usually `Recent conversions`, a widget panel
+label appearing on 13 pages. The floor in `THRESHOLDS.conceptHeadings` records the measured 18.5%.
 
 Targeting sits at **63.4% (220/347)** against a floor of 0.62, over a haystack of four slots:
 `<title>`, meta description, `<h1>`, `<h2>`. One entire slot out of four currently says nothing
@@ -484,9 +513,11 @@ token, that is a signal the step is wrong, not that the scale is short.
 
 | metric | today | target | measured by |
 |---|---|---|---|
-| First control position, Pixel 5, worst tool | 139% of fold | under 45% | new `tests/e2e/fold.spec.ts` |
-| First control position, Pixel 5, median | ~81% of fold | under 40% | same |
-| Tool pages whose only H2s are furniture | 84 of 119 | 0 | H2 report in `check-query-coverage.ts` |
+| Chrome above the tool, Pixel 5, worst | 74.8% of fold | under 22% | `tests/e2e/fold.spec.ts` (`CHROME_LIMIT`) |
+| Chrome above the tool, Pixel 5, median | 59% of fold | under 20% | same |
+| First control, Pixel 5, worst | 175.8% of fold | under 100% | same (`FOLD_LIMIT`) |
+| Tools with no control on the first screen | 30 of 119 | 0 | same |
+| Tool pages with a concept-bearing H2 | 22 of 119 (18.5%) | 119 of 119 | `THRESHOLDS.conceptHeadings` |
 | Query targeting | 63.4% | raise the floor after the drawers ship | `npm run check:queries` |
 | Widget files importing platform chrome | 33 | 0 | grep, and an architecture validator rule |
 | Knowledge fields rendered on the tool page | 0 of 4 | 3 of 4 | code review |

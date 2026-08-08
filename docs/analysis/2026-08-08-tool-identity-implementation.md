@@ -64,18 +64,26 @@ For every tool in `src/data/registry.ts`:
   at or below the bottom of `.tool-header`
 - assert `top < FOLD_LIMIT * viewportHeight`
 
+**Shipped, and it changed shape once measured.** The spec asserts **two** limits, not one, because
+running the full registry showed the single-number version was penalizing correct design:
+
 ```ts
-// Records what the catalog achieves today. Same discipline as THRESHOLDS in
-// scripts/check-query-coverage.ts and BUDGETS in scripts/check-budget.ts:
-// this number only ever goes DOWN, in the same commit as the change that earns it.
-const FOLD_LIMIT = 1.40;   // phase 0 baseline: worst measured is password-generator at 1.39
+const CHROME_LIMIT = 0.75;  // where the tool BEGINS: .tool-header bottom / viewport
+                            // baseline min 0.51, median 0.59, worst 0.748
+const FOLD_LIMIT   = 1.76;  // where the tool becomes USABLE: first control / viewport
+                            // baseline median 0.80, worst 1.758
 ```
 
-Tighten in later phases: **0.55 after phase 2, 0.45 after phase 4.** Each tightening is a one line
-diff in the same commit as the change that makes it pass.
+`CHROME_LIMIT` is platform-owned and near-identical on every page, so it is the number these phases
+move. `FOLD_LIMIT` is widget-owned and deliberately loose: `lorem-ipsum-generator` measures 176%
+because mobile stacking is answer-first by design (output above input), not because it has a
+masthead. A tight ceiling there would be a test demanding the design rules be broken.
 
-Record in the spec's header comment the measured baseline table from the analysis doc (section 1.2),
-so the next maintainer can see what moved.
+Tighten `CHROME_LIMIT` in later phases: **0.32 after phase 2, 0.22 after phase 4.** Each tightening
+is a one line diff in the same commit as the change that makes it pass.
+
+The ten-tool sample this plan was written from reported a worst case of 139% and missed
+`lorem-ipsum-generator` at 176% entirely. Run the registry, not a sample.
 
 ### 0.2 H2 quality report in `scripts/check-query-coverage.ts` (edit)
 
@@ -86,16 +94,16 @@ reported section, initially report only:
   (`Add to Home Screen`, `Common Questions`, `Install app`)
 - report the count of tools whose remaining set is empty
 
-Add to `THRESHOLDS` a fourth floor, set to today's value so it cannot get worse:
+**Shipped.** A fourth floor in `THRESHOLDS`, set to the measured value:
 
 ```ts
-/**
- * Share of tool pages carrying at least one H2 that names a concept rather than a page part.
- * 2026-08-08: measured 29.4% (35/119). Furniture H2s ("Add to Home Screen", "Common Questions")
- * do not count: they are on every page and discriminate nothing.
- */
-conceptHeadings: 0.29,
+conceptHeadings: 0.18,   // measured 18.5% (22/119)
 ```
+
+Worse than the 29% estimated before instrumenting, because that estimate counted a page's third H2
+as concept-bearing when it is usually `Recent conversions`, a widget panel label on 13 pages. The
+furniture set is matched exactly and never as a substring, so a real heading containing one of the
+words ("Base64 encoding questions") still counts.
 
 Raise it to 1.0 after phase 5, where every tool gains three concept H2s by construction.
 
@@ -461,17 +469,20 @@ The rule to write into all of them, because it is the one sentence version of th
 
 What each phase must prove before the next begins.
 
-| phase | `npm run verify` | `check:budget` | `check:queries` | fold spec | manual |
+`CHROME_LIMIT` is the column that moves; `FOLD_LIMIT` stays at its 1.76 baseline until phase 2 and
+is then reviewed, since it falls out of the chrome work rather than being driven directly.
+
+| phase | `npm run verify` | `check:budget` | `check:queries` | `CHROME_LIMIT` | manual |
 |---|---|---|---|---|---|
-| 0 | green | unchanged | report added | baseline 1.40 | none |
-| 1 | green | unchanged | `targeting` unchanged | 1.40 | a11y sheet name |
-| 2 | green | no increase | unchanged | **0.55** | real phone, installed PWA |
-| 3 | green | unchanged | `targeting` unchanged | 0.55 | none |
-| 4 | green | no increase | unchanged | **0.45** | 393px, no h-scroll |
-| 5 | green | delta recorded | **floors raised** | 0.45 | `#faq` from a redirect stub |
-| 6 | green | improvement expected | unchanged | 0.45 | none |
-| 7 | green | unchanged | unchanged | 0.45 | guide reads as Reading Mode |
-| 8 | green | unchanged | at or above floor | 0.45 | `seo:gate` per slug |
+| 0 | green | unchanged | headings floor added at 0.18 | baseline **0.75** | none |
+| 1 | green | unchanged | `targeting` unchanged | 0.75 | a11y sheet name |
+| 2 | green | no increase | unchanged | **0.32** | real phone, installed PWA |
+| 3 | green | unchanged | `targeting` unchanged | 0.32 | none |
+| 4 | green | no increase | unchanged | **0.22** | 393px, no h-scroll |
+| 5 | green | delta recorded | **floors raised** | 0.22 | `#faq` from a redirect stub |
+| 6 | green | improvement expected | unchanged | 0.22 | none |
+| 7 | green | unchanged | unchanged | 0.22 | guide reads as Reading Mode |
+| 8 | green | unchanged | at or above floor | 0.22 | `seo:gate` per slug |
 
 ---
 
