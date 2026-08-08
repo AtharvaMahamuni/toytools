@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { faqItemsFrom, knowledgeFrom, relatedToolSlugs, toolConfigFrom } from './generate';
+import { faqItemsFrom, knowledgeFrom, relatedToolSlugs, simulatorLabel, subjectFromTitle, toolConfigFrom } from './generate';
 import { resolveRelations } from './relations';
 import { MANIFESTS } from './manifests';
 import { manifest as projectileManifest } from './simulations/projectile-motion.manifest';
@@ -18,7 +18,10 @@ describe('simulation generators (projectile-motion)', () => {
     expect(cfg.processorId).toBe('projectile-motion');
     expect(cfg.seoTitle).toBe(projectileManifest.seo.title);
     expect(cfg.description).toBe(projectileManifest.seo.description);
-    expect(cfg.tags).toEqual(projectileManifest.presentation.tags);
+    // Authored tags come first and are preserved verbatim; the simulator-intent phrases are
+    // appended by derivation (see the "simulator intent derivation" block below).
+    expect(cfg.tags.slice(0, projectileManifest.presentation.tags.length))
+      .toEqual(projectileManifest.presentation.tags);
     expect(cfg.guide?.slug).toBe('how-projectile-motion-works');
     // relatedTools are auto-derived: non-empty, other real sims, never self.
     expect(cfg.relatedTools!.length).toBeGreaterThan(0);
@@ -61,5 +64,37 @@ describe('simulation generators (projectile-motion)', () => {
       ...(projectileRelations.alternatives ?? []),
     ].map((r) => r.slug);
     expect(slugs).toEqual([...new Set(expected)]);
+  });
+});
+
+describe('simulator intent derivation', () => {
+  it('strips the tool-type noun to get the subject', () => {
+    expect(subjectFromTitle('Pendulum Period Calculator')).toBe('Pendulum Period');
+    expect(subjectFromTitle('Quadratic Equation Solver')).toBe('Quadratic Equation');
+    expect(subjectFromTitle("Ohm's Law Calculator")).toBe("Ohm's Law");
+  });
+
+  it('preserves authored casing, because the subjects are proper nouns', () =>
+    expect(subjectFromTitle('Doppler Effect Calculator')).toBe('Doppler Effect'));
+
+  it('leaves a title with no tool-type noun alone', () =>
+    expect(subjectFromTitle('Unit Circle')).toBe('Unit Circle'));
+
+  it('gives the widget and the tags the same phrase', () =>
+    expect(simulatorLabel('Pendulum Period Calculator')).toBe('Pendulum Period simulator'));
+
+  it('gives every simulation a simulator tag', () => {
+    // The regression this whole file guards: the 2026-08-04 rename left three sims with no
+    // simulator vocabulary at all, and nothing noticed.
+    for (const m of MANIFESTS) {
+      const tags = toolConfigFrom(m, resolveRelations(m, MANIFESTS)).tags.map((t) => t.toLowerCase());
+      expect(tags.some((t) => t.includes('simulator')), `${m.metadata.slug} has no simulator tag`).toBe(true);
+      expect(tags.some((t) => t.startsWith('interactive ')), `${m.metadata.slug} has no interactive tag`).toBe(true);
+    }
+  });
+
+  it('does not duplicate a phrase the manifest already lists', () => {
+    const tags = toolConfigFrom(projectileManifest, projectileRelations).tags.map((t) => t.toLowerCase());
+    expect(tags.filter((t) => t === 'projectile motion simulator')).toHaveLength(1);
   });
 });

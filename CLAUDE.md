@@ -12,8 +12,8 @@ npm run verify:fast   # everything except e2e — inner loop only, NOT a done-co
 ```
 
 It runs, in order: unit tests, the coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true`,
-the platform health check, Quality Guardian, `seo:gate` on every tool directory the branch touched,
-and e2e on desktop **and** Pixel 5. Every step runs even after an earlier one fails, so one pass
+the platform health check, the query coverage gate, Quality Guardian, `seo:gate` on every tool
+directory the branch touched, and e2e on desktop **and** Pixel 5. Every step runs even after an earlier one fails, so one pass
 reports every problem. Takes about three minutes.
 
 This exists because `build` + `test` + `test:e2e` is **not** the gate and never was: it skips the
@@ -72,7 +72,31 @@ informational by default; run before shipping a batch of new tool content.
 ```sh
 npm run check:budget           # per-page critical-path budget (runs last in npm run build; needs dist/)
 npm run check:budget -- tool/text/word-counter   # print specific pages
+
+npm run check:queries          # query → tool matching gate (needs dist/; runs inside npm run verify)
+npm run check:queries -- --report          # full per-query listing, never fails
+npm run check:queries -- <slug>            # drill into one tool
 ```
+
+## Query coverage (a hard gate: the right tool for the query)
+
+`scripts/check-query-coverage.ts` asserts that a user's query reaches the tool that answers it. It
+builds one corpus from the evidence already in the repo (`searchQueries` in
+`research/datasets/*.json`, `src/data/search-aliases.ts`, every `knowledge.ts` keyword and entity
+alias) and checks two things:
+
+- **retrieval** — the intended tool is in the top 3 of the real ranker (`src/lib/search/rank.ts`)
+- **targeting** — the query's discriminating words appear in the built page's `<title>`, `<h1>`, an
+  `<h2>` or the meta description. **Body prose does not count**, which is the whole point: the
+  2026-08-04 slug rename stripped "simulator" from every simulation's URL, title and H1 in one
+  commit, left the word only in body copy, and nothing noticed.
+
+Both are **ratchets**. The floors in `THRESHOLDS` record what the catalog measures today; the gate
+fails on a drop. Raise a floor after a real improvement, in the same commit. Never lower one to get
+green, and never satisfy targeting by stuffing keywords into a title: cover the intent instead.
+It also writes `seo-engine/cache/query-coverage.json`, which is what `seo:gate` scores its
+`queryTargeting` criterion from, so the corpus is defined exactly once.
+Background: `docs/analysis/2026-08-04-query-to-tool-matching-audit.md`.
 
 ## Performance budget (a hard gate for every new tool)
 
@@ -320,6 +344,11 @@ npm run seo:status -- <slug>   # ALWAYS start here: pipeline state + exact next 
 npm run seo:gate -- <slug>     # quality gate (exit 1 below the bar) — the done-condition for content
 npm run seo:doctor             # run when any seo:* command misbehaves: detects engine/codebase drift
 ```
+
+The gate scores prose quality **and** query targeting (`queryTargeting`, from
+`seo-engine/cache/query-coverage.json` — run `npm run check:queries` to refresh it). A tool that has
+never been measured is reported as such and the criterion is skipped, because an unmeasured tool is
+not a passing one. Before this existed a page could score 90 while targeting nothing.
 
 Research → extract → scaffold produce `seo-engine/output/<slug>/PROMPT.md`, a self-contained authoring brief (style contract, registration snippets, acceptance commands). Full command table: `seo-engine/README.md`. Writing hard rule: **no em-dashes anywhere** (the gate fails on any occurrence).
 

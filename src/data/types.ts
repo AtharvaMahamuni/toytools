@@ -1,6 +1,12 @@
 export interface Category {
   slug: string;
   name: string;
+  /**
+   * Heading and browser title, when the short `name` is what nav chrome needs but not what the page
+   * is about. "Physics" is the right breadcrumb; "Physics Simulations" is what the page holds and
+   * what people search for. Falls back to `name` when absent, so most categories set nothing.
+   */
+  headline?: string;
   description: string;
   /** Short homepage label (aim for under 50 chars). Falls back to the first sentence
    *  of `description`, which is written for the category page's meta and runs long. */

@@ -16,10 +16,13 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { category, tools: categoryTools } = Astro.props;
+// The breadcrumb keeps the short name (it is a trail, not a description); the title and H1 use the
+// headline when one is set, so "Physics" can stay the nav label while the page says what it holds.
+const headline = category.headline ?? category.name;
 ---
 
 <BaseLayout
-  title={generatePageTitle('category', category.name)}
+  title={generatePageTitle('category', headline)}
   description={category.description}
   maxWidth="category"
 >
@@ -29,7 +32,7 @@ const { category, tools: categoryTools } = Astro.props;
       { label: category.name },
     ]} />
     <div class="category-title">
-      <h1>{category.name}</h1>
+      <h1>{headline}</h1>
     </div>
     <p class="category-description">{category.description}</p>
     <p class="tool-count">

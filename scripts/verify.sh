@@ -43,12 +43,13 @@ printf '\n\033[1m▶ build (KNOWLEDGE_REQUIRED=true)\033[0m\n'
 if KNOWLEDGE_REQUIRED=true npm run build; then
   PASSED+=("build")
 
-  # These three read dist/, so they are only meaningful once the build succeeded.
+  # These read dist/, so they are only meaningful once the build succeeded.
   step "platform health"     npm run health
+  step "query coverage"      npm run check:queries
   step "quality guardian"    npm run quality:pr
 else
   FAILED+=("build")
-  printf '\033[31m✗ build failed — skipping health and quality guardian (both read dist/)\033[0m\n'
+  printf '\033[31m✗ build failed — skipping health, query coverage and quality guardian (all read dist/)\033[0m\n'
 fi
 
 # Content gate for the tools this branch touched. CI runs this against the PR base; locally the

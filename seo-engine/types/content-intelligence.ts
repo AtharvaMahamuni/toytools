@@ -53,6 +53,24 @@ export interface ContentAction {
   scoreGain: number;
 }
 
+/**
+ * How many of a tool's real query phrasings its page actually asks for, in a slot a search engine
+ * weights (title, H1, an H2, the meta description) rather than in body prose.
+ *
+ * Measured by scripts/check-query-coverage.ts in the main repo and handed over in
+ * seo-engine/cache/query-coverage.json, so the corpus is defined once. `known` is false when that
+ * file is absent or has nothing for this tool, in which case the score is not gated: a missing
+ * measurement must never read as a passing one.
+ */
+export interface QueryTargetingResult {
+  known: boolean;
+  score: number;
+  found: number;
+  total: number;
+  /** Query phrasings the page never asks for. The content brief, in priority order. */
+  missing: string[];
+}
+
 export interface ContentIntelligenceScore {
   overall: number;
   writingQuality: number;
@@ -60,6 +78,7 @@ export interface ContentIntelligenceScore {
   seoCompleteness: number;
   topicClusterCompleteness: number;
   toyToolsStyleScore: number;
+  queryTargeting: QueryTargetingResult;
   /** Which tier the entity/intent profile came from: override | knowledge | config. */
   profileSource: 'override' | 'knowledge' | 'config';
   firstPrinciples: FirstPrinciplesCoverage;

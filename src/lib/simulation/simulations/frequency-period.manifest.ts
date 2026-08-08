@@ -85,7 +85,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Frequency and Period Calculator: T = 1 / f',
     description:
-      'See how frequency and period are two views of one motion. Tap a beat or drag the slider and watch the period and angular frequency update live.',
+      'Frequency and period are two views of one motion. Tap a beat or drag the slider and watch cycles per second, the period, and angular frequency update live.',
     keywords: ['frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'hertz'],
   },
   presentation: {

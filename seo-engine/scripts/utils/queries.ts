@@ -24,7 +24,13 @@ export function generateQueries(toolSlug: string): string[] {
   }
 
   // action variants based on common verb tokens
-  const actionTokens = ['encoder', 'decoder', 'converter', 'generator', 'calculator', 'formatter'];
+  // Every tool-type noun the catalog actually uses. It started as the six developer-tool nouns and
+  // was never extended as the catalog grew, so research for the simulation, tracking and viewer
+  // clusters silently generated fewer query variants than for a base64 encoder.
+  const actionTokens = [
+    'encoder', 'decoder', 'converter', 'generator', 'calculator', 'formatter',
+    'simulator', 'solver', 'tracker', 'viewer', 'planner', 'visualizer',
+  ];
   for (const t of tokens) {
     if (actionTokens.includes(t)) {
       const subject = tokens.filter(x => x !== t).join(' ');
