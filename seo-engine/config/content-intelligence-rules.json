@@ -214,7 +214,8 @@
       "writingQuality": 70,
       "usefulness": 60,
       "seoCompleteness": 50,
-      "toyToolsStyleScore": 70
+      "toyToolsStyleScore": 70,
+      "queryTargeting": 50
     },
     "maxHighImpactActions": 3,
     "maxAiTellPhrases": 0,

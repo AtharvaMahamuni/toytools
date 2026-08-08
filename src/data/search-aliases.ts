@@ -136,9 +136,13 @@ export const searchAliases: Record<string, string[]> = {
   'todo-list': ['task list', 'checklist'],
 
   // Physics playground
+  // The "<subject> simulator" / "interactive <subject>" phrasings are DERIVED for every simulation
+  // (src/lib/simulation/generate.ts, simulatorTags), so they belong in neither this file nor a
+  // manifest's tag list. Only vocabulary a rule cannot produce goes here.
   'doppler-effect-calculator': ['doppler shift'],
   'heat-transfer-calculator': ['conduction'],
-  'ideal-gas-law-calculator': ['pv nrt'],
+  'frequency-period-calculator': ['hertz', 'cycles per second'],
+  'ideal-gas-law-calculator': ['pv nrt', 'charles law', 'boyle law'],
   'inclined-plane-calculator': ['ramp friction'],
   'momentum-collision-calculator': ['elastic collision'],
   'ohms-law-calculator': ['ohm law', 'voltage current resistance'],

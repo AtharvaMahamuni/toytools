@@ -2,6 +2,59 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.2] - 2026-08-08
+
+Searching the site for a tool that exists could return nothing at all. "quadratic formula
+calculator" found no results, because the tool is a *Solver* and the ranker required every word of
+a query to match, so the habitual word "calculator" vetoed it. Twenty-six phrasings from our own
+research datasets, the ones that justified building each tool, returned an empty page. Separately,
+the 2026-08-04 simulation rename had stripped the word "simulator" from every URL, title, H1 and
+meta description in one commit, leaving it only in body prose where it carries almost no weight.
+Nothing checked either of these, which is why both went unnoticed. Now something does.
+
+### Added
+- **A query coverage gate** (`npm run check:queries`), part of `npm run verify` and CI. It builds
+  one corpus from evidence already in the repo (the `searchQueries` in `research/datasets/*.json`,
+  every search alias, every knowledge keyword and entity alias) and asserts two things: that the
+  intended tool is in the top 3 of the real ranker, and that a query's distinctive words appear in
+  the built page's title, H1, an H2 or meta description. Body prose deliberately does not count.
+  Both are ratchets that fail on a drop, and the report doubles as a content brief listing the exact
+  phrases each tool is not yet earning.
+- **A query targeting score in `seo:gate`.** The gate gained a `queryTargeting` criterion reading
+  the artifact the coverage gate writes, so the corpus is defined once. A tool nobody has measured
+  reports as unmeasured and skips the criterion rather than passing it.
+- **Simulator vocabulary for every simulation, derived from its manifest.** "Pendulum Period
+  simulator", "interactive Unit Circle" and their siblings are now generated rather than
+  hand-listed, so a new simulation is searchable by the word people use for simulations without
+  anyone remembering to type it into a tag list.
+
+### Changed
+- **Search matches the way people type.** Habitually appended nouns ("calculator", "tool",
+  "online") and grammar words ("on", "a", "the") no longer veto an otherwise perfect match, and
+  queries split on punctuation so formula-shaped searches like "V=IR" and "pv=nrt" resolve.
+  "simulator" stays mandatory, because it distinguishes a simulation from a plain calculator, and so
+  do "to" and "from", because they carry direction and "json to csv" is not "csv to json".
+  Twenty-eight previously dead queries now find their tool, with no regressions.
+- **Every simulation names itself on its stage.** The canvas panel was the one tile with no visible
+  heading, carrying an `aria-label` alone; it now has an H2 in the words people search for.
+- **The physics and applied-math category pages say what they hold.** "Physics" and "Applied Math"
+  remain the nav labels, while the page title and H1 read "Physics Simulations" and "Interactive
+  Math Simulations".
+- **The SEO engine researches every tool type it ships.** Its query generator knew six tool-type
+  nouns and had never been extended past the original developer utilities, so simulations,
+  trackers, viewers and planners were researched with fewer query variants than a base64 encoder.
+
+### Fixed
+- Search results carried by a typo alone: "free fall" returned the lowercase converter, because
+  "fall" is one edit from "all". A match must now be real somewhere before typo-forgiveness counts.
+- Single letters matching inside unrelated words, which put every "Remove ..." tool above the Ohm's
+  law calculator for "v = i r".
+- "yml to json" resolving to the converter that does the exact opposite, because a verbatim alias
+  tied a composite of separate word matches and lost the tiebreak alphabetically.
+- "rem calculator" ranking "Remove Emoji" above the px-to-rem converter, because a partial-word
+  prefix at the start of a name outscored an exact whole-word match.
+- The Frequency and Period simulator never asking for "cycles per second", found by the new gate.
+
 ## [alpha-v7.1.1] - 2026-08-07
 
 The homepage stopped listing tools and started describing the catalog. It led with all 58

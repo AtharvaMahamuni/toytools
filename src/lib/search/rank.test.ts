@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { boundedDistance, normalizeQuery, scoreEntry, rankEntries } from './rank';
+import { boundedDistance, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
 import { buildClientIndex, entryUrl } from './index';
 import { searchAliases } from '@data/search-aliases';
 
@@ -64,7 +64,7 @@ describe('scoreEntry', () => {
     expect(scoreEntry(entry('Word Counter'), 'xyz')).toBe(0);
   });
 
-  it('requires every word of a multi-term query to match', () => {
+  it('requires every discriminating word of a multi-term query to match', () => {
     expect(scoreEntry(entry('JSON Formatter', ['developer']), 'json csv')).toBe(0);
     expect(scoreEntry(entry('JSON to CSV Converter', []), 'json csv')).toBeGreaterThan(0);
   });
@@ -97,6 +97,91 @@ describe('rankEntries', () => {
     const out = rankEntries(entries, 'char count');
     expect(out[0]!.n).toBe('Character Counter');
   });
+});
+
+describe('soft terms', () => {
+  it('does not let an unmatched generic head noun veto the entry', () => {
+    // The whole point: "Solver" has no term containing "calculator", and under the old strict AND
+    // that single word dropped the entry to zero.
+    expect(scoreEntry(entry('Quadratic Equation Solver', ['quadratic formula']), 'quadratic formula calculator'))
+      .toBeGreaterThan(0);
+  });
+
+  it('still rewards a soft term that does match', () => {
+    const withHit = scoreEntry(entry('Percentage Calculator'), 'percentage calculator');
+    const withoutHit = scoreEntry(entry('Percentage Calculator'), 'percentage');
+    expect(withHit).toBeGreaterThan(0);
+    expect(withoutHit).toBeGreaterThan(0);
+  });
+
+  it('keeps the strict rule for the discriminating words', () => {
+    // "csv" is not soft, so it must still match.
+    expect(scoreEntry(entry('JSON Formatter', ['developer']), 'json csv tool')).toBe(0);
+  });
+
+  it('keeps simulator and simulation mandatory', () => {
+    // These discriminate a simulation from a plain calculator, so they are not soft terms.
+    expect(scoreEntry(entry('Tip Calculator'), 'tip simulator')).toBe(0);
+    expect(scoreEntry(entry('Pendulum Period Calculator', ['pendulum simulator']), 'pendulum simulator'))
+      .toBeGreaterThan(0);
+  });
+
+  it('falls back to the strict rule when every word is soft', () => {
+    // Otherwise "free online tool" would drop all its words and match the whole catalog.
+    expect(scoreEntry(entry('Word Counter'), 'free online tool')).toBe(0);
+  });
+});
+
+describe('precision guards', () => {
+  it('ranks an exact word of the name above a mere prefix', () => {
+    // "rem" IS a word of "Px to Rem Converter"; it only starts "Remove".
+    const exact = scoreEntry(entry('Px to Rem Converter'), 'rem calculator');
+    const prefix = scoreEntry(entry('Remove Emoji'), 'rem calculator');
+    expect(exact).toBeGreaterThan(prefix);
+  });
+
+  it('treats a single letter as a whole word only', () => {
+    // "r" starting "remove" and "v" sitting inside it put every cleanup tool above Ohm's law.
+    expect(scoreEntry(entry('Remove Tabs'), 'v = i r')).toBe(0);
+    expect(scoreEntry(entry("Ohm's Law Calculator", ['i = v / r']), 'v = i r')).toBeGreaterThan(0);
+  });
+
+  it('ignores grammar words that discriminate nothing', () => {
+    expect(scoreEntry(entry('Inclined Plane Calculator', ['friction', 'ramp']), 'friction on a ramp calculator'))
+      .toBeGreaterThan(0);
+  });
+
+  it('keeps direction words mandatory', () => {
+    // "to" is not a stopword here: dropping it would make these two opposite tools one query.
+    const forward = scoreEntry(entry('JSON to CSV Converter'), 'json to csv');
+    const reverse = scoreEntry(entry('CSV to JSON Converter'), 'json to csv');
+    expect(forward).toBeGreaterThan(reverse);
+  });
+
+  it('will not carry an entry on typo-forgiveness alone', () => {
+    // "fall" is one edit from "all", which is not a reason to show the lowercase converter.
+    expect(scoreEntry(entry('Lowercase Converter', ['all lowercase']), 'free fall')).toBe(0);
+  });
+
+  it('lets a verbatim alias beat a composite for the opposite tool', () => {
+    const alias = scoreEntry(entry('YAML to JSON Converter', ['yml to json']), 'yml to json');
+    const composite = scoreEntry(entry('JSON to YAML Converter', ['json to yml']), 'yml to json');
+    expect(alias).toBeGreaterThan(composite);
+  });
+});
+
+describe('query punctuation', () => {
+  it('splits a query on the same boundary as the target', () =>
+    expect(queryWords(normalizeQuery('V=IR calculator'))).toEqual(['v', 'ir', 'calculator']));
+
+  it('matches a formula-shaped query', () => {
+    // "pv=nrt" arrived as one opaque token before, so it matched nothing.
+    expect(scoreEntry(entry('Ideal Gas Law Calculator', ['pv = nrt']), 'pv=nrt calculator'))
+      .toBeGreaterThan(0);
+  });
+
+  it('ignores trailing punctuation', () =>
+    expect(scoreEntry(entry('Word Counter'), 'word counter?')).toBeGreaterThan(0));
 });
 
 describe('buildClientIndex', () => {

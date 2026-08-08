@@ -44,6 +44,9 @@ jobs:
       - name: Platform health check
         run: npm run health
 
+      - name: Query coverage check
+        run: npm run check:queries
+
       - name: Run quality PR check
         run: npm run quality:pr
 
@@ -106,6 +109,15 @@ jobs:
         run: |
           npm ci
           npm ci --prefix seo-engine
+
+      # seo:gate scores queryTargeting from seo-engine/cache/query-coverage.json, and that artifact
+      # is measured against the BUILT pages. Without these two steps the criterion would report
+      # "not measured" and quietly skip, which is the failure mode the whole audit was about.
+      - name: Build (for the query targeting measurement)
+        run: npm run build
+
+      - name: Measure query coverage
+        run: npm run check:queries
 
       - name: Gate changed tools
         run: |

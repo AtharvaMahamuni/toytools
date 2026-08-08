@@ -24,6 +24,7 @@ import type {
   TopicClusterResult,
   KnowledgeSyncResult,
   KnowledgeSyncCheck,
+  QueryTargetingResult,
   GateResult,
   GateCriterion,
 } from '../types/index.js';
@@ -310,6 +311,39 @@ export function scoreUsefulness(
   );
 }
 
+/**
+ * Query targeting: of the phrasings people actually type for this tool, how many does the page ask
+ * for somewhere a search engine weights?
+ *
+ * The corpus and the on-page measurement both live in the main repo
+ * (scripts/check-query-coverage.ts), which writes cache/query-coverage.json. Reading that rather
+ * than recomputing keeps one definition of "queries we care about" and means this gate cannot drift
+ * from the one that runs in CI.
+ *
+ * Never throws and never invents a number: with no artifact the result is `known: false` and the
+ * gate skips the criterion, because an unmeasured tool is not a passing tool.
+ */
+export function scoreQueryTargeting(slug: string): QueryTargetingResult {
+  const absent: QueryTargetingResult = { known: false, score: 0, found: 0, total: 0, missing: [] };
+  const path = join(ROOT, 'cache', 'query-coverage.json');
+  if (!existsSync(path)) return absent;
+
+  try {
+    const raw = JSON.parse(readFileSync(path, 'utf-8'));
+    const entry = raw?.tools?.[slug]?.targeting;
+    if (!entry || typeof entry.total !== 'number' || entry.total === 0) return absent;
+    return {
+      known: true,
+      score: Math.round((entry.found / entry.total) * 100),
+      found: entry.found,
+      total: entry.total,
+      missing: Array.isArray(entry.missing) ? entry.missing : [],
+    };
+  } catch {
+    return absent;
+  }
+}
+
 export function scoreSeoCompleteness(
   headings: string[],
   entityCoverage: EntityCoverage,
@@ -346,9 +380,23 @@ export function buildActions(
   entityCoverage: EntityCoverage,
   topicCluster: TopicClusterResult,
   thinContent: string[],
-  knowledgeSync: KnowledgeSyncResult
+  knowledgeSync: KnowledgeSyncResult,
+  queryTargeting: QueryTargetingResult
 ): ContentAction[] {
   const actions: ContentAction[] = [];
+
+  // Query targeting — the page does not ask for phrasings people actually type. Named queries beat
+  // generic advice here, so the suggestion carries the exact phrases.
+  if (queryTargeting.known && queryTargeting.missing.length > 0) {
+    const shown = queryTargeting.missing.slice(0, 4);
+    actions.push({
+      impact: queryTargeting.score < 50 ? 'high' : 'medium',
+      file: 'config.ts',
+      issue: `Page never asks for ${queryTargeting.total - queryTargeting.found} of its ${queryTargeting.total} known queries: ${shown.map(q => `"${q}"`).join(', ')}`,
+      suggestion: 'Work these phrasings into the title, description, or a guide heading. Weighted slots only, since body prose does not count. Do not stuff the list in verbatim; cover the intent.',
+      scoreGain: 3,
+    });
+  }
 
   // High impact — AI tells (em-dash is a hard ban: gate fails on any count)
   if (fp.emDashCount > 0) {
@@ -561,6 +609,7 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
   const entityCoverage = scoreEntityCoverage(combinedText, profile.entities);
   const topicCluster = scoreTopicCluster(guideContent, configContent, graphTool);
   const knowledgeSync = scoreKnowledgeSync(graphTool, combinedText);
+  const queryTargeting = scoreQueryTargeting(slug);
   const thinContent = detectThinContent(combinedText, RULES);
 
   // Derived counts
@@ -587,7 +636,7 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
 
   const actions = buildActions(
     slug, writingScore, fp, firstPrinciples, searchIntent,
-    entityCoverage, topicCluster, thinContent, knowledgeSync
+    entityCoverage, topicCluster, thinContent, knowledgeSync, queryTargeting
   );
 
   return {
@@ -597,6 +646,7 @@ export function calculateContentIntelligenceScore(slug: string): ContentIntellig
     seoCompleteness,
     topicClusterCompleteness,
     toyToolsStyleScore,
+    queryTargeting,
     profileSource: profile.source,
     firstPrinciples,
     searchIntent,
@@ -634,6 +684,11 @@ export function evaluateGate(score: ContentIntelligenceScore, fp: WritingFingerp
   };
   for (const [key, min] of Object.entries(g.minimums)) {
     if (key in byKey) atLeast(key, byKey[key], min);
+  }
+  // Only gated when it has actually been measured. An unmeasured tool must not read as a passing
+  // one, so the criterion is omitted rather than defaulted to 100 (run `npm run check:queries`).
+  if (score.queryTargeting.known && typeof g.minimums.queryTargeting === 'number') {
+    atLeast('queryTargeting', score.queryTargeting.score, g.minimums.queryTargeting);
   }
   atMost('highImpactActions', score.actions.filter(a => a.impact === 'high').length, g.maxHighImpactActions);
   atMost('aiTellPhrases', fp.aiTellPhraseCount, g.maxAiTellPhrases);
@@ -703,6 +758,14 @@ function renderReport(slug: string, score: ContentIntelligenceScore, fp: Writing
   lines.push('');
 
   // Entity Coverage
+  if (score.queryTargeting.known) {
+    lines.push(`## Query Targeting (${score.queryTargeting.found}/${score.queryTargeting.total})`);
+    lines.push('Queries whose words appear in the title, H1, an H2, or the meta description. Body prose does not count.');
+    if (score.queryTargeting.missing.length > 0)
+      lines.push(`Not asked for: ${score.queryTargeting.missing.map(q => `"${q}"`).join(', ')}`);
+    lines.push('');
+  }
+
   lines.push(`## Entity Coverage (${score.entityCoverage.found.length}/${score.entityCoverage.expected.length})`);
   if (score.entityCoverage.found.length > 0)
     lines.push(`Found: ${score.entityCoverage.found.join(', ')}`);
@@ -834,6 +897,9 @@ async function main() {
   log(`Usefulness:       ${score.usefulness}/100`);
   log(`Writing Quality:  ${score.writingQuality}/100`);
   log(`SEO Completeness: ${score.seoCompleteness}/100 (profile: ${score.profileSource})`);
+  log(`Query Targeting:  ${score.queryTargeting.known
+    ? `${score.queryTargeting.score}/100 (${score.queryTargeting.found}/${score.queryTargeting.total} queries)`
+    : 'not measured — run `npm run check:queries`'}`);
   log(`Topic Cluster:    ${score.topicClusterCompleteness}/100`);
   log(`ToyTools Style:   ${score.toyToolsStyleScore}/100`);
   log('');

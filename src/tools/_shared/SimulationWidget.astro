@@ -11,6 +11,7 @@
 // ever needs to edit this file, the engine has failed — add a SimulationDef instead.
 import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { SIMULATIONS } from '@lib/simulation/simulations/registry';
+import { simulatorLabel } from '@lib/simulation/generate';
 import type { ToolConfig } from '@data/types';
 
 interface Example {
@@ -31,6 +32,7 @@ if (!sim) throw new Error(`[SimulationWidget] Unknown simulation id "${simulatio
 const slug = config.slug;
 const cards = sim.measurements.filter((m) => !m.hidden);
 const canvasLabel = `${config.name} interactive simulation canvas`;
+const stageHeading = simulatorLabel(config.name);
 const speeds = [0.25, 0.5, 1, 2];
 // Formula-panel lookup: a term bound to a paramId becomes an editable number box (an input the
 // student types into), so we need that param's range/step/unit at build time.
@@ -55,8 +57,14 @@ const MOVE_DIRS = [
        only the arrows that point at a physical neighbor and a click swaps the two tiles along
        that direction. The order persists across simulations (boot.ts). Stacks below 1024px. -->
   <div class="phys-dash" data-sim-console>
-  <!-- Stage: the simulation canvas + playback controls -->
+  <!-- Stage: the simulation canvas + playback controls. Its heading names the thing in the words
+       people use for it ("Pendulum Period simulator"), which every sibling tile already did and
+       the stage did not: the canvas carried only an aria-label, so the one panel that IS the
+       simulation was the one panel with no visible label. That also happens to be the only
+       weighted slot on the page carrying the simulator intent after the 2026-08-04 slug rename
+       (docs/analysis/2026-08-04-query-to-tool-matching-audit.md). -->
   <div class="tool-panel phys-stage">
+    <h2 class="phys-h phys-h--stage">{stageHeading}</h2>
     <div class="phys-canvas-wrap">
       <canvas class="phys-canvas" data-sim-canvas role="img" aria-label={canvasLabel}></canvas>
       {sim.pointer && (
@@ -456,6 +464,12 @@ const MOVE_DIRS = [
     margin: 0;
     font-size: var(--text-lg);
     font-weight: 600;
+  }
+
+  /* The stage is the tallest tile and the dashboard is built to fit one viewport, so its heading
+     is a size down from the tile headings and carries no extra spacing of its own. */
+  .phys-h--stage {
+    font-size: var(--text-base);
   }
 
   .phys-controls {

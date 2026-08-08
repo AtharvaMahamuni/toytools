@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 1,
-  patch: 1,
+  minor: 2,
+  patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-07',
-  description: 'Category-first homepage index with the full tool directory behind a disclosure',
+  releaseDate: '2026-08-08',
+  description: 'Query to tool matching: ranker fixes, coverage gate, simulator intent recovery',
 };
 
 export function formatVersion(config: VersionConfig): string {

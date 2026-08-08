@@ -65,6 +65,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   {
     slug: 'physics',
     name: 'Physics',
+    headline: 'Physics Simulations',
     description: 'Interactive physics simulations you can see, touch, and experiment with. Explore waves, oscillations, and heat right in your browser.',
     tagline: 'Motion, waves, heat and circuits, made visual.',
     highlights: ['projectile-motion-calculator', 'ohms-law-calculator', 'wave-speed-calculator'],
@@ -74,6 +75,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   {
     slug: 'applied-math',
     name: 'Applied Math',
+    headline: 'Interactive Math Simulations',
     description: 'Interactive math you can see and touch. Drag angles, morph curves, and watch sin, cos, and the rest come alive in your browser.',
     tagline: 'Trigonometry, probability and number theory.',
     highlights: ['unit-circle-calculator', 'quadratic-equation-solver', 'fraction-calculator'],
