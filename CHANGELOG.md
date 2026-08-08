@@ -2,6 +2,50 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.3] - 2026-08-08
+
+A ToyTools page used to open with a masthead: a large title, a description running to three lines on
+a phone, a trust badge, an install button, and a horizontal rule. Measured across all 119 tools on a
+Pixel 5, that spent a median 59% of the first screen before the tool began, and on 30 of them there
+was nothing you could actually use on screen at all. This release turns the page around so the tool
+leads and ToyTools signs its work.
+
+### Changed
+
+- **Every tool page now opens with the tool.** A tool's own icon, its name, one line, then the
+  widget. Chrome above the tool fell from a median 59% of a phone's first screen to 34%, and the
+  number of tools with nothing usable on the first screen fell from 30 to 6 (the remaining six are
+  generators, where the result panel is meant to sit above the controls).
+- **Tools wear their own icon.** The per-tool mark that has always been generated for the home
+  screen now appears on the page, so 119 pages stop looking like 119 copies of one template.
+- **Trust, installation and the ToyTools signature moved below the tool**, into a single quiet row
+  reading "Powered by ToyTools ●". The brand still holds the nav, the page title and the footer.
+- **Guides say they are guides**, with a `TOYTOOLS ● GUIDE` line above the title. A tool page has no
+  such line, and its heading is smaller, so the two page types no longer open identically.
+- Every tool has a short `tagline` for the line under its title. Descriptions stay long, because
+  they are also the page's meta description.
+
+### Added
+
+- **Knowledge drawers below each tool**: what the tool is used for, where the idea goes wrong, and
+  the questions. The first two were written for all 119 tools long ago and had never appeared
+  anywhere on the site. Each drawer is closed by default and headed by the tool's own subject, so
+  every page now describes itself to a search engine with something other than "Common Questions".
+- A fold check that runs every tool on a Pixel 5 and fails the build if the chrome above a tool
+  grows, so this cannot quietly come back.
+
+### Fixed
+
+- Seventeen tools were missing the words people actually search for. The HTML entity tool never used
+  "escape", the uppercase converter never said "all caps", both YAML converters never said "yml",
+  the MD5 tool never said "checksum", and the scientific calculator advertised "trig, logs" while
+  people search "trigonometry" and "logarithm". Query targeting across the catalog went from 63% to
+  75%.
+- The install sheet's title was a page heading on all 119 tools, which meant every page told search
+  engines about an install button instead of about the tool.
+- The tool header drew a border the design system forbids, which is the line that most made a tool
+  page read as an article.
+
 ## [alpha-v7.2.1] - 2026-08-08
 
 Searching Google for ToyTools showed a title reading "ToyTools ● Lightweight, Private, Free" beside
@@ -39,6 +83,7 @@ uses to mean "no icon at all".
   ineligible for Google's logo treatment. It points at a 512px raster now.
 - The homepage meta description and its WebSite schema description were two separate copies of the
   same sentence and could drift apart. They are one constant.
+
 
 ## [alpha-v7.2] - 2026-08-08
 
