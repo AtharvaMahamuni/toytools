@@ -80,6 +80,13 @@ const softwareSchema = {
   <div class="tool-signature">
     <TrustNotice variant={tool.trustVariant ?? 'private'} />
     <InstallButton toolName={tool.name} />
+    {/* The platform signs the tool rather than owning it. Below the tool, in the micro-label
+        voice the platform already uses for .io-label and the ToolNavRow "Related" label, so it
+        reads as a maker's mark. Above the title it would compete with the h1 for the first
+        fixation, which is the thing this whole phase exists to stop. */}
+    <a class="tool-attribution" href={withBase('/')}>
+      Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span>
+    </a>
   </div>
 
   {/* Last thing on every tool page, below the widget, the nav row, and the FAQ. Auto-included
@@ -100,5 +107,31 @@ const softwareSchema = {
     flex-wrap: wrap;
     gap: var(--space-3) var(--space-4);
     margin-top: var(--space-5);
+  }
+
+  /* Pushed to the far end on desktop; on a phone the row wraps and it simply follows. */
+  .tool-attribution {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .tool-attribution:hover {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .tool-attribution {
+      margin-left: 0;
+    }
   }
 </style>
