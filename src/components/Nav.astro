@@ -6,7 +6,13 @@ import { APP_VERSION } from '../lib/version';
 <header role="banner">
   <nav class="nav-inner" aria-label="Main">
     <span class="nav-brand">
-      <a href={withBase('/')} class="nav-logo">ToyTools<span class="gold-dot nav-dot" aria-hidden="true"></span></a>
+      {/* The site mark replaces the trailing gold dot rather than joining it: two brand
+          marks in one nav is noise, and the dot lives inside the mark now. Carrying the
+          mark lets the wordmark drop a size and still read as the brand. */}
+      <a href={withBase('/')} class="nav-logo">
+        <img class="nav-mark" src={withBase('/favicon.svg')} width="20" height="20" alt="" />
+        <span>ToyTools</span>
+      </a>
       {/* The badge advertised a version with nothing to click through to; it links to the changelog now. */}
       <a href={withBase('/changelog/')} class="nav-version" aria-label={`ToyTools ${APP_VERSION}, see changelog`}>{APP_VERSION}<span class="nav-version-tooltip tt-tooltip" role="tooltip"><strong>Alpha Version</strong>Major UI revamp under progress.<br/>See what has changed.</span></a>
     </span>
@@ -71,9 +77,15 @@ import { APP_VERSION } from '../lib/version';
     gap: var(--space-4);
   }
 
+  /* Down from --text-lg bold. The mark now carries the recognition, so the wordmark
+     does not have to shout: the brand reads at a glance while taking less of the eye
+     than the tool the visitor actually came for. */
   .nav-logo {
-    font-weight: var(--font-weight-bold);
-    font-size: var(--text-lg);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
     color: var(--color-text);
     text-decoration: none;
     white-space: nowrap;
@@ -85,13 +97,17 @@ import { APP_VERSION } from '../lib/version';
     text-decoration: none;
   }
 
-  .nav-dot {
-    margin-left: 5px;
+  .nav-mark {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
   }
 
   .nav-brand {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
   }
 
   .nav-version {
