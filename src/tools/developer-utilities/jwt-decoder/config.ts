@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'JWT Decoder',
   seoTitle: 'JWT Decoder — Decode JSON Web Tokens Online',
   description: 'Decode a JSON Web Token to read its header, payload, and claims. 100% in your browser. Your token is never sent to a server.',
+  tagline: 'Read a JSON Web Token header, payload and claims. Never uploaded.',
   categorySlug: 'developer-utilities',
   tags: ['jwt', 'json web token', 'jwt decoder', 'decode jwt', 'jwt decode', 'jwt parser', 'jwt viewer', 'jwt claims', 'jwt payload', 'jwt header', 'developer', 'auth', 'token decoder', 'online jwt decoder'],
   isNew: true,

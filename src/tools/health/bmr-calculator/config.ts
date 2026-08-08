@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'BMR Calculator',
   seoTitle: 'BMR Calculator: Basal Metabolic Rate, Mifflin-St Jeor',
   description: 'Calculate your basal metabolic rate with the Mifflin-St Jeor equation, and see what each activity level adds on top of it.',
+  tagline: 'Your basal metabolic rate, and what each activity level adds.',
   categorySlug: 'health-fitness',
   tags: [
     'bmr calculator', 'basal metabolic rate', 'bmr', 'resting metabolic rate',

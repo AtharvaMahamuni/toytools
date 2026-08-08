@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'SHA-256 Hash Generator',
   seoTitle: 'SHA-256 Hash Generator — Free Online Tool',
   description: 'Generate a SHA-256 hash from any text instantly in your browser. Fast, private, and free.',
+  tagline: 'Generate a SHA-256 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha256', 'sha-256', 'sha256 hash', 'sha256 generator', 'hash generator', 'checksum', 'sha256 online', 'generate sha256', 'developer'],
   isNew: true,

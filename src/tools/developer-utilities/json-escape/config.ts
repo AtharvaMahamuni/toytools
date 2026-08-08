@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON Escape / Unescape',
   seoTitle: 'JSON Escape / Unescape — Escape Strings Online',
   description: 'Escape text for use inside a JSON string, or unescape a JSON string literal back to plain text, live in your browser.',
+  tagline: 'Escape text for a JSON string, or unescape one back to plain text.',
   categorySlug: 'developer-utilities',
   tags: ['json escape', 'json unescape', 'escape json string', 'json string escaper', 'unescape json online', 'escape quotes for json', 'json escape characters', 'json stringify text'],
   updatedAt: '2026-07-02',

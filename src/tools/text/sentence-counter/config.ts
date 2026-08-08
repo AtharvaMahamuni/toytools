@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Sentence Counter',
   seoTitle: 'Sentence Counter — Count Sentences in Text Online',
   description: 'Count sentences in any text instantly. Works by detecting sentence-ending punctuation.',
+  tagline: 'Count sentences by their ending punctuation.',
   categorySlug: 'text-utilities',
   tags: ['sentence counter', 'count sentences', 'sentence count', 'number of sentences', 'sentence detection', 'text analysis', 'average sentence length', 'sentences in text'],
   isNew: true,

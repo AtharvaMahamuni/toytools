@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Compound Interest Calculator',
   seoTitle: 'Compound Interest Calculator — Free Online Tool',
   description: 'Calculate compound interest and see how savings or investments grow over time, with optional monthly contributions.',
+  tagline: 'Watch savings grow, with optional monthly contributions.',
   categorySlug: 'money-finance',
   tags: ['compound interest', 'compound interest calculator', 'investment calculator', 'savings growth', 'interest calculator', 'future value calculator', 'how to calculate compound interest', 'compounding', 'monthly contribution calculator'],
   updatedAt: '2026-06-29',

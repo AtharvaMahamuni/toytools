@@ -79,6 +79,7 @@ export const manifest: SimulationManifest = {
     title: 'Ideal Gas Law Calculator: PV = nRT',
     description:
       'See the ideal gas law come alive. Set the temperature, volume, and amount and watch the pressure and the gas particles respond through PV = nRT.',
+    tagline: 'Set temperature, volume and amount, watch pressure respond via PV = nRT.',
     keywords: ['ideal gas law', 'PV = nRT', 'gas pressure', 'gas laws', 'Boyle\'s law', 'gas law simulator'],
   },
   presentation: {

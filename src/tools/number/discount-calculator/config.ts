@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Discount Calculator',
   seoTitle: 'Discount Calculator — Free Online Tool',
   description: 'Calculate the sale price and how much you save from a percentage or fixed-amount discount.',
+  tagline: 'Sale price and how much you save, by percentage or amount.',
   categorySlug: 'number-utilities',
   tags: ['discount calculator', 'sale price calculator', 'percent off calculator', 'how much you save', 'price after discount', 'markdown calculator', 'numbers', 'math'],
   isNew: true,

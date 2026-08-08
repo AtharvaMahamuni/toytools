@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Water Intake Tracker',
   seoTitle: 'Water Intake Tracker — Daily Hydration Log & Streaks',
   description: 'Tap to log glasses of water, hit your daily goal, and build a streak. A private hydration tracker with a weekly chart, right in your browser.',
+  tagline: 'Tap to log glasses of water and build a hydration streak.',
   categorySlug: 'health-fitness',
   tags: [
     'water intake tracker', 'water tracker', 'hydration tracker', 'daily water tracker',

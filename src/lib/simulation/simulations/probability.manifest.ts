@@ -86,6 +86,7 @@ export const manifest: SimulationManifest = {
     title: 'Probability Calculator: Coin Flips & Law of Large Numbers',
     description:
       'Flip a coin or roll a die thousands of times and watch the empirical frequency converge on the theoretical probability. The law of large numbers, animated.',
+    tagline: 'Roll thousands of times and watch frequency converge on probability.',
     keywords: ['coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment'],
   },
   presentation: {

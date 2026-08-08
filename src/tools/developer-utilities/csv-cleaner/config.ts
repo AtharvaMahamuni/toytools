@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'CSV Cleaner',
   seoTitle: 'CSV Cleaner — Remove Empty Rows and Fix Messy CSV Online',
   description: 'Clean a messy CSV in one pass: remove empty rows, trim stray whitespace, fix trailing commas, and square up ragged rows.',
+  tagline: 'Fix empty rows, stray whitespace and ragged rows in one pass.',
   categorySlug: 'developer-utilities',
   tags: ['csv cleaner', 'clean csv online', 'remove empty rows csv', 'fix messy csv', 'csv whitespace trimmer', 'csv formatter', 'normalize csv', 'csv import errors'],
   updatedAt: '2026-07-09',

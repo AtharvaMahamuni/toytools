@@ -6,6 +6,7 @@ export const config: ToolConfig = {
   seoTitle: 'Lorem Ipsum Generator — Placeholder Text',
   description:
     'Generate lorem ipsum placeholder text in your browser. Choose paragraphs, sentences, or words, set the count, and copy plain text. Nothing is uploaded.',
+  tagline: 'Placeholder text by paragraph, sentence or word.',
   categorySlug: 'generate',
   tags: [
     'lorem ipsum generator',

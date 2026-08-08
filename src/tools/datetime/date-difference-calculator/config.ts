@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Date Difference Calculator',
   seoTitle: 'Date Difference Calculator — Days Between Two Dates',
   description: 'Count the exact time between two dates in years, months, and days, plus totals in days, weeks, and months and the number of weekdays (business days).',
+  tagline: 'Exact time between two dates, including weekdays only.',
   categorySlug: 'date-time',
   tags: ['date difference calculator', 'days between two dates', 'how many days between dates', 'business days calculator', 'weeks between dates', 'duration between dates', 'date duration', 'days calculator'],
   updatedAt: '2026-07-10',

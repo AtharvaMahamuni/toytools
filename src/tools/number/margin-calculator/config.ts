@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Margin Calculator',
   seoTitle: 'Margin Calculator — Free Online Tool',
   description: 'Calculate gross margin percentage, gross profit, and markup from cost and selling price.',
+  tagline: 'Gross margin, gross profit and markup from cost and price.',
   categorySlug: 'number-utilities',
   tags: ['margin calculator', 'gross margin', 'profit margin calculator', 'markup calculator', 'gross profit', 'margin vs markup', 'profit percentage', 'numbers', 'math'],
   isNew: true,

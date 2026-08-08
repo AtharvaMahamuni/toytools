@@ -89,6 +89,7 @@ export const manifest: SimulationManifest = {
     title: 'Simple Harmonic Motion Calculator: Mass on a Spring',
     description:
       'Watch simple harmonic motion live. Set the mass, spring constant, and amplitude and see the period, speed, and energy of a mass on a spring update instantly.',
+    tagline: 'Set mass, spring constant and amplitude, watch the oscillation live.',
     keywords: ['simple harmonic motion', 'mass on a spring', 'spring constant', 'period of oscillation', 'shm', 'angular frequency'],
   },
   presentation: {

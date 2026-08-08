@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'SHA-1 Hash Generator',
   seoTitle: 'SHA-1 Hash Generator — Free Online Tool',
   description: 'Generate a SHA-1 hash from any text instantly in your browser. Fast, private, and free.',
+  tagline: 'Generate a SHA-1 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha1', 'sha-1', 'sha1 hash', 'sha1 generator', 'hash generator', 'checksum', 'sha1 online', 'generate sha1', 'developer'],
   isNew: true,

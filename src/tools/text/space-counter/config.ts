@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Space Counter',
   seoTitle: 'Space Counter — Count Spaces in Text Online',
   description: 'Count the number of space characters in your text. Shows spaces, total characters, characters without spaces, and word count. Runs in your browser.',
+  tagline: 'Count space characters, and characters without them.',
   categorySlug: 'text-utilities',
   tags: ['space counter', 'count spaces', 'space count', 'count whitespace', 'spaces in text', 'number of spaces'],
   isNew: true,

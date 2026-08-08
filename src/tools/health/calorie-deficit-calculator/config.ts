@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Calorie Deficit Calculator',
   seoTitle: 'Calorie Deficit Calculator: Daily Target and Timeline',
   description: 'Work out what to eat a day for a chosen rate of weight loss, and how many weeks that rate takes to reach your goal weight.',
+  tagline: 'What to eat daily for a chosen rate of loss, and how long it takes.',
   categorySlug: 'health-fitness',
   tags: [
     'calorie deficit calculator', 'calorie deficit', 'weight loss calculator',

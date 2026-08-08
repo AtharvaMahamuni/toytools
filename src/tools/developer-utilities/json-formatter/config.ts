@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON Formatter',
   seoTitle: 'JSON Formatter & Beautifier — Free Online Tool',
   description: 'Pretty-print and beautify JSON with proper indentation instantly in your browser. Fast, private, and free.',
+  tagline: 'Pretty-print JSON with proper indentation.',
   categorySlug: 'developer-utilities',
   tags: ['json formatter', 'json beautifier', 'format json', 'pretty print json', 'json pretty', 'json indent', 'beautify json', 'json online', 'developer'],
   isNew: true,

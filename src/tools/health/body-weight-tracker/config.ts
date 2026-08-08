@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Body Weight Tracker',
   seoTitle: 'Body Weight Tracker — Daily Weigh-In Log & Trend',
   description: 'Log your weight each day and watch the trend line with a smoothed average and optional goal, all stored privately in your browser.',
+  tagline: 'Log your weight daily and watch the smoothed trend line.',
   categorySlug: 'health-fitness',
   tags: [
     'body weight tracker', 'weight tracker', 'weight log', 'daily weigh in',

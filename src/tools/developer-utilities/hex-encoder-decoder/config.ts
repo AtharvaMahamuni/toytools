@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Hex Encoder & Decoder',
   seoTitle: 'Hex Encoder & Decoder — Free Online Tool',
   description: 'Encode text to hexadecimal and decode hex back to readable text instantly in your browser. Fast, private, and free.',
+  tagline: 'Encode text to hex and decode hex back to text.',
   categorySlug: 'developer-utilities',
   tags: ['hex encoder', 'hex decoder', 'hexadecimal', 'hex to text', 'text to hex', 'hex converter', 'hex encoding', 'decode hex', 'encode hex', 'developer'],
   isNew: true,

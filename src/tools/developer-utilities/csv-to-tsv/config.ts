@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'CSV to TSV Converter',
   seoTitle: 'CSV to TSV Converter — Quote-Safe, In Your Browser',
   description: 'Convert comma-separated values to tab-separated values with quoting handled correctly, entirely in your browser.',
+  tagline: 'Convert comma-separated values to tab-separated, quoting handled.',
   categorySlug: 'developer-utilities',
   tags: ['csv to tsv', 'csv to tsv converter', 'convert csv to tab separated', 'csv tsv online', 'tab delimited converter', 'change csv delimiter', 'csv to tab file'],
   updatedAt: '2026-07-09',

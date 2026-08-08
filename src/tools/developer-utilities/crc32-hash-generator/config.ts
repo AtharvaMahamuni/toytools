@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'CRC32 Hash Generator',
   seoTitle: 'CRC32 Hash Generator — Online CRC32 Checksum Calculator',
   description: 'Generate a CRC32 checksum from text instantly in your browser. A fast error-detection hash, not for security.',
+  tagline: 'A CRC32 checksum for error detection, not for security.',
   categorySlug: 'developer-utilities',
   tags: ['crc32 hash generator', 'crc32 checksum', 'crc32 calculator', 'crc32 online', 'checksum generator', 'crc-32', 'error detection hash'],
   updatedAt: '2026-07-09',

@@ -312,34 +312,28 @@ for (const manifest of MANIFESTS) {
 // `tagline` is the one-line label under a tool's title. Over 80 characters it wraps to two lines
 // on a 393px phone, which is the geometry the header rebuild exists to remove.
 //
-// Warnings rather than errors on purpose: 94 of 119 tools have no tagline yet and fall back to a
-// `description` that is longer than this, so failing the build would fail it for content work that
-// is scheduled, not for a wiring mistake. Turn these into errors once the backlog is cleared.
+// These were warnings while 94 of 119 tools still fell back to a long description. That backlog is
+// cleared, so they are errors: the whole catalog holds the one-line contract, and the cheapest way
+// to keep holding it is to stop the next tool shipping without one.
 // See docs/analysis/2026-08-08-tool-identity-implementation.md, phase 8.
 const TAGLINE_MAX = 80;
-const taglineWarnings: string[] = [];
 
 for (const tool of tools) {
-  const t = tool as { slug: string; name?: string; tagline?: string; description?: string };
+  const t = tool as { slug: string; tagline?: string; description?: string };
   if (typeof t.tagline === 'string') {
     if (t.tagline.length > TAGLINE_MAX) {
-      taglineWarnings.push(`"${t.slug}" tagline is ${t.tagline.length} chars (max ${TAGLINE_MAX})`);
+      errors.push(
+        `Tool "${t.slug}" tagline is ${t.tagline.length} chars (max ${TAGLINE_MAX}) — ` +
+        'it wraps to two lines on a 393px phone',
+      );
     }
   } else if ((t.description?.length ?? 0) > TAGLINE_MAX) {
-    taglineWarnings.push(
-      `"${t.slug}" has no tagline and its description is ${t.description!.length} chars, ` +
-      `so the tool page renders more than one line`,
+    errors.push(
+      `Tool "${t.slug}" has no tagline and its description is ${t.description!.length} chars, ` +
+      `so its page renders a multi-line tagline. Author a \`tagline\` of ${TAGLINE_MAX} chars or ` +
+      'fewer (description stays long: it is the meta description and a query-targeting slot)',
     );
   }
-}
-
-if (taglineWarnings.length > 0) {
-  console.warn(
-    `\n[validate-registry] ${taglineWarnings.length} tool(s) render a multi-line tagline ` +
-    `(author a \`tagline\` of ${TAGLINE_MAX} chars or fewer):`,
-  );
-  taglineWarnings.forEach(w => console.warn(`  ⚠ ${w}`));
-  console.warn('');
 }
 
 if (errors.length > 0) {

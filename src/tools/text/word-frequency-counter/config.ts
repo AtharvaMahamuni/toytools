@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Word Frequency Counter',
   seoTitle: 'Word Frequency Counter — Count Word Occurrences',
   description: 'Count how many times each word appears in your text, with percentages, sorting, and a common-word filter. Runs in your browser.',
+  tagline: 'How many times each word appears, with percentages.',
   categorySlug: 'text-utilities',
   tags: ['word frequency counter', 'word frequency', 'count word occurrences', 'word repetition checker', 'most used words', 'word frequency analysis', 'keyword density', 'word count by word'],
   updatedAt: '2026-07-02',

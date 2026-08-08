@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Base64 Encoder & Decoder',
   seoTitle: 'Base64 Encoder & Decoder — Free Online Tool',
   description: 'Encode and decode Base64 strings instantly in your browser. Fast, private, and free.',
+  tagline: 'Encode and decode Base64 in your browser.',
   categorySlug: 'developer-utilities',
   tags: ['base64', 'encode', 'decode', 'developer', 'base64 encoder', 'base64 decoder', 'base64 converter', 'online base64', 'base64 to text', 'text to base64', 'decode base64 string', 'base64 converter online', 'base64 encode decode'],
   isNew: true,

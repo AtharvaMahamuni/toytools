@@ -97,6 +97,13 @@ export interface SeoMeta {
   title: string;
   /** Meta description (<= 160 chars). */
   description: string;
+  /**
+   * Short on-page line under the tool's title (40 to 80 chars), spread into ToolConfig.tagline.
+   * Separate from `description` for the same reason it is on ToolConfig: that one is the meta
+   * description and a targeting slot, so it must not be shortened for layout.
+   * Optional so a manifest without one falls back to `description`.
+   */
+  tagline?: string;
   keywords: string[];
 }
 

@@ -36,18 +36,17 @@ import { toolPaths, slugFromPath } from './helpers/tools';
  * Ceiling for where the tool begins, as a fraction of the viewport height.
  *
  * phase 0 baseline    min 0.51   median 0.59   worst 0.748
- * after phase 2       min 0.33   median 0.38   worst 0.4801 (349px of a 727px viewport, on the
- *                                                           three tools with the longest
- *                                                           unshortened descriptions)
+ * after phase 2       min 0.33   median 0.38   worst 0.480  (header rebuild)
+ * after phase 8       min 0.29   median 0.34   worst 0.414  (119 taglines authored)
  *
- * The header rebuild took the median first screen back from 59% spent-before-the-tool to 38%.
+ * A tool page now spends a third of the phone's first screen on chrome, down from three fifths.
  *
- * What is left is mostly the tagline wrapping: the worst three pages are all tools with no
- * authored `tagline`, falling back to a description of 140+ characters that runs to three lines
- * on a phone. So the next drop comes from the content pass (phase 8), not from phase 4, which
- * moves nothing that is still above the tool. Retighten after taglines are authored.
+ * What remains is not removable by design work: the worst pages are the ones with the longest
+ * NAMES (combinations-permutations-calculator, html-entity-encoder-decoder), whose h1 wraps to
+ * two lines. A tool is entitled to its own name, so treat anything near this ceiling as a page
+ * that grew something new, not as a page that should be renamed.
  */
-const CHROME_LIMIT = 0.481;
+const CHROME_LIMIT = 0.415;
 
 /**
  * Ceiling for where the tool becomes usable. Loose on purpose: see the note above about
@@ -55,11 +54,12 @@ const CHROME_LIMIT = 0.481;
  *
  * phase 0 baseline    median 0.80   worst 1.758   30 of 119 tools with nothing usable on screen
  * after phase 2       median 0.57   worst 1.521   6 of 119
+ * after phase 8       median 0.52   worst 1.422   6 of 119
  *
  * The remaining six are all generators, where the result panel correctly sits above the controls
  * on a phone. That is the design rule working, not a regression.
  */
-const FOLD_LIMIT = 1.53;
+const FOLD_LIMIT = 1.43;
 
 /** Controls a visitor can actually operate. Anchors are excluded: a link is not the tool. */
 const CONTROL = 'textarea, input:not([type=hidden]), select, button';

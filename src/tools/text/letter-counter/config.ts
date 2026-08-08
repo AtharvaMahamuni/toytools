@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Letter Counter',
   seoTitle: 'Letter Counter — Count Letters in Text Online',
   description: 'Count only the letters in your text. Excludes digits, spaces, and punctuation. Runs instantly in your browser.',
+  tagline: 'Count only letters, ignoring digits, spaces and punctuation.',
   categorySlug: 'text-utilities',
   tags: ['letter counter', 'count letters', 'letter count', 'alphabetic characters', 'letters only', 'count alphabetic', 'letter frequency'],
   isNew: true,

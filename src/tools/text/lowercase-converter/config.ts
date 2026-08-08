@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Lowercase Converter',
   seoTitle: 'Lowercase Converter — Convert Text To lowercase Online',
   description: 'Convert any text to lowercase instantly in your browser — paste, convert, and copy with no uploads.',
+  tagline: 'Convert any text to lowercase, then copy it.',
   categorySlug: 'text-utilities',
   tags: ['lowercase', 'lowercase converter', 'convert to lowercase', 'small letters', 'text to lowercase', 'make text lowercase', 'uncapitalize text'],
   updatedAt: '2026-07-09',

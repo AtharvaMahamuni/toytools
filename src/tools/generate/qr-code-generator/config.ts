@@ -6,6 +6,7 @@ export const config: ToolConfig = {
   seoTitle: 'QR Code Generator — Text, URL, Wi-Fi & vCard',
   description:
     'Create QR codes in your browser from text, a URL, an email, a phone number, Wi-Fi credentials, or a contact card. Download PNG or SVG. Nothing is uploaded.',
+  tagline: 'QR codes for a URL, Wi-Fi, contact or plain text. PNG or SVG.',
   categorySlug: 'generate',
   tags: [
     'qr code generator',

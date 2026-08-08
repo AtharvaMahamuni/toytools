@@ -6,6 +6,7 @@ export const config: ToolConfig = {
   seoTitle: 'UUID Generator — Random Version 4 UUIDs',
   description:
     'Generate random version 4 UUIDs in your browser. Make one or many at once, toggle hyphens and case, and copy them all. Nothing is uploaded.',
+  tagline: 'Random version 4 UUIDs, one or many at a time.',
   categorySlug: 'generate',
   tags: [
     'uuid generator',

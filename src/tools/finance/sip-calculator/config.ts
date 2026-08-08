@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'SIP Calculator',
   seoTitle: 'SIP Calculator — Monthly Investment Returns',
   description: 'Calculate the future value of a monthly SIP investment, the total you contribute, and the wealth your returns add over time.',
+  tagline: 'Future value of a monthly SIP, and what returns add on top.',
   categorySlug: 'money-finance',
   tags: ['sip calculator', 'systematic investment plan', 'monthly investment calculator', 'sip return calculator', 'mutual fund sip', 'sip maturity value', 'monthly sip returns', 'investment growth'],
   updatedAt: '2026-07-02',
