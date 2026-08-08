@@ -4,7 +4,8 @@ export const config: ToolConfig = {
   slug: 'notepad',
   name: 'Notepad',
   seoTitle: 'Online Notepad — Free, Private, No Sign-up',
-  description: 'Simple notes stored in your browser. Auto-saved, private, and free.',
+  description: 'Quick notes stored in your browser. Auto-saved, private, and free.',
+  tagline: 'Quick notes that save themselves, right in your browser.',
   categorySlug: 'productivity',
   tags: [
     'notepad', 'online notepad', 'browser notepad', 'free notepad',
