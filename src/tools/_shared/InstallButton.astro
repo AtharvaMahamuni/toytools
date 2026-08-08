@@ -29,7 +29,11 @@ const { toolName } = Astro.props;
 
   <div id="tt-install-sheet" class="tt-install-sheet" role="dialog" aria-modal="true" aria-labelledby="tt-install-sheet-title">
     <div class="tt-install-panel">
-      <h2 id="tt-install-sheet-title">Add to Home Screen</h2>
+      {/* Not an <h2>. This sheet is in the DOM of all 119 tool pages, so its title was one of
+          only two H2s most pages had, and "Add to Home Screen" tells a search engine nothing
+          about the tool. The id stays, so the dialog keeps its accessible name via
+          aria-labelledby. See docs/analysis/2026-08-08-tool-identity-architecture.md (F2). */}
+      <p class="tt-install-title" id="tt-install-sheet-title">Add to Home Screen</p>
       <p>Install <strong>{toolName}</strong> so it opens like an app and works offline.</p>
 
       <ol class="tt-steps" data-steps="android">
@@ -105,8 +109,10 @@ const { toolName } = Astro.props;
     padding: var(--space-6);
     box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.25));
   }
-  .tt-install-panel h2 { font-size: var(--text-lg); margin: 0 0 var(--space-2); }
   .tt-install-panel p { color: var(--color-text-muted); margin: 0 0 var(--space-4); font-size: var(--text-sm); }
+  /* Carries the weight the <h2> used to, without being one. Scoped through .tt-install-panel
+     so it outranks the generic paragraph rule above rather than losing to it on specificity. */
+  .tt-install-panel .tt-install-title { font-size: var(--text-lg); font-weight: var(--font-weight-semibold); color: var(--color-text); margin: 0 0 var(--space-2); }
 
   /* Step lists: hidden until the matching platform gets is-active. */
   .tt-steps { display: none; margin: 0 0 var(--space-5); padding-left: var(--space-5); }
