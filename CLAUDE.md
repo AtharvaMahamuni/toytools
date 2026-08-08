@@ -98,6 +98,24 @@ It also writes `seo-engine/cache/query-coverage.json`, which is what `seo:gate` 
 `queryTargeting` criterion from, so the corpus is defined exactly once.
 Background: `docs/analysis/2026-08-04-query-to-tool-matching-audit.md`.
 
+## The fold ratchet (a hard gate for every tool page)
+
+`tests/e2e/fold.spec.ts` asserts on **Pixel 5, for every tool**, that the chrome above the tool
+stays under `CHROME_LIMIT` of the viewport, and that the first usable control stays under
+`FOLD_LIMIT`. Both are ratchets in the same sense as `BUDGETS` and `THRESHOLDS`: they record what
+the catalog achieves today and **only ever move down**, in the same commit as the change that earns
+it. Never raise one to get green; a rise means a page grew a masthead.
+
+Measured 2026-08-08 across all 119 tools, before and after the tool identity work: chrome went from
+a median 59% of the phone's first screen to 34%, and tools with no usable control on the first
+screen went from 30 to 6 (the remaining six are generators whose result panel correctly sits above
+their controls). Background: `docs/analysis/2026-08-08-tool-identity-architecture.md`.
+
+The page grammar it protects (Zone A "do", Zone B trust, Zone C "know") is in `ARCHITECTURE.md` →
+"Design Language" → "Page grammar", with the layering rule: **the widget renders the tool, the
+platform renders everything that is not the tool.** `validate-architecture` fails the build if
+anything under `src/tools/` imports `CategoryDiscovery`.
+
 ## Performance budget (a hard gate for every new tool)
 
 **Every page has a byte budget and `npm run build` fails when one is exceeded.** This is not
@@ -489,7 +507,7 @@ across members. See `ARCHITECTURE.md` → "Tool Groups".
 
 ```
 src/tools/<segment>/<slug>/
-├── config.ts        # ToolConfig — slug, name, description, categorySlug, tags, guide?, toolGroup?
+├── config.ts        # ToolConfig — slug, name, description, tagline, categorySlug, tags, guide?, toolGroup?
 ├── Widget.astro     # Tool UI (required) — 3-line engine-widget wrapper or self-contained bespoke
 ├── faq.ts           # exports: const items: FAQItem[] (optional — renders on the tool page only)
 ├── knowledge.ts     # exports: const knowledge: Knowledge (overlay fields only; relations derived)

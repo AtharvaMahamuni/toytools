@@ -77,3 +77,10 @@ new content.
 - Sentences average 10-18 words; paragraphs max 4 sentences; vary both.
 - Concrete examples with real values; question headings answered directly in the first sentence.
 - Reddit research is intent discovery only: never reproduce or paraphrase post text into content.
+
+## Concept headings feed targeting (2026-08-08)
+
+A tool page's H2s are generated from `knowledge.primaryConcepts[0]` by `KnowledgeDrawers`, so that
+field is no longer just metadata: it is one of the four slots `check-query-coverage` scores query
+targeting against. If a tool's targeting is low, check that concept reads like something a person
+would type before rewriting prose.

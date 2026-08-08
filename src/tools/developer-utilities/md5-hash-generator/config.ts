@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'md5-hash-generator',
   name: 'MD5 Hash Generator',
   seoTitle: 'MD5 Hash Generator — Free Online Tool',
-  description: 'Generate an MD5 hash from any text instantly in your browser. Fast, private, and free.',
+  description: 'Generate an MD5 hash or checksum from any text instantly in your browser. Fast, private, and free.',
   tagline: 'Generate an MD5 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['md5', 'md5 hash', 'md5 generator', 'hash generator', 'checksum', 'md5 online', 'generate md5', 'text to md5', 'developer'],

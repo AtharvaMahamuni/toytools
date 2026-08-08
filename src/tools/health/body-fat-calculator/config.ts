@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'body-fat-calculator',
   name: 'Body Fat Calculator',
-  seoTitle: 'Body Fat Calculator — US Navy Tape Measure Method',
+  seoTitle: 'Body Fat Percentage Calculator (Bodyfat, Navy Method)',
   description: 'Estimate your body fat percentage with the U.S. Navy tape-measure method, plus your fat mass and lean mass, in metric or imperial.',
   tagline: 'Body fat percentage by the Navy tape method, plus fat and lean mass.',
   categorySlug: 'health-fitness',

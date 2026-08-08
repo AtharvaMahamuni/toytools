@@ -48,3 +48,15 @@ binding contract for structure and style.
   (`seo-engine/config/*.json`). Content only.
 - Never rename existing section ids in a guide (they are URL anchors).
 - Report honestly: final gate score, anything skipped, any doctor drift found.
+
+## Rendered, not metadata (2026-08-08)
+
+`realWorldUseCases` and `commonMistakes` in `knowledge.ts` are **rendered on the tool page** now
+(`KnowledgeDrawers`, Zone C). They were authored for a build validator and read by nobody, so a lot
+of them read as filler. Write them for a person looking at the page:
+
+- 3 to 5 entries each, specific, one sentence, no hedging.
+- `primaryConcepts[0]` heads the drawers ("What {concept} is used for"), so it must read naturally
+  inside that sentence AND carry the words people search. It is load-bearing for query targeting.
+- `tagline` (max 80 chars) is the line under the tool's title. `description` stays long: it is the
+  meta description and one of four targeting slots, so never shorten it for layout.

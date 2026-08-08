@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'protein-intake-calculator',
   name: 'Protein Intake Calculator',
   seoTitle: 'Protein Intake Calculator: Grams a Day by Body Weight',
-  description: 'Find the protein range your body weight and training goal actually support, with the per-meal split and the grams-per-kilogram it came from.',
+  description: 'Work out how much protein per day your bodyweight and training goal support, in grams per kg, with a daily per-meal split for muscle gain.',
   tagline: 'The protein range your weight and training goal support.',
   categorySlug: 'health-fitness',
   tags: [

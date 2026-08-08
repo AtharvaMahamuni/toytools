@@ -50,3 +50,9 @@ sweep - note it and continue):
   wastes the caller's attention. When unsure, say so.
 - Never run deploy, indexnow submission, or anything that touches external services except the
   explicitly credentialed indexing check.
+
+## Also sweep (2026-08-08)
+
+- `npx playwright test tests/e2e/fold.spec.ts` — the Pixel 5 fold ratchet across every tool.
+- `npm run check:queries -- --report` — the concept-headings section lists any tool page whose
+  every H2 is furniture. That set should stay empty.

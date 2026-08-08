@@ -152,11 +152,22 @@ heading.
 
 ### Tool-page guide/FAQ surface
 
-The tool page is the **canonical home of FAQ content**. Below the widget,
-`src/pages/tool/[category]/[slug].astro` renders `ToolNavRow` (Common Questions anchor + guide
-teaser + related strip) followed by the `FaqAccordion` (`src/components/tool/FaqAccordion.astro`,
-the shared `<details>` accordion) in a `<section id="faq">`, and emits `FAQPage` JSON-LD when the
-tool has registered items. FAQ items come from `faqsByToolSlug` (`src/data/faq-registry.ts`) —
+The tool page is the **canonical home of FAQ content**, and since 2026-08-08 it is the canonical
+home of the knowledge overlay too. Below the widget, `ToolPage.astro` renders `ToolSignature`
+(Zone B), then `ToolNavRow` (questions anchor + guide teaser + related strip), then
+`KnowledgeDrawers` (Zone C) and `CategoryDiscovery`, and emits `FAQPage` JSON-LD when the tool has
+registered items.
+
+`KnowledgeDrawers` (`src/components/tool/KnowledgeDrawers.astro`) renders three closed `<details>`
+per tool: `realWorldUseCases`, `commonMistakes` and the FAQ (through the shared `FaqAccordion`).
+The first two were authored on all 119 tools and rendered by nothing until then.
+
+**Each `<summary>` contains a real `<h2>`, and that is the point.** `<h2>` is one of four slots
+`scripts/check-query-coverage.ts` scores query targeting against, and every tool page's entire H2
+inventory used to be "Add to Home Screen" and "Common Questions". Heading text derives from
+`knowledge.primaryConcepts[0]`, which makes that field load-bearing for targeting. The questions
+drawer keeps `id="faq"` and opens on a matching hash, because 32 retired `/faq/...` URLs are
+redirect stubs pointing at it. FAQ items come from `faqsByToolSlug` (`src/data/faq-registry.ts`) —
 there is **no `faq` field on ToolConfig** and no standalone FAQ pages; the old `/faq/` URLs are
 noindex redirect stubs generated from `src/data/faq-redirects.ts` (never add new entries).
 
@@ -278,11 +289,36 @@ forest green (`#2F6B4F` / `#84C2A3`) — a deliberate "library hardcover" pairin
 and the gold brand dot. Success stays a brighter, cooler green and tints transient state only
 (copy confirmation, valid status); links and focus rings are always the accent.
 
+**Page grammar (tool pages).** Three zones with a closed inventory. Nothing outside a zone's
+inventory may enter it, which is what stops the page re-accreting furniture as the catalog grows:
+
+```
+Zone A  Do        breadcrumb | tool mark + h1 + tagline | GroupSwitcher | widget | ToolActions
+Zone B  Trust     ONE row (ToolSignature): trust notice, install affordance, "Powered by ToyTools ●"
+Zone C  Know      KnowledgeDrawers | guide link | related strip | CategoryDiscovery | feedback
+```
+
+Zone A is the only zone above the fold on a phone and ends in space, never a rule; Zone C draws the
+page's one hairline. The tool `<h1>` is `--text-2xl` while a guide's stays `--text-4xl`, and that
+size gap plus the guide's `TOYTOOLS ● GUIDE` eyebrow is the whole Tool Mode versus Reading Mode
+signal (tool pages get no eyebrow; the absence is the other half). `tagline` is the on-page line,
+capped at 80 characters by `validate-registry`; `description` stays long because it is the meta
+description and one of four query-targeting slots.
+
+Two invariants hold it: **`tests/e2e/fold.spec.ts`** ratchets the chrome above the tool downward on
+Pixel 5 across every tool, and **`THRESHOLDS.conceptHeadings`** keeps every tool page carrying an H2
+that names a concept. The layering rule behind both: *the widget renders the tool, the platform
+renders everything that is not the tool*, enforced by `validate-architecture` refusing any
+`CategoryDiscovery` import under `src/tools/`.
+Background: `docs/analysis/2026-08-08-tool-identity-architecture.md`.
+
 **Section-boundary recipe.** A boundary between two page sections is **one hairline with symmetric
 breathing room**: the *lower* section draws it — `margin-top: var(--space-8); border-top: var(--border);
 padding-top: var(--space-8);` (guide pages use `--space-12`). The upper section ends flush; sections
 never own a `border-bottom`. Stated in `tool-widget.css`; applied by ToolNavRow, CategoryDiscovery,
-the FAQ section, `.content-section`, the homepage ecosystem row, and the guide kg-group.
+the FAQ section, `.content-section`, the homepage ecosystem row, and the guide kg-group. The tool header was the one place that broke
+it (it owned a `border-bottom`) until the 2026-08-08 header rebuild removed it, so the rule now
+holds everywhere it claims to.
 
 **IoPanel vocabulary.** Every tool widget is built from `src/tools/_shared/IoPanel.astro` — the
 *only* place `.io-panel`/`.io-header` markup exists. Props: `label` (+ optional `labelFor` for a11y),
