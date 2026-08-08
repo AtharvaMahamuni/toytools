@@ -2,6 +2,13 @@ export interface Category {
   slug: string;
   name: string;
   description: string;
+  /** Short homepage label (aim for under 50 chars). Falls back to the first sentence
+   *  of `description`, which is written for the category page's meta and runs long. */
+  tagline?: string;
+  /** Up to three tool slugs shown as examples on the homepage index, in this order.
+   *  They must belong to this category (enforced by validate-registry). Absent means
+   *  the homepage falls back to the category's first three tools. */
+  highlights?: string[];
   toolCount: number;
   accent?: string;
   segment: string; // short URL path segment used in /tools/[segment]/[slug]/

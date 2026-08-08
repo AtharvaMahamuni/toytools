@@ -1,0 +1,201 @@
+---
+// Category Index — the homepage's answer to "what is in here?".
+//
+// It replaced ToolDirectory as the homepage's primary surface (2026-08-07). The directory
+// listed all 58 collapsed tool entries as bare names, which rendered as roughly 9,800px of
+// undifferentiated links on a Pixel 5: complete, but unreadable, and silent about what any
+// category actually does. This lists the eleven categories instead, each with a tagline and
+// three named example tools, so the page describes the catalog rather than enumerating it.
+// The full directory still ships below it, inside a closed <details>.
+import type { Category } from '@data/types';
+import { categories } from '@data/categories';
+import { tools } from '@data/registry';
+import { withBase } from '@lib/paths';
+
+interface Example {
+  name: string;
+  href: string;
+}
+
+// The category page's `description` is written for its meta tag and runs to two sentences;
+// the first one is the usable label when a category has not authored a shorter tagline.
+function labelFor(category: Category): string {
+  if (category.tagline) return category.tagline;
+  const [first] = category.description.split('. ');
+  return first?.endsWith('.') ? first : `${first}.`;
+}
+
+// Highlights are authored slugs (validate-registry pins them to this category). Falling back
+// to the first three tools keeps a new category renderable the moment it is declared, before
+// anyone has chosen its examples.
+function examplesFor(category: Category): Example[] {
+  const categoryTools = tools.filter(t => t.categorySlug === category.slug);
+  const bySlug = new Map(categoryTools.map(t => [t.slug, t]));
+  const chosen = (category.highlights ?? [])
+    .map(slug => bySlug.get(slug))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t));
+  const picked = chosen.length > 0 ? chosen : categoryTools.slice(0, 3);
+  return picked.slice(0, 3).map(t => ({
+    name: t.name,
+    href: withBase(`/tool/${category.segment}/${t.slug}/`),
+  }));
+}
+
+const rows = categories.map(category => ({
+  name: category.name,
+  href: withBase(`/category/${category.slug}/`),
+  tagline: labelFor(category),
+  count: category.toolCount,
+  accent: category.accent,
+  examples: examplesFor(category),
+}));
+---
+
+<ul class="category-index" aria-label="Browse tools by category">
+  {rows.map(row => (
+    <li class="cat-item" style={row.accent ? `--cat-accent: ${row.accent}` : ''}>
+      {/* An h2 per category: this is the homepage's actual content outline, and before this
+          the page offered none below its h1. The link keeps the whole row tappable. */}
+      <h2 class="cat-heading">
+        <a class="cat-name" href={row.href}>
+          <span class="cat-dot" aria-hidden="true"></span>
+          <span class="cat-name-text">{row.name}</span>
+          <span class="cat-count">{row.count}</span>
+        </a>
+      </h2>
+      <p class="cat-tagline">{row.tagline}</p>
+      {/* Each separator is bundled with the link it precedes so a wrapped line can never
+          end on a dangling "·" — at these column widths three tool names wrap constantly. */}
+      <p class="cat-examples">
+        {row.examples.map((example, i) => (
+          <span class="cat-example-item">
+            {i > 0 && <span class="cat-sep" aria-hidden="true">·</span>}
+            <a class="cat-example" href={example.href}>{example.name}</a>
+          </span>
+        ))}
+      </p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .category-index {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8) var(--space-12);
+  }
+
+  @media (max-width: 768px) {
+    .category-index {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  .cat-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  /* The heading is structure only; every visual property belongs to the link inside it. */
+  .cat-heading {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+
+  /* The whole heading line is the category link, so the tap target is a full row rather
+     than the width of the word. Centred rather than baseline-aligned: at 48px the text
+     would otherwise sit at the top of the box and leave the hairline visually detached. */
+  .cat-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    padding-bottom: var(--space-2);
+    border-bottom: var(--border);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cat-name:hover,
+  .cat-name:active {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .cat-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cat-accent, var(--color-accent));
+  }
+
+  .cat-name-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cat-count {
+    flex-shrink: 0;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cat-tagline {
+    margin: 0;
+    max-width: unset;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .cat-examples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 var(--space-2);
+    margin: 0;
+    max-width: unset;
+    font-size: var(--text-sm);
+  }
+
+  .cat-example-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .cat-example {
+    display: inline-flex;
+    align-items: center;
+    /* Examples sit in a dense row, so they carry their own touch height rather than
+       inheriting the 48px one that would space the line out. */
+    min-height: 32px;
+    color: var(--color-text-subtle);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cat-example:hover,
+  .cat-example:active {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .cat-sep {
+    color: var(--color-border-strong);
+    user-select: none;
+  }
+</style>

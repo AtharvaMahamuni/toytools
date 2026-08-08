@@ -1,11 +1,53 @@
-// Discovery surfaces — the homepage tool directory and the sectioned category pages.
-// Both replaced tile-grid walls; these specs pin the compact structure: full coverage
-// with tool-group collapse, recent-tools chips, and pattern-based category sections.
+// Discovery surfaces — the homepage index, the full directory behind it, and the sectioned
+// category pages. These specs pin the compact structure: a category-first homepage, full tool
+// coverage still in the HTML, recent-tools chips, and pattern-based category sections.
 import { test, expect } from '@playwright/test';
 
-test.describe('homepage directory', () => {
-  test('renders eleven category columns with collapsed tool groups', async ({ page }) => {
+test.describe('homepage index', () => {
+  test('leads with eleven category rows, not a wall of tool names', async ({ page }) => {
     await page.goto('/');
+    const index = page.locator('.category-index');
+    await expect(index.locator('.cat-item')).toHaveCount(11);
+    // The categories are the homepage's content outline, not just styled links.
+    await expect(index.getByRole('heading', { level: 2 })).toHaveCount(11);
+
+    // Each row carries the three things that make the catalog legible: a linked name,
+    // a tagline, and named example tools.
+    const text = index.locator('.cat-item').filter({ hasText: 'Text Utilities' });
+    await expect(text.getByRole('link', { name: 'Text Utilities' })).toHaveAttribute(
+      'href', /\/category\/text-utilities\/$/,
+    );
+    await expect(text.locator('.cat-tagline')).toHaveText('Count, convert, clean and compare text.');
+    await expect(text.getByRole('link', { name: 'Word Counter' })).toHaveAttribute(
+      'href', /\/tool\/text\/word-counter\/$/,
+    );
+    await expect(text.locator('.cat-example')).toHaveCount(3);
+
+    // The examples name tools the collapsed directory hides behind a group entry, which is
+    // the whole reason they are authored rather than derived from the directory.
+    const health = index.locator('.cat-item').filter({ hasText: 'Health & Fitness' });
+    await expect(health.getByRole('link', { name: 'BMI Calculator' })).toBeVisible();
+  });
+
+  test('the full directory ships closed but present', async ({ page }) => {
+    await page.goto('/');
+    const details = page.locator('.all-tools');
+    const directory = page.getByRole('navigation', { name: 'All tools by category' });
+
+    // Closed by default: the catalog is available, not imposed.
+    await expect(details).not.toHaveAttribute('open', /.*/);
+    await expect(directory).not.toBeVisible();
+
+    await page.locator('.all-tools-summary').click();
+    await expect(directory).toBeVisible();
+  });
+
+  test('the directory still covers every tool with collapsed tool groups', async ({ page }) => {
+    await page.goto('/');
+    // A closed <details> keeps its contents out of the accessibility tree, so role-based
+    // queries below need it open.
+    await page.locator('.all-tools-summary').click();
+
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
     await expect(directory.locator('.dir-column')).toHaveCount(11);
 
