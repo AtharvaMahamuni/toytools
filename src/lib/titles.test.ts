@@ -62,7 +62,19 @@ describe('generatePageTitle', () => {
   });
 
   it('exact home title matches expected value', () => {
-    expect(generatePageTitle('home')).toBe('ToyTools ● Lightweight, Private, Free');
+    expect(generatePageTitle('home')).toBe('Free Online Tools: Convert, Calculate, Encode ● ToyTools');
+  });
+
+  it('home title stays inside the length Google renders without truncating', () => {
+    expect(generatePageTitle('home').length).toBeLessThanOrEqual(60);
+  });
+
+  it('home title names what the site contains, not only the brand', () => {
+    // The title this replaced was three adjectives and a brand, so the homepage
+    // matched no query anyone types. Pin the intent, not the exact wording.
+    const title = generatePageTitle('home').toLowerCase();
+    expect(title).toContain('tools');
+    expect(title.replace('toytools', '').trim().length).toBeGreaterThan(20);
   });
 
   it('exact tool title format', () => {

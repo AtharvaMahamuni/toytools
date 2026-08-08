@@ -13,13 +13,15 @@
 
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { tools } from '../src/data/registry';
 import { toolIconSvg } from '../src/lib/icons/tool-icon';
+import { siteIconSvg, SITE_ICON_SIZES, siteIconPath } from '../src/lib/icons/site-icon';
 import { ICON_PNG_SIZES } from '../src/lib/icons/sizes';
 
 const OUT = path.resolve(process.cwd(), 'public/icons/tool');
+const PUBLIC = path.resolve(process.cwd(), 'public');
 // Render once at the largest size (Chromium renders the text glyphs faithfully),
 // then downscale + quantize each target size with sharp so the committed files
 // stay small.
@@ -52,8 +54,31 @@ async function main() {
     }
   }
 
+  // ── the site mark ────────────────────────────────────────────────────────
+  // Same render path as the tool icons, so favicon and install icons can never
+  // drift apart stylistically. The SVG is written out too: public/favicon.svg is
+  // generated, not authored, and src/lib/icons/site-icon.ts is its only source.
+  const siteSvg = siteIconSvg(RENDER);
+  writeFileSync(path.join(PUBLIC, 'favicon.svg'), `${siteIconSvg(96)}\n`);
+
+  await page.setContent(
+    `<!doctype html><html><head><meta charset="utf-8"></head>` +
+      `<body style="margin:0;padding:0">` +
+      `<div style="width:${RENDER}px;height:${RENDER}px;line-height:0">${siteSvg}</div>` +
+      `</body></html>`,
+    { waitUntil: 'load' },
+  );
+  const siteRaw = await page.screenshot({ clip: { x: 0, y: 0, width: RENDER, height: RENDER } });
+  for (const size of SITE_ICON_SIZES) {
+    await sharp(siteRaw)
+      .resize(size, size)
+      .png({ palette: true, quality: 92, compressionLevel: 9, effort: 9 })
+      .toFile(path.join(PUBLIC, siteIconPath(size).replace(/^\//, '')));
+  }
+
   await browser.close();
   console.log(`[icons] generated ${count} optimized PNG(s) for ${tools.length} tools → public/icons/tool/`);
+  console.log(`[icons] generated the site mark → public/favicon.svg + ${SITE_ICON_SIZES.length} PNG(s)`);
 }
 
 main().catch(err => {

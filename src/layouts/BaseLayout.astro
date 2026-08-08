@@ -72,8 +72,19 @@ const maxWidthVar =
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={withBase('/favicon.svg')} />
-    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    {/*
+      Google picks the favicon it shows in search results from these, and asks for a
+      square icon that is a multiple of 48px. favicon.ico is a 32x32 file kept only as
+      a legacy fallback for browsers that want an .ico, so the 48 and 96 PNGs are what
+      actually qualify. All of them are generated from src/lib/icons/site-icon.ts by
+      `npm run icons:generate` — never hand-edit the files in public/.
+    */}
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="48x48" href={withBase('/favicon-48.png')} />
+    <link rel="icon" type="image/png" sizes="96x96" href={withBase('/favicon-96.png')} />
+    {/* Tool pages emit their own per-tool touch icon below; every other page gets the site mark. */}
+    {!pwa && <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />}
     {pwa && (
       <>
         <link rel="manifest" href={pwa.manifestUrl} />
