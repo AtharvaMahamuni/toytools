@@ -39,12 +39,14 @@ const guideTeaser = guideTitle
 ---
 
 <div class="tool-nav-row">
-  {/* Layer 2: FAQ + Guide links */}
+  {/* Layer 2: FAQ + Guide links. The questions link reads "Questions", not "Common Questions":
+      the drawer it points at is headed "Questions about <concept>", and a link whose label does
+      not match its destination is a small lie the reader has to reconcile. */}
   {(hasFaq || hasGuide) && (
     <div class="nav-links">
       {hasFaq && (
         <a class="nav-link" href="#faq">
-          Common Questions <span class="faq-count">({faqItems.length})</span>
+          Questions <span class="faq-count">({faqItems.length})</span>
         </a>
       )}
       {hasFaq && hasGuide && <span class="nav-sep" aria-hidden="true">·</span>}

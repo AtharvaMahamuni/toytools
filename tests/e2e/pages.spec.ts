@@ -20,6 +20,17 @@ test.describe('information pages', () => {
     });
   }
 
+  // The knowledge drawers are closed by default, which is the point of them. But 32 retired
+  // /faq/... URLs are noindex redirect stubs pointing at #faq on a tool page
+  // (src/data/faq-redirects.ts), and those URLs were indexed once. Landing on a collapsed drawer
+  // from one of them would be arriving at a page that appears not to contain what was promised.
+  test('a #faq link opens the questions drawer rather than landing on a closed one', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/base64-encoder-decoder/#faq');
+    const drawer = page.locator('details#faq');
+    await expect(drawer).toHaveAttribute('open', '');
+    await expect(drawer.getByRole('heading', { level: 2 })).toBeVisible();
+  });
+
   test('the changelog renders the real releases from CHANGELOG.md', async ({ page }) => {
     await page.goto('/changelog/');
     const releases = page.locator('.release');

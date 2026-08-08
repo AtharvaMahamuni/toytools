@@ -13,7 +13,7 @@
 // SimulationWidget or the tool's own Widget.astro, so this component never imports either and
 // therefore never drags sim CSS onto a text page (or vice versa).
 import ToolLayout from '@layouts/ToolLayout.astro';
-import FaqAccordion from '@components/tool/FaqAccordion.astro';
+import KnowledgeDrawers from '@components/tool/KnowledgeDrawers.astro';
 import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
 import ToolNavRow from '@components/tool/ToolNavRow.astro';
 import { tools } from '@data/registry';
@@ -78,26 +78,7 @@ const faqSchema = faqItems.length > 0 ? {
     toolName={tool.name}
   />
 
-  {faqItems.length > 0 && (
-    <section class="faq-section" id="faq" aria-label="Common questions">
-      <h2 class="faq-heading">Common Questions</h2>
-      <FaqAccordion items={faqItems} />
-    </section>
-  )}
+  <KnowledgeDrawers tool={tool} faqItems={faqItems} />
 </ToolLayout>
 
-<style>
-  /* No border here — ToolNavRow already draws the one separator after the widget.
-     FAQ follows as a natural continuation of the secondary-info zone. */
-  .faq-section {
-    margin-top: var(--space-8);
-    padding-top: var(--space-8);
-    border-top: var(--border);
-  }
-
-  .faq-heading {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-semibold);
-    margin-bottom: var(--space-4);
-  }
-</style>
+{/* No styles: Zone C is KnowledgeDrawers' own, and it draws the section boundary itself. */}
