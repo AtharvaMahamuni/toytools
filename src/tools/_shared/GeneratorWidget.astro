@@ -9,7 +9,6 @@
 // module) via ToyTools.onReady, the same handshake ConverterWidget/FinanceWidget use.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import GeneratorOptions from '@tools/_shared/generator/GeneratorOptions.astro';
 import GeneratorOutput from '@tools/_shared/generator/GeneratorOutput.astro';
 import GeneratorActions from '@tools/_shared/generator/GeneratorActions.astro';
@@ -59,7 +58,6 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
 <GeneratorActions slug={slug} />
 <GeneratorFooter />
 
-<CategoryDiscovery toolSlug={slug} />
 
 <style>
   .gen-badge {

@@ -13,7 +13,7 @@
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
@@ -173,6 +173,42 @@ for (const tool of tools) {
     const rel = `public/icons/tool/${tool.slug}-${size}.png`;
     if (!existsSync(join(iconsDir, `${tool.slug}-${size}.png`))) {
       err(`Tool "${tool.slug}" is missing its install icon ${rel} — run \`npm run icons:generate\``);
+    }
+  }
+}
+
+// ---- 9. Layering: a widget renders the tool, and nothing that is not the tool ------------------
+// CategoryDiscovery is a cross-link into the catalog. It used to be imported by 32 widget files,
+// including all 13 shared engine widgets, which meant a tool's own UI component could not be read,
+// budgeted or reused without dragging a platform surface along with it, and any change to that
+// surface was a 32-file edit. ToolPage renders it once now.
+//
+// This is a rule rather than a cleanup because the failure mode is copying: the next widget starts
+// life as a copy of an existing one, and without a check the import comes back one file at a time.
+// Add to the list if another platform surface leaks into widgets for the same reason.
+const PLATFORM_ONLY_COMPONENTS = ['CategoryDiscovery'];
+
+// Its own walk rather than reusing `toolDirs` above: that one skips `_shared`, and the shared
+// engine widgets are where 13 of the original 32 imports lived. This has to see every .astro
+// under src/tools, shared ones most of all.
+function astroFilesUnder(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...astroFilesUnder(full));
+    else if (entry.name.endsWith('.astro')) out.push(full);
+  }
+  return out;
+}
+
+for (const file of astroFilesUnder(toolsDir)) {
+  const source = readFileSync(file, 'utf-8');
+  for (const component of PLATFORM_ONLY_COMPONENTS) {
+    if (source.includes(`components/tool/${component}.astro`)) {
+      err(
+        `${relative(repoRoot, file)} imports ${component}, which is platform chrome. ` +
+        'A widget renders the tool; ToolPage renders everything around it.',
+      );
     }
   }
 }

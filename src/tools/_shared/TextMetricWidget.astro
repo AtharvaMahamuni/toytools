@@ -8,7 +8,6 @@ import StatGrid from '@components/tool/StatGrid.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
 interface StatDef {
   metric: string;
@@ -64,7 +63,6 @@ const inputId = `${slug}-input`;
      between the metric output and the category cross-link. -->
 <slot />
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline define:vars={{ slug, sampleText, stateKey }}>
 (function () {

@@ -16,7 +16,6 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import StatusIndicator from '@tools/_shared/converter/StatusIndicator.astro';
 import MetadataPanel from '@tools/_shared/converter/MetadataPanel.astro';
 import HistoryPanel from '@tools/_shared/converter/HistoryPanel.astro';
@@ -123,7 +122,6 @@ const byteId = `${slug}-byteview`;
 <EducationalInsight insight={info.insight} />
 <TechnicalDetails technical={info.technical} />
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline>
   (function () {

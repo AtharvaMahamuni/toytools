@@ -1,8 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import TrustNotice from '@components/tool/TrustNotice.astro';
-import InstallButton from '@tools/_shared/InstallButton.astro';
 import ToolIdentity from '@components/tool/ToolIdentity.astro';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import FeedbackLink from '@components/feedback/FeedbackLink.astro';
@@ -71,23 +69,10 @@ const softwareSchema = {
 
   <ToolIdentity tool={tool} />
 
+  {/* Zone B (ToolSignature) is rendered by ToolPage, not here. This slot holds the widget, the
+      nav row AND the knowledge drawers, so anything placed after it lands at the bottom of the
+      page rather than under the tool. */}
   <slot />
-
-  {/* Zone B. Trust, installation and the platform's signature all sit BELOW the tool now.
-      Above the title they cost 100-150px of a 727px phone screen and pushed the tool itself
-      past the fold; below it they read as attribution on a finished thing, which is also the
-      right relationship: ToyTools is the infrastructure, the tool is the product. */}
-  <div class="tool-signature">
-    <TrustNotice variant={tool.trustVariant ?? 'private'} />
-    <InstallButton toolName={tool.name} />
-    {/* The platform signs the tool rather than owning it. Below the tool, in the micro-label
-        voice the platform already uses for .io-label and the ToolNavRow "Related" label, so it
-        reads as a maker's mark. Above the title it would compete with the h1 for the first
-        fixation, which is the thing this whole phase exists to stop. */}
-    <a class="tool-attribution" href={withBase('/')}>
-      Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span>
-    </a>
-  </div>
 
   {/* Last thing on every tool page, below the widget, the nav row, and the FAQ. Auto-included
       here so every tool inherits it and no tool file ever mentions feedback. */}
@@ -98,40 +83,3 @@ const softwareSchema = {
   </script>
 </BaseLayout>
 
-<style>
-  /* Zone B: one row, below the tool. Wraps on a narrow phone rather than forcing a horizontal
-     scroll. The install button is mobile-only, so on desktop this is just the trust line. */
-  .tool-signature {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-4);
-    margin-top: var(--space-5);
-  }
-
-  /* Pushed to the far end on desktop; on a phone the row wraps and it simply follows. */
-  .tool-attribution {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-subtle);
-    text-decoration: none;
-    transition: var(--transition-color);
-  }
-
-  .tool-attribution:hover {
-    color: var(--color-text-muted);
-    text-decoration: none;
-  }
-
-  @media (max-width: 640px) {
-    .tool-attribution {
-      margin-left: 0;
-    }
-  }
-</style>

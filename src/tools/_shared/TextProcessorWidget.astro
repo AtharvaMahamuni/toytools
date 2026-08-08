@@ -8,7 +8,6 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
 import type { ToolConfig } from '@data/types';
 
@@ -59,7 +58,6 @@ const outputId = `${slug}-output`;
   <ExampleLoader hasSample={!!sample} />
 </ToolActions>
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline>
   (function () {

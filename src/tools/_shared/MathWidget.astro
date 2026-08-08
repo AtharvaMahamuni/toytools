@@ -8,7 +8,6 @@
 // calculator under src/lib/engines/math/calculators/ instead.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
 import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
 import { getMathCalculator } from '@lib/engines/math/registry';
@@ -76,7 +75,6 @@ const resolvedEmpty = emptyText ?? 'Enter your values to calculate.';
   <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
 )}
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline>
   (function () {

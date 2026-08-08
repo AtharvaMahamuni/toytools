@@ -6,7 +6,6 @@
 // tracker's history stays on the user's device.
 //
 // If a new tracker ever requires editing this file, add a TrackerDef in the tracker registry instead.
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { getTrackerDef } from '@lib/engines/tracker/registry';
 import type { ToolConfig } from '@data/types';
 
@@ -117,7 +116,6 @@ const showUnits = !!def.units?.length;
   </div>
 </section>
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline>
   (function () {

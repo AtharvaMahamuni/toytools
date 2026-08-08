@@ -8,7 +8,6 @@
 // See src/lib/json/explorer.ts.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { config } from './config';
 
 const slug = config.slug;
@@ -99,7 +98,6 @@ const inputId = `${slug}-input`;
   </ToolSplit>
 </div>
 
-<CategoryDiscovery toolSlug={config.slug} />
 
 <style is:global>
   .jtv-widget {

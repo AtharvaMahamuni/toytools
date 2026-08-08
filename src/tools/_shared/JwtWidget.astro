@@ -16,7 +16,6 @@
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CopyButton from '@components/CopyButton.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import type { ToolConfig } from '@data/types';
@@ -140,7 +139,6 @@ const sigId = `${slug}-sig`;
 
 <TechnicalDetails technical={jwtTechnical} />
 
-<CategoryDiscovery toolSlug={slug} />
 
 <style is:global>
   .jwt-grid { display: flex; flex-direction: column; gap: var(--space-5); }

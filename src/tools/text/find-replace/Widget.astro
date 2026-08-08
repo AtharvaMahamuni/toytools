@@ -2,7 +2,6 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { config } from './config';
 ---
 
@@ -84,7 +83,6 @@ import { config } from './config';
     <div class="fr-preview" id="fr-preview" aria-live="polite"></div>
   </section>
 
-  <CategoryDiscovery toolSlug={config.slug} />
 </div>
 
 <style is:global>
