@@ -35,21 +35,31 @@ import { toolPaths, slugFromPath } from './helpers/tools';
 /**
  * Ceiling for where the tool begins, as a fraction of the viewport height.
  *
- * 2026-08-08 baseline: min 0.51, median 0.59, worst 0.748
- * (combinations-permutations-calculator). An honest record of a bad state, not a target.
+ * phase 0 baseline    min 0.51   median 0.59   worst 0.748
+ * after phase 2       min 0.33   median 0.38   worst 0.4801 (349px of a 727px viewport, on the
+ *                                                           three tools with the longest
+ *                                                           unshortened descriptions)
  *
- * Tighten to 0.32 after the header rebuild (phase 2) and 0.22 after the trust and install
- * affordances move below the widget (phase 4).
+ * The header rebuild took the median first screen back from 59% spent-before-the-tool to 38%.
+ *
+ * What is left is mostly the tagline wrapping: the worst three pages are all tools with no
+ * authored `tagline`, falling back to a description of 140+ characters that runs to three lines
+ * on a phone. So the next drop comes from the content pass (phase 8), not from phase 4, which
+ * moves nothing that is still above the tool. Retighten after taglines are authored.
  */
-const CHROME_LIMIT = 0.75;
+const CHROME_LIMIT = 0.481;
 
 /**
  * Ceiling for where the tool becomes usable. Loose on purpose: see the note above about
  * answer-first stacking.
  *
- * 2026-08-08 baseline: median 0.80, worst 1.758 (lorem-ipsum-generator).
+ * phase 0 baseline    median 0.80   worst 1.758   30 of 119 tools with nothing usable on screen
+ * after phase 2       median 0.57   worst 1.521   6 of 119
+ *
+ * The remaining six are all generators, where the result panel correctly sits above the controls
+ * on a phone. That is the design rule working, not a regression.
  */
-const FOLD_LIMIT = 1.76;
+const FOLD_LIMIT = 1.53;
 
 /** Controls a visitor can actually operate. Anchors are excluded: a link is not the tool. */
 const CONTROL = 'textarea, input:not([type=hidden]), select, button';

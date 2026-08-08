@@ -1,0 +1,99 @@
+---
+// The tool's own identity block: mark, name, one line of what it does.
+//
+// Replaces the masthead that used to open every tool page (30px bold title, a three-line
+// description, a trust badge, a 48px install button, then 64px of gap and a horizontal rule).
+// Measured on Pixel 5 that block put the tool 59% of the way down the first screen on the
+// median tool and 75% on the worst, on a site whose own rules say a tool must read as a native
+// app on a phone. See docs/analysis/2026-08-08-tool-identity-architecture.md (F1).
+//
+// The icon is not a new asset. src/lib/icons/tool-icon.ts already composes a per-tool mark from
+// registry data, and src/pages/icons/tool/[slug].svg.ts already serves it; until now it was
+// shown only on a home screen after install. Rendering it here is what makes 119 pages stop
+// looking like 119 copies of one template, at the cost of nothing.
+import FavoriteButton from '@components/tool/FavoriteButton.astro';
+import { withBase } from '@lib/paths';
+import type { Tool } from '@data/types';
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+
+// `tagline` is the short on-page line; `description` stays long because it is also the page's
+// meta description and one of the four slots targeting is scored against. Falling back keeps the
+// field optional, so it can be authored per tool at whatever pace suits.
+const tagline = tool.tagline ?? tool.description;
+---
+
+<div class="tool-header">
+  <div class="tool-title-row">
+    {/* alt="" on purpose: the name sits right beside it, so a screen reader announcing the mark
+        would read the tool's name twice. */}
+    <img class="tool-mark" src={withBase(`/icons/tool/${tool.slug}.svg`)} width="32" height="32" alt="" />
+    <h1>{tool.name}</h1>
+    {/* The star shares this row rather than taking one of its own. On the health calculators the
+        answer and its chart are required to land above the fold (tests/e2e/health.spec.ts), and a
+        second 48px row spent that budget. */}
+    <FavoriteButton slug={tool.slug} name={tool.name} />
+  </div>
+  <p class="tool-tagline">{tagline}</p>
+</div>
+
+<style>
+  /* No border-bottom. ARCHITECTURE.md's section-boundary recipe says the LOWER section draws the
+     hairline and sections never own a border-bottom, and this block was the one place that broke
+     it. It was also the strongest horizontal rule on the page, which is exactly what makes a page
+     read as a document with a masthead. Zone A now ends in space. */
+  .tool-header {
+    margin-bottom: var(--space-5);
+  }
+
+  .tool-title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .tool-mark {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 640px) {
+    .tool-mark {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  /* The star sits at the far end of the row. */
+  .tool-title-row :global(.favorite-btn) {
+    margin-left: auto;
+  }
+
+  /* Down from --text-3xl bold. On a tool page the widget is the hero, not the title; the size
+     gap between this and a guide's h1 is the whole Tool Mode versus Reading Mode signal. */
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    margin: 0;
+    min-width: 0;
+  }
+
+  /* No reserved second line. The old .tool-description held 2lh on desktop so the widget landed
+     at the same Y across sibling pages, but it was sized for a 56-110 character description and
+     57% of the catalog is longer than that, so it reserved two lines for three lines of text.
+     A tagline is one line by contract instead. */
+  .tool-tagline {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin: var(--space-2) 0 0;
+  }
+</style>

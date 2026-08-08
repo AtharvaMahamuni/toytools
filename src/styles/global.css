@@ -383,7 +383,10 @@ main:focus {
   .skip-link,
   .breadcrumb,
   .tool-actions,
-  .tool-header-actions,
+  /* Zone B: trust badge, install affordance and the platform signature. Chrome around the
+     tool, not the tool. (Was .tool-header-actions until the header rebuild moved these
+     below the widget.) */
+  .tool-signature,
   .install-button,
   .feedback-link,
   .category-discovery,

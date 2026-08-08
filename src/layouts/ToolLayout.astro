@@ -3,7 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
 import TrustNotice from '@components/tool/TrustNotice.astro';
 import InstallButton from '@tools/_shared/InstallButton.astro';
-import FavoriteButton from '@components/tool/FavoriteButton.astro';
+import ToolIdentity from '@components/tool/ToolIdentity.astro';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import FeedbackLink from '@components/feedback/FeedbackLink.astro';
 import { iconColors } from '@lib/icons/tool-icon';
@@ -69,19 +69,18 @@ const softwareSchema = {
     ]}
   />
 
-  <div class="tool-header">
-    <div class="tool-title-row">
-      <h1>{tool.name}</h1>
-      <FavoriteButton slug={tool.slug} name={tool.name} />
-    </div>
-    <p class="tool-description">{tool.description}</p>
-    <TrustNotice variant={tool.trustVariant ?? 'private'} />
-    <div class="tool-header-actions">
-      <InstallButton toolName={tool.name} />
-    </div>
-  </div>
+  <ToolIdentity tool={tool} />
 
   <slot />
+
+  {/* Zone B. Trust, installation and the platform's signature all sit BELOW the tool now.
+      Above the title they cost 100-150px of a 727px phone screen and pushed the tool itself
+      past the fold; below it they read as attribution on a finished thing, which is also the
+      right relationship: ToyTools is the infrastructure, the tool is the product. */}
+  <div class="tool-signature">
+    <TrustNotice variant={tool.trustVariant ?? 'private'} />
+    <InstallButton toolName={tool.name} />
+  </div>
 
   {/* Last thing on every tool page, below the widget, the nav row, and the FAQ. Auto-included
       here so every tool inherits it and no tool file ever mentions feedback. */}
@@ -93,50 +92,13 @@ const softwareSchema = {
 </BaseLayout>
 
 <style>
-  .tool-header {
-    padding-bottom: var(--space-8);
-    border-bottom: var(--border);
-    margin-bottom: var(--space-8);
-  }
-
-  /* The star sits on the title line rather than in a row of its own. On the health calculators
-     the answer and its chart must land above the fold (tests/e2e/health.spec.ts), and a separate
-     48px row spent that budget; sharing a line the page already draws costs only the difference
-     between the heading's height and the button's. */
-  .tool-title-row {
+  /* Zone B: one row, below the tool. Wraps on a narrow phone rather than forcing a horizontal
+     scroll. The install button is mobile-only, so on desktop this is just the trust line. */
+  .tool-signature {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-  }
-
-  .tool-title-row h1 {
-    min-width: 0;
-  }
-
-  /* InstallButton is mobile-only, so this collapses to nothing on desktop. */
-  .tool-header-actions:empty {
-    display: none;
-  }
-
-  h1 {
-    margin-bottom: var(--space-2);
-  }
-
-  .tool-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    max-width: 55ch;
-    margin-bottom: var(--space-3);
-  }
-
-  /* Desktop: reserve two lines so the widget (and GroupSwitcher pills) land at
-     the same Y on every sibling page — the cursor stays over the equivalent
-     element when clicking through tools. Descriptions should run 56–110 chars
-     (≈2 lines at 55ch); see ARCHITECTURE.md → Design Language. */
-  @media (min-width: 1024px) {
-    .tool-description {
-      min-height: 2lh;
-    }
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-4);
+    margin-top: var(--space-5);
   }
 </style>
