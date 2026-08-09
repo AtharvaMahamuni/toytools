@@ -41,7 +41,7 @@ export const url: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: `Invalid percent-encoding at position ${m.index + 1} — "%" must be followed by two hex digits.`,
+        message: `Invalid percent-encoding at position ${m.index + 1}: "%" must be followed by two hex digits.`,
         position: m.index,
       };
     }

@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 3,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-08',
-  description: 'Tool identity architecture: the tool leads, the platform signs',
+  releaseDate: '2026-08-09',
+  description: 'UI audit fixes: quieter tool marks, tighter title row',
 };
 
 export function formatVersion(config: VersionConfig): string {

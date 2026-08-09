@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON to CSV Converter',
   category: 'developer-utilities',
   summary: 'Convert JSON arrays to CSV for spreadsheets and databases. Flattens nested objects, handles sparse rows, and escapes special characters.',
-  primaryConcepts: ['json to csv', 'data conversion'],
+  primaryConcepts: ['JSON to CSV', 'data conversion'],
   secondaryConcepts: ['csv export', 'json', 'tabular data', 'spreadsheet', 'data transformation', 'nested objects'],
   intentGroups: {
     informational: ['What is JSON to CSV conversion?', 'How does JSON map to CSV columns?'],

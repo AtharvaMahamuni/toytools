@@ -50,16 +50,22 @@ const tagline = tool.tagline ?? tool.description;
     margin-bottom: var(--space-5);
   }
 
+  /* flex-start, not center: a title that wraps to two or three lines would otherwise float the
+     mark and the star down to the middle of the block, which reads as misalignment rather than
+     as centring. The mark is nudged down to sit on the first line's optical centre. */
   .tool-title-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--space-3);
   }
 
+  /* margin-top centres the 28px mark against the first line of a --text-2xl heading
+     (24px at --leading-tight = 30px), so it stays put whether the title runs to one line or three. */
   .tool-mark {
     display: block;
     width: 28px;
     height: 28px;
+    margin-top: 1px;
     border-radius: var(--radius-md);
     flex-shrink: 0;
   }
@@ -68,12 +74,8 @@ const tagline = tool.tagline ?? tool.description;
     .tool-mark {
       width: 32px;
       height: 32px;
+      margin-top: -1px;
     }
-  }
-
-  /* The star sits at the far end of the row. */
-  .tool-title-row :global(.favorite-btn) {
-    margin-left: auto;
   }
 
   /* Down from --text-3xl bold. On a tool page the widget is the hero, not the title; the size

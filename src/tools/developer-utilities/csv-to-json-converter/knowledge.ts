@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'CSV to JSON Converter',
   category: 'developer-utilities',
   summary: 'Convert CSV to a JSON array of objects for APIs, JavaScript, and databases. Smart type detection, custom delimiters, and RFC 4180 quoting.',
-  primaryConcepts: ['csv to json', 'data conversion'],
+  primaryConcepts: ['CSV to JSON', 'data conversion'],
   secondaryConcepts: ['csv', 'json', 'tabular data', 'data import', 'type detection', 'delimiter', 'spreadsheet'],
   intentGroups: {
     informational: ['What is CSV to JSON conversion?', 'How do CSV rows map to JSON objects?'],

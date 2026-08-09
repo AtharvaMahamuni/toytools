@@ -27,12 +27,12 @@ export const sha1: HashTool = {
   bits: 160,
   sample: SAMPLE,
   insight:
-    'SHA-1 produces a 160-bit digest. It is deprecated for security because collisions are now feasible — prefer SHA-256 for signatures or anything that must resist tampering.',
+    'SHA-1 produces a 160-bit digest. It is deprecated for security because collisions are now feasible, so prefer SHA-256 for signatures or anything that must resist tampering.',
   technical: [
     { term: 'Family', detail: 'SHA-1 (FIPS 180-4)' },
-    { term: 'Output', detail: '160 bits — 40 hexadecimal characters' },
+    { term: 'Output', detail: '160 bits, 40 hexadecimal characters' },
     { term: 'Direction', detail: 'One-way: a digest cannot be reversed to the input' },
-    { term: 'Security', detail: 'Deprecated — collision attacks are practical' },
+    { term: 'Security', detail: 'Deprecated: collision attacks are practical' },
   ],
   hash: (input) => digest('SHA-1', input),
 };
@@ -47,7 +47,7 @@ export const sha256: HashTool = {
     'SHA-256 produces a 256-bit digest from the SHA-2 family. It is the current default for integrity checks, digital signatures, and content addressing.',
   technical: [
     { term: 'Family', detail: 'SHA-2 (FIPS 180-4)' },
-    { term: 'Output', detail: '256 bits — 64 hexadecimal characters' },
+    { term: 'Output', detail: '256 bits, 64 hexadecimal characters' },
     { term: 'Direction', detail: 'One-way: a digest cannot be reversed to the input' },
     { term: 'Security', detail: 'Recommended for integrity and signatures' },
   ],
@@ -64,7 +64,7 @@ export const sha512: HashTool = {
     'SHA-512 produces a 512-bit digest from the SHA-2 family. The larger output suits high-assurance integrity, and it can be faster than SHA-256 on 64-bit hardware.',
   technical: [
     { term: 'Family', detail: 'SHA-2 (FIPS 180-4)' },
-    { term: 'Output', detail: '512 bits — 128 hexadecimal characters' },
+    { term: 'Output', detail: '512 bits, 128 hexadecimal characters' },
     { term: 'Direction', detail: 'One-way: a digest cannot be reversed to the input' },
     { term: 'Security', detail: 'Recommended for integrity and signatures' },
   ],

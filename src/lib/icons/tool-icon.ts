@@ -225,11 +225,18 @@ const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n
 const hsl = (h: number, s: number, l: number) =>
   `hsl(${((Math.round(h) % 360) + 360) % 360} ${clamp(Math.round(s), 0, 100)}% ${clamp(Math.round(l), 0, 100)}%)`;
 
-/** Deterministic per-slug hue offset in [-22, +22] degrees. */
+/**
+ * Deterministic per-slug hue offset in [-12, +12] degrees.
+ *
+ * Was ±22, which was safe while the category accents were stock Tailwind 500/600s sitting far
+ * apart on the wheel. The 2026-08-09 retoning moved them into one muted family with neighbours as
+ * close as 20 degrees, and a ±22 swing let a design tool drift into the physics blue. Siblings
+ * still separate; categories no longer collide.
+ */
 function hueShift(slug: string): number {
   let n = 0;
   for (let i = 0; i < slug.length; i++) n = (n * 31 + slug.charCodeAt(i)) >>> 0;
-  return (n % 45) - 22;
+  return (n % 25) - 12;
 }
 
 export interface IconColors {
@@ -269,16 +276,19 @@ export function toolIconSvg(tool: Pick<Tool, 'slug' | 'categorySlug' | 'family'>
   const accent = toolAccent(tool);
   const [h, s, l] = hexToHsl(accent);
   const sh = hueShift(tool.slug);
-  const a = hsl(h + sh, s + 2, clamp(l + 13, 0, 88));
-  const b = hsl(h + sh, s + 9, clamp(l - 9, 20, 100));
+  // Flatter than it was (+13/-9 became +7/-7). A steep gradient plus a glossy highlight read as
+  // 2010 app-store chrome next to Warm Paper, and at 28px on the tool page the shading is not
+  // legible anyway: all it does is make the mark the loudest thing above the fold.
+  const a = hsl(h + sh, s + 2, clamp(l + 7, 0, 88));
+  const b = hsl(h + sh, s + 6, clamp(l - 7, 20, 100));
   const glyph = GLYPHS[resolveGlyphId(tool)] ?? GLYPHS.spark;
 
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 96 96" role="img" aria-label="${escapeAttr(tool.slug)} icon">` +
     '<defs>' +
     `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>` +
-    '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.26"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
-    '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.16"/></linearGradient>' +
+    '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+    '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.10"/></linearGradient>' +
     '</defs>' +
     '<rect width="96" height="96" fill="url(#g)"/>' +
     '<rect width="96" height="96" fill="url(#hl)"/>' +

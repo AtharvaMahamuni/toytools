@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON Formatter',
   category: 'developer-utilities',
   summary: 'Pretty-print compact JSON with indentation. Same data, readable layout — for debugging.',
-  primaryConcepts: ['json formatting'],
+  primaryConcepts: ['JSON formatting'],
   secondaryConcepts: ['json', 'pretty print', 'beautify', 'indentation'],
   intentGroups: {
     informational: ['What is JSON formatting?', 'What is pretty-printing?'],

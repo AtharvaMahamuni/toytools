@@ -2,6 +2,38 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.3.1] - 2026-08-09
+
+A visual pass over the redesigned pages, fixing what only showed up once they were looked at on a
+real phone rather than reasoned about in code.
+
+### Changed
+
+- **Tool marks are quieter.** The per-tool icon colours were stock bright palette values chosen
+  before the site moved to Warm Paper, so every tool page had a neon square as its loudest element.
+  They are now a muted, warm family that sits with the paper and the forest accent, with less gloss
+  and gentler shading. Every category colour also passes the contrast bar for its white glyph, which
+  three of them did not.
+- **The Favourite button is a star alone on phones.** The word "Favourite" was 110px wide on a
+  393px screen and was pushing tool names onto a second and third line. Titles that fit on one line
+  went from 32 of 119 to 72.
+- **The breadcrumb drops the current page on phones**, where it wrapped to two lines to repeat the
+  name the heading gives two lines later. The full trail stays on wider screens and in the page's
+  structured data.
+- Twenty-three tools said "json", "jwt", "md5" or "csv" in lower case in their on-page headings,
+  which read as a typo. They are capitalised properly now.
+
+### Fixed
+
+- Thirty-two tool pages showed an em-dash in their visible text, from engine notes and validation
+  messages that the writing rule had never been able to see. Rewritten, and the build now checks
+  engine prose for them. The HTML entity tool's reference table keeps its em-dash, since that
+  character is the thing it exists to document.
+- The tool icon floated to the middle of a heading that wrapped, instead of sitting on its first
+  line.
+- "Technical details" was the last disclosure on the site still drawing the browser's own arrow, so
+  a single page could show three different ways of saying "this opens".
+
 ## [alpha-v7.3] - 2026-08-08
 
 A ToyTools page used to open with a masthead: a large title, a description running to three lines on

@@ -38,15 +38,17 @@ import { toolPaths, slugFromPath } from './helpers/tools';
  * phase 0 baseline    min 0.51   median 0.59   worst 0.748
  * after phase 2       min 0.33   median 0.38   worst 0.480  (header rebuild)
  * after phase 8       min 0.29   median 0.34   worst 0.414  (119 taglines authored)
+ * after UI audit      min 0.29   median 0.33   worst 0.385  (favourite label collapsed on phones,
+ *                                                            current page dropped from breadcrumb)
  *
  * A tool page now spends a third of the phone's first screen on chrome, down from three fifths.
+ * Titles fitting on one line went from 32 of 119 to 72.
  *
  * What remains is not removable by design work: the worst pages are the ones with the longest
- * NAMES (combinations-permutations-calculator, html-entity-encoder-decoder), whose h1 wraps to
- * two lines. A tool is entitled to its own name, so treat anything near this ceiling as a page
- * that grew something new, not as a page that should be renamed.
+ * NAMES, whose h1 still wraps to two lines. A tool is entitled to its own name, so treat anything
+ * near this ceiling as a page that grew something new, not as a page that should be renamed.
  */
-const CHROME_LIMIT = 0.415;
+const CHROME_LIMIT = 0.386;
 
 /**
  * Ceiling for where the tool becomes usable. Loose on purpose: see the note above about

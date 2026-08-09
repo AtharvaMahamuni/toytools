@@ -213,6 +213,49 @@ for (const file of astroFilesUnder(toolsDir)) {
   }
 }
 
+// ---- 10. Em-dashes in engine prose ------------------------------------------------------------
+// "No em-dashes anywhere" is a standing writing rule, and seo:gate enforces it on guides, FAQs and
+// configs. It never saw engine strings, which is where a tool's explanatory notes, validation
+// messages and reference rows actually come from, so 32 tool pages shipped a visible em-dash.
+//
+// Scoped by FIELD NAME rather than by file path, deliberately. The html-entity tool's data table
+// contains `mdash: '—'`, which is the character it exists to document: a path exemption list would
+// go stale the first time a file moved, whereas "prose fields must not contain one" stays true.
+// Same reasoning as the redirect-stub detection in quality-guardian.
+const PROSE_FIELDS = [
+  'message', 'note', 'detail', 'summary', 'hint', 'description', 'blurb', 'label', 'tip', 'caption',
+];
+const proseField = new RegExp(`\\b(${PROSE_FIELDS.join('|')})\\s*:`);
+
+function tsFilesUnder(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...tsFilesUnder(full));
+    else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.test.ts')) out.push(full);
+  }
+  return out;
+}
+
+for (const dir of ['engines', 'simulation', 'text'].map(d => join(repoRoot, 'src', 'lib', d))) {
+  if (!existsSync(dir)) continue;
+  for (const file of tsFilesUnder(dir)) {
+    readFileSync(file, 'utf-8').split('\n').forEach((line, i) => {
+      if (!line.includes('—')) return;
+      const t = line.trim();
+      // Comments do not render.
+      if (t.startsWith('//') || t.startsWith('*') || t.startsWith('/*')) return;
+      // A prose field, or a bare string that opens a multi-line note.
+      if (!proseField.test(t) && !/^['`][^'`]*—/.test(t)) return;
+      err(
+        `${relative(repoRoot, file)}:${i + 1} has an em-dash in rendered prose. ` +
+        'Use a comma, colon or full stop. (Character data such as an entity table is exempt by ' +
+        'not being a prose field.)',
+      );
+    });
+  }
+}
+
 // ---- Report ---------------------------------------------------------------------------------
 if (warnings.length) {
   console.warn('\n[validate-architecture] Warnings:');

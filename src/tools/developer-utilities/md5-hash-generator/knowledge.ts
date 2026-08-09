@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'MD5 Hash Generator',
   category: 'developer-utilities',
   summary: 'Generate a 32-character MD5 digest. Fast and ubiquitous, but broken for security use.',
-  primaryConcepts: ['md5'],
+  primaryConcepts: ['MD5'],
   secondaryConcepts: ['hash', 'checksum', 'digest', 'collision'],
   intentGroups: {
     informational: ['What is MD5?', 'What does an MD5 hash look like?'],

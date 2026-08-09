@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON Minifier',
   category: 'developer-utilities',
   summary: 'Strip whitespace from JSON to shrink payload size. Lossless and reversible.',
-  primaryConcepts: ['json minification'],
+  primaryConcepts: ['JSON minification'],
   secondaryConcepts: ['json', 'compression', 'whitespace', 'payload size'],
   intentGroups: {
     informational: ['What is JSON minification?', 'How much does minifying save?'],

@@ -10,7 +10,7 @@ export const hex: EncodingTool = {
   insight:
     'Hexadecimal shows each byte of the UTF-8 text as two base-16 digits. It is a readable view of raw bytes, common in debugging, color codes, and binary file inspection.',
   technical: [
-    { term: 'Base', detail: 'Base-16 — each byte is two hex digits (00–ff)' },
+    { term: 'Base', detail: 'Base-16, each byte is two hex digits (00–ff)' },
     { term: 'Text encoding', detail: 'Input is UTF-8 encoded before conversion' },
     { term: 'Decode input', detail: 'Tolerant: ignores whitespace and 0x prefixes, case-insensitive' },
     { term: 'Output', detail: 'Space-separated lowercase byte pairs' },
@@ -48,7 +48,7 @@ export const hex: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: `Unexpected character "${stripped[bad]}" near position ${bad + 1} — hex uses 0–9 and a–f only.`,
+        message: `Unexpected character "${stripped[bad]}" near position ${bad + 1}: hex uses 0–9 and a–f only.`,
         position: bad,
       };
     }
@@ -57,7 +57,7 @@ export const hex: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: 'Hex needs an even number of digits — each byte is exactly two hex digits.',
+        message: 'Hex needs an even number of digits, since each byte is exactly two hex digits.',
       };
     }
     return { ok: true, severity: 'info' };

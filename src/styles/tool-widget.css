@@ -517,10 +517,37 @@
   padding-block: var(--space-4);
 }
 
+/* Shares the caret with .experience-disclosure below. Before this it was the only disclosure on the
+   site still drawing the browser's native marker, so a single tool page could show three different
+   ways of saying "this opens": a native triangle here, a drawn caret in the experience panel, and
+   the SVG chevron in the knowledge drawers. Two is defensible (widget-internal versus Zone C);
+   three was just drift. */
 .widget-details summary {
   min-height: var(--touch-target);
   cursor: pointer;
   font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.widget-details summary::-webkit-details-marker { display: none; }
+
+.widget-details summary::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  color: var(--color-text-subtle);
+  transition: transform var(--duration-normal) var(--ease-default);
+}
+
+.widget-details[open] > summary::before {
+  transform: rotate(90deg);
 }
 
 .guide-callout {

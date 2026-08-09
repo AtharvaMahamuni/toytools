@@ -27,10 +27,26 @@ const { items } = Astro.props;
   .breadcrumb {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     margin-bottom: var(--space-4);
+  }
+
+  /* Phones drop the current page and the separator before it. The trail wrapped to two lines on
+     the longer tool names, spending 21px directly above the tool on a word the <h1> repeats two
+     lines later. A breadcrumb is for going UP; the page you are on is the one thing the reader
+     already knows.
+
+     The BreadcrumbList JSON-LD is emitted separately by the layout, so the crawler still sees the
+     full three-level trail. Hidden rather than not rendered, so a wider viewport keeps it. */
+  @media (max-width: 640px) {
+    .breadcrumb [aria-current='page'],
+    .breadcrumb [aria-current='page'] + span[aria-hidden],
+    .breadcrumb span[aria-hidden]:has(+ [aria-current='page']) {
+      display: none;
+    }
   }
 
   .breadcrumb a {

@@ -145,7 +145,7 @@ export const punycode: EncodingTool = {
     { term: 'Standard', detail: 'RFC 3492 (Bootstring), used by IDNA for domain names' },
     { term: 'Prefix', detail: 'Encoded labels are prefixed with "xn--"' },
     { term: 'Scope', detail: 'Converts per dot-separated label; ASCII labels pass through unchanged' },
-    { term: 'Note', detail: 'Raw Punycode only — no full IDNA nameprep/normalization' },
+    { term: 'Note', detail: 'Raw Punycode only, with no full IDNA nameprep or normalization' },
   ],
   encode(input: string): string {
     return input

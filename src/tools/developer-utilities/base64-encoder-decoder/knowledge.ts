@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Base64 Encoder & Decoder',
   category: 'developer-utilities',
   summary: 'Convert binary data to ASCII text and back. Encoding for transport, not encryption.',
-  primaryConcepts: ['base64'],
+  primaryConcepts: ['Base64'],
   secondaryConcepts: ['encoding', 'binary data', 'data uri', 'ascii'],
   intentGroups: {
     informational: ['What is Base64?', 'Why does Base64 exist?'],

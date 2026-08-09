@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Unix Timestamp Converter',
   category: 'date-time',
   summary: 'Convert a Unix timestamp to a date or a date back to a timestamp, in seconds or milliseconds, with UTC time, the ISO 8601 string, and local time, in browser.',
-  primaryConcepts: ['unix timestamp converter', 'epoch converter', 'unix time to date'],
+  primaryConcepts: ['Unix timestamp conversion', 'epoch converter', 'unix time to date'],
   secondaryConcepts: ['Unix epoch', 'milliseconds vs seconds', 'ISO 8601', 'UTC time'],
   intentGroups: {
     informational: [

@@ -104,7 +104,7 @@ const heatTransferSim: SimulationDef = {
         : null,
   ],
   pointer: {
-    hint: 'Drag a block up or down to heat or cool it — tap for +5 °C',
+    hint: 'Drag a block up or down to heat or cool it, or tap for +5 °C',
     handle(s, ev) {
       if (ev.type === 'up') return null;
       // Left half targets block A, right half block B. Vertical position sets temperature

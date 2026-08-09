@@ -30,7 +30,7 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     technical: [
       { term: 'Standard', detail: 'RFC 8259 / ECMA-404' },
       { term: 'Operation', detail: 'Re-serializes with 2-space indentation' },
-      { term: 'Data', detail: 'Unchanged — only whitespace is added' },
+      { term: 'Data', detail: 'Unchanged: only whitespace is added' },
       { term: 'Errors', detail: 'Reports the first syntax problem with its location' },
     ],
     sample: '{"name":"Ada","langs":["JS","TS"],"active":true}',
@@ -42,7 +42,7 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     technical: [
       { term: 'Operation', detail: 'Re-serializes with no whitespace' },
       { term: 'Use', detail: 'Shrink request/response and stored payloads' },
-      { term: 'Data', detail: 'Unchanged — re-format any time to restore readability' },
+      { term: 'Data', detail: 'Unchanged: re-format any time to restore readability' },
     ],
     sample: PRETTY_JSON,
   },
@@ -90,7 +90,7 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     technical: [
       { term: 'Operation', detail: 'Re-serializes the parsed JSON as YAML' },
       { term: 'Use', detail: 'Configuration files, CI pipelines, manifests' },
-      { term: 'Data', detail: 'Preserved — YAML is a superset of JSON' },
+      { term: 'Data', detail: 'Preserved: YAML is a superset of JSON' },
     ],
     sample: PRETTY_JSON,
     downloadExt: '.yaml',

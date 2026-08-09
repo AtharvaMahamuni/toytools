@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'PX to REM Converter',
   category: 'design-tools',
   summary: 'Convert px to rem, em, pt, and percent against a configurable root font size, with one-tap copy for each unit.',
-  primaryConcepts: ['css unit conversion'],
+  primaryConcepts: ['CSS unit conversion'],
   secondaryConcepts: ['pixels', 'rem unit', 'em unit', 'point unit', 'root font size', 'responsive typography'],
   intentGroups: {
     informational: ['What is a rem in CSS?', 'How does the root font size affect rem?'],
