@@ -1,6 +1,10 @@
 ---
 // Zone B: one line under the tool. Trust, installation, and the platform's signature.
 //
+// The install button moved out of this row and into ToolBar on 2026-08-09, beside the favourite
+// star: "keep this tool" and "install this tool" are the same intent and belong together, and the
+// bar is the one part of the page that is always reachable.
+//
 // Rendered by ToolPage rather than ToolLayout, and that placement is the whole point. ToolLayout
 // only has `<slot />`, and the slot holds the widget AND the nav row AND the knowledge drawers,
 // so anything ToolLayout renders after the slot lands at the very bottom of the page. Putting
@@ -9,7 +13,6 @@
 //
 // See docs/analysis/2026-08-08-tool-identity-architecture.md (D2, Zone B).
 import TrustNotice from '@components/tool/TrustNotice.astro';
-import InstallButton from '@tools/_shared/InstallButton.astro';
 import { withBase } from '@lib/paths';
 import type { Tool } from '@data/types';
 
@@ -22,7 +25,6 @@ const { tool } = Astro.props;
 
 <div class="tool-signature">
   <TrustNotice variant={tool.trustVariant ?? 'private'} />
-  <InstallButton toolName={tool.name} />
   {/* The platform signs the tool rather than owning it, in the micro-label voice already used by
       .io-label and the ToolNavRow "Related" label. Above the title it would compete with the h1
       for the first fixation, which is what the header rebuild spent its effort removing. */}

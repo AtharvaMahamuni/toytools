@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 4,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-08-09',
-  description: 'Tool pages wear their own header, and Zone C fits one line',
+  description: 'Install app sits beside the favourite star on every screen',
 };
 
 export function formatVersion(config: VersionConfig): string {

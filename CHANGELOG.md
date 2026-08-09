@@ -2,6 +2,27 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.4.1] - 2026-08-09
+
+### Changed
+
+- **Install now sits beside the favourite star, on every screen.** It used to be a mobile-only
+  button below the tool. Chrome and Edge have supported installing web apps on the desktop the whole
+  time, so there was no reason to hide it there; "keep this tool" and "install this tool" are the
+  same intent, so they now share a place in the tool bar.
+- The install sheet knows where it is. On a laptop it points at the install icon in the address bar,
+  or Safari's File then Add to Dock, and it says which keys bookmark the page if that is all you
+  wanted. On a phone it still gives the Chrome or iOS Share steps.
+- The button hides itself in Firefox, which has no way to install a web app at all. A panel
+  explaining that your browser cannot do the thing is worse than no button.
+
+### Note
+
+- There is no way for a website to add a browser bookmark for you. No browser exposes an API for it,
+  by design, so a one-click bookmark button is not something any site can build. The favourite star
+  is the one-click version of that inside ToyTools, installing is the one-click version on your
+  device, and the sheet names the keyboard shortcut for a real browser bookmark.
+
 ## [alpha-v7.4] - 2026-08-09
 
 Tool pages stop wearing ToyTools' chrome and start wearing their own.

@@ -28,6 +28,7 @@
 // JSON-LD, which ToolLayout still emits, so the trail is not lost to search. Its navigational job
 // moves to Zone C's "All {Category}" link, which keeps the internal link to the category hub.
 import FavoriteButton from '@components/tool/FavoriteButton.astro';
+import InstallButton from '@tools/_shared/InstallButton.astro';
 import ThemeToggle from '@components/ThemeToggle.astro';
 import { withBase } from '@lib/paths';
 import type { Tool } from '@data/types';
@@ -45,6 +46,9 @@ const { tool } = Astro.props;
     <img class="tb-mark" src={withBase(`/icons/tool/${tool.slug}.svg`)} width="28" height="28" alt="" />
     <h1 class="tb-title">{tool.name}</h1>
     <FavoriteButton slug={tool.slug} name={tool.name} />
+    {/* Beside the star on every width. Hides itself when the tool is already installed, and on
+        Firefox, which has no install path to describe. */}
+    <InstallButton toolName={tool.name} />
     <a class="tb-search" href={withBase('/search/')} data-palette-open aria-label="Search tools">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -87,8 +91,8 @@ const { tool } = Astro.props;
      pathological name, not a layout tool: at three lines every tool in the catalogue fits whole.
      Truncating a tool's own name in its own title bar is the one thing this bar must not do, so
      the bar grows on the two or three pages that need it rather than trimming the name.
-     ("Combinations & Permutations Calculator" needs all three, because no two of its words share
-     a line at 393px.) */
+     ("Combinations & Permutations Calculator" needs all four once the install button joins the
+     row, because no two of its words share a line in what is left at 393px.) */
   .tb-title {
     flex: 1 1 auto;
     min-width: 0;
@@ -97,7 +101,7 @@ const { tool } = Astro.props;
     font-weight: var(--font-weight-semibold);
     line-height: var(--leading-tight);
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -164,6 +168,36 @@ const { tool } = Astro.props;
 
   .tool-bar .theme-toggle {
     width: 44px;
+  }
+
+  /* Icon-only in the bar, matching the star, search and theme beside it. The word "Install app"
+     is 110px, which the title needs more than the button does. */
+  .tool-bar .tt-install-btn.is-visible {
+    min-width: 44px;
+    height: var(--touch-target);
+    min-height: var(--touch-target);
+    padding: 0;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .tool-bar .tt-install-btn.is-visible:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+    border-color: transparent;
+  }
+
+  .tool-bar .tt-install-btn span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .tool-bar .favorite-btn.is-on {

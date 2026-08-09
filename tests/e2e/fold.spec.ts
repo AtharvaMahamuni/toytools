@@ -42,6 +42,18 @@ import { toolPaths, slugFromPath } from './helpers/tools';
  *                                                            current page dropped from breadcrumb)
  * after ToolBar       min 0.17   median 0.20   worst 0.216  (site nav, breadcrumb and title block
  *                                                            became one sticky tool bar)
+ * after Install       min 0.17   median 0.20   worst 0.2435 (install joined the bar at every width)
+ *
+ * That last line is a RISE, and it is deliberate rather than a regression, which is why it is
+ * written down here rather than absorbed. Adding a fourth control to a 393px bar costs the title
+ * 44px of width, and on the two longest names in the catalogue
+ * ("Combinations & Permutations Calculator", "Simple Harmonic Motion Calculator") that pushes the
+ * bar from 65px to 97px. The median is unchanged: 117 of 119 pages pay nothing.
+ *
+ * The alternative was clawing the width back by dropping the controls below the 48px touch target
+ * CLAUDE.md requires, which trades an accessibility rule for a number in a test. Truncating the
+ * names was the other option and is the one thing the bar must not do. So the ceiling moves, once,
+ * with the reason attached. It does not move again without one.
  *
  * A tool page now spends a fifth of the phone's first screen on chrome, down from three fifths.
  *
@@ -49,7 +61,7 @@ import { toolPaths, slugFromPath } from './helpers/tools';
  * NAMES, whose h1 still wraps to two lines. A tool is entitled to its own name, so treat anything
  * near this ceiling as a page that grew something new, not as a page that should be renamed.
  */
-const CHROME_LIMIT = 0.217;
+const CHROME_LIMIT = 0.244;
 
 /**
  * Ceiling for where the tool becomes usable. Loose on purpose: see the note above about
