@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 3,
-  patch: 1,
+  minor: 4,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-09',
-  description: 'UI audit fixes: quieter tool marks, tighter title row',
+  description: 'Tool pages wear their own header, and Zone C fits one line',
 };
 
 export function formatVersion(config: VersionConfig): string {

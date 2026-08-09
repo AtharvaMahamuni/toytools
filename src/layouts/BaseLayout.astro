@@ -26,6 +26,9 @@ interface Props {
    *  fetch an engine chunk — leave it empty and the page ships platform glue and nothing else.
    *  See src/lib/runtime/index.ts. */
   engines?: string[];
+  /** Tool slug, when this page is a tool. Only use: the footer's feedback link prefills it, so a
+   *  report keeps its per-tool context now that tool pages no longer carry their own invite. */
+  feedbackTool?: string;
 }
 
 const {
@@ -36,6 +39,7 @@ const {
   robots = 'index,follow',
   pwa,
   engines = [],
+  feedbackTool,
 } = Astro.props;
 
 const pageTitle = title;
@@ -112,13 +116,16 @@ const maxWidthVar =
         FAQ and footer, so without this a keyboard or screen reader user traverses the whole chrome
         on each of 270+ pages before reaching the thing they came for. Visible only on focus. */}
     <a class="skip-link" href="#main">Skip to content</a>
-    <Nav />
+    {/* Tool pages pass their own header (ToolBar) through this slot: chrome belongs to whoever owns
+        the page, so a tool wears its own and every platform page wears ToyTools'. Exactly one of
+        the two renders, so there is always precisely one role="banner". */}
+    {Astro.slots.has('header') ? <slot name="header" /> : <Nav />}
     {/* tabindex="-1" so the skip link can actually move focus here, not just scroll. */}
     <main id="main" tabindex="-1">
       <div class="page-content" style={`max-width: ${maxWidthVar};`}>
         <slot />
       </div>
     </main>
-    <Footer />
+    <Footer feedbackTool={feedbackTool} />
   </body>
 </html>

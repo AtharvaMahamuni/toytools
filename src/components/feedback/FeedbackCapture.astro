@@ -1,0 +1,59 @@
+---
+// Script only, no markup: stashes what the visitor typed as they leave for the feedback page, so a
+// bug report can offer "include what I typed" without them retyping it.
+//
+// This used to live inside FeedbackLink, the per-tool invite at the bottom of every tool page. That
+// block was a second copy of the footer's feedback link and went on 2026-08-09, but the capture is
+// a real feature with a build-time security gate, so it moved here rather than going with it. The
+// footer's link carries `data-feedback-link` on tool pages, which is what this binds to.
+//
+// The gate is the point: on a JWT decoder or a hash generator the value in the input could be a
+// live secret, so `allowsInputCapture` decides at BUILD time from registry metadata and the
+// capturing script is simply not emitted on those tools. Never make this a runtime check.
+import { allowsInputCapture, MAX_CAPTURED_INPUT } from '@lib/feedback/config';
+import type { Tool } from '@data/types';
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+const canCapture = allowsInputCapture(tool.engine, tool.pattern);
+---
+
+{canCapture && (
+  <script is:inline define:vars={{ slug: tool.slug, limit: MAX_CAPTURED_INPUT }}>
+    // sessionStorage, not localStorage: it belongs to this tab and this trip, and it is read once
+    // and cleared.
+    // Delegated on document, not bound to the link. This script is emitted inside <main>, and the
+    // footer that carries the link is parsed AFTER it, so a direct querySelector finds nothing.
+    (function () {
+      document.addEventListener('click', function (e) {
+        var link = e.target && e.target.closest && e.target.closest('[data-feedback-link]');
+        if (!link) return;
+        try {
+          var key = 'toytools.feedback.capture';
+          var fields = document.querySelectorAll(
+            'main textarea, main input[type="text"], main input[type="search"]',
+          );
+          for (var i = 0; i < fields.length; i++) {
+            var value = (fields[i].value || '').trim();
+            if (value) {
+              sessionStorage.setItem(
+                key,
+                JSON.stringify({ slug: slug, value: value.slice(0, limit) }),
+              );
+              return;
+            }
+          }
+          // Nothing typed: clear any stale capture so the next page cannot offer someone else's
+          // leftovers.
+          sessionStorage.removeItem(key);
+        } catch (err) {
+          // Private browsing denies sessionStorage. Attaching the input is a convenience, so
+          // losing it must never block the navigation.
+        }
+      });
+    })();
+  </script>
+)}

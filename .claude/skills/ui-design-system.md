@@ -20,15 +20,23 @@ A tool page has three zones with a **closed inventory**. Nothing outside a zone'
 enter it. This is what stops the page slowly re-accreting furniture as the catalog grows.
 
 ```
-Zone A  Do        breadcrumb | tool mark + h1 + tagline | GroupSwitcher | widget | ToolActions
+Zone A  Do        ToolBar (mark + h1 + star + search + theme) | tagline | GroupSwitcher | widget | ToolActions
 Zone B  Trust     ONE row: trust notice, install affordance, "Powered by ToyTools ●"
-Zone C  Know      knowledge drawers | guide link | related strip | category link | feedback
+Zone C  Know      ONE row: drawer triggers, the guide, the category hub
 ```
 
+- **Chrome belongs to whoever owns the page.** Platform pages render `Nav`; a tool page renders
+  `ToolBar` through `BaseLayout`'s `header` slot, so a tool page opens with the tool's name and not
+  the brand. Tool pages carry no visible breadcrumb (the JSON-LD still ships, and the category link
+  lives on Zone C).
+- **Never say the same thing twice on one page.** Zone C was 682px, 31% of the document, almost
+  entirely because a related-tools list, a set of links pointing at content directly below them and
+  a feedback invite each appeared twice. That is the failure mode this zone attracts.
 - **Zone A is the only zone above the fold on a phone.** It ends in space, never a rule.
 - **Zone C opens with the page's one and only hairline**, drawn by the lower section per the
   section-boundary recipe. Above the line is "do", below it is "understand".
-- **The h1 is the tool's name, never the brand.** A tool h1 is `--text-2xl`; a guide h1 stays
+- **The h1 is the tool's name, never the brand.** A tool h1 sits inside ToolBar at
+  `--text-base`/`--text-lg`; a guide h1 stays
   `--text-4xl`. That size gap plus the guide's `TOYTOOLS ● GUIDE` eyebrow is the entire Tool Mode
   versus Reading Mode signal. Tool pages get no eyebrow; the absence is the other half of it.
 - **`tagline` is the on-page line** (max 80 chars, a build error above that). `description` stays

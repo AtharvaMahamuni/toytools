@@ -112,9 +112,10 @@ screen went from 30 to 6 (the remaining six are generators whose result panel co
 their controls). Background: `docs/analysis/2026-08-08-tool-identity-architecture.md`.
 
 The page grammar it protects (Zone A "do", Zone B trust, Zone C "know") is in `ARCHITECTURE.md` →
-"Design Language" → "Page grammar", with the layering rule: **the widget renders the tool, the
-platform renders everything that is not the tool.** `validate-architecture` fails the build if
-anything under `src/tools/` imports `CategoryDiscovery`.
+"Design Language" → "Page grammar", with two rules: **chrome belongs to whoever owns the page** (a
+tool page renders `ToolBar`, not `Nav`, and carries no visible breadcrumb) and **the widget renders
+the tool, the platform renders everything that is not the tool** (`validate-architecture` fails the
+build if anything under `src/tools/` imports `CategoryDiscovery`).
 
 ## Performance budget (a hard gate for every new tool)
 

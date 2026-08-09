@@ -1,0 +1,174 @@
+---
+// The tool page's own app bar. Replaces the site nav on tool pages only.
+//
+// This is the last step of the tool identity work and the one that makes the rest of it true. The
+// page had already moved the brand's signature below the tool, but the first thing at the top of
+// all 119 pages was still the word "ToyTools", so the page still OPENED with the platform. Three
+// stacked rows (site nav, breadcrumb, title block) are now one.
+//
+// The rule it encodes, which is worth stating because every other question falls out of it:
+//
+//   Chrome belongs to whoever owns the page. Platform pages (home, category, guide, about) wear
+//   ToyTools chrome. A tool page wears the tool's.
+//
+// It is also simply correct for an installed PWA: in standalone mode there is no browser chrome at
+// all, and an app's title bar shows the app's name, not its vendor's.
+//
+// What deliberately survives:
+//   - The <h1>. It moves INTO the bar rather than being replaced by it, so the page keeps the
+//     heading that scripts/check-query-coverage.ts scores query targeting against.
+//   - Search. tests/e2e/palette.spec.ts opens by explaining that reaching another tool from a tool
+//     page was impossible before the palette existed; dropping it here would reopen that.
+//     `data-palette-open` is bound by document delegation in src/lib/runtime/overlays.ts, so it
+//     works anywhere.
+//   - The theme toggle, via the extracted ThemeToggle component.
+//   - role="banner", so the landmark structure is unchanged.
+//
+// What goes: the visible breadcrumb. Google builds SERP breadcrumbs from the BreadcrumbList
+// JSON-LD, which ToolLayout still emits, so the trail is not lost to search. Its navigational job
+// moves to Zone C's "All {Category}" link, which keeps the internal link to the category hub.
+import FavoriteButton from '@components/tool/FavoriteButton.astro';
+import ThemeToggle from '@components/ThemeToggle.astro';
+import { withBase } from '@lib/paths';
+import type { Tool } from '@data/types';
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+---
+
+<header class="tool-bar" role="banner">
+  <div class="tb-inner">
+    {/* alt="" because the name is right beside it. */}
+    <img class="tb-mark" src={withBase(`/icons/tool/${tool.slug}.svg`)} width="28" height="28" alt="" />
+    <h1 class="tb-title">{tool.name}</h1>
+    <FavoriteButton slug={tool.slug} name={tool.name} />
+    <a class="tb-search" href={withBase('/search/')} data-palette-open aria-label="Search tools">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </a>
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .tool-bar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    background: var(--color-bg);
+    border-bottom: var(--border);
+  }
+
+  .tb-inner {
+    max-width: var(--width-shell);
+    margin-inline: auto;
+    padding: var(--space-2) var(--space-4);
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .tb-mark {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  /* The title takes the row; the controls keep their size. The clamp is a backstop against a
+     pathological name, not a layout tool: at three lines every tool in the catalogue fits whole.
+     Truncating a tool's own name in its own title bar is the one thing this bar must not do, so
+     the bar grows on the two or three pages that need it rather than trimming the name.
+     ("Combinations & Permutations Calculator" needs all three, because no two of its words share
+     a line at 393px.) */
+  .tb-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .tb-title {
+      font-size: var(--text-lg);
+    }
+
+    .tb-mark {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  /* 44px wide rather than 48. Three controls at full width left the title 150px on a 393px screen,
+     which clamped "HTML Entity Encoder & Decoder" to "HTML Entity Encoder &...". Truncating a
+     tool's own name in its own title bar is the one thing this bar must not do. Height stays at the
+     full touch target, so the tap area is 44x48. */
+  .tb-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: var(--touch-target);
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .tb-search:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .tb-search:active {
+    background: var(--color-bg-tertiary);
+  }
+</style>
+
+<style is:global>
+  /* The star loses its border and label in the bar: it is one of three icon controls in a row of
+     icon controls, and a bordered pill next to two bare glyphs reads as an error. */
+  .tool-bar .favorite-btn {
+    border: none;
+    background: transparent;
+    min-width: 44px;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .tool-bar .favorite-btn .favorite-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .tool-bar .theme-toggle {
+    width: 44px;
+  }
+
+  .tool-bar .favorite-btn.is-on {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-gold);
+  }
+</style>

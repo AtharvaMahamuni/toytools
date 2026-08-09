@@ -2,6 +2,32 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.4] - 2026-08-09
+
+Tool pages stop wearing ToyTools' chrome and start wearing their own.
+
+### Changed
+
+- **A tool page now opens with the tool's name, not the brand.** The site nav, the breadcrumb trail
+  and the title block were three stacked rows saying whose site you were on before saying what you
+  had come for. They are one sticky bar carrying the tool's icon, its name, the favourite star,
+  search and the theme switch. The chrome above a tool fell from a third of a phone's first screen
+  to a fifth, and only one tool in the catalogue now has nothing usable on the first screen, down
+  from thirty when this work started.
+- **The section below the tool is one line.** It was 682px, nearly a third of the whole page, and
+  most of that was repetition: a related-tools list that appeared twice, links pointing at content
+  sitting directly beneath them, and a feedback invite that the footer already carried. What is left
+  is a single row: what the tool is used for, where the idea goes wrong, the questions, the guide,
+  and the rest of the category.
+- The feedback link moved into the footer, where it now names the tool you are on, so a report still
+  arrives already knowing what it is about.
+- Home, category, guide and information pages are unchanged. They are ToyTools' pages, so they keep
+  ToyTools' header.
+
+### Fixed
+
+- Long tool names are never shortened in their own title bar. The bar grows instead.
+
 ## [alpha-v7.3.1] - 2026-08-09
 
 A visual pass over the redesigned pages, fixing what only showed up once they were looked at on a

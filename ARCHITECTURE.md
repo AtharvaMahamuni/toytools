@@ -152,24 +152,27 @@ heading.
 
 ### Tool-page guide/FAQ surface
 
-The tool page is the **canonical home of FAQ content**, and since 2026-08-08 it is the canonical
-home of the knowledge overlay too. Below the widget, `ToolPage.astro` renders `ToolSignature`
-(Zone B), then `ToolNavRow` (questions anchor + guide teaser + related strip), then
-`KnowledgeDrawers` (Zone C) and `CategoryDiscovery`, and emits `FAQPage` JSON-LD when the tool has
-registered items.
+The tool page is the **canonical home of FAQ content**, and of the knowledge overlay. Below the
+widget, `ToolPage.astro` renders `ToolSignature` (Zone B) then `KnowledgeDrawers` (Zone C), and
+emits `FAQPage` JSON-LD when the tool has registered items.
 
-`KnowledgeDrawers` (`src/components/tool/KnowledgeDrawers.astro`) renders three closed `<details>`
-per tool: `realWorldUseCases`, `commonMistakes` and the FAQ (through the shared `FaqAccordion`).
-The first two were authored on all 119 tools and rendered by nothing until then.
+`KnowledgeDrawers` is Zone C entire: one flex row carrying three `<details>` triggers
+(`realWorldUseCases`, `commonMistakes`, the FAQ through the shared `FaqAccordion`), the guide link
+and the category link. An open drawer takes `flex-basis: 100%` so its content gets a row of its own
+and the remaining triggers stay on one line.
+
+It replaced four stacked blocks totalling 682px, 31% of the document, most of which was repetition:
+a `ToolNavRow` whose links pointed at drawers 100px below themselves, a `CategoryDiscovery` holding
+a **second** related-tools list, and a `FeedbackLink` duplicating the footer's own. Related tools
+now collapse into the category link and feedback lives only in the footer, which takes a `tool` prop
+so the link keeps its `?tool=` prefill.
 
 **Each `<summary>` contains a real `<h2>`, and that is the point.** `<h2>` is one of four slots
 `scripts/check-query-coverage.ts` scores query targeting against, and every tool page's entire H2
 inventory used to be "Add to Home Screen" and "Common Questions". Heading text derives from
 `knowledge.primaryConcepts[0]`, which makes that field load-bearing for targeting. The questions
 drawer keeps `id="faq"` and opens on a matching hash, because 32 retired `/faq/...` URLs are
-redirect stubs pointing at it. FAQ items come from `faqsByToolSlug` (`src/data/faq-registry.ts`) —
-there is **no `faq` field on ToolConfig** and no standalone FAQ pages; the old `/faq/` URLs are
-noindex redirect stubs generated from `src/data/faq-redirects.ts` (never add new entries).
+redirect stubs pointing at it.
 
 **Registration-drift guard.** Guide registration is **derived from the filesystem**: the guide
 route discovers components via `import.meta.glob` over `src/tools/*/*/Guide.astro`, and
@@ -293,14 +296,21 @@ and the gold brand dot. Success stays a brighter, cooler green and tints transie
 inventory may enter it, which is what stops the page re-accreting furniture as the catalog grows:
 
 ```
-Zone A  Do        breadcrumb | tool mark + h1 + tagline | GroupSwitcher | widget | ToolActions
+Zone A  Do        ToolBar (mark + h1 + star + search + theme) | tagline | GroupSwitcher | widget | ToolActions
 Zone B  Trust     ONE row (ToolSignature): trust notice, install affordance, "Powered by ToyTools ●"
-Zone C  Know      KnowledgeDrawers | guide link | related strip | CategoryDiscovery | feedback
+Zone C  Know      ONE row (KnowledgeDrawers): drawer triggers, the guide, the category hub
 ```
 
-Zone A is the only zone above the fold on a phone and ends in space, never a rule; Zone C draws the
-page's one hairline. The tool `<h1>` is `--text-2xl` while a guide's stays `--text-4xl`, and that
-size gap plus the guide's `TOYTOOLS ● GUIDE` eyebrow is the whole Tool Mode versus Reading Mode
+**Chrome belongs to whoever owns the page.** Platform pages (home, category, guide, about) render
+`Nav`; a tool page renders `ToolBar` through `BaseLayout`'s `header` slot, so the first thing at the
+top of a tool page is the tool's name, not the brand. Exactly one of the two renders, so there is
+always precisely one `role="banner"`. Tool pages carry no visible breadcrumb: the `BreadcrumbList`
+JSON-LD still ships (Google builds SERP breadcrumbs from that, not from markup) and the link to the
+category hub lives on Zone C's row.
+
+Zone A is the only zone above the fold on a phone. Zone C draws the page's one hairline. The tool
+`<h1>` lives inside ToolBar at `--text-base`/`--text-lg` while a guide's stays `--text-4xl`, and
+that gap plus the guide's `TOYTOOLS ● GUIDE` eyebrow is the whole Tool Mode versus Reading Mode
 signal (tool pages get no eyebrow; the absence is the other half). `tagline` is the on-page line,
 capped at 80 characters by `validate-registry`; `description` stays long because it is the meta
 description and one of four query-targeting slots.

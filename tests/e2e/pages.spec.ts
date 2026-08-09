@@ -40,10 +40,24 @@ test.describe('information pages', () => {
     await expect(page.locator('.release-section li').first()).not.toContainText('**');
   });
 
+  // From a platform page, not a tool page: tool pages render their own ToolBar instead of Nav, so
+  // the version badge is not there by design. Chrome belongs to whoever owns the page.
   test('the nav version badge links to the changelog', async ({ page }) => {
-    await page.goto('/tool/text/word-counter/');
+    await page.goto('/');
     await page.locator('.nav-version').click();
     await expect(page).toHaveURL(/\/changelog\/$/);
+  });
+
+  test('a tool page renders its own header instead of the site nav', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await expect(page.locator('.tool-bar')).toBeVisible();
+    await expect(page.locator('.nav-logo')).toHaveCount(0);
+    // Exactly one banner landmark, whichever header is drawn.
+    await expect(page.getByRole('banner')).toHaveCount(1);
+    // Search survives the swap: it is the only way to reach another tool from here.
+    await expect(page.locator('.tool-bar [data-palette-open]')).toBeVisible();
+    // The h1 moved into the bar rather than being replaced by it.
+    await expect(page.locator('.tool-bar h1')).toHaveText('Word Counter');
   });
 
   test('privacy names the analytics that actually loads', async ({ page }) => {

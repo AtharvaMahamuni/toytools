@@ -15,14 +15,8 @@
 import ToolLayout from '@layouts/ToolLayout.astro';
 import KnowledgeDrawers from '@components/tool/KnowledgeDrawers.astro';
 import ToolSignature from '@components/tool/ToolSignature.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
-import ToolNavRow from '@components/tool/ToolNavRow.astro';
-import { tools } from '@data/registry';
-import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
-import { getToolGroup } from '@data/tool-groups';
-import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
 import type { Tool, Category } from '@data/types';
 
@@ -34,18 +28,6 @@ interface Props {
 }
 
 const { tool, category, extraSchemas = [] } = Astro.props;
-
-// Group siblings are already linked by the GroupSwitcher above the widget —
-// exclude them from the Related strip so it surfaces other tools instead.
-const groupSlugs = new Set(
-  (tool.toolGroup ? getToolGroup(tool.toolGroup)?.members ?? [] : []).map(m => m.slug),
-);
-const relatedTools = getRelatedTools(tool, tools, 9)
-  .filter(t => !groupSlugs.has(t.slug))
-  .map(t => {
-    const cat = categories.find(c => c.slug === t.categorySlug);
-    return { slug: t.slug, name: t.name, segment: cat?.segment ?? t.categorySlug };
-  });
 
 const faqItems = faqsByToolSlug[tool.slug] ?? [];
 const guideHref = tool.guide
@@ -74,21 +56,10 @@ const faqSchema = faqItems.length > 0 ? {
   {/* Zone B: immediately under the tool, before anything that is about other pages. */}
   <ToolSignature tool={tool} />
 
-  <ToolNavRow
-    faqItems={faqItems}
-    guideHref={guideHref}
-    guideTitle={tool.guide?.title}
-    guideReadMinutes={tool.guide?.readMinutes}
-    relatedTools={relatedTools}
-    toolName={tool.name}
-  />
-
-  <KnowledgeDrawers tool={tool} faqItems={faqItems} />
-
-  {/* Rendered once, here, instead of by each of 32 widget files. A widget renders the tool; the
-      catalog is the platform's business. validate-architecture forbids the import under
-      src/tools/ so this cannot creep back the next time a widget is copied as a template. */}
-  <CategoryDiscovery toolSlug={tool.slug} />
+  {/* Zone C, entire: drawer triggers, the guide, and the category hub on one row. It replaced
+      ToolNavRow, a second related-tools list and a duplicate feedback invite, which between them
+      spent 682px repeating each other. */}
+  <KnowledgeDrawers tool={tool} faqItems={faqItems} guideHref={guideHref} />
 </ToolLayout>
 
 {/* No styles: Zone C is KnowledgeDrawers' own, and it draws the section boundary itself. */}

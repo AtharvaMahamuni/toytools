@@ -40,15 +40,16 @@ import { toolPaths, slugFromPath } from './helpers/tools';
  * after phase 8       min 0.29   median 0.34   worst 0.414  (119 taglines authored)
  * after UI audit      min 0.29   median 0.33   worst 0.385  (favourite label collapsed on phones,
  *                                                            current page dropped from breadcrumb)
+ * after ToolBar       min 0.17   median 0.20   worst 0.216  (site nav, breadcrumb and title block
+ *                                                            became one sticky tool bar)
  *
- * A tool page now spends a third of the phone's first screen on chrome, down from three fifths.
- * Titles fitting on one line went from 32 of 119 to 72.
+ * A tool page now spends a fifth of the phone's first screen on chrome, down from three fifths.
  *
  * What remains is not removable by design work: the worst pages are the ones with the longest
  * NAMES, whose h1 still wraps to two lines. A tool is entitled to its own name, so treat anything
  * near this ceiling as a page that grew something new, not as a page that should be renamed.
  */
-const CHROME_LIMIT = 0.386;
+const CHROME_LIMIT = 0.217;
 
 /**
  * Ceiling for where the tool becomes usable. Loose on purpose: see the note above about
@@ -57,11 +58,12 @@ const CHROME_LIMIT = 0.386;
  * phase 0 baseline    median 0.80   worst 1.758   30 of 119 tools with nothing usable on screen
  * after phase 2       median 0.57   worst 1.521   6 of 119
  * after phase 8       median 0.52   worst 1.422   6 of 119
+ * after ToolBar       median 0.37   worst 1.278   1 of 119
  *
  * The remaining six are all generators, where the result panel correctly sits above the controls
  * on a phone. That is the design rule working, not a regression.
  */
-const FOLD_LIMIT = 1.43;
+const FOLD_LIMIT = 1.28;
 
 /** Controls a visitor can actually operate. Anchors are excluded: a link is not the tool. */
 const CONTROL = 'textarea, input:not([type=hidden]), select, button';

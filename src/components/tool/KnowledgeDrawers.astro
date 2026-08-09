@@ -1,39 +1,46 @@
 ---
-// Zone C: what the tool is about, collapsed.
+// Zone C, entire. One row of triggers under the page's only hairline.
 //
-// Two things happen here at once, and the second is the reason this is worth building.
+// This replaced four stacked blocks totalling 682px, which was 31% of the document, and most of
+// that bulk was repetition rather than content:
 //
-// 1. Every tool has authored `realWorldUseCases` and `commonMistakes` in its knowledge.ts. They
-//    are validated by the build and, until now, rendered by nothing: outside knowledge.ts files
-//    themselves the only references in src/ were the type, the schema validator and a fixture.
-//    119 tools' worth of writing, gated by a validator, seen by nobody.
+//   ToolNavRow          "Questions (9) · Guide" links pointing at drawers 100px below themselves,
+//                       a two-line guide teaser, and a "Related:" list
+//   KnowledgeDrawers    the drawers those links pointed at
+//   CategoryDiscovery   "Browse all N X" plus a SECOND related-tools list from the same source
+//   FeedbackLink        a copy of the footer's own feedback link
 //
-// 2. Each drawer's <summary> carries a real <h2>. That is legal HTML (summary accepts heading
-//    content) and it is the whole point: <h2> is one of only four slots
-//    scripts/check-query-coverage.ts scores query targeting against, and on 119 of 119 tool pages
-//    the entire H2 inventory was "Add to Home Screen" and "Common Questions". A quarter of the
-//    ranking surface describing furniture. Naming the concept in the summary spends that slot on
-//    the tool instead, while the content stays closed.
+// So the fix was deletion, not compression. Related tools collapse into the category link (the
+// catalog is one click away either way), feedback moved to the footer where its twin already lived,
+// and the links that pointed at content directly below them are gone because the content is right
+// there.
 //
-// The concept comes from knowledge.primaryConcepts[0], so the headings discriminate without
-// anyone hand-authoring 119 of them. That makes primaryConcepts load-bearing for targeting.
+// Two things are load-bearing and must survive any future tidying:
 //
-// What does NOT go here: the guide's body. Guides are separate indexable URLs with Article
-// schema and their own place in the knowledge graph; inlining them would either duplicate 119
-// guides (which check-duplication exists to catch) or hollow them out. Zone C links to the
-// guide, it does not absorb it.
+//   1. Each <summary> contains a real <h2>. <h2> is one of four slots
+//      scripts/check-query-coverage.ts scores query targeting against, and THRESHOLDS
+//      .conceptHeadings requires every tool page to carry one that names a concept rather than a
+//      page part. Headings are built from knowledge.primaryConcepts[0], which is why that field is
+//      load-bearing for search and not just metadata.
+//   2. id="faq" on the questions drawer, opened by a matching hash. 32 retired /faq/... URLs are
+//      redirect stubs pointing at it and those URLs were indexed once.
 //
-// See docs/analysis/2026-08-08-tool-identity-architecture.md (F3, T2, T3, D7).
+// The guide is linked, never inlined: guides are separate indexable URLs with Article schema and
+// their own knowledge-graph nodes. The category link is also what replaces the breadcrumb removed
+// from the header on 2026-08-09, so the internal link to the category hub is preserved.
 import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import { getKnowledge } from '@lib/knowledge/registry';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
 import type { FAQItem, Tool } from '@data/types';
 
 interface Props {
   tool: Tool;
   faqItems: FAQItem[];
+  guideHref: string | null;
 }
 
-const { tool, faqItems } = Astro.props;
+const { tool, faqItems, guideHref } = Astro.props;
 
 const knowledge = getKnowledge(tool.slug);
 
@@ -43,64 +50,78 @@ const MAX_ITEMS = 5;
 const useCases = (knowledge?.realWorldUseCases ?? []).slice(0, MAX_ITEMS);
 const mistakes = (knowledge?.commonMistakes ?? []).slice(0, MAX_ITEMS);
 
-// Falls back to the tool's name so a heading is never empty or generic. Concepts are authored
-// lowercase ("body mass index", "json formatting"), so every heading pattern below is written to
-// read correctly with the concept embedded rather than leading.
+// Concepts are authored to read naturally inside these patterns. Shorter than the sentences these
+// replaced ("What X is used for"), because a row of three has to fit, but each still names the
+// concept, which is the part targeting scores.
 const concept = knowledge?.primaryConcepts?.[0] || tool.name;
 
+const category = categories.find((c) => c.slug === tool.categorySlug);
+
 const drawers = [
-  { id: 'uses', heading: `What ${concept} is used for`, items: useCases },
-  { id: 'mistakes', heading: `Where ${concept} goes wrong`, items: mistakes },
+  { id: 'uses', heading: `Uses of ${concept}`, items: useCases },
+  { id: 'pitfalls', heading: `${concept} pitfalls`, items: mistakes },
 ].filter((d) => d.items.length > 0);
 
 const hasFaq = faqItems.length > 0;
 ---
 
-{(drawers.length > 0 || hasFaq) && (
-  <section class="knowledge-drawers" aria-label={`About ${tool.name}`}>
-    {drawers.map((d) => (
-      <details class="kd" id={`kd-${d.id}`}>
-        <summary class="kd-summary">
-          <span class="kd-chevron" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
-          <h2 class="kd-heading">{d.heading}</h2>
-        </summary>
-        <ul class="kd-list">
-          {d.items.map((item) => <li>{item}</li>)}
-        </ul>
-      </details>
-    ))}
+{(drawers.length > 0 || hasFaq || guideHref || category) && (
+  <section class="knowledge-drawers" aria-label={`More about ${tool.name}`}>
+    <div class="kd-row">
+      {drawers.map((d) => (
+        <details class="kd" id={`kd-${d.id}`}>
+          <summary class="kd-summary">
+            <span class="kd-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </span>
+            <h2 class="kd-heading">{d.heading}</h2>
+          </summary>
+          <ul class="kd-list">
+            {d.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </details>
+      ))}
 
-    {hasFaq && (
-      /* id="faq" is load-bearing beyond this page. Every retired /faq/... URL is a noindex
-         redirect stub pointing at this anchor (src/data/faq-redirects.ts), so arriving here from
-         a previously indexed URL must land on open content, not a closed drawer. The script
-         below opens it on a matching hash. */
-      <details class="kd" id="faq">
-        <summary class="kd-summary">
-          <span class="kd-chevron" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
-          <h2 class="kd-heading">Questions about {concept}</h2>
-        </summary>
-        <div class="kd-faq">
-          <FaqAccordion items={faqItems} />
-        </div>
-      </details>
-    )}
+      {hasFaq && (
+        <details class="kd" id="faq">
+          <summary class="kd-summary">
+            <span class="kd-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </span>
+            <h2 class="kd-heading">{concept} questions <span class="kd-count">({faqItems.length})</span></h2>
+          </summary>
+          <div class="kd-faq">
+            <FaqAccordion items={faqItems} />
+          </div>
+        </details>
+      )}
+
+      {guideHref && (
+        <a class="kd-link" href={guideHref}>
+          {tool.guide?.title ?? 'Guide'}
+          <span class="kd-out" aria-hidden="true">↗</span>
+        </a>
+      )}
+
+      {category && (
+        <a class="kd-link" href={withBase(`/category/${category.slug}/`)}>
+          All {category.name}
+          <span class="kd-out" aria-hidden="true">↗</span>
+        </a>
+      )}
+    </div>
   </section>
 )}
 
 <script is:inline>
   (function () {
-    // Open the drawer the URL points at, including on in-page navigation from the nav row.
+    // Open the drawer the URL points at, including in-page navigation from a redirect stub.
     function openFromHash() {
       var id = location.hash.slice(1);
       if (!id) return;
@@ -114,29 +135,42 @@ const hasFaq = faqItems.length > 0;
 
 <style>
   /* Zone C opens with the page's one hairline, drawn by the lower section per the
-     section-boundary recipe in ARCHITECTURE.md. Above it is "do", below it is "understand". */
+     section-boundary recipe. Above it is "do", below it is "understand". */
   .knowledge-drawers {
     margin-top: var(--space-8);
-    padding-top: var(--space-8);
+    padding-top: var(--space-6);
     border-top: var(--border);
   }
 
+  .kd-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-5);
+  }
+
+  /* Closed, a drawer is just another item on the row. Open, it claims a full row of its own so its
+     content has somewhere to go without shoving the other triggers around. */
   .kd {
-    border-bottom: var(--border);
+    flex: 0 0 auto;
   }
 
-  .kd:first-of-type {
-    border-top: var(--border);
+  .kd[open] {
+    flex: 1 0 100%;
   }
 
   .kd-summary {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2);
     min-height: var(--touch-target);
-    padding-block: var(--space-2);
     cursor: pointer;
     list-style: none;
+    color: var(--color-text-muted);
+    transition: var(--transition-color);
+  }
+
+  .kd-summary:hover {
     color: var(--color-text);
   }
 
@@ -149,27 +183,55 @@ const hasFaq = faqItems.length > 0;
     align-items: center;
     flex-shrink: 0;
     color: var(--color-text-subtle);
-    transition: transform 200ms ease, color 150ms ease;
+    transition: transform 200ms ease;
   }
 
-  details[open] > .kd-summary .kd-chevron {
+  .kd[open] > .kd-summary .kd-chevron {
     transform: rotate(90deg);
-    color: var(--color-text-muted);
   }
 
-  /* A label on a closed drawer, not a section title, so it takes --text-lg rather than the
-     global h2's --text-2xl. It is still a real heading where it counts: in the markup. */
+  .kd[open] > .kd-summary {
+    color: var(--color-text);
+  }
+
+  /* A trigger on a row, not a section title, so it takes the body size. It is still a real heading
+     where it counts, which is in the markup. */
   .kd-heading {
-    font-size: var(--text-lg);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     line-height: var(--leading-tight);
     margin: 0;
-    min-width: 0;
+  }
+
+  .kd-count {
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-normal);
+  }
+
+  .kd-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--touch-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .kd-link:hover {
+    color: var(--color-text);
+    text-decoration: underline;
+  }
+
+  .kd-out {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
   }
 
   .kd-list {
     margin: 0 0 var(--space-4);
-    padding-left: calc(16px + var(--space-3));
+    padding-left: calc(14px + var(--space-2));
     list-style: none;
   }
 
@@ -194,10 +256,8 @@ const hasFaq = faqItems.length > 0;
     background: var(--color-border-strong);
   }
 
-  /* The FAQ accordion draws its own item rules; drop the drawer's inner padding so the two
-     do not read as nested boxes. */
   .kd-faq {
-    padding-left: calc(16px + var(--space-3));
+    padding-left: calc(14px + var(--space-2));
     padding-bottom: var(--space-2);
   }
 </style>
