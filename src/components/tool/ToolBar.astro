@@ -21,7 +21,9 @@
 //     page was impossible before the palette existed; dropping it here would reopen that.
 //     `data-palette-open` is bound by document delegation in src/lib/runtime/overlays.ts, so it
 //     works anywhere.
-//   - The theme toggle, via the extracted ThemeToggle component.
+//   - The theme toggle, via the extracted ThemeToggle component, in its `compact` variant: it is
+//     hidden below 640px, where a fourth control costs the title more than the control is worth.
+//     prefers-color-scheme still applies, and /settings/ has the explicit control.
 //   - role="banner", so the landmark structure is unchanged.
 //
 // What goes: the visible breadcrumb. Google builds SERP breadcrumbs from the BreadcrumbList
@@ -56,7 +58,7 @@ const { tool } = Astro.props;
         <line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
     </a>
-    <ThemeToggle />
+    <ThemeToggle compact />
   </div>
 </header>
 
@@ -164,10 +166,6 @@ const { tool } = Astro.props;
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
-  }
-
-  .tool-bar .theme-toggle {
-    width: 44px;
   }
 
   /* Icon-only in the bar, matching the star, search and theme beside it. The word "Install app"

@@ -4,9 +4,26 @@
 // script, so without this the theme button would have rendered on tool pages and done nothing.
 //
 // The pre-paint theme application still happens in BaseLayout's <head>; this is only the control.
+//
+// `compact` is for the tool bar, where this is one of four icon controls on a 393px row. It
+// narrows the button and hides it below 640px entirely. Both rules live HERE rather than in
+// ToolBar, because Astro compiles a component's scoped styles to `.theme-toggle[data-astro-cid-x]`
+// and an outside `.tool-bar .theme-toggle` ties that on specificity and loses on source order:
+// the override silently did nothing for a day. A component owns its own variants.
+//
+// Hiding it on phones is a deliberate trade, not an oversight. A fourth control costs the tool's
+// title 44px of a 393px bar, which pushed 17 pages onto a taller bar and 2 onto a 97px one. The
+// star, install and search are all about the tool; the theme is not. The site already follows
+// prefers-color-scheme, so a phone in dark mode is dark without touching anything, and /settings/
+// carries a full Light/Dark/System control on the same key, linked from every footer.
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
 ---
 
-<button class="theme-toggle" aria-label="Toggle theme" type="button" data-theme-toggle>
+<button class:list={['theme-toggle', { 'theme-toggle--compact': compact }]} aria-label="Toggle theme" type="button" data-theme-toggle>
   <span class="theme-icon theme-icon-moon">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -48,6 +65,17 @@
   .theme-toggle:hover {
     background: var(--color-surface-hover);
     color: var(--color-text);
+  }
+
+  /* Tool bar variant: narrower, and gone below 640px. See the note in the frontmatter. */
+  .theme-toggle--compact {
+    width: 44px;
+  }
+
+  @media (max-width: 640px) {
+    .theme-toggle--compact {
+      display: none;
+    }
   }
 
   /* Show moon in light mode (click → go dark), sun in dark mode (click → go light) */

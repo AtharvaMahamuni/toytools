@@ -17,6 +17,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   explaining that your browser cannot do the thing is worse than no button.
 - The site icon lost the same gloss the tool icons did. The two were built on separate branches and
   had drifted apart, which is the exact thing "one family" is meant to prevent.
+- **The theme switch left the tool bar on phones.** Four controls on a 393px row cost the tool's own
+  name too much: it was wrapping onto a third and fourth line on seventeen pages. Names now fit on
+  one line on 72 tools instead of 23. Your phone still follows its own dark mode automatically, the
+  switch is still there on wider screens, and Settings has the explicit control on every page.
 
 ### Note
 
