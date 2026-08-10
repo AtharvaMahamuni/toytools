@@ -10,6 +10,10 @@
 // own container, and iOS masks the touch icon, so the artwork must survive being
 // cropped to a circle: nothing that matters may sit outside the centre.
 //
+// Gloss matches tool-icon.ts (highlight 0.14, shade 0.10). The two composers landed on separate
+// branches and briefly disagreed, which is exactly the drift "one family" is supposed to prevent:
+// if you change the shading in one, change it in the other in the same commit.
+//
 // Rasterized to PNGs by scripts/generate-tool-icons.ts (`npm run icons:generate`).
 // The SVG here is the source of truth; public/favicon.svg is generated from it.
 
@@ -42,8 +46,8 @@ export function siteIconSvg(size = 512): string {
       // Deeper than a tool icon's field (l+8 to l-14 rather than +13 to -9): the
       // dot is a single small shape and needs the extra separation.
       `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A7F5E"/><stop offset="1" stop-color="${ACCENT}"/></linearGradient>` +
-      '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.26"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
-      '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.16"/></linearGradient>' +
+      '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.10"/></linearGradient>' +
       `<radialGradient id="dot" cx="0.38" cy="0.32" r="0.78"><stop offset="0" stop-color="${GOLD_CORE}"/><stop offset="1" stop-color="${GOLD_EDGE}"/></radialGradient>` +
     '</defs>' +
     '<rect width="96" height="96" fill="url(#g)"/>' +

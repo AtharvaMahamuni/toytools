@@ -15,6 +15,8 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   wanted. On a phone it still gives the Chrome or iOS Share steps.
 - The button hides itself in Firefox, which has no way to install a web app at all. A panel
   explaining that your browser cannot do the thing is worse than no button.
+- The site icon lost the same gloss the tool icons did. The two were built on separate branches and
+  had drifted apart, which is the exact thing "one family" is meant to prevent.
 
 ### Note
 
