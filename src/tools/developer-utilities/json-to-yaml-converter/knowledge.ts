@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON to YAML Converter',
   category: 'developer-utilities',
   summary: 'Convert JSON to YAML and YAML to JSON for Kubernetes, Docker Compose, Ansible, and CI/CD configs. Smart quoting, literal blocks, and formatting options.',
-  primaryConcepts: ['json to yaml', 'yaml to json', 'data format conversion'],
+  primaryConcepts: ['JSON to YAML', 'yaml to json', 'data format conversion'],
   secondaryConcepts: ['yaml', 'json', 'kubernetes', 'docker compose', 'ansible', 'configuration', 'devops', 'serialization', 'indentation'],
   intentGroups: {
     informational: [

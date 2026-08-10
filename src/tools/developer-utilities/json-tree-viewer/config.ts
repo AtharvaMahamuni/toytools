@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON Tree Viewer',
   seoTitle: 'JSON Tree Viewer — Visualize & Explore JSON Online',
   description: 'Visualize JSON as a collapsible tree. Explore structure, search keys and values, and copy any node path or value. Fast, private, and free.',
+  tagline: 'Explore JSON as a collapsible tree, and copy any path or value.',
   categorySlug: 'developer-utilities',
   tags: ['json tree viewer', 'json viewer', 'json visualizer', 'view json', 'json explorer', 'json tree', 'collapsible json', 'developer'],
   isNew: true,

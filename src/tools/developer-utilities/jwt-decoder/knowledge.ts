@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JWT Decoder',
   category: 'developer-utilities',
   summary: 'Decode a JSON Web Token to read its header, payload, and claims locally. Decoding is not verification.',
-  primaryConcepts: ['jwt'],
+  primaryConcepts: ['JWT'],
   secondaryConcepts: ['json web token', 'base64url', 'claims', 'authentication', 'bearer token'],
   intentGroups: {
     informational: ['What is a JWT?', 'What is inside a JWT payload?'],

@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'BMI Calculator',
   seoTitle: 'BMI Calculator — Body Mass Index in Metric or Imperial',
   description: 'Calculate your Body Mass Index from height and weight, see your WHO category, and the healthy weight range for your height.',
+  tagline: 'Your BMI from height and weight, with the healthy range for you.',
   categorySlug: 'health-fitness',
   tags: [
     'bmi calculator', 'body mass index', 'bmi', 'healthy weight calculator',

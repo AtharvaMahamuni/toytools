@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON Validator',
   seoTitle: 'JSON Validator — Free Online Tool',
   description: 'Validate JSON syntax and see errors instantly in your browser. Fast, private, and free.',
+  tagline: 'Check JSON syntax and see exactly where it breaks.',
   categorySlug: 'developer-utilities',
   tags: ['json validator', 'validate json', 'json syntax check', 'json lint', 'check json', 'json error', 'is my json valid', 'developer'],
   isNew: true,

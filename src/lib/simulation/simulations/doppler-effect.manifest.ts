@@ -79,6 +79,7 @@ export const manifest: SimulationManifest = {
     title: 'Doppler Effect Calculator: Why Sirens Change Pitch',
     description:
       'See the Doppler effect in action. Move a source and watch its wavefronts bunch up ahead and stretch behind while the observed frequency shifts up and down.',
+    tagline: 'Move a source and watch its wavefronts bunch up and stretch behind.',
     keywords: ['Doppler effect', 'Doppler shift', 'wavefront', 'frequency shift', 'siren pitch', 'doppler effect simulator'],
   },
   presentation: {

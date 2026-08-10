@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'ROT13 Encoder / Decoder',
   category: 'developer-utilities',
   summary: 'Rotate Latin letters 13 places to encode or decode ROT13 text; the cipher is its own inverse, so one pass does both.',
-  primaryConcepts: ['rot13 cipher'],
+  primaryConcepts: ['ROT13 cipher'],
   secondaryConcepts: ['caesar cipher', 'letter rotation', 'obfuscation', 'self-inverse'],
   intentGroups: {
     informational: ['What is ROT13?', 'How does the ROT13 cipher work?'],

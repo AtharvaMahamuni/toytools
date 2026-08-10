@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Line Counter',
   seoTitle: 'Line Counter — Count Lines in Text Online',
   description: 'Count lines in your text instantly. Shows total lines, non-empty lines, paragraphs, and word count. Runs in your browser.',
+  tagline: 'Count total lines, non-empty lines and paragraphs.',
   categorySlug: 'text-utilities',
   tags: ['line counter', 'count lines', 'line count', 'number of lines', 'count rows', 'newline counter', 'count newlines'],
   isNew: true,

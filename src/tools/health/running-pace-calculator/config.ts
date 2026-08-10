@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Running Pace Calculator',
   seoTitle: 'Running Pace Calculator: Pace, Speed and Race Times',
   description: 'Turn a distance and a finish time into pace per kilometre and per mile, plus predicted 5K, 10K, half and full marathon times.',
+  tagline: 'Pace per km and per mile, plus predicted race times.',
   categorySlug: 'health-fitness',
   tags: [
     'running pace calculator', 'pace calculator', 'race pace calculator',

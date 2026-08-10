@@ -1,0 +1,38 @@
+---
+// The tool's tagline. The mark, name and star moved up into ToolBar on 2026-08-09, so what is left
+// here is the one line that says what the tool does.
+//
+// Kept as its own component, and kept carrying the `.tool-header` class, because that class is the
+// boundary tests/e2e/fold.spec.ts measures: everything above its bottom edge is chrome. Folding
+// this into ToolLayout would have quietly moved the thing the ratchet is anchored to.
+import type { Tool } from '@data/types';
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+
+// `tagline` is the short on-page line; `description` stays long because it is also the page's meta
+// description and one of the four slots targeting is scored against.
+const tagline = tool.tagline ?? tool.description;
+---
+
+<div class="tool-header">
+  <p class="tool-tagline">{tagline}</p>
+</div>
+
+<style>
+  /* No border. ARCHITECTURE.md's section-boundary recipe says the LOWER section draws the hairline
+     and sections never own a border-bottom; Zone C draws the page's only one. */
+  .tool-header {
+    margin-bottom: var(--space-5);
+  }
+
+  .tool-tagline {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+</style>

@@ -6,6 +6,7 @@ export const config: ToolConfig = {
   seoTitle: 'Random String Generator — Tokens, Keys & Nonces',
   description:
     'Generate random strings, tokens, and keys with a custom alphabet and a live entropy estimate, all in your browser. Nothing is uploaded.',
+  tagline: 'Random strings and tokens with a custom alphabet.',
   categorySlug: 'generate',
   tags: [
     'random string generator',

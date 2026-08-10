@@ -20,6 +20,17 @@ test.describe('information pages', () => {
     });
   }
 
+  // The knowledge drawers are closed by default, which is the point of them. But 32 retired
+  // /faq/... URLs are noindex redirect stubs pointing at #faq on a tool page
+  // (src/data/faq-redirects.ts), and those URLs were indexed once. Landing on a collapsed drawer
+  // from one of them would be arriving at a page that appears not to contain what was promised.
+  test('a #faq link opens the questions drawer rather than landing on a closed one', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/base64-encoder-decoder/#faq');
+    const drawer = page.locator('details#faq');
+    await expect(drawer).toHaveAttribute('open', '');
+    await expect(drawer.getByRole('heading', { level: 2 })).toBeVisible();
+  });
+
   test('the changelog renders the real releases from CHANGELOG.md', async ({ page }) => {
     await page.goto('/changelog/');
     const releases = page.locator('.release');
@@ -29,10 +40,24 @@ test.describe('information pages', () => {
     await expect(page.locator('.release-section li').first()).not.toContainText('**');
   });
 
+  // From a platform page, not a tool page: tool pages render their own ToolBar instead of Nav, so
+  // the version badge is not there by design. Chrome belongs to whoever owns the page.
   test('the nav version badge links to the changelog', async ({ page }) => {
-    await page.goto('/tool/text/word-counter/');
+    await page.goto('/');
     await page.locator('.nav-version').click();
     await expect(page).toHaveURL(/\/changelog\/$/);
+  });
+
+  test('a tool page renders its own header instead of the site nav', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await expect(page.locator('.tool-bar')).toBeVisible();
+    await expect(page.locator('.nav-logo')).toHaveCount(0);
+    // Exactly one banner landmark, whichever header is drawn.
+    await expect(page.getByRole('banner')).toHaveCount(1);
+    // Search survives the swap: it is the only way to reach another tool from here.
+    await expect(page.locator('.tool-bar [data-palette-open]')).toBeVisible();
+    // The h1 moved into the bar rather than being replaced by it.
+    await expect(page.locator('.tool-bar h1')).toHaveText('Word Counter');
   });
 
   test('privacy names the analytics that actually loads', async ({ page }) => {

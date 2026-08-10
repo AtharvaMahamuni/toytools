@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON Tree Viewer',
   category: 'developer-utilities',
   summary: 'View JSON as a collapsible tree. Explore nested structure, search keys and values, and copy the path or value of any node.',
-  primaryConcepts: ['json tree viewer', 'json visualization'],
+  primaryConcepts: ['JSON tree viewer', 'json visualization'],
   secondaryConcepts: ['json explorer', 'nested json', 'json path', 'collapsible tree', 'json structure', 'jsonpath'],
   intentGroups: {
     informational: ['What is a JSON tree viewer?', 'What does the tree show about JSON structure?'],

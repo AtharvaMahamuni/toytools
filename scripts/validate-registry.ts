@@ -308,6 +308,34 @@ for (const manifest of MANIFESTS) {
   }
 }
 
+// ── Tagline length (warnings, not errors) ──────────────────────────────────────────────────
+// `tagline` is the one-line label under a tool's title. Over 80 characters it wraps to two lines
+// on a 393px phone, which is the geometry the header rebuild exists to remove.
+//
+// These were warnings while 94 of 119 tools still fell back to a long description. That backlog is
+// cleared, so they are errors: the whole catalog holds the one-line contract, and the cheapest way
+// to keep holding it is to stop the next tool shipping without one.
+// See docs/analysis/2026-08-08-tool-identity-implementation.md, phase 8.
+const TAGLINE_MAX = 80;
+
+for (const tool of tools) {
+  const t = tool as { slug: string; tagline?: string; description?: string };
+  if (typeof t.tagline === 'string') {
+    if (t.tagline.length > TAGLINE_MAX) {
+      errors.push(
+        `Tool "${t.slug}" tagline is ${t.tagline.length} chars (max ${TAGLINE_MAX}) — ` +
+        'it wraps to two lines on a 393px phone',
+      );
+    }
+  } else if ((t.description?.length ?? 0) > TAGLINE_MAX) {
+    errors.push(
+      `Tool "${t.slug}" has no tagline and its description is ${t.description!.length} chars, ` +
+      `so its page renders a multi-line tagline. Author a \`tagline\` of ${TAGLINE_MAX} chars or ` +
+      'fewer (description stays long: it is the meta description and a query-targeting slot)',
+    );
+  }
+}
+
 if (errors.length > 0) {
   console.error('\n[validate-registry] Errors found:\n');
   errors.forEach(e => console.error(`  ✗ ${e}`));

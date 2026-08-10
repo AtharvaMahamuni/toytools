@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'CSV Cleaner',
   category: 'developer-utilities',
   summary: 'Fix a messy CSV in one pass: remove empty rows, trim cell whitespace, drop trailing-comma phantom columns, and square ragged rows.',
-  primaryConcepts: ['csv cleanup'],
+  primaryConcepts: ['CSV cleanup'],
   secondaryConcepts: ['data normalization', 'import errors', 'ragged rows', 'whitespace trimming'],
   intentGroups: {
     informational: ['What makes a CSV file invalid?', 'What are ragged rows?'],

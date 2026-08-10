@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Remove Blank Lines',
   seoTitle: 'Remove Blank Lines — Delete Empty Lines Online',
   description: 'Delete empty and whitespace-only lines from text instantly in your browser — no uploads required.',
+  tagline: 'Delete empty and whitespace-only lines from text.',
   categorySlug: 'text-utilities',
   tags: ['remove blank lines', 'remove empty lines', 'delete blank lines', 'remove line breaks', 'strip empty lines', 'compact text', 'remove extra lines'],
   updatedAt: '2026-07-10',

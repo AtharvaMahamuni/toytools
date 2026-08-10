@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Rule of 72 Calculator',
   seoTitle: 'Rule of 72 Calculator — Doubling Time — Free Online Tool',
   description: 'Estimate how long it takes for money to double at a given rate of return using the Rule of 72.',
+  tagline: 'How long money takes to double at a given rate of return.',
   categorySlug: 'money-finance',
   tags: ['rule of 72', 'rule of 72 calculator', 'doubling time', 'how long to double money', 'investment doubling', 'compound growth', 'rate of return', 'time to double'],
   updatedAt: '2026-06-29',

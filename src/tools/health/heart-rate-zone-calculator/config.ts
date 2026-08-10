@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Heart Rate Zone Calculator',
   seoTitle: 'Heart Rate Zone Calculator — Max HR & Training Zones',
   description: 'Find your maximum heart rate and five training zones from your age, with the Karvonen method when you add a resting heart rate.',
+  tagline: 'Your max heart rate and five training zones, from your age.',
   categorySlug: 'health-fitness',
   tags: [
     'heart rate zone calculator', 'training zones', 'max heart rate calculator', 'target heart rate',

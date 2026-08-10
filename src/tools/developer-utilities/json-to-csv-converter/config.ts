@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'JSON to CSV Converter',
   seoTitle: 'JSON to CSV Converter — Free Online Tool',
   description: 'Convert JSON arrays to CSV for spreadsheets, databases, and data analysis. Handles nested objects, sparse data, and special characters. Free and private.',
+  tagline: 'Turn JSON arrays into CSV, nested objects handled.',
   categorySlug: 'developer-utilities',
   tags: ['json to csv', 'convert json to csv', 'json csv converter', 'export json', 'json to spreadsheet', 'developer', 'data conversion'],
   isNew: true,

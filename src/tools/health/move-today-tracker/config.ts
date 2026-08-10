@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Move Today Tracker',
   seoTitle: 'Move Today Tracker — Daily Movement Habit & Streak',
   description: 'Tap once a day to log that you moved, build a streak, and watch a month of activity fill in. A dead-simple movement habit tracker.',
+  tagline: 'Tap once a day to log that you moved, and build a streak.',
   categorySlug: 'health-fitness',
   tags: [
     'movement tracker', 'daily habit tracker', 'exercise streak', 'workout streak tracker',

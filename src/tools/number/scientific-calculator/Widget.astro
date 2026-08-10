@@ -3,7 +3,6 @@
 // (@lib/calculator) and the pure math engine (@lib/math): every keypress goes through a state
 // transition, so no math or history/memory logic lives in this file. Uses a bundled <script>
 // (not is:inline) so it can import the tested modules; it loads only on this page.
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 
 type Key = { t: string; i?: string; act?: string; a?: string; wide?: boolean };
 
@@ -93,7 +92,6 @@ const attrs = (k: Key) => ({
   </div>
 </section>
 
-<CategoryDiscovery toolSlug="scientific-calculator" />
 
 <script>
   import { formatResult } from '@lib/math';

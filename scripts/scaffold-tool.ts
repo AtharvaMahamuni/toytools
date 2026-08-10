@@ -263,6 +263,11 @@ function configSource(): string {
     `  slug: '${slug}',`,
     `  name: '${name}',`,
     `  description: '${description.replace(/'/g, "\\'")}',`,
+    // Emitted, not left to the author to remember: validate-registry errors on a tool whose page
+    // would render a multi-line tagline, so a scaffold without this line fails the next build.
+    `  // The one line under the title. Max 80 chars so it does not wrap on a 393px phone.`,
+    `  // Keep \`description\` long: it is the meta description and a query-targeting slot.`,
+    `  tagline: '${description.slice(0, 80).replace(/'/g, "\\'")}', // TODO: write a real one-liner`,
     `  categorySlug: '${category}',`,
     `  tags: ['${slug.replace(/-/g, ' ')}'], // TODO: add search keywords`,
     `  updatedAt: '${today}',`,

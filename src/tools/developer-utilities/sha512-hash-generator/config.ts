@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'SHA-512 Hash Generator',
   seoTitle: 'SHA-512 Hash Generator — Free Online Tool',
   description: 'Generate a SHA-512 hash from any text instantly in your browser. Fast, private, and free.',
+  tagline: 'Generate a SHA-512 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha512', 'sha-512', 'sha512 hash', 'sha512 generator', 'hash generator', 'checksum', 'sha512 online', 'generate sha512', 'developer'],
   isNew: true,

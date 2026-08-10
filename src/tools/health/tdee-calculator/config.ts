@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'TDEE Calculator',
   seoTitle: 'TDEE Calculator — Daily Calorie & Maintenance Needs',
   description: 'Estimate your Total Daily Energy Expenditure and the calories to eat to lose, maintain, or gain weight, using the Mifflin-St Jeor formula.',
+  tagline: 'Your daily energy expenditure, and calories to lose or gain.',
   categorySlug: 'health-fitness',
   tags: [
     'tdee calculator', 'daily calorie calculator', 'maintenance calories', 'calorie calculator',

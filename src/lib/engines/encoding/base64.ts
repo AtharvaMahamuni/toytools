@@ -19,7 +19,7 @@ export const base64: EncodingTool = {
   sample: 'Hello, World!',
   placeholder: 'Type text to encode, or paste a Base64 string to decode.',
   insight:
-    'Base64 represents binary data using 64 ASCII characters. It is an encoding format, not encryption — anyone can decode it, so never use it to hide secrets.',
+    'Base64 represents binary data using 64 ASCII characters. It is an encoding format, not encryption: anyone can decode it, so never use it to hide secrets.',
   technical: [
     { term: 'Standard', detail: 'RFC 4648 (base64 alphabet A–Z a–z 0–9 + /)' },
     { term: 'Padding', detail: '"=" pads the output to a multiple of 4 characters' },
@@ -50,7 +50,7 @@ export const base64: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: `Unexpected character "${body[bad]}" near position ${bad + 1} — not part of the Base64 alphabet.`,
+        message: `Unexpected character "${body[bad]}" near position ${bad + 1}: not part of the Base64 alphabet.`,
         position: bad,
       };
     }
@@ -59,7 +59,7 @@ export const base64: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: `Unexpected "=" padding near position ${padAt + 1} — padding may only appear at the very end.`,
+        message: `Unexpected "=" padding near position ${padAt + 1}: padding may only appear at the very end.`,
         position: padAt,
       };
     }
@@ -67,7 +67,7 @@ export const base64: EncodingTool = {
       return {
         ok: false,
         severity: 'warning',
-        message: 'Base64 length should be a multiple of 4 — the string may be truncated.',
+        message: 'Base64 length should be a multiple of 4, so the string may be truncated.',
       };
     }
     return { ok: true, severity: 'info' };

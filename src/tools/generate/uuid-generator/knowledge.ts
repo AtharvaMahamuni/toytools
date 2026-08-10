@@ -7,7 +7,7 @@ export const knowledge: Knowledge = {
   category: 'generate',
   summary:
     'Generate random version 4 UUIDs in the browser: one or many at once, with optional hyphens and uppercase, ready to copy.',
-  primaryConcepts: ['uuid generation', 'unique identifiers'],
+  primaryConcepts: ['UUID generation', 'unique identifiers'],
   secondaryConcepts: ['uuid version 4', 'guid', 'rfc 4122', 'random identifiers', 'primary keys'],
   intentGroups: {
     informational: [

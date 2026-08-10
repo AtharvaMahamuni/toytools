@@ -76,6 +76,14 @@ const articleSchema = {
       { label: title },
     ]} />
     <BackButton />
+    {/* Reading Mode, said out loud. The <title> has read "... ● ToyTools Guide" all along and the
+        page itself never showed the distinction, so a guide and a tool page opened the same way.
+        Together with the tool h1 dropping to --text-2xl while this one keeps --text-4xl, the
+        eyebrow plus the size gap is the whole Tool Mode versus Reading Mode signal, for one
+        element and no new tokens. Tool pages deliberately get no eyebrow: the absence is the
+        other half of the signal. Not a heading, so it stays out of the H2 slot that
+        check-query-coverage scores. */}
+    <p class="guide-eyebrow">ToyTools<span class="gold-dot" aria-hidden="true"></span> Guide</p>
     <h1>{title}</h1>
     <p class="guide-description">{description}</p>
     <p class="guide-meta">
@@ -130,9 +138,23 @@ const articleSchema = {
     margin-bottom: var(--space-12);
   }
 
+  /* The micro-label voice the platform already uses for .io-label, .dir-heading and the
+     ToolNavRow "Related" label. */
+  .guide-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+  }
+
   h1 {
     font-size: var(--text-4xl);
-    margin-top: var(--space-3);
+    margin-top: var(--space-2);
     margin-bottom: var(--space-4);
   }
 

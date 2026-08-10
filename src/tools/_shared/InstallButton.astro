@@ -1,11 +1,17 @@
 ---
-// Mobile-only "Install app" affordance for a tool page.
+// "Install app" affordance for a tool page, on every screen size.
 //
 // Behaviour is decided at runtime:
-//   • Android/Chromium — if the browser fired beforeinstallprompt we install
-//     natively in one tap; otherwise we show Chrome's manual steps (⋮ menu).
-//   • iOS Safari       — no install API exists, so we show the Share → Add to
-//                        Home Screen steps.
+//   • Chromium (Android or desktop) — if the browser fired beforeinstallprompt
+//     we install natively in one tap; otherwise we show the manual steps.
+//   • iOS Safari  — no install API exists, so we show Share → Add to Home Screen.
+//   • macOS Safari — File → Add to Dock.
+//   • Firefox      — hidden. It has no install path at all, and a sheet that
+//     says "your browser cannot do this" is worse than no button.
+//
+// Desktop was hidden by a CSS media query until 2026-08-09. Chromium desktop has
+// supported installing web apps the whole time, so the button now renders in the
+// tool bar beside the favourite star at every width.
 //
 // Visibility is controlled entirely by CSS CLASSES (is-visible / is-open /
 // is-active), never the `hidden` attribute. A `display` rule silently overrides
@@ -29,7 +35,11 @@ const { toolName } = Astro.props;
 
   <div id="tt-install-sheet" class="tt-install-sheet" role="dialog" aria-modal="true" aria-labelledby="tt-install-sheet-title">
     <div class="tt-install-panel">
-      <h2 id="tt-install-sheet-title">Add to Home Screen</h2>
+      {/* Not an <h2>. This sheet is in the DOM of all 119 tool pages, so its title was one of
+          only two H2s most pages had, and "Add to Home Screen" tells a search engine nothing
+          about the tool. The id stays, so the dialog keeps its accessible name via
+          aria-labelledby. See docs/analysis/2026-08-08-tool-identity-architecture.md (F2). */}
+      <p class="tt-install-title" id="tt-install-sheet-title">Install this tool</p>
       <p>Install <strong>{toolName}</strong> so it opens like an app and works offline.</p>
 
       <ol class="tt-steps" data-steps="android">
@@ -50,18 +60,19 @@ const { toolName } = Astro.props;
         <li>Tap <strong>Add</strong>.</li>
       </ol>
 
+      <ol class="tt-steps" data-steps="desktop">
+        <li>In Chrome or Edge, click the <strong>install</strong> icon at the right of the address bar.</li>
+        <li>In Safari, choose <strong>File</strong> then <strong>Add to Dock</strong>.</li>
+        <li>Just want a bookmark? Press <kbd>Ctrl</kbd>+<kbd>D</kbd> (<kbd>Cmd</kbd>+<kbd>D</kbd> on a Mac).</li>
+      </ol>
+
       <button type="button" class="tt-install-done" data-close aria-label="Close install instructions">Got it</button>
     </div>
   </div>
 </div>
 
 <style>
-  /* Desktop never shows the mobile install affordance. */
-  @media (min-width: 641px) {
-    .tt-install-wrap { display: none !important; }
-  }
-
-  .tt-install-wrap { margin-top: var(--space-3); }
+  .tt-install-wrap { display: contents; }
 
   /* Base: hidden. Revealed only by the is-visible class (never the hidden attr,
      which a display rule would override). */
@@ -105,8 +116,10 @@ const { toolName } = Astro.props;
     padding: var(--space-6);
     box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.25));
   }
-  .tt-install-panel h2 { font-size: var(--text-lg); margin: 0 0 var(--space-2); }
   .tt-install-panel p { color: var(--color-text-muted); margin: 0 0 var(--space-4); font-size: var(--text-sm); }
+  /* Carries the weight the <h2> used to, without being one. Scoped through .tt-install-panel
+     so it outranks the generic paragraph rule above rather than losing to it on specificity. */
+  .tt-install-panel .tt-install-title { font-size: var(--text-lg); font-weight: var(--font-weight-semibold); color: var(--color-text); margin: 0 0 var(--space-2); }
 
   /* Step lists: hidden until the matching platform gets is-active. */
   .tt-steps { display: none; margin: 0 0 var(--space-5); padding-left: var(--space-5); }
@@ -148,6 +161,11 @@ const { toolName } = Astro.props;
     // (including desktop-site mode) is never treated as iOS.
     var isIOS = /iphone|ipad|ipod/i.test(ua) ||
       (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1 && !/Chrome|CriOS|Chromium|Android/i.test(ua));
+    var isAndroid = /android/i.test(ua);
+    // Firefox has no install path on any platform, so there is nothing honest to put in a sheet.
+    var isFirefox = /firefox|fxios/i.test(ua);
+    if (isFirefox) return;
+    var platform = isIOS ? 'ios' : (isAndroid ? 'android' : 'desktop');
     var deferred = null;
 
     function showBtn() { btn.classList.add('is-visible'); }
@@ -155,12 +173,15 @@ const { toolName } = Astro.props;
     function closeSheet() { if (sheet) sheet.classList.remove('is-open'); }
     function openSheet() {
       if (!sheet) return;
-      var which = isIOS ? 'ios' : 'android';
+      var which = platform;
       var lists = sheet.querySelectorAll('.tt-steps');
       for (var i = 0; i < lists.length; i++) {
         if (lists[i].getAttribute('data-steps') === which) lists[i].classList.add('is-active');
         else lists[i].classList.remove('is-active');
       }
+      // "Add to Home Screen" is the phrase people recognise on a phone and nonsense on a laptop.
+      var title = document.getElementById('tt-install-sheet-title');
+      if (title) title.textContent = which === 'desktop' ? 'Install this tool' : 'Add to Home Screen';
       sheet.classList.add('is-open');
     }
 
@@ -177,7 +198,7 @@ const { toolName } = Astro.props;
       if (window.ToyTools && ToyTools.toast) ToyTools.toast('Installed to your home screen');
     });
 
-    // Always offer a path on mobile (desktop is hidden by CSS).
+    // Every remaining platform has a real path, native or manual.
     showBtn();
 
     btn.addEventListener('click', function () {

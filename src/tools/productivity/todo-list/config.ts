@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Todo List',
   seoTitle: 'Todo List — Free Online Task Manager',
   description: 'Create tasks, organize subtasks, and track progress directly in your browser. Private, lightweight, and free.',
+  tagline: 'Tasks and subtasks tracked privately in your browser.',
   categorySlug: 'productivity',
   tags: [
     'todo list', 'task list', 'checklist', 'task tracker', 'online todo list',

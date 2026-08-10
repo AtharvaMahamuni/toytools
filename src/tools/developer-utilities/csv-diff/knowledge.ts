@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'CSV Diff',
   category: 'developer-utilities',
   summary: 'Compare two CSV files by row key and see added, removed, and changed rows with per-column detail, without uploading either file.',
-  primaryConcepts: ['csv comparison'],
+  primaryConcepts: ['CSV comparison'],
   secondaryConcepts: ['row key', 'data reconciliation', 'spreadsheet exports', 'change detection'],
   intentGroups: {
     informational: ['How does a CSV diff work?', 'What is a row-aware comparison?'],

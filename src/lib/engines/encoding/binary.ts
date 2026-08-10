@@ -11,7 +11,7 @@ export const binary: EncodingTool = {
   insight:
     'Binary shows each byte of the UTF-8 text as eight bits (0s and 1s). It is the rawest readable form of data and a useful way to see exactly how characters are stored.',
   technical: [
-    { term: 'Base', detail: 'Base-2 — each byte is eight bits' },
+    { term: 'Base', detail: 'Base-2, each byte is eight bits' },
     { term: 'Text encoding', detail: 'Input is UTF-8 encoded before conversion' },
     { term: 'Decode input', detail: 'Tolerant: ignores any character that is not 0 or 1' },
     { term: 'Output', detail: 'Space-separated 8-bit groups' },
@@ -48,7 +48,7 @@ export const binary: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: `Unexpected character "${input[bad]}" near position ${bad + 1} — binary uses only 0 and 1.`,
+        message: `Unexpected character "${input[bad]}" near position ${bad + 1}: binary uses only 0 and 1.`,
         position: bad,
       };
     }
@@ -57,7 +57,7 @@ export const binary: EncodingTool = {
       return {
         ok: false,
         severity: 'error',
-        message: 'Binary needs a multiple of 8 bits — each byte is exactly eight bits.',
+        message: 'Binary needs a multiple of 8 bits, since each byte is exactly eight bits.',
       };
     }
     return { ok: true, severity: 'info' };

@@ -2,6 +2,135 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.4.1] - 2026-08-09
+
+### Changed
+
+- **Install now sits beside the favourite star, on every screen.** It used to be a mobile-only
+  button below the tool. Chrome and Edge have supported installing web apps on the desktop the whole
+  time, so there was no reason to hide it there; "keep this tool" and "install this tool" are the
+  same intent, so they now share a place in the tool bar.
+- The install sheet knows where it is. On a laptop it points at the install icon in the address bar,
+  or Safari's File then Add to Dock, and it says which keys bookmark the page if that is all you
+  wanted. On a phone it still gives the Chrome or iOS Share steps.
+- The button hides itself in Firefox, which has no way to install a web app at all. A panel
+  explaining that your browser cannot do the thing is worse than no button.
+- The site icon lost the same gloss the tool icons did. The two were built on separate branches and
+  had drifted apart, which is the exact thing "one family" is meant to prevent.
+- **The theme switch left the tool bar on phones.** Four controls on a 393px row cost the tool's own
+  name too much: it was wrapping onto a third and fourth line on seventeen pages. Names now fit on
+  one line on 72 tools instead of 23. Your phone still follows its own dark mode automatically, the
+  switch is still there on wider screens, and Settings has the explicit control on every page.
+
+### Note
+
+- There is no way for a website to add a browser bookmark for you. No browser exposes an API for it,
+  by design, so a one-click bookmark button is not something any site can build. The favourite star
+  is the one-click version of that inside ToyTools, installing is the one-click version on your
+  device, and the sheet names the keyboard shortcut for a real browser bookmark.
+
+## [alpha-v7.4] - 2026-08-09
+
+Tool pages stop wearing ToyTools' chrome and start wearing their own.
+
+### Changed
+
+- **A tool page now opens with the tool's name, not the brand.** The site nav, the breadcrumb trail
+  and the title block were three stacked rows saying whose site you were on before saying what you
+  had come for. They are one sticky bar carrying the tool's icon, its name, the favourite star,
+  search and the theme switch. The chrome above a tool fell from a third of a phone's first screen
+  to a fifth, and only one tool in the catalogue now has nothing usable on the first screen, down
+  from thirty when this work started.
+- **The section below the tool is one line.** It was 682px, nearly a third of the whole page, and
+  most of that was repetition: a related-tools list that appeared twice, links pointing at content
+  sitting directly beneath them, and a feedback invite that the footer already carried. What is left
+  is a single row: what the tool is used for, where the idea goes wrong, the questions, the guide,
+  and the rest of the category.
+- The feedback link moved into the footer, where it now names the tool you are on, so a report still
+  arrives already knowing what it is about.
+- Home, category, guide and information pages are unchanged. They are ToyTools' pages, so they keep
+  ToyTools' header.
+
+### Fixed
+
+- Long tool names are never shortened in their own title bar. The bar grows instead.
+
+## [alpha-v7.3.1] - 2026-08-09
+
+A visual pass over the redesigned pages, fixing what only showed up once they were looked at on a
+real phone rather than reasoned about in code.
+
+### Changed
+
+- **Tool marks are quieter.** The per-tool icon colours were stock bright palette values chosen
+  before the site moved to Warm Paper, so every tool page had a neon square as its loudest element.
+  They are now a muted, warm family that sits with the paper and the forest accent, with less gloss
+  and gentler shading. Every category colour also passes the contrast bar for its white glyph, which
+  three of them did not.
+- **The Favourite button is a star alone on phones.** The word "Favourite" was 110px wide on a
+  393px screen and was pushing tool names onto a second and third line. Titles that fit on one line
+  went from 32 of 119 to 72.
+- **The breadcrumb drops the current page on phones**, where it wrapped to two lines to repeat the
+  name the heading gives two lines later. The full trail stays on wider screens and in the page's
+  structured data.
+- Twenty-three tools said "json", "jwt", "md5" or "csv" in lower case in their on-page headings,
+  which read as a typo. They are capitalised properly now.
+
+### Fixed
+
+- Thirty-two tool pages showed an em-dash in their visible text, from engine notes and validation
+  messages that the writing rule had never been able to see. Rewritten, and the build now checks
+  engine prose for them. The HTML entity tool's reference table keeps its em-dash, since that
+  character is the thing it exists to document.
+- The tool icon floated to the middle of a heading that wrapped, instead of sitting on its first
+  line.
+- "Technical details" was the last disclosure on the site still drawing the browser's own arrow, so
+  a single page could show three different ways of saying "this opens".
+
+## [alpha-v7.3] - 2026-08-08
+
+A ToyTools page used to open with a masthead: a large title, a description running to three lines on
+a phone, a trust badge, an install button, and a horizontal rule. Measured across all 119 tools on a
+Pixel 5, that spent a median 59% of the first screen before the tool began, and on 30 of them there
+was nothing you could actually use on screen at all. This release turns the page around so the tool
+leads and ToyTools signs its work.
+
+### Changed
+
+- **Every tool page now opens with the tool.** A tool's own icon, its name, one line, then the
+  widget. Chrome above the tool fell from a median 59% of a phone's first screen to 34%, and the
+  number of tools with nothing usable on the first screen fell from 30 to 6 (the remaining six are
+  generators, where the result panel is meant to sit above the controls).
+- **Tools wear their own icon.** The per-tool mark that has always been generated for the home
+  screen now appears on the page, so 119 pages stop looking like 119 copies of one template.
+- **Trust, installation and the ToyTools signature moved below the tool**, into a single quiet row
+  reading "Powered by ToyTools ●". The brand still holds the nav, the page title and the footer.
+- **Guides say they are guides**, with a `TOYTOOLS ● GUIDE` line above the title. A tool page has no
+  such line, and its heading is smaller, so the two page types no longer open identically.
+- Every tool has a short `tagline` for the line under its title. Descriptions stay long, because
+  they are also the page's meta description.
+
+### Added
+
+- **Knowledge drawers below each tool**: what the tool is used for, where the idea goes wrong, and
+  the questions. The first two were written for all 119 tools long ago and had never appeared
+  anywhere on the site. Each drawer is closed by default and headed by the tool's own subject, so
+  every page now describes itself to a search engine with something other than "Common Questions".
+- A fold check that runs every tool on a Pixel 5 and fails the build if the chrome above a tool
+  grows, so this cannot quietly come back.
+
+### Fixed
+
+- Seventeen tools were missing the words people actually search for. The HTML entity tool never used
+  "escape", the uppercase converter never said "all caps", both YAML converters never said "yml",
+  the MD5 tool never said "checksum", and the scientific calculator advertised "trig, logs" while
+  people search "trigonometry" and "logarithm". Query targeting across the catalog went from 63% to
+  75%.
+- The install sheet's title was a page heading on all 119 tools, which meant every page told search
+  engines about an install button instead of about the tool.
+- The tool header drew a border the design system forbids, which is the line that most made a tool
+  page read as an article.
+
 ## [alpha-v7.2.1] - 2026-08-08
 
 Searching Google for ToyTools showed a title reading "ToyTools ● Lightweight, Private, Free" beside
@@ -39,6 +168,7 @@ uses to mean "no icon at all".
   ineligible for Google's logo treatment. It points at a 512px raster now.
 - The homepage meta description and its WebSite schema description were two separate copies of the
   same sentence and could drift apart. They are one constant.
+
 
 ## [alpha-v7.2] - 2026-08-08
 

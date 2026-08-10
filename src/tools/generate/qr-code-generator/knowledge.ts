@@ -7,7 +7,7 @@ export const knowledge: Knowledge = {
   category: 'generate',
   summary:
     'Create QR codes in the browser from text, a URL, email, phone, Wi-Fi credentials, or a contact card, and download PNG or SVG.',
-  primaryConcepts: ['qr code generation', 'qr codes'],
+  primaryConcepts: ['QR code generation', 'qr codes'],
   secondaryConcepts: ['error correction', 'wifi qr code', 'vcard', 'png export', 'svg export'],
   intentGroups: {
     informational: [

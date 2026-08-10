@@ -1,7 +1,6 @@
 ---
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import { config } from './config';
 ---
 
@@ -43,7 +42,6 @@ import { config } from './config';
     <ToolActions copyTarget="tc-diff-text" downloadFilename="text-compare-diff.txt" downloadTarget="tc-diff-text" />
   </div>
 
-  <CategoryDiscovery toolSlug={config.slug} />
 </div>
 
 <style is:global>

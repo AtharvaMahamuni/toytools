@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'ROT13 Encoder / Decoder',
   seoTitle: 'ROT13 Encoder / Decoder — Decode ROT13 Online',
   description: 'Encode or decode ROT13 text instantly in your browser. ROT13 is its own inverse, so one pass does both directions.',
+  tagline: 'ROT13 text. One pass does both directions.',
   categorySlug: 'developer-utilities',
   tags: ['rot13', 'rot13 decoder', 'rot13 encoder', 'rot13 translator', 'rot13 cipher', 'decode rot13 online', 'caesar cipher 13', 'rot13 converter'],
   updatedAt: '2026-07-02',

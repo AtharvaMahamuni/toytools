@@ -80,6 +80,7 @@ export const manifest: SimulationManifest = {
     title: 'Momentum and Collision Calculator: Conservation of Momentum',
     description:
       'Collide two carts and watch conservation of momentum in action. Set the masses, speed, and restitution and compare elastic vs inelastic collisions live.',
+    tagline: 'Collide two carts and compare elastic against inelastic, live.',
     keywords: ['conservation of momentum', 'elastic collision', 'inelastic collision', 'momentum', 'collision simulator', 'coefficient of restitution'],
   },
   presentation: {

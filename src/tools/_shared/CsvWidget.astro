@@ -9,7 +9,6 @@
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
@@ -92,7 +91,6 @@ const statusId = `${slug}-status`;
 <EducationalInsight insight={info.insight} />
 <TechnicalDetails technical={info.technical} />
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline>
   (function () {

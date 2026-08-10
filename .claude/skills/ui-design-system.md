@@ -7,9 +7,56 @@ A comprehensive reference for building new UI in ToyTools. Use this when creatin
 ## Core principles
 
 - **Static-first**: No client-side framework. Widgets are HTML + CSS + vanilla JS in `<script is:inline>`.
-- **Mobile-first**: Design for 375px width, enhance upward. Test touch targets at mobile size.
+- **Mobile-first**: Design for a **393px** viewport (Pixel 5, the e2e gate), enhance upward. Canonical breakpoints are **1024 / 640 / 480px**; do not invent others.
 - **Token-driven**: Every colour, spacing value, and font size comes from CSS custom properties. Never use raw hex values or hard-coded pixel values.
-- **Grayscale base, single accent**: The entire palette is grayscale with one accent colour (`--color-accent`). The gold dot (`●` / `.gold-dot`) is a secondary decorative token, not for interactive elements.
+- **Warm Paper & Ink, single accent**: warm off-whites (`#FAF9F7` page, `#F4F2EE` panels) with soft-ink text; dark mode is warm graphite, not cool gray. One accent, a forest green `--color-accent`. The gold dot (`●` / `.gold-dot`) is the brand motif and the site mark, never an interactive element.
+- **The tool leads, the platform signs**: a tool page is an application, not an article about an application. See "Page grammar" below, which is enforced by a test, not by taste.
+
+---
+
+## Page grammar (the rule that survives 5,000 tools)
+
+A tool page has three zones with a **closed inventory**. Nothing outside a zone's inventory may
+enter it. This is what stops the page slowly re-accreting furniture as the catalog grows.
+
+```
+Zone A  Do        ToolBar (mark + h1 + star + search + theme) | tagline | GroupSwitcher | widget | ToolActions
+Zone B  Trust     ONE row: trust notice, install affordance, "Powered by ToyTools ●"
+Zone C  Know      ONE row: drawer triggers, the guide, the category hub
+```
+
+- **Chrome belongs to whoever owns the page.** Platform pages render `Nav`; a tool page renders
+  `ToolBar` through `BaseLayout`'s `header` slot, so a tool page opens with the tool's name and not
+  the brand. Tool pages carry no visible breadcrumb (the JSON-LD still ships, and the category link
+  lives on Zone C).
+- **Never say the same thing twice on one page.** Zone C was 682px, 31% of the document, almost
+  entirely because a related-tools list, a set of links pointing at content directly below them and
+  a feedback invite each appeared twice. That is the failure mode this zone attracts.
+- **Zone A is the only zone above the fold on a phone.** It ends in space, never a rule.
+- **Zone C opens with the page's one and only hairline**, drawn by the lower section per the
+  section-boundary recipe. Above the line is "do", below it is "understand".
+- **The h1 is the tool's name, never the brand.** A tool h1 sits inside ToolBar at
+  `--text-base`/`--text-lg`; a guide h1 stays
+  `--text-4xl`. That size gap plus the guide's `TOYTOOLS ● GUIDE` eyebrow is the entire Tool Mode
+  versus Reading Mode signal. Tool pages get no eyebrow; the absence is the other half of it.
+- **`tagline` is the on-page line** (max 80 chars, a build error above that). `description` stays
+  long: it is the meta description and one of four query-targeting slots, so never shorten it for
+  layout.
+
+### Two enforced invariants
+
+| invariant | where | what it means |
+|---|---|---|
+| **Fold ratchet** | `tests/e2e/fold.spec.ts`, Pixel 5, all tools | chrome above the tool must stay under `CHROME_LIMIT` of the viewport. Ratchets down only, never up. A rise means a page grew a masthead. |
+| **Concept headings** | `THRESHOLDS.conceptHeadings` in `check-query-coverage.ts` | every tool page carries an H2 naming a concept, not a page part. Held at 1.0 by the knowledge drawers. |
+
+### Layering rule
+
+> The widget renders the tool. The platform renders everything that is not the tool.
+
+A widget that knows about the catalog, the brand, installation or trust is a layering error.
+`validate-architecture` fails the build if anything under `src/tools/` imports `CategoryDiscovery`,
+because the failure mode is copying an existing widget as a template.
 
 ---
 
@@ -19,19 +66,30 @@ All defined in `src/styles/tokens.css`. Reference only via `var(--token-name)`.
 
 ### Colours
 ```css
---color-accent          /* Primary action colour — buttons, links, highlights */
---color-text            /* Primary body text */
+--color-accent          /* Forest green — buttons, links, focus. Single retheme point */
+--color-accent-subtle   /* Accent tint background */
+--color-accent-strong   /* Accent text on accent-subtle (AA) */
+--color-text            /* Primary body text — soft ink, not #111 */
 --color-text-muted      /* Secondary text, descriptions */
 --color-text-subtle     /* Tertiary — labels, meta, captions */
 --color-text-inverse    /* Text on dark/accent backgrounds */
---color-bg              /* Page background */
---color-bg-secondary    /* Slightly elevated — cards, panels */
---color-bg-elevated     /* Further elevated — dropdowns, modals */
+--color-bg              /* Page background — warm off-white */
+--color-surface         /* Panels, cards */
+--color-surface-hover   /* Hover pair with --color-border-strong */
 --color-bg-tertiary     /* Headers of collapsible sections, TOC summaries */
 --color-border          /* Default border */
 --color-border-strong   /* Emphasized border */
---color-gold            /* Gold accent for decorative dots and TOC highlights */
+--color-gold            /* Gold brand motif — the dot and the site mark */
+--color-success(-bg)    /* Transient state ONLY (copy confirm, valid). Never links or focus */
+--color-danger(-bg)     /* Destructive confirmation */
+--color-overlay-*       /* Theme-invariant immersive surfaces (always dark) */
 ```
+
+**There is no `--color-bg-secondary`, `--color-bg-elevated` or `--radius-lg`.** This file listed
+all three until 2026-08-08; CSS referencing a custom property that does not exist is invalid at
+computed-value time and silently does nothing, so check `src/styles/tokens.css` before reaching for
+a token you half-remember. Surfaces are `--color-surface`; radii are `--radius-sm` and
+`--radius-md`.
 
 ### Spacing
 Spacing scale uses `--space-{n}` where n is 1–16. Common values:
@@ -98,15 +156,17 @@ Colour communicates **state only**: Copy → `--color-success(-bg)` "✓ Copied"
 ### Persistence & platform globals
 `ToyTools.state.save/load/clear(toolId, data)` — versioned `toytools:{toolId}` JSON, never throws,
 restore on load. `ToyTools.recordRecent/getRecent` — recent-tools list. Global shortcuts: `/` search,
-`Esc` blur, `Ctrl/Cmd+Shift+C/X` copy/clear. `CategoryDiscovery.astro` cross-links each output to its
-category. See `ARCHITECTURE.md` for the full reference.
+`Esc` blur, `Ctrl/Cmd+Shift+C/X` copy/clear. See `ARCHITECTURE.md` for the full reference.
+
+`CategoryDiscovery.astro` is rendered **once by `ToolPage`**, in Zone C. It used to be imported by
+32 widget files; never import it from a widget (`validate-architecture` fails the build if you do).
+Same for trust, install and the brand signature: those are `ToolSignature`, also platform-rendered.
 
 ### Interaction
 ```css
 --touch-target    /* 48px minimum — all clickable elements */
---radius-sm
---radius-md
---radius-lg
+--radius-sm       /* 4px */
+--radius-md       /* 6px */
 
 --transition-color   /* transition: color, background-color, border-color 150ms */
 --duration-fast      /* 150ms */

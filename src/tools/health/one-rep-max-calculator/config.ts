@@ -4,7 +4,8 @@ export const config: ToolConfig = {
   slug: 'one-rep-max-calculator',
   name: 'One Rep Max Calculator',
   seoTitle: 'One Rep Max Calculator: 1RM Plus the Percentage Table',
-  description: 'Estimate your one rep max from a set you actually lifted, across four formulas, with the training percentages a program is written in.',
+  description: 'Estimate your one rep max (1RM) from a set you actually lifted, across the Epley, Brzycki and Lombardi formulas, with training percentages.',
+  tagline: 'Your one rep max from a set you lifted, across four formulas.',
   categorySlug: 'health-fitness',
   tags: [
     'one rep max calculator', '1rm calculator', 'one rep max', 'max lift calculator',

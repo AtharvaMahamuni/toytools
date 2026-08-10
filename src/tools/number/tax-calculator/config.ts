@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Tax Calculator',
   seoTitle: 'Tax Calculator — Add or Remove Sales Tax / VAT',
   description: 'Add sales tax or VAT to a price, or work backwards from a tax-inclusive total, and see the tax amount.',
+  tagline: 'Add sales tax or VAT, or work backwards from the total.',
   categorySlug: 'number-utilities',
   tags: ['tax calculator', 'sales tax calculator', 'vat calculator', 'add tax', 'remove tax', 'reverse vat', 'tax inclusive price'],
   updatedAt: '2026-07-10',

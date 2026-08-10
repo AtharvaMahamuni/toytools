@@ -81,7 +81,7 @@ export function drawFrequencyPeriod(ctx: CanvasRenderingContext2D, s: SimState, 
   ctx.restore();
   drawLabel(
     ctx,
-    `cycle ticks — ${cyclesCompleted(s.params, s.t)} completed`,
+    `cycle ticks: ${cyclesCompleted(s.params, s.t)} completed`,
     vp.width / 2,
     tlY + 14,
     vp.palette.muted,

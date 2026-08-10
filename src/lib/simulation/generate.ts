@@ -73,6 +73,7 @@ export function toolConfigFrom(manifest: SimulationManifest, relations: Relation
     name: m.title,
     seoTitle: manifest.seo.title,
     description: manifest.seo.description,
+    tagline: manifest.seo.tagline,
     categorySlug: m.category,
     tags: [...manifest.presentation.tags, ...simulatorTags(manifest)],
     updatedAt: manifest.presentation.updatedAt,

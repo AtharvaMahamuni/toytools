@@ -1,11 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import TrustNotice from '@components/tool/TrustNotice.astro';
-import InstallButton from '@tools/_shared/InstallButton.astro';
-import FavoriteButton from '@components/tool/FavoriteButton.astro';
-import Breadcrumb from '@components/Breadcrumb.astro';
-import FeedbackLink from '@components/feedback/FeedbackLink.astro';
+import ToolIdentity from '@components/tool/ToolIdentity.astro';
+import ToolBar from '@components/tool/ToolBar.astro';
+import FeedbackCapture from '@components/feedback/FeedbackCapture.astro';
 import { iconColors } from '@lib/icons/tool-icon';
 import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
 import type { Tool, Category } from '@data/types';
@@ -50,93 +48,28 @@ const softwareSchema = {
 };
 ---
 
-<BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="shell" pwa={pwa} engines={[tool.engine]}>
+<BaseLayout title={generatePageTitle('tool', tool.seoTitle ?? tool.name)} description={tool.description} maxWidth="shell" pwa={pwa} engines={[tool.engine]} feedbackTool={tool.slug}>
+  <ToolBar slot="header" tool={tool} />
+
+  {/* The BreadcrumbList JSON-LD stays even though the visible trail is gone: Google builds SERP
+      breadcrumbs from this, not from the markup, so removing the on-page trail costs nothing in
+      search. The link to the category hub moves to Zone C. */}
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
 
-  {/* The BreadcrumbList schema above has always been emitted here with no visible counterpart.
-      Guides and category pages already render this component; tool pages now match.
+  <ToolIdentity tool={tool} />
 
-      The star shares this row rather than taking one of its own. On the health calculators the
-      answer and its chart are required to land above the fold (tests/e2e/health.spec.ts), and a
-      second 48px row spent that budget: giving the star the empty right half of a row already
-      being drawn costs nothing extra. */}
-  <Breadcrumb
-    items={[
-      { label: 'Home', href: withBase('/') },
-      { label: category.name, href: withBase(`/category/${category.slug}/`) },
-      { label: tool.name },
-    ]}
-  />
-
-  <div class="tool-header">
-    <div class="tool-title-row">
-      <h1>{tool.name}</h1>
-      <FavoriteButton slug={tool.slug} name={tool.name} />
-    </div>
-    <p class="tool-description">{tool.description}</p>
-    <TrustNotice variant={tool.trustVariant ?? 'private'} />
-    <div class="tool-header-actions">
-      <InstallButton toolName={tool.name} />
-    </div>
-  </div>
-
+  {/* Zone B (ToolSignature) is rendered by ToolPage, not here. This slot holds the widget, the
+      nav row AND the knowledge drawers, so anything placed after it lands at the bottom of the
+      page rather than under the tool. */}
   <slot />
 
-  {/* Last thing on every tool page, below the widget, the nav row, and the FAQ. Auto-included
-      here so every tool inherits it and no tool file ever mentions feedback. */}
-  <FeedbackLink tool={tool} />
+  {/* Binds to the footer's feedback link. Emitted only where allowsInputCapture says the input
+      cannot be a secret; that decision is made at build time, never at runtime. */}
+  <FeedbackCapture tool={tool} />
 
   <script is:inline define:vars={{ slug: tool.slug, segment: category.segment }}>
     if (window.ToyTools && ToyTools.recordRecent) ToyTools.recordRecent(slug, segment);
   </script>
 </BaseLayout>
 
-<style>
-  .tool-header {
-    padding-bottom: var(--space-8);
-    border-bottom: var(--border);
-    margin-bottom: var(--space-8);
-  }
-
-  /* The star sits on the title line rather than in a row of its own. On the health calculators
-     the answer and its chart must land above the fold (tests/e2e/health.spec.ts), and a separate
-     48px row spent that budget; sharing a line the page already draws costs only the difference
-     between the heading's height and the button's. */
-  .tool-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-  }
-
-  .tool-title-row h1 {
-    min-width: 0;
-  }
-
-  /* InstallButton is mobile-only, so this collapses to nothing on desktop. */
-  .tool-header-actions:empty {
-    display: none;
-  }
-
-  h1 {
-    margin-bottom: var(--space-2);
-  }
-
-  .tool-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    max-width: 55ch;
-    margin-bottom: var(--space-3);
-  }
-
-  /* Desktop: reserve two lines so the widget (and GroupSwitcher pills) land at
-     the same Y on every sibling page — the cursor stays over the equivalent
-     element when clicking through tools. Descriptions should run 56–110 chars
-     (≈2 lines at 55ch); see ARCHITECTURE.md → Design Language. */
-  @media (min-width: 1024px) {
-    .tool-description {
-      min-height: 2lh;
-    }
-  }
-</style>

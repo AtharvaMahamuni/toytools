@@ -97,7 +97,7 @@ export const htmlEntity: EncodingTool = {
   validate(input, mode) {
     if (mode === 'encode' || !input) return { ok: true, severity: 'info' };
     if (!ENTITY.test(input)) {
-      return { ok: true, severity: 'info', message: 'No HTML entities found — input is unchanged.' };
+      return { ok: true, severity: 'info', message: 'No HTML entities found, so the input is unchanged.' };
     }
     return { ok: true, severity: 'info' };
   },

@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Character Counter',
   seoTitle: 'Character Counter — Free Online Character Count Tool',
   description: 'Count characters instantly in your browser. Includes characters with and without spaces.',
+  tagline: 'Count characters, with and without spaces.',
   categorySlug: 'text-utilities',
   tags: ['character counter', 'count characters', 'character count', 'characters with spaces', 'characters without spaces', 'text length', 'string length', 'twitter character counter', 'character limit checker'],
   isNew: true,

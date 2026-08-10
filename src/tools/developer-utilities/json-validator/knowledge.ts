@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON Validator',
   category: 'developer-utilities',
   summary: 'Check whether text is valid JSON and pinpoint the syntax error when it is not.',
-  primaryConcepts: ['json validation'],
+  primaryConcepts: ['JSON validation'],
   secondaryConcepts: ['json', 'syntax check', 'json lint', 'rfc 8259'],
   intentGroups: {
     informational: ['What does JSON validation do?', 'What are the JSON syntax rules?'],

@@ -1,6 +1,16 @@
 ---
 import MadeInIndia from '@components/MadeInIndia.astro';
 import { withBase } from '@lib/paths';
+
+interface Props {
+  /** Set on tool pages so the feedback link carries which tool the visitor is on. Tool pages used
+   *  to render their own 102px invite; it was a second copy of this link, so the block went and the
+   *  context moved here. /feedback/ reads ?tool= to prefill, which is how it always worked. */
+  feedbackTool?: string;
+}
+
+const { feedbackTool } = Astro.props;
+const feedbackHref = withBase(feedbackTool ? `/feedback/?tool=${feedbackTool}` : '/feedback/');
 const year = new Date().getFullYear();
 ---
 
@@ -24,7 +34,7 @@ const year = new Date().getFullYear();
       <MadeInIndia />
     </div>
     <nav class="footer-links" aria-label="Site information">
-      <a class="footer-link" href={withBase('/feedback/')}>Suggest a tool</a>
+      <a class="footer-link" href={feedbackHref} data-feedback-link={feedbackTool ? '' : undefined}>{feedbackTool ? 'Report an issue' : 'Suggest a tool'}</a>
       <a class="footer-link" href={withBase('/about/')}>About</a>
       <a class="footer-link" href={withBase('/privacy/')}>Privacy</a>
       <a class="footer-link" href={withBase('/changelog/')}>Changelog</a>

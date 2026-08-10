@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Punycode Converter',
   seoTitle: 'Punycode Converter — Unicode ⇄ Punycode (xn--) for IDNs',
   description: 'Convert internationalized domain names between Unicode and Punycode (xn--) form, in your browser.',
+  tagline: 'Convert domain names between Unicode and Punycode form.',
   categorySlug: 'developer-utilities',
   tags: ['punycode converter', 'punycode', 'idn converter', 'xn-- converter', 'unicode to punycode', 'punycode to unicode', 'internationalized domain name'],
   updatedAt: '2026-07-09',

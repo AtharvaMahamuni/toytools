@@ -6,6 +6,7 @@ export const config: ToolConfig = {
   seoTitle: 'Password Generator — Strong Random Passwords',
   description:
     'Create strong, random passwords in your browser. Pick the length and character sets, see a live entropy and strength estimate, then copy. Nothing is uploaded.',
+  tagline: 'Strong random passwords, with a live strength estimate.',
   categorySlug: 'generate',
   tags: [
     'password generator',

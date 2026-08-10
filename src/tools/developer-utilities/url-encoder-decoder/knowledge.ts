@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'URL Encoder & Decoder',
   category: 'developer-utilities',
   summary: 'Percent-encode characters that would break a URL, and decode them back to plain text.',
-  primaryConcepts: ['url encoding'],
+  primaryConcepts: ['URL encoding'],
   secondaryConcepts: ['percent encoding', 'query string', 'uri', 'encodeURIComponent'],
   intentGroups: {
     informational: ['What is URL encoding?', 'Which characters must be encoded?'],

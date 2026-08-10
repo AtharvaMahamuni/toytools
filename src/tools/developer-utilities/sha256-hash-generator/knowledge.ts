@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'SHA-256 Hash Generator',
   category: 'developer-utilities',
   summary: 'Generate a 64-character SHA-256 digest. The current baseline secure hash, no known attacks.',
-  primaryConcepts: ['sha-256'],
+  primaryConcepts: ['SHA-256'],
   secondaryConcepts: ['hash', 'sha-2', 'digest', 'collision resistance'],
   intentGroups: {
     informational: ['What is SHA-256?', 'Why is SHA-256 considered secure?'],

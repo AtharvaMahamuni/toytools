@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Text Compare',
   seoTitle: 'Text Compare — Compare Two Texts Online Free',
   description: 'Compare two texts side-by-side and see exactly what changed. Line-by-line diff with added, removed, and unchanged lines. Runs in your browser.',
+  tagline: 'Compare two texts and see exactly which lines changed.',
   categorySlug: 'text-utilities',
   tags: ['text compare', 'text diff', 'compare text', 'diff two texts', 'text difference', 'find differences', 'online diff tool'],
   isNew: true,

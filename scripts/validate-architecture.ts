@@ -13,7 +13,7 @@
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
@@ -174,6 +174,85 @@ for (const tool of tools) {
     if (!existsSync(join(iconsDir, `${tool.slug}-${size}.png`))) {
       err(`Tool "${tool.slug}" is missing its install icon ${rel} — run \`npm run icons:generate\``);
     }
+  }
+}
+
+// ---- 9. Layering: a widget renders the tool, and nothing that is not the tool ------------------
+// CategoryDiscovery is a cross-link into the catalog. It used to be imported by 32 widget files,
+// including all 13 shared engine widgets, which meant a tool's own UI component could not be read,
+// budgeted or reused without dragging a platform surface along with it, and any change to that
+// surface was a 32-file edit. ToolPage renders it once now.
+//
+// This is a rule rather than a cleanup because the failure mode is copying: the next widget starts
+// life as a copy of an existing one, and without a check the import comes back one file at a time.
+// Add to the list if another platform surface leaks into widgets for the same reason.
+const PLATFORM_ONLY_COMPONENTS = ['CategoryDiscovery'];
+
+// Its own walk rather than reusing `toolDirs` above: that one skips `_shared`, and the shared
+// engine widgets are where 13 of the original 32 imports lived. This has to see every .astro
+// under src/tools, shared ones most of all.
+function astroFilesUnder(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...astroFilesUnder(full));
+    else if (entry.name.endsWith('.astro')) out.push(full);
+  }
+  return out;
+}
+
+for (const file of astroFilesUnder(toolsDir)) {
+  const source = readFileSync(file, 'utf-8');
+  for (const component of PLATFORM_ONLY_COMPONENTS) {
+    if (source.includes(`components/tool/${component}.astro`)) {
+      err(
+        `${relative(repoRoot, file)} imports ${component}, which is platform chrome. ` +
+        'A widget renders the tool; ToolPage renders everything around it.',
+      );
+    }
+  }
+}
+
+// ---- 10. Em-dashes in engine prose ------------------------------------------------------------
+// "No em-dashes anywhere" is a standing writing rule, and seo:gate enforces it on guides, FAQs and
+// configs. It never saw engine strings, which is where a tool's explanatory notes, validation
+// messages and reference rows actually come from, so 32 tool pages shipped a visible em-dash.
+//
+// Scoped by FIELD NAME rather than by file path, deliberately. The html-entity tool's data table
+// contains `mdash: '—'`, which is the character it exists to document: a path exemption list would
+// go stale the first time a file moved, whereas "prose fields must not contain one" stays true.
+// Same reasoning as the redirect-stub detection in quality-guardian.
+const PROSE_FIELDS = [
+  'message', 'note', 'detail', 'summary', 'hint', 'description', 'blurb', 'label', 'tip', 'caption',
+];
+const proseField = new RegExp(`\\b(${PROSE_FIELDS.join('|')})\\s*:`);
+
+function tsFilesUnder(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...tsFilesUnder(full));
+    else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.test.ts')) out.push(full);
+  }
+  return out;
+}
+
+for (const dir of ['engines', 'simulation', 'text'].map(d => join(repoRoot, 'src', 'lib', d))) {
+  if (!existsSync(dir)) continue;
+  for (const file of tsFilesUnder(dir)) {
+    readFileSync(file, 'utf-8').split('\n').forEach((line, i) => {
+      if (!line.includes('—')) return;
+      const t = line.trim();
+      // Comments do not render.
+      if (t.startsWith('//') || t.startsWith('*') || t.startsWith('/*')) return;
+      // A prose field, or a bare string that opens a multi-line note.
+      if (!proseField.test(t) && !/^['`][^'`]*—/.test(t)) return;
+      err(
+        `${relative(repoRoot, file)}:${i + 1} has an em-dash in rendered prose. ` +
+        'Use a comma, colon or full stop. (Character data such as an entity table is exempt by ' +
+        'not being a prose field.)',
+      );
+    });
   }
 }
 

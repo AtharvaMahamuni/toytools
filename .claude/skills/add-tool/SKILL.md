@@ -102,3 +102,21 @@ Does the tool need a guide, FAQ, or knowledge file?
 | `references/engine-types.md` | Exact interface, registry path, and Widget template per engine |
 | `references/examples.md` | Real copy-paste implementations from the codebase |
 | `references/optional-content.md` | Guides, FAQs, knowledge files |
+
+## Layering and the page grammar (2026-08-08)
+
+A tool page is three zones with a closed inventory (`ARCHITECTURE.md` → "Design Language" →
+"Page grammar"). The rule that follows from it:
+
+> **The widget renders the tool. The platform renders everything that is not the tool.**
+
+A widget that knows about the catalog, the brand, installation or trust is a layering error.
+`validate-architecture` fails the build on any `CategoryDiscovery` import under `src/tools/`.
+
+- `config.ts` needs a **`tagline`** (max 80 chars, a build error above that): the one line under
+  the tool's title. Keep `description` long, it is the meta description and a query-targeting slot.
+- Do not render trust, install, brand or category cross-links from a widget. `ToolSignature` and
+  `KnowledgeDrawers` are platform-rendered by `ToolPage`.
+- `knowledge.primaryConcepts[0]` now heads the tool page's H2s, so it is load-bearing for query
+  targeting rather than metadata. Get it right.
+- A tool is not finished until `tests/e2e/fold.spec.ts` passes on Pixel 5.

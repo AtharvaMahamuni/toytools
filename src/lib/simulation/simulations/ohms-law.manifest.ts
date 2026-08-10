@@ -88,6 +88,7 @@ export const manifest: SimulationManifest = {
     title: "Ohm's Law Calculator: I = V / R",
     description:
       "See Ohm's law come alive. Set the voltage and resistance and watch the current, power, and charge flow update live in an interactive circuit.",
+    tagline: 'Set voltage and resistance, watch current and power in a live circuit.',
     keywords: ["Ohm's law", 'I = V / R', 'voltage current resistance', 'electrical power', 'circuit simulator', 'ohms law calculator'],
   },
   presentation: {

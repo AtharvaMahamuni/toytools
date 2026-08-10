@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'CSV Diff',
   seoTitle: 'CSV Diff — Compare Two CSV Files Online, Nothing Uploaded',
   description: 'Compare two CSV files in your browser and see which rows were added, removed, or changed, with per-column detail.',
+  tagline: 'Compare two CSVs and see which rows changed, with column detail.',
   categorySlug: 'developer-utilities',
   tags: ['csv diff', 'compare csv files', 'csv compare online', 'diff two csv', 'csv difference checker', 'compare spreadsheets', 'csv comparison tool', 'find changed rows csv'],
   updatedAt: '2026-07-04',

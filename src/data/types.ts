@@ -48,6 +48,20 @@ export interface ToolConfig {
   name: string;
   seoTitle?: string;
   description: string;
+  /**
+   * Short on-page line under the tool's title. 40 to 80 characters, so it wraps to one line on a
+   * 393px phone.
+   *
+   * Deliberately separate from `description` rather than a shortening of it. `description` is also
+   * the page's <meta name="description">, one of the four slots scripts/check-query-coverage.ts
+   * scores query targeting against, so it has to stay long enough to carry the tool's vocabulary.
+   * Cutting it for visual reasons would shrink that haystack across all 119 pages and push
+   * targeting toward its floor: the visual win would be paid for in rankings.
+   *
+   * Optional, falling back to `description`, so it can be authored per tool at whatever pace suits.
+   * See docs/analysis/2026-08-08-tool-identity-architecture.md (F7, D6).
+   */
+  tagline?: string;
   categorySlug: string;
   tags: string[];
   isNew?: boolean;

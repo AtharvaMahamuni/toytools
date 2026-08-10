@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'HTML Entity Encoder & Decoder',
   category: 'developer-utilities',
   summary: 'Escape characters the HTML parser treats as markup, and decode entities back to text.',
-  primaryConcepts: ['html entities'],
+  primaryConcepts: ['HTML entities'],
   secondaryConcepts: ['character reference', 'escaping', 'xss', 'named entity'],
   intentGroups: {
     informational: ['What is an HTML entity?', 'Which characters must be escaped?'],

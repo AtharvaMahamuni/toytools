@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'ROI Calculator',
   seoTitle: 'ROI Calculator — Return on Investment, Annualized Return',
   description: 'Calculate return on investment from what you paid and what it is worth now, including the annualized return most ROI tools skip.',
+  tagline: 'Return on investment, including the annualized return.',
   categorySlug: 'money-finance',
   tags: ['roi calculator', 'return on investment calculator', 'investment return calculator', 'roi formula', 'annualized return calculator', 'investment gain calculator', 'roi percentage', 'stock return calculator'],
   updatedAt: '2026-07-04',

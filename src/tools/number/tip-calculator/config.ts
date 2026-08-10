@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Tip Calculator',
   seoTitle: 'Tip Calculator — Free Online Tool',
   description: 'Calculate the tip and total bill, and split the cost between any number of people.',
+  tagline: 'The tip, the total, and the split between any number of people.',
   categorySlug: 'number-utilities',
   tags: ['tip calculator', 'gratuity calculator', 'how much to tip', 'split the bill', 'restaurant tip', 'tip percentage', 'bill splitter', 'calculate tip', 'numbers', 'math'],
   isNew: true,

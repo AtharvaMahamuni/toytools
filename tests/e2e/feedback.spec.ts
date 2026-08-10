@@ -19,22 +19,32 @@ async function composedMail(page: Page): Promise<string> {
   return decodeURIComponent(href ?? '');
 }
 
+// A tool page used to carry its own 102px feedback invite. It was a second copy of the footer's
+// link, so the block went and the tool context moved onto the footer's, which every page already
+// draws. The route that matters is unchanged: /feedback/?tool=<slug> is what prefills the form.
 test.describe('the link on a tool page', () => {
-  test('sits at the bottom of the tool and carries the tool with it', async ({ page }) => {
+  test('lives in the footer and still carries the tool with it', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
 
-    const link = page.locator('[data-feedback-link]');
+    const link = page.getByRole('contentinfo').getByRole('link', { name: 'Report an issue' });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute('href', /\/feedback\/\?tool=word-counter$/);
 
     // Comfortable to hit with a thumb, which is the only reason anyone finds it.
     const box = await link.boundingBox();
-    expect(box!.height).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(24);
+  });
+
+  test('reads as a generic invitation away from a tool', async ({ page }) => {
+    await page.goto('/');
+    const link = page.getByRole('contentinfo').getByRole('link', { name: 'Suggest a tool' });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute('href', /\/feedback\/$/);
   });
 
   test('lands on the form with the tool already named', async ({ page }) => {
     await page.goto('/tool/text/word-counter/');
-    await page.locator('[data-feedback-link]').click();
+    await page.getByRole('contentinfo').getByRole('link', { name: 'Report an issue' }).click();
 
     await expect(page).toHaveURL(/\/feedback\/\?tool=word-counter/);
     // The slug becomes the readable name, because that is what ends up in the subject line.

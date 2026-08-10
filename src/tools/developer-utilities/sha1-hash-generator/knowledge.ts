@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'SHA-1 Hash Generator',
   category: 'developer-utilities',
   summary: 'Generate a 40-character SHA-1 digest. Deprecated for security since the 2017 collision.',
-  primaryConcepts: ['sha-1'],
+  primaryConcepts: ['SHA-1'],
   secondaryConcepts: ['hash', 'checksum', 'digest', 'shattered'],
   intentGroups: {
     informational: ['What is SHA-1?', 'What does a SHA-1 hash look like?'],

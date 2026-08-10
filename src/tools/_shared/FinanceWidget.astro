@@ -7,7 +7,6 @@
 // If a new finance tool ever requires editing this file, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
-import CategoryDiscovery from '@components/tool/CategoryDiscovery.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
 import CurrencyInput from '@components/inputs/CurrencyInput.astro';
 import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
@@ -102,7 +101,6 @@ const currencyMeta = Object.fromEntries(
   <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
 )}
 
-<CategoryDiscovery toolSlug={slug} />
 
 <script is:inline>
   (function () {

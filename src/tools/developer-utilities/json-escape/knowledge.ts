@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'JSON Escape / Unescape',
   category: 'developer-utilities',
   summary: 'Escape text into a JSON string body or unescape a JSON string literal back to plain text, with live two-way conversion.',
-  primaryConcepts: ['json string escaping'],
+  primaryConcepts: ['JSON string escaping'],
   secondaryConcepts: ['escape sequences', 'string literal', 'control characters', 'json syntax'],
   intentGroups: {
     informational: ['What does escaping a JSON string mean?', 'Which characters must be escaped in JSON?'],

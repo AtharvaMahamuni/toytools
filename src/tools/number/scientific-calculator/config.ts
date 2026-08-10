@@ -4,7 +4,8 @@ export const config: ToolConfig = {
   slug: 'scientific-calculator',
   name: 'Scientific Calculator',
   seoTitle: 'Scientific Calculator — Trig, Logs, Powers, Roots',
-  description: 'Free scientific calculator for students: order of operations, trig, logs, powers, roots, factorials, constants, memory, and history. Runs in your browser.',
+  description: 'Scientific calculator for students: order of operations, trigonometry, logarithms, powers, roots, factorials, constants and history. Runs in your browser.',
+  tagline: 'Trigonometry, logarithms, powers and roots, with a visible history.',
   categorySlug: 'number-utilities',
   tags: [
     'scientific calculator',

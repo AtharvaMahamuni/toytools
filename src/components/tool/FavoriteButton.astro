@@ -78,4 +78,37 @@ const { slug, name } = Astro.props;
   .favorite-btn.is-on .favorite-icon {
     fill: currentColor;
   }
+
+  /* Phones: the star only, still a full 48px target. The word "Favourite" is 110px wide on a
+     393px screen, and it was taking that width out of the title row: the h1 wrapped to two lines
+     on 83 of 119 tools and three on four of them. Collapsing the label puts 72 titles back on one
+     line. Same treatment, and the same reasoning, as .nav-search above 640px.
+
+     The accessible name comes from aria-label (kept in sync by the script above), so nothing is
+     lost by hiding the text. */
+  @media (max-width: 640px) {
+    .favorite-btn {
+      min-width: var(--touch-target);
+      justify-content: center;
+      padding: 0;
+    }
+
+    .favorite-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+</style>
+
+<style is:global>
+  /* The star is the only thing on the title row that must not shrink; the heading takes the rest.
+     Lives here rather than in ToolIdentity so the button owns its own layout behaviour. */
+  .tool-title-row .favorite-btn {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
 </style>
