@@ -47,6 +47,9 @@ jobs:
       - name: Query coverage check
         run: npm run check:queries
 
+      - name: Tool craft check
+        run: npm run check:craft
+
       - name: Run quality PR check
         run: npm run quality:pr
 

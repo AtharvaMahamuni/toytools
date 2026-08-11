@@ -12,8 +12,8 @@ npm run verify:fast   # everything except e2e — inner loop only, NOT a done-co
 ```
 
 It runs, in order: unit tests, the coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true`,
-the platform health check, the query coverage gate, Quality Guardian, `seo:gate` on every tool
-directory the branch touched, and e2e on desktop **and** Pixel 5. Every step runs even after an earlier one fails, so one pass
+the platform health check, the query coverage gate, the tool craft gate, Quality Guardian,
+`seo:gate` on every tool directory the branch touched, and e2e on desktop **and** Pixel 5. Every step runs even after an earlier one fails, so one pass
 reports every problem. Takes about three minutes.
 
 This exists because `build` + `test` + `test:e2e` is **not** the gate and never was: it skips the
@@ -116,6 +116,58 @@ The page grammar it protects (Zone A "do", Zone B trust, Zone C "know") is in `A
 tool page renders `ToolBar`, not `Nav`, and carries no visible breadcrumb) and **the widget renders
 the tool, the platform renders everything that is not the tool** (`validate-architecture` fails the
 build if anything under `src/tools/` imports `CategoryDiscovery`).
+
+## Tool craft (a hard gate: every tool earns its own reason to exist)
+
+**Every tool declares exactly one thoughtful touch, and one is a ceiling, not a target.**
+
+> A tool's **craft** is the one affordance that comes from knowing what *this* tool's users are
+> actually doing, which its engine cannot know on their behalf.
+
+Measured 2026-08-11: **80 of 105 tools were a single self-closing tag** with nothing of their own,
+and the 25 that did add something were also the most cluttered pages in the catalog. Craft
+correlated exactly with whether somebody hand-built the widget, never with whether anybody asked
+where that tool's users get stuck. Full analysis: `docs/analysis/2026-08-11-tool-craft.md`.
+
+```sh
+npm run check:craft              # the gate (needs dist/; runs inside npm run verify)
+npm run check:craft -- --report  # per-tool listing + the backlog by engine, never fails
+```
+
+Three ratchets in `scripts/check-craft.ts`, plus `tests/e2e/craft.spec.ts` on Pixel 5:
+
+| ratchet | direction | what a move means |
+|---|---|---|
+| `coverage` — fraction of tools declaring a craft | only **rises** | a drop means a tool shipped with nothing of its own |
+| `boxesPerTool` — box-drawing rules in the worst single widget | only **falls** | a rise means craft was bought with clutter |
+| `rawHex` — hardcoded colours in widget styles | only **falls** | every colour comes from a token |
+
+Coverage is a **ratio, not a count**, deliberately: a count lets a new tool ship craftless without
+moving the number, while a ratio drops the moment the catalog grows without craft. So "every new
+tool carries a thoughtful touch" enforces itself and nobody maintains a list of what is new.
+
+- **Declare it in `config.ts`** (`craft: { id, kind, solves }`) and render `data-craft="<id>"` on the
+  affordance's root element. A declaration whose id never reaches the DOM **fails the build**, which
+  is what stops the field becoming documentation that rots.
+- **`kind` is a closed union of five** (`recovery`, `verification`, `continuation`, `guardrail`,
+  `orientation`) in `src/data/types.ts`. If a proposed touch fits none of them it is decoration:
+  ship nothing. A tool with no honest answer declares no craft and waits.
+- **Craft goes *through* the shared widget, never around it.** Add an optional verb to the engine's
+  contract, let the processor carry the domain knowledge, let the shared widget render it once
+  (`recover` in `src/lib/engines/transform/types.ts` → `base64.ts` → `converter/RecoveryOffer.astro`
+  gave 13 tools the mechanism while each keeps its own knowledge). Rewriting a wrapper as a bespoke
+  widget to fit a touch in deletes the engine architecture and multiplies CSS across the segment.
+- **Test the silence**, with the same weight as testing that it fires. An affordance that appears
+  over ordinary input turns a quiet tool into a nagging one, and a happy-path-only suite cannot see
+  it (`src/lib/engines/encoding/recover.test.ts` is the reference).
+- **Minimal UI is part of the same rule, not a follow-up**: no new bordered cards, compose from
+  `IoPanel`/`ToolActions`/`StatCard`/`<details>`, one row rather than one section, every value a
+  token, and always pair the `hidden` attribute with `[hidden] { display: none }` (any `display`
+  rule silently overrides it — this has shipped as a visible bug twice).
+
+The **`tool-craft` skill** (`.claude/skills/tool-craft/`) is the playbook (analyse the tool, pick
+the kind, build it minimally, declare, prove). The **`tool-crafter` agent** does one tool per run
+for batch work. Both `add-tool` and `tool-builder` require a craft declaration for every new tool.
 
 ## Performance budget (a hard gate for every new tool)
 
@@ -239,6 +291,10 @@ workers for fan-out or scheduled runs. Four project agents, each with an objecti
   and reports if the tool needs a new engine (caller-level decision).
 - **`content-writer`** — writes/upgrades ONE tool's guide/FAQ/knowledge, driving seo:status →
   seo:gate to exit 0. Content only; one agent per slug for batch work.
+- **`tool-crafter`** — gives ONE existing tool its distinct identity: analyses where its users
+  actually fail, ships the single highest-value thoughtful touch plus a minimal-UI pass, to a green
+  `check:craft`. Reports back without shipping when the tool has no honest craft to add, which is a
+  finding rather than a failure.
 - **`site-auditor`** — read-only sweep (build, health, duplication, Quality Guardian, indexing
   coverage, seo:status table) returning one triaged report. Never fixes; scheduled/weekly use.
 

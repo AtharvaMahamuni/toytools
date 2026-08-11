@@ -2,6 +2,50 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.5] - 2026-08-11
+
+### Added
+
+- **Every tool now earns its own reason to exist.** Measured across the catalog: 80 of 105 tools
+  were a single self-closing tag with nothing of their own, so the Base64, Hex and URL encoders
+  differed by one string in a config file. A tool now declares one **craft**, the single thoughtful
+  touch that comes from knowing what that tool's users are actually doing, and
+  `npm run check:craft` holds it as a ratio that only rises: adding a tool with nothing of its own
+  lowers the fraction and fails the build, so there is no "add it later".
+
+- **Base64 now fixes the input instead of only diagnosing it.** Pasting a data URI
+  (`data:text/plain;base64,…`), a base64url token out of a JWT, or a value whose `=` padding was
+  stripped in transit used to produce a correct and useless rejection like
+  `Unexpected character ":" near position 5`. Each now offers a one-tap fix under the error, and
+  applying it decodes what you actually pasted. Offers only appear when the repair demonstrably
+  produces readable text, so ordinary typing never triggers one.
+
+- **URL decoding recovers from the three ways it breaks.** A double-encoded value, a form-encoded
+  `+` that should be a space, and a stray `%` from ordinary prose ("50% off", which used to fail
+  the entire decode) each get the same one-tap fix.
+
+- **A `tool-craft` skill and a `tool-crafter` agent**, so the analysis behind a touch (what the tool
+  solves, where its users actually fail, which of five kinds applies) happens before the code rather
+  than after. `add-tool` and `tool-builder` now require a craft declaration for every new tool.
+
+### Changed
+
+- **Word Counter reads as one tool again.** Its word goal sat in a filled, bordered card and its
+  three word insights in three more bordered tiles, on a page that already had panels. They are now
+  inline rows. Its word goal is what the tool is declared on: nobody counts words for the number
+  itself, they are writing to a limit.
+
+- **Two clutter ceilings now ratchet downward** alongside the craft coverage floor: the worst single
+  widget's count of bordered cards, and hardcoded colours in widget styles. The tools that had
+  added something for themselves were also the most box-heavy pages in the catalog, so restraint is
+  gated rather than left to taste.
+
+### Fixed
+
+- **Word Counter's "nearly at goal" progress state** used a hardcoded `#d97706` against the rule
+  that every colour comes from a token. The palette has no warning colour and the filling bar
+  already showed proximity, so the state was removed rather than retinted.
+
 ## [alpha-v7.4.1] - 2026-08-09
 
 ### Changed

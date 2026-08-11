@@ -12,6 +12,34 @@ import { byteLength } from './util';
 
 const B64 = /^[A-Za-z0-9+/]*={0,2}$/;
 
+/** Pad to the next multiple of 4. A remainder of 1 is unpaddable, so callers reject it first. */
+function pad(s: string): string {
+  const rem = s.length % 4;
+  return rem === 0 ? s : s + '='.repeat(4 - rem);
+}
+
+/**
+ * Does this actually decode to text a person would want?
+ *
+ * The gate on every recovery offer. Without it, "Helloo" matches the Base64 alphabet, has a
+ * paddable length, and would earn an offer to decode it into mojibake. An offer that fires on
+ * ordinary text is worse than no offer, so a fix is only proposed when it demonstrably works:
+ * the decode is attempted, and the result must be mostly printable. This also correctly declines
+ * image data URIs, whose payload is binary and has no useful text rendering in a text tool.
+ */
+function decodesToText(candidate: string): boolean {
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(escape(atob(candidate)));
+  } catch (_) {
+    return false;
+  }
+  if (!decoded) return false;
+  // eslint-disable-next-line no-control-regex
+  const noise = (decoded.match(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFD]/g) || []).length;
+  return noise / decoded.length < 0.1;
+}
+
 export const base64: EncodingTool = {
   id: 'base64',
   family: 'binary-text',
@@ -71,6 +99,48 @@ export const base64: EncodingTool = {
       };
     }
     return { ok: true, severity: 'info' };
+  },
+
+  // The tool's craft (kind: recovery). Three shapes of Base64 that arrive from the real world and
+  // that the validator can only reject: a data URI straight out of devtools or a CSS file, a
+  // base64url token out of a JWT or a URL, and a value whose "=" padding was stripped in transit.
+  // Each gets a correct, useless "Unexpected character" today. See config.ts for the declaration.
+  recover(input) {
+    const raw = input.trim();
+    if (!raw) return null;
+
+    // data:[<mime>][;charset=…];base64,<payload>
+    const dataUri = raw.match(/^data:[^,]*;base64,([\s\S]*)$/i);
+    if (dataUri) {
+      const payload = dataUri[1].replace(/\s+/g, '');
+      if (payload && B64.test(payload) && decodesToText(pad(payload))) {
+        return { label: 'Decode the data URI payload', text: pad(payload), mode: 'decode' };
+      }
+      return null;
+    }
+
+    const s = raw.replace(/\s+/g, '');
+    if (s.length < 4) return null;
+
+    // base64url: the JWT/URL-safe alphabet swaps "+/" for "-_" and usually drops the padding.
+    if (/[-_]/.test(s) && /^[A-Za-z0-9\-_]+={0,2}$/.test(s)) {
+      const standard = pad(s.replace(/-/g, '+').replace(/_/g, '/'));
+      if (s.length % 4 !== 1 && decodesToText(standard)) {
+        return { label: 'Decode as base64url', text: standard, mode: 'decode' };
+      }
+      return null;
+    }
+
+    // Padding stripped in transit. A remainder of 1 cannot be padded into a valid length, so there
+    // is nothing honest to offer there.
+    if (B64.test(s) && !s.includes('=') && s.length % 4 !== 0 && s.length % 4 !== 1) {
+      const padded = pad(s);
+      if (decodesToText(padded)) {
+        return { label: 'Add the missing padding and decode', text: padded, mode: 'decode' };
+      }
+    }
+
+    return null;
   },
 
   meta(input, output, mode) {

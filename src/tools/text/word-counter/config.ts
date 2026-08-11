@@ -19,6 +19,11 @@ export const config: ToolConfig = {
     formatter: 'integer',
   },
   relatedTools: ['character-counter', 'reading-time-calculator', 'sentence-counter'],
+  craft: {
+    id: 'wc-goal',
+    kind: 'verification',
+    solves: 'Nobody counts words for the number itself: they are writing to a limit, and without a target on screen the count has to be checked against a figure held in the head.',
+  },
   guide: {
     slug: 'how-to-count-words-in-your-writing',
     categorySlug: 'text',

@@ -26,7 +26,9 @@ import { config } from './config';
     Download Report
   </button>
 
-  <section class="wc-goal-section" id="wc-goal-section">
+  {/* The tool's craft (kind: verification) — see config.ts. data-craft is the contract
+      check-craft.ts verifies: a declared craft whose id never reaches the DOM fails the build. */}
+  <section class="wc-goal-section" id="wc-goal-section" data-craft="wc-goal">
     <div class="wc-goal-header">
       <label class="wc-goal-label" for="wc-goal-input">Word goal</label>
       <div class="wc-goal-controls">
@@ -121,7 +123,7 @@ import { config } from './config';
     } else {
       goalStat.textContent = currentWordCount + ' / ' + goal + ' words — Goal reached!';
     }
-    goalProgress.className = 'wc-goal-progress' + (pct >= 100 ? ' is-complete' : pct >= 80 ? ' is-near' : '');
+    goalProgress.className = 'wc-goal-progress' + (pct >= 100 ? ' is-complete' : '');
   }
 
   function buildTopWords(words) {
@@ -263,12 +265,11 @@ import { config } from './config';
 </script>
 
 <style is:global>
+  /* A row, not a card. The widget already renders panels; a filled, bordered box around one
+     number input made the goal read as a separate feature rather than as part of the counter.
+     See docs/analysis/2026-08-11-tool-craft.md section 4 (R2, R5). */
   .wc-goal-section {
     margin-top: var(--space-6);
-    padding: var(--space-5);
-    background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
   }
   .wc-goal-header {
     display: flex;
@@ -325,8 +326,9 @@ import { config } from './config';
   .wc-goal-progress::-webkit-progress-bar { background: var(--color-border); border-radius: var(--radius-full); }
   .wc-goal-progress::-webkit-progress-value { background: var(--color-accent); border-radius: var(--radius-full); transition: width 200ms ease; }
   .wc-goal-progress::-moz-progress-bar { background: var(--color-accent); border-radius: var(--radius-full); }
-  .wc-goal-progress.is-near::-webkit-progress-value { background: #d97706; }
-  .wc-goal-progress.is-near::-moz-progress-bar { background: #d97706; }
+  /* Two states, not three. The "nearly there" amber needed a colour the palette does not have
+     (it was a hardcoded #d97706, against the rule that every colour is a token) and signalled
+     nothing the filled bar was not already showing. */
   .wc-goal-progress.is-complete::-webkit-progress-value { background: var(--color-success); }
   .wc-goal-progress.is-complete::-moz-progress-bar { background: var(--color-success); }
   .wc-goal-stat {
@@ -448,13 +450,12 @@ import { config } from './config';
     flex-wrap: wrap;
     gap: var(--space-2);
   }
+  /* Label above value, separated by space rather than by an edge. Three bordered tiles to hold
+     three short strings was the clearest case of clutter in the catalog. */
   .wc-insight-row {
     display: flex;
     flex-direction: column;
-    padding: var(--space-2) var(--space-3);
-    background: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    gap: 2px;
     min-width: 9rem;
   }
   .wc-insight-row dt {

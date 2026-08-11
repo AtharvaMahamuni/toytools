@@ -15,6 +15,7 @@
 import type {
   DetectResult,
   MetaItem,
+  RecoveryOffer,
   TechnicalEntry,
   ValidationDetail,
 } from '../transform/types';
@@ -50,6 +51,15 @@ export interface EncodingTool {
   validate?(input: string, mode: EncodingMode): ValidationDetail;
   /** Live output metadata rows. Pure, never throws. */
   meta?(input: string, output: string, mode: EncodingMode): MetaItem[];
+  /**
+   * Offer a one-tap fix for input this encoder knows arrives malformed in a predictable way, or
+   * null when there is none. Pure, never throws.
+   *
+   * The bar is honesty, not coverage: only offer a fix whose result is unambiguous. Hex declines
+   * to guess which end of an odd-length string lost a nibble, and shipping nothing there is the
+   * correct outcome. See docs/analysis/2026-08-11-tool-craft.md section 2.
+   */
+  recover?(input: string, mode: EncodingMode): RecoveryOffer | null;
 }
 
 export interface EncodingResult {

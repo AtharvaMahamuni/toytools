@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'base64',
   toolGroup: 'encoders',
   relatedTools: ['url-encoder-decoder', 'html-entity-encoder-decoder'],
+  craft: {
+    id: 'b64-recover',
+    kind: 'recovery',
+    solves: 'Real Base64 arrives as a data URI, a base64url token or a value with its padding stripped, and all three currently get a correct rejection instead of the decode the user came for.',
+  },
   guide: {
     slug: 'what-is-base64',
     categorySlug: 'developer-utilities',

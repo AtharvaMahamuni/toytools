@@ -46,6 +46,7 @@ if KNOWLEDGE_REQUIRED=true npm run build; then
   # These read dist/, so they are only meaningful once the build succeeded.
   step "platform health"     npm run health
   step "query coverage"      npm run check:queries
+  step "tool craft"          npm run check:craft
   step "quality guardian"    npm run quality:pr
 else
   FAILED+=("build")
