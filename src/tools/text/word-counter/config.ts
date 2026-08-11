@@ -4,7 +4,12 @@ export const config: ToolConfig = {
   slug: 'word-counter',
   name: 'Word Counter',
   seoTitle: 'Word Counter — Free Online Word Count Tool',
-  description: 'Count words, characters, sentences, and paragraphs in any text.',
+  // Covers the two intents people actually arrive with ("how many words", "essay length"), which
+  // the old one-clause version reached in body copy only and therefore scored 0 on targeting. It
+  // is also simply more accurate now: the tool has a word goal, so saying so is description, not
+  // keyword stuffing. See docs/analysis/2026-08-04-query-to-tool-matching-audit.md.
+  description: 'Count how many words, characters, sentences and paragraphs your text contains, and set a goal to check it against an essay length or word limit.',
+  tagline: 'Count words as you type, and set a goal to write to.',
   categorySlug: 'text-utilities',
   tags: ['text', 'count', 'words', 'characters', 'count words online', 'word count checker', 'character counter', 'words in text', 'online word counter free', 'word count tool', 'word counter online', 'reading time calculator'],
   isNew: true,

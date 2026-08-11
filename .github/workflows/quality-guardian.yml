@@ -127,8 +127,12 @@ jobs:
           base="${{ github.event.pull_request.base.sha }}"
           # Pathspec is 'src/tools/', not 'src/tools/*/*/': git does not expand the latter, so this
           # matched nothing and the gate ran on zero tools on every PR until 2026-08-04.
+          # _shared is excluded because two shared widgets have subdirectories (converter/,
+          # generator/): without it, touching src/tools/_shared/converter/Foo.astro gates a
+          # phantom tool named "converter". Shared widgets are platform code with no content to gate.
           slugs=$(git diff --name-only "$base" HEAD -- 'src/tools/' \
             | grep -E '^src/tools/[^/]+/[^/]+/' \
+            | grep -v '^src/tools/_shared/' \
             | sed -E 's#^src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)
           if [ -z "$slugs" ]; then
             echo "No tool directories changed — nothing to gate."

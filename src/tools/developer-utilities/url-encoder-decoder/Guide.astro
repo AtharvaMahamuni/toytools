@@ -178,13 +178,52 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       </p>
     </ReferenceBlock>
 
-    <ReferenceBlock type="note" heading="Frameworks usually handle this for you">
+    <ReferenceBlock type="note" heading="Frameworks handle this for you">
       <p>
         Most HTTP clients, fetch wrappers, and URL-building APIs encode parameters automatically. You
         only need to encode manually when constructing URL strings by hand, which is where these bugs
-        typically sneak in.
+        sneak in.
       </p>
     </ReferenceBlock>
+  </section>
+
+  <section id="alternatives">
+    <h2>Which Tool to Reach For <span class="gold-dot" aria-hidden="true"></span></h2>
+
+    <p>
+      There are four ways to percent-encode a string, and they fail in different places.
+    </p>
+
+    <ul>
+      <li>
+        <strong>The browser console:</strong> <code>encodeURIComponent('a b')</code> is always at
+        hand, and it is the reference implementation this page matches. It has no decode safety net:
+        <code>decodeURIComponent</code> throws a <code>URIError</code> on a stray "%", so one percent
+        sign in a line of prose loses the whole result.
+      </li>
+      <li>
+        <strong>The command line:</strong> <code>jq -rn --arg v "$V" '$v|@uri'</code> encodes
+        correctly, but it is awkward for a value you just copied out of a log, and it will not tell
+        you that the value was already encoded twice.
+      </li>
+      <li>
+        <strong>A language runtime:</strong> Python's <code>urllib.parse</code> and Java's
+        <code>URLEncoder</code> differ from JavaScript on spaces and on which characters count as
+        unreserved, so a value that round-trips in one stack breaks in another.
+      </li>
+      <li>
+        <strong>A URL encoder decoder in the browser:</strong> useful when the input is a real value
+        from somewhere else rather than a clean string. This one detects the direction, reports the
+        exact position of a malformed escape, and offers a one-tap fix for the three shapes that
+        break a decode: a double-encoded value, a form-encoded "+" that means a space, and a stray
+        "%" from ordinary text.
+      </li>
+    </ul>
+
+    <p>
+      Use the runtime function when you are writing code, and a URL encoder decoder when you are
+      debugging a value that already exists and does not behave.
+    </p>
   </section>
 
   <section id="related-tools">

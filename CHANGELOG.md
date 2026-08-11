@@ -40,11 +40,30 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   added something for themselves were also the most box-heavy pages in the catalog, so restraint is
   gated rather than left to taste.
 
+- **Word Counter now says what it is for.** Its description covered neither of the two things
+  people actually arrive asking ("how many words", "essay length"), reaching them in body copy
+  only, so it scored zero on query targeting. It now names both, which the word goal makes
+  accurate rather than promotional, and it gained a short on-page tagline.
+
+- **The URL guide explains when *not* to use it.** A new section compares the browser console,
+  `jq`, a language runtime and this tool, including where each one fails: `decodeURIComponent`
+  throws on a stray "%", and Python and Java disagree with JavaScript about spaces.
+
 ### Fixed
 
 - **Word Counter's "nearly at goal" progress state** used a hardcoded `#d97706` against the rule
   that every colour comes from a token. The palette has no warning colour and the filling bar
   already showed proximity, so the state was removed rather than retinted.
+
+- **Hedging language removed** from the Word Counter guide and FAQ and the URL guide ("typically
+  counts as one word" became "counts as one word"). Both tools were below the content quality bar
+  before this release and are now above it.
+
+- **The content gate no longer invents a tool.** It derives which tools to check from the changed
+  paths under `src/tools/`, and two shared widgets have subdirectories, so touching
+  `src/tools/_shared/converter/` gated a nonexistent tool named "converter" and failed the build on
+  its missing content. `_shared` is platform code and is now excluded, in both `scripts/verify.sh`
+  and the CI workflow.
 
 ## [alpha-v7.4.1] - 2026-08-09
 
