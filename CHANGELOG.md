@@ -2,6 +2,76 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.5] - 2026-08-11
+
+### Added
+
+- **Every tool now earns its own reason to exist.** Measured across the catalog: 80 of 105 tools
+  were a single self-closing tag with nothing of their own, so the Base64, Hex and URL encoders
+  differed by one string in a config file. A tool now declares one **craft**, the single thoughtful
+  touch that comes from knowing what that tool's users are actually doing, and
+  `npm run check:craft` holds it as a ratio that only rises: adding a tool with nothing of its own
+  lowers the fraction and fails the build, so there is no "add it later".
+
+- **Base64 now fixes the input instead of only diagnosing it.** Pasting a data URI
+  (`data:text/plain;base64,…`), a base64url token out of a JWT, or a value whose `=` padding was
+  stripped in transit used to produce a correct and useless rejection like
+  `Unexpected character ":" near position 5`. Each now offers a one-tap fix under the error, and
+  applying it decodes what you actually pasted. Offers only appear when the repair demonstrably
+  produces readable text, so ordinary typing never triggers one.
+
+- **URL decoding recovers from the three ways it breaks.** A double-encoded value, a form-encoded
+  `+` that should be a space, and a stray `%` from ordinary prose ("50% off", which used to fail
+  the entire decode) each get the same one-tap fix.
+
+- **A `tool-craft` skill and a `tool-crafter` agent**, so the analysis behind a touch (what the tool
+  solves, where its users actually fail, which of five kinds applies) happens before the code rather
+  than after. `add-tool` and `tool-builder` now require a craft declaration for every new tool.
+
+### Changed
+
+- **Word Counter reads as one tool again.** Its word goal sat in a filled, bordered card and its
+  three word insights in three more bordered tiles, on a page that already had panels. They are now
+  inline rows. Its word goal is what the tool is declared on: nobody counts words for the number
+  itself, they are writing to a limit.
+
+- **Two clutter ceilings now ratchet downward** alongside the craft coverage floor: the worst single
+  widget's count of bordered cards, and hardcoded colours in widget styles. The tools that had
+  added something for themselves were also the most box-heavy pages in the catalog, so restraint is
+  gated rather than left to taste.
+
+- **Word Counter now says what it is for.** Its description covered neither of the two things
+  people actually arrive asking ("how many words", "essay length"), reaching them in body copy
+  only, so it scored zero on query targeting. It now names both, which the word goal makes
+  accurate rather than promotional, and it gained a short on-page tagline.
+
+- **The URL guide explains when *not* to use it.** A new section compares the browser console,
+  `jq`, a language runtime and this tool, including where each one fails: `decodeURIComponent`
+  throws on a stray "%", and Python and Java disagree with JavaScript about spaces.
+
+### Fixed
+
+- **Word Counter's "nearly at goal" progress state** used a hardcoded `#d97706` against the rule
+  that every colour comes from a token. The palette has no warning colour and the filling bar
+  already showed proximity, so the state was removed rather than retinted.
+
+- **Hedging language removed** from the Word Counter guide and FAQ and the URL guide ("typically
+  counts as one word" became "counts as one word"). Both tools were below the content quality bar
+  before this release and are now above it.
+
+- **The content gate no longer invents a tool.** It derives which tools to check from the changed
+  paths under `src/tools/`, and two shared widgets have subdirectories, so touching
+  `src/tools/_shared/converter/` gated a nonexistent tool named "converter" and failed the build on
+  its missing content. `_shared` is platform code and is now excluded, in both `scripts/verify.sh`
+  and the CI workflow.
+
+- **The content gate scored every tool's topic cluster against a file that was not there.** That
+  criterion reads `seo-engine/cache/content-graph.json`, which is gitignored, so it existed on any
+  machine that had ever generated it and never in a fresh CI checkout. The same tool measured 67
+  there and 100 locally, a five point swing in the overall score, which meant a local pass said
+  nothing about CI. Both now regenerate the graph before gating, the way the sibling
+  `queryTargeting` artifact already did and the way `seo:gate:sim` already chained it.
+
 ## [alpha-v7.4.1] - 2026-08-09
 
 ### Changed

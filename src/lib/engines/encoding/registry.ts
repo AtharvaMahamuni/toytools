@@ -9,6 +9,7 @@ import type { EncodingTool, EncodingMode, EncodingResult } from './types';
 import type {
   DetectResult,
   MetaItem,
+  RecoveryOffer,
   TransformInfo,
   TransformProvider,
   ValidationDetail,
@@ -101,6 +102,23 @@ export function encodingMeta(
   }
 }
 
+/**
+ * Offer a one-tap fix for predictably malformed input, or null when the encoder has none.
+ *
+ * The craft seam: the widget renders the offer for every tool on this engine, and each encoder
+ * supplies the knowledge about how ITS input arrives wrong. Never throws, and a null return is a
+ * legitimate answer rather than a gap to fill.
+ */
+export function recoverEncoding(id: string, mode: EncodingMode, text: string): RecoveryOffer | null {
+  const enc = ENCODERS[id];
+  if (!enc || !enc.recover || !text) return null;
+  try {
+    return enc.recover(text, mode);
+  } catch (_) {
+    return null;
+  }
+}
+
 /** Static, build-time-renderable description of an encoder. */
 export function encodingInfo(id: string): TransformInfo {
   const enc = ENCODERS[id];
@@ -112,6 +130,7 @@ export function encodingInfo(id: string): TransformInfo {
     insight: enc?.insight,
     technical: enc?.technical,
     sample: enc?.sample,
+    recoverable: typeof enc?.recover === 'function',
   };
 }
 
@@ -122,4 +141,5 @@ export const encodingProvider: TransformProvider = {
   validate: (id, mode, input) => validateEncoding(id, mode as EncodingMode, input),
   meta: (id, input, output, mode) => encodingMeta(id, input, output, mode as EncodingMode),
   info: encodingInfo,
+  recover: (id, mode, input) => recoverEncoding(id, mode as EncodingMode, input),
 };

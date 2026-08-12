@@ -37,6 +37,30 @@ export interface MetaItem {
   value: string;
 }
 
+/**
+ * A one-tap fix for input that is predictably the wrong shape.
+ *
+ * The validation layer already localises the exact fault on most encoders and then stops, which
+ * leaves a correct rejection where a fix belongs: pasting `data:image/png;base64,…` gets
+ * `Unexpected character ":" near position 5` and a phone keyboard. `recover` closes that step.
+ *
+ * This is the seam the craft doctrine hangs on: the widget renders the offer for every tool on the
+ * engine, and each processor supplies the domain knowledge about how ITS input arrives malformed.
+ * That is what makes base64 and hex stop being the same page with a different processorId.
+ * See docs/analysis/2026-08-11-tool-craft.md.
+ */
+export interface RecoveryOffer {
+  /**
+   * What the fix is, phrased as the thing the user gets, short enough for one line on a phone.
+   * "Decode as base64url", not "Normalise the alphabet".
+   */
+  label: string;
+  /** The repaired input. Replaces what is in the box, so the user can see what changed. */
+  text: string;
+  /** Direction to run after applying, when the fix implies one. */
+  mode?: string;
+}
+
 /** One row of the collapsible Technical Details section. Ordered, fully extensible —
  *  any provider can add as many term/detail pairs as it likes. */
 export interface TechnicalEntry {
@@ -80,6 +104,9 @@ export interface TransformInfo {
   grouped?: boolean;
   /** Group size in characters when `grouped` (default 4). */
   groupSize?: number;
+  /** True when this processor implements `recover`, so the widget can render the offer's slot at
+   *  build time and leave it empty on processors that have no honest fix to offer. */
+  recoverable?: boolean;
 }
 
 /** A provider implements the verbs for one `kind`. The runtime facade dispatches to it.
@@ -90,4 +117,6 @@ export interface TransformProvider {
   validate(id: string, mode: string, input: string): ValidationDetail;
   meta(id: string, input: string, output: string, mode: string): MetaItem[];
   info(id: string): TransformInfo;
+  /** Offer a one-tap fix for malformed input, or null when there is no honest one. Pure. */
+  recover?(id: string, mode: string, input: string): RecoveryOffer | null;
 }

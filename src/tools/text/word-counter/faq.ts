@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'wc-faq-2',
     question: 'What counts as a word?',
     answer:
-      'A word is any sequence of non-whitespace characters separated by spaces or line breaks. Numbers ("42"), hyphenated words ("well-known"), contractions ("don\'t"), and URLs each typically count as one word. The exact definition varies between tools, which is why two different counters may give slightly different results for the same text.',
+      'A word is any sequence of non-whitespace characters separated by spaces or line breaks. Numbers ("42"), hyphenated words ("well-known"), contractions ("don\'t"), and URLs each count as one word. The exact definition varies between tools, which is why two counters give different results for the same text.',
   },
   {
     id: 'wc-faq-3',
@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'wc-faq-7',
     question: 'How is reading time calculated?',
     answer:
-      'Reading time is estimated by dividing the word count by a typical reading speed. The most common reference is 200 words per minute for average adult reading of prose. At that rate, a 1,000-word article takes 5 minutes. Some tools use 250 wpm. Technical documentation is typically slower, around 100–150 wpm.',
+      'Reading time is estimated by dividing the word count by a typical reading speed. The most common reference is 200 words per minute for average adult reading of prose. At that rate, a 1,000-word article takes 5 minutes. Some tools use 250 wpm. Technical documentation is slower, around 100–150 wpm.',
   },
   {
     id: 'wc-faq-8',

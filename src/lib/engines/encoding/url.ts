@@ -48,6 +48,49 @@ export const url: EncodingTool = {
     return { ok: true, severity: 'info' };
   },
 
+  // The tool's craft (kind: recovery). Percent-encoding fails in three ways that look like the
+  // tool being broken: a value that went through encodeURIComponent twice and decodes to more
+  // percent escapes, a form-encoded value where "+" means space and decodes as a literal plus,
+  // and a stray "%" from ordinary prose ("50% off") that makes the whole decode throw.
+  recover(input, mode) {
+    if (mode !== 'decode' || !input) return null;
+
+    // Double-encoded: one decode leaves percent escapes behind, so the user decodes twice by hand.
+    if (/%25[0-9A-Fa-f]{2}/.test(input)) {
+      try {
+        const once = decodeURIComponent(input);
+        if (/%[0-9A-Fa-f]{2}/.test(once)) {
+          return { label: 'Decode twice (this is double-encoded)', text: once, mode: 'decode' };
+        }
+      } catch (_) {
+        return null;
+      }
+    }
+
+    // Stray "%" that is not an escape. decodeURIComponent throws on the whole string, so a single
+    // percent sign in prose costs the entire decode.
+    if (/%(?![0-9A-Fa-f]{2})/.test(input)) {
+      const escaped = input.replace(/%(?![0-9A-Fa-f]{2})/g, '%25');
+      try {
+        decodeURIComponent(escaped);
+        return { label: 'Treat the stray "%" as a literal percent sign', text: escaped, mode: 'decode' };
+      } catch (_) {
+        return null;
+      }
+    }
+
+    // application/x-www-form-urlencoded uses "+" for space; decodeURIComponent does not.
+    if (input.includes('+') && /%[0-9A-Fa-f]{2}/.test(input)) {
+      return {
+        label: 'Treat "+" as spaces (form-encoded)',
+        text: input.replace(/\+/g, '%20'),
+        mode: 'decode',
+      };
+    }
+
+    return null;
+  },
+
   meta(input, output, mode) {
     const source = mode === 'encode' ? output : input;
     const escapes = (source.match(/%[0-9A-Fa-f]{2}/g) || []).length;

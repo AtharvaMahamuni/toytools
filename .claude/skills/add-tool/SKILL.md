@@ -52,7 +52,13 @@ write. For "where does X live", read `docs/code-map.json` first.
 
    **Fix the cause; never raise the budget to make a new tool fit.** Background: `docs/analysis/2026-07-31-critical-path-performance.md`.
 
-8. **Widgets must call engine APIs inside `ToyTools.onReady()`.** The core global (`state`, `toast`, `copy`, `storage`, `prefs`) exists during parse, but engine surfaces (`analyze`, `process`, `runDateTime`, `runMath`, …) load lazily per page and are **not** there when the widget's inline script first runs. `validate-registry` fails the build if a widget calls a `ToyTools.*` global its declared engine does not provide.
+8. **Every new tool ships one thoughtful touch, declared as `craft` in `config.ts`.** A tool whose widget is a bare self-closing tag is interchangeable with its siblings: `base64`, `hex` and `url` encoders differed by one `processorId` string across the whole catalog. `check-craft.ts` holds coverage as a **ratio**, so adding a tool without craft lowers it and fails `npm run verify` — there is no "add it later". Declare `craft: { id, kind, solves }`, render `data-craft="<id>"` on the affordance's root element (a declaration that never reaches the DOM fails the build), and raise `THRESHOLDS.coverage` in the same commit.
+
+   Read the **`tool-craft` skill** before designing it: the analysis comes first (what the tool solves, where its users actually fail), the `kind` is a closed union of five, and the UI is a control plus a label inline, never a new bordered card. If the tool has no honest failure to resolve, **say so and ship no craft** rather than inventing one — but that is a finding to report, not a default.
+
+   This is the one case where touching a shared widget is correct, and it does not contradict rule 2: craft goes **through** the engine, as an optional verb on its contract plus the processor's own domain knowledge, rendered once by the shared widget for every tool on that engine (`recover` in `src/lib/engines/transform/types.ts` → `encoding/base64.ts` → `_shared/converter/RecoveryOffer.astro`). What rule 2 forbids is bending a shared widget to one tool's needs, or escaping it by rewriting the wrapper as a bespoke widget.
+
+9. **Widgets must call engine APIs inside `ToyTools.onReady()`.** The core global (`state`, `toast`, `copy`, `storage`, `prefs`) exists during parse, but engine surfaces (`analyze`, `process`, `runDateTime`, `runMath`, …) load lazily per page and are **not** there when the widget's inline script first runs. `validate-registry` fails the build if a widget calls a `ToyTools.*` global its declared engine does not provide.
 
 ## Decision tree
 

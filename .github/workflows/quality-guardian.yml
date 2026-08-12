@@ -47,6 +47,9 @@ jobs:
       - name: Query coverage check
         run: npm run check:queries
 
+      - name: Tool craft check
+        run: npm run check:craft
+
       - name: Run quality PR check
         run: npm run quality:pr
 
@@ -119,13 +122,26 @@ jobs:
       - name: Measure query coverage
         run: npm run check:queries
 
+      # Same failure, different criterion, found on 2026-08-12. seo:gate scores topicCluster from
+      # seo-engine/cache/content-graph.json, which is gitignored, so it does not exist in a fresh
+      # checkout and CI scored every tool's cluster against a graph that was not there. word-counter
+      # measured 67 here and 100 on any machine that had ever run the command, which is a 5 point
+      # swing in `overall` and the difference between a green PR and a red one for identical code.
+      # seo:gate:sim already chained this step, so the dependency was known and only half wired.
+      - name: Export the content graph (for the topic cluster measurement)
+        run: npm run seo:graph
+
       - name: Gate changed tools
         run: |
           base="${{ github.event.pull_request.base.sha }}"
           # Pathspec is 'src/tools/', not 'src/tools/*/*/': git does not expand the latter, so this
           # matched nothing and the gate ran on zero tools on every PR until 2026-08-04.
+          # _shared is excluded because two shared widgets have subdirectories (converter/,
+          # generator/): without it, touching src/tools/_shared/converter/Foo.astro gates a
+          # phantom tool named "converter". Shared widgets are platform code with no content to gate.
           slugs=$(git diff --name-only "$base" HEAD -- 'src/tools/' \
             | grep -E '^src/tools/[^/]+/[^/]+/' \
+            | grep -v '^src/tools/_shared/' \
             | sed -E 's#^src/tools/[^/]+/([^/]+)/.*#\1#' | sort -u)
           if [ -z "$slugs" ]; then
             echo "No tool directories changed — nothing to gate."

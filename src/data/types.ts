@@ -38,6 +38,47 @@ export interface GuideConfig {
 
 export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';
 
+/**
+ * The five kinds of thoughtful touch, as a closed set.
+ *
+ * Closed on purpose. The failure mode of "give every tool something special" is decoration: a
+ * sixth kind called "make it nicer" that costs every visitor bytes and attention forever. If a
+ * proposed touch does not fit one of these five, it is not craft, and the honest move is to ship
+ * nothing. See docs/analysis/2026-08-11-tool-craft.md section 2.1.
+ *
+ *   recovery      their input is predictably the wrong shape and the tool already knows why
+ *   verification  their next move is "is this actually right?"
+ *   continuation  the real task does not end at the output
+ *   guardrail     a mistake here has real cost and is easy to make
+ *   orientation   something true about their input they cannot see
+ */
+export type CraftKind = 'recovery' | 'verification' | 'continuation' | 'guardrail' | 'orientation';
+
+/**
+ * The one affordance that comes from knowing what THIS tool's users are actually doing, which its
+ * engine cannot know on their behalf.
+ *
+ * Exactly one per tool, and that is a ceiling rather than a target: the cap is what forces the
+ * question "what is the single most valuable thing these users are missing" instead of "what could
+ * we add". word-counter carried four and became the most cluttered page in the catalog.
+ *
+ * This is a declaration with teeth, not documentation. `scripts/check-craft.ts` fails the build if
+ * the built page carries no [data-craft="<id>"], so the prose here and the element in the DOM
+ * cannot drift apart, and tests/e2e/craft.spec.ts asserts it works on a Pixel 5.
+ */
+export interface ToolCraft {
+  /** Stable id. MUST be rendered as `data-craft` on the affordance's root element. */
+  id: string;
+  kind: CraftKind;
+  /**
+   * The concrete failure it resolves, in the user's terms, in one sentence. "Pasting a data URI or
+   * a base64url token gets a correct rejection instead of the decode they wanted" is a failure;
+   * "improves usability" is not, and a tool that can only manage the latter should declare no
+   * craft and wait.
+   */
+  solves: string;
+}
+
 // Engine/pattern ids are a closed set declared in src/data/engines.ts. Importing the unions here
 // (type-only — fully erased at runtime, so no import cycle) turns a typo in a tool's config into a
 // compile-time error in the editor instead of a deferred validate-registry failure.
@@ -85,6 +126,8 @@ export interface ToolConfig {
   };
   status?: 'stable' | 'beta';
   relatedPriority?: number;  // manual sort override for related tools
+  /** The tool's one thoughtful touch. See ToolCraft and docs/analysis/2026-08-11-tool-craft.md. */
+  craft?: ToolCraft;
 }
 
 // Backward-compat alias — existing consumers (ToolCard, ToolLayout, search, etc.) use Tool with no changes

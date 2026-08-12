@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'url',
   toolGroup: 'encoders',
   relatedTools: ['base64-encoder-decoder', 'html-entity-encoder-decoder'],
+  craft: {
+    id: 'url-recover',
+    kind: 'recovery',
+    solves: 'A double-encoded value, a form-encoded "+" or one stray "%" from prose each break the decode in a way that reads as the tool being broken rather than the input needing a fix.',
+  },
   guide: {
     slug: 'what-is-url-encoding',
     categorySlug: 'developer-utilities',

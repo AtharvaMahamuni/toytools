@@ -1,0 +1,73 @@
+---
+// The craft seam for the encoding engine: a one-tap fix for input that arrived in a predictably
+// wrong shape. Rendered for every tool whose processor implements `recover`, filled by that
+// processor's own domain knowledge, so base64 and hex stop being the same page with a different
+// processorId. See docs/analysis/2026-08-11-tool-craft.md.
+//
+// It is a button and nothing else, deliberately. The minimal-UI rules (R2, R5) say a craft touch
+// is a control plus a label, inline, and never a new bordered card: the page already has two
+// panels and a status line, and a third rectangle to hold one sentence is how a utility turns
+// into a control panel. It sits directly under the status line that reports the fault, because
+// the fix belongs where the diagnosis is.
+//
+// Hidden until the processor actually offers something (R3), via the `hidden` attribute rather
+// than a display rule, since a `display` rule silently overrides `[hidden]` — the bug InstallButton
+// already paid for once.
+interface Props {
+  id: string;
+  /** The tool's declared craft id, rendered as data-craft. check-craft.ts fails the build if a
+   *  tool declares a craft whose id never reaches the DOM. */
+  craftId?: string;
+}
+const { id, craftId } = Astro.props;
+---
+
+<button
+  type="button"
+  class="conv-recover"
+  id={id}
+  data-conv-recover
+  data-craft={craftId}
+  hidden
+></button>
+
+<style>
+  /* Any `display` rule silently overrides the [hidden] attribute's display:none, so the element
+     stays on screen while the script believes it is hidden. Restating it here is not belt and
+     braces: without it, this component ships an empty button on every converter page. */
+  .conv-recover[hidden] {
+    display: none;
+  }
+
+  .conv-recover {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    margin-top: var(--space-1);
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--color-accent-strong);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .conv-recover::before {
+    content: '↳';
+    color: var(--color-text-subtle);
+  }
+
+  .conv-recover:hover {
+    color: var(--color-text);
+  }
+
+  /* Phones have no hover, so the pressed state is the only feedback there is. */
+  .conv-recover:active {
+    color: var(--color-text);
+  }
+</style>

@@ -41,5 +41,11 @@ export function registerTransformProvider(TT: ToyToolsGlobal, kind: string, prov
         ? p.info(id)
         : { displayName: id, reversible: true, modes: { forward: 'encode', inverse: 'decode' } };
     },
+    // Optional on a provider: a kind with no recoveries (hashing has no malformed input to repair)
+    // simply never offers one, and the widget's offer stays hidden.
+    recover: (kind: string, id: string, mode: string, input: string) => {
+      const p = PROVIDERS[kind];
+      return p && p.recover ? p.recover(id, mode, input) : null;
+    },
   };
 }

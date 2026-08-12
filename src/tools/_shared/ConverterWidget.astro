@@ -22,6 +22,7 @@ import HistoryPanel from '@tools/_shared/converter/HistoryPanel.astro';
 import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astro';
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import RecoveryOffer from '@tools/_shared/converter/RecoveryOffer.astro';
 import BinaryByteViewer from '@tools/_shared/converter/BinaryByteViewer.astro';
 import { encodingInfo } from '@lib/engines/encoding/registry';
 import { hashInfo } from '@lib/engines/hashing/registry';
@@ -53,6 +54,7 @@ const statusId = `${slug}-status`;
 const metaId = `${slug}-meta`;
 const historyId = `${slug}-history`;
 const byteId = `${slug}-byteview`;
+const recoverId = `${slug}-recover`;
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
@@ -103,6 +105,7 @@ const byteId = `${slug}-byteview`;
 </ToolSplit>
 
 <StatusIndicator id={statusId} />
+{info.recoverable && <RecoveryOffer id={recoverId} craftId={config.craft?.id} />}
 
 <ToolActions
   pasteTarget={inputId}
@@ -146,6 +149,41 @@ const byteId = `${slug}-byteview`;
       function show(state, text) { if (el) { el.setAttribute('data-ok', state); el.textContent = text; } }
       return { show: show, clear: function () { show('', ''); } };
     })(document.getElementById(slug + '-status'));
+
+    // ── Recovery controller (the craft seam) ─────────────────────────────
+    // Asks the processor whether it can repair this input, and offers the fix as one line under
+    // the status that reported the fault. Silent whenever there is nothing honest to offer, which
+    // is most of the time and is the point: see the silence test in the craft doctrine.
+    var recovery = (function (el) {
+      var pending = null;
+      function hide() { if (el) { el.hidden = true; el.textContent = ''; } pending = null; }
+      function offer(text, mode) {
+        if (!el) return;
+        var T = tx();
+        var r = (T && T.recover) ? T.recover(kind, pid, mode, text) : null;
+        if (!r || !r.label || typeof r.text !== 'string' || r.text === text) { hide(); return; }
+        pending = r;
+        el.textContent = r.label;
+        el.hidden = false;
+      }
+      if (el) {
+        el.addEventListener('click', function () {
+          if (!pending) return;
+          var next = pending;
+          input.value = next.text;
+          if (reversible && modeEl && (next.mode === 'encode' || next.mode === 'decode')) {
+            modeEl.value = next.mode;
+            override = true;   // an explicit fix is an explicit direction; do not re-detect over it
+          }
+          hide();
+          execForward();
+          persist();
+          if (TT.toast) TT.toast('Applied: ' + next.label);
+          input.focus();
+        });
+      }
+      return { offer: offer, hide: hide };
+    })(document.getElementById(slug + '-recover'));
 
     // ── Metadata controller ──────────────────────────────────────────────
     var meta = (function (el) {
@@ -222,6 +260,7 @@ const byteId = `${slug}-byteview`;
       output.removeAttribute('data-copy-value');
       status.clear();
       meta.clear();
+      recovery.hide();
     }
 
     // ── Core controller (sync or async · two-way · loop prevention) ────────
@@ -252,6 +291,7 @@ const byteId = `${slug}-byteview`;
       syncing = true; applyOutput(res); syncing = false;
       renderStatus(v, res, detect);
       meta.render(res.ok && T ? T.meta(kind, pid, t, res.output, mode) : []);
+      recovery.offer(t, mode);
       if (res.ok && res.output) history.push(t, res.output);
     }
 

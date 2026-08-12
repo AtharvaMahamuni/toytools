@@ -43,12 +43,36 @@ Zone C  Know      ONE row: drawer triggers, the guide, the category hub
   long: it is the meta description and one of four query-targeting slots, so never shorten it for
   layout.
 
-### Two enforced invariants
+### Enforced invariants
 
 | invariant | where | what it means |
 |---|---|---|
 | **Fold ratchet** | `tests/e2e/fold.spec.ts`, Pixel 5, all tools | chrome above the tool must stay under `CHROME_LIMIT` of the viewport. Ratchets down only, never up. A rise means a page grew a masthead. |
 | **Concept headings** | `THRESHOLDS.conceptHeadings` in `check-query-coverage.ts` | every tool page carries an H2 naming a concept, not a page part. Held at 1.0 by the knowledge drawers. |
+| **Craft coverage** | `THRESHOLDS.coverage` in `check-craft.ts` | the fraction of tools declaring one thoughtful touch. Ratchets up only. A ratio, not a count, so adding a tool with nothing of its own fails the gate. |
+| **Clutter ceilings** | `THRESHOLDS.boxesPerTool` / `rawHex` in `check-craft.ts` | the worst single widget's bordered-card count, and hardcoded colours in widget styles. Both ratchet down only. |
+
+### The anti-clutter rules (they are half of the craft doctrine)
+
+Craft and clutter arrived together: measured 2026-08-11, the 25 tools carrying a tool-specific
+affordance were also the most box-heavy pages in the catalog, because the only pattern anyone
+reached for when adding something was "put it in a box". So restraint is gated alongside coverage,
+not left to taste.
+
+- **No new boxes.** A tool-specific affordance may not introduce a filled, bordered card. Prefer,
+  in order: text in a slot that already exists, a line under the control it modifies, a
+  `<details>` drawer, and only then anything with an edge. A page with two panels does not need a
+  third rectangle to hold one sentence.
+- **One row, not one section.** The natural size is a control plus a label, inline. Needing a
+  heading is a signal it is more than one affordance.
+- **Silent until relevant**, and always pair the `hidden` attribute with an explicit
+  `[hidden] { display: none }` for your element. Any `display` rule silently overrides `[hidden]`,
+  which has now shipped as a visible bug twice (`InstallButton`, then `RecoveryOffer`).
+- **Every value is a token.** If the palette lacks the colour a state wants, the state is usually
+  the thing to remove: word-counter's "nearly at goal" amber was a hardcoded `#d97706` signalling
+  nothing its progress bar was not already showing, and deleting it was the right fix.
+
+Full doctrine, taxonomy and method: `.claude/skills/tool-craft/SKILL.md`.
 
 ### Layering rule
 
@@ -482,7 +506,7 @@ Tool pages are utility pages, not landing pages.
 - Large decorative elements
 - Excessive introductory text
 
-The tool must remain above the fold on mobile (375px viewport).
+The tool must remain above the fold on mobile (393px, the Pixel 5 e2e gate), and `tests/e2e/fold.spec.ts` enforces it.
 
 ---
 
@@ -534,7 +558,7 @@ Avoid:
 
 ## Mobile-First Validation Checklist
 
-Every new widget must be verified at approximately **375px width** before shipping.
+Every new widget must be verified at **393px width** (Pixel 5, the e2e gate) before shipping.
 
 - [ ] No horizontal scrolling
 - [ ] All touch targets are at least 48px
@@ -603,7 +627,7 @@ Before merging any new tool or UI change:
 
 - [ ] Uses shared CSS tokens (no hardcoded values)
 - [ ] Uses shared components where applicable
-- [ ] Passes mobile validation (375px, one-hand usable)
+- [ ] Passes mobile validation (393px, one-hand usable)
 - [ ] Passes accessibility checklist (keyboard, labels, contrast)
 - [ ] Passes dark mode validation (light + dark + OS)
 - [ ] Meets performance budget (JS < 10 KB, CSS < 5 KB, zero deps)

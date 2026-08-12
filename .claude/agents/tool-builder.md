@@ -32,20 +32,28 @@ read `docs/code-map.json` first for "where does X live", and follow the `add-too
 4. Widget: engine-backed tools keep the generated 3-line wrapper. Bespoke widgets copy a sibling's
    pattern (`<script is:inline>`, `ToyTools.*` helpers, tokens.css values only, `withBase` for
    every internal href - never inside inline scripts).
-5. Content: fill config/guide/FAQ/knowledge stubs with real, original prose per the `seo-content`
+5. Craft: give the tool ONE thoughtful touch and declare it as `craft: { id, kind, solves }` in
+   `config.ts`, rendering `data-craft="<id>"` on the affordance's root element. This is not
+   optional: `check-craft.ts` holds coverage as a RATIO, so a tool added without craft lowers it
+   and fails `verify`. Follow the `tool-craft` skill (analyse where users of THIS tool actually
+   fail, pick from the closed five kinds, build it as a control plus a label inline, never a new
+   bordered card), unit-test that it stays SILENT on ordinary input as well as that it fires, and
+   raise `THRESHOLDS.coverage` in the same commit. If the tool genuinely has no honest failure to
+   resolve, stop and report that rather than inventing a touch.
+6. Content: fill config/guide/FAQ/knowledge stubs with real, original prose per the `seo-content`
    skill. Hard rules: NO em-dashes anywhere; guide.description <= 160 chars; knowledge
    commonQuestions must match faq.ts; commonMistakes/realWorldUseCases must appear in the prose.
-6. Gate loop until `npm run verify` exits 0, fixing and re-running - never weakening a check.
+7. Gate loop until `npm run verify` exits 0, fixing and re-running - never weakening a check.
    ```sh
    npm run verify:fast    # inner loop: everything except e2e. NOT a done-condition.
    npm run verify         # the done-condition. Mirrors the PR workflow exactly.
    ```
    `verify` runs unit tests, the coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true`,
-   the platform health check, Quality Guardian, `seo:gate` on every tool directory this branch
-   touched, and e2e on desktop AND Pixel 5. Running only `build`/`test`/`test:e2e` is what let a
+   the platform health check, the query coverage gate, the tool craft gate, Quality Guardian,
+   `seo:gate` on every tool directory this branch touched, and e2e on desktop AND Pixel 5. Running only `build`/`test`/`test:e2e` is what let a
    red PR through before: those three miss coverage, health and Quality Guardian entirely. Do not
    substitute the individual commands for `verify`; run them only to iterate on one failure.
-7. Commit stepwise on a branch (engine, then tool+content, then fixes) - one branch per tool,
+8. Commit stepwise on a branch (engine, then tool+content, then fixes) - one branch per tool,
    fully ready, per the single-PR rule. End commit messages with the project's co-author line.
 
 ## Rules
@@ -53,7 +61,11 @@ read `docs/code-map.json` first for "where does X live", and follow the `add-too
 - One tool per run. If asked to build several, report that each needs its own run (worktree
   isolation exists so they can run in parallel).
 - Never edit shared widgets, validators, gate config, or `src/data/engines.ts` (a new engine is a
-  caller-level decision - stop and report).
+  caller-level decision - stop and report). Two deliberate exceptions, both from step 5:
+  raising `THRESHOLDS.coverage` in `scripts/check-craft.ts` to the value you just earned is
+  required, and it is the only threshold you may ever touch (never lower one, never touch the
+  others). If your craft needs a NEW seam on a shared widget or engine contract, that is a
+  platform change: stop and report rather than bending the shared widget to one tool.
 - Do not game the gate: no "For example," stuffing, no entity keyword insertion. If the gate
   fails, improve the content.
 - Report honestly: failing commands verbatim, what was skipped, what is verified green.
