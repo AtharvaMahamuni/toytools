@@ -1,35 +1,38 @@
 # Recommended Next Build
 
-Generated: 2026-08-03T19:35:34.439Z
+Generated: 2026-08-12T17:17:04.263Z
 
-## One Rep Max Calculator  (`one-rep-max-calculator`)
+## Pregnancy Due Date Calculator  (`pregnancy-due-date-calculator`)
 
-**Opportunity score:** 86.1 / 100
+**Opportunity score:** 84.2 / 100
 
 ### Why build it
 - High search demand
-- Weak / incomplete incumbents
-- Reuses the existing wellness engine
+- Reuses the existing datetime engine
 - Low implementation cost
 - Strong topic-cluster potential
-- Creates 6 internal links
+- Creates 5 internal links
 - Deterministic algorithm solves this exactly (AI adds nothing)
 
 ### Why incumbents are weak
-- ad heavy
-- single formula only
-- no percentage training table
-- desktop-first layout
+- requires signup for the full timeline
+- heavy tracking scripts
+- upsells products
+- slow on mobile
 
 ### Why ToyTools can win
-- Ships on the proven wellness engine - consistent UX, fast to build.
+- Ships on the proven datetime engine - consistent UX, fast to build.
 - Runs fully client-side - private, offline-capable, no upload (a core ToyTools advantage).
-- Incumbents are ad-heavy or paywalled; a clean free tool can win the SERP.
 - The need is exactly algorithmic: a deterministic tool beats an AI answer on speed, precision, and trust.
 
+### Craft hypothesis (where its users actually fail)
+- **No craft candidate from evidence.**
+
+No task-level failure recorded for this tool, so there is no craft candidate from evidence. Add userFailures to the seed record if you know one, or accept that this tool ships with no craft and say so explicitly. Never invent one.
+
 ### Engine
-- Reuses existing engine: `wellness`
-- Future tools this unlocks: running-pace-calculator, calorie-deficit-calculator, bmr-calculator, protein-intake-calculator, lean-body-mass-calculator, waist-to-hip-ratio-calculator, body-surface-area-calculator, vo2-max-calculator
+- Reuses existing engine: `datetime`
+- Future tools this unlocks: sleep-cycle-calculator, ovulation-calculator, unix-timestamp-converter, age-calculator, date-difference-calculator, timezone-converter, cron-expression-parser
 
 ### Estimates
 - Implementation effort: **low**
@@ -37,7 +40,7 @@ Generated: 2026-08-03T19:35:34.439Z
 - Maintenance cost: **low**
 
 ### Suggested supporting content
-- Guides: What is Fitness Performance Calculation?; How to fitness performance calculation online; One Rep Max Calculator vs the alternatives
-- FAQs: How do I fitness performance calculation?; Is One Rep Max Calculator free and private?; Does One Rep Max Calculator avoid "ad heavy"?
-- Internal links / related tools: body-weight-tracker, bmi-calculator, body-fat-calculator, heart-rate-zone-calculator, ideal-weight-calculator, macro-calculator
+- Guides: What is Health Date Calculation?; How to health date calculation online; Pregnancy Due Date Calculator vs the alternatives
+- FAQs: How do I health date calculation?; Is Pregnancy Due Date Calculator free and private?; Does Pregnancy Due Date Calculator avoid "requires signup for the full timeline"?
+- Internal links / related tools: age-calculator, date-difference-calculator, cron-expression-parser, timezone-converter, unix-timestamp-converter
 - Schema: SoftwareApplication, FAQPage

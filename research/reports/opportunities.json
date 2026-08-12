@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-02T19:01:19.070Z",
+  "generatedAt": "2026-08-12T17:17:04.263Z",
   "opportunities": [
     {
       "id": "one-rep-max-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -33,6 +33,7 @@
         "no percentage training table",
         "desktop-first layout"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "training percentages",
         "rep max conversion",
@@ -40,27 +41,27 @@
       ],
       "relatedTools": [
         "body-weight-tracker",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "relatedGuides": [
         "body-weight-tracker",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "relatedFaqs": [
         "body-weight-tracker",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -75,8 +76,8 @@
       "algorithmicFit": 0.97,
       "confidence": 0.8,
       "finalScore": 86.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -98,7 +99,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -110,6 +111,7 @@
         "imperial only by default",
         "slow to load"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "split times",
         "goal race pace",
@@ -117,27 +119,27 @@
       ],
       "relatedTools": [
         "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "relatedGuides": [
         "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "relatedFaqs": [
         "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -152,8 +154,8 @@
       "algorithmicFit": 0.97,
       "confidence": 0.8,
       "finalScore": 86,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -175,7 +177,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -187,6 +189,7 @@
         "no timeline chart",
         "assumes a fixed 7700 kcal rule without stating it"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "safe deficit range",
         "plateau expectations",
@@ -195,26 +198,26 @@
       "relatedTools": [
         "tdee-calculator",
         "body-weight-tracker",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
         "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator"
+        "protein-intake-calculator"
       ],
       "relatedGuides": [
         "tdee-calculator",
         "body-weight-tracker",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
         "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator"
+        "protein-intake-calculator"
       ],
       "relatedFaqs": [
         "tdee-calculator",
         "body-weight-tracker",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
         "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator"
+        "protein-intake-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -229,8 +232,8 @@
       "algorithmicFit": 0.92,
       "confidence": 0.8,
       "finalScore": 84.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -252,7 +255,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -264,6 +267,7 @@
         "upsells products",
         "slow on mobile"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "gestational age today",
         "trimester boundaries",
@@ -308,13 +312,13 @@
       "engineExists": true
     },
     {
-      "id": "unit-circle-explorer",
+      "id": "unit-circle-calculator",
       "title": "Unit Circle Explorer",
       "problem": "I want to drag an angle around the unit circle and see sin, cos, and tan update live with the reference triangle and a tracing sine wave.",
       "userIntent": "informational",
       "workflow": "input → Unit Circle → output",
       "transformation": "Unit Circle",
-      "proposedTool": "unit-circle-explorer",
+      "proposedTool": "unit-circle-calculator",
       "proposedEngine": "math-lab",
       "searchQueries": [
         "unit circle",
@@ -326,7 +330,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -338,6 +342,7 @@
         "no drag interaction on mobile",
         "no live sine wave tracing"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "radians to degrees",
         "special angles",
@@ -345,15 +350,15 @@
         "sine wave"
       ],
       "relatedTools": [
-        "quadratic-equation-explorer",
-        "probability-simulator",
-        "unit-circle-explorer"
+        "quadratic-equation-solver",
+        "probability-calculator",
+        "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "quadratic-equation-explorer",
-        "probability-simulator",
-        "unit-circle-explorer"
+        "quadratic-equation-solver",
+        "probability-calculator",
+        "unit-circle-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.96,
@@ -373,13 +378,13 @@
       "engineExists": true
     },
     {
-      "id": "quadratic-equation-explorer",
+      "id": "quadratic-equation-solver",
       "title": "Quadratic Equation Explorer",
       "problem": "I want to slide the coefficients a, b, and c and watch the parabola, roots, vertex, and discriminant change, with the formula worked step by step.",
       "userIntent": "transactional",
       "workflow": "input → Quadratic Equations → output",
       "transformation": "Quadratic Equations",
-      "proposedTool": "quadratic-equation-explorer",
+      "proposedTool": "quadratic-equation-solver",
       "proposedEngine": "math-lab",
       "searchQueries": [
         "quadratic formula calculator",
@@ -391,7 +396,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -403,6 +408,7 @@
         "ad heavy",
         "no coefficient sliders"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "vertex form",
         "axis of symmetry",
@@ -410,15 +416,15 @@
         "completing the square"
       ],
       "relatedTools": [
-        "unit-circle-explorer",
-        "probability-simulator",
-        "quadratic-equation-explorer"
+        "unit-circle-calculator",
+        "probability-calculator",
+        "quadratic-equation-solver"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "unit-circle-explorer",
-        "probability-simulator",
-        "quadratic-equation-explorer"
+        "unit-circle-calculator",
+        "probability-calculator",
+        "quadratic-equation-solver"
       ],
       "difficulty": "low",
       "evergreenScore": 0.97,
@@ -456,7 +462,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -467,6 +473,7 @@
         "no wake-time and bed-time in one view",
         "ignores time to fall asleep"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "sleep latency allowance",
         "nap length",
@@ -533,7 +540,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -543,6 +550,7 @@
         "no nearest-accessible-color suggestion",
         "desktop-only UI, not mobile-first"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "color format conversion",
         "colorblind simulation",
@@ -596,7 +604,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -607,6 +615,7 @@
         "formula choice hidden",
         "no comparison between equations"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "equation selection",
         "activity multipliers",
@@ -615,26 +624,26 @@
       "relatedTools": [
         "tdee-calculator",
         "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "protein-intake-calculator",
+        "bmi-calculator"
       ],
       "relatedGuides": [
         "tdee-calculator",
         "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "protein-intake-calculator",
+        "bmi-calculator"
       ],
       "relatedFaqs": [
         "tdee-calculator",
         "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "protein-intake-calculator",
+        "bmi-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -649,8 +658,8 @@
       "algorithmicFit": 0.96,
       "confidence": 0.8,
       "finalScore": 82.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -672,7 +681,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -684,6 +693,7 @@
         "no visual fraction bars",
         "cluttered forms"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "least common denominator",
         "simplifying fractions",
@@ -692,7 +702,7 @@
       ],
       "relatedTools": [
         "prime-factorization-calculator",
-        "quadratic-equation-explorer",
+        "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator"
       ],
@@ -703,7 +713,7 @@
       ],
       "relatedFaqs": [
         "prime-factorization-calculator",
-        "quadratic-equation-explorer",
+        "quadratic-equation-solver",
         "fraction-calculator",
         "combinations-permutations-calculator"
       ],
@@ -745,7 +755,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -755,6 +765,7 @@
         "single-direction converters, not one unified tool",
         "cluttered, ad-heavy"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "contrast ratio",
         "color shades",
@@ -808,7 +819,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -820,6 +831,7 @@
         "sends personal cycle data to a server",
         "ad heavy"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "cycle length variation",
         "luteal phase length",
@@ -882,7 +894,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -892,6 +904,7 @@
         "collapses spacing unpredictably",
         "no offline option"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "remove blank lines",
         "normalize whitespace"
@@ -956,7 +969,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -968,6 +981,7 @@
         "ad heavy",
         "combinations and permutations on separate pages"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "factorial",
         "with or without repetition",
@@ -975,7 +989,7 @@
         "counting principle"
       ],
       "relatedTools": [
-        "probability-simulator",
+        "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator"
@@ -986,7 +1000,7 @@
         "fraction-calculator"
       ],
       "relatedFaqs": [
-        "probability-simulator",
+        "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator"
@@ -1028,7 +1042,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -1038,6 +1052,7 @@
         "no configurable root size persistence",
         "ad-heavy, dated"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "px to dp",
         "modular type scale",
@@ -1094,7 +1109,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -1106,6 +1121,7 @@
         "readings leave the device",
         "no trend view"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "reading categories",
         "morning versus evening readings",
@@ -1162,7 +1178,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -1173,6 +1189,7 @@
         "email gate",
         "single recommendation with no range"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "guideline ranges by goal",
         "protein timing",
@@ -1181,26 +1198,26 @@
       "relatedTools": [
         "macro-calculator",
         "tdee-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "protein-intake-calculator",
+        "bmi-calculator"
       ],
       "relatedGuides": [
         "macro-calculator",
         "tdee-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "protein-intake-calculator",
+        "bmi-calculator"
       ],
       "relatedFaqs": [
         "macro-calculator",
         "tdee-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "protein-intake-calculator",
+        "bmi-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.9,
@@ -1215,8 +1232,8 @@
       "algorithmicFit": 0.88,
       "confidence": 0.8,
       "finalScore": 81.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true
     },
     {
@@ -1236,7 +1253,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -1246,6 +1263,7 @@
         "ads",
         "no clear breakdown of invested vs returns"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "compound interest",
         "savings goal",
@@ -1311,7 +1329,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -1321,6 +1339,7 @@
         "no live preview",
         "ships text to a server"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "flip text",
         "mirror text"
@@ -1385,7 +1404,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -1397,6 +1416,7 @@
         "gcf and lcm split across separate pages",
         "no exponent form output"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "greatest common factor",
         "least common multiple",
@@ -1455,7 +1475,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1465,6 +1485,7 @@
         "no web + native unit coverage in one tool",
         "poor mobile UX"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "px to rem",
         "aspect ratio"
@@ -1502,13 +1523,13 @@
       "engineExists": true
     },
     {
-      "id": "projectile-motion-simulator",
+      "id": "projectile-motion-calculator",
       "title": "Projectile Motion Simulator",
       "problem": "I want to see how launch angle and speed change a projectile's range, peak height, and time of flight along a live trajectory.",
       "userIntent": "informational",
       "workflow": "input → Projectile Motion → output",
       "transformation": "Projectile Motion",
-      "proposedTool": "projectile-motion-simulator",
+      "proposedTool": "projectile-motion-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "projectile motion simulator",
@@ -1520,7 +1541,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -1532,6 +1553,7 @@
         "no drag-to-aim interaction",
         "not mobile-first"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "max height",
         "time of flight",
@@ -1539,21 +1561,21 @@
         "launch angle"
       ],
       "relatedTools": [
-        "pendulum-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "pendulum-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.96,
@@ -1573,13 +1595,13 @@
       "engineExists": true
     },
     {
-      "id": "probability-simulator",
+      "id": "probability-calculator",
       "title": "Probability Lab",
       "problem": "I want to run thousands of animated coin flips or dice rolls and watch the empirical frequency converge on the theoretical probability.",
       "userIntent": "informational",
       "workflow": "input → Probability → output",
       "transformation": "Probability",
-      "proposedTool": "probability-simulator",
+      "proposedTool": "probability-calculator",
       "proposedEngine": "math-lab",
       "searchQueries": [
         "coin flip probability simulator",
@@ -1591,7 +1613,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -1603,6 +1625,7 @@
         "no convergence chart",
         "geogebra applets are slow and dated"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "law of large numbers",
         "expected value",
@@ -1610,15 +1633,15 @@
         "sample size"
       ],
       "relatedTools": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -1656,7 +1679,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1666,6 +1689,7 @@
         "inconsistent accent handling",
         "no instant browser tool"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "remove accents",
         "kebab case"
@@ -1730,7 +1754,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1740,6 +1764,7 @@
         "no common-ratio reference",
         "ad-supported"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "px to dp",
         "type scale"
@@ -1795,7 +1820,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1807,6 +1832,7 @@
         "data uploaded to a server",
         "no combined histogram and box plot view"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "variance",
         "interquartile range",
@@ -1814,7 +1840,7 @@
         "population vs sample"
       ],
       "relatedTools": [
-        "probability-simulator",
+        "probability-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -1825,7 +1851,7 @@
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
-        "probability-simulator",
+        "probability-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -1866,7 +1892,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1876,6 +1902,7 @@
         "no live two-way preview",
         "ads"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "hex encoding",
         "ascii codes"
@@ -1940,7 +1967,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -1950,6 +1977,7 @@
         "no formula comparison",
         "no link to body fat percentage"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "formula selection",
         "fat free mass index",
@@ -1959,25 +1987,25 @@
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "relatedGuides": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "relatedFaqs": [
         "body-fat-calculator",
         "ideal-weight-calculator",
         "bmi-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -2013,7 +2041,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -2022,6 +2050,7 @@
         "no annualized figure",
         "ad supported"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "cagr",
         "compound interest",
@@ -2087,7 +2116,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -2098,6 +2127,7 @@
         "measurement technique not explained",
         "ad heavy"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "where to place the tape",
         "risk thresholds by sex",
@@ -2107,25 +2137,25 @@
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -2163,7 +2193,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -2173,6 +2203,7 @@
         "one formula only",
         "no plain-language explanation"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "formula variance",
         "paediatric dosing",
@@ -2182,25 +2213,25 @@
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "relatedGuides": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "relatedFaqs": [
         "bmi-calculator",
         "body-fat-calculator",
         "ideal-weight-calculator",
-        "heart-rate-zone-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -2220,13 +2251,13 @@
       "engineExists": true
     },
     {
-      "id": "ohms-law-simulator",
+      "id": "ohms-law-calculator",
       "title": "Ohm's Law Simulator",
       "problem": "I want to change voltage and resistance and see the resulting current and power, ideally with the circuit reacting live.",
       "userIntent": "transactional",
       "workflow": "input → Ohm's Law → output",
       "transformation": "Ohm's Law",
-      "proposedTool": "ohms-law-simulator",
+      "proposedTool": "ohms-law-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "ohms law calculator",
@@ -2238,7 +2269,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2250,27 +2281,28 @@
         "no visual of current flow",
         "not mobile-first"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "power dissipation",
         "series and parallel resistance",
         "current draw"
       ],
       "relatedTools": [
-        "frequency-period-simulator",
-        "doppler-effect-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator"
+        "frequency-period-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "frequency-period-simulator",
-        "doppler-effect-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator"
+        "frequency-period-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.96,
@@ -2308,7 +2340,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -2318,6 +2350,7 @@
         "no offline tool",
         "separate escape vs unescape pages"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "json formatting",
         "string escaping"
@@ -2364,13 +2397,13 @@
       "engineExists": true
     },
     {
-      "id": "shm-spring-simulator",
+      "id": "simple-harmonic-motion-calculator",
       "title": "Spring (SHM) Simulator",
       "problem": "I want to hang a mass on a spring, release it, and watch it oscillate while position, velocity, and energy trade back and forth.",
       "userIntent": "informational",
       "workflow": "input → Simple Harmonic Motion → output",
       "transformation": "Simple Harmonic Motion",
-      "proposedTool": "shm-spring-simulator",
+      "proposedTool": "simple-harmonic-motion-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "simple harmonic motion simulator",
@@ -2382,7 +2415,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2392,6 +2425,7 @@
         "no live bobbing spring",
         "no energy trade view"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "spring period",
         "hooke's law",
@@ -2399,21 +2433,21 @@
         "energy in oscillation"
       ],
       "relatedTools": [
-        "pendulum-simulator",
-        "frequency-period-simulator",
-        "doppler-effect-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "frequency-period-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "pendulum-simulator",
-        "frequency-period-simulator",
-        "doppler-effect-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "frequency-period-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.94,
@@ -2451,7 +2485,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -2460,6 +2494,10 @@
         "uploads sensitive data to a server",
         "paywalled",
         "not row-aware"
+      ],
+      "userFailures": [
+        "A semicolon-delimited European export parses as a single column and every row reads as changed.",
+        "Two files that differ only in row order are reported as wholly different."
       ],
       "relatedProblems": [
         "json diff",
@@ -2520,7 +2558,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -2529,6 +2567,7 @@
         "formula buried in articles",
         "no live result"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "roi",
         "compound interest",
@@ -2594,7 +2633,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -2606,6 +2645,7 @@
         "ad heavy",
         "painful matrix entry on mobile"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "determinant",
         "matrix inverse",
@@ -2663,7 +2703,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2672,6 +2712,7 @@
         "cyberchef is heavy for one transform",
         "ad-laden single-purpose sites"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "caesar cipher",
         "base64"
@@ -2736,7 +2777,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2745,6 +2786,7 @@
         "Unicode normalization is obscure to non-devs",
         "no quick paste-and-go tool"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "slugify",
         "normalize text"
@@ -2809,7 +2851,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2821,6 +2863,7 @@
         "unclear which side-angle combinations are valid",
         "no ambiguous case explanation"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "law of sines",
         "law of cosines",
@@ -2828,7 +2871,7 @@
         "ambiguous case"
       ],
       "relatedTools": [
-        "unit-circle-explorer",
+        "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -2839,7 +2882,7 @@
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
-        "unit-circle-explorer",
+        "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -2862,13 +2905,13 @@
       "engineExists": true
     },
     {
-      "id": "ideal-gas-law-simulator",
+      "id": "ideal-gas-law-calculator",
       "title": "Ideal Gas Law Simulator",
       "problem": "I want to change temperature, volume, and amount of gas and watch pressure emerge from particle collisions in a box.",
       "userIntent": "transactional",
       "workflow": "input → Ideal Gas Law → output",
       "transformation": "Ideal Gas Law",
-      "proposedTool": "ideal-gas-law-simulator",
+      "proposedTool": "ideal-gas-law-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "ideal gas law calculator",
@@ -2880,7 +2923,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -2890,6 +2933,7 @@
         "phet is heavy and dated",
         "no live piston interaction"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "boyle's law",
         "charles's law",
@@ -2897,21 +2941,21 @@
         "gas temperature"
       ],
       "relatedTools": [
-        "heat-transfer-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator"
+        "heat-transfer-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "heat-transfer-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator"
+        "heat-transfer-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -2950,7 +2994,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2960,6 +3004,7 @@
         "no copyable CSS custom properties",
         "no perceptual (OKLCH) spacing"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "color conversion",
         "perceptual gradient"
@@ -3013,7 +3058,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -3023,6 +3068,7 @@
         "limited ratio presets",
         "not mobile-first"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "px to rem",
         "aspect ratio"
@@ -3077,7 +3123,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -3086,6 +3132,7 @@
         "dated UI",
         "ad-supported"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "date difference",
         "timezone conversion"
@@ -3147,7 +3194,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -3159,6 +3206,7 @@
         "no draggable mean and sigma",
         "no shaded area interaction"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "z score",
         "empirical rule",
@@ -3166,15 +3214,15 @@
         "standardizing data"
       ],
       "relatedTools": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.94,
@@ -3211,7 +3259,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3220,6 +3268,7 @@
         "tools miss newer emoji",
         "privacy concerns pasting elsewhere"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "remove special characters",
         "clean text"
@@ -3283,13 +3332,17 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
       "solutionWeaknesses": [
         "requires a spreadsheet app",
         "mangles quoting"
+      ],
+      "userFailures": [
+        "The source uses semicolons rather than commas, so the whole file converts into one column per row.",
+        "A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on."
       ],
       "relatedProblems": [
         "csv to json",
@@ -3331,13 +3384,13 @@
       "engineExists": true
     },
     {
-      "id": "doppler-effect-simulator",
+      "id": "doppler-effect-calculator",
       "title": "Doppler Effect Simulator",
       "problem": "I want to move a wave source and observer and watch the wavefronts bunch up ahead and stretch behind, with the shifted frequency shown live.",
       "userIntent": "informational",
       "workflow": "input → Doppler Effect → output",
       "transformation": "Doppler Effect",
-      "proposedTool": "doppler-effect-simulator",
+      "proposedTool": "doppler-effect-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "doppler effect simulator",
@@ -3348,7 +3401,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3358,27 +3411,28 @@
         "calculators show a number but no wavefronts",
         "no drag interaction"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "frequency shift",
         "sonic boom",
         "redshift and blueshift"
       ],
       "relatedTools": [
-        "wave-speed-simulator",
-        "frequency-period-simulator",
-        "doppler-effect-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "wave-speed-calculator",
+        "frequency-period-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "wave-speed-simulator",
-        "frequency-period-simulator",
-        "doppler-effect-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "wave-speed-calculator",
+        "frequency-period-calculator",
+        "doppler-effect-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.94,
@@ -3416,7 +3470,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -3428,6 +3482,7 @@
         "dated applets",
         "no touch-first interaction"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "correlation",
         "residuals",
@@ -3435,15 +3490,15 @@
         "outlier influence"
       ],
       "relatedTools": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.93,
@@ -3481,7 +3536,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3490,6 +3545,10 @@
         "image-upload only, no palette input",
         "server-side upload (privacy)",
         "no side-by-side type comparison"
+      ],
+      "userFailures": [
+        "The simulation shows the problem but nothing says which of the eight types the user is looking at, or which one actually failed.",
+        "A palette passes for one deficiency and fails another, and checking them one at a time hides the comparison that matters."
       ],
       "relatedProblems": [
         "contrast ratio",
@@ -3543,7 +3602,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -3553,6 +3612,7 @@
         "no fitness-percentile context",
         "ad heavy"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "cardio fitness percentile",
         "cooper test scoring",
@@ -3560,27 +3620,27 @@
       ],
       "relatedTools": [
         "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "relatedGuides": [
         "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "relatedFaqs": [
         "heart-rate-zone-calculator",
+        "one-rep-max-calculator",
+        "running-pace-calculator",
         "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "bmr-calculator",
+        "body-fat-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.9,
@@ -3618,13 +3678,17 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
       "solutionWeaknesses": [
         "manual and error-prone",
         "no repeatable rule set"
+      ],
+      "userFailures": [
+        "A semicolon-delimited European export parses as one column, silently, so the cleanup applies to nothing.",
+        "A trailing empty column from a spreadsheet export survives the clean because it looks like real data."
       ],
       "relatedProblems": [
         "csv diff",
@@ -3669,13 +3733,13 @@
       "engineExists": true
     },
     {
-      "id": "momentum-collision-simulator",
+      "id": "momentum-collision-calculator",
       "title": "Momentum & Collision Simulator",
       "problem": "I want to set the mass and velocity of two carts, collide them, and see momentum conserved while kinetic energy changes from elastic to inelastic.",
       "userIntent": "informational",
       "workflow": "input → Momentum and Collisions → output",
       "transformation": "Momentum and Collisions",
-      "proposedTool": "momentum-collision-simulator",
+      "proposedTool": "momentum-collision-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "momentum collision simulator",
@@ -3686,7 +3750,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3696,6 +3760,7 @@
         "phet dated",
         "no elastic-to-inelastic slider"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "conservation of momentum",
         "elastic collision",
@@ -3703,21 +3768,21 @@
         "kinetic energy loss"
       ],
       "relatedTools": [
-        "pendulum-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "pendulum-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -3754,7 +3819,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3762,6 +3827,7 @@
         "generic calculator hub",
         "no shareable clean result"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "date difference",
         "countdown"
@@ -3823,7 +3889,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -3833,6 +3899,7 @@
         "account required",
         "data uploaded to a vendor"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "weekly average",
         "consistency streaks",
@@ -3887,7 +3954,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -3896,6 +3963,7 @@
         "slow",
         "overloaded with options"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "age calculator",
         "business days"
@@ -3939,13 +4007,13 @@
       "engineExists": true
     },
     {
-      "id": "inclined-plane-simulator",
+      "id": "inclined-plane-calculator",
       "title": "Inclined Plane Simulator",
       "problem": "I want to set the ramp angle, friction, and mass and see the force vectors and whether a block slides or stays put.",
       "userIntent": "transactional",
       "workflow": "input → Inclined Plane and Friction → output",
       "transformation": "Inclined Plane and Friction",
-      "proposedTool": "inclined-plane-simulator",
+      "proposedTool": "inclined-plane-calculator",
       "proposedEngine": "physics",
       "searchQueries": [
         "inclined plane friction calculator",
@@ -3958,7 +4026,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -3968,6 +4036,7 @@
         "static calculators",
         "no slide-or-stay animation"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "free body diagram",
         "static friction",
@@ -3975,21 +4044,21 @@
         "normal force"
       ],
       "relatedTools": [
-        "pendulum-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "pendulum-simulator",
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator"
+        "pendulum-period-calculator",
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.93,
@@ -4027,7 +4096,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -4039,6 +4108,7 @@
         "overkill for one quick plot",
         "wolfram paywalls step detail"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "domain and range",
         "intercepts",
@@ -4046,15 +4116,15 @@
         "transformations of functions"
       ],
       "relatedTools": [
-        "quadratic-equation-explorer",
-        "probability-simulator",
-        "unit-circle-explorer"
+        "quadratic-equation-solver",
+        "probability-calculator",
+        "unit-circle-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
-        "quadratic-equation-explorer",
-        "probability-simulator",
-        "unit-circle-explorer"
+        "quadratic-equation-solver",
+        "probability-calculator",
+        "unit-circle-calculator"
       ],
       "difficulty": "high",
       "evergreenScore": 0.97,
@@ -4091,13 +4161,17 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "command line crc tools"
       ],
       "solutionWeaknesses": [
         "CLI not accessible to everyone",
         "few clean web tools"
+      ],
+      "userFailures": [
+        "The user already has a checksum from elsewhere and is comparing eight hex characters by eye.",
+        "A trailing newline in the pasted input changes the digest, and nothing says so."
       ],
       "relatedProblems": [
         "md5",
@@ -4159,7 +4233,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -4167,6 +4241,10 @@
       "solutionWeaknesses": [
         "awk is dev-only",
         "spreadsheets choke on big files"
+      ],
+      "userFailures": [
+        "A semicolon-delimited European export parses as one column, so there are no columns to pick from.",
+        "Picking columns by index breaks the moment the source adds a column, when the user meant to pick by header name."
       ],
       "relatedProblems": [
         "csv cleaning",
@@ -4230,7 +4308,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -4240,6 +4318,7 @@
         "no OKLCH interpolation option",
         "heavy UI, poor mobile experience"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "color conversion",
         "color shades"
@@ -4291,13 +4370,17 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
       "solutionWeaknesses": [
         "bundled into paid SEO suites",
         "over-complicated for a quick check"
+      ],
+      "userFailures": [
+        "Stop words dominate the top of the list, so the first screen of results carries no information.",
+        "Case and plural variants count as separate words, splitting the total for the same term."
       ],
       "relatedProblems": [
         "word count",
@@ -4361,7 +4444,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -4369,6 +4452,10 @@
         "heavy app",
         "account upsell",
         "overkill for a single conversion"
+      ],
+      "userFailures": [
+        "The converted time is correct but nothing says whether it is a reasonable hour to call.",
+        "The date rolls over across the conversion and the day change goes unnoticed."
       ],
       "relatedProblems": [
         "unix timestamp",
@@ -4430,7 +4517,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -4441,6 +4528,7 @@
         "no shareable result",
         "cluttered"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "mortgage payment",
         "amortization schedule",
@@ -4492,7 +4580,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -4502,6 +4590,7 @@
         "ad-supported",
         "no client-side-only guarantee"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "color conversion",
         "color shades"
@@ -4553,13 +4642,17 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "crontab.guru"
       ],
       "solutionWeaknesses": [
         "single incumbent",
         "no offline/private mode"
+      ],
+      "userFailures": [
+        "The expression parses, but the real question is whether it fires when the user thinks, which needs the next few run times.",
+        "Day-of-month and day-of-week together are OR, not AND, so the schedule fires far more often than intended."
       ],
       "relatedProblems": [
         "timestamp conversion",
@@ -4620,7 +4713,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -4628,6 +4721,7 @@
         "account sign up",
         "tries to sell products"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "budgeting",
         "savings",
@@ -4680,7 +4774,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -4690,6 +4784,7 @@
         "ads",
         "requires sign in for full features"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "loan payment",
         "amortization schedule",
@@ -4739,7 +4834,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -4749,6 +4844,7 @@
         "ads",
         "no simple gross conversion"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "budgeting",
         "take home pay",
@@ -4797,7 +4893,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -4807,6 +4903,7 @@
         "product upsell",
         "complex forms"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "compound interest",
         "inflation",
@@ -4863,7 +4960,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",
@@ -4873,6 +4970,7 @@
         "subscription required",
         "recipe database is proprietary"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "recipe substitution",
         "grocery list building",

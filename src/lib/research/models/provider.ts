@@ -23,6 +23,23 @@ export interface SeedRecord {
   searchQueries: string[];
   existingSolutions?: string[];
   solutionWeaknesses?: string[];
+  /**
+   * Where a person using this tool fails MID-TASK, which is a different fact from
+   * `solutionWeaknesses` and easy to conflate.
+   *
+   * `solutionWeaknesses` is about the market: "ad-supported", "dated UI", "single incumbent
+   * dominates". It answers whether the SERP is beatable. This answers whether the tool has
+   * anything of its own to offer once someone is using it: "pastes a data URI and gets a correct
+   * rejection instead of the decode they wanted".
+   *
+   * It is the evidence a craft declaration is built from (see docs/analysis/2026-08-11-tool-craft.md).
+   * Without it a recommendation can be fully justified on demand and still leave the builder with
+   * nothing honest to declare, which is discovered only after the tool is scaffolded.
+   *
+   * Optional, and an empty list is a legitimate answer: it means no task-level failure is recorded
+   * yet, and the roadmap says so rather than inventing one.
+   */
+  userFailures?: string[];
   relatedProblems?: string[];
   relatedTools?: string[];
   /** 0–100 raw demand signal (search volume proxy). */
@@ -63,6 +80,8 @@ export interface RawOpportunity {
   searchQueries: string[];
   existingSolutions: string[];
   solutionWeaknesses: string[];
+  /** Task-level failures this tool's users hit. See RawRecord.userFailures. */
+  userFailures: string[];
   relatedProblems: string[];
   relatedTools: string[];
   demand: number;

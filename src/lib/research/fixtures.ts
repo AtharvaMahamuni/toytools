@@ -20,6 +20,7 @@ export function raw(o: Partial<RawOpportunity> & Pick<RawOpportunity, 'proposedT
     searchQueries: [o.proposedTool],
     existingSolutions: [],
     solutionWeaknesses: [],
+    userFailures: [],
     relatedProblems: [],
     relatedTools: [],
     demand: 70,

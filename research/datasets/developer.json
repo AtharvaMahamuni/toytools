@@ -69,6 +69,10 @@
       "searchQueries": ["csv diff", "compare csv files", "csv compare online", "diff two csv"],
       "existingSolutions": ["paid desktop apps", "git diff (devs only)"],
       "solutionWeaknesses": ["uploads sensitive data to a server", "paywalled", "not row-aware"],
+      "userFailures": [
+        "A semicolon-delimited European export parses as a single column and every row reads as changed.",
+        "Two files that differ only in row order are reported as wholly different."
+      ],
       "relatedProblems": ["json diff", "text compare"],
       "relatedTools": ["text-compare", "csv-to-json-converter"],
       "demand": 82,
@@ -88,6 +92,10 @@
       "searchQueries": ["csv cleaner", "clean csv online", "remove empty rows csv", "fix messy csv"],
       "existingSolutions": ["spreadsheet manual cleanup"],
       "solutionWeaknesses": ["manual and error-prone", "no repeatable rule set"],
+      "userFailures": [
+        "A semicolon-delimited European export parses as one column, silently, so the cleanup applies to nothing.",
+        "A trailing empty column from a spreadsheet export survives the clean because it looks like real data."
+      ],
       "relatedProblems": ["csv diff", "remove blank lines"],
       "relatedTools": ["csv-to-json-converter", "remove-blank-lines"],
       "demand": 70,
@@ -107,6 +115,10 @@
       "searchQueries": ["csv column picker", "extract columns from csv", "select csv columns online"],
       "existingSolutions": ["spreadsheet copy/paste", "awk for devs"],
       "solutionWeaknesses": ["awk is dev-only", "spreadsheets choke on big files"],
+      "userFailures": [
+        "A semicolon-delimited European export parses as one column, so there are no columns to pick from.",
+        "Picking columns by index breaks the moment the source adds a column, when the user meant to pick by header name."
+      ],
       "relatedProblems": ["csv cleaning", "csv to json"],
       "relatedTools": ["csv-to-json-converter", "json-to-csv-converter"],
       "demand": 60,
@@ -126,6 +138,10 @@
       "searchQueries": ["csv to tsv", "convert csv to tab separated", "csv tsv online"],
       "existingSolutions": ["spreadsheet save-as"],
       "solutionWeaknesses": ["requires a spreadsheet app", "mangles quoting"],
+      "userFailures": [
+        "The source uses semicolons rather than commas, so the whole file converts into one column per row.",
+        "A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on."
+      ],
       "relatedProblems": ["csv to json", "delimiter change"],
       "relatedTools": ["csv-to-json-converter"],
       "demand": 58,
@@ -145,6 +161,10 @@
       "searchQueries": ["crc32", "crc32 hash online", "crc32 checksum generator"],
       "existingSolutions": ["command line crc tools"],
       "solutionWeaknesses": ["CLI not accessible to everyone", "few clean web tools"],
+      "userFailures": [
+        "The user already has a checksum from elsewhere and is comparing eight hex characters by eye.",
+        "A trailing newline in the pasted input changes the digest, and nothing says so."
+      ],
       "relatedProblems": ["md5", "sha256"],
       "relatedTools": ["md5-hash-generator", "sha256-hash-generator"],
       "demand": 56,

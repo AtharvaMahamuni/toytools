@@ -1,25 +1,25 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-02T19:01:19.070Z",
+  "generatedAt": "2026-08-12T17:17:04.263Z",
   "clusters": [
     {
       "id": "unit-circle",
       "transformation": "Unit Circle",
       "engine": "math-lab",
       "members": [
-        "unit-circle-explorer"
+        "unit-circle-calculator"
       ],
       "existingMembers": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "size": 1,
       "meanScore": 83.9,
       "internalLinks": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ]
     },
     {
@@ -27,19 +27,19 @@
       "transformation": "Quadratic Equations",
       "engine": "math-lab",
       "members": [
-        "quadratic-equation-explorer"
+        "quadratic-equation-solver"
       ],
       "existingMembers": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "size": 1,
       "meanScore": 83.8,
       "internalLinks": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ]
     },
     {
@@ -98,21 +98,26 @@
       ],
       "existingMembers": [
         "bmi-calculator",
+        "bmr-calculator",
         "body-fat-calculator",
+        "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
         "ideal-weight-calculator",
         "macro-calculator",
+        "one-rep-max-calculator",
+        "protein-intake-calculator",
+        "running-pace-calculator",
         "tdee-calculator"
       ],
       "size": 3,
       "meanScore": 82.6,
       "internalLinks": [
         "bmi-calculator",
-        "body-fat-calculator",
+        "bmr-calculator",
         "body-weight-tracker",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
+        "calorie-deficit-calculator",
         "macro-calculator",
+        "protein-intake-calculator",
         "tdee-calculator"
       ]
     },
@@ -127,22 +132,27 @@
       ],
       "existingMembers": [
         "bmi-calculator",
+        "bmr-calculator",
         "body-fat-calculator",
+        "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
         "ideal-weight-calculator",
         "macro-calculator",
+        "one-rep-max-calculator",
+        "protein-intake-calculator",
+        "running-pace-calculator",
         "tdee-calculator"
       ],
       "size": 3,
       "meanScore": 82.4,
       "internalLinks": [
         "bmi-calculator",
+        "bmr-calculator",
         "body-fat-calculator",
         "body-weight-tracker",
         "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "one-rep-max-calculator",
+        "running-pace-calculator"
       ]
     },
     {
@@ -163,7 +173,7 @@
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator",
-        "quadratic-equation-explorer"
+        "quadratic-equation-solver"
       ]
     },
     {
@@ -240,7 +250,7 @@
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator",
-        "probability-simulator"
+        "probability-calculator"
       ]
     },
     {
@@ -374,30 +384,30 @@
       "transformation": "Projectile Motion",
       "engine": "physics",
       "members": [
-        "projectile-motion-simulator"
+        "projectile-motion-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 80.2,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "pendulum-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "pendulum-period-calculator"
       ]
     },
     {
@@ -405,19 +415,19 @@
       "transformation": "Probability",
       "engine": "math-lab",
       "members": [
-        "probability-simulator"
+        "probability-calculator"
       ],
       "existingMembers": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "size": 1,
       "meanScore": 80,
       "internalLinks": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ]
     },
     {
@@ -496,7 +506,7 @@
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator",
-        "probability-simulator"
+        "probability-calculator"
       ]
     },
     {
@@ -538,21 +548,26 @@
       ],
       "existingMembers": [
         "bmi-calculator",
+        "bmr-calculator",
         "body-fat-calculator",
+        "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
         "ideal-weight-calculator",
         "macro-calculator",
+        "one-rep-max-calculator",
+        "protein-intake-calculator",
+        "running-pace-calculator",
         "tdee-calculator"
       ],
       "size": 3,
       "meanScore": 79.5,
       "internalLinks": [
         "bmi-calculator",
+        "bmr-calculator",
         "body-fat-calculator",
+        "calorie-deficit-calculator",
         "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
+        "ideal-weight-calculator"
       ]
     },
     {
@@ -588,30 +603,30 @@
       "transformation": "Ohm's Law",
       "engine": "physics",
       "members": [
-        "ohms-law-simulator"
+        "ohms-law-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 79.4,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator"
       ]
     },
     {
@@ -647,30 +662,30 @@
       "transformation": "Simple Harmonic Motion",
       "engine": "physics",
       "members": [
-        "shm-spring-simulator"
+        "simple-harmonic-motion-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 79,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "pendulum-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "pendulum-period-calculator"
       ]
     },
     {
@@ -848,7 +863,7 @@
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator",
-        "unit-circle-explorer"
+        "unit-circle-calculator"
       ]
     },
     {
@@ -856,30 +871,30 @@
       "transformation": "Ideal Gas Law",
       "engine": "physics",
       "members": [
-        "ideal-gas-law-simulator"
+        "ideal-gas-law-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 77.2,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator"
       ]
     },
     {
@@ -952,16 +967,16 @@
         "normal-distribution-visualizer"
       ],
       "existingMembers": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "size": 1,
       "meanScore": 76.4,
       "internalLinks": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ]
     },
     {
@@ -1028,30 +1043,30 @@
       "transformation": "Doppler Effect",
       "engine": "physics",
       "members": [
-        "doppler-effect-simulator"
+        "doppler-effect-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 75.7,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "wave-speed-calculator"
       ]
     },
     {
@@ -1062,16 +1077,16 @@
         "linear-regression-playground"
       ],
       "existingMembers": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "size": 1,
       "meanScore": 75.5,
       "internalLinks": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ]
     },
     {
@@ -1119,30 +1134,30 @@
       "transformation": "Momentum and Collisions",
       "engine": "physics",
       "members": [
-        "momentum-collision-simulator"
+        "momentum-collision-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 74.6,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "pendulum-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "pendulum-period-calculator"
       ]
     },
     {
@@ -1198,30 +1213,30 @@
       "transformation": "Inclined Plane and Friction",
       "engine": "physics",
       "members": [
-        "inclined-plane-simulator"
+        "inclined-plane-calculator"
       ],
       "existingMembers": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "momentum-collision-simulator",
-        "ohms-law-simulator",
-        "pendulum-simulator",
-        "projectile-motion-simulator",
-        "shm-spring-simulator",
-        "wave-speed-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "momentum-collision-calculator",
+        "ohms-law-calculator",
+        "pendulum-period-calculator",
+        "projectile-motion-calculator",
+        "simple-harmonic-motion-calculator",
+        "wave-speed-calculator"
       ],
       "size": 1,
       "meanScore": 73.9,
       "internalLinks": [
-        "doppler-effect-simulator",
-        "frequency-period-simulator",
-        "heat-transfer-simulator",
-        "ideal-gas-law-simulator",
-        "inclined-plane-simulator",
-        "pendulum-simulator"
+        "doppler-effect-calculator",
+        "frequency-period-calculator",
+        "heat-transfer-calculator",
+        "ideal-gas-law-calculator",
+        "inclined-plane-calculator",
+        "pendulum-period-calculator"
       ]
     },
     {
@@ -1232,16 +1247,16 @@
         "function-grapher"
       ],
       "existingMembers": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ],
       "size": 1,
       "meanScore": 73.6,
       "internalLinks": [
-        "probability-simulator",
-        "quadratic-equation-explorer",
-        "unit-circle-explorer"
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
       ]
     },
     {

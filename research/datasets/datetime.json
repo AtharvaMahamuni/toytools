@@ -69,6 +69,10 @@
       "searchQueries": ["timezone converter", "time zone conversion", "convert time between zones"],
       "existingSolutions": ["worldtimebuddy"],
       "solutionWeaknesses": ["heavy app", "account upsell", "overkill for a single conversion"],
+      "userFailures": [
+        "The converted time is correct but nothing says whether it is a reasonable hour to call.",
+        "The date rolls over across the conversion and the day change goes unnoticed."
+      ],
       "relatedProblems": ["unix timestamp", "meeting planner"],
       "relatedTools": [],
       "demand": 80,
@@ -88,6 +92,10 @@
       "searchQueries": ["cron expression parser", "crontab explained", "cron to human readable", "cron next run"],
       "existingSolutions": ["crontab.guru"],
       "solutionWeaknesses": ["single incumbent", "no offline/private mode"],
+      "userFailures": [
+        "The expression parses, but the real question is whether it fires when the user thinks, which needs the next few run times.",
+        "Day-of-month and day-of-week together are OR, not AND, so the schedule fires far more often than intended."
+      ],
       "relatedProblems": ["timestamp conversion", "scheduling"],
       "relatedTools": [],
       "demand": 72,

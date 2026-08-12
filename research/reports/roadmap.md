@@ -1,20 +1,20 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-08-02T19:01:19.070Z
+Generated: 2026-08-12T17:17:04.263Z
 
-Discovered 71 signals -> 71 unique opportunities (31 recommended, 39 already shipped). Top score 86.1. Missing-engine candidates: 0.
+Discovered 71 signals -> 71 unique opportunities (26 recommended, 44 already shipped). Top score 86.1. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
-- **One Rep Max Calculator** (`one-rep-max-calculator`) - score 86.1, reuses wellness. High search demand; Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Running Pace Calculator** (`running-pace-calculator`) - score 86, reuses wellness. High search demand; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Calorie Deficit Calculator** (`calorie-deficit-calculator`) - score 84.2, reuses wellness. High search demand; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 84.2, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Sleep Cycle Calculator** (`sleep-cycle-calculator`) - score 83.8, reuses datetime. High search demand; Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **BMR Calculator** (`bmr-calculator`) - score 82.4, reuses wellness. High search demand; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Ovulation Calculator** (`ovulation-calculator`) - score 81.8, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 81.2, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Protein Intake Calculator** (`protein-intake-calculator`) - score 81.2, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links.
 - **Statistics Visualizer** (`statistics-visualizer`) - score 79.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Lean Body Mass Calculator** (`lean-body-mass-calculator`) - score 79.5, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Waist to Hip Ratio Calculator** (`waist-to-hip-ratio-calculator`) - score 79.5, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Body Surface Area Calculator** (`body-surface-area-calculator`) - score 79.4, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Matrix Calculator** (`matrix-calculator`) - score 77.8, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Triangle Solver** (`triangle-solver`) - score 77.6, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
 - **Sleep Hours Tracker** (`sleep-hours-tracker`) - score 74.5, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).

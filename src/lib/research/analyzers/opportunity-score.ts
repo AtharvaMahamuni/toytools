@@ -96,6 +96,7 @@ function normalizeAndScore(
     discoveredAt: inputs.now,
     existingSolutions: raw.existingSolutions,
     solutionWeaknesses: raw.solutionWeaknesses,
+    userFailures: raw.userFailures,
     relatedProblems: raw.relatedProblems,
     relatedTools,
     relatedGuides,

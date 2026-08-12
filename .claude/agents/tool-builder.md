@@ -38,7 +38,7 @@ read `docs/code-map.json` first for "where does X live", and follow the `add-too
    and fails `verify`. Follow the `tool-craft` skill (analyse where users of THIS tool actually
    fail, pick from the closed five kinds, build it as a control plus a label inline, never a new
    bordered card), unit-test that it stays SILENT on ordinary input as well as that it fires, and
-   raise `THRESHOLDS.coverage` in the same commit. If the tool genuinely has no honest failure to
+   raise `THRESHOLDS.coverage` in the same commit (single runs only, see the batch rule below). If the tool genuinely has no honest failure to
    resolve, stop and report that rather than inventing a touch.
 6. Content: fill config/guide/FAQ/knowledge stubs with real, original prose per the `seo-content`
    skill. Hard rules: NO em-dashes anywhere; guide.description <= 160 chars; knowledge
@@ -59,7 +59,10 @@ read `docs/code-map.json` first for "where does X live", and follow the `add-too
 ## Rules
 
 - One tool per run. If asked to build several, report that each needs its own run (worktree
-  isolation exists so they can run in parallel).
+  isolation exists so they can run in parallel). In a parallel batch, do NOT raise
+  `THRESHOLDS.coverage` yourself: every agent would edit the same line from the same base and every
+  merge but the first would conflict. Report the value you earned and let the caller bump it once
+  at the end. The merged catalog always sits above each individual floor, so nothing fails meanwhile.
 - Never edit shared widgets, validators, gate config, or `src/data/engines.ts` (a new engine is a
   caller-level decision - stop and report). Two deliberate exceptions, both from step 5:
   raising `THRESHOLDS.coverage` in `scripts/check-craft.ts` to the value you just earned is
