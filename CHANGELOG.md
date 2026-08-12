@@ -65,6 +65,13 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   its missing content. `_shared` is platform code and is now excluded, in both `scripts/verify.sh`
   and the CI workflow.
 
+- **The content gate scored every tool's topic cluster against a file that was not there.** That
+  criterion reads `seo-engine/cache/content-graph.json`, which is gitignored, so it existed on any
+  machine that had ever generated it and never in a fresh CI checkout. The same tool measured 67
+  there and 100 locally, a five point swing in the overall score, which meant a local pass said
+  nothing about CI. Both now regenerate the graph before gating, the way the sibling
+  `queryTargeting` artifact already did and the way `seo:gate:sim` already chained it.
+
 ## [alpha-v7.4.1] - 2026-08-09
 
 ### Changed

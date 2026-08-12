@@ -47,6 +47,12 @@ if KNOWLEDGE_REQUIRED=true npm run build; then
   step "platform health"     npm run health
   step "query coverage"      npm run check:queries
   step "tool craft"          npm run check:craft
+
+  # seo:gate reads two generated artifacts out of seo-engine/cache/, both gitignored. Regenerating
+  # them here rather than trusting whatever a previous run left behind is the whole point: a stale
+  # or absent content-graph.json silently moves a tool's topicCluster score, so a local pass meant
+  # nothing about CI until this ran in both places. See the matching workflow step.
+  step "content graph"       npm run seo:graph
   step "quality guardian"    npm run quality:pr
 else
   FAILED+=("build")

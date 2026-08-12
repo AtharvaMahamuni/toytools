@@ -122,6 +122,15 @@ jobs:
       - name: Measure query coverage
         run: npm run check:queries
 
+      # Same failure, different criterion, found on 2026-08-12. seo:gate scores topicCluster from
+      # seo-engine/cache/content-graph.json, which is gitignored, so it does not exist in a fresh
+      # checkout and CI scored every tool's cluster against a graph that was not there. word-counter
+      # measured 67 here and 100 on any machine that had ever run the command, which is a 5 point
+      # swing in `overall` and the difference between a green PR and a red one for identical code.
+      # seo:gate:sim already chained this step, so the dependency was known and only half wired.
+      - name: Export the content graph (for the topic cluster measurement)
+        run: npm run seo:graph
+
       - name: Gate changed tools
         run: |
           base="${{ github.event.pull_request.base.sha }}"
