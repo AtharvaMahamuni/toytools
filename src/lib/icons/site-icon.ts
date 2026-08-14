@@ -3,8 +3,13 @@
 // Composed by the same rules as tool-icon.ts (full-bleed accent gradient, soft
 // top highlight, bottom shade, subject kept inside the centre safe zone) so the
 // favicon and every tool's install icon read as one family. The difference is
-// the subject: a tool carries its glyph, the site carries the gold dot that
-// already appears as "●" in every page title.
+// the subject: a tool carries its glyph, the site carries the ToyTools "T".
+//
+// The subject used to be a single gold disc centred on the green field, which is
+// the exact construction of the flag of Bangladesh (green ground, one centred
+// circle) — at 16px in a tab strip or a search result that is what it read as,
+// not as a brand. A letterform cannot be mistaken for a flag, and it says the
+// brand's name at the one size where a wordmark cannot follow it.
 //
 // Full-bleed and opaque on purpose. Google renders favicons small and inside its
 // own container, and iOS masks the touch icon, so the artwork must survive being
@@ -21,7 +26,7 @@
 const ACCENT = '#2F6B4F';
 
 /**
- * Gold, brightened from --color-gold (#906620) so the dot separates from the
+ * Gold, brightened from --color-gold (#906620) so the mark separates from the
  * forest field at 16px. The plain token is a text colour on paper and goes muddy
  * on a dark green ground.
  */
@@ -29,11 +34,21 @@ const GOLD_CORE = '#F0CE72';
 const GOLD_EDGE = '#D2A945';
 
 /**
- * The dot's diameter as a fraction of the icon. 31% keeps it well inside the
- * circular crop Google and iOS apply, and still resolves to roughly 5px when the
- * icon is rendered at 16px in a search result.
+ * The monogram, drawn as two rounded bars on the 96-unit viewBox rather than as
+ * <text>: an SVG favicon is rendered with the *viewer's* fonts, so a typographic
+ * T would shift its weight and metrics from machine to machine, and the raster
+ * PNGs would stop matching the SVG. Paths are identical everywhere.
+ *
+ * Both bars stay inside the centre 48 units (24..72), the maskable safe zone
+ * every OS crop preserves, so nothing that carries meaning is lost when iOS
+ * rounds the corners or Google clips the favicon to a circle. The stem is 12
+ * units wide, which still resolves to 2 solid pixels at 16px.
  */
-const DOT_RADIUS = 15; // on the 96-unit viewBox
+const BAR_TOP = 27;     // top edge of the crossbar
+const BAR_BOTTOM = 71;  // foot of the stem
+const BAR_THICK = 12;
+const CROSS_HALF = 23;  // half-width of the crossbar
+const RADIUS = 5;
 
 /**
  * The site icon as an SVG string. Deterministic: the same input always yields
@@ -44,16 +59,22 @@ export function siteIconSvg(size = 512): string {
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 96 96" role="img" aria-label="ToyTools">` +
     '<defs>' +
       // Deeper than a tool icon's field (l+8 to l-14 rather than +13 to -9): the
-      // dot is a single small shape and needs the extra separation.
+      // monogram is one solid gold shape and needs the extra separation.
       `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A7F5E"/><stop offset="1" stop-color="${ACCENT}"/></linearGradient>` +
       '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
       '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.10"/></linearGradient>' +
-      `<radialGradient id="dot" cx="0.38" cy="0.32" r="0.78"><stop offset="0" stop-color="${GOLD_CORE}"/><stop offset="1" stop-color="${GOLD_EDGE}"/></radialGradient>` +
+      // userSpaceOnUse, not the default objectBoundingBox: the crossbar and the
+      // stem are two elements sharing one fill, and a per-element gradient would
+      // draw a visible seam down the join.
+      `<radialGradient id="mark" gradientUnits="userSpaceOnUse" cx="38" cy="34" r="52"><stop offset="0" stop-color="${GOLD_CORE}"/><stop offset="1" stop-color="${GOLD_EDGE}"/></radialGradient>` +
     '</defs>' +
     '<rect width="96" height="96" fill="url(#g)"/>' +
     '<rect width="96" height="96" fill="url(#hl)"/>' +
     '<rect width="96" height="96" fill="url(#sh)"/>' +
-    `<circle cx="48" cy="48" r="${DOT_RADIUS}" fill="url(#dot)"/>` +
+    '<g fill="url(#mark)">' +
+      `<rect x="${48 - CROSS_HALF}" y="${BAR_TOP}" width="${CROSS_HALF * 2}" height="${BAR_THICK}" rx="${RADIUS}"/>` +
+      `<rect x="${48 - BAR_THICK / 2}" y="${BAR_TOP}" width="${BAR_THICK}" height="${BAR_BOTTOM - BAR_TOP}" rx="${RADIUS}"/>` +
+    '</g>' +
     '</svg>'
   );
 }

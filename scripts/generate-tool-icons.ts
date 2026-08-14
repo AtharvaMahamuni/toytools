@@ -76,9 +76,48 @@ async function main() {
       .toFile(path.join(PUBLIC, siteIconPath(size).replace(/^\//, '')));
   }
 
+  // favicon.ico, from the same render. It used to be the one icon nothing
+  // generated, so a redesign of the site mark left a stale 32x32 of the OLD mark
+  // shipping to every browser that prefers an .ico — the exact drift the rest of
+  // this script exists to prevent.
+  const ico32 = await sharp(siteRaw)
+    .resize(ICO_SIZE, ICO_SIZE)
+    .png({ palette: true, quality: 92, compressionLevel: 9, effort: 9 })
+    .toBuffer();
+  writeFileSync(path.join(PUBLIC, 'favicon.ico'), pngToIco(ico32, ICO_SIZE));
+
   await browser.close();
   console.log(`[icons] generated ${count} optimized PNG(s) for ${tools.length} tools → public/icons/tool/`);
-  console.log(`[icons] generated the site mark → public/favicon.svg + ${SITE_ICON_SIZES.length} PNG(s)`);
+  console.log(
+    `[icons] generated the site mark → public/favicon.svg + ${SITE_ICON_SIZES.length} PNG(s) + favicon.ico`,
+  );
+}
+
+/** The legacy .ico is declared as sizes="32x32" in BaseLayout; keep the two in step. */
+const ICO_SIZE = 32;
+
+/**
+ * Wrap a single PNG in an ICO container (ICONDIR + one ICONDIRENTRY + the PNG
+ * bytes verbatim). Every browser that still asks for an .ico reads PNG-in-ICO,
+ * so there is no need for a BMP encoder — or for a dependency to do it.
+ */
+function pngToIco(png: Buffer, size: number): Buffer {
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // type: 1 = icon
+  header.writeUInt16LE(1, 4); // one image
+
+  const entry = Buffer.alloc(16);
+  entry.writeUInt8(size % 256, 0);  // width  (0 means 256)
+  entry.writeUInt8(size % 256, 1);  // height
+  entry.writeUInt8(0, 2);           // palette size: 0 = not a palette-indexed BMP
+  entry.writeUInt8(0, 3);           // reserved
+  entry.writeUInt16LE(1, 4);        // colour planes
+  entry.writeUInt16LE(32, 6);       // bits per pixel
+  entry.writeUInt32LE(png.length, 8);
+  entry.writeUInt32LE(header.length + entry.length, 12); // offset of the image data
+
+  return Buffer.concat([header, entry, png]);
 }
 
 main().catch(err => {

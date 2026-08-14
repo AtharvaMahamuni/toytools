@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.5.1] - 2026-08-14
+
+### Changed
+
+- **The site icon is a gold "T" instead of a gold dot.** A single circle centred on a green field
+  is the construction of the flag of Bangladesh, and at the size a favicon is actually seen (a tab
+  strip, a search result, a bookmark bar) that is what it read as rather than as a brand. The mark
+  now carries the ToyTools monogram, drawn as paths so the SVG favicon renders identically
+  everywhere instead of borrowing the viewer's fonts. The green field, the gold, and the gloss are
+  unchanged, so it still reads as the parent of the 119 tool install icons, which are untouched.
+  New everywhere the old mark appeared: the nav, browser tabs, the iOS home-screen icon, the
+  social preview image, and the Organization logo in the homepage structured data.
+
+### Fixed
+
+- **`favicon.ico` is generated rather than committed by hand.** It was the one icon no script
+  produced, so this redesign would have left every browser that prefers an `.ico` showing the old
+  mark indefinitely. `npm run icons:generate` now emits it alongside the SVG and the PNGs.
+
 ## [alpha-v7.5] - 2026-08-11
 
 ### Added
