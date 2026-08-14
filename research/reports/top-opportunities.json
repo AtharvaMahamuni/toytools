@@ -1,238 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-02T19:01:19.070Z",
+  "generatedAt": "2026-08-12T17:17:04.263Z",
   "top": [
-    {
-      "id": "one-rep-max-calculator",
-      "title": "One Rep Max Calculator",
-      "problem": "I lifted a weight for several reps and want the single heaviest lift I could manage, so I can set training percentages.",
-      "userIntent": "transactional",
-      "workflow": "input → Fitness Performance Calculation → output",
-      "transformation": "Fitness Performance Calculation",
-      "proposedTool": "one-rep-max-calculator",
-      "proposedEngine": "wellness",
-      "searchQueries": [
-        "one rep max calculator",
-        "1rm calculator",
-        "max bench press calculator",
-        "epley formula calculator",
-        "brzycki 1rm"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
-      "existingSolutions": [
-        "strengthlevel.com",
-        "bodybuilding.com",
-        "omnicalculator.com"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "single formula only",
-        "no percentage training table",
-        "desktop-first layout"
-      ],
-      "relatedProblems": [
-        "training percentages",
-        "rep max conversion",
-        "progressive overload planning"
-      ],
-      "relatedTools": [
-        "body-weight-tracker",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator"
-      ],
-      "relatedGuides": [
-        "body-weight-tracker",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator"
-      ],
-      "relatedFaqs": [
-        "body-weight-tracker",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.62,
-      "searchDemand": 0.85,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.94,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.57,
-      "localizationPotential": 0.92,
-      "algorithmicFit": 0.97,
-      "confidence": 0.8,
-      "finalScore": 86.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "running-pace-calculator",
-      "title": "Running Pace Calculator",
-      "problem": "Knowing two of distance, finish time, and speed per kilometre, I need the third to plan how fast to run a race.",
-      "userIntent": "transactional",
-      "workflow": "input → Fitness Performance Calculation → output",
-      "transformation": "Fitness Performance Calculation",
-      "proposedTool": "running-pace-calculator",
-      "proposedEngine": "wellness",
-      "searchQueries": [
-        "running pace calculator",
-        "pace calculator",
-        "marathon time calculator",
-        "min per km calculator",
-        "race split calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
-      "existingSolutions": [
-        "runnersworld.com",
-        "calculator.net",
-        "omnicalculator.com"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "no split table",
-        "imperial only by default",
-        "slow to load"
-      ],
-      "relatedProblems": [
-        "split times",
-        "goal race pace",
-        "treadmill speed conversion"
-      ],
-      "relatedTools": [
-        "heart-rate-zone-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
-      ],
-      "relatedGuides": [
-        "heart-rate-zone-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
-      ],
-      "relatedFaqs": [
-        "heart-rate-zone-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "macro-calculator",
-        "tdee-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.54,
-      "searchDemand": 0.9,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.96,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.97,
-      "confidence": 0.8,
-      "finalScore": 86,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "calorie-deficit-calculator",
-      "title": "Calorie Deficit Calculator",
-      "problem": "Given how far below maintenance I eat daily, show how many weeks until I reach a target weight.",
-      "userIntent": "transactional",
-      "workflow": "input → Energy And Nutrition Planning → output",
-      "transformation": "Energy And Nutrition Planning",
-      "proposedTool": "calorie-deficit-calculator",
-      "proposedEngine": "wellness",
-      "searchQueries": [
-        "calorie deficit calculator",
-        "weight loss timeline calculator",
-        "how long to lose weight",
-        "deficit to lose 1kg per week",
-        "goal weight date calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
-      "existingSolutions": [
-        "calculator.net",
-        "healthline.com",
-        "myfitnesspal.com"
-      ],
-      "solutionWeaknesses": [
-        "requires signup",
-        "ad heavy",
-        "no timeline chart",
-        "assumes a fixed 7700 kcal rule without stating it"
-      ],
-      "relatedProblems": [
-        "safe deficit range",
-        "plateau expectations",
-        "maintenance recalculation"
-      ],
-      "relatedTools": [
-        "tdee-calculator",
-        "body-weight-tracker",
-        "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator"
-      ],
-      "relatedGuides": [
-        "tdee-calculator",
-        "body-weight-tracker",
-        "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator"
-      ],
-      "relatedFaqs": [
-        "tdee-calculator",
-        "body-weight-tracker",
-        "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.92,
-      "competitionScore": 0.59,
-      "searchDemand": 0.82,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.93,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.92,
-      "confidence": 0.8,
-      "finalScore": 84.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
     {
       "id": "pregnancy-due-date-calculator",
       "title": "Pregnancy Due Date Calculator",
@@ -252,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -264,6 +33,7 @@
         "upsells products",
         "slow on mobile"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "gestational age today",
         "trimester boundaries",
@@ -326,7 +96,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -337,6 +107,7 @@
         "no wake-time and bed-time in one view",
         "ignores time to fall asleep"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "sleep latency allowance",
         "nap length",
@@ -384,82 +155,6 @@
       "engineExists": true
     },
     {
-      "id": "bmr-calculator",
-      "title": "BMR Calculator",
-      "problem": "I want the energy my body burns at complete rest, before any activity multiplier is applied.",
-      "userIntent": "transactional",
-      "workflow": "input → Energy And Nutrition Planning → output",
-      "transformation": "Energy And Nutrition Planning",
-      "proposedTool": "bmr-calculator",
-      "proposedEngine": "wellness",
-      "searchQueries": [
-        "bmr calculator",
-        "basal metabolic rate calculator",
-        "mifflin st jeor calculator",
-        "harris benedict equation",
-        "resting metabolic rate"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
-      "existingSolutions": [
-        "calculator.net",
-        "healthline.com",
-        "omnicalculator.com"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "formula choice hidden",
-        "no comparison between equations"
-      ],
-      "relatedProblems": [
-        "equation selection",
-        "activity multipliers",
-        "metabolic adaptation"
-      ],
-      "relatedTools": [
-        "tdee-calculator",
-        "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
-      ],
-      "relatedGuides": [
-        "tdee-calculator",
-        "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
-      ],
-      "relatedFaqs": [
-        "tdee-calculator",
-        "macro-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.46,
-      "searchDemand": 0.8,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.92,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.96,
-      "confidence": 0.8,
-      "finalScore": 82.4,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
       "id": "ovulation-calculator",
       "title": "Ovulation Calculator",
       "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
@@ -478,7 +173,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -490,6 +185,7 @@
         "sends personal cycle data to a server",
         "ad heavy"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "cycle length variation",
         "luteal phase length",
@@ -552,7 +248,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -564,6 +260,7 @@
         "readings leave the device",
         "no trend view"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "reading categories",
         "morning versus evening readings",
@@ -602,82 +299,6 @@
       "engineExists": true
     },
     {
-      "id": "protein-intake-calculator",
-      "title": "Protein Intake Calculator",
-      "problem": "I need a daily gram target for protein from bodyweight and whether I am cutting, maintaining, or building muscle.",
-      "userIntent": "transactional",
-      "workflow": "input → Energy And Nutrition Planning → output",
-      "transformation": "Energy And Nutrition Planning",
-      "proposedTool": "protein-intake-calculator",
-      "proposedEngine": "wellness",
-      "searchQueries": [
-        "protein intake calculator",
-        "how much protein per day",
-        "protein per kg bodyweight",
-        "daily protein calculator",
-        "protein for muscle gain"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
-      "existingSolutions": [
-        "healthline.com",
-        "bodybuilding.com",
-        "examine.com"
-      ],
-      "solutionWeaknesses": [
-        "article-first with the calculator buried",
-        "email gate",
-        "single recommendation with no range"
-      ],
-      "relatedProblems": [
-        "guideline ranges by goal",
-        "protein timing",
-        "lean mass versus total mass basis"
-      ],
-      "relatedTools": [
-        "macro-calculator",
-        "tdee-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
-      ],
-      "relatedGuides": [
-        "macro-calculator",
-        "tdee-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
-      ],
-      "relatedFaqs": [
-        "macro-calculator",
-        "tdee-calculator",
-        "bmi-calculator",
-        "body-fat-calculator",
-        "heart-rate-zone-calculator",
-        "ideal-weight-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.63,
-      "searchDemand": 0.7,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.88,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.88,
-      "confidence": 0.8,
-      "finalScore": 81.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
       "id": "statistics-visualizer",
       "title": "Statistics Visualizer",
       "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
@@ -696,7 +317,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-02T19:01:19.070Z",
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -708,6 +329,7 @@
         "data uploaded to a server",
         "no combined histogram and box plot view"
       ],
+      "userFailures": [],
       "relatedProblems": [
         "variance",
         "interquartile range",
@@ -715,7 +337,7 @@
         "population vs sample"
       ],
       "relatedTools": [
-        "probability-simulator",
+        "probability-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -726,7 +348,7 @@
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
-        "probability-simulator",
+        "probability-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -744,6 +366,377 @@
       "algorithmicFit": 1,
       "confidence": 0.8,
       "finalScore": 79.7,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "lean-body-mass-calculator",
+      "title": "Lean Body Mass Calculator",
+      "problem": "Separating fat mass from everything else in my bodyweight tells me how much muscle and bone I carry.",
+      "userIntent": "transactional",
+      "workflow": "input → Body Composition Calculation → output",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "lean-body-mass-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "lean body mass calculator",
+        "lbm calculator",
+        "boer formula calculator",
+        "fat free mass calculator",
+        "muscle mass estimate"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no formula comparison",
+        "no link to body fat percentage"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "formula selection",
+        "fat free mass index",
+        "drug dosing by lean mass"
+      ],
+      "relatedTools": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedGuides": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedFaqs": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.7,
+      "searchDemand": 0.55,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.82,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.51,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.95,
+      "confidence": 0.64,
+      "finalScore": 79.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "waist-to-hip-ratio-calculator",
+      "title": "Waist to Hip Ratio Calculator",
+      "problem": "Measuring around my middle and hips gives a ratio that flags central adiposity better than overall mass does.",
+      "userIntent": "transactional",
+      "workflow": "input → Body Composition Calculation → output",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "waist-to-hip-ratio-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "waist to hip ratio calculator",
+        "whr calculator",
+        "waist hip ratio risk",
+        "central obesity calculator",
+        "waist to height ratio"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "existingSolutions": [
+        "calculator.net",
+        "who.int",
+        "healthline.com"
+      ],
+      "solutionWeaknesses": [
+        "no risk band shown",
+        "measurement technique not explained",
+        "ad heavy"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "where to place the tape",
+        "risk thresholds by sex",
+        "ratio versus BMI"
+      ],
+      "relatedTools": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedGuides": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedFaqs": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.73,
+      "searchDemand": 0.52,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.81,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 0.97,
+      "confidence": 0.64,
+      "finalScore": 79.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "body-surface-area-calculator",
+      "title": "Body Surface Area Calculator",
+      "problem": "Clinical dosing and cardiac index use square metres of skin, computed from stature and mass.",
+      "userIntent": "transactional",
+      "workflow": "input → Body Composition Calculation → output",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "body-surface-area-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "body surface area calculator",
+        "bsa calculator",
+        "mosteller formula",
+        "du bois bsa",
+        "bsa for chemotherapy dosing"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "existingSolutions": [
+        "mdcalc.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "signup wall on clinical sites",
+        "one formula only",
+        "no plain-language explanation"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "formula variance",
+        "paediatric dosing",
+        "cardiac index"
+      ],
+      "relatedTools": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedGuides": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedFaqs": [
+        "bmi-calculator",
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.76,
+      "searchDemand": 0.48,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.79,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.5,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 0.98,
+      "confidence": 0.64,
+      "finalScore": 79.4,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "matrix-calculator",
+      "title": "Matrix Calculator",
+      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
+      "userIntent": "howTo",
+      "workflow": "input → Matrices → output",
+      "transformation": "Matrices",
+      "proposedTool": "matrix-calculator",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "matrix multiplication calculator",
+        "determinant calculator",
+        "inverse matrix calculator",
+        "rref calculator",
+        "matrix calculator with steps"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "existingSolutions": [
+        "matrixcalc.org",
+        "symbolab.com",
+        "wolframalpha.com"
+      ],
+      "solutionWeaknesses": [
+        "cluttered 2000s-era UI",
+        "steps paywalled",
+        "ad heavy",
+        "painful matrix entry on mobile"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "determinant",
+        "matrix inverse",
+        "row reduction",
+        "systems of equations"
+      ],
+      "relatedTools": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.85,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 77.8,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
+      "id": "triangle-solver",
+      "title": "Triangle Solver",
+      "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
+      "userIntent": "transactional",
+      "workflow": "input → Triangles → output",
+      "transformation": "Triangles",
+      "proposedTool": "triangle-solver",
+      "proposedEngine": "math",
+      "searchQueries": [
+        "triangle calculator",
+        "solve triangle",
+        "law of cosines calculator",
+        "law of sines calculator",
+        "pythagorean theorem calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "existingSolutions": [
+        "calculator.net",
+        "omnicalculator.com",
+        "triangle-calculator.com"
+      ],
+      "solutionWeaknesses": [
+        "no drawn-to-scale figure",
+        "ad heavy",
+        "unclear which side-angle combinations are valid",
+        "no ambiguous case explanation"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "law of sines",
+        "law of cosines",
+        "triangle area",
+        "ambiguous case"
+      ],
+      "relatedTools": [
+        "unit-circle-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedGuides": [
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "relatedFaqs": [
+        "unit-circle-calculator",
+        "combinations-permutations-calculator",
+        "fraction-calculator",
+        "prime-factorization-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.59,
+      "searchDemand": 0.8,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.8,
+      "algorithmicFit": 1,
+      "confidence": 0.8,
+      "finalScore": 77.6,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true

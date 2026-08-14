@@ -93,6 +93,13 @@ function makeNextBuild(o: Opportunity, engines: EngineRecommendations): NextBuil
     reason: reasonsFor(o),
     incumbentWeakness: o.solutionWeaknesses.length ? o.solutionWeaknesses : ['No strong, focused free tool for this exact task.'],
     whyWeCanWin,
+    craftHypothesis: {
+      userFailures: o.userFailures,
+      hasCandidate: o.userFailures.length > 0,
+      note: o.userFailures.length
+        ? 'Pick ONE of these and match it to a craft kind (recovery, verification, continuation, guardrail, orientation). See .claude/skills/tool-craft/SKILL.md.'
+        : 'No task-level failure recorded for this tool, so there is no craft candidate from evidence. Add userFailures to the seed record if you know one, or accept that this tool ships with no craft and say so explicitly. Never invent one.',
+    },
     engine: o.proposedEngine,
     engineExists: o.engineExists,
     unlocksTools: unlocks,

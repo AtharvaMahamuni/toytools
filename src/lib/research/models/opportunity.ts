@@ -36,6 +36,8 @@ export interface Opportunity {
 
   existingSolutions: string[];
   solutionWeaknesses: string[];
+  /** Task-level failures, carried through so the roadmap can state a craft hypothesis. */
+  userFailures: string[];
   relatedProblems: string[];
   relatedTools: string[];
   relatedGuides: string[];

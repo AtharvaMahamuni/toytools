@@ -23,6 +23,7 @@ function toRaw(rec: SeedRecord): RawOpportunity {
     searchQueries: dedupeStrings([rec.query, ...rec.searchQueries]),
     existingSolutions: rec.existingSolutions ?? [],
     solutionWeaknesses: rec.solutionWeaknesses ?? [],
+    userFailures: rec.userFailures ?? [],
     relatedProblems: rec.relatedProblems ?? [],
     relatedTools: rec.relatedTools ?? [],
     demand: clamp(rec.demand, 0, 100),

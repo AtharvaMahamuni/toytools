@@ -83,6 +83,10 @@
         "server-side upload (privacy)",
         "no side-by-side type comparison"
       ],
+      "userFailures": [
+        "The simulation shows the problem but nothing says which of the eight types the user is looking at, or which one actually failed.",
+        "A palette passes for one deficiency and fails another, and checking them one at a time hides the comparison that matters."
+      ],
       "relatedProblems": ["contrast ratio", "accessible palette"],
       "relatedTools": ["color-contrast-checker", "color-format-converter"],
       "demand": 66,

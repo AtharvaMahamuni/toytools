@@ -82,6 +82,17 @@ export function renderNextBuild(nb: NextBuild | null, generatedAt: string): stri
   L.push('### Why ToyTools can win');
   L.push(nb.whyWeCanWin.map(x => `- ${x}`).join('\n'));
   L.push('');
+  // Answered here, before anything is scaffolded, because a tool with demand and no craft is a
+  // tool that will reach the last step of add-tool with nothing honest to declare.
+  L.push('### Craft hypothesis (where its users actually fail)');
+  if (nb.craftHypothesis.hasCandidate) {
+    L.push(nb.craftHypothesis.userFailures.map(x => `- ${x}`).join('\n'));
+  } else {
+    L.push('- **No craft candidate from evidence.**');
+  }
+  L.push('');
+  L.push(nb.craftHypothesis.note);
+  L.push('');
   L.push('### Engine');
   L.push(`- ${nb.engineExists ? 'Reuses existing engine' : 'Anchors a NEW engine'}: \`${nb.engine}\``);
   if (nb.unlocksTools.length) L.push(`- Future tools this unlocks: ${nb.unlocksTools.join(', ')}`);

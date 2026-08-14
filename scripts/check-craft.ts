@@ -161,7 +161,7 @@ for (const rel of widgetFiles) {
   for (const block of src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
     // Comments are prose, not style. A note explaining which hardcoded colour was removed must not
     // itself count as a hardcoded colour.
-    const css = block[1].replace(/\/\*[\s\S]*?\*\//g, '');
+    const css = (block[1] ?? '').replace(/\/\*[\s\S]*?\*\//g, '');
     const hits = css.match(/#[0-9a-fA-F]{3,8}\b/g) ?? [];
     if (hits.length) {
       rawHex += hits.length;
@@ -171,7 +171,8 @@ for (const rel of widgetFiles) {
 }
 
 const ranked = Object.entries(boxOffenders).sort((a, b) => b[1] - a[1]);
-const worstBoxes = ranked.length ? ranked[0][1] : 0;
+const worst = ranked[0];
+const worstBoxes = worst ? worst[1] : 0;
 
 if (worstBoxes > THRESHOLDS.boxesPerTool) {
   const worst = ranked.filter(([, n]) => n > THRESHOLDS.boxesPerTool)
@@ -201,7 +202,7 @@ const byKind = withCraft.reduce<Record<string, number>>((acc, t) => {
 
 console.log('\n[check-craft] tool craft coverage\n');
 console.log(`  tools with a declared craft   ${withCraft.length}/${craftable.length}  (${(coverage * 100).toFixed(1)}%, floor ${(THRESHOLDS.coverage * 100).toFixed(1)}%)`);
-console.log(`  boxes, worst single widget    ${worstBoxes}  (ceiling ${THRESHOLDS.boxesPerTool}${ranked.length ? `, ${ranked[0][0].replace('src/tools/', '')}` : ''})`);
+console.log(`  boxes, worst single widget    ${worstBoxes}  (ceiling ${THRESHOLDS.boxesPerTool}${worst ? `, ${worst[0].replace('src/tools/', '')}` : ''})`);
 console.log(`  boxes, catalog total          ${boxes}  (informational, not gated)`);
 console.log(`  raw hex in widget styles      ${rawHex}  (ceiling ${THRESHOLDS.rawHex})`);
 if (withCraft.length) {

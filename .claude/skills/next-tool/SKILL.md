@@ -31,12 +31,39 @@ the `research-intelligence` subagent (`.claude/agents/research-intelligence.md`)
    - why ToyTools can compete (`whyWeCanWin`: client-side/private, engine reuse, clean SERP),
    - the reusable engine and the additional tools it unlocks,
    - suggested guides, FAQs, internal links, and JSON-LD schema,
-   - estimated effort, long-term SEO value, and maintenance cost.
+   - estimated effort, long-term SEO value, and maintenance cost,
+   - **the craft hypothesis** (`craftHypothesis`): where this tool's users fail MID-TASK, and
+     therefore what its one thoughtful touch could be. Never skip this, including when the answer
+     is "no candidate": see below.
 4. **Confirm scope** with the user if they have not already said "build it" (how many tools, which
    ones from the ranked list).
 5. **Implement** via the **`add-tool`** skill / `npm run scaffold:tool` - the RIE only decides
    *what* and *why*; `add-tool` owns *how*. Each tool ships config + widget + guide + FAQ + knowledge
    + registry wiring + tests, then `npm run build` and `npm run test`.
+
+## The craft hypothesis (do not hand a tool over without one)
+
+Every new tool must declare one thoughtful touch, and `check-craft.ts` holds coverage as a ratio, so
+a tool built without one fails the build. That makes "does this tool have a craft?" a question to
+answer **here**, before anything is scaffolded, not at the last step of `add-tool`.
+
+`craftHypothesis` in `next-build.md` carries the evidence: the `userFailures` recorded for the tool,
+which are task-level ("pastes a data URI and gets a correct rejection") and deliberately distinct
+from `solutionWeaknesses`, which are market-level ("ad-supported", "dated UI"). The first says
+whether the tool has anything of its own to offer; the second says whether the SERP is beatable. A
+tool can have one without the other.
+
+- **With a candidate:** present the failures, and name which of the five kinds fits (`recovery`,
+  `verification`, `continuation`, `guardrail`, `orientation`). The engine deliberately does **not**
+  guess the kind, because inferring it from free text would be guesswork dressed as a
+  recommendation. That call is yours, and `.claude/skills/tool-craft/SKILL.md` is the playbook.
+- **With no candidate:** say so out loud. It does not disqualify the tool, and it is not a gap to
+  paper over. It means either the evidence is thin (add `userFailures` to the seed record and
+  re-run) or the tool will genuinely ship with no craft, which has to be a stated decision rather
+  than something discovered halfway through a build. **Never invent a touch to fill the slot.**
+
+To record a failure, add `userFailures` to the tool's record in `research/datasets/<domain>.json`
+and re-run. Like every other recommendation input, change the evidence, never the report.
 
 ## Rules
 

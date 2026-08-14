@@ -277,11 +277,26 @@ hypotheses are data in `src/lib/research/taxonomy.ts`. To change recommendations
 > conversions, simulations) is ToyTools' home turf; AI-shaped needs (generation, judgment,
 > summarization) are an architecture mismatch for a client-side static site AND a query class being
 > absorbed by chatbots, so they score down and the roadmap flags them with a CAUTION reason.
+>
+> **Standing rule — every recommendation names its craft hypothesis.** For every tool suggestion,
+> say where that tool's users fail **mid-task** and therefore what its one thoughtful touch could
+> be, or state plainly that there is no candidate. The RIE carries this per record (`userFailures`
+> in `research/datasets/*.json` → `craftHypothesis` in `next-build.md`), deliberately separate from
+> the `solutionWeaknesses` beside it: those are market-level ("ad-supported", "dated UI") and answer
+> whether the SERP is beatable, while these are task-level ("pastes a data URI and gets a correct
+> rejection") and answer whether the tool has anything of its own once someone is using it. A tool
+> can have one without the other.
+>
+> This is a standing rule because craft is a **gate** (`check-craft.ts` holds coverage as a ratio,
+> so a tool built without one fails the build), and a recommendation that skips the question hands
+> the builder a tool that cannot pass it. The engine deliberately does not guess which of the five
+> kinds applies: that judgement belongs to the **`tool-craft` skill**. `hasCandidate: false` is a
+> legitimate and useful answer. Inventing a touch to fill the slot is not.
 
 ## Agent roster (`.claude/agents/`)
 
 Skills are in-conversation playbooks (the main session does the work); agents are fresh-context
-workers for fan-out or scheduled runs. Four project agents, each with an objective exit condition:
+workers for fan-out or scheduled runs. Five project agents, each with an objective exit condition:
 
 - **`research-intelligence`** — runs the RIE, returns the evidence-backed "what to build next";
   hands implementation back to the caller (never builds).

@@ -34,12 +34,20 @@ do not assume prior context.
    - the reusable engine and the tools it unlocks,
    - 2-3 ranked alternatives,
    - any new-engine clusters worth a larger, separate decision,
-   - suggested guides/FAQs/internal links and effort/SEO/maintenance estimates.
+   - suggested guides/FAQs/internal links and effort/SEO/maintenance estimates,
+   - **the craft hypothesis** for the recommendation (`craftHypothesis` in `next-build.md`): the
+     task-level `userFailures` on record, and which of the five craft kinds (`recovery`,
+     `verification`, `continuation`, `guardrail`, `orientation`) fits. Report `hasCandidate: false`
+     just as plainly as a candidate: a tool with demand and no craft is a tool that will reach the
+     end of `add-tool` with nothing honest to declare, and the caller needs to know that BEFORE
+     committing to a build, not after. Never invent a touch to fill the slot.
 
 ## Rules
 
 - The roadmap is generated from evidence; never invent opportunities or hand-edit the reports. To
-  change recommendations, change the seed data in `research/datasets/` and re-run.
+  change recommendations, change the seed data in `research/datasets/` and re-run. That includes
+  craft: to record where a tool's users fail, add `userFailures` to its seed record (task-level
+  failures, not the market-level `solutionWeaknesses` next to it) and re-run.
 - Recommend tools that **reuse an existing engine** first (lowest cost). Flag new-engine clusters as
   the documented next step rather than silently picking them.
 - Only implement tools if the caller explicitly asks. Implementation belongs to the `add-tool` skill

@@ -107,6 +107,10 @@
       "searchQueries": ["word frequency counter", "most common words in text", "keyword density tool"],
       "existingSolutions": ["SEO keyword density tools"],
       "solutionWeaknesses": ["bundled into paid SEO suites", "over-complicated for a quick check"],
+      "userFailures": [
+        "Stop words dominate the top of the list, so the first screen of results carries no information.",
+        "Case and plural variants count as separate words, splitting the total for the same term."
+      ],
       "relatedProblems": ["word count", "keyword density"],
       "relatedTools": ["word-counter", "character-counter"],
       "demand": 72,
