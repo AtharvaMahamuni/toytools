@@ -3,13 +3,27 @@
 // Composed by the same rules as tool-icon.ts (full-bleed accent gradient, soft
 // top highlight, bottom shade, subject kept inside the centre safe zone) so the
 // favicon and every tool's install icon read as one family. The difference is
-// the subject: a tool carries its glyph, the site carries the ToyTools "T".
+// what the subject says. A tool icon carries a glyph, which answers "what does
+// this one do". The site mark has to answer something the catalog cannot say one
+// tool at a time: that the tools are produced by a platform.
+//
+// So the mark is a board, read at three distances:
+//
+//   far  (16px, a tab strip)  a gold T — the brand, and nothing else survives
+//   near (48px, a SERP)       the T stands among modules, in ranks
+//   close(512px, the store)   the modules sit on two solid rails beneath them
+//
+// The modules are the tools: uniform, interchangeable, many, all the same shape
+// because they are all produced the same way. The rails under them are the
+// engines — every module rests on one, nothing floats. That is literally how the
+// site is built (a handful of engines in src/lib/engines/ render 119 tools whose
+// widgets are three lines each), so the mark describes the machine rather than
+// decorating the letter.
 //
 // The subject used to be a single gold disc centred on the green field, which is
 // the exact construction of the flag of Bangladesh (green ground, one centred
 // circle) — at 16px in a tab strip or a search result that is what it read as,
-// not as a brand. A letterform cannot be mistaken for a flag, and it says the
-// brand's name at the one size where a wordmark cannot follow it.
+// not as a brand.
 //
 // Full-bleed and opaque on purpose. Google renders favicons small and inside its
 // own container, and iOS masks the touch icon, so the artwork must survive being
@@ -34,21 +48,91 @@ const GOLD_CORE = '#F0CE72';
 const GOLD_EDGE = '#D2A945';
 
 /**
- * The monogram, drawn as two rounded bars on the 96-unit viewBox rather than as
- * <text>: an SVG favicon is rendered with the *viewer's* fonts, so a typographic
- * T would shift its weight and metrics from machine to machine, and the raster
- * PNGs would stop matching the SVG. Paths are identical everywhere.
- *
- * Both bars stay inside the centre 48 units (24..72), the maskable safe zone
- * every OS crop preserves, so nothing that carries meaning is lost when iOS
- * rounds the corners or Google clips the favicon to a circle. The stem is 12
- * units wide, which still resolves to 2 solid pixels at 16px.
+ * Everything is laid out inside SAFE (24..72), the centre half of the icon and
+ * the maskable safe zone every OS crop preserves, so nothing that carries
+ * meaning is lost when iOS rounds the corners or Google clips the favicon to a
+ * circle.
  */
-const BAR_TOP = 27;     // top edge of the crossbar
-const BAR_BOTTOM = 71;  // foot of the stem
-const BAR_THICK = 12;
-const CROSS_HALF = 23;  // half-width of the crossbar
-const RADIUS = 5;
+const SAFE_MIN = 24;
+const SAFE_MAX = 72;
+
+/**
+ * The monogram, drawn as two rounded bars rather than as <text>: an SVG favicon
+ * is rendered with the *viewer's* fonts, so a typographic T would shift its
+ * weight and metrics from machine to machine, and the raster PNGs would stop
+ * matching the SVG. Paths are identical everywhere.
+ *
+ * The stem is 12 units wide, which still resolves to 2 solid pixels at 16px —
+ * the size that decides whether the mark works at all.
+ */
+const CROSSBAR = { x: SAFE_MIN, y: SAFE_MIN, w: 48, h: 13 };
+const STEM = { x: 42, y: SAFE_MIN, w: 12, h: 48 };
+const LETTER_RADIUS = 4;
+
+/**
+ * The board around the letter.
+ *
+ * MODULE is one tool. They are laid out in the two channels the letter leaves
+ * free (left and right of the stem, below the crossbar), two columns and three
+ * rows deep in each, which is as many as fit before the grid stops reading as a
+ * grid. RAIL is an engine: one continuous bar under each channel, wider than any
+ * module and brighter than all of them, because the tools rest on it.
+ *
+ * CLEARANCE is the gap the board keeps from the letter. It is the reason the
+ * modules read as a separate layer instead of as serifs.
+ */
+const MODULE = 6;
+const MODULE_GAP = 2.5;
+const CLEARANCE = 2.5;
+const RAIL_HEIGHT = 6;
+const MODULE_ROWS = 3;
+const MODULE_OPACITY = 0.2;
+const RAIL_OPACITY = 0.34;
+
+/** A rounded rect, in the attribute order the unit test reads bounds from. */
+function box(x: number, y: number, w: number, h: number, r: number, fill: string): string {
+  return `<rect x="${round(x)}" y="${round(y)}" width="${round(w)}" height="${round(h)}" rx="${round(r)}" ${fill}/>`;
+}
+
+/** Two decimals, no trailing zeros: keeps the emitted SVG short and stable. */
+function round(n: number): string {
+  return String(Math.round(n * 100) / 100);
+}
+
+/**
+ * The modules and rails, in the two channels the letter leaves free.
+ *
+ * Derived from the letter rather than hand-placed, so moving the T moves the
+ * board with it and the clearance can never go stale.
+ */
+function boardSvg(): string {
+  const channels = [
+    { x: SAFE_MIN, w: STEM.x - CLEARANCE - SAFE_MIN },          // left of the stem
+    { x: STEM.x + STEM.w + CLEARANCE, w: SAFE_MAX - (STEM.x + STEM.w + CLEARANCE) },
+  ];
+  const top = CROSSBAR.y + CROSSBAR.h + CLEARANCE;              // first row clears the crossbar
+  const railY = SAFE_MAX - RAIL_HEIGHT;
+  // Centre the rows in the band between the crossbar and the rail.
+  const band = railY - MODULE_GAP - top;
+  const rowsHeight = MODULE_ROWS * MODULE + (MODULE_ROWS - 1) * MODULE_GAP;
+  const firstRow = top + (band - rowsHeight) / 2;
+
+  const dim = `fill="${GOLD_CORE}" fill-opacity="${MODULE_OPACITY}"`;
+  const rail = `fill="${GOLD_CORE}" fill-opacity="${RAIL_OPACITY}"`;
+
+  let out = '';
+  for (const channel of channels) {
+    // Two columns per channel, pushed to its outer and inner edge so the two
+    // channels stay mirror images of each other.
+    for (const x of [channel.x, channel.x + channel.w - MODULE]) {
+      for (let row = 0; row < MODULE_ROWS; row++) {
+        out += box(x, firstRow + row * (MODULE + MODULE_GAP), MODULE, MODULE, MODULE * 0.3, dim);
+      }
+    }
+    out += box(channel.x, railY, channel.w, RAIL_HEIGHT, RAIL_HEIGHT * 0.35, rail);
+  }
+  return out;
+}
 
 /**
  * The site icon as an SVG string. Deterministic: the same input always yields
@@ -71,9 +155,11 @@ export function siteIconSvg(size = 512): string {
     '<rect width="96" height="96" fill="url(#g)"/>' +
     '<rect width="96" height="96" fill="url(#hl)"/>' +
     '<rect width="96" height="96" fill="url(#sh)"/>' +
+    // The board goes down first: the letter is the thing in front of it.
+    boardSvg() +
     '<g fill="url(#mark)">' +
-      `<rect x="${48 - CROSS_HALF}" y="${BAR_TOP}" width="${CROSS_HALF * 2}" height="${BAR_THICK}" rx="${RADIUS}"/>` +
-      `<rect x="${48 - BAR_THICK / 2}" y="${BAR_TOP}" width="${BAR_THICK}" height="${BAR_BOTTOM - BAR_TOP}" rx="${RADIUS}"/>` +
+      box(CROSSBAR.x, CROSSBAR.y, CROSSBAR.w, CROSSBAR.h, LETTER_RADIUS, '') +
+      box(STEM.x, STEM.y, STEM.w, STEM.h, LETTER_RADIUS, '') +
     '</g>' +
     '</svg>'
   );

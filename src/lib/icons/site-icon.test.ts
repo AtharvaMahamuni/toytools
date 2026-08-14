@@ -45,6 +45,32 @@ describe('site mark', () => {
     expect(siteIconSvg()).toContain('gradientUnits="userSpaceOnUse"');
   });
 
+  it('draws the board behind the letter, never over it', () => {
+    const svg = siteIconSvg();
+    // Every dimmed element (module or rail) is emitted before the solid letter group.
+    expect(svg.lastIndexOf('fill-opacity')).toBeLessThan(svg.indexOf('<g fill="url(#mark)">'));
+  });
+
+  it('mirrors the two channels, so the letter sits on a symmetric board', () => {
+    const dimmed = [...siteIconSvg().matchAll(/<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" [^/]*fill-opacity/g)];
+    // 3 rows x 2 columns of modules per channel, plus one rail, on each side.
+    expect(dimmed.length).toBe(14);
+    // Every element has a partner mirrored about the icon's vertical centre.
+    const spans = dimmed.map(([, x, y, w]) => `${Number(y)}:${Number(w)}:${96 - Number(x) - Number(w)}`);
+    const partners = dimmed.map(([, x, y, w]) => `${Number(y)}:${Number(w)}:${Number(x)}`);
+    for (const span of spans) expect(partners).toContain(span);
+  });
+
+  it('keeps the modules quieter than the rails they rest on', () => {
+    const opacities = [...siteIconSvg().matchAll(/fill-opacity="([\d.]+)"/g)]
+      .map(m => Number(m[1]))
+      .filter(o => o > 0);
+    // Two distinct levels, and the brighter one (the engines) is used least.
+    const levels = [...new Set(opacities)].sort((a, b) => a - b);
+    expect(levels).toHaveLength(2);
+    expect(opacities.filter(o => o === levels[1])).toHaveLength(2);
+  });
+
   it('maps every declared raster size to a public path', () => {
     expect(SITE_ICON_SIZES).toContain(48);
     expect(SITE_ICON_SIZES).toContain(96);

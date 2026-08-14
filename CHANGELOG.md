@@ -6,14 +6,20 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Changed
 
-- **The site icon is a gold "T" instead of a gold dot.** A single circle centred on a green field
-  is the construction of the flag of Bangladesh, and at the size a favicon is actually seen (a tab
-  strip, a search result, a bookmark bar) that is what it read as rather than as a brand. The mark
-  now carries the ToyTools monogram, drawn as paths so the SVG favicon renders identically
-  everywhere instead of borrowing the viewer's fonts. The green field, the gold, and the gloss are
-  unchanged, so it still reads as the parent of the 119 tool install icons, which are untouched.
-  New everywhere the old mark appeared: the nav, browser tabs, the iOS home-screen icon, the
-  social preview image, and the Organization logo in the homepage structured data.
+- **The site icon is a board now, not a dot.** A single gold circle centred on a green field is the
+  construction of the flag of Bangladesh, and at the size a favicon is actually seen (a tab strip, a
+  search result, a bookmark bar) that is what it read as rather than as a brand. The new mark reads
+  at three distances: a gold T at 16px, the T standing among ranks of modules at 48px, and at full
+  size those modules resting on two solid rails. The modules are the tools, uniform because they are
+  all produced the same way; the rails are the engines underneath them, which is how the site
+  actually works (a handful of engines render 119 tools whose widgets are three lines each). So the
+  parent icon says what no single tool icon can: these were made by something.
+
+  The letter is drawn as paths, so the SVG favicon renders identically everywhere instead of
+  borrowing the viewer's fonts. The green field, the gold, and the gloss are unchanged, so it still
+  reads as the parent of the 119 tool install icons, which are untouched. New everywhere the old
+  mark appeared: the nav, browser tabs, the iOS home-screen icon, the social preview image, and the
+  Organization logo in the homepage structured data.
 
 ### Fixed
 
