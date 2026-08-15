@@ -36,12 +36,34 @@
 // Rasterized to PNGs by scripts/generate-tool-icons.ts (`npm run icons:generate`).
 // The SVG here is the source of truth; public/favicon.svg is generated from it.
 
-/** Forest accent, matching --color-accent in src/styles/tokens.css. */
-export const ACCENT = '#2F6B4F';
+/**
+ * The field: an ink green, deliberately NOT `--color-accent`.
+ *
+ * It was the forest accent (#2F6B4F) until 2026-08-15, on the reasonable-sounding
+ * principle that the site mark should be made of brand tokens. Measuring it
+ * killed that: the forest accent sits 8.2 (CIE76) from the Productivity category
+ * accent and 11.5 from Money & Finance, and anything under ~15 reads as the same
+ * colour at icon size. Every tool icon is coloured by its category accent, so the
+ * parent of the family was indistinguishable from two of its own children — on a
+ * home screen the site icon read as one more productivity tool.
+ *
+ * The fix is not another hue in the same range, which would only move the
+ * collision. The parent stops competing on the children's axis: they are the
+ * coloured things, it is the dark ground they sit on. This ink is 28.7 from its
+ * nearest accent, which also leaves margin for the category palette to be
+ * retoned again — the 2026-08-09 retoning is what created the collision in the
+ * first place, silently, because nothing measured it. `colorDistance` below is
+ * exported so the unit test now measures it on every build.
+ *
+ * `--color-accent` itself is untouched: links, focus rings and the UI stay
+ * forest. This is the icon's field, which has a different job (survive at 16px
+ * on a foreign background, next to its own children) than a text colour on paper.
+ */
+export const FIELD_DARK = '#16302A';
 
-/** The lighter stop of the field gradient. The mark is measured against ACCENT,
- *  the darker of the two, because that is the worst case. */
-const FIELD_LIGHT = '#3A7F5E';
+/** The lighter stop of the field gradient. The mark is measured against
+ *  FIELD_DARK, the darker of the two, because that is the worst case. */
+const FIELD_LIGHT = '#24463A';
 
 /**
  * Gold, brightened from --color-gold (#906620) so the mark separates from the
@@ -52,9 +74,9 @@ const FIELD_LIGHT = '#3A7F5E';
  * measuring it: the old pair was 2.85:1 against the field, under the 3:1 floor
  * for non-text contrast — and a favicon is the most demanding non-text case
  * there is, since it is rendered at 16px, antialiased, and often rescaled by the
- * browser. These are 4.04:1. `contrastRatio` below is exported so the unit test
- * holds that floor: a retheme that dims the mark now fails the build instead of
- * shipping an icon nobody can read in a tab strip.
+ * browser. These are 9.03:1 against the ink field. `contrastRatio` below is
+ * exported so the unit test holds that floor: a retheme that dims the mark now
+ * fails the build instead of shipping an icon nobody can read in a tab strip.
  */
 const GOLD_CORE = '#FBE6A8';
 export const GOLD_EDGE = '#EFCB74';
@@ -76,6 +98,33 @@ export function contrastRatio(one: string, two: string): number {
   };
   const [lighter, darker] = [luminance(one), luminance(two)].sort((a, b) => b - a);
   return (lighter + 0.05) / (darker + 0.05);
+}
+
+/**
+ * Perceptual distance (CIE76) between two hex colours.
+ *
+ * Deliberately not a hex comparison: the collision this guards against was two
+ * different hex values that look identical at 16px. Under ~15 reads as the same
+ * colour; the site field is held well above that against every category accent.
+ */
+export function colorDistance(one: string, two: string): number {
+  const lab = (hex: string): [number, number, number] => {
+    const m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex.trim());
+    if (!m) return [0, 0, 0];
+    const [r, g, b] = [1, 2, 3].map(i => {
+      const c = parseInt(m[i], 16) / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    // sRGB → XYZ (D65) → L*a*b*
+    const x = (0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.95047;
+    const y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    const z = (0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.08883;
+    const f = (t: number) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+    return [116 * f(y) - 16, 500 * (f(x) - f(y)), 200 * (f(y) - f(z))];
+  };
+  const [l1, a1, b1] = lab(one);
+  const [l2, a2, b2] = lab(two);
+  return Math.hypot(l1 - l2, a1 - a2, b1 - b2);
 }
 
 /**
@@ -175,7 +224,7 @@ export function siteIconSvg(size = 512): string {
     '<defs>' +
       // Deeper than a tool icon's field (l+8 to l-14 rather than +13 to -9): the
       // monogram is one solid gold shape and needs the extra separation.
-      `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${FIELD_LIGHT}"/><stop offset="1" stop-color="${ACCENT}"/></linearGradient>` +
+      `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${FIELD_LIGHT}"/><stop offset="1" stop-color="${FIELD_DARK}"/></linearGradient>` +
       '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
       '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.10"/></linearGradient>' +
       // userSpaceOnUse, not the default objectBoundingBox: the crossbar and the

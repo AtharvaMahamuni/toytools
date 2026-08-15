@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { siteIconSvg, SITE_ICON_SIZES, siteIconPath, contrastRatio, ACCENT, GOLD_EDGE } from './site-icon';
+import { categories } from '@data/categories';
+import { siteIconSvg, SITE_ICON_SIZES, siteIconPath, contrastRatio, colorDistance, FIELD_DARK, GOLD_EDGE } from './site-icon';
 
 describe('site mark', () => {
   it('composes a well-formed SVG on the shared 96-unit grid', () => {
@@ -75,14 +76,35 @@ describe('site mark', () => {
     // The favicon is the most demanding non-text case there is: 16px, antialiased,
     // rescaled by the browser. Measured against the darker end of the field, which
     // is the worst case. Shipped at 2.85:1 until it was measured (2026-08-14).
-    expect(contrastRatio(GOLD_EDGE, ACCENT)).toBeGreaterThanOrEqual(3);
+    expect(contrastRatio(GOLD_EDGE, FIELD_DARK)).toBeGreaterThanOrEqual(3);
   });
 
   it('computes contrast the way WCAG does', () => {
     // Anchors the helper against two ratios anyone can verify by hand.
     expect(contrastRatio('#FFFFFF', '#000000')).toBeCloseTo(21, 5);
     expect(contrastRatio('#FFFFFF', '#FFFFFF')).toBeCloseTo(1, 5);
-    expect(contrastRatio(ACCENT, GOLD_EDGE)).toBeCloseTo(contrastRatio(GOLD_EDGE, ACCENT), 10);
+    expect(contrastRatio(FIELD_DARK, GOLD_EDGE)).toBeCloseTo(contrastRatio(GOLD_EDGE, FIELD_DARK), 10);
+  });
+
+  it('stays visibly distinct from every category accent, so the parent is not one of its children', () => {
+    // Tool icons are coloured by category accent. The site mark shipped 8.2 from
+    // the Productivity accent and 11.5 from Money & Finance, which read as the
+    // same colour on a home screen. The collision appeared silently when the
+    // category palette was retoned (2026-08-09), so this measures on every build
+    // rather than trusting whoever edits categories.ts next to remember.
+    const tooClose = categories
+      .map(c => ({ name: c.name, distance: colorDistance(FIELD_DARK, c.accent) }))
+      .filter(c => c.distance < 20)
+      .map(c => `${c.name} (${c.distance.toFixed(1)})`);
+    expect(tooClose).toEqual([]);
+  });
+
+  it('measures perceptual distance, not hex equality', () => {
+    expect(colorDistance('#000000', '#000000')).toBe(0);
+    // Two greens a hex diff would call different and an eye would not.
+    expect(colorDistance('#2F6B4F', '#3E7B55')).toBeLessThan(15);
+    // Black against white is the far end of the scale.
+    expect(colorDistance('#000000', '#FFFFFF')).toBeGreaterThan(99);
   });
 
   it('maps every declared raster size to a public path', () => {
