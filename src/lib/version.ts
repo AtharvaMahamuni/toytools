@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 5,
-  patch: 1,
+  patch: 2,
   status: 'alpha',
-  releaseDate: '2026-08-14',
-  description: 'Redesigned the site mark: gold T monogram replaces the centred dot',
+  releaseDate: '2026-08-15',
+  description: 'Site mark field moved to ink so the parent no longer matches two category accents',
 };
 
 export function formatVersion(config: VersionConfig): string {

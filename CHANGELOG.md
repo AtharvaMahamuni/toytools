@@ -2,6 +2,29 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.5.2] - 2026-08-15
+
+### Changed
+
+- **The site icon's field is ink green, so the parent stops looking like one of its children.** Tool
+  install icons are coloured by their category accent, and the site mark used `--color-accent`
+  directly, which measures 8.2 (CIE76) from the Productivity accent and 11.5 from Money & Finance.
+  Anything under about 15 reads as the same colour at icon size, so on a home screen the site icon
+  was indistinguishable from the Pomodoro Timer. The field is now 28.7 from its nearest accent: the
+  categories stay the coloured things and the parent becomes the dark ground they sit on, which also
+  lifts the gold mark from 4.04:1 to 9.03:1.
+
+  `--color-accent` is untouched, so links, focus rings and the rest of the UI stay forest. Only the
+  icon moved, because an icon has a different job than a text colour on paper: survive at 16px, on a
+  foreign background, beside its own children.
+
+### Fixed
+
+- **The collision that caused this is now measured on every build.** It appeared silently when the
+  category palette was retoned (2026-08-09) and nothing compared the two, so a unit test now checks
+  the site field against every category accent and fails below a distance of 20. A future retone
+  that walks a category back into the parent's colour fails the build instead of shipping.
+
 ## [alpha-v7.5.1] - 2026-08-14
 
 ### Changed
