@@ -37,15 +37,46 @@
 // The SVG here is the source of truth; public/favicon.svg is generated from it.
 
 /** Forest accent, matching --color-accent in src/styles/tokens.css. */
-const ACCENT = '#2F6B4F';
+export const ACCENT = '#2F6B4F';
+
+/** The lighter stop of the field gradient. The mark is measured against ACCENT,
+ *  the darker of the two, because that is the worst case. */
+const FIELD_LIGHT = '#3A7F5E';
 
 /**
  * Gold, brightened from --color-gold (#906620) so the mark separates from the
  * forest field at 16px. The plain token is a text colour on paper and goes muddy
  * on a dark green ground.
+ *
+ * Brightened a second time on 2026-08-14, from #F0CE72/#D2A945, after actually
+ * measuring it: the old pair was 2.85:1 against the field, under the 3:1 floor
+ * for non-text contrast — and a favicon is the most demanding non-text case
+ * there is, since it is rendered at 16px, antialiased, and often rescaled by the
+ * browser. These are 4.04:1. `contrastRatio` below is exported so the unit test
+ * holds that floor: a retheme that dims the mark now fails the build instead of
+ * shipping an icon nobody can read in a tab strip.
  */
-const GOLD_CORE = '#F0CE72';
-const GOLD_EDGE = '#D2A945';
+const GOLD_CORE = '#FBE6A8';
+export const GOLD_EDGE = '#EFCB74';
+
+/**
+ * WCAG contrast between two hex colours. Pure, and here rather than in the test
+ * so the number the icon is designed against and the number the test enforces
+ * can never be two different calculations.
+ */
+export function contrastRatio(one: string, two: string): number {
+  const luminance = (hex: string): number => {
+    const m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex.trim());
+    if (!m) return 0;
+    const [r, g, b] = [1, 2, 3].map(i => {
+      const channel = parseInt(m[i], 16) / 255;
+      return channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const [lighter, darker] = [luminance(one), luminance(two)].sort((a, b) => b - a);
+  return (lighter + 0.05) / (darker + 0.05);
+}
 
 /**
  * Everything is laid out inside SAFE (24..72), the centre half of the icon and
@@ -144,7 +175,7 @@ export function siteIconSvg(size = 512): string {
     '<defs>' +
       // Deeper than a tool icon's field (l+8 to l-14 rather than +13 to -9): the
       // monogram is one solid gold shape and needs the extra separation.
-      `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A7F5E"/><stop offset="1" stop-color="${ACCENT}"/></linearGradient>` +
+      `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${FIELD_LIGHT}"/><stop offset="1" stop-color="${ACCENT}"/></linearGradient>` +
       '<radialGradient id="hl" cx="0.3" cy="0.22" r="0.85"><stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
       '<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.10"/></linearGradient>' +
       // userSpaceOnUse, not the default objectBoundingBox: the crossbar and the

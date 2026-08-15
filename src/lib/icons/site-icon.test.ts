@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { siteIconSvg, SITE_ICON_SIZES, siteIconPath } from './site-icon';
+import { siteIconSvg, SITE_ICON_SIZES, siteIconPath, contrastRatio, ACCENT, GOLD_EDGE } from './site-icon';
 
 describe('site mark', () => {
   it('composes a well-formed SVG on the shared 96-unit grid', () => {
@@ -69,6 +69,20 @@ describe('site mark', () => {
     const levels = [...new Set(opacities)].sort((a, b) => a - b);
     expect(levels).toHaveLength(2);
     expect(opacities.filter(o => o === levels[1])).toHaveLength(2);
+  });
+
+  it('keeps the mark above the 3:1 non-text contrast floor against its own field', () => {
+    // The favicon is the most demanding non-text case there is: 16px, antialiased,
+    // rescaled by the browser. Measured against the darker end of the field, which
+    // is the worst case. Shipped at 2.85:1 until it was measured (2026-08-14).
+    expect(contrastRatio(GOLD_EDGE, ACCENT)).toBeGreaterThanOrEqual(3);
+  });
+
+  it('computes contrast the way WCAG does', () => {
+    // Anchors the helper against two ratios anyone can verify by hand.
+    expect(contrastRatio('#FFFFFF', '#000000')).toBeCloseTo(21, 5);
+    expect(contrastRatio('#FFFFFF', '#FFFFFF')).toBeCloseTo(1, 5);
+    expect(contrastRatio(ACCENT, GOLD_EDGE)).toBeCloseTo(contrastRatio(GOLD_EDGE, ACCENT), 10);
   });
 
   it('maps every declared raster size to a public path', () => {

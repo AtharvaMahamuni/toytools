@@ -23,6 +23,13 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Fixed
 
+- **The mark now clears the contrast floor it was quietly under.** Gold on the forest field measured
+  2.85:1, below the 3:1 minimum for non-text contrast, which a favicon needs more than anything else
+  does: 16px, antialiased, and often rescaled by the browser. The gold is brightened to 4.04:1. The
+  field, the palette and every category accent are unchanged. A unit test now holds the floor, so a
+  future retheme that dims the mark fails the build instead of shipping an icon that reads as a
+  smudge in a tab strip.
+
 - **`favicon.ico` is generated rather than committed by hand.** It was the one icon no script
   produced, so this redesign would have left every browser that prefers an `.ico` showing the old
   mark indefinitely. `npm run icons:generate` now emits it alongside the SVG and the PNGs.
