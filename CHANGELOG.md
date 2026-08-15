@@ -2,6 +2,38 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.5.1] - 2026-08-14
+
+### Changed
+
+- **The site icon is a board now, not a dot.** A single gold circle centred on a green field is the
+  construction of the flag of Bangladesh, and at the size a favicon is actually seen (a tab strip, a
+  search result, a bookmark bar) that is what it read as rather than as a brand. The new mark reads
+  at three distances: a gold T at 16px, the T standing among ranks of modules at 48px, and at full
+  size those modules resting on two solid rails. The modules are the tools, uniform because they are
+  all produced the same way; the rails are the engines underneath them, which is how the site
+  actually works (a handful of engines render 119 tools whose widgets are three lines each). So the
+  parent icon says what no single tool icon can: these were made by something.
+
+  The letter is drawn as paths, so the SVG favicon renders identically everywhere instead of
+  borrowing the viewer's fonts. The green field, the gold, and the gloss are unchanged, so it still
+  reads as the parent of the 119 tool install icons, which are untouched. New everywhere the old
+  mark appeared: the nav, browser tabs, the iOS home-screen icon, the social preview image, and the
+  Organization logo in the homepage structured data.
+
+### Fixed
+
+- **The mark now clears the contrast floor it was quietly under.** Gold on the forest field measured
+  2.85:1, below the 3:1 minimum for non-text contrast, which a favicon needs more than anything else
+  does: 16px, antialiased, and often rescaled by the browser. The gold is brightened to 4.04:1. The
+  field, the palette and every category accent are unchanged. A unit test now holds the floor, so a
+  future retheme that dims the mark fails the build instead of shipping an icon that reads as a
+  smudge in a tab strip.
+
+- **`favicon.ico` is generated rather than committed by hand.** It was the one icon no script
+  produced, so this redesign would have left every browser that prefers an `.ico` showing the old
+  mark indefinitely. `npm run icons:generate` now emits it alongside the SVG and the PNGs.
+
 ## [alpha-v7.5] - 2026-08-11
 
 ### Added
