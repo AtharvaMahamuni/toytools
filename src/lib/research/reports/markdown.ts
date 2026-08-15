@@ -3,6 +3,8 @@
 
 import type { ResearchReports } from '../models/report';
 import type { NextBuild, RoadmapItem } from '../models/roadmap';
+import type { LatentCandidate } from '../models/latent';
+import { LATENT_THRESHOLDS } from '../config';
 
 function itemLine(i: RoadmapItem): string {
   const eng = i.engineExists ? `reuses ${i.engine}` : `new ${i.engine} engine`;
@@ -57,6 +59,96 @@ export function renderRoadmap(r: ResearchReports): string {
   L.push('');
 
   return L.join('\n');
+}
+
+/**
+ * latent.md - the second-order demand report.
+ *
+ * Structured deliberately so the DERIVED half comes first. The signals are what the catalog says
+ * about itself with nobody having proposed anything; the candidates are proposals answering them.
+ * Reading it the other way round invites treating a well-argued proposal as evidence for itself,
+ * which is the failure mode this whole analyzer is built to avoid.
+ */
+export function renderLatent(r: ResearchReports): string {
+  const L: string[] = [];
+  const l = r.latent;
+
+  L.push('# Latent Demand: what nobody is searching for');
+  L.push('');
+  L.push(`Generated: ${r.generatedAt}`);
+  L.push('');
+  L.push(
+    'The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs ' +
+      'that produce no query at all, because the person does not yet have a word for the thing or does ' +
+      'not yet know the failure is possible. The two scores are not comparable and are never merged.',
+  );
+  L.push('');
+  L.push(
+    `${l.summary.signals} structural silence(s) derived from the catalog; ${l.summary.considered} ` +
+      `proposal(s) considered, ${l.summary.anchored} anchored, ${l.summary.unanchored} unanchored. ` +
+      `Top latent score ${l.summary.topScore}.`,
+  );
+  L.push('');
+
+  L.push('## Derived silences (from the catalog alone, nobody proposed these)');
+  L.push('');
+  if (!l.signals.length) {
+    L.push('_No structural silences found._');
+    L.push('');
+  }
+  for (const s of l.signals) {
+    L.push(`### \`${s.id}\` (weight ${s.weight})`);
+    L.push(`- **Observed:** ${s.observation}`);
+    L.push(`- **Therefore:** ${s.implication}`);
+    L.push(`- **Evidence:** ${s.evidence.join(', ')}`);
+    L.push('');
+  }
+
+  L.push('## Anchored candidates');
+  L.push('');
+  if (!l.candidates.length) {
+    L.push('_No proposal matched a derived silence._');
+    L.push('');
+  }
+  for (const c of l.candidates) L.push(...candidateBlock(c));
+
+  L.push('## Unanchored proposals (reported, not recommended)');
+  L.push('');
+  L.push(
+    'These were proposed as latent needs and matched no structural silence. They are kept visible ' +
+      'because a proposal with no evidence behind it is a finding too - it is the thing this report ' +
+      'is designed not to recommend.',
+  );
+  L.push('');
+  if (!l.unanchored.length) L.push('_None._');
+  for (const c of l.unanchored) L.push(`- **${c.title}** (\`${c.proposedTool}\`) - ${c.note ?? 'unanchored'}`);
+  L.push('');
+
+  return L.join('\n');
+}
+
+function candidateBlock(c: LatentCandidate): string[] {
+  const L: string[] = [];
+  const verdict = c.latentScore >= LATENT_THRESHOLDS.promote ? 'build-worthy' : 'below the promote bar';
+  L.push(`### ${c.title}  (\`${c.proposedTool}\`)`);
+  L.push('');
+  L.push(`**Latent score:** ${c.latentScore} / 100 (${verdict})`);
+  L.push('');
+  L.push(`- **The need, as behaviour:** ${c.need}`);
+  L.push(`- **Why there is no query for it:** ${c.whyUnnamed}`);
+  if (c.consequenceOf.length) L.push(`- **What it costs when unmet:** ${c.consequenceOf.join('; ')}`);
+  L.push(`- **Engine:** \`${c.proposedEngine}\` (${c.engineExists ? 'existing' : 'NEW - a caller-level decision'})`);
+  if (c.bridges.length) L.push(`- **Reachable from:** ${c.bridges.join(', ')}`);
+  L.push('');
+  L.push('**Anchored to:**');
+  for (const a of c.anchors) L.push(`- \`${a.signalId}\` - ${a.because}`);
+  L.push('');
+  L.push(
+    `**Signals:** anchorStrength ${c.anchorStrength}, consequence ${c.consequence}, ` +
+      `reachability ${c.reachability}, namelessness ${c.namelessness}, algorithmicFit ${c.algorithmicFit}.`,
+  );
+  L.push('');
+  return L;
 }
 
 export function renderNextBuild(nb: NextBuild | null, generatedAt: string): string {

@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 5,
-  patch: 2,
+  patch: 3,
   status: 'alpha',
   releaseDate: '2026-08-15',
-  description: 'Site mark field moved to ink so the parent no longer matches two category accents',
+  description: 'Add the latent-demand analyzer to the Research Intelligence Engine',
 };
 
 export function formatVersion(config: VersionConfig): string {

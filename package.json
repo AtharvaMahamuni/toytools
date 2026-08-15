@@ -27,6 +27,7 @@
     "research:clusters": "npx tsx scripts/research.ts clusters",
     "research:gaps": "npx tsx scripts/research.ts gaps",
     "research:next": "npx tsx scripts/research.ts next",
+    "research:latent": "npx tsx scripts/research.ts latent",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",

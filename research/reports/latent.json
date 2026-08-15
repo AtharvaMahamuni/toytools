@@ -1,0 +1,296 @@
+{
+  "version": 2,
+  "generatedAt": "2026-08-15T10:12:08.840Z",
+  "signals": [
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:text-processor",
+      "observation": "The \"text-processor\" engine has 9 tool(s) that produce text and none that check it.",
+      "implication": "Someone holding text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "camel-case-converter",
+        "kebab-case-converter",
+        "lowercase-converter",
+        "reverse-text",
+        "sentence-case-converter",
+        "slugify-text",
+        "snake-case-converter",
+        "title-case-converter",
+        "uppercase-converter"
+      ],
+      "engines": [
+        "text-processor"
+      ],
+      "weight": 0.33
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:encoding",
+      "observation": "The \"encoding\" engine has 8 tool(s) that produce encoded text and none that check it.",
+      "implication": "Someone holding encoded text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "json-escape",
+        "punycode-converter",
+        "rot13-encoder-decoder",
+        "url-encoder-decoder"
+      ],
+      "engines": [
+        "encoding"
+      ],
+      "weight": 0.32
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:generation",
+      "observation": "The \"generation\" engine has 5 tool(s) that produce a credential and none that check it.",
+      "implication": "Someone holding a credential this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "lorem-ipsum-generator",
+        "password-generator",
+        "qr-code-generator",
+        "random-string-generator",
+        "uuid-generator"
+      ],
+      "engines": [
+        "generation"
+      ],
+      "weight": 0.29
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:hashing",
+      "observation": "The \"hashing\" engine has 5 tool(s) that produce a hash digest and none that check it.",
+      "implication": "Someone holding a hash digest this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "crc32-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "sha256-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "engines": [
+        "hashing"
+      ],
+      "weight": 0.29
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:csv",
+      "observation": "The \"csv\" engine has 3 tool(s) that produce tabular data and none that check it.",
+      "implication": "Someone holding tabular data this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "csv-cleaner",
+        "csv-diff",
+        "csv-to-tsv"
+      ],
+      "engines": [
+        "csv"
+      ],
+      "weight": 0.28
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:datetime",
+      "observation": "The \"datetime\" engine has 2 tool(s) that produce a date/time and none that check it.",
+      "implication": "Someone holding a date/time this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "engines": [
+        "datetime"
+      ],
+      "weight": 0.27
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:units",
+      "observation": "The \"units\" engine has 2 tool(s) that produce a measured quantity and none that check it.",
+      "implication": "Someone holding a measured quantity this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "px-to-dp-converter",
+        "px-to-rem-converter"
+      ],
+      "engines": [
+        "units"
+      ],
+      "weight": 0.27
+    },
+    {
+      "kind": "dead-end",
+      "id": "dead-end:encoded-text",
+      "observation": "Encoded text is produced by encoding and consumed by no engine in the catalog.",
+      "implication": "Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
+      "evidence": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "json-escape",
+        "punycode-converter",
+        "rot13-encoder-decoder",
+        "url-encoder-decoder"
+      ],
+      "engines": [
+        "encoding"
+      ],
+      "weight": 0.27
+    },
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:color",
+      "observation": "The \"color\" engine has 1 tool(s) that produce a color and none that check it.",
+      "implication": "Someone holding a color this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "color-format-converter"
+      ],
+      "engines": [
+        "color"
+      ],
+      "weight": 0.26
+    },
+    {
+      "kind": "dead-end",
+      "id": "dead-end:credential",
+      "observation": "A credential is produced by generation and consumed by no engine in the catalog.",
+      "implication": "Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
+      "evidence": [
+        "lorem-ipsum-generator",
+        "password-generator",
+        "qr-code-generator",
+        "random-string-generator",
+        "uuid-generator"
+      ],
+      "engines": [
+        "generation"
+      ],
+      "weight": 0.24
+    },
+    {
+      "kind": "dead-end",
+      "id": "dead-end:hash",
+      "observation": "A hash digest is produced by hashing and consumed by no engine in the catalog.",
+      "implication": "Whatever a visitor does with a hash digest next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
+      "evidence": [
+        "crc32-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "sha256-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "engines": [
+        "hashing"
+      ],
+      "weight": 0.24
+    },
+    {
+      "kind": "handoff",
+      "id": "handoff:jwt->structured-data",
+      "observation": "The \"jwt\" engine emits structured data and \"structured-data\" consumes it, across 9 tools, with no tool spanning the join.",
+      "implication": "The join is currently the clipboard. A workflow people perform in two tabs has no name, so it has no query - and it is still the thing they came to do.",
+      "evidence": [
+        "jwt-decoder",
+        "csv-to-json-converter",
+        "json-formatter",
+        "json-minifier"
+      ],
+      "engines": [
+        "jwt",
+        "structured-data"
+      ],
+      "weight": 0.23
+    }
+  ],
+  "candidates": [
+    {
+      "id": "shell-quote-escalator",
+      "title": "Shell Quoting Escalator",
+      "proposedTool": "shell-quote-escalator",
+      "proposedEngine": "encoding",
+      "engineExists": true,
+      "need": "People add a backslash, re-run against the real server, and repeat until the error stops, using production as the test harness.",
+      "whyUnnamed": "The thing has no name. People do not experience it as 'multi-layer shell quoting', they experience it as the command not working, so what they type into a search box is their one command rather than the class of problem it belongs to.",
+      "consequenceOf": [
+        "adds backslashes until the command stops erroring, without ever seeing what the far end received",
+        "writes a glob or a $VAR expecting the remote side to expand it and gets it expanded locally instead, silently, against the wrong filesystem",
+        "gets a path with a space split into two arguments three layers down and deletes something adjacent to the intended target",
+        "escapes correctly for bash and ships it to a host whose login shell is not bash"
+      ],
+      "anchors": [
+        {
+          "signalId": "asymmetry:encoding",
+          "kind": "asymmetry",
+          "because": "Sits on \"encoding\", which can produce but cannot check."
+        },
+        {
+          "signalId": "dead-end:encoded-text",
+          "kind": "dead-end",
+          "because": "Touches encoded text, which nothing in the catalog consumes today."
+        }
+      ],
+      "bridges": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ],
+      "anchorStrength": 0.8,
+      "consequence": 0.82,
+      "reachability": 1,
+      "namelessness": 0.89,
+      "algorithmicFit": 0.95,
+      "latentScore": 87.4,
+      "status": "candidate"
+    },
+    {
+      "id": "systemd-timer-converter",
+      "title": "Cron to systemd Timer Converter",
+      "proposedTool": "systemd-timer-converter",
+      "proposedEngine": "datetime",
+      "engineExists": true,
+      "need": "People hand-translate crontab lines into OnCalendar and confirm the unit loads, which proves the syntax parses and says nothing about when it fires.",
+      "whyUnnamed": "Nobody searches for a translation checker, because the moment you would want one is the moment you still believe your translation is right. The search that does happen is for the syntax, and the syntax is not the part that goes wrong.",
+      "consequenceOf": [
+        "translates '0 0 * * 0' to 'OnCalendar=weekly' and does not notice weekly means Monday in systemd and Sunday in cron",
+        "writes '*/7' expecting every seventh day and gets a step that restarts at each month boundary in cron but not in systemd",
+        "translates a crontab line that used both day-of-month and day-of-week without knowing cron ORs those two fields while systemd ANDs them",
+        "forgets the timer inherits the system timezone rather than the crontab's TZ variable, so everything shifts by hours after a DST change"
+      ],
+      "anchors": [
+        {
+          "signalId": "asymmetry:datetime",
+          "kind": "asymmetry",
+          "because": "Sits on \"datetime\", which can produce but cannot check."
+        }
+      ],
+      "bridges": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ],
+      "anchorStrength": 0.36,
+      "consequence": 0.88,
+      "reachability": 0.83,
+      "namelessness": 0.71,
+      "algorithmicFit": 0.97,
+      "latentScore": 69.8,
+      "status": "candidate"
+    }
+  ],
+  "unanchored": [],
+  "summary": {
+    "signals": 12,
+    "considered": 2,
+    "anchored": 2,
+    "unanchored": 0,
+    "topScore": 87.4
+  }
+}

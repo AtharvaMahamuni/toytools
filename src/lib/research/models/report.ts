@@ -6,6 +6,7 @@ import type { EngineRecommendations } from './engine';
 import type { TopicClusters } from './cluster';
 import type { Roadmap } from './roadmap';
 import type { ProblemGraph } from './problem';
+import type { LatentReport } from './latent';
 import type { GapKind } from '../constants';
 
 export interface TrendEntry {
@@ -32,6 +33,8 @@ export interface ResearchReports {
   trends: TrendEntry[];
   roadmap: Roadmap;
   graph: ProblemGraph;
+  /** Second-order demand: needs with no query behind them. Scored on its own axes, not finalScore. */
+  latent: LatentReport;
   summary: {
     discovered: number;
     deduped: number;
@@ -39,5 +42,7 @@ export interface ResearchReports {
     recommended: number;
     missingEngines: number;
     topScore: number;
+    latentSignals: number;
+    latentCandidates: number;
   };
 }

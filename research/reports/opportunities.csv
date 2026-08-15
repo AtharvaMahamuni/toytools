@@ -61,12 +61,14 @@ crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),
 csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,cluster-missing,recommended,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,71.9
 css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,cluster-missing,recommended,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,71.2
 word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,70
+systemd-timer-converter,systemd-timer-converter,Cron to systemd Timer Converter,Schedule Expression Translation,datetime,true,cluster-missing,recommended,medium,0.29,0.94,0.92,0.7,1,0.72,0,0.95,0.64,69.9
 timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,68.7
 loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,68.5
 image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,true,cluster-missing,recommended,high,0.68,0.58,0.82,0.4,1,0.87,0,0.9,0.8,68.4
 cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,67.6
 net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,67.3
 mortgage-calculator,mortgage-calculator,Mortgage Calculator,Mortgage Amortization,loan,false,engine-missing,recommended,medium,0.98,0.4,0.96,0.6,0.3,0.87,0,0.88,0.8,67
+shell-quote-escalator,shell-quote-escalator,Shell Quoting Escalator,Shell Quoting,encoding,true,cluster-missing,recommended,medium,0.11,1,0.94,0.7,1,0.64,0,0.96,0.64,66.5
 salary-calculator,salary-calculator,Salary Calculator,Salary Conversion,budget,false,engine-missing,recommended,medium,0.9,0.52,0.92,0.6,0.3,0.84,0,0.88,0.8,66.3
 retirement-calculator,retirement-calculator,Retirement Calculator,Retirement Projection,retirement,false,engine-missing,recommended,high,0.94,0.46,0.94,0.3,0.3,0.74,0,0.82,0.8,61.4
 meal-plan-generator,meal-plan-generator,Meal Plan Generator,Nutrition Authoring,meal-planning,false,engine-missing,discovered,high,0.75,0.3,0.6,0.3,0.3,0.9,0,0.4,0.64,46.6

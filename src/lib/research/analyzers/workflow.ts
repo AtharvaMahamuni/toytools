@@ -1,20 +1,15 @@
 // Workflow analyzer — sketches the input → transform → output shape of an opportunity, used in the
 // opportunity model and reports. Heuristic and deterministic. Pure.
+//
+// The engine IO map itself lives in io-graph.ts, because the latent-demand analyzer reads the same
+// map structurally (to find dead ends and handoff seams) and two copies would drift.
 
 import type { RawOpportunity } from '../models/provider';
-
-const ENGINE_IO: Record<string, { in: string; out: string }> = {
-  'text-processor': { in: 'text', out: 'text' },
-  'text-analysis': { in: 'text', out: 'metrics' },
-  encoding: { in: 'text', out: 'encoded text' },
-  hashing: { in: 'text', out: 'hash' },
-  'structured-data': { in: 'data', out: 'data' },
-  csv: { in: 'CSV', out: 'CSV' },
-  datetime: { in: 'date/time', out: 'date/time' },
-  calculator: { in: 'numbers', out: 'result' },
-};
+import { ENGINE_IO, formatLabel } from './io-graph';
 
 export function describeWorkflow(raw: RawOpportunity): string {
-  const io = ENGINE_IO[raw.proposedEngine] ?? { in: 'input', out: 'output' };
-  return `${io.in} → ${raw.transformation} → ${io.out}`;
+  const io = ENGINE_IO[raw.proposedEngine];
+  const inLabel = io ? formatLabel(io.in) : 'input';
+  const outLabel = io ? formatLabel(io.out) : 'output';
+  return `${inLabel} → ${raw.transformation} → ${outLabel}`;
 }

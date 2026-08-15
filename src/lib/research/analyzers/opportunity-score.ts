@@ -117,6 +117,7 @@ function normalizeAndScore(
     status: exists ? 'already-exists' : finalScore >= THRESHOLDS.recommend ? 'recommended' : 'discovered',
     gap,
     engineExists,
+    ...(raw.latent ? { latent: raw.latent } : {}),
   };
 }
 

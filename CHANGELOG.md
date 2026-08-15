@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.5.3] - 2026-08-15
+
+### Added
+
+- **The Research Intelligence Engine can now be asked what nobody is searching for.**
+  `npm run research:latent` writes `research/reports/latent.md`, a second ranking that shares no
+  axes with the roadmap. The existing one cannot answer this question at any weighting:
+  `searchDemand` is its heaviest single weight and `scoreConfidence` treats demand under 60 as a
+  signal that did not fire, so a need with no query behind it is invisible to it by construction,
+  and having a query requires already having a name for the thing.
+- **Structural silences, derived from the catalog with nothing authored first.** A new engine IO
+  graph (`src/lib/research/analyzers/io-graph.ts`) writes down what each engine consumes and emits,
+  which makes four kinds of hole fall out of the registry on inspection: an engine that produces
+  artifacts and has no tool that checks any of them (`asymmetry`), a format we emit that nothing
+  consumes (`dead-end`), a converter handing off to an engine with nothing spanning the join
+  (`handoff`), and recorded mid-task failures on a tool the demand ranking left below the bar
+  (`unserved-failure`). Run against today's 119 tools it reports 11, the headline being that the
+  catalog produces artifacts on eight engines and can check exactly one of them (`json-validator`).
+- **An anchor gate, because this analyzer's failure mode is confident and silent.** `namelessness`
+  treats the absence of a search term as evidence, and a tool nobody wants is also missing a search
+  term. So a proposal matching no derived silence is reported as `unanchored` with a stated reason
+  rather than scored, `validate.ts` asserts that on every run, and roughly half of
+  `latent-demand.test.ts` asserts silence rather than output.
+- **Seed evidence for two Linux and system-administration tools**, the first in that area:
+  `systemd-timer-converter` (cron to systemd `OnCalendar`, latent score 69.8) and
+  `shell-quote-escalator` (quoting through ssh, sudo and container layers, 87.4). Seed records may
+  now carry a `latent` block (`whyUnnamed`, `consequence`, `observedBehaviour`); records without one
+  are ordinary demand-driven opportunities and the latent analyzer ignores them entirely.
+
 ## [alpha-v7.5.2] - 2026-08-15
 
 ### Changed

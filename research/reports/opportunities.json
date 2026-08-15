@@ -1,13 +1,13 @@
 {
-  "version": 1,
-  "generatedAt": "2026-08-12T17:17:04.263Z",
+  "version": 2,
+  "generatedAt": "2026-08-15T10:12:08.840Z",
   "opportunities": [
     {
       "id": "one-rep-max-calculator",
       "title": "One Rep Max Calculator",
       "problem": "I lifted a weight for several reps and want the single heaviest lift I could manage, so I can set training percentages.",
       "userIntent": "transactional",
-      "workflow": "input → Fitness Performance Calculation → output",
+      "workflow": "numbers → Fitness Performance Calculation → a computed result",
       "transformation": "Fitness Performance Calculation",
       "proposedTool": "one-rep-max-calculator",
       "proposedEngine": "wellness",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -85,7 +85,7 @@
       "title": "Running Pace Calculator",
       "problem": "Knowing two of distance, finish time, and speed per kilometre, I need the third to plan how fast to run a race.",
       "userIntent": "transactional",
-      "workflow": "input → Fitness Performance Calculation → output",
+      "workflow": "numbers → Fitness Performance Calculation → a computed result",
       "transformation": "Fitness Performance Calculation",
       "proposedTool": "running-pace-calculator",
       "proposedEngine": "wellness",
@@ -99,7 +99,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -163,7 +163,7 @@
       "title": "Calorie Deficit Calculator",
       "problem": "Given how far below maintenance I eat daily, show how many weeks until I reach a target weight.",
       "userIntent": "transactional",
-      "workflow": "input → Energy And Nutrition Planning → output",
+      "workflow": "numbers → Energy And Nutrition Planning → a computed result",
       "transformation": "Energy And Nutrition Planning",
       "proposedTool": "calorie-deficit-calculator",
       "proposedEngine": "wellness",
@@ -177,7 +177,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -241,7 +241,7 @@
       "title": "Pregnancy Due Date Calculator",
       "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
       "userIntent": "transactional",
-      "workflow": "date/time → Health Date Calculation → date/time",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
       "transformation": "Health Date Calculation",
       "proposedTool": "pregnancy-due-date-calculator",
       "proposedEngine": "datetime",
@@ -255,7 +255,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -316,7 +316,7 @@
       "title": "Unit Circle Explorer",
       "problem": "I want to drag an angle around the unit circle and see sin, cos, and tan update live with the reference triangle and a tracing sine wave.",
       "userIntent": "informational",
-      "workflow": "input → Unit Circle → output",
+      "workflow": "a simulated model → Unit Circle → a simulated model",
       "transformation": "Unit Circle",
       "proposedTool": "unit-circle-calculator",
       "proposedEngine": "math-lab",
@@ -330,7 +330,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -382,7 +382,7 @@
       "title": "Quadratic Equation Explorer",
       "problem": "I want to slide the coefficients a, b, and c and watch the parabola, roots, vertex, and discriminant change, with the formula worked step by step.",
       "userIntent": "transactional",
-      "workflow": "input → Quadratic Equations → output",
+      "workflow": "a simulated model → Quadratic Equations → a simulated model",
       "transformation": "Quadratic Equations",
       "proposedTool": "quadratic-equation-solver",
       "proposedEngine": "math-lab",
@@ -396,7 +396,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -448,7 +448,7 @@
       "title": "Sleep Cycle Calculator",
       "problem": "Counting backward in ninety-minute cycles from when my alarm rings shows which bedtimes avoid waking mid-cycle.",
       "userIntent": "transactional",
-      "workflow": "date/time → Health Date Calculation → date/time",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
       "transformation": "Health Date Calculation",
       "proposedTool": "sleep-cycle-calculator",
       "proposedEngine": "datetime",
@@ -462,7 +462,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -525,7 +525,7 @@
       "title": "WCAG Color Contrast Checker",
       "problem": "I need to check whether a text color and background color meet WCAG AA/AAA contrast so my UI is accessible.",
       "userIntent": "transactional",
-      "workflow": "input → Contrast Ratio → output",
+      "workflow": "a color → Contrast Ratio → a color",
       "transformation": "Contrast Ratio",
       "proposedTool": "color-contrast-checker",
       "proposedEngine": "color",
@@ -540,7 +540,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -590,7 +590,7 @@
       "title": "BMR Calculator",
       "problem": "I want the energy my body burns at complete rest, before any activity multiplier is applied.",
       "userIntent": "transactional",
-      "workflow": "input → Energy And Nutrition Planning → output",
+      "workflow": "numbers → Energy And Nutrition Planning → a computed result",
       "transformation": "Energy And Nutrition Planning",
       "proposedTool": "bmr-calculator",
       "proposedEngine": "wellness",
@@ -604,7 +604,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -667,7 +667,7 @@
       "title": "Fraction Calculator",
       "problem": "I want to add, subtract, multiply, or divide fractions and mixed numbers and see the simplification worked step by step.",
       "userIntent": "transactional",
-      "workflow": "input → Fractions → output",
+      "workflow": "a simulated model → Fractions → a simulated model",
       "transformation": "Fractions",
       "proposedTool": "fraction-calculator",
       "proposedEngine": "math",
@@ -681,7 +681,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -739,7 +739,7 @@
       "title": "Color Format Converter",
       "problem": "I want to convert a color between HEX, RGB, HSL, HSV, OKLCH, and CMYK and copy the CSS value.",
       "userIntent": "transactional",
-      "workflow": "input → Color Conversion → output",
+      "workflow": "a color → Color Conversion → a color",
       "transformation": "Color Conversion",
       "proposedTool": "color-format-converter",
       "proposedEngine": "color",
@@ -755,7 +755,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -805,7 +805,7 @@
       "title": "Ovulation Calculator",
       "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
       "userIntent": "transactional",
-      "workflow": "date/time → Health Date Calculation → date/time",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
       "transformation": "Health Date Calculation",
       "proposedTool": "ovulation-calculator",
       "proposedEngine": "datetime",
@@ -819,7 +819,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -894,7 +894,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -955,7 +955,7 @@
       "title": "Combinations & Permutations Calculator",
       "problem": "I want to compute nCr and nPr with the formula expanded and a visual of how many ways items can be chosen or arranged.",
       "userIntent": "transactional",
-      "workflow": "input → Combinatorics → output",
+      "workflow": "a simulated model → Combinatorics → a simulated model",
       "transformation": "Combinatorics",
       "proposedTool": "combinations-permutations-calculator",
       "proposedEngine": "math",
@@ -969,7 +969,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -1027,7 +1027,7 @@
       "title": "PX to REM Converter",
       "problem": "I want to convert px to rem, em, and pt for CSS against a configurable root font size.",
       "userIntent": "transactional",
-      "workflow": "input → CSS Unit Conversion → output",
+      "workflow": "a measured quantity → CSS Unit Conversion → a measured quantity",
       "transformation": "CSS Unit Conversion",
       "proposedTool": "px-to-rem-converter",
       "proposedEngine": "units",
@@ -1042,7 +1042,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -1095,7 +1095,7 @@
       "title": "Blood Pressure Tracker",
       "problem": "Logging systolic and diastolic readings over weeks reveals a trend worth showing a doctor.",
       "userIntent": "transactional",
-      "workflow": "input → Personal Health Logging → output",
+      "workflow": "saved state → Personal Health Logging → saved state",
       "transformation": "Personal Health Logging",
       "proposedTool": "blood-pressure-tracker",
       "proposedEngine": "tracker",
@@ -1109,7 +1109,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -1164,7 +1164,7 @@
       "title": "Protein Intake Calculator",
       "problem": "I need a daily gram target for protein from bodyweight and whether I am cutting, maintaining, or building muscle.",
       "userIntent": "transactional",
-      "workflow": "input → Energy And Nutrition Planning → output",
+      "workflow": "numbers → Energy And Nutrition Planning → a computed result",
       "transformation": "Energy And Nutrition Planning",
       "proposedTool": "protein-intake-calculator",
       "proposedEngine": "wellness",
@@ -1178,7 +1178,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -1241,7 +1241,7 @@
       "title": "SIP Calculator",
       "problem": "I invest a fixed amount monthly and want the maturity value of my SIP.",
       "userIntent": "transactional",
-      "workflow": "input → Systematic Investment Plan → output",
+      "workflow": "numbers → Systematic Investment Plan → a computed result",
       "transformation": "Systematic Investment Plan",
       "proposedTool": "sip-calculator",
       "proposedEngine": "finance",
@@ -1253,7 +1253,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -1329,7 +1329,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -1390,7 +1390,7 @@
       "title": "Prime Factorization Calculator",
       "problem": "I want to enter a number and see its prime factor tree built visually, plus GCF and LCM against a second number.",
       "userIntent": "transactional",
-      "workflow": "input → Number Theory → output",
+      "workflow": "a simulated model → Number Theory → a simulated model",
       "transformation": "Number Theory",
       "proposedTool": "prime-factorization-calculator",
       "proposedEngine": "math",
@@ -1404,7 +1404,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -1460,7 +1460,7 @@
       "title": "PX to DP Converter",
       "problem": "I want to convert px to dp and sp across Android density buckets (mdpi to xxxhdpi) and iOS pt.",
       "userIntent": "transactional",
-      "workflow": "input → Density Unit Conversion → output",
+      "workflow": "a measured quantity → Density Unit Conversion → a measured quantity",
       "transformation": "Density Unit Conversion",
       "proposedTool": "px-to-dp-converter",
       "proposedEngine": "units",
@@ -1475,7 +1475,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1527,7 +1527,7 @@
       "title": "Projectile Motion Simulator",
       "problem": "I want to see how launch angle and speed change a projectile's range, peak height, and time of flight along a live trajectory.",
       "userIntent": "informational",
-      "workflow": "input → Projectile Motion → output",
+      "workflow": "a simulated model → Projectile Motion → a simulated model",
       "transformation": "Projectile Motion",
       "proposedTool": "projectile-motion-calculator",
       "proposedEngine": "physics",
@@ -1541,7 +1541,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -1599,7 +1599,7 @@
       "title": "Probability Lab",
       "problem": "I want to run thousands of animated coin flips or dice rolls and watch the empirical frequency converge on the theoretical probability.",
       "userIntent": "informational",
-      "workflow": "input → Probability → output",
+      "workflow": "a simulated model → Probability → a simulated model",
       "transformation": "Probability",
       "proposedTool": "probability-calculator",
       "proposedEngine": "math-lab",
@@ -1613,7 +1613,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -1679,7 +1679,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1740,7 +1740,7 @@
       "title": "Aspect Ratio Calculator",
       "problem": "I want to enter a width or height, lock an aspect ratio like 16:9, and get the missing dimension.",
       "userIntent": "transactional",
-      "workflow": "input → Aspect Ratio → output",
+      "workflow": "a measured quantity → Aspect Ratio → a measured quantity",
       "transformation": "Aspect Ratio",
       "proposedTool": "aspect-ratio-calculator",
       "proposedEngine": "units",
@@ -1754,7 +1754,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1806,7 +1806,7 @@
       "title": "Statistics Visualizer",
       "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
       "userIntent": "transactional",
-      "workflow": "input → Descriptive Statistics → output",
+      "workflow": "a simulated model → Descriptive Statistics → a simulated model",
       "transformation": "Descriptive Statistics",
       "proposedTool": "statistics-visualizer",
       "proposedEngine": "math",
@@ -1820,7 +1820,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1892,7 +1892,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1953,7 +1953,7 @@
       "title": "Lean Body Mass Calculator",
       "problem": "Separating fat mass from everything else in my bodyweight tells me how much muscle and bone I carry.",
       "userIntent": "transactional",
-      "workflow": "input → Body Composition Calculation → output",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
       "transformation": "Body Composition Calculation",
       "proposedTool": "lean-body-mass-calculator",
       "proposedEngine": "wellness",
@@ -1967,7 +1967,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -2029,7 +2029,7 @@
       "title": "ROI Calculator",
       "problem": "I need the return on investment and annualized return for an investment.",
       "userIntent": "transactional",
-      "workflow": "input → Return on Investment → output",
+      "workflow": "numbers → Return on Investment → a computed result",
       "transformation": "Return on Investment",
       "proposedTool": "roi-calculator",
       "proposedEngine": "finance",
@@ -2041,7 +2041,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -2102,7 +2102,7 @@
       "title": "Waist to Hip Ratio Calculator",
       "problem": "Measuring around my middle and hips gives a ratio that flags central adiposity better than overall mass does.",
       "userIntent": "transactional",
-      "workflow": "input → Body Composition Calculation → output",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
       "transformation": "Body Composition Calculation",
       "proposedTool": "waist-to-hip-ratio-calculator",
       "proposedEngine": "wellness",
@@ -2116,7 +2116,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -2179,7 +2179,7 @@
       "title": "Body Surface Area Calculator",
       "problem": "Clinical dosing and cardiac index use square metres of skin, computed from stature and mass.",
       "userIntent": "transactional",
-      "workflow": "input → Body Composition Calculation → output",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
       "transformation": "Body Composition Calculation",
       "proposedTool": "body-surface-area-calculator",
       "proposedEngine": "wellness",
@@ -2193,7 +2193,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -2255,7 +2255,7 @@
       "title": "Ohm's Law Simulator",
       "problem": "I want to change voltage and resistance and see the resulting current and power, ideally with the circuit reacting live.",
       "userIntent": "transactional",
-      "workflow": "input → Ohm's Law → output",
+      "workflow": "a simulated model → Ohm's Law → a simulated model",
       "transformation": "Ohm's Law",
       "proposedTool": "ohms-law-calculator",
       "proposedEngine": "physics",
@@ -2269,7 +2269,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2326,7 +2326,7 @@
       "title": "JSON Escape / Unescape",
       "problem": "I need to escape a block of text so it is a valid JSON string value (quotes, newlines).",
       "userIntent": "troubleshooting",
-      "workflow": "data → JSON String Escaping → data",
+      "workflow": "structured data → JSON String Escaping → structured data",
       "transformation": "JSON String Escaping",
       "proposedTool": "json-escape",
       "proposedEngine": "structured-data",
@@ -2340,7 +2340,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -2401,7 +2401,7 @@
       "title": "Spring (SHM) Simulator",
       "problem": "I want to hang a mass on a spring, release it, and watch it oscillate while position, velocity, and energy trade back and forth.",
       "userIntent": "informational",
-      "workflow": "input → Simple Harmonic Motion → output",
+      "workflow": "a simulated model → Simple Harmonic Motion → a simulated model",
       "transformation": "Simple Harmonic Motion",
       "proposedTool": "simple-harmonic-motion-calculator",
       "proposedEngine": "physics",
@@ -2415,7 +2415,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2471,7 +2471,7 @@
       "title": "CSV Diff",
       "problem": "I need to compare two CSV files and see which rows were added, removed, or changed.",
       "userIntent": "comparison",
-      "workflow": "CSV → CSV Diff → CSV",
+      "workflow": "tabular data → CSV Diff → tabular data",
       "transformation": "CSV Diff",
       "proposedTool": "csv-diff",
       "proposedEngine": "csv",
@@ -2485,7 +2485,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -2546,7 +2546,7 @@
       "title": "CAGR Calculator",
       "problem": "I have a start value, end value, and years, and want the compound annual growth rate.",
       "userIntent": "transactional",
-      "workflow": "input → Compound Annual Growth Rate → output",
+      "workflow": "numbers → Compound Annual Growth Rate → a computed result",
       "transformation": "Compound Annual Growth Rate",
       "proposedTool": "cagr-calculator",
       "proposedEngine": "finance",
@@ -2558,7 +2558,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -2619,7 +2619,7 @@
       "title": "Matrix Calculator",
       "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
       "userIntent": "howTo",
-      "workflow": "input → Matrices → output",
+      "workflow": "a simulated model → Matrices → a simulated model",
       "transformation": "Matrices",
       "proposedTool": "matrix-calculator",
       "proposedEngine": "math",
@@ -2633,7 +2633,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -2703,7 +2703,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2777,7 +2777,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2837,7 +2837,7 @@
       "title": "Triangle Solver",
       "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
       "userIntent": "transactional",
-      "workflow": "input → Triangles → output",
+      "workflow": "a simulated model → Triangles → a simulated model",
       "transformation": "Triangles",
       "proposedTool": "triangle-solver",
       "proposedEngine": "math",
@@ -2851,7 +2851,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2909,7 +2909,7 @@
       "title": "Ideal Gas Law Simulator",
       "problem": "I want to change temperature, volume, and amount of gas and watch pressure emerge from particle collisions in a box.",
       "userIntent": "transactional",
-      "workflow": "input → Ideal Gas Law → output",
+      "workflow": "a simulated model → Ideal Gas Law → a simulated model",
       "transformation": "Ideal Gas Law",
       "proposedTool": "ideal-gas-law-calculator",
       "proposedEngine": "physics",
@@ -2923,7 +2923,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -2979,7 +2979,7 @@
       "title": "Color Shades & Tints Generator",
       "problem": "I want to generate a full tint and shade scale (50 to 900) from one base color for a design token set.",
       "userIntent": "transactional",
-      "workflow": "input → Color Scale → output",
+      "workflow": "a color → Color Scale → a color",
       "transformation": "Color Scale",
       "proposedTool": "color-shades-generator",
       "proposedEngine": "color",
@@ -2994,7 +2994,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -3043,7 +3043,7 @@
       "title": "Modular Type Scale Generator",
       "problem": "I want to pick a base font size and ratio and generate a modular type scale as copyable rem CSS custom properties.",
       "userIntent": "transactional",
-      "workflow": "input → Type Scale → output",
+      "workflow": "a measured quantity → Type Scale → a measured quantity",
       "transformation": "Type Scale",
       "proposedTool": "type-scale-generator",
       "proposedEngine": "units",
@@ -3058,7 +3058,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -3110,7 +3110,7 @@
       "title": "Unix Timestamp Converter",
       "problem": "I need to convert a Unix epoch timestamp to a human-readable date and back.",
       "userIntent": "transactional",
-      "workflow": "date/time → Timestamp Conversion → date/time",
+      "workflow": "a date/time → Timestamp Conversion → a date/time",
       "transformation": "Timestamp Conversion",
       "proposedTool": "unix-timestamp-converter",
       "proposedEngine": "datetime",
@@ -3123,7 +3123,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -3180,7 +3180,7 @@
       "title": "Normal Distribution Visualizer",
       "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
       "userIntent": "transactional",
-      "workflow": "input → Normal Distribution → output",
+      "workflow": "a simulated model → Normal Distribution → a simulated model",
       "transformation": "Normal Distribution",
       "proposedTool": "normal-distribution-visualizer",
       "proposedEngine": "math-lab",
@@ -3194,7 +3194,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -3259,7 +3259,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3319,7 +3319,7 @@
       "title": "CSV to TSV",
       "problem": "I need to convert a comma-separated file to tab-separated for a tool that only accepts TSV.",
       "userIntent": "transactional",
-      "workflow": "CSV → CSV/TSV Conversion → CSV",
+      "workflow": "tabular data → CSV/TSV Conversion → tabular data",
       "transformation": "CSV/TSV Conversion",
       "proposedTool": "csv-to-tsv",
       "proposedEngine": "csv",
@@ -3332,7 +3332,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3388,7 +3388,7 @@
       "title": "Doppler Effect Simulator",
       "problem": "I want to move a wave source and observer and watch the wavefronts bunch up ahead and stretch behind, with the shifted frequency shown live.",
       "userIntent": "informational",
-      "workflow": "input → Doppler Effect → output",
+      "workflow": "a simulated model → Doppler Effect → a simulated model",
       "transformation": "Doppler Effect",
       "proposedTool": "doppler-effect-calculator",
       "proposedEngine": "physics",
@@ -3401,7 +3401,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3456,7 +3456,7 @@
       "title": "Linear Regression Playground",
       "problem": "I want to tap points onto a scatter plot and watch the least-squares line, equation, and R squared update as I add, drag, or remove points.",
       "userIntent": "troubleshooting",
-      "workflow": "input → Linear Regression → output",
+      "workflow": "a simulated model → Linear Regression → a simulated model",
       "transformation": "Linear Regression",
       "proposedTool": "linear-regression-playground",
       "proposedEngine": "math-lab",
@@ -3470,7 +3470,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -3522,7 +3522,7 @@
       "title": "Colorblind Simulator",
       "problem": "I want to see how my palette or colors look to people with protanopia, deuteranopia, and tritanopia.",
       "userIntent": "transactional",
-      "workflow": "input → Color Vision Simulation → output",
+      "workflow": "a color → Color Vision Simulation → a color",
       "transformation": "Color Vision Simulation",
       "proposedTool": "colorblind-simulator",
       "proposedEngine": "color",
@@ -3536,7 +3536,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3588,7 +3588,7 @@
       "title": "VO2 Max Calculator",
       "problem": "A twelve-minute run or a resting pulse reading estimates the oxygen my body uses at maximum effort.",
       "userIntent": "transactional",
-      "workflow": "input → Fitness Performance Calculation → output",
+      "workflow": "numbers → Fitness Performance Calculation → a computed result",
       "transformation": "Fitness Performance Calculation",
       "proposedTool": "vo2-max-calculator",
       "proposedEngine": "wellness",
@@ -3602,7 +3602,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -3664,7 +3664,7 @@
       "title": "CSV Cleaner",
       "problem": "My CSV has empty rows, trailing commas and stray whitespace I need cleaned before import.",
       "userIntent": "troubleshooting",
-      "workflow": "CSV → CSV Cleaning → CSV",
+      "workflow": "tabular data → CSV Cleaning → tabular data",
       "transformation": "CSV Cleaning",
       "proposedTool": "csv-cleaner",
       "proposedEngine": "csv",
@@ -3678,7 +3678,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -3737,7 +3737,7 @@
       "title": "Momentum & Collision Simulator",
       "problem": "I want to set the mass and velocity of two carts, collide them, and see momentum conserved while kinetic energy changes from elastic to inelastic.",
       "userIntent": "informational",
-      "workflow": "input → Momentum and Collisions → output",
+      "workflow": "a simulated model → Momentum and Collisions → a simulated model",
       "transformation": "Momentum and Collisions",
       "proposedTool": "momentum-collision-calculator",
       "proposedEngine": "physics",
@@ -3750,7 +3750,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3806,7 +3806,7 @@
       "title": "Age Calculator",
       "problem": "I want to calculate an exact age in years, months and days from a birth date.",
       "userIntent": "transactional",
-      "workflow": "date/time → Age Calculation → date/time",
+      "workflow": "a date/time → Age Calculation → a date/time",
       "transformation": "Age Calculation",
       "proposedTool": "age-calculator",
       "proposedEngine": "datetime",
@@ -3819,7 +3819,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3875,7 +3875,7 @@
       "title": "Sleep Hours Tracker",
       "problem": "Recording how many hours I actually slept each night surfaces a weekly average and a streak.",
       "userIntent": "transactional",
-      "workflow": "input → Personal Health Logging → output",
+      "workflow": "saved state → Personal Health Logging → saved state",
       "transformation": "Personal Health Logging",
       "proposedTool": "sleep-hours-tracker",
       "proposedEngine": "tracker",
@@ -3889,7 +3889,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -3942,7 +3942,7 @@
       "title": "Date Difference Calculator",
       "problem": "I need the number of days/weeks/months between two dates.",
       "userIntent": "transactional",
-      "workflow": "date/time → Date Difference → date/time",
+      "workflow": "a date/time → Date Difference → a date/time",
       "transformation": "Date Difference",
       "proposedTool": "date-difference-calculator",
       "proposedEngine": "datetime",
@@ -3954,7 +3954,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -4011,7 +4011,7 @@
       "title": "Inclined Plane Simulator",
       "problem": "I want to set the ramp angle, friction, and mass and see the force vectors and whether a block slides or stays put.",
       "userIntent": "transactional",
-      "workflow": "input → Inclined Plane and Friction → output",
+      "workflow": "a simulated model → Inclined Plane and Friction → a simulated model",
       "transformation": "Inclined Plane and Friction",
       "proposedTool": "inclined-plane-calculator",
       "proposedEngine": "physics",
@@ -4026,7 +4026,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -4082,7 +4082,7 @@
       "title": "Function Grapher",
       "problem": "I want to type a formula like f(x) and get an instant plot I can zoom, pan, and trace, with sliders for parameters, without creating an account.",
       "userIntent": "transactional",
-      "workflow": "input → Function Graphing → output",
+      "workflow": "a simulated model → Function Graphing → a simulated model",
       "transformation": "Function Graphing",
       "proposedTool": "function-grapher",
       "proposedEngine": "math-lab",
@@ -4096,7 +4096,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -4148,7 +4148,7 @@
       "title": "CRC32 Hash Generator",
       "problem": "I need a CRC32 checksum of a string to verify a transfer.",
       "userIntent": "transactional",
-      "workflow": "text → Checksum (CRC32) → hash",
+      "workflow": "text → Checksum (CRC32) → a hash digest",
       "transformation": "Checksum (CRC32)",
       "proposedTool": "crc32-hash-generator",
       "proposedEngine": "hashing",
@@ -4161,7 +4161,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -4220,7 +4220,7 @@
       "title": "CSV Column Picker",
       "problem": "I want to pick out specific columns from a CSV and drop the rest.",
       "userIntent": "transactional",
-      "workflow": "CSV → CSV Column Selection → CSV",
+      "workflow": "tabular data → CSV Column Selection → tabular data",
       "transformation": "CSV Column Selection",
       "proposedTool": "csv-column-picker",
       "proposedEngine": "csv",
@@ -4233,7 +4233,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -4293,7 +4293,7 @@
       "title": "Perceptual Gradient Generator",
       "problem": "I want to build a CSS gradient that interpolates in OKLCH so it avoids the muddy gray dead-zone of sRGB gradients, and copy the code.",
       "userIntent": "transactional",
-      "workflow": "input → Perceptual Gradient → output",
+      "workflow": "a color → Perceptual Gradient → a color",
       "transformation": "Perceptual Gradient",
       "proposedTool": "css-gradient-generator",
       "proposedEngine": "color",
@@ -4308,7 +4308,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -4370,7 +4370,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -4428,11 +4428,100 @@
       "engineExists": true
     },
     {
+      "id": "systemd-timer-converter",
+      "title": "Cron to systemd Timer Converter",
+      "problem": "I am moving cron jobs onto systemd timers and have to hand-translate each crontab line into an OnCalendar expression, with no way to check that the translation fires at the same moments.",
+      "userIntent": "transactional",
+      "workflow": "a date/time → Schedule Expression Translation → a date/time",
+      "transformation": "Schedule Expression Translation",
+      "proposedTool": "systemd-timer-converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "convert crontab line to systemd timer OnCalendar",
+        "cron to systemd timer",
+        "crontab to oncalendar",
+        "systemd oncalendar syntax",
+        "systemd timer equivalent of cron expression",
+        "oncalendar every 15 minutes"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "existingSolutions": [
+        "systemd-analyze calendar on a machine you already have",
+        "the systemd.time man page",
+        "blog posts with a handful of worked examples"
+      ],
+      "solutionWeaknesses": [
+        "systemd-analyze only checks an OnCalendar you have already written, it does not translate a crontab line",
+        "man pages document the grammar and never compare it to cron",
+        "worked examples cover the easy schedules and stop exactly where the semantics diverge"
+      ],
+      "userFailures": [
+        "translates '0 0 * * 0' to 'OnCalendar=weekly' and does not notice weekly means Monday in systemd and Sunday in cron",
+        "writes '*/7' expecting every seventh day and gets a step that restarts at each month boundary in cron but not in systemd",
+        "translates a crontab line that used both day-of-month and day-of-week without knowing cron ORs those two fields while systemd ANDs them",
+        "forgets the timer inherits the system timezone rather than the crontab's TZ variable, so everything shifts by hours after a DST change"
+      ],
+      "relatedProblems": [
+        "cron expression parsing",
+        "timezone conversion",
+        "next fire time calculation"
+      ],
+      "relatedTools": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ],
+      "relatedGuides": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ],
+      "relatedFaqs": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.94,
+      "searchDemand": 0.29,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.72,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.26,
+      "localizationPotential": 0.95,
+      "algorithmicFit": 0.97,
+      "confidence": 0.64,
+      "finalScore": 69.9,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "latent": {
+        "whyUnnamed": "Nobody searches for a translation checker, because the moment you would want one is the moment you still believe your translation is right. The search that does happen is for the syntax, and the syntax is not the part that goes wrong.",
+        "consequence": 88,
+        "observedBehaviour": [
+          "People hand-translate crontab lines into OnCalendar and confirm the unit loads, which proves the syntax parses and says nothing about when it fires.",
+          "They run systemd-analyze calendar on the result and read the next elapse, then compare it against the old cron schedule from memory.",
+          "The mistranslation is discovered weeks later, when a backup that was supposed to run on Sunday has been running on Monday."
+        ]
+      }
+    },
+    {
       "id": "timezone-converter",
       "title": "Timezone Converter",
       "problem": "I need to convert a meeting time from one timezone to another.",
       "userIntent": "transactional",
-      "workflow": "date/time → Timezone Conversion → date/time",
+      "workflow": "a date/time → Timezone Conversion → a date/time",
       "transformation": "Timezone Conversion",
       "proposedTool": "timezone-converter",
       "proposedEngine": "datetime",
@@ -4444,7 +4533,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -4517,7 +4606,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -4565,7 +4654,7 @@
       "title": "Image Palette Extractor",
       "problem": "I want to upload an image and extract its dominant color palette without the image leaving my browser.",
       "userIntent": "transactional",
-      "workflow": "input → Palette Extraction → output",
+      "workflow": "a color → Palette Extraction → a color",
       "transformation": "Palette Extraction",
       "proposedTool": "image-palette-extractor",
       "proposedEngine": "color",
@@ -4580,7 +4669,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -4629,7 +4718,7 @@
       "title": "Cron Expression Parser",
       "problem": "I need to understand what a cron expression means in plain English and when it next runs.",
       "userIntent": "informational",
-      "workflow": "date/time → Cron Parsing → date/time",
+      "workflow": "a date/time → Cron Parsing → a date/time",
       "transformation": "Cron Parsing",
       "proposedTool": "cron-expression-parser",
       "proposedEngine": "datetime",
@@ -4642,7 +4731,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -4713,7 +4802,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -4774,7 +4863,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -4817,6 +4906,98 @@
       "engineExists": false
     },
     {
+      "id": "shell-quote-escalator",
+      "title": "Shell Quoting Escalator",
+      "problem": "I need to send a command through several layers that each strip one level of quoting (a local shell, then ssh, then sudo or docker exec), and I cannot tell what the far end will actually receive until it runs.",
+      "userIntent": "troubleshooting",
+      "workflow": "text → Shell Quoting → encoded text",
+      "transformation": "Shell Quoting",
+      "proposedTool": "shell-quote-escalator",
+      "proposedEngine": "encoding",
+      "searchQueries": [
+        "escape a command through ssh and sudo without breaking the quotes",
+        "escape quotes in ssh command",
+        "bash quoting inside ssh",
+        "nested quotes sudo bash -c",
+        "how many backslashes ssh command",
+        "docker exec quoting spaces"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "existingSolutions": [
+        "trial and error against the real server",
+        "python shlex.quote in a REPL",
+        "answers on Q and A sites for one specific command shape"
+      ],
+      "solutionWeaknesses": [
+        "trial and error runs the wrong command on a real machine to find out it was wrong",
+        "shlex.quote handles one layer and the problem is that there are several",
+        "every answer is pinned to one command and does not generalize to the next one"
+      ],
+      "userFailures": [
+        "adds backslashes until the command stops erroring, without ever seeing what the far end received",
+        "writes a glob or a $VAR expecting the remote side to expand it and gets it expanded locally instead, silently, against the wrong filesystem",
+        "gets a path with a space split into two arguments three layers down and deletes something adjacent to the intended target",
+        "escapes correctly for bash and ships it to a host whose login shell is not bash"
+      ],
+      "relatedProblems": [
+        "URL encoding",
+        "JSON string escaping",
+        "HTML entity encoding"
+      ],
+      "relatedTools": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ],
+      "relatedGuides": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ],
+      "relatedFaqs": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.94,
+      "competitionScore": 1,
+      "searchDemand": 0.11,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.64,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.22,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 0.95,
+      "confidence": 0.64,
+      "finalScore": 66.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "latent": {
+        "whyUnnamed": "The thing has no name. People do not experience it as 'multi-layer shell quoting', they experience it as the command not working, so what they type into a search box is their one command rather than the class of problem it belongs to.",
+        "consequence": 82,
+        "observedBehaviour": [
+          "People add a backslash, re-run against the real server, and repeat until the error stops, using production as the test harness.",
+          "They paste the command into a chat channel and ask a colleague to count the quoting levels by eye.",
+          "They give up on quoting entirely and base64 the whole command, which works and leaves nobody able to read what the automation runs."
+        ]
+      }
+    },
+    {
       "id": "salary-calculator",
       "title": "Salary Calculator",
       "problem": "I want to convert hourly pay to annual salary and see take home pay.",
@@ -4834,7 +5015,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -4893,7 +5074,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -4960,7 +5141,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "generatedAt": "2026-08-12T17:17:04.263Z",
+  "version": 2,
+  "generatedAt": "2026-08-15T10:12:08.840Z",
   "clusters": [
     {
       "id": "unit-circle",
@@ -1353,6 +1353,30 @@
       ]
     },
     {
+      "id": "schedule-expression-translation",
+      "transformation": "Schedule Expression Translation",
+      "engine": "datetime",
+      "members": [
+        "systemd-timer-converter"
+      ],
+      "existingMembers": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "size": 1,
+      "meanScore": 69.9,
+      "internalLinks": [
+        "age-calculator",
+        "cron-expression-parser",
+        "date-difference-calculator",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ]
+    },
+    {
       "id": "timezone-conversion",
       "transformation": "Timezone Conversion",
       "engine": "datetime",
@@ -1459,6 +1483,34 @@
       "meanScore": 67,
       "internalLinks": [
         "compound-interest-calculator"
+      ]
+    },
+    {
+      "id": "shell-quoting",
+      "transformation": "Shell Quoting",
+      "engine": "encoding",
+      "members": [
+        "shell-quote-escalator"
+      ],
+      "existingMembers": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "json-escape",
+        "punycode-converter",
+        "rot13-encoder-decoder",
+        "url-encoder-decoder"
+      ],
+      "size": 1,
+      "meanScore": 66.5,
+      "internalLinks": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "json-escape",
+        "url-encoder-decoder"
       ]
     },
     {

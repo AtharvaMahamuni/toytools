@@ -51,6 +51,14 @@ export function validateDatasets(datasets: SeedDataset[]): string[] {
         errors.push(`${where}: algorithmicFit out of range`);
       if (!Array.isArray(rec.searchQueries) || rec.searchQueries.length === 0)
         errors.push(`${where}: searchQueries must be a non-empty array`);
+      if (rec.latent !== undefined) {
+        if (!rec.latent.whyUnnamed) errors.push(`${where}: latent.whyUnnamed is required`);
+        if (!inRange(rec.latent.consequence, 0, 100)) errors.push(`${where}: latent.consequence out of range`);
+        // A latent claim with no observed behaviour behind it is an opinion. The whole point of the
+        // block is that behaviour stands in for the query that does not exist.
+        if (!Array.isArray(rec.latent.observedBehaviour) || rec.latent.observedBehaviour.length === 0)
+          errors.push(`${where}: latent.observedBehaviour must be a non-empty array`);
+      }
       if (rec.proposedTool) {
         if (seenTools.has(rec.proposedTool)) errors.push(`Duplicate proposed tool across datasets: ${rec.proposedTool}`);
         seenTools.add(rec.proposedTool);
@@ -119,6 +127,37 @@ export function validateReports(r: ResearchReports): string[] {
   }
   if (r.roadmap.nextBuild && !ids.has(r.roadmap.nextBuild.id))
     errors.push(`nextBuild references unknown opportunity: ${r.roadmap.nextBuild.id}`);
+
+  // Latent report integrity. The anchor gate is the analyzer's entire guardrail, so it is asserted
+  // here as well: a candidate that reached the report with no anchors means the gate stopped working,
+  // and the failure is silent and confident, which is the worst shape for a suggestion engine.
+  const signalIds = new Set(r.latent.signals.map(s => s.id));
+  for (const s of r.latent.signals) {
+    if (!inRange(s.weight, 0, 1)) errors.push(`Latent signal ${s.id}: weight out of 0..1 (${s.weight})`);
+    if (!s.observation || !s.implication) errors.push(`Latent signal ${s.id}: missing observation/implication`);
+  }
+  for (const c of [...r.latent.candidates, ...r.latent.unanchored]) {
+    const unit: Array<[string, number]> = [
+      ['anchorStrength', c.anchorStrength],
+      ['consequence', c.consequence],
+      ['reachability', c.reachability],
+      ['namelessness', c.namelessness],
+      ['algorithmicFit', c.algorithmicFit],
+    ];
+    for (const [name, v] of unit) if (!inRange(v, 0, 1)) errors.push(`Latent ${c.id}: ${name} out of 0..1 (${v})`);
+    if (!inRange(c.latentScore, 0, 100)) errors.push(`Latent ${c.id}: latentScore out of 0..100`);
+    if (!c.whyUnnamed) errors.push(`Latent ${c.id}: missing whyUnnamed`);
+    for (const a of c.anchors) {
+      if (!signalIds.has(a.signalId)) errors.push(`Latent ${c.id}: anchor references unknown signal ${a.signalId}`);
+    }
+  }
+  for (const c of r.latent.candidates) {
+    if (c.anchors.length === 0) errors.push(`Latent ${c.id}: promoted to candidate with zero anchors`);
+  }
+  for (const c of r.latent.unanchored) {
+    if (c.anchors.length > 0) errors.push(`Latent ${c.id}: listed as unanchored but carries anchors`);
+    if (!c.note) errors.push(`Latent ${c.id}: unanchored without a stated reason`);
+  }
 
   // Graph edges resolve to nodes.
   const nodeIds = new Set(r.graph.nodes.map(n => n.id));

@@ -254,6 +254,7 @@ npm run research:next       # write + print research/reports/next-build.md (the 
 npm run research:roadmap    # roadmap.md + next-build.md
 npm run research:clusters   # clusters.json
 npm run research:gaps       # gap classification + missing-engines.json
+npm run research:latent     # latent.md + latent.json (second-order demand: needs with no query)
 npm run research:validate   # CI gate: datasets + registry + report integrity (exit 1 on error)
 ```
 
@@ -292,6 +293,22 @@ hypotheses are data in `src/lib/research/taxonomy.ts`. To change recommendations
 > the builder a tool that cannot pass it. The engine deliberately does not guess which of the five
 > kinds applies: that judgement belongs to the **`tool-craft` skill**. `hasCandidate: false` is a
 > legitimate and useful answer. Inventing a touch to fill the slot is not.
+>
+> **Standing rule — demand and latent demand are two questions, asked separately.**
+> `npm run research:next` ranks what people are already asking for. It cannot see a need with no
+> query behind it: `searchDemand` is its heaviest single weight and having a query requires already
+> having a name for the thing. So when the ask is for something *unique*, *unmet*, or "useful but
+> does not exist yet", also run **`npm run research:latent`**, and say which of the two reports each
+> suggestion came from. Never merge the rankings - `latentScore` and `finalScore` measure different
+> things and a blended number means nothing.
+>
+> Its `signals` half derives from the catalog alone, with no evidence authored first: an engine that
+> produces artifacts and cannot check any of them, a format we emit and nothing consumes, a converter
+> handing off to an engine with nothing spanning the join. Its `candidates` half scores proposals
+> against those silences and **reports anything matching none of them as `unanchored` instead of
+> scoring it**. That gate is the only thing separating "nameless because nobody has named it yet"
+> from "nameless because nobody wants it", so never weaken it and never present an unanchored
+> proposal as a latent-demand finding. Full docs: `docs/research-intelligence.md` → "Latent demand".
 
 ## Agent roster (`.claude/agents/`)
 
