@@ -14,6 +14,7 @@ the signal it belongs somewhere below instead.
 | deciding what to build next | **`next-tool` skill** |
 | writing a guide, FAQ or knowledge file | **`seo-content` skill** |
 | giving a tool its thoughtful touch | **`tool-craft` skill** |
+| judging whether a tool is actually good to use | **`tool-ux-review` skill** |
 | facing a failing gate, or moving a threshold | **`gates` skill** |
 | looking for system-level structure | `ARCHITECTURE.md` |
 | asking "where does X live?" | `docs/code-map.json` |
