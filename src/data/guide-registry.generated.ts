@@ -92,6 +92,7 @@ export const authoredGuideSlugs = [
   'slugify-text',
   'snake-case-converter',
   'space-counter',
+  'systemd-timer-converter',
   'tax-calculator',
   'tdee-calculator',
   'text-compare',

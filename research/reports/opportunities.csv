@@ -61,7 +61,7 @@ crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),
 csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,cluster-missing,recommended,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,71.9
 css-gradient-generator,css-gradient-generator,Perceptual Gradient Generator,Perceptual Gradient,color,true,cluster-missing,recommended,medium,0.7,0.38,0.88,0.7,1,0.88,0,0.9,0.8,71.2
 word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,70
-systemd-timer-converter,systemd-timer-converter,Cron to systemd Timer Converter,Schedule Expression Translation,datetime,true,cluster-missing,recommended,medium,0.29,0.94,0.92,0.7,1,0.72,0,0.95,0.64,69.9
+systemd-timer-converter,systemd-timer-converter,Cron to systemd Timer Converter,Schedule Expression Translation,datetime,true,needs-improvement,already-exists,medium,0.29,0.94,0.92,0.7,1,0.72,0,0.95,0.64,69.9
 timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,68.7
 loan-calculator,loan-calculator,Loan Calculator,Loan Amortization,loan,false,engine-missing,recommended,medium,0.96,0.54,0.95,0.6,0.3,0.86,0,0.9,0.8,68.5
 image-palette-extractor,image-palette-extractor,Image Palette Extractor,Palette Extraction,color,true,cluster-missing,recommended,high,0.68,0.58,0.82,0.4,1,0.87,0,0.9,0.8,68.4

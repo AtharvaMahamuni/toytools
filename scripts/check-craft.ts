@@ -52,6 +52,7 @@ const report = process.argv.includes('--report');
  *                                          touch that survives the tests in the doctrine
  *               2026-08-16  0.037 (4/106)  shell-quote-escalator ships with its orientation line,
  *                                          the first tool built craft-first rather than retrofitted
+ *               2026-08-16  0.046 (5/107)  systemd-timer-converter ships with its divergence check
  * boxesPerTool  2026-08-11  8 → 7          word-counter's goal card and insight tiles went inline
  * rawHex        2026-08-11  11 → 9         word-counter's #d97706 state was removed, not retinted
  *
@@ -65,7 +66,7 @@ const report = process.argv.includes('--report');
  * a tool shipped with nothing of its own, and a box rise means craft was bought with clutter.
  */
 const THRESHOLDS = {
-  coverage: 0.037,
+  coverage: 0.046,
   boxesPerTool: 7,
   rawHex: 9,
 };

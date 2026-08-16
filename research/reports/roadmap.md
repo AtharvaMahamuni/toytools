@@ -1,13 +1,13 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-08-16T06:07:18.275Z
+Generated: 2026-08-16T06:45:38.636Z
 
-Discovered 73 signals -> 73 unique opportunities (27 recommended, 45 already shipped). Top score 86.1. Missing-engine candidates: 0.
+Discovered 73 signals -> 73 unique opportunities (26 recommended, 46 already shipped). Top score 86.1. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
-- **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 84.2, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 84.2, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Sleep Cycle Calculator** (`sleep-cycle-calculator`) - score 83.8, reuses datetime. High search demand; Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Ovulation Calculator** (`ovulation-calculator`) - score 81.8, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Ovulation Calculator** (`ovulation-calculator`) - score 81.8, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 81.2, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Statistics Visualizer** (`statistics-visualizer`) - score 79.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Lean Body Mass Calculator** (`lean-body-mass-calculator`) - score 79.5, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
@@ -20,7 +20,6 @@ Discovered 73 signals -> 73 unique opportunities (27 recommended, 45 already shi
 - **Sleep Hours Tracker** (`sleep-hours-tracker`) - score 74.5, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **CSV Column Picker** (`csv-column-picker`) - score 71.9, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
 - **Perceptual Gradient Generator** (`css-gradient-generator`) - score 71.2, reuses color. Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Cron to systemd Timer Converter** (`systemd-timer-converter`) - score 69.9, reuses datetime. Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 67.3, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links.
 
 ## Missing engines (new reusable engines this evidence justifies)

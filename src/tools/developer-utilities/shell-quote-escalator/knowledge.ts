@@ -7,7 +7,7 @@ export const knowledge: Knowledge = {
   category: 'developer-utilities',
   summary:
     'Quote a command for every shell it passes through on the way to ssh, sudo or docker exec, and read the exact string each layer receives.',
-  primaryConcepts: ['Nested shell quoting across ssh, bash and docker exec layers'],
+  primaryConcepts: ['Nested shell quoting'],
   secondaryConcepts: [
     'nested quotes',
     'POSIX single quoting',
@@ -70,15 +70,10 @@ export const knowledge: Knowledge = {
     { slug: 'cron-expression-parser', reason: 'Schedule the command once it runs correctly', priority: 2 },
   ],
   workflowStage: ['transform'],
-  keywords: [
-    'shell quoting',
-    'escape quotes ssh',
-    'nested quotes bash',
-    'sudo sh -c quoting',
-    'docker exec quoting',
-    'quote command for remote shell',
-  ],
-  entityAliases: ['shell escaping', 'quote escalation', 'nested shell quoting', 'ssh command escaping'],
+  // Entities are held to appearing in the written content, so these stay to phrases the guide and
+  // FAQ actually use. A keyword the prose never says is a claim the page does not back up.
+  keywords: ['shell quoting', 'nested quotes', 'quoting layers', 'remote shell'],
+  entityAliases: ['shell quote escalator', 'nested shell quoting', 'shell escaping'],
   inputs: ['a shell command', 'a chain of shells'],
   outputs: ['the quoted command', 'the string each layer receives'],
   difficulty: 'intermediate',

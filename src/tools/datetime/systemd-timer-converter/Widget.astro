@@ -1,0 +1,109 @@
+---
+// Cron to systemd Timer Converter — the shared DateTimeWidget plus this tool's one craft affordance.
+//
+// Tool logic lives in the datetime engine (src/lib/engines/datetime/calculators/systemd-timer.ts),
+// resolved at runtime via ToyTools.runDateTime. The section below is the pattern word-counter uses:
+// the shared widget is never edited, and the tool composes its own touch beside it.
+import DateTimeWidget from '@tools/_shared/DateTimeWidget.astro';
+import { config } from './config';
+---
+
+<DateTimeWidget
+  slug={config.slug}
+  dateTimeId="systemd-timer"
+  config={config}
+  emptyText="Enter a crontab line like 0 9 * * 1-5 to translate it into an OnCalendar expression."
+/>
+
+{/* The tool's craft (kind: verification) — see config.ts. A translation that parses is not a
+    translation that fires at the same moments, and the difference is silent on both sides. */}
+<section class="st-check" id="st-check" data-craft="systemd-divergence" hidden>
+  <p class="st-check-line" id="st-check-line" aria-live="polite"></p>
+</section>
+
+<style>
+  .st-check {
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+  /* Pair every hidden with an explicit display:none — any display rule silently beats [hidden]. */
+  .st-check[hidden] {
+    display: none;
+  }
+  .st-check-line {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  .st-check[data-state='diverges'] .st-check-line {
+    color: var(--color-danger);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var TT = window.ToyTools;
+    var box = document.getElementById('st-check');
+    var line = document.getElementById('st-check-line');
+    var form = document.getElementById('systemd-timer-converter-form');
+    if (!box || !line || !form) return;
+
+    function expression() {
+      var els = form.querySelectorAll('[data-field-id]');
+      for (var i = 0; i < els.length; i++) {
+        if (els[i].getAttribute('data-field-id') === 'expression') return els[i].value;
+      }
+      return '';
+    }
+
+    function render() {
+      if (!(TT && TT.runDateTime)) return;
+      var expr = expression();
+      if (!expr || expr.trim() === '') {
+        box.hidden = true;
+        return;
+      }
+
+      var result = TT.runDateTime('systemd-timer', { expression: expr, unit: 'check' }, {});
+      var meta = result && result.meta;
+      if (!meta || !meta.onCalendar) {
+        box.hidden = true;
+        return;
+      }
+
+      // Silent unless both day fields are restricted, which is the only case where the two
+      // grammars can disagree. Firing on schedules that translate exactly would teach people to
+      // ignore it, which costs more than never having shown it.
+      if (!meta.bothDayFields) {
+        box.hidden = true;
+        return;
+      }
+
+      if (meta.diverges) {
+        box.setAttribute('data-state', 'diverges');
+        line.textContent =
+          'Not an exact translation. This crontab line restricts both the day of the month and the ' +
+          'day of the week, so cron runs when either matches and the timer runs only when both do. ' +
+          'The first day they differ is ' +
+          new Date(meta.divergesAt).toISOString().slice(0, 10) +
+          ', when cron fires and the timer does not.';
+      } else {
+        box.setAttribute('data-state', 'agrees');
+        line.textContent =
+          'Both day fields are restricted, where cron and systemd disagree, but these two fire at ' +
+          'the same moments for the next ' +
+          meta.horizonDays +
+          ' days.';
+      }
+      box.hidden = false;
+    }
+
+    form.addEventListener('input', render);
+    form.addEventListener('change', render);
+
+    // Engine surfaces load lazily, so the first check waits for them.
+    TT.onReady(render);
+  })();
+</script>

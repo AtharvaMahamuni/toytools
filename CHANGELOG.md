@@ -2,6 +2,30 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.7] - 2026-08-16
+
+### Added
+
+- **Cron to systemd Timer Converter** at `/tool/datetime/systemd-timer-converter/`. Paste a crontab
+  line, get the `OnCalendar=` expression and a ready-to-save `.timer` unit. Crontab shorthands
+  (`@daily`, `@weekly`, ...) expand and translate; `@reboot` is answered with `OnBootSec=` rather
+  than a parse error, because a syntax error sends people hunting for a typo that is not there.
+- **Its craft is a divergence check** (`systemd-divergence`), and it is the reason the tool exists.
+  When a crontab line restricts both the day of the month and the day of the week, cron fires when
+  either matches and systemd fires only when both do. `0 0 13 * 5` is roughly sixty runs a year under
+  cron and one or two as a timer. Both grammars accept the translation, neither reports anything, and
+  the job simply stops happening. The tool evaluates both day rules across the next 400 days and
+  names the first date they disagree, staying silent when only one day field is restricted and the
+  two rules coincide.
+- The translation and both semantics live in `src/lib/engines/datetime/systemd.ts` beside the
+  existing cron parser it reuses, with 26 unit tests split between what it reports and what it must
+  not.
+- Two worked examples, one that translates exactly and one that does not.
+
+### Changed
+
+- Craft coverage ratchet raised to 4.6% (5/107).
+
 ## [alpha-v7.6] - 2026-08-16
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:07:18.275Z",
+  "generatedAt": "2026-08-16T06:45:38.636Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -12,6 +12,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -19,6 +20,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -26,6 +28,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ]
@@ -437,6 +440,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -444,6 +448,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -451,6 +456,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ]
@@ -603,6 +609,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -610,6 +617,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -617,6 +625,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ]
@@ -1250,6 +1259,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -1257,6 +1267,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -1264,6 +1275,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ]
@@ -1308,6 +1320,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -1315,6 +1328,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -1322,6 +1336,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ]
@@ -1925,24 +1940,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ]
     },
     {
@@ -2033,6 +2048,7 @@
         "timezone-converter",
         "unix-timestamp-converter",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "age-calculator"
       ],
       "relatedGuides": [
@@ -2040,6 +2056,7 @@
         "timezone-converter",
         "unix-timestamp-converter",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "age-calculator"
       ],
       "relatedFaqs": [
@@ -2047,6 +2064,7 @@
         "timezone-converter",
         "unix-timestamp-converter",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "age-calculator"
       ]
     },
@@ -2081,6 +2099,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "unix-timestamp-converter"
       ],
       "relatedGuides": [
@@ -2088,6 +2107,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "unix-timestamp-converter"
       ],
       "relatedFaqs": [
@@ -2095,6 +2115,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "unix-timestamp-converter"
       ]
     },
@@ -2173,6 +2194,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter"
       ],
       "relatedGuides": [
@@ -2180,6 +2202,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter"
       ],
       "relatedFaqs": [
@@ -2187,6 +2210,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter"
       ]
     },

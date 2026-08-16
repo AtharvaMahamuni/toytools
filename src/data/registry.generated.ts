@@ -92,6 +92,7 @@ import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
 import { config as spaceCounter } from '@tools/text/space-counter/config';
+import { config as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/config';
 import { config as taxCalculator } from '@tools/number/tax-calculator/config';
 import { config as tdeeCalculator } from '@tools/health/tdee-calculator/config';
 import { config as textCompare } from '@tools/text/text-compare/config';
@@ -200,6 +201,7 @@ export const toolConfigs: ToolConfig[] = [
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
+  systemdTimerConverter,
   taxCalculator,
   tdeeCalculator,
   textCompare,

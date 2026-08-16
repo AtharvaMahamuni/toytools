@@ -1,0 +1,179 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A crontab line maps onto <code>OnCalendar=</code> field by field:
+      <code>minute hour day-of-month month day-of-week</code> becomes
+      <code>DayOfWeek Year-Month-Day Hour:Minute:Second</code>. For example,
+      <code>0 9 * * 1-5</code> becomes <code>OnCalendar=Mon..Fri *-*-* 09:00:00</code>. The mapping is
+      mechanical except for one rule, covered below, which changes what the schedule means rather
+      than how it is written.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Cron to systemd Timer Converter →</a>
+  </section>
+
+  <section id="field-mapping">
+    <h2>How The Fields Line Up <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      cron reads five fields in a fixed order. systemd reads a calendar expression with an optional
+      weekday prefix, a date part, and a time part. Both accept <code>*</code> for "any",
+      comma lists, and ranges, so most of a translation is rearrangement.
+    </p>
+    <p>
+      Going from crontab to OnCalendar is mostly a matter of learning where each field lands. The OnCalendar syntax
+      is stricter than cron in one helpful way and looser in another: systemd timer units separate the schedule from
+      the job, so the same systemd oncalendar syntax can drive several services, while the day-of-week and day-of-month rules
+      differ in a way covered below. Everything else about crontab to systemd translation is mechanical.
+    </p>
+    <ul>
+      <li><strong>Minute and hour</strong> move into the time part, as <code>hour:minute:00</code>.</li>
+      <li><strong>Day of month and month</strong> move into the date part, as <code>*-month-day</code>.</li>
+      <li><strong>Day of week</strong> becomes the prefix, written <code>Mon</code>, <code>Mon..Fri</code>, or a comma list.</li>
+      <li><strong>Seconds</strong> have no cron field, so a translation always writes <code>:00</code>.</li>
+    </ul>
+    <p>
+      To write an OnCalendar expression for every 15 minutes, keep the hour a wildcard and step the minute field:
+      <code>OnCalendar=*-*-* *:00/15:00</code>. Steps translate too, though they are written differently. Input:
+      <code>0 star-slash-4 star star star</code> in cron shorthand. Output:
+      <code>OnCalendar=*-*-* 00/4:00:00</code>, where <code>00/4</code> reads as "starting at 0, every
+      4". systemd also accepts a plain comma list, so a schedule that is not a clean arithmetic run
+      simply becomes <code>*-*-* *:05,20,50:00</code>.
+    </p>
+  </section>
+
+  <section id="the-day-rule">
+    <h2>The One Rule That Changes Meaning <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This is the whole reason a converter is worth using rather than rearranging the fields by hand.
+    </p>
+    <p>
+      When a crontab line restricts <em>both</em> the day of the month and the day of the week, cron
+      fires on a day where <strong>either</strong> matches. It is a documented quirk and it surprises
+      people who have never needed it. systemd has no such rule: the date specification and the
+      weekday prefix are independent constraints, so the timer fires only where <strong>both</strong>
+      match.
+    </p>
+    <p>
+      For example, <code>0 0 13 * 5</code> under cron means midnight on the 13th of any month
+      <em>or</em> any Friday, which is roughly 60 runs a year. Translated literally to
+      <code>Fri *-*-13 00:00:00</code>, the timer fires only on a Friday that is also the 13th, which
+      is one or two runs a year. Both are valid. Both load without complaint. Nothing reports the
+      difference, and the job simply stops happening on most of the days it used to.
+    </p>
+    <p>
+      Therefore the tool evaluates both rules over the next year of dates and names the first day
+      they disagree, or states plainly that they agree. When only one day field is restricted the
+      rules coincide, so the check stays silent rather than warning about a schedule that translated
+      exactly.
+    </p>
+  </section>
+
+  <section id="cron-vs-timers">
+    <h2>cron vs systemd timers <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Beyond the schedule grammar the two systems differ in what they give you. A cron line is one row of text that
+      couples the schedule to the command. A systemd timer unit splits them: the schedule lives in a <code>.timer</code>
+      and the work in a matching <code>.service</code>, which means the job gets logging through the journal, resource
+      limits, dependency ordering, and a <code>systemctl status</code> that says whether the last run failed.
+    </p>
+    <p>
+      The trade is verbosity. Two files replace one line, and the cron vs systemd timer decision usually comes down to
+      whether the job is worth that: a one-line cleanup probably is not, a nightly backup whose failures should be
+      visible probably is.
+    </p>
+  </section>
+
+  <section id="timezones">
+    <h2>Timezones And Missed Runs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A crontab can set <code>TZ</code> at the top of the file, and that setting does not survive the
+      move. <code>OnCalendar</code> is evaluated in the system timezone of the host, so a job written
+      to run at 02:00 in one zone can land hours away once it becomes a timer. Set
+      <code>Timezone=</code> in the <code>[Timer]</code> section when the schedule genuinely depends
+      on a zone rather than on the host.
+    </p>
+    <p>
+      The other behavioural difference is what happens when the machine was off. cron skips the run
+      entirely. A timer with <code>Persistent=true</code> runs as soon as it can afterwards, which is
+      usually what people expect from a nightly job on a laptop. The generated unit sets it; remove
+      the line to get cron's skipping behaviour back.
+    </p>
+  </section>
+
+  <section id="shorthands">
+    <h2>Shorthands And @reboot <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <code>@daily</code>, <code>@hourly</code>, <code>@weekly</code>, <code>@monthly</code> and
+      <code>@yearly</code> expand to their five-field forms and then translate normally. Be careful
+      with <code>@weekly</code>: in cron it means Sunday at midnight, while systemd's own
+      <code>weekly</code> shorthand means Monday. That is why an explicit expression is emitted
+      rather than the shorthand passed through.
+    </p>
+    <p>
+      <code>@reboot</code> is different in kind. It is not a calendar event, so it has no
+      <code>OnCalendar</code> form at all. The replacement is <code>OnBootSec=</code>, which fires a
+      fixed interval after boot, or <code>OnStartupSec=</code> relative to systemd starting. The tool
+      says this instead of reporting a parse error, because a syntax error would send you looking for
+      a typo that does not exist.
+    </p>
+  </section>
+
+  <section id="verifying">
+    <h2>Verifying On The Real Machine <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Once the unit is in place, <code>systemd-analyze calendar '&lt;expression&gt;'</code> prints the
+      next elapse and confirms systemd parses the expression the way you meant. However, it is worth
+      being precise about what that proves: it validates the expression in isolation and never saw
+      the crontab line, so it cannot tell you the schedule still matches what you replaced. That
+      comparison is the one this page makes before you copy anything.
+    </p>
+    <p>
+      <code>systemctl list-timers</code> then shows the timer alongside its next and last run once it
+      is enabled.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li><strong>Treating a clean load as a correct schedule.</strong> Both grammars accept the translation; only the calendar tells you whether it matches.</li>
+      <li><strong>Carrying over TZ.</strong> The timer uses the host timezone unless told otherwise.</li>
+      <li><strong>Assuming weekly means the same day.</strong> cron day 0 is Sunday; systemd's week starts Monday.</li>
+      <li><strong>Looking for a syntax fix for @reboot.</strong> It needs a different directive, not a different expression.</li>
+    </ul>
+  </section>
+
+  <section id="related">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Read the original line in plain English with the
+      <a href={withBase('/tool/datetime/cron-expression-parser/')}>Cron Expression Parser</a>, and
+      move a run time between zones with the
+      <a href={withBase('/tool/datetime/timezone-converter/')}>Timezone Converter</a>.
+    </p>
+  </section>
+</GuideLayout>

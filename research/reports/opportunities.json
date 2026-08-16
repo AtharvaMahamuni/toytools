@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:07:18.275Z",
+  "generatedAt": "2026-08-16T06:45:38.636Z",
   "opportunities": [
     {
       "id": "one-rep-max-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -99,7 +99,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -177,7 +177,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -255,7 +255,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -277,6 +277,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -284,6 +285,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -291,6 +293,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -330,7 +333,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -396,7 +399,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -462,7 +465,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -484,24 +487,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -540,7 +543,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -604,7 +607,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -681,7 +684,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -755,7 +758,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -819,7 +822,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -841,6 +844,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -848,6 +852,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -855,6 +860,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -894,7 +900,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -969,7 +975,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -1042,7 +1048,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -1109,7 +1115,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -1178,7 +1184,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -1253,7 +1259,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -1329,7 +1335,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -1404,7 +1410,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -1475,7 +1481,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1541,7 +1547,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -1613,7 +1619,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -1679,7 +1685,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1754,7 +1760,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1820,7 +1826,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1892,7 +1898,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1967,7 +1973,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -2041,7 +2047,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -2116,7 +2122,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -2193,7 +2199,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -2269,7 +2275,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2340,7 +2346,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -2415,7 +2421,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -2485,7 +2491,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -2558,7 +2564,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -2633,7 +2639,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -2703,7 +2709,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2777,7 +2783,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2851,7 +2857,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2923,7 +2929,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -2994,7 +3000,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -3058,7 +3064,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -3123,7 +3129,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -3142,6 +3148,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter"
       ],
       "relatedGuides": [
@@ -3149,6 +3156,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter"
       ],
       "relatedFaqs": [
@@ -3156,6 +3164,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter"
       ],
       "difficulty": "medium",
@@ -3194,7 +3203,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -3259,7 +3268,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3332,7 +3341,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3401,7 +3410,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3470,7 +3479,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -3536,7 +3545,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3602,7 +3611,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -3678,7 +3687,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -3750,7 +3759,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3819,7 +3828,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3836,6 +3845,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -3843,6 +3853,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -3850,6 +3861,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -3889,7 +3901,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -3954,7 +3966,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -3972,6 +3984,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -3979,6 +3992,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -3986,6 +4000,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -4026,7 +4041,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -4096,7 +4111,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -4161,7 +4176,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -4233,7 +4248,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -4308,7 +4323,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -4370,7 +4385,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -4447,7 +4462,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -4474,6 +4489,7 @@
         "timezone-converter",
         "unix-timestamp-converter",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "age-calculator"
       ],
       "relatedGuides": [
@@ -4481,6 +4497,7 @@
         "timezone-converter",
         "unix-timestamp-converter",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "age-calculator"
       ],
       "relatedFaqs": [
@@ -4488,6 +4505,7 @@
         "timezone-converter",
         "unix-timestamp-converter",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "age-calculator"
       ],
       "difficulty": "medium",
@@ -4503,8 +4521,8 @@
       "algorithmicFit": 0.97,
       "confidence": 0.64,
       "finalScore": 69.9,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "latent": {
         "whyUnnamed": "Nobody searches for a translation checker, because the moment you would want one is the moment you still believe your translation is right. The search that does happen is for the syntax, and the syntax is not the part that goes wrong.",
@@ -4533,7 +4551,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -4555,6 +4573,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "unix-timestamp-converter"
       ],
       "relatedGuides": [
@@ -4562,6 +4581,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "unix-timestamp-converter"
       ],
       "relatedFaqs": [
@@ -4569,6 +4589,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "unix-timestamp-converter"
       ],
       "difficulty": "high",
@@ -4606,7 +4627,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -4669,7 +4690,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -4731,7 +4752,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -4751,6 +4772,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -4758,6 +4780,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -4765,6 +4788,7 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -4802,7 +4826,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -4863,7 +4887,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -4925,7 +4949,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -5015,7 +5039,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -5074,7 +5098,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -5141,7 +5165,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-16T06:07:18.275Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

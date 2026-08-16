@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:07:18.275Z",
+  "generatedAt": "2026-08-16T06:45:38.636Z",
   "discovered": 73,
   "deduped": 73,
-  "alreadyExists": 45,
-  "recommended": 27,
+  "alreadyExists": 46,
+  "recommended": 26,
   "missingEngines": 0,
   "topScore": 86.1,
   "latentSignals": 12,
-  "latentCandidates": 1,
+  "latentCandidates": 0,
   "nextBuild": "pregnancy-due-date-calculator"
 }

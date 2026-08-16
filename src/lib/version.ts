@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 6,
+  minor: 7,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-16',
-  description: 'Add the Shell Quote Escalator',
+  description: 'Add the Cron to systemd Timer Converter',
 };
 
 export function formatVersion(config: VersionConfig): string {

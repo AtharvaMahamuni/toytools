@@ -212,7 +212,7 @@
         "timezone",
         "timestamp"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "math-lab": {
       "name": "Math Lab Engine",
@@ -2536,6 +2536,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "systemd-timer-converter": {
+      "name": "Cron to systemd Timer Converter",
+      "dir": "src/tools/datetime/systemd-timer-converter",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/systemd-timer-converter/",
+      "engine": "datetime",
+      "pattern": "datetime-schedule",
+      "family": "schedule",
+      "processorId": "systemd-timer",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

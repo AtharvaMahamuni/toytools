@@ -44,6 +44,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       every shell along the path, and that is the whole source of the confusion.
     </p>
     <p>
+      Three mechanisms do all the work: shell word splitting, parameter expansion, and POSIX single quoting.
+      Remote command execution over ssh is nothing more than shell quoting repeated once per hop, and counting
+      those quoting layers is the entire skill. Nested shell quoting by hand is where it goes wrong, because
+      shell escaping gives no feedback until the command has already run somewhere.
+    </p>
+    <p>
       Take <code>ssh host 'echo hi'</code>. Your local shell strips the single quotes and hands
       <code>ssh</code> three arguments. <code>ssh</code> joins everything after the hostname back
       into one string and sends <code>echo hi</code> to the server, where the remote shell parses it
@@ -64,7 +70,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>How To Count The Layers <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Count the shells between your keyboard and the process, then subtract the one that finally
-      executes the command. Each remaining shell costs one level of quoting.
+      executes the command. Each remaining shell costs one level of quoting, and nested shell
+      quoting is simply that count applied honestly.
     </p>
     <ul>
       <li><strong>One level:</strong> <code>ssh host CMD</code>, <code>sudo sh -c CMD</code>, or <code>bash -c CMD</code> run locally.</li>
@@ -79,7 +86,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="single-quotes">
-    <h2>Why Single Quotes Beat Backslashes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>Single Quotes vs Double Quotes For Remote Commands <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Inside single quotes a POSIX shell expands nothing whatsoever: no <code>$VAR</code>, no
       backticks, no <code>$(...)</code>, no globs, no leading tilde. That total inertness is what
@@ -160,6 +167,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       Two shells read this before <code>sh -c</code> runs it, so the payload is quoted twice.
       Therefore the <code>'\''</code> sequences multiply: each one closes the outer quoting, emits a
       literal apostrophe, and reopens it.
+    </p>
+    <h3>How to pass a command with spaces to docker exec</h3>
+    <p>
+      A container adds a shell like any other hop, so the rule does not change: a path with spaces
+      needs its own quoting plus one round per shell above it. Input:
+      <code>{`docker exec web sh -c 'cat /etc/my app.conf'`}</code>. Run straight from a remote shell
+      that is one more layer out, the whole thing needs quoting again, which is what turns a
+      one-space filename into a two-argument error.
     </p>
     <h3>Three layers: into a container on a remote host</h3>
     <p>

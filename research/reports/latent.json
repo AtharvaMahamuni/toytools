@@ -1,7 +1,27 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:07:18.275Z",
+  "generatedAt": "2026-08-16T06:45:38.636Z",
   "signals": [
+    {
+      "kind": "asymmetry",
+      "id": "asymmetry:encoding",
+      "observation": "The \"encoding\" engine has 8 tool(s) that produce encoded text and none that check it.",
+      "implication": "Someone holding encoded text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
+      "evidence": [
+        "base64-encoder-decoder",
+        "binary-text-converter",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "json-escape",
+        "punycode-converter",
+        "rot13-encoder-decoder",
+        "url-encoder-decoder"
+      ],
+      "engines": [
+        "encoding"
+      ],
+      "weight": 0.32
+    },
     {
       "kind": "asymmetry",
       "id": "asymmetry:text-processor",
@@ -20,26 +40,6 @@
       ],
       "engines": [
         "text-processor"
-      ],
-      "weight": 0.33
-    },
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:encoding",
-      "observation": "The \"encoding\" engine has 8 tool(s) that produce encoded text and none that check it.",
-      "implication": "Someone holding encoded text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "base64-encoder-decoder",
-        "binary-text-converter",
-        "hex-encoder-decoder",
-        "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter",
-        "rot13-encoder-decoder",
-        "url-encoder-decoder"
-      ],
-      "engines": [
-        "encoding"
       ],
       "weight": 0.32
     },
@@ -90,7 +90,7 @@
       "engines": [
         "csv"
       ],
-      "weight": 0.28
+      "weight": 0.27
     },
     {
       "kind": "asymmetry",
@@ -205,50 +205,13 @@
       "weight": 0.22
     }
   ],
-  "candidates": [
-    {
-      "id": "systemd-timer-converter",
-      "title": "Cron to systemd Timer Converter",
-      "proposedTool": "systemd-timer-converter",
-      "proposedEngine": "datetime",
-      "engineExists": true,
-      "need": "People hand-translate crontab lines into OnCalendar and confirm the unit loads, which proves the syntax parses and says nothing about when it fires.",
-      "whyUnnamed": "Nobody searches for a translation checker, because the moment you would want one is the moment you still believe your translation is right. The search that does happen is for the syntax, and the syntax is not the part that goes wrong.",
-      "consequenceOf": [
-        "translates '0 0 * * 0' to 'OnCalendar=weekly' and does not notice weekly means Monday in systemd and Sunday in cron",
-        "writes '*/7' expecting every seventh day and gets a step that restarts at each month boundary in cron but not in systemd",
-        "translates a crontab line that used both day-of-month and day-of-week without knowing cron ORs those two fields while systemd ANDs them",
-        "forgets the timer inherits the system timezone rather than the crontab's TZ variable, so everything shifts by hours after a DST change"
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:datetime",
-          "kind": "asymmetry",
-          "because": "Sits on \"datetime\", which can produce but cannot check."
-        }
-      ],
-      "bridges": [
-        "cron-expression-parser",
-        "timezone-converter",
-        "unix-timestamp-converter",
-        "date-difference-calculator",
-        "age-calculator"
-      ],
-      "anchorStrength": 0.36,
-      "consequence": 0.88,
-      "reachability": 0.83,
-      "namelessness": 0.71,
-      "algorithmicFit": 0.97,
-      "latentScore": 69.8,
-      "status": "candidate"
-    }
-  ],
+  "candidates": [],
   "unanchored": [],
   "summary": {
     "signals": 12,
     "considered": 2,
-    "anchored": 1,
+    "anchored": 0,
     "unanchored": 0,
-    "topScore": 69.8
+    "topScore": 0
   }
 }
