@@ -6,6 +6,32 @@
 
 import type { ProviderId, IntentKind, Difficulty } from '../constants';
 
+/**
+ * Evidence that a need is LATENT: real, but with no query behind it because nobody has a word for
+ * it yet. Optional, and its absence is meaningful - a record without this block is an ordinary
+ * demand-driven opportunity and the latent analyzer will not consider it at all.
+ *
+ * Authoring one of these is a claim that has to survive the anchor gate in latent-demand.ts: if no
+ * structural silence in the catalog matches the proposal, it is reported as unanchored rather than
+ * scored, however well written the prose here is.
+ */
+export interface LatentEvidence {
+  /**
+   * Why no established search term exists. "It is niche" is not an answer - niche needs still have
+   * queries. The answer is usually that the thing has no name, or that the person does not yet know
+   * the failure is possible.
+   */
+  whyUnnamed: string;
+  /**
+   * 0-100: what it costs when this need goes unmet AND the person does not notice. Latent tools earn
+   * their build here rather than on traffic, so a silent, expensive, delayed failure scores high and
+   * a mild inconvenience scores low.
+   */
+  consequence: number;
+  /** What people are observed doing instead today. The behaviour that stands in for the query. */
+  observedBehaviour: string[];
+}
+
 /** One curated evidence record inside research/datasets/<domain>.json. */
 export interface SeedRecord {
   /** The originating user query / phrasing (used for searchQueries + the human-readable problem). */
@@ -58,6 +84,8 @@ export interface SeedRecord {
    * Defaults high when omitted, since candidate utility tools are algorithmic by selection.
    */
   algorithmicFit?: number;
+  /** Present when this record is a claim about latent demand. See LatentEvidence. */
+  latent?: LatentEvidence;
 }
 
 /** A whole domain seed file. */
@@ -90,6 +118,8 @@ export interface RawOpportunity {
   difficulty: Difficulty;
   localization: number;
   algorithmicFit: number;
+  /** Carried verbatim from the seed record; undefined for ordinary demand-driven opportunities. */
+  latent?: LatentEvidence;
 }
 
 /** Read-only context handed to every provider. */

@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "generatedAt": "2026-08-12T17:17:04.263Z",
+  "version": 2,
+  "generatedAt": "2026-08-15T10:12:08.840Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -1829,6 +1829,37 @@
       "relatedFaqs": []
     },
     {
+      "id": "shell-quote-escalator",
+      "title": "Shell Quoting Escalator",
+      "transformation": "Shell Quoting",
+      "engine": "encoding",
+      "existing": false,
+      "relatedTools": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ],
+      "relatedGuides": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ],
+      "relatedFaqs": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "binary-text-converter"
+      ]
+    },
+    {
       "id": "simple-harmonic-motion-calculator",
       "title": "Spring (SHM) Simulator",
       "transformation": "Simple Harmonic Motion",
@@ -1992,6 +2023,34 @@
       ]
     },
     {
+      "id": "systemd-timer-converter",
+      "title": "Cron to systemd Timer Converter",
+      "transformation": "Schedule Expression Translation",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ],
+      "relatedGuides": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ],
+      "relatedFaqs": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator"
+      ]
+    },
+    {
       "id": "tdee-calculator",
       "title": "TDEE Calculator",
       "transformation": "energy",
@@ -2142,6 +2201,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "url-encoder-decoder",
+      "title": "URL Encoder & Decoder",
+      "transformation": "web",
+      "engine": "encoding",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "vo2-max-calculator",
       "title": "VO2 Max Calculator",
       "transformation": "Fitness Performance Calculation",
@@ -2283,6 +2352,11 @@
     },
     {
       "from": "age-calculator",
+      "to": "systemd-timer-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "age-calculator",
       "to": "timezone-converter",
       "kind": "shares-engine"
     },
@@ -2319,6 +2393,11 @@
     {
       "from": "binary-text-converter",
       "to": "rot13-encoder-decoder",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "binary-text-converter",
+      "to": "shell-quote-escalator",
       "kind": "shares-engine"
     },
     {
@@ -2698,6 +2777,11 @@
     },
     {
       "from": "date-difference-calculator",
+      "to": "systemd-timer-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-difference-calculator",
       "to": "timezone-converter",
       "kind": "shares-engine"
     },
@@ -3043,6 +3127,11 @@
     },
     {
       "from": "ovulation-calculator",
+      "to": "systemd-timer-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ovulation-calculator",
       "to": "timezone-converter",
       "kind": "shares-engine"
     },
@@ -3075,6 +3164,11 @@
       "from": "pregnancy-due-date-calculator",
       "to": "sleep-cycle-calculator",
       "kind": "same-transformation"
+    },
+    {
+      "from": "pregnancy-due-date-calculator",
+      "to": "systemd-timer-converter",
+      "kind": "shares-engine"
     },
     {
       "from": "pregnancy-due-date-calculator",
@@ -3457,6 +3551,11 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "rot13-encoder-decoder",
+      "to": "shell-quote-escalator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "running-pace-calculator",
       "to": "bmi-calculator",
       "kind": "links-to-tool"
@@ -3509,6 +3608,31 @@
     {
       "from": "salary-calculator",
       "to": "percentage-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "shell-quote-escalator",
+      "to": "base64-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "shell-quote-escalator",
+      "to": "hex-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "shell-quote-escalator",
+      "to": "html-entity-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "shell-quote-escalator",
+      "to": "json-escape",
+      "kind": "related-problem"
+    },
+    {
+      "from": "shell-quote-escalator",
+      "to": "url-encoder-decoder",
       "kind": "links-to-tool"
     },
     {
@@ -3603,6 +3727,11 @@
     },
     {
       "from": "sleep-cycle-calculator",
+      "to": "systemd-timer-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "sleep-cycle-calculator",
       "to": "timezone-converter",
       "kind": "shares-engine"
     },
@@ -3672,6 +3801,21 @@
       "kind": "shares-engine"
     },
     {
+      "from": "systemd-timer-converter",
+      "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "systemd-timer-converter",
+      "to": "timezone-converter",
+      "kind": "related-problem"
+    },
+    {
+      "from": "systemd-timer-converter",
+      "to": "timezone-converter",
+      "kind": "shares-engine"
+    },
+    {
       "from": "timezone-converter",
       "to": "cron-expression-parser",
       "kind": "shares-engine"
@@ -3724,6 +3868,11 @@
     {
       "from": "unix-timestamp-converter",
       "to": "date-difference-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "systemd-timer-converter",
       "kind": "shares-engine"
     },
     {

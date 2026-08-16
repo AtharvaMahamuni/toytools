@@ -1,13 +1,13 @@
 {
-  "version": 1,
-  "generatedAt": "2026-08-12T17:17:04.263Z",
+  "version": 2,
+  "generatedAt": "2026-08-15T10:12:08.840Z",
   "top": [
     {
       "id": "pregnancy-due-date-calculator",
       "title": "Pregnancy Due Date Calculator",
       "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
       "userIntent": "transactional",
-      "workflow": "date/time → Health Date Calculation → date/time",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
       "transformation": "Health Date Calculation",
       "proposedTool": "pregnancy-due-date-calculator",
       "proposedEngine": "datetime",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -82,7 +82,7 @@
       "title": "Sleep Cycle Calculator",
       "problem": "Counting backward in ninety-minute cycles from when my alarm rings shows which bedtimes avoid waking mid-cycle.",
       "userIntent": "transactional",
-      "workflow": "date/time → Health Date Calculation → date/time",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
       "transformation": "Health Date Calculation",
       "proposedTool": "sleep-cycle-calculator",
       "proposedEngine": "datetime",
@@ -96,7 +96,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -159,7 +159,7 @@
       "title": "Ovulation Calculator",
       "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
       "userIntent": "transactional",
-      "workflow": "date/time → Health Date Calculation → date/time",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
       "transformation": "Health Date Calculation",
       "proposedTool": "ovulation-calculator",
       "proposedEngine": "datetime",
@@ -173,7 +173,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -234,7 +234,7 @@
       "title": "Blood Pressure Tracker",
       "problem": "Logging systolic and diastolic readings over weeks reveals a trend worth showing a doctor.",
       "userIntent": "transactional",
-      "workflow": "input → Personal Health Logging → output",
+      "workflow": "saved state → Personal Health Logging → saved state",
       "transformation": "Personal Health Logging",
       "proposedTool": "blood-pressure-tracker",
       "proposedEngine": "tracker",
@@ -248,7 +248,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -303,7 +303,7 @@
       "title": "Statistics Visualizer",
       "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
       "userIntent": "transactional",
-      "workflow": "input → Descriptive Statistics → output",
+      "workflow": "a simulated model → Descriptive Statistics → a simulated model",
       "transformation": "Descriptive Statistics",
       "proposedTool": "statistics-visualizer",
       "proposedEngine": "math",
@@ -317,7 +317,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -375,7 +375,7 @@
       "title": "Lean Body Mass Calculator",
       "problem": "Separating fat mass from everything else in my bodyweight tells me how much muscle and bone I carry.",
       "userIntent": "transactional",
-      "workflow": "input → Body Composition Calculation → output",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
       "transformation": "Body Composition Calculation",
       "proposedTool": "lean-body-mass-calculator",
       "proposedEngine": "wellness",
@@ -389,7 +389,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -451,7 +451,7 @@
       "title": "Waist to Hip Ratio Calculator",
       "problem": "Measuring around my middle and hips gives a ratio that flags central adiposity better than overall mass does.",
       "userIntent": "transactional",
-      "workflow": "input → Body Composition Calculation → output",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
       "transformation": "Body Composition Calculation",
       "proposedTool": "waist-to-hip-ratio-calculator",
       "proposedEngine": "wellness",
@@ -465,7 +465,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -528,7 +528,7 @@
       "title": "Body Surface Area Calculator",
       "problem": "Clinical dosing and cardiac index use square metres of skin, computed from stature and mass.",
       "userIntent": "transactional",
-      "workflow": "input → Body Composition Calculation → output",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
       "transformation": "Body Composition Calculation",
       "proposedTool": "body-surface-area-calculator",
       "proposedEngine": "wellness",
@@ -542,7 +542,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -604,7 +604,7 @@
       "title": "Matrix Calculator",
       "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
       "userIntent": "howTo",
-      "workflow": "input → Matrices → output",
+      "workflow": "a simulated model → Matrices → a simulated model",
       "transformation": "Matrices",
       "proposedTool": "matrix-calculator",
       "proposedEngine": "math",
@@ -618,7 +618,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -674,7 +674,7 @@
       "title": "Triangle Solver",
       "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
       "userIntent": "transactional",
-      "workflow": "input → Triangles → output",
+      "workflow": "a simulated model → Triangles → a simulated model",
       "transformation": "Triangles",
       "proposedTool": "triangle-solver",
       "proposedEngine": "math",
@@ -688,7 +688,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-12T17:17:04.263Z",
+      "discoveredAt": "2026-08-15T10:12:08.840Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",

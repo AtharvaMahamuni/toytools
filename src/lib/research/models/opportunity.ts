@@ -3,6 +3,7 @@
 // fields (existingSolutions, weaknesses, demand, competition) are carried verbatim from discovery.
 
 import type { ProviderId, IntentKind, Difficulty, OpportunityStatus, GapKind } from '../constants';
+import type { LatentEvidence } from './provider';
 
 export interface OpportunityScores {
   searchDemand: number; // 0–1
@@ -65,6 +66,13 @@ export interface Opportunity {
   gap: GapKind;
   /** Whether the proposed engine is already registered in src/data/engines.ts. */
   engineExists: boolean;
+
+  /**
+   * Present only when the seed record makes a latent-demand claim. `finalScore` will usually be low
+   * for these by construction (no query = no searchDemand), which is why they are scored separately
+   * by analyzers/latent-demand.ts rather than compared against demand-driven opportunities.
+   */
+  latent?: LatentEvidence;
 }
 
 /** Stable id from a proposed tool slug. */

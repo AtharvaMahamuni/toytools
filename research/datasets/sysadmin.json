@@ -1,0 +1,122 @@
+{
+  "domain": "sysadmin",
+  "records": [
+    {
+      "query": "convert crontab line to systemd timer OnCalendar",
+      "problem": "I am moving cron jobs onto systemd timers and have to hand-translate each crontab line into an OnCalendar expression, with no way to check that the translation fires at the same moments.",
+      "intent": "howTo",
+      "transformation": "Schedule Expression Translation",
+      "proposedTool": "systemd-timer-converter",
+      "proposedName": "Cron to systemd Timer Converter",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "cron to systemd timer",
+        "crontab to oncalendar",
+        "systemd oncalendar syntax",
+        "systemd timer equivalent of cron expression",
+        "oncalendar every 15 minutes"
+      ],
+      "existingSolutions": [
+        "systemd-analyze calendar on a machine you already have",
+        "the systemd.time man page",
+        "blog posts with a handful of worked examples"
+      ],
+      "solutionWeaknesses": [
+        "systemd-analyze only checks an OnCalendar you have already written, it does not translate a crontab line",
+        "man pages document the grammar and never compare it to cron",
+        "worked examples cover the easy schedules and stop exactly where the semantics diverge"
+      ],
+      "userFailures": [
+        "translates '0 0 * * 0' to 'OnCalendar=weekly' and does not notice weekly means Monday in systemd and Sunday in cron",
+        "writes '*/7' expecting every seventh day and gets a step that restarts at each month boundary in cron but not in systemd",
+        "translates a crontab line that used both day-of-month and day-of-week without knowing cron ORs those two fields while systemd ANDs them",
+        "forgets the timer inherits the system timezone rather than the crontab's TZ variable, so everything shifts by hours after a DST change"
+      ],
+      "relatedProblems": [
+        "cron expression parsing",
+        "timezone conversion",
+        "next fire time calculation"
+      ],
+      "relatedTools": [
+        "cron-expression-parser",
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator"
+      ],
+      "demand": 29,
+      "competition": 24,
+      "evergreen": 92,
+      "difficulty": "medium",
+      "localization": 95,
+      "algorithmicFit": 97,
+      "latent": {
+        "whyUnnamed": "Nobody searches for a translation checker, because the moment you would want one is the moment you still believe your translation is right. The search that does happen is for the syntax, and the syntax is not the part that goes wrong.",
+        "consequence": 88,
+        "observedBehaviour": [
+          "People hand-translate crontab lines into OnCalendar and confirm the unit loads, which proves the syntax parses and says nothing about when it fires.",
+          "They run systemd-analyze calendar on the result and read the next elapse, then compare it against the old cron schedule from memory.",
+          "The mistranslation is discovered weeks later, when a backup that was supposed to run on Sunday has been running on Monday."
+        ]
+      }
+    },
+    {
+      "query": "escape a command through ssh and sudo without breaking the quotes",
+      "problem": "I need to send a command through several layers that each strip one level of quoting (a local shell, then ssh, then sudo or docker exec), and I cannot tell what the far end will actually receive until it runs.",
+      "intent": "troubleshooting",
+      "transformation": "Shell Quoting",
+      "proposedTool": "shell-quote-escalator",
+      "proposedName": "Shell Quoting Escalator",
+      "proposedEngine": "encoding",
+      "searchQueries": [
+        "escape quotes in ssh command",
+        "bash quoting inside ssh",
+        "nested quotes sudo bash -c",
+        "how many backslashes ssh command",
+        "docker exec quoting spaces"
+      ],
+      "existingSolutions": [
+        "trial and error against the real server",
+        "python shlex.quote in a REPL",
+        "answers on Q and A sites for one specific command shape"
+      ],
+      "solutionWeaknesses": [
+        "trial and error runs the wrong command on a real machine to find out it was wrong",
+        "shlex.quote handles one layer and the problem is that there are several",
+        "every answer is pinned to one command and does not generalize to the next one"
+      ],
+      "userFailures": [
+        "adds backslashes until the command stops erroring, without ever seeing what the far end received",
+        "writes a glob or a $VAR expecting the remote side to expand it and gets it expanded locally instead, silently, against the wrong filesystem",
+        "gets a path with a space split into two arguments three layers down and deletes something adjacent to the intended target",
+        "escapes correctly for bash and ships it to a host whose login shell is not bash"
+      ],
+      "relatedProblems": [
+        "URL encoding",
+        "JSON string escaping",
+        "HTML entity encoding"
+      ],
+      "relatedTools": [
+        "url-encoder-decoder",
+        "json-escape",
+        "html-entity-encoder-decoder",
+        "base64-encoder-decoder",
+        "hex-encoder-decoder"
+      ],
+      "demand": 11,
+      "competition": 16,
+      "evergreen": 94,
+      "difficulty": "medium",
+      "localization": 96,
+      "algorithmicFit": 95,
+      "latent": {
+        "whyUnnamed": "The thing has no name. People do not experience it as 'multi-layer shell quoting', they experience it as the command not working, so what they type into a search box is their one command rather than the class of problem it belongs to.",
+        "consequence": 82,
+        "observedBehaviour": [
+          "People add a backslash, re-run against the real server, and repeat until the error stops, using production as the test harness.",
+          "They paste the command into a chat channel and ask a colleague to count the quoting levels by eye.",
+          "They give up on quoting entirely and base64 the whole command, which works and leaves nobody able to read what the automation runs."
+        ]
+      }
+    }
+  ]
+}

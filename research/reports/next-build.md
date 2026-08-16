@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-08-12T17:17:04.263Z
+Generated: 2026-08-15T10:12:08.840Z
 
 ## Pregnancy Due Date Calculator  (`pregnancy-due-date-calculator`)
 
@@ -32,7 +32,7 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 
 ### Engine
 - Reuses existing engine: `datetime`
-- Future tools this unlocks: sleep-cycle-calculator, ovulation-calculator, unix-timestamp-converter, age-calculator, date-difference-calculator, timezone-converter, cron-expression-parser
+- Future tools this unlocks: sleep-cycle-calculator, ovulation-calculator, unix-timestamp-converter, age-calculator, date-difference-calculator, systemd-timer-converter, timezone-converter, cron-expression-parser
 
 ### Estimates
 - Implementation effort: **low**

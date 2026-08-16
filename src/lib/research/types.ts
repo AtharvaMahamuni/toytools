@@ -11,6 +11,9 @@ export interface CatalogRef {
   categorySlug: string;
   engine: string;
   family: string;
+  /** Registry pattern (e.g. 'encode-decode'). The latent-demand analyzer reads producer/verifier
+   *  intent straight off it, so it must come from the registry rather than be inferred from a slug. */
+  pattern: string;
 }
 
 export interface ResearchInputs {

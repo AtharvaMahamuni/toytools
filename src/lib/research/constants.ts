@@ -4,7 +4,7 @@
 // here and the type system + validators follow.
 
 /** Bump when any report shape changes; stamped on every report bundle so schemas evolve cleanly. */
-export const RESEARCH_SCHEMA_VERSION = 1;
+export const RESEARCH_SCHEMA_VERSION = 2;
 
 /** Every research source. The seed-dataset provider is the only one implemented; the rest are
  *  documented live-API seams that conform to the same interface and return [] until wired. */
@@ -72,3 +72,25 @@ export type GapKind = (typeof GAP_KINDS)[number];
 /** Roadmap tiers the roadmap analyzer buckets opportunities into. */
 export const ROADMAP_TIERS = ['immediate', 'quick-win', 'roadmap', 'long-term'] as const;
 export type RoadmapTier = (typeof ROADMAP_TIERS)[number];
+
+/**
+ * Structural silences the latent-demand analyzer derives from the catalog ALONE - no queries, no
+ * seed evidence, nobody having thought of the tool first. Each names a shape of hole rather than a
+ * hole: the analyzer finds the instances.
+ *
+ * - `asymmetry`     - an engine that PRODUCES artifacts and cannot CHECK any of them. The purest
+ *                     latent need there is: you cannot search for a checker while you still believe
+ *                     your output is correct.
+ * - `dead-end`      - a format the catalog can emit but nothing anywhere can consume. Whatever the
+ *                     user does with it next, they do off-site and by hand.
+ * - `handoff`       - two engines whose output/input types meet, with no tool spanning the join.
+ *                     Users bridge it with the clipboard, which is a workflow nobody names.
+ * - `unserved-failure` - a task-level failure recorded in the datasets whose remedy is a different
+ *                     transformation than the tool it was recorded against performs.
+ */
+export const LATENT_SIGNAL_KINDS = ['asymmetry', 'dead-end', 'handoff', 'unserved-failure'] as const;
+export type LatentSignalKind = (typeof LATENT_SIGNAL_KINDS)[number];
+
+/** Lifecycle of a latent candidate. `unanchored` is the guardrail verdict, not a failure state. */
+export const LATENT_STATUSES = ['candidate', 'unanchored', 'already-exists'] as const;
+export type LatentStatus = (typeof LATENT_STATUSES)[number];

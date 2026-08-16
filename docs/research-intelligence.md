@@ -21,6 +21,7 @@ npm run research:roadmap    # write roadmap.md + next-build.md
 npm run research:next       # write + print next-build.md (the headline recommendation)
 npm run research:clusters   # write clusters.json
 npm run research:gaps       # print gap classification + write missing-engines.json
+npm run research:latent     # write + print latent.md + latent.json (second-order demand)
 npm run research:validate   # CI gate: validate datasets + registry + report integrity (exit 1 on error)
 ```
 
@@ -42,7 +43,8 @@ deduplicate → opportunity-score (normalize + scorers) → Opportunity[]
         ├── gaps               → gap classification vs the catalog
         ├── trend              → demand by transformation
         ├── topic-cluster      → problem graph (nodes/edges/adjacency)
-        └── roadmap            → tiers + the next-build recommendation
+        ├── roadmap            → tiers + the next-build recommendation
+        └── latent-demand      → derived silences + anchored latent candidates (separate ranking)
         ▼
 reports/{markdown,json,csv}  →  research/reports/*  (+ dated snapshot)
 ```
@@ -56,24 +58,26 @@ part that touches the filesystem.
 src/lib/research/
   index.ts         catalogInputs() + defaultInputs() + runResearchIntelligence()  (wires registries)
   pipeline.ts      runPipeline() - the pure orchestrator
-  config.ts        SCORE_WEIGHTS, THRESHOLDS, REPORT_PATHS
+  config.ts        SCORE_WEIGHTS, LATENT_WEIGHTS, THRESHOLDS, LATENT_THRESHOLDS, REPORT_PATHS
   constants.ts     ProviderId / IntentKind / OpportunityStatus / Difficulty / GapKind / RoadmapTier
+                   / LatentSignalKind / LatentStatus
   types.ts         ResearchInputs, CatalogRef
   registry.ts      PROVIDERS[] + ANALYZERS/SCORERS metadata
   taxonomy.ts      RESEARCH_TAXONOMY (domain → transformation → expected[])
   validate.ts      validateRegistry / validateDatasets / validateReports / validateAll
   fixtures.ts      test fixtures (raw(), makeInputs(), ...)
-  models/          opportunity, provider, problem, engine, cluster, roadmap, report
+  models/          opportunity, provider, problem, engine, cluster, roadmap, latent, report
   providers/       seed-dataset/ (real) + 15 live seams + _stub.ts
   analyzers/       deduplicate, intent, transformation, workflow, similarity, related-tools,
                    opportunity-score, cluster, engine-match, missing-engine, topic-cluster,
-                   gaps, trend, guide-generator, faq-generator, roadmap
+                   gaps, trend, guide-generator, faq-generator, roadmap,
+                   io-graph, latent-demand
   scorers/         demand, competition, evergreen, implementation, engine-reuse, seo,
                    localization, algorithmic-fit, confidence
   reports/         markdown, json, csv
 
 research/
-  datasets/        text.json developer.json datetime.json   (committed evidence)
+  datasets/        text.json developer.json datetime.json sysadmin.json ...  (committed evidence)
   reports/         generated bundle + snapshots/             (committed)
   cache/           gitignored
 
@@ -156,6 +160,56 @@ providers. Tuning is data: edit `SCORE_WEIGHTS` / `THRESHOLDS`, never the analyz
 
 Add `scorers/<name>.ts`, call it in `analyzers/opportunity-score.ts`, add a field to
 `OpportunityScores`/`Opportunity` and a weight in `SCORE_WEIGHTS`, and add the name to `SCORERS`.
+
+## Latent demand (second-order): what nobody is searching for
+
+`finalScore` ranks needs by how loudly they are already being asked for. `searchDemand` is its
+heaviest single weight and `scoreConfidence` treats `demand < 60` as a signal that did not fire, so a
+need with **no query behind it** is structurally invisible to it, at any weighting. That is correct
+for the question it answers and useless for "what do people need that they would never think to
+search for", because having a query requires having a name for the thing.
+
+`analyzers/latent-demand.ts` answers the second question, and shares none of the first one's axes. It
+runs alongside the roadmap rather than feeding it: **the two scores are not comparable and are never
+merged.** It works in two halves.
+
+**1. Derived silences (`latent.signals`) - nobody proposed these.** Read out of the registry alone
+via the engine IO graph in `analyzers/io-graph.ts`:
+
+| kind | what it finds | why it is latent |
+|---|---|---|
+| `asymmetry` | an engine that produces artifacts and has no tool that checks any of them | you cannot search for a checker while you still believe your output is right |
+| `dead-end` | a non-terminal format the catalog emits and nothing consumes | the step after ours happens off-site, by hand, unseen |
+| `handoff` | a converter whose output another engine consumes, with no tool spanning the join | a workflow done in two tabs has no name, so it has no query |
+| `unserved-failure` | recorded `userFailures` on a tool the demand ranking left below the recommend bar | people are observed failing; the only thing keeping it off the roadmap is silence |
+
+Run it against today's catalog and the headline is that **the catalog can produce artifacts on eight
+engines and check exactly one of them** (`json-validator`).
+
+**2. Anchored candidates (`latent.candidates`).** A seed record may carry a `latent` block
+(`whyUnnamed`, `consequence` 0-100, `observedBehaviour[]`). Those, and only those, are scored on
+`LATENT_WEIGHTS`:
+
+| Signal | Meaning (1 = best) |
+|--------|--------------------|
+| anchorStrength | how many independent **kinds** of derived silence it fills, plus their evidence mass |
+| consequence | what the unmet need costs when it fails silently (latent tools earn their build here, not on traffic) |
+| reachability | catalog tools it bridges - its distribution, since search will not deliver anyone |
+| namelessness | inverted demand: the absence of a query is **evidence** here, not the absence of it |
+| algorithmicFit | the same AI-vs-algorithm check the main engine runs |
+
+**The anchor gate is the whole design.** `namelessness` rewards the absence of a search term, and a
+tool nobody wants is also missing a search term. So a proposal that matches **no** derived silence is
+reported under `unanchored` with a stated reason instead of being scored: *"nothing structural argues
+for it, so it is not a latent-demand finding - do not build it on this report's authority."*
+`validate.ts` asserts that gate on every run, because its failure mode is confident and silent.
+
+Roughly half of `latent-demand.test.ts` asserts **silence** for the same reason: an engine that
+already has a verifier, a terminal format, a covered seam, a proposal with no anchor. A suite that
+only tested the positives could not tell a working gate from a broken one.
+
+Adding evidence is data, as everywhere else in the RIE: add a `latent` block to a record in
+`research/datasets/*.json` and re-run. Never hand-edit `latent.md`.
 
 ## Engine detection
 

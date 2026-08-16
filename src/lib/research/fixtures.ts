@@ -50,7 +50,14 @@ export function seedRecord(o: Partial<SeedRecord> & Pick<SeedRecord, 'proposedTo
 }
 
 export function catalogRef(o: Partial<CatalogRef> & Pick<CatalogRef, 'slug'>): CatalogRef {
-  return { name: o.slug, categorySlug: 'developer-utilities', engine: 'text-processor', family: 'transform', ...o };
+  return {
+    name: o.slug,
+    categorySlug: 'developer-utilities',
+    engine: 'text-processor',
+    family: 'transform',
+    pattern: 'text-transform',
+    ...o,
+  };
 }
 
 export interface FixtureOptions {

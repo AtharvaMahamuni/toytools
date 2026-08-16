@@ -27,6 +27,7 @@ export function catalogInputs(): Omit<ResearchInputs, 'raw' | 'now'> {
     categorySlug: t.categorySlug,
     engine: t.engine ?? '',
     family: t.family ?? '',
+    pattern: t.pattern ?? '',
   }));
   return {
     existingSlugs: new Set(allTools.map(t => t.slug)),

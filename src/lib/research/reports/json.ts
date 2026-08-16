@@ -41,6 +41,14 @@ export function graphJson(r: ResearchReports): unknown {
   };
 }
 
+export function latentJson(r: ResearchReports): unknown {
+  return {
+    version: r.version,
+    generatedAt: r.generatedAt,
+    ...r.latent,
+  };
+}
+
 /** Summary index, mirroring content-intelligence's index.json. */
 export function indexJson(r: ResearchReports): unknown {
   return {

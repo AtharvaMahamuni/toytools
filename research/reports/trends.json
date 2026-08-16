@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "generatedAt": "2026-08-12T17:17:04.263Z",
+  "version": 2,
+  "generatedAt": "2026-08-15T10:12:08.840Z",
   "trends": [
     {
       "transformation": "Health Date Calculation",
@@ -321,6 +321,12 @@
       "meanScore": 70
     },
     {
+      "transformation": "Schedule Expression Translation",
+      "count": 1,
+      "meanDemand": 0.29,
+      "meanScore": 69.9
+    },
+    {
       "transformation": "Timezone Conversion",
       "count": 1,
       "meanDemand": 0.8,
@@ -355,6 +361,12 @@
       "count": 1,
       "meanDemand": 0.98,
       "meanScore": 67
+    },
+    {
+      "transformation": "Shell Quoting",
+      "count": 1,
+      "meanDemand": 0.11,
+      "meanScore": 66.5
     },
     {
       "transformation": "Salary Conversion",

@@ -57,6 +57,8 @@ export const ANALYZERS = [
   'guide-generator',
   'faq-generator',
   'roadmap',
+  'io-graph',
+  'latent-demand',
 ] as const;
 
 /** Declarative scorer list. Each is a 0–1 signal blended into finalScore (weights in config.ts). */

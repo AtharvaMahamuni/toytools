@@ -16,6 +16,7 @@ import { summarizeGaps } from './analyzers/gaps';
 import { analyzeTrends } from './analyzers/trend';
 import { buildProblemGraph } from './analyzers/topic-cluster';
 import { buildRoadmap } from './analyzers/roadmap';
+import { analyzeLatentDemand } from './analyzers/latent-demand';
 
 export function runPipeline(inputs: ResearchInputs): ResearchReports {
   const dedup = deduplicate(inputs.raw);
@@ -27,6 +28,9 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
   const trends = analyzeTrends(opportunities);
   const graph = buildProblemGraph(opportunities, inputs);
   const roadmap = buildRoadmap(opportunities, engines);
+  // Runs alongside the roadmap rather than feeding it: it answers a different question and its
+  // scores are not comparable with finalScore, so merging the two rankings would be meaningless.
+  const latent = analyzeLatentDemand(opportunities, inputs);
 
   const alreadyExists = opportunities.filter(o => o.status === 'already-exists').length;
   const recommended = opportunities.filter(o => o.status === 'recommended').length;
@@ -41,6 +45,7 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
     trends,
     roadmap,
     graph,
+    latent,
     summary: {
       discovered: inputs.raw.length,
       deduped: opportunities.length,
@@ -48,6 +53,8 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
       recommended,
       missingEngines: missingEngines(engines).length,
       topScore: opportunities[0]?.finalScore ?? 0,
+      latentSignals: latent.summary.signals,
+      latentCandidates: latent.summary.anchored,
     },
   };
 }

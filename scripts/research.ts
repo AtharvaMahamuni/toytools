@@ -1,6 +1,6 @@
 // Research Intelligence Engine CLI (`npm run research [subcommand]`). Runs the pipeline over the seed
 // datasets, validates before writing, and emits the report bundle to research/reports/ (+ a dated
-// snapshot). Subcommands: report | roadmap | clusters | gaps | next | validate (default: report).
+// snapshot). Subcommands: report | roadmap | clusters | gaps | next | latent | validate (default: report).
 // On-demand only; never part of `npm run build`. Mirrors scripts/content-intelligence.ts.
 
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
@@ -15,10 +15,11 @@ import {
   clustersJson,
   trendsJson,
   graphJson,
+  latentJson,
   indexJson,
 } from '../src/lib/research/reports/json';
 import { opportunitiesCsv } from '../src/lib/research/reports/csv';
-import { renderRoadmap, renderNextBuild } from '../src/lib/research/reports/markdown';
+import { renderRoadmap, renderNextBuild, renderLatent } from '../src/lib/research/reports/markdown';
 
 const cmd = process.argv[2] ?? 'report';
 
@@ -57,6 +58,13 @@ switch (cmd) {
     writeText('next-build.md', nextBuildMd);
     console.log(`[research] roadmap -> ${root}/roadmap.md (next build: ${reports.roadmap.nextBuild?.proposedTool ?? 'none'})`);
     break;
+  case 'latent': {
+    const md = renderLatent(reports);
+    writeText('latent.md', md);
+    writeJson('latent.json', latentJson(reports));
+    console.log(md);
+    break;
+  }
   case 'clusters':
     writeJson('clusters.json', clustersJson(reports));
     console.log(`[research] ${reports.clusters.length} clusters -> ${root}/clusters.json`);
@@ -71,13 +79,17 @@ switch (cmd) {
     writeAll();
     break;
   default:
-    console.error(`[research] unknown subcommand "${cmd}". Use: report | roadmap | clusters | gaps | next | validate`);
+    console.error(
+      `[research] unknown subcommand "${cmd}". Use: report | roadmap | clusters | gaps | next | latent | validate`,
+    );
     process.exit(1);
 }
 
 function writeAll(): void {
   writeText('roadmap.md', renderRoadmap(reports));
   writeText('next-build.md', nextBuildMd);
+  writeText('latent.md', renderLatent(reports));
+  writeJson('latent.json', latentJson(reports));
   writeJson('opportunities.json', opportunitiesJson(reports));
   writeJson('top-opportunities.json', topOpportunitiesJson(reports));
   writeJson('missing-engines.json', missingEnginesJson(reports));
