@@ -1,3 +1,8 @@
+---
+name: ui-design-system
+description: The ToyTools design language and widget UI contract - page grammar and its three zones, the token system, ToolSplit and the layout widths, widget script rules and the ToyTools.* globals, CopyButton, BackButton, dark mode, empty/error/loading states, and the mobile-first and dark-mode validation checklists. Use when building or modifying any widget, layout or component, when adding UI to a tool page, when picking a colour, spacing value, breakpoint or component, or when reviewing UI for clutter. Read before writing widget markup or CSS.
+---
+
 # Skill: UI Design System
 
 A comprehensive reference for building new UI in ToyTools. Use this when creating or modifying widgets, layouts, or components to ensure everything matches the existing aesthetic and patterns.
