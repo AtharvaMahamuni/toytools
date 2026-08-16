@@ -60,19 +60,19 @@
       }
     },
     {
-      "query": "escape a command through ssh and sudo without breaking the quotes",
+      "query": "escape quotes for an ssh command",
       "problem": "I need to send a command through several layers that each strip one level of quoting (a local shell, then ssh, then sudo or docker exec), and I cannot tell what the far end will actually receive until it runs.",
       "intent": "troubleshooting",
       "transformation": "Shell Quoting",
       "proposedTool": "shell-quote-escalator",
-      "proposedName": "Shell Quoting Escalator",
+      "proposedName": "Shell Quote Escalator",
       "proposedEngine": "encoding",
       "searchQueries": [
-        "escape quotes in ssh command",
-        "bash quoting inside ssh",
-        "nested quotes sudo bash -c",
-        "how many backslashes ssh command",
-        "docker exec quoting spaces"
+        "ssh command quoting",
+        "escape quotes ssh",
+        "nested quotes bash",
+        "docker exec quotes spaces",
+        "shell quoting layers"
       ],
       "existingSolutions": [
         "trial and error against the real server",

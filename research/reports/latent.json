@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-15T10:12:08.840Z",
+  "generatedAt": "2026-08-16T06:07:18.275Z",
   "signals": [
     {
       "kind": "asymmetry",
@@ -202,52 +202,10 @@
         "jwt",
         "structured-data"
       ],
-      "weight": 0.23
+      "weight": 0.22
     }
   ],
   "candidates": [
-    {
-      "id": "shell-quote-escalator",
-      "title": "Shell Quoting Escalator",
-      "proposedTool": "shell-quote-escalator",
-      "proposedEngine": "encoding",
-      "engineExists": true,
-      "need": "People add a backslash, re-run against the real server, and repeat until the error stops, using production as the test harness.",
-      "whyUnnamed": "The thing has no name. People do not experience it as 'multi-layer shell quoting', they experience it as the command not working, so what they type into a search box is their one command rather than the class of problem it belongs to.",
-      "consequenceOf": [
-        "adds backslashes until the command stops erroring, without ever seeing what the far end received",
-        "writes a glob or a $VAR expecting the remote side to expand it and gets it expanded locally instead, silently, against the wrong filesystem",
-        "gets a path with a space split into two arguments three layers down and deletes something adjacent to the intended target",
-        "escapes correctly for bash and ships it to a host whose login shell is not bash"
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:encoding",
-          "kind": "asymmetry",
-          "because": "Sits on \"encoding\", which can produce but cannot check."
-        },
-        {
-          "signalId": "dead-end:encoded-text",
-          "kind": "dead-end",
-          "because": "Touches encoded text, which nothing in the catalog consumes today."
-        }
-      ],
-      "bridges": [
-        "url-encoder-decoder",
-        "json-escape",
-        "html-entity-encoder-decoder",
-        "base64-encoder-decoder",
-        "hex-encoder-decoder",
-        "binary-text-converter"
-      ],
-      "anchorStrength": 0.8,
-      "consequence": 0.82,
-      "reachability": 1,
-      "namelessness": 0.89,
-      "algorithmicFit": 0.95,
-      "latentScore": 87.4,
-      "status": "candidate"
-    },
     {
       "id": "systemd-timer-converter",
       "title": "Cron to systemd Timer Converter",
@@ -289,8 +247,8 @@
   "summary": {
     "signals": 12,
     "considered": 2,
-    "anchored": 2,
+    "anchored": 1,
     "unanchored": 0,
-    "topScore": 87.4
+    "topScore": 69.8
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-15T10:12:08.840Z",
+  "generatedAt": "2026-08-16T06:07:18.275Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -1830,7 +1830,7 @@
     },
     {
       "id": "shell-quote-escalator",
-      "title": "Shell Quoting Escalator",
+      "title": "Shell Quote Escalator",
       "transformation": "Shell Quoting",
       "engine": "encoding",
       "existing": false,

@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 5,
-  patch: 3,
+  minor: 6,
+  patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-15',
-  description: 'Add the latent-demand analyzer to the Research Intelligence Engine',
+  releaseDate: '2026-08-16',
+  description: 'Add the Shell Quote Escalator',
 };
 
 export function formatVersion(config: VersionConfig): string {

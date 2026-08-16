@@ -94,9 +94,10 @@
       "sharedWidget": "",
       "supportedFamilies": [
         "find-replace",
+        "shell-quoting",
         "text-compare"
       ],
-      "toolCount": 2
+      "toolCount": 3
     },
     "calculator": {
       "name": "Calculator Engine",
@@ -2430,6 +2431,27 @@
       "family": "cryptographic",
       "processorId": "sha512",
       "toolGroup": "hash-generators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "shell-quote-escalator": {
+      "name": "Shell Quote Escalator",
+      "dir": "src/tools/developer-utilities/shell-quote-escalator",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/shell-quote-escalator/",
+      "engine": "text-interactive",
+      "pattern": "text-interactive",
+      "family": "shell-quoting",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

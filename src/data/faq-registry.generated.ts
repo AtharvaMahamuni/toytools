@@ -87,6 +87,7 @@ import { items as sentenceCounterFaqs } from '@tools/text/sentence-counter/faq';
 import { items as sha1HashGeneratorFaqs } from '@tools/developer-utilities/sha1-hash-generator/faq';
 import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha256-hash-generator/faq';
 import { items as sha512HashGeneratorFaqs } from '@tools/developer-utilities/sha512-hash-generator/faq';
+import { items as shellQuoteEscalatorFaqs } from '@tools/developer-utilities/shell-quote-escalator/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
@@ -194,6 +195,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'sha1-hash-generator': sha1HashGeneratorFaqs,
   'sha256-hash-generator': sha256HashGeneratorFaqs,
   'sha512-hash-generator': sha512HashGeneratorFaqs,
+  'shell-quote-escalator': shellQuoteEscalatorFaqs,
   'sip-calculator': sipCalculatorFaqs,
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,

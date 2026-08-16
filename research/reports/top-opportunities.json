@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-15T10:12:08.840Z",
+  "generatedAt": "2026-08-16T06:07:18.275Z",
   "top": [
     {
       "id": "pregnancy-due-date-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -96,7 +96,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -173,7 +173,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -248,7 +248,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -317,7 +317,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -389,7 +389,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -465,7 +465,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -542,7 +542,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -618,7 +618,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -688,7 +688,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:07:18.275Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",

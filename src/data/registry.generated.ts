@@ -87,6 +87,7 @@ import { config as sentenceCounter } from '@tools/text/sentence-counter/config';
 import { config as sha1HashGenerator } from '@tools/developer-utilities/sha1-hash-generator/config';
 import { config as sha256HashGenerator } from '@tools/developer-utilities/sha256-hash-generator/config';
 import { config as sha512HashGenerator } from '@tools/developer-utilities/sha512-hash-generator/config';
+import { config as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/config';
 import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
@@ -194,6 +195,7 @@ export const toolConfigs: ToolConfig[] = [
   sha1HashGenerator,
   sha256HashGenerator,
   sha512HashGenerator,
+  shellQuoteEscalator,
   sipCalculator,
   slugifyText,
   snakeCaseConverter,

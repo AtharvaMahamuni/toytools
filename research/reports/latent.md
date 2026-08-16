@@ -1,10 +1,10 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-08-15T10:12:08.840Z
+Generated: 2026-08-16T06:07:18.275Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 
-12 structural silence(s) derived from the catalog; 2 proposal(s) considered, 2 anchored, 0 unanchored. Top latent score 87.4.
+12 structural silence(s) derived from the catalog; 2 proposal(s) considered, 1 anchored, 0 unanchored. Top latent score 69.8.
 
 ## Derived silences (from the catalog alone, nobody proposed these)
 
@@ -63,28 +63,12 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Therefore:** Whatever a visitor does with a hash digest next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
 - **Evidence:** crc32-hash-generator, md5-hash-generator, sha1-hash-generator, sha256-hash-generator, sha512-hash-generator
 
-### `handoff:jwt->structured-data` (weight 0.23)
+### `handoff:jwt->structured-data` (weight 0.22)
 - **Observed:** The "jwt" engine emits structured data and "structured-data" consumes it, across 9 tools, with no tool spanning the join.
 - **Therefore:** The join is currently the clipboard. A workflow people perform in two tabs has no name, so it has no query - and it is still the thing they came to do.
 - **Evidence:** jwt-decoder, csv-to-json-converter, json-formatter, json-minifier
 
 ## Anchored candidates
-
-### Shell Quoting Escalator  (`shell-quote-escalator`)
-
-**Latent score:** 87.4 / 100 (build-worthy)
-
-- **The need, as behaviour:** People add a backslash, re-run against the real server, and repeat until the error stops, using production as the test harness.
-- **Why there is no query for it:** The thing has no name. People do not experience it as 'multi-layer shell quoting', they experience it as the command not working, so what they type into a search box is their one command rather than the class of problem it belongs to.
-- **What it costs when unmet:** adds backslashes until the command stops erroring, without ever seeing what the far end received; writes a glob or a $VAR expecting the remote side to expand it and gets it expanded locally instead, silently, against the wrong filesystem; gets a path with a space split into two arguments three layers down and deletes something adjacent to the intended target; escapes correctly for bash and ships it to a host whose login shell is not bash
-- **Engine:** `encoding` (existing)
-- **Reachable from:** url-encoder-decoder, json-escape, html-entity-encoder-decoder, base64-encoder-decoder, hex-encoder-decoder, binary-text-converter
-
-**Anchored to:**
-- `asymmetry:encoding` - Sits on "encoding", which can produce but cannot check.
-- `dead-end:encoded-text` - Touches encoded text, which nothing in the catalog consumes today.
-
-**Signals:** anchorStrength 0.8, consequence 0.82, reachability 1, namelessness 0.89, algorithmicFit 0.95.
 
 ### Cron to systemd Timer Converter  (`systemd-timer-converter`)
 

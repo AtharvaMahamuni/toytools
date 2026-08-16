@@ -50,6 +50,8 @@ const report = process.argv.includes('--report');
  * coverage      2026-08-11  0.028 (3/105)  the encoding recovery seam (base64, url) + the
  *                                          word-counter goal, the catalog's one pre-existing
  *                                          touch that survives the tests in the doctrine
+ *               2026-08-16  0.037 (4/106)  shell-quote-escalator ships with its orientation line,
+ *                                          the first tool built craft-first rather than retrofitted
  * boxesPerTool  2026-08-11  8 → 7          word-counter's goal card and insight tiles went inline
  * rawHex        2026-08-11  11 → 9         word-counter's #d97706 state was removed, not retinted
  *
@@ -63,7 +65,7 @@ const report = process.argv.includes('--report');
  * a tool shipped with nothing of its own, and a box rise means craft was bought with clutter.
  */
 const THRESHOLDS = {
-  coverage: 0.028,
+  coverage: 0.037,
   boxesPerTool: 7,
   rawHex: 9,
 };

@@ -87,6 +87,7 @@ export const authoredGuideSlugs = [
   'sha1-hash-generator',
   'sha256-hash-generator',
   'sha512-hash-generator',
+  'shell-quote-escalator',
   'sip-calculator',
   'slugify-text',
   'snake-case-converter',
