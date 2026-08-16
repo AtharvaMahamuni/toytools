@@ -1,0 +1,306 @@
+---
+// Shell Quote Escalator.
+//
+// The tool is the ladder. A correctly quoted string is a wall of backslashes and apostrophes that
+// nobody can read, so showing only the answer would ask the user to trust it - which is exactly
+// what they were already doing badly by hand. Every intermediate stage is rendered so the answer is
+// checkable rather than magic.
+//
+// Layout is input-first: this tool cannot show anything until a command is typed, so the first
+// usable control belongs at the top of the phone screen (tests/e2e/fold.spec.ts).
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import { CHAINS } from '@lib/shell/quote';
+import { config } from './config';
+---
+
+<div class="sq">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={true}>
+    <div slot="input">
+      <IoPanel label="Command to run" labelFor="sq-input" variant="mono">
+        <div class="sq-head" slot="header-end">
+          <label class="sq-chain-label" for="sq-chain">Through</label>
+          <select id="sq-chain" class="sq-chain">
+            {CHAINS.map((c) => <option value={c.id}>{c.label}</option>)}
+          </select>
+        </div>
+        <textarea
+          id="sq-input"
+          class="sq-input"
+          rows="4"
+          placeholder="systemctl restart nginx"
+          spellcheck="false"
+          autocapitalize="off"
+          autocorrect="off"
+          autocomplete="off"
+          aria-label="Command to run at the far end"></textarea>
+        <p id="sq-error" class="sq-error" role="alert" hidden></p>
+        <button type="button" id="sq-example" class="sq-example">Load an example</button>
+      </IoPanel>
+
+      <ToolActions
+        copyTarget="sq-output"
+        clearTarget="sq-input"
+        pasteTarget="sq-input"
+        shareEngine={config.engine}
+        sharePattern={config.pattern}
+      />
+    </div>
+
+    <div slot="output">
+      <IoPanel label="Paste this" copyTargetId="sq-output" variant="mono" result>
+        <output id="sq-output" class="sq-output" data-empty>Type a command to quote it.</output>
+
+        <p id="sq-expansions" class="sq-note" data-craft="shell-expansion-points" hidden></p>
+
+        <ol id="sq-ladder" class="sq-ladder" aria-label="What each layer receives"></ol>
+      </IoPanel>
+    </div>
+  </ToolSplit>
+</div>
+
+<style>
+  /* Header control: the chain is the only knob, so it sits in the panel header rather than
+     occupying a row of its own above the input. */
+  .sq-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .sq-chain-label {
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+  .sq-chain {
+    min-height: var(--touch-target);
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: var(--text-sm);
+  }
+
+  .sq-input {
+    width: 100%;
+    min-height: 6rem;
+    resize: vertical;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+  .sq-input:focus {
+    outline: none;
+  }
+
+  .sq-error {
+    margin: var(--space-2) 0 0;
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+  }
+  .sq-error[hidden] {
+    display: none;
+  }
+
+  .sq-example {
+    margin-top: var(--space-2);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-accent-strong);
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+  }
+  .sq-example:active {
+    color: var(--color-text);
+  }
+
+  .sq-output {
+    display: block;
+    overflow-x: auto;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .sq-output[data-empty] {
+    color: var(--color-text-muted);
+  }
+  .sq-output[data-error] {
+    color: var(--color-danger);
+  }
+
+  /* The craft line. One row of fact under the answer, never a card. */
+  .sq-note {
+    margin: var(--space-3) 0 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-subtle);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  .sq-note[hidden] {
+    display: none;
+  }
+
+  /* The ladder. Rows, not boxes: a label above each literal, separated by rhythm alone. */
+  .sq-ladder {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .sq-ladder:empty {
+    display: none;
+  }
+  .sq-rung-label {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .sq-rung-form {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .sq-rung-text {
+    display: block;
+    overflow-x: auto;
+    margin-top: var(--space-1);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  /* The last rung is the thing that finally executes, which is the one people are checking. */
+  .sq-ladder li:last-child .sq-rung-text {
+    color: var(--color-accent-strong);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var TT = window.ToyTools;
+    var input = document.getElementById('sq-input');
+    var chain = document.getElementById('sq-chain');
+    var output = document.getElementById('sq-output');
+    var ladder = document.getElementById('sq-ladder');
+    var note = document.getElementById('sq-expansions');
+    var errorEl = document.getElementById('sq-error');
+    var exampleBtn = document.getElementById('sq-example');
+    if (!input || !chain || !output || !ladder || !note || !errorEl) return;
+
+    var EXAMPLE = "sh -c 'echo $HOME > /var/log/my app.log'";
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function clearOutput(message) {
+      output.textContent = message;
+      output.setAttribute('data-empty', '');
+      output.removeAttribute('data-error');
+      ladder.innerHTML = '';
+      note.hidden = true;
+    }
+
+    function run() {
+      var shell = TT && TT.shell;
+      if (!shell) return;
+
+      var command = input.value;
+      if (command.trim() === '') {
+        errorEl.hidden = true;
+        clearOutput('Type a command to quote it.');
+        TT.state.save('shell-quote-escalator', { command: '', chain: chain.value });
+        return;
+      }
+
+      // A command that is already unbalanced would quote into a perfectly valid string that fails at
+      // the far end, so it is reported before anything is produced rather than after.
+      var check = shell.checkCommand(command);
+      if (!check.ok) {
+        errorEl.textContent = check.message;
+        errorEl.hidden = false;
+        output.textContent = check.message;
+        output.removeAttribute('data-empty');
+        output.setAttribute('data-error', check.message);
+        ladder.innerHTML = '';
+        note.hidden = true;
+        return;
+      }
+      errorEl.hidden = true;
+
+      var selected = shell.findChain(chain.value);
+      var result = shell.escalate(command, selected);
+
+      output.textContent = result.typed;
+      output.removeAttribute('data-empty');
+      output.removeAttribute('data-error');
+
+      var html = '';
+      for (var i = 0; i < result.rungs.length; i++) {
+        var rung = result.rungs[i];
+        var form = rung.form ? ' <span class="sq-rung-form">' + escapeHtml(rung.form) + '</span>' : '';
+        html +=
+          '<li><span class="sq-rung-label">' +
+          escapeHtml(rung.label) +
+          form +
+          '</span><code class="sq-rung-text">' +
+          escapeHtml(rung.text) +
+          '</code></li>';
+      }
+      ladder.innerHTML = html;
+
+      var line = shell.describeExpansions(shell.findExpansions(command), selected);
+      if (line) {
+        note.textContent = line;
+        note.hidden = false;
+      } else {
+        note.hidden = true;
+      }
+
+      TT.state.save('shell-quote-escalator', { command: command, chain: chain.value });
+    }
+
+    input.addEventListener('input', run);
+    chain.addEventListener('change', run);
+
+    if (exampleBtn) {
+      exampleBtn.addEventListener('click', function () {
+        input.value = EXAMPLE;
+        chain.value = 'ssh-sudo';
+        run();
+        input.focus();
+      });
+    }
+
+    // Engine surfaces load lazily, so the first computation waits for them.
+    TT.onReady(function () {
+      var saved = TT.state.load('shell-quote-escalator');
+      if (saved) {
+        if (saved.command) input.value = saved.command;
+        if (saved.chain) chain.value = saved.chain;
+      }
+      run();
+    });
+  })();
+</script>

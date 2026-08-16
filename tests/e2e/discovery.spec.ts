@@ -71,10 +71,11 @@ test.describe('homepage index', () => {
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
     //   −8 text counters (9→1), −10 health calculators (11→1), −2 daily trackers (3→1),
     //   −5 growth calculators (6→1), −5 everyday calculators (6→1).
-    // 119 tools − 61 grouped-collapse = 58 directory links (generator, physics, applied-math,
-    // date/time, scientific-calculator and the 5 design tools stay ungrouped; physics has 11
-    // manifest-driven simulators and applied-math five wave-2 tools beside unit-circle).
-    await expect(directory.locator('.dir-link')).toHaveCount(58);
+    // 121 tools − 61 grouped-collapse = 60 directory links (generator, physics, applied-math,
+    // date/time, scientific-calculator, shell-quote-escalator, systemd-timer-converter and the 5
+    // design tools stay ungrouped; physics has 11 manifest-driven simulators and applied-math five
+    // wave-2 tools beside unit-circle).
+    await expect(directory.locator('.dir-link')).toHaveCount(60);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

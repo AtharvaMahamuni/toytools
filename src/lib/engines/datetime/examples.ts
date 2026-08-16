@@ -73,6 +73,24 @@ export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
     expect: { 'per-day': 96 },
     narrative: '*/15 * * * * runs every 15 minutes, which is 96 times a day.',
   },
+  {
+    id: 'systemd-weekdays',
+    engine: 'datetime',
+    ref: 'systemd-timer',
+    title: 'Weekday mornings',
+    inputs: { expression: '0 9 * * 1-5', unit: 'morning-report' },
+    narrative: '0 9 * * 1-5 becomes OnCalendar=Mon..Fri *-*-* 09:00:00, which fires on exactly the same days.',
+  },
+  {
+    // The example worth loading: both day fields are restricted, so the two grammars disagree.
+    id: 'systemd-friday-13th',
+    engine: 'datetime',
+    ref: 'systemd-timer',
+    title: 'Where cron and systemd disagree',
+    inputs: { expression: '0 0 13 * 5', unit: 'audit' },
+    narrative:
+      '0 0 13 * 5 runs on the 13th OR any Friday under cron, and only on a Friday the 13th as a systemd timer.',
+  },
 ];
 
 export const DATETIME_EXAMPLE_MAP = buildExampleRegistry(DATETIME_EXAMPLES);

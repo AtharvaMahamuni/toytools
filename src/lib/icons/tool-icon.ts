@@ -31,6 +31,8 @@ const FAMILY_GLYPH: Record<string, string> = {
   clean: 'broom',
   compare: 'compare',
   convert: 'swap',
+  // The backslash is the thing this family is about: one more of them per shell in the path.
+  'shell-quoting': 'backslash',
   // text
   transform: 'title',
   'text-counting': 'words',

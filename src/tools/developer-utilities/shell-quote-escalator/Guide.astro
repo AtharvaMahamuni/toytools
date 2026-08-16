@@ -1,0 +1,244 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A command needs one level of quoting for every shell that reads it before the last one runs
+      it. Over <code>ssh</code> that is one level, because the local shell reads your line and the
+      remote shell reads what arrives. Wrapping the far side in <code>sudo sh -c</code> or
+      <code>docker exec sh -c</code> adds another shell and another level. Wrap the command in
+      single quotes once per level, replacing each embedded <code>'</code> with
+      <code>'\''</code>.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Shell Quote Escalator →</a>
+  </section>
+
+  <section id="why-layers">
+    <h2>Why One Set of Quotes Is Not Enough <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A shell does two things to every line it reads: it removes one level of quoting, then it
+      splits what remains on whitespace into arguments. Those two steps happen again in full at
+      every shell along the path, and that is the whole source of the confusion.
+    </p>
+    <p>
+      Three mechanisms do all the work: shell word splitting, parameter expansion, and POSIX single quoting.
+      Remote command execution over ssh is nothing more than shell quoting repeated once per hop, and counting
+      those quoting layers is the entire skill. Nested shell quoting by hand is where it goes wrong, because
+      shell escaping gives no feedback until the command has already run somewhere.
+    </p>
+    <p>
+      Take <code>ssh host 'echo hi'</code>. Your local shell strips the single quotes and hands
+      <code>ssh</code> three arguments. <code>ssh</code> joins everything after the hostname back
+      into one string and sends <code>echo hi</code> to the server, where the remote shell parses it
+      again and runs <code>echo</code> with the argument <code>hi</code>. One level of quoting was
+      spent getting the text past the local shell.
+    </p>
+    <p>
+      Now the command itself contains quotes: you want the server to run
+      <code>echo 'a b'</code> so that <code>echo</code> receives one argument. The remote shell has
+      to see <code>echo 'a b'</code> literally, so that string is what must survive your local
+      shell, so it needs quoting of its own. The line you type becomes
+      <code>ssh host 'echo '\''a b'\'''</code>. Nothing about this is arbitrary, but nobody derives
+      it correctly at three in the morning.
+    </p>
+  </section>
+
+  <section id="counting-layers">
+    <h2>How To Count The Layers <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Count the shells between your keyboard and the process, then subtract the one that finally
+      executes the command. Each remaining shell costs one level of quoting, and nested shell
+      quoting is simply that count applied honestly.
+    </p>
+    <ul>
+      <li><strong>One level:</strong> <code>ssh host CMD</code>, <code>sudo sh -c CMD</code>, or <code>bash -c CMD</code> run locally.</li>
+      <li><strong>Two levels:</strong> <code>ssh host 'sudo sh -c CMD'</code>, or ssh into a host and then <code>docker exec c sh -c CMD</code>.</li>
+      <li><strong>Three levels:</strong> ssh, then sudo, then into a container.</li>
+    </ul>
+    <p>
+      A common near-miss is assuming <code>ssh</code> itself consumes a level. It does not: ssh is
+      not a shell, it just concatenates its remaining arguments and ships the text. The shells are
+      what cost you, and ssh only decides which shell reads it next.
+    </p>
+  </section>
+
+  <section id="single-quotes">
+    <h2>Single Quotes vs Double Quotes For Remote Commands <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Inside single quotes a POSIX shell expands nothing whatsoever: no <code>$VAR</code>, no
+      backticks, no <code>$(...)</code>, no globs, no leading tilde. That total inertness is what
+      makes the rule repeatable. Quoting a quoted string with the same rule again produces something
+      that survives one more shell, every time, without you having to reason about what the previous
+      layer did to it.
+    </p>
+    <p>
+      Backslash escaping and double quotes both fail that test. Under double quotes the shell still
+      expands variables and command substitution, so the correct escape depends on what the previous
+      layer already consumed, and the number of backslashes roughly doubles at each hop. That is the
+      sequence people are counting by hand when they end up with eight backslashes and no idea
+      whether the answer is seven or nine.
+    </p>
+    <p>
+      The one character single quotes cannot contain is a single quote, which is why each one is
+      written as <code>'\''</code>: close the quoting, emit an escaped quote outside it, reopen. It
+      looks alarming and it is mechanical.
+    </p>
+  </section>
+
+  <section id="expansion">
+    <h2>Where Variables And Globs Actually Resolve <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This is the part that silently does the wrong thing. Because single quoting protects
+      <code>$HOME</code>, <code>*</code>, <code>~</code> and <code>$(...)</code> from every shell
+      along the way, they arrive intact and are expanded by the <em>last</em> shell, against the far
+      end environment and filesystem. Most of the time that is exactly right: you want
+      <code>~</code> to mean the remote user home directory and <code>*</code> to match files on the
+      server.
+    </p>
+    <p>
+      Occasionally it is the opposite of what you meant. If you wanted the local value baked into
+      the command, substitute it yourself before quoting, or leave that fragment unquoted so your
+      own shell expands it. The trap is that the quoted output looks identical either way, so
+      nothing on screen distinguishes a command that will read the server home directory from one
+      you believed would read yours. The tool prints a line naming the expandable tokens it found
+      and which shell will resolve them, so the choice is visible while you can still change it.
+    </p>
+  </section>
+
+  <section id="reading-the-ladder">
+    <h2>Reading The Ladder <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool shows every intermediate stage, not just the answer. The top rung is what you type,
+      each middle rung is what the next shell receives after the one above it has parsed the line,
+      and the bottom rung is what actually executes. A correct result is one where the bottom rung
+      is character for character the command you intended.
+    </p>
+    <p>
+      This matters because a wall of apostrophes and backslashes is unreadable, so an answer on its
+      own can only be trusted or not. The ladder turns it into something checkable: if the bottom
+      rung is missing a quote, or a path has come apart into two words, you can see the exact stage
+      where it happened rather than discovering it from a stack trace on the server.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Worked Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three shapes cover almost everything. For example, the most common one is a path containing a
+      space, which behaves correctly on your own machine and comes apart the moment a second shell
+      is involved.
+    </p>
+    <h3>One layer: a command with spaces over ssh</h3>
+    <p>Input: <code>touch '/var/log/my app.log'</code> is what the server has to run.</p>
+    <p>Output: <code>{`ssh host 'touch '\\''/var/log/my app.log'\\'''`}</code></p>
+    <p>
+      Quoting the whole thing once gets the text past your local shell. However, the inner quotes
+      have to survive as well, because the remote shell splits on whitespace after it has removed
+      its level. Miss that and the server runs <code>touch</code> with two arguments and creates two
+      files.
+    </p>
+    <h3>Nested quotes: sudo inside ssh</h3>
+    <p>Input: <code>{`sudo sh -c 'echo hi > /etc/motd'`}</code></p>
+    <p>Output: <code>{`ssh host 'sudo sh -c '\\''echo hi > /etc/motd'\\'''`}</code></p>
+    <p>
+      Two shells read this before <code>sh -c</code> runs it, so the payload is quoted twice.
+      Therefore the <code>'\''</code> sequences multiply: each one closes the outer quoting, emits a
+      literal apostrophe, and reopens it.
+    </p>
+    <h3>How to pass a command with spaces to docker exec</h3>
+    <p>
+      A container adds a shell like any other hop, so the rule does not change: a path with spaces
+      needs its own quoting plus one round per shell above it. Input:
+      <code>{`docker exec web sh -c 'cat /etc/my app.conf'`}</code>. Run straight from a remote shell
+      that is one more layer out, the whole thing needs quoting again, which is what turns a
+      one-space filename into a two-argument error.
+    </p>
+    <h3>Three layers: into a container on a remote host</h3>
+    <p>
+      Adding <code>docker exec c sh -c</code> on the far side adds a third shell and a third round
+      of quoting. At this depth the string stops being readable, which is where the shell quote
+      escalator earns its keep: rather than counting apostrophes, you read the bottom rung of the
+      ladder and confirm it is the command you meant.
+    </p>
+  </section>
+
+  <section id="alternatives">
+    <h2>Shell Quote Escalator vs The Alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Trial and error against the real host.</strong> The usual method, and the expensive
+      one: every failed attempt executed something on a live machine, and a command that stops
+      erroring is not the same as a command that is correct.
+    </p>
+    <p>
+      <strong><code>printf %q</code> or Python <code>shlex.quote</code>.</strong> Both quote
+      correctly for exactly one layer. They are the right tool when there is one shell, however the
+      problem here is arithmetic across several, and neither knows how many are in the path.
+    </p>
+    <p>
+      <strong>Base64 the whole command.</strong> A real workaround that does work, because base64
+      output contains nothing a shell reacts to. The cost is that nobody reading the playbook or the
+      CI log afterwards can see what runs, so a debugging problem is traded for an auditing one.
+    </p>
+    <p>
+      The Shell Quote Escalator does the same arithmetic the first two options leave to you, and
+      unlike all three it shows the intermediate stages, so the result can be checked instead of
+      trusted.
+    </p>
+  </section>
+
+  <section id="mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ul>
+      <li>
+        <strong>Testing against production.</strong> Adding a backslash and re-running the real
+        command until the error stops means every failed attempt ran something on a real machine.
+      </li>
+      <li>
+        <strong>Quoting for one layer when there are two.</strong> The command usually still runs.
+        It just runs a different command, which is why this surfaces days later.
+      </li>
+      <li>
+        <strong>Mixing quote styles mid-command.</strong> An unbalanced single quote inside a
+        double-quoted section ends the wrong thing, and the rest of the line quietly becomes
+        separate arguments.
+      </li>
+      <li>
+        <strong>Assuming a working local command works remotely.</strong> Locally there is one
+        shell. Nothing about the command changed; the number of parsers did.
+      </li>
+    </ul>
+  </section>
+
+  <section id="related">
+    <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Once the command is correct, <a href={withBase('/tool/developer-utilities/json-escape/')}>JSON Escape</a>
+      prepares it for a CI config or an API payload, and
+      <a href={withBase('/tool/datetime/cron-expression-parser/')}>Cron Expression Parser</a>
+      covers the schedule if the command is going to run on a timer.
+    </p>
+  </section>
+</GuideLayout>

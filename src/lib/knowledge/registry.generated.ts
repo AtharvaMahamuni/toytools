@@ -87,10 +87,12 @@ import { knowledge as sentenceCounter } from '@tools/text/sentence-counter/knowl
 import { knowledge as sha1HashGenerator } from '@tools/developer-utilities/sha1-hash-generator/knowledge';
 import { knowledge as sha256HashGenerator } from '@tools/developer-utilities/sha256-hash-generator/knowledge';
 import { knowledge as sha512HashGenerator } from '@tools/developer-utilities/sha512-hash-generator/knowledge';
+import { knowledge as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/knowledge';
 import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowledge';
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
+import { knowledge as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/knowledge';
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
 import { knowledge as tdeeCalculator } from '@tools/health/tdee-calculator/knowledge';
 import { knowledge as textCompare } from '@tools/text/text-compare/knowledge';
@@ -194,10 +196,12 @@ export const authoredKnowledge: Knowledge[] = [
   sha1HashGenerator,
   sha256HashGenerator,
   sha512HashGenerator,
+  shellQuoteEscalator,
   sipCalculator,
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
+  systemdTimerConverter,
   taxCalculator,
   tdeeCalculator,
   textCompare,

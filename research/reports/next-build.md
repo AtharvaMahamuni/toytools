@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-08-15T10:12:08.840Z
+Generated: 2026-08-16T06:45:38.636Z
 
 ## Pregnancy Due Date Calculator  (`pregnancy-due-date-calculator`)
 
@@ -11,7 +11,7 @@ Generated: 2026-08-15T10:12:08.840Z
 - Reuses the existing datetime engine
 - Low implementation cost
 - Strong topic-cluster potential
-- Creates 5 internal links
+- Creates 6 internal links
 - Deterministic algorithm solves this exactly (AI adds nothing)
 
 ### Why incumbents are weak
@@ -42,5 +42,5 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 ### Suggested supporting content
 - Guides: What is Health Date Calculation?; How to health date calculation online; Pregnancy Due Date Calculator vs the alternatives
 - FAQs: How do I health date calculation?; Is Pregnancy Due Date Calculator free and private?; Does Pregnancy Due Date Calculator avoid "requires signup for the full timeline"?
-- Internal links / related tools: age-calculator, date-difference-calculator, cron-expression-parser, timezone-converter, unix-timestamp-converter
+- Internal links / related tools: age-calculator, date-difference-calculator, cron-expression-parser, systemd-timer-converter, timezone-converter, unix-timestamp-converter
 - Schema: SoftwareApplication, FAQPage

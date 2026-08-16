@@ -2,6 +2,58 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.7] - 2026-08-16
+
+### Added
+
+- **Cron to systemd Timer Converter** at `/tool/datetime/systemd-timer-converter/`. Paste a crontab
+  line, get the `OnCalendar=` expression and a ready-to-save `.timer` unit. Crontab shorthands
+  (`@daily`, `@weekly`, ...) expand and translate; `@reboot` is answered with `OnBootSec=` rather
+  than a parse error, because a syntax error sends people hunting for a typo that is not there.
+- **Its craft is a divergence check** (`systemd-divergence`), and it is the reason the tool exists.
+  When a crontab line restricts both the day of the month and the day of the week, cron fires when
+  either matches and systemd fires only when both do. `0 0 13 * 5` is roughly sixty runs a year under
+  cron and one or two as a timer. Both grammars accept the translation, neither reports anything, and
+  the job simply stops happening. The tool evaluates both day rules across the next 400 days and
+  names the first date they disagree, staying silent when only one day field is restricted and the
+  two rules coincide.
+- The translation and both semantics live in `src/lib/engines/datetime/systemd.ts` beside the
+  existing cron parser it reuses, with 26 unit tests split between what it reports and what it must
+  not.
+- Two worked examples, one that translates exactly and one that does not.
+
+### Changed
+
+- Craft coverage ratchet raised to 4.6% (5/107).
+
+## [alpha-v7.6] - 2026-08-16
+
+### Added
+
+- **Shell Quote Escalator** at `/tool/developer-utilities/shell-quote-escalator/`, the catalog's
+  first system-administration tool. Pick where a command has to travel (ssh, sudo, `bash -c`,
+  `docker exec`, or a chain of them) and it quotes the command once per shell in the path.
+- **The ladder is the point.** A correctly quoted command is a wall of apostrophes that can only be
+  trusted or not, so every intermediate stage is shown: what you type, what each shell hands to the
+  next, and what finally executes. A missing level of quoting becomes visible at the stage it
+  happens rather than in a stack trace on a real server.
+- **Its craft is an orientation line** (`shell-expansion-points`): single quoting protects `$HOME`,
+  globs, backticks and `~` rather than expanding them, so they resolve against the far end and not
+  your machine, and the quoted output looks identical either way. The line names the tokens it found
+  and which shell resolves them, and stays silent for commands that have none.
+- An unbalanced quote in the command is reported before anything is quoted, because quoting a broken
+  command produces a valid-looking string that fails somewhere else entirely.
+- The `text-interactive` engine gained a `shell` runtime surface (`src/lib/shell/quote.ts`), so the
+  quoting logic is unit-tested library code rather than widget script.
+
+### Changed
+
+- Craft coverage ratchet raised to 3.7% (4/106): the first tool built craft-first rather than
+  retrofitted.
+- The `shell-quote-escalator` research record's `query` field was a full sentence rather than a
+  phrasing anyone types. Corrected to real search phrasings, which is what the query-coverage corpus
+  is built from.
+
 ## [alpha-v7.5.3] - 2026-08-15
 
 ### Added

@@ -11,6 +11,7 @@ import { dateDifferenceCalculator } from './calculators/date-difference';
 import { timezoneConverter } from './calculators/timezone';
 import { unixTimestampConverter } from './calculators/unix-timestamp';
 import { cronExpressionParser } from './calculators/cron';
+import { systemdTimerConverter } from './calculators/systemd-timer';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'age': ageCalculator,
@@ -18,6 +19,7 @@ export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'timezone': timezoneConverter,
   'unix-timestamp': unixTimestampConverter,
   'cron': cronExpressionParser,
+  'systemd-timer': systemdTimerConverter,
 };
 
 /**

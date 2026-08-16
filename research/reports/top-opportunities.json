@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-15T10:12:08.840Z",
+  "generatedAt": "2026-08-16T06:45:38.636Z",
   "top": [
     {
       "id": "pregnancy-due-date-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -43,6 +43,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -50,6 +51,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -57,6 +59,7 @@
         "age-calculator",
         "date-difference-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -96,7 +99,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -118,24 +121,24 @@
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "relatedGuides": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "relatedFaqs": [
         "move-today-tracker",
         "age-calculator",
         "cron-expression-parser",
         "date-difference-calculator",
-        "timezone-converter",
-        "unix-timestamp-converter"
+        "systemd-timer-converter",
+        "timezone-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -173,7 +176,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -195,6 +198,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -202,6 +206,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -209,6 +214,7 @@
         "date-difference-calculator",
         "age-calculator",
         "cron-expression-parser",
+        "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
       ],
@@ -248,7 +254,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -317,7 +323,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -389,7 +395,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -465,7 +471,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -542,7 +548,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -618,7 +624,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -688,7 +694,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-15T10:12:08.840Z",
+      "discoveredAt": "2026-08-16T06:45:38.636Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
