@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'binary-text-converter',
   name: 'Binary Text Converter',
   seoTitle: 'Binary Text Converter — Text to Binary & Binary to Text',
-  description: 'Convert text to binary (0s and 1s) and binary back to text, instantly in your browser. No uploads.',
+  description: 'Convert text to binary (0s and 1s) and binary back to text. Turn an ASCII string into binary in your browser, with no uploads.',
   tagline: 'Convert text to binary and binary back to text.',
   categorySlug: 'developer-utilities',
   tags: ['binary text converter', 'text to binary', 'binary to text', 'binary translator', 'ascii to binary', 'binary code converter', 'convert binary', '8-bit binary'],

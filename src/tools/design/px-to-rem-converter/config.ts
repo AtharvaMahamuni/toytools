@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'px-to-rem-converter',
   name: 'PX to REM Converter',
-  description: 'Convert px to rem, em, and pt against a configurable root font size.',
+  description: 'Convert pixels to rem, em and pt against a configurable root font size.',
   categorySlug: 'design-tools',
   tags: ['px to rem', 'rem to px', 'px to em', 'px to pt', 'css unit converter', 'pixels to rem', 'rem calculator', 'px rem em converter', 'root font size', 'css units'],
   updatedAt: '2026-07-31',

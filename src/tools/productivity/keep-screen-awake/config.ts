@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'keep-screen-awake',
   name: 'Keep Screen Awake',
   seoTitle: 'Keep Screen Awake — Prevent Screen Sleep Online',
-  description: 'Prevent your device from sleeping while this page remains open.',
+  description: 'Keep your screen on and stay awake while this page remains open.',
   categorySlug: 'productivity',
   tags: [
     'keep screen awake', 'prevent screen sleep', 'screen always on',

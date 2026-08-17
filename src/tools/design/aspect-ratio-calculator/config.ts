@@ -3,7 +3,7 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'aspect-ratio-calculator',
   name: 'Aspect Ratio Calculator',
-  description: 'Lock an aspect ratio like 16:9 and solve the missing width or height in pixels. Resize image and screen dimensions without distortion.',
+  description: 'Lock an aspect ratio like 16:9 and solve the missing width or height in pixels. Resize image dimensions or a screen ratio and keep the proportions exact.',
   tagline: 'Lock a ratio like 16:9 and solve the missing width or height.',
   categorySlug: 'design-tools',
   tags: ['aspect ratio calculator', '16:9 calculator', 'ratio calculator', 'resize keep aspect ratio', 'image dimension calculator', 'pixel ratio', 'screen ratio', 'width height ratio', 'aspect ratio', 'resolution calculator'],

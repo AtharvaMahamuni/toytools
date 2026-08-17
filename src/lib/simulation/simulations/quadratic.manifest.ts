@@ -88,7 +88,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Quadratic Equation Solver: Roots & Parabola',
     description:
-      'Solve ax² + bx + c = 0 visually. Slide the coefficients or drag the vertex and watch the roots, discriminant, and axis of symmetry update on a live parabola.',
+      'Find the roots of a quadratic equation visually. Slide the coefficients and watch the roots, discriminant, vertex and axis of symmetry move on a parabola.',
     tagline: 'Slide the coefficients and watch the roots move on a live parabola.',
     keywords: ['quadratic formula', 'quadratic equation solver', 'discriminant', 'parabola', 'vertex form', 'axis of symmetry'],
   },

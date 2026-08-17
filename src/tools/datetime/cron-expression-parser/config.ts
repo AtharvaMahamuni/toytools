@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'cron-expression-parser',
   name: 'Cron Expression Parser',
   seoTitle: 'Cron Expression Parser — Explain Cron, Next Run Times',
-  description: 'Turn a cron expression into human readable English, count how often the schedule runs, and see next run times. Supports lists, ranges and steps.',
+  description: 'Turn a cron expression into human readable English: crontab explained, how often the schedule runs, and next run times. Lists, ranges and steps.',
   tagline: 'Read a cron expression in plain English, with its next run times.',
   categorySlug: 'date-time',
   tags: ['cron expression parser', 'cron expression explained', 'crontab generator', 'cron schedule', 'cron next run time', 'what does this cron mean', 'cron to english', 'cron parser'],

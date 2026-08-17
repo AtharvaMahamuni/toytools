@@ -3,7 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'color-contrast-checker',
   name: 'WCAG Color Contrast Checker',
-  description: 'Check text and background colors against WCAG AA and AAA contrast.',
+  description: 'Check the contrast ratio of text and background colors against WCAG AA and AAA, and find accessible colors that pass.',
+  tagline: 'Check text and background against WCAG AA and AAA contrast.',
   categorySlug: 'design-tools',
   tags: ['color contrast checker', 'wcag contrast checker', 'contrast ratio calculator', 'aa contrast', 'aaa contrast', 'accessible color contrast', 'text contrast checker', 'a11y contrast', 'wcag aa', 'wcag aaa'],
   updatedAt: '2026-07-31',

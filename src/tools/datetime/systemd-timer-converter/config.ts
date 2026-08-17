@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Cron to systemd Timer Converter',
   seoTitle: 'Cron to systemd Timer Converter - crontab to OnCalendar',
   description:
-    'Convert a crontab line to a systemd timer OnCalendar expression, get the .timer unit, and check the schedule fires on the same days as cron.',
+    'Convert a crontab line or cron expression to its systemd timer equivalent: OnCalendar syntax down to every 15 minutes, the .timer unit, and a divergence check.',
   tagline: 'Translate a crontab line, then check it fires when cron did.',
   categorySlug: 'date-time',
   tags: [

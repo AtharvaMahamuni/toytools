@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'reverse-text',
   name: 'Reverse Text',
   seoTitle: 'Reverse Text — Flip Text Backwards Online',
-  description: 'Reverse text character by character, online and private.',
+  description: 'Reverse text or a string character by character, online and private.',
   categorySlug: 'text-utilities',
   tags: ['reverse text', 'backwards text', 'flip text', 'reverse string', 'mirror text', 'text reverser', 'reverse text online'],
   updatedAt: '2026-07-10',

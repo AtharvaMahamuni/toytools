@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'remove-emoji',
   name: 'Remove Emoji',
   seoTitle: 'Remove Emoji From Text — Emoji Remover',
-  description: 'Strip every emoji from text in one paste, leaving words, punctuation, and spacing intact. Runs in your browser.',
+  description: 'Delete every emoji from text in one paste, leaving words, punctuation and spacing intact. Strips emojis in your browser.',
   tagline: 'Strip every emoji, leaving words and spacing intact.',
   categorySlug: 'text-utilities',
   tags: ['remove emoji', 'emoji remover', 'delete emoji from text', 'strip emoji', 'remove emoji from text online', 'clean emoji', 'text without emoji', 'emoji cleaner'],

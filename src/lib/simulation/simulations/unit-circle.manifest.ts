@@ -98,7 +98,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Unit Circle Calculator: Interactive Sin, Cos & Tan',
     description:
-      'Drag a point around an interactive unit circle. Watch sin, cos, and tan update live, see the reference triangle, and trace the sine wave in your browser.',
+      'Drag a point around the trig circle and watch sin cos tan values update live in both radians and degrees, with the reference triangle and sine wave.',
     tagline: 'Drag a point around the circle and watch sin, cos and tan update.',
     keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles'],
   },

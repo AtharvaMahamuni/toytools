@@ -77,7 +77,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Inclined Plane Calculator: Forces on a Ramp',
     description:
-      'Watch a block on a ramp slide or hold still. Set the angle, mass, and friction and see the force components and acceleration a = g(sinθ - μcosθ) live.',
+      'Watch a block on a slope slide or hold still. Set the angle, mass and coefficient of friction and see the physics of the forces and acceleration live.',
     tagline: 'Set angle, mass and friction, and see whether the block slides.',
     keywords: ['inclined plane', 'ramp physics', 'friction', 'normal force', 'components of gravity', 'inclined plane calculator'],
   },

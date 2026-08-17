@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'cagr-calculator',
   name: 'CAGR Calculator',
   seoTitle: 'CAGR Calculator — Compound Annual Growth Rate',
-  description: 'Calculate compound annual growth rate live from a starting value, ending value, and period, with total growth and doubling time.',
+  description: 'Calculate compound annual growth rate live from a start value, end value and period: your annualized return, total growth and doubling time.',
   tagline: 'Compound annual growth rate, total growth and doubling time.',
   categorySlug: 'money-finance',
   tags: ['cagr calculator', 'compound annual growth rate', 'annualized return calculator', 'cagr formula', 'growth rate calculator', 'annual growth rate', 'investment growth calculator', 'revenue cagr'],

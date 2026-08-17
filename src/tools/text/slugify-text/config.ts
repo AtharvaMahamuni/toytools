@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'slugify-text',
   name: 'Slugify Text',
   seoTitle: 'Slugify Text — URL Slug Generator Online',
-  description: 'Turn any text into a clean, lowercase, hyphenated URL slug.',
+  description: 'Make any text into a clean, lowercase, hyphenated URL slug.',
   categorySlug: 'text-utilities',
   tags: ['slugify text', 'url slug generator', 'text to slug', 'make a slug', 'slug generator', 'permalink generator', 'slugify online'],
   updatedAt: '2026-07-09',

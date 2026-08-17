@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'prime-factorization-calculator',
   name: 'Prime Factorization Calculator',
   seoTitle: 'Prime Factorization Calculator: GCF & LCM',
-  description: 'Factor any number into primes with the divisions narrated in exponent form, plus primality, divisor count, and GCF and LCM against an optional second number.',
+  description: 'Factor any number into its prime factors like a factor tree, with primality, divisor count, and the greatest common factor and LCM against a second number.',
   tagline: 'Factor a number into primes, with the divisions narrated.',
   categorySlug: 'applied-math',
   tags: ['prime factorization calculator', 'factor tree', 'gcf calculator', 'lcm calculator', 'greatest common factor', 'least common multiple', 'prime numbers', 'divisors'],
