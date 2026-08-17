@@ -2,37 +2,7 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [alpha-v7.9] - 2026-08-17
-
-### Removed
-
-- **The privacy FAQ that appeared, word for word, on sixteen pages.** "Does the simulator send my
-  data anywhere?" and its answer were byte-identical across seven physics simulations, and six more
-  carried the same answer lightly reworded so it never showed up as a duplicate. `age-calculator` and
-  `date-difference-calculator` shared theirs too. It was always the last question, and every page
-  already says the same thing better: the "Private ● Runs entirely in your browser" badge sits under
-  the tool with a tooltip that explains it. Near-duplicate content pairs across the catalog dropped
-  from 33 to 8, and nothing now sits above 79% similarity.
-
-### Changed
-
-- **All fourteen simulations now pass their content gate**, up from eleven. The three that failed
-  did so because their pages never said what they model. The probability lab now talks about dice,
-  odds and running an experiment; the spring simulation names SHM, spring oscillation and Hooke's
-  law; the gas simulation names Boyle's law, Charles's law and kinetic theory, and its
-  "pressure comes from the gas weight" mistake heading now states the answer instead of only the
-  misconception. Each went from matching 3 of its 7 known search phrasings to 7 of 7.
-- Catalog-wide query targeting reached **82.5%**, from 78.7%.
-
-### Fixed
-
-- **The query-coverage checker was scoring punctuation rather than coverage.** It stripped
-  apostrophes from a visitor's query but not from the page, so a page correctly writing "Hooke's law"
-  could never match somebody typing "hookes law", and the apparent remedy was to misspell the prose.
-  Both sides are normalized now. Several tools were already answering queries the gate had been
-  marking as missed.
-
-## [alpha-v7.8] - 2026-08-17
+## [alpha-v7.10] - 2026-08-17
 
 ### Added
 
@@ -40,60 +10,80 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   guides were reachable only from their own tool page and from each other, which left 56 of 121 at
   click depth 3 from the homepage. All 121 are now at depth 2. A plain list of links below the tool
   rows, because the tools are what a category page is for.
-- **Health calculators name the published method they implement.** BMI cites the WHO classification,
-  BMR and TDEE the Mifflin-St Jeor equation, body fat the US Navy circumference method, ideal weight
-  the Devine, Robinson, Miller and Hamwi formulas, heart-rate zones the Karvonen method over a
-  Tanaka maximum, and macros the Atwater factors. Every one of those is what the engine actually
-  runs and what its unit tests pin. Nothing on a tool page previously said where its numbers came
-  from, which matters most exactly where we compete with health bodies and banks.
+- **Twenty tools now name the published method they implement**, in one line under the tool. BMI
+  cites the WHO classification, BMR and TDEE the Mifflin-St Jeor equation, body fat the US Navy
+  circumference method, ideal weight the Devine, Robinson, Miller and Hamwi formulas, heart-rate
+  zones the Karvonen method over a Tanaka maximum, one-rep max the Epley, Brzycki and Lombardi
+  formulas, running pace the Riegel model, the colour checker the WCAG relative-luminance ratio, and
+  the finance tools periodic compounding, CAGR, the Rule of 72 or the annuity formula. Every one is
+  what the engine actually runs and what its unit tests pin. Nothing on a tool page previously said
+  where its numbers came from, which matters most where we compete with health bodies and banks.
+  The physics simulations are deliberately excluded: they already render their equation in a
+  dedicated panel, and PV = nRT is not one method among several.
+- **Curated workflow links on nineteen tools** that had none, each carrying the reason it exists:
+  BMI to ideal weight and body fat, TDEE to BMR and on to macros, cron to systemd timers, unix
+  timestamps to time zones, HTML entities to URL encoding and on to JSON escaping.
 
 ### Changed
 
-- **Six text tools now answer the words people actually type.** `remove-line-breaks` never used
-  "join lines", "newlines" or "strip" anywhere a search engine weights, only "line breaks", and it
-  matched 1 of its 7 known phrasings; it now matches 7 of 7. `kebab-case-converter` never said "dash
-  case", `snake-case-converter` never said "underscore case", `remove-duplicate-lines` never said
-  "dedupe" or "unique lines", `trim-text` never said "strip spaces", `normalize-whitespace` never
-  said "clean whitespace". Catalog-wide query targeting went from 75.3% to 78.7% and the ratchet
-  floor moved with it.
+- **Every tool now answers the words people actually type.** Query targeting went from 75.3% to
+  **100% (361 of 361 known phrasings)**. `remove-line-breaks` matched 1 of its 7 and never used
+  "join lines", "newlines" or "strip" anywhere weighted. The colour checker never said "contrast
+  ratio". The ROT13 tool never said "Caesar cipher", which is what it is. The SIP calculator never
+  said "mutual fund". `px-to-dp` never said "density independent". BMR now names Harris-Benedict as
+  the equation Mifflin-St Jeor replaced, which is true and is what people search for.
+- **All fourteen simulations pass their content gate**, up from eleven. The three that failed never
+  said what they model: the probability lab now talks about dice, odds and running an experiment;
+  the spring simulation names SHM, spring oscillation and Hooke's law; the gas simulation names
+  Boyle's law, Charles's law and kinetic theory, and its "pressure comes from the gas weight"
+  heading now states the answer rather than only the misconception.
 - **Pixel 5 is a pull-request gate.** It ran locally and weekly but not on a PR, and
   `tests/e2e/fold.spec.ts` skips off Pixel 5 entirely, so the fold ratchet never ran on a pull
   request and a phone regression could merge green on a phone-first catalog. Both projects now run
   as parallel CI legs.
-
-### Fixed
-
-- The six text tools above had been **failing the content gate unnoticed**. The gate only runs on
-  tool directories a branch touches, and nothing had touched theirs since the gate was written.
-
-## [alpha-v7.7.1] - 2026-08-17
+- **Tapping a control now looks like tapping a control.** Every interactive class in
+  `tool-widget.css` declared a `:hover` state and none declared `:active`, so on a phone, where
+  there is no hover, pressing a button, a stepper, a preset chip or a stat row produced no
+  acknowledgement at all. All eleven now have a pressed state, honouring `prefers-reduced-motion`.
+- The return key on calculator inputs is labelled **Done** (`enterkeyhint`), which puts the keyboard
+  away and reveals the result instead of leaving an unlabelled action.
 
 ### Fixed
 
 - **Every guide page published a date search engines could not read.** `datePublished` and
   `dateModified` were emitted as `"Jul 2026"` on 102 of the 121 guides, which is not ISO 8601, so
-  Google dropped both properties and the `Article` markup was degraded everywhere. The cause was one
-  field doing two jobs: `guide.updatedAt` was documented as a display string and fed straight into
-  the schema. It is now an ISO date, and the visible "Updated Jun 2026" line is derived from it at
-  render time by `formatMonthYear` (`src/lib/dates.ts`).
-- **The 19 guides that were already valid were showing a raw `2026-06-07` to readers** — the same
-  bug seen from the other side. All 121 now read "Updated Jun 2026" and all 121 emit a valid date.
-- `validate-registry` now fails the build on a non-ISO `updatedAt`, on the guide and the tool alike,
-  so neither half can drift back.
+  Google dropped both properties and the `Article` markup was degraded everywhere. One field was
+  doing two jobs: `guide.updatedAt` was documented as a display string and fed straight into the
+  schema. It is an ISO date now, and the visible "Updated Jun 2026" line is derived from it at render
+  time by `formatMonthYear` (`src/lib/dates.ts`).
+- **The 19 guides that were already valid were showing a raw `2026-06-07` to readers**, the same bug
+  from the other side. All 121 now read "Updated Jun 2026" and all 121 emit a valid date.
+  `validate-registry` fails the build on a non-ISO date now, on the guide and the tool alike.
 - **Nothing on a tool page said when it was last touched, or who publishes it.** The
   `SoftwareApplication` markup gained `dateModified` (from the tool's own ISO date, which every
   config already carried and nothing used) and a `publisher`. Guides had both; the page that carries
   the head term had neither. No ratings were invented to go with them.
+- **Seventeen guides were absent from the knowledge graph entirely.** `RELATED_GUIDE` is derived
+  through a helper that excludes self, so a guide was only ever reachable from *sibling* tools, and
+  any guide no sibling ranked had no edge at all, `guide:word-counter` among them. A tool now points
+  at its own guide via a distinct `HAS_GUIDE` relation, which leaves every rendered list unchanged.
+  Orphans 17 to 0; graph edges 1921 to 2080.
+- **The query-coverage checker was scoring punctuation rather than coverage.** It stripped
+  apostrophes from a visitor's query but not from the page, so a page correctly writing "Hooke's law"
+  could never match somebody typing "hookes law", and the apparent remedy was to misspell the prose.
+  Both sides are normalized now.
+- Six text tools had been **failing the content gate unnoticed**. The gate only runs on tool
+  directories a branch touches, and nothing had touched theirs since the gate was written.
 
-### Changed
+### Removed
 
-- **Tapping a control now looks like tapping a control.** Every interactive class in
-  `tool-widget.css` declared a `:hover` state and none declared `:active`, so on a phone — where
-  there is no hover — pressing a button, a stepper, a preset chip or a stat row produced no
-  acknowledgement at all. All eleven now have a pressed state, honouring `prefers-reduced-motion`.
-- The return key on calculator inputs is labelled **Done** (`enterkeyhint`), which puts the keyboard
-  away and reveals the result instead of leaving an unlabelled action. Reaches 27 tool pages, up
-  from 2.
+- **The privacy FAQ that appeared, word for word, on sixteen pages.** "Does the simulator send my
+  data anywhere?" and its answer were byte-identical across seven physics simulations, and six more
+  carried the same answer lightly reworded so it never showed up as a duplicate. `age-calculator`
+  and `date-difference-calculator` shared theirs too. It was always the last question, and every
+  page already says the same thing better: the "Private ● Runs entirely in your browser" badge sits
+  under the tool with a tooltip that explains it. Near-duplicate content pairs across the catalog
+  dropped from 33 to 8, and nothing now sits above 79% similarity.
 
 ## [alpha-v7.7] - 2026-08-16
 

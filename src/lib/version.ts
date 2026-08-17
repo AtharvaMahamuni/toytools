@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 9,
+  minor: 10,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-17',
-  description: 'All simulations pass their content gate, and the duplicated privacy FAQ is gone',
+  description: 'Every tool answers the words people type, every guide is in the graph',
 };
 
 export function formatVersion(config: VersionConfig): string {
