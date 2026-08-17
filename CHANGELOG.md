@@ -27,21 +27,6 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   are now declared craft. Both were already built and already silent until needed; only the
   declaration was missing.
 
-## [alpha-v7.11] - 2026-08-17
-
-### Added
-
-- **All five hash generators can now check a digest against the one you were given.** Paste the
-  expected hash, or a whole line of `sha256sum` output, and the tool says whether it matches. It
-  accepts the shapes people actually copy: `sha256sum` output with the filename attached, an
-  `algo:hex` prefix as Docker prints it, uppercase from Windows `certutil`, and whitespace from a
-  terminal or PDF copy.
-- **The reason it exists is the wrong-algorithm case.** A 40-character digest pasted into the SHA-256
-  tool is a SHA-1 digest, and every tool that just reports "no match" sends somebody re-downloading a
-  file that was never broken. Each hasher knows its own digest length, so the engine names the
-  algorithm that does fit and says the file is fine. Reaches MD5, SHA-1, SHA-256, SHA-512 and CRC32
-  through one engine verb and one shared component, rather than five bespoke widgets.
-
 ## [alpha-v7.10] - 2026-08-17
 
 ### Added
