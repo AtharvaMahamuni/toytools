@@ -66,12 +66,14 @@ const report = process.argv.includes('--report');
  * a tool shipped with nothing of its own, and a box rise means craft was bought with clutter.
  */
 const THRESHOLDS = {
-  // 2026-08-17: 10/107 (9.3%), up from 5/107, after the hashing engine gained a digest-comparison
-  // seam. One engine verb plus one shared component gave all five hash generators the same touch,
-  // which is the shape the doctrine asks for: the widget renders it, each processor supplies its own
-  // knowledge (here, its digest length, so a 40-character paste is named as SHA-1 rather than
-  // reported as a mismatch).
-  coverage: 0.093,
+  // 2026-08-17: 0.149 (16/107), from 0.046 (5/107). Two engine seams, not eleven touches, which is
+  // the only way this backlog moves without multiplying widgets:
+  //   hashing (5)          a `compare` verb + DigestMatch. Each hasher supplies its own digest
+  //                        length, so a 40-character paste is named as SHA-1 rather than reported
+  //                        as a mismatch — the failure that sends people re-downloading good files.
+  //   structured-data (6)  a `repair` resolver + one button. Each processor declares whether ITS
+  //                        input is JSON, so csv-to-json and yaml-to-json render nothing at all.
+  coverage: 0.149,
   boxesPerTool: 7,
   rawHex: 9,
 };

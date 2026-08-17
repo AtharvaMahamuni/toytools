@@ -19,4 +19,12 @@ export interface StructuredDataTool {
   family: StructuredDataFamily;
   /** Pure, synchronous. Parses + operates, never throws — failures become a result error. */
   execute(input: string): StructuredDataResult;
+  /**
+   * True when this tool's *input* is JSON, so a JSON repair offer applies to it.
+   *
+   * Not derivable from `family`: every tool here is JSON-family, but `csv-to-json` and
+   * `yaml-to-json` consume CSV and YAML, and offering to strip a trailing comma from a CSV file
+   * would be gibberish. The processor owns the answer, per the craft doctrine.
+   */
+  jsonInput?: boolean;
 }

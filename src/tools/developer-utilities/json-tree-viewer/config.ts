@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'json-tree-viewer',
   toolGroup: 'json-tools',
   relatedTools: ['json-formatter', 'json-minifier', 'json-validator'],
+  craft: {
+    id: 'json-tree-viewer-repair',
+    kind: 'recovery',
+    solves: 'JSON.parse names a character offset the user has to count to by hand, and the two commonest causes are not their mistake at all: a trailing comma that is legal in JavaScript, and the smart quotes a word processor inserts silently.',
+  },
   guide: {
     slug: 'json-tree-viewer',
     categorySlug: 'developer-utilities',

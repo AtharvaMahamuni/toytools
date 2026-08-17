@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'json-to-yaml',
   toolGroup: 'json-yaml',
   relatedTools: ['yaml-to-json-converter', 'json-formatter', 'json-validator', 'json-to-csv-converter'],
+  craft: {
+    id: 'json-to-yaml-repair',
+    kind: 'recovery',
+    solves: 'JSON.parse names a character offset the user has to count to by hand, and the two commonest causes are not their mistake at all: a trailing comma that is legal in JavaScript, and the smart quotes a word processor inserts silently.',
+  },
   guide: {
     slug: 'json-to-yaml-converter',
     categorySlug: 'developer-utilities',

@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'json-to-csv',
   toolGroup: 'json-csv',
   relatedTools: ['csv-to-json-converter', 'json-formatter', 'json-validator', 'json-minifier'],
+  craft: {
+    id: 'json-to-csv-repair',
+    kind: 'recovery',
+    solves: 'JSON.parse names a character offset the user has to count to by hand, and the two commonest causes are not their mistake at all: a trailing comma that is legal in JavaScript, and the smart quotes a word processor inserts silently.',
+  },
   guide: {
     slug: 'json-to-csv-converter',
     categorySlug: 'developer-utilities',

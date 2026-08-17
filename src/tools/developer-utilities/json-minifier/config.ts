@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'json-minifier',
   toolGroup: 'json-tools',
   relatedTools: ['json-formatter', 'json-validator'],
+  craft: {
+    id: 'json-minifier-repair',
+    kind: 'recovery',
+    solves: 'JSON.parse names a character offset the user has to count to by hand, and the two commonest causes are not their mistake at all: a trailing comma that is legal in JavaScript, and the smart quotes a word processor inserts silently.',
+  },
   guide: {
     slug: 'what-is-json-minification',
     categorySlug: 'developer-utilities',

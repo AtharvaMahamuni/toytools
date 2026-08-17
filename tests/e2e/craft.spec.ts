@@ -189,3 +189,44 @@ test.describe('digest verification (the hashing craft seam)', () => {
     await expect(page.locator('[data-digest-expected]')).toHaveCount(0);
   });
 });
+
+test.describe('JSON repair (the structured-data craft seam)', () => {
+  test('json-formatter offers to remove a trailing comma, and applying it works', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    const input = page.locator('#json-formatter-input');
+    const offer = page.locator('[data-craft="json-formatter-repair"]');
+
+    await expect(offer).toBeHidden();
+    await input.fill('{"a": 1, "b": 2,}');
+    await expect(offer).toBeVisible();
+    await expect(offer).toHaveText('Remove the trailing comma');
+
+    await offer.click();
+    await expect(page.locator('#json-formatter-status')).toHaveAttribute('data-ok', 'true');
+    await expect(offer).toBeHidden();
+  });
+
+  test('it names smart quotes, the fault a document introduces', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-validator/');
+    await page.locator('#json-validator-input').fill('{“a”: 1}');
+    await expect(page.locator('[data-craft="json-validator-repair"]')).toContainText('smart quotes');
+  });
+
+  test('it stays silent on valid JSON', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await page.locator('#json-formatter-input').fill('{"a": 1}');
+    await expect(page.locator('[data-craft="json-formatter-repair"]')).toBeHidden();
+  });
+
+  test('it stays silent on a fault it cannot honestly fix', async ({ page }) => {
+    // A missing brace is not a repair this knows how to make, and guessing is worse than quiet.
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await page.locator('#json-formatter-input').fill('{"a": 1');
+    await expect(page.locator('[data-craft="json-formatter-repair"]')).toBeHidden();
+  });
+
+  test('a tool whose input is not JSON renders no repair offer', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/yaml-to-json-converter/');
+    await expect(page.locator('.sd-repair')).toHaveCount(0);
+  });
+});

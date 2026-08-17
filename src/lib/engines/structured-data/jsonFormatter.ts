@@ -4,6 +4,7 @@ import type { StructuredDataTool } from './types';
 export const jsonFormatter: StructuredDataTool = {
   id: 'json-formatter',
   family: 'json',
+  jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     try {

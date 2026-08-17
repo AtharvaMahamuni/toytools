@@ -6,6 +6,7 @@ import type { StructuredDataTool } from './types';
 export const jsonTreeViewer: StructuredDataTool = {
   id: 'json-tree-viewer',
   family: 'json',
+  jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     try {

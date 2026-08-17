@@ -13,6 +13,7 @@ function escapeCell(value: unknown): string {
 export const jsonToCsv: StructuredDataTool = {
   id: 'json-to-csv',
   family: 'json',
+  jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     let parsed: unknown;

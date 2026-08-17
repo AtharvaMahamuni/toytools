@@ -4,6 +4,7 @@ import type { StructuredDataTool } from './types';
 export const jsonMinifier: StructuredDataTool = {
   id: 'json-minifier',
   family: 'json',
+  jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     try {

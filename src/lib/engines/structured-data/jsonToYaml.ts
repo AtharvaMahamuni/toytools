@@ -5,6 +5,7 @@ import { serializeToYaml, DEFAULT_YAML_OPTIONS } from '@lib/json/yaml';
 export const jsonToYaml: StructuredDataTool = {
   id: 'json-to-yaml',
   family: 'json',
+  jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     let parsed: unknown;
