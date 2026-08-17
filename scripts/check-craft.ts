@@ -71,13 +71,18 @@ const THRESHOLDS = {
   //   hashing (5)          a `compare` verb + DigestMatch. Each hasher supplies its own digest
   //                        length, so a 40-character paste is named as SHA-1 rather than reported
   //                        as a mismatch — the failure that sends people re-downloading good files.
-  //   structured-data (6)  a `repair` resolver + one button. Each processor declares whether ITS
+  //   structured-data (5)  a `repair` resolver + one button. Each processor declares whether ITS
   //                        input is JSON, so csv-to-json and yaml-to-json render nothing at all.
+  //                        json-tree-viewer is JSON-input but is a bespoke 32 KB widget rather than
+  //                        StructuredDataWidget, so the shared button never reaches it. Declaration
+  //                        removed rather than half-wired; it stays on the backlog.
   // Plus 2 declarations of touches that were already built and simply undeclared: the JWT live
   // validity panel and the contrast checker's suggest-a-passing-colour button. Both pass the four
   // doctrine tests and both were already silent-until-needed; only `craft:` and a data-craft
   // attribute were missing. Recorded separately because declaring is not building, and a coverage
-  // number that blurs the two would mislead the next person reading it. 18/107 = 0.168.
+  // number that blurs the two would mislead the next person reading it.
+  // Plus password-generator: its exclude-ambiguous option already rendered too, and generator craft
+  // is an option rather than a panel, so GeneratorField gained an optional craft marker. 19/107.
   coverage: 0.168,
   boxesPerTool: 7,
   rawHex: 9,

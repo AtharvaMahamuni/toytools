@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 11,
+  minor: 12,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-17',
-  description: 'Hash generators can check a digest against the one you were given',
+  description: 'Craft touches on eighteen tools, via engine seams',
 };
 
 export function formatVersion(config: VersionConfig): string {

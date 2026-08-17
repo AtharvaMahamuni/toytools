@@ -261,3 +261,17 @@ test.describe('pre-existing touches, now declared', () => {
     await expect(panel).toContainText(/expired/i);
   });
 });
+
+test.describe('password guardrail', () => {
+  test('excluding ambiguous characters removes O 0 l 1 from the output', async ({ page }) => {
+    await page.goto('/tool/generate/password-generator/');
+    const toggle = page.locator('[data-craft="pwd-unambiguous"] input');
+    const out = page.locator('#password-generator-text');
+
+    await page.locator('#password-generator-f-length').fill('120');
+    await toggle.check();
+    await page.locator('#password-generator-regenerate').click();
+    await expect(out).not.toBeEmpty();
+    await expect(out).not.toHaveText(/[O0Il1]/);
+  });
+});

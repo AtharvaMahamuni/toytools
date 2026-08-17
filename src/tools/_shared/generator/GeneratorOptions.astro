@@ -49,7 +49,7 @@ const rows = fields.map((f) => {
           : {})}
       >
         {field.type === 'boolean' ? (
-          <label class="gen-check" for={fid(field.id)}>
+          <label class="gen-check" for={fid(field.id)} data-craft={field.craft}>
             <input type="checkbox" id={fid(field.id)} checked={field.default === true} />
             <span>{field.label}</span>
           </label>
