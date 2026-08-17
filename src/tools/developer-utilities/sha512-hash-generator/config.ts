@@ -16,6 +16,11 @@ export const config: ToolConfig = {
   processorId: 'sha512',
   toolGroup: 'hash-generators',
   relatedTools: ['sha256-hash-generator', 'sha1-hash-generator', 'md5-hash-generator'],
+  craft: {
+    id: 'sha512-verify',
+    kind: 'verification',
+    solves: 'A digest is only useful against the one you were given, and comparing 32 to 128 hex characters by eye is the task people are worst at; worse, a digest of the wrong length reads as a corrupt file rather than as the wrong algorithm.',
+  },
   guide: {
     slug: 'sha512-hash-generator',
     categorySlug: 'developer-utilities',

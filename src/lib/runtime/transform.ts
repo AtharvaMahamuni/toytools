@@ -47,5 +47,11 @@ export function registerTransformProvider(TT: ToyToolsGlobal, kind: string, prov
       const p = PROVIDERS[kind];
       return p && p.recover ? p.recover(id, mode, input) : null;
     },
+    // Optional in the same way: only hashing has an output the user arrived holding a copy of.
+    // Everything else returns null and the widget's comparison row stays hidden.
+    compare: (kind: string, id: string, expected: string, actual: string) => {
+      const p = PROVIDERS[kind];
+      return p && p.compare ? p.compare(id, expected, actual) : null;
+    },
   };
 }

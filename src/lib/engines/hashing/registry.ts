@@ -12,10 +12,12 @@ import type {
   TransformProvider,
   TransformResult,
   ValidationDetail,
+  DigestComparison,
 } from '../transform/types';
 import { md5 } from './md5';
 import { sha1, sha256, sha512 } from './sha';
 import { crc32 } from './crc32';
+import { compareDigest } from './compare';
 
 // Keyed by hasher id, referenced from a tool config's `processorId`.
 export const HASHERS: Record<string, HashTool> = {
@@ -68,7 +70,40 @@ export function hashInfo(id: string): TransformInfo {
     insight: h?.insight,
     technical: h?.technical,
     sample: h?.sample,
+    // Every hasher can be checked against a digest the user was given; nothing else on this engine
+    // contract can. See compare.ts for why the wrong-length case is the one that earns it.
+    comparable: true,
+    compareLabel: 'Paste the digest you were given',
   };
+}
+
+/** Hex digest length per hasher, so a wrong-length paste can be named rather than just rejected. */
+function digestLengths(): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [id, h] of Object.entries(HASHERS)) {
+    if (h.bits) out[id] = h.bits / 4;
+  }
+  return out;
+}
+
+function displayNames(): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [id, h] of Object.entries(HASHERS)) out[id] = h.displayName ?? id.toUpperCase();
+  return out;
+}
+
+/**
+ * Check a computed digest against one the user pasted.
+ *
+ * The per-hasher knowledge is its digest length, which is why this belongs to the engine rather
+ * than the widget: only the registry knows that 40 hex characters is SHA-1 and not a broken
+ * SHA-256. Returns null when there is nothing worth saying, which is most of the time.
+ */
+export function compareHash(id: string, expected: string, actual: string): DigestComparison | null {
+  const h = HASHERS[id];
+  const ownLength = h?.bits ? h.bits / 4 : actual.length;
+  if (!ownLength) return null;
+  return compareDigest(expected, actual, ownLength, digestLengths(), displayNames());
 }
 
 /** Live metadata rows derived from the digest size. */
@@ -102,4 +137,5 @@ export const hashingProvider: TransformProvider = {
   validate: (id, _mode, input) => validateHash(id, input),
   meta: (id, input, output) => hashMeta(id, input, output),
   info: hashInfo,
+  compare: compareHash,
 };

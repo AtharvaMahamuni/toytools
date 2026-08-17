@@ -23,6 +23,7 @@ import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astr
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
 import RecoveryOffer from '@tools/_shared/converter/RecoveryOffer.astro';
+import DigestMatch from '@tools/_shared/converter/DigestMatch.astro';
 import BinaryByteViewer from '@tools/_shared/converter/BinaryByteViewer.astro';
 import { encodingInfo } from '@lib/engines/encoding/registry';
 import { hashInfo } from '@lib/engines/hashing/registry';
@@ -55,6 +56,7 @@ const metaId = `${slug}-meta`;
 const historyId = `${slug}-history`;
 const byteId = `${slug}-byteview`;
 const recoverId = `${slug}-recover`;
+const matchId = `${slug}-match`;
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
@@ -106,6 +108,13 @@ const recoverId = `${slug}-recover`;
 
 <StatusIndicator id={statusId} />
 {info.recoverable && <RecoveryOffer id={recoverId} craftId={config.craft?.id} />}
+{info.comparable && (
+  <DigestMatch
+    id={matchId}
+    label={info.compareLabel ?? 'Check against a digest you were given'}
+    craftId={config.craft?.id}
+  />
+)}
 
 <ToolActions
   pasteTarget={inputId}
@@ -185,6 +194,43 @@ const recoverId = `${slug}-recover`;
       return { offer: offer, hide: hide };
     })(document.getElementById(slug + '-recover'));
 
+    // ── Digest comparison controller (the hashing craft seam) ─────────────
+    // Nobody hashes a string to look at it: they hash it to find out whether it matches a digest
+    // they were handed. The engine owns the knowledge (each hasher knows its own digest length, so
+    // a 40-character paste here is named as SHA-1 instead of reported as a mismatch); this only
+    // moves text between the field and the line under it.
+    //
+    // Re-runs on BOTH edges, because either side can change: a new digest arrives when the source
+    // text changes, and a new expectation arrives when the user pastes. Driving it from one edge
+    // only leaves a stale verdict on screen, which is worse than none.
+    var digestMatch = (function (wrap) {
+      if (!wrap) return { sync: function () {}, clear: function () {} };
+      var field = wrap.querySelector('[data-digest-expected]');
+      var line = wrap.querySelector('[data-digest-result]');
+      var current = '';   // the digest last computed, kept so a paste can be checked immediately
+
+      function paint(r) {
+        if (!line) return;
+        if (!r) { line.hidden = true; line.textContent = ''; line.removeAttribute('data-state'); return; }
+        line.textContent = r.message;
+        line.setAttribute('data-state', r.state);
+        line.hidden = false;
+      }
+
+      function evaluate() {
+        var T = tx();
+        if (!T || !T.compare || !field) { paint(null); return; }
+        paint(T.compare(kind, pid, field.value, current));
+      }
+
+      if (field) field.addEventListener('input', evaluate);
+
+      return {
+        sync: function (digest) { current = digest || ''; evaluate(); },
+        clear: function () { current = ''; paint(null); },
+      };
+    })(document.getElementById(slug + '-match'));
+
     // ── Metadata controller ──────────────────────────────────────────────
     var meta = (function (el) {
       function clear() { if (el) { el.hidden = true; el.innerHTML = ''; } }
@@ -261,6 +307,7 @@ const recoverId = `${slug}-recover`;
       status.clear();
       meta.clear();
       recovery.hide();
+      digestMatch.clear();
     }
 
     // ── Core controller (sync or async · two-way · loop prevention) ────────
@@ -292,6 +339,7 @@ const recoverId = `${slug}-recover`;
       renderStatus(v, res, detect);
       meta.render(res.ok && T ? T.meta(kind, pid, t, res.output, mode) : []);
       recovery.offer(t, mode);
+      digestMatch.sync(res.ok ? res.output : '');
       if (res.ok && res.output) history.push(t, res.output);
     }
 

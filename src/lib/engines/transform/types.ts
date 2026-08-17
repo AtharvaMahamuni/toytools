@@ -49,6 +49,20 @@ export interface MetaItem {
  * That is what makes base64 and hex stop being the same page with a different processorId.
  * See docs/analysis/2026-08-11-tool-craft.md.
  */
+/**
+ * The result of checking a computed output against one the user was handed.
+ *
+ * Declared here rather than in the hashing engine for the same reason `RecoveryOffer` is: the
+ * shared widget renders it, so the contract belongs to the generic transform layer and the engine
+ * imports it. `wrong-length` is the state that earns the whole affordance — pasting a SHA-1 digest
+ * into a SHA-256 tool looks exactly like a corrupt file unless something says otherwise.
+ */
+export interface DigestComparison {
+  state: 'match' | 'mismatch' | 'wrong-length' | 'unreadable';
+  /** One line, phrased as the answer to the user's question, not a description of the check. */
+  message: string;
+}
+
 export interface RecoveryOffer {
   /**
    * What the fix is, phrased as the thing the user gets, short enough for one line on a phone.
@@ -107,6 +121,12 @@ export interface TransformInfo {
   /** True when this processor implements `recover`, so the widget can render the offer's slot at
    *  build time and leave it empty on processors that have no honest fix to offer. */
   recoverable?: boolean;
+  /** True when this processor implements `compare`, i.e. its output is a value the user arrived
+   *  holding a copy of and needs to check theirs against. Hashing sets it; a case converter does
+   *  not, because nobody is handed an expected kebab-case string to verify. */
+  comparable?: boolean;
+  /** Placeholder for the compare field, in this processor's own vocabulary. */
+  compareLabel?: string;
 }
 
 /** A provider implements the verbs for one `kind`. The runtime facade dispatches to it.
@@ -119,4 +139,7 @@ export interface TransformProvider {
   info(id: string): TransformInfo;
   /** Offer a one-tap fix for malformed input, or null when there is no honest one. Pure. */
   recover?(id: string, mode: string, input: string): RecoveryOffer | null;
+  /** Check the computed output against a value the user was given, or null when there is nothing
+   *  worth saying (the common case: they have not pasted anything). Pure. */
+  compare?(id: string, expected: string, actual: string): DigestComparison | null;
 }

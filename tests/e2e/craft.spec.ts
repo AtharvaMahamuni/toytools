@@ -124,3 +124,68 @@ test.describe('encoding recovery (the craft seam)', () => {
     await expect(page.locator('.conv-recover')).toHaveCount(0);
   });
 });
+
+test.describe('digest verification (the hashing craft seam)', () => {
+  const ABC_SHA256 = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
+
+  test('sha256 confirms a matching digest', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    const result = page.locator('[data-digest-result]');
+
+    // Silent before anything is asked of it.
+    await expect(result).toBeHidden();
+
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill(ABC_SHA256);
+    await expect(result).toBeVisible();
+    await expect(result).toHaveAttribute('data-state', 'match');
+  });
+
+  test('sha256 accepts a whole line of sha256sum output, filename and all', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill(`${ABC_SHA256}  ./archive.tar.gz`);
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'match');
+  });
+
+  test('sha256 reports a real mismatch', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill('f'.repeat(64));
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'mismatch');
+  });
+
+  test('a SHA-1 digest pasted into the SHA-256 tool is named, not called a mismatch', async ({ page }) => {
+    // The failure the whole affordance exists for: without this, a wrong-algorithm paste reads as
+    // a corrupt file and sends somebody re-downloading something that was never broken.
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill('a9993e364706816aba3e25717850c26c9cd0d89d');
+    const result = page.locator('[data-digest-result]');
+    await expect(result).toHaveAttribute('data-state', 'wrong-length');
+    await expect(result).toContainText('SHA-1');
+  });
+
+  test('the verdict follows the source text, not just the pasted digest', async ({ page }) => {
+    // Both edges drive it. Changing the input after a match must re-evaluate, or a stale "Matches"
+    // stays on screen for text that no longer produces that digest.
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill(ABC_SHA256);
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'match');
+
+    await page.locator('#sha256-hash-generator-input').fill('abcd');
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'mismatch');
+  });
+
+  test('it stays silent while only the source text is filled', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/md5-hash-generator/');
+    await page.locator('#md5-hash-generator-input').fill('hello');
+    await expect(page.locator('[data-digest-result]')).toBeHidden();
+  });
+
+  test('a tool with no digest to compare renders no comparison row', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/base64-encoder-decoder/');
+    await expect(page.locator('[data-digest-expected]')).toHaveCount(0);
+  });
+});

@@ -66,7 +66,12 @@ const report = process.argv.includes('--report');
  * a tool shipped with nothing of its own, and a box rise means craft was bought with clutter.
  */
 const THRESHOLDS = {
-  coverage: 0.046,
+  // 2026-08-17: 10/107 (9.3%), up from 5/107, after the hashing engine gained a digest-comparison
+  // seam. One engine verb plus one shared component gave all five hash generators the same touch,
+  // which is the shape the doctrine asks for: the widget renders it, each processor supplies its own
+  // knowledge (here, its digest length, so a 40-character paste is named as SHA-1 rather than
+  // reported as a mismatch).
+  coverage: 0.093,
   boxesPerTool: 7,
   rawHex: 9,
 };
