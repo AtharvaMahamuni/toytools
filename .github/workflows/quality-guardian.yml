@@ -104,14 +104,21 @@ jobs:
           name: playwright-report-${{ matrix.project }}
           path: playwright-report/
 
-  # Content quality gate for the tools touched in a PR. Non-blocking for now: existing tools may
-  # sit below the bar until the content pass lands. Flip `continue-on-error` to false (and drop
-  # this comment) once every tool passes `seo:gate`, to make the human-voice bar a merge gate.
+  # Content quality gate for the tools touched in a PR, and a real merge gate since 2026-08-17.
+  #
+  # It was non-blocking from the day it was written, because existing tools sat below the bar and a
+  # blocking gate would have failed every PR. Its own comment said to flip it "once every tool passes
+  # seo:gate", and that is now true: all 107 widget-backed tools pass `seo:gate` and all 14
+  # simulations pass `seo:gate:sim`, verified by sweeping every slug individually rather than
+  # trusting the changed-tool subset. So the human-voice bar is now enforced on merge.
+  #
+  # Worth knowing why the sweep mattered: this job only gates directories a branch touches, so six
+  # text tools had been failing it unnoticed for weeks. A blocking gate does not remove that blind
+  # spot, it only stops new work walking past the bar.
   content-gate:
     name: Content Gate (changed tools)
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
         with:
