@@ -73,7 +73,12 @@ const THRESHOLDS = {
   //                        as a mismatch — the failure that sends people re-downloading good files.
   //   structured-data (6)  a `repair` resolver + one button. Each processor declares whether ITS
   //                        input is JSON, so csv-to-json and yaml-to-json render nothing at all.
-  coverage: 0.149,
+  // Plus 2 declarations of touches that were already built and simply undeclared: the JWT live
+  // validity panel and the contrast checker's suggest-a-passing-colour button. Both pass the four
+  // doctrine tests and both were already silent-until-needed; only `craft:` and a data-craft
+  // attribute were missing. Recorded separately because declaring is not building, and a coverage
+  // number that blurs the two would mislead the next person reading it. 18/107 = 0.168.
+  coverage: 0.168,
   boxesPerTool: 7,
   rawHex: 9,
 };

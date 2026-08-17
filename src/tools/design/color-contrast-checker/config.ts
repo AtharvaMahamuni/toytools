@@ -16,6 +16,11 @@ export const config: ToolConfig = {
     name: 'WCAG 2.x relative luminance',
     detail: 'Contrast is the WCAG ratio built from relative luminance, checked against the 4.5:1 and 7:1 thresholds rather than eyeballed.',
   },
+  craft: {
+    id: 'ccc-suggest',
+    kind: 'continuation',
+    solves: 'A contrast checker that says "fails AA" and stops leaves the only question that matters unanswered, which is what colour would pass; picking one by hand means nudging a hex value and re-checking.',
+  },
   guide: {
     slug: 'color-contrast-checker',
     categorySlug: 'design',

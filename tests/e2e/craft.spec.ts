@@ -230,3 +230,34 @@ test.describe('JSON repair (the structured-data craft seam)', () => {
     await expect(page.locator('.sd-repair')).toHaveCount(0);
   });
 });
+
+test.describe('pre-existing touches, now declared', () => {
+  test('the contrast checker offers a passing colour only once AA fails', async ({ page }) => {
+    await page.goto('/tool/design/color-contrast-checker/');
+    const offer = page.locator('[data-craft="ccc-suggest"]');
+
+    // Silent while the pair already passes.
+    await page.locator('#ccc-fg').fill('#000000');
+    await page.locator('#ccc-bg').fill('#ffffff');
+    await expect(offer).toBeHidden();
+
+    // Appears when it fails, and applying it reaches a passing ratio.
+    await page.locator('#ccc-fg').fill('#bbbbbb');
+    await expect(offer).toBeVisible();
+    await offer.click();
+    await expect(page.locator('[data-craft="ccc-suggest"]')).toBeHidden();
+  });
+
+  test('the JWT validity panel answers whether the token is expired', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/jwt-decoder/');
+    const panel = page.locator('[data-craft="jwt-validity"]');
+    await expect(panel).toBeHidden();
+
+    // A token whose exp is in the past: header {"alg":"HS256"}, payload {"exp":1000000000}
+    await page.locator('#jwt-decoder-input').fill(
+      'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjEwMDAwMDAwMDB9.sig',
+    );
+    await expect(panel).toBeVisible();
+    await expect(panel).toContainText(/expired/i);
+  });
+});
