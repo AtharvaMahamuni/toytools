@@ -174,6 +174,77 @@ Recorded with what each actually needs, so none of them silently becomes nobody'
 | **75 of 121 tools have no demand evidence.** | **NOT DONE** | RIE dataset authorship, which CLAUDE.md names as one of the two judgment calls never delegated. Inventing evidence to fill the gap would corrupt the input the whole roadmap is scored from. |
 | **Craft coverage is 5/107 against a 4.6% floor.** | **NOT DONE** | 102 tools, one `tool-craft` run each, and the skill's own rule is that a tool with no honest touch declares none. This is a standing backlog, not a task. |
 
+## What is still open in existing tools, measured 2026-08-17 after the fixes above
+
+Every number here was measured, not recalled. Two of them corrected an assumption.
+
+### The good news first, so nobody re-audits it
+
+**All 107 non-simulation tools pass `seo:gate`.** This was swept one tool at a time rather than
+trusted, because the changed-tool gate only sees directories a branch touches and the six failures
+found earlier had been hiding behind exactly that. There is no larger hidden backlog: the six were
+the backlog.
+
+### 1. Three simulations fail their gate
+
+Simulations gate through `npm run seo:gate:sim`, not `seo:gate`. Swept separately, 11 of 14 pass:
+
+| tool | failing criterion |
+|---|---|
+| `simple-harmonic-motion-calculator` | `queryTargeting` 43 (need 50) **and** `highImpactActions` 4 (need ≤3) |
+| `probability-calculator` | `queryTargeting` 43 (need 50) |
+| `ideal-gas-law-calculator` | `highImpactActions` 4 (need ≤3) |
+
+### 2. Twelve pairs of identical FAQ answers, across nine tools
+
+`npm run check:duplication` reports 33 near-duplicate pairs, **12 of them at 100%**:
+
+- `faq-6` is byte-identical across `ideal-gas-law`, `momentum-collision`, `inclined-plane`,
+  `doppler-effect` and `simple-harmonic-motion`, with `frequency-period` and `ohms-law` also in the
+  cluster.
+- `faq-5` is byte-identical between `age-calculator` and `date-difference-calculator`.
+
+This is the one item on the list that **nothing gates**: `check:duplication` is WARN-only and is not
+part of `npm run verify`. Identical answers across pages are the definition of the mass-produced
+content Google collapses, and these are sibling tools competing for adjacent queries.
+
+### 3. Seventy-seven untargeted phrasings, concentrated in ~40 tools
+
+Down from 89. The worst, at four missing phrasings each: `simple-harmonic-motion-calculator`,
+`px-to-dp-converter`, `probability-calculator`, `ideal-gas-law-calculator`,
+`color-contrast-checker`. `npm run check:queries -- --report` is the per-tool brief.
+
+### 4. `methodology` is populated on 7 of ~47 eligible tools
+
+The field and its Zone B row shipped with the 7 wellness calculators. Still bare, and all of them
+implement something nameable:
+
+| engine | populated |
+|---|---|
+| physics | 0 / 11 |
+| finance | 0 / 8 |
+| calculator | 0 / 7 |
+| wellness | 7 / 11 |
+| math, math-lab, units | 0 / 3 each |
+| color | 0 / 2 |
+
+### 5. Craft: 5 of 107
+
+Unchanged. The gate tolerates roughly one more craftless tool.
+
+### 6. Knowledge overlay warnings: 61, plus 17 orphan guide nodes
+
+The build prints them and does not fail: 19 tools have no `usedWith` or `nextSteps`, and 42 have
+related tools drawn from a single family. Separately, 17 guide nodes sit in the knowledge graph with
+no edge at all (`guide:word-counter`, `guide:jwt-decoder`, `guide:trim-text` and 14 more).
+
+### Where the work concentrates
+
+`simple-harmonic-motion-calculator`, `probability-calculator` and `ideal-gas-law-calculator` appear
+in items 1, 2, 3 **and** 4. Three tools carry a failing gate, duplicated answers, the most missing
+phrasings, and no method line. They are the obvious first batch, and fixing them moves four measures
+at once.
+
 ## Done condition for this change
 
 `npm run verify` exits 0, plus these specific assertions:
