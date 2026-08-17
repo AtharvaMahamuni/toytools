@@ -130,7 +130,7 @@ export const manifest: SimulationManifest = {
     description:
       'Why a pendulum period depends on length and gravity but not mass, how the small-angle formula works, and how energy trades between potential and kinetic.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
     quickAnswer:
       "A simple pendulum's period depends on just two things: its length and the local gravity. The small-angle formula is T = 2 pi times the square root of L / g. For example, a one-metre pendulum on Earth swings with a period near 2 seconds. What determines the period of a pendulum is length and gravity alone: the mass of the bob and, for small swings, the release angle do not change it. Open the simulator, drag the bob, and watch the pendulum period and the energy readouts update live.",
     sections: [

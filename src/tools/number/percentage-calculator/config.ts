@@ -18,5 +18,5 @@ export const config: ToolConfig = {
     title: 'How To Calculate Percentages',
     description: 'Understand what percentages mean, how the three core percentage formulas work, and where percentages come up in everyday life.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-02',
   },};

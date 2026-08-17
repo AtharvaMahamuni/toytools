@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.7.1] - 2026-08-17
+
+### Fixed
+
+- **Every guide page published a date search engines could not read.** `datePublished` and
+  `dateModified` were emitted as `"Jul 2026"` on 102 of the 121 guides, which is not ISO 8601, so
+  Google dropped both properties and the `Article` markup was degraded everywhere. The cause was one
+  field doing two jobs: `guide.updatedAt` was documented as a display string and fed straight into
+  the schema. It is now an ISO date, and the visible "Updated Jun 2026" line is derived from it at
+  render time by `formatMonthYear` (`src/lib/dates.ts`).
+- **The 19 guides that were already valid were showing a raw `2026-06-07` to readers** — the same
+  bug seen from the other side. All 121 now read "Updated Jun 2026" and all 121 emit a valid date.
+- `validate-registry` now fails the build on a non-ISO `updatedAt`, on the guide and the tool alike,
+  so neither half can drift back.
+- **Nothing on a tool page said when it was last touched, or who publishes it.** The
+  `SoftwareApplication` markup gained `dateModified` (from the tool's own ISO date, which every
+  config already carried and nothing used) and a `publisher`. Guides had both; the page that carries
+  the head term had neither. No ratings were invented to go with them.
+
+### Changed
+
+- **Tapping a control now looks like tapping a control.** Every interactive class in
+  `tool-widget.css` declared a `:hover` state and none declared `:active`, so on a phone — where
+  there is no hover — pressing a button, a stepper, a preset chip or a stat row produced no
+  acknowledgement at all. All eleven now have a pressed state, honouring `prefers-reduced-motion`.
+- The return key on calculator inputs is labelled **Done** (`enterkeyhint`), which puts the keyboard
+  away and reveals the result instead of leaving an unlabelled action. Reaches 27 tool pages, up
+  from 2.
+
 ## [alpha-v7.7] - 2026-08-16
 
 ### Added

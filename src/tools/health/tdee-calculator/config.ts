@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Calculate TDEE and Your Daily Calories',
     description: 'Learn what TDEE and BMR mean, how the Mifflin-St Jeor formula works, and how to turn the number into a calorie target for losing, holding, or gaining weight.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

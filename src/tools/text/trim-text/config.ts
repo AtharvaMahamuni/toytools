@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Trim Whitespace From Text',
     description: 'Learn what trimming does, why trailing spaces cause bugs, and how to clean the start and end of every line at once.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

@@ -142,7 +142,7 @@ export const manifest: SimulationManifest = {
     description:
       'How a mass on a spring performs simple harmonic motion, why its period is T = 2 pi times the square root of m / k, and why amplitude does not change it.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'A mass on a spring performs simple harmonic motion: the spring pulls it back with a force proportional to how far it is displaced, F = -k x, so it oscillates smoothly. The period is T = 2 pi times the square root of m / k, set only by the mass m and the spring constant k. For example, a 1 kg mass on a 20 N/m spring oscillates with a period near 1.4 seconds. The amplitude does not change the period. Open this simulator, drag the mass, and watch the period, speed, and energy update live.',
     sections: [

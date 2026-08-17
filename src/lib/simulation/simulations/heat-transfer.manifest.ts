@@ -130,7 +130,7 @@ export const manifest: SimulationManifest = {
     description:
       'Which way heat flows, what thermal equilibrium means, why the flow slows over time, and why conductance changes the speed but not the final temperature.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
     quickAnswer:
       "Heat transfer always moves energy from the hotter object to the colder one until both reach the same temperature, a state called thermal equilibrium. For example, drop an ice cube into a warm drink and heat flows from the drink into the ice until they meet in the middle. In the simulator, two blocks exchange heat by conduction: set each block's temperature, press play, and watch the heat flow shrink as the gap closes. Nothing you do leaves your browser.",
     sections: [

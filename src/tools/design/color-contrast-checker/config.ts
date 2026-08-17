@@ -17,6 +17,6 @@ export const config: ToolConfig = {
     title: 'WCAG Contrast Explained: AA, AAA, and Readable Color',
     description: 'Learn how the WCAG contrast ratio is measured, what the AA and AAA thresholds mean for normal and large text, and how to fix a failing pair.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-31',
   },
 };

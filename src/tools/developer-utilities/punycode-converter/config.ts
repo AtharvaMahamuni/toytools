@@ -20,6 +20,6 @@ export const config: ToolConfig = {
     title: 'What Is Punycode',
     description: 'Learn how Punycode lets internationalized domain names work with ASCII-only DNS, and how to convert them.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

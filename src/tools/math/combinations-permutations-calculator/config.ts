@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'Combinations vs Permutations, Explained',
     description: 'When order matters and when it does not: the nCr and nPr formulas, repetition variants like stars and bars, and how to read huge counts sensibly.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-16',
   },
 };

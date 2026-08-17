@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To camelCase',
     description: 'Learn what camelCase is, where it is used in code, and how to convert any phrase into a camelCase identifier.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

@@ -43,6 +43,6 @@ export const config: ToolConfig = {
     description:
       'Why each shell in the path eats one level of quoting, and how to work out how many levels a command needs.',
     readMinutes: 6,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-16',
   },
 };

@@ -17,6 +17,6 @@ export const config: ToolConfig = {
     title: 'PX, REM, and EM: How CSS Units Relate and Convert',
     description: 'Understand how px, rem, em, and pt relate, why the root font size matters, and how to convert between them for accessible, scalable CSS.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-31',
   },
 };

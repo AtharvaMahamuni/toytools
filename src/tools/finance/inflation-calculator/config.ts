@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How Inflation Affects Your Money',
     description: 'Understand how inflation erodes purchasing power over time, how to read real vs nominal value, and the formula behind it.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

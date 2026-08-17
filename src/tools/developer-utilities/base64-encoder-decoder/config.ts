@@ -27,5 +27,5 @@ export const config: ToolConfig = {
     title: 'What Is Base64?',
     description: 'Understand how Base64 encoding works, why it exists, where it is used, and common mistakes developers make.',
     readMinutes: 6,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-02',
   },};

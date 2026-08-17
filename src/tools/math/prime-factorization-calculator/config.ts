@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'Prime Factorization, GCF, and LCM Explained',
     description: 'How to factor a number into primes by trial division, read GCF and LCM straight off the exponents, and count divisors without listing them.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-16',
   },
 };

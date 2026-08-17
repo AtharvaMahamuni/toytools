@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How Compound Interest Works',
     description: 'Understand how compound interest grows money over time, how compounding frequency and contributions matter, and the formula behind it.',
     readMinutes: 6,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

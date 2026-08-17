@@ -17,6 +17,6 @@ export const config: ToolConfig = {
     title: 'How Color Formats Work: HEX, RGB, HSL, and OKLCH',
     description: 'Understand what each color format encodes, when to reach for HSL or OKLCH, and how to convert between them without losing accuracy.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-31',
   },
 };

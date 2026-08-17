@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How to Convert CSV to TSV',
     description: 'Change a comma-separated file to tab-separated values without corrupting quoted cells, why find-and-replace fails, and when TSV beats CSV.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
   },
 };

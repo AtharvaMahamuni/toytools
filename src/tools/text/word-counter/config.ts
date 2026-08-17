@@ -35,5 +35,5 @@ export const config: ToolConfig = {
     title: 'How To Count Words In Your Writing',
     description: 'Learn why word count matters, how different tools count words, and how to use word limits effectively for essays, articles, and social media.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-02',
   },};

@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How to Compare Two CSV Files',
     description: 'Learn how a row-aware CSV diff works, why line diffs fail on reordered exports, and how to read added, removed, and changed rows.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-04',
   },
 };

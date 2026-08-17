@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How to Calculate Return on Investment',
     description: 'Learn the ROI formula, why the annualized return matters more than the headline percentage, and how to read gains and losses honestly.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-04',
   },
 };

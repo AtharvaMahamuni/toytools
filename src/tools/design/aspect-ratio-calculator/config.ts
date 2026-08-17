@@ -18,6 +18,6 @@ export const config: ToolConfig = {
     title: 'Aspect Ratios Explained: 16:9, Resizing, and Math',
     description: 'Understand what an aspect ratio is, how to solve a missing width or height, and how to resize images and video without distortion.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-31',
   },
 };

@@ -138,7 +138,7 @@ export const manifest: SimulationManifest = {
     description:
       'A visual guide to projectile motion: why 45 degrees gives the maximum range, how launch angle trades distance for height, and what gravity changes.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-11',
     quickAnswer:
       'Projectile motion is the curved path of an object thrown or launched under gravity alone. Three inputs set that path: the launch speed, the launch angle, and gravity. The range is R = v squared times sin(2 theta) divided by g. For example, a launch at 25 m/s and 45 degrees on Earth lands about 64 metres away. What angle gives the maximum range is always 45 degrees, because that splits the launch speed evenly between forward reach and time in the air. Open the simulator, drag from the launcher to aim, and watch the range, peak height, and time of flight update live.',
     sections: [

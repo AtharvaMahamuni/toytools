@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'What Is a JWT?',
     description: 'Understand how JSON Web Tokens work, what the header, payload, and signature contain, and why decoding is not the same as verifying.',
     readMinutes: 7,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-25',
   },
 };

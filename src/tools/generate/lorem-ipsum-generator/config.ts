@@ -34,6 +34,6 @@ export const config: ToolConfig = {
     description:
       'What lorem ipsum is, why designers use placeholder text, and how to generate paragraphs, sentences, or words in the browser.',
     readMinutes: 8,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

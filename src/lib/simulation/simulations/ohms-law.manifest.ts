@@ -141,7 +141,7 @@ export const manifest: SimulationManifest = {
     description:
       "A visual guide to Ohm's law: what voltage, current, and resistance mean, why I = V / R, and how power P = V times I heats the resistor.",
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       "Ohm's law says the current through a resistor is the voltage across it divided by its resistance: I = V / R. Voltage is the electrical push, resistance is the opposition to flow, and current is the resulting stream of charge. For example, 9 volts across 30 ohms gives a current of 9 / 30 = 0.3 amps. Raising the voltage raises the current, while raising the resistance lowers it. Open this circuit simulator, drag a slider, and watch the current and power update as the charge carriers speed up or slow down.",
     sections: [

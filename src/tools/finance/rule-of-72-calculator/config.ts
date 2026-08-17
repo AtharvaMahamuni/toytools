@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'What Is the Rule of 72?',
     description: 'Learn the Rule of 72 shortcut for estimating how long an investment takes to double, when it is accurate, and how it compares to the exact formula.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

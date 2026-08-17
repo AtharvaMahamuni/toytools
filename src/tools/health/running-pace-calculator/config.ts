@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How Running Pace and Race Predictions Work',
     description: 'Pace versus speed, how Riegel predicts a longer race from a shorter one, and how far you can trust the extrapolation.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

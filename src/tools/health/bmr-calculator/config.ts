@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'What Your BMR Actually Measures',
     description: 'How the Mifflin-St Jeor equation estimates resting energy, why it is not what you should eat, and how activity turns it into a daily total.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

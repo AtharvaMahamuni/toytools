@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'How to Calculate Your Exact Age',
     description: 'Learn how age is measured in years, months, and days, why leap years and month lengths matter, and how to work out totals and your next birthday.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-08',
   },
 };

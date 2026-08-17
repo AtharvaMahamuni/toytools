@@ -130,7 +130,7 @@ export const manifest: SimulationManifest = {
     description:
       'A visual guide to wave speed: what frequency, wavelength, and amplitude change, why v = f times lambda, and what does not affect a wave speed.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
     quickAnswer:
       "A wave's speed, or wave velocity, is how fast its crests travel, and it equals the frequency multiplied by the wavelength. What does v = f times lambda mean? The wave equation says speed is frequency times wavelength. Frequency is how many cycles pass a point each second, and wavelength is the distance from one crest to the next. For example, a 2 Hz wave with crests 3 metres apart moves at 6 metres per second. Amplitude, the height of the wave, changes its energy but never its speed. Open this wave simulator, drag a slider, and watch the speed update as you go.",
     sections: [

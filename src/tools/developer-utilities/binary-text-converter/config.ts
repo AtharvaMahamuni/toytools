@@ -20,6 +20,6 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To Binary',
     description: 'Learn how text becomes binary, why each character is eight bits, and how to convert text to binary and back.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

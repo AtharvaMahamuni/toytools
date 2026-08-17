@@ -36,6 +36,11 @@ const breadcrumbSchema = {
   ],
 };
 
+// `dateModified` and `publisher` were absent until 2026-08-17, which left the tool page — the page
+// that carries the head term — as the only page type on the site with no recency or authorship
+// signal at all. Guides had both. `tool.updatedAt` is already ISO on all 107 configs and was
+// simply unused here. No `aggregateRating`: we have no ratings, and inventing them is fabricated
+// structured data.
 const softwareSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -45,6 +50,8 @@ const softwareSchema = {
   applicationCategory: 'WebApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  ...(tool.updatedAt ? { dateModified: tool.updatedAt } : {}),
+  publisher: { '@type': 'Organization', name: 'ToyTools' },
 };
 ---
 

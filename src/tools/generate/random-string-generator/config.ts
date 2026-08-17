@@ -34,6 +34,6 @@ export const config: ToolConfig = {
     description:
       'What random strings are used for, how length and alphabet set the entropy, and how to generate tokens and keys safely in the browser.',
     readMinutes: 8,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

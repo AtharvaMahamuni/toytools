@@ -132,7 +132,7 @@ export const manifest: SimulationManifest = {
     description:
       'A visual guide to the ideal gas law: what pressure, volume, temperature, and moles mean, why PV = nRT, and how heating or compressing a gas changes it.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'The ideal gas law says PV = nRT: the pressure times the volume of a gas equals the amount in moles times the gas constant R times the absolute temperature. Rearranged, the pressure is P = nRT / V. For example, one mole of gas at 300 K in 25 litres sits near 100 kPa. Squeeze the volume or raise the temperature and the pressure climbs. Temperature must be in kelvin. Open this simulator, drag the piston or a slider, and watch the pressure and the gas particles respond live.',
     sections: [

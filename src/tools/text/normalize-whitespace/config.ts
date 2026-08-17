@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Normalize Whitespace In Text',
     description: 'Learn what normalizing whitespace means, how it flattens messy spacing and line breaks, and when to use it.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

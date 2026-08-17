@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'How To Analyze Word Frequency',
     description: 'Learn what word frequency reveals about a text, how counting and stop-word filtering work, and how writers and SEOs use the results.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-02',
   },
 };

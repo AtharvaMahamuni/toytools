@@ -132,7 +132,7 @@ export const manifest: SimulationManifest = {
     description:
       'Why a moving source shifts the observed frequency, how to calculate the Doppler shift, and why a siren drops in pitch as it passes.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'The Doppler effect is the shift in observed frequency when a source moves relative to an observer. A moving source bunches its wavefronts up ahead and stretches them behind, so an observer it approaches hears a higher frequency and one it has passed hears a lower one. For example, an ambulance siren sounds high then drops as it goes by. The observed frequency approaching is f prime = f v / (v minus vs). Open this simulator, move the source, and watch the wavefronts and the observed frequency respond.',
     sections: [

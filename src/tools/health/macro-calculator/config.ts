@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Calculate Your Macros From Calories',
     description: 'Learn what macros are, how calories convert to grams of protein, carbs, and fat, and how to pick a split you can actually stick to.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

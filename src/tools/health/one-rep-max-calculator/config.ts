@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Estimate Your One Rep Max',
     description: 'What the Epley and Brzycki formulas do, why they disagree above ten reps, and how to turn the estimate into training percentages.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

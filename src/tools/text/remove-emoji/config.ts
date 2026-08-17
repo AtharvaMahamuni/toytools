@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'How To Remove Emoji From Text',
     description: 'Learn what counts as an emoji in Unicode, why deleting them by hand misses invisible characters, and how to strip them cleanly.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-02',
   },
 };

@@ -19,6 +19,6 @@ export const config: ToolConfig = {
     title: 'How To Remove Line Breaks',
     description: 'Learn why pasted text gets broken across lines and how to join it back into one clean, continuous paragraph.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

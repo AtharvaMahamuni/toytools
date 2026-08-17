@@ -20,5 +20,5 @@ export const config: ToolConfig = {
     title: 'How To Remove Blank Lines From Text',
     description: 'Learn where empty lines come from, when they get in the way, and how to strip them out without losing your real content.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

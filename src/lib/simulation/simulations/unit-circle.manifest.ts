@@ -167,7 +167,7 @@ export const manifest: SimulationManifest = {
     description:
       'How the unit circle gives sin, cos, and tan for any angle, why radians make sense, the special angles worth memorizing, and where the sine wave comes from.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-14',
     quickAnswer:
       'The unit circle is a circle of radius 1 centered at the origin, and the point at angle θ has coordinates exactly (cos θ, sin θ). That single fact defines sine and cosine for every angle. For example, at 45° the point sits at (0.707, 0.707), so sin and cos are both √2/2. Tangent is the ratio tan θ = sin θ / cos θ. Open the explorer, drag the point, and read sin cos tan values live as the reference triangle follows your angle.',
     sections: [

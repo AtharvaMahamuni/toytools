@@ -7,6 +7,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getToolMetadata } from '../src/data/metadata';
+import { isIsoDate } from '../src/lib/dates';
 import { registeredGuideSlugSet } from '../src/data/guide-registry';
 import { toolGroups, getToolGroup } from '../src/data/tool-groups';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
@@ -119,6 +120,18 @@ for (const tool of tools) {
   // a guide page that renders empty (no build error without this check).
   if (tool.guide && !registeredGuideSlugSet.has(m.slug)) {
     errors.push(`Tool "${m.slug}" declares a guide but is not registered in src/data/guide-registry.ts (add its slug + Guide.astro import in src/pages/guide/[...slug].astro)`);
+  }
+
+  // Same contract on the tool's own date: it is SoftwareApplication.dateModified on the tool page.
+  if (tool.updatedAt !== undefined && !isIsoDate(tool.updatedAt)) {
+    errors.push(`Tool "${m.slug}" updatedAt must be an ISO 8601 date (YYYY-MM-DD), got "${tool.updatedAt}". It is the SoftwareApplication schema's dateModified.`);
+  }
+
+  // guide.updatedAt is the Article schema's datePublished/dateModified, so it must be ISO 8601.
+  // It held a display string ("Jul 2026") until 2026-08-17, which made Google drop the dates on
+  // 102 of 121 guides. Nothing caught it, because a wrong-but-present string renders fine.
+  if (tool.guide && !isIsoDate(tool.guide.updatedAt)) {
+    errors.push(`Tool "${m.slug}" guide.updatedAt must be an ISO 8601 date (YYYY-MM-DD), got "${tool.guide.updatedAt}". It is the Article schema date; the visible "Updated Jun 2026" line is derived from it by formatMonthYear.`);
   }
 
   // toolGroup must resolve, and membership must be declared on both sides

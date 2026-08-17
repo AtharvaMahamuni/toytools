@@ -157,7 +157,7 @@ export const manifest: SimulationManifest = {
     description:
       'What the quadratic formula and the discriminant really say, how the vertex and axis of symmetry come from a, b, and c, and how to read roots off a parabola.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-16',
     quickAnswer:
       'A quadratic equation ax² + bx + c = 0 is solved by the quadratic formula x = (-b ± √(b² - 4ac)) / 2a. The discriminant Δ = b² - 4ac decides everything before you finish: two real roots when Δ > 0, one repeated root when Δ = 0, none when Δ < 0. For example, x² - 2x - 3 has Δ = 16, so the parabola crosses the x-axis twice, at x = 3 and x = -1. Open the explorer, slide the coefficients, and watch the algebra and the picture move together.',
     sections: [

@@ -20,6 +20,6 @@ export const config: ToolConfig = {
     title: 'How To Calculate Sales Tax and VAT',
     description: 'Learn how to add tax to a price, back out tax from an inclusive total, and avoid common rounding errors.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

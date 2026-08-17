@@ -22,5 +22,5 @@ export const config: ToolConfig = {
     title: 'What Is HTML Entity Encoding?',
     description: 'Understand what HTML entities are, which characters must be escaped, when entities are still necessary in a UTF-8 world, and how to avoid XSS.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-09',
   },};

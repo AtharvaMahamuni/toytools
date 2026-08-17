@@ -33,7 +33,14 @@ export interface GuideConfig {
   title: string;
   description: string;
   readMinutes: number;
-  updatedAt: string;    // display string, e.g. "Jun 2026"
+  /**
+   * ISO 8601 date, `YYYY-MM-DD`. It is the schema value (`Article.datePublished` /
+   * `dateModified`), so it must parse; `validate-registry` fails the build on any other shape.
+   * The visitor-facing "Updated Jun 2026" line is derived from it by `formatMonthYear`
+   * (`src/lib/dates.ts`) at render time. This field used to hold the display string itself, which
+   * put "Jul 2026" into the schema on 102 of 121 guides and made Google drop the dates entirely.
+   */
+  updatedAt: string;
 }
 
 export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';

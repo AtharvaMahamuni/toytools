@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How a SIP Grows Your Money',
     description: 'Learn how a systematic investment plan compounds monthly instalments, the formula behind SIP returns, and how to read the results.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-02',
   },
 };

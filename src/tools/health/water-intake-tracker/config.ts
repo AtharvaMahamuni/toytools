@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Track Your Water Intake and Stick to It',
     description: 'Learn how much water to aim for, why a daily goal and a streak keep you consistent, and how to build a hydration habit that lasts.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

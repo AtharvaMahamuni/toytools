@@ -22,5 +22,5 @@ export const config: ToolConfig = {
     title: 'What Is SHA-256?',
     description: 'Understand how SHA-256 works, why it\'s considered secure, and where it\'s used — from TLS certificates to Bitcoin to HMAC API authentication.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-09',
   },};

@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'How to Reach a Savings Goal',
     description: 'Learn how to work out the monthly saving needed to reach a goal, how returns reduce what you contribute, and the formula behind it.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

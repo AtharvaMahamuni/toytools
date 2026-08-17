@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Calculate BMI (and What It Really Tells You)',
     description: 'Learn the BMI formula, the WHO categories, how to read the healthy weight range, and the honest limits of BMI as a health measure.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

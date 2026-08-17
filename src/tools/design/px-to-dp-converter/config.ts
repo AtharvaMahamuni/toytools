@@ -17,6 +17,6 @@ export const config: ToolConfig = {
     title: 'DP, SP, and PX: Android and iOS Density Units',
     description: 'Understand density-independent pixels, how dp and sp convert to px across Android buckets, and how iOS points compare.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-31',
   },
 };

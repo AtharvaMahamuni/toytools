@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To kebab-case',
     description: 'Learn what kebab-case is, why it suits URLs and CSS, and how to turn any phrase into a clean hyphenated slug.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

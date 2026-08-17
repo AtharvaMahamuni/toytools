@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Remove Extra Spaces From Text',
     description: 'Learn why double spaces creep into text, when extra spaces cause problems, and how to collapse them in one step.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

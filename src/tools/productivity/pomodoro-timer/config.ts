@@ -24,7 +24,7 @@ export const config: ToolConfig = {
     title: 'The Pomodoro Technique: A Practical Guide',
     description: 'Learn how the Pomodoro Technique works, when to use it, and how timed focus sessions improve concentration and output.',
     readMinutes: 6,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-05',
   },
   trustVariant: 'local',
 };

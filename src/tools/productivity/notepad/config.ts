@@ -25,7 +25,7 @@ export const config: ToolConfig = {
     title: 'How To Take Better Notes',
     description: 'Learn why writing things down improves memory, reduces mental load, and helps organize information more effectively.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-04',
   },
   trustVariant: 'local',
   relatedTools: ['todo-list', 'pomodoro-timer'],

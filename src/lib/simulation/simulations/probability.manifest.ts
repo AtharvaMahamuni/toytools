@@ -154,7 +154,7 @@ export const manifest: SimulationManifest = {
     description:
       'Empirical vs theoretical probability, why small samples swing wildly, what the law of large numbers really promises, and why coins have no memory.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-16',
     quickAnswer:
       'Theoretical probability counts outcomes: a fair coin gives heads with P = 1/2. Empirical probability measures experiments: the fraction of heads you actually saw. The law of large numbers connects them: as independent trials pile up, the empirical frequency converges on the theoretical value. For example, 10 flips can easily show 70 percent heads, but 10,000 flips will almost surely sit near 50 percent. Open the lab, run trials at up to 60 per second, and watch the convergence happen on the graph.',
     sections: [

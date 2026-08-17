@@ -28,6 +28,10 @@ const isPlain = field.type === 'date' || field.type === 'datetime' || field.type
 const nativeType = field.type === 'date' ? 'date' : field.type === 'datetime' ? 'datetime-local' : 'text';
 const inputMode = field.type === 'integer' ? 'numeric' : 'decimal';
 const initialDisplay = String(field.default ?? '');
+// These tools recalculate on every keystroke, so the return key's real job is to put the phone
+// keyboard away and reveal the result underneath it — never to submit. "done" is the label that
+// says so. Left unset until 2026-08-17, when enterkeyhint reached 2 of 121 pages.
+const enterKeyHint = 'done';
 
 /**
  * Currency-preset chip label — symbol + compact magnitude (e.g. "$2K"). Derived from the value so it
@@ -91,6 +95,7 @@ function compactCurrency(value: number, code: string): string {
       class="widget-input"
       type={nativeType}
       autocomplete="off"
+      enterkeyhint={field.type === 'text' ? enterKeyHint : undefined}
       value={initialDisplay}
       placeholder={field.type === 'text' ? String(field.default ?? '') : undefined}
       data-field-id={field.id}
@@ -113,6 +118,7 @@ function compactCurrency(value: number, code: string): string {
         class="widget-input smart-input-field"
         type="text"
         inputmode={inputMode}
+        enterkeyhint={enterKeyHint}
         autocomplete="off"
         value={field.default !== 0 ? initialDisplay : ''}
         placeholder={String(field.default ?? '')}

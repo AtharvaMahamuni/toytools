@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'What Is CAGR and How to Calculate It',
     description: 'Learn what compound annual growth rate means, the formula behind it, why it beats simple averages, and where it misleads.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-04',
   },
 };

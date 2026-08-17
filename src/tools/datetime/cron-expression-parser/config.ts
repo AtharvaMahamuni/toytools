@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'How to Read a Cron Expression',
     description: 'Learn what each of the five cron fields means, how stars, ranges, lists, and steps work, and how to read the schedule and next run times of any crontab line.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

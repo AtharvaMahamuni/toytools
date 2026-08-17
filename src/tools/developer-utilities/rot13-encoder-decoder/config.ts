@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'What Is ROT13 And How Does It Work',
     description: 'Learn how the ROT13 cipher rotates letters, why it is its own inverse, where it is still used, and why it is not encryption.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-02',
   },
 };

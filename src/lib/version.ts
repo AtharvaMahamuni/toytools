@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 7,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-16',
-  description: 'Add the Cron to systemd Timer Converter',
+  releaseDate: '2026-08-17',
+  description: 'Valid schema dates, tool page freshness, and touch feedback on every control',
 };
 
 export function formatVersion(config: VersionConfig): string {

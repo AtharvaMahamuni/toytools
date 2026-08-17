@@ -29,6 +29,6 @@ export const config: ToolConfig = {
     title: 'How to Use a Scientific Calculator',
     description: 'Order of operations, degrees vs radians, functions and constants, memory keys, and worked examples so your scientific results always come out right.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
   },
 };

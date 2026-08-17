@@ -22,5 +22,5 @@ export const config: ToolConfig = {
     title: 'What Is JSON Formatting?',
     description: 'Understand what JSON pretty-printing does, why formatted and minified JSON are identical in meaning, and when to use each.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-09',
   },};

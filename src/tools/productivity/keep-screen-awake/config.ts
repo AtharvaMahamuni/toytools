@@ -25,7 +25,7 @@ export const config: ToolConfig = {
     title: 'How to Keep Your Screen Awake',
     description: 'Understand wake locks, browser support, battery impact, and when to use device settings instead.',
     readMinutes: 6,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-04',
   },
   trustVariant: 'offline',
   relatedTools: ['pomodoro-timer', 'todo-list'],

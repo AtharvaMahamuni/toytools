@@ -1066,3 +1066,80 @@ body.tt-focus-lock {
 @media (max-width: 1023px) {
   .io-body { gap: var(--space-2); }
 }
+
+/* ── Touch acknowledgement ────────────────────────────────────────────────────
+   Every control above declares a :hover state. A phone has no hover, so until
+   2026-08-17 tapping any control on any of the 121 tool pages produced no visual
+   acknowledgement from this stylesheet at all — the documented mobile-first rule
+   ("every control needs a visible :active state") was honoured nowhere in it.
+
+   Kept as one block at the end of the file, after every control definition, so it
+   wins the cascade against the matching :hover rule without needing a specificity
+   bump: on a desktop press both match, and the pressed state should be the one
+   that shows. Keyboard focus is not handled here — global.css draws one
+   :focus-visible ring everywhere from --focus-ring. */
+
+.primary-action:active {
+  opacity: 0.82;
+  transform: scale(0.98);
+}
+
+.action-btn:active,
+.action-btn--sample:active,
+.conv-hist-btn:active,
+.smart-segment:active {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+  transform: scale(0.97);
+}
+
+.smart-step:active,
+.smart-preset:active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  transform: scale(0.94);
+}
+
+.tt-focus-exit:active {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+  background: var(--color-surface-hover);
+  transform: scale(0.97);
+}
+
+/* A whole row, not a button: it reads as a press when the fill lands, and scaling
+   a full-width row is what makes a list feel like it is wobbling. */
+.tm-stat-row:active {
+  background-color: var(--color-accent-subtle);
+}
+
+/* The success and confirming states own their own colours, and .action-btn:active above would
+   otherwise repaint them back to the neutral surface. Restate them so only the scale changes. */
+.action-btn--copy.is-success:active {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  transform: scale(0.97);
+}
+
+.action-btn--clear.is-confirming:active {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-action:active,
+  .action-btn:active,
+  .action-btn--sample:active,
+  .conv-hist-btn:active,
+  .smart-segment:active,
+  .smart-step:active,
+  .smart-preset:active,
+  .tt-focus-exit:active,
+  .action-btn--copy.is-success:active,
+  .action-btn--clear.is-confirming:active {
+    transform: none;
+  }
+}

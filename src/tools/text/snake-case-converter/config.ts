@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To snake_case',
     description: 'Learn what snake_case is, why Python and SQL favor it, and how to convert any phrase into a snake_case identifier.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

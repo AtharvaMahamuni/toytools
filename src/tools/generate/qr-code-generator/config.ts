@@ -34,6 +34,6 @@ export const config: ToolConfig = {
     description:
       'What QR codes are, how error correction works, and how to make QR codes for text, URLs, Wi-Fi, and contacts in the browser.',
     readMinutes: 9,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
   },
 };

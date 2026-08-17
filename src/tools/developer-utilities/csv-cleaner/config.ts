@@ -23,6 +23,6 @@ export const config: ToolConfig = {
     title: 'How to Clean a Messy CSV File',
     description: 'Remove empty rows, trim stray whitespace, drop trailing-comma columns, and square ragged rows so a rejected CSV imports cleanly.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
   },
 };

@@ -18,6 +18,6 @@ export const config: ToolConfig = {
     title: 'How To Reverse Text',
     description: 'Learn what reversing text does, when backwards text is useful, and how to flip a string character by character instantly.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

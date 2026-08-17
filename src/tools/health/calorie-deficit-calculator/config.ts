@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Set a Calorie Deficit That Holds',
     description: 'Where the 7,700 kcal per kilogram figure comes from, why a deficit below BMR backfires, and how to adjust the target as you get lighter.',
     readMinutes: 6,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

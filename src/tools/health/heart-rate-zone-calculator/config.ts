@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Find and Train in Your Heart Rate Zones',
     description: 'Learn what the five heart rate zones are, how max heart rate and the Karvonen method work, and how to train in each zone.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

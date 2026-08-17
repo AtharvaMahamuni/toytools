@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'How Much Emergency Fund Do You Need?',
     description: 'Learn how to size an emergency fund from your monthly expenses, how many months to aim for, and how to build it.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

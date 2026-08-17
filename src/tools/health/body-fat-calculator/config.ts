@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Measure Body Fat With a Tape Measure',
     description: 'Learn the U.S. Navy body fat method, exactly where to measure, how accurate it is, and how body fat differs from BMI as a health signal.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

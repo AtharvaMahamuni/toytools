@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Find Your Ideal Weight for Your Height',
     description: 'Learn what the classic ideal-weight formulas do, why they disagree, and why a healthy weight is a range rather than a single number.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

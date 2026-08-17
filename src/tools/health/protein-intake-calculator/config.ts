@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How Much Protein You Actually Need',
     description: 'Why the guidelines give a range rather than a number, what changes it, and why spreading protein across meals matters as much as the daily total.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

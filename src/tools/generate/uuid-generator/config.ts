@@ -34,6 +34,6 @@ export const config: ToolConfig = {
     description:
       'What UUIDs are, how version 4 works, when to use them, and how to generate them safely in the browser.',
     readMinutes: 8,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

@@ -19,6 +19,6 @@ export const config: ToolConfig = {
     title: 'How To Remove Accents',
     description: 'Learn what diacritics are, why some systems need plain ASCII, and how to strip accent marks while keeping the letters.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

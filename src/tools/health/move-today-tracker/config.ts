@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Build a Daily Movement Habit With a Streak',
     description: 'Learn why a one-tap streak beats an ambitious plan, how "do not break the chain" works, and how a low bar keeps a movement habit alive.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

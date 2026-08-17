@@ -20,5 +20,5 @@ export const config: ToolConfig = {
     title: 'How To Remove Tabs From Text',
     description: 'Learn why tab characters cause alignment and paste problems, and how to replace them with spaces in one step.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

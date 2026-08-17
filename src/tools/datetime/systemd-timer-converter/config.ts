@@ -42,6 +42,6 @@ export const config: ToolConfig = {
     description:
       'How the OnCalendar grammar maps onto cron fields, and the one day rule that changes meaning in translation.',
     readMinutes: 6,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-16',
   },
 };
