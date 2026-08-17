@@ -28,6 +28,11 @@ export const config: ToolConfig = {
   keywords: ['password', 'generator', 'random', 'secure', 'entropy', 'strength'],
   inputs: ['options'],
   outputs: ['text'],
+  craft: {
+    id: 'pwd-unambiguous',
+    kind: 'guardrail',
+    solves: 'A generated password gets typed by hand off a screen or read aloud down a phone, and O against 0 and l against 1 are indistinguishable in most fonts, so the failure lands later as a login that will not work for no visible reason.',
+  },
   guide: {
     slug: 'password-generator',
     categorySlug: 'generate',

@@ -361,3 +361,58 @@ means the catalog cannot buy that craft with boxes. Both are the same idiom this
 for bytes, folds and query targeting, and it is the only kind of rule that has survived here.
 
 Playbook: `.claude/skills/tool-craft/SKILL.md`. Agent: `.claude/agents/tool-crafter.md`.
+
+---
+
+## 10. Survey of the remaining backlog (2026-08-17)
+
+Taken after coverage reached 26/107, because three seams in a row had the same surprise: roughly
+half of what looked like new work was already built and merely undeclared. This replaces guessing
+about the ceiling with a measurement.
+
+**Method.** For each of the 81 undeclared tools: does its own `Widget.astro` contain a `<section>`
+or `<h2>` *and* a `hidden` attribute? That pair is the signature of a bespoke,
+silent-until-warranted affordance. Everything else splits on widget size, since a wrapper under
+900 bytes is a pure engine delegate.
+
+| class | n | meaning |
+|---|---|---|
+| **A. already built, undeclared** | 5 | `find-replace`, `json-tree-viewer`, `notepad`, `scientific-calculator`, `todo-list` |
+| **B. bespoke, no hidden affordance** | 13 | per-tool judgment; `units` 3, `calculator` 6, `color` 1, `productivity` 2, `text-interactive` 1 |
+| **C. thin wrapper over a shared widget** | 63 | seam work, and where all the leverage is |
+
+Class C by engine, which is the actual work plan:
+
+| engine | tools |
+|---|---|
+| `text-processor` | 18 |
+| `wellness` | 11 |
+| `finance` | 8 |
+| `encoding` | 6 |
+| `datetime` | 5 |
+| `generation` | 4 |
+| `tracker` | 3 |
+| `math` | 3 |
+| `csv` | 3 |
+| `structured-data` | 2 |
+
+### What this says about the ceiling
+
+**Roughly ten more engine seams would reach 63 tools**, plus 5 declarations, which puts most of the
+catalog in range. That is a much better position than the "40 to 50 have a real failure" estimate
+that preceded it, and the estimate was wrong for a specific reason worth recording: it was made by
+reasoning about tools rather than reading their knowledge files. **Every one of the 81 has at least
+two documented `commonMistakes`**, and on the two tools singled out as hopeless (`space-counter`,
+`letter-counter`) the recorded mistake turned out to be exactly the detectable failure the touch
+needed.
+
+### What it does not say
+
+It does not say 107/107 is reachable, and the number should never be the goal. Coverage is a ratio
+so that a *new* tool cannot ship craftless; it was never meant as a target to fill. The gate cannot
+tell a thoughtful touch from a thoughtless one, so 107/107 is trivially reachable by inventing 81
+affordances and would be worth less than 26/107 honestly earned. The rule stands: a tool with no
+honest answer to the failure test declares nothing and waits.
+
+The three seams shipped so far each took one engine verb plus one shared component, and each was
+smaller than the per-tool work it replaced. That is the only pattern here that has scaled.

@@ -22,9 +22,12 @@ interface Props {
   sampleText?: string;
   /** Group id from config.toolGroup — members share one state envelope. */
   toolGroup?: string;
+  /** Notice id for this counter's orientation line, and the tool's declared craft id. */
+  noticeId?: string;
+  craftId?: string;
 }
 
-const { slug, stats, sampleText, toolGroup } = Astro.props;
+const { slug, stats, sampleText, toolGroup, noticeId, craftId } = Astro.props;
 const stateKey = toolGroup ? `group:${toolGroup}` : slug;
 const [primaryStat, ...secondaryStats] = stats;
 const inputId = `${slug}-input`;
@@ -42,6 +45,11 @@ const inputId = `${slug}-input`;
       formatter={primaryStat.formatter}
     />
     {secondaryStats.length > 0 && <StatGrid stats={secondaryStats} />}
+    {/* One line about the input the numbers above do not show. A line, not a box (R2/R5), and
+        hidden until the input actually exhibits it (R3). */}
+    {noticeId && (
+      <p class="tm-notice" id={`${slug}-notice`} data-notice-id={noticeId} data-craft={craftId} hidden></p>
+    )}
   </IoPanel>
 </ToolSplit>
 
@@ -98,6 +106,7 @@ const inputId = `${slug}-input`;
       if (hero) setMetric(hero, 0);
       if (secondary) secondary.hidden = true;
       if (hint) hint.hidden = false;
+      if (noticeEl) { noticeEl.hidden = true; noticeEl.textContent = ''; }
       return;
     }
     if (hint) hint.hidden = true;
@@ -107,6 +116,19 @@ const inputId = `${slug}-input`;
       var key = el.dataset.metric;
       setMetric(el, r[key] !== undefined ? r[key] : 0);
     });
+    renderNotice(text, r);
+  }
+
+  // The orientation line. Silent unless this counter's own documented misreading is actually
+  // present in the input, which is what keeps it from becoming a permanent tip strip.
+  var noticeEl = document.getElementById(slug + '-notice');
+  function renderNotice(text, r) {
+    if (!noticeEl) return;
+    var id = noticeEl.getAttribute('data-notice-id');
+    var msg = (id && ToyTools.textNotice) ? ToyTools.textNotice(id, text, r) : null;
+    if (!msg) { noticeEl.hidden = true; noticeEl.textContent = ''; return; }
+    noticeEl.textContent = msg;
+    noticeEl.hidden = false;
   }
 
   // Sample button

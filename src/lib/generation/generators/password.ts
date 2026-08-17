@@ -47,6 +47,7 @@ export const password: Generator = {
       type: 'boolean',
       default: false,
       group: 'Options',
+      craft: 'pwd-unambiguous',
     },
   ],
   generate(opts: GeneratorOptions): GenerationResult {

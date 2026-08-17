@@ -12,6 +12,7 @@ import EducationalInsight from '@tools/_shared/converter/EducationalInsight.astr
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
 import { structuredInfo } from '@lib/engines/structured-data/info';
+import { STRUCTURED_TOOLS } from '@lib/engines/structured-data/registry';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -27,6 +28,9 @@ const { slug, structuredId, config, showOutput = true } = Astro.props;
 const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 // Reusable educational blocks (same ones the ConverterWidget uses).
 const info = structuredInfo(structuredId);
+// A tool whose input is not JSON has no honest repair to offer, and declining must cost
+// nothing on the page: no hidden button, no bytes, no markup.
+const repairable = STRUCTURED_TOOLS[structuredId]?.jsonInput === true;
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
@@ -47,6 +51,11 @@ const statusId = `${slug}-status`;
 
   <IoPanel slot="output" label={showOutput ? 'Output' : 'Status'} copyTargetId={showOutput ? outputId : undefined}>
     <p id={statusId} class="io-status" data-ok="" aria-live="polite"></p>
+    {/* The craft seam: the status line names the fault, and the fix belongs where the diagnosis
+        is. A button and nothing else — no new bordered card (R2/R5). */}
+    {repairable && (
+      <button type="button" class="sd-repair" id={`${slug}-repair`} data-craft={config.craft?.id} hidden></button>
+    )}
     {showOutput && (
       <output id={outputId} class="io-output--bordered" aria-live="polite" data-empty>Output will appear here</output>
     )}
@@ -93,13 +102,45 @@ const statusId = `${slug}-status`;
         status.textContent = '';
         status.setAttribute('data-ok', '');
         setOutput('Output will appear here', true);
+        repair.offer(true);
         return;
       }
       var res = ToyTools.runStructuredData(sid, input.value);
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
       status.textContent = res.ok ? '✓ Valid' : '✗ ' + (res.error || 'Invalid');
       setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);
+      repair.offer(res.ok);
     }
+
+    // JSON.parse reports a character offset the user has to count to by hand, and the two commonest
+    // causes — a trailing comma and the smart quotes a document inserted — are mechanically fixable.
+    // Silent unless the engine has a repair that actually parses.
+    var repair = (function (el) {
+      var pending = null;
+      function hide() { if (el) { el.hidden = true; el.textContent = ''; } pending = null; }
+      function offer(ok) {
+        if (!el) return;
+        if (ok || !(window.ToyTools && ToyTools.repairStructuredData)) { hide(); return; }
+        var r = ToyTools.repairStructuredData(sid, input.value);
+        if (!r || !r.label) { hide(); return; }
+        pending = r;
+        el.textContent = r.label;
+        el.hidden = false;
+      }
+      if (el) {
+        el.addEventListener('click', function () {
+          if (!pending) return;
+          var next = pending;
+          input.value = next.text;
+          hide();
+          run();
+          persist();
+          if (window.ToyTools && ToyTools.toast) ToyTools.toast('Applied: ' + next.label);
+          input.focus();
+        });
+      }
+      return { offer: offer, hide: hide };
+    })(document.getElementById(slug + '-repair'));
 
     function persist() {
       if (window.ToyTools && ToyTools.state) ToyTools.state.save(stateKey, { input: input.value });

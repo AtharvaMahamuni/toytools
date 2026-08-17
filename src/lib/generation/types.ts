@@ -31,6 +31,14 @@ export interface GeneratorField {
   help?: string;
   /** Groups boolean toggles under a shared heading (e.g. "Character sets"). */
   group?: string;
+  /**
+   * Marks this field as the tool's declared craft affordance, rendered as data-craft.
+   *
+   * Generator craft is an option rather than a panel: the touch IS the control. check-craft.ts
+   * fails the build if a declared id never reaches the DOM, so the marker has to live on the field
+   * that carries it rather than on the widget generally.
+   */
+  craft?: string;
   /** Conditional visibility — show only when another field matches (equals, or is one of oneOf). */
   showWhen?: { field: string; equals?: string; oneOf?: string[] };
 }

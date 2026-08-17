@@ -15,7 +15,7 @@ import { config } from './config';
     { metric: 'averageWordLength', label: 'Avg Word Length',  formatter: 'decimal' },
   ]}
 >
-  <section class="lc-freq-section" id="lc-freq-section" hidden>
+  <section class="lc-freq-section" id="lc-freq-section" hidden data-craft={config.craft?.id}>
     <h2 class="lc-freq-heading">Letter Frequency</h2>
     <div class="lc-freq-meta" id="lc-freq-meta" aria-live="polite"></div>
     <ol class="lc-freq-chart" id="lc-freq-chart" aria-label="Letter frequency chart"></ol>

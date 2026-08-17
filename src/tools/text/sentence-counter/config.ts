@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-analysis',
+  craft: {
+    id: 'sentence-abbrev',
+    kind: 'orientation',
+    solves: 'Abbreviations like e.g. and Dr. end in a period, so they are counted as sentence ends and the total reads high with no indication.',
+  },
   guide: {
     slug: 'sentence-counter',
     categorySlug: 'text-utilities',

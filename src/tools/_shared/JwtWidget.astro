@@ -36,7 +36,7 @@ interface Props {
   config: ToolConfig;
 }
 
-const { slug, jwtId } = Astro.props;
+const { slug, jwtId, config } = Astro.props;
 const sample = JWT_TOOLS[jwtId]?.sample ?? '';
 
 const inputId = `${slug}-input`;
@@ -77,7 +77,7 @@ const sigId = `${slug}-sig`;
       <div id={sectionsId} class="jwt-sections" hidden>
         <div id={summaryId} class="jwt-summary"></div>
 
-        <section id={validityId} class="jwt-validity" hidden aria-label="Token validity">
+        <section id={validityId} class="jwt-validity" data-craft={config.craft?.id} hidden aria-label="Token validity">
           <div class="jwt-vhead">
             <span class="jwt-vstatus" data-vstatus></span>
             <span class="jwt-vcountdown" data-vcountdown aria-live="polite"></span>

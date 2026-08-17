@@ -15,7 +15,7 @@ import { config } from './config';
     { metric: 'words',         label: 'Words',              formatter: 'integer' },
   ]}
 >
-  <section class="lc-depth" id="line-counter-depth" hidden>
+  <section class="lc-depth" id="line-counter-depth" hidden data-craft={config.craft?.id}>
     <h2 class="lc-depth-heading">Line Details</h2>
     <dl class="lc-depth-grid" id="line-counter-depth-grid" aria-live="polite"></dl>
   </section>

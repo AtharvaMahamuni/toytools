@@ -10,6 +10,11 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-analysis',
+  craft: {
+    id: 'para-breaks',
+    kind: 'orientation',
+    solves: 'A wall of text separated by single newlines counts as one paragraph, so the number reads wrong and nothing on the page says why.',
+  },
   guide: {
     slug: 'paragraph-counter',
     categorySlug: 'text-utilities',

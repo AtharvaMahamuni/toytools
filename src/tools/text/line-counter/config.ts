@@ -19,6 +19,11 @@ export const config: ToolConfig = {
     label: 'Lines',
     formatter: 'integer',
   },
+  craft: {
+    id: 'line-depth',
+    kind: 'orientation',
+    solves: 'A line count includes blank lines and says nothing about length, so a file described as 500 lines can be half empty and hold one unreadably long row.',
+  },
   guide: {
     slug: 'line-counter',
     categorySlug: 'text-utilities',

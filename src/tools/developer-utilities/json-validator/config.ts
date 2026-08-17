@@ -15,6 +15,11 @@ export const config: ToolConfig = {
   family: 'json',
   processorId: 'json-validator',
   relatedTools: ['json-formatter', 'json-minifier'],
+  craft: {
+    id: 'json-validator-repair',
+    kind: 'recovery',
+    solves: 'JSON.parse names a character offset the user has to count to by hand, and the two commonest causes are not their mistake at all: a trailing comma that is legal in JavaScript, and the smart quotes a word processor inserts silently.',
+  },
   guide: {
     slug: 'how-to-validate-json',
     categorySlug: 'developer-utilities',

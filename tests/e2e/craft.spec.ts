@@ -124,3 +124,183 @@ test.describe('encoding recovery (the craft seam)', () => {
     await expect(page.locator('.conv-recover')).toHaveCount(0);
   });
 });
+
+test.describe('digest verification (the hashing craft seam)', () => {
+  const ABC_SHA256 = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
+
+  test('sha256 confirms a matching digest', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    const result = page.locator('[data-digest-result]');
+
+    // Silent before anything is asked of it.
+    await expect(result).toBeHidden();
+
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill(ABC_SHA256);
+    await expect(result).toBeVisible();
+    await expect(result).toHaveAttribute('data-state', 'match');
+  });
+
+  test('sha256 accepts a whole line of sha256sum output, filename and all', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill(`${ABC_SHA256}  ./archive.tar.gz`);
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'match');
+  });
+
+  test('sha256 reports a real mismatch', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill('f'.repeat(64));
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'mismatch');
+  });
+
+  test('a SHA-1 digest pasted into the SHA-256 tool is named, not called a mismatch', async ({ page }) => {
+    // The failure the whole affordance exists for: without this, a wrong-algorithm paste reads as
+    // a corrupt file and sends somebody re-downloading something that was never broken.
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill('a9993e364706816aba3e25717850c26c9cd0d89d');
+    const result = page.locator('[data-digest-result]');
+    await expect(result).toHaveAttribute('data-state', 'wrong-length');
+    await expect(result).toContainText('SHA-1');
+  });
+
+  test('the verdict follows the source text, not just the pasted digest', async ({ page }) => {
+    // Both edges drive it. Changing the input after a match must re-evaluate, or a stale "Matches"
+    // stays on screen for text that no longer produces that digest.
+    await page.goto('/tool/developer-utilities/sha256-hash-generator/');
+    await page.locator('#sha256-hash-generator-input').fill('abc');
+    await page.locator('[data-digest-expected]').fill(ABC_SHA256);
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'match');
+
+    await page.locator('#sha256-hash-generator-input').fill('abcd');
+    await expect(page.locator('[data-digest-result]')).toHaveAttribute('data-state', 'mismatch');
+  });
+
+  test('it stays silent while only the source text is filled', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/md5-hash-generator/');
+    await page.locator('#md5-hash-generator-input').fill('hello');
+    await expect(page.locator('[data-digest-result]')).toBeHidden();
+  });
+
+  test('a tool with no digest to compare renders no comparison row', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/base64-encoder-decoder/');
+    await expect(page.locator('[data-digest-expected]')).toHaveCount(0);
+  });
+});
+
+test.describe('JSON repair (the structured-data craft seam)', () => {
+  test('json-formatter offers to remove a trailing comma, and applying it works', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    const input = page.locator('#json-formatter-input');
+    const offer = page.locator('[data-craft="json-formatter-repair"]');
+
+    await expect(offer).toBeHidden();
+    await input.fill('{"a": 1, "b": 2,}');
+    await expect(offer).toBeVisible();
+    await expect(offer).toHaveText('Remove the trailing comma');
+
+    await offer.click();
+    await expect(page.locator('#json-formatter-status')).toHaveAttribute('data-ok', 'true');
+    await expect(offer).toBeHidden();
+  });
+
+  test('it names smart quotes, the fault a document introduces', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-validator/');
+    await page.locator('#json-validator-input').fill('{“a”: 1}');
+    await expect(page.locator('[data-craft="json-validator-repair"]')).toContainText('smart quotes');
+  });
+
+  test('it stays silent on valid JSON', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await page.locator('#json-formatter-input').fill('{"a": 1}');
+    await expect(page.locator('[data-craft="json-formatter-repair"]')).toBeHidden();
+  });
+
+  test('it stays silent on a fault it cannot honestly fix', async ({ page }) => {
+    // A missing brace is not a repair this knows how to make, and guessing is worse than quiet.
+    await page.goto('/tool/developer-utilities/json-formatter/');
+    await page.locator('#json-formatter-input').fill('{"a": 1');
+    await expect(page.locator('[data-craft="json-formatter-repair"]')).toBeHidden();
+  });
+
+  test('a tool whose input is not JSON renders no repair offer', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/yaml-to-json-converter/');
+    await expect(page.locator('.sd-repair')).toHaveCount(0);
+  });
+});
+
+test.describe('pre-existing touches, now declared', () => {
+  test('the contrast checker offers a passing colour only once AA fails', async ({ page }) => {
+    await page.goto('/tool/design/color-contrast-checker/');
+    const offer = page.locator('[data-craft="ccc-suggest"]');
+
+    // Silent while the pair already passes.
+    await page.locator('#ccc-fg').fill('#000000');
+    await page.locator('#ccc-bg').fill('#ffffff');
+    await expect(offer).toBeHidden();
+
+    // Appears when it fails, and applying it reaches a passing ratio.
+    await page.locator('#ccc-fg').fill('#bbbbbb');
+    await expect(offer).toBeVisible();
+    await offer.click();
+    await expect(page.locator('[data-craft="ccc-suggest"]')).toBeHidden();
+  });
+
+  test('the JWT validity panel answers whether the token is expired', async ({ page }) => {
+    await page.goto('/tool/developer-utilities/jwt-decoder/');
+    const panel = page.locator('[data-craft="jwt-validity"]');
+    await expect(panel).toBeHidden();
+
+    // A token whose exp is in the past: header {"alg":"HS256"}, payload {"exp":1000000000}
+    await page.locator('#jwt-decoder-input').fill(
+      'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjEwMDAwMDAwMDB9.sig',
+    );
+    await expect(panel).toBeVisible();
+    await expect(panel).toContainText(/expired/i);
+  });
+});
+
+test.describe('password guardrail', () => {
+  test('excluding ambiguous characters removes O 0 l 1 from the output', async ({ page }) => {
+    await page.goto('/tool/generate/password-generator/');
+    const toggle = page.locator('[data-craft="pwd-unambiguous"] input');
+    const out = page.locator('#password-generator-text');
+
+    await page.locator('#password-generator-f-length').fill('120');
+    await toggle.check();
+    await page.locator('#password-generator-regenerate').click();
+    await expect(out).not.toBeEmpty();
+    await expect(out).not.toHaveText(/[O0Il1]/);
+  });
+});
+
+test.describe('text-analysis orientation (the notice seam)', () => {
+  test('the sentence counter flags an abbreviation, and stays quiet without one', async ({ page }) => {
+    await page.goto('/tool/text/sentence-counter/');
+    const notice = page.locator('[data-craft="sentence-abbrev"]');
+
+    await page.locator('#sentence-counter-input').fill('One sentence. Then another one.');
+    await expect(notice).toBeHidden();
+
+    await page.locator('#sentence-counter-input').fill('Ship it e.g. now and see.');
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('abbreviation');
+  });
+
+  test('the paragraph counter explains a wall of text', async ({ page }) => {
+    await page.goto('/tool/text/paragraph-counter/');
+    await page.locator('#paragraph-counter-input').fill('one\ntwo\nthree');
+    await expect(page.locator('[data-craft="para-breaks"]')).toContainText('not a paragraph break');
+  });
+
+  test('the notice clears when the input is emptied', async ({ page }) => {
+    await page.goto('/tool/text/paragraph-counter/');
+    const notice = page.locator('[data-craft="para-breaks"]');
+    await page.locator('#paragraph-counter-input').fill('one\ntwo');
+    await expect(notice).toBeVisible();
+    await page.locator('#paragraph-counter-input').fill('');
+    await expect(notice).toBeHidden();
+  });
+});

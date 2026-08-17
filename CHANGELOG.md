@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.12] - 2026-08-17
+
+### Added
+
+- **The five hash generators can check a digest against the one you were given.** Paste the expected
+  hash, or a whole line of `sha256sum` output, and the tool answers. It reads the shapes people
+  actually copy: `sha256sum` output with the filename attached, Docker's `algo:hex` prefix,
+  uppercase from Windows `certutil`, whitespace from a terminal. **The case it exists for is the
+  wrong algorithm** — a 40-character digest in the SHA-256 box is a SHA-1 digest, and every tool
+  that just says "no match" sends somebody re-downloading a file that was never broken.
+- **The JSON tools offer the fix instead of naming a character offset.** `JSON.parse` reports
+  "Unexpected token } at position 47", and the two commonest causes are not the user's mistake: a
+  trailing comma that is legal in JavaScript, and the smart quotes Word, Docs, Notion and Slack
+  insert silently. Both are one tap away now, on the five JSON-input tools. It only ever offers a
+  repair that actually parses.
+- **Every text counter now says one true thing the number does not show.** The sentence counter flags
+  abbreviations that inflate its total; the paragraph counter explains why a wall of text counts as
+  one; the reading time names the words-per-minute rate it assumed. Silent whenever the input does
+  not actually exhibit it.
+- **The password generator's exclude-ambiguous option is now the tool's declared guardrail** —
+  O against 0 and l against 1 are indistinguishable in most fonts, and a password gets typed by hand
+  off a screen or read down a phone.
+
+### Changed
+
+- The JWT decoder's live validity panel and the contrast checker's suggest-a-passing-colour button
+  are now declared craft. Both were already built and already silent until needed; only the
+  declaration was missing.
+
 ## [alpha-v7.10] - 2026-08-17
 
 ### Added

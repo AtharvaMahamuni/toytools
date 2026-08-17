@@ -10,6 +10,11 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-analysis',
+  craft: {
+    id: 'read-assumption',
+    kind: 'orientation',
+    solves: 'A reading time is derived from an assumed words-per-minute rate, not measured, so a reader whose own pace differs has no way to see what the figure assumed.',
+  },
   guide: {
     slug: 'reading-time-calculator',
     categorySlug: 'text-utilities',

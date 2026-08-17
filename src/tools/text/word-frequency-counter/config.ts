@@ -15,6 +15,11 @@ export const config: ToolConfig = {
   family: 'text-counting',
   toolGroup: 'text-counters',
   relatedTools: ['word-counter', 'character-counter', 'remove-duplicate-lines'],
+  craft: {
+    id: 'wf-stopwords',
+    kind: 'orientation',
+    solves: 'Any frequency list of real prose is topped by the, and and of, so the output looks broken when it is simply reporting that English has stop words.',
+  },
   guide: {
     slug: 'how-to-analyze-word-frequency',
     categorySlug: 'text',

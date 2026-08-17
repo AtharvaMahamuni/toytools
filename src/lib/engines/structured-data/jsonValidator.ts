@@ -4,6 +4,7 @@ import type { StructuredDataTool } from './types';
 export const jsonValidator: StructuredDataTool = {
   id: 'json-validator',
   family: 'json',
+  jsonInput: true,
   execute: (input) => {
     if (!input.trim()) return { ok: true, output: '' };
     try {

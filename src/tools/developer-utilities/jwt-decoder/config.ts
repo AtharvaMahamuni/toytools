@@ -15,6 +15,11 @@ export const config: ToolConfig = {
   family: 'token',
   processorId: 'jwt-decoder',
   relatedTools: ['base64-encoder-decoder', 'json-formatter', 'sha256-hash-generator'],
+  craft: {
+    id: 'jwt-validity',
+    kind: 'continuation',
+    solves: 'exp and iat decode to Unix integers, so the question people actually arrived with, whether this token is expired and by how long, is left as arithmetic against the current time.',
+  },
   guide: {
     slug: 'what-is-a-jwt',
     categorySlug: 'developer-utilities',

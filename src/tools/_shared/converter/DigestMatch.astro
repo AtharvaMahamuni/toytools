@@ -1,0 +1,106 @@
+---
+// The craft seam for the hashing engine: check the computed digest against the one you were given.
+//
+// Rendered for every tool whose processor reports `comparable`, which today means all five hash
+// generators and nothing else. The per-tool knowledge lives in the engine (each hasher knows its own
+// digest length, so a 40-character paste in the SHA-256 tool is named as SHA-1 rather than reported
+// as a mismatch); this file is only the control and the line of text under it.
+//
+// Minimal UI, per docs/analysis/2026-08-11-tool-craft.md section 4:
+//   R2/R5 — a label, a field and one line of result. No bordered card: the page already has two
+//           panels, a status line and a metadata row, and a fifth rectangle is how a utility turns
+//           into a control panel.
+//   R3   — the result line is hidden until the engine has something to say, via the `hidden`
+//          attribute *and* an explicit `[hidden] { display: none }`, because any `display` rule
+//          silently overrides the attribute. That has shipped as a visible bug twice.
+//   R6   — 48px target, 16px text so iOS does not zoom, and autocorrect off because a hex digest is
+//          exactly the kind of string a phone keyboard loves to "fix".
+interface Props {
+  id: string;
+  label: string;
+  /** The tool's declared craft id. check-craft.ts fails the build if it never reaches the DOM. */
+  craftId?: string;
+}
+const { id, label, craftId } = Astro.props;
+---
+
+{/* The id is what ConverterWidget's controller looks this up by; without it the controller falls
+    back to its no-op stub and the row renders but never speaks. */}
+<div class="digest-match" id={id} data-craft={craftId}>
+  <label class="digest-match-label" for={`${id}-input`}>{label}</label>
+  <input
+    type="text"
+    id={`${id}-input`}
+    class="digest-match-input"
+    data-digest-expected
+    placeholder="Expected digest, or a line of sha256sum output"
+    autocomplete="off"
+    autocapitalize="off"
+    autocorrect="off"
+    spellcheck="false"
+    inputmode="text"
+    enterkeyhint="done"
+  />
+  <p class="digest-match-result" id={`${id}-result`} data-digest-result role="status" aria-live="polite" hidden></p>
+</div>
+
+<style>
+  /* Restating display:none for the attribute is not belt and braces: the rule below sets `display`,
+     which would otherwise beat [hidden] and ship an empty line on every hash page. */
+  .digest-match-result[hidden] {
+    display: none;
+  }
+
+  .digest-match {
+    margin-top: var(--space-4);
+  }
+
+  .digest-match-label {
+    display: block;
+    margin-bottom: var(--space-1);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+  }
+
+  .digest-match-input {
+    width: 100%;
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    /* Monospace because the content is a digest, and 16px so iOS never zooms the field. */
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+  }
+
+  .digest-match-input:focus-visible {
+    border-color: var(--color-accent);
+  }
+
+  .digest-match-result {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  /* One token per state. The palette already carries all three, which is the check on whether a
+     state deserves to exist at all (R4). */
+  .digest-match-result[data-state='match'] {
+    color: var(--color-success);
+  }
+
+  .digest-match-result[data-state='mismatch'] {
+    color: var(--color-danger);
+  }
+
+  .digest-match-result[data-state='wrong-length'],
+  .digest-match-result[data-state='unreadable'] {
+    color: var(--color-text-muted);
+  }
+</style>

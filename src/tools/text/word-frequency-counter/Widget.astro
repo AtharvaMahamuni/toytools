@@ -15,7 +15,7 @@ import { config } from './config';
     { metric: 'averageWordLength', label: 'Avg Word Length', formatter: 'decimal' },
   ]}
 >
-  <section class="wf-section" id="wf-section" hidden>
+  <section class="wf-section" id="wf-section" hidden data-craft={config.craft?.id}>
     <div class="wf-header">
       <h2 class="wf-heading">Word Frequency</h2>
       <div class="wf-controls">

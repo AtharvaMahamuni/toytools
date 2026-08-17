@@ -66,7 +66,28 @@ const report = process.argv.includes('--report');
  * a tool shipped with nothing of its own, and a box rise means craft was bought with clutter.
  */
 const THRESHOLDS = {
-  coverage: 0.046,
+  // 2026-08-17: 0.149 (16/107), from 0.046 (5/107). Two engine seams, not eleven touches, which is
+  // the only way this backlog moves without multiplying widgets:
+  //   hashing (5)          a `compare` verb + DigestMatch. Each hasher supplies its own digest
+  //                        length, so a 40-character paste is named as SHA-1 rather than reported
+  //                        as a mismatch — the failure that sends people re-downloading good files.
+  //   structured-data (5)  a `repair` resolver + one button. Each processor declares whether ITS
+  //                        input is JSON, so csv-to-json and yaml-to-json render nothing at all.
+  //                        json-tree-viewer is JSON-input but is a bespoke 32 KB widget rather than
+  //                        StructuredDataWidget, so the shared button never reaches it. Declaration
+  //                        removed rather than half-wired; it stays on the backlog.
+  // Plus 2 declarations of touches that were already built and simply undeclared: the JWT live
+  // validity panel and the contrast checker's suggest-a-passing-colour button. Both pass the four
+  // doctrine tests and both were already silent-until-needed; only `craft:` and a data-craft
+  // attribute were missing. Recorded separately because declaring is not building, and a coverage
+  // number that blurs the two would mislead the next person reading it.
+  // Plus password-generator: its exclude-ambiguous option already rendered too, and generator craft
+  // is an option rather than a panel, so GeneratorField gained an optional craft marker. 19/107.
+  //   text-analysis (8)    a `textNotice` resolver + one line in TextMetricWidget. Three bare
+  //                        wrappers gained it; five already rendered their own depth panel and only
+  //                        needed declaring (space-counter has reported trailing whitespace all
+  //                        along, which is the exact failure its knowledge file records).
+  coverage: 0.242,
   boxesPerTool: 7,
   rawHex: 9,
 };
