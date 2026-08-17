@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-analysis',
+  craft: {
+    id: 'cc-breakdown',
+    kind: 'orientation',
+    solves: 'A character limit counts things people do not think of as characters, so a count that fits the box can still fail the field it was written for.',
+  },
   guide: {
     slug: 'character-counter',
     categorySlug: 'text-utilities',

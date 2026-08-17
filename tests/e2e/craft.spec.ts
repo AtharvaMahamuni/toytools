@@ -275,3 +275,32 @@ test.describe('password guardrail', () => {
     await expect(out).not.toHaveText(/[O0Il1]/);
   });
 });
+
+test.describe('text-analysis orientation (the notice seam)', () => {
+  test('the sentence counter flags an abbreviation, and stays quiet without one', async ({ page }) => {
+    await page.goto('/tool/text/sentence-counter/');
+    const notice = page.locator('[data-craft="sentence-abbrev"]');
+
+    await page.locator('#sentence-counter-input').fill('One sentence. Then another one.');
+    await expect(notice).toBeHidden();
+
+    await page.locator('#sentence-counter-input').fill('Ship it e.g. now and see.');
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('abbreviation');
+  });
+
+  test('the paragraph counter explains a wall of text', async ({ page }) => {
+    await page.goto('/tool/text/paragraph-counter/');
+    await page.locator('#paragraph-counter-input').fill('one\ntwo\nthree');
+    await expect(page.locator('[data-craft="para-breaks"]')).toContainText('not a paragraph break');
+  });
+
+  test('the notice clears when the input is emptied', async ({ page }) => {
+    await page.goto('/tool/text/paragraph-counter/');
+    const notice = page.locator('[data-craft="para-breaks"]');
+    await page.locator('#paragraph-counter-input').fill('one\ntwo');
+    await expect(notice).toBeVisible();
+    await page.locator('#paragraph-counter-input').fill('');
+    await expect(notice).toBeHidden();
+  });
+});

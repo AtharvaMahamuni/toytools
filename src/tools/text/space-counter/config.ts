@@ -19,6 +19,11 @@ export const config: ToolConfig = {
     label: 'Spaces',
     formatter: 'integer',
   },
+  craft: {
+    id: 'sc-whitespace',
+    kind: 'orientation',
+    solves: 'The whitespace that matters is the whitespace you cannot see: trailing spaces, tabs among spaces and runs of two or more all read as ordinary gaps on screen.',
+  },
   guide: {
     slug: 'space-counter',
     categorySlug: 'text-utilities',

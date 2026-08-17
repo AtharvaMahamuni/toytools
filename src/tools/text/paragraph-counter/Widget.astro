@@ -6,6 +6,8 @@ import { config } from './config';
 <TextMetricWidget
   slug="paragraph-counter"
   toolGroup={config.toolGroup}
+  noticeId="paragraph-counter"
+  craftId={config.craft?.id}
   emptyMessage="Paste or type text to count paragraphs."
   sampleText={"The quick brown fox jumps over the lazy dog near the old farmhouse. A gentle breeze rustled the leaves in the tall oak tree.\n\nBirds called from hidden branches above the sunlit path. Below, a narrow stream wound between mossy stones, its quiet murmur blending with the hum of bees.\n\nThe fox paused, ears perked, watching the distant hills turn gold in the afternoon sun. Summer was ending, but the meadow was still warm."}
   stats={[

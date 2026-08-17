@@ -83,7 +83,11 @@ const THRESHOLDS = {
   // number that blurs the two would mislead the next person reading it.
   // Plus password-generator: its exclude-ambiguous option already rendered too, and generator craft
   // is an option rather than a panel, so GeneratorField gained an optional craft marker. 19/107.
-  coverage: 0.168,
+  //   text-analysis (8)    a `textNotice` resolver + one line in TextMetricWidget. Three bare
+  //                        wrappers gained it; five already rendered their own depth panel and only
+  //                        needed declaring (space-counter has reported trailing whitespace all
+  //                        along, which is the exact failure its knowledge file records).
+  coverage: 0.242,
   boxesPerTool: 7,
   rawHex: 9,
 };

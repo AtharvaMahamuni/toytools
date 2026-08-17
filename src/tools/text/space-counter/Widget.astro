@@ -15,7 +15,7 @@ import { config } from './config';
     { metric: 'words',              label: 'Words',                formatter: 'integer' },
   ]}
 >
-  <section class="sc-depth" id="space-counter-depth" hidden>
+  <section class="sc-depth" id="space-counter-depth" hidden data-craft={config.craft?.id}>
     <h2 class="sc-depth-heading">Whitespace Details</h2>
     <dl class="sc-depth-grid" id="space-counter-depth-grid" aria-live="polite"></dl>
   </section>

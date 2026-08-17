@@ -19,6 +19,11 @@ export const config: ToolConfig = {
     label: 'Letters',
     formatter: 'integer',
   },
+  craft: {
+    id: 'lc-frequency',
+    kind: 'orientation',
+    solves: 'A letter count answers how many but never which, so checking that a field holds only letters, or which letters dominate, means counting by eye.',
+  },
   guide: {
     slug: 'letter-counter',
     categorySlug: 'text-utilities',

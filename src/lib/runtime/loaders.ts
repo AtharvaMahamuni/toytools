@@ -38,7 +38,7 @@ export const RUNTIME_ENGINE_IDS = Object.keys(ENGINE_LOADERS);
  * `validate-registry` fails the build when a widget calls a global no declared engine provides.
  */
 export const ENGINE_GLOBALS: Record<string, string[]> = {
-  'text-analysis': ['analyze', 'formatMetric'],
+  'text-analysis': ['analyze', 'textNotice', 'formatMetric'],
   'text-processor': ['process'],
   'text-interactive': ['diff', 'diffStats', 'shell'],
   encoding: ['runEncoding', 'transform'],

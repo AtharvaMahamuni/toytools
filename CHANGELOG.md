@@ -17,6 +17,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   trailing comma that is legal in JavaScript, and the smart quotes Word, Docs, Notion and Slack
   insert silently. Both are one tap away now, on the five JSON-input tools. It only ever offers a
   repair that actually parses.
+- **Every text counter now says one true thing the number does not show.** The sentence counter flags
+  abbreviations that inflate its total; the paragraph counter explains why a wall of text counts as
+  one; the reading time names the words-per-minute rate it assumed. Silent whenever the input does
+  not actually exhibit it.
 - **The password generator's exclude-ambiguous option is now the tool's declared guardrail** —
   O against 0 and l against 1 are indistinguishable in most fonts, and a password gets typed by hand
   off a screen or read down a phone.
