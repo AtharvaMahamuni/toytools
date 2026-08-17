@@ -43,9 +43,14 @@ export const knowledge: Knowledge = {
     'Is BMI accurate for muscular people?',
     'How do I calculate BMI in pounds and inches?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'ideal-weight-calculator', reason: 'Compare the BMI band against the classic clinical formulas', strength: 0.8 },
+    { slug: 'body-fat-calculator', reason: 'Get a composition estimate BMI cannot give you', strength: 0.7 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'tdee-calculator', reason: 'Work out the daily energy that goes with that body', strength: 0.7 },
+  ],
   workflowStage: ['analyze'],
   keywords: ['bmi calculator', 'body mass index', 'healthy weight range', 'bmi categories', 'bmi formula'],
   entityAliases: ['body mass index calculator', 'bmi checker', 'weight status calculator'],

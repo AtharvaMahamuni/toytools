@@ -108,6 +108,14 @@ export function buildGraph(
         strength: tierStrength(relationTier(t, rel)),
       });
     }
+    // A tool to its own guide, the strongest guide relation there is. RELATED_GUIDE above cannot
+    // express it: it derives through getRelatedTools, which excludes self, so a guide was reachable
+    // only from sibling tools and any guide no sibling ranked was a graph orphan.
+    if (t.guide) {
+      pushEdge(CONTENT_TYPES.TOOL, t.slug, CONTENT_TYPES.GUIDE, t.slug, RELATION_TYPES.HAS_GUIDE, {
+        strength: 1,
+      });
+    }
     // Overlay edges from the knowledge file (curated, with reason/strength/priority preserved)
     const kn = knowledge.get(t.slug);
     if (!kn) continue;

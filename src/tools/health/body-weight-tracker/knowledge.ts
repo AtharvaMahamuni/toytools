@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'How often should I weigh myself?',
     'What is the moving average line for?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'bmi-calculator', reason: 'Turn today\'s logged weight into a BMI', strength: 0.7 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'calorie-deficit-calculator', reason: 'Set a rate of change for the trend you are logging', strength: 0.7 },
+  ],
   workflowStage: ['input'],
   keywords: ['body weight tracker', 'weight trend', 'daily weigh in', 'moving average', 'weight log'],
   entityAliases: ['weight tracker', 'weight log', 'weigh-in tracker'],

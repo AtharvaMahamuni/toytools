@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'How does the streak work?',
     'Is my data private?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'move-today-tracker', reason: 'Log movement beside hydration', strength: 0.6 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'body-weight-tracker', reason: 'Watch the weight trend the habits feed', strength: 0.5 },
+  ],
   workflowStage: ['input'],
   keywords: ['water intake tracker', 'hydration tracker', 'daily water goal', 'water log', 'water streak'],
   entityAliases: ['hydration tracker', 'water drinking tracker', 'daily water log'],

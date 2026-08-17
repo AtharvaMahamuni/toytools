@@ -43,7 +43,9 @@ export const knowledge: Knowledge = {
     'When does this cron job run next?',
     'How many times a day does this cron run?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'systemd-timer-converter', reason: 'Translate the same schedule into a systemd timer', strength: 0.9 },
+  ],
   alternatives: [],
   nextSteps: [],
   workflowStage: ['transform'],

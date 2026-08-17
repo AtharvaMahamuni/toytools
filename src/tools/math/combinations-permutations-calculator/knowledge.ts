@@ -42,9 +42,13 @@ export const knowledge: Knowledge = {
     'How do I calculate nCr by hand?',
     'What if items are allowed to repeat?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'probability-calculator', reason: 'Turn a count of outcomes into a probability', strength: 0.7 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'prime-factorization-calculator', reason: 'Factor the factorials a large nCr leaves behind', strength: 0.4 },
+  ],
   workflowStage: ['transform'],
   keywords: ['combination calculator', 'permutation calculator', 'ncr calculator', 'npr calculator', 'how many combinations'],
   entityAliases: ['nCr calculator', 'nPr calculator', 'combinations and permutations'],

@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'What is the time difference between two cities?',
     'How do I convert a time to UTC?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'unix-timestamp-converter', reason: 'Convert the same instant to or from epoch seconds', strength: 0.8 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'date-difference-calculator', reason: 'Measure the span once both ends are in one zone', strength: 0.5 },
+  ],
   workflowStage: ['transform'],
   keywords: ['timezone converter', 'time zone converter', 'convert time between time zones', 'utc converter', 'time difference between cities', 'gmt to local time'],
   entityAliases: ['world clock converter', 'time zone calculator', 'gmt converter'],

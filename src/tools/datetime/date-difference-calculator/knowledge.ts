@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'How many weekdays are between two dates?',
     'How many weeks and months is that span?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'age-calculator', reason: 'Measure the same span from a birthdate instead', strength: 0.8 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'timezone-converter', reason: 'Check what those dates are in another zone', strength: 0.5 },
+  ],
   workflowStage: ['transform'],
   keywords: ['date difference calculator', 'days between two dates', 'business days calculator', 'weeks between dates', 'duration between dates'],
   entityAliases: ['days between dates', 'date duration calculator', 'time between dates'],

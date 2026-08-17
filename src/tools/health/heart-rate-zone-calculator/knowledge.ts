@@ -44,9 +44,13 @@ export const knowledge: Knowledge = {
     'How accurate is 220 minus age?',
     'What is the Karvonen method?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'running-pace-calculator', reason: 'Pair the zone with the pace you can hold in it', strength: 0.7 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'tdee-calculator', reason: 'Put the training into a daily energy figure', strength: 0.5 },
+  ],
   workflowStage: ['analyze'],
   keywords: ['heart rate zone calculator', 'max heart rate', 'training zones', 'karvonen method', 'target heart rate'],
   entityAliases: ['training zone calculator', 'target heart rate calculator', 'max heart rate calculator'],

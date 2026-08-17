@@ -44,9 +44,14 @@ export const knowledge: Knowledge = {
     'What is the difference between BMR and TDEE?',
     'Which activity level should I choose?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'bmr-calculator', reason: 'See the resting figure the activity multiplier scales', strength: 0.9 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'macro-calculator', reason: 'Split the daily calories into grams', strength: 0.8 },
+    { slug: 'calorie-deficit-calculator', reason: 'Turn maintenance into a rate of loss or gain', strength: 0.8 },
+  ],
   workflowStage: ['analyze'],
   keywords: ['tdee calculator', 'maintenance calories', 'daily calorie calculator', 'bmr', 'calorie deficit'],
   entityAliases: ['daily calorie calculator', 'maintenance calorie calculator', 'energy expenditure calculator'],

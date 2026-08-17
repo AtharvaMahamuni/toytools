@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'How do I convert a date to a Unix timestamp?',
     'Is a Unix timestamp in seconds or milliseconds?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'timezone-converter', reason: 'Put the decoded instant into a named zone', strength: 0.8 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'date-difference-calculator', reason: 'Measure the gap between two decoded dates', strength: 0.6 },
+  ],
   workflowStage: ['transform'],
   keywords: ['unix timestamp converter', 'epoch converter', 'unix time to date', 'timestamp to date', 'date to unix timestamp', 'milliseconds to date'],
   entityAliases: ['epoch time converter', 'unix time converter', 'posix timestamp'],

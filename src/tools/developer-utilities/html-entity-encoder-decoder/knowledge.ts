@@ -30,12 +30,16 @@ export const knowledge: Knowledge = {
     'What is the difference between &amp; and &#38;?',
     'Does HTML entity encoding prevent XSS?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'url-encoder-decoder', reason: 'Escape the same string for a URL rather than markup', strength: 0.7 },
+  ],
   alternatives: [
     { slug: 'url-encoder-decoder', reason: 'Encode for URL transport instead' },
     { slug: 'base64-encoder-decoder', reason: 'Encode binary data for transport instead' },
   ],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'json-escape', reason: 'Escape it again for a JSON string literal', strength: 0.6 },
+  ],
   workflowStage: ['transform'],
   keywords: ['html entity', 'html encode', 'html decode', 'escape html', 'unescape html'],
   entityAliases: ['html escaping', 'character reference'],
