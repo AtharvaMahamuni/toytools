@@ -17,6 +17,10 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'rule-of-72',
   relatedTools: ['compound-interest-calculator', 'inflation-calculator', 'savings-goal-calculator'],
+  methodology: {
+    name: 'Rule of 72 approximation',
+    detail: 'Dividing 72 by the rate estimates the doubling time. It is an approximation, closest to exact between about 6 and 10 percent.',
+  },
   guide: {
     slug: 'what-is-the-rule-of-72',
     categorySlug: 'finance',

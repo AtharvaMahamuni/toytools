@@ -17,6 +17,10 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'cagr',
   relatedTools: ['roi-calculator', 'rule-of-72-calculator', 'compound-interest-calculator'],
+  methodology: {
+    name: 'Compound annual growth rate',
+    detail: 'The single annual rate that turns the start value into the end value over the period, which is why it is lower than total growth divided by years.',
+  },
   guide: {
     slug: 'what-is-cagr-and-how-to-calculate-it',
     categorySlug: 'finance',

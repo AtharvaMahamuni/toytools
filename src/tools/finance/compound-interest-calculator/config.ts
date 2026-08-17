@@ -17,6 +17,10 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'compound-interest',
   relatedTools: ['savings-goal-calculator', 'rule-of-72-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Periodic compounding formula',
+    detail: 'Future value is FV = P(1 + r/n)^(n x t), so the compounding frequency you pick changes the answer, not just the rate.',
+  },
   guide: {
     slug: 'how-compound-interest-works',
     categorySlug: 'finance',

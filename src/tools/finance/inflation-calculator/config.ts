@@ -17,6 +17,10 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'inflation',
   relatedTools: ['compound-interest-calculator', 'rule-of-72-calculator', 'savings-goal-calculator'],
+  methodology: {
+    name: 'Periodic compounding formula',
+    detail: 'Inflation compounds the same way interest does, so purchasing power falls geometrically rather than in a straight line.',
+  },
   guide: {
     slug: 'how-inflation-affects-money',
     categorySlug: 'finance',

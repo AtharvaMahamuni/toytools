@@ -17,6 +17,10 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'sip',
   relatedTools: ['compound-interest-calculator', 'savings-goal-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Future value of an annuity',
+    detail: 'A regular investment is an annuity, so each contribution compounds for a different length of time and the earliest ones do most of the work.',
+  },
   guide: {
     slug: 'how-a-sip-grows-your-money',
     categorySlug: 'finance',

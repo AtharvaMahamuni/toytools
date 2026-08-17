@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'one-rep-max',
   relatedTools: ['running-pace-calculator', 'heart-rate-zone-calculator', 'protein-intake-calculator', 'body-weight-tracker'],
+  methodology: {
+    name: 'Epley, Brzycki and Lombardi formulas',
+    detail: 'Three published one-rep-max estimates shown together, because they diverge as the rep count climbs and no single one is authoritative above about five reps.',
+  },
   guide: {
     slug: 'how-to-estimate-your-one-rep-max',
     categorySlug: 'health-fitness',

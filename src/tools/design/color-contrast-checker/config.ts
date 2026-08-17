@@ -11,6 +11,10 @@ export const config: ToolConfig = {
   pattern: 'color-contrast',
   family: 'color',
   relatedTools: ['color-format-converter'],
+  methodology: {
+    name: 'WCAG 2.x relative luminance',
+    detail: 'Contrast is the WCAG ratio built from relative luminance, checked against the 4.5:1 and 7:1 thresholds rather than eyeballed.',
+  },
   guide: {
     slug: 'color-contrast-checker',
     categorySlug: 'design',

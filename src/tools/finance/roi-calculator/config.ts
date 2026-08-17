@@ -17,6 +17,10 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'roi',
   relatedTools: ['cagr-calculator', 'compound-interest-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Return on investment, with annualization',
+    detail: 'Total return is gain over cost; the annualized figure converts it to a per-year rate so investments of different lengths can be compared.',
+  },
   guide: {
     slug: 'how-to-calculate-return-on-investment',
     categorySlug: 'finance',

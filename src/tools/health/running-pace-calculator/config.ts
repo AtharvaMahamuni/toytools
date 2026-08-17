@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'running-pace',
   relatedTools: ['heart-rate-zone-calculator', 'one-rep-max-calculator', 'tdee-calculator', 'move-today-tracker'],
+  methodology: {
+    name: 'Riegel endurance model',
+    detail: 'Race predictions use t2 = t1 x (d2/d1)^1.06, where the exponent above 1 is what encodes slowing down over longer distances.',
+  },
   guide: {
     slug: 'how-running-pace-and-race-predictions-work',
     categorySlug: 'health-fitness',

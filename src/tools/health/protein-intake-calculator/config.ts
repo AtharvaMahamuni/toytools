@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'protein-intake',
   relatedTools: ['macro-calculator', 'tdee-calculator', 'body-fat-calculator', 'calorie-deficit-calculator'],
+  methodology: {
+    name: 'Grams per kilogram of body weight',
+    detail: 'Targets are set per kilogram of body weight against published activity bands rather than as one number for everybody.',
+  },
   guide: {
     slug: 'how-much-protein-you-actually-need',
     categorySlug: 'health-fitness',
