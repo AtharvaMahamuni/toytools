@@ -129,11 +129,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Yes. In a single series loop the current is the same at every point, because charge is not created or destroyed along the way. The carriers in the simulator move round the whole loop at one speed set by I = V / R. Voltage, by contrast, is dropped across the resistor, which is where the energy is delivered.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-ohms-law-works',
@@ -141,7 +136,7 @@ export const manifest: SimulationManifest = {
     description:
       "A visual guide to Ohm's law: what voltage, current, and resistance mean, why I = V / R, and how power P = V times I heats the resistor.",
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       "Ohm's law says the current through a resistor is the voltage across it divided by its resistance: I = V / R. Voltage is the electrical push, resistance is the opposition to flow, and current is the resulting stream of charge. For example, 9 volts across 30 ohms gives a current of 9 / 30 = 0.3 amps. Raising the voltage raises the current, while raising the resistance lowers it. Open this circuit simulator, drag a slider, and watch the current and power update as the charge carriers speed up or slow down.",
     sections: [

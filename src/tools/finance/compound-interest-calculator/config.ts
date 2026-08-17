@@ -17,12 +17,16 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'compound-interest',
   relatedTools: ['savings-goal-calculator', 'rule-of-72-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Periodic compounding formula',
+    detail: 'Future value is FV = P(1 + r/n)^(n x t), so the compounding frequency you pick changes the answer, not just the rate.',
+  },
   guide: {
     slug: 'how-compound-interest-works',
     categorySlug: 'finance',
     title: 'How Compound Interest Works',
     description: 'Understand how compound interest grows money over time, how compounding frequency and contributions matter, and the formula behind it.',
     readMinutes: 6,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

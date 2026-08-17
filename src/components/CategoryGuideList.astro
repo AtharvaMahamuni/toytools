@@ -1,0 +1,111 @@
+---
+// Category Guide List — the guides belonging to a category, listed on the category hub.
+//
+// Why this exists: until 2026-08-17 no category page linked a single guide. Guides were reachable
+// only from their own tool page (121 of 121) and from each other (87 of 121), which left them at a
+// median of 5 inbound internal links against 13 for tool pages, 37 of them on two or fewer, and 56
+// sitting at click depth 3. The guide is the page that answers the informational query, which is
+// the query class a young domain can realistically win first, and it was the page type we linked
+// least. Measured in docs/analysis/2026-08-16-seo-ranking-gaps.md.
+//
+// Deliberately a plain list of links rather than cards: this sits below the tool list, and the
+// tools are what the category page is for. It adds one crawlable link per guide from a depth-1
+// hub, which is the entire point, without competing with the rows above it.
+import type { ToolConfig, Category } from '@data/types';
+import { withBase } from '@lib/paths';
+
+interface Props {
+  category: Category;
+  tools: ToolConfig[];
+}
+
+const { category, tools: categoryTools } = Astro.props;
+
+const guides = categoryTools
+  .filter(t => t.guide)
+  .map(t => ({
+    title: t.guide!.title,
+    description: t.guide!.description,
+    readMinutes: t.guide!.readMinutes,
+    href: withBase(`/guide/${t.guide!.categorySlug}/${t.guide!.slug}/`),
+  }))
+  .sort((a, b) => a.title.localeCompare(b.title));
+---
+
+{guides.length > 0 && (
+  <section class="category-guides" aria-labelledby="category-guides-heading">
+    <h2 id="category-guides-heading">Guides</h2>
+    <p class="category-guides-intro">
+      How the {category.name.toLowerCase()} calculations work, and where they go wrong.
+    </p>
+    <ul class="category-guide-list">
+      {guides.map(g => (
+        <li>
+          <a href={g.href}>
+            <span class="category-guide-title">{g.title}</span>
+            <span class="category-guide-meta">{g.readMinutes} min read</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .category-guides {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: var(--border);
+  }
+
+  .category-guides h2 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .category-guides-intro {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+  }
+
+  .category-guide-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .category-guide-list a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    /* The row is the touch target, so it has to clear the floor on its own. */
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-2);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .category-guide-list a:hover {
+    background: var(--color-surface-hover);
+  }
+
+  /* Phones have no hover. */
+  .category-guide-list a:active {
+    background: var(--color-accent-subtle);
+  }
+
+  .category-guide-title {
+    font-size: var(--text-sm);
+  }
+
+  .category-guide-meta {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

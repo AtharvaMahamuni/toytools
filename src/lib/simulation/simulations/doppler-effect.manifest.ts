@@ -78,7 +78,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Doppler Effect Calculator: Why Sirens Change Pitch',
     description:
-      'See the Doppler effect in action. Move a source and watch its wavefronts bunch up ahead and stretch behind while the observed frequency shifts up and down.',
+      'See the Doppler effect in action: the frequency shift a moving source produces, with wavefronts bunching up ahead of it and stretching out behind.',
     tagline: 'Move a source and watch its wavefronts bunch up and stretch behind.',
     keywords: ['Doppler effect', 'Doppler shift', 'wavefront', 'frequency shift', 'siren pitch', 'doppler effect simulator'],
   },
@@ -120,11 +120,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The shift depends on the source speed as a fraction of the wave speed, the Mach number. A faster source moves further between wavefronts, so it squashes them more tightly ahead and stretches them more behind. As the source speed approaches the wave speed the wavefronts ahead pile almost on top of each other, which in the extreme is what produces a sonic boom. The simulator shows the wavefronts crowding as you raise the source speed.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-the-doppler-effect-works',
@@ -132,7 +127,7 @@ export const manifest: SimulationManifest = {
     description:
       'Why a moving source shifts the observed frequency, how to calculate the Doppler shift, and why a siren drops in pitch as it passes.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'The Doppler effect is the shift in observed frequency when a source moves relative to an observer. A moving source bunches its wavefronts up ahead and stretches them behind, so an observer it approaches hears a higher frequency and one it has passed hears a lower one. For example, an ambulance siren sounds high then drops as it goes by. The observed frequency approaching is f prime = f v / (v minus vs). Open this simulator, move the source, and watch the wavefronts and the observed frequency respond.',
     sections: [

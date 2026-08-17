@@ -4,8 +4,7 @@ export const config: ToolConfig = {
   slug: 'shell-quote-escalator',
   name: 'Shell Quote Escalator',
   seoTitle: 'Shell Quote Escalator - Nested Quotes for ssh and docker',
-  description:
-    'Escape quotes for an ssh command crossing shell quoting layers: sudo, bash -c, docker exec. See the string each layer gets, including paths with spaces.',
+  description: 'Escape quotes for an ssh command crossing shell quoting layers: sudo, bash -c, docker exec. The shlex quote job for a remote shell, including paths with spaces.',
   tagline: 'Escape a command for every shell between you and the far end.',
   categorySlug: 'developer-utilities',
   tags: [
@@ -43,6 +42,6 @@ export const config: ToolConfig = {
     description:
       'Why each shell in the path eats one level of quoting, and how to work out how many levels a command needs.',
     readMinutes: 6,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-16',
   },
 };

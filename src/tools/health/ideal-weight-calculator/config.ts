@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'ideal-weight',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'body-weight-tracker'],
+  methodology: {
+    name: 'Devine, Robinson, Miller and Hamwi formulas',
+    detail: 'Four published clinical formulas, shown side by side because they disagree by several kilograms and no single one is authoritative.',
+  },
   guide: {
     slug: 'how-to-find-your-ideal-weight',
     categorySlug: 'health-fitness',
     title: 'How to Find Your Ideal Weight for Your Height',
     description: 'Learn what the classic ideal-weight formulas do, why they disagree, and why a healthy weight is a range rather than a single number.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

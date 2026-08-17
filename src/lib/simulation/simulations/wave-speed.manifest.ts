@@ -118,11 +118,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The period is the time for one full cycle and is the reciprocal of frequency: T = 1 / f. At 2 Hz the period is 0.5 seconds; at 0.25 Hz it is 4 seconds. The simulator shows the period alongside the wave speed so you can see both change together as you move the frequency slider.',
     },
-    {
-      question: 'Is anything uploaded when I use the simulator?',
-      answer:
-        'No. The whole simulation runs in your browser using the HTML canvas and a little maths. Nothing you do is sent anywhere, and it keeps working offline once the page has loaded.',
-    },
   ],
   guide: {
     slug: 'how-wave-speed-works',
@@ -130,7 +125,7 @@ export const manifest: SimulationManifest = {
     description:
       'A visual guide to wave speed: what frequency, wavelength, and amplitude change, why v = f times lambda, and what does not affect a wave speed.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
     quickAnswer:
       "A wave's speed, or wave velocity, is how fast its crests travel, and it equals the frequency multiplied by the wavelength. What does v = f times lambda mean? The wave equation says speed is frequency times wavelength. Frequency is how many cycles pass a point each second, and wavelength is the distance from one crest to the next. For example, a 2 Hz wave with crests 3 metres apart moves at 6 metres per second. Amplitude, the height of the wave, changes its energy but never its speed. Open this wave simulator, drag a slider, and watch the speed update as you go.",
     sections: [

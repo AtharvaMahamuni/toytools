@@ -16,12 +16,16 @@ export const config: ToolConfig = {
   family: 'savings',
   processorId: 'emergency-fund',
   relatedTools: ['savings-goal-calculator', 'compound-interest-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Months of essential expenses',
+    detail: 'Sized from essential monthly outgoings rather than income, because what a fund has to cover is what you must keep paying.',
+  },
   guide: {
     slug: 'how-much-emergency-fund',
     categorySlug: 'finance',
     title: 'How Much Emergency Fund Do You Need?',
     description: 'Learn how to size an emergency fund from your monthly expenses, how many months to aim for, and how to build it.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

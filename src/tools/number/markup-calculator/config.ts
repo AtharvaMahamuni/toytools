@@ -20,6 +20,6 @@ export const config: ToolConfig = {
     title: 'Markup vs Margin: How To Calculate Markup',
     description: 'Understand the difference between markup and margin, the markup formula, and how to price from a target markup.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

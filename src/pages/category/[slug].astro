@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../../lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import CategoryToolList from '@components/CategoryToolList.astro';
+import CategoryGuideList from '@components/CategoryGuideList.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { withBase } from '../../lib/paths';
@@ -42,6 +43,7 @@ const headline = category.headline ?? category.name;
   </div>
 
   <CategoryToolList category={category} tools={categoryTools} />
+  <CategoryGuideList category={category} tools={categoryTools} />
 </BaseLayout>
 
 <style>

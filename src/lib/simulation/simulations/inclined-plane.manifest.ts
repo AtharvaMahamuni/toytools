@@ -77,7 +77,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Inclined Plane Calculator: Forces on a Ramp',
     description:
-      'Watch a block on a ramp slide or hold still. Set the angle, mass, and friction and see the force components and acceleration a = g(sinθ - μcosθ) live.',
+      'Watch a block on a slope slide or hold still. Set the angle, mass and coefficient of friction and see the physics of the forces and acceleration live.',
     tagline: 'Set angle, mass and friction, and see whether the block slides.',
     keywords: ['inclined plane', 'ramp physics', 'friction', 'normal force', 'components of gravity', 'inclined plane calculator'],
   },
@@ -119,11 +119,6 @@ export const manifest: SimulationManifest = {
       answer:
         'A steeper ramp increases the weight component along the incline (mg sinθ) and reduces the normal force and friction (mg cosθ), so the block accelerates faster. A shallower ramp does the reverse and may let friction hold the block still. Comparing a steep vs shallow ramp in the simulator shows the acceleration and force arrows change together.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-forces-work-on-an-inclined-plane',
@@ -131,7 +126,7 @@ export const manifest: SimulationManifest = {
     description:
       'How to resolve gravity on a ramp, why the acceleration is a = g(sinθ - μcosθ), how the normal force becomes mg cosθ, and when friction holds a block still.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'On an inclined plane, gravity splits into a component along the ramp, mg sinθ, that pulls the block down and a component into the ramp, mg cosθ, that sets the normal force. The block accelerates at a = g(sinθ - μcosθ) once the slope beats friction. For example, a frictionless 30 degree ramp gives about 4.9 m/s squared, the same for any mass. If tanθ is less than μ, friction holds the block still. Open this simulator, drag the ramp steeper or add friction, and watch the forces and acceleration respond.',
     sections: [

@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'reverse-text',
   name: 'Reverse Text',
   seoTitle: 'Reverse Text — Flip Text Backwards Online',
-  description: 'Reverse text character by character, online and private.',
+  description: 'Reverse text or a string character by character, online and private.',
   categorySlug: 'text-utilities',
   tags: ['reverse text', 'backwards text', 'flip text', 'reverse string', 'mirror text', 'text reverser', 'reverse text online'],
   updatedAt: '2026-07-10',
@@ -18,6 +18,6 @@ export const config: ToolConfig = {
     title: 'How To Reverse Text',
     description: 'Learn what reversing text does, when backwards text is useful, and how to flip a string character by character instantly.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

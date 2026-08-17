@@ -21,9 +21,4 @@ export const items: FAQItem[] = [
     question: 'Does the order of the dates matter?',
     answer: 'No. The calculator measures the length of the span whichever way round you enter the dates, so a start after the end gives the same duration. It notes when the dates are reversed so you can double-check the direction if it matters for your use.',
   },
-  {
-    id: 'date-difference-calculator-faq-5',
-    question: 'Are the dates sent anywhere?',
-    answer: 'No. The calculation runs entirely in your browser using your device clock. Nothing you type is uploaded, stored on a server, or shared, so it works offline once the page has loaded.',
-  },
 ];

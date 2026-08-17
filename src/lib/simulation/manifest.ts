@@ -143,6 +143,8 @@ export interface GuideManifest {
   /** Guide meta description, <= 160 chars. */
   description: string;
   readMinutes: number;
+  /** ISO 8601 `YYYY-MM-DD`, same contract as `GuideConfig.updatedAt`: it is the schema value, and
+   *  the visible "Updated Jun 2026" line is derived from it by `formatMonthYear`. */
   updatedAt: string;
   /** The Quick Answer paragraph (definition + key equation + the CTA is auto-appended). */
   quickAnswer: string;

@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'one-rep-max-calculator',
   name: 'One Rep Max Calculator',
   seoTitle: 'One Rep Max Calculator: 1RM Plus the Percentage Table',
-  description: 'Estimate your one rep max (1RM) from a set you actually lifted, across the Epley, Brzycki and Lombardi formulas, with training percentages.',
+  description: 'Estimate your one rep max from a set you actually lifted, for the bench press or any lift, across the Epley, Brzycki and Lombardi formulas.',
   tagline: 'Your one rep max from a set you lifted, across four formulas.',
   categorySlug: 'health-fitness',
   tags: [
@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'one-rep-max',
   relatedTools: ['running-pace-calculator', 'heart-rate-zone-calculator', 'protein-intake-calculator', 'body-weight-tracker'],
+  methodology: {
+    name: 'Epley, Brzycki and Lombardi formulas',
+    detail: 'Three published one-rep-max estimates shown together, because they diverge as the rep count climbs and no single one is authoritative above about five reps.',
+  },
   guide: {
     slug: 'how-to-estimate-your-one-rep-max',
     categorySlug: 'health-fitness',
     title: 'How to Estimate Your One Rep Max',
     description: 'What the Epley and Brzycki formulas do, why they disagree above ten reps, and how to turn the estimate into training percentages.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

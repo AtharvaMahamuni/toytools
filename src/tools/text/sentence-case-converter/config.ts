@@ -19,5 +19,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To Sentence Case',
     description: 'Learn what sentence case is, why it is the default for body text, and how to fix inconsistent capitalization quickly.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

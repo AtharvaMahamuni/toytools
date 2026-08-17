@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'running-pace-calculator',
   name: 'Running Pace Calculator',
   seoTitle: 'Running Pace Calculator: Pace, Speed and Race Times',
-  description: 'Turn a distance and a finish time into pace per kilometre and per mile, plus predicted 5K, 10K, half and full marathon times.',
+  description: 'Turn a distance and finish time into pace as min per km and per mile, with race splits and predicted 5K, 10K, half and marathon times.',
   tagline: 'Pace per km and per mile, plus predicted race times.',
   categorySlug: 'health-fitness',
   tags: [
@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'running-pace',
   relatedTools: ['heart-rate-zone-calculator', 'one-rep-max-calculator', 'tdee-calculator', 'move-today-tracker'],
+  methodology: {
+    name: 'Riegel endurance model',
+    detail: 'Race predictions use t2 = t1 x (d2/d1)^1.06, where the exponent above 1 is what encodes slowing down over longer distances.',
+  },
   guide: {
     slug: 'how-running-pace-and-race-predictions-work',
     categorySlug: 'health-fitness',
     title: 'How Running Pace and Race Predictions Work',
     description: 'Pace versus speed, how Riegel predicts a longer race from a shorter one, and how far you can trust the extrapolation.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

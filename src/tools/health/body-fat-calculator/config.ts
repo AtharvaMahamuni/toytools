@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'body-fat',
   relatedTools: ['bmi-calculator', 'tdee-calculator'],
+  methodology: {
+    name: 'US Navy circumference method',
+    detail: 'Estimates body fat from tape measurements of neck, waist and hips, so it needs no calipers and no scale.',
+  },
   guide: {
     slug: 'how-to-measure-body-fat',
     categorySlug: 'health-fitness',
     title: 'How to Measure Body Fat With a Tape Measure',
     description: 'Learn the U.S. Navy body fat method, exactly where to measure, how accurate it is, and how body fat differs from BMI as a health signal.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

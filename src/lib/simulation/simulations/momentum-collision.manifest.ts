@@ -121,11 +121,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The heavy cart barely slows while the light cart shoots forward. In the elastic limit a very heavy cart hitting a stationary light one sends the light cart off at close to twice the incoming speed, while the heavy cart continues almost unchanged. Load the Heavy hits light preset in the simulator to see this, then swap to Light hits heavy for the mirror case where the light cart bounces back.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-momentum-is-conserved-in-collisions',
@@ -133,7 +128,7 @@ export const manifest: SimulationManifest = {
     description:
       'Why momentum is conserved in every collision, how elastic and inelastic collisions differ in kinetic energy, and how the masses and restitution set the outcome.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'In every collision the total momentum is conserved: the sum p = m1 v1 + m2 v2 is the same before and after the impact. Kinetic energy, though, is only conserved in an elastic collision. For example, two equal carts in an elastic collision swap velocities, while in a perfectly inelastic collision they stick together and lose some kinetic energy to heat. The masses and the coefficient of restitution set the outcome. Open this simulator, pick the masses and speed, and watch momentum hold steady while the carts collide.',
     sections: [

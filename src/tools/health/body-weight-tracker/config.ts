@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Track Body Weight Without Losing Your Mind',
     description: 'Learn why the weight trend matters more than any single reading, how to weigh consistently, and how a moving average cuts through daily noise.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

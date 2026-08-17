@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'bmr-calculator',
   name: 'BMR Calculator',
   seoTitle: 'BMR Calculator: Basal Metabolic Rate, Mifflin-St Jeor',
-  description: 'Calculate your basal metabolic rate with the Mifflin-St Jeor equation, and see what each activity level adds on top of it.',
+  description: 'Calculate your basal or resting metabolic rate with the Mifflin-St Jeor equation, the modern replacement for the Harris-Benedict equation.',
   tagline: 'Your basal metabolic rate, and what each activity level adds.',
   categorySlug: 'health-fitness',
   tags: [
@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'bmr',
   relatedTools: ['tdee-calculator', 'calorie-deficit-calculator', 'macro-calculator', 'bmi-calculator'],
+  methodology: {
+    name: 'Mifflin-St Jeor equation',
+    detail: 'The equation clinical practice moved to over Harris-Benedict, because it estimates resting energy use more closely across modern body compositions.',
+  },
   guide: {
     slug: 'what-your-bmr-actually-measures',
     categorySlug: 'health-fitness',
     title: 'What Your BMR Actually Measures',
     description: 'How the Mifflin-St Jeor equation estimates resting energy, why it is not what you should eat, and how activity turns it into a daily total.',
     readMinutes: 5,
-    updatedAt: 'Aug 2026',
+    updatedAt: '2026-08-04',
   },
 };

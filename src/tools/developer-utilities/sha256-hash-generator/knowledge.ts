@@ -30,7 +30,9 @@ export const knowledge: Knowledge = {
     'Is SHA-256 safe for password hashing?',
     'How does SHA-256 compare to MD5 and SHA-1?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'base64-encoder-decoder', reason: 'Encode the digest for a header or a token', strength: 0.6 },
+  ],
   alternatives: [
     { slug: 'md5-hash-generator', reason: 'Faster but broken for security' },
     { slug: 'sha1-hash-generator', reason: 'Deprecated predecessor' },

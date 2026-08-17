@@ -17,12 +17,16 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'inflation',
   relatedTools: ['compound-interest-calculator', 'rule-of-72-calculator', 'savings-goal-calculator'],
+  methodology: {
+    name: 'Periodic compounding formula',
+    detail: 'Inflation compounds the same way interest does, so purchasing power falls geometrically rather than in a straight line.',
+  },
   guide: {
     slug: 'how-inflation-affects-money',
     categorySlug: 'finance',
     title: 'How Inflation Affects Your Money',
     description: 'Understand how inflation erodes purchasing power over time, how to read real vs nominal value, and the formula behind it.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

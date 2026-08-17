@@ -98,7 +98,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Unit Circle Calculator: Interactive Sin, Cos & Tan',
     description:
-      'Drag a point around an interactive unit circle. Watch sin, cos, and tan update live, see the reference triangle, and trace the sine wave in your browser.',
+      'Drag a point around the trig circle and watch sin cos tan values update live in both radians and degrees, with the reference triangle and sine wave.',
     tagline: 'Drag a point around the circle and watch sin, cos and tan update.',
     keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles'],
   },
@@ -155,11 +155,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Because they are coordinates of a point stuck on a circle of radius 1. The point can never be further than 1 unit from either axis, so both coordinates live in the range -1 to 1 forever. Tangent has no such cage: it is the ratio sin θ / cos θ, and as cos θ shrinks near 90° the ratio grows without limit. If a calculation hands you sin θ = 1.4, something upstream is wrong.',
     },
-    {
-      question: 'Does the explorer upload anything or need an account?',
-      answer:
-        'No. It is a static page that runs entirely in your browser: the circle, the trig values, and the traced wave are all computed locally on the HTML canvas. Nothing is sent anywhere, there is no account, and it keeps working offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-the-unit-circle-works',
@@ -167,7 +162,7 @@ export const manifest: SimulationManifest = {
     description:
       'How the unit circle gives sin, cos, and tan for any angle, why radians make sense, the special angles worth memorizing, and where the sine wave comes from.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-14',
     quickAnswer:
       'The unit circle is a circle of radius 1 centered at the origin, and the point at angle θ has coordinates exactly (cos θ, sin θ). That single fact defines sine and cosine for every angle. For example, at 45° the point sits at (0.707, 0.707), so sin and cos are both √2/2. Tangent is the ratio tan θ = sin θ / cos θ. Open the explorer, drag the point, and read sin cos tan values live as the reference triangle follows your angle.',
     sections: [

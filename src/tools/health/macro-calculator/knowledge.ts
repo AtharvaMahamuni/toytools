@@ -42,9 +42,13 @@ export const knowledge: Knowledge = {
     'What is a good macro split for weight loss?',
     'How much protein should I eat?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'tdee-calculator', reason: 'Get the calorie target the split divides up', strength: 0.9 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'protein-intake-calculator', reason: 'Sanity-check the protein half against body weight', strength: 0.7 },
+  ],
   workflowStage: ['analyze'],
   keywords: ['macro calculator', 'macronutrient calculator', 'protein carbs fat', 'macro split', 'keto macros'],
   entityAliases: ['macronutrient calculator', 'iifym calculator', 'protein carb fat calculator'],

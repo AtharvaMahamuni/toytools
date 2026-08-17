@@ -85,7 +85,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Probability Calculator: Coin Flips & Law of Large Numbers',
     description:
-      'Flip a coin or roll a die thousands of times and watch the empirical frequency converge on the theoretical probability. The law of large numbers, animated.',
+      'Toss a coin or roll dice thousands of times and watch the odds converge on theory: a live demonstration of the law of large numbers you can experiment with.',
     tagline: 'Roll thousands of times and watch frequency converge on probability.',
     keywords: ['coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment'],
   },
@@ -142,11 +142,6 @@ export const manifest: SimulationManifest = {
       answer:
         'One half times one half: 1/4. Independent events multiply, so a run of k heads has probability (1/2)^k, which is why five in a row (1/32) feels rare but shows up regularly in a few hundred flips. The multiplication rule is also why streaks in the lab are normal rather than evidence of a broken coin: with thousands of trials, improbable runs get plenty of chances to happen.',
     },
-    {
-      question: 'Does the lab upload anything or need an account?',
-      answer:
-        'No. Every trial runs in your browser on the HTML canvas. Nothing is sent anywhere, there is no account, and the lab keeps working offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-the-law-of-large-numbers-works',
@@ -154,7 +149,7 @@ export const manifest: SimulationManifest = {
     description:
       'Empirical vs theoretical probability, why small samples swing wildly, what the law of large numbers really promises, and why coins have no memory.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-16',
     quickAnswer:
       'Theoretical probability counts outcomes: a fair coin gives heads with P = 1/2. Empirical probability measures experiments: the fraction of heads you actually saw. The law of large numbers connects them: as independent trials pile up, the empirical frequency converges on the theoretical value. For example, 10 flips can easily show 70 percent heads, but 10,000 flips will almost surely sit near 50 percent. Open the lab, run trials at up to 60 per second, and watch the convergence happen on the graph.',
     sections: [

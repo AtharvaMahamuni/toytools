@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'What counts as movement for the day?',
     'What happens to my streak if I miss a day?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'water-intake-tracker', reason: 'Log the other daily habit in the same place', strength: 0.6 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'body-weight-tracker', reason: 'Track the outcome the movement is for', strength: 0.6 },
+  ],
   workflowStage: ['input'],
   keywords: ['movement tracker', 'exercise streak', 'daily habit tracker', 'activity streak', 'habit streak'],
   entityAliases: ['exercise habit tracker', 'daily movement tracker', 'workout streak tracker'],

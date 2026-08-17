@@ -122,11 +122,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The period halves. Because T = 1 / f, frequency and period always move in opposite directions by the same factor. Double the frequency and each cycle has half as much time; halve the frequency and each cycle lasts twice as long. Drag the frequency slider and watch the period reading move the opposite way.',
     },
-    {
-      question: 'Does this simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple maths. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-frequency-and-period-relate',
@@ -134,7 +129,7 @@ export const manifest: SimulationManifest = {
     description:
       'How frequency and period are reciprocals, how to convert frequency to period, what angular frequency means, and why doubling frequency halves the period.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
     quickAnswer:
       'Frequency and period are two views of the same oscillation, and they are reciprocals: T = 1 / f. Frequency (f) counts how many cycles happen each second, measured in hertz. Period (T) is the time one cycle takes, measured in seconds. For example, a 2 Hz oscillation repeats twice a second, so its period of oscillation is 1 / 2 = 0.5 seconds. Open the simulator, drag the frequency slider or tap a beat, and watch the period and angular frequency update live.',
     sections: [

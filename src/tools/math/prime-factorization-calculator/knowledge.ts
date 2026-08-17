@@ -42,9 +42,13 @@ export const knowledge: Knowledge = {
     'How do GCF and LCM come from prime factors?',
     'How do I know if a number is prime?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'fraction-calculator', reason: 'Use the GCF and LCM to simplify fractions', strength: 0.7 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'combinations-permutations-calculator', reason: 'Count arrangements once the factors are known', strength: 0.4 },
+  ],
   workflowStage: ['transform'],
   keywords: ['prime factorization calculator', 'factor tree', 'gcf calculator', 'lcm calculator', 'greatest common factor'],
   entityAliases: ['prime factor calculator', 'factor tree calculator', 'gcf and lcm calculator'],

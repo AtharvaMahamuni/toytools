@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'macro',
   relatedTools: ['tdee-calculator', 'bmi-calculator'],
+  methodology: {
+    name: 'Atwater energy factors',
+    detail: 'Grams derived at 4 kcal per gram of protein and carbohydrate and 9 per gram of fat, the standard factors behind every nutrition label.',
+  },
   guide: {
     slug: 'how-to-calculate-macros',
     categorySlug: 'health-fitness',
     title: 'How to Calculate Your Macros From Calories',
     description: 'Learn what macros are, how calories convert to grams of protein, carbs, and fat, and how to pick a split you can actually stick to.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

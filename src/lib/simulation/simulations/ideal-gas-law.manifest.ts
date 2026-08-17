@@ -78,7 +78,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Ideal Gas Law Calculator: PV = nRT',
     description:
-      'See the ideal gas law come alive. Set the temperature, volume, and amount and watch the pressure and the gas particles respond through PV = nRT.',
+      'Set temperature, volume and amount and watch pressure respond through PV = nRT, tracing Boyle\'s law and Charles\'s law as the special cases it contains.',
     tagline: 'Set temperature, volume and amount, watch pressure respond via PV = nRT.',
     keywords: ['ideal gas law', 'PV = nRT', 'gas pressure', 'gas laws', 'Boyle\'s law', 'gas law simulator'],
   },
@@ -120,11 +120,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Pressure comes from countless particle collisions with the container walls, not from the weight of the gas. Each impact gives the wall a tiny push, and the collective effect over the whole surface is the pressure. More particles, faster particles, or a smaller box all increase the collision rate and therefore the pressure, exactly as PV = nRT predicts.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-the-ideal-gas-law-works',
@@ -132,7 +127,7 @@ export const manifest: SimulationManifest = {
     description:
       'A visual guide to the ideal gas law: what pressure, volume, temperature, and moles mean, why PV = nRT, and how heating or compressing a gas changes it.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'The ideal gas law says PV = nRT: the pressure times the volume of a gas equals the amount in moles times the gas constant R times the absolute temperature. Rearranged, the pressure is P = nRT / V. For example, one mole of gas at 300 K in 25 litres sits near 100 kPa. Squeeze the volume or raise the temperature and the pressure climbs. Temperature must be in kelvin. Open this simulator, drag the piston or a slider, and watch the pressure and the gas particles respond live.',
     sections: [
@@ -140,7 +135,7 @@ export const manifest: SimulationManifest = {
         id: 'how-it-works',
         heading: 'How the Ideal Gas Law Works',
         body:
-          'The canvas draws a box of gas particles with a movable piston. The particles bounce around and strike the walls, and the sum of those collisions is the pressure. For example, that is why PV = nRT holds: more particles, faster particles, or a smaller box all increase the collision rate. Raise the temperature and the particles speed up; drag the piston in and they crowd together. Each change pushes the pressure in the direction the equation predicts.',
+          'The canvas draws a box of gas particles with a movable piston. The particles bounce around and strike the walls, and the sum of those collisions is the pressure. That picture is kinetic theory, the molecular account the gas laws summarise. For example, that is why PV = nRT holds: more particles, faster particles, or a smaller box all increase the collision rate. Raise the temperature and the particles speed up; drag the piston in and they crowd together. Each change pushes the pressure in the direction the equation predicts.',
       },
       {
         id: 'the-four-quantities',
@@ -173,7 +168,7 @@ export const manifest: SimulationManifest = {
           'The ideal gas law needs an absolute temperature, so you must convert celsius to kelvin by adding 273.15 first. Unlike a difference in temperature, the value that goes into PV = nRT has to start from absolute zero. Feeding in celsius gives wrong, sometimes negative, pressures. The simulator uses kelvin throughout.',
       },
       {
-        heading: 'Thinking pressure comes from the gas weight',
+        heading: 'Thinking pressure comes from the gas weight, not particle collisions',
         body:
           'Gas pressure comes from particle collisions with the walls, not from the weight of the gas pressing down. That is why pressure pushes outward in every direction equally. More or faster particles, or a smaller box, raise the collision rate and the pressure, exactly as the equation predicts.',
       },
@@ -181,7 +176,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Try it yourself',
         body:
-          'Load the Compressed preset to see a small volume at high pressure, then switch to Heated gas to watch temperature drive the pressure up instead. Drag the piston to trace the P-V curve on the graph. Everything runs in your browser and works offline. To explore heat flow next, try the heat transfer simulator.',
+          'Use the gas law simulator above as a lab: load the Compressed preset to see a small volume at high pressure, then switch to Heated gas to watch temperature drive the pressure up instead. Drag the piston to trace the P-V curve on the graph. Everything runs in your browser and works offline. To explore heat flow next, try the heat transfer simulator.',
       },
     ],
   },

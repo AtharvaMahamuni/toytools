@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'json-minifier',
   name: 'JSON Minifier',
   seoTitle: 'JSON Minifier — Free Online Tool',
-  description: 'Minify and compress JSON by removing whitespace instantly in your browser. Fast, private, and free.',
+  description: 'Minify and compress JSON to shrink it by removing whitespace, instantly in your browser. Fast, private, and free.',
   tagline: 'Strip whitespace from JSON to make it smaller.',
   categorySlug: 'developer-utilities',
   tags: ['json minifier', 'minify json', 'compress json', 'json compact', 'json minify online', 'shrink json', 'json compressor', 'developer'],
@@ -22,5 +22,5 @@ export const config: ToolConfig = {
     title: 'What Is JSON Minification?',
     description: 'Understand how JSON minification reduces payload size, when to minify vs format, and how minification stacks with gzip compression.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-09',
   },};

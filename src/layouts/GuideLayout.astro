@@ -10,6 +10,7 @@ import YouMayAlsoNeed from '@components/knowledge/YouMayAlsoNeed.astro';
 import ContinueLearning from '@components/knowledge/ContinueLearning.astro';
 import type { EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
+import { formatMonthYear } from '@lib/dates';
 import { withBase } from '../lib/paths';
 
 interface Props {
@@ -47,6 +48,10 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 3, name: title },
   ],
 };
+
+// `updatedAt` is ISO 8601 (see GuideConfig.updatedAt). It goes to the schema verbatim, because that
+// is the only shape Google parses, and reaches the visitor through formatMonthYear below.
+const updatedDisplay = formatMonthYear(updatedAt);
 
 const articleSchema = {
   '@context': 'https://schema.org',
@@ -89,7 +94,7 @@ const articleSchema = {
     <p class="guide-meta">
       {readMinutes} min read
       <span class="gold-dot" aria-hidden="true"></span>
-      Updated {updatedAt}
+      Updated {updatedDisplay}
     </p>
   </div>
 

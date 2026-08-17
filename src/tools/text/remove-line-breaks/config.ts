@@ -4,7 +4,8 @@ export const config: ToolConfig = {
   slug: 'remove-line-breaks',
   name: 'Remove Line Breaks',
   seoTitle: 'Remove Line Breaks — Join Text Into One Paragraph',
-  description: 'Remove line breaks and join wrapped text into one paragraph.',
+  description: 'Remove line breaks from text and join lines into one paragraph. Strip the newlines a copy and paste leaves behind, or delete them all at once.',
+  tagline: 'Join wrapped lines back into one paragraph.',
   categorySlug: 'text-utilities',
   tags: ['remove line breaks', 'delete line breaks', 'strip newlines', 'join lines', 'remove hard returns', 'unwrap text', 'remove line breaks online'],
   updatedAt: '2026-07-09',
@@ -19,6 +20,6 @@ export const config: ToolConfig = {
     title: 'How To Remove Line Breaks',
     description: 'Learn why pasted text gets broken across lines and how to join it back into one clean, continuous paragraph.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },
 };

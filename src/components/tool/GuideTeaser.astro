@@ -1,13 +1,17 @@
 ---
+import { formatMonthYear } from '@lib/dates';
+
 interface Props {
   href: string;
   title: string;
   description: string;
   readMinutes: number;
+  /** ISO 8601, per GuideConfig.updatedAt. Rendered as "Jun 2026". */
   updatedAt: string;
 }
 
 const { href, title, description, readMinutes, updatedAt } = Astro.props;
+const updatedDisplay = formatMonthYear(updatedAt);
 ---
 
 <a class="guide-teaser" href={href}>
@@ -17,7 +21,7 @@ const { href, title, description, readMinutes, updatedAt } = Astro.props;
   <p class="guide-teaser-meta">
     {readMinutes} min read
     <span class="gold-dot" aria-hidden="true"></span>
-    Updated {updatedAt}
+    Updated {updatedDisplay}
     <span class="guide-teaser-cta">Read the full guide →</span>
   </p>
 </a>

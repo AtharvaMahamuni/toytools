@@ -17,12 +17,16 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'rule-of-72',
   relatedTools: ['compound-interest-calculator', 'inflation-calculator', 'savings-goal-calculator'],
+  methodology: {
+    name: 'Rule of 72 approximation',
+    detail: 'Dividing 72 by the rate estimates the doubling time. It is an approximation, closest to exact between about 6 and 10 percent.',
+  },
   guide: {
     slug: 'what-is-the-rule-of-72',
     categorySlug: 'finance',
     title: 'What Is the Rule of 72?',
     description: 'Learn the Rule of 72 shortcut for estimating how long an investment takes to double, when it is accurate, and how it compares to the exact formula.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

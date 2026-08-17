@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'move-today-tracker',
   name: 'Move Today Tracker',
   seoTitle: 'Move Today Tracker — Daily Movement Habit & Streak',
-  description: 'Tap once a day to log that you moved, build a streak, and watch a month of activity fill in. A dead-simple movement habit tracker.',
+  description: 'Tap once a day to log that you moved, build a streak, and watch a month of activity fill in. A dead-simple movement and step tracker.',
   tagline: 'Tap once a day to log that you moved, and build a streak.',
   categorySlug: 'health-fitness',
   tags: [
@@ -28,6 +28,6 @@ export const config: ToolConfig = {
     title: 'How to Build a Daily Movement Habit With a Streak',
     description: 'Learn why a one-tap streak beats an ambitious plan, how "do not break the chain" works, and how a low bar keeps a movement habit alive.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

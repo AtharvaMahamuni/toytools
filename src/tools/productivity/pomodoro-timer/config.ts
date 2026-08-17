@@ -4,7 +4,8 @@ export const config: ToolConfig = {
   slug: 'pomodoro-timer',
   name: 'Pomodoro Timer',
   seoTitle: 'Pomodoro Timer – Free Online Focus Timer | ToyTools',
-  description: 'Use the Pomodoro Technique to stay focused with timed work sessions and breaks.',
+  description: 'Use the Pomodoro Technique to stay focused: a 25 minute timer for work, then a break.',
+  tagline: 'Stay focused with timed work sessions and breaks.',
   categorySlug: 'productivity',
   tags: [
     'pomodoro', 'timer', 'focus', 'pomodoro technique', '25/5', 'study timer',
@@ -24,7 +25,7 @@ export const config: ToolConfig = {
     title: 'The Pomodoro Technique: A Practical Guide',
     description: 'Learn how the Pomodoro Technique works, when to use it, and how timed focus sessions improve concentration and output.',
     readMinutes: 6,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-05',
   },
   trustVariant: 'local',
 };

@@ -118,11 +118,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Yes. Every unit of heat that leaves the hot block enters the cold block, so the total energy is constant. That is why the equilibrium temperature is exactly the average of the two starting temperatures for identical blocks. The heat-moved reading tracks how much energy has crossed between them.',
     },
-    {
-      question: 'Does this simulator send data anywhere?',
-      answer:
-        'No. The calculation runs in your browser on the canvas, with nothing uploaded or stored remotely. It continues to work offline once the page has loaded.',
-    },
   ],
   guide: {
     slug: 'how-heat-transfer-reaches-equilibrium',
@@ -130,7 +125,7 @@ export const manifest: SimulationManifest = {
     description:
       'Which way heat flows, what thermal equilibrium means, why the flow slows over time, and why conductance changes the speed but not the final temperature.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
     quickAnswer:
       "Heat transfer always moves energy from the hotter object to the colder one until both reach the same temperature, a state called thermal equilibrium. For example, drop an ice cube into a warm drink and heat flows from the drink into the ice until they meet in the middle. In the simulator, two blocks exchange heat by conduction: set each block's temperature, press play, and watch the heat flow shrink as the gap closes. Nothing you do leaves your browser.",
     sections: [

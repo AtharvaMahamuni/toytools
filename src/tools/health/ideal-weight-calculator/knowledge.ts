@@ -42,9 +42,13 @@ export const knowledge: Knowledge = {
     'Why do the formulas give different answers?',
     'Is ideal weight the same as a healthy weight?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'bmi-calculator', reason: 'Check the target against the BMI healthy range', strength: 0.8 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'calorie-deficit-calculator', reason: 'Work out how long reaching it would take', strength: 0.6 },
+  ],
   workflowStage: ['analyze'],
   keywords: ['ideal weight calculator', 'ideal body weight', 'healthy weight for height', 'devine formula', 'bmi range'],
   entityAliases: ['ideal body weight calculator', 'healthy weight calculator', 'target weight calculator'],

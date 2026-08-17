@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'heart-rate-zone-calculator',
   name: 'Heart Rate Zone Calculator',
   seoTitle: 'Heart Rate Zone Calculator — Max HR & Training Zones',
-  description: 'Find your maximum heart rate and five training zones from your age, with the Karvonen method when you add a resting heart rate.',
+  description: 'Find your maximum heart rate and five training zones, including the cardio zone, from your age, with the Karvonen method when you add a resting rate.',
   tagline: 'Your max heart rate and five training zones, from your age.',
   categorySlug: 'health-fitness',
   tags: [
@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'heart-rate-zones',
   relatedTools: ['tdee-calculator'],
+  methodology: {
+    name: 'Karvonen method with the Tanaka maximum',
+    detail: 'Zones from heart-rate reserve when a resting rate is given, over a maximum from the Tanaka formula, which fits adults better than the old 220-minus-age rule.',
+  },
   guide: {
     slug: 'how-to-find-your-heart-rate-zones',
     categorySlug: 'health-fitness',
     title: 'How to Find and Train in Your Heart Rate Zones',
     description: 'Learn what the five heart rate zones are, how max heart rate and the Karvonen method work, and how to train in each zone.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

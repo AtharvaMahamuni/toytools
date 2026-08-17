@@ -21,5 +21,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To Lowercase',
     description: 'Learn what lowercase means, where lowercase text is required, and how to convert text to lowercase in one step.',
     readMinutes: 3,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-01',
   },};

@@ -88,7 +88,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Simple Harmonic Motion Calculator: Mass on a Spring',
     description:
-      'Watch simple harmonic motion live. Set the mass, spring constant, and amplitude and see the period, speed, and energy of a mass on a spring update instantly.',
+      'Set mass, spring constant and amplitude to see the SHM period, speed and energy of a spring oscillation, the motion Hooke\'s law produces on a mass.',
     tagline: 'Set mass, spring constant and amplitude, watch the oscillation live.',
     keywords: ['simple harmonic motion', 'mass on a spring', 'spring constant', 'period of oscillation', 'shm', 'angular frequency'],
   },
@@ -130,11 +130,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Energy trades between spring potential energy and kinetic energy while the total stays constant at half k times amplitude squared. At the turning points the mass is momentarily still, so all the energy is potential; through the equilibrium point it moves fastest, so the energy is all kinetic. The PE and KE bars in the simulator rise and fall in opposite step.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple maths. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-a-mass-on-a-spring-oscillates',
@@ -142,7 +137,7 @@ export const manifest: SimulationManifest = {
     description:
       'How a mass on a spring performs simple harmonic motion, why its period is T = 2 pi times the square root of m / k, and why amplitude does not change it.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-12',
     quickAnswer:
       'A mass on a spring performs simple harmonic motion: the spring pulls it back with a force proportional to how far it is displaced, F = -k x, so it oscillates smoothly. The period is T = 2 pi times the square root of m / k, set only by the mass m and the spring constant k. For example, a 1 kg mass on a 20 N/m spring oscillates with a period near 1.4 seconds. The amplitude does not change the period. Open this simulator, drag the mass, and watch the period, speed, and energy update live.',
     sections: [

@@ -79,7 +79,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Projectile Motion Calculator: Range, Height & Angle',
     description:
-      'Drag to aim a launch, then watch the arc fly. Change speed, angle, and gravity and see range, peak height, and time of flight update live.',
+      'Drag to aim a launch and watch the trajectory fly. Change speed, angle and gravity to see range, peak height and time of flight, horizontal or angled.',
     tagline: 'Aim a launch and watch the arc. Range, peak height and flight time, live.',
     keywords: ['projectile motion', 'range of a projectile', 'launch angle', 'trajectory', 'time of flight', 'kinematics'],
   },
@@ -126,11 +126,6 @@ export const manifest: SimulationManifest = {
       answer:
         'No. This is ideal projectile motion, which ignores air resistance so the path is a clean, symmetric parabola. Real projectiles feel drag, which shortens the range and tilts the path so the descent is steeper than the climb. The ideal model is the standard starting point in physics courses because it isolates the roles of speed, angle, and gravity.',
     },
-    {
-      question: 'Does the simulator upload anything?',
-      answer:
-        'No. It runs entirely in your browser on the HTML canvas, computing the trajectory locally. Nothing is sent anywhere and it works offline once the page has loaded.',
-    },
   ],
   guide: {
     slug: 'how-projectile-motion-works',
@@ -138,7 +133,7 @@ export const manifest: SimulationManifest = {
     description:
       'A visual guide to projectile motion: why 45 degrees gives the maximum range, how launch angle trades distance for height, and what gravity changes.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-11',
     quickAnswer:
       'Projectile motion is the curved path of an object thrown or launched under gravity alone. Three inputs set that path: the launch speed, the launch angle, and gravity. The range is R = v squared times sin(2 theta) divided by g. For example, a launch at 25 m/s and 45 degrees on Earth lands about 64 metres away. What angle gives the maximum range is always 45 degrees, because that splits the launch speed evenly between forward reach and time in the air. Open the simulator, drag from the launcher to aim, and watch the range, peak height, and time of flight update live.',
     sections: [

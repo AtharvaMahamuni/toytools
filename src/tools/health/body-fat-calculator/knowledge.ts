@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'How accurate is the Navy body fat method?',
     'How is body fat different from BMI?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'bmi-calculator', reason: 'Set the composition estimate beside the simpler BMI band', strength: 0.7 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'macro-calculator', reason: 'Split a calorie target once you know composition', strength: 0.6 },
+  ],
   workflowStage: ['analyze'],
   keywords: ['body fat calculator', 'body fat percentage', 'navy method', 'lean body mass', 'fat mass'],
   entityAliases: ['body fat percentage calculator', 'navy body fat calculator', 'body composition calculator'],

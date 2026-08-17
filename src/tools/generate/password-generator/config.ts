@@ -35,6 +35,6 @@ export const config: ToolConfig = {
     description:
       'What makes a password strong, how length and character sets change entropy, and how to use a generator safely.',
     readMinutes: 8,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

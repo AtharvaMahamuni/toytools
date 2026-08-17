@@ -22,12 +22,16 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'tdee',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'macro-calculator'],
+  methodology: {
+    name: 'Mifflin-St Jeor equation',
+    detail: 'Resting energy from Mifflin-St Jeor, scaled by the standard activity multipliers from sedentary to very active.',
+  },
   guide: {
     slug: 'how-to-calculate-tdee',
     categorySlug: 'health-fitness',
     title: 'How to Calculate TDEE and Your Daily Calories',
     description: 'Learn what TDEE and BMR mean, how the Mifflin-St Jeor formula works, and how to turn the number into a calorie target for losing, holding, or gaining weight.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-23',
   },
 };

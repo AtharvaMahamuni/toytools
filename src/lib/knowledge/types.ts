@@ -22,6 +22,17 @@ export type RelationType = string;
 export const RELATION_TYPES = {
   RELATED_TOOL: 'RELATED_TOOL',
   RELATED_GUIDE: 'RELATED_GUIDE',
+  /**
+   * A tool to its own guide. Deliberately distinct from RELATED_GUIDE, which means "a *sibling*
+   * tool's guide" and feeds the rendered Related Guides list; a tool pointing at its own guide
+   * there would duplicate the GuideTeaser already above it.
+   *
+   * It exists because RELATED_GUIDE is derived through getRelatedTools, which excludes self, so a
+   * guide was only ever reached from siblings. Any guide that no sibling's top-N list happened to
+   * include was a graph orphan with no edge at all: 17 of them, including guide:word-counter, whose
+   * tool is one of the best-connected pages on the site.
+   */
+  HAS_GUIDE: 'HAS_GUIDE',
   USED_WITH: 'USED_WITH',
   ALTERNATIVE: 'ALTERNATIVE',
   NEXT_STEP: 'NEXT_STEP',

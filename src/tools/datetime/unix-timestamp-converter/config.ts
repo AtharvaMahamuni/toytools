@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'How to Convert a Unix Timestamp to a Date',
     description: 'Learn what a Unix timestamp is, how the epoch works, how to convert seconds or milliseconds to a date, and how to turn a date back into a timestamp.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

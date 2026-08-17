@@ -88,7 +88,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Quadratic Equation Solver: Roots & Parabola',
     description:
-      'Solve ax² + bx + c = 0 visually. Slide the coefficients or drag the vertex and watch the roots, discriminant, and axis of symmetry update on a live parabola.',
+      'Find the roots of a quadratic equation visually. Slide the coefficients and watch the roots, discriminant, vertex and axis of symmetry move on a parabola.',
     tagline: 'Slide the coefficients and watch the roots move on a live parabola.',
     keywords: ['quadratic formula', 'quadratic equation solver', 'discriminant', 'parabola', 'vertex form', 'axis of symmetry'],
   },
@@ -145,11 +145,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Factor when the roots are small whole numbers you can spot quickly: x² - 2x - 3 factors as (x - 3)(x + 1) in one step. Reach for the quadratic formula when factoring is not obvious within a few seconds, because it works on every quadratic, including ones with fractional, irrational, or no real roots. A useful habit: check the discriminant first, since a perfect-square Δ (like 16) signals that a clean factoring exists.',
     },
-    {
-      question: 'Does the explorer upload anything or need an account?',
-      answer:
-        'No. Everything runs in your browser on the HTML canvas: coefficients, roots, and the drawn parabola never leave your device. There is no account and the page keeps working offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-the-quadratic-formula-works',
@@ -157,7 +152,7 @@ export const manifest: SimulationManifest = {
     description:
       'What the quadratic formula and the discriminant really say, how the vertex and axis of symmetry come from a, b, and c, and how to read roots off a parabola.',
     readMinutes: 6,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-16',
     quickAnswer:
       'A quadratic equation ax² + bx + c = 0 is solved by the quadratic formula x = (-b ± √(b² - 4ac)) / 2a. The discriminant Δ = b² - 4ac decides everything before you finish: two real roots when Δ > 0, one repeated root when Δ = 0, none when Δ < 0. For example, x² - 2x - 3 has Δ = 16, so the parabola crosses the x-axis twice, at x = 3 and x = -1. Open the explorer, slide the coefficients, and watch the algebra and the picture move together.',
     sections: [

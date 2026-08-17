@@ -25,6 +25,14 @@ const { tool } = Astro.props;
 
 <div class="tool-signature">
   <TrustNotice variant={tool.trustVariant ?? 'private'} />
+  {/* The published method the numbers come from, where the engine implements a named one. One row,
+      not a section: it belongs beside the privacy badge because it answers the same question a
+      person asks at the same moment, which is whether to believe the result. */}
+  {tool.methodology && (
+    <span class="tool-method" title={tool.methodology.detail}>
+      Method<span class="gold-dot" aria-hidden="true"></span>{tool.methodology.name}
+    </span>
+  )}
   {/* The platform signs the tool rather than owning it, in the micro-label voice already used by
       .io-label and the ToolNavRow "Related" label. Above the title it would compete with the h1
       for the first fixation, which is what the header rebuild spent its effort removing. */}
@@ -40,6 +48,17 @@ const { tool } = Astro.props;
     flex-wrap: wrap;
     gap: var(--space-3) var(--space-4);
     margin-top: var(--space-5);
+  }
+
+  .tool-method {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
   }
 
   /* Pushed to the far end on desktop; on a phone the row wraps and it simply follows. */

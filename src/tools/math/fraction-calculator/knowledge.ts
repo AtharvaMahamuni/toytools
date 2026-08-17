@@ -43,9 +43,13 @@ export const knowledge: Knowledge = {
     'How does dividing by a fraction work?',
     'Can I enter mixed numbers or whole numbers?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'percentage-calculator', reason: 'Take the same value as a percentage instead', strength: 0.6 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'prime-factorization-calculator', reason: 'See where the LCD and GCF come from', strength: 0.6 },
+  ],
   workflowStage: ['transform'],
   keywords: ['fraction calculator', 'adding fractions', 'simplify fractions', 'mixed number calculator', 'fraction to decimal'],
   entityAliases: ['fractions calculator', 'adding fractions calculator', 'fraction simplifier'],

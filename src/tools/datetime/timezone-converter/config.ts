@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'timezone-converter',
   name: 'Timezone Converter',
   seoTitle: 'Timezone Converter — Convert Time Between Zones',
-  description: 'Convert a date and time from one timezone to another, with UTC time, each zone offset, and the exact hours difference. Daylight saving handled automatically.',
+  description: 'Time zone conversion for any date: convert between zones with UTC time, each offset and the exact hours difference. Daylight saving handled.',
   tagline: 'Convert a time between zones, daylight saving handled.',
   categorySlug: 'date-time',
   tags: ['timezone converter', 'time zone converter', 'convert time between time zones', 'utc converter', 'time difference between cities', 'gmt converter', 'world clock converter', 'time conversion'],
@@ -22,6 +22,6 @@ export const config: ToolConfig = {
     title: 'How to Convert Time Between Timezones',
     description: 'Learn how a wall-clock time in one timezone maps to another, how UTC offsets and daylight saving work, and how to read the difference between two cities.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-10',
   },
 };

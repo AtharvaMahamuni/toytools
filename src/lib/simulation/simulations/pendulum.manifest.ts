@@ -118,11 +118,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Drag the bob to wherever you want and let go: it swings from rest at that angle. You can also use the initial-angle slider, or load a preset such as the grandfather clock. Dragging is the most direct way to feel how a wider release stores more potential energy and produces a faster bottom-of-swing speed.',
     },
-    {
-      question: 'Does the simulator upload anything?',
-      answer:
-        'No. It runs entirely in your browser on the HTML canvas, computing the motion locally. Nothing is sent anywhere and it works offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-a-pendulum-period-works',
@@ -130,7 +125,7 @@ export const manifest: SimulationManifest = {
     description:
       'Why a pendulum period depends on length and gravity but not mass, how the small-angle formula works, and how energy trades between potential and kinetic.',
     readMinutes: 5,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-09',
     quickAnswer:
       "A simple pendulum's period depends on just two things: its length and the local gravity. The small-angle formula is T = 2 pi times the square root of L / g. For example, a one-metre pendulum on Earth swings with a period near 2 seconds. What determines the period of a pendulum is length and gravity alone: the mass of the bob and, for small swings, the release angle do not change it. Open the simulator, drag the bob, and watch the pendulum period and the energy readouts update live.",
     sections: [

@@ -16,12 +16,16 @@ export const config: ToolConfig = {
   family: 'savings',
   processorId: 'savings-goal',
   relatedTools: ['compound-interest-calculator', 'emergency-fund-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Future value of an annuity',
+    detail: 'Solves the annuity formula for the contribution, so the monthly figure already accounts for the growth on what you have paid in.',
+  },
   guide: {
     slug: 'how-to-reach-a-savings-goal',
     categorySlug: 'finance',
     title: 'How to Reach a Savings Goal',
     description: 'Learn how to work out the monthly saving needed to reach a goal, how returns reduce what you contribute, and the formula behind it.',
     readMinutes: 5,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-29',
   },
 };

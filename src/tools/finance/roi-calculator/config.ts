@@ -17,12 +17,16 @@ export const config: ToolConfig = {
   toolGroup: 'growth-calculators',
   processorId: 'roi',
   relatedTools: ['cagr-calculator', 'compound-interest-calculator', 'inflation-calculator'],
+  methodology: {
+    name: 'Return on investment, with annualization',
+    detail: 'Total return is gain over cost; the annualized figure converts it to a per-year rate so investments of different lengths can be compared.',
+  },
   guide: {
     slug: 'how-to-calculate-return-on-investment',
     categorySlug: 'finance',
     title: 'How to Calculate Return on Investment',
     description: 'Learn the ROI formula, why the annualized return matters more than the headline percentage, and how to read gains and losses honestly.',
     readMinutes: 4,
-    updatedAt: 'Jul 2026',
+    updatedAt: '2026-07-04',
   },
 };

@@ -42,9 +42,13 @@ export const knowledge: Knowledge = {
     'How many days until my next birthday?',
     'What day of the week was I born on?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'date-difference-calculator', reason: 'Count the days between two dates that are not a birthday', strength: 0.8 },
+  ],
   alternatives: [],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'unix-timestamp-converter', reason: 'Convert that date to or from an epoch timestamp', strength: 0.5 },
+  ],
   workflowStage: ['transform'],
   keywords: ['age calculator', 'how old am i', 'date of birth', 'age in days', 'days until birthday'],
   entityAliases: ['birthday calculator', 'date of birth calculator', 'chronological age calculator'],
