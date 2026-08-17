@@ -100,41 +100,79 @@ keyboard and reveal the result, not to submit.
 Deferred because each item requires per-item judgment that cannot be verified by a build, and
 bundling them into a mechanical change would hide that judgment in a large diff.
 
-### B1. 55 of 121 tool titles are truncated in the SERP
+### B1. Tool title length — WITHDRAWN 2026-08-17, there is no defect here
 
-p50 60 characters, p90 67, max 73, and **all 14 health tools** over. The discriminating words sit
-after the cut, because the pattern is `Name: qualifier, qualifier ● ToyTools`.
+The original finding said 55 of 121 titles exceed 60 characters and are truncated in the SERP. That
+measured the wrong thing, and acting on it would have made the catalog worse.
 
-**Why not now.** Every title is an editorial decision about which words earn the first 60
-characters, and titles are one of the four slots `check:queries` scores `targeting` from. Shortening
-55 of them can drop the targeting ratchet, so the batch has to be measured tool by tool with
-`npm run check:queries` after each pass. That is a content batch with a gate in the loop, not a
-mechanical edit. Do health first: 14 tools, worst affected, and the cluster that can least afford a
-weak snippet.
+Re-measured by the question that decides whether truncation costs anything — *is the discriminating
+term still visible?* — **121 of 121 titles have their head term inside the first 57 characters.**
+Median length without the `● ToyTools` suffix is 49; the longest is 62. The suffix itself costs 11
+characters on every title, and it is what gets cut:
 
-### B2. 37 guides have two or fewer inbound internal links
+```
+full   "Combinations & Permutations Calculator: nCr, nPr ● ToyTools"   (63)
+shown  "Combinations & Permutations Calculator: nCr, nPr ● To"
+cut    "yTools"
+```
 
-Guides sit at a median of 5 inbound links against 13 for tool pages, 56 of 121 are at click depth 3,
-and six have exactly one. The guide answers the informational query, which is the query class a young
-domain can realistically win first.
+Three things follow, and together they invert the recommendation:
 
-**Why not now.** The fix is a change to the internal link graph, which means deciding where guide
-links belong in the page grammar. That interacts with the fold ratchet and the three-zone rule, so
-it is a design change with an e2e gate behind it, not a data fix.
+1. **Title length is not a ranking factor.** Truncation is a display behaviour. Google indexes the
+   whole tag and matches against all of it.
+2. **Characters past the cut still earn relevance.** A longer title is more matching surface, and
+   `check:queries` scores `targeting` partly from the title, so shortening titles would have pushed
+   that ratchet *down*.
+3. **What is being truncated is the brand suffix**, which is the correct thing to lose.
+
+**The rule, stated so it does not get relitigated:** front-load the discriminating term; after that,
+length is free. Do not shorten a title to hit a character count. The one thing worth checking on a
+new tool is that its head term lands before roughly character 55, which every tool currently
+satisfies.
+
+The rule this does **not** license is padding titles with extra keywords to farm `targeting`.
+CLAUDE.md already forbids that ("never satisfy targeting by stuffing keywords into a title: cover
+the intent instead"), and it remains the right rule: more surface is only worth having when it is
+surface a person would actually type.
+
+### B2. Guides were orphaned — DONE 2026-08-17
+
+Guides sat at a median of 5 inbound links against 13 for tool pages, 56 of 121 at click depth 3, six
+with exactly one.
+
+**Root cause, found by tracing which page kinds link a guide at all:**
+
+| linked from | guides reached |
+|---|---|
+| their own tool page | 121 / 121 |
+| another guide | 87 / 121 |
+| **a category page** | **0 / 121** |
+| the homepage | 0 / 121 |
+
+No category page linked a single guide. The 11 category hubs are depth-1 pages and they pointed only
+at tools.
+
+**Fix.** `src/components/CategoryGuideList.astro`, rendered by `src/pages/category/[slug].astro`
+below the tool list. A plain list of links, not cards, because the tools are what the category page
+is for and the guides should not compete with them.
+
+**Result.** Every guide is now at **click depth 2** (from 56 at depth 3), minimum inbound rises from
+1 to 2 and the median from 5 to 6. The depth change is the substantive part: it is what moves crawl
+priority.
 
 ## Tier C — programs and decisions, not fixes
 
 Recorded with what each actually needs, so none of them silently becomes nobody's job.
 
-| gap | what it needs | who |
+| gap | status | what it needs |
 |---|---|---|
-| **Indexing data absent for 7 weeks.** `GSC_SA_KEY_JSON` was never set, so the weekly workflow has skipped its only real step since 2026-06-29. | Two repository secrets. `docs/indexing.md` has the setup. **Cannot be done from inside this repo.** | repo owner |
-| **Every quality gate is self-referential.** `seo:gate` scores our prose against our rules; `check:queries` scores targeting against a corpus we wrote. Nothing compares a page to what ranks. | A `competitorCoverage` criterion fed by the existing `seo:research` stage, whose output is currently gitignored and read by no gate. Largest item on this list. | after the indexing data exists |
-| **89 untargeted query phrasings, 114 that retrieve nothing.** Worst is `remove-line-breaks` at 1 of 7. | Content work. `npm run check:queries -- --report` is already the brief. | content batch |
-| **Zero authority signal.** 0 of 121 tool pages carry an external citation or a named author, against 22 YMYL pages competing with the CDC and banks. | A strategy call: add real citations and authorship to health and finance, or accept those clusters are a slower game and spend the effort on text and developer. | decision |
-| **75 of 121 tools have no demand evidence.** | RIE dataset authorship, which CLAUDE.md marks as never delegated to an agent. | judgment call |
-| **Pixel 5 is not a PR gate.** `fold.spec.ts` skips off pixel5 and the PR job runs chromium only, so the fold ratchet never runs on a PR. | A decision: accept the speed tradeoff as documented, or add a pixel5 PR job. Now documented accurately either way. | decision |
-| **Craft coverage is 5/107 against a 4.6% floor.** | The `tool-craft` backlog, one tool per run. | ongoing |
+| **Pixel 5 was not a PR gate.** `fold.spec.ts` skips off pixel5 and the PR job ran chromium only, so the fold ratchet never ran on a PR. | **DONE 2026-08-17** | CI now runs both projects as parallel matrix legs with `fail-fast: false`. Both are Chromium, so it costs one browser install and no extra download, and the PR waits only for the slower leg. `verify.sh` always ran both; CI matches it now, and the "one sanctioned divergence" wording is gone from CLAUDE.md and the `gates` skill. |
+| **Zero authority signal** on 121 tool pages, against 22 YMYL pages competing with the CDC and banks. | **PARTLY DONE 2026-08-17** | A `methodology` field on `ToolConfig`, rendered in Zone B beside the privacy badge, naming the published method the engine actually implements. Populated for the 7 wellness calculators whose formula is verifiable in `models.ts` and pinned by its tests: Mifflin-St Jeor, US Navy circumference, Devine/Robinson/Miller/Hamwi, Karvonen with the Tanaka maximum, Atwater factors, WHO classification. **Deliberately not external citations:** a link I cannot verify resolves is a worse signal than none, and naming the method is the part that is both true and checkable. Finance and the remaining health tools are the obvious next pass. |
+| **Every quality gate is self-referential.** Nothing compares a page to what actually ranks. | **BLOCKED** | Needs a `competitorCoverage` criterion fed by `seo:research`, which fetches live SERPs. The sandbox proxy refuses them (`CONNECT tunnel failed, 403` for both Google and DuckDuckGo), so the stage cannot run and a gate built on it could not be validated here. Build it where the research stage can actually fetch. |
+| **Indexing data absent for 7+ weeks.** `GSC_SA_KEY_JSON` was never set, so the weekly workflow has skipped its only real step since 2026-06-29. | **CANNOT BE DONE FROM THIS REPO** | Two repository secrets, `GSC_SITE_URL` and `GSC_SA_KEY_JSON`. `docs/indexing.md` has the setup. This is the item everything else is waiting on: it is the only way to tell "outranked" from "not indexed". |
+| **89 untargeted query phrasings, 114 that retrieve nothing.** Worst was `remove-line-breaks` at 1 of 7. | **STARTED 2026-08-17 — 6 tools done, ~35 left** | Six were done because they *forced* the issue: `kebab-case-converter`, `normalize-whitespace`, `remove-duplicate-lines`, `remove-line-breaks`, `snake-case-converter` and `trim-text` were all failing `seo:gate` on `queryTargeting` and nobody knew, because the changed-tool gate only runs on directories a branch touches and nothing had touched theirs. The A1 date fix touched all 102 configs, and six pre-existing failures fell out. Fixed by extending each meta description to use the words people actually type: "dash case", "underscore case", "dedupe", "unique lines", "clean whitespace", "join lines", "strip newlines". `remove-line-breaks` went 1/7 → **7/7**; catalog targeting 75.3% → **78.7%**, and the ratchet floor moved 0.75 → 0.78 in the same commit. The remaining ~35 are the same job, one tool at a time. |
+| **75 of 121 tools have no demand evidence.** | **NOT DONE** | RIE dataset authorship, which CLAUDE.md names as one of the two judgment calls never delegated. Inventing evidence to fill the gap would corrupt the input the whole roadmap is scored from. |
+| **Craft coverage is 5/107 against a 4.6% floor.** | **NOT DONE** | 102 tools, one `tool-craft` run each, and the skill's own rule is that a tool with no honest touch declares none. This is a standing backlog, not a task. |
 
 ## Done condition for this change
 

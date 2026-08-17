@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'heart-rate-zones',
   relatedTools: ['tdee-calculator'],
+  methodology: {
+    name: 'Karvonen method with the Tanaka maximum',
+    detail: 'Zones from heart-rate reserve when a resting rate is given, over a maximum from the Tanaka formula, which fits adults better than the old 220-minus-age rule.',
+  },
   guide: {
     slug: 'how-to-find-your-heart-rate-zones',
     categorySlug: 'health-fitness',

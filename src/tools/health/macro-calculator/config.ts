@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'macro',
   relatedTools: ['tdee-calculator', 'bmi-calculator'],
+  methodology: {
+    name: 'Atwater energy factors',
+    detail: 'Grams derived at 4 kcal per gram of protein and carbohydrate and 9 per gram of fat, the standard factors behind every nutrition label.',
+  },
   guide: {
     slug: 'how-to-calculate-macros',
     categorySlug: 'health-fitness',

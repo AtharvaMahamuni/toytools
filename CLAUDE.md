@@ -40,14 +40,14 @@ the health check and Quality Guardian entirely. A **Stop hook**
 (`.claude/hooks/verify-on-stop.sh`) runs `verify` whenever a turn ends having changed shipped code,
 and blocks on failure. Touch `.claude/.skip-verify` to opt a session out deliberately.
 
-**One divergence between local and CI is deliberate: the PR workflow runs chromium only.** Pixel 5
-runs locally and in the weekly audit. `tests/e2e/fold.spec.ts` skips entirely off pixel5, so **the
-fold ratchet does not run on a PR** and a phone regression can merge green. Your local `verify` is
-the only thing in front of it.
+**Local and CI now run the same projects.** The PR workflow was chromium-only until 2026-08-17,
+which meant `tests/e2e/fold.spec.ts` (it skips off pixel5) never ran on a PR and a phone regression
+could merge green. CI runs both projects as parallel matrix legs, so the fold ratchet is a real PR
+gate.
 
 **If a step in the workflow changes, change `scripts/verify.sh` in the same commit, and the reverse.**
-A check that only one of them runs is a check that catches nothing. The chromium-only PR job is the
-one sanctioned exception; anything else is drift, and the fix is to re-sync, not to document it.
+A check that only one of them runs is a check that catches nothing. There is no sanctioned
+exception; any divergence is drift, and the fix is to re-sync, not to document it.
 
 **Never weaken a check to get past it.** No raising a budget, lowering a ratchet floor, deleting an
 assertion, or adding a validator exemption without saying so explicitly in the PR and giving the
@@ -63,7 +63,7 @@ the same commit as the change that earns it. The fifth is a fixed bar.
 | performance budget | `check:budget` | ratchet — budgets only **fall** | `npm run build` |
 | query coverage (retrieval, targeting, headings) | `check:queries` | ratchet — floors only **rise** | `verify`, PR CI |
 | tool craft (coverage, boxes, raw hex) | `check:craft` | ratchet — coverage **rises**, the other two **fall** | `verify`, PR CI |
-| the fold ratchet (chrome %, first control) | `test:e2e` | ratchet — limits only **fall** | `verify`, weekly (**not** PR) |
+| the fold ratchet (chrome %, first control) | `test:e2e` | ratchet — limits only **fall** | `verify`, PR CI (pixel5 leg), weekly |
 | content quality | `seo:gate -- <slug>` | **fixed** minimums, in `seo-engine/config/content-intelligence-rules.json` (`overall` 75; `writingQuality` 70, `usefulness` 60, `seoCompleteness` 50, `toyToolsStyleScore` 70, `queryTargeting` 50; `maxEmDashes` 0) | `verify`, PR CI on changed tools |
 
 Two things worth knowing before you lean on any of them:
@@ -365,8 +365,8 @@ page. Design for a ~390px viewport first, then enhance up. Never the reverse.
 **Canonical breakpoints — do not invent new ones: 1024px, 640px, 480px.** Every size and colour comes
 from `src/styles/tokens.css`; never hardcode one.
 
-Verified by `npm run test:e2e` on pixel5 — which, per the done-condition above, **runs locally and
-weekly but not on a PR**. For anything visual, also check a real phone or the installed PWA.
+Verified by `npm run test:e2e` on pixel5, which runs locally and as its own PR CI leg. For anything
+visual, also check a real phone or the installed PWA.
 
 ## Platform notes
 

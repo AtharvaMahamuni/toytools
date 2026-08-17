@@ -128,7 +128,35 @@ nothing: no `dateModified`, no `author`, no `publisher`. Grepping `dist/` for `d
 The tool page is the page meant to win the head term. It is the one page type on the site with no
 recency signal of any kind, on a site whose entire competitive claim is that the tools work now.
 
-### 6. 55 of 121 tool titles are truncated in the SERP
+### 6. 55 of 121 tool titles are truncated in the SERP — WITHDRAWN 2026-08-17
+
+**This finding was wrong, and it is left here rather than deleted because the reasoning error is
+worth keeping.** It measured total `<title>` length, including the 11-character `● ToyTools` brand
+suffix, and treated "over 60 characters" as a defect. Re-measured by asking the question that
+actually matters — *does the discriminating term survive the cut?* — the answer is that **121 of 121
+titles have their head term fully visible in the first 57 characters**. Without the brand suffix the
+median title is 49 characters and the longest is 62.
+
+What truncation removes on the worst case is this:
+
+```
+full   "Combinations & Permutations Calculator: nCr, nPr ● ToyTools"   (63)
+shown  "Combinations & Permutations Calculator: nCr, nPr ● To"
+cut    "yTools"
+```
+
+The tail being dropped is the brand suffix, which is exactly what should be dropped. Title length is
+not a ranking factor, Google indexes the whole tag regardless of what it displays, and every
+character past the cut still contributes to matching. So a long title costs nothing here and buys
+matching surface.
+
+**The rule this replaces the finding with:** front-load the discriminating term, and do not treat
+length as a defect after that. Shortening these 55 titles would have cost real matching surface and
+`queryTargeting` score to fix a problem that did not exist. See the original text below for what was
+measured, and section B1 of `2026-08-17-gap-remediation-plan.md` for the withdrawal.
+
+<details>
+<summary>The original finding, as written</summary>
 
 Title length, measured on the built `<title>`:
 
@@ -148,6 +176,8 @@ carry the query. `Combinations & Permutations Calculator: nCr, nPr ● ToyTools`
 which is the part somebody typed.
 
 Every health tool is affected, which is the cluster that can least afford a weak snippet.
+
+</details>
 
 ### 7. 114 evidence queries retrieve nothing, and 89 phrasings appear in no weighted slot
 

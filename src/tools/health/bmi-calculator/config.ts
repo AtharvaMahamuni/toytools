@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'bmi',
   relatedTools: ['tdee-calculator', 'body-fat-calculator', 'ideal-weight-calculator', 'body-weight-tracker'],
+  methodology: {
+    name: 'WHO BMI classification',
+    detail: 'Weight in kilograms divided by height in metres squared, banded at the World Health Organization adult cut-offs of 18.5, 25 and 30.',
+  },
   guide: {
     slug: 'how-to-calculate-bmi',
     categorySlug: 'health-fitness',

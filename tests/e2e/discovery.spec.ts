@@ -103,7 +103,10 @@ test.describe('category pages', () => {
 
     // Grouped rows render mode chips: 7 case converters + 9 text-cleanup + 9 text counters.
     await expect(page.locator('.cat-chip')).toHaveCount(25);
-    await expect(page.getByRole('link', { name: 'snake_case' })).toHaveAttribute(
+    // Scoped to the chip rather than matched by name across the whole page: the category page also
+    // lists its guides, and "How To Convert Text To snake_case" contains this chip's name, so an
+    // unscoped role query resolves to two links. The assertion is about where the chip points.
+    await expect(page.locator('a.cat-chip', { hasText: 'snake_case' })).toHaveAttribute(
       'href', /\/tool\/text\/snake-case-converter\/$/,
     );
   });

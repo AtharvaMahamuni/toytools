@@ -2,6 +2,40 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.8] - 2026-08-17
+
+### Added
+
+- **Every category page now lists its guides.** No category page linked a single guide before this:
+  guides were reachable only from their own tool page and from each other, which left 56 of 121 at
+  click depth 3 from the homepage. All 121 are now at depth 2. A plain list of links below the tool
+  rows, because the tools are what a category page is for.
+- **Health calculators name the published method they implement.** BMI cites the WHO classification,
+  BMR and TDEE the Mifflin-St Jeor equation, body fat the US Navy circumference method, ideal weight
+  the Devine, Robinson, Miller and Hamwi formulas, heart-rate zones the Karvonen method over a
+  Tanaka maximum, and macros the Atwater factors. Every one of those is what the engine actually
+  runs and what its unit tests pin. Nothing on a tool page previously said where its numbers came
+  from, which matters most exactly where we compete with health bodies and banks.
+
+### Changed
+
+- **Six text tools now answer the words people actually type.** `remove-line-breaks` never used
+  "join lines", "newlines" or "strip" anywhere a search engine weights, only "line breaks", and it
+  matched 1 of its 7 known phrasings; it now matches 7 of 7. `kebab-case-converter` never said "dash
+  case", `snake-case-converter` never said "underscore case", `remove-duplicate-lines` never said
+  "dedupe" or "unique lines", `trim-text` never said "strip spaces", `normalize-whitespace` never
+  said "clean whitespace". Catalog-wide query targeting went from 75.3% to 78.7% and the ratchet
+  floor moved with it.
+- **Pixel 5 is a pull-request gate.** It ran locally and weekly but not on a PR, and
+  `tests/e2e/fold.spec.ts` skips off Pixel 5 entirely, so the fold ratchet never ran on a pull
+  request and a phone regression could merge green on a phone-first catalog. Both projects now run
+  as parallel CI legs.
+
+### Fixed
+
+- The six text tools above had been **failing the content gate unnoticed**. The gate only runs on
+  tool directories a branch touches, and nothing had touched theirs since the gate was written.
+
 ## [alpha-v7.7.1] - 2026-08-17
 
 ### Fixed

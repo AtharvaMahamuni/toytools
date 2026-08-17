@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'tdee',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'macro-calculator'],
+  methodology: {
+    name: 'Mifflin-St Jeor equation',
+    detail: 'Resting energy from Mifflin-St Jeor, scaled by the standard activity multipliers from sedentary to very active.',
+  },
   guide: {
     slug: 'how-to-calculate-tdee',
     categorySlug: 'health-fitness',

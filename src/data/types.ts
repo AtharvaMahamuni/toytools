@@ -114,6 +114,25 @@ export interface ToolConfig {
   tags: string[];
   isNew?: boolean;
   updatedAt?: string;
+  /**
+   * The named, published method this tool's engine implements.
+   *
+   * Only for tools that genuinely implement one. It is not a marketing line and it must match the
+   * code: `bmr-calculator` says "Mifflin-St Jeor" because `bmrMifflinStJeor` is what runs, and
+   * `models.test.ts` pins it. Never state a method the engine does not implement.
+   *
+   * Why it exists: 0 of 121 tool pages carried any authorship, citation or method signal, while 22
+   * of them compete on health and money queries where Google weights site-level trust hard
+   * (docs/analysis/2026-08-16-seo-ranking-gaps.md). Naming the published method the numbers come
+   * from is the honest version of that signal: it is verifiable, it tells a reader what they are
+   * actually getting, and it costs no dead external link.
+   */
+  methodology?: {
+    /** The method's published name, e.g. 'Mifflin-St Jeor equation'. */
+    name: string;
+    /** One sentence of what it means for the number on screen. */
+    detail: string;
+  };
   guide?: GuideConfig;
   trustVariant?: 'private' | 'offline' | 'local';
   // Platform metadata — drives related tools, patterns, and future discovery

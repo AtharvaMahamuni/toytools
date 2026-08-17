@@ -64,32 +64,27 @@ automatically whenever a turn ends having changed `src/`, `scripts/`, `tests/`, 
 run can still end and report honestly. Touch `.claude/.skip-verify` to opt a session out
 deliberately.
 
-### The local run and CI are not identical, and the difference is deliberate
+### The local run and CI run the same projects
 
-`npm run verify` mirrors `.github/workflows/quality-guardian.yml` **with one intentional exception**:
+`npm run verify` mirrors `.github/workflows/quality-guardian.yml`.
 
 | | local `verify` | PR CI | weekly CI |
 |---|---|---|---|
-| chromium e2e | yes | yes | yes |
-| **pixel5 e2e** | **yes** | **no** | **yes** |
+| chromium e2e | yes | yes (matrix leg) | yes |
+| pixel5 e2e | yes | yes (matrix leg) | yes |
 
-The PR job runs `npx playwright test --project=chromium` for speed. `verify.sh` says so in a comment
-at its e2e step.
+The two projects run as parallel matrix legs with `fail-fast: false`, so a desktop failure cannot
+hide a phone failure and the PR waits only for the slower leg.
 
-**Consequences you must know**, because two gates live behind that line:
-
-- `tests/e2e/fold.spec.ts` starts with `test.skip(testInfo.project.name !== 'pixel5')`. **Every fold
-  assertion is skipped on a PR.** The fold ratchet is enforced by the local run and the weekly
-  audit, not by the PR.
-- `tests/e2e/craft.spec.ts` runs on both projects, but its 48px touch-target assertion is inside an
-  `if (testInfo.project.name === 'pixel5')` branch, so that half is PR-invisible too.
-
-So a phone regression can merge green. Running `npm run verify` locally is the only thing standing
-in front of it, which is why the Stop hook exists and why `verify:fast` is not a done-condition.
+**This was not always true, and it is worth knowing what the gap cost.** The PR job ran
+`--project=chromium` alone until 2026-08-17. `tests/e2e/fold.spec.ts` starts with
+`test.skip(testInfo.project.name !== 'pixel5')`, so **every fold assertion was skipped on a PR**, and
+the 48px touch-target branch of `craft.spec.ts` with it. Two documented hard gates were weekly-only
+checks, and a phone regression could merge green on a mobile-first catalog.
 
 **If a step in the workflow changes, change `scripts/verify.sh` in the same commit, and the reverse.**
-A check that only one of them runs is a check that catches nothing. The pixel5 row above is the one
-sanctioned divergence; anything else is drift and should be fixed, not documented.
+A check that only one of them runs is a check that catches nothing. There is no sanctioned
+divergence; anything else is drift and should be fixed, not documented.
 
 ## 2. Performance budget
 
@@ -176,8 +171,8 @@ under `CHROME_LIMIT` of the viewport and that the first usable control stays und
 Both **only ever move down**, in the same commit as the change that earns it. A rise means a page
 grew a masthead.
 
-Remember from section 1 that this spec **skips entirely on a PR** and only really runs locally and
-weekly.
+This spec skips on any project that is not pixel5, so it is carried entirely by the pixel5 leg. That
+leg was missing from PR CI until 2026-08-17; see section 1.
 
 Measured 2026-08-08 across all 119 tools then in the catalog, before and after the tool identity
 work: chrome went from a median 59% of the phone's first screen to 34%, and tools with no usable

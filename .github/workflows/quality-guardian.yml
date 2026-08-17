@@ -60,12 +60,26 @@ jobs:
           name: quality-report-pr
           path: quality-guardian/reports/
 
-  # Browser E2E on PRs/pushes — Chromium only for speed (the weekly job runs Pixel 5 too).
-  # Playwright's webServer builds + serves dist, so no separate build step is needed here.
+  # Browser E2E on PRs/pushes, both projects, one matrix leg each so they run in parallel and the
+  # PR waits no longer than the slower leg.
+  #
+  # Pixel 5 was weekly-only until 2026-08-17, which meant the fold ratchet never ran on a PR:
+  # tests/e2e/fold.spec.ts opens with test.skip(project !== 'pixel5'), so every fold assertion was
+  # skipped here, and the craft spec's 48px touch-target branch with it. A phone regression could
+  # merge green and only surface in the weekly audit, days later. This is a mobile-first catalog;
+  # the phone is the primary target, not the follow-up.
+  #
+  # Both projects are Chromium (pixel5 is device emulation), so this costs one browser install and
+  # no extra download. scripts/verify.sh has always run both — this makes CI match it, per the
+  # same-commit rule in CLAUDE.md.
   e2e:
-    name: E2E (Chromium)
+    name: E2E (${{ matrix.project }})
     runs-on: ubuntu-latest
     if: github.event_name != 'schedule'
+    strategy:
+      fail-fast: false        # a desktop failure must not hide a phone failure
+      matrix:
+        project: [chromium, pixel5]
     steps:
       - uses: actions/checkout@v4
 
@@ -80,14 +94,14 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run E2E (chromium)
-        run: npx playwright test --project=chromium
+      - name: Run E2E (${{ matrix.project }})
+        run: npx playwright test --project=${{ matrix.project }}
 
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.project }}
           path: playwright-report/
 
   # Content quality gate for the tools touched in a PR. Non-blocking for now: existing tools may

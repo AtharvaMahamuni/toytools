@@ -22,6 +22,10 @@ export const config: ToolConfig = {
   toolGroup: 'body-metrics',
   processorId: 'body-fat',
   relatedTools: ['bmi-calculator', 'tdee-calculator'],
+  methodology: {
+    name: 'US Navy circumference method',
+    detail: 'Estimates body fat from tape measurements of neck, waist and hips, so it needs no calipers and no scale.',
+  },
   guide: {
     slug: 'how-to-measure-body-fat',
     categorySlug: 'health-fitness',
