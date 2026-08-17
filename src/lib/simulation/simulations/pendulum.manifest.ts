@@ -118,11 +118,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Drag the bob to wherever you want and let go: it swings from rest at that angle. You can also use the initial-angle slider, or load a preset such as the grandfather clock. Dragging is the most direct way to feel how a wider release stores more potential energy and produces a faster bottom-of-swing speed.',
     },
-    {
-      question: 'Does the simulator upload anything?',
-      answer:
-        'No. It runs entirely in your browser on the HTML canvas, computing the motion locally. Nothing is sent anywhere and it works offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-a-pendulum-period-works',

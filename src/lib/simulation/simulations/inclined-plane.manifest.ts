@@ -119,11 +119,6 @@ export const manifest: SimulationManifest = {
       answer:
         'A steeper ramp increases the weight component along the incline (mg sinθ) and reduces the normal force and friction (mg cosθ), so the block accelerates faster. A shallower ramp does the reverse and may let friction hold the block still. Comparing a steep vs shallow ramp in the simulator shows the acceleration and force arrows change together.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-forces-work-on-an-inclined-plane',

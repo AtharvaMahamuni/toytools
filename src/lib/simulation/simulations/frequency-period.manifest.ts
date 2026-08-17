@@ -122,11 +122,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The period halves. Because T = 1 / f, frequency and period always move in opposite directions by the same factor. Double the frequency and each cycle has half as much time; halve the frequency and each cycle lasts twice as long. Drag the frequency slider and watch the period reading move the opposite way.',
     },
-    {
-      question: 'Does this simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple maths. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-frequency-and-period-relate',

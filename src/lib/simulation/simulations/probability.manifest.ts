@@ -85,7 +85,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Probability Calculator: Coin Flips & Law of Large Numbers',
     description:
-      'Flip a coin or roll a die thousands of times and watch the empirical frequency converge on the theoretical probability. The law of large numbers, animated.',
+      'Toss a coin or roll dice thousands of times and watch the odds converge on theory: a live demonstration of the law of large numbers you can experiment with.',
     tagline: 'Roll thousands of times and watch frequency converge on probability.',
     keywords: ['coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment'],
   },
@@ -141,11 +141,6 @@ export const manifest: SimulationManifest = {
       question: 'What is the probability of getting heads twice in a row?',
       answer:
         'One half times one half: 1/4. Independent events multiply, so a run of k heads has probability (1/2)^k, which is why five in a row (1/32) feels rare but shows up regularly in a few hundred flips. The multiplication rule is also why streaks in the lab are normal rather than evidence of a broken coin: with thousands of trials, improbable runs get plenty of chances to happen.',
-    },
-    {
-      question: 'Does the lab upload anything or need an account?',
-      answer:
-        'No. Every trial runs in your browser on the HTML canvas. Nothing is sent anywhere, there is no account, and the lab keeps working offline once loaded.',
     },
   ],
   guide: {

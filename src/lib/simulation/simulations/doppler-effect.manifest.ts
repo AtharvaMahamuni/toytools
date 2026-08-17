@@ -120,11 +120,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The shift depends on the source speed as a fraction of the wave speed, the Mach number. A faster source moves further between wavefronts, so it squashes them more tightly ahead and stretches them more behind. As the source speed approaches the wave speed the wavefronts ahead pile almost on top of each other, which in the extreme is what produces a sonic boom. The simulator shows the wavefronts crowding as you raise the source speed.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-the-doppler-effect-works',

@@ -126,11 +126,6 @@ export const manifest: SimulationManifest = {
       answer:
         'No. This is ideal projectile motion, which ignores air resistance so the path is a clean, symmetric parabola. Real projectiles feel drag, which shortens the range and tilts the path so the descent is steeper than the climb. The ideal model is the standard starting point in physics courses because it isolates the roles of speed, angle, and gravity.',
     },
-    {
-      question: 'Does the simulator upload anything?',
-      answer:
-        'No. It runs entirely in your browser on the HTML canvas, computing the trajectory locally. Nothing is sent anywhere and it works offline once the page has loaded.',
-    },
   ],
   guide: {
     slug: 'how-projectile-motion-works',

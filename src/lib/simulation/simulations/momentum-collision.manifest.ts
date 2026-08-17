@@ -121,11 +121,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The heavy cart barely slows while the light cart shoots forward. In the elastic limit a very heavy cart hitting a stationary light one sends the light cart off at close to twice the incoming speed, while the heavy cart continues almost unchanged. Load the Heavy hits light preset in the simulator to see this, then swap to Light hits heavy for the mirror case where the light cart bounces back.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-momentum-is-conserved-in-collisions',

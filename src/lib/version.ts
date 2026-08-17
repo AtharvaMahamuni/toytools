@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 8,
+  minor: 9,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-17',
-  description: 'Guides on category hubs, published methods on health tools, and pixel5 as a PR gate',
+  description: 'All simulations pass their content gate, and the duplicated privacy FAQ is gone',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -2,6 +2,36 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.9] - 2026-08-17
+
+### Removed
+
+- **The privacy FAQ that appeared, word for word, on sixteen pages.** "Does the simulator send my
+  data anywhere?" and its answer were byte-identical across seven physics simulations, and six more
+  carried the same answer lightly reworded so it never showed up as a duplicate. `age-calculator` and
+  `date-difference-calculator` shared theirs too. It was always the last question, and every page
+  already says the same thing better: the "Private ● Runs entirely in your browser" badge sits under
+  the tool with a tooltip that explains it. Near-duplicate content pairs across the catalog dropped
+  from 33 to 8, and nothing now sits above 79% similarity.
+
+### Changed
+
+- **All fourteen simulations now pass their content gate**, up from eleven. The three that failed
+  did so because their pages never said what they model. The probability lab now talks about dice,
+  odds and running an experiment; the spring simulation names SHM, spring oscillation and Hooke's
+  law; the gas simulation names Boyle's law, Charles's law and kinetic theory, and its
+  "pressure comes from the gas weight" mistake heading now states the answer instead of only the
+  misconception. Each went from matching 3 of its 7 known search phrasings to 7 of 7.
+- Catalog-wide query targeting reached **82.5%**, from 78.7%.
+
+### Fixed
+
+- **The query-coverage checker was scoring punctuation rather than coverage.** It stripped
+  apostrophes from a visitor's query but not from the page, so a page correctly writing "Hooke's law"
+  could never match somebody typing "hookes law", and the apparent remedy was to misspell the prose.
+  Both sides are normalized now. Several tools were already answering queries the gate had been
+  marking as missed.
+
 ## [alpha-v7.8] - 2026-08-17
 
 ### Added

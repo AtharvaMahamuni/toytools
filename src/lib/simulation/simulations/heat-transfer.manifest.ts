@@ -118,11 +118,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Yes. Every unit of heat that leaves the hot block enters the cold block, so the total energy is constant. That is why the equilibrium temperature is exactly the average of the two starting temperatures for identical blocks. The heat-moved reading tracks how much energy has crossed between them.',
     },
-    {
-      question: 'Does this simulator send data anywhere?',
-      answer:
-        'No. The calculation runs in your browser on the canvas, with nothing uploaded or stored remotely. It continues to work offline once the page has loaded.',
-    },
   ],
   guide: {
     slug: 'how-heat-transfer-reaches-equilibrium',

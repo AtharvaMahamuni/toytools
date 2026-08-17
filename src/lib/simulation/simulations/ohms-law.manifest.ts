@@ -129,11 +129,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Yes. In a single series loop the current is the same at every point, because charge is not created or destroyed along the way. The carriers in the simulator move round the whole loop at one speed set by I = V / R. Voltage, by contrast, is dropped across the resistor, which is where the energy is delivered.',
     },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple arithmetic. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
-    },
   ],
   guide: {
     slug: 'how-ohms-law-works',

@@ -88,7 +88,7 @@ export const manifest: SimulationManifest = {
   seo: {
     title: 'Simple Harmonic Motion Calculator: Mass on a Spring',
     description:
-      'Watch simple harmonic motion live. Set the mass, spring constant, and amplitude and see the period, speed, and energy of a mass on a spring update instantly.',
+      'Set mass, spring constant and amplitude to see the SHM period, speed and energy of a spring oscillation, the motion Hooke\'s law produces on a mass.',
     tagline: 'Set mass, spring constant and amplitude, watch the oscillation live.',
     keywords: ['simple harmonic motion', 'mass on a spring', 'spring constant', 'period of oscillation', 'shm', 'angular frequency'],
   },
@@ -129,11 +129,6 @@ export const manifest: SimulationManifest = {
       question: 'How does energy move during the oscillation?',
       answer:
         'Energy trades between spring potential energy and kinetic energy while the total stays constant at half k times amplitude squared. At the turning points the mass is momentarily still, so all the energy is potential; through the equilibrium point it moves fastest, so the energy is all kinetic. The PE and KE bars in the simulator rise and fall in opposite step.',
-    },
-    {
-      question: 'Does the simulator send my data anywhere?',
-      answer:
-        'No. Everything runs in your browser with a canvas and simple maths. Nothing is uploaded or stored remotely, and the simulator keeps working offline after the page loads.',
     },
   ],
   guide: {

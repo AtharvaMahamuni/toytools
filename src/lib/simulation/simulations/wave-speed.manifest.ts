@@ -118,11 +118,6 @@ export const manifest: SimulationManifest = {
       answer:
         'The period is the time for one full cycle and is the reciprocal of frequency: T = 1 / f. At 2 Hz the period is 0.5 seconds; at 0.25 Hz it is 4 seconds. The simulator shows the period alongside the wave speed so you can see both change together as you move the frequency slider.',
     },
-    {
-      question: 'Is anything uploaded when I use the simulator?',
-      answer:
-        'No. The whole simulation runs in your browser using the HTML canvas and a little maths. Nothing you do is sent anywhere, and it keeps working offline once the page has loaded.',
-    },
   ],
   guide: {
     slug: 'how-wave-speed-works',

@@ -21,9 +21,4 @@ export const items: FAQItem[] = [
     question: 'Why is age not just the current year minus the birth year?',
     answer: 'That subtraction is correct only after the birthday has passed this year. Before it, the answer is one year too high. An exact age compares the month and day as well as the year, so it is right on every day of the year.',
   },
-  {
-    id: 'age-calculator-faq-5',
-    question: 'Is my date of birth sent anywhere?',
-    answer: 'No. The calculation runs entirely in your browser using your device clock. Nothing you type is uploaded, stored on a server, or shared, so it works offline once the page has loaded.',
-  },
 ];

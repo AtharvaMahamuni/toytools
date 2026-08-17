@@ -145,11 +145,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Factor when the roots are small whole numbers you can spot quickly: x² - 2x - 3 factors as (x - 3)(x + 1) in one step. Reach for the quadratic formula when factoring is not obvious within a few seconds, because it works on every quadratic, including ones with fractional, irrational, or no real roots. A useful habit: check the discriminant first, since a perfect-square Δ (like 16) signals that a clean factoring exists.',
     },
-    {
-      question: 'Does the explorer upload anything or need an account?',
-      answer:
-        'No. Everything runs in your browser on the HTML canvas: coefficients, roots, and the drawn parabola never leave your device. There is no account and the page keeps working offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-the-quadratic-formula-works',

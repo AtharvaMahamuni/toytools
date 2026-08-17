@@ -185,6 +185,10 @@ trusted, because the changed-tool gate only sees directories a branch touches an
 found earlier had been hiding behind exactly that. There is no larger hidden backlog: the six were
 the backlog.
 
+> **Items 1 and 2 were fixed later the same day.** All 14 simulations now pass `seo:gate:sim`, the
+> 12 identical FAQ pairs are gone, and catalog targeting reached 82.5%. What is written below is the
+> state that prompted the work; the closing notes are at the end of each item.
+
 ### 1. Three simulations fail their gate
 
 Simulations gate through `npm run seo:gate:sim`, not `seo:gate`. Swept separately, 11 of 14 pass:
@@ -194,6 +198,20 @@ Simulations gate through `npm run seo:gate:sim`, not `seo:gate`. Swept separatel
 | `simple-harmonic-motion-calculator` | `queryTargeting` 43 (need 50) **and** `highImpactActions` 4 (need ≤3) |
 | `probability-calculator` | `queryTargeting` 43 (need 50) |
 | `ideal-gas-law-calculator` | `highImpactActions` 4 (need ≤3) |
+
+**Closed.** `probability` and `simple-harmonic-motion` both went from 3/7 targeted phrasings to 7/7
+by saying in the meta description what the simulation actually models: "dice", "odds",
+"demonstration" and "experiment" for one, "SHM", "spring oscillation" and Hooke's law for the other.
+`ideal-gas-law` needed three entities its guide never named ("gas laws", "kinetic theory", "gas law
+simulator") plus a mistake heading that stated the answer instead of only the misconception:
+"Thinking pressure comes from the gas weight" became "…, not particle collisions". All 14 sims pass.
+
+**A checker bug surfaced doing it, and it mattered more than the content.** `targets()` normalized
+apostrophes on the query side only: `queryWords` splits on `/[^a-z0-9]+/`, so someone typing
+"hookes law" or "boyles law" arrives without one, while the page slots kept theirs. A page correctly
+writing "Hooke's law" could therefore never match, and the apparent fix was to misspell the prose.
+Both sides now drop apostrophes before comparing. This is the same asymmetry as finding 3 of the
+2026-08-04 audit, which fixed the query side and left the slots alone.
 
 ### 2. Twelve pairs of identical FAQ answers, across nine tools
 
@@ -207,6 +225,18 @@ Simulations gate through `npm run seo:gate:sim`, not `seo:gate`. Swept separatel
 This is the one item on the list that **nothing gates**: `check:duplication` is WARN-only and is not
 part of `npm run verify`. Identical answers across pages are the definition of the mass-produced
 content Google collapses, and these are sibling tools competing for adjacent queries.
+
+**Closed, by deleting the answer rather than rewriting it.** Every duplicate was the same boilerplate
+privacy FAQ ("Does the simulator send my data anywhere?"), always the last item. Rewriting it 14
+times would have produced 14 near-duplicates instead of 12 exact ones and taught a reader nothing:
+**the claim is already on every tool page**, delivered better, by the `TrustNotice` badge in Zone B
+with a tooltip. So it was removed from all 14 simulations and from `age-calculator` and
+`date-difference-calculator`.
+
+Worth noting what the 100% threshold hid: six more sims carried the same answer *individually
+reworded* ("Does the simulator upload anything?", "Does the lab upload anything or need an
+account?"), so they scored below 100% and never appeared in the report. They were the same redundancy
+and were removed too. **33 near-duplicate pairs fell to 8, and nothing now sits above 79%.**
 
 ### 3. Seventy-seven untargeted phrasings, concentrated in ~40 tools
 

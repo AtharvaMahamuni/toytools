@@ -155,11 +155,6 @@ export const manifest: SimulationManifest = {
       answer:
         'Because they are coordinates of a point stuck on a circle of radius 1. The point can never be further than 1 unit from either axis, so both coordinates live in the range -1 to 1 forever. Tangent has no such cage: it is the ratio sin θ / cos θ, and as cos θ shrinks near 90° the ratio grows without limit. If a calculation hands you sin θ = 1.4, something upstream is wrong.',
     },
-    {
-      question: 'Does the explorer upload anything or need an account?',
-      answer:
-        'No. It is a static page that runs entirely in your browser: the circle, the trig values, and the traced wave are all computed locally on the HTML canvas. Nothing is sent anywhere, there is no account, and it keeps working offline once loaded.',
-    },
   ],
   guide: {
     slug: 'how-the-unit-circle-works',
