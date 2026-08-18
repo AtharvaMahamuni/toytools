@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'body-composition',
+  craft: {
+    id: 'iw-spread',
+    kind: 'orientation',
+    solves: 'People read one formula figure as a target to hit, and at the extremes of height the four formulas disagree by ten kilograms or more. The spread between them is the honest answer and it is never stated as the answer.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'ideal-weight',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'body-weight-tracker'],

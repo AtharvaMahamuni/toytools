@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'energy',
+  craft: {
+    id: 'tdee-activity',
+    kind: 'orientation',
+    solves: 'Activity level is the largest guess in this estimate and the one people flatter themselves on, and one step too high inflates the daily target by several hundred calories. The cost of being one step out is arithmetic the tool can do.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'tdee',
   relatedTools: ['bmi-calculator', 'body-fat-calculator', 'macro-calculator'],

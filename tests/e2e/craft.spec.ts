@@ -529,3 +529,47 @@ test.describe('text handoffs (the text-processor craft seam)', () => {
     await expect(page.locator('#uppercase-converter-handoff')).toHaveCount(0);
   });
 });
+
+// ── The wellness seam ─────────────────────────────────────────────────────────
+// Every result on this engine already carries a standing caution, so what matters here is that the
+// line fires ONLY where the model is weak. Both halves are asserted on each tool.
+test.describe('wellness caveats (the wellness craft seam)', () => {
+  test('BMI offers the other unit reading when the figure is off the scale', async ({ page }) => {
+    await page.goto('/tool/health/bmi-calculator/');
+    const note = page.locator('[data-craft="bmi-units"]');
+
+    await page.locator('#bmi-calculator-f-weight').fill('75');
+    await page.locator('#bmi-calculator-f-height').fill('175');
+    await expect(note).toBeHidden();
+
+    await page.locator('#bmi-calculator-f-weight').fill('165');
+    await expect(note).toContainText('24.4');
+  });
+
+  test('the ideal-weight spread appears at the heights where the formulas diverge', async ({ page }) => {
+    await page.goto('/tool/health/ideal-weight-calculator/');
+    const note = page.locator('[data-craft="iw-spread"]');
+
+    await page.locator('#ideal-weight-calculator-f-height').fill('165');
+    await expect(note).toBeHidden();
+
+    await page.locator('#ideal-weight-calculator-f-height').fill('190');
+    await expect(note).toContainText('four formulas disagree');
+  });
+
+  test('running pace warns when a marathon is extrapolated from a short run', async ({ page }) => {
+    await page.goto('/tool/health/running-pace-calculator/');
+    const note = page.locator('[data-craft="rp-extrapolation"]');
+
+    await page.locator('#running-pace-calculator-f-distance').fill('21.1');
+    await expect(note).toBeHidden();
+
+    await page.locator('#running-pace-calculator-f-distance').fill('5');
+    await expect(note).toContainText('factor of three');
+  });
+
+  test('the macro calculator renders no caveat at all', async ({ page }) => {
+    await page.goto('/tool/health/macro-calculator/');
+    await expect(page.locator('#macro-calculator-caveat')).toHaveCount(0);
+  });
+});

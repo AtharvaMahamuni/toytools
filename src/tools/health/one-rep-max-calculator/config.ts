@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'fitness-performance',
+  craft: {
+    id: 'orm-spread',
+    kind: 'verification',
+    solves: 'Past about five reps the four formulas stop agreeing, because endurance rather than strength starts deciding how long a set lasts, so a max estimated from a set of twelve can be ten kilos out. The estimate is presented with the same confidence at any rep count.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'one-rep-max',
   relatedTools: ['running-pace-calculator', 'heart-rate-zone-calculator', 'protein-intake-calculator', 'body-weight-tracker'],

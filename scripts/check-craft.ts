@@ -106,7 +106,12 @@ const THRESHOLDS = {
   //   listing, so somebody lands on the wrong one and leaves with a correct-looking half-done job.
   //   One rule per processor, rendered once in TextProcessorWidget. 17 tools; `uppercase` has no
   //   honest rule and gets nothing.
-  coverage: 0.514,
+  // 2026-08-18: 0.598 (64/107). The wellness seam. Every result on this engine already carried a
+  //   standing caution ("these are estimates from a formula") on EVERY result, which is exactly why
+  //   nobody reads them. Each rule here fires only when this input has landed where the model is
+  //   weakest, and states the cost as a number. 9 tools; macro and body-fat get nothing, the latter
+  //   because its sensitivity barely varies with the input and a rule would be a disclaimer.
+  coverage: 0.598,
   boxesPerTool: 7,
   rawHex: 9,
 };

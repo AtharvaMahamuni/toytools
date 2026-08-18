@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'cardio',
+  craft: {
+    id: 'hrz-spread',
+    kind: 'orientation',
+    solves: 'A formula maximum carries about ten beats of error either way, which moves the top of Zone 2 by seven beats, and Zone 2 is the one zone people are genuinely trying to hit. The zones are printed as exact numbers with nothing about the width of that uncertainty.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'heart-rate-zones',
   relatedTools: ['tdee-calculator'],

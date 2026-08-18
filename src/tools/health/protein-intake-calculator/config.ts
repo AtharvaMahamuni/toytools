@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'nutrition',
+  craft: {
+    id: 'pi-per-meal',
+    kind: 'orientation',
+    solves: 'The daily total is met by eating most of it at dinner, and the response to a single serving plateaus around forty grams, so the target is hit on paper and missed in the body. The meal count is already an input, which makes the per-sitting figure computable.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'protein-intake',
   relatedTools: ['macro-calculator', 'tdee-calculator', 'body-fat-calculator', 'calorie-deficit-calculator'],

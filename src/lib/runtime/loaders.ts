@@ -52,7 +52,7 @@ export const ENGINE_GLOBALS: Record<string, string[]> = {
   datetime: ['runDateTime', 'experience'],
   math: ['runMath', 'experience'],
   calculator: ['pitfall'],
-  wellness: ['runWellness', 'experience', 'viz'],
+  wellness: ['runWellness', 'wellnessCaveat', 'experience', 'viz'],
   tracker: ['tracker', 'viz'],
   color: ['color'],
   units: ['units'],

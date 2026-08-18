@@ -11,6 +11,7 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
 import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 import { getWellnessCalculator } from '@lib/engines/wellness/registry';
 import { wellnessExamplesFor } from '@lib/engines/wellness/examples';
 import { DEFAULT_CAPABILITIES } from '@lib/results/types';
@@ -35,6 +36,7 @@ const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
 const examples = wellnessExamplesFor(wellnessId).map((e) => e.inputs);
 const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
+const craftId = config.craft?.id;
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
@@ -58,13 +60,15 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
     </div>
   </IoPanel>
 
-  <ExperienceRenderer
-    slot="output"
-    idPrefix={slug}
-    emptyText={resolvedEmpty}
-    layout={tool?.layout}
-    capabilities={caps}
-  />
+  <div slot="output">
+    <ExperienceRenderer
+      idPrefix={slug}
+      emptyText={resolvedEmpty}
+      layout={tool?.layout}
+      capabilities={caps}
+    />
+    {craftId && <CraftNote id={`${slug}-caveat`} craftId={craftId} />}
+  </div>
 </ToolSplit>
 
 <div class="tool-actions">
@@ -146,16 +150,34 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
       return { input: input, missingRequired: missingRequired };
     }
 
+    var caveatEl = document.getElementById(slug + '-caveat');
+    var caveatTxt = document.getElementById(slug + '-caveat-text');
+
+    // The craft line: every result on this engine already carries a standing caution, which is why
+    // nobody reads it. This one fires only when THIS input has landed where the model is weakest,
+    // and states the cost as a number.
+    function caveat(input) {
+      if (!caveatEl || !caveatTxt) return;
+      var msg = (input && window.ToyTools && ToyTools.wellnessCaveat)
+        ? ToyTools.wellnessCaveat(wid, input)
+        : null;
+      if (!msg) { caveatEl.hidden = true; caveatTxt.textContent = ''; return; }
+      caveatTxt.textContent = msg;
+      caveatEl.hidden = false;
+    }
+
     function run() {
       if (!(window.ToyTools && ToyTools.runWellness && ToyTools.experience)) return;
       var c = collect();
       if (c.missingRequired) {
         ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        caveat(null);
         renderDelta(null);
         return;
       }
       var res = ToyTools.runWellness(wid, c.input, {});
       ToyTools.experience.render(expRoot, res);
+      caveat(res && res.ok ? c.input : null);
       publishDerived(res);
       recordSnapshot(res);
       renderDelta(res);

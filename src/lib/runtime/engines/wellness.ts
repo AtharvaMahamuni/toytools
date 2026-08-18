@@ -4,6 +4,9 @@
 // `data-wellness` attribute, so only that chunk is fetched. See ../../engines/wellness/lazy.ts.
 
 import { loadWellnessCalculator, runLazyWellness } from '@lib/engines/wellness/lazy';
+// Safe to import eagerly: caveat.ts pulls only models.ts, the pure-math module every calculator
+// already depends on. It does not reach the calculator registry, so the per-page chunking holds.
+import { wellnessCaveat } from '@lib/engines/wellness/caveat';
 import { attachExperience } from '../experience';
 import { attachViz } from '../viz';
 import type { AttachFn } from '../types';
@@ -19,6 +22,7 @@ export const attach: AttachFn = async (TT) => {
   await Promise.all([...ids].map(loadWellnessCalculator));
 
   TT.runWellness = runLazyWellness;
+  TT.wellnessCaveat = wellnessCaveat; // (id, input) → where this input sits in the model, or null
   attachExperience(TT);
   attachViz(TT);
 };

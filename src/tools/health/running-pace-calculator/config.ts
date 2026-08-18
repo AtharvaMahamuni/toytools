@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'fitness-performance',
+  craft: {
+    id: 'rp-extrapolation',
+    kind: 'guardrail',
+    solves: 'A marathon predicted from a 5K is an extrapolation eight times past the distance actually run, well outside the range Riegel holds for, and it is printed with exactly the same confidence as a 10K prediction from the same run. People plan a race around it.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'running-pace',
   relatedTools: ['heart-rate-zone-calculator', 'one-rep-max-calculator', 'tdee-calculator', 'move-today-tracker'],
