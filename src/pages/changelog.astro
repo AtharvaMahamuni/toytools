@@ -16,7 +16,12 @@ const description =
   'What has changed in ToyTools, release by release: new tools, engines, and fixes.';
 
 // Newest releases only. The file grows forever; the page should not.
-const MAX_RELEASES = 20;
+//
+// 2026-08-18: 20 → 12. The cap was never the thing that grew, the entries were: early releases were
+// a line each and recent ones are several sentences of prose, so twenty of them crossed the 30KB
+// gzipped HTML budget for a standalone page. The budget is the contract and the count is the dial,
+// so the count moved. Anything older is one click away in the repository, which the note below says.
+const MAX_RELEASES = 12;
 const source = readFileSync(join(process.cwd(), 'CHANGELOG.md'), 'utf8');
 const releases = parseChangelog(source).slice(0, MAX_RELEASES);
 const truncated = parseChangelog(source).length > releases.length;
