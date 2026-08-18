@@ -22,14 +22,19 @@ interface Props {
   craftId: string;
   /** Render the follow-through button. Its label and behaviour are set by the widget. */
   action?: boolean;
+  /** Render the follow-through as a link instead, for a touch that hands off to another tool. */
+  linkAction?: boolean;
 }
-const { id, craftId, action = false } = Astro.props;
+const { id, craftId, action = false, linkAction = false } = Astro.props;
 ---
 
 <p class="craft-note" id={id} data-craft={craftId} role="status" aria-live="polite" hidden>
   <span class="craft-note-text" id={`${id}-text`}></span>
   {action && (
     <button class="craft-note-action" id={`${id}-action`} type="button" hidden></button>
+  )}
+  {linkAction && (
+    <a class="craft-note-action" id={`${id}-action`} href="#" hidden></a>
   )}
 </p>
 
@@ -59,6 +64,10 @@ const { id, craftId, action = false } = Astro.props;
 
   .craft-note-action {
     flex: 0 0 auto;
+    /* An anchor needs the height stated as padding, since it has no intrinsic control box. */
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
     min-block-size: var(--touch-target);
     padding-inline: var(--space-4);
     border: var(--border);

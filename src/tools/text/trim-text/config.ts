@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'trim-inner',
+    kind: 'orientation',
+    solves: 'It trims the edges of every line and leaves the middle alone, which is the exact mirror of the tool next door. A person cleaning a pasted table gets tidy margins and untouched double spaces between the columns.',
+  },
   processorId: 'trimLines',
   toolGroup: 'text-cleanup',
   guide: {

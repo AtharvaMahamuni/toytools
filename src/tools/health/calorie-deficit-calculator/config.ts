@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'energy',
+  craft: {
+    id: 'cd-shrinks',
+    kind: 'continuation',
+    solves: 'A deficit is set once and never recalculated, so the intake that was losing weight at the start is close to maintenance by the time the goal arrives and the plan appears to stop working for no reason. The size of that drift is computable the moment a goal weight is entered.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'calorie-deficit',
   relatedTools: ['tdee-calculator', 'bmr-calculator', 'macro-calculator', 'body-weight-tracker'],

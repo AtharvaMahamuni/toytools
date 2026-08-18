@@ -2,6 +2,27 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.14] - 2026-08-18
+
+### Added
+
+- **The eighteen text tools can now tell you when you are on the wrong one.** They sit one paste
+  apart and look nearly identical from a listing, so it is easy to land on Remove Extra Spaces when
+  you wanted Trim Text, get a correct-looking result, and leave with the job half done. Each one now
+  says what it deliberately left alone and links to the tool that finishes it: the space remover
+  points out the line edges it kept, the trimmer points out the gaps it left inside the lines,
+  Remove Blank Lines explains a no-op instead of looking broken, and Slugify warns when a line had
+  no ASCII characters and became nothing at all. Remove Duplicate Lines goes further and counts how
+  many more lines would go if the text were trimmed or lowercased first.
+- **The nine health calculators now say where their estimate is weakest, in your numbers.** Every
+  result already carried a caution, which is exactly why nobody read it: the same sentence on every
+  answer is boilerplate. These fire only when your input has landed somewhere the formula struggles.
+  A marathon predicted from a 5K is flagged as eight times past the range the model holds for. The
+  four ideal-weight formulas report how far apart they are at your height rather than pretending to
+  one target. A one rep max from a set of twelve says how much the formulas disagree. Your protein
+  target is divided by your meal count against the point where a single serving stops helping. And
+  a BMI that comes out impossible offers the reading you get if that weight was in pounds.
+
 ## [alpha-v7.13] - 2026-08-18
 
 ### Added

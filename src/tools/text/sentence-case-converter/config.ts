@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
+  craft: {
+    id: 'sc-nosentences',
+    kind: 'orientation',
+    solves: 'With no full stop, question mark or exclamation in the input only the very first letter changes, so the whole result reads as if the tool simply lowercased the text. That is the confusion this tool is most often caught in.',
+  },
   processorId: 'sentenceCase',
   toolGroup: 'case-converters',
   guide: {

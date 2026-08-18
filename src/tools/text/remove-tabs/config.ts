@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'tabs-runs',
+    kind: 'orientation',
+    solves: 'Each tab becomes one space so adjacent tokens do not merge, which means a tab sitting next to existing spaces leaves a run of two or three behind. The result looks cleaned and is not.',
+  },
   processorId: 'removeTabs',
   toolGroup: 'text-cleanup',
   guide: {

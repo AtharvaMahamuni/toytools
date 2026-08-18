@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'rdl-near',
+    kind: 'verification',
+    solves: 'Lines that differ only by a trailing space or a capital letter survive as separate entries, so a list looks deduplicated and is not. Both of those are measurable before the user has to discover them by eye.',
+  },
   processorId: 'removeDuplicateLines',
   toolGroup: 'text-cleanup',
   guide: {

@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'wellness',
   pattern: 'health-calculate',
   family: 'energy',
+  craft: {
+    id: 'bmr-per-kg',
+    kind: 'orientation',
+    solves: 'A resting burn under fourteen hundred calories reads as a broken metabolism, and people go looking for a medical explanation for being small. Per kilogram of body weight the same figure is entirely ordinary, and nothing on the page says so.',
+  },
   toolGroup: 'body-metrics',
   processorId: 'bmr',
   relatedTools: ['tdee-calculator', 'calorie-deficit-calculator', 'macro-calculator', 'bmi-calculator'],

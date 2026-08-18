@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
+  craft: {
+    id: 'rev-breaks',
+    kind: 'orientation',
+    solves: 'Reversing a whole block reverses characters rather than word order, and it moves every line break to the other end, so a list comes back inside out in a way that is easy to miss on a phone screen.',
+  },
   processorId: 'reverseText',
   guide: {
     slug: 'how-to-reverse-text',

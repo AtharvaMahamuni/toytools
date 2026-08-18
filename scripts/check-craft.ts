@@ -100,7 +100,18 @@ const THRESHOLDS = {
   //   keep-screen-awake       DECLARED, not built: the status line has been derived from the live
   //                           sentinel since the tool shipped. Recorded as a declaration because
   //                           declaring is not building.
-  coverage: 0.355,
+  // 2026-08-18: 0.514 (55/107). The text-processor seam, the largest single move this ratchet has
+  //   made. Reading the eighteen knowledge files together showed one shared failure, not eighteen:
+  //   "this is not the tool you wanted". These tools are one paste apart and near-identical from a
+  //   listing, so somebody lands on the wrong one and leaves with a correct-looking half-done job.
+  //   One rule per processor, rendered once in TextProcessorWidget. 17 tools; `uppercase` has no
+  //   honest rule and gets nothing.
+  // 2026-08-18: 0.598 (64/107). The wellness seam. Every result on this engine already carried a
+  //   standing caution ("these are estimates from a formula") on EVERY result, which is exactly why
+  //   nobody reads them. Each rule here fires only when this input has landed where the model is
+  //   weakest, and states the cost as a number. 9 tools; macro and body-fat get nothing, the latter
+  //   because its sensitivity barely varies with the input and a rule would be a disclaimer.
+  coverage: 0.598,
   boxesPerTool: 7,
   rawHex: 9,
 };

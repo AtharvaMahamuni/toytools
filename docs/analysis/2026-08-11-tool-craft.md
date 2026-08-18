@@ -465,3 +465,68 @@ at n = 3.**
 The remaining backlog is now **69 tools: 63 class C thin wrappers across ten engine seams, 5 class A
 already-built declarations, and `pomodoro-timer`.** The class C figure is the one worth acting on,
 and section 10's table is still the work plan.
+
+## 12. The two largest class-C seams (2026-08-18)
+
+`text-processor` (18 tools) and `wellness` (11), taken together because they answer the same
+question two opposite ways. Coverage 38/107 → 64/107.
+
+### text-processor: one failure, eighteen times
+
+Reading the eighteen knowledge files **together** rather than one at a time was the whole finding.
+The same sentence is in most of them, and it is never "the output is wrong" (it never is):
+
+> "Expecting it to also strip leading and trailing whitespace (use trim)"
+> "Confusing it with Remove Blank Lines, which keeps lines separate"
+> "Confusing it with kebab-case, which does not strip accents to ASCII"
+> "Confusing sentence case with simply making text lowercase"
+
+**The engine's shared failure is "this is not the tool you wanted."** These tools are one paste apart
+and near-indistinguishable from a listing, so somebody lands on the wrong one, gets a
+correct-looking result, and leaves with the job half done. Nothing on the page tells them, and the
+engine is the only thing positioned to: it can see the input, the output, and what the sibling would
+have produced.
+
+17 rules, one per processor, rendered once in `TextProcessorWidget`. `uppercase` gets nothing.
+
+**Wiring cost: one file.** The wrappers already pass `config`, so the widget reads `config.craft?.id`
+itself. Eighteen tools were covered by editing one shared widget plus seventeen declarations, which
+is the strongest evidence yet for the seam-over-touches rule.
+
+### wellness: the disclaimer nobody reads
+
+The opposite shape. Every calculator here **already** ends with a caution, and that is the problem:
+it is on every result, so it reads as boilerplate. The touch is the conditional version, priced in
+the user's own numbers, firing only where the model is genuinely weak.
+
+9 rules. `macro` and `body-fat` get nothing, and `body-fat` is the interesting refusal: its documented
+mistake (tape tension) IS computable at about 0.8 points per centimetre, but the sensitivity barely
+varies with the input, so the rule would fire every time. **A rule that always fires is the standing
+disclaimer again**, which is the thing the seam exists to replace.
+
+### What went wrong, both times in thresholds
+
+Neither seam's logic was wrong. Both had a threshold I reasoned my way to and the tests refuted:
+
+- **BMI:** an absolute plausibility window does not separate a unit mix-up from a real high BMI.
+  120 kg at 175 cm is a genuine 39 and reads as 17.8 if you assume pounds, so a window accuses a real
+  user. The working test is relative and two-sided: extreme here **and** ordinary in the other system.
+- **ideal-weight:** the four formulas converge near 165 cm and diverge at **both** extremes. 152 cm
+  has a wider spread than 175 cm, the opposite of what I assumed.
+- **text-processor:** the leading/trailing counter counted regex matches, so a line both indented and
+  trailing reported as two lines.
+
+All three were caught by tests written before the thresholds were tuned, which is the argument for
+writing the silence half first.
+
+### Backlog after this
+
+**43 tools.** 34 class C across eight remaining engine seams (`finance` 8, `encoding` 6, `datetime` 5,
+`generation` 4, `tracker` 3, `math` 3, `csv` 3, `structured-data` 2), 5 class A already-built
+declarations, and four honest refusals: `pomodoro-timer`, `uppercase-converter`, `macro-calculator`,
+`body-fat-calculator`.
+
+That last row is the number worth watching. **Four tools have now been examined and declined**, each
+with a written reason. Coverage is a ratio so a new tool cannot ship craftless; it was never a target
+to fill, and a catalog where every single tool declares something would be evidence the gate had
+stopped meaning anything.

@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
+  craft: {
+    id: 'kebab-nonascii',
+    kind: 'orientation',
+    solves: 'It keeps accented letters, which is right for prose and wrong the moment the result is used as a URL, a filename or an ASCII-only identifier. The output looks like a slug and will not work as one.',
+  },
   processorId: 'kebabCase',
   toolGroup: 'case-converters',
   guide: {
