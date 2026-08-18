@@ -2,6 +2,46 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.13] - 2026-08-18
+
+### Added
+
+- **The six everyday calculators now name the arithmetic people get wrong.** Backing tax out of a
+  total by subtracting the rate under-reports the price every time, so the tax tool shows what that
+  method would have given and by how much it is short. The percentage calculator separates a 25%
+  change from a gap of 5 percentage points, but only when both values are themselves rates. The
+  margin and markup tools call a price below cost what it is: money leaving on every unit, not a
+  percentage. The tip calculator reports what rounding the total up actually tipped, which is the
+  move the output stopped one step short of. And the discount calculator can now stack a second
+  discount onto the discounted price, because "30% off, extra 20% at the till" is 44% off and almost
+  everyone adds it to 50%. Each line is silent unless the input actually exhibits the problem.
+- **The three unit converters catch the conversion one step before it fails.** 16:9 at width 1000 is
+  562.5 pixels, which ffmpeg rejects with a message about divisibility rather than about the ratio;
+  the aspect calculator now names the nearest pair that keeps the ratio exactly and has both
+  dimensions even, and one tap applies it. 5dp lands on three quarters of a pixel at ldpi, which is
+  not an exportable asset, so the dp converter names the densities that break and the nearest value
+  on the 4dp grid. The rem converter points out that em is relative to the parent, not the root, and
+  compounds when nested.
+- **Text Compare can tell you when a diff is entirely whitespace.** A file saved on Windows compared
+  against the same file from git differs on every single line, and the diff used to report that in
+  red without mentioning that not one visible character changed. It now says which normalization
+  would help (line endings, trailing whitespace, indentation, or collapsing runs of spaces) and how
+  many of the changed lines are noise, and the toggle normalizes the comparison only. Your two texts
+  are never rewritten.
+- **The colour converter reads an eight-digit hex out loud.** CSS defines it as `#RRGGBBAA`; Android
+  has always written `#AARRGGBB`. The same eight characters are two different colours and both parse
+  without an error, so a value pasted out of an Android theme produced a confidently wrong swatch.
+  The tool now names the other reading, the opacity each standard would apply, and offers the swap.
+
+### Changed
+
+- Keep Screen Awake's status line is now a declared thoughtful touch. Nothing about it changed: it
+  has been derived from the live wake-lock sentinel since the tool shipped, so a lock dropped by
+  battery saver or an OS power policy has always been reported and retried rather than hidden behind
+  an "Awake" label. It simply had never been recorded as the tool's craft.
+- Text Compare's similarity sentence no longer uses an em-dash, which the project's writing rules
+  forbid in shipped copy.
+
 ## [alpha-v7.12] - 2026-08-17
 
 ### Added

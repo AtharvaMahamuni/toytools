@@ -416,3 +416,52 @@ honest answer to the failure test declares nothing and waits.
 
 The three seams shipped so far each took one engine verb plus one shared component, and each was
 smaller than the per-tool work it replaced. That is the only pattern here that has scaled.
+
+## 11. Class B, closed (2026-08-18)
+
+The 13 bespoke widgets from section 10, worked through in one batch. **12 shipped a touch, 1
+deliberately did not**, and coverage moved 26/107 → 38/107.
+
+The measurement that mattered: **11 of the 13 touches came straight out of the tool's own
+`knowledge.ts`.** Every one of these tools already had its failure written down, by someone doing
+content research, and nobody had read those files while thinking about behaviour. That is the same
+surprise as section 10 in a different form, and it is now the standing first step in the skill.
+
+| tool | kind | the failure, in one line |
+|---|---|---|
+| `tax-calculator` | orientation | subtracting the rate to back tax out of a total |
+| `percentage-calculator` | orientation | percentage change read as percentage points |
+| `margin-calculator` | guardrail | a loss printed as a percentage, which reads like a margin |
+| `markup-calculator` | guardrail | the same |
+| `tip-calculator` | continuation | the output stops one step before the number you write down |
+| `discount-calculator` | continuation | "30% off, extra 20%" added instead of multiplied |
+| `aspect-ratio-calculator` | guardrail | an exact pair the encoder refuses for being odd |
+| `px-to-dp-converter` | orientation | a dp value that is half a pixel at ldpi and hdpi |
+| `px-to-rem-converter` | orientation | em converted against the root, then nested |
+| `color-format-converter` | orientation | 8-digit hex: CSS and Android disagree about byte order |
+| `text-compare` | recovery | a CRLF file against an LF file, every line red |
+| `keep-screen-awake` | recovery | **declared, not built** — already shipped, never declared |
+| `pomodoro-timer` | — | **nothing.** See below. |
+
+### The one that got nothing
+
+`pomodoro-timer`'s three documented mistakes are *skipping breaks*, *checking messages* and
+*starting without a clear objective*. All three are behavioural; none is detectable from what the
+widget can see, and the widget has no skip control from which to infer the first. The available
+options were to invent an affordance or to ship nothing, and the doctrine has one answer to that.
+
+It stays on the backlog with the reason written down, which is the difference between a gap and an
+oversight.
+
+### What this changed about the estimate
+
+Two of the three groups turned out smaller than "13 bespoke widgets" suggested, because the six
+calculators shared one seam and the three unit converters shared another. **Two engine runtimes and
+one shared component covered nine of the twelve.** `calculator` had no browser runtime at all before
+this and now has one, which is what let those six rules be unit tested rather than copied into six
+inline scripts. That trade is worth restating: **a seam is cheaper than the touches it replaces even
+at n = 3.**
+
+The remaining backlog is now **69 tools: 63 class C thin wrappers across ten engine seams, 5 class A
+already-built declarations, and `pomodoro-timer`.** The class C figure is the one worth acting on,
+and section 10's table is still the work plan.

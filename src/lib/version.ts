@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 12,
+  minor: 13,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-17',
-  description: 'Craft touches on eighteen tools, via engine seams',
+  releaseDate: '2026-08-18',
+  description: 'Craft on twelve bespoke widgets, via two new engine seams',
 };
 
 export function formatVersion(config: VersionConfig): string {
