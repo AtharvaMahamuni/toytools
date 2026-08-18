@@ -83,6 +83,41 @@ if (existsSync(dist)) {
   for (const f of required) {
     if (!existsSync(join(dist, f))) errors.push(`Sitemap file missing from dist: ${f}`);
   }
+
+
+  // 6b. No indexable tool page may be a dead end in the internal link graph.
+  //
+  // Measured 2026-08-18: 47 of 121 tool pages linked to no other tool at all, and the median page
+  // linked to four, every one of them a tool-group pill pointing at a near-identical sibling. The
+  // cause was a 2026-08 layout cleanup that removed the related-tools block on the reasoning that
+  // "the catalog is one click away either way" — true for a reader, false for a crawler, because a
+  // category link hands authority to a hub that splits it across up to eighteen tools while a
+  // tool-to-tool link is a topical signal between two specific pages.
+  //
+  // This is a floor, not a target: one link is enough to stop being a dead end, and the derivation
+  // in src/lib/tools/related.ts decides how many there actually are. Redirect stubs are excluded
+  // structurally, by their meta refresh, the same way Quality Guardian's canonical validator does
+  // it — never by a list of paths, which goes stale the first time a slug is renamed.
+  const deadEnds: string[] = [];
+  for (const t of tools) {
+    const category = categories.find(c => c.slug === t.categorySlug);
+    const page = join(dist, 'tool', category?.segment ?? t.categorySlug, t.slug, 'index.html');
+    if (!existsSync(page)) continue;
+    const html = readFileSync(page, 'utf8');
+    if (html.includes('<meta http-equiv="refresh"')) continue;
+    const linked = new Set(
+      [...html.matchAll(/href="[^"]*?\/tool\/[^"/]+\/([^"/]+)\//g)].map(m => m[1]!),
+    );
+    linked.delete(t.slug);
+    if (linked.size === 0) deadEnds.push(t.slug);
+  }
+  if (deadEnds.length > 0) {
+    errors.push(
+      `${deadEnds.length} tool page(s) link to no other tool, which makes them dead ends for a ` +
+      `crawler: ${deadEnds.slice(0, 8).join(', ')}${deadEnds.length > 8 ? ', …' : ''}. ` +
+      `Related tools are derived (src/lib/tools/related.ts) and rendered in Zone C.`,
+    );
+  }
 } else {
   warnings.push('dist/ not found — skipped sitemap output check (run `npm run build` first).');
 }

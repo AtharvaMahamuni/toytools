@@ -31,3 +31,28 @@ describe('isSingleFamilyBubble', () => {
     expect(isSingleFamilyBubble(source, related)).toBe(false);
   });
 });
+
+// ── The structural exemption ──────────────────────────────────────────────────
+describe('isSingleFamilyBubble — a small category is not a bubble', () => {
+  const src = tool('percentage-calculator', 'arithmetic');
+  const homogeneous = [tool('tip-calculator', 'arithmetic'), tool('tax-calculator', 'arithmetic')];
+
+  it('still reports a bubble when another family was available to pick', () => {
+    const candidates = [...homogeneous, tool('word-counter', 'text-counting')];
+    expect(isSingleFamilyBubble(src, homogeneous, candidates)).toBe(true);
+  });
+
+  it('reports nothing when the whole candidate pool is one family', () => {
+    // number-utilities is genuinely all `arithmetic`. That is a fact about the catalog, and no
+    // derivation change can fix it, so it must not read as a defect.
+    expect(isSingleFamilyBubble(src, homogeneous, homogeneous)).toBe(false);
+  });
+
+  it('ignores the source itself when deciding whether an alternative existed', () => {
+    expect(isSingleFamilyBubble(src, homogeneous, [...homogeneous, src])).toBe(false);
+  });
+
+  it('keeps the old behaviour when no candidate pool is supplied', () => {
+    expect(isSingleFamilyBubble(src, homogeneous)).toBe(true);
+  });
+});

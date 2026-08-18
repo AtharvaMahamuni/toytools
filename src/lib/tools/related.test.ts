@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getRelatedTools, getRelatedGuides, relationTier, tierStrength } from './related';
+import { getRelatedTools, getRelatedGuides, relatedCandidates, relationTier, tierStrength } from './related';
 import type { ToolConfig } from '@data/types';
 
 function tool(overrides: Partial<ToolConfig> & Pick<ToolConfig, 'slug'>): ToolConfig {
@@ -145,5 +145,64 @@ describe('getRelatedGuides', () => {
     const result = getRelatedGuides(current, [current, hasGuide, noGuide]).map(t => t.slug);
     expect(result).toContain('b');
     expect(result).not.toContain('d');
+  });
+});
+
+// ── The cross-family floor ────────────────────────────────────────────────────
+// The tier cascade is a slice, so an engine larger than `max` never gets past tier 1 and every one
+// of its tools recommends only its own siblings. 42 tools were in that state on 2026-08-18.
+describe('getRelatedTools — the guaranteed door out of the family', () => {
+  const sibling = (n: number) =>
+    tool({ slug: `sib-${n}`, categorySlug: 'text', engine: 'text-processor', pattern: 'converter', family: 'cleanup' });
+  const outsider = tool({
+    slug: 'counter', categorySlug: 'text', engine: 'text-analysis', pattern: 'analyzer', family: 'text-counting',
+  });
+  const current = tool({
+    slug: 'trim', categorySlug: 'text', engine: 'text-processor', pattern: 'converter', family: 'cleanup',
+  });
+
+  it('gives up the weakest sibling for the nearest outsider', () => {
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), outsider];
+    const result = getRelatedTools(current, all, 5);
+    expect(result).toHaveLength(5);
+    expect(result.map(t => t.slug)).toContain('counter');
+    // The four closest siblings survive; only the fifth slot is spent.
+    expect(result.slice(0, 4).map(t => t.slug)).toEqual(['sib-1', 'sib-2', 'sib-3', 'sib-4']);
+    expect(result[4]!.slug).toBe('counter');
+  });
+
+  it('leaves an already-diverse set exactly as the tiers ranked it', () => {
+    // Two outsiders rank inside the natural top 5, so nothing is displaced. An earlier version
+    // applied the swap unconditionally and cost cross-family links on tools without the problem.
+    const all = [current, sibling(1), sibling(2), outsider, sibling(3), sibling(4)];
+    const natural = getRelatedTools(current, all, 5);
+    expect(natural.map(t => t.slug)).toEqual(['sib-1', 'sib-2', 'sib-3', 'sib-4', 'counter']);
+  });
+
+  it('does nothing when no other family exists, rather than padding with nothing', () => {
+    const all = [current, ...[1, 2, 3, 4, 5, 6].map(sibling)];
+    const result = getRelatedTools(current, all, 5);
+    expect(result.map(t => t.slug)).toEqual(['sib-1', 'sib-2', 'sib-3', 'sib-4', 'sib-5']);
+  });
+
+  it('does nothing when the source declares no family', () => {
+    const noFamily = tool({ slug: 'x', categorySlug: 'text', engine: 'text-processor', pattern: 'converter' });
+    const all = [noFamily, ...[1, 2, 3, 4, 5, 6].map(sibling), outsider];
+    expect(getRelatedTools(noFamily, all, 5)).toHaveLength(5);
+  });
+
+  it('never changes how many tools are recommended', () => {
+    const all = [current, ...[1, 2, 3, 4, 5, 6, 7].map(sibling), outsider];
+    for (const max of [1, 2, 3, 5, 6]) {
+      expect(getRelatedTools(current, all, max)).toHaveLength(Math.min(max, all.length - 1));
+    }
+  });
+});
+
+describe('relatedCandidates', () => {
+  it('returns the whole ranked pool, unsliced, so a caller can ask what was available', () => {
+    const current = tool({ slug: 'a', categorySlug: 'text', family: 'cleanup' });
+    const others = ['b', 'c', 'd', 'e', 'f', 'g', 'h'].map(s => tool({ slug: s, categorySlug: 'text', family: 'cleanup' }));
+    expect(relatedCandidates(current, [current, ...others])).toHaveLength(7);
   });
 });

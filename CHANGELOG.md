@@ -2,6 +2,23 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.14.1] - 2026-08-18
+
+### Fixed
+
+- **Every tool page now links to related tools again.** 47 of the 121 tool pages linked to no other
+  tool at all, and the typical page linked only to its own tool-group siblings, which are
+  near-identical by design. A layout cleanup had removed the related-tools block on the grounds that
+  the category page is one click away either way. That is true when you are reading and false when
+  a search engine is crawling, so the links are back as five entries in a collapsed drawer in the
+  row that already exists: one more chip on screen, nothing pushed down, 0.2KB added to a page with
+  3.2KB of room.
+- **Related tools stop recommending five near-identical siblings.** Any tool on a large engine used
+  to fill its whole list from that engine, so all eighteen text cleanup tools pointed only at each
+  other. One slot now goes to the closest tool from a different family, which is how Trim Text
+  reaches the word counter and the colour converter reaches the contrast checker. Lists that already
+  reached outside their family are untouched.
+
 ## [alpha-v7.14] - 2026-08-18
 
 ### Added
