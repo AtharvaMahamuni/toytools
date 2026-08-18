@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'nw-breaks',
+    kind: 'orientation',
+    solves: 'This is the heaviest cleanup on the engine and it collapses line breaks along with everything else, so somebody who arrived wanting double spaces fixed loses the structure of a list or an address without being told.',
+  },
   processorId: 'normalizeWhitespace',
   toolGroup: 'text-cleanup',
   guide: {

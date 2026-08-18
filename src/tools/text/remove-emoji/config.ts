@@ -13,6 +13,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 're-nonascii',
+    kind: 'recovery',
+    solves: 'People reach for this when text has characters they cannot identify, and accented letters are not emoji. A no-op on non-ASCII text reads as a failure instead of as the wrong tool for that particular character.',
+  },
   processorId: 'removeEmoji',
   toolGroup: 'text-cleanup',
   relatedTools: ['remove-accents', 'normalize-whitespace', 'remove-extra-spaces'],

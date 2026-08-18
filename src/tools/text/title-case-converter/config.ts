@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
+  craft: {
+    id: 'tc-minor',
+    kind: 'orientation',
+    solves: 'It capitalizes every word including the articles, conjunctions and short prepositions that Chicago and AP both leave lowercase, so a headline pasted into a publication needs hand-correcting and nothing here says which words.',
+  },
   processorId: 'titleCase',
   toolGroup: 'case-converters',
   relatedTools: ['uppercase-converter', 'lowercase-converter', 'sentence-case-converter'],

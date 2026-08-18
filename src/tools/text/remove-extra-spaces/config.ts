@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'res-edges',
+    kind: 'orientation',
+    solves: 'It collapses runs of spaces inside a line and deliberately leaves one at each edge, so someone who read "extra spaces" as "all of them" copies out indented text and does not notice until it is pasted somewhere that cares.',
+  },
   processorId: 'removeExtraSpaces',
   toolGroup: 'text-cleanup',
   guide: {

@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'rbl-noop',
+    kind: 'recovery',
+    solves: 'When a multi-line paste has no blank lines the tool returns it untouched, which reads as a broken tool rather than as a wrong choice of tool. The thing that person almost always wanted is the one that joins the lines.',
+  },
   processorId: 'removeBlankLines',
   toolGroup: 'text-cleanup',
   guide: {

@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'ra-nonascii',
+    kind: 'recovery',
+    solves: 'It decomposes and drops combining marks, so a script with no separable accent comes back untouched. That is a correct answer that looks broken, and the person usually wanted the emoji stripper or nothing at all.',
+  },
   processorId: 'removeAccents',
   toolGroup: 'text-cleanup',
   guide: {

@@ -464,3 +464,68 @@ test.describe('bespoke-widget craft', () => {
     await expect(line).toHaveAttribute('data-lock', 'none');
   });
 });
+
+// ── The text-processor seam ───────────────────────────────────────────────────
+// Eighteen tools, one shared widget, one rule per processor. What matters in a browser is that the
+// line reaches the DOM at all and that the handoff link points at a real page.
+test.describe('text handoffs (the text-processor craft seam)', () => {
+  test('remove-extra-spaces points at Trim Text, and only when edges survive', async ({ page }) => {
+    await page.goto('/tool/text/remove-extra-spaces/');
+    const note = page.locator('[data-craft="res-edges"]');
+
+    await page.locator('#remove-extra-spaces-input').fill('alpha   beta');
+    await expect(note).toBeHidden();
+
+    await page.locator('#remove-extra-spaces-input').fill('  alpha   beta  ');
+    await expect(note).toContainText('still starts or ends');
+    const link = page.locator('#remove-extra-spaces-handoff-action');
+    await expect(link).toHaveAttribute('href', /\/tool\/text\/trim-text\/$/);
+  });
+
+  test('the handoff link actually resolves to the sibling tool', async ({ page }) => {
+    await page.goto('/tool/text/remove-extra-spaces/');
+    await page.locator('#remove-extra-spaces-input').fill('  alpha   beta  ');
+    await page.locator('#remove-extra-spaces-handoff-action').click();
+    await expect(page.locator('#trim-text-input')).toBeVisible();
+  });
+
+  test('remove-blank-lines explains a no-op instead of looking broken', async ({ page }) => {
+    await page.goto('/tool/text/remove-blank-lines/');
+    const note = page.locator('[data-craft="rbl-noop"]');
+
+    await page.locator('#remove-blank-lines-input').fill('one\n\ntwo');
+    await expect(note).toBeHidden();
+
+    await page.locator('#remove-blank-lines-input').fill('one\ntwo\nthree');
+    await expect(note).toContainText('No blank lines to remove');
+  });
+
+  test('slugify warns about lines it deleted entirely', async ({ page }) => {
+    await page.goto('/tool/text/slugify-text/');
+    const note = page.locator('[data-craft="slug-empty"]');
+
+    await page.locator('#slugify-text-input').fill('Cafe Menu\nAbout Us');
+    await expect(note).toBeHidden();
+
+    await page.locator('#slugify-text-input').fill('Cafe Menu\nこんにちは');
+    await expect(note).toContainText('slugified to nothing');
+  });
+
+  test('title case counts the words the style guides leave alone', async ({ page }) => {
+    await page.goto('/tool/text/title-case-converter/');
+    await page.locator('#title-case-converter-input').fill('the lord of the rings');
+    await expect(page.locator('[data-craft="tc-minor"]')).toContainText('short words are');
+  });
+
+  test('a note with no sibling renders the fact and no link', async ({ page }) => {
+    await page.goto('/tool/text/lowercase-converter/');
+    await page.locator('#lowercase-converter-input').fill('The API returns HTTP headers');
+    await expect(page.locator('[data-craft="lc-acronyms"]')).toContainText('API');
+    await expect(page.locator('#lowercase-converter-handoff-action')).toBeHidden();
+  });
+
+  test('the uppercase converter renders no note at all', async ({ page }) => {
+    await page.goto('/tool/text/uppercase-converter/');
+    await expect(page.locator('#uppercase-converter-handoff')).toHaveCount(0);
+  });
+});

@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
+  craft: {
+    id: 'rlb-paragraphs',
+    kind: 'orientation',
+    solves: 'Joining every line into one block destroys paragraph structure as well as hard wrapping, and the tool that keeps lines separate is one page away with a name that sounds like the same job.',
+  },
   processorId: 'removeLineBreaks',
   toolGroup: 'text-cleanup',
   guide: {

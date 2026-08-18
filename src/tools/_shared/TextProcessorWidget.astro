@@ -9,6 +9,8 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import ExampleLoader from '@tools/_shared/converter/ExampleLoader.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+import { withBase } from '@lib/paths';
 import type { ToolConfig } from '@data/types';
 
 interface Props {
@@ -35,17 +37,24 @@ const sample = sampleText ?? (config.family ? FAMILY_SAMPLES[config.family] : un
 
 const inputId = `${slug}-input`;
 const outputId = `${slug}-output`;
+
+// The craft seam (src/lib/text/handoff.ts) hands off to a sibling on this same engine, so every
+// destination lives under one segment. withBase is a build-time function and cannot be called from
+// the inline script, so the prefix is rendered once and the script appends the slug.
+const craftId = config.craft?.id;
+const siblingBase = withBase('/tool/text/');
 ---
 
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
   <IoPanel slot="input" label="Text" labelFor={inputId} variant="prose"
     data-tool={slug} data-processor={processorId} data-slug={slug} data-state-key={stateKey}
-    data-sample={sample ?? ''}>
+    data-sample={sample ?? ''} data-sibling-base={siblingBase}>
     <textarea id={inputId} placeholder="Paste or type text here"></textarea>
   </IoPanel>
 
   <IoPanel slot="output" label="Result" variant="prose" copyTargetId={outputId}>
     <textarea id={outputId} readonly placeholder="Result appears here" aria-label="Result"></textarea>
+    {craftId && <CraftNote id={`${slug}-handoff`} craftId={craftId} linkAction />}
   </IoPanel>
 </ToolSplit>
 
@@ -70,11 +79,39 @@ const outputId = `${slug}-output`;
     var out = document.getElementById(slug + '-output');
     if (!input || !out) return;
 
+    var noteEl = document.getElementById(slug + '-handoff');
+    var noteTxt = document.getElementById(slug + '-handoff-text');
+    var noteLink = document.getElementById(slug + '-handoff-action');
+    var siblingBase = root.getAttribute('data-sibling-base') || '/tool/text/';
+
+    // The craft line: eighteen tools on this engine are one paste apart, and the commonest way to
+    // fail here is to land on the wrong one and get a correct-looking result. The engine is the only
+    // thing that can see the input, the output and what the sibling would have done.
+    function note() {
+      if (!noteEl || !noteTxt) return;
+      var h = (window.ToyTools && ToyTools.textHandoff)
+        ? ToyTools.textHandoff(pid, input.value, out.value)
+        : null;
+      if (!h) { noteEl.hidden = true; noteTxt.textContent = ''; if (noteLink) noteLink.hidden = true; return; }
+      noteTxt.textContent = h.text;
+      if (noteLink) {
+        if (h.tool) {
+          noteLink.textContent = h.tool.name;
+          noteLink.setAttribute('href', siblingBase + h.tool.slug + '/');
+          noteLink.hidden = false;
+        } else {
+          noteLink.hidden = true;
+        }
+      }
+      noteEl.hidden = false;
+    }
+
     function run() {
       // Registry lookup only — the widget never names a processor.
       out.value = (window.ToyTools && ToyTools.process)
         ? ToyTools.process(pid, input.value)
         : input.value;
+      note();
     }
 
     function persist() {

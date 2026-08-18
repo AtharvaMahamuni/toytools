@@ -12,6 +12,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
+  craft: {
+    id: 'lc-acronyms',
+    kind: 'guardrail',
+    solves: 'Case is not recoverable once it is gone, and an acronym is the case people did not mean to lose. Lowercasing a paragraph of technical prose silently flattens API, HTTP and every product name in it.',
+  },
   processorId: 'lowercase',
   toolGroup: 'case-converters',
   relatedTools: ['uppercase-converter', 'title-case-converter', 'sentence-case-converter'],

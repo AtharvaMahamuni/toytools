@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
+  craft: {
+    id: 'slug-empty',
+    kind: 'guardrail',
+    solves: 'A line with no ASCII alphanumerics slugifies to an empty string, so a list of titles quietly loses rows. Nothing in the output says a line was there, which is the worst shape of data loss a text tool can have.',
+  },
   processorId: 'slugify',
   guide: {
     slug: 'how-to-slugify-text',

@@ -40,7 +40,7 @@ export const RUNTIME_ENGINE_IDS = Object.keys(ENGINE_LOADERS);
  */
 export const ENGINE_GLOBALS: Record<string, string[]> = {
   'text-analysis': ['analyze', 'textNotice', 'formatMetric'],
-  'text-processor': ['process'],
+  'text-processor': ['process', 'textHandoff'],
   'text-interactive': ['diff', 'diffStats', 'whitespaceNoise', 'shell'],
   encoding: ['runEncoding', 'transform'],
   hashing: ['runHash', 'transform'],
