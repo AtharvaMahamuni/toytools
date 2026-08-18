@@ -17,6 +17,17 @@
 //
 // Two things are load-bearing and must survive any future tidying:
 //
+//   0. RELATED TOOLS CAME BACK, 2026-08-18, and the reasoning above needs one correction. The
+//      deletion note says related tools "collapse into the category link (the catalog is one click
+//      away either way)". That is true for a reader and false for a crawler: a category link hands
+//      authority to a hub that splits it across up to eighteen tools, while a tool-to-tool link is
+//      a topical signal between two specific pages. Measured before this change, 47 of 121
+//      indexable tool pages had ZERO outbound links to any other tool, and the median was four,
+//      all of them tool-group pills pointing at near-identical siblings.
+//      So the links are back, but not the 682px: five text links inside a <details> that is closed
+//      by default, in the row that already exists. Crawlers read closed <details> content; a reader
+//      sees one more chip. Group members are excluded because GroupSwitcher already shows them.
+//
 //   1. Each <summary> contains a real <h2>. <h2> is one of four slots
 //      scripts/check-query-coverage.ts scores query targeting against, and THRESHOLDS
 //      .conceptHeadings requires every tool page to carry one that names a concept rather than a
@@ -31,6 +42,8 @@
 import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import { getKnowledge } from '@lib/knowledge/registry';
 import { categories } from '@data/categories';
+import { tools } from '@data/registry';
+import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
 import type { FAQItem, Tool } from '@data/types';
 
@@ -57,6 +70,14 @@ const concept = knowledge?.primaryConcepts?.[0] || tool.name;
 
 const category = categories.find((c) => c.slug === tool.categorySlug);
 
+// Derived, never authored: engine → pattern → family → category, with one slot guaranteed to a
+// different family (src/lib/tools/related.ts). Group members are dropped because GroupSwitcher
+// renders them as pills at the top of the page, and a second copy would be the repetition this
+// zone was rebuilt to remove.
+const related = getRelatedTools(tool, tools, MAX_ITEMS + 3)
+  .filter((t) => !tool.toolGroup || t.toolGroup !== tool.toolGroup)
+  .slice(0, MAX_ITEMS);
+
 const drawers = [
   { id: 'uses', heading: `Uses of ${concept}`, items: useCases },
   { id: 'pitfalls', heading: `${concept} pitfalls`, items: mistakes },
@@ -65,7 +86,7 @@ const drawers = [
 const hasFaq = faqItems.length > 0;
 ---
 
-{(drawers.length > 0 || hasFaq || guideHref || category) && (
+{(drawers.length > 0 || hasFaq || related.length > 0 || guideHref || category) && (
   <section class="knowledge-drawers" aria-label={`More about ${tool.name}`}>
     <div class="kd-row">
       {drawers.map((d) => (
@@ -99,6 +120,30 @@ const hasFaq = faqItems.length > 0;
           <div class="kd-faq">
             <FaqAccordion items={faqItems} />
           </div>
+        </details>
+      )}
+
+      {related.length > 0 && (
+        <details class="kd" id="related">
+          <summary class="kd-summary">
+            <span class="kd-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </span>
+            <h2 class="kd-heading">Tools related to {concept}</h2>
+          </summary>
+          <ul class="kd-list kd-related">
+            {related.map((r) => {
+              const cat = categories.find((c) => c.slug === r.categorySlug);
+              return (
+                <li>
+                  <a href={withBase(`/tool/${cat?.segment ?? r.categorySlug}/${r.slug}/`)}>{r.name}</a>
+                </li>
+              );
+            })}
+          </ul>
         </details>
       )}
 
@@ -259,5 +304,21 @@ const hasFaq = faqItems.length > 0;
   .kd-faq {
     padding-left: calc(14px + var(--space-2));
     padding-bottom: var(--space-2);
+  }
+</style>
+
+<style>
+  /* The related list reuses .kd-list's rhythm and only restyles the anchors, so the drawer looks
+     like the two beside it rather than like a new component. */
+  .kd-related a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-strong, var(--color-border));
+    text-underline-offset: 3px;
+  }
+  .kd-related a:hover,
+  .kd-related a:focus-visible {
+    color: var(--color-accent-strong, var(--color-accent));
+    text-decoration-color: currentColor;
   }
 </style>

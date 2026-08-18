@@ -11,7 +11,7 @@ import { tools } from '../src/data/registry';
 import { KNOWLEDGE_ENTRIES, buildKnowledgeMap } from '../src/lib/knowledge/registry';
 import { validateKnowledge } from '../src/lib/knowledge/schema';
 import { isSingleFamilyBubble } from '../src/lib/knowledge/diversity';
-import { getRelatedTools } from '../src/lib/tools/related';
+import { getRelatedTools, relatedCandidates } from '../src/lib/tools/related';
 import type { RelationshipReference } from '../src/lib/knowledge/types';
 
 const KNOWLEDGE_REQUIRED = process.env.KNOWLEDGE_REQUIRED === 'true';
@@ -61,10 +61,17 @@ for (const kn of KNOWLEDGE_ENTRIES) {
     warnings.push(`Knowledge "${kn.slug}" has no usedWith or nextSteps — consider adding workflow links`);
   }
 
-  // WARN — recommendation bubble (all derived related tools share one family)
+  // ERROR — recommendation bubble. Every related tool shares the source's family AND the catalog
+  // offered another one. That is a link graph sealing itself into clusters, and it is now a build
+  // failure rather than a warning nobody read for months. A category that genuinely holds one
+  // family is exempt structurally, inside isSingleFamilyBubble, not by a list of slugs here.
   const related = getRelatedTools(tool, tools, 5);
-  if (isSingleFamilyBubble(tool, related)) {
-    warnings.push(`Knowledge "${kn.slug}": related tools are all family "${tool.family}" — consider a complementary or adjacent-workflow tool`);
+  if (isSingleFamilyBubble(tool, related, relatedCandidates(tool, tools))) {
+    errors.push(
+      `Knowledge "${kn.slug}": all ${related.length} related tools are family "${tool.family}" ` +
+      `while other families are available. The derivation reserves a slot for one ` +
+      `(src/lib/tools/related.ts); if that is not reaching this tool, say why in the PR.`,
+    );
   }
 }
 
