@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
@@ -24,6 +25,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
   <IoPanel slot="output" label="Result" variant="mono" result>
     <ul class="ptd-out" id="ptd-out"></ul>
+    <CraftNote id="ptd-note" craftId="ptd-fractional" />
   </IoPanel>
 </ToolSplit>
 
@@ -37,6 +39,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var outEl = document.getElementById('ptd-out');
     var errEl = document.getElementById('ptd-error');
     var noteEl = document.getElementById('ptd-note');
+    var noteTxt = document.getElementById('ptd-note-text');
+
     if (!valEl || !outEl) return;
     var TT = window.ToyTools;
 
@@ -47,15 +51,27 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       }).join('');
     }
 
+    // The craft line: a dp value that does not stay whole at every density bucket, which is not an
+    // exportable asset and is the reason the 8dp grid exists. Silent on the 4dp grid.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var msg = TT && TT.units && TT.units.hint ? TT.units.hint('px-to-dp-converter', input) : null;
+      if (!msg) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = msg;
+      noteEl.hidden = false;
+    }
+
     function render() {
       var raw = valEl.value;
       if (raw === '' || !Number.isFinite(Number(raw))) {
         outEl.innerHTML = '';
+        note({});
         if (errEl) { errEl.textContent = 'Enter a number.'; errEl.hidden = false; }
         return;
       }
       if (errEl) errEl.hidden = true;
       var n = Number(raw);
+      note({ mode: modeEl.value, dp: n });
       if (modeEl.value === 'dp2px') {
         densWrap.hidden = true;
         noteEl.textContent = 'dp and sp are density-independent. 1dp = 1px at mdpi (160dpi) and scales up from there.';

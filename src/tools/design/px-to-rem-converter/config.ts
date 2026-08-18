@@ -10,6 +10,11 @@ export const config: ToolConfig = {
   engine: 'units',
   pattern: 'unit-convert',
   family: 'css-unit',
+  craft: {
+    id: 'ptr-em-compounds',
+    kind: 'orientation',
+    solves: 'Converting an em against the root font size is correct only at the top level, and the tool has no way to know it is not. Inside any element that sets its own size the same value renders differently, and nesting compounds it, which is the documented reason em spacing goes wrong.',
+  },
   relatedTools: ['px-to-dp-converter', 'aspect-ratio-calculator'],
   guide: {
     slug: 'px-to-rem-converter',

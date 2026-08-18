@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
@@ -36,6 +37,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
         <dd class="tm-stat-value" id="tx-base">$0.00</dd>
       </div>
     </dl>
+    <CraftNote id="tx-note" craftId="tx-remove-gap" />
   </IoPanel>
 </ToolSplit>
 
@@ -60,6 +62,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var baseLbl  = document.getElementById('tx-base-label');
     var copyBtn  = document.getElementById('tx-copy');
     var clearBtn = document.getElementById('tx-clear');
+    var noteEl   = document.getElementById('tx-note');
+    var noteTxt  = document.getElementById('tx-note-text');
     if (!modeEl || !amountEl || !rateEl || !heroEl) return;
 
     var TT = window.ToyTools;
@@ -81,8 +85,19 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       }
     }
 
+    // The craft line: in remove mode, what subtracting the rate would have given instead. Silent in
+    // add mode, at a zero rate, and whenever the form is incomplete, so it is not a standing tip.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var p = TT && TT.pitfall ? TT.pitfall('tax-calculator', input) : null;
+      if (!p) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = p.text;
+      noteEl.hidden = false;
+    }
+
     function showEmpty(message) {
       lastResult = '';
+      note({});
       heroEl.textContent = '$0.00';
       if (hintEl) { hintEl.textContent = message || 'Enter a price and tax rate to calculate.'; hintEl.hidden = false; }
       if (secondary) secondary.hidden = true;
@@ -105,6 +120,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       var amount = Number(amountRaw), rate = Number(rateRaw);
       if (!Number.isFinite(amount) || amount < 0) { showEmpty('Enter a valid amount.'); return; }
       if (!Number.isFinite(rate) || rate < 0) { showEmpty('Enter a valid tax rate.'); return; }
+
+      note({ mode: modeEl.value, total: amount, rate: rate });
 
       if (modeEl.value === 'remove') {
         var base = amount / (1 + rate / 100); // amount is the tax-inclusive total
@@ -166,5 +183,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     });
 
     calc();
+    // The pitfall line comes from the lazily-loaded calculator chunk, which does not exist yet when
+    // this script first runs. Recompute once it lands so a restored session shows it too.
+    if (TT && TT.onReady) TT.onReady(calc);
   })();
 </script>

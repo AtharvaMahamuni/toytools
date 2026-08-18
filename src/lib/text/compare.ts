@@ -140,3 +140,64 @@ function computeLCSHeuristic(a: string[], b: string[]): string[] {
 
   return lcs.concat(suffix);
 }
+
+// ── The craft seam ────────────────────────────────────────────────────────────
+// "Comparing without normalizing whitespace first, inflating the diff" is the mistake this tool's
+// knowledge file records, and it is the one the code can see for itself. A file saved on Windows
+// against the same file from git differs on every single line, and the diff says so in red without
+// ever mentioning that not one visible character changed.
+//
+// Four normalizations, least invasive first, applied cumulatively. The first level that actually
+// reduces the number of changed lines is the one reported, so the offer is always the smallest
+// change to the comparison that helps, and there is no offer at all when none of them helps.
+
+export type WhitespaceLevel = 'line endings' | 'trailing whitespace' | 'indentation' | 'all whitespace';
+
+export interface WhitespaceNoise {
+  /** The least invasive normalization that reduced the diff. */
+  level: WhitespaceLevel;
+  /** Changed lines before and after, which is what makes the offer worth taking. */
+  rawChanged: number;
+  normalizedChanged: number;
+  /** True when the two texts are the same once normalized. */
+  identical: boolean;
+  /** The normalized texts, for the widget to re-diff. */
+  a: string;
+  b: string;
+}
+
+const LEVELS: { level: WhitespaceLevel; apply: (s: string) => string }[] = [
+  { level: 'line endings', apply: s => s.replace(/\r\n?/g, '\n') },
+  { level: 'trailing whitespace', apply: s => s.replace(/[ \t]+$/gm, '') },
+  { level: 'indentation', apply: s => s.replace(/^[ \t]+/gm, '') },
+  { level: 'all whitespace', apply: s => s.replace(/[ \t]+/g, ' ') },
+];
+
+const changedLines = (a: string, b: string): number => {
+  const s = diffStats(diffLines(a, b));
+  return s.added + s.removed;
+};
+
+/**
+ * How much of the difference between two texts is whitespace, or null when none of it is.
+ *
+ * Silent for identical texts, for empty input, and whenever every changed line differs by something
+ * a reader would actually see. That last case is most comparisons, which is the point.
+ */
+export function whitespaceNoise(a: string, b: string): WhitespaceNoise | null {
+  if (!a || !b || a === b) return null;
+  const rawChanged = changedLines(a, b);
+  if (rawChanged === 0) return null;
+
+  let na = a;
+  let nb = b;
+  for (const { level, apply } of LEVELS) {
+    na = apply(na);
+    nb = apply(nb);
+    const normalizedChanged = changedLines(na, nb);
+    if (normalizedChanged < rawChanged) {
+      return { level, rawChanged, normalizedChanged, identical: na === nb, a: na, b: nb };
+    }
+  }
+  return null;
+}

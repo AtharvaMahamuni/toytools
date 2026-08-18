@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
@@ -43,6 +44,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
         <dd class="tm-stat-value" id="tip-pp-total">$0.00</dd>
       </div>
     </dl>
+    <CraftNote id="tip-note" craftId="tip-round-up" />
   </IoPanel>
 </ToolSplit>
 
@@ -68,10 +70,22 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var ppTotEl  = document.getElementById('tip-pp-total');
     var copyBtn  = document.getElementById('tip-copy');
     var clearBtn = document.getElementById('tip-clear');
+    var noteEl   = document.getElementById('tip-note');
+    var noteTxt  = document.getElementById('tip-note-text');
     if (!billEl || !pctEl || !splitEl || !amountEl) return;
 
     var TT = window.ToyTools;
     var lastResult = '';
+
+    // The craft line: the move the output stops one step short of. A total of $100.30 gets rounded
+    // up on the slip, and this says what that actually tipped. Silent when it already lands whole.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var p = TT && TT.pitfall ? TT.pitfall('tip-calculator', input) : null;
+      if (!p) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = p.text;
+      noteEl.hidden = false;
+    }
 
     function money(n) {
       return '$' + (Math.round(n * 100) / 100).toFixed(2);
@@ -86,6 +100,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
     function showEmpty(message) {
       lastResult = '';
+      note({});
       amountEl.textContent = '$0.00';
       if (hintEl) { hintEl.textContent = message || 'Enter a bill amount to calculate.'; hintEl.hidden = false; }
       if (secondary) secondary.hidden = true;
@@ -104,6 +119,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
       var split = parseInt(splitEl.value, 10);
       if (!Number.isFinite(split) || split < 1) split = 1;
+
+      note({ bill: bill, tipPct: pct });
 
       var tip = bill * pct / 100;
       var total = bill + tip;
@@ -185,6 +202,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     });
 
     calc();
+    // The pitfall line comes from the lazily-loaded calculator chunk, which does not exist yet when
+    // this script first runs. Recompute once it lands so a restored session shows it too.
+    if (TT && TT.onReady) TT.onReady(calc);
   })();
 </script>
 

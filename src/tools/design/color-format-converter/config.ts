@@ -10,6 +10,11 @@ export const config: ToolConfig = {
   engine: 'color',
   pattern: 'color-convert',
   family: 'color',
+  craft: {
+    id: 'cfc-byte-order',
+    kind: 'orientation',
+    solves: 'An eight-digit hex is RRGGBBAA in CSS and AARRGGBB on Android, so the identical string is two different colours and both readings parse without error. Someone pasting a value out of an Android theme gets a confidently wrong swatch and nothing anywhere says why.',
+  },
   relatedTools: ['color-contrast-checker'],
   guide: {
     slug: 'color-format-converter',

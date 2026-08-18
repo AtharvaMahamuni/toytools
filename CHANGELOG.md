@@ -2,6 +2,40 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.13] - 2026-08-18
+
+### Added
+
+- **The six everyday calculators now name the arithmetic people get wrong.** Backing tax out of a
+  total by subtracting the rate under-reports the price every time, so the tax tool shows what that
+  method would have given. The percentage calculator separates a 25% change from a gap of 5
+  percentage points, but only when both values are themselves rates. Margin and markup call a price
+  below cost what it is: money leaving per unit, not a percentage. The tip calculator reports what
+  rounding the total up actually tipped. And the discount calculator can stack a second discount
+  onto the discounted price, because "30% off, extra 20% at the till" is 44% off and almost everyone
+  adds it to 50%. Each line is silent unless the input exhibits the problem.
+- **The three unit converters catch the conversion one step before it fails.** 16:9 at width 1000 is
+  562.5 pixels, which ffmpeg rejects for divisibility rather than for the ratio, so the aspect
+  calculator names the nearest even pair on the same ratio and one tap applies it. 5dp is three
+  quarters of a pixel at ldpi, so the dp converter names the densities that break and the nearest
+  value on the 4dp grid. The rem converter points out that em is relative to the parent, not the
+  root, and compounds when nested.
+- **Text Compare can tell you when a diff is entirely whitespace.** A Windows file against the same
+  file from git differed on every line with nothing saying why. It now names the normalization that
+  would help and how many changed lines are noise. The toggle normalizes the comparison only; your
+  two texts are never rewritten.
+- **The colour converter reads an eight-digit hex out loud.** CSS defines it as `#RRGGBBAA`, Android
+  writes `#AARRGGBB`, and the same eight characters are two colours that both parse. The tool names
+  the other reading and offers the swap.
+
+### Changed
+
+- Keep Screen Awake's status line is now a declared thoughtful touch. Nothing about it changed: it
+  has been derived from the live wake-lock sentinel since the tool shipped, so a dropped lock has
+  always been reported and retried rather than hidden behind an "Awake" label.
+- Text Compare's similarity sentence no longer uses an em-dash, which the writing rules forbid in
+  shipped copy.
+
 ## [alpha-v7.12] - 2026-08-17
 
 ### Added

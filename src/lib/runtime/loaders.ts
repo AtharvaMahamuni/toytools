@@ -2,7 +2,7 @@
 // one chunk per engine; a page then downloads only the engine its tool declares.
 //
 // Engines absent from this map have no browser runtime at all and are correct to omit:
-//   calculator, productivity  — self-contained bespoke widgets, no ToyTools.* engine surface
+//   productivity              — self-contained bespoke widgets, no ToyTools.* engine surface
 //   physics, math-lab         — SimulationWidget lazy-loads one simulation module per page instead
 //
 // `validate-registry` cross-checks this map against src/data/engines.ts and against what every
@@ -23,6 +23,7 @@ export const ENGINE_LOADERS: Record<string, () => Promise<{ attach: AttachFn }>>
   finance: () => import('./engines/finance'),
   datetime: () => import('./engines/datetime'),
   math: () => import('./engines/math'),
+  calculator: () => import('./engines/calculator'),
   wellness: () => import('./engines/wellness'),
   tracker: () => import('./engines/tracker'),
   color: () => import('./engines/color'),
@@ -40,7 +41,7 @@ export const RUNTIME_ENGINE_IDS = Object.keys(ENGINE_LOADERS);
 export const ENGINE_GLOBALS: Record<string, string[]> = {
   'text-analysis': ['analyze', 'textNotice', 'formatMetric'],
   'text-processor': ['process'],
-  'text-interactive': ['diff', 'diffStats', 'shell'],
+  'text-interactive': ['diff', 'diffStats', 'whitespaceNoise', 'shell'],
   encoding: ['runEncoding', 'transform'],
   hashing: ['runHash', 'transform'],
   'structured-data': ['runStructuredData', 'repairStructuredData', 'json', 'yaml'],
@@ -50,6 +51,7 @@ export const ENGINE_GLOBALS: Record<string, string[]> = {
   finance: ['runFinance', 'experience'],
   datetime: ['runDateTime', 'experience'],
   math: ['runMath', 'experience'],
+  calculator: ['pitfall'],
   wellness: ['runWellness', 'experience', 'viz'],
   tracker: ['tracker', 'viz'],
   color: ['color'],

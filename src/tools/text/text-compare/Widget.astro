@@ -1,6 +1,7 @@
 ---
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 import { config } from './config';
 ---
 
@@ -35,6 +36,7 @@ import { config } from './config';
 
   <div class="tc-result-section" id="tc-result-section" hidden>
     <p class="tc-summary" id="tc-summary" aria-live="polite"></p>
+    <CraftNote id="tc-note" craftId="tc-whitespace" action />
     <div class="tc-stats-bar" id="tc-stats-bar" aria-live="polite"></div>
     <div class="tc-diff" id="tc-diff" role="region" aria-label="Diff result"></div>
     <!-- Plain-text mirror of the diff, used by the copy/download actions below. -->
@@ -166,6 +168,9 @@ import { config } from './config';
   var diffEl    = document.getElementById('tc-diff');
   var diffTextEl = document.getElementById('tc-diff-text');
   var sampleBtn = document.getElementById('tc-sample-btn');
+  var noteEl    = document.getElementById('tc-note');
+  var noteTxt   = document.getElementById('tc-note-text');
+  var noteBtn   = document.getElementById('tc-note-action');
 
   if (!origEl || !newEl || !section) return;
 
@@ -176,6 +181,10 @@ import { config } from './config';
   var MIN_COLLAPSE = 5; // minimum unchanged-run length to collapse
 
   var TT = window.ToyTools;
+
+  // Whether the comparison is currently normalized. Off by default: the raw diff is the honest one,
+  // and this only turns on when the reader asks for it.
+  var ignoring = null;
 
   // Expand collapsed hunk on click or keyboard
   diffEl.addEventListener('click', function (e) {
@@ -203,15 +212,42 @@ import { config } from './config';
 
   function summarySentence(stats) {
     if (stats.added === 0 && stats.removed === 0) return 'The two texts are identical.';
-    return 'Texts are ' + stats.similarity + '% similar — ' +
+    return 'Texts are ' + stats.similarity + '% similar: ' +
       stats.added + ' added, ' + stats.removed + ' removed.';
+  }
+
+  // The craft line: how much of this diff is whitespace nobody can see. A file saved on Windows
+  // against the same file from git differs on every line, and the raw diff says so in red without
+  // mentioning that not one visible character changed.
+  function note(a, b) {
+    if (!noteEl || !noteTxt) return null;
+    var n = TT && TT.whitespaceNoise ? TT.whitespaceNoise(a, b) : null;
+    if (!n) {
+      ignoring = null;
+      noteEl.hidden = true; noteTxt.textContent = '';
+      if (noteBtn) noteBtn.hidden = true;
+      return null;
+    }
+    noteTxt.textContent = ignoring
+      ? 'Ignoring ' + n.level + '. ' + (n.identical
+          ? 'The two texts are otherwise identical.'
+          : n.normalizedChanged + ' of ' + n.rawChanged + ' changed lines differ by something you can see.')
+      : (n.identical
+          ? 'These differ only in ' + n.level + '. All ' + n.rawChanged + ' changed lines are identical to read.'
+          : (n.rawChanged - n.normalizedChanged) + ' of ' + n.rawChanged + ' changed lines differ only in ' + n.level + '.');
+    if (noteBtn) {
+      noteBtn.textContent = ignoring ? 'Show raw diff' : 'Ignore ' + n.level;
+      noteBtn.hidden = false;
+    }
+    noteEl.hidden = false;
+    return n;
   }
 
   function run() {
     var a = origEl.value;
     var b = newEl.value;
 
-    if (!a && !b) { section.hidden = true; return; }
+    if (!a && !b) { section.hidden = true; note('', ''); return; }
 
     section.hidden = false;
 
@@ -220,6 +256,10 @@ import { config } from './config';
       setTimeout(run, 100);
       return;
     }
+
+    var n = note(a, b);
+    // Normalizing changes only the comparison, never the two texts the reader pasted in.
+    if (n && ignoring) { a = n.a; b = n.b; }
 
     var result = TT.diff(a, b);
     var stats  = TT.diffStats(result);
@@ -301,6 +341,11 @@ import { config } from './config';
 
     TT.state.save('text-compare', { a: a, b: b });
   }
+
+  if (noteBtn) noteBtn.addEventListener('click', function () {
+    ignoring = ignoring ? null : true;
+    run();
+  });
 
   origEl.addEventListener('input', run);
   newEl.addEventListener('input', run);

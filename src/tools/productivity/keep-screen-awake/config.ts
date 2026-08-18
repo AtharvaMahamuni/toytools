@@ -19,6 +19,11 @@ export const config: ToolConfig = {
   engine: 'productivity',
   pattern: 'stateful',
   family: 'utility',
+  craft: {
+    id: 'wl-lock-truth',
+    kind: 'recovery',
+    solves: 'The whole product is a claim about something invisible, so a lock dropped by battery saver or an OS power policy leaves the page insisting the screen is awake over a screen that is going dark. The status line is derived from the live sentinel and says when the lock went, while the ticker re-acquires it.',
+  },
   guide: {
     slug: 'how-to-keep-your-screen-awake',
     categorySlug: 'productivity',

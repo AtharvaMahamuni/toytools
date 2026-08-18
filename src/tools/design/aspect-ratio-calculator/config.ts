@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'units',
   pattern: 'aspect-ratio',
   family: 'aspect',
+  craft: {
+    id: 'arc-even',
+    kind: 'guardrail',
+    solves: 'The pair is exact and then the encoder refuses it: H.264 requires both dimensions even, so 16:9 at width 1000 gives 562.5 and ffmpeg fails with a message about divisibility rather than about the ratio. Every incumbent calculator prints the fractional pair and stops.',
+  },
   relatedTools: ['px-to-rem-converter', 'px-to-dp-converter'],
   guide: {
     slug: 'aspect-ratio-calculator',

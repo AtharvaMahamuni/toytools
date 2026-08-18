@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',
+  craft: {
+    id: 'pct-points',
+    kind: 'orientation',
+    solves: 'When both values are themselves rates, "from 20% to 25%" has two correct answers that people use interchangeably: a 25% change and a gap of 5 percentage points. The tool prints one of them as a bare number and a reader carrying the other never finds out they disagree.',
+  },
   toolGroup: 'everyday-calculators',
   guide: {
     slug: 'how-to-calculate-percentages',

@@ -1,0 +1,83 @@
+---
+// One line of fact under a result, with an optional one-tap follow-through.
+//
+// The shared shape for craft on bespoke widgets: the tools on the `calculator`, `units` and `color`
+// engines are self-contained pages rather than thin wrappers, so there is no shared widget to hang
+// an affordance off. This is the smallest thing that stops each of them inventing its own.
+//
+// Minimal UI, per docs/analysis/2026-08-11-tool-craft.md section 4:
+//   R2/R5 — a paragraph and at most one inline button. Deliberately no border, no fill and no
+//           heading: every page that uses this already has two panels, and a third rectangle to
+//           hold one sentence is how a utility turns into a control panel. It is also what the
+//           `boxesPerTool` ratchet in scripts/check-craft.ts counts.
+//   R3    — hidden until the widget has something true to say, via the `hidden` attribute *and* an
+//           explicit `[hidden] { display: none }`, because the `display` rule below would
+//           otherwise beat the attribute. That has shipped as a visible bug twice.
+//   R4/R6 — tokens only, and the action is a real 48px control with an :active state, since a
+//           phone has no hover.
+interface Props {
+  /** Element id the widget's inline script looks this up by. */
+  id: string;
+  /** The tool's declared craft id. check-craft.ts fails the build if it never reaches the DOM. */
+  craftId: string;
+  /** Render the follow-through button. Its label and behaviour are set by the widget. */
+  action?: boolean;
+}
+const { id, craftId, action = false } = Astro.props;
+---
+
+<p class="craft-note" id={id} data-craft={craftId} role="status" aria-live="polite" hidden>
+  <span class="craft-note-text" id={`${id}-text`}></span>
+  {action && (
+    <button class="craft-note-action" id={`${id}-action`} type="button" hidden></button>
+  )}
+</p>
+
+<style>
+  /* Restating display:none for the attribute is not belt and braces: the rules below set `display`,
+     which would otherwise beat [hidden] and ship an empty line on every page that uses this. */
+  .craft-note[hidden],
+  .craft-note-action[hidden] {
+    display: none;
+  }
+
+  .craft-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .craft-note-text {
+    flex: 1 1 14rem;
+    min-inline-size: 0;
+  }
+
+  .craft-note-action {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background-color 150ms, border-color 150ms;
+  }
+
+  .craft-note-action:hover {
+    border-color: var(--color-accent);
+  }
+
+  /* Phones have no hover, so the pressed state is the only feedback most visitors get. */
+  .craft-note-action:active {
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+  }
+</style>
