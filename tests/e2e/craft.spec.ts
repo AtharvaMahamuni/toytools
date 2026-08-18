@@ -382,3 +382,44 @@ test.describe('calculator pitfalls (the calculator craft seam)', () => {
     await expect(note).toContainText('44% off the original $120.00');
   });
 });
+
+// ── The units seam ────────────────────────────────────────────────────────────
+test.describe('unit hints (the units craft seam)', () => {
+  test('an aspect pair that no encoder will accept is caught, and the fix applies', async ({ page }) => {
+    await page.goto('/tool/design/aspect-ratio-calculator/');
+    const note = page.locator('[data-craft="arc-even"]');
+
+    // 1920 x 1080 is the default and is already even.
+    await expect(note).toBeHidden();
+
+    await page.locator('#arc-width').fill('1000');
+    await expect(note).toContainText('not whole pixels');
+
+    await page.locator('#arc-note-action').click();
+    await expect(page.locator('#arc-width')).toHaveValue('992');
+    await expect(page.locator('#arc-height')).toHaveValue('558');
+    await expect(note).toBeHidden();
+  });
+
+  test('a dp value off the four-point grid names the densities it breaks at', async ({ page }) => {
+    await page.goto('/tool/design/px-to-dp-converter/');
+    const note = page.locator('[data-craft="ptd-fractional"]');
+
+    await page.locator('#ptd-value').fill('8');
+    await expect(note).toBeHidden();
+
+    await page.locator('#ptd-value').fill('5');
+    await expect(note).toContainText('ldpi and hdpi');
+  });
+
+  test('em is called out as relative to the parent, and the other units are not', async ({ page }) => {
+    await page.goto('/tool/design/px-to-rem-converter/');
+    const note = page.locator('[data-craft="ptr-em-compounds"]');
+
+    await expect(note).toBeHidden();
+    await page.locator('#ptr-unit').selectOption('em');
+    await expect(note).toContainText('relative to the parent');
+    await page.locator('#ptr-unit').selectOption('rem');
+    await expect(note).toBeHidden();
+  });
+});

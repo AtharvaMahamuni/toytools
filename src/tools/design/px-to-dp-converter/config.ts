@@ -11,6 +11,11 @@ export const config: ToolConfig = {
   engine: 'units',
   pattern: 'unit-convert',
   family: 'css-unit',
+  craft: {
+    id: 'ptd-fractional',
+    kind: 'orientation',
+    solves: 'A dp value that is not on the four-point grid lands on a fraction of a pixel at ldpi and hdpi, and half a pixel is not an asset anyone can export. The table prints 3.75px next to 8px with nothing to say which of those is usable.',
+  },
   relatedTools: ['px-to-rem-converter', 'aspect-ratio-calculator'],
   guide: {
     slug: 'px-to-dp-converter',

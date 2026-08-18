@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
@@ -40,6 +41,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       </div>
       <button class="action-btn action-btn--copy arc-copy" id="arc-copy" type="button">Copy dimensions</button>
     </div>
+    <CraftNote id="arc-note" craftId="arc-even" action />
   </IoPanel>
 </ToolSplit>
 
@@ -56,6 +58,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var previewEl = document.getElementById('arc-preview');
     var errEl = document.getElementById('arc-error');
     var copyBtn = document.getElementById('arc-copy');
+    var noteEl = document.getElementById('arc-note');
+    var noteTxt = document.getElementById('arc-note-text');
+    var noteBtn = document.getElementById('arc-note-action');
     if (!wEl || !hEl) return;
     var TT = window.ToyTools;
 
@@ -80,17 +85,36 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       show(res);
     }
 
+    // The craft line: the pair is exact, and then an encoder refuses it. Silent whenever both
+    // dimensions are already whole and even, which is every standard resolution.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var msg = TT && TT.units && TT.units.hint ? TT.units.hint('aspect-ratio-calculator', input) : null;
+      if (!msg) { noteEl.hidden = true; noteTxt.textContent = ''; if (noteBtn) noteBtn.hidden = true; return; }
+      noteTxt.textContent = msg;
+      // Only offer the fix when there is one to apply; the sentence says so either way.
+      var fix = TT.units.evenPair(input.width, input.ratioW, input.ratioH);
+      if (noteBtn) {
+        noteBtn.textContent = fix ? 'Use ' + fix.width + ' \u00d7 ' + fix.height : '';
+        noteBtn.setAttribute('data-w', fix ? String(fix.width) : '');
+        noteBtn.hidden = !fix;
+      }
+      noteEl.hidden = false;
+    }
+
     function show(res) {
       if (errEl) errEl.hidden = true;
       dimsEl.innerHTML = res.width + ' &times; ' + res.height;
       ratioLabelEl.textContent = res.ratio;
       var pct = (res.ratioH / res.ratioW) * 100;
       previewEl.style.paddingBottom = pct + '%';
+      note({ width: res.width, height: res.height, ratioW: res.ratioW, ratioH: res.ratioH });
       persist();
     }
 
     function fail(msg) {
       if (errEl) { errEl.textContent = msg; errEl.hidden = false; }
+      note({});
     }
 
     function applyPreset() {
@@ -109,6 +133,13 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     rhEl.addEventListener('input', function () { presetEl.value = 'custom'; solve('width'); });
     wEl.addEventListener('input', function () { solve('width'); });
     hEl.addEventListener('input', function () { solve('height'); });
+
+    if (noteBtn) noteBtn.addEventListener('click', function () {
+      var w = noteBtn.getAttribute('data-w');
+      if (!w) return;
+      wEl.value = w;
+      solve('width');
+    });
 
     if (copyBtn) copyBtn.addEventListener('click', function () {
       var text = num(wEl) + ' x ' + num(hEl);

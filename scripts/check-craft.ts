@@ -91,7 +91,10 @@ const THRESHOLDS = {
   //   an engine that had no browser runtime at all, given one so the rules could be unit tested
   //   rather than copied into six inline scripts. Each names the arithmetic its own knowledge file
   //   records as the mistake, and each is silent unless the input exhibits it.
-  coverage: 0.299,
+  // 2026-08-18: 0.327 (35/107). The units seam: three bespoke converters, each given the one thing
+  //   its own knowledge file says goes wrong one step PAST the conversion, in what the number is
+  //   about to be used for. All three are silent on values that already divide cleanly.
+  coverage: 0.327,
   boxesPerTool: 7,
   rawHex: 9,
 };

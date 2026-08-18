@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
@@ -25,6 +26,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
   <IoPanel slot="output" label="Converted" variant="mono" result>
     <ul class="ptr-out" id="ptr-out"></ul>
+    <CraftNote id="ptr-note" craftId="ptr-em-compounds" />
   </IoPanel>
 </ToolSplit>
 
@@ -36,19 +38,33 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var baseEl = document.getElementById('ptr-base');
     var outEl = document.getElementById('ptr-out');
     var errEl = document.getElementById('ptr-error');
+    var noteEl = document.getElementById('ptr-note');
+    var noteTxt = document.getElementById('ptr-note-text');
     if (!valEl || !outEl) return;
     var TT = window.ToyTools;
     var ORDER = [['px', 'px'], ['rem', 'rem'], ['em', 'em'], ['pt', 'pt'], ['percent', '%']];
+
+    // The craft line: em is relative to the PARENT, and this tool has only the root to convert
+    // against. Silent for px, rem and pt, which do not compound.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var msg = TT && TT.units && TT.units.hint ? TT.units.hint('px-to-rem-converter', input) : null;
+      if (!msg) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = msg;
+      noteEl.hidden = false;
+    }
 
     function render() {
       var raw = valEl.value, baseRaw = baseEl.value;
       var base = baseRaw === '' ? 16 : Number(baseRaw);
       if (raw === '' || !Number.isFinite(Number(raw)) || !Number.isFinite(base) || base <= 0) {
         outEl.innerHTML = '';
+        note({});
         if (errEl) { errEl.textContent = 'Enter a number and a positive root size.'; errEl.hidden = false; }
         return;
       }
       if (errEl) errEl.hidden = true;
+      note({ unit: unitEl.value, base: base });
       var px = TT && TT.units ? TT.units.cssToPx(Number(raw), unitEl.value, base) : Number(raw);
       var css = TT && TT.units ? TT.units.pxToCss(px, base) : { px: px, rem: 0, em: 0, pt: 0, percent: 0 };
       outEl.innerHTML = ORDER.map(function (u) {
