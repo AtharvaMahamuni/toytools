@@ -87,7 +87,11 @@ const THRESHOLDS = {
   //                        wrappers gained it; five already rendered their own depth panel and only
   //                        needed declaring (space-counter has reported trailing whitespace all
   //                        along, which is the exact failure its knowledge file records).
-  coverage: 0.242,
+  // 2026-08-18: 0.299 (32/107), from 0.242 (26/107). The calculator seam: six bespoke widgets on
+  //   an engine that had no browser runtime at all, given one so the rules could be unit tested
+  //   rather than copied into six inline scripts. Each names the arithmetic its own knowledge file
+  //   records as the mistake, and each is silent unless the input exhibits it.
+  coverage: 0.299,
   boxesPerTool: 7,
   rawHex: 9,
 };

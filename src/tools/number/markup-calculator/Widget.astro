@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
@@ -36,6 +37,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
         <dd class="tm-stat-value" id="mk-margin">0%</dd>
       </div>
     </dl>
+    <CraftNote id="mk-note" craftId="mk-below-cost" />
   </IoPanel>
 </ToolSplit>
 
@@ -59,10 +61,22 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var marginEl = document.getElementById('mk-margin');
     var copyBtn  = document.getElementById('mk-copy');
     var clearBtn = document.getElementById('mk-clear');
+    var noteEl    = document.getElementById('mk-note');
+    var noteTxt   = document.getElementById('mk-note-text');
     if (!modeEl || !costEl || !secondEl || !heroEl) return;
 
     var TT = window.ToyTools;
     var lastResult = '';
+
+    // The craft line: a price under cost is a loss, and a loss printed as a percentage is the one
+    // format that is easy to skim past. Silent on every profitable pair, which is nearly all of them.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var p = TT && TT.pitfall ? TT.pitfall('markup-calculator', input) : null;
+      if (!p) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = p.text;
+      noteEl.hidden = false;
+    }
 
     function money(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
     function pct(n) {
@@ -84,6 +98,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
     function showEmpty(message) {
       lastResult = '';
+      note({});
       var reverse = modeEl.value === 'price';
       heroEl.textContent = reverse ? '$0.00' : '0%';
       var fallback = reverse ? 'Enter cost and target markup to calculate.' : 'Enter cost and selling price to calculate.';
@@ -93,6 +108,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
     function calcMarkup(cost, price) {
       if (cost === 0) { showEmpty('Enter a cost price greater than zero.'); return; }
+      note({ cost: cost, price: price });
       var profit = price - cost;
       var markup = (profit / cost) * 100;
       var margin = price > 0 ? pct((profit / price) * 100) : '–';
@@ -105,6 +121,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     }
 
     function calcPrice(cost, markupPct) {
+      // Solving for price from a target markup can never land below cost, so there is nothing here.
+      note({});
       var price = cost * (1 + markupPct / 100);
       var profit = price - cost;
       var margin = price > 0 ? pct((profit / price) * 100) : '–';
@@ -183,5 +201,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     });
 
     calc();
+    // The pitfall line comes from the lazily-loaded calculator chunk, which does not exist yet when
+    // this script first runs. Recompute once it lands so a restored session shows it too.
+    if (TT && TT.onReady) TT.onReady(calc);
   })();
 </script>

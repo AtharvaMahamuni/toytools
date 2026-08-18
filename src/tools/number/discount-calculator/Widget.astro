@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
@@ -42,6 +43,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
         <dd class="tm-stat-value" id="disc-rate">0%</dd>
       </div>
     </dl>
+    <CraftNote id="disc-note" craftId="disc-stack" action />
   </IoPanel>
 </ToolSplit>
 
@@ -66,10 +68,16 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var rateEl   = document.getElementById('disc-rate');
     var copyBtn  = document.getElementById('disc-copy');
     var clearBtn = document.getElementById('disc-clear');
+    var noteEl   = document.getElementById('disc-note');
+    var noteTxt  = document.getElementById('disc-note-text');
+    var noteBtn  = document.getElementById('disc-note-action');
     if (!modeEl || !priceEl || !amountEl || !finalEl) return;
 
     var TT = window.ToyTools;
     var lastResult = '';
+    // The price the running chain started from, once the user has stacked at least one discount.
+    // Null means no chain, which is the ordinary single-discount case.
+    var basePrice = null;
 
     function money(n) {
       return '$' + (Math.round(n * 100) / 100).toFixed(2);
@@ -78,6 +86,22 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     function pct(n) {
       var rounded = Math.round(n * 100) / 100;
       return (Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')) + '%';
+    }
+
+    // The craft line: "30% off, extra 20% at the till" is 44% off, not 50%, and the tool computes
+    // one discount at a time. The button feeds the result back in so the second discount lands on
+    // the right base by construction, and the line then reports the combined rate.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var p = TT && TT.pitfall ? TT.pitfall('discount-calculator', input) : null;
+      if (!p) { noteEl.hidden = true; noteTxt.textContent = ''; if (noteBtn) noteBtn.hidden = true; return; }
+      noteTxt.textContent = p.text;
+      if (noteBtn) {
+        noteBtn.textContent = p.action ? p.action.label : '';
+        noteBtn.setAttribute('data-value', p.action ? String(p.action.value) : '');
+        noteBtn.hidden = !p.action;
+      }
+      noteEl.hidden = false;
     }
 
     function syncPresets(pct) {
@@ -102,6 +126,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
     function showEmpty(message) {
       lastResult = '';
+      note({});
       finalEl.textContent = '$0.00';
       if (hintEl) { hintEl.textContent = message || 'Enter a price to calculate.'; hintEl.hidden = false; }
       if (secondary) secondary.hidden = true;
@@ -127,6 +152,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       }
       var final = price - saved;
 
+      note({ price: price, final: final, basePrice: basePrice == null ? undefined : basePrice });
+
       lastResult = money(final);
       finalEl.textContent = lastResult;
       if (hintEl) hintEl.hidden = true;
@@ -136,8 +163,20 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     }
 
     function persist() {
-      if (TT && TT.state) TT.state.save('discount-calculator', { mode: modeEl.value, price: priceEl.value, amount: amountEl.value });
+      if (TT && TT.state) TT.state.save('discount-calculator', { mode: modeEl.value, price: priceEl.value, amount: amountEl.value, basePrice: basePrice });
     }
+
+    if (noteBtn) noteBtn.addEventListener('click', function () {
+      var next = Number(noteBtn.getAttribute('data-value'));
+      if (!Number.isFinite(next)) return;
+      // Remember where the chain began the first time only, so the combined rate stays measured
+      // against the price the user actually started from.
+      if (basePrice == null) basePrice = Number(priceEl.value);
+      priceEl.value = (Math.round(next * 100) / 100).toFixed(2);
+      amountEl.value = '';
+      calc(); persist();
+      amountEl.focus();
+    });
 
     // Restore
     try {
@@ -146,6 +185,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
         if (saved.mode) modeEl.value = saved.mode;
         if (saved.price != null) priceEl.value = saved.price;
         if (saved.amount != null) amountEl.value = saved.amount;
+        if (typeof saved.basePrice === 'number') basePrice = saved.basePrice;
       }
     } catch (_) {}
 
@@ -195,7 +235,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
         return;
       }
       resetClear();
-      priceEl.value = ''; amountEl.value = '';
+      priceEl.value = ''; amountEl.value = ''; basePrice = null;
       syncPresets(null);
       calc(); persist();
       priceEl.focus();
@@ -205,6 +245,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     });
 
     calc();
+    // The pitfall line comes from the lazily-loaded calculator chunk, which does not exist yet when
+    // this script first runs. Recompute once it lands so a restored session shows it too.
+    if (TT && TT.onReady) TT.onReady(calc);
   })();
 </script>
 

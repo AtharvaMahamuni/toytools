@@ -304,3 +304,81 @@ test.describe('text-analysis orientation (the notice seam)', () => {
     await expect(notice).toBeHidden();
   });
 });
+
+// ── The calculator seam ───────────────────────────────────────────────────────
+// These six are bespoke widgets rather than wrappers, so the pitfall line arrives from a lazily
+// loaded engine chunk that does not exist when the inline script first runs. Half of what is being
+// checked here is that the note appears at all after that chunk lands.
+test.describe('calculator pitfalls (the calculator craft seam)', () => {
+  test('removing tax names the subtraction people reach for first', async ({ page }) => {
+    await page.goto('/tool/number/tax-calculator/');
+    const note = page.locator('[data-craft="tx-remove-gap"]');
+
+    await page.locator('#tx-amount').fill('100');
+    await page.locator('#tx-rate').fill('20');
+    // Adding tax has no second reading, so the line stays down.
+    await expect(note).toBeHidden();
+
+    await page.locator('#tx-mode').selectOption('remove');
+    await expect(note).toBeVisible();
+    await expect(note).toContainText('$80.00');
+  });
+
+  test('percentage change distinguishes itself from percentage points', async ({ page }) => {
+    await page.goto('/tool/number/percentage-calculator/');
+    const note = page.locator('[data-craft="pct-points"]');
+
+    await page.locator('#percentage-mode').selectOption('change');
+    await page.locator('#percentage-a').fill('1200');
+    await page.locator('#percentage-b').fill('1500');
+    // Revenue figures have no percentage-points reading.
+    await expect(note).toBeHidden();
+
+    await page.locator('#percentage-a').fill('20');
+    await page.locator('#percentage-b').fill('25');
+    await expect(note).toContainText('points');
+  });
+
+  test('a below-cost price is called a loss, not a margin', async ({ page }) => {
+    await page.goto('/tool/number/margin-calculator/');
+    const note = page.locator('[data-craft="mgn-below-cost"]');
+
+    await page.locator('#mgn-cost').fill('60');
+    await page.locator('#mgn-price').fill('100');
+    await expect(note).toBeHidden();
+
+    await page.locator('#mgn-price').fill('45');
+    await expect(note).toContainText('$15.00 lost');
+  });
+
+  test('the tip calculator reports what rounding the total actually tipped', async ({ page }) => {
+    await page.goto('/tool/number/tip-calculator/');
+    const note = page.locator('[data-craft="tip-round-up"]');
+
+    await page.locator('#tip-bill').fill('100');
+    await page.locator('#tip-pct').fill('20');
+    // $120.00 exactly: nothing to round.
+    await expect(note).toBeHidden();
+
+    await page.locator('#tip-bill').fill('85');
+    await page.locator('#tip-pct').fill('18');
+    await expect(note).toContainText('$101.00');
+  });
+
+  test('stacking a discount chains onto the discounted price, not the original', async ({ page }) => {
+    await page.goto('/tool/number/discount-calculator/');
+    const note = page.locator('[data-craft="disc-stack"]');
+
+    await page.locator('#disc-price').fill('120');
+    await page.locator('#disc-amount').fill('30');
+    await expect(page.locator('#disc-final')).toHaveText('$84.00');
+
+    await page.locator('#disc-note-action').click();
+    // The chain now starts from 120, and the second discount lands on 84.
+    await expect(page.locator('#disc-price')).toHaveValue('84.00');
+    await page.locator('#disc-amount').fill('20');
+    await expect(page.locator('#disc-final')).toHaveText('$67.20');
+    // 44% off, which is the number the "add the percentages" habit gets wrong.
+    await expect(note).toContainText('44% off the original $120.00');
+  });
+});

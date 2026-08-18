@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
@@ -25,6 +26,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       <span class="hero-label">Result</span>
       <p class="empty-hint" id="pct-hint">Enter values to calculate.</p>
       <p class="pct-formula" id="pct-formula" hidden></p>
+      <CraftNote id="pct-note" craftId="pct-points" />
     </div>
   </IoPanel>
 </ToolSplit>
@@ -45,10 +47,22 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var formulaEl = document.getElementById('pct-formula');
     var copyBtn = document.getElementById('pct-copy');
     var clearBtn = document.getElementById('pct-clear');
+    var noteEl = document.getElementById('pct-note');
+    var noteTxt = document.getElementById('pct-note-text');
     if (!modeEl || !aEl || !bEl || !valueEl) return;
 
     var TT = window.ToyTools;
     var lastResult = '';
+
+    // The craft line: percentage points, when both values are themselves rates. Silent outside
+    // 0 to 100, in the other two modes, and from a base of 100 where the readings coincide.
+    function note(input) {
+      if (!noteEl || !noteTxt) return;
+      var p = TT && TT.pitfall ? TT.pitfall('percentage-calculator', input) : null;
+      if (!p) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = p.text;
+      noteEl.hidden = false;
+    }
 
     function show(value, formula) {
       lastResult = value;
@@ -62,6 +76,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 
     function showEmpty(message) {
       lastResult = '';
+      note({});
       valueEl.textContent = '0';
       if (hintEl) { hintEl.textContent = message || 'Enter values to calculate.'; hintEl.hidden = false; }
       if (formulaEl) formulaEl.hidden = true;
@@ -75,6 +90,8 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       if (!Number.isFinite(a) || !Number.isFinite(b)) { showEmpty('Enter valid numbers.'); return; }
       if (mode === 'change' && a === 0) { showEmpty('First value cannot be zero.'); return; }
       if (mode === 'is' && b === 0) { showEmpty('Second value cannot be zero.'); return; }
+
+      note({ mode: mode, a: a, b: b });
 
       var result, formula;
       if (mode === 'of') {
@@ -145,6 +162,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     });
 
     calc();
+    // The pitfall line comes from the lazily-loaded calculator chunk, which does not exist yet when
+    // this script first runs. Recompute once it lands so a restored session shows it too.
+    if (TT && TT.onReady) TT.onReady(calc);
   })();
 </script>
 
