@@ -3,6 +3,7 @@
 // top-level) so the colocated test file and SSR both import it cleanly.
 
 import { parseColor, toAllFormats, rgbToHex } from './convert';
+import { hexByteOrder } from './hints';
 import { contrastRatio, wcagLevels, luminance, suggestAccessible } from './contrast';
 import type { RGB } from './types';
 
@@ -17,6 +18,7 @@ export const color = {
   wcag: wcagLevels,
   luminance,
   suggest: suggestAccessible,
+  byteOrder: hexByteOrder,
   /** Parse two colors and return the full WCAG verdict, or an error. */
   check: (fg: string, bg: string) => {
     const f = parseColor(fg), b = parseColor(bg);

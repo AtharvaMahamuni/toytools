@@ -423,3 +423,44 @@ test.describe('unit hints (the units craft seam)', () => {
     await expect(note).toBeHidden();
   });
 });
+
+// ── The last three bespoke widgets ────────────────────────────────────────────
+test.describe('bespoke-widget craft', () => {
+  test('an eight-digit hex names the other standard, and the swap applies', async ({ page }) => {
+    await page.goto('/tool/design/color-format-converter/');
+    const note = page.locator('[data-craft="cfc-byte-order"]');
+
+    // The default #3366ff has one reading only.
+    await expect(note).toBeHidden();
+
+    await page.locator('#cfc-input').fill('#3366ffcc');
+    await expect(note).toContainText('#66ffcc');
+
+    await page.locator('#cfc-note-action').click();
+    await expect(page.locator('#cfc-input')).toHaveValue('#66ffcc');
+    await expect(note).toBeHidden();
+  });
+
+  test('a CRLF-against-LF diff is called what it is, and can be normalized away', async ({ page }) => {
+    await page.goto('/tool/text/text-compare/');
+    const note = page.locator('[data-craft="tc-whitespace"]');
+
+    await page.locator('#tc-original').fill('alpha\nbeta\ngamma');
+    await page.locator('#tc-new').fill('alpha\nbeta\ndelta');
+    // A real difference: nothing to normalize.
+    await expect(note).toBeHidden();
+
+    await page.locator('#tc-new').fill('alpha  \nbeta  \ngamma  ');
+    await expect(note).toContainText('trailing whitespace');
+
+    await page.locator('#tc-note-action').click();
+    await expect(page.locator('#tc-summary')).toContainText('identical');
+  });
+
+  test('the wake lock status line is present and reports state', async ({ page }) => {
+    await page.goto('/tool/productivity/keep-screen-awake/');
+    const line = page.locator('[data-craft="wl-lock-truth"]');
+    await expect(line).toBeVisible();
+    await expect(line).toHaveAttribute('data-lock', 'none');
+  });
+});

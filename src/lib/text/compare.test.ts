@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { diffLines, diffStats } from './compare';
+import { diffLines, diffStats, whitespaceNoise } from './compare';
 
 describe('diffLines', () => {
   it('returns empty array for two empty strings', () => {
@@ -126,5 +126,53 @@ describe('diffLines — large inputs (heuristic fallback path)', () => {
     expect(stats.added).toBe(2100);
     expect(stats.removed).toBe(2100);
     expect(stats.similarity).toBe(0);
+  });
+});
+
+describe('whitespaceNoise — the diff inflated by nothing you can see', () => {
+  it('names line endings when a Windows file meets a Unix one', () => {
+    const r = whitespaceNoise('alpha\r\nbeta\r\ngamma', 'alpha\nbeta\ngamma');
+    expect(r?.level).toBe('line endings');
+    expect(r?.identical).toBe(true);
+    expect(r?.rawChanged).toBeGreaterThan(0);
+    expect(r?.normalizedChanged).toBe(0);
+  });
+
+  it('names trailing whitespace, which no one can proofread', () => {
+    const r = whitespaceNoise('alpha  \nbeta', 'alpha\nbeta');
+    expect(r?.level).toBe('trailing whitespace');
+    expect(r?.identical).toBe(true);
+  });
+
+  it('names indentation when a file has been re-indented', () => {
+    const r = whitespaceNoise('  alpha\n    beta', 'alpha\nbeta');
+    expect(r?.level).toBe('indentation');
+    expect(r?.identical).toBe(true);
+  });
+
+  it('reports a partial reduction, where some changes are real and some are not', () => {
+    const r = whitespaceNoise('alpha  \nbeta\ngamma', 'alpha\nbeta\ndelta');
+    expect(r?.level).toBe('trailing whitespace');
+    expect(r?.identical).toBe(false);
+    expect(r!.normalizedChanged).toBeLessThan(r!.rawChanged);
+  });
+
+  it('falls through to collapsing runs of spaces when nothing gentler helps', () => {
+    const r = whitespaceNoise('a    b', 'a b');
+    expect(r?.level).toBe('all whitespace');
+    expect(r?.identical).toBe(true);
+  });
+});
+
+describe('whitespaceNoise — silence', () => {
+  it('says nothing for identical or empty texts', () => {
+    expect(whitespaceNoise('same', 'same')).toBeNull();
+    expect(whitespaceNoise('', 'anything')).toBeNull();
+    expect(whitespaceNoise('anything', '')).toBeNull();
+  });
+
+  it('says nothing when every difference is one a reader would see', () => {
+    expect(whitespaceNoise('alpha\nbeta', 'alpha\ngamma')).toBeNull();
+    expect(whitespaceNoise('one\ntwo\nthree', 'one\nthree')).toBeNull();
   });
 });

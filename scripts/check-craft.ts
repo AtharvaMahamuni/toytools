@@ -94,7 +94,13 @@ const THRESHOLDS = {
   // 2026-08-18: 0.327 (35/107). The units seam: three bespoke converters, each given the one thing
   //   its own knowledge file says goes wrong one step PAST the conversion, in what the number is
   //   about to be used for. All three are silent on values that already divide cleanly.
-  coverage: 0.327,
+  // 2026-08-18: 0.355 (38/107). The last three bespoke widgets, which share nothing but a shape:
+  //   color-format-converter  eight-digit hex, where CSS and Android disagree about byte order
+  //   text-compare            how much of a diff is whitespace nobody can see
+  //   keep-screen-awake       DECLARED, not built: the status line has been derived from the live
+  //                           sentinel since the tool shipped. Recorded as a declaration because
+  //                           declaring is not building.
+  coverage: 0.355,
   boxesPerTool: 7,
   rawHex: 9,
 };

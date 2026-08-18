@@ -13,6 +13,11 @@ export const config: ToolConfig = {
   engine: 'text-interactive',
   pattern: 'text-interactive',
   family: 'text-compare',
+  craft: {
+    id: 'tc-whitespace',
+    kind: 'recovery',
+    solves: 'A file saved on Windows compared against the same file from git differs on every single line, and the diff reports that in red without ever mentioning that not one visible character changed. The same happens after a re-indent or a trailing-space cleanup.',
+  },
   guide: {
     slug: 'text-compare',
     categorySlug: 'text-utilities',

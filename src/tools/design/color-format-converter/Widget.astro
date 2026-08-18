@@ -1,6 +1,7 @@
 ---
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
 <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
@@ -31,6 +32,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
       <div class="cfc-swatch" id="cfc-swatch" aria-hidden="true"></div>
       <ul class="cfc-formats" id="cfc-formats"></ul>
     </div>
+    <CraftNote id="cfc-note" craftId="cfc-byte-order" action />
   </IoPanel>
 </ToolSplit>
 
@@ -47,12 +49,39 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     var listEl = document.getElementById('cfc-formats');
     var errEl = document.getElementById('cfc-error');
     var copyBtn = document.getElementById('cfc-copy');
+    var noteEl = document.getElementById('cfc-note');
+    var noteTxt = document.getElementById('cfc-note-text');
+    var noteBtn = document.getElementById('cfc-note-action');
     if (!textEl || !listEl) return;
     var TT = window.ToyTools;
     var current = [];
 
+    // The craft line: an eight-digit hex is #RRGGBBAA in CSS and #AARRGGBB on Android, so the same
+    // string is two colours and both parse. Silent for every other input, which is all of them.
+    function note(value) {
+      if (!noteEl || !noteTxt) return;
+      var h = TT && TT.color && TT.color.byteOrder ? TT.color.byteOrder(value) : null;
+      if (!h) { noteEl.hidden = true; noteTxt.textContent = ''; if (noteBtn) noteBtn.hidden = true; return; }
+      noteTxt.textContent = h.text;
+      if (noteBtn) {
+        noteBtn.textContent = 'Read as Android';
+        noteBtn.setAttribute('data-value', h.swapped);
+        noteBtn.hidden = false;
+      }
+      noteEl.hidden = false;
+    }
+
+    if (noteBtn) noteBtn.addEventListener('click', function () {
+      var next = noteBtn.getAttribute('data-value');
+      if (!next) return;
+      textEl.value = next;
+      render();
+      textEl.focus();
+    });
+
     function render() {
       var val = textEl.value;
+      note(val);
       var res = TT && TT.color ? TT.color.formats(val) : null;
       if (!res || !res.ok) {
         current = [];

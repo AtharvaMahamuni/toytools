@@ -5,8 +5,11 @@ import { describe, expect, it } from 'vitest';
 import { ENGINE_LOADERS, ENGINE_GLOBALS, RUNTIME_ENGINE_IDS } from './loaders';
 import { engineIds } from '@data/engines';
 
-/** Engines that deliberately have no ToyTools.* runtime — see the comment in loaders.ts. */
-const NO_RUNTIME = ['calculator', 'productivity', 'physics', 'math-lab'];
+/** Engines that deliberately have no ToyTools.* runtime — see the comment in loaders.ts.
+ *  `calculator` left this list on 2026-08-18: its six bespoke widgets now share one pitfall module
+ *  (ToyTools.pitfall), which is the only way those rules could be unit tested rather than copied
+ *  into six inline scripts. */
+const NO_RUNTIME = ['productivity', 'physics', 'math-lab'];
 
 describe('engine loader maps', () => {
   it('declares the same engines in both maps', () => {
