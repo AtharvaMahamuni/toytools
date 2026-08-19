@@ -1,7 +1,7 @@
 ---
 // SimulationWidget — the ONE widget every physics simulation wraps. It renders the whole
-// universal layout (a one-viewport dashboard: canvas + playback beside four reorderable tiles
-// for controls, live measurements, graph, and formula → observations → explanation → real-world
+// universal layout (a one-viewport dashboard: canvas + playback beside four tiles for controls,
+// live measurements, graph, and formula → observations → explanation → real-world
 // examples) AT BUILD TIME from the tool's SimulationDef, then
 // ships a single bundled script that lazy-loads exactly that one simulation and wires the
 // interactions in boot.ts.
@@ -38,24 +38,15 @@ const speeds = [0.25, 0.5, 1, 2];
 const paramById = new Map(sim.params.map((p) => [p.id, p]));
 // A formula is "calculable" when at least one of its terms is an editable input (a paramId term).
 const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramById.has(t.paramId));
-// Tile movement arrows. All four render hidden; boot.ts reveals only the ones that point at a
-// physical neighbor in the current layout, and a click SWAPS the two tiles along that direction,
-// so an arrow always moves the tile exactly where it points.
-const MOVE_DIRS = [
-  ['left', '←'],
-  ['up', '↑'],
-  ['down', '↓'],
-  ['right', '→'],
-] as const;
 ---
 
 <section class="phys" data-physics-sim data-simulation-id={simulationId} data-slug={slug}>
-  <!-- Dashboard: the stage (canvas + playback) plus the reorderable tiles (Controls, Live
-       measurements, Graph, Formula, Observations, What's happening) in one tight grid; the five
-       core panels fit a 1080p viewport with no scrolling. The stage is fixed; each tile offers
-       only the arrows that point at a physical neighbor and a click swaps the two tiles along
-       that direction. The order persists across simulations (boot.ts). Stacks below 1024px. -->
-  <div class="phys-dash" data-sim-console>
+  <!-- Dashboard: the stage (canvas + playback) plus the tiles (Controls, Live measurements,
+       Graph, Formula, Observations, What's happening) in one tight grid; the five core panels
+       fit a 1080p viewport with no scrolling. Tiles are separated by space and a quiet label
+       rather than by edges, so the scene and the live numbers are what the eye lands on.
+       Stacks below 1024px. -->
+  <div class="phys-dash">
   <!-- Stage: the simulation canvas + playback controls. Its heading names the thing in the words
        people use for it ("Pendulum Period simulator"), which every sibling tile already did and
        the stage did not: the canvas carried only an aria-label, so the one panel that IS the
@@ -94,15 +85,8 @@ const MOVE_DIRS = [
   </div>
 
   <!-- Controls: parameter sliders + scenario presets -->
-  <div class="phys-block phys-panel" data-sim-panel="controls">
-    <div class="phys-panel-head">
-      <h2 class="phys-h">Controls</h2>
-      <div class="phys-panel-arrows" role="group" aria-label="Move the Controls panel">
-        {MOVE_DIRS.map(([dir, glyph]) => (
-          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Controls panel ${dir}`} hidden>{glyph}</button>
-        ))}
-      </div>
-    </div>
+  <div class="phys-block" data-sim-panel="controls">
+    <h2 class="phys-h">Controls</h2>
     <div class="phys-controls">
       {sim.params.map((p) => (
         <div class="phys-control">
@@ -142,15 +126,8 @@ const MOVE_DIRS = [
   </div>
 
   <!-- Live measurement cards -->
-  <div class="phys-block phys-panel" data-sim-panel="measurements">
-    <div class="phys-panel-head">
-      <h2 class="phys-h">Live measurements</h2>
-      <div class="phys-panel-arrows" role="group" aria-label="Move the Live measurements panel">
-        {MOVE_DIRS.map(([dir, glyph]) => (
-          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Live measurements panel ${dir}`} hidden>{glyph}</button>
-        ))}
-      </div>
-    </div>
+  <div class="phys-block" data-sim-panel="measurements">
+    <h2 class="phys-h">Live measurements</h2>
     <div class="phys-cards">
       {cards.map((m) => (
         <div class="phys-card">
@@ -167,15 +144,8 @@ const MOVE_DIRS = [
        overlay on the scene and no scrolling. boot.ts sizes it short-and-wide on desktop and
        taller on narrow screens. -->
   {sim.graph && (
-    <div class="phys-block phys-panel" data-sim-panel="graph">
-      <div class="phys-panel-head">
-        <h2 class="phys-h">Graph</h2>
-        <div class="phys-panel-arrows" role="group" aria-label="Move the Graph panel">
-          {MOVE_DIRS.map(([dir, glyph]) => (
-            <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Graph panel ${dir}`} hidden>{glyph}</button>
-          ))}
-        </div>
-      </div>
+    <div class="phys-block" data-sim-panel="graph">
+      <h2 class="phys-h">Graph</h2>
       <canvas class="phys-graph" data-sim-graph role="img" aria-label={`${config.name} graph`}></canvas>
     </div>
   )}
@@ -184,15 +154,8 @@ const MOVE_DIRS = [
        type your own numbers to solve it, and the simulation follows. Read-only terms (measurements)
        show the computed answer live. -->
   {sim.formula && (
-    <div class="phys-block phys-panel" data-sim-panel="formula">
-      <div class="phys-panel-head">
-        <h2 class="phys-h">Formula</h2>
-        <div class="phys-panel-arrows" role="group" aria-label="Move the Formula panel">
-          {MOVE_DIRS.map(([dir, glyph]) => (
-            <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Formula panel ${dir}`} hidden>{glyph}</button>
-          ))}
-        </div>
-      </div>
+    <div class="phys-block" data-sim-panel="formula">
+      <h2 class="phys-h">Formula</h2>
       <div class="phys-formula">
         <p class="phys-formula-expr">{sim.formula.expression}</p>
         {formulaCalculable && (
@@ -238,26 +201,12 @@ const MOVE_DIRS = [
   )}
 
   <!-- Observations + explanation tiles (regenerated as the state changes) -->
-  <div class="phys-block phys-panel" data-sim-panel="observations">
-    <div class="phys-panel-head">
-      <h2 class="phys-h">Observations</h2>
-      <div class="phys-panel-arrows" role="group" aria-label="Move the Observations panel">
-        {MOVE_DIRS.map(([dir, glyph]) => (
-          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the Observations panel ${dir}`} hidden>{glyph}</button>
-        ))}
-      </div>
-    </div>
+  <div class="phys-block" data-sim-panel="observations">
+    <h2 class="phys-h">Observations</h2>
     <ul class="phys-observations" data-sim-observations></ul>
   </div>
-  <div class="phys-block phys-panel" data-sim-panel="explanation">
-    <div class="phys-panel-head">
-      <h2 class="phys-h">What's happening</h2>
-      <div class="phys-panel-arrows" role="group" aria-label="Move the What's happening panel">
-        {MOVE_DIRS.map(([dir, glyph]) => (
-          <button type="button" class="phys-panel-arrow" data-panel-move={dir} aria-label={`Move the What's happening panel ${dir}`} hidden>{glyph}</button>
-        ))}
-      </div>
-    </div>
+  <div class="phys-block" data-sim-panel="explanation">
+    <h2 class="phys-h">What's happening</h2>
     <p class="phys-explanation" data-sim-explanation></p>
   </div>
   </div><!-- /phys-dash -->
@@ -424,50 +373,24 @@ const MOVE_DIRS = [
 
   .phys-block { display: flex; flex-direction: column; gap: var(--space-3); }
 
-  /* Reorderable tiles: each tile's ↑/↓ arrows move it one slot earlier/later. */
-  .phys-panel-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-  }
-
-  .phys-panel-arrows {
-    display: flex;
-    gap: var(--space-1);
-  }
-
-  .phys-panel-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--touch-target);
-    height: var(--touch-target);
-    margin-block: calc((var(--touch-target) - 24px) / -2); /* big hit area, compact header */
-    border: none;
-    background: none;
-    color: var(--color-text-subtle);
-    font-size: var(--text-base);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition-color);
-  }
-
-  .phys-panel-arrow:hover { color: var(--color-accent-strong); }
-
-  /* The [hidden] attribute must win over display:flex — boot.ts hides arrows with no neighbor. */
-  .phys-panel-arrow[hidden] { display: none; }
-
+  /* A tile label names a slot ("Graph", "Formula"); the content under it is the thing worth
+     reading. So the label is a quiet caption rather than a heading that competes with the
+     scene, and the tiles are told apart by space instead of by edges. It stays an <h2> for
+     screen-reader navigation and for the heading outline. */
   .phys-h {
     margin: 0;
-    font-size: var(--text-lg);
-    font-weight: 600;
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    font-weight: 500;
   }
 
-  /* The stage is the tallest tile and the dashboard is built to fit one viewport, so its heading
-     is a size down from the tile headings and carries no extra spacing of its own. */
+  /* The stage heading is the exception: it names the tool in the words people search for
+     ("Pendulum Period simulator") and is the page's one weighted slot carrying simulator
+     intent, so it reads as a real heading. */
   .phys-h--stage {
+    color: var(--color-text);
     font-size: var(--text-base);
+    font-weight: 600;
   }
 
   .phys-controls {
@@ -509,20 +432,21 @@ const MOVE_DIRS = [
     font-variant-numeric: tabular-nums;
   }
 
+  /* Now that the readings carry no edges, the gap is what separates them, so it has to be
+     wider than the gap inside one reading (label over value). */
   .phys-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: var(--space-2);
+    gap: var(--space-3) var(--space-5);
   }
 
+  /* No card. The tile holding these draws no edge of its own, so a bordered rectangle per
+     reading was a box inside a box; the muted label over a mono value already separates one
+     reading from the next. */
   .phys-card {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    padding: var(--space-2) var(--space-3);
-    border: var(--border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
   }
 
   .phys-card-label { color: var(--color-text-muted); font-size: var(--text-sm); }
@@ -532,13 +456,6 @@ const MOVE_DIRS = [
     font-variant-numeric: tabular-nums;
     font-size: var(--text-lg);
     font-weight: 600;
-  }
-
-  .phys-formula {
-    padding: var(--space-3) var(--space-4);
-    border: var(--border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
   }
 
   .phys-formula-expr {
@@ -625,17 +542,20 @@ const MOVE_DIRS = [
     text-align: center;
   }
 
+  /* Matches .phys-canvas: a plotting surface reads as a surface, not as an outlined box. */
   .phys-graph {
     display: block;
     width: 100%;
-    border: var(--border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
   }
 
+  /* No padding-left: the global reset takes list markers off every ul, so the indent was
+     reserving space for bullets that never render and left this the one tile whose text did
+     not line up with its label. */
   .phys-observations {
     margin: 0;
-    padding-left: var(--space-5);
+    padding-left: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);

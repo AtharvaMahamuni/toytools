@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 14,
-  patch: 1,
+  minor: 15,
+  patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-18',
-  description: 'Repair the internal link graph and gate it',
+  releaseDate: '2026-08-19',
+  description: 'Simulator dashboard drops the tile reorder chrome and the nested boxes',
 };
 
 export function formatVersion(config: VersionConfig): string {

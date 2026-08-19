@@ -2,6 +2,24 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.15] - 2026-08-19
+
+### Changed
+
+- **The fourteen simulators lost the furniture around the physics.** Every simulation page carried
+  six panels each wearing a header bar with four move arrows, so a page whose job is to show a
+  pendulum swinging opened with 24 buttons for rearranging the panels around it. The arrows are
+  gone, along with the saved panel order. Nothing about the pendulum, the sliders, the live
+  numbers, the graph or the formula changed; there is simply less to look past to reach them.
+- **The simulator dashboard reads as one surface instead of nine.** The tiles holding the
+  measurements, the formula and the graph never drew an edge of their own, but their contents did:
+  each live reading sat in a bordered card, the formula in a bordered box, the graph canvas in a
+  bordered rectangle, giving every simulator a page of boxes inside boxes. Those edges are now
+  space, and the graph matches the scene canvas it sits beside. The panel labels ("Controls",
+  "Graph", "Formula") are quiet captions rather than headings that competed with the simulation
+  for attention; they remain headings for screen readers and the page outline. The simulator's own
+  title is unchanged and still leads the page.
+
 ## [alpha-v7.14.1] - 2026-08-18
 
 ### Fixed
