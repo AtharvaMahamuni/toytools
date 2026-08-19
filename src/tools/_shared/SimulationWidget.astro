@@ -33,6 +33,15 @@ const cards = sim.measurements.filter((m) => !m.hidden);
 const canvasLabel = `${config.name} interactive simulation canvas`;
 const stageHeading = simulatorLabel(config.name);
 const speeds = [0.25, 0.5, 1, 2];
+// The stage box, resolved at build time so the canvas reserves its exact size on first paint.
+// A tall-aspect scene (the 4:3 pendulum) would otherwise push the dashboard below a 1080p fold,
+// so the height is capped and the canvas narrows rather than squashing: the declared aspect is
+// preserved because the sims' pointer math depends on it. Everything else in the stage column
+// (the playback row, the graph strip) takes the same width, so the column has one right edge
+// instead of a centred canvas floating inside it.
+const MAX_CANVAS_HEIGHT = 380;
+const simAspect = sim.aspect ?? 16 / 9;
+const stageMax = Math.round(MAX_CANVAS_HEIGHT * simAspect);
 // Formula-panel lookup: a term bound to a paramId becomes an editable number box (an input the
 // student types into), so we need that param's range/step/unit at build time.
 const paramById = new Map(sim.params.map((p) => [p.id, p]));
@@ -40,7 +49,13 @@ const paramById = new Map(sim.params.map((p) => [p.id, p]));
 const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramById.has(t.paramId));
 ---
 
-<section class="phys" data-physics-sim data-simulation-id={simulationId} data-slug={slug}>
+<section
+  class="phys"
+  data-physics-sim
+  data-simulation-id={simulationId}
+  data-slug={slug}
+  style={`--sim-aspect: ${simAspect}; --sim-stage-max: ${stageMax}px;`}
+>
   <!-- Dashboard: the stage (canvas + playback) plus the tiles (Controls, Live measurements,
        Graph, Formula, Observations, What's happening) in one tight grid; the five core panels
        fit a 1080p viewport with no scrolling. Tiles are separated by space and a quiet label
@@ -278,11 +293,15 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-canvas-wrap {
     position: relative;
     width: 100%;
+    max-width: var(--sim-stage-max);
   }
 
   .phys-canvas {
     display: block;
     width: 100%;
+    /* Reserves the right height before the simulation module loads. boot.ts then sets the same
+       height in px from the same aspect, so there is nothing to reflow. */
+    aspect-ratio: var(--sim-aspect);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     /* Prevent mobile drags on the canvas from scrolling the page. */
@@ -325,11 +344,13 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   /* The [hidden] attribute must win over the display:flex above (it only shows on boot error). */
   .phys-fallback[hidden] { display: none; }
 
+  /* Same width as the canvas: Play sits under its left edge and the speeds under its right. */
   .phys-playback {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
+    max-width: var(--sim-stage-max);
   }
 
   .phys-btn {
@@ -458,8 +479,13 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
      the rest read as support. Four numbers at one size gave the page no answer to land on. */
   .phys-card--lead .phys-card-value { font-size: var(--text-2xl); }
 
+  /* Both formula lines are centred display maths, not prose, so they opt out of the global
+     p { max-width: 65ch }. It applied to the worked line and not the expression above it (65ch
+     of --text-lg mono fits the panel, 65ch of --text-xl does not), which centred the two lines
+     on axes 14px apart. */
   .phys-formula-expr {
     margin: 0 0 var(--space-2);
+    max-width: none;
     font-family: var(--font-mono);
     font-size: var(--text-xl);
     font-weight: 600;
@@ -471,6 +497,13 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: var(--space-2) var(--space-4);
     margin: 0;
+  }
+
+  /* One term per row on a phone. Two 160px columns left the labels and the values both wrapping
+     mid-term, and put the number boxes at a different x on every row; stacked, each term reads
+     as one line and every value lands on the same right edge. */
+  @media (max-width: 640px) {
+    .phys-formula-terms { grid-template-columns: 1fr; }
   }
 
   .phys-term { display: flex; justify-content: space-between; gap: var(--space-3); align-items: baseline; }
@@ -519,13 +552,22 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     text-align: right;
   }
 
-  .phys-formula-unit { color: var(--color-text-muted); font-size: var(--text-sm); }
+  /* Reserve the unit column so the number boxes line up with each other. Without it the box is
+     pushed left by however wide its unit happens to be, so "1 m" and "9.81 m/s2" stacked their
+     boxes 20px apart. inline-block because min-width does nothing on an inline element. */
+  .phys-formula-unit {
+    display: inline-block;
+    min-width: 4ch;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
 
   /* The computed answer stands out from the editable inputs. */
   .phys-formula-answer { color: var(--color-accent-strong); }
 
   .phys-formula-worked {
     margin: var(--space-2) 0 0;
+    max-width: none;
     padding-top: var(--space-2);
     border-top: var(--border);
     font-family: var(--font-mono);
@@ -539,6 +581,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-graph {
     display: block;
     width: 100%;
+    max-width: var(--sim-stage-max);
     border-radius: var(--radius-md);
     background: var(--color-surface);
   }

@@ -75,12 +75,10 @@ function wire(root: HTMLElement, def: SimulationDef): void {
   // ── Canvases ──────────────────────────────────────────────────────────────────────────────
   let palette = readPalette();
   const aspect = def.aspect ?? 16 / 9;
-  // Cap the stage height so tall-aspect scenes (e.g. the 4:3 pendulum) don't push the dashboard
-  // below a 1080p fold. The cap narrows the canvas instead of squashing it: the declared aspect
-  // is preserved because the sims' pointer math depends on it.
-  const MAX_CANVAS_HEIGHT = 380;
-  canvas.style.maxWidth = `${Math.round(MAX_CANVAS_HEIGHT * aspect)}px`;
-  canvas.style.marginInline = 'auto';
+  // The stage box is capped and shaped in CSS from the same aspect, at build time
+  // (SimulationWidget.astro), so the canvas is already the right size when this runs. Setting the
+  // cap here instead meant every simulator painted a full-width 150px-tall canvas and then jumped
+  // to its real box once this module loaded.
   let stage = sizeCanvas(canvas, aspect, palette);
   // The graph is a compact strip inside the console: short-and-wide on desktop so the whole
   // interactive loop fits one viewport, taller on narrow screens so the trace stays readable.

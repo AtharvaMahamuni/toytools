@@ -11,6 +11,18 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   pendulum swinging opened with 24 buttons for rearranging the panels around it. The arrows are
   gone, along with the saved panel order. Nothing about the pendulum, the sliders, the live
   numbers, the graph or the formula changed; there is simply less to look past to reach them.
+- **The simulation lines up with its own controls.** The scene was capped in width so a tall
+  scene could not push the dashboard off the first screen, but it was also centred, so it floated
+  inside its column with Play under empty space to its left and the speed buttons sticking out past
+  its right edge. The scene, the playback row and the graph strip below it now share one left edge
+  and one right edge. The cap is worked out when the page is built rather than after the simulation
+  code loads, so the scene also stops jumping from a full-width sliver to its real size on load.
+- **Fixed three smaller alignment faults.** The two centred formula lines sat on axes 14px apart,
+  because the global reading-width cap for paragraphs happened to catch the lower one and not the
+  larger one above it. On a phone, formula terms were laid out in two columns too narrow for them,
+  wrapping labels and values mid-term; each term now gets its own row. And the number boxes in the
+  formula were pushed sideways by whatever width their unit happened to be, so "1 m" and
+  "9.81 m/s2" stacked their boxes 20px apart; the unit column is now a fixed width.
 - **The simulator answers before it asks.** The live readings now sit between the scene and the
   sliders rather than below them, which is the answer-first order every other tool follows, and the
   reading the tool is named for (period, wave speed, current, range) is set larger than the three
