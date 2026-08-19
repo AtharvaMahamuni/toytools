@@ -11,6 +11,19 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   pendulum swinging opened with 24 buttons for rearranging the panels around it. The arrows are
   gone, along with the saved panel order. Nothing about the pendulum, the sliders, the live
   numbers, the graph or the formula changed; there is simply less to look past to reach them.
+- **The simulator answers before it asks.** The live readings now sit between the scene and the
+  sliders rather than below them, which is the answer-first order every other tool follows, and the
+  reading the tool is named for (period, wave speed, current, range) is set larger than the three
+  supporting it. Four numbers at one size gave the page nothing to land on.
+- **Less to look at while the simulation runs.** The min and max captions under every slider are
+  gone: the slider shows where you are in its travel, and the presets name the interesting values
+  (Earth, Moon, Jupiter) better than "1.6 to 25" did. The sentence telling you to type into the
+  formula is gone, because the boxes look like boxes. The speed control lost its "Speed" caption
+  and reads as quiet text rather than four more buttons beside Play, with the same tap targets.
+- **Real-world examples moved into a drawer**, matching the four the page already carries below the
+  tool. It is background reading rather than part of running the simulation, and it was the longest
+  thing on the page. Closed drawers are still read by crawlers, so nothing left the HTML. Together
+  with the above, a simulator page on a phone is about a fifth shorter.
 - **The simulator dashboard reads as one surface instead of nine.** The tiles holding the
   measurements, the formula and the graph never drew an edge of their own, but their contents did:
   each live reading sat in a bordered card, the formula in a bordered box, the graph canvas in a
