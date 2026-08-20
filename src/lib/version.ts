@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-19',
-  description: 'Simulator dashboard drops the tile reorder chrome and the nested boxes',
+  description: 'Simulator dashboard rebuilt around space and alignment instead of edges',
 };
 
 export function formatVersion(config: VersionConfig): string {

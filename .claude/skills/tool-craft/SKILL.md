@@ -84,9 +84,14 @@ The rules, in `docs/analysis/2026-08-11-tool-craft.md` section 4:
   line, `<details>`. A touch that needs a new visual component is a redesign in disguise.
 - **R2. No new boxes.** No filled, bordered card. Prefer, in order: text in a slot that exists, a
   line under the control it modifies, a `<details>` drawer, and only then anything with an edge.
+  The inverted form counts too: **if the container round your touch draws no edge, your touch must
+  not draw one either.** Flattening a panel and leaving its contents bordered is still box-in-box.
 - **R3. Silent until relevant.** Hidden by default via the `hidden` attribute. **Also write
   `[hidden] { display: none }`** for your element: any `display` rule silently overrides `[hidden]`,
-  and this has now shipped as a bug twice.
+  and this has now shipped as a bug twice. Hiding something that is *always* there, on hover or
+  focus, is a different move and usually the wrong one: keeping its space reserved (so revealing it
+  does not shift the layout under a thumb) leaves a band of dead air, and not reserving it shifts
+  the layout. If a detail cannot earn its space, delete it.
 - **R4. Every value is a token.** No raw hex, no bare pixels. If the palette lacks the colour you
   want, the state probably should not exist.
 - **R5. One row, not one section.** A control plus a label, inline. Needing a heading is a signal

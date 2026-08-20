@@ -231,7 +231,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </span>
-        <h2 class="phys-h">Real-world examples</h2>
+        <h2 class="phys-drawer-heading">Real-world examples</h2>
       </summary>
       <div class="phys-examples">
         {examples.map((ex) => (
@@ -264,7 +264,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   .phys-dash {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-8);
   }
 
   @media (min-width: 1024px) {
@@ -274,7 +274,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
          the stage height low enough that the whole dashboard clears a 1080p fold, and gives the
          measurements tile enough width for one row of cards. */
       grid-template-columns: minmax(0, 6fr) minmax(0, 7fr);
-      gap: var(--space-3) var(--space-5);
+      gap: var(--space-8);
       align-items: start;
     }
 
@@ -368,6 +368,10 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
 
   .phys-btn:hover { background: var(--color-surface-hover); }
 
+  /* A phone never fires :hover, so the press itself has to show. */
+  .phys-btn:active { background: var(--color-surface-hover); border-color: var(--color-border-strong); }
+  .phys-speed:active { background: var(--color-accent-subtle); }
+
   .phys-btn--primary[aria-pressed='false'] {
     background: var(--color-accent);
     border-color: var(--color-accent);
@@ -396,26 +400,31 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     color: var(--color-accent-strong);
   }
 
-  .phys-block { display: flex; flex-direction: column; gap: var(--space-3); }
+  /* Tight: a label belongs to the content under it. The tile gap above is four times this. */
+  .phys-block { display: flex; flex-direction: column; gap: var(--space-2); }
 
   /* A tile label names a slot ("Graph", "Formula"); the content under it is the thing worth
-     reading. So the label is a quiet caption rather than a heading that competes with the
-     scene, and the tiles are told apart by space instead of by edges. It stays an <h2> for
-     screen-reader navigation and for the heading outline. */
+     reading. Micro-caps, the same recipe the guide eyebrow and the knowledge blocks use, so a
+     label reads as a label at a glance instead of as one more line of text. It stays an <h2>
+     for screen-reader navigation and for the heading outline. */
   .phys-h {
     margin: 0;
-    color: var(--color-text-subtle);
-    font-size: var(--text-sm);
-    font-weight: 500;
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  /* The stage heading is the exception: it names the tool in the words people search for
-     ("Pendulum Period simulator") and is the page's one weighted slot carrying simulator
-     intent, so it reads as a real heading. */
+  /* The stage heading is the exception, and the page's only real heading: it names the tool in
+     the words people search for ("Pendulum Period simulator") and is the one weighted slot
+     carrying simulator intent. */
   .phys-h--stage {
     color: var(--color-text);
     font-size: var(--text-base);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
+    text-transform: none;
+    letter-spacing: normal;
   }
 
   .phys-controls {
@@ -604,7 +613,7 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
     font-size: var(--text-sm);
   }
 
-  .phys-explanation { margin: 0; color: var(--color-text); line-height: 1.6; }
+  .phys-explanation { margin: 0; color: var(--color-text); line-height: var(--leading-relaxed); }
 
   .phys-drawer-summary {
     display: inline-flex;
@@ -618,6 +627,14 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   }
 
   .phys-drawer-summary:hover { color: var(--color-text); }
+
+  /* Matches .kd-heading: this drawer reads as one of the set, not a different kind of thing. */
+  .phys-drawer-heading {
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-tight);
+  }
   .phys-drawer-summary::-webkit-details-marker { display: none; }
 
   .phys-drawer-chevron {

@@ -306,6 +306,11 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
   `ToyTools.onReady(function () { … })`.**
 - Always pair the `hidden` attribute with `[hidden] { display: none }`. Any `display` rule silently
   overrides it; this has shipped as a visible bug twice.
+- **An element whose box a script computes declares that box in CSS**, from a build-time value
+  (`aspect-ratio` + a `max-width` custom property). A script that sets the size after load paints
+  the wrong box first: every simulator flashed a full-width 150px canvas until `boot.ts` ran.
+- **Remove a border and you inherit its job.** Space is then the only thing marking a group, so
+  between-group space has to beat within-group space (~2-4x). See the `ui-design-system` skill.
 
 Widget composition, tokens, components and the design language: **`ui-design-system` skill**.
 

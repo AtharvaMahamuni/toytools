@@ -11,6 +11,17 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   pendulum swinging opened with 24 buttons for rearranging the panels around it. The arrows are
   gone, along with the saved panel order. Nothing about the pendulum, the sliders, the live
   numbers, the graph or the formula changed; there is simply less to look past to reach them.
+- **The simulator reads as a set of groups rather than a wall.** With the panel borders gone, the
+  space around a group was the only thing left saying where it ended, and there was not enough of
+  it: the gap between two panels was exactly the gap a panel put between its own label and its
+  content, so every gap on the page was the same 12px. Panels are now four times further apart than
+  the things inside them.
+- **Panel labels read as labels.** "Controls", "Graph", "Live measurements" and the rest take the
+  small caps treatment the guides and the knowledge sections already use, so the eye skips them and
+  lands on the content instead of reading them as another line of text. The simulator's own title
+  stays the one full heading on the page, and the real-world examples drawer now matches the four
+  drawers below it rather than looking like a different kind of thing. Buttons also gained a
+  pressed state, which a phone needs because it never shows a hover.
 - **The simulation lines up with its own controls.** The scene was capped in width so a tall
   scene could not push the dashboard off the first screen, but it was also centred, so it floated
   inside its column with Play under empty space to its left and the speed buttons sticking out past
