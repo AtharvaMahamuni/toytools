@@ -370,11 +370,16 @@ const showUnits = !!def.units?.length;
   @media (min-width: 640px) {
     .tracker-grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
   }
+  /* Filled, not outlined, like every other panel in the catalog. --radius-lg was also not a real
+     token (there is no such custom property), so this declaration was invalid and silently
+     dropped: these three panels have been square-cornered while everything round them was not. */
   .tracker-today, .tracker-stats {
     background: var(--color-surface);
-    border: var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: var(--space-5);
+    /* Grid items default to min-width: auto and will not shrink below their content, so the
+       two-up stats grid pushed 14px past a 360px screen instead of narrowing. */
+    min-width: 0;
   }
   .tracker-today-label, .tracker-chart-title {
     font-size: var(--text-xs);

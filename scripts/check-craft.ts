@@ -54,6 +54,10 @@ const report = process.argv.includes('--report');
  *                                          the first tool built craft-first rather than retrofitted
  *               2026-08-16  0.046 (5/107)  systemd-timer-converter ships with its divergence check
  * boxesPerTool  2026-08-11  8 → 7          word-counter's goal card and insight tiles went inline
+ *               2026-08-20  7 → 4          the catalog-wide flattening: .io-panel stopped drawing a
+ *                                          frame round an already-filled field, and the container
+ *                                          boxes in 15 widgets became fills. Controls kept their
+ *                                          edges, so what is left is affordance, not decoration
  * rawHex        2026-08-11  11 → 9         word-counter's #d97706 state was removed, not retinted
  *
  * `boxesPerTool` is the WORST SINGLE WIDGET, not a catalog total, and the distinction matters. A
@@ -112,7 +116,7 @@ const THRESHOLDS = {
   //   weakest, and states the cost as a number. 9 tools; macro and body-fat get nothing, the latter
   //   because its sensitivity barely varies with the input and a rule would be a disclaimer.
   coverage: 0.598,
-  boxesPerTool: 7,
+  boxesPerTool: 4,
   rawHex: 9,
 };
 

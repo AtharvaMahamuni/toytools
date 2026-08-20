@@ -42,6 +42,16 @@ const classes = [
     gap: var(--space-6);
   }
 
+  /* A grid item defaults to min-width: auto, so it refuses to shrink below its own content and
+     pushes past the track instead. Anything wide inside a pane (a long mono value, a row of
+     controls) therefore ran off the screen rather than wrapping or scrolling in place: at 360px
+     px-to-rem-converter's pane measured 348px inside a 328px track. Panes may shrink; wide
+     content scrolls in its own container, per the mobile rules. */
+  .ts-input,
+  .ts-output {
+    min-width: 0;
+  }
+
   /* Mobile/tablet only: optionally lead with the answer. Scoped to <1024px so it can
      never leak onto desktop, where DOM order (input-left / output-right) must win. */
   @media (max-width: 1023px) {

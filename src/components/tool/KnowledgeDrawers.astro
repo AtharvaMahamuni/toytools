@@ -198,6 +198,9 @@ const hasFaq = faqItems.length > 0;
      content has somewhere to go without shoving the other triggers around. */
   .kd {
     flex: 0 0 auto;
+    /* A closed drawer sizes to its trigger, so a long concept name would push it past the
+       screen edge instead of wrapping. */
+    max-width: 100%;
   }
 
   .kd[open] {
@@ -246,6 +249,9 @@ const hasFaq = faqItems.length > 0;
     font-weight: var(--font-weight-medium);
     line-height: var(--leading-tight);
     margin: 0;
+    /* Lets the heading shrink below its content width so it wraps rather than overflowing. */
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .kd-count {

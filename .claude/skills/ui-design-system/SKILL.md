@@ -655,6 +655,51 @@ Two rules that fall out of the same idea:
   show it. (Tried and reverted on the sliders' min/max captions; the presets already named the
   interesting values.)
 
+### Which lines survive
+
+Applied across the catalog on 2026-08-20. The test is what a line is *for*, not where it is:
+
+| a line that... | verdict | because |
+|---|---|---|
+| bounds an interactive control (input, select, button, tab, stepper) | **keep** | the edge is the affordance: it says "operate me" |
+| bounds a colour swatch or sample | **keep** | a near-white value has no other edge and vanishes without it |
+| marks a fixed layer over scrolling content (the sticky mobile `.tool-action` bar) | **keep** | it says "this floats", which space cannot say |
+| opens Zone C (`.content-section`) | **keep** | the page's one deliberate hairline, per the page grammar |
+| frames a container, panel or card | **remove** | the contents already have edges; the frame is the outer half of a box-in-a-box |
+| separates rows in a ledger, cells in a grid, a header from its body | **remove** | that is decoration doing what padding should do |
+
+**Outlined becomes filled, not bare.** A container that loses its frame but still needs to read as
+a distinct surface takes `background: var(--color-surface)`. That is how `.io-panel` works now: the
+frame and the rule under its label are gone, and the *field* carries the fill, so the one edge left
+is the one that was doing real work. Focus moved with it, from the frame to the field, which is
+also where a focus ring belongs.
+
+**Removing a frame usually orphans a padding.** `.io-body`, `.tm-hero` and `.tm-stats` all carried
+insets that existed to hold content off a frame's edge; with the frame gone they only pushed content
+away from the label naming it. Whenever you drop a container's border, drop the padding that
+existed to clear it, or the group loses its shared left edge.
+
+### Two ways content runs off a phone
+
+Both were found by driving all 121 tools at 393px and 360px, and neither shows up on a desktop.
+
+**A grid or flex item will not shrink below its own content.** `min-width` defaults to `auto`, so a
+pane containing anything wide (a long mono value, a row of controls) grows past its track instead of
+letting the content wrap or scroll in place. At 360px this pushed `ToolSplit`'s pane to 348px inside
+a 328px column, and the tracker's two-up stats 14px past the screen. **Any grid or flex item that
+holds arbitrary content sets `min-width: 0`**; wide content then scrolls in its own container, per
+the mobile rules.
+
+**A scroller with a hidden scrollbar must say it scrolls.** `.group-switcher` hides the bar
+(`scrollbar-width: none`) and pills at the edge were sliced mid-word on 61 of 121 tools, which reads
+as a broken page rather than as "there is more". Its trailing edge is now faded with `mask-image`.
+Reach for this whenever `overflow-x: auto` meets a hidden scrollbar. Two things to know: a
+background gradient will not do it, because content paints on top of backgrounds, so it must be a
+mask; and a mask cannot be made conditional on scroll position in CSS, so the fade is always drawn
+and the last item keeps a soft edge at the end of the scroll. Wrapping instead of scrolling is the
+obvious alternative and is usually wrong here: the largest group is 11 pills, and four rows of them
+would push the answer past the fold that `health.spec.ts` pins.
+
 ### Section captions: micro-caps, not small text
 
 A caption that names a slot ("Controls", "Graph", "Live measurements") is not a heading and should

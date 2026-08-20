@@ -120,13 +120,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   /* Rows are injected via innerHTML, so anchor them under the scoped parent with :global(). */
   .ptr-out :global(.ptr-item) {
     display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; align-items: center; gap: var(--space-3);
-    padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface);
-    transition: border-color 150ms, background-color 150ms;
+    padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+    transition: background-color 150ms;
   }
-  .ptr-out :global(.ptr-item.is-source) { border-color: var(--color-accent); background: var(--color-accent-subtle); }
+  .ptr-out :global(.ptr-item.is-source) { background: var(--color-accent-subtle); }
   .ptr-out :global(.ptr-label) { font-size: var(--text-xs); font-weight: 700; color: var(--color-accent-strong, var(--color-text-subtle)); text-transform: uppercase; letter-spacing: 0.06em; }
-  .ptr-out :global(.ptr-value) { font-family: var(--font-mono); font-size: var(--text-lg); color: var(--color-text); font-variant-numeric: tabular-nums; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-  .ptr-out :global(.ptr-value::-webkit-scrollbar) { display: none; }
+  .ptr-out :global(.ptr-value) { font-family: var(--font-mono); font-size: var(--text-lg); color: var(--color-text); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
   .ptr-out :global(.ptr-copy) {
     min-block-size: var(--touch-target); min-inline-size: 3.25rem; padding-inline: var(--space-3);
     border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-sunken);
