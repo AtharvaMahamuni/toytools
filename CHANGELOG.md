@@ -17,6 +17,20 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   what says "operate me", so those are untouched, as are the colour swatches (a near-white colour
   has no other edge and would vanish), the sticky action bar on phones, and the single rule that
   opens the reading section at the bottom of every tool page.
+- **Fixed content running off the side of a phone.** Three tools pushed content past the screen
+  edge at 360px, the narrowest common phone, and none of it showed on a desktop: a converter's
+  panel, the weight tracker's stats, and the drawer headings on the systemd timer tool, whose topic
+  name is a whole sentence. All three were the same root cause in different clothes, a panel
+  refusing to narrow below its contents, so the fix is in the shared layout rather than in each
+  tool. Colour and unit values that were being sliced mid-value now wrap instead.
+- **The mode switcher no longer looks broken.** Tools that belong to a set carry a row of mode
+  pills, and on 61 of them the row was wider than the screen with its scrollbar hidden, so the pill
+  at the edge was chopped in half with nothing to say it could be scrolled. The row now fades out
+  at its trailing edge. Wrapping it instead would have pushed the answer below the first screen on
+  the calculators, which is a worse trade.
+- **The three tracker tools lost their outlines too**, which the pass above had missed, and got
+  their rounded corners back: they were asking for a corner size that does not exist in the design
+  tokens, so the browser was quietly ignoring it and squaring them off.
 - **Content lines up with the label that names it.** The panels carried insets that existed to hold
   their contents off a frame's edge. With the frames gone those only pushed content away from its
   own heading, so a result sat 26px to the right of the word RESULT. Labels and content now share

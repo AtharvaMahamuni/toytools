@@ -679,6 +679,27 @@ insets that existed to hold content off a frame's edge; with the frame gone they
 away from the label naming it. Whenever you drop a container's border, drop the padding that
 existed to clear it, or the group loses its shared left edge.
 
+### Two ways content runs off a phone
+
+Both were found by driving all 121 tools at 393px and 360px, and neither shows up on a desktop.
+
+**A grid or flex item will not shrink below its own content.** `min-width` defaults to `auto`, so a
+pane containing anything wide (a long mono value, a row of controls) grows past its track instead of
+letting the content wrap or scroll in place. At 360px this pushed `ToolSplit`'s pane to 348px inside
+a 328px column, and the tracker's two-up stats 14px past the screen. **Any grid or flex item that
+holds arbitrary content sets `min-width: 0`**; wide content then scrolls in its own container, per
+the mobile rules.
+
+**A scroller with a hidden scrollbar must say it scrolls.** `.group-switcher` hides the bar
+(`scrollbar-width: none`) and pills at the edge were sliced mid-word on 61 of 121 tools, which reads
+as a broken page rather than as "there is more". Its trailing edge is now faded with `mask-image`.
+Reach for this whenever `overflow-x: auto` meets a hidden scrollbar. Two things to know: a
+background gradient will not do it, because content paints on top of backgrounds, so it must be a
+mask; and a mask cannot be made conditional on scroll position in CSS, so the fade is always drawn
+and the last item keeps a soft edge at the end of the scroll. Wrapping instead of scrolling is the
+obvious alternative and is usually wrong here: the largest group is 11 pills, and four rows of them
+would push the answer past the fold that `health.spec.ts` pins.
+
 ### Section captions: micro-caps, not small text
 
 A caption that names a slot ("Controls", "Graph", "Live measurements") is not a heading and should

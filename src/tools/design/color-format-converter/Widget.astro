@@ -191,13 +191,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     font-family: var(--font-mono);
     font-size: var(--text-base);
     color: var(--color-text);
-    overflow-x: auto;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
     font-variant-numeric: tabular-nums;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
   }
-  .cfc-formats :global(.cfc-value::-webkit-scrollbar) { display: none; }
   .cfc-formats :global(.cfc-copy) {
     min-block-size: var(--touch-target);
     min-inline-size: 3.25rem;

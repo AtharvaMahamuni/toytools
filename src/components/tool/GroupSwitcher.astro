@@ -56,6 +56,21 @@ const siblings = members.filter(m => !m.active);
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    /* The largest group is 11 pills, which cannot fit a 393px screen and cannot wrap either: four
+       rows would push the answer past the fold that health.spec.ts pins. So the row scrolls, and
+       with the scrollbar hidden it gave no sign of that on 61 of 121 tools -- the pill at the edge
+       was simply sliced off, which reads as the page being broken rather than as "there is more".
+       The trailing edge now fades instead, so the strip reads as continuing.
+
+       This is a mask rather than a background gradient because the pills are opaque and would
+       paint straight over a background layer. A mask cannot be made conditional on scroll position
+       in CSS, so the fade is always drawn: scrolled fully right, the last pill keeps a soft edge.
+       That is the accepted trade for costing no height and no JavaScript on 74 pages.
+
+       #000 is not a colour here: a mask reads only the alpha channel, so the value is opaque-vs-
+       transparent and never paints. A token would imply a palette decision that does not exist. */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
   }
 
   .group-switcher::-webkit-scrollbar {
