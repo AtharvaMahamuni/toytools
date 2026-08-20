@@ -168,7 +168,6 @@
   }
 
   .todo-task {
-    border-top: var(--border);
     padding-block: var(--space-2);
     border-radius: var(--radius-md);
     background: var(--color-bg);
@@ -176,11 +175,9 @@
                 opacity var(--duration-normal) ease,
                 transform var(--duration-normal) ease;
   }
-  #todo-list-container > .todo-task:first-child { border-top: none; }
 
   /* The row being dragged lifts off the list as a card. */
   .todo-task.todo-dragging {
-    border-top-color: transparent;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
     cursor: grabbing;
     position: relative;
@@ -501,7 +498,6 @@
     gap: var(--space-2);
     margin-top: var(--space-5);
     padding-top: var(--space-4);
-    border-top: var(--border);
   }
   .todo-footer[hidden] { display: none; }
 

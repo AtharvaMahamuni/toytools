@@ -53,6 +53,11 @@
   --space-5:  20px;
   --space-6:  24px;
   --space-8:  32px;
+  /* 40px. Ten declarations across four standalone pages and four tool widgets already ask
+     for this; it was never defined, so every one of them was invalid and dropped. In
+     `padding: var(--space-10) 0 var(--space-12)` one bad value voids the whole shorthand,
+     which is why /about/, /privacy/, /changelog/ and /settings/ had no block padding. */
+  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
   --space-20: 80px;
