@@ -679,6 +679,18 @@ insets that existed to hold content off a frame's edge; with the frame gone they
 away from the label naming it. Whenever you drop a container's border, drop the padding that
 existed to clear it, or the group loses its shared left edge.
 
+### A `var()` with no fallback is a silent no-op
+
+CSS drops a declaration whose custom property does not resolve, and **one bad value voids the whole
+shorthand**. Nothing warns you; the rule just never applies. Two of these had been shipping:
+`--radius-lg` (no such token) left three tracker panels square-cornered, and `--space-10` (also not
+a token until 2026-08-20) meant `padding: var(--space-10) 0 var(--space-12)` gave `/about/`,
+`/privacy/`, `/changelog/` and `/settings/` **no block padding at all**.
+
+Before using a token, confirm it exists in `src/styles/tokens.css`. The spacing scale is
+1-6, 8, 10, 12, 16, 20; radii are `--radius-sm` and `--radius-md` only. `git grep` for a token name
+that returns hits only outside tokens.css means everyone using it is getting nothing.
+
 ### Two ways content runs off a phone
 
 Both were found by driving all 121 tools at 393px and 360px, and neither shows up on a desktop.

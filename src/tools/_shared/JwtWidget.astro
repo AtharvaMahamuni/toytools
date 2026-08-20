@@ -169,7 +169,7 @@ const sigId = `${slug}-sig`;
   .jwt-summary {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: var(--space-2);
-    border: var(--border); border-radius: var(--radius-md); overflow: hidden;
+    border-radius: var(--radius-md); overflow: hidden;
   }
   .jwt-sum-cell { padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; gap: 2px; }
   .jwt-sum-k { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); }
@@ -181,8 +181,8 @@ const sigId = `${slug}-sig`;
   /* Validity panel */
   .jwt-validity {
     display: flex; flex-direction: column; gap: var(--space-2);
-    padding: var(--space-3); border: var(--border); border-radius: var(--radius-md);
-    background: var(--color-bg);
+    padding: var(--space-3); border-radius: var(--radius-md);
+    background: var(--color-surface);
   }
   .jwt-vhead { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
   .jwt-vstatus {
@@ -230,8 +230,8 @@ const sigId = `${slug}-sig`;
   .jwt-insight-mark { flex-shrink: 0; }
 
   .jwt-pre {
-    margin: 0; padding: var(--space-3); border: var(--border); border-radius: var(--radius-sm);
-    background: var(--color-bg); font-family: var(--font-mono); font-size: var(--text-sm);
+    margin: 0; padding: var(--space-3); border-radius: var(--radius-sm);
+    background: var(--color-surface); font-family: var(--font-mono); font-size: var(--text-sm);
     line-height: var(--leading-relaxed); white-space: pre-wrap; overflow-wrap: anywhere; font-variant-ligatures: none;
   }
 

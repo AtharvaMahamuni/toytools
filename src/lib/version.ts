@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 16,
+  minor: 17,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-20',
-  description: 'Line separations removed catalog-wide - panels and ledgers read as fills',
+  description: 'Flatten the last bespoke boxes and define the missing spacing token',
 };
 
 export function formatVersion(config: VersionConfig): string {

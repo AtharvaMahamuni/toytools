@@ -2,6 +2,28 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.17] - 2026-08-20
+
+### Changed
+
+- **The last twenty tools lost their boxes.** The previous release took the frames off everything
+  built from the shared panels, which was most of the catalog but not the tools that draw their own.
+  Counting what every one of the 121 tools actually paints on screen found twenty still framing
+  their own sections: the JWT reader alone drew eight. Those are gone, and so are the rules that
+  ran between sections on the counters, between the rows of a to-do list, and across the middle of
+  a text comparison. Every tool page now draws only the edges that mark something you can operate:
+  a button, a field, a colour swatch. The three exceptions kept on purpose are the line under a
+  worked formula, the accent stripe on an explanation callout, and the aspect-ratio preview, whose
+  border is the thing being previewed.
+
+### Fixed
+
+- **Four pages had no top or bottom padding at all**, and four tool sections had no space above
+  them. All of them asked for a spacing step that was never defined, and CSS discards a whole
+  declaration when one value in it is unknown, so About, Privacy, Changelog and Settings opened
+  flush against the header. The step is defined now and those pages space out as they were written
+  to. This is the same class of bug as the square-cornered trackers in the previous release.
+
 ## [alpha-v7.16] - 2026-08-20
 
 ### Changed
