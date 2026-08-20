@@ -311,6 +311,9 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
   the wrong box first: every simulator flashed a full-width 150px canvas until `boot.ts` ran.
 - **Remove a border and you inherit its job.** Space is then the only thing marking a group, so
   between-group space has to beat within-group space (~2-4x). See the `ui-design-system` skill.
+- **A line has to earn its place.** An edge round a control is affordance and stays; a frame round
+  a container, or a rule between rows, is decoration and goes (filled surface instead). The
+  `ui-design-system` skill has the table and the orphaned-padding trap that comes with it.
 
 Widget composition, tokens, components and the design language: **`ui-design-system` skill**.
 

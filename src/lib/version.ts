@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 15,
+  minor: 16,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-19',
-  description: 'Simulator dashboard rebuilt around space and alignment instead of edges',
+  releaseDate: '2026-08-20',
+  description: 'Line separations removed catalog-wide - panels and ledgers read as fills',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -2,6 +2,26 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.16] - 2026-08-20
+
+### Changed
+
+- **Every tool page lost the boxes it drew round its own contents.** A tool was built from framed
+  panels, each with a rule under its label and an already-filled input sitting inside the frame, so
+  the same page drew a box, a line and then another box to say one thing. The frames and the rules
+  are gone across all 121 tools. The field keeps its fill, which is the one edge that was doing
+  real work: it is what tells you where to type. Panels, ledger rows, grid cells and output rows
+  are separated by space now, and a container that still needs to read as its own surface is filled
+  rather than outlined.
+- **Lines that mean something stayed.** An edge round a button, input, select, tab or stepper is
+  what says "operate me", so those are untouched, as are the colour swatches (a near-white colour
+  has no other edge and would vanish), the sticky action bar on phones, and the single rule that
+  opens the reading section at the bottom of every tool page.
+- **Content lines up with the label that names it.** The panels carried insets that existed to hold
+  their contents off a frame's edge. With the frames gone those only pushed content away from its
+  own heading, so a result sat 26px to the right of the word RESULT. Labels and content now share
+  one left edge with everything else on the page.
+
 ## [alpha-v7.15] - 2026-08-19
 
 ### Changed

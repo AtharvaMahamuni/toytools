@@ -67,8 +67,8 @@
   display: block;
   margin-top: var(--space-4);
   padding: var(--space-4);
-  border: var(--border);
   border-radius: var(--radius-md);
+  background: var(--color-surface);
   min-height: 52px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
@@ -76,7 +76,7 @@
 
 /* Hero metric — primary stat at the top of a result panel (.tm-hero block) */
 .tm-hero {
-  padding: var(--space-5) var(--space-5) var(--space-4);
+  padding: 0 0 var(--space-4);
   display: flex;
   flex-direction: column;
 }
@@ -120,11 +120,11 @@
   max-width: unset;
 }
 
-/* Secondary metrics — ledger of hairline-separated label/value rows below the hero */
+/* Secondary metrics — label/value rows below the hero, separated by their own breathing
+   room rather than by a rule per row. */
 .tm-stats {
   margin: 0;
-  border-top: var(--border);
-  padding: var(--space-1) var(--space-5) var(--space-3);
+  padding: 0;
 }
 
 .tm-stat-row {
@@ -133,11 +133,9 @@
   align-items: baseline;
   gap: var(--space-4);
   padding-block: var(--space-2);
+  margin-block: var(--space-1);
 }
 
-.tm-stat-row + .tm-stat-row {
-  border-top: var(--border);
-}
 
 .tm-stat-label {
   margin: 0;
@@ -220,12 +218,10 @@
 /* Two-pane I/O panels — shared by the developer-engine widgets (encoding, hashing,
    structured-data). One source of truth so the panes stay visually consistent. */
 .io-panel {
-  border: var(--border);
-  border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
+  gap: var(--space-2);
   min-height: 280px;
-  overflow: hidden;
 }
 
 .io-header {
@@ -233,8 +229,6 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  padding-left: var(--space-3);
-  border-bottom: var(--border);
   min-height: var(--touch-target);
   flex-shrink: 0;
 }
@@ -251,8 +245,7 @@
   min-height: unset;
   width: auto;
   border: none;
-  border-left: var(--border);
-  border-radius: 0;
+  border-radius: var(--radius-sm);
   padding: var(--space-2) var(--space-3);
   background: transparent;
   color: var(--color-text-muted);
@@ -268,12 +261,12 @@
   width: 100%;
   min-height: 0;
   border: none;
-  border-radius: 0;
+  border-radius: var(--radius-md);
   padding: var(--space-3);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-relaxed);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
   font-variant-ligatures: none;
 }
@@ -284,11 +277,12 @@
   margin: 0;
   min-height: 0;
   border: none;
-  border-radius: 0;
+  border-radius: var(--radius-md);
   padding: var(--space-3);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-relaxed);
+  background: var(--color-surface);
   white-space: pre-wrap;
   overflow-wrap: break-word;
   overflow-y: auto;
@@ -308,7 +302,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-4);
+  padding: 0;
 }
 
 .io-panel output[data-empty] {
@@ -319,19 +313,9 @@
   color: var(--color-danger);
 }
 
-.io-panel output.io-output--bordered {
-  border-top: var(--border);
-}
-
-/* Focus: the textarea fills the clipped frame, so its outline would render as a
-   stray line under the header — highlight the panel border instead. */
-.io-panel textarea:focus-visible {
-  outline: none;
-}
-
-.io-panel:focus-within {
-  border-color: var(--color-accent);
-}
+/* The field is the box now, so it takes the standard focus ring rather than the frame
+   proxying for it. (It used to suppress its own outline because the clipped frame turned it
+   into a stray line under the header.) */
 
 /* Structured-data validity status line (✓ Valid / ✗ error) */
 .io-status {
@@ -373,9 +357,8 @@
 
 /* Live output metadata — compact inline ledger below the actions. */
 .conv-meta {
-  margin: var(--space-2) 0 0;
-  padding: var(--space-3) 0 0;
-  border-top: var(--border);
+  margin: var(--space-5) 0 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-6);
@@ -404,7 +387,6 @@
 .conv-insight {
   margin-top: var(--space-6);
   padding: var(--space-4) var(--space-5);
-  border: var(--border);
   border-left: 3px solid var(--color-accent);
   border-radius: var(--radius-md);
   background: var(--color-accent-subtle);
@@ -508,13 +490,13 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   padding: var(--space-1) var(--space-2);
-  border: var(--border);
   border-radius: var(--radius-sm);
+  background: var(--color-surface);
 }
 
 .widget-details {
-  border-top: var(--border);
-  padding-block: var(--space-4);
+  margin-top: var(--space-6);
+  padding-block: 0;
 }
 
 /* Shares the caret with .experience-disclosure below. Before this it was the only disclosure on the
@@ -848,7 +830,6 @@ body.tt-focus-lock {
 
 .insight {
   padding: var(--space-2) var(--space-3);
-  border: var(--border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   font-size: var(--text-sm);
@@ -965,7 +946,7 @@ body.tt-focus-lock {
    narrow screen (long currency strings, padded panels). Trim the side padding and the hero size so
    text keeps clear of the panel borders/hairlines instead of crowding or wrapping onto them. */
 @media (max-width: 640px) {
-  .tm-hero { padding: var(--space-5); }
+  .tm-hero { padding: 0 0 var(--space-4); }
   .hero-value { font-size: clamp(var(--text-2xl), 8vw, var(--text-4xl)); }
   .tm-stats { padding-inline: var(--space-4); }
 
