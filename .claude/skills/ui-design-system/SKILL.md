@@ -151,6 +151,12 @@ Spacing scale uses `--space-{n}` where n is 1–16. Common values:
 --leading-relaxed   /* Line height for body text */
 ```
 
+**Gotcha: `global.css` caps every `<p>` at `max-width: 65ch`.** That is right for prose and wrong
+for anything else that happens to be a paragraph. Because 65ch is measured in the element's *own*
+font, it bites unevenly: in the simulator's formula panel it caught the worked line at `--text-lg`
+mono and not the expression above it at `--text-xl`, centring two stacked formulas on axes 14px
+apart. A `<p>` that is display maths, a metric, or a centred caption sets `max-width: none`.
+
 ### Layout widths
 ```css
 --width-shell     /* 1440px — chrome (nav/footer), home, category, <main> ceiling */
@@ -623,6 +629,67 @@ Avoid:
 - Multiple competing visual focal points on one screen
 
 Visual simplicity improves usability and reduces cognitive load.
+
+### Taking a border away is only half the job
+
+Once a group has no edge, **the space around it is the only thing saying where it ends**, so that
+space has to beat the space inside it. Removing the lines and leaving the gaps alone does not read
+as calm, it reads as undifferentiated.
+
+> **Between-group space must clearly exceed within-group space.** Aim for roughly 2-4x. A label
+> sits `--space-2` from the content it names; the next group starts `--space-8` away.
+
+The simulator dashboard is the worked example (2026-08-20). Its tiles had a `--space-3` row gap and
+each tile put `--space-3` between its own label and its content, so once the tile borders came off,
+nothing marked a boundary at all: every gap on the page was 12px. Tiles went to `--space-8`, labels
+to `--space-2`, and the same markup became legible at a glance.
+
+Two rules that fall out of the same idea:
+
+- **If the container draws no edge, its contents must not draw one either.** A bordered card inside
+  a borderless tile is the box-in-a-box the anti-clutter rules forbid, just inverted, and it is
+  what you get by flattening the outside and forgetting the inside.
+- **Never buy the gap back by reserving hidden space.** Revealing a detail on `:focus-within`
+  avoids a layout shift only if the space stays reserved, and reserved-but-empty space is a band of
+  dead air where a row of text used to be. If a detail is not worth its space, delete it; if it is,
+  show it. (Tried and reverted on the sliders' min/max captions; the presets already named the
+  interesting values.)
+
+### Section captions: micro-caps, not small text
+
+A caption that names a slot ("Controls", "Graph", "Live measurements") is not a heading and should
+not read as one. The house recipe, already used by the guide eyebrow, the knowledge blocks,
+`ToolSignature`, `ReferenceBlock` and the category lists:
+
+```css
+font-size: var(--text-xs);        /* --text-sm in roomier, prose-side contexts */
+font-weight: var(--font-weight-semibold);
+text-transform: uppercase;
+letter-spacing: 0.06em;           /* 0.05em at --text-sm */
+color: var(--color-text-muted);
+```
+
+Uppercase at this size reads as a *label* rather than as one more line of prose, which is what lets
+the eye skip the captions and land on the content. Keep the element an `<h2>` for the outline and
+screen-reader navigation; this is a paint change, not a semantic one.
+
+**One real heading per widget.** The captions name slots; the heading names the thing. Give it
+`--text-base`/semibold, normal case, and `--color-text`, and remember to reset `text-transform`
+and `letter-spacing` if it shares a class with the captions.
+
+### Media that sizes itself
+
+A `<canvas>` (or any element whose box JS computes) must declare its box in **CSS**, from a
+build-time value, not by having a script set `style.width`/`maxWidth` after load. The simulator
+capped its canvas in `boot.ts`, so every page painted a full-width 150px-tall canvas and then
+snapped to its real size once the module loaded. `aspect-ratio` plus a `max-width` custom property
+emitted by the component reserves the exact box on first paint, and the script then computes the
+same number and has nothing to reflow.
+
+**If you cap one element, cap what lines up with it.** A capped-and-centred canvas left its own
+Play button under empty space and its speed buttons hanging past its right edge. Whatever sits
+directly above or below a capped element (its playback row, its graph strip) takes the same
+`max-width`, so the column has one left edge and one right edge.
 
 ---
 

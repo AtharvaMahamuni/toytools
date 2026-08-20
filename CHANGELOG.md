@@ -2,6 +2,60 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.15] - 2026-08-19
+
+### Changed
+
+- **The fourteen simulators lost the furniture around the physics.** Every simulation page carried
+  six panels each wearing a header bar with four move arrows, so a page whose job is to show a
+  pendulum swinging opened with 24 buttons for rearranging the panels around it. The arrows are
+  gone, along with the saved panel order. Nothing about the pendulum, the sliders, the live
+  numbers, the graph or the formula changed; there is simply less to look past to reach them.
+- **The simulator reads as a set of groups rather than a wall.** With the panel borders gone, the
+  space around a group was the only thing left saying where it ended, and there was not enough of
+  it: the gap between two panels was exactly the gap a panel put between its own label and its
+  content, so every gap on the page was the same 12px. Panels are now four times further apart than
+  the things inside them.
+- **Panel labels read as labels.** "Controls", "Graph", "Live measurements" and the rest take the
+  small caps treatment the guides and the knowledge sections already use, so the eye skips them and
+  lands on the content instead of reading them as another line of text. The simulator's own title
+  stays the one full heading on the page, and the real-world examples drawer now matches the four
+  drawers below it rather than looking like a different kind of thing. Buttons also gained a
+  pressed state, which a phone needs because it never shows a hover.
+- **The simulation lines up with its own controls.** The scene was capped in width so a tall
+  scene could not push the dashboard off the first screen, but it was also centred, so it floated
+  inside its column with Play under empty space to its left and the speed buttons sticking out past
+  its right edge. The scene, the playback row and the graph strip below it now share one left edge
+  and one right edge. The cap is worked out when the page is built rather than after the simulation
+  code loads, so the scene also stops jumping from a full-width sliver to its real size on load.
+- **Fixed three smaller alignment faults.** The two centred formula lines sat on axes 14px apart,
+  because the global reading-width cap for paragraphs happened to catch the lower one and not the
+  larger one above it. On a phone, formula terms were laid out in two columns too narrow for them,
+  wrapping labels and values mid-term; each term now gets its own row. And the number boxes in the
+  formula were pushed sideways by whatever width their unit happened to be, so "1 m" and
+  "9.81 m/s2" stacked their boxes 20px apart; the unit column is now a fixed width.
+- **The simulator answers before it asks.** The live readings now sit between the scene and the
+  sliders rather than below them, which is the answer-first order every other tool follows, and the
+  reading the tool is named for (period, wave speed, current, range) is set larger than the three
+  supporting it. Four numbers at one size gave the page nothing to land on.
+- **Less to look at while the simulation runs.** The min and max captions under every slider are
+  gone: the slider shows where you are in its travel, and the presets name the interesting values
+  (Earth, Moon, Jupiter) better than "1.6 to 25" did. The sentence telling you to type into the
+  formula is gone, because the boxes look like boxes. The speed control lost its "Speed" caption
+  and reads as quiet text rather than four more buttons beside Play, with the same tap targets.
+- **Real-world examples moved into a drawer**, matching the four the page already carries below the
+  tool. It is background reading rather than part of running the simulation, and it was the longest
+  thing on the page. Closed drawers are still read by crawlers, so nothing left the HTML. Together
+  with the above, a simulator page on a phone is about a fifth shorter.
+- **The simulator dashboard reads as one surface instead of nine.** The tiles holding the
+  measurements, the formula and the graph never drew an edge of their own, but their contents did:
+  each live reading sat in a bordered card, the formula in a bordered box, the graph canvas in a
+  bordered rectangle, giving every simulator a page of boxes inside boxes. Those edges are now
+  space, and the graph matches the scene canvas it sits beside. The panel labels ("Controls",
+  "Graph", "Formula") are quiet captions rather than headings that competed with the simulation
+  for attention; they remain headings for screen readers and the page outline. The simulator's own
+  title is unchanged and still leads the page.
+
 ## [alpha-v7.14.1] - 2026-08-18
 
 ### Fixed
