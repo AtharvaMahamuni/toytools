@@ -120,6 +120,7 @@ export const PATTERN_ROLES: Record<string, PatternRole> = {
   'structured-validate': 'verify',
   'color-contrast': 'verify',
   'encode-detect': 'verify',
+  'text-inspect': 'verify',
 };
 
 /**

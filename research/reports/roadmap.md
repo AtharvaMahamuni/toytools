@@ -1,8 +1,8 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-08-21T14:39:26.551Z
+Generated: 2026-08-21T16:52:43.648Z
 
-Discovered 78 signals -> 78 unique opportunities (30 recommended, 46 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 78 signals -> 78 unique opportunities (28 recommended, 48 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 - **Statistics Visualizer** (`statistics-visualizer`) - score 81.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
@@ -17,7 +17,6 @@ Discovered 78 signals -> 78 unique opportunities (30 recommended, 46 already shi
 - **Lean Body Mass Calculator** (`lean-body-mass-calculator`) - score 76.5, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
-- **Invisible Character Detector** (`invisible-character-detector`) - score 74.8, reuses text-processor. Weak / incomplete incumbents; Reuses the existing text-processor engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **CSV Column Picker** (`csv-column-picker`) - score 74.7, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
@@ -26,7 +25,6 @@ Discovered 78 signals -> 78 unique opportunities (30 recommended, 46 already shi
 - **Sleep Hours Tracker** (`sleep-hours-tracker`) - score 73.5, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Date Format Detector** (`date-format-detector`) - score 73.2, reuses datetime. Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Body Surface Area Calculator** (`body-surface-area-calculator`) - score 72.9, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Encoding Detector** (`encoding-detector`) - score 72.8, reuses encoding. Weak / incomplete incumbents; Reuses the existing encoding engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **VO2 Max Calculator** (`vo2-max-calculator`) - score 72.2, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 66.6, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links.
 

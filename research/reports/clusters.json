@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T14:39:26.551Z",
+  "generatedAt": "2026-08-21T16:52:43.648Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -90,6 +90,7 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
@@ -112,8 +113,8 @@
       "meanScore": 83.6,
       "internalLinks": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
         "normalize-whitespace",
         "remove-blank-lines",
         "remove-extra-spaces"
@@ -169,6 +170,7 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
@@ -192,9 +194,9 @@
       "internalLinks": [
         "camel-case-converter",
         "find-replace",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
-        "normalize-whitespace",
         "uppercase-converter"
       ]
     },
@@ -265,6 +267,7 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
@@ -287,11 +290,11 @@
       "meanScore": 82,
       "internalLinks": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
-        "remove-accents",
-        "remove-blank-lines"
+        "remove-accents"
       ]
     },
     {
@@ -345,6 +348,7 @@
       "existingMembers": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
         "json-escape",
@@ -357,10 +361,10 @@
       "internalLinks": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ]
     },
     {
@@ -488,6 +492,7 @@
       "existingMembers": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
         "json-escape",
@@ -500,10 +505,10 @@
       "internalLinks": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ]
     },
     {
@@ -515,6 +520,7 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
@@ -537,10 +543,10 @@
       "meanScore": 79.8,
       "internalLinks": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
-        "remove-accents",
         "slugify-text"
       ]
     },
@@ -751,6 +757,7 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
@@ -773,10 +780,10 @@
       "meanScore": 78.5,
       "internalLinks": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
-        "remove-accents",
         "remove-extra-spaces"
       ]
     },
@@ -1150,6 +1157,7 @@
       ],
       "existingMembers": [
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
         "lowercase-converter",
         "normalize-whitespace",
@@ -1172,7 +1180,7 @@
       "meanScore": 74.8,
       "internalLinks": [
         "camel-case-converter",
-        "kebab-case-converter",
+        "invisible-character-detector",
         "normalize-whitespace",
         "remove-line-breaks",
         "slugify-text",
@@ -1446,6 +1454,7 @@
       "existingMembers": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
         "json-escape",
@@ -1457,7 +1466,7 @@
       "meanScore": 72.8,
       "internalLinks": [
         "base64-encoder-decoder",
-        "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "json-escape",
         "punycode-converter",
@@ -1606,6 +1615,7 @@
       "existingMembers": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
         "json-escape",

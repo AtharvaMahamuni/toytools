@@ -1,17 +1,12 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-08-21T15:31:45.366Z
+Generated: 2026-08-21T16:52:45.156Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 
-9 structural silence(s) derived from the catalog; 7 proposal(s) considered, 4 anchored, 0 unanchored. Top latent score 77.1.
+8 structural silence(s) derived from the catalog; 7 proposal(s) considered, 3 anchored, 0 unanchored. Top latent score 76.9.
 
 ## Derived silences (from the catalog alone, nobody proposed these)
-
-### `asymmetry:text-processor` (weight 0.32)
-- **Observed:** The "text-processor" engine has 9 tool(s) that produce text and none that check it.
-- **Therefore:** Someone holding text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
-- **Evidence:** camel-case-converter, kebab-case-converter, lowercase-converter, reverse-text, sentence-case-converter, slugify-text, snake-case-converter, title-case-converter, uppercase-converter
 
 ### `asymmetry:generation` (weight 0.29)
 - **Observed:** The "generation" engine has 5 tool(s) that produce a credential and none that check it.
@@ -54,21 +49,6 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Evidence:** jwt-decoder, csv-to-json-converter, json-formatter, json-minifier
 
 ## Anchored candidates
-
-### Invisible Character Detector  (`invisible-character-detector`)
-
-**Latent score:** 77.1 / 100 (build-worthy)
-
-- **The need, as behaviour:** Retyping the string by hand until the comparison passes, without ever learning why.
-- **Why there is no query for it:** The defect is invisible by definition. The person sees two identical strings and concludes the comparison is broken, so the query they eventually type is about the comparison rather than about the character that is actually there.
-- **What it costs when unmet:** Copies text out of a PDF and a zero-width space breaks an exact-match lookup with no error.; Pastes from a word processor and a non-breaking space stops a CSS class from matching.; Reviews a domain containing a Cyrillic character that renders identically to its ASCII twin.; Trims a string and the trailing character survives because it is not the space they expected.
-- **Engine:** `text-processor` (existing)
-- **Reachable from:** remove-line-breaks, normalize-whitespace, slugify-text, text-compare, camel-case-converter, kebab-case-converter
-
-**Anchored to:**
-- `asymmetry:text-processor` - Sits on "text-processor", which can produce but cannot check.
-
-**Signals:** anchorStrength 0.6, consequence 0.82, reachability 1, namelessness 0.59, algorithmicFit 0.97.
 
 ### UUID Inspector  (`uuid-inspector`)
 

@@ -35,6 +35,7 @@ import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-e
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
+import { knowledge as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/knowledge';
 import { knowledge as jsonEscape } from '@tools/developer-utilities/json-escape/knowledge';
 import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-formatter/knowledge';
 import { knowledge as jsonMinifier } from '@tools/developer-utilities/json-minifier/knowledge';
@@ -145,6 +146,7 @@ export const authoredKnowledge: Knowledge[] = [
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
   inflationCalculator,
+  invisibleCharacterDetector,
   jsonEscape,
   jsonFormatter,
   jsonMinifier,

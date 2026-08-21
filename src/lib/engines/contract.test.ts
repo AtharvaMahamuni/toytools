@@ -36,8 +36,11 @@ describe('every tool', () => {
 });
 
 // ── text-processor: process(text) is a pure string→string transform ──────────────────────────
+// Non-dispatching patterns are excluded for the same reason as the encoding block below: a tool that
+// reports on its input rather than transforming it registers no processor.
 describe('text-processor engine', () => {
-  it.each(byEngine('text-processor').map(t => [t.slug, t.processorId] as const))(
+  const dispatchingText = byEngine('text-processor').filter(t => !NON_DISPATCHING_PATTERNS.has(t.pattern as never));
+  it.each(dispatchingText.map(t => [t.slug, t.processorId] as const))(
     '%s resolves a processor that returns a string',
     (_slug, processorId) => {
       const proc = PROCESSORS[processorId!];

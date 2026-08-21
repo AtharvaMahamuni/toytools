@@ -19,15 +19,17 @@
       "category": "text-utilities",
       "patterns": [
         "text-transform",
-        "text-cleanup"
+        "text-cleanup",
+        "text-inspect"
       ],
       "runtimeGlobal": "process",
       "sharedWidget": "src/tools/_shared/TextProcessorWidget.astro",
       "supportedFamilies": [
         "transform",
+        "detect",
         "cleanup"
       ],
-      "toolCount": 18
+      "toolCount": 19
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -1341,6 +1343,27 @@
       "family": "inflation",
       "processorId": "inflation",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "invisible-character-detector": {
+      "name": "Invisible Character Detector",
+      "dir": "src/tools/text/invisible-character-detector",
+      "categorySlug": "text-utilities",
+      "url": "/tool/text/invisible-character-detector/",
+      "engine": "text-processor",
+      "pattern": "text-inspect",
+      "family": "detect",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

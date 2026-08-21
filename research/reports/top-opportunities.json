@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T14:39:26.551Z",
+  "generatedAt": "2026-08-21T16:52:43.648Z",
   "top": [
     {
       "id": "statistics-visualizer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -94,7 +94,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -167,7 +167,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -246,7 +246,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -311,7 +311,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -378,7 +378,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -449,7 +449,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -516,7 +516,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -583,7 +583,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -662,7 +662,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T14:39:26.551Z",
+      "discoveredAt": "2026-08-21T16:52:43.648Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"

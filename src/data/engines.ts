@@ -42,7 +42,7 @@ const ENGINE_IDS = [
 export type EngineId = (typeof ENGINE_IDS)[number];
 
 const PATTERN_IDS = [
-  'text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'encode-detect', 'hash',
+  'text-metric', 'text-transform', 'text-cleanup', 'text-inspect', 'encode-decode', 'encode-detect', 'hash',
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
@@ -64,7 +64,7 @@ export type PatternId = (typeof PATTERN_IDS)[number];
  * Declared here rather than inferred, so adding one stays a deliberate act with a reviewer, and so
  * the processorId rule keeps its full force everywhere else.
  */
-export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect']);
+export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect']);
 
 interface EngineDef {
   id: EngineId;
@@ -80,7 +80,7 @@ interface EngineDef {
 // Declared engine definitions. New engines register here exactly once.
 const engineDefs: EngineDef[] = [
   { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze', sharedWidget: 'TextMetricWidget.astro' },
-  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro' },
+  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup', 'text-inspect'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro' },
   { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode', 'encode-detect'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro' },
   { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro' },
   { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro' },

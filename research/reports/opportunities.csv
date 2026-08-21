@@ -49,7 +49,7 @@ crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),
 simple-harmonic-motion-calculator,simple-harmonic-motion-calculator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,76.1
 hash-identifier,hash-identifier,Hash Identifier and Verifier,Hash Identification,hashing,true,cluster-missing,recommended,low,0.38,0.76,0.92,1,1,0.75,0,0.95,0.64,75.9
 uuid-inspector,uuid-inspector,UUID Inspector,Identifier Inspection,generation,true,cluster-missing,recommended,low,0.3,0.87,0.88,1,1,0.72,0,0.92,0.64,75
-invisible-character-detector,invisible-character-detector,Invisible Character Detector,Invisible Character Detection,text-processor,true,cluster-missing,recommended,medium,0.41,0.9,0.94,0.7,1,0.76,0,0.88,0.64,74.8
+invisible-character-detector,invisible-character-detector,Invisible Character Detector,Invisible Character Detection,text-processor,true,needs-improvement,already-exists,medium,0.41,0.9,0.94,0.7,1,0.76,0,0.88,0.64,74.8
 csv-column-picker,csv-column-picker,CSV Column Picker,CSV Column Selection,csv,true,cluster-missing,recommended,medium,0.6,0.78,0.8,0.7,1,0.72,0,0.88,0.8,74.7
 ovulation-calculator,ovulation-calculator,Ovulation Calculator,Health Date Calculation,datetime,true,cluster-missing,recommended,low,0.8,0.48,0.92,1,1,0.92,0.5,0.88,0.8,74.6
 function-grapher,function-grapher,Function Grapher,Function Graphing,math-lab,true,cluster-missing,recommended,high,0.9,0.39,0.97,0.4,1,0.96,0,0.85,0.8,74.5
@@ -63,7 +63,7 @@ doppler-effect-calculator,doppler-effect-calculator,Doppler Effect Simulator,Dop
 word-frequency-counter,word-frequency-counter,Word Frequency Counter,Word Frequency Analysis,text-analysis,true,needs-improvement,already-exists,medium,0.72,0.52,0.82,0.7,1,0.77,0,0.65,0.8,73
 body-surface-area-calculator,body-surface-area-calculator,Body Surface Area Calculator,Body Composition Calculation,wellness,true,cluster-missing,recommended,low,0.48,0.76,0.95,1,1,0.79,0.5,0.96,0.64,72.9
 systemd-timer-converter,systemd-timer-converter,Cron to systemd Timer Converter,Schedule Expression Translation,datetime,true,needs-improvement,already-exists,medium,0.29,0.94,0.92,0.7,1,0.72,0,0.95,0.64,72.9
-encoding-detector,encoding-detector,Encoding Detector,Encoding Detection,encoding,true,cluster-missing,recommended,medium,0.34,0.88,0.9,0.7,1,0.74,0,0.95,0.64,72.8
+encoding-detector,encoding-detector,Encoding Detector,Encoding Detection,encoding,true,needs-improvement,already-exists,medium,0.34,0.88,0.9,0.7,1,0.74,0,0.95,0.64,72.8
 momentum-collision-calculator,momentum-collision-calculator,Momentum & Collision Simulator,Momentum and Collisions,physics,true,guide-missing,already-exists,medium,0.72,0.7,0.95,0.7,1,0.77,0,0.8,0.8,72.2
 vo2-max-calculator,vo2-max-calculator,VO2 Max Calculator,Fitness Performance Calculation,wellness,true,cluster-missing,recommended,medium,0.58,0.68,0.9,0.7,1,0.83,0.5,0.85,0.64,72.2
 timezone-converter,timezone-converter,Timezone Converter,Timezone Conversion,datetime,true,needs-improvement,already-exists,high,0.8,0.54,0.86,0.4,1,0.68,0,0.84,0.8,71.9

@@ -1,0 +1,176 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      When you ask <strong>why does my string not match</strong> and both versions look identical on
+      screen, the answer is almost always a character you cannot see. Something in one of them takes
+      up no space, or takes up space while pretending to be a character it is not. The comparison is
+      working correctly; the two strings genuinely differ.
+    </p>
+    <p>
+      To find invisible characters in text, you need something that reports every character by code
+      point rather than by appearance, because appearance is the thing lying to you. Paste the string
+      into the <a href={toolHref}>invisible character detector</a> and it names each one, says where
+      it sits and what it breaks, and hands back the text without them.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Invisible Character Detector →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How the check works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every character in a string has a code point, a number that identifies it exactly. Two
+      characters that render the same way still hold different numbers, and a byte comparison reads
+      the numbers. The check therefore walks the string one character at a time and looks each code
+      point up, which is the one method that cannot be fooled by how something looks.
+    </p>
+    <p>
+      Three classes are worth reporting, and they fail differently. Invisible characters, such as the
+      zero-width space at U+200B and the byte order mark at U+FEFF, occupy no width at all. Confusable
+      characters, such as the non-breaking space at U+00A0 and curly quotes, render as something you
+      recognise while holding a different number. Dangerous characters, meaning lookalike letters from
+      another script and the bidi controls, change what a reader believes without changing what a
+      parser reads.
+    </p>
+    <p>
+      Everything else is left alone. Plain ASCII, ordinary spaces, tabs and newlines are never
+      reported, because a hidden characters in text check that fires on every string is one people
+      learn to dismiss, and this one has to be believed on the day it matters.
+    </p>
+  </section>
+
+  <section id="trim">
+    <h2>Space vs non-breaking space, and why trim did not help <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An ordinary space is U+0020. A non breaking space is U+00A0. They are drawn the same width by
+      every font you are likely to meet, so the eye confirms them as equal while the bytes disagree.
+      The non-breaking one arrives from word processors, from HTML that used <code>&amp;nbsp;</code>,
+      and from spreadsheets that formatted a number.
+    </p>
+    <p>
+      This is where trim betrays people, because trim does not remove every kind of space. It strips
+      a specific list of whitespace characters, and U+00A0 is absent from that list in most languages. Therefore a trailing non-breaking space
+      survives the trim, sits invisibly at the end of your value, and leaves the comparison failing
+      for a reason nothing in the stack trace mentions. The same holds for the narrow no-break space
+      at U+202F common in French text and the ideographic space at U+3000 common in CJK input.
+    </p>
+    <p>
+      So to remove zero width space characters and their relatives, replace them rather than trim
+      them. Deleting the zero-width ones outright and substituting a plain space for each confusable
+      one restores the string you thought you had, which is exactly what the cleaned output on the
+      tool contains. For example, a value that failed a lookup for three days comes back identical to
+      the one in the database after a single pass.
+    </p>
+  </section>
+
+  <section id="homoglyph">
+    <h2>A typo vs a homoglyph <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A typo is an accident and reads as one. A homoglyph is a letter from another script chosen
+      because it renders identically to the Latin one it replaces. Cyrillic а at U+0430 and Latin a at
+      U+0061 are different characters that nearly every font draws the same way, so no amount of
+      careful reading separates them.
+    </p>
+    <p>
+      That difference matters because a substituted letter produces a string which looks correct to
+      every reviewer and resolves somewhere else. It is the mechanism behind lookalike domains, and
+      the same trick appears in package names and commit authors. To detect homoglyph substitution you
+      have to compare scripts rather than shapes, which is why the tool reports the mix rather than the
+      individual letter.
+    </p>
+    <p>
+      The warning fires only when Latin letters and lookalikes from another script appear together,
+      since that combination is the technique. Text written entirely in Cyrillic is simply Cyrillic,
+      and flagging it would be both wrong and insulting. That restraint is what separates a homoglyph
+      checker worth reading from one that cries wolf.
+    </p>
+    <p>
+      One more mistake belongs here, because it costs whole afternoons: blaming database collation for
+      a mismatch caused by a copied character. Collation decides how equal strings are ordered and
+      compared for case and accents. However, it cannot explain two values that differ by a code point
+      neither of them should contain. Therefore, check the characters before you change a collation
+      setting, since the setting was never the problem.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Example 1, the failed lookup.</strong> A product code copied from a PDF refuses to match
+      the same code in the database. The check reports one finding: U+200B at position 4. A zero-width
+      space rode along with the copy, and no amount of re-typing the query would have revealed it.
+    </p>
+    <p>
+      <strong>Example 2, the class that stopped matching.</strong> A CSS class pasted from a document
+      applies to nothing. The check reports U+00A0 where the space should be. For example,
+      <code>btn primary</code> with a non-breaking space between the words is a single unknown class
+      name rather than two, and the browser reports no error at all.
+    </p>
+    <p>
+      <strong>Example 3, the domain that passed review.</strong> Paste <code>pаypal.com</code>, the
+      sample on the tool. It reports a Cyrillic а at position 1 and raises the script-mix warning.
+      Nothing about the rendered text distinguishes it from the real domain, which is the entire
+      point of the substitution.
+    </p>
+  </section>
+
+  <section id="where-they-come-from">
+    <h2>Where they come from <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most arrive by accident. Copying from a PDF brings soft hyphens and odd spaces, because the
+      document was typeset rather than written. Word processors substitute curly quotes as you type,
+      which is why a snippet pasted into code fails to parse. Spreadsheets insert non-breaking spaces
+      into formatted numbers. Rich-text email adds zero-width joiners around styled runs.
+    </p>
+    <p>
+      A small number arrive on purpose, and those are the ones the warnings exist for. A bidi override
+      in a source file reorders how the line displays without changing what the compiler sees. A
+      lookalike letter in a hostname produces an address that reads correctly and goes elsewhere.
+      Neither is a formatting artefact, so neither should be cleaned away without first understanding
+      how it got there.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

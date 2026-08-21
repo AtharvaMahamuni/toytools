@@ -1,28 +1,7 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T15:31:45.366Z",
+  "generatedAt": "2026-08-21T16:52:45.156Z",
   "signals": [
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:text-processor",
-      "observation": "The \"text-processor\" engine has 9 tool(s) that produce text and none that check it.",
-      "implication": "Someone holding text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter",
-        "reverse-text",
-        "sentence-case-converter",
-        "slugify-text",
-        "snake-case-converter",
-        "title-case-converter",
-        "uppercase-converter"
-      ],
-      "engines": [
-        "text-processor"
-      ],
-      "weight": 0.32
-    },
     {
       "kind": "asymmetry",
       "id": "asymmetry:generation",
@@ -160,43 +139,6 @@
   ],
   "candidates": [
     {
-      "id": "invisible-character-detector",
-      "title": "Invisible Character Detector",
-      "proposedTool": "invisible-character-detector",
-      "proposedEngine": "text-processor",
-      "engineExists": true,
-      "need": "Retyping the string by hand until the comparison passes, without ever learning why.",
-      "whyUnnamed": "The defect is invisible by definition. The person sees two identical strings and concludes the comparison is broken, so the query they eventually type is about the comparison rather than about the character that is actually there.",
-      "consequenceOf": [
-        "Copies text out of a PDF and a zero-width space breaks an exact-match lookup with no error.",
-        "Pastes from a word processor and a non-breaking space stops a CSS class from matching.",
-        "Reviews a domain containing a Cyrillic character that renders identically to its ASCII twin.",
-        "Trims a string and the trailing character survives because it is not the space they expected."
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:text-processor",
-          "kind": "asymmetry",
-          "because": "Sits on \"text-processor\", which can produce but cannot check."
-        }
-      ],
-      "bridges": [
-        "remove-line-breaks",
-        "normalize-whitespace",
-        "slugify-text",
-        "text-compare",
-        "camel-case-converter",
-        "kebab-case-converter"
-      ],
-      "anchorStrength": 0.6,
-      "consequence": 0.82,
-      "reachability": 1,
-      "namelessness": 0.59,
-      "algorithmicFit": 0.97,
-      "latentScore": 77.1,
-      "status": "candidate"
-    },
-    {
       "id": "uuid-inspector",
       "title": "UUID Inspector",
       "proposedTool": "uuid-inspector",
@@ -318,10 +260,10 @@
   ],
   "unanchored": [],
   "summary": {
-    "signals": 9,
+    "signals": 8,
     "considered": 7,
-    "anchored": 4,
+    "anchored": 3,
     "unanchored": 0,
-    "topScore": 77.1
+    "topScore": 76.9
   }
 }

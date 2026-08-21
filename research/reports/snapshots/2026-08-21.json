@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T14:39:26.551Z",
+  "generatedAt": "2026-08-21T16:52:43.648Z",
   "discovered": 78,
   "deduped": 78,
-  "alreadyExists": 46,
-  "recommended": 30,
+  "alreadyExists": 48,
+  "recommended": 28,
   "missingEngines": 0,
   "topScore": 85.9,
-  "latentSignals": 10,
-  "latentCandidates": 5,
+  "latentSignals": 8,
+  "latentCandidates": 3,
   "nextBuild": "statistics-visualizer"
 }

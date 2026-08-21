@@ -121,7 +121,11 @@ const THRESHOLDS = {
   // 2026-08-21: 0.601 (65/108). encoding-detector ships with its chain note. A decode that succeeds
   //   and returns something still encoded is indistinguishable from a corrupt one, so the tool says
   //   the value is wrapped twice and offers the next peel rather than leaving the user to guess.
-  coverage: 0.601,
+  // 2026-08-21: 0.605 (66/109). invisible-character-detector ships with its script-mix warning. A
+  //   Cyrillic letter that renders as its ASCII twin passes every visual review, so pointing at the
+  //   character is not enough: the reader is told the text mixes scripts and that this is a
+  //   technique rather than a typo. It stays silent for text that is simply not Latin.
+  coverage: 0.605,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

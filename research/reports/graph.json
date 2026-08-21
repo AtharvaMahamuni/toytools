@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T14:39:26.551Z",
+  "generatedAt": "2026-08-21T16:52:43.648Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -75,25 +75,25 @@
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ],
       "relatedGuides": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ],
       "relatedFaqs": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ]
     },
     {
@@ -707,7 +707,7 @@
         "url-encoder-decoder",
         "punycode-converter",
         "json-escape",
-        "binary-text-converter"
+        "encoding-detector"
       ],
       "relatedGuides": [
         "base64-encoder-decoder",
@@ -715,7 +715,7 @@
         "url-encoder-decoder",
         "punycode-converter",
         "json-escape",
-        "binary-text-converter"
+        "encoding-detector"
       ],
       "relatedFaqs": [
         "base64-encoder-decoder",
@@ -723,7 +723,7 @@
         "url-encoder-decoder",
         "punycode-converter",
         "json-escape",
-        "binary-text-converter"
+        "encoding-detector"
       ]
     },
     {
@@ -954,24 +954,24 @@
         "normalize-whitespace",
         "slugify-text",
         "text-compare",
-        "camel-case-converter",
-        "kebab-case-converter"
+        "invisible-character-detector",
+        "camel-case-converter"
       ],
       "relatedGuides": [
         "remove-line-breaks",
         "normalize-whitespace",
         "slugify-text",
         "text-compare",
-        "camel-case-converter",
-        "kebab-case-converter"
+        "invisible-character-detector",
+        "camel-case-converter"
       ],
       "relatedFaqs": [
         "remove-line-breaks",
         "normalize-whitespace",
         "slugify-text",
         "text-compare",
-        "camel-case-converter",
-        "kebab-case-converter"
+        "invisible-character-detector",
+        "camel-case-converter"
       ]
     },
     {
@@ -1689,25 +1689,25 @@
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "normalize-whitespace",
-        "remove-accents"
+        "normalize-whitespace"
       ],
       "relatedGuides": [
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "normalize-whitespace",
-        "remove-accents"
+        "normalize-whitespace"
       ],
       "relatedFaqs": [
         "slugify-text",
         "lowercase-converter",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "normalize-whitespace",
-        "remove-accents"
+        "normalize-whitespace"
       ]
     },
     {
@@ -1730,25 +1730,25 @@
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "remove-accents"
+        "lowercase-converter"
       ],
       "relatedGuides": [
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "remove-accents"
+        "lowercase-converter"
       ],
       "relatedFaqs": [
         "remove-extra-spaces",
         "normalize-whitespace",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "remove-accents"
+        "lowercase-converter"
       ]
     },
     {
@@ -1772,24 +1772,24 @@
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "invisible-character-detector",
+        "kebab-case-converter"
       ],
       "relatedGuides": [
         "remove-blank-lines",
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "invisible-character-detector",
+        "kebab-case-converter"
       ],
       "relatedFaqs": [
         "remove-blank-lines",
         "normalize-whitespace",
         "remove-extra-spaces",
         "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter"
+        "invisible-character-detector",
+        "kebab-case-converter"
       ]
     },
     {
@@ -1824,25 +1824,25 @@
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "normalize-whitespace"
+        "lowercase-converter"
       ],
       "relatedGuides": [
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "normalize-whitespace"
+        "lowercase-converter"
       ],
       "relatedFaqs": [
         "uppercase-converter",
         "find-replace",
         "camel-case-converter",
+        "invisible-character-detector",
         "kebab-case-converter",
-        "lowercase-converter",
-        "normalize-whitespace"
+        "lowercase-converter"
       ]
     },
     {
@@ -1886,25 +1886,25 @@
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ],
       "relatedGuides": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ],
       "relatedFaqs": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter"
+        "json-escape"
       ]
     },
     {
@@ -2153,25 +2153,25 @@
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
+        "invisible-character-detector",
         "normalize-whitespace",
-        "remove-accents",
-        "remove-blank-lines"
+        "remove-accents"
       ],
       "relatedGuides": [
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
+        "invisible-character-detector",
         "normalize-whitespace",
-        "remove-accents",
-        "remove-blank-lines"
+        "remove-accents"
       ],
       "relatedFaqs": [
         "kebab-case-converter",
         "lowercase-converter",
         "camel-case-converter",
+        "invisible-character-detector",
         "normalize-whitespace",
-        "remove-accents",
-        "remove-blank-lines"
+        "remove-accents"
       ]
     },
     {
@@ -2626,11 +2626,6 @@
     {
       "from": "binary-text-converter",
       "to": "html-entity-encoder-decoder",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "binary-text-converter",
-      "to": "punycode-converter",
       "kind": "links-to-tool"
     },
     {
@@ -3210,11 +3205,6 @@
     },
     {
       "from": "invisible-character-detector",
-      "to": "kebab-case-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "invisible-character-detector",
       "to": "normalize-whitespace",
       "kind": "links-to-tool"
     },
@@ -3735,11 +3725,6 @@
     },
     {
       "from": "remove-line-breaks",
-      "to": "lowercase-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "remove-line-breaks",
       "to": "normalize-whitespace",
       "kind": "links-to-tool"
     },
@@ -3815,11 +3800,6 @@
     },
     {
       "from": "reverse-text",
-      "to": "normalize-whitespace",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "reverse-text",
       "to": "remove-accents",
       "kind": "shares-engine"
     },
@@ -3881,11 +3861,6 @@
     {
       "from": "rot13-encoder-decoder",
       "to": "html-entity-encoder-decoder",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "rot13-encoder-decoder",
-      "to": "punycode-converter",
       "kind": "links-to-tool"
     },
     {
@@ -4137,11 +4112,6 @@
       "from": "slugify-text",
       "to": "remove-accents",
       "kind": "shares-engine"
-    },
-    {
-      "from": "slugify-text",
-      "to": "remove-blank-lines",
-      "kind": "links-to-tool"
     },
     {
       "from": "slugify-text",

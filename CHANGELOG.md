@@ -2,6 +2,27 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.20] - 2026-08-21
+
+### Added
+
+- **Invisible Character Detector** at `/tool/text/invisible-character-detector/`, with a guide at
+  `/guide/text/find-invisible-characters/`. When two strings look identical and an exact-match
+  comparison says they differ, this names the character responsible, says where it sits and what it
+  breaks, and hands back the text without it. It reports zero-width spaces and the byte order mark,
+  spaces that are not U+0020, curly quotes, bidi controls and lookalike letters from other scripts.
+  Plain ASCII, ordinary spaces, tabs and newlines are never reported, because a check that fires on
+  every string is one people learn to dismiss.
+- **Its craft: a warning when the text mixes scripts.** A Cyrillic letter that renders as its ASCII
+  twin passes every visual review, which is how lookalike domains and disguised commits get
+  approved. Pointing at the character is not enough when it is wearing another letter's face, so the
+  tool says the text mixes scripts and that this is a technique rather than a typo. It stays silent
+  for text that is simply not Latin, since flagging Russian for being Russian would be both wrong
+  and useless.
+- **`text-inspect`**, a pattern for tools that sit on the text-processor engine to report on input
+  rather than transform it. Shipping this tool closes the `asymmetry:text-processor` silence that
+  recommended it: nine tools produced transformed text and none could check any of it.
+
 ## [alpha-v7.19] - 2026-08-21
 
 ### Added

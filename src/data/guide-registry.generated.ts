@@ -35,6 +35,7 @@ export const authoredGuideSlugs = [
   'html-entity-encoder-decoder',
   'ideal-weight-calculator',
   'inflation-calculator',
+  'invisible-character-detector',
   'json-escape',
   'json-formatter',
   'json-minifier',

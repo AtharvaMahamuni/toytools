@@ -35,6 +35,7 @@ import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-enco
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
+import { config as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
 import { config as jsonMinifier } from '@tools/developer-utilities/json-minifier/config';
@@ -145,6 +146,7 @@ export const toolConfigs: ToolConfig[] = [
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
   inflationCalculator,
+  invisibleCharacterDetector,
   jsonEscape,
   jsonFormatter,
   jsonMinifier,
