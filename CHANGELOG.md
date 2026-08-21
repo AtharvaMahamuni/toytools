@@ -2,6 +2,29 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.21] - 2026-08-21
+
+### Changed
+
+- **Category pages stopped drawing a line between every tool.** On the text page that was a rule
+  under each of thirty entries across four groups, which made a simple list look like a table.
+  The lines under the page header, under each heading in the directory, and above the guides list
+  are gone too. Space separates them now, as it does everywhere else on the site.
+- **Every category page now says what its tools have in common.** Underneath the list there is a
+  short piece about the group: what the tools are for, which ones get confused with each other, and
+  where the edges are. Margin against markup on the number page, why the counters disagree on the
+  text page, why a BMI is a starting point and not a measurement on the health page. It sits below
+  the tools so anyone who came for a tool reaches it first.
+
+### Fixed
+
+- **Category pages were invisible to search engines as listings.** They already asked to be indexed
+  and were already in the sitemap, but they carried no structured data at all, so nothing said the
+  page was a list or what was on it. They now describe themselves as a collection, name every tool
+  in it, and carry the same breadcrumb data the tool and guide pages have had all along.
+- **An em-dash was rendering on nine category pages**, in the line describing grouped tools. The
+  site's writing rule is that authored content has none.
+
 ## [alpha-v7.20] - 2026-08-21
 
 ### Added

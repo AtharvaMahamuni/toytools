@@ -16,6 +16,17 @@ export interface Category {
    *  the homepage falls back to the category's first three tools. */
   highlights?: string[];
   toolCount: number;
+  /**
+   * Two or three paragraphs about the category itself, rendered under the tool list.
+   *
+   * A category page was otherwise a heading, a one-line description and a list of links, which is
+   * thin whichever way a crawler reads it: nothing on the page says what the tools have in common,
+   * when you would reach for one, or what the words in them mean. These pages already carry
+   * `index,follow` and sit in the sitemap, so thin content was the thing actually holding them
+   * back. Written for a reader, not stuffed: it says what the group is for and where its edges
+   * are. No em-dashes, per the site's writing rule.
+   */
+  intro?: string[];
   accent?: string;
   segment: string; // short URL path segment used in /tools/[segment]/[slug]/
   engines: string[]; // engine ids this category owns (enables future auto-generated category pages)

@@ -49,7 +49,7 @@ for (const t of categoryTools) {
     seenGroups.add(group.id);
     section.rows.push({
       label: group.name,
-      description: 'One workspace, every mode — input carries across.',
+      description: 'One workspace, every mode, and your input carries across.',
       href: toolHref(group.members[0]!.slug),
       chips: group.members.map(m => ({ label: m.label, href: toolHref(m.slug) })),
     });
@@ -111,7 +111,6 @@ const showHeadings = ordered.length > 1;
   }
 
   .cat-row {
-    border-bottom: var(--border);
     padding-block: var(--space-3);
   }
 

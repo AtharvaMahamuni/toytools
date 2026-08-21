@@ -20,6 +20,41 @@ const { category, tools: categoryTools } = Astro.props;
 // The breadcrumb keeps the short name (it is a trail, not a description); the title and H1 use the
 // headline when one is set, so "Physics" can stay the nav label while the page says what it holds.
 const headline = category.headline ?? category.name;
+
+const abs = (path: string): string =>
+  Astro.site ? new URL(withBase(path), Astro.site).href : withBase(path);
+
+// A category page listed up to thirty tools and carried no structured data at all, so nothing told
+// a crawler the page was a listing or what it listed. Tool and guide pages have had schema since
+// they were built; this was the gap. CollectionPage with an ItemList naming every tool, plus the
+// BreadcrumbList the other page types already emit.
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: headline,
+  description: category.description,
+  url: Astro.url.href,
+  isPartOf: { '@type': 'WebSite', name: 'ToyTools', url: abs('/') },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: categoryTools.length,
+    itemListElement: categoryTools.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.name,
+      url: abs(`/tool/${category.segment}/${t.slug}/`),
+    })),
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: category.name },
+  ],
+};
 ---
 
 <BaseLayout
@@ -27,6 +62,9 @@ const headline = category.headline ?? category.name;
   description={category.description}
   maxWidth="category"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
   <div class="category-header">
     <Breadcrumb items={[
       { label: 'Home', href: withBase('/') },
@@ -43,14 +81,37 @@ const headline = category.headline ?? category.name;
   </div>
 
   <CategoryToolList category={category} tools={categoryTools} />
+
+  {category.intro && category.intro.length > 0 && (
+    <section class="category-intro" aria-labelledby="about-category">
+      <h2 id="about-category">About {headline}</h2>
+      {category.intro.map((para) => <p>{para}</p>)}
+    </section>
+  )}
   <CategoryGuideList category={category} tools={categoryTools} />
 </BaseLayout>
 
 <style>
   .category-header {
-    padding-bottom: var(--space-8);
-    border-bottom: var(--border);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-10);
+  }
+
+  /* Below the tools, not above them: someone who came for a tool should reach it first, and a
+     crawler reads the whole document either way. */
+  .category-intro {
+    margin-top: var(--space-12);
+    max-width: var(--width-prose);
+  }
+
+  .category-intro h2 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .category-intro p {
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
   }
 
   .category-title {
