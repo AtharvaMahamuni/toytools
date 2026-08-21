@@ -2,6 +2,32 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.18] - 2026-08-21
+
+### Added
+
+- **The research engine now scores whether we could rank for a tool at all**, not just whether the
+  tool is worth building. Its old top three recommendations were a pregnancy due-date calculator, an
+  ovulation calculator and a blood-pressure tracker, ranked above everything else on search demand
+  and build cost. Those are the query classes where Google weights site-level trust hardest, and
+  nothing on this site carries a citation or a named author, so a better calculator was never going
+  to enter those results. Seed records now state `authorityRequired` alongside `demand` and
+  `competition`, and the top recommendation moved to tools a correct implementation can actually win.
+- **Five latent-demand proposals**, for needs with no search query behind them: an encoding detector,
+  an invisible-character detector, a UUID inspector, a hash identifier and a date-format detector.
+  Each is anchored to a structural silence the engine derives from the catalog itself, and each
+  records the mid-task failures its users hit, so the craft decision has evidence behind it rather
+  than being invented at scaffold time.
+
+### Fixed
+
+- **The research engine no longer reports two holes the catalog had already filled.** It read
+  producer/verifier intent from a regex over pattern names, so it missed `color-contrast-checker`
+  (it verifies, but its pattern name says nothing about checking) and could not see `csv-diff` at
+  all, because tool-group members must share one pattern and `csv-to-tsv` has the same one. Roles are
+  now declared against the registry, by family where a shared pattern cannot tell siblings apart, and
+  the derived silences dropped from twelve to ten with both false positives gone.
+
 ## [alpha-v7.17.2] - 2026-08-21
 
 ### Changed

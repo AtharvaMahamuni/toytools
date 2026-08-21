@@ -84,6 +84,21 @@ export interface SeedRecord {
    * Defaults high when omitted, since candidate utility tools are algorithmic by selection.
    */
   algorithmicFit?: number;
+  /**
+   * 0-100: how much ranking for this need depends on WHO published the page rather than how good it
+   * is. High for query classes where Google weights site-level trust hardest (medical, financial and
+   * legal advice - the "your money or your life" classes); low for utility queries a correct tool
+   * wins on its own.
+   *
+   * This is a different fact from `competition`, and conflating them is what put three medical
+   * calculators at the top of the roadmap: `competition` says how crowded and how weak the SERP is,
+   * this says whether we could enter it at all. A wide-open medical SERP is still unreachable for a
+   * domain with no citations and no named author.
+   *
+   * Omitted is a legitimate answer: the scorer falls back to the institutional share of
+   * `existingSolutions`, by TLD rule. State it explicitly when the fallback would be wrong.
+   */
+  authorityRequired?: number;
   /** Present when this record is a claim about latent demand. See LatentEvidence. */
   latent?: LatentEvidence;
 }
@@ -118,6 +133,8 @@ export interface RawOpportunity {
   difficulty: Difficulty;
   localization: number;
   algorithmicFit: number;
+  /** Carried verbatim; undefined means "derive it from existingSolutions". See SeedRecord. */
+  authorityRequired?: number;
   /** Carried verbatim from the seed record; undefined for ordinary demand-driven opportunities. */
   latent?: LatentEvidence;
 }

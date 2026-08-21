@@ -76,6 +76,77 @@ export const ENGINE_IO: Record<string, EngineIo> = {
   productivity: { in: 'state', out: 'state' },
 };
 
+/**
+ * Pattern -> whether it PRODUCES an artifact someone must later trust, or VERIFIES one.
+ *
+ * Declared here, keyed by the pattern ids in src/data/engines.ts, because the asymmetry signal turns
+ * entirely on this classification and the previous regex over pattern text got it wrong in both
+ * directions: `color-contrast` verifies but contains no verifying word, so the analyzer reported a
+ * hole the catalog had already filled.
+ *
+ * Pattern alone cannot always answer it. `validate-registry` requires every member of a tool group
+ * to share one engine/pattern, so `csv-diff` and `csv-to-tsv` are both `csv-transform` and no rule
+ * over that id could ever separate the comparer from the converter. FAMILY_ROLES below is the finer
+ * grain the registry already carries for exactly that case. Reading a tool's slug is not an option -
+ * CatalogRef documents that this intent must come from the registry, not be inferred from a name.
+ *
+ * A pattern absent from this map has NEITHER role and contributes no signal, matching how ENGINE_IO
+ * treats an unlisted engine: silence is always safer than a fabricated hole, because a missed hole
+ * costs an idea and a fabricated one costs a build.
+ *
+ * `text-cleanup` is the deliberate omission worth naming. It arguably produces text you carry away,
+ * but listing it would only widen the evidence behind a signal `text-transform` already raises, and
+ * it would raise the anchor score of a proposal aimed at that same silence. The classification is
+ * left exactly where it was so this change cannot flatter its own recommendations.
+ */
+export type PatternRole = 'produce' | 'verify';
+
+export const PATTERN_ROLES: Record<string, PatternRole> = {
+  // Produce: the output is an artifact the person carries somewhere else and has to trust.
+  'text-transform': 'produce',
+  'encode-decode': 'produce',
+  hash: 'produce',
+  'structured-transform': 'produce',
+  'csv-transform': 'produce',
+  'generate-credential': 'produce',
+  'generate-identifier': 'produce',
+  'generate-placeholder': 'produce',
+  'generate-code': 'produce',
+  'color-convert': 'produce',
+  'unit-convert': 'produce',
+  'datetime-convert': 'produce',
+
+  // Verify: the output is a judgement about an artifact the person already holds.
+  'structured-validate': 'verify',
+  'color-contrast': 'verify',
+};
+
+/**
+ * Family -> role, for the tools whose pattern is forced to be shared with siblings that do something
+ * else. Consulted BEFORE the pattern, since a family is the narrower statement of the two.
+ *
+ * Deliberately tiny, and it must stay that way: a family only belongs here when it names the act of
+ * checking something. `checksum` is the instructive near-miss - `crc32-hash-generator` sits in it and
+ * produces a digest rather than checking one, which is why this is a declared map and not another
+ * regex over names.
+ */
+export const FAMILY_ROLES: Record<string, PatternRole> = {
+  compare: 'verify',
+  'text-compare': 'verify',
+};
+
+export function isProducing(pattern: string, family = ''): boolean {
+  return role(pattern, family) === 'produce';
+}
+
+export function isVerifying(pattern: string, family = ''): boolean {
+  return role(pattern, family) === 'verify';
+}
+
+function role(pattern: string, family: string): PatternRole | undefined {
+  return FAMILY_ROLES[family] ?? PATTERN_ROLES[pattern];
+}
+
 export function formatLabel(id: string): string {
   return FORMATS[id]?.label ?? id;
 }

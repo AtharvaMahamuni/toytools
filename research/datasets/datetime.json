@@ -103,6 +103,42 @@
       "evergreen": 84,
       "difficulty": "high",
       "localization": 92
+    },
+    {
+      "query": "is this date day first or month first",
+      "problem": "I have a date like 03/04/2026 and no way to tell whether it means 3 April or 4 March.",
+      "intent": "transactional",
+      "transformation": "Date Format Disambiguation",
+      "proposedTool": "date-format-detector",
+      "proposedName": "Date Format Detector",
+      "proposedEngine": "datetime",
+      "searchQueries": ["is this date dd/mm or mm/dd", "ambiguous date format", "how will this date be parsed", "excel date locale wrong", "iso 8601 vs us date"],
+      "existingSolutions": ["spreadsheet locale settings", "language date parsing docs", "guesswork"],
+      "solutionWeaknesses": ["a spreadsheet silently applies one interpretation and shows no warning", "docs describe the parser rather than your specific string"],
+      "userFailures": [
+        "Opens a European CSV export in a US locale and twelve rows silently shift month and day.",
+        "Pastes a timestamp with no zone and the stored date lands one day earlier than intended.",
+        "Reads a date that is unambiguous in one row and ambiguous in the next without noticing the difference.",
+        "Assumes a two-digit year maps to 20xx when the source system pivots at a different century."
+      ],
+      "relatedProblems": ["locale-dependent parsing", "two-digit years", "timezone-less timestamps"],
+      "relatedTools": ["timezone-converter", "unix-timestamp-converter", "date-difference-calculator"],
+      "demand": 36,
+      "competition": 22,
+      "authorityRequired": 5,
+      "evergreen": 93,
+      "difficulty": "medium",
+      "localization": 80,
+      "algorithmicFit": 95,
+      "latent": {
+        "whyUnnamed": "Every date is unambiguous to the person who wrote it. The ambiguity exists only in the handoff, and the reader cannot know it is there, so the failure is discovered downstream by someone who never saw the original string.",
+        "consequence": 78,
+        "observedBehaviour": [
+          "Eyeballing a column for values above 12 to work out which field is the month.",
+          "Re-exporting the file with different locale settings until the dates look right.",
+          "Correcting individual rows by hand after a report shows an impossible date."
+        ]
+      }
     }
   ]
 }

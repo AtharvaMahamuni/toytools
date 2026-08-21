@@ -172,6 +172,114 @@
       "evergreen": 80,
       "difficulty": "low",
       "localization": 92
+    },
+    {
+      "query": "what encoding is this string",
+      "problem": "I am holding a string that should have decoded cleanly and did not, and I do not know which encoding it actually is.",
+      "intent": "transactional",
+      "transformation": "Encoding Detection",
+      "proposedTool": "encoding-detector",
+      "proposedName": "Encoding Detector",
+      "proposedEngine": "encoding",
+      "searchQueries": ["what encoding is this", "identify base64 or hex", "is this base64url", "detect string encoding", "why does my base64 decode to gibberish"],
+      "existingSolutions": ["cyberchef", "stack overflow answers", "trial and error in a REPL"],
+      "solutionWeaknesses": ["cyberchef's magic wand is buried and assumes you know to look for it", "answers are per-case and not reusable", "no tool states WHY a decode failed"],
+      "userFailures": [
+        "Pastes standard base64 into a base64url decoder, gets mojibake, and blames the source data.",
+        "Decodes once, sees another encoded string, and cannot tell it was double-encoded rather than corrupt.",
+        "Assumes a hex digest is base64 because both look like random characters of similar length.",
+        "Strips padding that was load-bearing and gets a silently truncated final byte."
+      ],
+      "relatedProblems": ["double encoding", "base64url vs base64", "percent-encoding in a query string"],
+      "relatedTools": ["base64-encoder-decoder", "hex-encoder-decoder", "url-encoder-decoder", "punycode-converter", "json-escape"],
+      "demand": 34,
+      "competition": 30,
+      "authorityRequired": 5,
+      "evergreen": 90,
+      "difficulty": "medium",
+      "localization": 95,
+      "algorithmicFit": 96,
+      "latent": {
+        "whyUnnamed": "You cannot search for the encoding of a string while you still believe you know what it is. The query only forms after someone tells you the assumption was wrong, so the search that would find this tool happens after the failure it prevents.",
+        "consequence": 72,
+        "observedBehaviour": [
+          "Pasting the string into three different decoders in turn until one returns something readable.",
+          "Asking a colleague to look at it because it looks like base64 but does not decode.",
+          "Shipping the mojibake downstream and discovering it in a customer-facing field."
+        ]
+      }
+    },
+    {
+      "query": "which hash algorithm produced this digest",
+      "problem": "I have a digest and a file and I cannot tell whether they disagree because the file is wrong or because I am comparing two different algorithms.",
+      "intent": "transactional",
+      "transformation": "Hash Identification",
+      "proposedTool": "hash-identifier",
+      "proposedName": "Hash Identifier and Verifier",
+      "proposedEngine": "hashing",
+      "searchQueries": ["what hash is this", "identify hash type", "verify checksum online", "sha256 vs sha1 length", "why does my checksum not match"],
+      "existingSolutions": ["hashes.com", "command-line shasum", "cyberchef"],
+      "solutionWeaknesses": ["identifier sites are ad-heavy and upload-based", "the CLI requires knowing the algorithm first", "no tool explains a near-miss"],
+      "userFailures": [
+        "Compares a SHA-1 against a SHA-256 and concludes the download is corrupt.",
+        "Sees an uppercase digest beside a lowercase one and reads a mismatch that is not one.",
+        "Cannot distinguish a truncated digest from a different algorithm of the same prefix.",
+        "Pastes a digest with a trailing filename from a .sha256 file and gets no match."
+      ],
+      "relatedProblems": ["checksum verification", "digest length by algorithm", "case sensitivity in hex digests"],
+      "relatedTools": ["sha256-hash-generator", "md5-hash-generator", "sha1-hash-generator", "crc32-hash-generator", "sha512-hash-generator"],
+      "demand": 38,
+      "competition": 42,
+      "authorityRequired": 5,
+      "evergreen": 92,
+      "difficulty": "low",
+      "localization": 95,
+      "algorithmicFit": 98,
+      "latent": {
+        "whyUnnamed": "A digest carries no label. The person holding one believes it is the checksum, singular, so the possibility that they are comparing two different algorithms never becomes a thought, let alone a query.",
+        "consequence": 68,
+        "observedBehaviour": [
+          "Re-downloading a large file repeatedly because the checksum keeps failing.",
+          "Counting digest characters by hand to guess the algorithm.",
+          "Abandoning verification entirely and installing the artifact unchecked."
+        ]
+      }
+    },
+    {
+      "query": "is this uuid valid",
+      "problem": "A system rejected my UUID and I cannot see what is wrong with it by looking at it.",
+      "intent": "transactional",
+      "transformation": "Identifier Inspection",
+      "proposedTool": "uuid-inspector",
+      "proposedName": "UUID Inspector",
+      "proposedEngine": "generation",
+      "searchQueries": ["uuid validator", "what version is this uuid", "uuid v4 vs v7", "is this a valid uuid", "decode uuid timestamp"],
+      "existingSolutions": ["regex snippets on stack overflow", "language-specific UUID libraries"],
+      "solutionWeaknesses": ["a regex confirms shape and says nothing about version or variant", "library checks require writing code to answer one question"],
+      "userFailures": [
+        "Supplies a v4 UUID where the schema requires v7 and learns it only from a rejected insert.",
+        "Pastes a UUID missing one character and the resulting error names an unrelated field.",
+        "Treats a v1 UUID as random when it embeds a timestamp and a MAC address.",
+        "Generates a nil UUID as a placeholder and it passes shape validation everywhere downstream."
+      ],
+      "relatedProblems": ["uuid version detection", "sortable identifiers", "nil uuid as a sentinel"],
+      "relatedTools": ["uuid-generator", "random-string-generator", "password-generator"],
+      "demand": 30,
+      "competition": 25,
+      "authorityRequired": 5,
+      "evergreen": 88,
+      "difficulty": "low",
+      "localization": 92,
+      "algorithmicFit": 97,
+      "latent": {
+        "whyUnnamed": "A UUID looks correct to a human at every level except the two bits that encode its version and variant. Nobody searches for a checker because nobody can see the thing that is wrong, and the rejection downstream almost never says wrong UUID version.",
+        "consequence": 64,
+        "observedBehaviour": [
+          "Regenerating the identifier and retrying, hoping the next one is accepted.",
+          "Diffing a working UUID against a failing one character by character.",
+          "Storing a v1 UUID in a public URL without knowing it leaks a host and a timestamp."
+        ]
+      }
     }
   ]
 }

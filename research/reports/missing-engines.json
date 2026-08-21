@@ -1,25 +1,7 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:45:38.636Z",
+  "generatedAt": "2026-08-21T14:39:26.551Z",
   "engines": [
-    {
-      "engine": "loan",
-      "exists": false,
-      "confidence": 0.65,
-      "transformations": [
-        "Loan Amortization",
-        "Mortgage Amortization"
-      ],
-      "unlocksTools": [
-        "loan-calculator",
-        "mortgage-calculator"
-      ],
-      "topScore": 68.5,
-      "rationale": [
-        "2 opportunities share the missing \"loan\" engine.",
-        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
-      ]
-    },
     {
       "engine": "budget",
       "exists": false,
@@ -32,9 +14,27 @@
         "net-worth-calculator",
         "salary-calculator"
       ],
-      "topScore": 67.3,
+      "topScore": 66.6,
       "rationale": [
         "2 opportunities share the missing \"budget\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
+    {
+      "engine": "loan",
+      "exists": false,
+      "confidence": 0.65,
+      "transformations": [
+        "Loan Amortization",
+        "Mortgage Amortization"
+      ],
+      "unlocksTools": [
+        "loan-calculator",
+        "mortgage-calculator"
+      ],
+      "topScore": 66.2,
+      "rationale": [
+        "2 opportunities share the missing \"loan\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     },
@@ -48,7 +48,7 @@
       "unlocksTools": [
         "retirement-calculator"
       ],
-      "topScore": 61.4,
+      "topScore": 58.3,
       "rationale": [
         "1 opportunity share the missing \"retirement\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
@@ -64,7 +64,7 @@
       "unlocksTools": [
         "meal-plan-generator"
       ],
-      "topScore": 46.6,
+      "topScore": 45.5,
       "rationale": [
         "1 opportunity share the missing \"meal-planning\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."

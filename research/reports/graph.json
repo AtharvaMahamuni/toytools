@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:45:38.636Z",
+  "generatedAt": "2026-08-21T14:39:26.551Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -631,6 +631,37 @@
       ]
     },
     {
+      "id": "date-format-detector",
+      "title": "Date Format Detector",
+      "transformation": "Date Format Disambiguation",
+      "engine": "datetime",
+      "existing": false,
+      "relatedTools": [
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter"
+      ],
+      "relatedGuides": [
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter"
+      ],
+      "relatedFaqs": [
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter"
+      ]
+    },
+    {
       "id": "doppler-effect-calculator",
       "title": "Doppler Effect Simulator",
       "transformation": "Doppler Effect",
@@ -663,6 +694,37 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "encoding-detector",
+      "title": "Encoding Detector",
+      "transformation": "Encoding Detection",
+      "engine": "encoding",
+      "existing": false,
+      "relatedTools": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "url-encoder-decoder",
+        "punycode-converter",
+        "json-escape",
+        "binary-text-converter"
+      ],
+      "relatedGuides": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "url-encoder-decoder",
+        "punycode-converter",
+        "json-escape",
+        "binary-text-converter"
+      ],
+      "relatedFaqs": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "url-encoder-decoder",
+        "punycode-converter",
+        "json-escape",
+        "binary-text-converter"
+      ]
     },
     {
       "id": "find-replace",
@@ -724,6 +786,34 @@
         "quadratic-equation-solver",
         "probability-calculator",
         "unit-circle-calculator"
+      ]
+    },
+    {
+      "id": "hash-identifier",
+      "title": "Hash Identifier and Verifier",
+      "transformation": "Hash Identification",
+      "engine": "hashing",
+      "existing": false,
+      "relatedTools": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "crc32-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedGuides": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "crc32-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedFaqs": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "crc32-hash-generator",
+        "sha512-hash-generator"
       ]
     },
     {
@@ -852,6 +942,37 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "invisible-character-detector",
+      "title": "Invisible Character Detector",
+      "transformation": "Invisible Character Detection",
+      "engine": "text-processor",
+      "existing": false,
+      "relatedTools": [
+        "remove-line-breaks",
+        "normalize-whitespace",
+        "slugify-text",
+        "text-compare",
+        "camel-case-converter",
+        "kebab-case-converter"
+      ],
+      "relatedGuides": [
+        "remove-line-breaks",
+        "normalize-whitespace",
+        "slugify-text",
+        "text-compare",
+        "camel-case-converter",
+        "kebab-case-converter"
+      ],
+      "relatedFaqs": [
+        "remove-line-breaks",
+        "normalize-whitespace",
+        "slugify-text",
+        "text-compare",
+        "camel-case-converter",
+        "kebab-case-converter"
+      ]
     },
     {
       "id": "json-escape",
@@ -1028,6 +1149,16 @@
       "relatedFaqs": [
         "compound-interest-calculator"
       ]
+    },
+    {
+      "id": "lorem-ipsum-generator",
+      "title": "Lorem Ipsum Generator",
+      "transformation": "placeholder",
+      "engine": "generation",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "lowercase-converter",
@@ -1291,6 +1422,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "password-generator",
+      "title": "Password Generator",
+      "transformation": "credential",
+      "engine": "generation",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "pendulum-period-calculator",
       "title": "Pendulum Period Calculator",
       "transformation": "oscillations",
@@ -1491,6 +1632,16 @@
       ]
     },
     {
+      "id": "qr-code-generator",
+      "title": "QR Code Generator",
+      "transformation": "code",
+      "engine": "generation",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "quadratic-equation-solver",
       "title": "Quadratic Equation Explorer",
       "transformation": "Quadratic Equations",
@@ -1507,6 +1658,16 @@
         "probability-calculator",
         "quadratic-equation-solver"
       ]
+    },
+    {
+      "id": "random-string-generator",
+      "title": "Random String Generator",
+      "transformation": "credential",
+      "engine": "generation",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "reading-time-calculator",
@@ -2235,6 +2396,44 @@
       "relatedFaqs": []
     },
     {
+      "id": "uuid-generator",
+      "title": "UUID Generator",
+      "transformation": "identifier",
+      "engine": "generation",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "uuid-inspector",
+      "title": "UUID Inspector",
+      "transformation": "Identifier Inspection",
+      "engine": "generation",
+      "existing": false,
+      "relatedTools": [
+        "uuid-generator",
+        "random-string-generator",
+        "password-generator",
+        "lorem-ipsum-generator",
+        "qr-code-generator"
+      ],
+      "relatedGuides": [
+        "uuid-generator",
+        "random-string-generator",
+        "password-generator",
+        "lorem-ipsum-generator",
+        "qr-code-generator"
+      ],
+      "relatedFaqs": [
+        "uuid-generator",
+        "random-string-generator",
+        "password-generator",
+        "lorem-ipsum-generator",
+        "qr-code-generator"
+      ]
+    },
+    {
       "id": "vo2-max-calculator",
       "title": "VO2 Max Calculator",
       "transformation": "Fitness Performance Calculation",
@@ -2376,6 +2575,21 @@
     },
     {
       "from": "age-calculator",
+      "to": "date-format-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "age-calculator",
+      "to": "ovulation-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "age-calculator",
+      "to": "pregnancy-due-date-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "age-calculator",
       "to": "systemd-timer-converter",
       "kind": "shares-engine"
     },
@@ -2398,6 +2612,11 @@
       "from": "binary-text-converter",
       "to": "base64-encoder-decoder",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "binary-text-converter",
+      "to": "encoding-detector",
+      "kind": "shares-engine"
     },
     {
       "from": "binary-text-converter",
@@ -2576,11 +2795,6 @@
     },
     {
       "from": "color-contrast-checker",
-      "to": "color-format-converter",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "color-contrast-checker",
       "to": "color-shades-generator",
       "kind": "shares-engine"
     },
@@ -2603,6 +2817,11 @@
       "from": "color-format-converter",
       "to": "color-contrast-checker",
       "kind": "related-problem"
+    },
+    {
+      "from": "color-format-converter",
+      "to": "color-contrast-checker",
+      "kind": "shares-engine"
     },
     {
       "from": "color-format-converter",
@@ -2682,6 +2901,11 @@
     {
       "from": "combinations-permutations-calculator",
       "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "crc32-hash-generator",
+      "to": "hash-identifier",
       "kind": "shares-engine"
     },
     {
@@ -2801,11 +3025,41 @@
     },
     {
       "from": "date-difference-calculator",
+      "to": "date-format-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-difference-calculator",
+      "to": "ovulation-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-difference-calculator",
+      "to": "pregnancy-due-date-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-difference-calculator",
       "to": "systemd-timer-converter",
       "kind": "shares-engine"
     },
     {
       "from": "date-difference-calculator",
+      "to": "timezone-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-format-detector",
+      "to": "cron-expression-parser",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-format-detector",
+      "to": "systemd-timer-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "date-format-detector",
       "to": "timezone-converter",
       "kind": "shares-engine"
     },
@@ -2835,6 +3089,31 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "encoding-detector",
+      "to": "base64-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "encoding-detector",
+      "to": "hex-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "encoding-detector",
+      "to": "punycode-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "encoding-detector",
+      "to": "shell-quote-escalator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "encoding-detector",
+      "to": "url-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "fraction-calculator",
       "to": "combinations-permutations-calculator",
       "kind": "shares-engine"
@@ -2858,6 +3137,26 @@
       "from": "fraction-calculator",
       "to": "triangle-solver",
       "kind": "shares-engine"
+    },
+    {
+      "from": "hash-identifier",
+      "to": "md5-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "hash-identifier",
+      "to": "sha1-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "hash-identifier",
+      "to": "sha256-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "hash-identifier",
+      "to": "sha512-hash-generator",
+      "kind": "links-to-tool"
     },
     {
       "from": "ideal-gas-law-calculator",
@@ -2902,6 +3201,26 @@
     {
       "from": "inclined-plane-calculator",
       "to": "pendulum-period-calculator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "invisible-character-detector",
+      "to": "camel-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "invisible-character-detector",
+      "to": "kebab-case-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "invisible-character-detector",
+      "to": "normalize-whitespace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "invisible-character-detector",
+      "to": "text-compare",
       "kind": "links-to-tool"
     },
     {
@@ -2982,11 +3301,6 @@
     {
       "from": "loan-calculator",
       "to": "mortgage-calculator",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "matrix-calculator",
-      "to": "triangle-solver",
       "kind": "shares-engine"
     },
     {
@@ -3076,6 +3390,11 @@
     },
     {
       "from": "ohms-law-calculator",
+      "to": "projectile-motion-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "ohms-law-calculator",
       "to": "simple-harmonic-motion-calculator",
       "kind": "shares-engine"
     },
@@ -3121,11 +3440,6 @@
     },
     {
       "from": "one-rep-max-calculator",
-      "to": "running-pace-calculator",
-      "kind": "same-transformation"
-    },
-    {
-      "from": "one-rep-max-calculator",
       "to": "vo2-max-calculator",
       "kind": "same-transformation"
     },
@@ -3136,17 +3450,12 @@
     },
     {
       "from": "ovulation-calculator",
-      "to": "age-calculator",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "ovulation-calculator",
       "to": "cron-expression-parser",
       "kind": "shares-engine"
     },
     {
       "from": "ovulation-calculator",
-      "to": "date-difference-calculator",
+      "to": "date-format-detector",
       "kind": "shares-engine"
     },
     {
@@ -3160,23 +3469,13 @@
       "kind": "shares-engine"
     },
     {
-      "from": "ovulation-calculator",
-      "to": "unix-timestamp-converter",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "pregnancy-due-date-calculator",
-      "to": "age-calculator",
-      "kind": "shares-engine"
-    },
-    {
       "from": "pregnancy-due-date-calculator",
       "to": "cron-expression-parser",
       "kind": "shares-engine"
     },
     {
       "from": "pregnancy-due-date-calculator",
-      "to": "date-difference-calculator",
+      "to": "date-format-detector",
       "kind": "shares-engine"
     },
     {
@@ -3186,22 +3485,12 @@
     },
     {
       "from": "pregnancy-due-date-calculator",
-      "to": "sleep-cycle-calculator",
-      "kind": "same-transformation"
-    },
-    {
-      "from": "pregnancy-due-date-calculator",
       "to": "systemd-timer-converter",
       "kind": "shares-engine"
     },
     {
       "from": "pregnancy-due-date-calculator",
       "to": "timezone-converter",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "pregnancy-due-date-calculator",
-      "to": "unix-timestamp-converter",
       "kind": "shares-engine"
     },
     {
@@ -3262,11 +3551,6 @@
     {
       "from": "projectile-motion-calculator",
       "to": "momentum-collision-calculator",
-      "kind": "shares-engine"
-    },
-    {
-      "from": "projectile-motion-calculator",
-      "to": "ohms-law-calculator",
       "kind": "shares-engine"
     },
     {
@@ -3370,9 +3654,19 @@
       "kind": "shares-engine"
     },
     {
+      "from": "quadratic-equation-solver",
+      "to": "unit-circle-calculator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "remove-accents",
       "to": "camel-case-converter",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-accents",
+      "to": "invisible-character-detector",
+      "kind": "shares-engine"
     },
     {
       "from": "remove-accents",
@@ -3401,6 +3695,11 @@
     },
     {
       "from": "remove-emoji",
+      "to": "invisible-character-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "remove-emoji",
       "to": "kebab-case-converter",
       "kind": "links-to-tool"
     },
@@ -3423,6 +3722,11 @@
       "from": "remove-line-breaks",
       "to": "camel-case-converter",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "remove-line-breaks",
+      "to": "invisible-character-detector",
+      "kind": "shares-engine"
     },
     {
       "from": "remove-line-breaks",
@@ -3496,6 +3800,11 @@
     },
     {
       "from": "reverse-text",
+      "to": "invisible-character-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "reverse-text",
       "to": "kebab-case-converter",
       "kind": "links-to-tool"
     },
@@ -3561,6 +3870,11 @@
     },
     {
       "from": "rot13-encoder-decoder",
+      "to": "encoding-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "rot13-encoder-decoder",
       "to": "hex-encoder-decoder",
       "kind": "links-to-tool"
     },
@@ -3613,6 +3927,11 @@
       "from": "running-pace-calculator",
       "to": "lean-body-mass-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "running-pace-calculator",
+      "to": "one-rep-max-calculator",
+      "kind": "same-transformation"
     },
     {
       "from": "running-pace-calculator",
@@ -3741,12 +4060,22 @@
     },
     {
       "from": "sleep-cycle-calculator",
+      "to": "date-format-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "sleep-cycle-calculator",
       "to": "move-today-tracker",
       "kind": "links-to-tool"
     },
     {
       "from": "sleep-cycle-calculator",
       "to": "ovulation-calculator",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "sleep-cycle-calculator",
+      "to": "pregnancy-due-date-calculator",
       "kind": "same-transformation"
     },
     {
@@ -3783,6 +4112,11 @@
       "from": "slugify-text",
       "to": "camel-case-converter",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "slugify-text",
+      "to": "invisible-character-detector",
+      "kind": "shares-engine"
     },
     {
       "from": "slugify-text",
@@ -3845,6 +4179,11 @@
       "kind": "shares-engine"
     },
     {
+      "from": "triangle-solver",
+      "to": "matrix-calculator",
+      "kind": "shares-engine"
+    },
+    {
       "from": "type-scale-generator",
       "to": "aspect-ratio-calculator",
       "kind": "related-problem"
@@ -3870,11 +4209,6 @@
       "kind": "shares-engine"
     },
     {
-      "from": "unit-circle-calculator",
-      "to": "quadratic-equation-solver",
-      "kind": "shares-engine"
-    },
-    {
       "from": "unix-timestamp-converter",
       "to": "age-calculator",
       "kind": "shares-engine"
@@ -3896,6 +4230,21 @@
     },
     {
       "from": "unix-timestamp-converter",
+      "to": "date-format-detector",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "ovulation-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
+      "to": "pregnancy-due-date-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "unix-timestamp-converter",
       "to": "systemd-timer-converter",
       "kind": "shares-engine"
     },
@@ -3908,6 +4257,31 @@
       "from": "unix-timestamp-converter",
       "to": "timezone-converter",
       "kind": "shares-engine"
+    },
+    {
+      "from": "uuid-inspector",
+      "to": "lorem-ipsum-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "uuid-inspector",
+      "to": "password-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "uuid-inspector",
+      "to": "qr-code-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "uuid-inspector",
+      "to": "random-string-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "uuid-inspector",
+      "to": "uuid-generator",
+      "kind": "links-to-tool"
     },
     {
       "from": "vo2-max-calculator",
