@@ -2,6 +2,34 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.19] - 2026-08-21
+
+### Added
+
+- **Encoding Detector** at `/tool/developer-utilities/encoding-detector/`, with a guide at
+  `/guide/developer-utilities/identify-string-encoding/`. Paste a string and it says what encoding
+  it is, what each possible reading decodes to, and when it is not encoded at all. It identifies
+  Base64, Base64URL, hex, URL-encoding, HTML entities, binary and punycode by decoding each
+  candidate and checking the result is readable, rather than by matching alphabets, because every
+  English word matches the Base64 alphabet and "decade" is valid hex. It refuses to guess at ROT13,
+  which no structural test can distinguish from ordinary prose.
+- **Its craft: a decode that is still encoded says so.** A value that travelled through a URL is
+  routinely Base64 wrapped in percent-encoding, and one decode returns something that looks exactly
+  like corrupt data. The tool names the next layer and offers one tap to peel it, so the answer is
+  three taps rather than three tabs.
+- **`encode-detect`**, a pattern for tools that sit on an encoding engine to answer which codec
+  applies rather than to apply one. It is the first pattern the research engine counts as verifying,
+  which closes the `asymmetry:encoding` silence that recommended this tool: the catalog had eight
+  tools producing encoded text and none that could check any of it.
+
+### Changed
+
+- **The processorId rule now asks per pattern, not per engine.** Every tool on a registry-backed
+  engine had to name a processor, which is right for the thin wrappers that dispatch through one and
+  impossible for a detector that has no codec to name until it has worked out which codec applies.
+  Patterns that do not dispatch are declared in `src/data/engines.ts`; the rule keeps its full force
+  everywhere else, and an unknown or duplicate id is still an error for every tool.
+
 ## [alpha-v7.18] - 2026-08-21
 
 ### Added

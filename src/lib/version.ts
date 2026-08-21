@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 18,
+  minor: 19,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-21',
-  description: 'Research engine models ranking authority and the registry says which patterns verify',
+  description: 'Encoding Detector: identify what a string is encoded with, and when it is wrapped twice',
 };
 
 export function formatVersion(config: VersionConfig): string {

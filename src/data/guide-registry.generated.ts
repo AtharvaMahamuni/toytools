@@ -27,6 +27,7 @@ export const authoredGuideSlugs = [
   'date-difference-calculator',
   'discount-calculator',
   'emergency-fund-calculator',
+  'encoding-detector',
   'find-replace',
   'fraction-calculator',
   'heart-rate-zone-calculator',

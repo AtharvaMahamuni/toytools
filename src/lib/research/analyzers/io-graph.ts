@@ -119,6 +119,7 @@ export const PATTERN_ROLES: Record<string, PatternRole> = {
   // Verify: the output is a judgement about an artifact the person already holds.
   'structured-validate': 'verify',
   'color-contrast': 'verify',
+  'encode-detect': 'verify',
 };
 
 /**

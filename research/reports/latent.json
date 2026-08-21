@@ -1,27 +1,7 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T14:39:26.551Z",
+  "generatedAt": "2026-08-21T15:31:45.366Z",
   "signals": [
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:encoding",
-      "observation": "The \"encoding\" engine has 8 tool(s) that produce encoded text and none that check it.",
-      "implication": "Someone holding encoded text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "base64-encoder-decoder",
-        "binary-text-converter",
-        "hex-encoder-decoder",
-        "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter",
-        "rot13-encoder-decoder",
-        "url-encoder-decoder"
-      ],
-      "engines": [
-        "encoding"
-      ],
-      "weight": 0.32
-    },
     {
       "kind": "asymmetry",
       "id": "asymmetry:text-processor",
@@ -113,6 +93,7 @@
       "evidence": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
         "json-escape",
@@ -178,48 +159,6 @@
     }
   ],
   "candidates": [
-    {
-      "id": "encoding-detector",
-      "title": "Encoding Detector",
-      "proposedTool": "encoding-detector",
-      "proposedEngine": "encoding",
-      "engineExists": true,
-      "need": "Pasting the string into three different decoders in turn until one returns something readable.",
-      "whyUnnamed": "You cannot search for the encoding of a string while you still believe you know what it is. The query only forms after someone tells you the assumption was wrong, so the search that would find this tool happens after the failure it prevents.",
-      "consequenceOf": [
-        "Pastes standard base64 into a base64url decoder, gets mojibake, and blames the source data.",
-        "Decodes once, sees another encoded string, and cannot tell it was double-encoded rather than corrupt.",
-        "Assumes a hex digest is base64 because both look like random characters of similar length.",
-        "Strips padding that was load-bearing and gets a silently truncated final byte."
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:encoding",
-          "kind": "asymmetry",
-          "because": "Sits on \"encoding\", which can produce but cannot check."
-        },
-        {
-          "signalId": "dead-end:encoded-text",
-          "kind": "dead-end",
-          "because": "Touches encoded text, which nothing in the catalog consumes today."
-        }
-      ],
-      "bridges": [
-        "base64-encoder-decoder",
-        "hex-encoder-decoder",
-        "url-encoder-decoder",
-        "punycode-converter",
-        "json-escape",
-        "binary-text-converter"
-      ],
-      "anchorStrength": 0.8,
-      "consequence": 0.72,
-      "reachability": 1,
-      "namelessness": 0.66,
-      "algorithmicFit": 0.96,
-      "latentScore": 81.5,
-      "status": "candidate"
-    },
     {
       "id": "invisible-character-detector",
       "title": "Invisible Character Detector",
@@ -379,10 +318,10 @@
   ],
   "unanchored": [],
   "summary": {
-    "signals": 10,
+    "signals": 9,
     "considered": 7,
-    "anchored": 5,
+    "anchored": 4,
     "unanchored": 0,
-    "topScore": 81.5
+    "topScore": 77.1
   }
 }

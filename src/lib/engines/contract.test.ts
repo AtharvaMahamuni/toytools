@@ -6,7 +6,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { tools } from '@data/registry';
-import { getEngine } from '@data/engines';
+import { getEngine , NON_DISPATCHING_PATTERNS } from '@data/engines';
 import { KNOWLEDGE } from '@lib/knowledge/registry';
 import { PROCESSORS } from '@lib/text/processors/registry';
 import { ENCODERS } from '@lib/engines/encoding/registry';
@@ -49,9 +49,14 @@ describe('text-processor engine', () => {
 });
 
 // ── encoding: encode/decode round-trips losslessly ───────────────────────────────────────────
+// Tools on a NON_DISPATCHING_PATTERNS pattern are excluded: they sit on this engine to answer which
+// codec applies rather than to apply one, so they register no encoder and have nothing to round-trip.
+// Read from the same declaration validate-registry uses, so the two can never disagree about which
+// tools owe a processor.
 describe('encoding engine', () => {
   const sample = 'Hello, World! <tag> & "quote" 123';
-  it.each(byEngine('encoding').map(t => [t.slug, t.processorId] as const))(
+  const dispatching = byEngine('encoding').filter(t => !NON_DISPATCHING_PATTERNS.has(t.pattern as never));
+  it.each(dispatching.map(t => [t.slug, t.processorId] as const))(
     '%s round-trips through encode → decode',
     (_slug, processorId) => {
       const enc = ENCODERS[processorId!];

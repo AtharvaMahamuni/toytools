@@ -27,6 +27,7 @@ import { knowledge as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/kno
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
+import { knowledge as encodingDetector } from '@tools/developer-utilities/encoding-detector/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/knowledge';
@@ -136,6 +137,7 @@ export const authoredKnowledge: Knowledge[] = [
   dateDifferenceCalculator,
   discountCalculator,
   emergencyFundCalculator,
+  encodingDetector,
   findReplace,
   fractionCalculator,
   heartRateZoneCalculator,

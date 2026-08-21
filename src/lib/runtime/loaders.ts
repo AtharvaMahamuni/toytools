@@ -42,7 +42,7 @@ export const ENGINE_GLOBALS: Record<string, string[]> = {
   'text-analysis': ['analyze', 'textNotice', 'formatMetric'],
   'text-processor': ['process', 'textHandoff'],
   'text-interactive': ['diff', 'diffStats', 'whitespaceNoise', 'shell'],
-  encoding: ['runEncoding', 'transform'],
+  encoding: ['runEncoding', 'detectEncoding', 'transform'],
   hashing: ['runHash', 'transform'],
   'structured-data': ['runStructuredData', 'repairStructuredData', 'json', 'yaml'],
   csv: ['runCsv', 'csv'],

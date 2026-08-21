@@ -1,17 +1,12 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-08-21T14:39:26.551Z
+Generated: 2026-08-21T15:31:45.366Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 
-10 structural silence(s) derived from the catalog; 7 proposal(s) considered, 5 anchored, 0 unanchored. Top latent score 81.5.
+9 structural silence(s) derived from the catalog; 7 proposal(s) considered, 4 anchored, 0 unanchored. Top latent score 77.1.
 
 ## Derived silences (from the catalog alone, nobody proposed these)
-
-### `asymmetry:encoding` (weight 0.32)
-- **Observed:** The "encoding" engine has 8 tool(s) that produce encoded text and none that check it.
-- **Therefore:** Someone holding encoded text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
-- **Evidence:** base64-encoder-decoder, binary-text-converter, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, punycode-converter, rot13-encoder-decoder, url-encoder-decoder
 
 ### `asymmetry:text-processor` (weight 0.32)
 - **Observed:** The "text-processor" engine has 9 tool(s) that produce text and none that check it.
@@ -41,7 +36,7 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 ### `dead-end:encoded-text` (weight 0.27)
 - **Observed:** Encoded text is produced by encoding and consumed by no engine in the catalog.
 - **Therefore:** Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
-- **Evidence:** base64-encoder-decoder, binary-text-converter, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, punycode-converter, rot13-encoder-decoder, url-encoder-decoder
+- **Evidence:** base64-encoder-decoder, binary-text-converter, encoding-detector, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, punycode-converter, rot13-encoder-decoder, url-encoder-decoder
 
 ### `dead-end:credential` (weight 0.24)
 - **Observed:** A credential is produced by generation and consumed by no engine in the catalog.
@@ -59,22 +54,6 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Evidence:** jwt-decoder, csv-to-json-converter, json-formatter, json-minifier
 
 ## Anchored candidates
-
-### Encoding Detector  (`encoding-detector`)
-
-**Latent score:** 81.5 / 100 (build-worthy)
-
-- **The need, as behaviour:** Pasting the string into three different decoders in turn until one returns something readable.
-- **Why there is no query for it:** You cannot search for the encoding of a string while you still believe you know what it is. The query only forms after someone tells you the assumption was wrong, so the search that would find this tool happens after the failure it prevents.
-- **What it costs when unmet:** Pastes standard base64 into a base64url decoder, gets mojibake, and blames the source data.; Decodes once, sees another encoded string, and cannot tell it was double-encoded rather than corrupt.; Assumes a hex digest is base64 because both look like random characters of similar length.; Strips padding that was load-bearing and gets a silently truncated final byte.
-- **Engine:** `encoding` (existing)
-- **Reachable from:** base64-encoder-decoder, hex-encoder-decoder, url-encoder-decoder, punycode-converter, json-escape, binary-text-converter
-
-**Anchored to:**
-- `asymmetry:encoding` - Sits on "encoding", which can produce but cannot check.
-- `dead-end:encoded-text` - Touches encoded text, which nothing in the catalog consumes today.
-
-**Signals:** anchorStrength 0.8, consequence 0.72, reachability 1, namelessness 0.66, algorithmicFit 0.96.
 
 ### Invisible Character Detector  (`invisible-character-detector`)
 

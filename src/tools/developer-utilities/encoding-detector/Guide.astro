@@ -1,0 +1,186 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Here is how to identify an unknown encoded string, and how to answer
+      <strong>what encoding is this</strong> for a value you were handed: check three things in
+      order, which characters it uses, how long it is, and what it produces when you decode it. The
+      alphabet rules most candidates out at a glance, the length kills the rest, and only a decode
+      that returns readable text proves the answer. That three-step sequence is encoding detection,
+      and it is the whole method.
+    </p>
+    <p>
+      That is also how you tell Base64 from hex, which is the question people arrive with most.
+      Work through it by hand and you will identify base64 or hex in about a minute. The
+      <a href={toolHref}>encoding detector</a> runs all three checks against every codec at once and
+      shows you what each reading decodes to, so you choose the one that produced something
+      meaningful instead of guessing.
+    </p>
+    <a href={toolHref} class="cta-link">Try The Encoding Detector →</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How encoding detection works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every text encoding restricts itself to a fixed alphabet, and that restriction is the first
+      filter. Hex uses only <code>0-9</code> and <code>a-f</code>. Binary uses only <code>0</code>
+      and <code>1</code>. Percent-encoding is ordinary text sprinkled with <code>%</code> followed
+      by two hex digits. Base64 draws on <code>A-Z</code>, <code>a-z</code>, <code>0-9</code> plus
+      <code>+</code> and <code>/</code>, with <code>=</code> padding the end.
+    </p>
+    <p>
+      So a single uppercase letter rules out hex, and a <code>+</code> or a trailing <code>=</code>
+      points hard at Base64. However, the alphabet never settles it alone, because the sets overlap:
+      <code>decade</code> is valid hex, and almost every lowercase English word is a valid Base64
+      fragment. A detector that stopped here would name an encoding for ordinary prose, which is
+      worse than saying nothing.
+    </p>
+    <p>
+      Length is the second filter, and it is unforgiving. Hex encodes one byte as exactly two
+      characters, so a hex string always has an even length. Base64 encodes three bytes as four
+      characters, so a complete Base64 string is a multiple of four. Binary is a multiple of eight.
+      Therefore a string of 37 characters is none of the three, whatever alphabet it matches.
+    </p>
+    <p>
+      The decode is the third filter and the only one that proves anything. Each surviving candidate
+      is actually decoded, and the result is scored on how much of it is printable. A reading that
+      produces control characters and replacement markers is discarded; one that produces a sentence
+      is reported with high confidence. This is why the tool can detect string encoding without ever
+      being told what to expect.
+    </p>
+  </section>
+
+  <section id="url-safe">
+    <h2>The URL-safe alphabet, and why decoders reject valid strings <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base64 has a second alphabet. Standard Base64 uses <code>+</code> and <code>/</code>, but both
+      carry meaning inside a URL: <code>/</code> separates path segments and <code>+</code> has
+      historically meant a space in query strings. RFC 4648 therefore defines a URL-safe variant
+      that substitutes <code>-</code> for <code>+</code> and <code>_</code> for <code>/</code>, and
+      drops the padding entirely in most token formats.
+    </p>
+    <p>
+      This is the answer to <strong>why does my base64 decode to gibberish</strong>, which is the
+      single most common reason a valid string appears to be broken. A standard decoder handed a
+      Base64URL value either refuses it outright or, worse, produces the wrong bytes quietly. JWTs,
+      OAuth tokens and signed URLs all use the URL-safe alphabet, so anything copied out of a
+      browser address bar is a strong candidate. So when you are asking <strong>is this
+      base64url</strong>, the test is simple: if the string contains <code>-</code> or
+      <code>_</code> but never <code>+</code> or <code>/</code>, read it as Base64URL first.
+    </p>
+    <p>
+      Missing padding is the related case. A Base64 value whose length leaves a remainder of two or
+      three when divided by four lost its <code>=</code> characters somewhere in transit, and adding
+      them back makes it decode correctly. A remainder of one cannot be repaired, because no amount
+      of padding produces a whole number of bytes.
+    </p>
+  </section>
+
+  <section id="double-encoded">
+    <h2>How to decode a double-encoded value <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A value that travelled through a URL is routinely encoded twice. A Base64 token placed into a
+      query string gets percent-encoded on top of its existing encoding, so decoding the
+      percent-encoding hands back Base64 rather than readable text. The result looks exactly like
+      corrupt data, and this is where most people stop and conclude the value is damaged.
+    </p>
+    <p>
+      The fix is to treat the decode as a loop rather than a single step. Take the decoded output
+      and run the same alphabet and length checks on it again. If it still matches a codec cleanly,
+      it was wrapped twice, not broken, so decode it again and repeat until the result is text a
+      person can read. Stop when no codec matches, because that is either the answer or a sign the
+      payload was never text to begin with.
+    </p>
+    <p>
+      The detector runs that loop for you and says so explicitly when another layer is present,
+      which is the difference between an answer and a dead end.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>Example 1, a single layer.</strong> <code>SGVsbG8sIFdvcmxkIQ==</code> uses the
+      standard Base64 alphabet, its length is a multiple of four, and it ends in <code>==</code>.
+      Decoding gives <code>Hello, World!</code>, which is readable text, so the answer is settled at
+      the first attempt.
+    </p>
+    <p>
+      <strong>Example 2, the URL-safe trap.</strong> <code>PDw_Pj4_</code> contains an underscore
+      and no <code>+</code> or <code>/</code>. A standard decoder rejects it. Read as Base64URL, the
+      underscore becomes <code>/</code> and it decodes cleanly. Nothing was wrong with the string.
+    </p>
+    <p>
+      <strong>Example 3, three layers.</strong> Take
+      <code>SGVsbG8lMkMlMjBXb3JsZCUyMQ%3D%3D</code>, the sample on the tool. The <code>%3D</code>
+      sequences say something percent-encoded it, so that is the outer layer. Decoding gives
+      <code>SGVsbG8lMkMlMjBXb3JsZCUyMQ==</code>, which is not readable, and this is the point where
+      the trail goes cold for most people. Run the checks again: Base64 alphabet, multiple of four, trailing
+      <code>==</code>. Decoding that layer gives <code>Hello%2C%20World%21</code>. One more pass on
+      the percent-encoding finally yields <code>Hello, World!</code>. Three layers, each
+      individually obvious, and completely opaque if you stop after the first.
+    </p>
+  </section>
+
+  <section id="not-encoded">
+    <h2>Knowing when it is not encoded at all <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three things get mistaken for encodings, and none of them decodes. A hash digest is one-way,
+      so there is nothing to recover; digests also have fixed lengths, which is why a 64-character
+      hex string is more likely to be SHA-256 output than a message. Encrypted data needs a key, and
+      without it the bytes are noise whichever decoder you try. Compressed or binary payloads
+      decode structurally while producing output no person can read, so a successful decode is not
+      by itself proof you found the answer. For example, an attempt to decode unknown string data
+      that turns out to be a PNG will produce bytes, and none of them will be words.
+    </p>
+    <p>
+      ROT13 is the honest limit in the other direction. It maps letters to letters, so its output
+      has the same alphabet, length and shape as ordinary prose. No structural test separates it
+      from text in a language you do not read, and for that reason this tool never claims to have
+      found it. A detector that says nothing is more useful than one that guesses.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

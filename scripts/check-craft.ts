@@ -118,7 +118,10 @@ const THRESHOLDS = {
   //   nobody reads them. Each rule here fires only when this input has landed where the model is
   //   weakest, and states the cost as a number. 9 tools; macro and body-fat get nothing, the latter
   //   because its sensitivity barely varies with the input and a rule would be a disclaimer.
-  coverage: 0.598,
+  // 2026-08-21: 0.601 (65/108). encoding-detector ships with its chain note. A decode that succeeds
+  //   and returns something still encoded is indistinguishable from a corrupt one, so the tool says
+  //   the value is wrapped twice and offers the next peel rather than leaving the user to guess.
+  coverage: 0.601,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

@@ -1,0 +1,245 @@
+---
+// Bespoke widget: the encoding engine's ConverterWidget is built around a chosen codec and a
+// direction, and this tool has neither until it has answered its own question. Detection logic
+// lives in the engine (src/lib/engines/encoding/detect.ts); this file only renders the answer.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div class="ed-widget">
+  <!-- Answer-first on a phone: the verdict sits above the input it came from. -->
+  <p class="ed-verdict" id="ed-verdict" role="status" aria-live="polite">Paste a string to identify it.</p>
+
+  <CraftNote id="ed-note" craftId="ed-chain" action />
+
+  <ol class="ed-results" id="ed-results" aria-label="Detected encodings"></ol>
+
+  <div class="ed-toolbar">
+    <button class="action-btn action-btn--sample" id="ed-sample" type="button">Sample</button>
+  </div>
+
+  <IoPanel label="String" labelFor="ed-input" variant="prose">
+    <textarea
+      id="ed-input"
+      class="ed-textarea"
+      placeholder="Paste the string you cannot identify…"
+      spellcheck="false"
+      autocapitalize="off"
+      autocorrect="off"
+      aria-label="String to identify"></textarea>
+  </IoPanel>
+  <ToolActions pasteTarget="ed-input" clearTarget="ed-input" />
+
+  <!-- Plain-text mirror of the winning decode, so copy/download have a real target. -->
+  <textarea id="ed-decoded" class="ed-mirror" hidden readonly aria-hidden="true"></textarea>
+</div>
+
+<style is:global>
+  /* [hidden] must be restated wherever a display rule could beat it. */
+  .ed-widget [hidden] { display: none !important; }
+
+  .ed-widget .ed-verdict {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-lg);
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+  .ed-widget .ed-verdict[data-state='none'] { color: var(--color-text-muted); }
+
+  .ed-widget .ed-results {
+    list-style: none;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    display: grid;
+    /* Space is the only thing grouping these rows, so between-row space has to beat the
+       within-row gap by enough to read as separation. No rules, per the no-lines gate. */
+    gap: var(--space-4);
+  }
+  .ed-widget .ed-results:empty { margin-bottom: 0; }
+
+  .ed-widget .ed-row-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+  }
+  .ed-widget .ed-name {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+  .ed-widget .ed-confidence {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+  .ed-widget .ed-confidence[data-level='high'] { color: var(--color-accent); }
+
+  .ed-widget .ed-decoded-line {
+    margin: var(--space-1) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+    /* Wide payloads scroll inside their own box; the page body never scrolls sideways. */
+    overflow-x: auto;
+    white-space: pre;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ed-widget .ed-note {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .ed-widget .ed-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-3);
+  }
+  .ed-widget .action-btn--sample {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+  }
+
+  .ed-widget .ed-textarea {
+    width: 100%;
+    /* Declared here rather than measured by script: a box sized after load paints wrong first. */
+    min-height: 8.5rem;
+    resize: vertical;
+    font-family: var(--font-mono);
+    /* 16px minimum so iOS never zooms on focus. */
+    font-size: var(--text-base);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .ed-widget .ed-textarea:focus {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+  .ed-widget .ed-mirror { position: absolute; left: -9999px; }
+</style>
+
+<script is:inline>
+  (function () {
+    var input = document.getElementById('ed-input');
+    var verdict = document.getElementById('ed-verdict');
+    var results = document.getElementById('ed-results');
+    var mirror = document.getElementById('ed-decoded');
+    var note = document.getElementById('ed-note');
+    var noteText = document.getElementById('ed-note-text');
+    var noteAction = document.getElementById('ed-note-action');
+    var sample = document.getElementById('ed-sample');
+    if (!input || !verdict || !results) return;
+
+    var SAMPLE = 'SGVsbG8lMkMlMjBXb3JsZCUyMQ%3D%3D';
+    var MAX_PREVIEW = 300;
+
+    function preview(s) {
+      return s.length > MAX_PREVIEW ? s.slice(0, MAX_PREVIEW) + '…' : s;
+    }
+
+    function render(detection) {
+      results.textContent = '';
+      var list = detection.candidates || [];
+
+      if (!input.value.trim()) {
+        verdict.textContent = 'Paste a string to identify it.';
+        verdict.setAttribute('data-state', 'none');
+      } else if (list.length === 0) {
+        verdict.textContent = 'This does not look like any encoding we recognise. It may be plain text, encrypted, or a hash.';
+        verdict.setAttribute('data-state', 'none');
+      } else {
+        verdict.textContent = list.length === 1
+          ? 'This looks like ' + list[0].label + '.'
+          : 'Most likely ' + list[0].label + ', with ' + (list.length - 1) + ' other reading' + (list.length > 2 ? 's' : '') + '.';
+        verdict.setAttribute('data-state', 'found');
+      }
+
+      for (var i = 0; i < list.length; i++) {
+        var c = list[i];
+        var li = document.createElement('li');
+
+        var head = document.createElement('div');
+        head.className = 'ed-row-head';
+        var name = document.createElement('span');
+        name.className = 'ed-name';
+        name.textContent = c.label;
+        var conf = document.createElement('span');
+        conf.className = 'ed-confidence';
+        conf.setAttribute('data-level', c.confidence);
+        conf.textContent = c.confidence + ' confidence';
+        head.appendChild(name);
+        head.appendChild(conf);
+        li.appendChild(head);
+
+        var dec = document.createElement('p');
+        dec.className = 'ed-decoded-line';
+        dec.textContent = preview(c.decoded);
+        li.appendChild(dec);
+
+        if (c.note) {
+          var n = document.createElement('p');
+          n.className = 'ed-note';
+          n.textContent = c.note;
+          li.appendChild(n);
+        }
+        results.appendChild(li);
+      }
+
+      if (detection.unwrapped) {
+        var u = document.createElement('li');
+        var up = document.createElement('p');
+        up.className = 'ed-note';
+        up.textContent = 'Ignored a ' + detection.unwrapped.label + ' before decoding.';
+        u.appendChild(up);
+        results.appendChild(u);
+      }
+
+      if (mirror) mirror.value = list.length ? list[0].decoded : '';
+
+      // The craft: say that another layer is there, and hand over one tap to peel it.
+      if (note && noteText && noteAction) {
+        if (detection.next) {
+          noteText.textContent = 'That decode is itself ' + detection.next.label + '. It is wrapped twice, not corrupt.';
+          noteAction.textContent = 'Decode again';
+          noteAction.hidden = false;
+          note.hidden = false;
+          noteAction.onclick = function () {
+            input.value = detection.next.text;
+            run();
+            input.focus();
+          };
+        } else {
+          note.hidden = true;
+          noteAction.hidden = true;
+          noteAction.onclick = null;
+        }
+      }
+    }
+
+    function run() {
+      // detectEncoding is an engine surface: it arrives with the lazy encoding chunk, so every
+      // call site is inside onReady.
+      render(window.ToyTools.detectEncoding(input.value));
+    }
+
+    ToyTools.onReady(function () {
+      input.addEventListener('input', run);
+      if (sample) {
+        sample.addEventListener('click', function () {
+          input.value = SAMPLE;
+          run();
+          input.focus();
+        });
+      }
+      run();
+    });
+  })();
+</script>

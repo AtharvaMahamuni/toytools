@@ -27,6 +27,7 @@ import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
+import { config as encodingDetector } from '@tools/developer-utilities/encoding-detector/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
@@ -136,6 +137,7 @@ export const toolConfigs: ToolConfig[] = [
   dateDifferenceCalculator,
   discountCalculator,
   emergencyFundCalculator,
+  encodingDetector,
   findReplace,
   fractionCalculator,
   heartRateZoneCalculator,

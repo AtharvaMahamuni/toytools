@@ -181,7 +181,7 @@
       "proposedTool": "encoding-detector",
       "proposedName": "Encoding Detector",
       "proposedEngine": "encoding",
-      "searchQueries": ["what encoding is this", "identify base64 or hex", "is this base64url", "detect string encoding", "why does my base64 decode to gibberish"],
+      "searchQueries": ["what encoding is this", "identify base64 or hex", "is this base64url", "detect string encoding"],
       "existingSolutions": ["cyberchef", "stack overflow answers", "trial and error in a REPL"],
       "solutionWeaknesses": ["cyberchef's magic wand is buried and assumes you know to look for it", "answers are per-case and not reusable", "no tool states WHY a decode failed"],
       "userFailures": [
