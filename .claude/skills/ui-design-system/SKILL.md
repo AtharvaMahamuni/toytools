@@ -56,6 +56,7 @@ Zone C  Know      ONE row: drawer triggers, the guide, the category hub
 | **Concept headings** | `THRESHOLDS.conceptHeadings` in `check-query-coverage.ts` | every tool page carries an H2 naming a concept, not a page part. Held at 1.0 by the knowledge drawers. |
 | **Craft coverage** | `THRESHOLDS.coverage` in `check-craft.ts` | the fraction of tools declaring one thoughtful touch. Ratchets up only. A ratio, not a count, so adding a tool with nothing of its own fails the gate. |
 | **Clutter ceilings** | `THRESHOLDS.boxesPerTool` / `rawHex` in `check-craft.ts` | the worst single widget's bordered-card count, and hardcoded colours in widget styles. Both ratchet down only. |
+| **No separator rules** | `THRESHOLDS.dividers` in `check-craft.ts` | a `border-top`/`border-bottom` in any widget, per-tool **or** `_shared`. Fixed at **0** — space separates, lines do not. |
 
 ### The anti-clutter rules (they are half of the craft doctrine)
 
@@ -656,6 +657,14 @@ Two rules that fall out of the same idea:
   interesting values.)
 
 ### Which lines survive
+
+**This is a gate, not a preference.** `check:craft` holds `THRESHOLDS.dividers` at 0 across every
+widget, per-tool and `_shared`, so a `border-top` or `border-bottom` fails the build. It counts only
+top and bottom because those divide stacked things; a `border-left` is an indent guide (the JSON
+tree) or an accent stripe (the insight callout), which marks rather than divides. That is a
+structural distinction, so it does not rot the way a path allowlist does. All-round borders stay
+uncounted by it: an edge round a control is affordance, and a metric that rose with control density
+would just punish tools for having buttons.
 
 Applied across the catalog on 2026-08-20. The test is what a line is *for*, not where it is:
 

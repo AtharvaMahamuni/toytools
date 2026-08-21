@@ -94,6 +94,10 @@ The rules, in `docs/analysis/2026-08-11-tool-craft.md` section 4:
   the layout. If a detail cannot earn its space, delete it.
 - **R4. Every value is a token.** No raw hex, no bare pixels. If the palette lacks the colour you
   want, the state probably should not exist.
+- **R4b. No separator rules.** No `border-top` or `border-bottom` anywhere in a widget, for a
+  section boundary or between the rows of a list. Use the margin instead, and make between-group
+  space clearly beat within-group space. `check:craft` holds this at zero, so a rule fails the
+  build rather than waiting for review.
 - **R5. One row, not one section.** A control plus a label, inline. Needing a heading is a signal
   it is more than one affordance.
 - **R6. It is a control.** 48px touch target, a visible `:active` state (phones have no hover), the

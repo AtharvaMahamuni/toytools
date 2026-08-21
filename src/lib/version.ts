@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 17,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-20',
-  description: 'Flatten the last bespoke boxes and define the missing spacing token',
+  releaseDate: '2026-08-21',
+  description: 'Enforce the no-separator rule in check-craft and widen its scope to shared widgets',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -72,7 +72,7 @@ const { slug, emptyText = 'Configure the options and generate.' } = Astro.props;
     max-width: 280px;
     height: auto;
     image-rendering: pixelated;
-    background: #ffffff;
+    background: var(--color-scan-surface);
     border-radius: var(--radius-sm);
   }
   .gen-error {
@@ -100,8 +100,8 @@ const { slug, emptyText = 'Configure the options and generate.' } = Astro.props;
     background: var(--gen-strength-color, var(--color-accent));
   }
   .gen-strength[data-score='0'] { --gen-strength-color: var(--color-danger); }
-  .gen-strength[data-score='1'] { --gen-strength-color: #D97706; }
-  .gen-strength[data-score='2'] { --gen-strength-color: #CA8A04; }
+  .gen-strength[data-score='1'] { --gen-strength-color: var(--color-warning); }
+  .gen-strength[data-score='2'] { --gen-strength-color: var(--color-caution); }
   .gen-strength[data-score='3'] { --gen-strength-color: var(--color-accent); }
   .gen-strength[data-score='4'] { --gen-strength-color: var(--color-success); }
   .gen-strength-label { font-size: var(--text-sm); font-weight: var(--font-weight-medium); min-width: 8ch; }

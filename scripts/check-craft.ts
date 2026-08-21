@@ -58,6 +58,9 @@ const report = process.argv.includes('--report');
  *                                          frame round an already-filled field, and the container
  *                                          boxes in 15 widgets became fills. Controls kept their
  *                                          edges, so what is left is affordance, not decoration
+ * dividers      2026-08-20  new, at 0      every border-top/bottom in a widget was a section rule or a
+ *                                          ledger hairline; all removed, so the floor is zero and any
+ *                                          new one fails. Scope widened to _shared at the same time.
  * rawHex        2026-08-11  11 → 9         word-counter's #d97706 state was removed, not retinted
  *
  * `boxesPerTool` is the WORST SINGLE WIDGET, not a catalog total, and the distinction matters. A
@@ -117,6 +120,8 @@ const THRESHOLDS = {
   //   because its sensitivity barely varies with the input and a rule would be a disclaimer.
   coverage: 0.598,
   boxesPerTool: 4,
+  /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
+  dividers: 0,
   rawHex: 9,
 };
 
@@ -189,14 +194,20 @@ if (!existsSync(distDir)) {
 }
 
 // ── 3. Restraint: craft may not be bought with clutter ────────────────────────
-// Scope is per-tool widgets, which is where clutter accretes one tool at a time. The shared engine
-// widgets are platform surfaces reviewed as a unit and are not counted here.
-const widgetFiles = execSync('ls src/tools/*/*/Widget.astro', { cwd: repoRoot })
-  .toString().trim().split('\n').filter(Boolean);
+// Scope is every widget surface, per-tool AND shared. Excluding the shared ones was the loophole
+// that let three tracker tools keep outlined panels and jwt-decoder keep eight boxes through a
+// release that claimed to have flattened the catalog: a box in _shared reaches every tool built on
+// it, so it is the last place that should go uncounted.
+const widgetFiles = execSync(
+  'ls src/tools/*/*/Widget.astro src/tools/_shared/*.astro src/tools/_shared/*/*.astro',
+  { cwd: repoRoot },
+).toString().trim().split('\n').filter(Boolean);
 
 let boxes = 0;
+let dividers = 0;
 let rawHex = 0;
 const boxOffenders: Record<string, number> = {};
+const dividerOffenders: Record<string, number> = {};
 const hexOffenders: Record<string, string[]> = {};
 
 for (const rel of widgetFiles) {
@@ -204,9 +215,23 @@ for (const rel of widgetFiles) {
 
   // A "box" is a rule that draws a filled or bordered card. R2: a page that already has two panels
   // does not need a third rectangle to hold one sentence.
+  //
+  // Deliberately still only this spelling. Widening it to `var(--border)` was tried and reverted:
+  // an all-round border says nothing about whether it wraps a card or a button, so the broader
+  // count just flagged json-tree-viewer for owning six controls, which the design rules expressly
+  // allow. A number that rises with control density is not measuring clutter. The precise signal
+  // for the thing that actually regressed is `dividers` below.
   const b = (src.match(/border:\s*1px solid var\(--color-border\)/g) ?? []).length
     + (src.match(/var\(--color-surface-raised\)/g) ?? []).length;
   if (b) { boxes += b; boxOffenders[rel] = b; }
+
+  // A horizontal rule inside a widget is a separator: between two sections, or between the rows of
+  // a ledger. Space does that job, so the count is held at zero. Deliberately only top/bottom --
+  // a `border-left` is an indent guide (the JSON tree) or an accent stripe (the insight callout),
+  // which marks something rather than dividing it. That is a structural distinction, not a path
+  // allowlist, so it does not go stale the way an exemption list does.
+  const d = (src.match(/border-(?:top|bottom):\s*(?:var\(--border\)|\d+px solid)/g) ?? []).length;
+  if (d) { dividers += d; dividerOffenders[rel] = d; }
 
   // R4: every colour comes from a token. Only <style> blocks count, because a colour tool
   // legitimately carries hex as a default VALUE in its markup and script.
@@ -236,6 +261,18 @@ if (worstBoxes > THRESHOLDS.boxesPerTool) {
   );
 }
 
+if (dividers > THRESHOLDS.dividers) {
+  const worst = Object.entries(dividerOffenders)
+    .map(([f, n]) => `        ${n}  ${f}`).join('\n');
+  errors.push(
+    `widgets draw ${dividers} separator rule(s), above the ceiling ${THRESHOLDS.dividers}.\n` +
+    `      A border-top or border-bottom inside a widget is a line doing what space should do:\n` +
+    `      between two sections, or between the rows of a ledger. Delete the rule and let the\n` +
+    `      margin separate them, remembering that between-group space has to beat within-group\n` +
+    `      space. An edge round a control stays; see the ui-design-system skill.\n${worst}`,
+  );
+}
+
 if (rawHex > THRESHOLDS.rawHex) {
   const worst = Object.entries(hexOffenders).slice(0, 5)
     .map(([f, h]) => `        ${h.join(' ')}  ${f}`).join('\n');
@@ -256,6 +293,7 @@ console.log('\n[check-craft] tool craft coverage\n');
 console.log(`  tools with a declared craft   ${withCraft.length}/${craftable.length}  (${(coverage * 100).toFixed(1)}%, floor ${(THRESHOLDS.coverage * 100).toFixed(1)}%)`);
 console.log(`  boxes, worst single widget    ${worstBoxes}  (ceiling ${THRESHOLDS.boxesPerTool}${worst ? `, ${worst[0].replace('src/tools/', '')}` : ''})`);
 console.log(`  boxes, catalog total          ${boxes}  (informational, not gated)`);
+console.log(`  separator rules in widgets    ${dividers}  (ceiling ${THRESHOLDS.dividers})`);
 console.log(`  raw hex in widget styles      ${rawHex}  (ceiling ${THRESHOLDS.rawHex})`);
 if (withCraft.length) {
   console.log(`  by kind                       ${Object.entries(byKind).map(([k, n]) => `${k} ${n}`).join(', ')}`);
