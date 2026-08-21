@@ -574,11 +574,13 @@ const formulaCalculable = !!sim.formula?.terms.some((t) => t.paramId && paramByI
   /* The computed answer stands out from the editable inputs. */
   .phys-formula-answer { color: var(--color-accent-strong); }
 
+  /* The last separator in a widget. Space sets the worked answer apart from the terms just as
+     well, and keeping one hairline here would have been the exception that made the rule
+     unenforceable. */
   .phys-formula-worked {
-    margin: var(--space-2) 0 0;
+    margin: var(--space-5) 0 0;
     max-width: none;
-    padding-top: var(--space-2);
-    border-top: var(--border);
+    padding-top: 0;
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     font-size: var(--text-lg);

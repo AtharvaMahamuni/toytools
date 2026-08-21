@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.17.1] - 2026-08-21
+
+### Fixed
+
+- **The last four separator lines, in places that only appear when you use the tool.** The JWT
+  reader put a rule between every claim, the cron converter and the shell quoter each drew one
+  above a note, and the simulators drew one above the worked formula. All four render only once
+  there is something to show, which is why sweeping the pages in their default state missed them.
+- **The password strength meter and the QR code stopped using colours invented on the spot.** The
+  two middle steps of the meter and the QR's white backing are real palette entries now, the QR
+  because a scanner needs true white in either theme.
+
+### Changed
+
+- **The no-lines rule is now checked by the build rather than trusted.** Adding a separator rule to
+  any tool fails `npm run verify` with an explanation, so this cannot quietly come back. The same
+  check now also reads the shared widgets that several tools are built from, which is where the
+  boxes fixed in the last two releases had been hiding from it.
+
 ## [alpha-v7.17] - 2026-08-20
 
 ### Changed

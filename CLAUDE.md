@@ -62,7 +62,7 @@ the same commit as the change that earns it. The fifth is a fixed bar.
 |---|---|---|---|
 | performance budget | `check:budget` | ratchet — budgets only **fall** | `npm run build` |
 | query coverage (retrieval, targeting, headings) | `check:queries` | ratchet — floors only **rise** | `verify`, PR CI |
-| tool craft (coverage, boxes, raw hex) | `check:craft` | ratchet — coverage **rises**, the other two **fall** | `verify`, PR CI |
+| tool craft (coverage, boxes, separators, raw hex) | `check:craft` | ratchet — coverage **rises**, the rest **fall**; separators fixed at **0** | `verify`, PR CI |
 | the fold ratchet (chrome %, first control) | `test:e2e` | ratchet — limits only **fall** | `verify`, PR CI (pixel5 leg), weekly |
 | content quality | `seo:gate -- <slug>` | **fixed** minimums, in `seo-engine/config/content-intelligence-rules.json` (`overall` 75; `writingQuality` 70, `usefulness` 60, `seoCompleteness` 50, `toyToolsStyleScore` 70, `queryTargeting` 50; `maxEmDashes` 0) | `verify`, PR CI on changed tools |
 
@@ -312,8 +312,9 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
 - **Remove a border and you inherit its job.** Space is then the only thing marking a group, so
   between-group space has to beat within-group space (~2-4x). See the `ui-design-system` skill.
 - **A line has to earn its place.** An edge round a control is affordance and stays; a frame round
-  a container, or a rule between rows, is decoration and goes (filled surface instead). The
-  `ui-design-system` skill has the table and the orphaned-padding trap that comes with it.
+  a container, or a rule between rows, is decoration and goes (filled surface instead).
+  **`check:craft` holds separator rules at zero**, so a `border-top`/`border-bottom` in any widget
+  fails the build. The `ui-design-system` skill has the table and the orphaned-padding trap.
 
 Widget composition, tokens, components and the design language: **`ui-design-system` skill**.
 

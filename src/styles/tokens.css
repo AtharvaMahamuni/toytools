@@ -18,6 +18,15 @@
   --color-danger:         #dc2626;   /* fills, borders, icons */
   --color-danger-bg:      rgba(220, 38, 38, 0.10);
   --color-danger-strong:  #B91C1C;   /* danger TEXT on a surface — AA (5.8:1); plain danger is 4.3:1 */
+  /* The two middle steps of a five-step meter (password strength). The palette had only
+     danger/accent/success, so the widget carried them as raw hex and they went uncounted while
+     the craft gate ignored shared widgets. Colour is never the only signal: the meter is
+     labelled in words too. */
+  --color-warning:        #D97706;
+  --color-caution:        #CA8A04;
+  /* Theme-invariant white. A QR quiet zone has to be true white in both themes or scanners
+     misread it, so it cannot follow the surface tokens. */
+  --color-scan-surface:   #ffffff;
 
   /* Surfaces — "Warm Paper": warm off-whites instead of stark #fff */
   --color-bg:             #FAF9F7;
