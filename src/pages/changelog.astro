@@ -33,8 +33,12 @@ const truncated = parseChangelog(source).length > releases.length;
     <p class="lede">{description}</p>
     <p class="current">Currently running <code>{APP_VERSION}</code>.</p>
 
+    <nav class="release-index" aria-label="Jump to a release">
+      {releases.map((release) => <a href={`#${release.version}`}>{release.version}</a>)}
+    </nav>
+
     {releases.map((release) => (
-      <section class="release">
+      <section class="release" id={release.version}>
         <h2>
           {release.version}
           <span class="release-date">{release.date}</span>
@@ -78,10 +82,34 @@ const truncated = parseChangelog(source).length > releases.length;
     margin-top: var(--space-2);
   }
 
+  .release-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  .release-index a {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .release-index a:hover,
+  .release-index a:focus-visible {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
   .release {
-    margin-top: var(--space-8);
-    padding-top: var(--space-8);
-    border-top: var(--border);
+    margin-top: var(--space-12);
+    /* The header is sticky, so an anchor jump would otherwise land under it. */
+    scroll-margin-top: var(--space-16);
   }
 
   .release h2 {
@@ -108,14 +136,17 @@ const truncated = parseChangelog(source).length > releases.length;
     color: var(--color-text-muted);
   }
 
+  /* Same as the prose pages: the reset strips markers from every ul, so this indent was holding
+     space for bullets that never rendered. */
   .release-section ul {
     margin-top: var(--space-3);
-    padding-left: var(--space-5);
+    list-style: disc;
+    padding-left: var(--space-6);
   }
 
   .release-section li {
     margin-top: var(--space-2);
-    line-height: var(--line-height-relaxed, 1.7);
+    line-height: var(--leading-relaxed);
   }
 
   .note {

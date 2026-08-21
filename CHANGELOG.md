@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.17.2] - 2026-08-21
+
+### Changed
+
+- **About, Privacy, Changelog and Settings now match the tools.** They were the last pages drawing
+  a rule above every heading, and Settings drew one under every row of saved data. Space separates
+  the sections instead, as it does everywhere else on the site.
+- **The changelog opens with its releases listed.** Twelve releases of prose is a long page to
+  scroll for one version, so every release is now a tap away from the top. Nothing is hidden or
+  collapsed: the entries stay open and stay findable with a browser search.
+
+### Fixed
+
+- **Bulleted lists have bullets again** on About, Privacy and the changelog. The site strips list
+  markers by default and these pages never asked for them back, so their lists were indented
+  against nothing while the guides, which do ask, looked right.
+- **Body text on five pages was using a hardcoded line height** rather than the one in the design
+  tokens, because the token name was misspelled and the fallback quietly took over.
+
 ## [alpha-v7.17.1] - 2026-08-21
 
 ### Fixed
