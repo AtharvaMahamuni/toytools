@@ -19,29 +19,33 @@
       "category": "text-utilities",
       "patterns": [
         "text-transform",
-        "text-cleanup"
+        "text-cleanup",
+        "text-inspect"
       ],
       "runtimeGlobal": "process",
       "sharedWidget": "src/tools/_shared/TextProcessorWidget.astro",
       "supportedFamilies": [
         "transform",
+        "detect",
         "cleanup"
       ],
-      "toolCount": 18
+      "toolCount": 19
     },
     "encoding": {
       "name": "Encoding Engine",
       "category": "developer-utilities",
       "patterns": [
-        "encode-decode"
+        "encode-decode",
+        "encode-detect"
       ],
       "runtimeGlobal": "runEncoding",
       "sharedWidget": "src/tools/_shared/ConverterWidget.astro",
       "supportedFamilies": [
         "binary-text",
+        "detect",
         "web"
       ],
-      "toolCount": 8
+      "toolCount": 9
     },
     "hashing": {
       "name": "Hashing Engine",
@@ -1182,6 +1186,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "encoding-detector": {
+      "name": "Encoding Detector",
+      "dir": "src/tools/developer-utilities/encoding-detector",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/encoding-detector/",
+      "engine": "encoding",
+      "pattern": "encode-detect",
+      "family": "detect",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "find-replace": {
       "name": "Find and Replace",
       "dir": "src/tools/text/find-replace",
@@ -1318,6 +1343,27 @@
       "family": "inflation",
       "processorId": "inflation",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "invisible-character-detector": {
+      "name": "Invisible Character Detector",
+      "dir": "src/tools/text/invisible-character-detector",
+      "categorySlug": "text-utilities",
+      "url": "/tool/text/invisible-character-detector/",
+      "engine": "text-processor",
+      "pattern": "text-inspect",
+      "family": "detect",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

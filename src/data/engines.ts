@@ -42,7 +42,7 @@ const ENGINE_IDS = [
 export type EngineId = (typeof ENGINE_IDS)[number];
 
 const PATTERN_IDS = [
-  'text-metric', 'text-transform', 'text-cleanup', 'encode-decode', 'hash',
+  'text-metric', 'text-transform', 'text-cleanup', 'text-inspect', 'encode-decode', 'encode-detect', 'hash',
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
@@ -50,6 +50,21 @@ const PATTERN_IDS = [
   'health-calculate', 'health-track', 'color-convert', 'color-contrast', 'unit-convert', 'aspect-ratio',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
+
+/**
+ * Patterns whose tools do NOT dispatch through their engine's processor registry.
+ *
+ * Most tools on a registry-backed engine are thin wrappers: the shared widget calls
+ * `ToyTools.run<Engine>(processorId, ...)`, so a missing or unknown id is a broken page and
+ * `validate-registry` rightly refuses to build one. A few tools sit on the same engine because they
+ * share its subject matter while answering a question the registry cannot express. `encode-detect`
+ * is the first: a detector has no codec to dispatch to until it has worked out which codec applies,
+ * which is the entire tool.
+ *
+ * Declared here rather than inferred, so adding one stays a deliberate act with a reviewer, and so
+ * the processorId rule keeps its full force everywhere else.
+ */
+export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect']);
 
 interface EngineDef {
   id: EngineId;
@@ -65,8 +80,8 @@ interface EngineDef {
 // Declared engine definitions. New engines register here exactly once.
 const engineDefs: EngineDef[] = [
   { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze', sharedWidget: 'TextMetricWidget.astro' },
-  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro' },
-  { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro' },
+  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup', 'text-inspect'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro' },
+  { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode', 'encode-detect'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro' },
   { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro' },
   { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro' },
   { id: 'jwt', name: 'JWT Engine', category: 'developer-utilities', patterns: ['token-decode'], runtimeGlobal: 'runJwt', sharedWidget: 'JwtWidget.astro' },

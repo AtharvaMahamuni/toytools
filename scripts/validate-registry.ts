@@ -1,7 +1,7 @@
 import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { searchAliases } from '../src/data/search-aliases';
-import { engineIds, knownPatterns, getEngine, engineRegistry } from '../src/data/engines';
+import { engineIds, knownPatterns, getEngine, engineRegistry, NON_DISPATCHING_PATTERNS } from '../src/data/engines';
 import { ENGINE_GLOBALS, RUNTIME_ENGINE_IDS } from '../src/lib/runtime/loaders';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -144,10 +144,17 @@ for (const tool of tools) {
     }
   }
 
-  // Engine-specific processorId must resolve in that engine's registry
+  // Engine-specific processorId must resolve in that engine's registry.
+  // Skipped for patterns that do not dispatch through it at all (NON_DISPATCHING_PATTERNS): those
+  // tools have no processor to name, so requiring one would only invite a decorative id that
+  // resolves to somebody else's transform. Declaring an unknown or duplicate id is still an error
+  // for them, which is checked below exactly as it is for everyone else.
   const registry = ENGINE_REGISTRIES[m.engine];
+  const dispatches = !NON_DISPATCHING_PATTERNS.has(tool.pattern as never);
   if (registry) {
-    if (!tool.processorId) {
+    if (!tool.processorId && !dispatches) {
+      // Nothing to resolve, by declaration.
+    } else if (!tool.processorId) {
       errors.push(`Tool "${m.slug}" uses engine "${m.engine}" but is missing processorId`);
     } else if (!registry[tool.processorId]) {
       errors.push(`Tool "${m.slug}" references unknown processorId "${tool.processorId}" for engine "${m.engine}"`);

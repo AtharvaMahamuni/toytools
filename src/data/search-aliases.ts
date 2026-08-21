@@ -22,6 +22,7 @@ export const searchAliases: Record<string, string[]> = {
   'csv-diff': ['compare csv'],
   'csv-to-json-converter': ['csv2json'],
   'csv-to-tsv': ['tab separated'],
+  'encoding-detector': ['what encoding is this', 'identify encoding'],
   'hex-encoder-decoder': ['hexadecimal', 'text to hex'],
   'html-entity-encoder-decoder': ['escape html', 'html escape'],
   'json-escape': ['escape json string'],

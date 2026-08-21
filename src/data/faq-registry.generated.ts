@@ -27,6 +27,7 @@ import { items as csvToTsvFaqs } from '@tools/developer-utilities/csv-to-tsv/faq
 import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-difference-calculator/faq';
 import { items as discountCalculatorFaqs } from '@tools/number/discount-calculator/faq';
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
+import { items as encodingDetectorFaqs } from '@tools/developer-utilities/encoding-detector/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-zone-calculator/faq';
@@ -34,6 +35,7 @@ import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-e
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
+import { items as invisibleCharacterDetectorFaqs } from '@tools/text/invisible-character-detector/faq';
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as jsonFormatterFaqs } from '@tools/developer-utilities/json-formatter/faq';
 import { items as jsonMinifierFaqs } from '@tools/developer-utilities/json-minifier/faq';
@@ -136,6 +138,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'date-difference-calculator': dateDifferenceCalculatorFaqs,
   'discount-calculator': discountCalculatorFaqs,
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
+  'encoding-detector': encodingDetectorFaqs,
   'find-replace': findReplaceFaqs,
   'fraction-calculator': fractionCalculatorFaqs,
   'heart-rate-zone-calculator': heartRateZoneCalculatorFaqs,
@@ -143,6 +146,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
   'ideal-weight-calculator': idealWeightCalculatorFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
+  'invisible-character-detector': invisibleCharacterDetectorFaqs,
   'json-escape': jsonEscapeFaqs,
   'json-formatter': jsonFormatterFaqs,
   'json-minifier': jsonMinifierFaqs,

@@ -49,6 +49,8 @@ export function validateDatasets(datasets: SeedDataset[]): string[] {
       if (!inRange(rec.competition, 0, 100)) errors.push(`${where}: competition out of range`);
       if (rec.algorithmicFit !== undefined && !inRange(rec.algorithmicFit, 0, 100))
         errors.push(`${where}: algorithmicFit out of range`);
+      if (rec.authorityRequired !== undefined && !inRange(rec.authorityRequired, 0, 100))
+        errors.push(`${where}: authorityRequired out of range`);
       if (!Array.isArray(rec.searchQueries) || rec.searchQueries.length === 0)
         errors.push(`${where}: searchQueries must be a non-empty array`);
       if (rec.latent !== undefined) {

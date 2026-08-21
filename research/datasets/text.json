@@ -118,6 +118,42 @@
       "evergreen": 82,
       "difficulty": "medium",
       "localization": 65
+    },
+    {
+      "query": "why does my text not match",
+      "problem": "Two strings look identical on screen and my exact-match comparison says they are different.",
+      "intent": "transactional",
+      "transformation": "Invisible Character Detection",
+      "proposedTool": "invisible-character-detector",
+      "proposedName": "Invisible Character Detector",
+      "proposedEngine": "text-processor",
+      "searchQueries": ["find invisible characters", "zero width space detector", "why does my string not match", "remove non breaking space", "detect homoglyph"],
+      "existingSolutions": ["a hex editor", "regex hunting in an IDE", "unicode inspector sites"],
+      "solutionWeaknesses": ["a hex dump answers the question in a format most people cannot read", "IDE regex requires already suspecting the character class", "inspector sites work one codepoint at a time"],
+      "userFailures": [
+        "Copies text out of a PDF and a zero-width space breaks an exact-match lookup with no error.",
+        "Pastes from a word processor and a non-breaking space stops a CSS class from matching.",
+        "Reviews a domain containing a Cyrillic character that renders identically to its ASCII twin.",
+        "Trims a string and the trailing character survives because it is not the space they expected."
+      ],
+      "relatedProblems": ["homoglyph confusion", "smart quotes breaking code", "trailing whitespace in config"],
+      "relatedTools": ["remove-line-breaks", "normalize-whitespace", "slugify-text", "text-compare"],
+      "demand": 41,
+      "competition": 28,
+      "authorityRequired": 5,
+      "evergreen": 94,
+      "difficulty": "medium",
+      "localization": 88,
+      "algorithmicFit": 97,
+      "latent": {
+        "whyUnnamed": "The defect is invisible by definition. The person sees two identical strings and concludes the comparison is broken, so the query they eventually type is about the comparison rather than about the character that is actually there.",
+        "consequence": 82,
+        "observedBehaviour": [
+          "Retyping the string by hand until the comparison passes, without ever learning why.",
+          "Adding a defensive trim or normalize that masks the symptom in one place only.",
+          "Blaming the database collation for a mismatch caused by a copied non-breaking space."
+        ]
+      }
     }
   ]
 }

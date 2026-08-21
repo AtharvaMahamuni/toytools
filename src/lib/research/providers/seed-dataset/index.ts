@@ -32,6 +32,9 @@ function toRaw(rec: SeedRecord): RawOpportunity {
     difficulty: rec.difficulty,
     localization: clamp(rec.localization ?? DEFAULT_LOCALIZATION, 0, 100),
     algorithmicFit: clamp(rec.algorithmicFit ?? DEFAULT_ALGORITHMIC_FIT, 0, 100),
+    // Carried through verbatim. No default here: `undefined` tells the scorer to derive the gate
+    // from the incumbents instead, which is a different behaviour from any number we could pick.
+    ...(rec.authorityRequired !== undefined ? { authorityRequired: clamp(rec.authorityRequired, 0, 100) } : {}),
     // Carried through unchanged. There is no default: a record either makes a latent-demand claim
     // or it does not, and manufacturing one would put every ordinary tool into the latent report.
     ...(rec.latent ? { latent: { ...rec.latent, consequence: clamp(rec.latent.consequence, 0, 100) } } : {}),

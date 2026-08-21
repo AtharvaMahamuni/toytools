@@ -1,48 +1,7 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:45:38.636Z",
+  "generatedAt": "2026-08-21T16:52:45.156Z",
   "signals": [
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:encoding",
-      "observation": "The \"encoding\" engine has 8 tool(s) that produce encoded text and none that check it.",
-      "implication": "Someone holding encoded text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "base64-encoder-decoder",
-        "binary-text-converter",
-        "hex-encoder-decoder",
-        "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter",
-        "rot13-encoder-decoder",
-        "url-encoder-decoder"
-      ],
-      "engines": [
-        "encoding"
-      ],
-      "weight": 0.32
-    },
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:text-processor",
-      "observation": "The \"text-processor\" engine has 9 tool(s) that produce text and none that check it.",
-      "implication": "Someone holding text this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "camel-case-converter",
-        "kebab-case-converter",
-        "lowercase-converter",
-        "reverse-text",
-        "sentence-case-converter",
-        "slugify-text",
-        "snake-case-converter",
-        "title-case-converter",
-        "uppercase-converter"
-      ],
-      "engines": [
-        "text-processor"
-      ],
-      "weight": 0.32
-    },
     {
       "kind": "asymmetry",
       "id": "asymmetry:generation",
@@ -76,21 +35,6 @@
         "hashing"
       ],
       "weight": 0.29
-    },
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:csv",
-      "observation": "The \"csv\" engine has 3 tool(s) that produce tabular data and none that check it.",
-      "implication": "Someone holding tabular data this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "csv-cleaner",
-        "csv-diff",
-        "csv-to-tsv"
-      ],
-      "engines": [
-        "csv"
-      ],
-      "weight": 0.27
     },
     {
       "kind": "asymmetry",
@@ -128,6 +72,7 @@
       "evidence": [
         "base64-encoder-decoder",
         "binary-text-converter",
+        "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder",
         "json-escape",
@@ -139,19 +84,6 @@
         "encoding"
       ],
       "weight": 0.27
-    },
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:color",
-      "observation": "The \"color\" engine has 1 tool(s) that produce a color and none that check it.",
-      "implication": "Someone holding a color this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "color-format-converter"
-      ],
-      "engines": [
-        "color"
-      ],
-      "weight": 0.26
     },
     {
       "kind": "dead-end",
@@ -205,13 +137,133 @@
       "weight": 0.22
     }
   ],
-  "candidates": [],
+  "candidates": [
+    {
+      "id": "uuid-inspector",
+      "title": "UUID Inspector",
+      "proposedTool": "uuid-inspector",
+      "proposedEngine": "generation",
+      "engineExists": true,
+      "need": "Regenerating the identifier and retrying, hoping the next one is accepted.",
+      "whyUnnamed": "A UUID looks correct to a human at every level except the two bits that encode its version and variant. Nobody searches for a checker because nobody can see the thing that is wrong, and the rejection downstream almost never says wrong UUID version.",
+      "consequenceOf": [
+        "Supplies a v4 UUID where the schema requires v7 and learns it only from a rejected insert.",
+        "Pastes a UUID missing one character and the resulting error names an unrelated field.",
+        "Treats a v1 UUID as random when it embeds a timestamp and a MAC address.",
+        "Generates a nil UUID as a placeholder and it passes shape validation everywhere downstream."
+      ],
+      "anchors": [
+        {
+          "signalId": "asymmetry:generation",
+          "kind": "asymmetry",
+          "because": "Sits on \"generation\", which can produce but cannot check."
+        },
+        {
+          "signalId": "dead-end:credential",
+          "kind": "dead-end",
+          "because": "Touches a credential, which nothing in the catalog consumes today."
+        }
+      ],
+      "bridges": [
+        "uuid-generator",
+        "random-string-generator",
+        "password-generator",
+        "lorem-ipsum-generator",
+        "qr-code-generator"
+      ],
+      "anchorStrength": 0.8,
+      "consequence": 0.64,
+      "reachability": 0.83,
+      "namelessness": 0.7,
+      "algorithmicFit": 0.97,
+      "latentScore": 76.9,
+      "status": "candidate"
+    },
+    {
+      "id": "hash-identifier",
+      "title": "Hash Identifier and Verifier",
+      "proposedTool": "hash-identifier",
+      "proposedEngine": "hashing",
+      "engineExists": true,
+      "need": "Re-downloading a large file repeatedly because the checksum keeps failing.",
+      "whyUnnamed": "A digest carries no label. The person holding one believes it is the checksum, singular, so the possibility that they are comparing two different algorithms never becomes a thought, let alone a query.",
+      "consequenceOf": [
+        "Compares a SHA-1 against a SHA-256 and concludes the download is corrupt.",
+        "Sees an uppercase digest beside a lowercase one and reads a mismatch that is not one.",
+        "Cannot distinguish a truncated digest from a different algorithm of the same prefix.",
+        "Pastes a digest with a trailing filename from a .sha256 file and gets no match."
+      ],
+      "anchors": [
+        {
+          "signalId": "asymmetry:hashing",
+          "kind": "asymmetry",
+          "because": "Sits on \"hashing\", which can produce but cannot check."
+        },
+        {
+          "signalId": "dead-end:hash",
+          "kind": "dead-end",
+          "because": "Touches a hash digest, which nothing in the catalog consumes today."
+        }
+      ],
+      "bridges": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "crc32-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "anchorStrength": 0.8,
+      "consequence": 0.68,
+      "reachability": 0.83,
+      "namelessness": 0.62,
+      "algorithmicFit": 0.98,
+      "latentScore": 76.8,
+      "status": "candidate"
+    },
+    {
+      "id": "date-format-detector",
+      "title": "Date Format Detector",
+      "proposedTool": "date-format-detector",
+      "proposedEngine": "datetime",
+      "engineExists": true,
+      "need": "Eyeballing a column for values above 12 to work out which field is the month.",
+      "whyUnnamed": "Every date is unambiguous to the person who wrote it. The ambiguity exists only in the handoff, and the reader cannot know it is there, so the failure is discovered downstream by someone who never saw the original string.",
+      "consequenceOf": [
+        "Opens a European CSV export in a US locale and twelve rows silently shift month and day.",
+        "Pastes a timestamp with no zone and the stored date lands one day earlier than intended.",
+        "Reads a date that is unambiguous in one row and ambiguous in the next without noticing the difference.",
+        "Assumes a two-digit year maps to 20xx when the source system pivots at a different century."
+      ],
+      "anchors": [
+        {
+          "signalId": "asymmetry:datetime",
+          "kind": "asymmetry",
+          "because": "Sits on \"datetime\", which can produce but cannot check."
+        }
+      ],
+      "bridges": [
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator",
+        "age-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter"
+      ],
+      "anchorStrength": 0.36,
+      "consequence": 0.78,
+      "reachability": 1,
+      "namelessness": 0.64,
+      "algorithmicFit": 0.95,
+      "latentScore": 69.4,
+      "status": "candidate"
+    }
+  ],
   "unanchored": [],
   "summary": {
-    "signals": 12,
-    "considered": 2,
-    "anchored": 0,
+    "signals": 8,
+    "considered": 7,
+    "anchored": 3,
     "unanchored": 0,
-    "topScore": 0
+    "topScore": 76.9
   }
 }

@@ -16,6 +16,7 @@ export interface OpportunityScores {
   commercialPotential: number; // 0–1
   localizationPotential: number; // 0–1
   algorithmicFit: number; // 0–1 (1 = a deterministic algorithm solves the need exactly; low = AI-shaped)
+  authorityWinnability: number; // 0–1 (1 = tool quality decides the ranking; 0 = the publisher's identity does)
 }
 
 export interface Opportunity {
@@ -57,6 +58,8 @@ export interface Opportunity {
   commercialPotential: number;
   localizationPotential: number;
   algorithmicFit: number;
+  /** 0–1. 1 = a correct tool can rank here; low = a YMYL SERP gated by site-level trust. */
+  authorityWinnability: number;
 
   confidence: number; // 0–1
   finalScore: number; // 0–100 composite

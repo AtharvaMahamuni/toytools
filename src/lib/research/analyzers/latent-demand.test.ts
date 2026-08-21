@@ -52,6 +52,48 @@ describe('deriveSignals - asymmetry (producers with no verifier)', () => {
     expect(deriveSignals([], inputs).filter(s => s.kind === 'asymmetry')).toHaveLength(0);
   });
 
+  // Both cases below shipped as false positives: the analyzer read producer/verifier intent from a
+  // regex over the pattern name, so it reported two holes the catalog had already filled.
+  it('sees a verifier whose FAMILY says so when its pattern is shared with siblings', () => {
+    // validate-registry forces every member of a tool group onto one engine/pattern, so csv-diff and
+    // csv-to-tsv are both "csv-transform". Only the family separates the comparer from the converter.
+    const inputs = makeInputs({
+      raw: [],
+      catalog: [
+        catalogRef({ slug: 'csv-to-tsv', engine: 'csv', pattern: 'csv-transform', family: 'convert' }),
+        catalogRef({ slug: 'csv-cleaner', engine: 'csv', pattern: 'csv-transform', family: 'clean' }),
+        catalogRef({ slug: 'csv-diff', engine: 'csv', pattern: 'csv-transform', family: 'compare' }),
+      ],
+    });
+    expect(deriveSignals([], inputs).filter(s => s.kind === 'asymmetry')).toHaveLength(0);
+  });
+
+  it('sees a verifier whose pattern carries no verifying word', () => {
+    const inputs = makeInputs({
+      raw: [],
+      catalog: [
+        catalogRef({ slug: 'color-format-converter', engine: 'color', pattern: 'color-convert', family: 'color' }),
+        catalogRef({ slug: 'color-contrast-checker', engine: 'color', pattern: 'color-contrast', family: 'color' }),
+      ],
+    });
+    expect(deriveSignals([], inputs).filter(s => s.kind === 'asymmetry')).toHaveLength(0);
+  });
+
+  it('does not mistake a family that merely sounds like checking for a verifier', () => {
+    // crc32-hash-generator lives in the "checksum" family and produces a digest rather than checking
+    // one. A regex over names silenced the real hashing hole here; the declared map must not.
+    const inputs = makeInputs({
+      raw: [],
+      catalog: [
+        catalogRef({ slug: 'sha256-hash-generator', engine: 'hashing', pattern: 'hash', family: 'digest' }),
+        catalogRef({ slug: 'crc32-hash-generator', engine: 'hashing', pattern: 'hash', family: 'checksum' }),
+      ],
+    });
+    const asym = deriveSignals([], inputs).filter(s => s.kind === 'asymmetry');
+    expect(asym).toHaveLength(1);
+    expect(asym[0]!.id).toBe('asymmetry:hashing');
+  });
+
   it('stays silent for an engine that produces nothing (metrics are read, not checked)', () => {
     const inputs = makeInputs({
       raw: [],

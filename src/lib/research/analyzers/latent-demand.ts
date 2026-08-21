@@ -33,6 +33,8 @@ import {
   toolsByEngine,
   seamIsCovered,
   isConverter,
+  isProducing,
+  isVerifying,
 } from './io-graph';
 import { clamp01 } from '../scorers/demand';
 
@@ -74,19 +76,6 @@ export function deriveSignals(opportunities: Opportunity[], inputs: ResearchInpu
 }
 
 /**
- * A pattern VERIFIES when its id says so. Derived by rule rather than by an allow-list, because a
- * list of patterns is exactly the thing that goes stale the first time somebody registers a new one
- * (the same reason the Quality Guardian validators derive their exemptions instead of listing paths).
- */
-function isVerifying(pattern: string): boolean {
-  return /valid|verify|check|lint|diff|compare/.test(pattern);
-}
-
-function isProducing(pattern: string): boolean {
-  return /^generate-|-transform$|-convert$|^encode-decode$|^hash$/.test(pattern);
-}
-
-/**
  * Producers with no verifier. The purest latent need in the catalog: you cannot search for something
  * to check your output while you still believe the output is right, so the demand for a checker is
  * real and permanently invisible to any query-based ranking.
@@ -97,8 +86,8 @@ function asymmetrySignals(inputs: ResearchInputs): LatentSignal[] {
   const out: LatentSignal[] = [];
 
   for (const [engine, tools] of [...byEngine].sort((a, b) => a[0].localeCompare(b[0]))) {
-    const producers = tools.filter(t => isProducing(t.pattern));
-    const verifiers = tools.filter(t => isVerifying(t.pattern));
+    const producers = tools.filter(t => isProducing(t.pattern, t.family));
+    const verifiers = tools.filter(t => isVerifying(t.pattern, t.family));
     if (producers.length === 0 || verifiers.length > 0) continue;
 
     const artifact = formatLabel(ENGINE_IO[engine]?.out ?? 'output');

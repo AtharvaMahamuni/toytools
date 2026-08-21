@@ -79,6 +79,11 @@ export const GLYPHS: Record<string, string> = {
   linesX: S + '<path d="M4 7h10M4 12h16M4 17h10"/><path d="M17.5 5.5 21 9M21 5.5 17.5 9"/>' + E,
   dots: S + '<path d="M4 12h.01M9 12h.01M14 12h.01M19 12h.01"/>' + E,
   searchSwap: S + '<circle cx="10" cy="10" r="6"/><path d="M14.5 14.5 20 20"/><path d="M8.5 8.5h3M11 7l1.5 1.5L11 10"/>' + E,
+  // A magnifier over a question mark: the tool answers "which of these is it?" rather than
+  // applying a codec you already named. Deliberately not `fingerprint`, which is the
+  // identifier family's mark (uuid-generator), and not `searchSwap`, which is find-replace.
+  detect: S + '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.2 15.2 20 20"/>' + E +
+    '<text x="10.5" y="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" font-size="8" fill="#fff" text-anchor="middle" dominant-baseline="central">?</text>',
   compare: S + '<rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/><path d="M5 8.5h3M5 12h3"/><path d="M16 8.5h3M16 12h3M16 15.5h3"/>' + E,
 
   // ── number: percentage math — the domain object separates them ────────

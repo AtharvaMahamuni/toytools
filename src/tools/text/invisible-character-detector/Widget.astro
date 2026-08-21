@@ -1,0 +1,231 @@
+---
+// Bespoke widget: TextProcessorWidget is built around one input transformed into one output, and
+// this tool's answer is a list of positions with reasons. Detection lives in the engine
+// (src/lib/text/invisible.ts); this file only renders it.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div class="ic-widget">
+  <!-- Answer first on a phone: the verdict sits above the input that produced it. -->
+  <p class="ic-verdict" id="ic-verdict" role="status" aria-live="polite">Paste text to check it.</p>
+
+  <CraftNote id="ic-note" craftId="ic-spoof" />
+
+  <ol class="ic-findings" id="ic-findings" aria-label="Characters found"></ol>
+
+  <div class="ic-toolbar">
+    <button class="action-btn action-btn--sample" id="ic-sample" type="button">Sample</button>
+  </div>
+
+  <IoPanel label="Text" labelFor="ic-input" variant="prose">
+    <textarea
+      id="ic-input"
+      class="ic-textarea"
+      placeholder="Paste the text that will not match…"
+      spellcheck="false"
+      autocapitalize="off"
+      autocorrect="off"
+      aria-label="Text to check"></textarea>
+  </IoPanel>
+  <ToolActions pasteTarget="ic-input" clearTarget="ic-input" />
+
+  <div id="ic-clean-wrap" hidden>
+    <IoPanel label="Cleaned" labelFor="ic-clean" variant="prose">
+      <textarea id="ic-clean" class="ic-textarea" readonly aria-label="Cleaned text"></textarea>
+    </IoPanel>
+    <ToolActions copyTarget="ic-clean" downloadFilename="cleaned-text.txt" downloadTarget="ic-clean" />
+  </div>
+</div>
+
+<style is:global>
+  /* [hidden] must be restated wherever a display rule could beat it. */
+  .ic-widget [hidden] { display: none !important; }
+
+  .ic-widget .ic-verdict {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-lg);
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+  .ic-widget .ic-verdict[data-state='clean'] { color: var(--color-text-muted); }
+
+  .ic-widget .ic-findings {
+    list-style: none;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    display: grid;
+    /* Space is the only thing grouping these rows; no rules, per the no-lines gate. */
+    gap: var(--space-4);
+  }
+  .ic-widget .ic-findings:empty { margin-bottom: 0; }
+
+  .ic-widget .ic-row-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+  }
+  .ic-widget .ic-code {
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+  .ic-widget .ic-name { color: var(--color-text); }
+  .ic-widget .ic-where {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+  .ic-widget .ic-where[data-kind='dangerous'] { color: var(--color-accent); }
+  .ic-widget .ic-effect {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .ic-widget .ic-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-3);
+  }
+  .ic-widget .action-btn--sample {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+  }
+
+  .ic-widget .ic-textarea {
+    width: 100%;
+    /* Declared in CSS from a build-time value: a box sized by script paints the wrong one first. */
+    min-height: 8.5rem;
+    resize: vertical;
+    font-family: var(--font-mono);
+    /* 16px minimum so iOS never zooms on focus. */
+    font-size: var(--text-base);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+  .ic-widget .ic-textarea:focus {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+  #ic-clean-wrap { margin-top: var(--space-5); }
+</style>
+
+<script is:inline>
+  (function () {
+    var input = document.getElementById('ic-input');
+    var verdict = document.getElementById('ic-verdict');
+    var list = document.getElementById('ic-findings');
+    var cleanWrap = document.getElementById('ic-clean-wrap');
+    var clean = document.getElementById('ic-clean');
+    var note = document.getElementById('ic-note');
+    var noteText = document.getElementById('ic-note-text');
+    var sample = document.getElementById('ic-sample');
+    if (!input || !verdict || !list) return;
+
+    // Latin "p", Cyrillic "а" (U+0430), then a zero-width space before "com".
+    var SAMPLE = 'pаypal.​com';
+    var MAX_ROWS = 50;
+
+    function plural(n, word) {
+      return n + ' ' + word + (n === 1 ? '' : 's');
+    }
+
+    function render(r) {
+      list.textContent = '';
+      var f = r.findings || [];
+
+      if (!input.value) {
+        verdict.textContent = 'Paste text to check it.';
+        verdict.setAttribute('data-state', 'clean');
+      } else if (f.length === 0) {
+        verdict.textContent = 'Nothing hidden. Every character here is what it looks like.';
+        verdict.setAttribute('data-state', 'clean');
+      } else {
+        verdict.textContent = 'Found ' + plural(f.length, 'character') + ' you cannot see.';
+        verdict.setAttribute('data-state', 'found');
+      }
+
+      for (var i = 0; i < f.length && i < MAX_ROWS; i++) {
+        var item = f[i];
+        var li = document.createElement('li');
+
+        var head = document.createElement('div');
+        head.className = 'ic-row-head';
+        var code = document.createElement('span');
+        code.className = 'ic-code';
+        code.textContent = item.codePoint;
+        var name = document.createElement('span');
+        name.className = 'ic-name';
+        name.textContent = item.name;
+        var where = document.createElement('span');
+        where.className = 'ic-where';
+        where.setAttribute('data-kind', item.kind);
+        where.textContent = 'position ' + item.index;
+        head.appendChild(code);
+        head.appendChild(name);
+        head.appendChild(where);
+        li.appendChild(head);
+
+        var eff = document.createElement('p');
+        eff.className = 'ic-effect';
+        eff.textContent = item.effect;
+        li.appendChild(eff);
+        list.appendChild(li);
+      }
+
+      if (f.length > MAX_ROWS) {
+        var more = document.createElement('li');
+        var p = document.createElement('p');
+        p.className = 'ic-effect';
+        p.textContent = 'and ' + (f.length - MAX_ROWS) + ' more, all removed in the cleaned text below.';
+        more.appendChild(p);
+        list.appendChild(more);
+      }
+
+      if (cleanWrap && clean) {
+        var changed = f.length > 0 && r.cleaned !== input.value;
+        clean.value = changed ? r.cleaned : '';
+        cleanWrap.hidden = !changed;
+      }
+
+      // The craft: a character wearing another one's face is not a typo, and the reader has to be
+      // told that before they approve it.
+      if (note && noteText) {
+        if (r.spoofRisk) {
+          noteText.textContent =
+            'This text mixes ' + r.spoofRisk.scripts.join(' and ') + ' letters that render identically (' +
+            r.spoofRisk.samples.join(' ') + '). That is how lookalike domains and disguised commits pass review, so treat it as deliberate until you know otherwise.';
+          note.hidden = false;
+        } else {
+          note.hidden = true;
+        }
+      }
+    }
+
+    function run() {
+      // detectInvisible arrives with the lazy text-processor chunk, so every call is inside onReady.
+      render(window.ToyTools.detectInvisible(input.value));
+    }
+
+    ToyTools.onReady(function () {
+      input.addEventListener('input', run);
+      if (sample) {
+        sample.addEventListener('click', function () {
+          input.value = SAMPLE;
+          run();
+          input.focus();
+        });
+      }
+      run();
+    });
+  })();
+</script>

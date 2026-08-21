@@ -16,6 +16,10 @@ export const SCORE_WEIGHTS = {
   // "Should this be an algorithm at all?" — deterministic problems are ToyTools' home turf;
   // AI-shaped needs are an architecture mismatch AND a query class chatbots are absorbing.
   algorithmicFit: 0.08,
+  // "Could we rank here even if we built it well?" — distinct from `competition`, which measures how
+  // crowded and how weak the SERP is. A YMYL SERP can be both open and unreachable, and without this
+  // axis the engine ranked three medical calculators above everything else on demand alone.
+  authorityWinnability: 0.12,
 } as const;
 
 export const WEIGHT_SUM = Object.values(SCORE_WEIGHTS).reduce((a, b) => a + b, 0);

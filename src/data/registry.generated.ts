@@ -27,6 +27,7 @@ import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
+import { config as encodingDetector } from '@tools/developer-utilities/encoding-detector/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
@@ -34,6 +35,7 @@ import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-enco
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
 import { config as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/config';
 import { config as inflationCalculator } from '@tools/finance/inflation-calculator/config';
+import { config as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/config';
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
 import { config as jsonMinifier } from '@tools/developer-utilities/json-minifier/config';
@@ -136,6 +138,7 @@ export const toolConfigs: ToolConfig[] = [
   dateDifferenceCalculator,
   discountCalculator,
   emergencyFundCalculator,
+  encodingDetector,
   findReplace,
   fractionCalculator,
   heartRateZoneCalculator,
@@ -143,6 +146,7 @@ export const toolConfigs: ToolConfig[] = [
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
   inflationCalculator,
+  invisibleCharacterDetector,
   jsonEscape,
   jsonFormatter,
   jsonMinifier,

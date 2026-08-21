@@ -16,6 +16,7 @@
       "relatedTools": ["compound-interest-calculator"],
       "demand": 96,
       "competition": 70,
+      "authorityRequired": 55,
       "evergreen": 95,
       "difficulty": "medium",
       "localization": 90
@@ -35,6 +36,7 @@
       "relatedTools": ["compound-interest-calculator"],
       "demand": 98,
       "competition": 78,
+      "authorityRequired": 60,
       "evergreen": 96,
       "difficulty": "medium",
       "localization": 88
@@ -54,6 +56,7 @@
       "relatedTools": ["compound-interest-calculator", "rule-of-72-calculator"],
       "demand": 88,
       "competition": 60,
+      "authorityRequired": 35,
       "evergreen": 90,
       "difficulty": "low",
       "localization": 85
@@ -73,6 +76,7 @@
       "relatedTools": ["compound-interest-calculator", "savings-goal-calculator"],
       "demand": 92,
       "competition": 58,
+      "authorityRequired": 40,
       "evergreen": 90,
       "difficulty": "low",
       "localization": 95
@@ -92,6 +96,7 @@
       "relatedTools": ["compound-interest-calculator", "rule-of-72-calculator"],
       "demand": 82,
       "competition": 52,
+      "authorityRequired": 30,
       "evergreen": 88,
       "difficulty": "low",
       "localization": 80
@@ -111,6 +116,7 @@
       "relatedTools": ["compound-interest-calculator", "inflation-calculator", "savings-goal-calculator"],
       "demand": 94,
       "competition": 72,
+      "authorityRequired": 70,
       "evergreen": 94,
       "difficulty": "high",
       "localization": 82
@@ -130,6 +136,7 @@
       "relatedTools": ["percentage-calculator"],
       "demand": 90,
       "competition": 66,
+      "authorityRequired": 50,
       "evergreen": 92,
       "difficulty": "medium",
       "localization": 88
@@ -149,6 +156,7 @@
       "relatedTools": ["emergency-fund-calculator", "savings-goal-calculator"],
       "demand": 80,
       "competition": 50,
+      "authorityRequired": 40,
       "evergreen": 88,
       "difficulty": "low",
       "localization": 78

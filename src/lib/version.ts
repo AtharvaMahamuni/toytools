@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 17,
-  patch: 2,
+  minor: 20,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-21',
-  description: 'Take the section rules off the standalone pages and index the changelog',
+  description: 'Invisible Character Detector: find zero-width spaces, odd spaces and lookalike letters',
 };
 
 export function formatVersion(config: VersionConfig): string {

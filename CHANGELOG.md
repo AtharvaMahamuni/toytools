@@ -2,6 +2,81 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.20] - 2026-08-21
+
+### Added
+
+- **Invisible Character Detector** at `/tool/text/invisible-character-detector/`, with a guide at
+  `/guide/text/find-invisible-characters/`. When two strings look identical and an exact-match
+  comparison says they differ, this names the character responsible, says where it sits and what it
+  breaks, and hands back the text without it. It reports zero-width spaces and the byte order mark,
+  spaces that are not U+0020, curly quotes, bidi controls and lookalike letters from other scripts.
+  Plain ASCII, ordinary spaces, tabs and newlines are never reported, because a check that fires on
+  every string is one people learn to dismiss.
+- **Its craft: a warning when the text mixes scripts.** A Cyrillic letter that renders as its ASCII
+  twin passes every visual review, which is how lookalike domains and disguised commits get
+  approved. Pointing at the character is not enough when it is wearing another letter's face, so the
+  tool says the text mixes scripts and that this is a technique rather than a typo. It stays silent
+  for text that is simply not Latin, since flagging Russian for being Russian would be both wrong
+  and useless.
+- **`text-inspect`**, a pattern for tools that sit on the text-processor engine to report on input
+  rather than transform it. Shipping this tool closes the `asymmetry:text-processor` silence that
+  recommended it: nine tools produced transformed text and none could check any of it.
+
+## [alpha-v7.19] - 2026-08-21
+
+### Added
+
+- **Encoding Detector** at `/tool/developer-utilities/encoding-detector/`, with a guide at
+  `/guide/developer-utilities/identify-string-encoding/`. Paste a string and it says what encoding
+  it is, what each possible reading decodes to, and when it is not encoded at all. It identifies
+  Base64, Base64URL, hex, URL-encoding, HTML entities, binary and punycode by decoding each
+  candidate and checking the result is readable, rather than by matching alphabets, because every
+  English word matches the Base64 alphabet and "decade" is valid hex. It refuses to guess at ROT13,
+  which no structural test can distinguish from ordinary prose.
+- **Its craft: a decode that is still encoded says so.** A value that travelled through a URL is
+  routinely Base64 wrapped in percent-encoding, and one decode returns something that looks exactly
+  like corrupt data. The tool names the next layer and offers one tap to peel it, so the answer is
+  three taps rather than three tabs.
+- **`encode-detect`**, a pattern for tools that sit on an encoding engine to answer which codec
+  applies rather than to apply one. It is the first pattern the research engine counts as verifying,
+  which closes the `asymmetry:encoding` silence that recommended this tool: the catalog had eight
+  tools producing encoded text and none that could check any of it.
+
+### Changed
+
+- **The processorId rule now asks per pattern, not per engine.** Every tool on a registry-backed
+  engine had to name a processor, which is right for the thin wrappers that dispatch through one and
+  impossible for a detector that has no codec to name until it has worked out which codec applies.
+  Patterns that do not dispatch are declared in `src/data/engines.ts`; the rule keeps its full force
+  everywhere else, and an unknown or duplicate id is still an error for every tool.
+
+## [alpha-v7.18] - 2026-08-21
+
+### Added
+
+- **The research engine now scores whether we could rank for a tool at all**, not just whether the
+  tool is worth building. Its old top three recommendations were a pregnancy due-date calculator, an
+  ovulation calculator and a blood-pressure tracker, ranked above everything else on search demand
+  and build cost. Those are the query classes where Google weights site-level trust hardest, and
+  nothing on this site carries a citation or a named author, so a better calculator was never going
+  to enter those results. Seed records now state `authorityRequired` alongside `demand` and
+  `competition`, and the top recommendation moved to tools a correct implementation can actually win.
+- **Five latent-demand proposals**, for needs with no search query behind them: an encoding detector,
+  an invisible-character detector, a UUID inspector, a hash identifier and a date-format detector.
+  Each is anchored to a structural silence the engine derives from the catalog itself, and each
+  records the mid-task failures its users hit, so the craft decision has evidence behind it rather
+  than being invented at scaffold time.
+
+### Fixed
+
+- **The research engine no longer reports two holes the catalog had already filled.** It read
+  producer/verifier intent from a regex over pattern names, so it missed `color-contrast-checker`
+  (it verifies, but its pattern name says nothing about checking) and could not see `csv-diff` at
+  all, because tool-group members must share one pattern and `csv-to-tsv` has the same one. Roles are
+  now declared against the registry, by family where a shared pattern cannot tell siblings apart, and
+  the derived silences dropped from twelve to ten with both false positives gone.
+
 ## [alpha-v7.17.2] - 2026-08-21
 
 ### Changed

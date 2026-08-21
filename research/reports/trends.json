@@ -1,390 +1,420 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-16T06:45:38.636Z",
+  "generatedAt": "2026-08-21T16:52:43.648Z",
   "trends": [
     {
-      "transformation": "Health Date Calculation",
+      "transformation": "Fitness Performance Calculation",
       "count": 3,
-      "meanDemand": 0.82,
-      "meanScore": 83.3
+      "meanDemand": 0.78,
+      "meanScore": 81.2
     },
     {
       "transformation": "Energy And Nutrition Planning",
       "count": 3,
       "meanDemand": 0.77,
-      "meanScore": 82.6
+      "meanScore": 78.8
     },
     {
-      "transformation": "Fitness Performance Calculation",
+      "transformation": "Health Date Calculation",
       "count": 3,
-      "meanDemand": 0.78,
-      "meanScore": 82.4
+      "meanDemand": 0.82,
+      "meanScore": 76.9
     },
     {
       "transformation": "Body Composition Calculation",
       "count": 3,
       "meanDemand": 0.52,
-      "meanScore": 79.5
+      "meanScore": 74.4
     },
     {
       "transformation": "Personal Health Logging",
       "count": 2,
       "meanDemand": 0.56,
-      "meanScore": 77.9
-    },
-    {
-      "transformation": "Unit Circle",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 83.9
+      "meanScore": 73.9
     },
     {
       "transformation": "Quadratic Equations",
       "count": 1,
       "meanDemand": 0.94,
-      "meanScore": 83.8
-    },
-    {
-      "transformation": "Contrast Ratio",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 83.4
+      "meanScore": 85.4
     },
     {
       "transformation": "Fractions",
       "count": 1,
       "meanDemand": 0.9,
-      "meanScore": 82.1
+      "meanScore": 83.9
     },
     {
       "transformation": "Color Conversion",
       "count": 1,
       "meanDemand": 0.92,
-      "meanScore": 82
+      "meanScore": 83.8
+    },
+    {
+      "transformation": "Unit Circle",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 83.8
     },
     {
       "transformation": "Line Break Removal",
       "count": 1,
       "meanDemand": 0.84,
-      "meanScore": 81.8
+      "meanScore": 83.6
     },
     {
       "transformation": "Combinatorics",
       "count": 1,
       "meanDemand": 0.78,
-      "meanScore": 81.7
+      "meanScore": 83.5
     },
     {
       "transformation": "CSS Unit Conversion",
       "count": 1,
       "meanDemand": 0.84,
-      "meanScore": 81.6
-    },
-    {
-      "transformation": "Systematic Investment Plan",
-      "count": 1,
-      "meanDemand": 0.92,
-      "meanScore": 81.2
+      "meanScore": 83.5
     },
     {
       "transformation": "Text Reversal",
       "count": 1,
       "meanDemand": 0.78,
-      "meanScore": 81.1
+      "meanScore": 83
     },
     {
       "transformation": "Number Theory",
       "count": 1,
       "meanDemand": 0.75,
-      "meanScore": 80.9
+      "meanScore": 82.8
+    },
+    {
+      "transformation": "Contrast Ratio",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 82.5
     },
     {
       "transformation": "Density Unit Conversion",
       "count": 1,
       "meanDemand": 0.72,
-      "meanScore": 80.3
-    },
-    {
-      "transformation": "Projectile Motion",
-      "count": 1,
-      "meanDemand": 0.9,
-      "meanScore": 80.2
-    },
-    {
-      "transformation": "Probability",
-      "count": 1,
-      "meanDemand": 0.85,
-      "meanScore": 80
+      "meanScore": 82.2
     },
     {
       "transformation": "Slugification",
       "count": 1,
       "meanDemand": 0.8,
-      "meanScore": 80
+      "meanScore": 82
     },
     {
       "transformation": "Aspect Ratio",
       "count": 1,
       "meanDemand": 0.74,
-      "meanScore": 79.8
+      "meanScore": 81.8
     },
     {
       "transformation": "Descriptive Statistics",
       "count": 1,
       "meanDemand": 0.92,
-      "meanScore": 79.7
+      "meanScore": 81.7
     },
     {
       "transformation": "Binary Encoding",
       "count": 1,
       "meanDemand": 0.74,
-      "meanScore": 79.6
-    },
-    {
-      "transformation": "Return on Investment",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 79.5
+      "meanScore": 81.6
     },
     {
       "transformation": "Ohm's Law",
       "count": 1,
       "meanDemand": 0.95,
-      "meanScore": 79.4
+      "meanScore": 81.4
     },
     {
       "transformation": "JSON String Escaping",
       "count": 1,
       "meanDemand": 0.76,
-      "meanScore": 79.2
-    },
-    {
-      "transformation": "Simple Harmonic Motion",
-      "count": 1,
-      "meanDemand": 0.68,
-      "meanScore": 79
+      "meanScore": 81.3
     },
     {
       "transformation": "CSV Diff",
       "count": 1,
       "meanDemand": 0.82,
-      "meanScore": 78.8
-    },
-    {
-      "transformation": "Compound Annual Growth Rate",
-      "count": 1,
-      "meanDemand": 0.82,
-      "meanScore": 78
-    },
-    {
-      "transformation": "Matrices",
-      "count": 1,
-      "meanDemand": 0.88,
-      "meanScore": 77.8
+      "meanScore": 80.9
     },
     {
       "transformation": "ROT13",
       "count": 1,
       "meanDemand": 0.64,
-      "meanScore": 77.8
+      "meanScore": 80
     },
     {
       "transformation": "Diacritic Removal",
       "count": 1,
       "meanDemand": 0.7,
-      "meanScore": 77.6
+      "meanScore": 79.8
     },
     {
       "transformation": "Triangles",
       "count": 1,
       "meanDemand": 0.8,
-      "meanScore": 77.6
-    },
-    {
-      "transformation": "Ideal Gas Law",
-      "count": 1,
-      "meanDemand": 0.82,
-      "meanScore": 77.2
+      "meanScore": 79.8
     },
     {
       "transformation": "Color Scale",
       "count": 1,
       "meanDemand": 0.64,
-      "meanScore": 77.1
+      "meanScore": 79.4
     },
     {
       "transformation": "Timestamp Conversion",
       "count": 1,
       "meanDemand": 0.9,
-      "meanScore": 76.9
+      "meanScore": 79.2
     },
     {
       "transformation": "Type Scale",
       "count": 1,
       "meanDemand": 0.58,
-      "meanScore": 76.9
+      "meanScore": 79.2
     },
     {
-      "transformation": "Normal Distribution",
+      "transformation": "Systematic Investment Plan",
       "count": 1,
-      "meanDemand": 0.76,
-      "meanScore": 76.4
+      "meanDemand": 0.92,
+      "meanScore": 79.1
+    },
+    {
+      "transformation": "Projectile Motion",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 78.8
+    },
+    {
+      "transformation": "Probability",
+      "count": 1,
+      "meanDemand": 0.85,
+      "meanScore": 78.6
     },
     {
       "transformation": "Emoji Removal",
       "count": 1,
       "meanDemand": 0.66,
-      "meanScore": 76.1
+      "meanScore": 78.5
     },
     {
       "transformation": "CSV/TSV Conversion",
       "count": 1,
       "meanDemand": 0.58,
-      "meanScore": 76
+      "meanScore": 78.4
     },
     {
-      "transformation": "Doppler Effect",
+      "transformation": "Matrices",
       "count": 1,
-      "meanDemand": 0.78,
-      "meanScore": 75.7
+      "meanDemand": 0.88,
+      "meanScore": 78.3
     },
     {
-      "transformation": "Linear Regression",
+      "transformation": "Return on Investment",
       "count": 1,
-      "meanDemand": 0.7,
-      "meanScore": 75.5
+      "meanDemand": 0.88,
+      "meanScore": 78.1
     },
     {
       "transformation": "Color Vision Simulation",
       "count": 1,
       "meanDemand": 0.66,
-      "meanScore": 75.4
+      "meanScore": 77.8
     },
     {
       "transformation": "CSV Cleaning",
       "count": 1,
       "meanDemand": 0.7,
-      "meanScore": 74.9
+      "meanScore": 77.4
     },
     {
-      "transformation": "Momentum and Collisions",
+      "transformation": "Compound Annual Growth Rate",
       "count": 1,
-      "meanDemand": 0.72,
-      "meanScore": 74.6
+      "meanDemand": 0.82,
+      "meanScore": 77.2
     },
     {
       "transformation": "Age Calculation",
       "count": 1,
       "meanDemand": 0.88,
-      "meanScore": 74.5
+      "meanScore": 77.1
+    },
+    {
+      "transformation": "Normal Distribution",
+      "count": 1,
+      "meanDemand": 0.76,
+      "meanScore": 77.1
     },
     {
       "transformation": "Date Difference",
       "count": 1,
       "meanDemand": 0.85,
-      "meanScore": 74.4
+      "meanScore": 77
     },
     {
-      "transformation": "Inclined Plane and Friction",
+      "transformation": "Linear Regression",
       "count": 1,
-      "meanDemand": 0.62,
-      "meanScore": 73.9
-    },
-    {
-      "transformation": "Function Graphing",
-      "count": 1,
-      "meanDemand": 0.9,
-      "meanScore": 73.6
+      "meanDemand": 0.7,
+      "meanScore": 76.3
     },
     {
       "transformation": "Checksum (CRC32)",
       "count": 1,
       "meanDemand": 0.56,
-      "meanScore": 73.5
+      "meanScore": 76.1
+    },
+    {
+      "transformation": "Simple Harmonic Motion",
+      "count": 1,
+      "meanDemand": 0.68,
+      "meanScore": 76.1
+    },
+    {
+      "transformation": "Hash Identification",
+      "count": 1,
+      "meanDemand": 0.38,
+      "meanScore": 75.9
+    },
+    {
+      "transformation": "Identifier Inspection",
+      "count": 1,
+      "meanDemand": 0.3,
+      "meanScore": 75
+    },
+    {
+      "transformation": "Invisible Character Detection",
+      "count": 1,
+      "meanDemand": 0.41,
+      "meanScore": 74.8
     },
     {
       "transformation": "CSV Column Selection",
       "count": 1,
       "meanDemand": 0.6,
-      "meanScore": 71.9
+      "meanScore": 74.7
+    },
+    {
+      "transformation": "Function Graphing",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 74.5
+    },
+    {
+      "transformation": "Ideal Gas Law",
+      "count": 1,
+      "meanDemand": 0.82,
+      "meanScore": 74.4
     },
     {
       "transformation": "Perceptual Gradient",
       "count": 1,
       "meanDemand": 0.7,
-      "meanScore": 71.2
+      "meanScore": 74.1
+    },
+    {
+      "transformation": "Date Format Disambiguation",
+      "count": 1,
+      "meanDemand": 0.36,
+      "meanScore": 73.2
+    },
+    {
+      "transformation": "Doppler Effect",
+      "count": 1,
+      "meanDemand": 0.78,
+      "meanScore": 73.1
     },
     {
       "transformation": "Word Frequency Analysis",
       "count": 1,
       "meanDemand": 0.72,
-      "meanScore": 70
+      "meanScore": 73
     },
     {
       "transformation": "Schedule Expression Translation",
       "count": 1,
       "meanDemand": 0.29,
-      "meanScore": 69.9
+      "meanScore": 72.9
+    },
+    {
+      "transformation": "Encoding Detection",
+      "count": 1,
+      "meanDemand": 0.34,
+      "meanScore": 72.8
+    },
+    {
+      "transformation": "Momentum and Collisions",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 72.2
     },
     {
       "transformation": "Timezone Conversion",
       "count": 1,
       "meanDemand": 0.8,
-      "meanScore": 68.7
-    },
-    {
-      "transformation": "Loan Amortization",
-      "count": 1,
-      "meanDemand": 0.96,
-      "meanScore": 68.5
+      "meanScore": 71.9
     },
     {
       "transformation": "Palette Extraction",
       "count": 1,
       "meanDemand": 0.68,
-      "meanScore": 68.4
+      "meanScore": 71.6
+    },
+    {
+      "transformation": "Inclined Plane and Friction",
+      "count": 1,
+      "meanDemand": 0.62,
+      "meanScore": 71.5
     },
     {
       "transformation": "Cron Parsing",
       "count": 1,
       "meanDemand": 0.72,
-      "meanScore": 67.6
-    },
-    {
-      "transformation": "Net Worth",
-      "count": 1,
-      "meanDemand": 0.8,
-      "meanScore": 67.3
-    },
-    {
-      "transformation": "Mortgage Amortization",
-      "count": 1,
-      "meanDemand": 0.98,
-      "meanScore": 67
+      "meanScore": 70.8
     },
     {
       "transformation": "Shell Quoting",
       "count": 1,
       "meanDemand": 0.11,
-      "meanScore": 66.5
+      "meanScore": 69.9
+    },
+    {
+      "transformation": "Net Worth",
+      "count": 1,
+      "meanDemand": 0.8,
+      "meanScore": 66.6
+    },
+    {
+      "transformation": "Loan Amortization",
+      "count": 1,
+      "meanDemand": 0.96,
+      "meanScore": 66.2
     },
     {
       "transformation": "Salary Conversion",
       "count": 1,
       "meanDemand": 0.9,
-      "meanScore": 66.3
+      "meanScore": 64.7
+    },
+    {
+      "transformation": "Mortgage Amortization",
+      "count": 1,
+      "meanDemand": 0.98,
+      "meanScore": 64.3
     },
     {
       "transformation": "Retirement Projection",
       "count": 1,
       "meanDemand": 0.94,
-      "meanScore": 61.4
+      "meanScore": 58.3
     },
     {
       "transformation": "Nutrition Authoring",
       "count": 1,
       "meanDemand": 0.75,
-      "meanScore": 46.6
+      "meanScore": 45.5
     }
   ]
 }

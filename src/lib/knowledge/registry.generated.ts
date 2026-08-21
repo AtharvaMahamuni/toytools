@@ -27,6 +27,7 @@ import { knowledge as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/kno
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
+import { knowledge as encodingDetector } from '@tools/developer-utilities/encoding-detector/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/knowledge';
@@ -34,6 +35,7 @@ import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-e
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
 import { knowledge as idealWeightCalculator } from '@tools/health/ideal-weight-calculator/knowledge';
 import { knowledge as inflationCalculator } from '@tools/finance/inflation-calculator/knowledge';
+import { knowledge as invisibleCharacterDetector } from '@tools/text/invisible-character-detector/knowledge';
 import { knowledge as jsonEscape } from '@tools/developer-utilities/json-escape/knowledge';
 import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-formatter/knowledge';
 import { knowledge as jsonMinifier } from '@tools/developer-utilities/json-minifier/knowledge';
@@ -136,6 +138,7 @@ export const authoredKnowledge: Knowledge[] = [
   dateDifferenceCalculator,
   discountCalculator,
   emergencyFundCalculator,
+  encodingDetector,
   findReplace,
   fractionCalculator,
   heartRateZoneCalculator,
@@ -143,6 +146,7 @@ export const authoredKnowledge: Knowledge[] = [
   htmlEntityEncoderDecoder,
   idealWeightCalculator,
   inflationCalculator,
+  invisibleCharacterDetector,
   jsonEscape,
   jsonFormatter,
   jsonMinifier,
