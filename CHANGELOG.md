@@ -32,8 +32,13 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 ### Changed
 
 - **The homepage says what the site is meant to feel like.** The line under the heading is now "The
-  internet's little toolbox", and the about page opens on what that implies: you take out the one
+  internet's little toolbox 🔧", and the about page opens on what that implies: you take out the one
   thing that does the job and put it back, and nothing in a toolbox asks who you are first.
+- **The same line now reaches everyone who asks what this site is**, in the four places each
+  audience actually looks: the homepage meta description and its WebSite schema (search results),
+  `llms.txt` (AI agents), the README (contributors), and the hero (visitors). It is deliberately
+  absent from the footer, because repeating it there would put the same sentence twice on the one
+  page that already opens with it.
 - **Searching for "slug generator" now finds Slugify Text.** The tool has existed all along under a
   name nobody types. Aliases were added for the new tools at the same time.
 - **Roman numerals, English words and base two are read in their own vocabulary.** The converter

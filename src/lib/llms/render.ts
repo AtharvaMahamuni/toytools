@@ -11,8 +11,9 @@ import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 
 const SUMMARY =
-  'Free, browser-based tools for text, numbers, dates, money, health, design, and code. ' +
-  'Every tool runs client-side: no server, no account, and no data collection.';
+  "ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, " +
+  'dates, money, health, design, and code. Every tool runs client-side: no server, no ' +
+  'account, and no data collection.';
 
 const DETAIL =
   'ToyTools is a static site of single-purpose utilities plus interactive physics and math ' +
