@@ -5,6 +5,7 @@ import type { Knowledge } from './types';
 import { knowledge as ageCalculator } from '@tools/datetime/age-calculator/knowledge';
 import { knowledge as aspectRatioCalculator } from '@tools/design/aspect-ratio-calculator/knowledge';
 import { knowledge as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/knowledge';
+import { knowledge as binaryConverter } from '@tools/number/binary-converter/knowledge';
 import { knowledge as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/knowledge';
 import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowledge';
 import { knowledge as bmrCalculator } from '@tools/health/bmr-calculator/knowledge';
@@ -14,6 +15,8 @@ import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/know
 import { knowledge as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
+import { knowledge as characterMap } from '@tools/text/character-map/knowledge';
+import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
 import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
@@ -25,6 +28,7 @@ import { knowledge as csvDiff } from '@tools/developer-utilities/csv-diff/knowle
 import { knowledge as csvToJsonConverter } from '@tools/developer-utilities/csv-to-json-converter/knowledge';
 import { knowledge as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/knowledge';
 import { knowledge as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/knowledge';
+import { knowledge as diceRoller } from '@tools/generate/dice-roller/knowledge';
 import { knowledge as discountCalculator } from '@tools/number/discount-calculator/knowledge';
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
 import { knowledge as encodingDetector } from '@tools/developer-utilities/encoding-detector/knowledge';
@@ -57,6 +61,7 @@ import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-ha
 import { knowledge as moveTodayTracker } from '@tools/health/move-today-tracker/knowledge';
 import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespace/knowledge';
 import { knowledge as notepad } from '@tools/productivity/notepad/knowledge';
+import { knowledge as numberToWords } from '@tools/number/number-to-words/knowledge';
 import { knowledge as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/knowledge';
 import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/knowledge';
 import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
@@ -68,6 +73,8 @@ import { knowledge as punycodeConverter } from '@tools/developer-utilities/punyc
 import { knowledge as pxToDpConverter } from '@tools/design/px-to-dp-converter/knowledge';
 import { knowledge as pxToRemConverter } from '@tools/design/px-to-rem-converter/knowledge';
 import { knowledge as qrCodeGenerator } from '@tools/generate/qr-code-generator/knowledge';
+import { knowledge as randomChoicePicker } from '@tools/generate/random-choice-picker/knowledge';
+import { knowledge as randomNamePicker } from '@tools/generate/random-name-picker/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
 import { knowledge as readingTimeCalculator } from '@tools/text/reading-time-calculator/knowledge';
 import { knowledge as removeAccents } from '@tools/text/remove-accents/knowledge';
@@ -79,6 +86,7 @@ import { knowledge as removeLineBreaks } from '@tools/text/remove-line-breaks/kn
 import { knowledge as removeTabs } from '@tools/text/remove-tabs/knowledge';
 import { knowledge as reverseText } from '@tools/text/reverse-text/knowledge';
 import { knowledge as roiCalculator } from '@tools/finance/roi-calculator/knowledge';
+import { knowledge as romanNumeralConverter } from '@tools/number/roman-numeral-converter/knowledge';
 import { knowledge as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/knowledge';
 import { knowledge as ruleOf72Calculator } from '@tools/finance/rule-of-72-calculator/knowledge';
 import { knowledge as runningPaceCalculator } from '@tools/health/running-pace-calculator/knowledge';
@@ -98,6 +106,7 @@ import { knowledge as systemdTimerConverter } from '@tools/datetime/systemd-time
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
 import { knowledge as tdeeCalculator } from '@tools/health/tdee-calculator/knowledge';
 import { knowledge as textCompare } from '@tools/text/text-compare/knowledge';
+import { knowledge as textRepeater } from '@tools/text/text-repeater/knowledge';
 import { knowledge as timezoneConverter } from '@tools/datetime/timezone-converter/knowledge';
 import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
 import { knowledge as titleCaseConverter } from '@tools/text/title-case-converter/knowledge';
@@ -116,6 +125,7 @@ export const authoredKnowledge: Knowledge[] = [
   ageCalculator,
   aspectRatioCalculator,
   base64EncoderDecoder,
+  binaryConverter,
   binaryTextConverter,
   bmiCalculator,
   bmrCalculator,
@@ -125,6 +135,8 @@ export const authoredKnowledge: Knowledge[] = [
   calorieDeficitCalculator,
   camelCaseConverter,
   characterCounter,
+  characterMap,
+  coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
   combinationsPermutationsCalculator,
@@ -136,6 +148,7 @@ export const authoredKnowledge: Knowledge[] = [
   csvToJsonConverter,
   csvToTsv,
   dateDifferenceCalculator,
+  diceRoller,
   discountCalculator,
   emergencyFundCalculator,
   encodingDetector,
@@ -168,6 +181,7 @@ export const authoredKnowledge: Knowledge[] = [
   moveTodayTracker,
   normalizeWhitespace,
   notepad,
+  numberToWords,
   oneRepMaxCalculator,
   paragraphCounter,
   passwordGenerator,
@@ -179,6 +193,8 @@ export const authoredKnowledge: Knowledge[] = [
   pxToDpConverter,
   pxToRemConverter,
   qrCodeGenerator,
+  randomChoicePicker,
+  randomNamePicker,
   randomStringGenerator,
   readingTimeCalculator,
   removeAccents,
@@ -190,6 +206,7 @@ export const authoredKnowledge: Knowledge[] = [
   removeTabs,
   reverseText,
   roiCalculator,
+  romanNumeralConverter,
   rot13EncoderDecoder,
   ruleOf72Calculator,
   runningPaceCalculator,
@@ -209,6 +226,7 @@ export const authoredKnowledge: Knowledge[] = [
   taxCalculator,
   tdeeCalculator,
   textCompare,
+  textRepeater,
   timezoneConverter,
   tipCalculator,
   titleCaseConverter,

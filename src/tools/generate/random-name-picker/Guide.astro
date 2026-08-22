@@ -1,0 +1,167 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      To draw names from a list, paste them one per line, set how many to draw, and press. That is
+      the whole tool.
+    </p>
+    <p>
+      For example, Input: twelve student names, pick 3. Output: three different students, numbered in
+      the order they came out, because repeats are off by default.
+    </p>
+    <p>
+      The <a href={toolHref}>random name picker</a> also checks the list afterwards. If a name sits
+      in there twice, it says so and offers to remove the extra entry, because that duplicate is the
+      one thing that quietly breaks a draw everybody watched.
+    </p>
+    <a href={toolHref} class="cta-link">Pick A Random Name →</a>
+  </section>
+
+  <section id="fair-draw">
+    <h2>What is a fair random draw? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A fair random name draw means every entry holds the same chance, and the tool has no way to
+      prefer one over another.
+    </p>
+    <p>
+      A spinning wheel makes a show of that, and a classroom name picker does not need one. The
+      animation is theatre rather than evidence, and it costs ten seconds on every draw.
+    </p>
+    <p>
+      Each pick here comes from your browser's cryptographic random number generator. The list gets
+      shuffled with a Fisher-Yates pass, which produces every possible ordering with equal
+      likelihood. The tool then takes the first few names off the top.
+    </p>
+    <p>
+      That last detail matters more than it looks. Shuffling and taking from the top is not the same
+      as picking repeatedly and hoping for no collisions. For example, a raffle picker that draws
+      three times from the full list can hand the same person two of the three winners, and a room will
+      notice before you do.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does drawing without replacement work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Drawing without replacement means each name comes out at most once. The name that was picked
+      does not go back in the hat.
+    </p>
+    <p>
+      With repeats allowed, every pick is an independent draw from the full list. Twelve names and
+      three picks gives roughly a one in four chance that at least two picks land on the same person.
+      Unlike that, a shuffle guarantees three distinct results.
+    </p>
+    <p>
+      So the choice comes down to what you are doing. A rota, a standup order or a three-prize raffle
+      wants no repeats. A nightly draw where yesterday's winner stays eligible wants them. The
+      toggle sits under the pick count, and it starts in the no-repeats position because that is the
+      case people arrive for.
+    </p>
+    <p>
+      Ask for more picks than the list can supply and the draw caps at the list size instead of
+      quietly repeating anyone. The badge under the result says what it capped to.
+    </p>
+  </section>
+
+  <section id="duplicates">
+    <h2>Why does a repeated name break the draw? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because it buys somebody an extra ticket, and nothing on screen shows the receipt.
+    </p>
+    <p>
+      Twelve names with one person listed twice means that person holds two slots in twelve. Everyone
+      else holds one. They are exactly twice as likely to win, in a draw that was announced as fair,
+      and the winner has no idea either. This is the common mistake that costs a raffle its
+      credibility.
+    </p>
+    <p>
+      Lists collect duplicates without anyone doing anything wrong. Somebody signs up twice. A
+      register gets pasted on top of itself. Two people share a first name and one of them typed
+      theirs with a trailing space. The tool compares names with case and spacing ignored, so Ana,
+      ana and Ana with a stray space count as one person.
+    </p>
+    <p>
+      A repeated name is not a harmless typo, which is the reason this gets a warning rather than a
+      quiet clean-up: a duplicate entry changes the odds of the draw, and silently fixing it would
+      change them back without telling you. Do not delete the extras by hand in a long list. The
+      warning offers a one-tap fix that keeps the first spelling and the original order, and it stays
+      silent on a clean list.
+    </p>
+  </section>
+
+  <section id="clustering">
+    <h2>Is it broken if the same person wins twice this week? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No, assuming the list is clean. Random draws cluster, and the clustering is the thing people
+      mistake for a bug.
+    </p>
+    <p>
+      Shuffling twice does not make a classroom draw fairer, so re-rolling a result you dislike is
+      not a fix for anything. With twelve names, the same student coming up in two consecutive
+      lessons happens one time in twelve. Across a term of forty lessons that is going to happen three times, therefore it will
+      happen to you and it will feel wrong. Instead of re-rolling until the result looks scattered,
+      draw the whole rotation at once with repeats off. One shuffle gives an order that covers
+      everybody before it covers anybody twice.
+    </p>
+  </section>
+
+  <section id="pasting">
+    <h2>Why did my pasted list come out as one entry? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because the names arrived on one line, separated by commas.
+    </p>
+    <p>
+      The tool reads one name per line and does not split on commas. That is deliberate: surnames
+      arrive comma-first often enough that splitting would turn Smith, Jane into two contestants.
+      Blank lines get dropped and surrounding spaces get trimmed, so a column copied out of a
+      spreadsheet pastes in cleanly.
+    </p>
+    <p>
+      If your names are comma-separated, run them through
+      <a href={withBase('/tool/text/find-replace/')}>find and replace</a> first, or use the
+      <a href={withBase('/tool/generate/random-choice-picker/')}>random choice picker</a>, which
+      offers to split a single comma-separated line for you.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Where does the list of names go? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Nowhere. Every draw runs in your browser and no name leaves the page.
+    </p>
+    <p>
+      That is not a small point for this tool. These lists are class registers, staff rotas and
+      competition entrants, which is personal data about people who never agreed to have it pasted
+      into a stranger's server.
+    </p>
+    <p>
+      Your list persists on this device so it survives a refresh, up to 2000 names. Clearing your
+      browser data removes it, and the settings page exports everything ToyTools has kept locally.
+    </p>
+  </section>
+</GuideLayout>

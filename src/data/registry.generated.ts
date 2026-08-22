@@ -5,6 +5,7 @@ import type { ToolConfig } from './types';
 import { config as ageCalculator } from '@tools/datetime/age-calculator/config';
 import { config as aspectRatioCalculator } from '@tools/design/aspect-ratio-calculator/config';
 import { config as base64EncoderDecoder } from '@tools/developer-utilities/base64-encoder-decoder/config';
+import { config as binaryConverter } from '@tools/number/binary-converter/config';
 import { config as binaryTextConverter } from '@tools/developer-utilities/binary-text-converter/config';
 import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
 import { config as bmrCalculator } from '@tools/health/bmr-calculator/config';
@@ -14,6 +15,8 @@ import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config'
 import { config as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
+import { config as characterMap } from '@tools/text/character-map/config';
+import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
 import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
@@ -25,6 +28,7 @@ import { config as csvDiff } from '@tools/developer-utilities/csv-diff/config';
 import { config as csvToJsonConverter } from '@tools/developer-utilities/csv-to-json-converter/config';
 import { config as csvToTsv } from '@tools/developer-utilities/csv-to-tsv/config';
 import { config as dateDifferenceCalculator } from '@tools/datetime/date-difference-calculator/config';
+import { config as diceRoller } from '@tools/generate/dice-roller/config';
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as encodingDetector } from '@tools/developer-utilities/encoding-detector/config';
@@ -57,6 +61,7 @@ import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-
 import { config as moveTodayTracker } from '@tools/health/move-today-tracker/config';
 import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/config';
 import { config as notepad } from '@tools/productivity/notepad/config';
+import { config as numberToWords } from '@tools/number/number-to-words/config';
 import { config as oneRepMaxCalculator } from '@tools/health/one-rep-max-calculator/config';
 import { config as paragraphCounter } from '@tools/text/paragraph-counter/config';
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
@@ -68,6 +73,8 @@ import { config as punycodeConverter } from '@tools/developer-utilities/punycode
 import { config as pxToDpConverter } from '@tools/design/px-to-dp-converter/config';
 import { config as pxToRemConverter } from '@tools/design/px-to-rem-converter/config';
 import { config as qrCodeGenerator } from '@tools/generate/qr-code-generator/config';
+import { config as randomChoicePicker } from '@tools/generate/random-choice-picker/config';
+import { config as randomNamePicker } from '@tools/generate/random-name-picker/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
 import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
 import { config as removeAccents } from '@tools/text/remove-accents/config';
@@ -79,6 +86,7 @@ import { config as removeLineBreaks } from '@tools/text/remove-line-breaks/confi
 import { config as removeTabs } from '@tools/text/remove-tabs/config';
 import { config as reverseText } from '@tools/text/reverse-text/config';
 import { config as roiCalculator } from '@tools/finance/roi-calculator/config';
+import { config as romanNumeralConverter } from '@tools/number/roman-numeral-converter/config';
 import { config as rot13EncoderDecoder } from '@tools/developer-utilities/rot13-encoder-decoder/config';
 import { config as ruleOf72Calculator } from '@tools/finance/rule-of-72-calculator/config';
 import { config as runningPaceCalculator } from '@tools/health/running-pace-calculator/config';
@@ -98,6 +106,7 @@ import { config as systemdTimerConverter } from '@tools/datetime/systemd-timer-c
 import { config as taxCalculator } from '@tools/number/tax-calculator/config';
 import { config as tdeeCalculator } from '@tools/health/tdee-calculator/config';
 import { config as textCompare } from '@tools/text/text-compare/config';
+import { config as textRepeater } from '@tools/text/text-repeater/config';
 import { config as timezoneConverter } from '@tools/datetime/timezone-converter/config';
 import { config as tipCalculator } from '@tools/number/tip-calculator/config';
 import { config as titleCaseConverter } from '@tools/text/title-case-converter/config';
@@ -116,6 +125,7 @@ export const toolConfigs: ToolConfig[] = [
   ageCalculator,
   aspectRatioCalculator,
   base64EncoderDecoder,
+  binaryConverter,
   binaryTextConverter,
   bmiCalculator,
   bmrCalculator,
@@ -125,6 +135,8 @@ export const toolConfigs: ToolConfig[] = [
   calorieDeficitCalculator,
   camelCaseConverter,
   characterCounter,
+  characterMap,
+  coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
   combinationsPermutationsCalculator,
@@ -136,6 +148,7 @@ export const toolConfigs: ToolConfig[] = [
   csvToJsonConverter,
   csvToTsv,
   dateDifferenceCalculator,
+  diceRoller,
   discountCalculator,
   emergencyFundCalculator,
   encodingDetector,
@@ -168,6 +181,7 @@ export const toolConfigs: ToolConfig[] = [
   moveTodayTracker,
   normalizeWhitespace,
   notepad,
+  numberToWords,
   oneRepMaxCalculator,
   paragraphCounter,
   passwordGenerator,
@@ -179,6 +193,8 @@ export const toolConfigs: ToolConfig[] = [
   pxToDpConverter,
   pxToRemConverter,
   qrCodeGenerator,
+  randomChoicePicker,
+  randomNamePicker,
   randomStringGenerator,
   readingTimeCalculator,
   removeAccents,
@@ -190,6 +206,7 @@ export const toolConfigs: ToolConfig[] = [
   removeTabs,
   reverseText,
   roiCalculator,
+  romanNumeralConverter,
   rot13EncoderDecoder,
   ruleOf72Calculator,
   runningPaceCalculator,
@@ -209,6 +226,7 @@ export const toolConfigs: ToolConfig[] = [
   taxCalculator,
   tdeeCalculator,
   textCompare,
+  textRepeater,
   timezoneConverter,
   tipCalculator,
   titleCaseConverter,

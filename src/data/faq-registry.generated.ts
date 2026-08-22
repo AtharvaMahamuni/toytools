@@ -5,6 +5,7 @@ import type { FAQItem } from './types';
 import { items as ageCalculatorFaqs } from '@tools/datetime/age-calculator/faq';
 import { items as aspectRatioCalculatorFaqs } from '@tools/design/aspect-ratio-calculator/faq';
 import { items as base64EncoderDecoderFaqs } from '@tools/developer-utilities/base64-encoder-decoder/faq';
+import { items as binaryConverterFaqs } from '@tools/number/binary-converter/faq';
 import { items as binaryTextConverterFaqs } from '@tools/developer-utilities/binary-text-converter/faq';
 import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
 import { items as bmrCalculatorFaqs } from '@tools/health/bmr-calculator/faq';
@@ -14,6 +15,8 @@ import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq'
 import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-deficit-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
+import { items as characterMapFaqs } from '@tools/text/character-map/faq';
+import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
@@ -25,6 +28,7 @@ import { items as csvDiffFaqs } from '@tools/developer-utilities/csv-diff/faq';
 import { items as csvToJsonConverterFaqs } from '@tools/developer-utilities/csv-to-json-converter/faq';
 import { items as csvToTsvFaqs } from '@tools/developer-utilities/csv-to-tsv/faq';
 import { items as dateDifferenceCalculatorFaqs } from '@tools/datetime/date-difference-calculator/faq';
+import { items as diceRollerFaqs } from '@tools/generate/dice-roller/faq';
 import { items as discountCalculatorFaqs } from '@tools/number/discount-calculator/faq';
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as encodingDetectorFaqs } from '@tools/developer-utilities/encoding-detector/faq';
@@ -57,6 +61,7 @@ import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-ha
 import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
 import { items as notepadFaqs } from '@tools/productivity/notepad/faq';
+import { items as numberToWordsFaqs } from '@tools/number/number-to-words/faq';
 import { items as oneRepMaxCalculatorFaqs } from '@tools/health/one-rep-max-calculator/faq';
 import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq';
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
@@ -68,6 +73,8 @@ import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punyc
 import { items as pxToDpConverterFaqs } from '@tools/design/px-to-dp-converter/faq';
 import { items as pxToRemConverterFaqs } from '@tools/design/px-to-rem-converter/faq';
 import { items as qrCodeGeneratorFaqs } from '@tools/generate/qr-code-generator/faq';
+import { items as randomChoicePickerFaqs } from '@tools/generate/random-choice-picker/faq';
+import { items as randomNamePickerFaqs } from '@tools/generate/random-name-picker/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
 import { items as readingTimeCalculatorFaqs } from '@tools/text/reading-time-calculator/faq';
 import { items as removeAccentsFaqs } from '@tools/text/remove-accents/faq';
@@ -79,6 +86,7 @@ import { items as removeLineBreaksFaqs } from '@tools/text/remove-line-breaks/fa
 import { items as removeTabsFaqs } from '@tools/text/remove-tabs/faq';
 import { items as reverseTextFaqs } from '@tools/text/reverse-text/faq';
 import { items as roiCalculatorFaqs } from '@tools/finance/roi-calculator/faq';
+import { items as romanNumeralConverterFaqs } from '@tools/number/roman-numeral-converter/faq';
 import { items as rot13EncoderDecoderFaqs } from '@tools/developer-utilities/rot13-encoder-decoder/faq';
 import { items as ruleOf72CalculatorFaqs } from '@tools/finance/rule-of-72-calculator/faq';
 import { items as runningPaceCalculatorFaqs } from '@tools/health/running-pace-calculator/faq';
@@ -98,6 +106,7 @@ import { items as systemdTimerConverterFaqs } from '@tools/datetime/systemd-time
 import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
 import { items as tdeeCalculatorFaqs } from '@tools/health/tdee-calculator/faq';
 import { items as textCompareFaqs } from '@tools/text/text-compare/faq';
+import { items as textRepeaterFaqs } from '@tools/text/text-repeater/faq';
 import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-converter/faq';
 import { items as tipCalculatorFaqs } from '@tools/number/tip-calculator/faq';
 import { items as titleCaseConverterFaqs } from '@tools/text/title-case-converter/faq';
@@ -116,6 +125,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'age-calculator': ageCalculatorFaqs,
   'aspect-ratio-calculator': aspectRatioCalculatorFaqs,
   'base64-encoder-decoder': base64EncoderDecoderFaqs,
+  'binary-converter': binaryConverterFaqs,
   'binary-text-converter': binaryTextConverterFaqs,
   'bmi-calculator': bmiCalculatorFaqs,
   'bmr-calculator': bmrCalculatorFaqs,
@@ -125,6 +135,8 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'calorie-deficit-calculator': calorieDeficitCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
+  'character-map': characterMapFaqs,
+  'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
   'color-format-converter': colorFormatConverterFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
@@ -136,6 +148,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'csv-to-json-converter': csvToJsonConverterFaqs,
   'csv-to-tsv': csvToTsvFaqs,
   'date-difference-calculator': dateDifferenceCalculatorFaqs,
+  'dice-roller': diceRollerFaqs,
   'discount-calculator': discountCalculatorFaqs,
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'encoding-detector': encodingDetectorFaqs,
@@ -168,6 +181,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'move-today-tracker': moveTodayTrackerFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
   'notepad': notepadFaqs,
+  'number-to-words': numberToWordsFaqs,
   'one-rep-max-calculator': oneRepMaxCalculatorFaqs,
   'paragraph-counter': paragraphCounterFaqs,
   'password-generator': passwordGeneratorFaqs,
@@ -179,6 +193,8 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'px-to-dp-converter': pxToDpConverterFaqs,
   'px-to-rem-converter': pxToRemConverterFaqs,
   'qr-code-generator': qrCodeGeneratorFaqs,
+  'random-choice-picker': randomChoicePickerFaqs,
+  'random-name-picker': randomNamePickerFaqs,
   'random-string-generator': randomStringGeneratorFaqs,
   'reading-time-calculator': readingTimeCalculatorFaqs,
   'remove-accents': removeAccentsFaqs,
@@ -190,6 +206,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'remove-tabs': removeTabsFaqs,
   'reverse-text': reverseTextFaqs,
   'roi-calculator': roiCalculatorFaqs,
+  'roman-numeral-converter': romanNumeralConverterFaqs,
   'rot13-encoder-decoder': rot13EncoderDecoderFaqs,
   'rule-of-72-calculator': ruleOf72CalculatorFaqs,
   'running-pace-calculator': runningPaceCalculatorFaqs,
@@ -209,6 +226,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'tax-calculator': taxCalculatorFaqs,
   'tdee-calculator': tdeeCalculatorFaqs,
   'text-compare': textCompareFaqs,
+  'text-repeater': textRepeaterFaqs,
   'timezone-converter': timezoneConverterFaqs,
   'tip-calculator': tipCalculatorFaqs,
   'title-case-converter': titleCaseConverterFaqs,

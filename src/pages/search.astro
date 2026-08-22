@@ -33,7 +33,12 @@ function getCategoryName(slug: string): string {
         <article
           data-search-item
           data-slug={tool.slug}
-          data-search={`${tool.name} ${tool.description} ${tool.tags.join(' ')} ${(tool.keywords ?? []).join(' ')} ${tool.family ?? ''} ${getCategoryName(tool.categorySlug)}`.toLowerCase()}
+          {/* Only the vocabulary the card does NOT already render. Name, description and
+              category were in here too, which shipped a second lowercase copy of every tool's
+              description in an attribute nothing displayed: 132 tools of pure duplication, and
+              the reason this page was the heaviest HTML document on the site. The inline pass
+              below reads this attribute AND the card's own text, so matching is unchanged. */}
+          data-search={`${tool.tags.join(' ')} ${(tool.keywords ?? []).join(' ')} ${tool.family ?? ''}`.toLowerCase()}
         >
           <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
         </article>
@@ -149,7 +154,10 @@ function getCategoryName(slug: string): string {
 
   var visible = 0;
   items.forEach(function (item) {
-    var matches = !query || item.getAttribute('data-search').includes(query);
+    // The card's own text carries the name, description and category; the attribute carries the
+    // tags, keywords and family, which are real search terms that never appear on screen.
+    var haystack = (item.getAttribute('data-search') || '') + ' ' + (item.textContent || '').toLowerCase();
+    var matches = !query || haystack.includes(query);
     item.hidden = !matches;
     if (matches) visible += 1;
   });

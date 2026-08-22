@@ -1,0 +1,158 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Search by name, then tap. The glyph goes to your clipboard, ready to paste.
+    </p>
+    <p>
+      For example, Input: the word arrow. Output: the two dozen arrows out of 365 characters, so you
+      pick by looking instead of by scrolling. Typing dash finds the en dash without you having to
+      know its name first.
+    </p>
+    <p>
+      Alongside the glyph, the <a href={toolHref}>character map</a> gives you its code point and its
+      HTML, CSS and JavaScript escapes, because the glyph on its own is frequently not what the file
+      you are pasting into wants.
+    </p>
+    <a href={toolHref} class="cta-link">Find A Character →</a>
+  </section>
+
+  <section id="code-point">
+    <h2>What is a code point? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unicode characters each carry a code point: the number Unicode gives them, written as U+ and
+      four or more hex digits.
+    </p>
+    <p>
+      The degree sign is U+00B0. The right arrow is U+2192. That number is the character's real
+      identity, and everything else about it is a layer on top. A font decides what shape gets drawn.
+      An encoding decides which bytes get stored. The code point survives both, therefore it is what
+      every escape is really spelling out.
+    </p>
+    <p>
+      This matters because two characters can look identical and hold different numbers. Unlike a
+      font difference, that is a genuine mismatch, and it is why a search that should match keeps
+      failing.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does searching by name work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every character in the map carries its Unicode name as its accessible label, and the search box
+      matches against that text.
+    </p>
+    <p>
+      So typing currency does nothing, because no character is called that, while typing sign or euro
+      lands immediately. Short words beat precise ones here. For example, Input: greek. Output: the
+      whole Greek alphabet, upper and lower case, because every one of those names starts with it.
+    </p>
+    <p>
+      Pasting a character into the search box works too. If you already have a copy of a symbol and
+      want its name or its escape, drop it in and the map finds the cell.
+    </p>
+  </section>
+
+  <section id="glyph-or-escape">
+    <h2>Should I paste the glyph or an escape? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Paste the glyph into anything a person reads. Use an escape when a machine reads it first.
+    </p>
+    <p>
+      Documents, emails, messages and spreadsheet cells all copy and paste symbols without
+      complaint, because those tools have been fully Unicode for years. Special characters are
+      ordinary text to them. Source files are the other case. HTML, CSS and
+      string literals travel through build steps, minifiers and databases, and any one of them can be
+      set to an encoding that cannot carry the character.
+    </p>
+    <p>
+      So the three escapes sit next to the glyph rather than behind a menu. Copying the right one is
+      the same single tap as copying the character.
+    </p>
+  </section>
+
+  <section id="entities">
+    <h2>What is an HTML entity? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      It is a way of writing a character using nothing but ASCII, so it survives whatever encoding
+      the file ends up in.
+    </p>
+    <p>
+      Two forms exist. A named entity spells the character out, and a few hundred common characters
+      have one. A numeric entity uses the code point in decimal, and every character in Unicode has
+      one. The map gives you the named form when there is one, because a name is far easier to
+      recognise in a diff six months later.
+    </p>
+    <p>
+      CSS works differently. To write a symbol in CSS content you use a backslash rather than an
+      ampersand, followed by the hex code point, and CSS keeps reading hex digits until it hits
+      something that is not one. That is why the
+      escape here ends with a space: without it, a digit sitting immediately after the escape gets
+      swallowed into it. Do not trim that space out.
+    </p>
+  </section>
+
+  <section id="lookalikes">
+    <h2>Why do two identical shapes behave differently? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because they are different characters that happen to be drawn the same way.
+    </p>
+    <p>
+      The hyphen, the en dash and the minus sign are three separate code points, and most fonts draw
+      two of them almost identically. Curly quotes and straight quotes are a different pair with the
+      same problem. Word processors swap one for the other silently, which is the common mistake
+      behind a code snippet that will not run after a trip through a document.
+    </p>
+    <p>
+      Avoid picking a character by shape alone. Read the name in the detail line before you copy it,
+      and if you are debugging text that already went wrong, the
+      <a href={withBase('/tool/text/invisible-character-detector/')}>invisible character detector</a>
+      will name what is actually in there.
+    </p>
+  </section>
+
+  <section id="question-marks">
+    <h2>Why did my character turn into a question mark? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Something in the chain could not carry it and substituted a placeholder.
+    </p>
+    <p>
+      A file saved as Latin-1, a database column set to a single-byte character set, or an older
+      system reading UTF-8 bytes with the wrong encoding will each replace what they cannot
+      represent. The character was fine when you copied it. The damage happened downstream.
+    </p>
+    <p>
+      The fix is to make the whole path UTF-8, from the file through the connection to the column.
+      When you cannot change part of it, paste an escape instead of the glyph, because an escape is
+      plain ASCII and survives anything. For converting a whole block of text rather than one
+      character, use the
+      <a href={withBase('/tool/developer-utilities/html-entity-encoder-decoder/')}>HTML entity encoder</a>.
+      Everything here runs in your browser and nothing is uploaded.
+    </p>
+  </section>
+</GuideLayout>

@@ -27,6 +27,8 @@ export const GLYPHS: Record<string, string> = {
   swap: S + '<path d="M8 4 4 8l4 4"/><path d="M4 8h15"/><path d="M16 20l4-4-4-4"/><path d="M20 16H5"/>' + E,
   hexagon: S + '<path d="M12 3l7.5 4.3v9.4L12 21l-7.5-4.3V7.3L12 3Z"/>' + E,
   binary: t('01', 11),
+  // 10 in base two, written the way a maths book writes it.
+  base2: t('10&#8322;', 8),
   rot: S + '<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/>' + E,
   angle: t('&lt;/&gt;', 8.5),
   backslash: t('\\', 15),
@@ -76,6 +78,10 @@ export const GLYPHS: Record<string, string> = {
   // ── text: cleanup / interactive ───────────────────────────────────────
   broom: S + '<path d="M18 4 9 13"/><path d="M14.5 8.5 6 17c-1.2 1.2-3 1.4-3 1.4s.2-1.8 1.4-3l8.5-8.5"/><path d="M5.5 18.5 8 21M9 15l3 3M12.5 12.5 15 15"/>' + E,
   trim: S + '<path d="M4 4v16M20 4v16"/><path d="M8 9l-2 3 2 3M16 9l2 3-2 3"/>' + E,
+  // The repeat loop, with the same block coming round again.
+  repeat: S + '<path d="M7 5h9a4 4 0 0 1 4 4v1"/><path d="m17 3 3 2-3 2"/><path d="M17 19H8a4 4 0 0 1-4-4v-1"/><path d="m7 21-3-2 3-2"/>' + E,
+  // A grid of cells with one picked, which is the whole interaction.
+  charMap: '<g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></g><rect x="13.5" y="13.5" width="7" height="7" rx="1.5" fill="#fff"/>',
   linesX: S + '<path d="M4 7h10M4 12h16M4 17h10"/><path d="M17.5 5.5 21 9M21 5.5 17.5 9"/>' + E,
   dots: S + '<path d="M4 12h.01M9 12h.01M14 12h.01M19 12h.01"/>' + E,
   searchSwap: S + '<circle cx="10" cy="10" r="6"/><path d="M14.5 14.5 20 20"/><path d="M8.5 8.5h3M11 7l1.5 1.5L11 10"/>' + E,
@@ -125,6 +131,14 @@ export const GLYPHS: Record<string, string> = {
   paragraph: S + '<path d="M4 6h16M4 10.5h16M4 15h16M4 19.5h9"/>' + E,
   dice2: '<g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/></g><g fill="#fff"><circle cx="8.5" cy="8.5" r="1.4"/><circle cx="15.5" cy="15.5" r="1.4"/></g>',
 
+  // ── generate: chance ──────────────────────────────────────────────────
+  // A coin caught mid-flip: the lit half and the shadowed half of the same disc.
+  coin: S + '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16" fill="#fff" stroke="none"/>' + E,
+  // A list with one entry chosen.
+  namePick: S + '<path d="M4 7h16M4 12h8M4 17h16"/><path d="m14.5 12.6 2.2 2.2 4.3-4.3"/>' + E,
+  // Crossing paths: the options come out in an order nobody set.
+  shuffle: S + '<path d="M4 7h3.2l9.6 10H20"/><path d="M4 17h3.2l9.6-10H20"/><path d="m17.5 4.5 2.5 2.5-2.5 2.5M17.5 14.5 20 17l-2.5 2.5"/>' + E,
+
   // ── productivity (flagships) ──────────────────────────────────────────
   tomato: '<g><circle cx="12" cy="13.6" r="7.3" fill="#fff"/><path d="M12 6.3C12 4 10.1 2.6 8 2.6c0 2.3 1.9 3.7 4 3.7z" fill="#fff"/><path d="M12 6.3C12 4 13.9 2.6 16 2.6c0 2.3-1.9 3.7-4 3.7z" fill="#fff"/><path d="M12 6.3V3.1" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><path d="M9.4 8.8C8.9 11.2 8.9 16 9.4 18.8M14.6 8.8c.5 2.4.5 7.2 0 10" fill="none" stroke="rgba(0,0,0,.11)" stroke-width="1.2" stroke-linecap="round"/></g>',
   note: S + '<path d="M6 3.5h8.5L18.5 7.5V20.5H6Z"/><path d="M14 3.5V8h4.5"/><path d="M9 12.5h6M9 15.5h4"/>' + E,
@@ -144,6 +158,9 @@ export const GLYPHS: Record<string, string> = {
   unitCircle: S + '<circle cx="12" cy="12" r="8"/><path d="M12 12h8"/><path d="M12 12 18 8"/><path d="M16 12a4 4 0 0 0-1.2-2.9"/>' + E,
   dice: '<g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/></g><g fill="#fff"><circle cx="8.2" cy="8.2" r="1.3"/><circle cx="15.8" cy="8.2" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="8.2" cy="15.8" r="1.3"/><circle cx="15.8" cy="15.8" r="1.3"/></g>',
   frac: t('&#8239;a&#8260;b&#8239;', 9),
+  roman: t('IV', 12),
+  // The word for the digit: exactly what the tool turns one into.
+  numWords: t('one', 8),
   ncr: t('nCr', 8),
   primeX: S + '<path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/>' + E,
 

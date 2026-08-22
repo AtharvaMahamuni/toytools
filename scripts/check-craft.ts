@@ -125,7 +125,22 @@ const THRESHOLDS = {
   //   Cyrillic letter that renders as its ASCII twin passes every visual review, so pointing at the
   //   character is not enough: the reader is told the text mixes scripts and that this is a
   //   technique rather than a typo. It stays silent for text that is simply not Latin.
-  coverage: 0.605,
+  // 2026-08-22: 0.635 (75/118). Nine tools shipped craft-first rather than retrofitted, on two new
+  //   seams and two bespoke widgets:
+  //   generation (4)   a `note` verb on GenerationResult plus the shared CraftNote. Chance tools
+  //                    all fail the same way and each for its own reason: a coin run looks rigged, a
+  //                    dice total says nothing about whether it was good, a duplicated name buys
+  //                    somebody two tickets, and a comma-separated line is one option pretending to
+  //                    be five. Each generator answers with a number or a fix and returns nothing
+  //                    when it has nothing to say.
+  //   encoding (3)     three more `recover` implementations on the existing seam. Roman numerals
+  //                    arrive additive off clock faces, amounts arrive wearing a currency symbol,
+  //                    and binary arrives with a 0b prefix or spaced nibbles.
+  //   bespoke (2)      text-repeater measures the output before building it, since the copy count
+  //                    is one keystroke from a multi-megabyte string; character-map carries the
+  //                    escape forms next to the glyph, because copying the character is not where
+  //                    the task ends.
+  coverage: 0.635,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

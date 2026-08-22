@@ -42,10 +42,11 @@
       "sharedWidget": "src/tools/_shared/ConverterWidget.astro",
       "supportedFamilies": [
         "binary-text",
+        "numeral",
         "detect",
         "web"
       ],
-      "toolCount": 9
+      "toolCount": 12
     },
     "hashing": {
       "name": "Hashing Engine",
@@ -97,11 +98,13 @@
       "runtimeGlobal": "",
       "sharedWidget": "",
       "supportedFamilies": [
+        "character-map",
         "find-replace",
         "shell-quoting",
-        "text-compare"
+        "text-compare",
+        "repeat"
       ],
-      "toolCount": 3
+      "toolCount": 5
     },
     "calculator": {
       "name": "Calculator Engine",
@@ -170,17 +173,19 @@
         "generate-credential",
         "generate-identifier",
         "generate-placeholder",
-        "generate-code"
+        "generate-code",
+        "generate-chance"
       ],
       "runtimeGlobal": "runGeneration",
       "sharedWidget": "src/tools/_shared/GeneratorWidget.astro",
       "supportedFamilies": [
+        "chance",
         "placeholder",
         "credential",
         "code",
         "identifier"
       ],
-      "toolCount": 5
+      "toolCount": 9
     },
     "physics": {
       "name": "Physics Playground Engine",
@@ -724,6 +729,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "binary-converter": {
+      "name": "Binary Converter",
+      "dir": "src/tools/number/binary-converter",
+      "categorySlug": "number-utilities",
+      "url": "/tool/number/binary-converter/",
+      "engine": "encoding",
+      "pattern": "encode-decode",
+      "family": "numeral",
+      "processorId": "number-base",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "binary-text-converter": {
       "name": "Binary Text Converter",
       "dir": "src/tools/developer-utilities/binary-text-converter",
@@ -902,6 +928,48 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "character-map": {
+      "name": "Character Map",
+      "dir": "src/tools/text/character-map",
+      "categorySlug": "text-utilities",
+      "url": "/tool/text/character-map/",
+      "engine": "text-interactive",
+      "pattern": "text-interactive",
+      "family": "character-map",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "coin-flipper": {
+      "name": "Coin Flipper",
+      "dir": "src/tools/generate/coin-flipper",
+      "categorySlug": "generate",
+      "url": "/tool/generate/coin-flipper/",
+      "engine": "generation",
+      "pattern": "generate-chance",
+      "family": "chance",
+      "processorId": "coin-flip",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1132,6 +1200,27 @@
       "pattern": "datetime-calculate",
       "family": "duration",
       "processorId": "date-difference",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "dice-roller": {
+      "name": "Dice Roller",
+      "dir": "src/tools/generate/dice-roller",
+      "categorySlug": "generate",
+      "url": "/tool/generate/dice-roller/",
+      "engine": "generation",
+      "pattern": "generate-chance",
+      "family": "chance",
+      "processorId": "dice",
       "toolGroup": "",
       "files": [
         "Guide.astro",
@@ -1816,6 +1905,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "number-to-words": {
+      "name": "Number to Words",
+      "dir": "src/tools/number/number-to-words",
+      "categorySlug": "number-utilities",
+      "url": "/tool/number/number-to-words/",
+      "engine": "encoding",
+      "pattern": "encode-decode",
+      "family": "numeral",
+      "processorId": "number-words",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "one-rep-max-calculator": {
       "name": "One Rep Max Calculator",
       "dir": "src/tools/health/one-rep-max-calculator",
@@ -2035,6 +2145,48 @@
       "pattern": "generate-code",
       "family": "code",
       "processorId": "qr-code",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "random-choice-picker": {
+      "name": "Random Choice Picker",
+      "dir": "src/tools/generate/random-choice-picker",
+      "categorySlug": "generate",
+      "url": "/tool/generate/random-choice-picker/",
+      "engine": "generation",
+      "pattern": "generate-chance",
+      "family": "chance",
+      "processorId": "choice-picker",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "random-name-picker": {
+      "name": "Random Name Picker",
+      "dir": "src/tools/generate/random-name-picker",
+      "categorySlug": "generate",
+      "url": "/tool/generate/random-name-picker/",
+      "engine": "generation",
+      "pattern": "generate-chance",
+      "family": "chance",
+      "processorId": "name-picker",
       "toolGroup": "",
       "files": [
         "Guide.astro",
@@ -2267,6 +2419,27 @@
       "family": "interest",
       "processorId": "roi",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "roman-numeral-converter": {
+      "name": "Roman Numeral Converter",
+      "dir": "src/tools/number/roman-numeral-converter",
+      "categorySlug": "number-utilities",
+      "url": "/tool/number/roman-numeral-converter/",
+      "engine": "encoding",
+      "pattern": "encode-decode",
+      "family": "numeral",
+      "processorId": "roman",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2664,6 +2837,27 @@
       "engine": "text-interactive",
       "pattern": "text-interactive",
       "family": "text-compare",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "text-repeater": {
+      "name": "Text Repeater",
+      "dir": "src/tools/text/text-repeater",
+      "categorySlug": "text-utilities",
+      "url": "/tool/text/text-repeater/",
+      "engine": "text-interactive",
+      "pattern": "text-interactive",
+      "family": "repeat",
       "processorId": "",
       "toolGroup": "",
       "files": [

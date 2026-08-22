@@ -20,7 +20,10 @@ import type {
   ValidationDetail,
 } from '../transform/types';
 
-export type EncodingFamily = 'binary-text' | 'web';
+// 'numeral' is the third family: a number wearing another notation (Roman, English words, base 2).
+// Same reversible text↔text contract, different vocabulary, which is why the mode labels below
+// stopped being hardcoded as Encode/Decode when it arrived.
+export type EncodingFamily = 'binary-text' | 'web' | 'numeral';
 
 export type EncodingMode = 'encode' | 'decode';
 
@@ -41,6 +44,13 @@ export interface EncodingTool {
   displayName?: string;
   /** Empty-state guidance ("Paste a Base64 string."). */
   placeholder?: string;
+  /** Direction labels in this encoder's own vocabulary. "Encode →" is right for Base64 and wrong
+   *  for a Roman numeral converter, where nothing is being encoded and both directions are the
+   *  point. Defaults to Encode → / Decode ←. */
+  forwardLabel?: string;
+  inverseLabel?: string;
+  /** Header for the output pane, when "Output" is vaguer than the truth ("Roman numeral"). */
+  outputLabel?: string;
   /** Compact educational copy (1 string or a few short lines). */
   insight?: string | string[];
   /** Collapsible technical reference rows. */

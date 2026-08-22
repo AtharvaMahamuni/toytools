@@ -1,0 +1,169 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A coin flip is one draw with two equally likely results. Press the button and you get heads or
+      tails. Set the count higher and you get a run, ten to a line, with a tally underneath.
+    </p>
+    <p>
+      For example, Input: 10 flips. Output: something like seven heads and three tails, plus a line
+      saying that a split at least that lopsided turns up in 34 percent of ten-flip runs.
+    </p>
+    <p>
+      That second number is the reason the <a href={toolHref}>coin flipper</a> exists in this shape.
+      A run that looks wrong is almost never wrong, but you cannot see that from the run itself.
+    </p>
+    <a href={toolHref} class="cta-link">Flip A Coin →</a>
+  </section>
+
+  <section id="what-is-fair">
+    <h2>What is a fair coin flip? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A fair coin flip means both sides have exactly a one in two chance, and no flip depends on the
+      one before it. Those are two separate promises, and the second one is where intuition breaks.
+    </p>
+    <p>
+      Each result here comes from your browser's cryptographic random number generator. That source
+      returns a 32-bit number, which the tool reduces to a side without leaning on a remainder. The
+      leftover values get thrown away and a fresh draw takes their place, therefore neither side
+      picks up an edge.
+    </p>
+    <p>
+      Unlike a real coin, nothing here has a heavier face or a worn edge. A physical coin toss
+      carries a small measurable bias toward the side that started upward. A virtual coin has no
+      geometry to be biased by.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does an online coin flip work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three steps, and the middle one is the interesting part.
+    </p>
+    <p>
+      First the tool asks the browser for random bytes. Then it maps those bytes onto two sides
+      without introducing a tilt. Finally it counts the results and works out how ordinary the split
+      is, using the exact binomial distribution rather than an approximation.
+    </p>
+    <p>
+      For example, on ten flips there are 1024 equally likely sequences. Exactly 252 of them come out
+      five and five. The rest come out uneven, which is why an uneven result is the normal case
+      instead of a red flag.
+    </p>
+  </section>
+
+  <section id="streaks">
+    <h2>Why does the run look so lopsided? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because small samples are lumpy, and ten flips is a very small sample size.
+    </p>
+    <p>
+      Heads or tails odds are fixed at one in two per flip. The odds of a particular SPLIT across
+      several flips are a different question, and that is the one people are actually reacting to.
+    </p>
+    <p>
+      Eight heads in ten looks damning until you count the sequences. A split that far from even, or
+      further, shows up in about 11 percent of ten-flip runs. That is one attempt in nine, so it
+      happens to somebody in every classroom that tries it.
+    </p>
+    <p>
+      The common mistake is judging fairness by the gap in raw counts. That gap grows as you flip
+      more, but the share settles. Flip a thousand times and heads lands between 47 and 53 percent
+      about 95 percent of the time, while the raw difference between the two counts sits happily at
+      twenty or thirty.
+    </p>
+  </section>
+
+  <section id="gamblers-fallacy">
+    <h2>Is tails due after four heads? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. This is the gambler's fallacy, and it is the single most expensive misconception about
+      chance.
+    </p>
+    <p>
+      The coin holds no record of the last four flips, so the fifth carries the same one in two
+      chance the first one did. Do not treat a streak as a debt that has to be repaid. Nothing pushes
+      back toward tails at any point.
+    </p>
+    <p>
+      What confuses people is that the long-run average really does even out. It evens out through
+      volume instead of correction: after ten thousand flips the early run of four is one part in
+      2500, so it stops mattering without ever being cancelled.
+    </p>
+  </section>
+
+  <section id="versus-dice">
+    <h2>Coin toss vs dice roll, and which to use <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A coin toss answers a two-way question. A dice roll answers a many-way question, or a question
+      about how much rather than which.
+    </p>
+    <p>
+      Instead of flipping repeatedly to choose between four options, roll a die with four faces or
+      list the options properly. Chaining flips works, but it is easy to get wrong: two flips give
+      four equally likely sequences, and three options cannot be split evenly across them.
+    </p>
+    <p>
+      Use the <a href={withBase('/tool/generate/dice-roller/')}>dice roller</a> for numbers and the
+      <a href={withBase('/tool/generate/random-choice-picker/')}>random choice picker</a> for named
+      options. Use a random yes or no flip when the real value is watching your own reaction to the
+      answer.
+    </p>
+  </section>
+
+  <section id="deciding">
+    <h2>When is a coin flip a good way to decide? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      When the two options are genuinely close, and when the cost of deciding exceeds the cost of
+      deciding wrong.
+    </p>
+    <p>
+      Economists have tested this. People who flipped for a stuck decision reported being happier
+      months later than the ones who kept deliberating, and the effect held for the group the coin
+      pushed into change. The coin does not know which option is better, but it does end an argument
+      that was costing more than the difference.
+    </p>
+    <p>
+      There is a second use, and it is the honest one. Flip, then notice how you feel about the
+      result. Disappointment is information you already had but could not reach.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>What happens to the results? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Nothing leaves the page. Every flip happens in your browser, nothing gets uploaded, and no run
+      survives a refresh.
+    </p>
+    <p>
+      Your chosen sides and count persist locally so the tool opens the way you left it. For example,
+      a teacher who runs a hundred flips finds the count still set to a hundred tomorrow. Clearing
+      your browser data removes it, and the settings page exports everything ToyTools has kept.
+    </p>
+  </section>
+</GuideLayout>

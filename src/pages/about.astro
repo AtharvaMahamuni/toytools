@@ -6,7 +6,7 @@ import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 
 const description =
-  'ToyTools is a set of small, fast utilities that run entirely in your browser. No accounts, no uploads, no servers. Here is what it is and how it is built.';
+  'ToyTools is the internet\'s little toolbox: small, fast utilities that run in your browser. No accounts, no uploads, no servers, and nothing to sign up for.';
 
 // Derived so the page cannot quietly go stale as the catalog grows.
 const toolCount = tools.length;
@@ -20,6 +20,11 @@ const guideCount = tools.filter(t => t.guide !== undefined).length;
     <p class="lede">{description}</p>
 
     <h2>What it is</h2>
+    <p>
+      A toolbox is the right picture, and it sets the bar. You open a drawer, take out the one
+      thing that does the job, and put it back. Nothing in a toolbox asks who you are, keeps a
+      record of what you built, or wants half an hour of setup before it turns.
+    </p>
     <p>
       {toolCount} utilities across {categoryCount} categories: counting and cleaning text, converting
       and encoding data, working out money and dates, and a set of interactive physics and maths

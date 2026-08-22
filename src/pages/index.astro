@@ -11,8 +11,8 @@ import { tools } from '@data/registry';
 // things a visitor gets before it makes any claim about privacy: trust lands after
 // someone knows what the thing is, not before.
 const SITE_DESCRIPTION =
-  'Over a hundred browser-based calculators, converters and text tools. ' +
-  'Nothing uploads, nothing is stored, no account needed.';
+  "ToyTools is the internet's little toolbox: a hundred-plus browser-based " +
+  'calculators, converters and text tools. Nothing uploads and no account is needed.';
 ---
 
 <BaseLayout
@@ -53,7 +53,12 @@ const SITE_DESCRIPTION =
         brand nobody searches for yet. The brand still owns the nav, the title, the
         WebSite schema and the footer; the h1 now says what you can do here. */}
     <h1>Convert, calculate, encode.<br class="h1-break" /> In your browser.</h1>
-    <p class="hero-tagline">The simplest place on the internet to get things done.</p>
+    {/* The line that says what this is meant to feel like, rather than what it contains: a
+        toolbox you open, use one thing from, and close. Everything below it (one job per tool,
+        no account, no upload, opens instantly) is that sentence being kept. */}
+    <p class="hero-tagline">
+      The internet's little toolbox. <span class="wrench" aria-hidden="true">🔧</span>
+    </p>
     <HeroSearch />
     <p class="hero-sub">
       <span>{tools.length} tools</span>
@@ -187,6 +192,13 @@ const SITE_DESCRIPTION =
     max-width: 44ch;
     margin: 0;
     line-height: var(--leading-relaxed);
+  }
+
+  /* Sized against the line it sits in rather than in pixels, so it tracks the clamp above.
+     Emoji render a touch larger than the surrounding text at the same size, hence the 0.9. */
+  .wrench {
+    font-size: 0.9em;
+    margin-inline-start: 0.15em;
   }
 
   .hero-sub {

@@ -1,6 +1,8 @@
 # ToyTools
 
-Tiny tools for everyday problems.
+ToyTools is the internet's little toolbox. 🔧
+
+Tiny tools for everyday problems, each one a single job that opens instantly.
 
 Live at **[toytoolsapp.com](https://toytoolsapp.com)**
 

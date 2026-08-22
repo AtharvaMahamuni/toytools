@@ -2,6 +2,59 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.22] - 2026-08-22
+
+### Added
+
+- **Nine new tools**, at these URLs:
+  - `/tool/generate/dice-roller/` rolls any pool by standard notation (`d20`, `4d6+2`) and says how
+    often a roll like that one turns up.
+  - `/tool/generate/coin-flipper/` flips once or five hundred times, and answers the "this is
+    rigged" complaint with the share of runs that come out at least that lopsided.
+  - `/tool/generate/random-name-picker/` draws names from a pasted list without repeats, and warns
+    when a duplicated entry is quietly giving somebody two tickets.
+  - `/tool/generate/random-choice-picker/` picks a winner or shuffles the lot into an order, and
+    catches the one line that is really five options separated by commas.
+  - `/tool/number/roman-numeral-converter/` converts both ways from I to MMMCMXCIX, reads the
+    additive spellings off clock faces and monuments, then offers the modern one.
+  - `/tool/number/number-to-words/` spells numbers out and reads words back, and cleans the currency
+    symbol and thousands separators off an amount pasted from a spreadsheet.
+  - `/tool/number/binary-converter/` converts numbers between decimal and base two, exactly past
+    2^53, with hex, octal and the bit count alongside.
+  - `/tool/text/text-repeater/` repeats text with a separator you choose, and refuses to build the
+    multi-megabyte string an extra zero in the count would produce.
+  - `/tool/text/character-map/` is a searchable grid of 362 special characters that also hands you
+    the HTML entity, CSS escape and JavaScript escape for whichever one you tap.
+- Each of the nine has a guide and an FAQ, and each ships one declared thoughtful touch. Craft
+  coverage moved from 60.5% to 63.5%.
+- **A "Chance & Picking" section on the generators page**, where the four new randomisers live.
+
+### Changed
+
+- **The homepage says what the site is meant to feel like.** The line under the heading is now "The
+  internet's little toolbox 🔧", and the about page opens on what that implies: you take out the one
+  thing that does the job and put it back, and nothing in a toolbox asks who you are first.
+- **The same line now reaches everyone who asks what this site is**, in the four places each
+  audience actually looks: the homepage meta description and its WebSite schema (search results),
+  `llms.txt` (AI agents), the README (contributors), and the hero (visitors). It is deliberately
+  absent from the footer, because repeating it there would put the same sentence twice on the one
+  page that already opens with it.
+- **Searching for "slug generator" now finds Slugify Text.** The tool has existed all along under a
+  name nobody types. Aliases were added for the new tools at the same time.
+- **Roman numerals, English words and base two are read in their own vocabulary.** The converter
+  header on those three pages says "To Roman" and "To number" rather than "Encode" and "Decode",
+  which is what the encoding engine had hardcoded since it shipped.
+
+### Fixed
+
+- **The `/search/` page was the heaviest HTML document on the site**, and adding nine tools pushed
+  it over its budget. Every card carried a `data-search` attribute holding a second lowercase copy
+  of that tool's name, description and category, none of which was displayed. The attribute now
+  holds only the tags, keywords and family, which are the terms that never appear on screen, and
+  the filter reads the card's own text for the rest. Matching is unchanged.
+- **"hexadecimal" was ranking the new binary converter above the hex encoder.** The alias belongs to
+  the tool named after it.
+
 ## [alpha-v7.21] - 2026-08-21
 
 ### Changed
