@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 22,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-08-22',
-  description: 'Nine new tools: dice, coins, pickers, numerals, repeater and character map',
+  description: 'Homepage hero pays off the toolbox line and drops a duplicated claim',
 };
 
 export function formatVersion(config: VersionConfig): string {

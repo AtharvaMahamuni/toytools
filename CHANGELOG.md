@@ -2,6 +2,29 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.22.1] - 2026-08-22
+
+### Changed
+
+- **The homepage says what a toolbox means, instead of only naming one.** "The internet's little
+  toolbox" was a claim that stopped there and left the reader to supply the rest. It now finishes
+  the thought: open it, take out the one thing that does the job, close the tab. A short paragraph
+  under the search says the same thing in plain terms, and it sits below the search rather than
+  above it so the box most visitors came for stays where their thumb already is.
+- **The hero stopped saying one thing twice.** The stats line read "Everything runs in your
+  browser" directly beneath an h1 ending "In your browser." That slot now carries the offline
+  claim.
+- **The wrench moved to the README.** The gold dot is this site's mark, and an emoji sitting beside
+  it in the hero competes with the thing it exists to reinforce. It still opens the README, where
+  there is no mark for it to fight.
+
+### Fixed
+
+- **"Works offline" would have overstated what the site does.** The service worker precaches only
+  the homepage and the offline page, then caches pages as they are visited, so a first-time visitor
+  with no network gets the offline page and not the catalog. The line now reads "Works offline once
+  opened", which is what `/offline/` has said all along.
+
 ## [alpha-v7.22] - 2026-08-22
 
 ### Added

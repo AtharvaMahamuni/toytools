@@ -53,21 +53,34 @@ const SITE_DESCRIPTION =
         brand nobody searches for yet. The brand still owns the nav, the title, the
         WebSite schema and the footer; the h1 now says what you can do here. */}
     <h1>Convert, calculate, encode.<br class="h1-break" /> In your browser.</h1>
-    {/* The line that says what this is meant to feel like, rather than what it contains: a
-        toolbox you open, use one thing from, and close. Everything below it (one job per tool,
-        no account, no upload, opens instantly) is that sentence being kept. */}
+    {/* The line that says what this is meant to feel like, rather than what it contains, and
+        then the sentence that pays it off. A bare "little toolbox" makes a claim and stops,
+        which leaves the reader to supply the meaning; the second sentence supplies it. The
+        wrench lives in the README instead: the gold dot is this site's mark, and an emoji
+        beside it in the hero competes with the thing it is supposed to reinforce. */}
     <p class="hero-tagline">
-      The internet's little toolbox. <span class="wrench" aria-hidden="true">🔧</span>
+      The internet's little toolbox. Open it, take out the one thing that does the job, and
+      close the tab.
     </p>
     <HeroSearch />
+    {/* "Everything runs in your browser" was here and in the h1 above it, which spent the
+        strongest line on the page saying one thing twice. The slot now carries the offline
+        claim, bounded: the service worker precaches only / and /offline/ and caches pages as
+        you visit them, so an unqualified "works offline" would promise a catalog a first-time
+        visitor with no network does not have. */}
     <p class="hero-sub">
       <span>{tools.length} tools</span>
       <span class="gold-dot" aria-hidden="true"></span>
-      <span>Everything runs in your browser</span>
+      <span>Nothing uploaded</span>
       <span class="gold-dot" aria-hidden="true"></span>
-      <span>No sign-up, nothing uploaded</span>
+      <span>Works offline once opened</span>
     </p>
   </section>
+
+  <p class="hero-intro">
+    A toolbox you do not have to think about. Every tool does one job, opens instantly, and runs
+    on your device. Nothing is uploaded and there is no account to make.
+  </p>
 
   <p class="recent-row" id="favorite-row" hidden>
     <span class="recent-label">Favourites:</span>
@@ -194,11 +207,13 @@ const SITE_DESCRIPTION =
     line-height: var(--leading-relaxed);
   }
 
-  /* Sized against the line it sits in rather than in pixels, so it tracks the clamp above.
-     Emoji render a touch larger than the surrounding text at the same size, hence the 0.9. */
-  .wrench {
-    font-size: 0.9em;
-    margin-inline-start: 0.15em;
+  /* Sits below the fold-line stats rather than above the search, so the thing most visitors
+     came for stays where their thumb already is. */
+  .hero-intro {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-8);
   }
 
   .hero-sub {
