@@ -2,11 +2,19 @@
 // GeneratorOutput — the output surface for every generator. The controller shows exactly one of:
 // the empty prompt, the text/lines output, or the QR canvas. Strength meter and meta badges sit
 // below. Presentational only; all state is driven by the GeneratorWidget controller via ids.
+//
+// The craft slot is the one non-presentational-looking thing here and it is still generic: when a
+// generator declares `notes`, the shared CraftNote is rendered once and the controller fills it
+// from GenerationResult.note. Nothing in this file knows what any generator would say.
+import CraftNote from '@tools/_shared/CraftNote.astro';
+
 interface Props {
   slug: string;
   emptyText?: string;
+  /** The tool's declared craft id. Rendered only when its generator supplies notes. */
+  craftId?: string;
 }
-const { slug, emptyText = 'Configure the options and generate.' } = Astro.props;
+const { slug, emptyText = 'Configure the options and generate.', craftId } = Astro.props;
 ---
 
 <div class="gen-output" id={`${slug}-output`}>
@@ -28,6 +36,8 @@ const { slug, emptyText = 'Configure the options and generate.' } = Astro.props;
   </div>
 
   <div class="gen-meta" id={`${slug}-meta`} hidden></div>
+
+  {craftId && <CraftNote id={`${slug}-note`} craftId={craftId} action />}
 </div>
 
 <style>

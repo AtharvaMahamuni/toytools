@@ -1,0 +1,349 @@
+---
+// Character Map — a bespoke text-interactive widget. The whole tool is a grid you tap, so there is
+// no engine shape to wrap: nothing transforms, nothing computes, the page IS the catalogue.
+//
+// The table is rendered at build time from src/lib/text/characters.ts, so no character data ships
+// inside a script and no name is derived in the browser. Buttons carry their name as the accessible
+// label and nothing else; the code point and the escapes are worked out from the glyph on demand,
+// which keeps 365 buttons down to one repeated markup shape that gzip flattens.
+//
+// The craft (`cm-escapes`) is the continuation. Copying the glyph is where a character map normally
+// stops, and it is not where the task stops: the character is headed for an HTML file, a stylesheet
+// or a string literal, where a raw glyph either mangles under the file's encoding or has to become
+// an escape whose syntax nobody remembers. The escapes appear next to the glyph, one tap each.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import { characterGroups, allCharacters } from '@lib/text/characters';
+import { config } from './config';
+
+const total = allCharacters.length;
+---
+
+<div class="cm-widget" data-slug={config.slug}>
+  <IoPanel label="Find a character" labelFor="cm-search" variant="prose">
+    <input
+      id="cm-search"
+      class="cm-search"
+      type="search"
+      placeholder="Search by name: arrow, dash, euro, alpha"
+      autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
+      spellcheck="false"
+      enterkeyhint="search"
+      aria-describedby="cm-count"
+    />
+    <p class="cm-count" id="cm-count" aria-live="polite">{total} characters</p>
+
+    <div class="cm-detail" id="cm-detail" hidden>
+      <span class="cm-detail-glyph" id="cm-detail-glyph" aria-hidden="true"></span>
+      <span class="cm-detail-text">
+        <span class="cm-detail-name" id="cm-detail-name"></span>
+        <span class="cm-detail-point" id="cm-detail-point"></span>
+      </span>
+      <span class="cm-escapes" id="cm-escapes" data-craft={config.craft!.id}>
+        <button type="button" class="cm-chip" id="cm-copy-html" data-form="html"></button>
+        <button type="button" class="cm-chip" id="cm-copy-css" data-form="css"></button>
+        <button type="button" class="cm-chip" id="cm-copy-js" data-form="js"></button>
+      </span>
+    </div>
+  </IoPanel>
+
+  <div class="cm-groups" id="cm-groups">
+    {characterGroups.map((group) => (
+      <section class="cm-group" data-group>
+        <h3 class="cm-group-name">{group.name}</h3>
+        <p class="cm-group-desc">{group.description}</p>
+        <div class="cm-grid">
+          {group.characters.map((c) => (
+            <button
+              type="button"
+              class="cm-c"
+              aria-label={c.name}
+              {...(c.entity ? { 'data-e': c.entity } : {})}
+            >{c.char}</button>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <p class="cm-empty" id="cm-empty" hidden>Nothing matches that. Try a shorter word, such as arrow or dash.</p>
+</div>
+
+<style>
+  .cm-search {
+    width: 100%;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-3);
+    /* 16px floor so iOS does not zoom the page when the field takes focus. */
+    font-size: var(--text-base);
+    font-family: inherit;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .cm-count {
+    margin: var(--space-2) 0 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-subtle);
+  }
+
+  /* The detail row. No fill and no edge of its own: it sits inside a panel that already has one,
+     and a third rectangle to hold one character is exactly what the anti-clutter rules forbid. */
+  .cm-detail[hidden],
+  .cm-chip[hidden] {
+    display: none;
+  }
+
+  .cm-detail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  .cm-detail-glyph {
+    font-size: var(--text-3xl);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .cm-detail-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 10rem;
+    min-inline-size: 0;
+  }
+
+  .cm-detail-name {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+
+  .cm-detail-point {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .cm-escapes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .cm-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .cm-chip:hover { border-color: var(--color-accent); }
+
+  /* Phones have no hover, so the pressed state is the only feedback most visitors get. */
+  .cm-chip:active,
+  .cm-chip.is-copied {
+    background: var(--color-success-bg);
+    border-color: var(--color-success);
+    color: var(--color-success);
+  }
+
+  .cm-groups {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .cm-group[hidden] { display: none; }
+
+  .cm-group-name {
+    margin: 0;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+
+  .cm-group-desc {
+    margin: var(--space-1) 0 var(--space-3);
+    max-width: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* auto-fill keeps the cell size fixed and lets the count change, so the grid never reflows into
+     giant buttons on a wide screen or clipped ones on a phone. */
+  .cm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--touch-target), 1fr));
+    gap: var(--space-1);
+  }
+
+  .cm-c {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Declared here rather than measured by script: a cell sized after load paints the wrong box
+       first, and 365 of them do it visibly. */
+    aspect-ratio: 1;
+    min-height: var(--touch-target);
+    padding: 0;
+    font-size: var(--text-lg);
+    line-height: 1;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .cm-c[hidden] { display: none; }
+
+  .cm-c:hover { border-color: var(--color-accent); }
+
+  .cm-c:active,
+  .cm-c.is-copied {
+    background: var(--color-success-bg);
+    border-color: var(--color-success);
+  }
+
+  .cm-c[aria-current='true'] { border-color: var(--color-accent); }
+
+  .cm-empty[hidden] { display: none; }
+
+  .cm-empty {
+    margin-top: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 480px) {
+    .cm-grid { gap: 2px; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('.cm-widget');
+    if (!root) return;
+
+    var search = document.getElementById('cm-search');
+    var countEl = document.getElementById('cm-count');
+    var emptyEl = document.getElementById('cm-empty');
+    var detail = document.getElementById('cm-detail');
+    var glyphEl = document.getElementById('cm-detail-glyph');
+    var nameEl = document.getElementById('cm-detail-name');
+    var pointEl = document.getElementById('cm-detail-point');
+    var chips = {
+      html: document.getElementById('cm-copy-html'),
+      css: document.getElementById('cm-copy-css'),
+      js: document.getElementById('cm-copy-js'),
+    };
+
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('.cm-c'));
+    var groups = Array.prototype.slice.call(root.querySelectorAll('[data-group]'));
+    var selected = null;
+
+    function hex(ch) {
+      var cp = ch.codePointAt(0);
+      return cp.toString(16).toUpperCase();
+    }
+
+    function forms(btn) {
+      var ch = btn.textContent;
+      var cp = ch.codePointAt(0);
+      var named = btn.getAttribute('data-e');
+      return {
+        html: named ? '&' + named + ';' : '&#' + cp + ';',
+        css: '\\' + hex(ch),
+        js: cp > 0xffff ? '\\u{' + hex(ch) + '}' : '\\u' + hex(ch).padStart(4, '0'),
+        point: 'U+' + hex(ch).padStart(4, '0'),
+      };
+    }
+
+    function flash(el, label) {
+      var original = el.textContent;
+      el.classList.add('is-copied');
+      if (label) el.textContent = label;
+      setTimeout(function () {
+        el.classList.remove('is-copied');
+        if (label) el.textContent = original;
+      }, 1200);
+    }
+
+    function select(btn) {
+      if (selected) selected.removeAttribute('aria-current');
+      selected = btn;
+      btn.setAttribute('aria-current', 'true');
+
+      var f = forms(btn);
+      glyphEl.textContent = btn.textContent;
+      nameEl.textContent = btn.getAttribute('aria-label') || '';
+      pointEl.textContent = f.point;
+      chips.html.textContent = f.html;
+      chips.css.textContent = f.css;
+      chips.js.textContent = f.js;
+      detail.hidden = false;
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        select(btn);
+        if (window.ToyTools && ToyTools.copy) ToyTools.copy(btn.textContent);
+        flash(btn);
+      });
+      // Arrowing through the grid should update the detail row without copying anything.
+      btn.addEventListener('focus', function () { select(btn); });
+    });
+
+    Object.keys(chips).forEach(function (key) {
+      chips[key].addEventListener('click', function () {
+        if (!selected) return;
+        var value = forms(selected)[key];
+        if (window.ToyTools && ToyTools.copy) ToyTools.copy(value);
+        flash(chips[key], 'Copied');
+      });
+    });
+
+    function filter() {
+      var q = (search.value || '').trim().toLowerCase();
+      var shown = 0;
+
+      buttons.forEach(function (btn) {
+        var match = !q ||
+          btn.textContent === q ||
+          (btn.getAttribute('aria-label') || '').toLowerCase().indexOf(q) !== -1;
+        btn.hidden = !match;
+        if (match) shown++;
+      });
+
+      groups.forEach(function (g) {
+        g.hidden = !g.querySelector('.cm-c:not([hidden])');
+      });
+
+      countEl.textContent = q
+        ? shown + (shown === 1 ? ' character matches' : ' characters match')
+        : buttons.length + ' characters';
+      emptyEl.hidden = shown > 0;
+    }
+
+    search.addEventListener('input', filter);
+    search.addEventListener('search', filter);
+  })();
+</script>

@@ -11,6 +11,10 @@ import { uuid } from './generators/uuid';
 import { randomString } from './generators/randomString';
 import { lorem } from './generators/lorem';
 import { qrCode } from './generators/qrCode';
+import { dice } from './generators/dice';
+import { coinFlip } from './generators/coinFlip';
+import { namePicker } from './generators/namePicker';
+import { choicePicker } from './generators/choicePicker';
 
 // Keyed by generator id, referenced from a tool config's `processorId`.
 export const GENERATORS: Record<string, Generator> = {
@@ -19,6 +23,10 @@ export const GENERATORS: Record<string, Generator> = {
   'random-string': randomString,
   'lorem-ipsum': lorem,
   'qr-code': qrCode,
+  dice,
+  'coin-flip': coinFlip,
+  'name-picker': namePicker,
+  'choice-picker': choicePicker,
 };
 
 /** Resolve a generator by id. Returns undefined for unknown ids. */
@@ -52,6 +60,7 @@ export interface GeneratorInfo {
   defaults: GeneratorOptions;
   autoGenerate: boolean;
   live: boolean;
+  notes: boolean;
 }
 
 /** Static info the shared widget reads in frontmatter to render controls with no JS. */
@@ -67,5 +76,6 @@ export function generatorInfo(id: string): GeneratorInfo | undefined {
     defaults,
     autoGenerate: g.autoGenerate ?? true,
     live: g.live ?? false,
+    notes: g.notes ?? false,
   };
 }

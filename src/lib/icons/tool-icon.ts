@@ -173,6 +173,10 @@ const SLUG_GLYPH: Record<string, string> = {
   'protein-intake-calculator': 'pie',
 
   // generate — flagships
+  'dice-roller': 'dice',
+  'coin-flipper': 'coin',
+  'random-name-picker': 'namePick',
+  'random-choice-picker': 'shuffle',
   'qr-code-generator': 'qr',
   'password-generator': 'key',
   'random-string-generator': 'dice2',
@@ -184,6 +188,15 @@ const SLUG_GLYPH: Record<string, string> = {
   notepad: 'note',
   'todo-list': 'checklist',
   'keep-screen-awake': 'sun',
+
+  // number — numerals (the notation IS the identity)
+  'roman-numeral-converter': 'roman',
+  'number-to-words': 'numWords',
+  'binary-converter': 'base2',
+
+  // text — bespoke
+  'text-repeater': 'repeat',
+  'character-map': 'charMap',
 
   // math — specifics
   'fraction-calculator': 'frac',

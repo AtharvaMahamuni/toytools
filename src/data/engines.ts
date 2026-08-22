@@ -46,6 +46,7 @@ const PATTERN_IDS = [
   'structured-transform', 'structured-validate', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
+  'generate-chance',
   'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
   'health-calculate', 'health-track', 'color-convert', 'color-contrast', 'unit-convert', 'aspect-ratio',
 ] as const;
@@ -90,7 +91,7 @@ const engineDefs: EngineDef[] = [
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
   { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro' },
   { id: 'csv', name: 'CSV Engine', category: 'developer-utilities', patterns: ['csv-transform'], runtimeGlobal: 'runCsv', sharedWidget: 'CsvWidget.astro' },
-  { id: 'generation', name: 'Generation Engine', category: 'generate', patterns: ['generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code'], runtimeGlobal: 'runGeneration', sharedWidget: 'GeneratorWidget.astro' },
+  { id: 'generation', name: 'Generation Engine', category: 'generate', patterns: ['generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code', 'generate-chance'], runtimeGlobal: 'runGeneration', sharedWidget: 'GeneratorWidget.astro' },
   // Physics Playground: interactive canvas simulations. runtimeGlobal is '' — unlike the
   // string-transform engines, physics does NOT attach to window.ToyTools in ToyToolsRuntime
   // (that loads site-wide). Instead SimulationWidget ships a bundled per-page script that

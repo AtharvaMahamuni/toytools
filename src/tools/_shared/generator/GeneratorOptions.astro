@@ -102,6 +102,18 @@ const rows = fields.map((f) => {
           />
         )}
 
+        {field.type === 'textarea' && (
+          <textarea
+            id={fid(field.id)}
+            rows={field.rows ?? 6}
+            placeholder={field.placeholder}
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck={false}
+            set:text={String(field.default ?? '')}
+          />
+        )}
+
         {field.help && <p class="gen-help">{field.help}</p>}
       </div>
     </>
@@ -169,5 +181,22 @@ const rows = fields.map((f) => {
     border-radius: var(--radius-md);
   }
   .gen-field input[type='text'] { font-family: var(--font-mono); }
+  /* Fixed height with internal scroll. An auto-growing textarea moves every control beneath it
+     while somebody is pasting, which on a phone means the button they were reaching for has
+     moved by the time their thumb lands. */
+  .gen-field textarea {
+    width: 100%;
+    padding: var(--space-3);
+    /* 16px minimum, or iOS zooms the page on focus. */
+    font-size: var(--text-base);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    resize: vertical;
+    overflow-y: auto;
+  }
   .gen-help { font-size: var(--text-xs); color: var(--color-text-muted); margin: 0; }
 </style>

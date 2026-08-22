@@ -59,12 +59,23 @@ describe('text-processor engine', () => {
 describe('encoding engine', () => {
   const sample = 'Hello, World! <tag> & "quote" 123';
   const dispatching = byEngine('encoding').filter(t => !NON_DISPATCHING_PATTERNS.has(t.pattern as never));
+
+  // A codec round-trips the input IT accepts, and for the `numeral` family that input is a number.
+  // Roman numerals, English words and base two have no reading of `<tag> & "quote"` at all, so
+  // feeding them the generic string tests nothing and fails for the right reason at the wrong time.
+  // Keyed off `family` rather than a list of slugs, so a fourth numeral tool inherits this without
+  // editing the contract; the sample is the encoder's own, which is also what the widget offers.
+  const inputFor = (enc: (typeof ENCODERS)[string]) =>
+    enc.family === 'numeral' ? (enc.sample ?? '') : sample;
+
   it.each(dispatching.map(t => [t.slug, t.processorId] as const))(
     '%s round-trips through encode → decode',
     (_slug, processorId) => {
       const enc = ENCODERS[processorId!];
       expect(enc, `encoder "${processorId}" registered`).toBeDefined();
-      expect(enc.decode(enc.encode(sample))).toBe(sample);
+      const input = inputFor(enc);
+      expect(input, `encoder "${processorId}" declares an input it can round-trip`).not.toBe('');
+      expect(enc.decode(enc.encode(input))).toBe(input);
     },
   );
 });

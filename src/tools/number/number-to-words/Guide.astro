@@ -1,0 +1,156 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Type digits and you get numbers in words. Type words and you get digits back.
+    </p>
+    <p>
+      For example, Input: 4213.75. Output: four thousand two hundred thirteen point seven five.
+      Negatives come back with negative in front, and the decimal part is read one digit at a time.
+    </p>
+    <p>
+      The <a href={toolHref}>number to words converter</a> works out which direction you meant from
+      what you typed. Paste an amount straight out of a spreadsheet and it offers to strip the
+      currency symbol and the commas for you.
+    </p>
+    <a href={toolHref} class="cta-link">Spell Out A Number →</a>
+  </section>
+
+  <section id="hyphens">
+    <h2>Where does the hyphen go? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Between a ten and a unit, and nowhere else.
+    </p>
+    <p>
+      A compound ten is the only place one belongs. Twenty-one, thirty-four and ninety-nine all take
+      a hyphen. Hundreds, thousands and millions do not, therefore four thousand two hundred thirteen
+      carries none at all. Every major style guide
+      agrees on this, but four-thousand looks tidy enough that people write it anyway.
+    </p>
+    <p>
+      That is the common mistake this tool quietly fixes. Avoid inserting hyphens by feel and the
+      spelled number will match what a contract, a cheque or a proofreader expects.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does the conversion work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The number gets cut into groups of three digits, and each group is spelled with the same small
+      routine.
+    </p>
+    <p>
+      For example, 4213 splits into 4 and 213. The first group takes the word thousand after it, the
+      second takes nothing. Inside a group, anything under twenty has its own word, the tens are
+      joined to their unit with a hyphen, and a leading digit gets hundred after it.
+    </p>
+    <p>
+      Reading words back is a running total instead. Each value word gets added, a hundred multiplies
+      what is in hand, and a scale word such as thousand pushes the running total up and resets it.
+      That is why one hundred five and one hundred and five both come back as 105.
+    </p>
+  </section>
+
+  <section id="and">
+    <h2>One hundred and five, or one hundred five? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both are correct English. The difference between them is which side of the Atlantic you are on.
+    </p>
+    <p>
+      American English drops the and. British English keeps it, and a British primary school will
+      mark its absence wrong. The converter writes the American form, because that is what cheque and
+      invoice software expects and what reads without ambiguity in a legal clause.
+    </p>
+    <p>
+      Going the other way it accepts everything. Commas, hyphens, the word and, and minus in place of
+      negative all parse. So you can paste a phrase copied out of a British contract and get digits
+      back without editing it first.
+    </p>
+  </section>
+
+  <section id="decimals">
+    <h2>Why is 4.75 read digit by digit? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Decimals are read aloud one digit at a time here, because reading the decimal part as a whole
+      number breaks down past two places.
+    </p>
+    <p>
+      Four point seventy-five is clear enough. Four point one two five is not, because one hundred
+      twenty-five thousandths and twelve point five are both plausible readings of the same phrase.
+      Digit by digit stays unambiguous at any length, which is why aviation, finance and dictation
+      all settled on it.
+    </p>
+    <p>
+      Money is the exception, and it is worth knowing why. A cheque does not write the cents as words
+      at all. Instead it uses a fraction over 100, so 4213.75 becomes four thousand two hundred
+      thirteen and 75/100.
+    </p>
+  </section>
+
+  <section id="cheques">
+    <h2>How do I write an amount on a cheque? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Spell out numbers for the whole part, capitalise the first letter, then add the cents as a
+      fraction. Banks want you to write numbers in words for a reason worth knowing.
+    </p>
+    <p>
+      For example, Input: 4213.75. Output on the line: Four thousand two hundred thirteen and 75/100.
+      Fill the rest of the line with a horizontal stroke so nothing can be added after it.
+    </p>
+    <p>
+      The reason banks want words at all is that digits can be altered and a sentence cannot. A 1 in
+      front of a figure changes everything, but nobody edits four thousand into fourteen thousand
+      convincingly. When the two lines disagree, the words win.
+    </p>
+  </section>
+
+  <section id="scale">
+    <h2>Short scale vs long scale, and why a billion moved <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A billion means a thousand million here. It has not always meant that.
+    </p>
+    <p>
+      Under the short scale, each new word is a thousand times the last: million, billion, trillion,
+      quadrillion. Under the long scale, each new word is a million times the last, so a billion was a
+      million million. British English used the long scale until the 1970s, and French, German and
+      Spanish still do.
+    </p>
+    <p>
+      Unlike a rounding difference, this one is a factor of a thousand. Instead of assuming, check any
+      translated financial figure against its digits. This converter uses the short scale throughout
+      and stops at 999,999,999,999,999, which is the largest value a browser can hold as an exact
+      whole number.
+    </p>
+    <p>
+      If you want the same figure as a numeral, the
+      <a href={withBase('/tool/number/roman-numeral-converter/')}>Roman numeral converter</a> handles
+      that, and the <a href={withBase('/tool/number/binary-converter/')}>binary converter</a> handles
+      base two. Nothing you type here is uploaded.
+    </p>
+  </section>
+</GuideLayout>

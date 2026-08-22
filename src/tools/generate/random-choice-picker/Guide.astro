@@ -1,0 +1,156 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Put one option on each line and press. The picker draws a winner.
+    </p>
+    <p>
+      For example, Input: five restaurants, one per line. Output: one of them, chosen with an equal
+      share for each. Switch the mode and instead of a winner you get the whole list shuffled into a
+      running order.
+    </p>
+    <p>
+      The <a href={toolHref}>random choice picker</a> also watches for the mistake that makes a
+      picker lie. Paste everything on one line with commas and it holds a single option, so it picks
+      that one confidently. It says so and offers to split the line.
+    </p>
+    <a href={toolHref} class="cta-link">Pick For Me →</a>
+  </section>
+
+  <section id="what-is-it">
+    <h2>What is a random choice picker? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A random choice picker is a decision maker with no opinion. It takes a list of options and
+      returns one, with every option holding the same share.
+    </p>
+    <p>
+      That sounds trivial, but the useful part is the neutrality. A group deciding where to eat is
+      not short of information. It is short of a way to stop discussing, and a picker supplies that
+      without anybody having to be the one who insisted.
+    </p>
+    <p>
+      Unlike a spinning wheel, there is no animation to sit through and no setup screen. Paste, press,
+      done, which is the difference between a tool you use once and one you use every week.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does the picker work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      It shuffles, then it reads off the top.
+    </p>
+    <p>
+      The shuffle is a Fisher-Yates pass driven by your browser's cryptographic random number
+      generator. Each swap draws a fresh index, and the tool throws away the values that would tilt
+      that index rather than reaching for a remainder. Every ordering of your list is therefore
+      equally likely.
+    </p>
+    <p>
+      Picking one winner takes the first entry. Picking three takes the first three, so they come out
+      distinct. Ranking mode takes all of them. For example, Input: four demo slots. Output: four
+      names numbered one to four, each appearing exactly once.
+    </p>
+  </section>
+
+  <section id="commas">
+    <h2>Why did my comma-separated list count as one option? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because the picker splits on line breaks, and your options never had any.
+    </p>
+    <p>
+      This is the failure worth naming, because it produces a wrong answer that looks right. A list of
+      one gets picked with total certainty, and there is nothing on screen to suggest the tool
+      misread you. So the picker checks: a single line holding commas, semicolons, pipes or the word
+      or is almost never one option, and it offers the split in one tap.
+    </p>
+    <p>
+      It stops checking the moment a second line exists. That restraint is deliberate. An option
+      genuinely containing a comma, such as a restaurant called Nando's, Camden, stays safe as soon
+      as it has a neighbour, because guessing there would break more lists than it fixed.
+    </p>
+  </section>
+
+  <section id="one-or-all">
+    <h2>Should I pick one option or rank them all? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pick one when the decision is the point. Rank them all when the order is the point.
+    </p>
+    <p>
+      A single pick answers what should I eat, which task to start, or which film tonight. Ranking
+      answers who goes first, and it answers it once instead of forcing a fresh draw for every slot.
+      Ranking also gives you a fallback: the second name is your plan B, already chosen, and nobody
+      has to argue about whether the tiebreak was fair.
+    </p>
+    <p>
+      Instead of ranking, some people draw repeatedly and remove the winner by hand each time. That
+      works, but it is slower and it lets a mistake creep in when a name gets deleted twice.
+    </p>
+  </section>
+
+  <section id="weighting">
+    <h2>Can I make one option more likely? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Yes, by listing it more than once. Two lines for the same option gives it two slots, therefore
+      double the share.
+    </p>
+    <p>
+      That is a legitimate trick for a weighted draw, and it is also the common mistake behind a
+      picker that seems to favour one answer. A duplicate that arrived by accident does exactly the
+      same thing as one you added on purpose. If the odds look off, check the list for repeats first,
+      or run it through the
+      <a href={withBase('/tool/text/remove-duplicate-lines/')}>duplicate line remover</a> and paste
+      the clean version back.
+    </p>
+  </section>
+
+  <section id="deciding-by-chance">
+    <h2>Is it reasonable to decide something by chance? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For close calls, yes, and there is evidence behind it.
+    </p>
+    <p>
+      Economists have tested handing stuck decisions to a coin. People who followed the result
+      reported being happier months later than the ones who kept deliberating. Chance cannot tell you
+      which option is better, but it does end a debate that was costing more than the gap between the
+      options.
+    </p>
+    <p>
+      There is a second use, and it works even when you ignore the result. Draw once, then notice how
+      you feel about what came up. Disappointment is a preference you already held and could not
+      reach. Do not re-roll five times hoping for the answer you wanted, because by then you have
+      told yourself what it was.
+    </p>
+    <p>
+      When the list is down to two, the
+      <a href={withBase('/tool/generate/coin-flipper/')}>coin flipper</a> is quicker. When the list
+      is people rather than options, use the
+      <a href={withBase('/tool/generate/random-name-picker/')}>random name picker</a>, which warns you
+      about duplicate entries. Nothing you paste here is uploaded or stored off your device.
+    </p>
+  </section>
+</GuideLayout>

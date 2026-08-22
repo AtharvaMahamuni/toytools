@@ -1,0 +1,154 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Paste the text, set how many copies, choose what goes between them. The result updates as you
+      type, so there is no button that says repeat text and nothing to submit.
+    </p>
+    <p>
+      For example, Input: the word test, 5 copies, separated by new lines. Output: five lines each
+      reading test. Switch the separator to nothing and the same settings give you one twenty
+      character string instead.
+    </p>
+    <p>
+      The <a href={toolHref}>text repeater</a> also measures the result before it builds it. A count
+      with an extra zero in it gets caught before your tab locks up.
+    </p>
+    <a href={toolHref} class="cta-link">Repeat Some Text →</a>
+  </section>
+
+  <section id="what-for">
+    <h2>What is a text repeater for? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three jobs, and they want different settings.
+    </p>
+    <p>
+      Testing a limit is the first. You need a string of a known length to push a form field, a
+      database column or a meta description past its ceiling, and the fastest way there is repeating
+      something short with no separator.
+    </p>
+    <p>
+      Mocking up structure is the second. A table needs eight rows before the layout looks real, so
+      duplicate text is faster than typing: one row repeated eight times and numbered gives you
+      something to edit rather than something to write. The third is bulk editing: repeat a line of CSV or markup, then change each copy in
+      place.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does the repeat work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The tool builds a list of copies and joins them with your separator. That order matters,
+      because a separator goes between copies rather than after each one.
+    </p>
+    <p>
+      For example, three copies of test joined by a new line give three lines with no trailing blank
+      one. Instead of a stray empty line at the end, you get exactly what you would have typed by
+      hand.
+    </p>
+    <p>
+      Numbering wraps each copy with its index before the join. A copy that spans several lines
+      therefore keeps one number for the whole block, which is the behaviour you want when the thing
+      being repeated is a paragraph rather than a word.
+    </p>
+  </section>
+
+  <section id="separator">
+    <h2>Which separator should I choose? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      New line for anything you will read afterwards, which is why the tool starts there.
+    </p>
+    <p>
+      Choose nothing when you are padding a field to a character count, because the separator would
+      count toward the limit you are trying to test. Choose a space to build a long sentence, and a
+      comma with a space for a quick inline list. Choose a blank line when each copy is a paragraph.
+    </p>
+    <p>
+      The common mistake is leaving it on nothing by accident. A hundred copies of a word run
+      together into one 400-character token, and no editor wraps that sensibly, so the output looks
+      broken when it is doing exactly what it was told.
+    </p>
+  </section>
+
+  <section id="size">
+    <h2>Why does the count field need a guardrail? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because a repeat count is not free, and an extra zero is one keystroke.
+    </p>
+    <p>
+      Fifty copies of a paragraph is a few kilobytes. 50,000 copies of the same paragraph is several
+      megabytes, and building that string blocks the tab while it happens. Then the paste that
+      follows gets refused by the field it was headed for, so the wait bought nothing.
+    </p>
+    <p>
+      So the tool works out the size before it builds anything. Past roughly a quarter of a million
+      characters it states the size in kilobytes or megabytes and offers a count that lands under
+      that line. Past five megabytes it declines to build the string at all and tells you what would
+      fit. Below that it stays completely quiet.
+    </p>
+  </section>
+
+  <section id="test-data">
+    <h2>Repeated text vs generated placeholder text <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Repeating text is right for size and wrong for behaviour.
+    </p>
+    <p>
+      If the question is what happens at 5000 characters, repeated text answers it exactly and
+      cheaply. Repeated text is not random test data, though, and the gap matters. If the question is whether the sort works, whether deduplication fires, or whether a
+      list looks right at a glance, identical rows hide the answer. Unlike varied filler, a thousand
+      copies of the same line will pass a broken sort without complaint.
+    </p>
+    <p>
+      Generating varied filler is a different job with a different tool. Instead of repeating for
+      those cases, use the
+      <a href={withBase('/tool/generate/lorem-ipsum-generator/')}>lorem ipsum generator</a>, which
+      produces sentences that differ from each other. Do not reach for repeated text when the
+      variation is the point of the test.
+    </p>
+  </section>
+
+  <section id="after">
+    <h2>What to do with the result <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Copy it, download it as a text file, or measure it.
+    </p>
+    <p>
+      The line under the output gives the character and line counts as you go, because the reason for
+      repeating something is frequently a limit. For a fuller breakdown, including counts with and
+      without spaces, send it to the
+      <a href={withBase('/tool/text/character-counter/')}>character counter</a>.
+    </p>
+    <p>
+      To edit every copy at once afterwards, the
+      <a href={withBase('/tool/text/find-replace/')}>find and replace tool</a> handles it in one
+      pass. Everything here runs in your browser, nothing is uploaded, and your settings persist on
+      this device so the tool opens the way you left it.
+    </p>
+  </section>
+</GuideLayout>

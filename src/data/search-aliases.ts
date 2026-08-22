@@ -16,6 +16,7 @@ export const searchAliases: Record<string, string[]> = {
   // Developer utilities
   'base64-encoder-decoder': ['b64', 'base 64'],
   'binary-text-converter': ['text to binary', 'ascii to binary'],
+  'binary-converter': ['decimal to binary', 'binary to decimal', 'base 2', 'number to binary'],
   'crc32-hash-generator': ['crc checksum'],
   'cron-expression-parser': ['crontab', 'cron schedule'],
   'csv-cleaner': ['clean csv', 'tidy csv'],
@@ -72,10 +73,14 @@ export const searchAliases: Record<string, string[]> = {
   'reverse-text': ['backwards text'],
   'sentence-case-converter': ['sentencecase'],
   'sentence-counter': ['count sentences'],
-  'slugify-text': ['url slug', 'permalink'],
+  // "Slug generator" is what people call this, and the tool is called Slugify Text, so nothing in
+  // the index matched the query that most often means this exact tool.
+  'slugify-text': ['url slug', 'permalink', 'slug generator', 'make a slug'],
   'snake-case-converter': ['snakecase', 'underscore case'],
   'space-counter': ['count spaces'],
+  'character-map': ['special characters', 'symbol picker', 'copy symbols', 'unicode symbols'],
   'text-compare': ['diff text', 'text diff', 'compare two texts'],
+  'text-repeater': ['repeat text', 'repeat a word', 'duplicate a line'],
   'title-case-converter': ['titlecase', 'capitalize each word'],
   'trim-text': ['strip spaces'],
   'uppercase-converter': ['all caps'],
@@ -88,6 +93,10 @@ export const searchAliases: Record<string, string[]> = {
   'qr-code-generator': ['qr'],
   'random-string-generator': ['random token'],
   'uuid-generator': ['guid'],
+  'dice-roller': ['roll a dice', 'roll a die', 'd20', 'virtual dice', 'dnd dice'],
+  'coin-flipper': ['flip a coin', 'heads or tails', 'coin toss'],
+  'random-name-picker': ['pick a name', 'wheel of names', 'raffle draw', 'classroom picker'],
+  'random-choice-picker': ['decide for me', 'pick for me', 'what should i eat', 'shuffle a list'],
 
   // Design
   'aspect-ratio-calculator': ['16 9', 'screen ratio'],
@@ -115,9 +124,11 @@ export const searchAliases: Record<string, string[]> = {
   'combinations-permutations-calculator': ['ncr', 'npr'],
   'fraction-calculator': ['simplify fraction'],
   'percentage-calculator': ['percent of', 'percent change'],
+  'number-to-words': ['spell out a number', 'amount in words', 'write numbers in words'],
   'prime-factorization-calculator': ['prime factors'],
   'probability-calculator': ['dice odds', 'coin flip'],
   'quadratic-equation-solver': ['quadratic formula', 'roots of equation'],
+  'roman-numeral-converter': ['roman numerals', 'mcmxcix', 'roman numeral date'],
   // Not "calculator": it is a word in twenty tool names, so it can only ever rank behind them.
   'scientific-calculator': ['trigonometry calculator', 'logarithm calculator'],
   'unit-circle-calculator': ['sin cos tan', 'trig circle'],

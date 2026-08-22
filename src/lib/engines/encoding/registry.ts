@@ -22,6 +22,9 @@ import { htmlEntity } from './htmlEntity';
 import { hex } from './hex';
 import { binary } from './binary';
 import { punycode } from './punycode';
+import { roman } from './roman';
+import { numberWords } from './numberWords';
+import { numberBase } from './numberBase';
 
 // Keyed by encoder id, referenced from a tool config's `processorId`.
 export const ENCODERS: Record<string, EncodingTool> = {
@@ -33,6 +36,9 @@ export const ENCODERS: Record<string, EncodingTool> = {
   hex,
   binary,
   punycode,
+  roman,
+  'number-words': numberWords,
+  'number-base': numberBase,
 };
 
 /**
@@ -125,7 +131,13 @@ export function encodingInfo(id: string): TransformInfo {
   return {
     displayName: enc?.displayName ?? enc?.id ?? id,
     reversible: true,
-    modes: { forward: 'encode', inverse: 'decode', forwardLabel: 'Encode →', inverseLabel: 'Decode ←' },
+    modes: {
+      forward: 'encode',
+      inverse: 'decode',
+      forwardLabel: enc?.forwardLabel ?? 'Encode →',
+      inverseLabel: enc?.inverseLabel ?? 'Decode ←',
+    },
+    outputLabel: enc?.outputLabel,
     placeholder: enc?.placeholder,
     insight: enc?.insight,
     technical: enc?.technical,

@@ -1,0 +1,158 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Seven letters carry the whole system. I is 1, V is 5, X is 10, L is 50, C is 100, D is 500 and
+      M is 1000.
+    </p>
+    <p>
+      Read them left to right and add. The one exception is a smaller letter sitting in front of a
+      larger one, which gets subtracted instead. For example, Input: MCMXCIX. Output: 1999, because
+      CM is 900 and XC is 90 and IX is 9.
+    </p>
+    <p>
+      Type a number or a numeral into the <a href={toolHref}>Roman numeral converter</a> and it works
+      out which direction you meant. It reads the old spellings too, then offers you the modern one.
+    </p>
+    <a href={toolHref} class="cta-link">Convert A Roman Numeral →</a>
+  </section>
+
+  <section id="subtractive">
+    <h2>What is subtractive notation? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Subtractive notation is the rule that turns IIII into IV. When a smaller letter comes before a
+      larger one, you take it away rather than adding it.
+    </p>
+    <p>
+      Only six pairs are standard, and the list is worth memorising because everything else follows
+      from it. IV is 4, IX is 9, XL is 40, XC is 90, CD is 400 and CM is 900. A letter can only be
+      subtracted from the next two values up inside its own family, therefore I goes before V and X
+      but never before C.
+    </p>
+    <p>
+      That last constraint is the common mistake. IC looks like a tidy way to write 99, but no Roman
+      inscription uses it. Ninety-nine is XCIX, which reads as ninety plus nine. Avoid the shortcut
+      and your numerals will match every reference table you check them against.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does the conversion work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Going to Roman is greedy subtraction. The converter walks a table of thirteen values from M
+      down to I, and at each step it emits the symbol as many times as it fits.
+    </p>
+    <p>
+      For example, 1987 takes one M, leaving 987. Then CM fits once, leaving 87. Then L, then three
+      X, then V, then two I. Output: MCMLXXXVII. Because the table includes the six subtractive pairs
+      as entries in their own right, the result comes out in standard form without a second pass.
+    </p>
+    <p>
+      Going the other way is one walk through the letters. Each letter gets added, unless the letter
+      after it is worth more, in which case it gets subtracted. That single rule reads both standard
+      and additive spellings, which is why IIII and MDCCCCX both come back as numbers rather than
+      errors.
+    </p>
+  </section>
+
+  <section id="clock-faces">
+    <h2>Why do clock faces use IIII? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three reasons, and none of them is that the clockmaker got it wrong.
+    </p>
+    <p>
+      IIII balances the VIII sitting opposite it on the dial, so the face looks even at a glance. A
+      dial using IIII needs exactly twenty I shapes, four V and four X, which divides neatly into
+      casting moulds. And the habit is old enough that breaking it now looks like the mistake.
+    </p>
+    <p>
+      So the tool accepts IIII, VIIII and the additive forms that turn up on monuments and title
+      pages. It reads the value, then says the spelling is not the standard one and offers the modern
+      version in a single tap. Unlike a converter that rejects them, you get the number and the
+      correction in the same step. A numeral already written the modern way triggers nothing.
+    </p>
+  </section>
+
+  <section id="ceiling">
+    <h2>Why do Roman numerals stop at 3999? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because the next number needs a mark you cannot type.
+    </p>
+    <p>
+      M is the largest letter in the alphabet, so 3999 is MMMCMXCIX and 4000 would need a fourth M.
+      The rules cap a letter at three in a row. Romans solved it with a vinculum, a bar drawn over a
+      letter to multiply it by a thousand, so a barred V meant five thousand.
+    </p>
+    <p>
+      There is no ASCII character for that bar. Every plain-text converter therefore stops at 3999,
+      and this one says so rather than producing a string of Ms that no reference would accept.
+    </p>
+  </section>
+
+  <section id="dates">
+    <h2>How do I read a Roman numeral date? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Break it into thousands, hundreds, tens and units, then add.
+    </p>
+    <p>
+      Film credits and copyright lines are where most people meet these. For example, MCMLXXVII splits
+      into M for 1000, CM for 900, LXX for 70 and VII for 7, which gives 1977. MMXXVI splits into MM,
+      XX and VI, which gives 2026.
+    </p>
+    <p>
+      Dates on buildings and gravestones are the ones worth double checking, because pre-modern
+      masons wrote additively. A date reading MDCCCCX is 1910 rather than a typo. Do not assume a
+      carved numeral will match a modern converter letter for letter.
+    </p>
+  </section>
+
+  <section id="why-decimal-won">
+    <h2>Roman numerals vs the decimal system <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Roman numerals record a number well and calculate with it badly.
+    </p>
+    <p>
+      The difference between the two systems is place value. In decimal, the position of a digit
+      carries meaning, so 209 and 902 use the same digits to mean different things and a column of
+      them can be added mechanically. Roman numerals have no places and no zero, therefore adding
+      MCMXCIX to XLII means converting both, adding, and converting back.
+    </p>
+    <p>
+      That is exactly why they survive where calculation is not the point. Chapter numbers, monarch
+      names, Super Bowls, clock faces and copyright dates all want a number that looks formal and
+      never gets summed. Instead of arithmetic, they carry weight.
+    </p>
+    <p>
+      If what you want is a number spelled out longhand in English, the
+      <a href={withBase('/tool/number/number-to-words/')}>number to words converter</a> does that. For
+      the same value in base two, use the
+      <a href={withBase('/tool/number/binary-converter/')}>binary converter</a>. Everything here runs
+      in your browser and nothing is uploaded.
+    </p>
+  </section>
+</GuideLayout>

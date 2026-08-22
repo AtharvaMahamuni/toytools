@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 21,
+  minor: 22,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-21',
-  description: 'Category pages lose their hairlines and gain intro prose plus structured data',
+  releaseDate: '2026-08-22',
+  description: 'Nine new tools: dice, coins, pickers, numerals, repeater and character map',
 };
 
 export function formatVersion(config: VersionConfig): string {

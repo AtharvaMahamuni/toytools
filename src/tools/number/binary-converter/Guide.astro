@@ -1,0 +1,159 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Type a number and you get its bits. Paste bits and you get the number.
+    </p>
+    <p>
+      For example, Input: 2026. Output: 11111101010, alongside the hex value 0x7EA, the octal 0o3752
+      and a count of 11 bits. Those extras sit under the result because the question after a
+      conversion is almost never just what is the value.
+    </p>
+    <p>
+      The <a href={toolHref}>binary converter</a> reads the direction from what you paste. It also
+      offers to strip a 0b prefix or the spaces in a nibble-grouped value, because that is the shape
+      binary actually arrives in.
+    </p>
+    <a href={toolHref} class="cta-link">Convert To Binary →</a>
+  </section>
+
+  <section id="base-2">
+    <h2>What is base 2? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base 2 is the counting you already do, with two digits instead of ten.
+    </p>
+    <p>
+      In decimal, each place is worth ten times the place to its right: 209 is two hundreds, no tens
+      and nine units. In binary, each place is worth twice the one to its right. For example, 1011 is
+      one eight, no fours, one two and one unit, therefore 11.
+    </p>
+    <p>
+      That is the whole system. Everything else about binary follows from having only two symbols,
+      which is convenient because a wire is either carrying current or it is not.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does the conversion work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Going to binary is repeated halving. Halve the number, write the remainder, repeat until
+      nothing is left, then read the remainders backwards.
+    </p>
+    <p>
+      Take 11. Halving gives 5 remainder 1, then 2 remainder 1, then 1 remainder 0, then 0 remainder
+      1. Read upward: 1011. Going the other way is a single pass that doubles a running total and
+      adds each bit.
+    </p>
+    <p>
+      This converter runs that arithmetic on arbitrary-precision integers rather than ordinary
+      numbers. Unlike a converter built on plain JavaScript numbers, it stays exact above 2^53, so a
+      64-bit register value or a key fragment survives the round trip digit for digit. The ceiling is
+      512 bits, and anything past it gets refused instead of truncated.
+    </p>
+  </section>
+
+  <section id="hex">
+    <h2>Why use hexadecimal instead of binary? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because one hex digit is exactly four bits, so translating between them needs no arithmetic at
+      all.
+    </p>
+    <p>
+      1111 is F. 1010 is A. 11111111 is FF. A 32-bit value takes 32 binary characters, or eight hex
+      ones, and eight characters can be read aloud, compared by eye and typed without losing your
+      place halfway. That is why memory dumps, colour codes and MAC addresses come in hex while the
+      hardware underneath works in bits.
+    </p>
+    <p>
+      Octal follows the same logic with three bits per digit. It survives mainly in Unix file
+      permissions, where 755 maps cleanly onto three groups of three bits. Both values sit under
+      every result here for that reason.
+    </p>
+  </section>
+
+  <section id="bit-width">
+    <h2>What does bit width mean, and why keep leading zeros? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Bit width is how many places your context reserves for the value, and it is separate from the
+      value itself.
+    </p>
+    <p>
+      65 is 1000001, which is seven bits. Written as a byte it becomes 01000001. Written into a
+      16-bit register it picks up nine more zeros. None of those change the number, but they change
+      whether two values line up when you put them one above the other.
+    </p>
+    <p>
+      Leading zeros are not decoration, and the common mistake is dropping them and then trying to
+      compare two byte values by eye. Do not do that: 1000001 above 11111111 tells you nothing, while 01000001 above 11111111
+      shows the difference instantly. The converter reports the natural bit count so you know how far
+      to pad.
+    </p>
+  </section>
+
+  <section id="not-text">
+    <h2>Binary numbers vs binary text <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      These are two different jobs that produce confusingly similar output.
+    </p>
+    <p>
+      This tool turns the number 65 into 1000001. A binary text converter turns the letter A into
+      01000001. Those are almost the same bits, and that is a coincidence of the character set rather
+      than a connection: A sits at code point 65.
+    </p>
+    <p>
+      The difference between them is what the input means. Numbers convert by place value and carry
+      no fixed width. Text converts through a character encoding, pads to eight bits per character,
+      and produces one group per letter. Instead of guessing, ask what you are holding. A count, an
+      address or a mask belongs here. A word, a name or a message belongs in the
+      <a href={withBase('/tool/developer-utilities/binary-text-converter/')}>binary text converter</a>.
+    </p>
+  </section>
+
+  <section id="cleanup">
+    <h2>Why did my pasted binary need cleaning up? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because binary is hardly ever written bare.
+    </p>
+    <p>
+      Source code writes 0b1010. Datasheets write 1010 1100 in nibbles so a human can read it.
+      Numeric literals write 1010_1100. Every one of those characters is a parse failure in a tool
+      that only accepts zeros and ones, which means the tool rejects most of the binary anyone
+      actually has to hand.
+    </p>
+    <p>
+      So the converter offers the cleaned value in one tap rather than reporting a fault and stopping.
+      Decimal input gets the same treatment for commas, spaces and apostrophes. A value that is
+      already clean triggers nothing at all.
+    </p>
+    <p>
+      For the same bits in hex, use the
+      <a href={withBase('/tool/developer-utilities/hex-encoder-decoder/')}>hex encoder and decoder</a>.
+      Everything here runs in your browser, and nothing you paste is uploaded.
+    </p>
+  </section>
+</GuideLayout>

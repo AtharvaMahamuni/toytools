@@ -23,13 +23,18 @@ interface Props {
   emptyText?: string;
 }
 
-const { slug, generatorId, emptyText } = Astro.props;
+const { slug, generatorId, config, emptyText } = Astro.props;
 const info = generatorInfo(generatorId);
 const fields = info?.fields ?? [];
 const defaults = info?.defaults ?? {};
 const auto = info?.autoGenerate ?? true;
 const live = info?.live ?? false;
 const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
+
+// The craft slot renders only for generators that actually supply notes. Generators whose craft is
+// an option marker (password-generator) already carry data-craft on the field, and a second empty
+// element with the same id would make the wiring check pass for the wrong one.
+const craftId = info?.notes ? config?.craft?.id : undefined;
 ---
 
 <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false}>
@@ -50,7 +55,7 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
 
   <IoPanel slot="output" label="Output" result>
     <div class="io-body">
-      <GeneratorOutput slug={slug} emptyText={resolvedEmpty} />
+      <GeneratorOutput slug={slug} emptyText={resolvedEmpty} craftId={craftId} />
     </div>
   </IoPanel>
 </ToolSplit>
@@ -86,12 +91,13 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
     var emptyEl = el('-empty'), textEl = el('-text'), qrEl = el('-qr'), canvas = el('-canvas'),
         errorEl = el('-error'), strengthEl = el('-strength'), strengthLabel = el('-strength-label'),
         metaEl = el('-meta'), downloadsEl = el('-downloads');
+    var noteEl = el('-note'), noteText = el('-note-text'), noteAction = el('-note-action');
     var copyBtn = el('-copy'), regenBtn = el('-regenerate'), clearBtn = el('-clear'),
         pngBtn = el('-download-png'), svgBtn = el('-download-svg');
 
     var lastResult = null;
 
-    function controlOf(fe) { return fe.querySelector('input, select'); }
+    function controlOf(fe) { return fe.querySelector('input, select, textarea'); }
 
     function controlValue(fe) {
       var type = fe.getAttribute('data-field-type');
@@ -128,12 +134,31 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
     function hide(e) { if (e) e.hidden = true; }
     function show(e) { if (e) e.hidden = false; }
 
+    // The craft seam. A generator returns a note when it has something true to say about THIS
+    // result, and nothing otherwise, so the line is absent rather than reassuring.
+    var pendingFix = null;
+    function renderNote(note) {
+      pendingFix = null;
+      if (!noteEl) return;
+      if (!note || !note.text) { hide(noteEl); hide(noteAction); return; }
+      noteText.textContent = note.text;
+      if (note.fix && noteAction) {
+        pendingFix = note.fix;
+        noteAction.textContent = note.fix.label;
+        show(noteAction);
+      } else {
+        hide(noteAction);
+      }
+      show(noteEl);
+    }
+
     function render(res) {
       lastResult = res;
       hide(emptyEl); hide(textEl); hide(qrEl); hide(errorEl); hide(strengthEl); hide(metaEl); hide(downloadsEl);
-      if (!res) { show(emptyEl); return; }
+      if (!res) { show(emptyEl); renderNote(null); return; }
       if (!res.ok) {
         if (res.error) { errorEl.textContent = res.error; show(errorEl); } else { show(emptyEl); }
+        renderNote(null);
         return;
       }
       if (res.kind === 'qr' && res.qr) {
@@ -148,6 +173,7 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
         strengthLabel.textContent = res.strength.label;
         show(strengthEl);
       }
+      renderNote(res.ok ? res.note : null);
       if (res.meta && res.meta.length) {
         metaEl.innerHTML = '';
         res.meta.forEach(function (m) {
@@ -225,15 +251,35 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
     } catch (_) {}
 
     // ── Listeners ───────────────────────────────────────────────────────────
+    // Free-text fields settle before we act on them. Without this a name list re-picks a winner on
+    // every keystroke, so somebody typing twelve names watches twelve different winners flash past.
+    var typingTimer = null;
+    function runSoon() {
+      if (typingTimer) clearTimeout(typingTimer);
+      typingTimer = setTimeout(function () { typingTimer = null; run(); }, 350);
+    }
+
     fieldEls.forEach(function (fe) {
       var input = controlOf(fe);
       if (!input) return;
       var type = fe.getAttribute('data-field-type');
       var evt = (type === 'boolean' || type === 'select') ? 'change' : 'input';
+      var freeText = (type === 'text' || type === 'textarea');
       input.addEventListener(evt, function () {
         if (type === 'range') { var o = fe.querySelector('[data-range-value]'); if (o) o.textContent = input.value; }
-        run();
+        if (freeText) runSoon(); else run();
       });
+    });
+
+    // Applying a fix rewrites the field the generator named, then reruns, so the user sees what
+    // changed in the box they pasted into rather than only in the result.
+    if (noteAction) noteAction.addEventListener('click', function () {
+      if (!pendingFix) return;
+      var fe = root.querySelector('[data-field-id="' + pendingFix.field + '"]');
+      var input = fe ? controlOf(fe) : null;
+      if (!input) return;
+      input.value = pendingFix.value;
+      run();
     });
 
     if (copyBtn) copyBtn.addEventListener('click', function () {
@@ -252,7 +298,8 @@ const resolvedEmpty = emptyText ?? 'Configure the options and generate.';
 
     if (clearBtn) clearBtn.addEventListener('click', function () {
       fieldEls.forEach(function (fe) {
-        if (fe.getAttribute('data-field-type') === 'text') { var i = controlOf(fe); if (i) i.value = ''; }
+        var t = fe.getAttribute('data-field-type');
+        if (t === 'text' || t === 'textarea') { var i = controlOf(fe); if (i) i.value = ''; }
       });
       render(null);
       persist();

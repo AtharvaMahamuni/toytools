@@ -1,0 +1,182 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Dice notation packs three facts into one short string. The number before the <code>d</code>
+      counts the dice. The number after it gives the faces. Anything trailing is a flat bonus, added
+      once to the total.
+    </p>
+    <p>
+      For example, <code>4d6+2</code> means roll four six-sided dice, add them, then add two. That
+      pool runs from 6 to 26.
+    </p>
+    <p>
+      Type the string into the <a href={toolHref}>dice roller</a> and it shows every die, the total,
+      and how often a result like that turns up. Input: <code>2d6+3</code>. Output: a total between
+      5 and 15, plus the odds of beating it.
+    </p>
+    <a href={toolHref} class="cta-link">Roll Some Dice →</a>
+  </section>
+
+  <section id="notation">
+    <h2>What is dice notation? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Dice notation is the shorthand printed in tabletop rulebooks, and it has not changed in fifty
+      years. <code>d20</code> is one twenty-sided die. The count is optional when it is one, so
+      <code>d20</code> and <code>1d20</code> mean the same thing. A d20 roller is the most common
+      case, therefore it is what the tool starts with.
+    </p>
+    <p>
+      <code>3d8</code> means three eight-sided dice, summed. <code>2d10-1</code> means two ten-sided
+      dice, summed, then one taken off. Roll a dice or roll a die, both work here.
+    </p>
+    <p>
+      The modifier applies to the total, not to each die. That is the most common mistake people make
+      reading it. For example, four dice with a plus two bonus is one plus two, so <code>4d6+2</code>
+      stops at 26 rather than 32. Avoid adding the bonus per die and your damage numbers stop
+      drifting upward.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does an online dice roller work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each die is one draw from your browser's cryptographic random number generator, the same source
+      behind a password generator.
+    </p>
+    <p>
+      That source hands back a 32-bit number, which does not divide evenly by six. Taking the
+      remainder would make low faces slightly more likely, so the tool throws away the values in the
+      leftover band and draws again. The bias is gone rather than small. Roll 2d6 here and every one
+      of the thirty six combinations has an equal shot, which is more than a physical die can promise
+      after a year in a dice bag.
+    </p>
+    <p>
+      Then it sums the faces, applies the modifier, and works out the exact distribution of the pool
+      you asked for. For example, a 14 on <code>2d6+3</code> gets reported alongside the share of
+      rolls that reach 14 or better.
+    </p>
+  </section>
+
+  <section id="shape">
+    <h2>Is 2d6 better than 1d12? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Both stop at 12, and there the resemblance ends.
+    </p>
+    <p>
+      A single twelve-sided die is flat. Every face has a one in twelve chance, so a 12 is exactly as
+      likely as a 7. Unlike that, two six-sided dice have to agree with each other. There are six
+      ways to make a 7 and one single way to make a 12, therefore the totals bunch hard in the
+      middle.
+    </p>
+    <p>
+      In play the pair is reliable and the lone die is swingy. Roll 2d6 a hundred times and most
+      results land between 5 and 9. Roll 1d12 the same hundred times and the results scatter across
+      the whole range. Neither is better, but they answer different questions, so the difference
+      between them decides the build.
+    </p>
+    <p>
+      Several small dice beat one big die for consistency, because each extra die drags the total
+      toward the average. That is why old stat lines use 3d6: the method quietly guarantees an
+      ordinary character.
+    </p>
+  </section>
+
+  <section id="range">
+    <h2>Does a wider range mean a better average? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No, and this is the misconception that costs people damage. Range and average move
+      independently.
+    </p>
+    <p>
+      For example, <code>1d12</code> averages 6.5 and <code>2d6</code> averages 7, but the pair
+      reaches 12 far less than the single die does. Swapping to a bigger die raises your ceiling
+      while lowering the number you hit most nights.
+    </p>
+    <p>
+      A flat bonus behaves differently again. Adding two to 2d6 shifts the entire curve two places,
+      so it is worth far more in the middle than at the ends. Do not judge a bonus by the maximum it
+      reaches. Judge it by how much of the curve it pushes past your target number.
+    </p>
+  </section>
+
+  <section id="target">
+    <h2>How do I work out the odds of clearing a target? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most rolls ask a yes or no question rather than asking for a number. On a flat d20 the sum is
+      easy, because every face is equally likely. Needing 15 or better means six faces in twenty,
+      which is 30 percent, and each point of bonus adds another 5 percent.
+    </p>
+    <p>
+      On a pool it stops being easy, and guesses go badly wrong here. Needing 15 or better on
+      <code>2d6+3</code> means needing 12 on 2d6, which is one outcome in thirty six. About 3
+      percent, instead of the 30 percent the d20 instinct suggests.
+    </p>
+    <p>
+      The roller prints that share under the result, so comparing two builds takes one roll each.
+    </p>
+  </section>
+
+  <section id="streaks">
+    <h2>Are dice due for a high roll? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. Dice hold no memory, so the next roll carries exactly the distribution the first one did.
+    </p>
+    <p>
+      What changes is the sample rather than the dice. Over hundreds of rolls the running average
+      settles near the expected value, because later rolls swamp the early ones, and not because bad
+      luck gets repaid. Six low rolls in a row on a d20 happen roughly once in seventy attempts,
+      which is common enough to happen to you on a Tuesday.
+    </p>
+    <p>
+      Virtual dice attract this suspicion more than physical ones, because nothing tumbles across the
+      table to convince you. Therefore the tool answers with a number: it states how often a result
+      like yours turns up, and you can check that against any probability table you like.
+    </p>
+  </section>
+
+  <section id="limits">
+    <h2>What this roller will not do <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      There is no drop-lowest, no exploding dice and no advantage keyword. Those are system rules
+      rather than notation, and every game spells them differently.
+    </p>
+    <p>
+      For advantage, set the roll count to two and take the higher of the pair. The odds line reports
+      the best of the batch, which is the number advantage actually buys you. For a 4d6 drop lowest
+      stat line, roll <code>4d6</code> with the breakdown showing and ignore the smallest die
+      yourself.
+    </p>
+    <p>
+      Instead of a number, you might want a name or a choice. The
+      <a href={withBase('/tool/generate/random-choice-picker/')}>random choice picker</a> handles
+      named options, and the <a href={withBase('/tool/generate/coin-flipper/')}>coin flipper</a>
+      covers the two-outcome case. Nothing you roll is uploaded or stored.
+    </p>
+  </section>
+</GuideLayout>

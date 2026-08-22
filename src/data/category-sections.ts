@@ -30,6 +30,9 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'generate-identifier':  { title: 'IDs & UUIDs',             order: 2 },
   'generate-placeholder': { title: 'Placeholder Text',        order: 3 },
   'generate-code':        { title: 'Codes & QR',              order: 4 },
+  // Chance is its own section rather than an "IDs" sibling: a dice roller and a UUID generator both
+  // consume randomness, but nobody arrives wanting either one when they came for the other.
+  'generate-chance':      { title: 'Chance & Picking',        order: 5 },
   'simulate':             { title: 'Simulations',             order: 1 },
   'math-calculate':       { title: 'Calculators',             order: 2 },
   'datetime-calculate':   { title: 'Calculate',               order: 1 },

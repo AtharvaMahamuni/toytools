@@ -1,0 +1,338 @@
+---
+// Text Repeater — a bespoke text-interactive widget. Repeating needs three settings (how many, what
+// goes between, whether to number), so it does not fit the one-textarea-in, one-textarea-out shape
+// the text-processor engine exposes.
+//
+// The craft (`rep-size`) is the guardrail. The count is a number field, an extra zero costs nothing
+// to type, and the result of a mistyped one is a multi-megabyte string that locks the tab while it
+// renders. The tool knows the size before it builds it, so it says so and offers a count that fits.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+import { config } from './config';
+
+const inputId = 'rep-input';
+const outputId = 'rep-output';
+---
+
+<div class="rep-widget">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <div slot="input">
+      <IoPanel label="Text" labelFor={inputId} variant="prose" data-slug={config.slug}>
+        <textarea
+          id={inputId}
+          class="rep-area"
+          placeholder="Type or paste the text to repeat"
+          spellcheck="false"
+          autocapitalize="off"
+          aria-label="Text to repeat"></textarea>
+
+        <div class="rep-controls">
+          <div class="rep-field">
+            <label class="rep-label" for="rep-count">Copies</label>
+            <input
+              id="rep-count"
+              class="rep-input"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="100000"
+              step="1"
+              value="3"
+            />
+          </div>
+
+          <div class="rep-field">
+            <label class="rep-label" for="rep-separator">Between each</label>
+            <select id="rep-separator" class="rep-input">
+              <option value="newline" selected>New line</option>
+              <option value="none">Nothing</option>
+              <option value="space">A space</option>
+              <option value="comma">Comma and space</option>
+              <option value="blank">Blank line</option>
+            </select>
+          </div>
+
+          <label class="rep-check" for="rep-number">
+            <input type="checkbox" id="rep-number" />
+            <span>Number each copy</span>
+          </label>
+        </div>
+      </IoPanel>
+      <ToolActions clearTarget={inputId} pasteTarget={inputId}>
+        <button class="action-btn action-btn--sample" data-action="sample" id="rep-sample" aria-label="Load a sample">Sample</button>
+      </ToolActions>
+    </div>
+
+    <div slot="output">
+      <IoPanel label="Result" variant="prose" copyTargetId={outputId}>
+        <textarea
+          id={outputId}
+          class="rep-area rep-out"
+          readonly
+          placeholder="The repeated text appears here"
+          aria-label="Repeated text"
+          aria-live="polite"></textarea>
+        <p class="rep-meta" id="rep-meta" aria-live="polite"></p>
+        <CraftNote id="rep-note" craftId={config.craft!.id} action />
+      </IoPanel>
+      <ToolActions copyTarget={outputId} downloadTarget={outputId} downloadFilename="repeated-text.txt" />
+    </div>
+  </ToolSplit>
+</div>
+
+<style>
+  .rep-area {
+    width: 100%;
+    min-height: 180px;
+    max-height: 320px;
+    padding: var(--space-3);
+    /* 16px floor, or iOS zooms the page the moment the field takes focus. */
+    font-size: var(--text-base);
+    font-family: inherit;
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    /* Fixed box with internal scroll. A field that grows while you paste moves every control
+       under your thumb, which the mobile rules forbid outright. */
+    resize: none;
+    overflow-y: auto;
+  }
+
+  .rep-out {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .rep-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3) var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .rep-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    flex: 1 1 9rem;
+    min-inline-size: 0;
+  }
+
+  .rep-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+
+  .rep-input {
+    width: 100%;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-3);
+    font-size: var(--text-base);
+    font-family: inherit;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .rep-check {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--touch-target);
+    flex: 1 1 12rem;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+
+  .rep-check input {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  .rep-check:active span { color: var(--color-accent-strong); }
+
+  .rep-meta {
+    margin: var(--space-3) 0 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-subtle);
+  }
+
+  .rep-meta:empty { display: none; }
+</style>
+
+<script is:inline>
+  (function () {
+    var input = document.getElementById('rep-input');
+    var output = document.getElementById('rep-output');
+    if (!input || !output) return;
+
+    var countEl = document.getElementById('rep-count');
+    var sepEl = document.getElementById('rep-separator');
+    var numberEl = document.getElementById('rep-number');
+    var metaEl = document.getElementById('rep-meta');
+    var noteEl = document.getElementById('rep-note');
+    var noteText = document.getElementById('rep-note-text');
+    var noteAction = document.getElementById('rep-note-action');
+    var sampleBtn = document.getElementById('rep-sample');
+
+    var SEPARATORS = { none: '', newline: '\n', space: ' ', comma: ', ', blank: '\n\n' };
+    // Past this the browser starts to feel it: selecting and copying a string this long takes
+    // visible time on a phone. Past the hard cap it stops being usable at all, so the tool
+    // declines rather than freezing the tab somebody was typing in.
+    var WARN_CHARS = 250000;
+    var HARD_CHARS = 5000000;
+    var MAX_COUNT = 100000;
+
+    function readCount() {
+      var n = parseInt(countEl.value, 10);
+      if (isNaN(n) || n < 1) return 1;
+      return Math.min(MAX_COUNT, n);
+    }
+
+    function unitLength(text, sep, numbered, count) {
+      // The numbering prefix grows with the index, so measure it rather than guessing.
+      var digits = String(count).length;
+      var prefix = numbered ? digits + 2 : 0;
+      return text.length + sep.length + prefix;
+    }
+
+    function formatBytes(chars) {
+      var kb = chars / 1024;
+      if (kb < 1024) return Math.round(kb) + ' KB';
+      return (kb / 1024).toFixed(1) + ' MB';
+    }
+
+    function hideNote() {
+      if (noteEl) noteEl.hidden = true;
+      if (noteAction) noteAction.hidden = true;
+    }
+
+    function showNote(text, safeCount) {
+      if (!noteEl) return;
+      noteText.textContent = text;
+      if (safeCount && noteAction) {
+        noteAction.textContent = 'Use ' + safeCount.toLocaleString() + ' copies';
+        noteAction.setAttribute('data-safe-count', String(safeCount));
+        noteAction.hidden = false;
+      } else if (noteAction) {
+        noteAction.hidden = true;
+      }
+      noteEl.hidden = false;
+    }
+
+    function build(text, count, sep, numbered) {
+      var parts = [];
+      for (var i = 0; i < count; i++) {
+        parts.push(numbered ? (i + 1) + '. ' + text : text);
+      }
+      return parts.join(sep);
+    }
+
+    function run() {
+      var text = input.value;
+      var count = readCount();
+      var sep = SEPARATORS[sepEl.value] !== undefined ? SEPARATORS[sepEl.value] : '\n';
+      var numbered = numberEl.checked;
+
+      if (!text) {
+        output.value = '';
+        output.setAttribute('data-empty', '');
+        metaEl.textContent = '';
+        hideNote();
+        persist();
+        return;
+      }
+
+      var projected = unitLength(text, sep, numbered, count) * count;
+
+      if (projected > HARD_CHARS) {
+        var fits = Math.max(1, Math.floor(HARD_CHARS / unitLength(text, sep, numbered, count)));
+        output.value = '';
+        output.setAttribute('data-empty', '');
+        metaEl.textContent = '';
+        showNote(
+          count.toLocaleString() + ' copies of this would be about ' + formatBytes(projected) +
+          ' of text, which is more than the page will build.',
+          fits
+        );
+        persist();
+        return;
+      }
+
+      var result = build(text, count, sep, numbered);
+      output.value = result;
+      output.removeAttribute('data-empty');
+      metaEl.textContent = result.length.toLocaleString() + ' characters, ' +
+        result.split('\n').length.toLocaleString() + ' lines';
+
+      if (result.length > WARN_CHARS) {
+        var safe = Math.max(1, Math.floor(WARN_CHARS / unitLength(text, sep, numbered, count)));
+        showNote(
+          'That is ' + formatBytes(result.length) + ' of text. Anything past a few hundred ' +
+          'thousand characters is slow to select and gets refused by most form fields.',
+          safe
+        );
+      } else {
+        hideNote();
+      }
+
+      persist();
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      try {
+        ToyTools.state.save('text-repeater', {
+          text: input.value.slice(0, 20000),
+          count: countEl.value,
+          separator: sepEl.value,
+          numbered: numberEl.checked,
+        });
+      } catch (_) {}
+    }
+
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('text-repeater');
+      if (saved) {
+        if (typeof saved.text === 'string') input.value = saved.text;
+        if (saved.count) countEl.value = saved.count;
+        if (saved.separator) sepEl.value = saved.separator;
+        numberEl.checked = !!saved.numbered;
+      }
+    } catch (_) {}
+
+    input.addEventListener('input', run);
+    countEl.addEventListener('input', run);
+    sepEl.addEventListener('change', run);
+    numberEl.addEventListener('change', run);
+
+    if (noteAction) noteAction.addEventListener('click', function () {
+      var safe = noteAction.getAttribute('data-safe-count');
+      if (!safe) return;
+      countEl.value = safe;
+      run();
+      countEl.focus();
+    });
+
+    if (sampleBtn) sampleBtn.addEventListener('click', function () {
+      input.value = 'The quick brown fox';
+      countEl.value = '5';
+      run();
+      input.focus();
+    });
+
+    run();
+  })();
+</script>
