@@ -208,6 +208,13 @@ const outputId = 'rep-output';
       return text.length + sep.length + prefix;
     }
 
+    // The count to offer when the current one is too big. Deliberately the same figure on both
+    // paths: offering the largest count that would still BUILD lands you on a five-megabyte string
+    // that the tool then warns about, so the fix would hand you the next problem.
+    function safeCount(unit) {
+      return Math.max(1, Math.floor(WARN_CHARS / unit));
+    }
+
     function formatBytes(chars) {
       var kb = chars / 1024;
       if (kb < 1024) return Math.round(kb) + ' KB';
@@ -258,14 +265,13 @@ const outputId = 'rep-output';
       var projected = unitLength(text, sep, numbered, count) * count;
 
       if (projected > HARD_CHARS) {
-        var fits = Math.max(1, Math.floor(HARD_CHARS / unitLength(text, sep, numbered, count)));
         output.value = '';
         output.setAttribute('data-empty', '');
         metaEl.textContent = '';
         showNote(
           count.toLocaleString() + ' copies of this would be about ' + formatBytes(projected) +
           ' of text, which is more than the page will build.',
-          fits
+          safeCount(unitLength(text, sep, numbered, count))
         );
         persist();
         return;
@@ -278,11 +284,10 @@ const outputId = 'rep-output';
         result.split('\n').length.toLocaleString() + ' lines';
 
       if (result.length > WARN_CHARS) {
-        var safe = Math.max(1, Math.floor(WARN_CHARS / unitLength(text, sep, numbered, count)));
         showNote(
           'That is ' + formatBytes(result.length) + ' of text. Anything past a few hundred ' +
           'thousand characters is slow to select and gets refused by most form fields.',
-          safe
+          safeCount(unitLength(text, sep, numbered, count))
         );
       } else {
         hideNote();
