@@ -17,7 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'schedule'
     steps:
+      # fetch-depth: 0 so the version gate below can diff against the PR base. The default shallow
+      # checkout has no base commit to compare with, and the gate would skip itself on every PR.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -32,6 +36,12 @@ jobs:
 
       - name: Check coverage thresholds
         run: npm run test:coverage
+
+      # Mirrors the "version + changelog" step in scripts/verify.sh. The base is passed explicitly
+      # because origin/main is not the PR base on a fork or a stacked branch; it is empty on push
+      # and workflow_dispatch, where the gate falls back to origin/main.
+      - name: Version + changelog gate
+        run: npm run check:version -- "${{ github.event.pull_request.base.sha }}"
 
       - name: Install quality-guardian dependencies
         run: npm ci --prefix quality-guardian

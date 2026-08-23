@@ -2,6 +2,58 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.22.2] - 2026-08-23
+
+### Added
+
+- **Every engine now owes the test suite a contract, and the suite notices when one does not have
+  one.** `contract.test.ts` covered 8 of the 18 engines; wellness and generation had reached 11 and
+  9 tools respectively without a single cross-tool assertion between them. All four remaining
+  dispatching engines (wellness, generation, csv, tracker) now have one, math-lab shares the
+  simulation contract that previously ran for physics alone, and a meta-test fails the build when a
+  newly registered engine is neither contract-tested nor explicitly recorded as bespoke. The
+  generation contract drives each generator from its own declared field defaults and holds it to its
+  `autoGenerate` flag, which is what caught that qr-code is the one generator that legitimately
+  cannot produce output without user content.
+- **A search corpus test that pins real queries to real tools.** The existing ranking tests score
+  synthetic entries, so they prove the tiers behave without proving that typing "yml to json" finds
+  the right converter. The new test asserts the documented near-miss cases against the live catalog,
+  including that every tool stays findable by the name shown on its own page, and that a query for a
+  tool the catalog does not have returns nothing rather than the closest loose match.
+- **An incomplete tool directory fails in seconds instead of taking the whole build down.** A
+  directory with a `config.ts` and no `Widget.astro` passed every validator, because the check that
+  reads each widget treats a missing file as "no globals used". The failure surfaced instead
+  midway through `astro build`, and since a static Astro build has no per-page error boundary, one
+  incomplete directory failed the entire catalog and blocked every other tool's deploy.
+  `validate-registry` now catches it before Astro starts and names the tool.
+- **A version and changelog gate.** Shipping a change without bumping the version has been a hard
+  rule with nothing enforcing it. `npm run check:version` fails when a diff touches shipped code and
+  leaves `version.ts` alone, or when the version it declares has no CHANGELOG entry. It reads the
+  working tree as well as committed history, so `verify` catches the omission before the commit
+  rather than after the PR goes red, and it runs in both `scripts/verify.sh` and the PR workflow.
+
+### Changed
+
+- **Related-tools ranking stopped re-scanning itself.** Each tier of the four-tier cascade excluded
+  the tiers above it with `Array.includes` inside a filter over the whole catalog, which is a linear
+  scan inside a linear scan, three times over by the last tier. On a catalog where one engine holds a
+  large share of the tools, one pass measured 3.7s at 5,000 tools and the build makes four of them.
+  Tier membership is a Set now. Order, tier boundaries and the cross-family floor are untouched.
+- **An engine declares its runtime globals on the same line that declares the engine.** The list of
+  what each engine attaches to `window.ToyTools` lived in `runtime/loaders.ts`, one file away from
+  the engine manifest that already described the same engines. It moved to `engines.ts`. It is
+  deliberately not re-exported from `loaders.ts`: that file is browser code, and reaching the
+  registry from it would pull every tool config into the runtime chunk.
+- **The scaffold stopped emitting a placeholder for three engines that already have a widget.**
+  `datetime`, `math` and `csv` each have a shared widget on disk, but were missing from the
+  scaffold's map, so a new tool on any of them got `<p>TODO</p>` and a note to copy a sibling by
+  hand. The comment beside that map already listed only the four genuinely bespoke engines, so this
+  was an oversight rather than a decision.
+- **The search index budget note records what has actually been tried.** It cited a measurement from
+  114 tools; the index is now 9.6K of its 12K ceiling at 132, which is roughly 35 tools of headroom.
+  The note carries today's number, the three payload experiments now spent (including two that made
+  it worse), and what the structural answer is when it does trip.
+
 ## [alpha-v7.22.1] - 2026-08-22
 
 ### Changed

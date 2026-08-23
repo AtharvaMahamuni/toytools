@@ -2,7 +2,8 @@ import { tools } from '../src/data/registry';
 import { categories } from '../src/data/categories';
 import { searchAliases } from '../src/data/search-aliases';
 import { engineIds, knownPatterns, getEngine, engineRegistry, NON_DISPATCHING_PATTERNS } from '../src/data/engines';
-import { ENGINE_GLOBALS, RUNTIME_ENGINE_IDS } from '../src/lib/runtime/loaders';
+import { RUNTIME_ENGINE_IDS } from '../src/lib/runtime/loaders';
+import { ENGINE_GLOBALS } from '../src/data/engines';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -269,7 +270,7 @@ for (const manifest of MANIFESTS) {
       if (provided.has(g)) continue;
       errors.push(
         `${label} calls ToyTools.${g}, which engine "${engineId}" does not load. ` +
-        `Either declare it in ENGINE_GLOBALS (src/lib/runtime/loaders.ts) and attach it in ` +
+        `Either declare it in the engine's \`globals\` (src/data/engines.ts) and attach it in ` +
         `src/lib/runtime/engines/${engineId}.ts, or stop using it here.`,
       );
     }
@@ -281,24 +282,46 @@ for (const manifest of MANIFESTS) {
     check(join(repoRoot, 'src/tools/_shared', engine.sharedWidget), engine.id, `Shared widget ${engine.sharedWidget}`);
   }
   // Bespoke per-tool widgets.
+  //
+  // An authored tool directory must also be COMPLETE, which is a separate failure from the globals
+  // check below it: usedGlobals() returns [] for a file that does not exist, so a config.ts with no
+  // Widget.astro beside it sails through here and only breaks halfway through `astro build`, inside
+  // the generated route. Astro has no per-page error boundary in a static build, so that one
+  // incomplete directory fails the ENTIRE catalog's build and blocks every other tool's deploy.
+  // Catching it here costs a stat() and names the tool.
+  //
+  // Presence of config.ts is what marks a directory as authored, rather than a list of engine ids:
+  // the simulation tools are derived from manifests and have no directory at all, so they neither
+  // owe a widget nor need an exemption, and a future manifest-derived engine inherits that.
   for (const tool of tools) {
     const category = categories.find(c => c.slug === tool.categorySlug);
     if (!category) continue;
-    const widget = join(repoRoot, 'src/tools', category.segment, tool.slug, 'Widget.astro');
+    const dir = join(repoRoot, 'src/tools', category.segment, tool.slug);
+    const widget = join(dir, 'Widget.astro');
+    if (existsSync(join(dir, 'config.ts')) && !existsSync(widget)) {
+      errors.push(
+        `Tool "${tool.slug}" has a config.ts but no Widget.astro beside it. Astro throws for this ` +
+          `mid-render, which fails the whole catalog's build rather than just this tool.`,
+      );
+    }
     check(widget, tool.engine, `Tool "${tool.slug}" widget`);
   }
   // Every engine that declares runtime globals must have a loader, and vice versa.
   for (const id of Object.keys(ENGINE_GLOBALS)) {
     if (!RUNTIME_ENGINE_IDS.includes(id)) {
-      errors.push(`ENGINE_GLOBALS declares "${id}" but ENGINE_LOADERS has no entry — add the import() in src/lib/runtime/loaders.ts`);
+      errors.push(`Engine "${id}" declares globals in src/data/engines.ts but ENGINE_LOADERS has no entry — add the import() in src/lib/runtime/loaders.ts`);
     }
     if (!engineIds.has(id)) {
-      errors.push(`ENGINE_GLOBALS declares unknown engine "${id}" — register it in src/data/engines.ts`);
+      errors.push(`ENGINE_GLOBALS names unknown engine "${id}" — register it in src/data/engines.ts`);
     }
   }
   for (const id of RUNTIME_ENGINE_IDS) {
     if (!ENGINE_GLOBALS[id]) {
-      errors.push(`ENGINE_LOADERS has "${id}" but ENGINE_GLOBALS does not list what it attaches — validators cannot check widgets against it`);
+      errors.push(
+        `ENGINE_LOADERS has "${id}" but src/data/engines.ts does not list the globals it ` +
+          `attaches — add a globals: [...] array to its engineDefs entry, or validators cannot ` +
+          `check widgets against it`,
+      );
     }
   }
 }

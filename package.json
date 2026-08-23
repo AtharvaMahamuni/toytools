@@ -16,6 +16,7 @@
     "check:budget": "npx tsx scripts/check-budget.ts",
     "check:queries": "npx tsx scripts/check-query-coverage.ts",
     "check:craft": "npx tsx scripts/check-craft.ts",
+    "check:version": "npx tsx scripts/check-version.ts",
     "scaffold:tool": "npx tsx scripts/scaffold-tool.ts",
     "health": "npx tsx scripts/platform-health.ts",
     "indexnow": "npx tsx scripts/submit-indexnow.ts",
