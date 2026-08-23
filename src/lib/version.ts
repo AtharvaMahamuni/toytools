@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
   minor: 22,
-  patch: 1,
+  patch: 2,
   status: 'alpha',
-  releaseDate: '2026-08-22',
-  description: 'Homepage hero pays off the toolbox line and drops a duplicated claim',
+  releaseDate: '2026-08-23',
+  description: 'Engine contract coverage, a search corpus regression test, and a version gate',
 };
 
 export function formatVersion(config: VersionConfig): string {

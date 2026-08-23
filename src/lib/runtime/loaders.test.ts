@@ -2,8 +2,8 @@
 // time as well; having it here fails in milliseconds instead of after a full Astro render, and keeps
 // the contract visible next to the maps themselves.
 import { describe, expect, it } from 'vitest';
-import { ENGINE_LOADERS, ENGINE_GLOBALS, RUNTIME_ENGINE_IDS } from './loaders';
-import { engineIds } from '@data/engines';
+import { ENGINE_LOADERS, RUNTIME_ENGINE_IDS } from './loaders';
+import { ENGINE_GLOBALS, engineIds } from '@data/engines';
 
 /** Engines that deliberately have no ToyTools.* runtime — see the comment in loaders.ts.
  *  `calculator` left this list on 2026-08-18: its six bespoke widgets now share one pitfall module

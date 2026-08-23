@@ -170,6 +170,9 @@ const WIDGETS: Record<string, { comp: string; prop: string }> = {
   generation:       { comp: 'GeneratorWidget',      prop: 'generatorId' },
   wellness:         { comp: 'WellnessWidget',        prop: 'wellnessId' },
   tracker:          { comp: 'TrackerWidget',          prop: 'trackerId' },
+  datetime:         { comp: 'DateTimeWidget',         prop: 'dateTimeId' },
+  math:             { comp: 'MathWidget',             prop: 'mathId' },
+  csv:              { comp: 'CsvWidget',              prop: 'csvId' },
 };
 
 function widgetSource(): string {

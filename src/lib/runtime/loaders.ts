@@ -33,27 +33,13 @@ export const ENGINE_LOADERS: Record<string, () => Promise<{ attach: AttachFn }>>
 /** Engine ids that have a lazily-loaded browser runtime. */
 export const RUNTIME_ENGINE_IDS = Object.keys(ENGINE_LOADERS);
 
-/**
- * Every ToyTools global attached by each engine module. Data, not derived from the modules
- * themselves, because the modules are browser code that build-time validators cannot execute.
- * `validate-registry` fails the build when a widget calls a global no declared engine provides.
- */
-export const ENGINE_GLOBALS: Record<string, string[]> = {
-  'text-analysis': ['analyze', 'textNotice', 'formatMetric'],
-  'text-processor': ['process', 'textHandoff', 'detectInvisible'],
-  'text-interactive': ['diff', 'diffStats', 'whitespaceNoise', 'shell'],
-  encoding: ['runEncoding', 'detectEncoding', 'transform'],
-  hashing: ['runHash', 'transform'],
-  'structured-data': ['runStructuredData', 'repairStructuredData', 'json', 'yaml'],
-  csv: ['runCsv', 'csv'],
-  jwt: ['runJwt'],
-  generation: ['runGeneration'],
-  finance: ['runFinance', 'experience'],
-  datetime: ['runDateTime', 'experience'],
-  math: ['runMath', 'experience'],
-  calculator: ['pitfall'],
-  wellness: ['runWellness', 'wellnessCaveat', 'experience', 'viz'],
-  tracker: ['tracker', 'viz'],
-  color: ['color'],
-  units: ['units'],
-};
+// ENGINE_GLOBALS — what each engine attaches to window.ToyTools — now lives beside the engine
+// definitions themselves, in src/data/engines.ts, so an engine declares its globals on the same
+// line that declares the engine. Import it from there.
+//
+// It is NOT re-exported here on purpose. This module is browser code, and src/data/engines.ts
+// imports the tool registry; re-exporting through this file would pull every tool config into the
+// runtime chunk. The map above stays here for the opposite reason: Vite needs those literal
+// import() calls to emit one chunk per engine.
+//
+// loaders.test.ts still cross-checks the two against each other, so they cannot drift apart.

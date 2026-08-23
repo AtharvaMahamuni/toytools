@@ -71,11 +71,24 @@ const EXCEPTIONS: Record<string, { budget: Budget; why: string }> = {
 // A missing asset is a failure, not a pass: a rename would otherwise silently disable the check.
 const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number; why: string }[] = [
   {
-    // Measured 7.9K gz at 114 tools (2026-08-03). The ceiling leaves room for roughly 40 more
-    // tools before it needs revisiting. Two payload experiments are already spent: interning
-    // categories and segments saved 0.4K and is in; interning the search terms made it 2.3K
-    // WORSE, because only 990 of 1191 terms are unique and integer ids defeat gzip's substring
-    // matching. If this trips, shrink what each tool contributes before touching the number.
+    // Measured 9.6K gz at 132 tools (2026-08-23); was 7.9K at 114 (2026-08-03). That is ~69 bytes
+    // per tool, so this trips somewhere around 165-180 tools — roughly 35 more than today.
+    //
+    // THREE payload experiments are now spent, and re-running them is wasted effort:
+    //   - interning categories and segments saved 0.4K and is in;
+    //   - interning the search TERMS made it 2.3K worse (only 990 of 1191 terms are unique, and
+    //     integer ids defeat gzip's substring matching);
+    //   - re-measured 2026-08-23 across several thresholds (terms shared by >=2/3/4/6 tools):
+    //     every variant landed between 0.02K better and 0.07K worse. gzip is already doing this
+    //     job better than an explicit table can.
+    // Dropping the category name from each entry's terms saves only 0.25K, and capping terms at
+    // 10 saves 1.0K by discarding 204 curated aliases — i.e. buying budget with retrieval quality,
+    // which is the same mistake as raising this number.
+    //
+    // So when this trips, the answer is structural, not another diet: split the always-fetched
+    // half (slug + name + interned ids, measured 2.3K at 132 tools) from the term arrays (7.4K)
+    // and fetch the second only when the first does not answer the query. src/lib/search/
+    // corpus.test.ts pins real query -> real tool so that restructure can be proven safe.
     label: 'search index',
     match: 'search-index.json',
     maxKb: 12,

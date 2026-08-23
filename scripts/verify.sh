@@ -38,6 +38,11 @@ step() {
 step "unit tests"            npm run test
 step "coverage thresholds"   npm run test:coverage
 
+# Cheap and independent of dist/, so it runs early: finding out a bump is missing after a 3-minute
+# run is a worse experience than finding out in the first five seconds. Skips itself when there is
+# no origin/main to diff against.
+step "version + changelog"   npm run check:version
+
 # KNOWLEDGE_REQUIRED mirrors CI: coverage is 100%, so a missing knowledge.ts must fail, not warn.
 printf '\n\033[1m▶ build (KNOWLEDGE_REQUIRED=true)\033[0m\n'
 if KNOWLEDGE_REQUIRED=true npm run build; then
