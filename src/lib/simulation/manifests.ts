@@ -18,8 +18,9 @@ import { manifest as dopplerEffect } from './simulations/doppler-effect.manifest
 import { manifest as unitCircle } from './simulations/unit-circle.manifest';
 import { manifest as quadratic } from './simulations/quadratic.manifest';
 import { manifest as probability } from './simulations/probability.manifest';
+import { manifest as nuclearReactor } from './simulations/nuclear-reactor.manifest';
 
-export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle, quadratic, probability];
+export const MANIFESTS: SimulationManifest[] = [projectileMotion, waveSpeed, frequencyPeriod, pendulum, heatTransfer, ohmsLaw, shmSpring, idealGasLaw, momentumCollision, inclinedPlane, dopplerEffect, unitCircle, quadratic, probability, nuclearReactor];
 
 export const manifestBySlug = new Map(MANIFESTS.map((m) => [m.metadata.slug, m]));
 export const manifestByProcessorId = new Map(MANIFESTS.map((m) => [m.metadata.processorId, m]));

@@ -125,6 +125,7 @@ test.describe('every physics tool', () => {
     'momentum-collision-calculator',
     'inclined-plane-calculator',
     'doppler-effect-calculator',
+    'nuclear-reactor-calculator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);

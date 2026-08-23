@@ -152,6 +152,7 @@ export const GLYPHS: Record<string, string> = {
   thermo: S + '<path d="M12 4a2.5 2.5 0 0 1 2.5 2.5v7.2a4.5 4.5 0 1 1-5 0V6.5A2.5 2.5 0 0 1 12 4Z"/><path d="M12 9v6.5"/><circle cx="12" cy="17.5" r="1.6" fill="#fff" stroke="none"/>' + E,
   zap: '<path d="M13 2 4 13.5h6.2L9.5 22 20 10.5h-6.3L13 2Z" fill="#fff"/>',
   spring: S + '<path d="M12 3v2"/><path d="M8 6h8l-8 3h8l-8 3h8"/><rect x="8.5" y="14.5" width="7" height="5" rx="1"/>' + E,
+  atom: S + '<ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>' + E + '<circle cx="12" cy="12" r="1.6" fill="#fff" stroke="none"/>',
 
   // ── applied math ──────────────────────────────────────────────────────
   parabola: S + '<path d="M4 4v16.5h16"/><path d="M6 8Q12 22 18.5 8"/>' + E,

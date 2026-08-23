@@ -71,17 +71,19 @@ test.describe('homepage index', () => {
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
     //   −8 text counters (9→1), −10 health calculators (11→1), −2 daily trackers (3→1),
     //   −5 growth calculators (6→1), −5 everyday calculators (6→1).
-    // 132 tools − 61 grouped-collapse = 71 directory links (generator, physics, applied-math,
+    // 133 tools − 61 grouped-collapse = 72 directory links (generator, physics, applied-math,
     // date/time, scientific-calculator, shell-quote-escalator, systemd-timer-converter,
     // encoding-detector, invisible-character-detector and the 5 design tools stay ungrouped;
-    // physics has 11 manifest-driven simulators and applied-math five wave-2 tools beside
+    // physics has 12 manifest-driven simulators and applied-math five wave-2 tools beside
     // unit-circle). The nine tools added in alpha-v7.22 are all ungrouped: the four chance tools
     // share an engine and a pattern but answer different questions, and a group switcher that
     // swapped a dice roller for a coin would be shuffling the tool rather than the input.
     // Neither detector can join the group whose subject it shares: group members must share one
     // engine/pattern, and a detector declares `encode-detect` / `text-inspect` rather than
     // `encode-decode` / `text-cleanup` precisely because it reports on input instead of transforming it.
-    await expect(directory.locator('.dir-link')).toHaveCount(71);
+    // The nuclear reactor calculator added in alpha-v7.23 is likewise ungrouped: it is the only
+    // simulator on its family, so there is nothing to collapse it with.
+    await expect(directory.locator('.dir-link')).toHaveCount(72);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
