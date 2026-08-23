@@ -37,6 +37,15 @@ export const HEAT_GAIN = 1.6;
 /** Automatic trip setpoints — a real reactor protection system, simplified to two limits. */
 export const TRIP_POWER = 2.0; // 200% of rated power
 export const TRIP_TEMP = 80; // deg C
+/**
+ * Reactivity the scram inserts, in dollars. A protection system carries a shutdown margin far
+ * larger than the operating rod's worth, and modelling that is not a detail: treating a trip as
+ * merely "rod driven to 0%" leaves net reactivity at feedback − rodWorth, so a small rod worth
+ * (0.3 $) against a strong positive coefficient (0.02 $/°C at the 80 °C trip = +0.8 $) would leave
+ * the reactor SUPERCRITICAL after a scram and climbing forever. No protection system would be
+ * designed that way, so the trip inserts a margin that always wins.
+ */
+export const SHUTDOWN_MARGIN = 5;
 
 /** Reactivity the control rod alone contributes, in dollars: 0 $ at 50% (the critical position),
  *  +rodWorth fully withdrawn, -rodWorth fully inserted. */
@@ -44,19 +53,27 @@ export function rodReactivityDollars(rodPositionPercent: number, rodWorth: numbe
   return (rodPositionPercent / 100 - 0.5) * 2 * rodWorth;
 }
 
-/** The rod position actually driving the physics: forced fully in once tripped, regardless of what
- *  the slider still shows, until Reset clears the trip. */
+/** What the rod slider alone is worth right now, in dollars. Ignores the trip and feedback, so the
+ *  formula panel can act as a calculator for "where do I put the rod to buy this much reactivity?". */
+export function rodDollars(s: SimState): number {
+  return rodReactivityDollars(s.params.rodPosition, s.params.rodWorth);
+}
+
+/** The rod position the scene draws: fully inserted once tripped, whatever the slider still shows. */
 export function effectiveRodPosition(s: SimState): number {
   return s.vars.tripped ? 0 : s.params.rodPosition;
+}
+
+/** The rod reactivity actually driving the physics: the full shutdown margin once tripped. */
+export function insertedDollars(s: SimState): number {
+  return s.vars.tripped ? -SHUTDOWN_MARGIN : rodDollars(s);
 }
 
 /** Net reactivity in dollars: rod contribution plus temperature feedback around REFERENCE_TEMP.
  *  A negative tempCoefficient is the self-stabilizing case (real light-water reactors); a positive
  *  one models a dangerous positive-feedback design (a low-power positive void coefficient). */
 export function reactivityDollars(s: SimState): number {
-  const rod = rodReactivityDollars(effectiveRodPosition(s), s.params.rodWorth);
-  const feedback = s.params.tempCoefficient * (s.vars.temp - REFERENCE_TEMP);
-  return rod + feedback;
+  return insertedDollars(s) + s.params.tempCoefficient * (s.vars.temp - REFERENCE_TEMP);
 }
 
 /** The dominant (asymptotic) root of the point-kinetics matrix for a given reactivity in dollars —
@@ -81,12 +98,31 @@ export function reactorPeriod(s1: number): number {
   return Math.sign(t) * Math.min(Math.abs(t), MAX_PERIOD);
 }
 
+/** Precursor steady state at rated power. Independent of reactivity: only the constants set it. */
+export const PRECURSOR_STEADY = DELAYED_FRACTION / (GEN_TIME * DECAY_CONSTANT);
+
+/** The temperature the core settles at while running at rated power under a given cooling rate. */
+export function steadyTemp(coolingRate: number): number {
+  return AMBIENT_TEMP + HEAT_GAIN / coolingRate;
+}
+
 export function initNuclearReactor(params: Record<string, number>): Record<string, number> {
-  const n = 1;
-  // Precursor steady state for n = 1 does not depend on reactivity, only on the universal constants.
-  const c = DELAYED_FRACTION / (GEN_TIME * DECAY_CONSTANT);
-  const temp = AMBIENT_TEMP + HEAT_GAIN * n / params.coolingRate;
-  return { n, c, temp, tripped: 0 };
+  return { n: 1, c: PRECURSOR_STEADY, temp: steadyTemp(params.coolingRate), tripped: 0 };
+}
+
+/**
+ * Clear a trip and bring the core back to rated power, keeping the operator's slider setup.
+ *
+ * Reset already exists, but it restores every parameter to its default, so recovering from a trip
+ * used to mean rebuilding the whole scenario. Restart deliberately does NOT move the rod: if the
+ * setup that tripped the reactor is still in place it simply trips again, which is the honest
+ * lesson rather than a hidden rescue.
+ */
+export function restartReactor(s: SimState): void {
+  s.vars.tripped = 0;
+  s.vars.n = 1;
+  s.vars.c = PRECURSOR_STEADY;
+  s.vars.temp = steadyTemp(s.params.coolingRate);
 }
 
 /** Exact point-kinetics + thermal step, freezing reactivity across dt (see file header). */
@@ -112,7 +148,7 @@ export function stepNuclearReactor(s: SimState, dt: number): void {
 
   // Core temperature relaxes exactly toward the instantaneous steady state for the power level this
   // substep started at (heat-transfer.ts uses the same exact-exponential technique for its blocks).
-  const tSteady = AMBIENT_TEMP + HEAT_GAIN * n0 / s.params.coolingRate;
+  const tSteady = AMBIENT_TEMP + (steadyTemp(s.params.coolingRate) - AMBIENT_TEMP) * n0;
   s.vars.temp = tSteady + (s.vars.temp - tSteady) * Math.exp(-s.params.coolingRate * dt);
 
   s.t += dt;
@@ -144,14 +180,24 @@ const nuclearReactorSim: SimulationDef = {
   measurements: [
     { id: 'power', label: 'Reactor power', unit: '%', decimals: 1, compute: (s) => s.vars.n * 100 },
     { id: 'reactivity', label: 'Reactivity', unit: '$', decimals: 2, compute: reactivityDollars },
-    { id: 'period', label: 'Reactor period', unit: 's', decimals: 2, compute: (s) => reactorPeriod(dominantRoot(reactivityDollars(s))) },
+    { id: 'period', label: 'Reactor period', unit: 's', decimals: 1, compute: (s) => reactorPeriod(dominantRoot(reactivityDollars(s))) },
     { id: 'temperature', label: 'Core temperature', unit: '°C', decimals: 1, compute: (s) => s.vars.temp },
+    // Feeds the formula panel only: a second visible "reactivity" card next to the net one would
+    // read as a contradiction rather than a breakdown.
+    { id: 'rodReactivity', label: 'Rod reactivity', unit: '$', decimals: 2, hidden: true, compute: rodDollars },
   ],
+  // The rod's own worth, as a calculator. The net reactivity card already answers "where am I?";
+  // this answers the question a slider cannot, "where do I PUT the rod to buy 0.4 $?", because the
+  // platform lets you type into a paramId term and the scene follows. Temperature feedback is
+  // deliberately outside it: the substitution template can only interpolate parameters, so folding
+  // in a live core temperature would print a worked line that did not equal its own answer.
   formula: {
-    expression: 'prompt critical at ρ = 1 $',
+    expression: 'ρrod = (x / 100 − 0.5) × 2 × W',
+    substitution: '({rodPosition} / 100 - 0.5) × 2 × {rodWorth}',
     terms: [
-      { symbol: 'ρ', label: 'Reactivity', measurementId: 'reactivity' },
-      { symbol: 'P', label: 'Reactor power', measurementId: 'power' },
+      { symbol: 'ρrod', label: 'Rod reactivity', measurementId: 'rodReactivity' },
+      { symbol: 'x', label: 'Control rod position', paramId: 'rodPosition' },
+      { symbol: 'W', label: 'Rod worth', paramId: 'rodWorth' },
     ],
   },
   graph: singleStream({
@@ -166,7 +212,7 @@ const nuclearReactorSim: SimulationDef = {
   observations: [
     (s) =>
       s.vars.tripped
-        ? 'Reactor trip: power or temperature crossed a safety limit, so the protection system drove the rod fully in. Press Reset to clear the trip.'
+        ? `Reactor trip: power or core temperature crossed a safety limit, so the protection system inserted its full ${SHUTDOWN_MARGIN} $ shutdown margin. Tap the reactor to restart it with your settings intact.`
         : null,
     (s) => {
       if (s.vars.tripped) return null;
@@ -182,18 +228,23 @@ const nuclearReactorSim: SimulationDef = {
         ? 'A positive temperature coefficient means a hotter core adds reactivity instead of removing it, a self-reinforcing loop with no natural stopping point until the protection system trips.'
         : null,
     (s) =>
-      !s.vars.tripped && s.params.tempCoefficient < 0 && Math.abs(reactivityDollars(s) - rodReactivityDollars(effectiveRodPosition(s), s.params.rodWorth)) > 0.05
+      !s.vars.tripped && s.params.tempCoefficient < 0 && Math.abs(s.vars.temp - REFERENCE_TEMP) > 2
         ? 'The negative temperature coefficient is already pulling reactivity back down as the core warms, the main reason real power reactors self-stabilize.'
         : null,
-    (s) => (s.vars.temp >= TRIP_TEMP * 0.8 && !s.vars.tripped ? 'Core temperature is approaching the trip limit.' : null),
+    (s) => (!s.vars.tripped && s.vars.temp >= TRIP_TEMP * 0.8 ? `Core temperature is approaching the ${TRIP_TEMP} °C trip limit.` : null),
   ],
   pointer: {
-    hint: 'Drag the rod, or tap it for an emergency shutdown',
+    // One gesture, two states, because a tripped reactor and a running one need opposite actions and
+    // the canvas has room for exactly one. Restart is here rather than on Reset because Reset also
+    // restores every default, so recovering from a trip used to cost the operator their whole setup.
+    hint: 'Drag the rod up or down, or tap for an emergency scram',
     handle(s, ev) {
       if (ev.type === 'up') return null;
       if (ev.type === 'tap') {
-        s.vars.tripped = 1;
-        return { rodPosition: 0 };
+        if (s.vars.tripped) restartReactor(s);
+        else s.vars.tripped = 1;
+        // Both branches move vars, never params: the slider setup survives a scram-and-restart cycle.
+        return null;
       }
       // The rod sits in the top ~70% of the canvas; dragging near the top withdraws it, near the
       // bottom of its travel inserts it fully.
@@ -203,7 +254,7 @@ const nuclearReactorSim: SimulationDef = {
   },
   explanation(s: SimState) {
     if (s.vars.tripped) {
-      return `The automatic protection system inserted the control rod after power or core temperature crossed its safety limit. Reactivity is now strongly negative, so the chain reaction is dying away regardless of where the rod slider sits. Press Reset to start over.`;
+      return `The protection system scrammed the reactor after power or core temperature crossed its safety limit, inserting a ${SHUTDOWN_MARGIN} $ shutdown margin. That margin is far larger than any rod worth or feedback effect on these sliders, so the chain reaction dies away no matter what the rest of the panel says. Tap the reactor to restart it, or press Reset to return every setting to its default.`;
     }
     const rho = reactivityDollars(s);
     const period = reactorPeriod(dominantRoot(rho));

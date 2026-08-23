@@ -13,6 +13,18 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   safety limit. Each substep is solved exactly via the kinetics matrix's two real eigenvalues rather
   than integrated numerically, so a hard prompt-critical excursion never destabilizes the simulation
   itself.
+- The reactor's formula panel is a **rod-worth calculator**: type a rod position or a rod worth and
+  it solves `ρrod = (x / 100 − 0.5) × 2 × W`, with the scene following the number you typed. It
+  answers the question the slider cannot, which is where to put the rod to buy a given reactivity.
+- A tripped reactor **restarts from the canvas**. Tapping it clears the trip and returns the core to
+  rated power with every slider untouched, so retrying a scenario no longer costs the setup that
+  produced it; Reset remains the way back to defaults. The canvas also gained a dashed **critical
+  line** marking where rod reactivity crosses zero, and a labelled trip mark on the temperature
+  gauge, so the rod's height and the core's heat both read against something.
+- A scram now inserts a full **5 $ shutdown margin** rather than merely driving the operating rod to
+  0%. Modelling it the shallow way left net reactivity at feedback minus rod worth, so the weakest
+  rod (0.3 $) against the strongest positive coefficient (+0.8 $ at the trip temperature) stayed
+  supercritical *after* the trip and climbed without limit.
 
 ## [alpha-v7.22.2] - 2026-08-23
 

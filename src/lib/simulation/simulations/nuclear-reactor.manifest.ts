@@ -106,7 +106,7 @@ export const manifest: SimulationManifest = {
     {
       question: 'What is a reactor trip or scram?',
       answer:
-        'A reactor trip, also called a scram, is an automatic safety shutdown. Instruments detect power or temperature crossing a preset limit, and the control rods drive fully into the core within seconds. That adds a large negative reactivity, so the chain reaction shuts down. In this simulator, exceeding 200% of rated power or 80 degrees C triggers the same trip, and the rod stays in until you press Reset.',
+        'A reactor trip, also called a scram, is an automatic safety shutdown. Instruments detect power or temperature crossing a preset limit, and the control rods drive fully into the core within seconds. Scram rods carry a shutdown margin far larger than the operating rod worth, so the reaction stops even if every other effect is pushing the other way. This simulator inserts 5 dollars of negative reactivity on a trip, which beats any slider combination on the panel.',
     },
     {
       question: 'How do control rods control a chain reaction?',
@@ -121,7 +121,17 @@ export const manifest: SimulationManifest = {
     {
       question: 'Why did the reactor trip in this simulator?',
       answer:
-        'A trip fires automatically once reactor power exceeds 200% of its rated value, or once core temperature passes 80 degrees C, whichever comes first. Both limits stand in for the many real instruments a reactor protection system actually watches. Once tripped, the control rod is forced fully in, regardless of where its slider sits. Only pressing Reset clears the trip and restarts the reactor from its normal steady state.',
+        'A trip fires automatically once reactor power exceeds 200% of its rated value, or once core temperature passes 80 degrees C, whichever comes first. Both limits stand in for the many real instruments a reactor protection system actually watches. Once tripped, the rod is driven fully in regardless of where its slider sits. Tap the reactor to restart it with your settings intact, or press Reset to return every slider to its default.',
+    },
+    {
+      question: 'What control rod position makes the reactor critical?',
+      answer:
+        'In this simulator the rod is worth nothing at 50 percent, so that is the critical position: withdraw past it and reactivity goes positive, insert below it and reactivity goes negative. The canvas marks the height with a dashed critical line. Rod reactivity in dollars is (position / 100 minus 0.5) times 2 times the rod worth, so at 0.9 dollars of worth, 70 percent buys 0.36 dollars. Type a position into the formula panel to solve it the other way round and the reactor follows.',
+    },
+    {
+      question: 'Why does the reactor period read 999 seconds?',
+      answer:
+        'At exactly critical the period is infinite, because power is not changing at all and never reaches a factor of e. A number that large is not useful on a readout, so the meter pegs at 999 seconds, the same way a real period meter pins at the top of its scale near critical. Treat a pegged reading as "no measurable drift" rather than a literal 999 seconds. Move the rod off the critical line and the period drops to a real value.',
     },
   ],
   guide: {
@@ -138,7 +148,7 @@ export const manifest: SimulationManifest = {
         id: 'how-it-works',
         heading: 'How Does This Reactor Simulator Work?',
         body:
-          'This simulator solves one-group point kinetics live, the reactor kinetics equations for how a neutron population responds to reactivity. Drag the control rod and reactivity changes instantly. The neutron population and reactor power respond next, and core temperature follows the heat that power produces. A temperature feedback coefficient then sends that warming back into reactivity, because the two are coupled.',
+          'This nuclear reactor simulator solves one-group point kinetics live, the reactor kinetics equations for how a neutron population responds to reactivity. Drag the control rod and reactivity changes instantly. The neutron population and reactor power respond next, and core temperature therefore follows the heat that power produces. A temperature feedback coefficient then sends that warming back into reactivity, because the two are coupled.',
         bullets: [
           'An automatic trip, a simulated reactor scram, steps in the moment power or temperature crosses a safety limit.',
           'For example, a small rod withdrawal at the default settings raises power slowly, over roughly ten seconds.',
@@ -152,7 +162,14 @@ export const manifest: SimulationManifest = {
         bullets: [
           'For example, withdrawing the rod from 50% to 55% adds about 0.05 $ of reactivity here, enough for a slow, minutes-long rise.',
           'A control rod move therefore does not snap power to a new number. It changes the rate of change, and power drifts toward a new trajectory over time.',
+          'The rod is worth nothing at 50%, marked by the dashed critical line on the canvas. Above it you are adding reactivity, below it you are removing it.',
         ],
+      },
+      {
+        id: 'rod-worth',
+        heading: 'How to Work Out What a Rod Movement Buys You',
+        body:
+          'Rod reactivity in dollars is (position / 100 minus 0.5) times 2 times the rod worth, and the formula panel solves it live. Type a rod position or a rod worth into it and the reactor follows, so you can answer the question a slider alone cannot: where do I put the rod to buy exactly this much reactivity? For example, at 0.9 $ of rod worth, 70 percent buys 0.36 $, comfortably below the 1 $ prompt-critical line. Therefore a rod worth above 1 $ is worth respecting: it can cross that line before the rod is anywhere near fully withdrawn.',
       },
       {
         id: 'delayed-neutrons',
@@ -183,9 +200,10 @@ export const manifest: SimulationManifest = {
         id: 'trip',
         heading: 'What Does a Reactor Trip (Scram) Do?',
         body:
-          'A trip, or scram, is the protection system stepping in. Once a reading crosses a safety limit, the rods drive fully into the core within seconds. That adds a large negative reactivity, so the chain reaction shuts down. This simulator trips at 200% of rated power or 80 degrees C, whichever comes first.',
+          'A trip, or scram, is the protection system stepping in. Once a reading crosses a safety limit, the rods drive fully into the core within seconds. This simulator trips at 200% of rated power or 80 degrees C, whichever comes first, and inserts 5 $ of negative reactivity. That shutdown margin is deliberately far larger than any rod worth or feedback effect on the panel, because a scram that merely cancelled the operating rod could still lose to a strong positive coefficient.',
         bullets: [
-          'Only pressing Reset clears the trip, matching how a real scram needs a deliberate operator reset before restart.',
+          'Tap the reactor to restart it after a trip. Your sliders are left exactly as they were, so if the setup that tripped it is still in place it simply trips again.',
+          'Reset is the other way out, and unlike restart it returns every parameter to its default.',
         ],
       },
     ],

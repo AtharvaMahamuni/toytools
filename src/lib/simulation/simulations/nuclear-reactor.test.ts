@@ -5,14 +5,18 @@ import nuclearReactorSim, {
   GEN_TIME,
   MAX_PERIOD,
   REFERENCE_TEMP,
+  SHUTDOWN_MARGIN,
   TRIP_POWER,
   TRIP_TEMP,
   dominantRoot,
   effectiveRodPosition,
   initNuclearReactor,
+  insertedDollars,
   reactivityDollars,
   reactorPeriod,
+  rodDollars,
   rodReactivityDollars,
+  steadyTemp,
   stepNuclearReactor,
 } from './nuclear-reactor';
 import { SUBSTEP } from '../loop';
@@ -104,14 +108,14 @@ describe('nuclear reactor model', () => {
 
   it('a negative temperature coefficient pulls reactivity back down as the core warms', () => {
     const s = makeState({ rodPosition: 70, tempCoefficient: -0.03 });
-    const rodOnly = rodReactivityDollars(effectiveRodPosition(s), s.params.rodWorth);
+    const rodOnly = rodDollars(s);
     run(s, 3);
     expect(reactivityDollars(s)).toBeLessThan(rodOnly);
   });
 
   it('a positive temperature coefficient adds reactivity as the core warms (destabilizing)', () => {
     const s = makeState({ rodPosition: 65, tempCoefficient: 0.02 });
-    const rodOnly = rodReactivityDollars(effectiveRodPosition(s), s.params.rodWorth);
+    const rodOnly = rodDollars(s);
     run(s, 2);
     expect(reactivityDollars(s)).toBeGreaterThan(rodOnly);
   });
@@ -150,6 +154,42 @@ describe('nuclear reactor model', () => {
     expect(s.vars.n).toBeLessThan(afterTrip);
   });
 
+  it('a scram always wins over a strong positive feedback loop', () => {
+    // The regression this guards: modelling a trip as merely "rod driven to 0%" leaves net
+    // reactivity at feedback − rodWorth, so the weakest rod against the strongest positive
+    // coefficient stayed SUPERCRITICAL after a scram and climbed forever. The shutdown margin is
+    // what makes a trip mean shutdown.
+    const s = makeState({ rodPosition: 100, rodWorth: 0.3, tempCoefficient: 0.02, coolingRate: 0.03 });
+    expect(runUntilTripped(s, 300)).toBe(true);
+    expect(reactivityDollars(s)).toBeLessThan(-1);
+    const atTrip = s.vars.n;
+    run(s, 10);
+    expect(s.vars.n).toBeLessThan(atTrip * 0.5);
+  });
+
+  it('insertedDollars swaps the slider for the shutdown margin exactly on the trip', () => {
+    const s = makeState({ rodPosition: 100, rodWorth: 1.2 });
+    expect(insertedDollars(s)).toBeCloseTo(1.2, 10);
+    s.vars.tripped = 1;
+    expect(insertedDollars(s)).toBe(-SHUTDOWN_MARGIN);
+  });
+
+  it('tapping a tripped reactor restarts it without disturbing the slider setup', () => {
+    const s = makeState({ rodPosition: 100, rodWorth: 1.6, coolingRate: 0.12 });
+    expect(runUntilTripped(s, 3)).toBe(true);
+
+    const setup = { ...s.params };
+    nuclearReactorSim.pointer!.handle(s, { type: 'tap', x: 0.5, y: 0.5, t: 0 });
+
+    expect(s.vars.tripped).toBe(0);
+    expect(s.vars.n).toBeCloseTo(1, 10); // back at rated power
+    expect(s.vars.temp).toBeCloseTo(steadyTemp(s.params.coolingRate), 10);
+    expect(s.params).toEqual(setup); // every slider untouched
+    // The rod is still fully withdrawn, so the same excursion runs again: restart is a retry,
+    // not a rescue.
+    expect(runUntilTripped(s, 3)).toBe(true);
+  });
+
   it('lets you drag the rod on the canvas to set its position directly', () => {
     const s = makeState();
     const near100 = nuclearReactorSim.pointer!.handle(s, { type: 'move', x: 0.5, y: 0.1, t: 0 });
@@ -158,11 +198,13 @@ describe('nuclear reactor model', () => {
     expect(near0!.rodPosition).toBeCloseTo(0, 0);
   });
 
-  it('tapping the canvas scrams the reactor immediately', () => {
+  it('tapping the canvas scrams a running reactor, leaving the slider where it was', () => {
     const s = makeState({ rodPosition: 90 });
     const result = nuclearReactorSim.pointer!.handle(s, { type: 'tap', x: 0.5, y: 0.5, t: 0 });
-    expect(result).toEqual({ rodPosition: 0 });
+    expect(result).toBeNull(); // a scram is a var change, not a parameter change
     expect(s.vars.tripped).toBe(1);
+    expect(s.params.rodPosition).toBe(90);
+    expect(insertedDollars(s)).toBe(-SHUTDOWN_MARGIN);
   });
 
   it('ignores the pointer-up event', () => {
@@ -180,6 +222,30 @@ describe('nuclear reactor model', () => {
     run(tripped, 2);
     expect(nuclearReactorSim.observations[0](tripped)).toMatch(/trip/i);
     expect(nuclearReactorSim.explanation(tripped)).toMatch(/protection system/i);
+  });
+
+  it('wires the formula panel up as a calculator whose worked line equals its own answer', () => {
+    const formula = nuclearReactorSim.formula!;
+    // A formula only becomes an editable calculator when a term names a real param
+    // (SimulationWidget renders those as number boxes); the rest is a static caption.
+    const inputs = formula.terms.filter((t) => t.paramId);
+    expect(inputs.length).toBeGreaterThan(0);
+    for (const term of inputs) {
+      expect(nuclearReactorSim.params.some((p) => p.id === term.paramId)).toBe(true);
+    }
+    // The substitution template may only interpolate params, or the worked line renders "?".
+    const placeholders = [...formula.substitution!.matchAll(/\{(\w+)\}/g)].map((m) => m[1]);
+    expect(placeholders.length).toBeGreaterThan(0);
+    for (const id of placeholders) {
+      expect(nuclearReactorSim.params.some((p) => p.id === id), `{${id}} is a param`).toBe(true);
+    }
+    // The output term resolves to a measurement, and that measurement is what the worked line
+    // computes: 70% at 0.9 $ worth => (0.7 - 0.5) x 2 x 0.9 = 0.36 $.
+    const out = formula.terms.find((t) => t.measurementId)!;
+    const measurement = nuclearReactorSim.measurements.find((m) => m.id === out.measurementId)!;
+    const s = makeState({ rodPosition: 70, rodWorth: 0.9 });
+    expect(measurement.compute(s)).toBeCloseTo(0.36, 10);
+    expect(rodDollars(s)).toBeCloseTo(0.36, 10);
   });
 
   it('exposes finite measurements for every preset', () => {
