@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 22,
-  patch: 2,
+  minor: 23,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-23',
-  description: 'Engine contract coverage, a search corpus regression test, and a version gate',
+  description: 'Add the nuclear reactor simulator, a point-kinetics physics playground',
 };
 
 export function formatVersion(config: VersionConfig): string {

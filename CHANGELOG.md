@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.23] - 2026-08-23
+
+### Added
+
+- **Nuclear Reactor Calculator**, a new physics simulator at `/tool/physics/nuclear-reactor-calculator/`.
+  Drag a control rod and watch a one-group point-kinetics chain reaction respond live: reactivity in
+  dollars, the prompt-critical threshold at 1 $, a temperature feedback coefficient that can stabilize
+  or destabilize the core, and an automatic trip (scram) that fires if power or temperature crosses a
+  safety limit. Each substep is solved exactly via the kinetics matrix's two real eigenvalues rather
+  than integrated numerically, so a hard prompt-critical excursion never destabilizes the simulation
+  itself.
+
 ## [alpha-v7.22.2] - 2026-08-23
 
 ### Added

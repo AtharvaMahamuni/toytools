@@ -200,9 +200,10 @@
         "waves",
         "oscillations",
         "thermodynamics",
-        "electricity"
+        "electricity",
+        "nuclear-physics"
       ],
-      "toolCount": 11
+      "toolCount": 12
     },
     "datetime": {
       "name": "Date & Time Engine",
@@ -660,6 +661,21 @@
       "pattern": "simulate",
       "family": "probability",
       "processorId": "probability",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "nuclear-reactor-calculator": {
+      "name": "Nuclear Reactor Calculator",
+      "dir": "src/tools/physics/nuclear-reactor-calculator",
+      "categorySlug": "physics",
+      "url": "/tool/physics/nuclear-reactor-calculator/",
+      "engine": "physics",
+      "pattern": "simulate",
+      "family": "nuclear-physics",
+      "processorId": "nuclear-reactor",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

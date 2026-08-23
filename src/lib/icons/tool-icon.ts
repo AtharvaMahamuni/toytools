@@ -76,6 +76,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   oscillations: 'pendulum',
   thermodynamics: 'thermo',
   electricity: 'zap',
+  'nuclear-physics': 'atom',
   // applied math
   trigonometry: 'unitCircle',
   algebra: 'parabola',
