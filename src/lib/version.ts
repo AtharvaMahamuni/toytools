@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 7,
-  minor: 23,
+  minor: 24,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-23',
-  description: 'Add the nuclear reactor simulator, a point-kinetics physics playground',
+  releaseDate: '2026-08-24',
+  description: 'JSON tree viewer pane heights and text-pane internal scrolling',
 };
 
 export function formatVersion(config: VersionConfig): string {
