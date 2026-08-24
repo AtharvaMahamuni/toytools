@@ -22,7 +22,12 @@ const inputId = `${slug}-input`;
     <button class="jtv-mtab" type="button" data-view="tree" role="tab" aria-selected="false">Tree</button>
   </div>
 
-  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+  {/* equalHeight={false} is load-bearing: equal-height makes each pane a column flex item
+      with flex-basis 0, and a flex basis beats the height below -- which is how both boxes
+      collapsed to their content (a 70px sliver clipping the placeholder mid-line) instead of
+      standing at the viewport-derived height. Both panes share one explicit height here, so
+      equalising them was redundant anyway. */}
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
     <IoPanel slot="input" label="JSON Input" labelFor={inputId} variant="mono" class="jtv-io">
       <div class="jtv-hdr-actions" slot="header-end">
         <button id="jtv-sample" class="jtv-hdr-btn" type="button">Sample</button>
@@ -101,13 +106,16 @@ const inputId = `${slug}-input`;
 
 <style is:global>
   .jtv-widget {
-    /* Drive box height from the viewport so input + tree fit on screen with no page scroll. */
-    --jtv-pane-h: clamp(360px, calc(100vh - 280px), 760px);
+    /* Drive box height from the viewport so input + tree fit on screen with no page scroll.
+       --io-pane-h is the platform-wide pane height (see tool-widget.css): setting it here both
+       sizes these boxes and keeps the shared max-height cap from fighting the height below.
+       A tree needs more vertical room than a formatter's output, hence the taller floor. */
+    --io-pane-h: clamp(440px, calc(100vh - 260px), 780px);
   }
 
   /* Both panes are exactly equal, fixed-height boxes; their bodies scroll internally. */
   .jtv-widget .jtv-io.io-panel {
-    height: var(--jtv-pane-h);
+    height: var(--io-pane-h);
     min-height: 0;
   }
 
@@ -132,7 +140,7 @@ const inputId = `${slug}-input`;
   }
 
   @media (max-width: 1023px) {
-    .jtv-widget { --jtv-pane-h: clamp(320px, calc(100vh - 220px), 680px); }
+    .jtv-widget { --io-pane-h: clamp(360px, calc(100vh - 230px), 680px); }
     .jtv-mswitch { display: flex; }
     .jtv-widget[data-mobile-view='input'] .ts-output { display: none; }
     .jtv-widget[data-mobile-view='tree'] .ts-input { display: none; }

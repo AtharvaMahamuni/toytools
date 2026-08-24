@@ -224,6 +224,27 @@
   min-height: 280px;
 }
 
+/* A pane holding a textarea or an <output> is a WINDOW onto text, not a container that grows
+   with it. With no ceiling the pane matched its content: a formatted payload made
+   json-formatter's two panes 7,200px tall, so the Copy button, the status line and the whole
+   actions row sat thousands of pixels below the fold and "scroll the result" became "scroll the
+   page". Capping the pane lets its children scroll in place -- the textarea natively, the
+   <output> through its own overflow-y -- since both already carry min-height: 0.
+
+   A widget that wants taller or shorter panes sets --io-pane-h on its own root; the value
+   inherits down, so nothing here needs a per-tool exception. */
+.io-panel:has(> textarea),
+.io-panel:has(> output) {
+  max-height: var(--io-pane-h, clamp(280px, calc(100vh - 300px), 620px));
+}
+
+@media (max-width: 1023px) {
+  .io-panel:has(> textarea),
+  .io-panel:has(> output) {
+    max-height: var(--io-pane-h, clamp(240px, calc(100vh - 340px), 480px));
+  }
+}
+
 .io-header {
   display: flex;
   align-items: center;

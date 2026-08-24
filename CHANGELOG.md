@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v7.24] - 2026-08-24
+
+### Fixed
+
+- **JSON Formatter, JSON Minifier and every other two-pane text tool now scroll inside the box
+  instead of stretching the page.** A pane holding a textarea or an output had no height ceiling, so
+  it grew to match whatever it held: a few hundred lines of formatted JSON made the two panes on
+  `/tool/developer-utilities/json-formatter/` over 7,000px tall, which pushed Copy, the validity
+  line and the whole Paste / Clear / Download row thousands of pixels below the fold. Both panes are
+  now capped against the viewport and their contents scroll in place, so the result and its controls
+  stay on one screen. The cap reaches the CSV, converter, encoding and text tools built on the same
+  panel.
+- **The JSON Tree Viewer's two boxes are full height again on desktop.** They were collapsing to
+  their own content rather than standing at the viewport-derived height the widget asks for: the
+  empty state rendered a 70px input sliver that clipped its placeholder mid-line, and the tree ran
+  off the bottom of the page instead of scrolling inside its box. The layout's equal-height mode was
+  giving each pane a flex basis, which outranks the height. Both boxes now hold at roughly a screen
+  minus the page chrome, floor 440px, and scroll internally.
+
 ## [alpha-v7.23] - 2026-08-23
 
 ### Added
