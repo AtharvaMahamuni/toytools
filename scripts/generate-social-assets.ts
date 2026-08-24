@@ -19,7 +19,10 @@ import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { siteIconSvg } from '../src/lib/icons/site-icon';
 
-const OUT = path.resolve(process.cwd(), 'brand');
+// One directory per platform under brand/social/, because the platforms disagree about
+// everything that matters -- aspect ratio, safe area, how the picture is cropped -- so an
+// asset built for one is never the asset another one wants. See brand/README.md.
+const OUT = path.resolve(process.cwd(), 'brand/social/x');
 
 // The mark's own palette, imported in spirit from site-icon.ts. Kept as literals here
 // because the banner needs intermediate tones the icon never declares.
@@ -191,7 +194,7 @@ async function main() {
     .toFile(path.join(OUT, 'toytools-x-banner-1500x500.png'));
 
   await browser.close();
-  console.log('[social-assets] wrote brand/ — profile 1024 + 400 + svg, banner 3000x1000 + 1500x500');
+  console.log('[social-assets] wrote brand/social/x/ — profile 1024 + 400 + svg, banner 3000x1000 + 1500x500');
 }
 
 main();
