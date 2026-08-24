@@ -6,12 +6,12 @@
 // picture as a circle, which the site mark already survives: everything that carries
 // meaning lives inside the 24..72 safe zone of its 96-unit board (see site-icon.ts).
 //
-// The banner is composed here, from the same field gradient, the same gold, and the same
-// module-and-rail motif the mark uses, so it reads as the mark's own surface rather than a
-// stock header that happens to be green.
+// The banner is the homepage hero rather than a composition about it: the site's own paper
+// field, its h1, its tagline and its gold-dot trust line, quoted from src/pages/index.astro
+// so the account and the landing page cannot say two different things.
 //
 // Rendered through Chromium + sharp, the same path as npm run icons:generate.
-// Output lands in brand/ and is NOT part of the site bundle.
+// Output lands in brand/social/x/ and is NOT part of the site bundle. See brand/README.md.
 
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
@@ -24,19 +24,15 @@ import { siteIconSvg } from '../src/lib/icons/site-icon';
 // asset built for one is never the asset another one wants. See brand/README.md.
 const OUT = path.resolve(process.cwd(), 'brand/social/x');
 
-// The mark's own palette, imported in spirit from site-icon.ts. Kept as literals here
-// because the banner needs intermediate tones the icon never declares.
-const FIELD_DARK = '#16302A';
-const FIELD_LIGHT = '#24463A';
-const GOLD_CORE = '#FBE6A8';
-const GOLD_EDGE = '#EFCB74';
-const PAPER = '#FAF9F7';        // --color-bg
-const SURFACE_INK = '#E5E1DA';  // --color-border, the quietest mark the paper takes
-const INK = '#1F1D1A';          // --color-text
-const INK_MUTED = '#6E6961';    // --color-text-muted
-const INK_SUBTLE = '#736E66';   // --color-text-subtle
-const ACCENT = '#2F6B4F';       // --color-accent
-const GOLD_UI = '#906620';      // --color-gold
+// The banner's palette, copied from src/styles/tokens.css. The mark's own ink-green field
+// colours are NOT repeated here: site-icon.ts owns those, and a second copy would be a second
+// thing to keep in step.
+const PAPER = '#FAF9F7';          // --color-bg
+const INK = '#1F1D1A';            // --color-text
+const INK_MUTED = '#6E6961';      // --color-text-muted
+const INK_SUBTLE = '#736E66';     // --color-text-subtle
+const ACCENT = '#2F6B4F';         // --color-accent
+const GOLD_UI = '#906620';        // --color-gold
 const GOLD_HIGHLIGHT = '#E6C15A'; // --color-gold-highlight
 
 const fontData = (file: string): string =>
