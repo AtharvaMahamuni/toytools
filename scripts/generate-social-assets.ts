@@ -13,33 +13,29 @@
 // Rendered through Chromium + sharp, the same path as npm run icons:generate.
 // Output lands in brand/social/x/ and is NOT part of the site bundle. See brand/README.md.
 
-import { chromium } from '@playwright/test';
 import sharp from 'sharp';
-import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { siteIconSvg } from '../src/lib/icons/site-icon';
+import {
+  launch,
+  fontCss as brandFontCss,
+  goldDotCss,
+  PAPER,
+  INK,
+  INK_MUTED,
+  INK_SUBTLE,
+  ACCENT,
+} from './brand/render';
 
 // One directory per platform under brand/social/, because the platforms disagree about
 // everything that matters -- aspect ratio, safe area, how the picture is cropped -- so an
 // asset built for one is never the asset another one wants. See brand/README.md.
 const OUT = path.resolve(process.cwd(), 'brand/social/x');
 
-// The banner's palette, copied from src/styles/tokens.css. The mark's own ink-green field
-// colours are NOT repeated here: site-icon.ts owns those, and a second copy would be a second
-// thing to keep in step.
-const PAPER = '#FAF9F7';          // --color-bg
-const INK = '#1F1D1A';            // --color-text
-const INK_MUTED = '#6E6961';      // --color-text-muted
-const INK_SUBTLE = '#736E66';     // --color-text-subtle
-const ACCENT = '#2F6B4F';         // --color-accent
-const GOLD_UI = '#906620';        // --color-gold
-const GOLD_HIGHLIGHT = '#E6C15A'; // --color-gold-highlight
-
-const fontData = (file: string): string =>
-  readFileSync(path.resolve(process.cwd(), file)).toString('base64');
-
-const GEIST = fontData('node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2');
-const GEIST_MONO = fontData('node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2');
+// The palette and the font loading live in scripts/brand/render.ts, shared with the post-card
+// generator. They were local to this file until the cards needed the same seven token values and
+// a second copy would have become a second thing to keep in step with tokens.css.
 
 /**
  * The banner, at 1500x500 -- X's header ratio.
@@ -115,11 +111,7 @@ function bannerCss(): string {
     color: ${INK_SUBTLE};        /* --color-text-subtle */
   }
   /* .gold-dot, from global.css -- the site's brand motif, at banner scale. */
-  .gold-dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: radial-gradient(circle, ${GOLD_HIGHLIGHT} 0%, ${GOLD_UI} 100%);
-    flex-shrink: 0;
-  }
+${goldDotCss(9)}
   .domain {
     position: absolute; right: 56px; bottom: 44px;
     font-family: 'Geist Mono', ui-monospace, monospace;
@@ -131,12 +123,8 @@ function bannerCss(): string {
 
 async function main() {
   mkdirSync(OUT, { recursive: true });
-  const exe = process.env.PW_CHROMIUM_PATH;
-  const browser = await chromium.launch(exe ? { executablePath: exe } : {});
-
-  const fontCss =
-    `@font-face{font-family:'Geist';src:url(data:font/woff2;base64,${GEIST}) format('woff2');font-weight:100 900;}` +
-    `@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,${GEIST_MONO}) format('woff2');font-weight:100 900;}`;
+  const browser = await launch();
+  const fontCss = brandFontCss();
 
   /** Rasterize an SVG string at its natural size. */
   async function renderSvg(svg: string, w: number, h: number): Promise<Buffer> {

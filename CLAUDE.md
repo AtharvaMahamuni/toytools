@@ -13,6 +13,7 @@ the signal it belongs somewhere below instead.
 | adding a tool or an engine | **`add-tool` skill** |
 | deciding what to build next | **`next-tool` skill** |
 | writing a guide, FAQ or knowledge file | **`seo-content` skill** |
+| writing an X post, thread or social card | **`x-content` skill** |
 | giving a tool its thoughtful touch | **`tool-craft` skill** |
 | judging whether a tool is actually good to use | **`tool-ux-review` skill** |
 | facing a failing gate, or moving a threshold | **`gates` skill** |
