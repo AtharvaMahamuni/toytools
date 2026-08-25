@@ -15,7 +15,9 @@ brand/
         ├── toytools-x-profile-400.png      the size X serves it back at
         ├── toytools-x-profile.svg          vector source
         ├── toytools-x-banner-3000x1000.png header, upload this one
-        └── toytools-x-banner-1500x500.png  1x reference
+        ├── toytools-x-banner-1500x500.png  1x reference
+        ├── queue/                          generated post drafts   (gitignored)
+        └── cards/                          generated post images   (gitignored)
 ```
 
 One directory per platform, because the platforms disagree about everything that matters:
@@ -25,11 +27,19 @@ asset another one wants, so they do not share a folder.
 ## Regenerating
 
 ```sh
-npm run brand:generate
+npm run brand:generate    # the account assets: profile mark + header banner
+npm run x:generate        # post drafts, derived from the registry -> queue/
+npm run x:cards           # the 1600x900 post images for that queue -> cards/
 ```
 
-Source: `scripts/generate-social-assets.ts`. Rendered through Chromium and sharp, the same path
-`npm run icons:generate` uses.
+Source: `scripts/generate-social-assets.ts` and `scripts/generate-x-{content,cards}.ts`. All three
+render through Chromium and sharp, the same path `npm run icons:generate` uses, and share one
+palette and font loader in `scripts/brand/render.ts` so a token change reaches every image at once.
+
+`queue/` and `cards/` are gitignored. Both regenerate in seconds and both are working files for a
+posting session rather than things anybody reads out of the repo; committed, the queue would
+re-diff 250KB every time a tool's craft sentence changed. What to put in them, and why, is
+`.claude/skills/x-content/` and `docs/analysis/2026-08-25-x-content-strategy.md`.
 
 Re-run it after changing `src/lib/icons/site-icon.ts` (the mark), the hero copy in
 `src/pages/index.astro` (the banner quotes it), or any token the banner reads from

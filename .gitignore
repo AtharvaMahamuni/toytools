@@ -63,3 +63,10 @@ quality-guardian/reports/*
 # research-intelligence engine: cache is regenerable; datasets + reports are committed
 research/cache/*
 !research/cache/.gitkeep
+
+# X content pipeline output. Both regenerate from the registry in seconds (npm run x:generate,
+# npm run x:cards), and both are working files for a posting session rather than things anybody
+# reads out of the repo. Committed, the queue would re-diff its 250KB every time a tool's craft
+# sentence changed, and the cards would add a PNG per post to the history.
+brand/social/x/queue/
+brand/social/x/cards/
