@@ -35,7 +35,13 @@ export interface Draft {
   /** A one-line note on why this draft exists, shown in the queue. */
   rationale: string;
   posts: DraftPost[];
-  /** Card template to render alongside, if any. */
+  /**
+   * A card is the exception, not the pipeline default: every post is text-only unless this is
+   * set, and `x:cards` renders nothing for a draft that lacks it. Where it exists, `body` is
+   * kept to a short phrase (a slot for gotcha, one sentence for ship) rather than the full
+   * authored sentence -- a card is a minimal supplement to a text post, never a paragraph as an
+   * image. Threads carry none: the thread itself is the content, not its cover.
+   */
   card?: { template: 'gotcha' | 'thread' | 'ship'; headline: string; body: string; eyebrow: string };
 }
 

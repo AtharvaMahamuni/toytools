@@ -17,6 +17,11 @@ brand/
         ├── toytools-x-banner-3000x1000.png header, upload this one
         ├── toytools-x-banner-1500x500.png  1x reference
         ├── queue/                          generated post drafts   (gitignored)
+        │   ├── index.md                    every draft, one line each, linked
+        │   ├── thread/<slug>.md            one file per thread
+        │   ├── gotcha/<slug>.md            one file per gotcha
+        │   ├── probe/<slug>.md             one file per probe
+        │   └── ship/<slug>.md              one file per ship note
         └── cards/                          generated post images   (gitignored)
 ```
 
@@ -29,8 +34,11 @@ asset another one wants, so they do not share a folder.
 ```sh
 npm run brand:generate    # the account assets: profile mark + header banner
 npm run x:generate        # post drafts, derived from the registry -> queue/
-npm run x:cards           # the 1600x900 post images for that queue -> cards/
+npm run x:cards           # renders whichever drafts in the queue declare a card -> cards/
 ```
+
+Most drafts declare no card at all: the account posts text by default, and a card is a rare,
+minimal supplement rather than a paired asset every post gets. See `.claude/skills/x-content/`.
 
 Source: `scripts/generate-social-assets.ts` and `scripts/generate-x-{content,cards}.ts`. All three
 render through Chromium and sharp, the same path `npm run icons:generate` uses, and share one
