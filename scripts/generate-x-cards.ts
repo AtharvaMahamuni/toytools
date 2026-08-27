@@ -3,25 +3,30 @@
 //   npm run x:cards                 every card in the current queue
 //   npm run x:cards -- --id gotcha-base64-encoder-decoder
 //   npm run x:cards -- --kind gotcha --limit 5
+//   npm run x:cards -- --square     1600x1600 instead of 1600x900, suffixed -square.png
 //
 // Run npm run x:generate first; this reads brand/social/x/queue/queue.json and renders the `card`
 // block each draft declares. A card is never authored separately from its draft, so a post and its
 // image cannot end up saying different things.
 //
-// Why a card at all. The gotcha post exists because craft.solves is the most specific writing in
-// the repo, and it runs to 366 characters at its longest -- three times what fits in a post beside
-// a link. The card is where the precise version goes: the post carries the hook, the image carries
-// the whole claim, and nobody has to choose between being brief and being exact.
+// Text-only is the pipeline default. Most drafts carry no `card` at all -- threads never do, and a
+// gotcha's card is left with a `[[slot]]` (see build-drafts.ts) rather than auto-filled with the
+// full craft.solves sentence, so nothing renders for it until a human decides one specific post
+// earns the extra reach and writes a short phrase, not a paragraph. This script only ever touches
+// what's already in the queue; it does not decide which drafts get an image.
 //
-// Three templates, one per thing the account has to say:
+// Two templates in practice:
 //
-//   gotcha  a failure and its cause. The heaviest type, because the sentence IS the content.
-//   thread  a topic's title card. Big and quiet: it is a cover, and the thread is the content.
-//   ship    a release. Deliberately the plainest of the three.
+//   gotcha  a failure named in one short phrase. Opt-in, and rendered only after the slot is filled.
+//   ship    a release, one sentence. The one kind that ships a card by default.
 //
-// 1600x900 because X renders a 16:9 attachment at full column width without cropping, and the
-// same file works as a link preview. Rendered at 2x and downscaled, so the type stays clean at
-// the ~500px width a phone actually shows.
+// `thread` support stays in the renderer below in case a specific thread ever earns a cover by
+// hand, but build-drafts.ts no longer emits one automatically.
+//
+// 1600x900 (the default) because X renders a 16:9 attachment at full column width without
+// cropping, and the same file works as a link preview. --square renders 1600x1600 instead, for
+// surfaces that crop or reject 16:9 (a profile-grid preview, a non-X share). Both are rendered at
+// 2x and downscaled, so the type stays clean at the ~500px width a phone actually shows.
 
 import { mkdirSync, readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
@@ -32,11 +37,14 @@ import type { Draft } from './x-content/types';
 const QUEUE = path.resolve(process.cwd(), 'brand/social/x/queue/queue.json');
 const OUT = path.resolve(process.cwd(), 'brand/social/x/cards');
 const W = 1600;
-const H = 900;
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
   return i === -1 ? undefined : process.argv[i + 1];
+}
+
+function flag(name: string): boolean {
+  return process.argv.includes(`--${name}`);
 }
 
 const escape = (s: string): string =>
@@ -48,16 +56,26 @@ const escape = (s: string): string =>
  * craft.solves spans 128 to 366 characters. One size for all of them either sets the short ones
  * in something too small to carry a card or lets the long ones overflow the box; a continuous
  * scale gives every card a slightly different size and the set stops looking like a set.
+ *
+ * Square gets its own, larger tiers rather than the same size in a taller box. The 16:9 sizes
+ * leave a talkative sentence hugging the middle third of a 1600x1600 frame with dead paper above
+ * and below; a bigger sentence, wrapped narrower (see .mid max-width in cardCss), actually fills it.
  */
-function bodySize(text: string): number {
+function bodySize(text: string, square: boolean): number {
+  if (square) {
+    if (text.length > 280) return 46;
+    if (text.length > 190) return 54;
+    return 62;
+  }
   if (text.length > 280) return 34;
   if (text.length > 190) return 40;
   return 46;
 }
 
-function cardHtml(draft: Draft): string {
+function cardHtml(draft: Draft, square: boolean): string {
   const card = draft.card!;
   const isThread = card.template === 'thread';
+  const threadSize = square ? 88 : 64;
   return `<div class="card ${card.template}">
   <div class="top">
     <span class="eyebrow">${escape(card.eyebrow)}</span>
@@ -66,7 +84,7 @@ function cardHtml(draft: Draft): string {
   </div>
   <div class="mid">
     ${isThread ? '' : `<p class="kicker">${escape(card.headline)}</p>`}
-    <p class="body" style="font-size:${isThread ? 64 : bodySize(card.body)}px">${escape(isThread ? card.headline : card.body)}</p>
+    <p class="body" style="font-size:${isThread ? threadSize : bodySize(card.body, square)}px">${escape(isThread ? card.headline : card.body)}</p>
     ${isThread ? `<p class="sub">${escape(card.body)}</p>` : ''}
   </div>
   <div class="rail"></div>
@@ -81,7 +99,7 @@ function cardHtml(draft: Draft): string {
  * separator rules at zero in check:craft; a card that draws a box round itself would be the one
  * ToyTools surface still doing the thing every other surface stopped doing.
  */
-function cardCss(): string {
+function cardCss(H: number, square: boolean): string {
   return `
   .card {
     width: ${W}px; height: ${H}px;
@@ -111,13 +129,13 @@ ${goldDotCss(10)}
   .mid {
     flex: 1;
     display: flex; flex-direction: column; justify-content: center; gap: 28px;
-    max-width: 1240px;
+    max-width: ${square ? 1080 : 1240}px;
     min-height: 0;
     padding: 56px 0;
   }
   .kicker {
     margin: 0;
-    font-size: 30px; font-weight: 600;
+    font-size: ${square ? 38 : 30}px; font-weight: 600;
     letter-spacing: -0.01em;
     color: ${INK_MUTED};
   }
@@ -131,7 +149,7 @@ ${goldDotCss(10)}
   .thread .body { font-weight: 700; letter-spacing: -0.028em; }
   .sub {
     margin: 0;
-    font-size: 34px; line-height: 1.5;
+    font-size: ${square ? 42 : 34}px; line-height: 1.5;
     color: ${INK_MUTED};
   }
 
@@ -167,22 +185,30 @@ async function main() {
     process.exit(1);
   }
 
+  const square = flag('square');
+  const H = square ? W : 900;
+  const suffix = square ? '-square' : '';
+
   mkdirSync(OUT, { recursive: true });
   const browser = await launch();
 
+  let written = 0;
   for (const draft of selected) {
     // A card carrying an unfilled slot would publish the instruction rather than the sentence.
+    // This is also the mechanism that keeps a gotcha's card opt-in: it stays a slot until a human
+    // fills it for that one post, so most runs land here rather than at the render below.
     if (/\[\[/.test(draft.card!.body) || /\[\[/.test(draft.card!.headline)) {
       console.log(`[x-cards] skipped ${draft.id}: card text still has a slot to fill`);
       continue;
     }
-    const buf = await renderHtml(browser, cardHtml(draft), cardCss(), W, H, 2);
+    const buf = await renderHtml(browser, cardHtml(draft, square), cardCss(H, square), W, H, 2);
     await sharp(buf).resize(W, H).png({ compressionLevel: 9, effort: 9 })
-      .toFile(path.join(OUT, `${draft.id}.png`));
+      .toFile(path.join(OUT, `${draft.id}${suffix}.png`));
+    written++;
   }
 
   await browser.close();
-  console.log(`[x-cards] wrote ${selected.length} card(s) to brand/social/x/cards/`);
+  console.log(`[x-cards] wrote ${written} card(s) to brand/social/x/cards/ (${selected.length - written} skipped)`);
 }
 
 main();

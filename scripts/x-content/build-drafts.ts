@@ -57,17 +57,16 @@ const post = (index: number, text: string, sources: string[]): DraftPost => ({
 
 // ── gotcha ───────────────────────────────────────────────────────────────────────────────────
 //
-// The post carries the failure; the CARD carries the whole authored sentence. That split is
-// forced by the data: `solves` runs to a median of 230 characters and a maximum of 366, so the
-// precise version cannot share a post with a link. Truncating it instead would publish half a
-// claim, which is worse than publishing none.
+// Text-only by default. The post carries the failure; a card is a rare supplement, not a paired
+// asset every gotcha gets. `craft.solves` runs to a median of 230 characters and a maximum of
+// 366 -- far past what a minimal card should carry -- so the card's `body` is left a `[[slot]]`
+// rather than auto-filled with the full sentence. `x:cards` skips any card whose text still
+// holds a slot, so nothing renders unless a human decides this specific post earns the extra
+// reach and writes a short phrase for it, not a paragraph.
 //
-// The post body is a slot rather than the sentence itself, and this is the one place the split
-// between the two kinds of authored text matters. `knowledge.ts` is written for a reader and
-// reaches the site as prose, so a thread quotes it verbatim. `craft.solves` is written for the
-// next maintainer: "instead of the decode the user came for" is precise and correct and talks
-// about the user in the third person, which is an internal note, not a post. Publishing it as
-// written would give the account a voice nobody on X is being addressed in.
+// The post body is also a slot rather than the sentence itself, because `craft.solves` is written
+// for the next maintainer, not a reader: "instead of the decode the user came for" is precise and
+// correct and talks about the user in the third person, which is an internal note, not a post.
 function gotchaDrafts(): Draft[] {
   const drafts: Draft[] = [];
 
@@ -93,7 +92,7 @@ function gotchaDrafts(): Draft[] {
         template: 'gotcha',
         eyebrow: tool.craft.kind,
         headline: tool.name,
-        body: tool.craft.solves,
+        body: `[[only if this post earns extra reach: the failure in one short phrase, not the full sentence. Material: ${tool.craft.solves}]]`,
       },
     });
   }
@@ -110,6 +109,10 @@ function gotchaDrafts(): Draft[] {
 // The beats come from fields that already exist because a guide needed them: the summary defines,
 // commonMistakes carries the distinction people actually get wrong, realWorldUseCases says when it
 // matters, commonQuestions is the FAQ the thread can promise to answer.
+//
+// No card. A thread is seven posts of text explaining a topic; a cover image adds a click before
+// the reader reaches any of it and is exactly the text-dense-image shape this account avoids. The
+// thread itself is the content.
 function threadDrafts(): Draft[] {
   const drafts: Draft[] = [];
 
@@ -168,12 +171,6 @@ function threadDrafts(): Draft[] {
       landing: gUrl,
       rationale: `cluster thread for ${topic}: tool + guide + ${(faqsByToolSlug[tool.slug] ?? []).length} FAQ entries already exist, so the thread has somewhere permanent to send people`,
       posts,
-      card: {
-        template: 'thread',
-        eyebrow: tool.categorySlug.replace(/-/g, ' '),
-        headline: `${topic}, explained`,
-        body: k.summary,
-      },
     });
   }
 
@@ -233,6 +230,10 @@ function probeDrafts(): Draft[] {
 //
 // Read from the changelog's top section only. The cap is the point: 41 releases in the log and a
 // release most days means an account posting every one of them says nothing else.
+//
+// The one kind that keeps a default card, because a release is the one thing genuinely worth a
+// glance rather than a read, and its card is already the minimal shape this account wants
+// everywhere: a headline and one slot for a single sentence, never the full authored text.
 function shipDrafts(): Draft[] {
   const changelog = readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
   const section = changelog.split(/^## \[/m)[1];

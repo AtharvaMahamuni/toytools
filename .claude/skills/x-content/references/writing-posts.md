@@ -3,6 +3,28 @@
 Structural guidance for turning a generated draft into a publishable post. The model and the rules
 live in `SKILL.md`; this is the craft.
 
+## First principles: nothing should be a surprise
+
+Write every slot as if the reader has never touched this corner of the tool before. That does not
+mean explaining everything, it means never leaning on a word the reader has to already know to
+follow the sentence.
+
+- **Define before you use.** If a post needs "epoch," "checksum," "hex," "the fold," or any other
+  term specific to the tool's domain, the first mention carries a plain-words clause. "Unix time
+  counts seconds from 1970, so an epoch timestamp is just that count" earns the word; "your epoch
+  timestamp is wrong" spends it before the reader has it.
+- **Order like a beginner, not like the codebase.** The generated thread shape (what it is, why it
+  exists, the mistake, the example, where it's used) already does this: each post gives the reader
+  what the next one needs. Do not reorder it to lead with the interesting part if the interesting
+  part depends on something the reader hasn't been given yet.
+- **An acronym gets spelled out on first use**, even a common one. "UTC" can follow "Coordinated
+  Universal Time" in the same sentence; it should not open one.
+- **A worked example is the test.** If filling in real values from the guide requires the reader to
+  already understand a term the post never defined, the post is missing a clause, not the example.
+- **This is a judgement call the voice gate cannot make.** `x:generate -- --check` catches banned
+  phrases and dead links, not an assumed-familiarity gap. Read the finished post as someone who has
+  never opened this tool would read it.
+
 ## Hooks
 
 The hook is the only line most people read, and it is the one thing the generator refuses to write

@@ -148,16 +148,31 @@ user came for" is precise, correct, and talks about the user in the third person
 written would give the account a voice nobody on X is being addressed in, so a gotcha's post body
 is a slot with the sentence supplied as material. The card is where the exact sentence goes.
 
-## The cards
+## The cards: text-only by default
+
+This account posts words, not pictures of words. A card is a rare, minimal supplement, never the
+default asset for a kind and never a paragraph rendered as an image.
 
 `npm run x:cards` renders 1600x900 images on the site's own paper, type and gold, through the same
 Chromium and sharp path the account assets use, from the same shared tokens
-(`scripts/brand/render.ts`).
+(`scripts/brand/render.ts`), but it only ever renders what a draft already declares, and most
+drafts declare nothing:
 
-The card exists because of a measurement: `craft.solves` runs to a median of 230 characters and a
-maximum of 366, which is roughly three times what fits in a post beside a link. Rather than
-choosing between being brief and being exact, the post carries the hook and the image carries the
-whole claim. Three templates, one per thing the account has to say: `gotcha`, `thread`, `ship`.
+- **Threads carry no card.** The thread is seven posts of text; a cover image spends a click before
+  any of that text and adds nothing the posts don't already say.
+- **A gotcha's card is opt-in.** `craft.solves` runs to a median of 230 characters and a maximum of
+  366, which is exact but far too dense for a minimal image, so `build-drafts.ts` leaves the card's
+  `body` a `[[slot]]` instead of auto-filling the full sentence. `x:cards` skips any card that still
+  holds a slot, so nothing renders until a human decides one specific gotcha earns the extra reach
+  and writes a short phrase for it, not the sentence.
+- **Ship keeps a default card**, because a release is worth a glance and its card was already the
+  minimal shape: a headline and one sentence.
+
+Two templates render in practice: `gotcha` (opt-in, one phrase) and `ship` (default, one sentence).
+`thread` support stays in the renderer for the rare case a specific thread earns a cover by hand,
+but nothing generates one automatically. Where a card is genuinely warranted for something visual,
+a small diagram beats a block of text: an image should show the reader something, not restate a
+sentence in a bigger font.
 
 None of them draws a frame. The site removed container borders catalog-wide and `check:craft`
 holds separator rules at zero, so a card with a box round it would be the one ToyTools surface
