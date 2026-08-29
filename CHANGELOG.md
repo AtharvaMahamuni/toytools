@@ -2,6 +2,49 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v8.0] - 2026-08-29
+
+### Added
+
+- **A Chemistry category**, at `/category/chemistry/`, with three simulators covering one branch of
+  a first chemistry course each. Chemistry is the third domain plugin on the simulation platform
+  after physics and applied math, so all three tools run the same canvas engine, the same live
+  measurement cards, formula panel and graph, and the same offline behaviour.
+- **Newman Projection Calculator** (organic), at `/tool/chemistry/newman-projection-calculator/`.
+  Drag across the molecule to rotate the back carbon and the strain energy curve fills in
+  underneath: torsional strain and steric strain reported separately, plus live anti and gauche
+  populations from the Boltzmann factors. One slider slides the molecule from ethane to butane to
+  bulkier groups, and the fits are exact at both named ends: ethane gets a 12 kJ/mol barrier with no
+  steric term, butane gets 19 syn, 16 eclipsed, 3.8 gauche and 0 anti. The molecule librates around
+  the set angle at an amplitude taken from equipartition, so raising the temperature visibly loosens
+  the bond.
+- **Crystal Field Splitting Calculator** (inorganic), at
+  `/tool/chemistry/crystal-field-splitting-calculator/`. The spin state is decided rather than
+  asserted: both the high-spin and the low-spin configuration are built and costed on every frame,
+  and the cheaper one is drawn. That reproduces the delta versus P rule for d4 through d7 and
+  correctly reports d1 to d3 and d8 to d10 as having no choice at all, with no per-count special
+  case. Live CFSE, unpaired electrons, spin-only magnetic moment, the absorption wavelength and the
+  complementary colour the complex actually looks. Tap the complex to switch between octahedral and
+  tetrahedral, which applies both the four ninths splitting and the inverted orbital sets.
+- **Reaction Rate Calculator** (physical), at `/tool/chemistry/reaction-rate-calculator/`. Set an
+  activation energy and a temperature and the reaction runs at the rate the Arrhenius equation
+  gives, integrated in closed form for zero, first and second order. A rate constant spans about
+  forty orders of magnitude across the sliders, so k and the half-life are reported as base-10
+  logarithms and a time lapse slider multiplies the chemical clock by a power of ten, which makes a
+  reaction with a half-life of a century watchable without pretending it is fast. The graph plots
+  concentration against time in half-lives, where the three orders have universal shapes.
+- Guides at `/guide/chemistry/how-newman-projections-work/`,
+  `/guide/chemistry/how-crystal-field-splitting-works/` and
+  `/guide/chemistry/how-reaction-rates-work/`, plus eight FAQs on each tool.
+
+### Changed
+
+- **The search page carries less duplicated vocabulary.** Every tool card shipped a hidden
+  attribute holding its tags, keywords and family, which repeat each other and often repeat the tool
+  name printed on the card. The attribute is now built against the card's own text and skips any
+  phrase already present, which took about 10 KB off the page. Every dropped phrase is still a
+  substring of what remains, so no search result changes.
+
 ## [alpha-v7.24] - 2026-08-24
 
 ### Fixed

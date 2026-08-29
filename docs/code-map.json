@@ -254,6 +254,21 @@
       ],
       "toolCount": 3
     },
+    "chemistry-lab": {
+      "name": "Chemistry Lab Engine",
+      "category": "chemistry",
+      "patterns": [
+        "simulate"
+      ],
+      "runtimeGlobal": "",
+      "sharedWidget": "src/tools/_shared/SimulationWidget.astro",
+      "supportedFamilies": [
+        "organic-chemistry",
+        "inorganic-chemistry",
+        "physical-chemistry"
+      ],
+      "toolCount": 3
+    },
     "wellness": {
       "name": "Wellness Engine",
       "category": "health-fitness",
@@ -676,6 +691,51 @@
       "pattern": "simulate",
       "family": "nuclear-physics",
       "processorId": "nuclear-reactor",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "newman-projection-calculator": {
+      "name": "Newman Projection Calculator",
+      "dir": "src/tools/chemistry/newman-projection-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/newman-projection-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "organic-chemistry",
+      "processorId": "newman-projection",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "crystal-field-splitting-calculator": {
+      "name": "Crystal Field Splitting Calculator",
+      "dir": "src/tools/chemistry/crystal-field-splitting-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/crystal-field-splitting-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "inorganic-chemistry",
+      "processorId": "crystal-field",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "reaction-rate-calculator": {
+      "name": "Reaction Rate Calculator",
+      "dir": "src/tools/chemistry/reaction-rate-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/reaction-rate-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "physical-chemistry",
+      "processorId": "reaction-kinetics",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

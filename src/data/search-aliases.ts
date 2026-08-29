@@ -171,4 +171,5 @@ export const searchAliases: Record<string, string[]> = {
   'projectile-motion-calculator': ['trajectory'],
   'simple-harmonic-motion-calculator': ['harmonic motion', 'spring oscillation'],
   'wave-speed-calculator': ['wavelength frequency'],
+
 };

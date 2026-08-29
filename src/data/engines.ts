@@ -37,7 +37,7 @@ export interface EngineManifest {
 const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
-  'physics', 'datetime', 'math-lab', 'math', 'wellness', 'tracker', 'color', 'units',
+  'physics', 'datetime', 'math-lab', 'math', 'chemistry-lab', 'wellness', 'tracker', 'color', 'units',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -120,6 +120,12 @@ const engineDefs: EngineDef[] = [
   // (fractions, combinatorics, primes). Mirrors the datetime engine: SmartField schemas in,
   // InteractiveResult out, rendered by the platform experience layer.
   { id: 'math', name: 'Math Calculator Engine', category: 'applied-math', patterns: ['math-calculate'], runtimeGlobal: 'runMath', sharedWidget: 'MathWidget.astro', globals: ['runMath', 'experience'] },
+  // Chemistry Lab: the third domain plugin on the generic simulation platform (see
+  // src/lib/simulation/plugins/chemistry/). Same runtime story as physics and math-lab: no ToyTools
+  // global, SimulationWidget lazy-loads exactly one simulation module per page. One engine covers
+  // organic, inorganic and physical chemistry because the platform seam is the RUNTIME (a canvas
+  // simulation driven by a SimulationDef), not the branch of chemistry; the branches are families.
+  { id: 'chemistry-lab', name: 'Chemistry Lab Engine', category: 'chemistry', patterns: ['simulate'], runtimeGlobal: '', sharedWidget: 'SimulationWidget.astro' },
   // Wellness Engine: health & fitness metric calculators (BMI, TDEE, body fat, ...). Mirrors the
   // math/datetime engines: SmartField schemas in, InteractiveResult out, rendered by the platform
   // experience layer. runtimeGlobal runWellness resolves the calculator; no currency, no units DB.

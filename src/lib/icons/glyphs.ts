@@ -154,6 +154,15 @@ export const GLYPHS: Record<string, string> = {
   spring: S + '<path d="M12 3v2"/><path d="M8 6h8l-8 3h8l-8 3h8"/><rect x="8.5" y="14.5" width="7" height="5" rx="1"/>' + E,
   atom: S + '<ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>' + E + '<circle cx="12" cy="12" r="1.6" fill="#fff" stroke="none"/>',
 
+  // ── chemistry (simulations) ───────────────────────────────────────────
+  // The ring is the whole visual shorthand for organic chemistry, so it names the family the way
+  // the pendulum names oscillations.
+  benzene: S + '<path d="M12 3l7.5 4.3v9.4L12 21l-7.5-4.3V7.3L12 3Z"/><circle cx="12" cy="12" r="4"/>' + E,
+  // A metal centre with six ligands: the coordination sphere inorganic chemistry is built around.
+  complexIon: S + '<path d="M12 12 20 12M12 12 16 5.1M12 12 8 5.1M12 12 4 12M12 12 8 18.9M12 12 16 18.9"/>' + E + '<g fill="#fff"><circle cx="20" cy="12" r="1.5"/><circle cx="16" cy="5.1" r="1.5"/><circle cx="8" cy="5.1" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="8" cy="18.9" r="1.5"/><circle cx="16" cy="18.9" r="1.5"/><circle cx="12" cy="12" r="2.4"/></g>',
+  // A reaction coordinate: reactants, the barrier, and products sitting lower than they started.
+  barrier: S + '<path d="M3 10H6C8 10 8 3 12 3C16 3 16 16 18 16H21"/>' + E,
+
   // ── applied math ──────────────────────────────────────────────────────
   parabola: S + '<path d="M4 4v16.5h16"/><path d="M6 8Q12 22 18.5 8"/>' + E,
   unitCircle: S + '<circle cx="12" cy="12" r="8"/><path d="M12 12h8"/><path d="M12 12 18 8"/><path d="M16 12a4 4 0 0 0-1.2-2.9"/>' + E,

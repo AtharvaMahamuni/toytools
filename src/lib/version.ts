@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 7,
-  minor: 24,
+  major: 8,
+  minor: 0,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-24',
-  description: 'JSON tree viewer pane heights and text-pane internal scrolling',
+  releaseDate: '2026-08-29',
+  description: 'Chemistry simulations: Newman projection, crystal field splitting and reaction rate',
 };
 
 export function formatVersion(config: VersionConfig): string {
