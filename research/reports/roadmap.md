@@ -1,24 +1,25 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-08-21T16:52:43.648Z
+Generated: 2026-08-29T12:53:57.454Z
 
-Discovered 78 signals -> 78 unique opportunities (28 recommended, 48 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 84 signals -> 84 unique opportunities (31 recommended, 51 already shipped). Top score 85.9. Missing-engine candidates: 0.
 
 ## Immediate builds (top tier)
 - **Statistics Visualizer** (`statistics-visualizer`) - score 81.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Triangle Solver** (`triangle-solver`) - score 79.8, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Electron Configuration Calculator** (`electron-configuration-calculator`) - score 79.6, reuses chemistry-lab. High search demand; Weak / incomplete incumbents; Reuses the existing chemistry-lab engine; Low implementation cost; Creates 3 internal links.
 - **Sleep Cycle Calculator** (`sleep-cycle-calculator`) - score 79.5, reuses datetime. High search demand; Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Color Shades & Tints Generator** (`color-shades-generator`) - score 79.4, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Modular Type Scale Generator** (`type-scale-generator`) - score 79.2, reuses units. Weak / incomplete incumbents; Reuses the existing units engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Matrix Calculator** (`matrix-calculator`) - score 78.3, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Colorblind Simulator** (`colorblind-simulator`) - score 77.8, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Chemical Bond Calculator** (`chemical-bond-calculator`) - score 77.6, reuses chemistry-lab. Weak / incomplete incumbents; Reuses the existing chemistry-lab engine; Low implementation cost; Creates 3 internal links.
 - **Normal Distribution Visualizer** (`normal-distribution-visualizer`) - score 77.1, reuses math-lab. High search demand; Weak / incomplete incumbents; Reuses the existing math-lab engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Lean Body Mass Calculator** (`lean-body-mass-calculator`) - score 76.5, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
 - **CSV Column Picker** (`csv-column-picker`) - score 74.7, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Molecular Geometry Calculator** (`molecular-geometry-calculator`) - score 74.5, reuses chemistry-lab. Weak / incomplete incumbents; Reuses the existing chemistry-lab engine; Low implementation cost; Creates 3 internal links.
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Perceptual Gradient Generator** (`css-gradient-generator`) - score 74.1, reuses color. Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Waist to Hip Ratio Calculator** (`waist-to-hip-ratio-calculator`) - score 73.7, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
@@ -72,6 +73,7 @@ Discovered 78 signals -> 78 unique opportunities (28 recommended, 48 already shi
 - **ROT13** (encoding) - 1 tool(s), mean score 80.
 - **Diacritic Removal** (text-processor) - 1 tool(s), mean score 79.8.
 - **Triangles** (math) - 1 tool(s), mean score 79.8.
+- **Electron Configuration** (chemistry-lab) - 1 tool(s), mean score 79.6.
 - **Color Scale** (color) - 1 tool(s), mean score 79.4.
 - **Timestamp Conversion** (datetime) - 1 tool(s), mean score 79.2.
 - **Type Scale** (units) - 1 tool(s), mean score 79.2.
@@ -84,20 +86,25 @@ Discovered 78 signals -> 78 unique opportunities (28 recommended, 48 already shi
 - **Matrices** (math) - 1 tool(s), mean score 78.3.
 - **Return on Investment** (finance) - 1 tool(s), mean score 78.1.
 - **Color Vision Simulation** (color) - 1 tool(s), mean score 77.8.
+- **Bond Character** (chemistry-lab) - 1 tool(s), mean score 77.6.
 - **CSV Cleaning** (csv) - 1 tool(s), mean score 77.4.
 - **Compound Annual Growth Rate** (finance) - 1 tool(s), mean score 77.2.
 - **Age Calculation** (datetime) - 1 tool(s), mean score 77.1.
 - **Normal Distribution** (math-lab) - 1 tool(s), mean score 77.1.
 - **Date Difference** (datetime) - 1 tool(s), mean score 77.
 - **Health Date Calculation** (datetime) - 3 tool(s), mean score 76.9.
+- **Chemical Kinetics** (chemistry-lab) - 1 tool(s), mean score 76.7.
 - **Linear Regression** (math-lab) - 1 tool(s), mean score 76.3.
 - **Checksum (CRC32)** (hashing) - 1 tool(s), mean score 76.1.
 - **Simple Harmonic Motion** (physics) - 1 tool(s), mean score 76.1.
 - **Hash Identification** (hashing) - 1 tool(s), mean score 75.9.
 - **Identifier Inspection** (generation) - 1 tool(s), mean score 75.
+- **Conformational Analysis** (chemistry-lab) - 1 tool(s), mean score 74.9.
 - **Invisible Character Detection** (text-processor) - 1 tool(s), mean score 74.8.
 - **CSV Column Selection** (csv) - 1 tool(s), mean score 74.7.
+- **Crystal Field Splitting** (chemistry-lab) - 1 tool(s), mean score 74.6.
 - **Function Graphing** (math-lab) - 1 tool(s), mean score 74.5.
+- **VSEPR Geometry** (chemistry-lab) - 1 tool(s), mean score 74.5.
 - **Body Composition Calculation** (wellness) - 3 tool(s), mean score 74.4.
 - **Ideal Gas Law** (physics) - 1 tool(s), mean score 74.4.
 - **Perceptual Gradient** (color) - 1 tool(s), mean score 74.1.

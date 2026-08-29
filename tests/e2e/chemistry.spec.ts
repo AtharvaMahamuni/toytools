@@ -7,6 +7,8 @@ import { test, expect, type Page } from '@playwright/test';
 const NEWMAN = '/tool/chemistry/newman-projection-calculator/';
 const CRYSTAL_FIELD = '/tool/chemistry/crystal-field-splitting-calculator/';
 const REACTION = '/tool/chemistry/reaction-rate-calculator/';
+const CONFIGURATION = '/tool/chemistry/electron-configuration-calculator/';
+const BOND = '/tool/chemistry/chemical-bond-calculator/';
 
 function guardConsole(page: Page): string[] {
   const errors: string[] = [];
@@ -22,6 +24,8 @@ test.describe('every chemistry tool', () => {
     'newman-projection-calculator',
     'crystal-field-splitting-calculator',
     'reaction-rate-calculator',
+    'electron-configuration-calculator',
+    'chemical-bond-calculator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
@@ -143,5 +147,76 @@ test.describe('reaction rate simulator', () => {
     await temperature.dispatchEvent('input');
     await expect(worked).toContainText('400');
     await expect(page.getByLabel('Temperature in K')).toHaveValue('400');
+  });
+});
+
+test.describe('electron configuration simulator', () => {
+  test('takes 4s electrons before 3d when the atom becomes an ion', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto(CONFIGURATION);
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    await page.getByRole('button', { name: 'Iron', exact: true }).click();
+    await expect(page.locator('[data-measurement="electrons"]')).toHaveText(/^26/);
+    await expect(page.locator('[data-measurement="valence"]')).toHaveText(/^2/);
+
+    // Fe2+ keeps all six 3d electrons and loses both 4s ones, so the outer shell drops to 3.
+    await page.getByRole('button', { name: 'Fe2+ (loses 4s first)' }).click();
+    await expect(page.locator('[data-measurement="electrons"]')).toHaveText(/^24/);
+    await expect(page.locator('[data-measurement="shells"]')).toHaveText(/^3/);
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('names the aufbau exception when it lands on one', async ({ page }) => {
+    await page.goto(CONFIGURATION);
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    await page.getByRole('button', { name: 'Chromium (exception)' }).click();
+    // Chromium is 4s1 3d5: six unpaired electrons, which plain aufbau would never give.
+    await expect(page.locator('[data-measurement="unpaired"]')).toHaveText(/^6/);
+    await expect(page.locator('[data-sim-observations]')).toContainText(/aufbau/i);
+  });
+
+  test('the formula panel subtracts the charge from the atomic number', async ({ page }) => {
+    await page.goto(CONFIGURATION);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    const worked = page.locator('[data-formula-worked]');
+    await expect(worked).toContainText('e =');
+
+    // The formula input is labelled from the FORMULA TERM ('Atomic number'), not the slider
+    // ('Atomic number Z'), which is why this is not the slider's label.
+    const z = page.getByLabel('Atomic number value');
+    await z.fill('17');
+    await z.dispatchEvent('input');
+    await expect(page.locator('[data-measurement="electrons"]')).toHaveText(/^17/);
+  });
+});
+
+test.describe('chemical bond simulator', () => {
+  test('slides from nonpolar to ionic as the partners change', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto(BOND);
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    await page.getByRole('button', { name: 'O=O, nonpolar' }).click();
+    await expect(page.locator('[data-measurement="deltaEN"]')).toHaveText(/0\.00/);
+    await expect(page.locator('[data-measurement="ionicCharacter"]')).toHaveText(/0\.0 %/);
+
+    await page.getByRole('button', { name: 'Na-Cl, ionic' }).click();
+    await expect(page.locator('[data-measurement="deltaEN"]')).toHaveText(/2\.23/);
+    await expect(page.locator('[data-measurement="ionicCharacter"]')).toHaveText(/71\.[0-9] %/);
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('warns where the 1.7 cutoff misclassifies a nonmetal pair', async ({ page }) => {
+    await page.goto(BOND);
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    await page.getByRole('button', { name: 'H-F, where the cutoff fails' }).click();
+    await expect(page.locator('[data-measurement="deltaEN"]')).toHaveText(/1\.78/);
+    // Past the cutoff, so a naive tool would call it ionic. This one says why that is wrong.
+    await expect(page.locator('[data-sim-observations]')).toContainText(/both partners are nonmetals/i);
   });
 });

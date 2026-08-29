@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T16:52:43.648Z",
+  "generatedAt": "2026-08-29T12:53:57.454Z",
   "trends": [
     {
       "transformation": "Fitness Performance Calculation",
@@ -159,6 +159,12 @@
       "meanScore": 79.8
     },
     {
+      "transformation": "Electron Configuration",
+      "count": 1,
+      "meanDemand": 0.84,
+      "meanScore": 79.6
+    },
+    {
       "transformation": "Color Scale",
       "count": 1,
       "meanDemand": 0.64,
@@ -225,6 +231,12 @@
       "meanScore": 77.8
     },
     {
+      "transformation": "Bond Character",
+      "count": 1,
+      "meanDemand": 0.71,
+      "meanScore": 77.6
+    },
+    {
       "transformation": "CSV Cleaning",
       "count": 1,
       "meanDemand": 0.7,
@@ -253,6 +265,12 @@
       "count": 1,
       "meanDemand": 0.85,
       "meanScore": 77
+    },
+    {
+      "transformation": "Chemical Kinetics",
+      "count": 1,
+      "meanDemand": 0.74,
+      "meanScore": 76.7
     },
     {
       "transformation": "Linear Regression",
@@ -285,6 +303,12 @@
       "meanScore": 75
     },
     {
+      "transformation": "Conformational Analysis",
+      "count": 1,
+      "meanDemand": 0.62,
+      "meanScore": 74.9
+    },
+    {
       "transformation": "Invisible Character Detection",
       "count": 1,
       "meanDemand": 0.41,
@@ -297,9 +321,21 @@
       "meanScore": 74.7
     },
     {
+      "transformation": "Crystal Field Splitting",
+      "count": 1,
+      "meanDemand": 0.58,
+      "meanScore": 74.6
+    },
+    {
       "transformation": "Function Graphing",
       "count": 1,
       "meanDemand": 0.9,
+      "meanScore": 74.5
+    },
+    {
+      "transformation": "VSEPR Geometry",
+      "count": 1,
+      "meanDemand": 0.73,
       "meanScore": 74.5
     },
     {

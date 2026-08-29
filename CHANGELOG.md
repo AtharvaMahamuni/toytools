@@ -2,6 +2,37 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v8.2] - 2026-08-29
+
+### Added
+
+- **Electron Configuration Calculator**, at `/tool/chemistry/electron-configuration-calculator/`.
+  Build any element or ion one electron at a time and watch the electrons land in Madelung order, so
+  4s is visibly occupied before 3d rather than that ordering being a line to memorise. Three things
+  the incumbents get wrong or skip: the twenty ground states that break the aufbau order are stored
+  as the electron transfer that produces them (chromium moves one from 4s to 3d for a half-filled
+  d5), ions are supported and lose electrons from the outermost shell first so Fe2+ comes out
+  [Ar] 3d6 rather than [Ar] 4s2 3d4, and the valence shell is highlighted on both the shell picture
+  and the orbital bars instead of being left buried in a string.
+- **Chemical Bond Calculator**, at `/tool/chemistry/chemical-bond-calculator/`. Pick two elements
+  and watch the shared pair slide toward the greedier atom. The point of the tool is that bond
+  character is a continuum: Pauling's relation is plotted as the smooth curve it is, with the
+  familiar 0.4 and 1.7 cutoffs drawn as thin marks on it rather than as walls between three boxes.
+  A bond within 0.15 of a boundary is flagged as a boundary case, and a nonmetal pair past the 1.7
+  threshold is called out by name, because hydrogen fluoride sits at 1.78 and is a molecular gas
+  rather than the ionic compound the cutoff claims.
+- **A shared periodic table** at `src/lib/simulation/data/elements.ts`, carrying symbol, name and
+  Pauling electronegativity for all 118 elements. Electronegativity is `null` where the scale
+  defines no value, which the bond tool reports as no difference rather than defaulting to zero and
+  calling every bond to helium wildly ionic.
+
+### Changed
+
+- Both new tools were picked by the Research Intelligence Engine rather than by hand. Three
+  candidate records were added to `research/datasets/chemistry.json` and the engine ranked electron
+  configuration at 79.6 (third in the whole catalogue) and chemical bond at 77.6, with molecular
+  geometry outside the top ten.
+
 ## [alpha-v8.1] - 2026-08-29
 
 ### Added

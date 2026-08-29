@@ -13,6 +13,8 @@ import type { SimulationDomain } from '../../domain';
 import newmanProjection from '../../simulations/newman-projection';
 import crystalField from '../../simulations/crystal-field';
 import reactionKinetics from '../../simulations/reaction-kinetics';
+import electronConfiguration from '../../simulations/electron-configuration';
+import chemicalBond from '../../simulations/chemical-bond';
 
 export const chemistryDomain: SimulationDomain = {
   id: 'chemistry-lab',
@@ -21,5 +23,7 @@ export const chemistryDomain: SimulationDomain = {
     'newman-projection': newmanProjection,
     'crystal-field': crystalField,
     'reaction-kinetics': reactionKinetics,
+    'electron-configuration': electronConfiguration,
+    'chemical-bond': chemicalBond,
   },
 };
