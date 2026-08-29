@@ -68,3 +68,46 @@ describe('deriveSimRelations', () => {
     expect(resolved.usedWith).toEqual(deriveSimRelations(m, MANIFESTS).usedWith);
   });
 });
+
+describe('resolveRelations overlay', () => {
+  // The overlay ADDS to the derivation rather than replacing it. It used to replace, which meant
+  // authoring one cross-subject link silently dropped every derived sibling edge.
+  it('keeps the derived edges and adds the authored ones', () => {
+    const m = get('reaction-rate-calculator');
+    expect(m.relationships?.usedWith?.length).toBeGreaterThan(0);
+
+    const derived = deriveSimRelations(m, MANIFESTS);
+    const resolved = resolveRelations(m, MANIFESTS);
+    const slugs = new Set(resolved.usedWith!.map((r) => r.slug));
+
+    for (const d of derived.usedWith) expect(slugs.has(d.slug), `derived ${d.slug} survives`).toBe(true);
+    for (const a of m.relationships!.usedWith!) expect(slugs.has(a.slug), `authored ${a.slug} present`).toBe(true);
+  });
+
+  it('lets an authored edge win over a derived one for the same slug', () => {
+    const m = get('reaction-rate-calculator');
+    const derivedSlug = deriveSimRelations(m, MANIFESTS).usedWith[0]!.slug;
+    const overridden: SimulationManifest = {
+      ...m,
+      relationships: { usedWith: [{ slug: derivedSlug, reason: 'authored wins', strength: 0.99 }] },
+    };
+    const resolved = resolveRelations(overridden, MANIFESTS);
+    const hit = resolved.usedWith!.find((r) => r.slug === derivedSlug)!;
+    expect(hit.reason).toBe('authored wins');
+    // Deduplicated: the derived copy of the same slug does not survive alongside it.
+    expect(resolved.usedWith!.filter((r) => r.slug === derivedSlug)).toHaveLength(1);
+  });
+
+  it('reaches outside its own domain, so no engine is left isolated', () => {
+    // Every chemistry simulator is the only member of its family, so nothing outside the domain
+    // derives. These authored links are what connect chemistry-lab to physics on the architecture
+    // map; check-engines gates the isolated-engine count that depends on them.
+    const chemistry = ['newman-projection-calculator', 'crystal-field-splitting-calculator', 'reaction-rate-calculator'];
+    const chemistrySlugs = new Set(chemistry);
+    const outward = chemistry.flatMap((slug) => {
+      const r = resolveRelations(get(slug), MANIFESTS);
+      return [...(r.usedWith ?? []), ...(r.nextSteps ?? [])];
+    });
+    expect(outward.some((r) => !chemistrySlugs.has(r.slug))).toBe(true);
+  });
+});

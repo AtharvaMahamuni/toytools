@@ -216,6 +216,37 @@ to the **`tool-craft` skill**, not here. The one part that is a build gate: a `c
 `config.ts` whose `data-craft="<id>"` never reaches the DOM **fails the build**, which is what stops
 the field becoming documentation that rots.
 
+## 6. Engine shape
+
+```sh
+npm run check:engines              # the gate; pure, needs no dist/; runs inside npm run verify
+npm run check:engines -- --report  # full inventory, fan-out, widget reuse, coupling; never fails
+```
+
+Two ratchets in `THRESHOLDS` in `scripts/check-engines.ts`:
+
+| ratchet | direction | what a move means |
+|---|---|---|
+| `isolatedEngines` — engines with **no** cross-engine relationship | only **falls** | a subject shipped that nothing links to, so it is a dead end for a reader |
+| `bespokeEngines` — engines declaring no shared widget | only **falls** | a self-contained widget is quietly becoming a real engine that owes `contract.test.ts` a block |
+
+The relationship half is the reason this exists. Engine-to-engine edges have always been derived
+(a knowledge-graph edge between two tools in different engines is one engine relationship) and
+rendered on `/architecture/` as dotted Mermaid links, but a picture is not a check: an engine could
+drift into isolation and every gate stayed green. This runs the same derivation as
+`src/pages/architecture.astro` and prints it as a table you can diff. **Keep the two in step** — if
+`CROSS_TYPES` changes in one, change it in the other.
+
+**Coupling itself is deliberately not gated.** A sparse graph is the goal (29 of 210 possible pairs
+on 2026-08-29), but the right number for any given pair is a judgement about subject matter, not
+something a threshold can hold.
+
+Relationships derive from shared concepts, quantities and family, so **a subject whose families are
+all new derives nothing outside itself**. That is how `chemistry-lab` shipped isolated on
+2026-08-29: three simulators, each the only member of its family. The fix is a `relationships`
+overlay on the manifest, which `resolveRelations` merges **on top of** the derived edges rather than
+replacing them.
+
 ## When a gate and this document disagree
 
 The script wins. Every threshold quoted here carries a date because it is a snapshot of a ratchet

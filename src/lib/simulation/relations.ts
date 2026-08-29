@@ -163,9 +163,34 @@ export function deriveSimRelations(
   return { usedWith, nextSteps };
 }
 
-/** The resolved relationship overlay: an explicit manifest override, else the derived edges. */
+/**
+ * Merge one authored list onto a derived one, keyed by slug. The authored edge wins, because it
+ * carries a reason someone wrote on purpose; derived edges the overlay does not mention are kept.
+ */
+function mergeRefs(derived: RelationshipReference[], authored?: RelationshipReference[]): RelationshipReference[] {
+  if (!authored?.length) return derived;
+  const bySlug = new Map(derived.map((r) => [r.slug, r]));
+  for (const ref of authored) bySlug.set(ref.slug, ref);
+  return [...bySlug.values()];
+}
+
+/**
+ * The resolved relationships for one simulation: the derived edges, with any authored overlay
+ * merged ON TOP rather than replacing them.
+ *
+ * This used to return the overlay wholesale, which contradicted both the type's name and its doc
+ * ("authored relationship overlay: non-derivable workflow edges"): authoring a single cross-subject
+ * link would have silently dropped every derived sibling edge. Nothing set `relationships` while
+ * that was true, so the branch was never exercised. The first real use is the chemistry set, whose
+ * simulators are the only members of their families and so derive no link outside their own domain
+ * (`chemistry-lab` was an isolated engine on the architecture map until this).
+ */
 export function resolveRelations(target: SimulationManifest, all: SimulationManifest[]): RelationshipOverlay {
-  if (target.relationships) return target.relationships;
   const { usedWith, nextSteps } = deriveSimRelations(target, all);
-  return { usedWith, nextSteps, alternatives: [] };
+  const overlay = target.relationships;
+  return {
+    usedWith: mergeRefs(usedWith, overlay?.usedWith),
+    nextSteps: mergeRefs(nextSteps, overlay?.nextSteps),
+    alternatives: overlay?.alternatives ?? [],
+  };
 }

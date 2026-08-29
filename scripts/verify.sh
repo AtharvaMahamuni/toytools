@@ -43,6 +43,10 @@ step "coverage thresholds"   npm run test:coverage
 # no origin/main to diff against.
 step "version + changelog"   npm run check:version
 
+# Also independent of dist/: engine shape and the cross-engine relationship graph come from the
+# registries and the knowledge graph, so this runs before the build rather than after it.
+step "engine shape"          npm run check:engines
+
 # KNOWLEDGE_REQUIRED mirrors CI: coverage is 100%, so a missing knowledge.ts must fail, not warn.
 printf '\n\033[1m▶ build (KNOWLEDGE_REQUIRED=true)\033[0m\n'
 if KNOWLEDGE_REQUIRED=true npm run build; then

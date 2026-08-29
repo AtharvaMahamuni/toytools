@@ -29,11 +29,12 @@ npm run verify        # the done-condition. ~3 min.
 npm run verify:fast   # everything except e2e. Inner loop only, NOT a done-condition.
 ```
 
-It runs, in order: unit tests, coverage thresholds, the build with `KNOWLEDGE_REQUIRED=true`,
-platform health, query coverage, tool craft, the content graph, Quality Guardian, `seo:gate` on
-every tool directory changed against `origin/main`, and e2e on chromium **and** pixel5.
+It runs, in order: unit tests, coverage thresholds, engine shape, the build with
+`KNOWLEDGE_REQUIRED=true`, platform health, query coverage, tool craft, the content graph, Quality
+Guardian, `seo:gate` on every tool directory changed against `origin/main`, and e2e on chromium
+**and** pixel5.
 
-Steps 4 through 8 read `dist/`, so **a failed build skips five gates at once**. Fix the build first;
+Steps 5 through 9 read `dist/`, so **a failed build skips five gates at once**. Fix the build first;
 a green run after a red build is not evidence of anything.
 
 `build` + `test` + `test:e2e` is **not** the gate and never was: it skips the coverage thresholds,
@@ -54,10 +55,10 @@ exception; any divergence is drift, and the fix is to re-sync, not to document i
 assertion, or adding a validator exemption without saying so explicitly in the PR and giving the
 reason. Details, diagnosis playbooks and the current thresholds: **`gates` skill**.
 
-## The five hard gates
+## The six hard gates
 
-Four are **ratchets**: the number records what the catalog achieves today and moves one way only, in
-the same commit as the change that earns it. The fifth is a fixed bar.
+Five are **ratchets**: the number records what the catalog achieves today and moves one way only, in
+the same commit as the change that earns it. The sixth is a fixed bar.
 
 | gate | command | threshold shape | run by |
 |---|---|---|---|
@@ -65,6 +66,7 @@ the same commit as the change that earns it. The fifth is a fixed bar.
 | query coverage (retrieval, targeting, headings) | `check:queries` | ratchet — floors only **rise** | `verify`, PR CI |
 | tool craft (coverage, boxes, separators, raw hex) | `check:craft` | ratchet — coverage **rises**, the rest **fall**; separators fixed at **0** | `verify`, PR CI |
 | the fold ratchet (chrome %, first control) | `test:e2e` | ratchet — limits only **fall** | `verify`, PR CI (pixel5 leg), weekly |
+| engine shape (isolated engines, bespoke engines) | `check:engines` | ratchet — both ceilings only **fall** | `verify`, PR CI |
 | content quality | `seo:gate -- <slug>` | **fixed** minimums, in `seo-engine/config/content-intelligence-rules.json` (`overall` 75; `writingQuality` 70, `usefulness` 60, `seoCompleteness` 50, `toyToolsStyleScore` 70, `queryTargeting` 50; `maxEmDashes` 0) | `verify`, PR CI on changed tools |
 
 Two things worth knowing before you lean on any of them:
