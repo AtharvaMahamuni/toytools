@@ -9,6 +9,32 @@ import { withBase } from '../lib/paths';
 function getCategoryName(slug: string): string {
   return categories.find(c => c.slug === slug)?.name ?? slug;
 }
+
+/**
+ * The extra vocabulary a card needs, with everything already on screen left out.
+ *
+ * This page renders every tool server-side, so its HTML grows with the catalog and it is the
+ * heaviest document on the site. An earlier pass removed the lowercase copy of each name and
+ * description that used to ride in the attribute. What remained was the same duplication one level
+ * down: tags and keywords overlap each other heavily, and a tag like "newman projection calculator"
+ * repeats the tool name the card already prints.
+ *
+ * So the accumulator is SEEDED with the card's own visible text, and a phrase is skipped once it is
+ * already a substring of what we have. Anything skipped is, by construction, still present in the
+ * final haystack, so every phrase that used to match still matches: this shrinks the bytes without
+ * changing a single result.
+ */
+function searchVocabulary(tool: (typeof tools)[number], categoryName: string): string {
+  let haystack = `${tool.name} ${tool.description} ${categoryName}`.toLowerCase();
+  const extra: string[] = [];
+  for (const raw of [...(tool.tags ?? []), ...(tool.keywords ?? []), tool.family ?? '']) {
+    const phrase = raw.trim().toLowerCase();
+    if (!phrase || haystack.includes(phrase)) continue;
+    extra.push(phrase);
+    haystack += ` ${phrase}`;
+  }
+  return extra.join(' ');
+}
 ---
 
 <BaseLayout
@@ -33,12 +59,11 @@ function getCategoryName(slug: string): string {
         <article
           data-search-item
           data-slug={tool.slug}
-          {/* Only the vocabulary the card does NOT already render. Name, description and
-              category were in here too, which shipped a second lowercase copy of every tool's
-              description in an attribute nothing displayed: 132 tools of pure duplication, and
-              the reason this page was the heaviest HTML document on the site. The inline pass
-              below reads this attribute AND the card's own text, so matching is unchanged. */}
-          data-search={`${tool.tags.join(' ')} ${(tool.keywords ?? []).join(' ')} ${tool.family ?? ''}`.toLowerCase()}
+          {/* Only the vocabulary the card does NOT already render, deduplicated against itself
+              and against the card's own text. See searchVocabulary above: the inline pass below
+              reads this attribute AND the card's text, and every dropped phrase survives as a
+              substring, so matching is unchanged. */}
+          data-search={searchVocabulary(tool, getCategoryName(tool.categorySlug))}
         >
           <ToolCard tool={tool} categoryName={getCategoryName(tool.categorySlug)} />
         </article>

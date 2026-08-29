@@ -77,6 +77,10 @@ const FAMILY_GLYPH: Record<string, string> = {
   thermodynamics: 'thermo',
   electricity: 'zap',
   'nuclear-physics': 'atom',
+  // chemistry (simulations)
+  'organic-chemistry': 'benzene',
+  'inorganic-chemistry': 'complexIon',
+  'physical-chemistry': 'barrier',
   // applied math
   trigonometry: 'unitCircle',
   algebra: 'parabola',

@@ -4,12 +4,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('homepage index', () => {
-  test('leads with eleven category rows, not a wall of tool names', async ({ page }) => {
+  test('leads with twelve category rows, not a wall of tool names', async ({ page }) => {
     await page.goto('/');
     const index = page.locator('.category-index');
-    await expect(index.locator('.cat-item')).toHaveCount(11);
+    await expect(index.locator('.cat-item')).toHaveCount(12);
     // The categories are the homepage's content outline, not just styled links.
-    await expect(index.getByRole('heading', { level: 2 })).toHaveCount(11);
+    await expect(index.getByRole('heading', { level: 2 })).toHaveCount(12);
 
     // Each row carries the three things that make the catalog legible: a linked name,
     // a tagline, and named example tools.
@@ -49,7 +49,7 @@ test.describe('homepage index', () => {
     await page.locator('.all-tools-summary').click();
 
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
-    await expect(directory.locator('.dir-column')).toHaveCount(11);
+    await expect(directory.locator('.dir-column')).toHaveCount(12);
 
     // Case converters collapse to a single entry that still covers every member slug.
     const caseEntry = directory.getByRole('link', { name: 'Case Converter' });

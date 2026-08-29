@@ -1,0 +1,98 @@
+{
+  "domain": "chemistry",
+  "records": [
+    {
+      "query": "newman projection calculator",
+      "problem": "I need to see a Newman projection at a given dihedral angle and know what the conformer costs in strain energy.",
+      "intent": "informational",
+      "transformation": "Conformational Analysis",
+      "proposedTool": "newman-projection-calculator",
+      "proposedName": "Newman Projection Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "newman projection calculator",
+        "newman projection simulator",
+        "dihedral angle calculator",
+        "anti vs gauche butane",
+        "torsional strain calculator",
+        "conformational analysis butane"
+      ],
+      "existingSolutions": ["chemtube3d.com", "molview.org", "libretexts.org"],
+      "solutionWeaknesses": [
+        "static textbook diagrams",
+        "no live energy curve",
+        "3D viewers need a plugin or a heavy download",
+        "not mobile-first"
+      ],
+      "relatedProblems": ["cyclohexane chair conformations", "staggered vs eclipsed", "steric strain"],
+      "relatedTools": ["reaction-rate-calculator"],
+      "demand": 62,
+      "competition": 34,
+      "evergreen": 94,
+      "difficulty": "medium",
+      "localization": 70
+    },
+    {
+      "query": "crystal field splitting calculator",
+      "problem": "I need to fill a d-orbital splitting diagram and know whether the complex is high spin or low spin, with its CFSE and magnetic moment.",
+      "intent": "transactional",
+      "transformation": "Crystal Field Splitting",
+      "proposedTool": "crystal-field-splitting-calculator",
+      "proposedName": "Crystal Field Splitting Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "crystal field splitting calculator",
+        "CFSE calculator",
+        "high spin vs low spin",
+        "spin only magnetic moment calculator",
+        "d orbital splitting diagram",
+        "crystal field theory"
+      ],
+      "existingSolutions": ["libretexts.org", "chemistrylearner.com", "wikipedia.org"],
+      "solutionWeaknesses": [
+        "explanations without a tool",
+        "no interactive diagram",
+        "spin state asserted rather than derived",
+        "tetrahedral case usually omitted"
+      ],
+      "relatedProblems": ["spectrochemical series", "magnetic moment", "complementary colour"],
+      "relatedTools": ["newman-projection-calculator"],
+      "demand": 58,
+      "competition": 30,
+      "evergreen": 93,
+      "difficulty": "medium",
+      "localization": 66
+    },
+    {
+      "query": "reaction rate calculator",
+      "problem": "I need a rate constant from an activation energy and temperature, and the half-life that goes with the reaction order.",
+      "intent": "transactional",
+      "transformation": "Chemical Kinetics",
+      "proposedTool": "reaction-rate-calculator",
+      "proposedName": "Reaction Rate Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "reaction rate calculator",
+        "arrhenius equation calculator",
+        "activation energy calculator",
+        "rate constant calculator",
+        "first order half life calculator",
+        "reaction order calculator"
+      ],
+      "existingSolutions": ["omnicalculator.com", "calctool.org", "chemicalaid.com"],
+      "solutionWeaknesses": [
+        "single-answer forms with no curve",
+        "ad heavy",
+        "no reaction order comparison",
+        "half-life formula fixed to first order"
+      ],
+      "relatedProblems": ["catalysis", "shelf life estimation", "temperature dependence of rate"],
+      "relatedTools": ["ideal-gas-law-calculator"],
+      "demand": 74,
+      "competition": 58,
+      "evergreen": 95,
+      "difficulty": "medium",
+      "localization": 78
+    }
+  ]
+}

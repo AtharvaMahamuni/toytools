@@ -120,6 +120,21 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     ],
   },
   {
+    slug: 'chemistry',
+    name: 'Chemistry',
+    headline: 'Chemistry Simulations',
+    description: 'Interactive chemistry simulations you can turn, tune, and run. Explore conformers, crystal field splitting, and reaction rates in your browser.',
+    tagline: 'Conformers, coordination complexes and reaction rates.',
+    highlights: ['newman-projection-calculator', 'crystal-field-splitting-calculator', 'reaction-rate-calculator'],
+    accent: '#5C7530',
+    segment: 'chemistry',
+    intro: [
+      'Three simulations, one from each branch a first chemistry course splits into. Organic gets a Newman projection you rotate with your finger, so the strain energy curve is drawn by your own dragging rather than copied off a lecture slide. Inorganic gets a crystal field diagram where the electrons rearrange themselves the moment the ligand field beats the pairing energy. Physical gets a reaction you actually have to wait for, at whatever rate the Arrhenius equation says.',
+      'They exist because chemistry hides its mechanism behind a static picture more than most subjects do. A Newman projection in a textbook is one frozen angle out of 360, and the energy diagram sits on the facing page as if the two were separate facts. Here they are the same object: the molecule turns, the marker slides along the curve, and the anti and gauche populations recompute as you raise the temperature.',
+      'Every simulation shows its live measurements, its equation with the current numbers substituted in, and a sentence about what the scene is doing right now. Nothing is uploaded and everything runs offline once the page has loaded.',
+    ],
+  },
+  {
     slug: 'date-time',
     name: 'Date & Time',
     description: 'Calculate ages and durations, convert time zones and timestamps, and work with dates, all in your browser.',

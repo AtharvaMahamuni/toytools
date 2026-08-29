@@ -259,10 +259,10 @@ describe('tracker engine', () => {
 });
 
 // ── the simulation platform: every tool resolves a SimulationDef that steps and measures ──────
-// physics and math-lab are two domain plugins over ONE platform, so they answer to one contract.
-// Iterating both here rather than testing physics alone is what stops a math-lab simulation
-// shipping untested purely because it entered through the other plugin.
-describe.each(['physics', 'math-lab'])('%s engine', (engineId) => {
+// physics, math-lab and chemistry-lab are three domain plugins over ONE platform, so they answer to
+// one contract. Iterating all of them here rather than testing physics alone is what stops a
+// simulation shipping untested purely because it entered through another plugin.
+describe.each(['physics', 'math-lab', 'chemistry-lab'])('%s engine', (engineId) => {
   it.each(byEngine(engineId).map(t => [t.slug, t.processorId] as const))(
     '%s resolves a simulation that stays finite and produces narrative',
     (_slug, processorId) => {
@@ -301,7 +301,7 @@ describe.each(['physics', 'math-lab'])('%s engine', (engineId) => {
 /** Engines with a contract block above. Keep in step with the describes. */
 const CONTRACT_TESTED = new Set([
   'text-processor', 'encoding', 'hashing', 'structured-data', 'finance', 'datetime', 'math',
-  'jwt', 'wellness', 'generation', 'csv', 'tracker', 'physics', 'math-lab',
+  'jwt', 'wellness', 'generation', 'csv', 'tracker', 'physics', 'math-lab', 'chemistry-lab',
 ]);
 
 /**
