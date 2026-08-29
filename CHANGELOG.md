@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v8.1] - 2026-08-29
+
+### Added
+
+- **An engine shape gate**, `npm run check:engines`, holding two ratchets: the number of engines
+  with no cross-engine relationship at all, and the number declaring no shared widget. Engine to
+  engine relationships have been derived and drawn on `/architecture/` since that page was built,
+  but a picture is not a check, so an engine could drift into isolation with every gate green. The
+  gate runs the same derivation and prints it as a table you can diff; `-- --report` adds the full
+  inventory, per-category fan-out, widget reuse and the coupling list. It reads the registries
+  rather than `dist/`, so it runs before the build in `npm run verify` and in PR CI.
+
+### Fixed
+
+- **The three chemistry simulators now link outside their own subject.** Related tools are derived
+  from shared concepts, quantities and family, and each chemistry simulator is the only member of
+  its family, so the set derived no link beyond itself: `chemistry-lab` shipped as an isolated
+  engine on the architecture map. The reaction rate simulator now points at the ideal gas law
+  simulator (a gas-phase rate starts from how often molecules collide) and at the nuclear reactor
+  simulator (radioactive decay is first order kinetics); the Newman projection points at simple
+  harmonic motion, which is what the thermal wobble in a conformer well actually is; crystal field
+  splitting points at wave speed, since turning a splitting into a colour is the wavelength and
+  frequency relation.
+- **An authored `relationships` overlay on a simulation manifest now merges on top of the derived
+  edges instead of replacing them.** The type is named an overlay and documented as "non-derivable
+  workflow edges", but `resolveRelations` returned it wholesale, so authoring a single link would
+  have silently dropped every derived sibling edge. No manifest set the field while that was true,
+  so the branch had never run.
+
 ## [alpha-v8.0] - 2026-08-29
 
 ### Added

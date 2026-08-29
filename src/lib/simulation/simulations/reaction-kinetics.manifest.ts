@@ -242,6 +242,25 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
+  // Authored ON TOP of the derived sibling edges (see relations.ts). Every chemistry simulator is
+  // the only member of its family, so nothing outside the domain derives, and the two links that
+  // matter most here both point at physics.
+  relationships: {
+    usedWith: [
+      {
+        slug: 'ideal-gas-law-calculator',
+        reason: 'A gas-phase rate starts from how often molecules collide, which is where PV = nRT comes in',
+        strength: 0.7,
+      },
+    ],
+    nextSteps: [
+      {
+        slug: 'nuclear-reactor-calculator',
+        reason: 'Radioactive decay is first order kinetics with a rate constant temperature cannot change',
+        priority: 2,
+      },
+    ],
+  },
   paramBehavior: reactionKinetics.paramBehavior,
   aspect: reactionKinetics.aspect,
   params: reactionKinetics.params,

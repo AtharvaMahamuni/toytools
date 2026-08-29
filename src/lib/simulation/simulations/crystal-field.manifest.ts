@@ -254,6 +254,16 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
+  // Authored ON TOP of the derived sibling edges (see relations.ts).
+  relationships: {
+    usedWith: [
+      {
+        slug: 'wave-speed-calculator',
+        reason: 'Turning a splitting in wavenumbers into an absorbed colour is the wavelength and frequency relation',
+        strength: 0.55,
+      },
+    ],
+  },
   paramBehavior: crystalField.paramBehavior,
   aspect: crystalField.aspect,
   params: crystalField.params,

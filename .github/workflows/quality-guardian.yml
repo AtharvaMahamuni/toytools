@@ -60,6 +60,9 @@ jobs:
       - name: Tool craft check
         run: npm run check:craft
 
+      - name: Engine shape check
+        run: npm run check:engines
+
       - name: Run quality PR check
         run: npm run quality:pr
 

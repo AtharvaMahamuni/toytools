@@ -255,6 +255,16 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
+  // Authored ON TOP of the derived sibling edges (see relations.ts).
+  relationships: {
+    usedWith: [
+      {
+        slug: 'simple-harmonic-motion-calculator',
+        reason: 'The thermal wobble in a conformer well is small-amplitude harmonic motion, the same maths as a mass on a spring',
+        strength: 0.6,
+      },
+    ],
+  },
   paramBehavior: newmanProjection.paramBehavior,
   aspect: newmanProjection.aspect,
   params: newmanProjection.params,
