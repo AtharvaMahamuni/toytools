@@ -71,7 +71,7 @@ test.describe('homepage index', () => {
     //   −2 CSV tools (3→1), −8 text cleanup (9→1), −7 encoders (8→1), −4 hash generators (5→1),
     //   −8 text counters (9→1), −10 health calculators (11→1), −2 daily trackers (3→1),
     //   −5 growth calculators (6→1), −5 everyday calculators (6→1).
-    // 136 tools − 61 grouped-collapse = 75 directory links (generator, physics, applied-math,
+    // 138 tools − 61 grouped-collapse = 77 directory links (generator, physics, applied-math,
     // date/time, scientific-calculator, shell-quote-escalator, systemd-timer-converter,
     // encoding-detector, invisible-character-detector and the 5 design tools stay ungrouped;
     // physics has 12 manifest-driven simulators and applied-math five wave-2 tools beside
@@ -85,8 +85,11 @@ test.describe('homepage index', () => {
     // simulator on its family, so there is nothing to collapse it with. The three chemistry
     // simulators added in alpha-v8.0 are ungrouped for the same reason, one per family: organic,
     // inorganic and physical chemistry share the engine but answer unrelated questions, so there is
-    // no pair a group switcher could sensibly swap between.
-    await expect(directory.locator('.dir-link')).toHaveCount(75);
+    // no pair a group switcher could sensibly swap between. The electron configuration and
+    // chemical bond simulators added in alpha-v8.2 are likewise ungrouped, one per family: they are
+    // a natural pair to READ together, which is what the relationship overlay expresses, but a
+    // group switcher swaps one tool for another and neither answers the other's question.
+    await expect(directory.locator('.dir-link')).toHaveCount(77);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
