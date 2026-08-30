@@ -35,8 +35,12 @@ const { tool } = Astro.props;
   )}
   {/* The platform signs the tool rather than owning it, in the micro-label voice already used by
       .io-label and the ToolNavRow "Related" label. Above the title it would compete with the h1
-      for the first fixation, which is what the header rebuild spent its effort removing. */}
-  <a class="tool-attribution" href={withBase('/')}>
+      for the first fixation, which is what the header rebuild spent its effort removing.
+
+      It used to point at the homepage, which reads as a catalog: following it taught a visitor
+      that ToyTools has many tools, not that one platform is underneath them. /platform/ is the
+      other half of the sentence this line starts. */}
+  <a class="tool-attribution" href={withBase('/platform/')} title="What powers this tool">
     Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span>
   </a>
 </div>

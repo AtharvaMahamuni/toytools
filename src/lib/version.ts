@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 8,
   minor: 2,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-29',
-  description: 'Electron configuration and chemical bond simulators',
+  releaseDate: '2026-08-30',
+  description: 'Homepage and supporting pages now present ToyTools as the platform behind the tools',
 };
 
 export function formatVersion(config: VersionConfig): string {

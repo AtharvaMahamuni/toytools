@@ -1,5 +1,5 @@
 export type PageType =
-  | 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'search' | 'architecture'
+  | 'home' | 'tool' | 'guide' | 'faq' | 'category' | 'search' | 'architecture' | 'platform'
   | 'feedback' | 'privacy' | 'about' | 'changelog' | 'settings' | 'offline' | 'notFound';
 
 export function generatePageTitle(type: PageType, name?: string): string {
@@ -17,6 +17,9 @@ export function generatePageTitle(type: PageType, name?: string): string {
     case 'category': return `${name} ● ToyTools`;
     case 'search':   return 'Search ● ToyTools';
     case 'architecture': return 'Architecture ● ToyTools';
+    // The page a tool page's "Powered by ToyTools" signature leads to, so the title has to
+    // answer the question that click asks rather than name a section of the site.
+    case 'platform': return 'The Platform Behind the Tools ● ToyTools';
     // The page's H1 greets whoever is already here; this title has to answer the query that
     // brought them, so it names the two things people actually search for.
     case 'feedback': return 'Suggest a Tool or Report an Issue ● ToyTools';

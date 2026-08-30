@@ -19,6 +19,7 @@ export type ContentType = 'home' | 'tool' | 'guide' | 'category' | 'page';
 const STANDALONE_PAGES: { slug: string; path: string; priority: number; changefreq: string }[] = [
   { slug: 'feedback', path: '/feedback/', priority: 0.6, changefreq: 'monthly' },
   { slug: 'about', path: '/about/', priority: 0.5, changefreq: 'monthly' },
+  { slug: 'platform', path: '/platform/', priority: 0.5, changefreq: 'monthly' },
   { slug: 'privacy', path: '/privacy/', priority: 0.4, changefreq: 'yearly' },
   { slug: 'changelog', path: '/changelog/', priority: 0.4, changefreq: 'monthly' },
 ];

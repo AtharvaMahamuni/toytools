@@ -1,0 +1,331 @@
+---
+// The destination of the "Powered by ToyTools ●" signature every tool page carries.
+//
+// Tool pages have signed themselves as platform-powered since the Zone B rebuild, but that line
+// pointed at the homepage, which reads as a catalog: a visitor following it learned that ToyTools
+// has a lot of tools, not that there is one thing underneath them. This page is the other half of
+// that sentence. Every number on it is derived from the same registries the build validates
+// against, so it cannot claim a platform the code does not actually have.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { generatePageTitle } from '@lib/titles';
+import { withBase } from '@lib/paths';
+import { tools } from '@data/registry';
+import { categories } from '@data/categories';
+import { engineRegistry, knownPatterns } from '@data/engines';
+
+// Kept under the 160-character ceiling Quality Guardian enforces on every meta description.
+const description =
+  'ToyTools is not a folder of unrelated tools. It is one platform: shared engines, one '
+  + 'browser runtime, and the guarantees every tool inherits.';
+
+// Derived, so this page cannot make a claim the registry has stopped supporting.
+const toolCount = tools.length;
+const engineCount = engineRegistry.length;
+const patternCount = knownPatterns.size;
+const categoryCount = categories.length;
+
+// Engines with a shared widget are the ones where a tool is genuinely a declaration: the widget,
+// the layout and the output rendering are the engine's, and the tool contributes a config file.
+const sharedWidgetEngines = engineRegistry.filter(e => e.sharedWidget !== '').length;
+
+const categoryName = (slug: string) => categories.find(c => c.slug === slug)?.name ?? slug;
+
+// Largest first: the list should open with the engines carrying the most of the catalog, because
+// that is the evidence for the claim above it.
+const enginesByReach = [...engineRegistry].sort(
+  (a, b) => b.toolCount - a.toolCount || a.name.localeCompare(b.name),
+);
+
+const abs = (path: string): string =>
+  Astro.site ? new URL(withBase(path), Astro.site).href : withBase(path);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: 'Platform' },
+  ],
+};
+---
+
+<BaseLayout title={generatePageTitle('platform')} description={description} maxWidth="tool">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <article class="page-doc">
+    <p class="eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span></p>
+    <h1>The platform behind the tools</h1>
+    <p class="lede">
+      Every tool on this site signs itself the same way. This page is what that signature means:
+      not a badge, but the {engineCount} engines, the shared browser runtime and the build gates
+      that all {toolCount} tools are assembled from.
+    </p>
+
+    <dl class="stat-row">
+      <div class="stat">
+        <dt>Engines</dt>
+        <dd>{engineCount}</dd>
+      </div>
+      <div class="stat">
+        <dt>Patterns</dt>
+        <dd>{patternCount}</dd>
+      </div>
+      <div class="stat">
+        <dt>Tools</dt>
+        <dd>{toolCount}</dd>
+      </div>
+      <div class="stat">
+        <dt>Categories</dt>
+        <dd>{categoryCount}</dd>
+      </div>
+    </dl>
+
+    <h2>A tool here is a declaration, not an application</h2>
+    <p>
+      The usual way to end up with {toolCount} online utilities is to write {toolCount} of them.
+      Each one gets its own page, its own idea of what a button looks like, its own bugs, and its
+      own answer to whether your data leaves the machine. Sites built that way get worse as they
+      get bigger.
+    </p>
+    <p>
+      ToyTools is built the other way round. The computation lives in an engine, and the interface,
+      the output rendering, the keyboard behaviour, the saved state and the privacy contract belong
+      to the platform. A tool declares which engine it runs on and what it is called.
+      {sharedWidgetEngines} of the {engineCount} engines ship a shared widget, so most tools on the
+      site contribute a config file and nothing else. That is why the catalog can grow without the
+      site getting heavier or less consistent.
+    </p>
+
+    <h2>The layers</h2>
+    <p>
+      Four things sit between you and an answer, and each one is shared by everything above it.
+    </p>
+
+    <ol class="layers">
+      <li>
+        <p class="layer-name">Engines</p>
+        <p>
+          The maths. {engineCount} of them, owning {patternCount} patterns between them: encoding,
+          hashing, structured data, finance, date and time, colour, units, simulation and the rest.
+          An engine is tested on its own, away from any page, so a correctness fix lands for every
+          tool that runs on it at once rather than in one of them.
+        </p>
+      </li>
+      <li>
+        <p class="layer-name">Runtime</p>
+        <p>
+          One small core on every page: copy, toasts, saved state, favourites, recent tools and
+          focus handling. On top of it, exactly one engine chunk, loaded only by the pages that
+          declare that engine. Opening a hash tool does not download the finance code.
+        </p>
+      </li>
+      <li>
+        <p class="layer-name">Knowledge graph</p>
+        <p>
+          Related tools, guides and FAQ entries are derived from the same declarations, following
+          engine to pattern to family to category. Nothing on the site is a hand-maintained list of
+          links, which is why every guide, every question and every related-tool row stays correct
+          as the catalog changes.
+        </p>
+      </li>
+      <li>
+        <p class="layer-name">Gates</p>
+        <p>
+          Each page carries a byte budget the build enforces. A change that makes a page heavier
+          than its budget fails the build instead of quietly spending your bandwidth. Content,
+          engine shape and phone layout have their own checks in the same run.
+        </p>
+      </li>
+    </ol>
+
+    <h2>What every tool inherits</h2>
+    <p>
+      These are not per-tool promises. They are properties of the platform, so they hold on the tool
+      you opened today and on the one added next month.
+    </p>
+    <ul class="inherit">
+      <li><strong>It computes on your device.</strong> There is no application server and no database to send anything to.</li>
+      <li><strong>It opens fast and stays inside its budget.</strong> Enforced at build time, per page.</li>
+      <li><strong>It keeps working offline</strong> once you have opened it, and installs to a phone home screen as its own app.</li>
+      <li><strong>It behaves the same way.</strong> Same keyboard shortcuts, same copy and clear controls, same dark mode, same search.</li>
+      <li><strong>Anything it saves is yours.</strong> Stored in your browser, and exportable or deletable from <a href={withBase('/settings/')}>settings</a>.</li>
+    </ul>
+
+    <h2>The engines</h2>
+    <p>
+      The current manifest, generated from the registry rather than written out by hand.
+    </p>
+    <ul class="engine-list">
+      {enginesByReach.map(engine => (
+        <li class="engine">
+          <p class="engine-name">{engine.name}</p>
+          <p class="engine-meta">
+            <a href={withBase(`/category/${engine.category}/`)}>{categoryName(engine.category)}</a>
+            <span class="gold-dot" aria-hidden="true"></span>
+            <span>{engine.toolCount} {engine.toolCount === 1 ? 'tool' : 'tools'}</span>
+            <span class="gold-dot" aria-hidden="true"></span>
+            <span>{engine.patterns.join(', ')}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    <h2>See it for yourself</h2>
+    <p>
+      The <a href={withBase('/architecture/')}>architecture map</a> draws the same registries as an
+      interactive diagram, down to which engine powers which tool.
+      <a href={withBase('/about/')}>About</a> covers why the site exists and how new tools get
+      chosen, and <a href={withBase('/privacy/')}>privacy</a> covers exactly what is stored and what
+      is sent.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-doc {
+    padding: var(--space-10) 0 var(--space-12);
+  }
+
+  /* The same micro-caps recipe as the guide eyebrow and ToolSignature: this line is the label the
+     visitor just clicked, repeated back so the page confirms where they landed. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+  }
+
+  .page-doc h2 {
+    margin-top: var(--space-12);
+  }
+
+  .page-doc p,
+  .page-doc ul,
+  .page-doc ol {
+    margin-top: var(--space-4);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── The four numbers ─────────────────────────────────────── */
+
+  /* No cards: the figures carry themselves, and a row of bordered tiles here would be the
+     box-per-fact habit the widget rules exist to stop. */
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-10);
+    margin: var(--space-8) 0 0;
+  }
+
+  .stat dt {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+  }
+
+  .stat dd {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--leading-tight);
+  }
+
+  /* ── Layers ───────────────────────────────────────────────── */
+
+  .layers {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-6);
+    counter-reset: layer;
+  }
+
+  /* Between-group space beats within-group space, which is what marks a layer as one unit now
+     that nothing is drawing a box around it. */
+  .layers > li + li {
+    margin-top: var(--space-8);
+  }
+
+  .layer-name {
+    counter-increment: layer;
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+
+  .layer-name::before {
+    content: counter(layer) '.';
+    color: var(--color-text-subtle);
+    margin-right: var(--space-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .layers p + p {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Inherited contract ───────────────────────────────────── */
+
+  .inherit {
+    list-style: disc;
+    padding-left: var(--space-6);
+  }
+
+  .inherit li {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+  }
+
+  .inherit strong {
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* ── Engine manifest ──────────────────────────────────────── */
+
+  .engine-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-6);
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .engine-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6) var(--space-8);
+    }
+  }
+
+  .engine-name {
+    margin: 0;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .engine-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    max-width: none;
+  }
+</style>

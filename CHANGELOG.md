@@ -2,6 +2,37 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v8.2.1] - 2026-08-30
+
+### Added
+
+- **A platform page**, at `/platform/`. Every tool page has signed itself "Powered by ToyTools"
+  since the Zone B rebuild, and that line pointed at the homepage, which reads as a catalog: a
+  visitor following it learned that the site has a lot of tools, not that there is one thing
+  underneath them. The new page is the other half of that sentence. It names the four layers
+  (engines, the shared runtime, the derived knowledge graph, the build gates), lists the guarantees
+  every tool inherits from the platform rather than promises individually, and prints the engine
+  manifest itself. Every number and every row on it is derived from the same registries the build
+  validates against, so it cannot claim a platform the code has stopped having. Reachable from the
+  footer, from `/about/`, and from the signature on all 138 tool pages.
+
+### Changed
+
+- **The homepage now says what holds the catalog together.** A new section under the categories,
+  "These are not 138 separate tools", makes the four claims that distinguish a platform from a
+  folder: shared engines, one runtime loaded once, no server to send anything to, and byte budgets
+  the build enforces. The intro line above it went from "a toolbox you do not have to think about"
+  to "one platform, 138 doors into it", and the meta description and `WebSite` schema lead with the
+  platform rather than the pile.
+- **`/about/` gained a section on the platform**, "It is a platform, not a folder", covering why a
+  fix to an engine lands for every tool on it at once and what a tool actually contributes. The
+  lede and the "how it works" section were reworded to match.
+- **Category pages name the engines their tools run on**, beside the tool count. This is the one
+  page where a dozen tools are seen side by side, so it is where "these share their machinery" is
+  worth saying; the engine names are derived from the tools listed, and the line links to
+  `/platform/`.
+- **The "Powered by ToyTools" signature links to `/platform/`** instead of the homepage.
+
 ## [alpha-v8.2] - 2026-08-29
 
 ### Added
