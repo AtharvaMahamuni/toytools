@@ -173,5 +173,5 @@ export const searchAliases: Record<string, string[]> = {
   'wave-speed-calculator': ['wavelength frequency'],
 
   // Music & audio
-  'equalizer-settings-generator': ['eq', 'equaliser', 'bass booster', 'eq presets', 'sound settings'],
+  'equalizer-settings-generator': ['eq', 'equaliser', 'bass booster'],
 };

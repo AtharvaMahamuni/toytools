@@ -25,7 +25,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   fixes it is a preamp cut of the same size, sitting on another screen where nothing labels it as
   the fix. The line names the peak boost and the matching cut, and offers to scale the boosts down
   while keeping the balance between bands. Silent below +3 dB.
-- **A guide**, "How to Set an Equalizer: What Each Frequency Band Does", and nine FAQs covering the
+- **A guide**, "How to Set an Equalizer: What Each Frequency Does", and nine FAQs covering the
   questions people actually arrive with: the best EQ settings for bass, which frequency makes vocals
   clearer, whether EQ can cause distortion, and why the same settings sound different on different
   headphones.

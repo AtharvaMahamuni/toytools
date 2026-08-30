@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'equalizer-settings-generator',
   name: 'Music Equalizer Settings',
   seoTitle: 'Music Equalizer Settings Generator',
-  description: 'Build music equalizer settings from what you want to hear. Pick a goal like more bass or clearer vocals, drag the seven bands from 60 Hz to 15 kHz, and see what each frequency changes. Load EQ presets from a bass booster curve to a late-night one, then copy the dB values into the sound settings in Spotify, on your phone, in your headphones app or in your car.',
+  description: 'Turn more bass or clearer vocals into equalizer settings: tune seven bands from 60 Hz to 15 kHz, load a bass booster curve, copy the dB into your player.',
   tagline: 'Find your sound, then copy the numbers into your own player.',
   categorySlug: 'music-audio',
   tags: [
@@ -36,7 +36,7 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-set-an-equalizer',
     categorySlug: 'music',
-    title: 'How to Set an Equalizer: What Each Frequency Band Does',
+    title: 'How to Set an Equalizer: What Each Frequency Does',
     description: 'What each EQ band changes, how to get more bass or clearer vocals without making a mess, and why the same settings sound different on different headphones.',
     readMinutes: 8,
     updatedAt: '2026-08-30',

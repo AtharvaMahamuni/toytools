@@ -432,12 +432,13 @@ const craftId = config.craft?.id ?? 'eq-preamp-headroom';
     margin: 0;
     accent-color: var(--color-accent);
     cursor: ns-resize;
-    /* Three spellings of "this slider is vertical", because the modern one landed in Chrome, Safari
-       and Firefox in three different years and the older engines still read the other two. */
+    /* The standard way to stand a range control up (Chrome 121, Safari 17.4, Firefox 129), with
+       `direction: rtl` putting the larger value at the top. The older `appearance:
+       slider-vertical` is deliberately NOT here as a fallback: Chrome warns on it in the console,
+       which the smoke suite rightly treats as a failure. Engines that predate the standard get the
+       `orient="vertical"` attribute in the markup instead, which is silent. */
     writing-mode: vertical-lr;
     direction: rtl;
-    appearance: slider-vertical;
-    -webkit-appearance: slider-vertical;
     /* A vertical drag on the control adjusts the band instead of scrolling the page past it. */
     touch-action: none;
   }
