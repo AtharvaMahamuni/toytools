@@ -1,0 +1,505 @@
+---
+// The equalizer widget. One array of gains is the whole state: the curve, the seven controls, the
+// explanation, the ledger, the headroom note, the link and the share image are all derived from it,
+// so there is no second copy to drift.
+//
+// Shared rather than bespoke because an equalizer is a DEFINITION (bands, presets, limits) resolved
+// by processorId: a different band layout or a different preset shelf is a registry entry plus a
+// config, and this file stays the one place the curve and the controls are drawn.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+import { eqDefinition } from '@lib/engines/audio/registry';
+import { curvePath, EQ_VIEW } from '@lib/engines/audio/curve';
+import { urlStateMode } from '@lib/url-state';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  /** Resolves an EqDefinition in the audio engine registry. */
+  eqId: string;
+  config: ToolConfig;
+}
+
+const { slug, eqId, config } = Astro.props;
+const def = eqDefinition(eqId);
+const urlMode = urlStateMode(config.engine, config.pattern);
+
+// The page opens flat, which is the only honest starting point: it is the reader's player
+// untouched, so the first preset they load is a change they can actually hear the shape of.
+const start = def.presets[0]!;
+const gains = start.gains;
+const paths = curvePath(gains, def.maxGain);
+const viewBox = `0 0 ${def.bands.length * EQ_VIEW.unit} ${EQ_VIEW.height}`;
+const craftId = config.craft?.id ?? 'eq-preamp-headroom';
+---
+
+<div class="eq" data-tool={slug} data-eq-id={eqId} data-url-state={urlMode}>
+  <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="input" label="Equalizer" variant="prose">
+      <div class="io-body">
+        <div class="eq-goals" role="group" aria-label="Load a starting point">
+          {def.presets.map((p) => (
+            <button
+              class="eq-goal"
+              type="button"
+              data-preset={p.id}
+              aria-pressed={p.id === start.id ? 'true' : 'false'}
+              title={p.persona}
+            >{p.name}</button>
+          ))}
+        </div>
+
+        <div class="eq-graph">
+          <svg viewBox={viewBox} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path class="eq-area" data-eq-area d={paths.area} />
+            <line class="eq-zero" x1="0" y1={EQ_VIEW.zeroY} x2={def.bands.length * EQ_VIEW.unit} y2={EQ_VIEW.zeroY} vector-effect="non-scaling-stroke" />
+            <path class="eq-line" data-eq-line d={paths.line} vector-effect="non-scaling-stroke" />
+          </svg>
+        </div>
+
+        {/* Equal columns with no gaps, so a band's control sits at the exact x the curve above
+            uses for it. The visual gap is padding inside each column. */}
+        <div class="eq-bands" style={`--eq-columns: ${def.bands.length}`}>
+          {def.bands.map((band, i) => (
+            <div class="eq-band">
+              <input
+                class="eq-slider"
+                type="range"
+                id={`${slug}-${band.id}`}
+                min={def.minGain}
+                max={def.maxGain}
+                step={def.step}
+                value={gains[i]}
+                orient="vertical"
+                data-band={i}
+                aria-label={band.label}
+                aria-valuetext={`${gains[i]! > 0 ? '+' : ''}${gains[i]} decibels`}
+              />
+              {/* A span, not an <output>: `.io-panel output` is the result-panel surface, and the
+                  value is already announced through the slider's own aria-valuetext. */}
+              <span class="eq-band-value" data-band-value={i}>{gains[i]! > 0 ? '+' : ''}{gains[i]}</span>
+              <span class="eq-band-label">{band.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="output" label="Your settings" variant="prose" result>
+      <div class="io-body">
+        <p class="eq-explain" data-eq-explain aria-live="polite">{start.description}</p>
+
+        <ul class="eq-ledger" data-eq-ledger>
+          {def.bands.map((band, i) => (
+            <li class="eq-row">
+              <span class="eq-row-label">{band.label}</span>
+              <span class="eq-row-value">{gains[i]! > 0 ? '+' : ''}{gains[i]} dB</span>
+            </li>
+          ))}
+        </ul>
+
+        <label class="widget-label" for={`${slug}-name`}>Make it yours</label>
+        <input
+          class="widget-input eq-name"
+          id={`${slug}-name`}
+          type="text"
+          maxlength="48"
+          placeholder="Name this preset"
+          autocapitalize="words"
+          autocorrect="off"
+          spellcheck="false"
+        />
+      </div>
+      <CraftNote id={`${slug}-headroom`} craftId={craftId} action />
+    </IoPanel>
+  </ToolSplit>
+
+  <div class="tool-actions">
+    <button class="action-btn action-btn--copy" data-action="copy" data-label="Copy settings" data-eq-copy type="button">Copy settings</button>
+    <button class="action-btn" data-label="Copy link" data-eq-link type="button">Copy link</button>
+    <button class="action-btn" data-label="Share image" data-eq-image type="button">Share image</button>
+    <button class="action-btn" data-eq-reset type="button">Reset</button>
+  </div>
+
+  <details class="widget-details">
+    <summary>How to use these settings</summary>
+    <p>
+      This page cannot change the equalizer in your music app, your headphones or your car. Nothing
+      here plays or touches your audio. It writes the settings, and you apply them yourself.
+    </p>
+    <ol class="eq-steps">
+      <li>Open the equalizer in your player or device settings.</li>
+      <li>Choose the custom or manual preset, not one of its named ones.</li>
+      <li>Set each band to the value shown above, matching the nearest frequency you have.</li>
+      <li>If there is a preamp or gain control, set it to the preamp value shown with your settings.</li>
+      <li>Save it, then listen to a track you know well and adjust from there.</li>
+    </ol>
+    <p>
+      Equalizers use different bands depending on the app or the device, so yours may have five
+      sliders, ten, or a fixed set of names. Match the closest frequency to each value here and
+      treat anything in between as a halfway point.
+    </p>
+  </details>
+</div>
+
+<script is:inline define:vars={{ slug, eqId }}>
+  (function () {
+    var root = document.querySelector('.eq[data-tool="' + slug + '"]');
+    if (!root) return;
+    var TT = window.ToyTools;
+
+    var sliders = root.querySelectorAll('.eq-slider');
+    var values = root.querySelectorAll('[data-band-value]');
+    var goals = root.querySelectorAll('[data-preset]');
+    var line = root.querySelector('[data-eq-line]');
+    var area = root.querySelector('[data-eq-area]');
+    var ledger = root.querySelector('[data-eq-ledger]');
+    var explain = root.querySelector('[data-eq-explain]');
+    var nameEl = root.querySelector('.eq-name');
+    var note = document.getElementById(slug + '-headroom');
+    var noteText = document.getElementById(slug + '-headroom-text');
+    var noteBtn = document.getElementById(slug + '-headroom-action');
+    var urlMode = root.getAttribute('data-url-state') || 'off';
+
+    var def, gains, booted = false;
+
+    function signed(v) { return (v > 0 ? '+' : '') + v; }
+
+    function draw() {
+      var paths = TT.eq.path(gains, def.maxGain);
+      line.setAttribute('d', paths.line);
+      area.setAttribute('d', paths.area);
+
+      var rows = '';
+      for (var i = 0; i < def.bands.length; i++) {
+        var g = gains[i];
+        values[i].textContent = signed(g);
+        sliders[i].setAttribute('aria-valuetext', signed(g) + ' decibels');
+        rows += '<li class="eq-row"><span class="eq-row-label">' + def.bands[i].label +
+          '</span><span class="eq-row-value">' + signed(g) + ' dB</span></li>';
+      }
+      ledger.innerHTML = rows;
+
+      var match = TT.eq.match(def.presets, gains);
+      for (var j = 0; j < goals.length; j++) {
+        goals[j].setAttribute('aria-pressed', match && goals[j].getAttribute('data-preset') === match.id ? 'true' : 'false');
+      }
+
+      headroom();
+      persist();
+    }
+
+    // The craft line: a curve built from boosts costs headroom, and the preamp cut that pays for it
+    // is a control most players hide one screen away. Silent while the boosts are small.
+    function headroom() {
+      var hr = TT.eq.headroom(gains);
+      if (!hr.advice) { note.hidden = true; noteBtn.hidden = true; return; }
+      noteText.textContent = hr.advice;
+      noteBtn.hidden = hr.level !== 'high';
+      noteBtn.textContent = 'Trim boosts';
+      note.hidden = false;
+    }
+
+    function say(n) { explain.textContent = n.text; }
+
+    function setGains(next, explanation) {
+      gains = TT.eq.clamp(next, def.bands.length, def.minGain, def.maxGain);
+      for (var i = 0; i < sliders.length; i++) sliders[i].value = String(gains[i]);
+      if (explanation) say(explanation);
+      draw();
+    }
+
+    function currentName() { return TT.eq.name(def, gains, nameEl.value); }
+
+    function persist() {
+      try { TT.state.save(slug, { eq: TT.eq.encode(gains), name: nameEl.value }); } catch (_) {}
+      // Not on the first render: a page nobody has touched should not grow a query string.
+      if (booted && urlMode === 'auto') TT.url.write(TT.eq.shareValues(gains, nameEl.value));
+    }
+
+    function boot() {
+      def = TT.eq.definition(eqId);
+      gains = def.presets[0].gains.slice();
+
+      // A link beats saved state: someone opening a shared preset means to see that preset.
+      var query = TT.url.read();
+      var saved = null;
+      try { saved = TT.state.load(slug); } catch (_) {}
+      var source = query.eq ? query : (saved && saved.eq ? saved : null);
+      if (source) {
+        gains = TT.eq.decode(source.eq, def.bands.length, def.minGain, def.maxGain);
+        if (source.name) nameEl.value = String(source.name).slice(0, 48);
+      }
+
+      var match = TT.eq.match(def.presets, gains);
+      setGains(gains, match ? TT.eq.presetNote(match) : TT.eq.customNote());
+
+      for (var i = 0; i < sliders.length; i++) {
+        sliders[i].addEventListener('input', onBand);
+      }
+      for (var j = 0; j < goals.length; j++) {
+        goals[j].addEventListener('click', onPreset);
+      }
+      nameEl.addEventListener('input', persist);
+      noteBtn.addEventListener('click', function () {
+        setGains(TT.eq.trim(gains, 6), null);
+        say({ text: 'Boosts scaled down to a peak of +6 dB, keeping the same balance between bands.' });
+      });
+      root.querySelector('[data-eq-copy]').addEventListener('click', copySettings);
+      var linkBtn = root.querySelector('[data-eq-link]');
+      if (navigator.share) {
+        linkBtn.textContent = 'Share link';
+        linkBtn.setAttribute('data-label', 'Share link');
+      }
+      linkBtn.addEventListener('click', copyLink);
+      root.querySelector('[data-eq-image]').addEventListener('click', shareImage);
+      root.querySelector('[data-eq-reset]').addEventListener('click', reset);
+      booted = true;
+    }
+
+    function onBand(e) {
+      var i = Number(e.target.getAttribute('data-band'));
+      gains[i] = Number(e.target.value);
+      say(TT.eq.bandNote(def.bands[i], gains[i]));
+      draw();
+    }
+
+    function onPreset(e) {
+      var preset = TT.eq.preset(def.presets, e.currentTarget.getAttribute('data-preset'));
+      if (!preset) return;
+      nameEl.value = '';
+      setGains(preset.gains.slice(), TT.eq.presetNote(preset));
+      TT.track('eq_preset_selected', { preset: preset.id });
+    }
+
+    function reset() {
+      nameEl.value = '';
+      setGains(def.presets[0].gains.slice(), TT.eq.presetNote(def.presets[0]));
+    }
+
+    // The label is read from data-label rather than from the button, so a second click while the
+    // tick is showing restores "Copy settings" instead of pinning "✓ Copied" there forever.
+    function flash(btn, text) {
+      if (!btn.getAttribute('data-label')) btn.setAttribute('data-label', btn.textContent);
+      btn.classList.add('is-success');
+      btn.textContent = text;
+      setTimeout(function () {
+        btn.classList.remove('is-success');
+        btn.textContent = btn.getAttribute('data-label');
+      }, 2000);
+    }
+
+    function copySettings(e) {
+      TT.copy(TT.eq.text(def, gains, currentName(), location.origin + location.pathname));
+      flash(e.currentTarget, '✓ Copied');
+    }
+
+    // TT.url.share hands the link to the OS share sheet where there is one and to the clipboard
+    // otherwise, so the button says which of the two it is about to do, and the sheet is its own
+    // confirmation.
+    function copyLink(e) {
+      TT.url.share(TT.eq.shareValues(gains, nameEl.value), currentName());
+      TT.track('eq_preset_shared', { via: 'link' });
+      if (!navigator.share) flash(e.currentTarget, '✓ Link copied');
+    }
+
+    // A card, not a screenshot: the page's chrome and the reader's theme are not what anybody
+    // wants to look at in a chat thread.
+    function shareImage(e) {
+      var size = TT.eq.card.size;
+      var canvas = document.createElement('canvas');
+      canvas.width = size.width;
+      canvas.height = size.height;
+      var ctx = canvas.getContext ? canvas.getContext('2d') : null;
+      if (!ctx || !canvas.toBlob) { TT.toast('This browser cannot generate the image.'); return; }
+
+      var hr = TT.eq.headroom(gains);
+      TT.eq.card.draw(ctx, {
+        name: currentName(),
+        labels: def.bands.map(function (b) { return b.label; }),
+        gains: gains,
+        minGain: def.minGain,
+        maxGain: def.maxGain,
+        preamp: hr.peak > 0 ? hr.preamp : undefined,
+      });
+
+      var btn = e.currentTarget;
+      canvas.toBlob(function (blob) {
+        if (!blob) { TT.toast('Could not create the image.'); return; }
+        TT.track('eq_image_generated', {});
+        var file = null;
+        try { file = new File([blob], 'toytools-eq.png', { type: 'image/png' }); } catch (_) {}
+        if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: currentName() }).catch(function () {});
+          return;
+        }
+        var href = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = href;
+        a.download = 'toytools-eq.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(href); }, 4000);
+        flash(btn, '✓ Saved');
+      }, 'image/png');
+    }
+
+    if (TT && TT.onReady) TT.onReady(boot);
+  })();
+</script>
+
+<style>
+  /* Preset row. Scrolls rather than wraps: four rows of pills would push the equalizer itself past
+     the fold on a phone, and the fade says there is more without a scrollbar. */
+  .eq-goals {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-block-end: var(--space-1);
+    /* The keyword is an alpha stop, not a colour: only the mask's opacity is read, so there is no
+       token to reach for and nothing here changes with the theme. */
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent);
+    mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent);
+  }
+
+  .eq-goals::-webkit-scrollbar { display: none; }
+
+  .eq-goal {
+    flex: 0 0 auto;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .eq-goal:hover { border-color: var(--color-border-strong); background: var(--color-surface-hover); }
+  .eq-goal:active { background: var(--color-accent-subtle); }
+
+  .eq-goal[aria-pressed='true'] {
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+  }
+
+  /* The box is declared here, from build-time values, so the first paint is the right size: the
+     script only ever changes the path data inside it. */
+  .eq-graph {
+    inline-size: 100%;
+    block-size: 132px;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .eq-graph svg { display: block; inline-size: 100%; block-size: 100%; }
+  .eq-area { fill: var(--color-accent); opacity: 0.14; }
+  .eq-line { fill: none; stroke: var(--color-accent); stroke-width: 2.5; stroke-linejoin: round; }
+  .eq-zero { stroke: var(--color-border-strong); stroke-width: 1; }
+
+  /* Equal columns, no gap. The curve above places band i at the centre of column i, so the two line
+     up at every width with nothing measured at runtime. Spacing is padding inside a column. */
+  .eq-bands {
+    display: grid;
+    grid-template-columns: repeat(var(--eq-columns, 7), minmax(0, 1fr));
+  }
+
+  .eq-band {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+    padding-inline: var(--space-1);
+  }
+
+  .eq-slider {
+    /* Physical width/height, not the logical pair: `writing-mode: vertical-lr` below swaps what
+       inline-size and block-size mean, so the logical version sets a 132px-wide, full-height
+       control. Physical properties are the unambiguous ones inside a rotated writing mode. */
+    width: 100%;
+    height: 132px;
+    margin: 0;
+    accent-color: var(--color-accent);
+    cursor: ns-resize;
+    /* Three spellings of "this slider is vertical", because the modern one landed in Chrome, Safari
+       and Firefox in three different years and the older engines still read the other two. */
+    writing-mode: vertical-lr;
+    direction: rtl;
+    appearance: slider-vertical;
+    -webkit-appearance: slider-vertical;
+    /* A vertical drag on the control adjusts the band instead of scrolling the page past it. */
+    touch-action: none;
+  }
+
+  .eq-band-value {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .eq-band-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    white-space: nowrap;
+  }
+
+  .eq-explain {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-muted);
+  }
+
+  .eq-ledger {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .eq-ledger :global(.eq-row) {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .eq-ledger :global(.eq-row-label) { color: var(--color-text-muted); }
+
+  .eq-ledger :global(.eq-row-value) {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  /* The name field names a preset, so it sits under its label rather than filling the panel. */
+  .eq-name { max-inline-size: 22rem; }
+
+  .eq-steps {
+    margin: var(--space-3) 0 0;
+    padding-inline-start: var(--space-5);
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (min-width: 640px) {
+    .eq-graph { block-size: 160px; }
+    .eq-slider { height: 160px; }
+  }
+</style>

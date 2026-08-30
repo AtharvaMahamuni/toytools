@@ -172,4 +172,6 @@ export const searchAliases: Record<string, string[]> = {
   'simple-harmonic-motion-calculator': ['harmonic motion', 'spring oscillation'],
   'wave-speed-calculator': ['wavelength frequency'],
 
+  // Music & audio
+  'equalizer-settings-generator': ['eq', 'equaliser', 'bass booster', 'eq presets', 'sound settings'],
 };

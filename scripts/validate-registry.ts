@@ -22,6 +22,7 @@ import { WELLNESS_CALCULATORS } from '../src/lib/engines/wellness/registry';
 import { TRACKER_DEFS } from '../src/lib/engines/tracker/registry';
 import { CSV_TOOLS } from '../src/lib/engines/csv/registry';
 import { GENERATORS } from '../src/lib/generation/registry';
+import { EQ_DEFINITIONS } from '../src/lib/engines/audio/registry';
 import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
 import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
@@ -45,6 +46,7 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
   math: MATH_CALCULATORS,
   wellness: WELLNESS_CALCULATORS,
   tracker: TRACKER_DEFS,
+  audio: EQ_DEFINITIONS,
   // Each simulation domain plugin resolves only its own slice of the composed simulation map,
   // so e.g. a physics tool cannot claim a math-lab processorId.
   ...Object.fromEntries(DOMAINS.map(d => [d.id, d.simulations])),

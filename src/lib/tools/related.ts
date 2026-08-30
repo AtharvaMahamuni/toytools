@@ -83,6 +83,7 @@ export function getRelatedTools(
   max = 6,
 ): ToolConfig[] {
   const ranked = rankCandidates(currentTool, allTools);
+  if (ranked.length === 0) return curated(currentTool, allTools, max);
   const natural = ranked.slice(0, max);
   if (!currentTool.family || natural.length < 2) return natural;
 
@@ -96,6 +97,27 @@ export function getRelatedTools(
 
   // Give up the weakest sibling, not the strongest, so the closest neighbours all survive.
   return [...natural.slice(0, max - CROSS_FAMILY_SLOTS), nearestOutsider];
+}
+
+/**
+ * The config's own `relatedTools`, used ONLY when all four tiers came back empty.
+ *
+ * Every tier is scoped to this tool's engine, family or category, so the first tool in a new
+ * category has no candidate anywhere and derives an empty list. That page is then a dead end in the
+ * internal link graph, which platform-health rightly fails the build over, and nothing the author
+ * could write would have fixed it: the derivation had no input to work from.
+ *
+ * A last resort rather than an override. Where the derivation finds anything at all it still wins,
+ * because a hand-written list of neighbours is exactly the thing that goes stale as a catalog
+ * grows, and 94 of the configs carrying one predate the derivation entirely.
+ */
+function curated(currentTool: ToolConfig, allTools: ToolConfig[], max: number): ToolConfig[] {
+  const bySlug = new Map(allTools.map((t) => [t.slug, t]));
+  return (currentTool.relatedTools ?? [])
+    .filter((slug) => slug !== currentTool.slug)
+    .map((slug) => bySlug.get(slug))
+    .filter((t): t is ToolConfig => t !== undefined)
+    .slice(0, max);
 }
 
 /** Every tool that could be recommended for `currentTool`, in rank order and unsliced. */

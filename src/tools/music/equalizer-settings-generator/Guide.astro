@@ -1,0 +1,244 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      An equalizer changes how loud different parts of the frequency range are. That is the whole
+      idea. Every slider in an EQ owns one slice of the spectrum, and moving it up or down makes
+      that slice louder or quieter relative to everything else. What makes an equalizer hard to
+      learn is not the concept, it is the labels: a screen of numbers from 60 Hz to 15 kHz says
+      nothing about what any of them will do to the song you are listening to.
+    </p>
+    <p>
+      This guide maps those numbers onto what you actually hear, so you can go from a complaint
+      like "not enough bass" or "the vocals are buried" to a set of equalizer settings you can
+      enter anywhere. For example, "the vocals are buried" is a cut at 400 Hz far more than it is a
+      boost anywhere. The EQ generator on this site loads that shape for you, and the guide below
+      explains why it is the shape. It also covers the one way EQ can make things measurably worse,
+      which is running out of headroom.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Music Equalizer Settings tool →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why it matters</h2>
+    <p>
+      Most people meet an equalizer twice: once in a list of named EQ presets like Rock, Jazz and
+      Bass Booster, and once as the custom screen of a graphic equalizer, full of sliders, which
+      they close again. The named presets are opaque, because nobody tells you what Rock actually
+      did. The custom screen, meanwhile, offers no way in at all. So the equalizer gets left alone,
+      and a pair of headphones that are too bright or a podcast where the voice sits too far back
+      stay that way.
+    </p>
+    <p>
+      Knowing four or five landmarks on the spectrum is enough to fix most of that. It is a small
+      amount of knowledge with a large payoff, and unlike most audio advice you can verify it in
+      about ten seconds by moving one slider and listening. Therefore the useful thing is not an EQ
+      frequency chart to memorise, but a habit: change one band, listen, keep it or undo it.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How EQ bands work</h2>
+    <p>
+      Each band has a centre frequency and a gain in decibels. Set the 60 Hz band to +5 dB and the
+      energy near 60 Hz gets roughly five decibels louder, tapering off as you move away from that
+      centre. Nothing is added that was not there: an equalizer can only amplify or attenuate what
+      the recording already contains, which is why boosting 15 kHz on a recording with nothing up
+      there changes very little.
+    </p>
+    <p>
+      Decibels are logarithmic, so the numbers are smaller than they look. For example, 3 dB is a
+      clearly audible change, 6 dB is a large one, and 10 dB or more is dramatic enough to sound
+      like an effect rather than a correction. Most useful settings live between plus and minus
+      6 dB.
+    </p>
+    <p>
+      The bands are spaced logarithmically too, which is why they go 60, 150, 400, 1000 and not in
+      even steps. Each one covers roughly the same musical distance as the last, about an octave and
+      a third, and that matches how hearing works: the gap between 60 Hz and 120 Hz sounds like the
+      same size of step as the gap between 6 kHz and 12 kHz.
+    </p>
+  </section>
+
+  <section id="frequency-map">
+    <h2>What each frequency band does</h2>
+    <p>
+      Five landmarks cover the range, and together they are the only EQ frequency chart worth
+      keeping in your head. These are tendencies, not rules, because the same boost lands
+      differently on different recordings and different headphones.
+    </p>
+    <ul>
+      <li>
+        <strong>20 to 100 Hz, bass.</strong> Weight and physical impact. Kick drums and bass
+        instruments carry important energy here. What does 60 Hz do? It controls the bottom of that
+        range, the part you feel as much as hear. Small speakers and cheap earbuds cannot reproduce
+        it at all, however, so the same boost is inaudible on a laptop and overwhelming over
+        headphones.
+      </li>
+      <li>
+        <strong>100 to 500 Hz, body.</strong> Fullness and warmth. This is where too much becomes
+        thick or muddy, and a small cut around 150 to 400 Hz is the standard fix for a mix that
+        feels congested. It is also the band that surprises people: when music sounds unclear, the
+        problem is more likely an excess down here than a shortage up top.
+      </li>
+      <li>
+        <strong>500 Hz to 2 kHz, mids.</strong> Where most instruments and the core of a voice live.
+        Cutting the mids is the shape behind the classic smile curve. It sounds exciting at first
+        and pushes vocals into the background, which is the opposite of what most people want from a
+        podcast or an audiobook.
+      </li>
+      <li>
+        <strong>2 to 6 kHz, presence.</strong> Forwardness and articulation. What frequency makes
+        vocals clearer? Mostly this range, so 2.4 kHz is where EQ settings for vocals start. It is
+        also the first area to turn harsh, because consonants and cymbals get sharp here, so keep
+        boosts modest.
+      </li>
+      <li>
+        <strong>8 to 15 kHz, air.</strong> Sparkle and the impression of detail. How much of it you
+        hear depends heavily on your headphones and on your own hearing, which loses the top of this
+        range gradually with age. A lift here can add polish, and it can also bring out sibilance
+        the recording already had.
+      </li>
+    </ul>
+  </section>
+
+  <section id="examples">
+    <h2>Turning a goal into settings</h2>
+    <p>
+      Start from the complaint, not from the sliders. For example, "it sounds muddy" and "it needs
+      more bass" point at opposite ends of the same region and want opposite moves. Here are four
+      common goals and the shapes that address them, all of which you can load as EQ presets and
+      then adjust:
+    </p>
+    <ul>
+      <li>
+        <strong>How to make bass deeper with EQ.</strong> A bass boost EQ is three moves, not one.
+        For example: 60 Hz up 6 dB, 150 Hz up 3 dB so the low end does not sound hollow, and 400 Hz
+        down 1 dB. The cut is what makes the extra bass read as depth rather than mud, and it is the
+        step people skip.
+      </li>
+      <li>
+        <strong>How to make vocals clearer with EQ.</strong> Lift 2.4 kHz by 2 to 3 dB, and cut 150
+        Hz and 400 Hz by a similar amount. Half the job is getting the instruments out of the way,
+        which is why cutting works better here than boosting alone.
+      </li>
+      <li>
+        <strong>How to reduce harshness with EQ.</strong> Cut 6 kHz by 3 to 4 dB and 2.4 kHz by 2 to
+        3 dB. This is the one goal that needs no boosts at all, so it costs nothing in headroom and
+        cannot cause distortion.
+      </li>
+      <li>
+        <strong>Fixing a muddy sound.</strong> Cut 150 Hz and 400 Hz by 2 to 3 dB and leave the bass
+        band alone. Adding more bass to fix muddiness is the most common wrong turn, because
+        muddiness usually lives above the bass rather than in it.
+      </li>
+    </ul>
+    <p>
+      In every case, make one change, listen to a track you know well, and only then make the next
+      one. Two changes at once and you cannot tell which one helped. Once a curve is working, the
+      tool copies it as text, as a link, or as an image, so you can send the exact settings to
+      somebody else rather than describing them.
+    </p>
+  </section>
+
+  <section id="headroom">
+    <h2>Boosts, clipping and the preamp</h2>
+    <p>
+      Can EQ cause distortion? Boosting can, and this is the one way an equalizer makes things
+      objectively worse rather than differently. Most music is mastered close to the maximum level a
+      digital file can hold. Boost a band by 6 dB and the loudest moments in that band now want to
+      be louder than the format allows, so they get flattened at the ceiling. You hear crackle,
+      grit, or a hard edge on the loudest parts, and it gets blamed on the headphones.
+    </p>
+    <p>
+      Every equalizer that offers boosts also offers the fix, normally a preamp or gain control on
+      the same screen. Lower it by the size of your largest boost. For example, a curve with a +6 dB
+      peak wants a preamp of -6 dB. The balance you designed is unchanged, because everything moves
+      down together, and you make up the difference with the volume control. The tool shows this
+      number alongside your settings and speaks up when a curve is boosted far enough to be worth
+      acting on.
+    </p>
+    <p>
+      If your player has no preamp, the alternative is to build the same balance out of cuts. Rather
+      than raising the bass by 6 dB, lower everything else by 6 dB and turn the volume up. The
+      result sounds the same and cannot clip.
+    </p>
+  </section>
+
+  <section id="applying">
+    <h2>Applying settings in your own player</h2>
+    <p>
+      A web page cannot reach into Spotify, your phone's system equalizer or a pair of headphones,
+      so the settings have to be entered by hand. Open your player's equalizer, choose the custom or
+      manual preset rather than one of its named ones, set each band, then set the preamp if there
+      is one and save.
+    </p>
+    <p>
+      Your equaliser will probably not have these exact seven bands. For example, a five band EQ
+      offers 60 Hz, 230 Hz, 910 Hz, 4 kHz and 14 kHz, so 150 Hz and 400 Hz here both feed its 230 Hz
+      slider; a ten band one has room for all seven values and gaps to fill in between. Match the
+      nearest frequency you have, and where one of your sliders sits between two of these values,
+      split the difference. The shape of the curve carries almost all of the effect, and being a
+      hundred hertz off on a band centre is not something you will hear.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes</h2>
+    <ul>
+      <li><strong>Boosting everything.</strong> Raising every band is the same as turning the volume up, only with less headroom. An equalizer works on differences between bands.</li>
+      <li><strong>Chasing a best setting.</strong> There is no universally correct curve. The recording, the headphones, the room and your own hearing all change the result, so a preset is a starting point.</li>
+      <li><strong>Adding bass to fix muddiness.</strong> Muddiness lives between 150 and 400 Hz. Adding weight below it makes the problem larger.</li>
+      <li><strong>Ignoring the preamp.</strong> A big boost with no preamp cut is the main cause of distortion that appears right after somebody discovers the equalizer.</li>
+      <li><strong>Judging in the first five seconds.</strong> Louder tends to sound better immediately, and a boost is louder. Listen to a full track before deciding.</li>
+    </ul>
+  </section>
+
+  <section id="privacy">
+    <h2>Private by design</h2>
+    <p>
+      The tool runs entirely in your browser. Nothing is uploaded, no microphone or audio permission
+      is requested, and no account is involved. Your settings are kept in your browser's own storage
+      so the page remembers them, and when you copy a link the seven values travel inside the link
+      itself. For example, a link ending <code>?eq=6_3_-1_0_0_0_1</code> is the whole preset, which
+      is why you can read it in the address bar before sending it. The share image is drawn in the
+      same way, from the settings on screen, so sending a friend the exact EQ settings you landed on
+      costs nothing and reveals nothing else.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex; align-items: center; height: var(--touch-target);
+    padding-inline: var(--space-5); margin-top: var(--space-5);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold); font-size: var(--text-base);
+    border-radius: var(--radius-md); text-decoration: none; transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

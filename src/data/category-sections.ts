@@ -46,4 +46,5 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'color-contrast':       { title: 'Color',                   order: 1 },
   'unit-convert':         { title: 'CSS & Mobile Units',      order: 2 },
   'aspect-ratio':         { title: 'CSS & Mobile Units',      order: 2 },
+  'eq-design':            { title: 'Equalizer',                order: 1 },
 };

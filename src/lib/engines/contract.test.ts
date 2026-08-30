@@ -20,6 +20,8 @@ import { WELLNESS_CALCULATORS, wellnessFields } from '@lib/engines/wellness/regi
 import { CSV_TOOLS } from '@lib/engines/csv/registry';
 import { TRACKER_DEFS } from '@lib/engines/tracker/registry';
 import { GENERATORS } from '@lib/generation/registry';
+import { EQ_DEFINITIONS } from '@lib/engines/audio/registry';
+import { headroom } from '@lib/engines/audio/headroom';
 import { engineRegistry } from '@data/engines';
 import { SIMULATIONS } from '@lib/simulation/simulations/registry';
 import { SUBSTEP } from '@lib/simulation/loop';
@@ -285,6 +287,45 @@ describe.each(['physics', 'math-lab', 'chemistry-lab'])('%s engine', (engineId) 
   );
 });
 
+describe('audio engine', () => {
+  it.each(byEngine('audio').map(t => [t.slug, t.processorId] as const))(
+    '%s resolves a coherent EqDefinition',
+    (_slug, processorId) => {
+      const def = EQ_DEFINITIONS[processorId!];
+      expect(def, `equalizer "${processorId}" registered`).toBeDefined();
+      expect(def.id).toBe(processorId);
+      expect(def.bands.length, 'has bands to move').toBeGreaterThan(1);
+      expect(def.maxGain, 'boosts are possible').toBeGreaterThan(0);
+      expect(def.minGain, 'cuts are possible').toBeLessThan(0);
+
+      // A preset whose gains do not line up with the bands would silently apply to the wrong
+      // frequencies, which is the one failure a listener cannot see on screen.
+      for (const preset of def.presets) {
+        expect(preset.gains.length, `preset "${preset.id}" has one gain per band`).toBe(def.bands.length);
+        for (const g of preset.gains) {
+          expect(g).toBeGreaterThanOrEqual(def.minGain);
+          expect(g).toBeLessThanOrEqual(def.maxGain);
+        }
+        expect(preset.description.length, `preset "${preset.id}" says what it changed`).toBeGreaterThan(40);
+      }
+
+      // Presets are starting points, so none of them may ship a curve the tool would immediately
+      // warn about: a preset that trips its own guardrail is a preset nobody should load.
+      for (const preset of def.presets) {
+        expect(headroom(preset.gains).level, `preset "${preset.id}" headroom`).not.toBe('high');
+      }
+
+      // Every band has to be explainable in both directions, because the live explanation is the
+      // whole teaching surface of an equalizer.
+      for (const band of def.bands) {
+        expect(band.boost.length, `band "${band.id}" explains a boost`).toBeGreaterThan(10);
+        expect(band.cut.length, `band "${band.id}" explains a cut`).toBeGreaterThan(10);
+        expect(band.frequency).toBeGreaterThan(0);
+      }
+    },
+  );
+});
+
 // ── the meta-contract: an engine cannot ship without one of the blocks above ──────────────────
 //
 // Every block above had to be written by hand, which means the honest failure mode of this file
@@ -302,6 +343,7 @@ describe.each(['physics', 'math-lab', 'chemistry-lab'])('%s engine', (engineId) 
 const CONTRACT_TESTED = new Set([
   'text-processor', 'encoding', 'hashing', 'structured-data', 'finance', 'datetime', 'math',
   'jwt', 'wellness', 'generation', 'csv', 'tracker', 'physics', 'math-lab', 'chemistry-lab',
+  'audio',
 ]);
 
 /**

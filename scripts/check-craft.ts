@@ -140,7 +140,12 @@ const THRESHOLDS = {
   //                    is one keystroke from a multi-megabyte string; character-map carries the
   //                    escape forms next to the glyph, because copying the character is not where
   //                    the task ends.
-  coverage: 0.635,
+  // 2026-08-30: 0.638 (76/119). equalizer-settings-generator ships with its preamp guardrail. An EQ
+  //   curve built out of boosts pushes a player past full scale, and the crackle that follows gets
+  //   blamed on the headphones; the preamp cut that fixes it is a control on another screen that
+  //   nothing labels as the fix. The line names the peak boost and the matching cut, and offers to
+  //   scale the boosts down when they are large enough to be worth it. Silent under +3 dB.
+  coverage: 0.638,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

@@ -175,6 +175,19 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
       'The unit converters handle px to rem and px to dp, which are the same arithmetic against different base sizes: rem depends on the root font size a user may have changed, dp on the screen\'s density. Both are here because the conversion is trivial and getting the base wrong is not.',
     ],
   },
+  {
+    slug: 'music-audio',
+    name: 'Music & Audio',
+    description: 'Build, understand and share music equalizer settings, then apply them in your own player.',
+    tagline: 'Equalizer settings you can actually use.',
+    accent: '#5E5AA8',
+    segment: 'music',
+    intro: [
+      'Most people meet an equalizer as a screen full of sliders with no labels beyond a frequency in hertz, and no way to find out what any of them do except by moving one and hoping. That is the gap these tools are for. You start from what you actually want, more bass or clearer vocals or less harshness, and work backwards to the numbers that get you there.',
+      'Nothing here plays or changes your audio. A browser page cannot reach into Spotify, your headphones app or your car stereo, and a tool that implied otherwise would be lying about the one thing that matters. What it can do is generate the settings, explain what each band tends to affect, warn you when a curve is boosted far enough to distort, and hand you something you can copy into whatever equalizer you already have.',
+      'Frequencies are the vocabulary the rest of it is built on. Weight lives near 60 Hz, muddiness near 200 to 400 Hz, the forwardness of a voice near 3 kHz, and the sense of air at the top of the range. Those are tendencies rather than rules: the same boost lands differently on different recordings, different headphones and different ears, which is why every explanation here is written as something that can happen rather than something that will.',
+    ],
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

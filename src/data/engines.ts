@@ -38,6 +38,7 @@ const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
   'physics', 'datetime', 'math-lab', 'math', 'chemistry-lab', 'wellness', 'tracker', 'color', 'units',
+  'audio',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -49,6 +50,7 @@ const PATTERN_IDS = [
   'generate-chance',
   'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
   'health-calculate', 'health-track', 'color-convert', 'color-contrast', 'unit-convert', 'aspect-ratio',
+  'eq-design',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -141,6 +143,10 @@ const engineDefs: EngineDef[] = [
   // native unit math (px/rem/em/pt/dp/sp) and aspect-ratio solving.
   { id: 'color', name: 'Color Engine', category: 'design-tools', patterns: ['color-convert', 'color-contrast'], runtimeGlobal: 'color', globals: ['color'] },
   { id: 'units', name: 'CSS Unit Engine', category: 'design-tools', patterns: ['unit-convert', 'aspect-ratio'], runtimeGlobal: 'units', globals: ['units'] },
+  // Music & Audio: equalizer design. An EQ is a DEFINITION here (bands, presets, limits) resolved
+  // by processorId, so a second tool on a different band layout is a registry entry rather than a
+  // second widget, and EqWidget stays the one place the curve and the controls are drawn.
+  { id: 'audio', name: 'Audio Engine', category: 'music-audio', patterns: ['eq-design'], runtimeGlobal: 'eq', sharedWidget: 'EqWidget.astro', globals: ['eq'] },
 ];
 
 function familiesFor(engineId: string): string[] {

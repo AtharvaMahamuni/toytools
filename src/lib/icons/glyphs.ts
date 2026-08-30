@@ -183,6 +183,11 @@ export const GLYPHS: Record<string, string> = {
   ruler: S + '<path d="M4 8h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><path d="M8 8v3"/><path d="M12 8v4"/><path d="M16 8v3"/>' + E,
   aspectFrame: S + '<path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/><path d="M8 9v6"/><path d="M8 9h6"/>' + E,
 
+  // ── music & audio ─────────────────────────────────────────────────────
+  // Three sliders at three heights: the shape of an equalizer is the one thing
+  // everybody recognises about it, and it reads at 48px.
+  equalizer: S + '<path d="M6 3v6M6 15v6M12 3v9M12 18v3M18 3v3M18 12v9"/><path d="M4 11h4M10 14h4M16 8h4"/>' + E,
+
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,
 };

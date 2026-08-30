@@ -1,0 +1,22 @@
+---
+// GENERATED FILE — do not edit. Run `npm run registries:generate` to refresh.
+// One route per category segment, so this page's import.meta.glob reaches only THIS segment's
+// widgets and Astro does not hoist every other tool's CSS onto it. See scripts/generate-registries.ts.
+import type { GetStaticPaths } from 'astro';
+import ToolPage from '@components/tool/ToolPage.astro';
+import { toolPathsForSegment } from '@lib/tools/segment-paths';
+
+export const getStaticPaths = (() => {
+  return toolPathsForSegment('music');
+}) satisfies GetStaticPaths;
+
+const { tool, category } = Astro.props;
+const widgets = import.meta.glob<{ default: unknown }>('../../../tools/music/*/Widget.astro');
+const WidgetModule = await widgets[`../../../tools/music/${tool.slug}/Widget.astro`]?.();
+const Widget = WidgetModule?.default as any;
+if (!Widget) throw new Error(`No Widget.astro found for tool slug "${tool.slug}"`);
+---
+
+<ToolPage tool={tool} category={category}>
+  <Widget />
+</ToolPage>

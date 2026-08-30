@@ -330,6 +330,19 @@
         "css-unit"
       ],
       "toolCount": 3
+    },
+    "audio": {
+      "name": "Audio Engine",
+      "category": "music-audio",
+      "patterns": [
+        "eq-design"
+      ],
+      "runtimeGlobal": "eq",
+      "sharedWidget": "src/tools/_shared/EqWidget.astro",
+      "supportedFamilies": [
+        "equalizer"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -1392,6 +1405,27 @@
       "pattern": "encode-detect",
       "family": "detect",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "equalizer-settings-generator": {
+      "name": "Music Equalizer Settings",
+      "dir": "src/tools/music/equalizer-settings-generator",
+      "categorySlug": "music-audio",
+      "url": "/tool/music/equalizer-settings-generator/",
+      "engine": "audio",
+      "pattern": "eq-design",
+      "family": "equalizer",
+      "processorId": "music-eq-7",
       "toolGroup": "",
       "files": [
         "Guide.astro",

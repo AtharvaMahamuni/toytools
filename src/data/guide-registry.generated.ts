@@ -32,6 +32,7 @@ export const authoredGuideSlugs = [
   'discount-calculator',
   'emergency-fund-calculator',
   'encoding-detector',
+  'equalizer-settings-generator',
   'find-replace',
   'fraction-calculator',
   'heart-rate-zone-calculator',
