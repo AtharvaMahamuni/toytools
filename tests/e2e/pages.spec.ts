@@ -1,4 +1,4 @@
-// The standalone pages: privacy, about, changelog, settings.
+// The standalone pages: privacy, about, platform, changelog, settings.
 //
 // Settings gets the real coverage, because it is the only page on the site that can destroy data
 // the user cannot get back.
@@ -58,6 +58,27 @@ test.describe('information pages', () => {
     await expect(page.locator('.tool-bar [data-palette-open]')).toBeVisible();
     // The h1 moved into the bar rather than being replaced by it.
     await expect(page.locator('.tool-bar h1')).toHaveText('Word Counter');
+  });
+
+  // The signature on every tool page is the site's one claim to being a platform rather than a
+  // folder, and it is only a claim if the click lands somewhere that makes the case. It pointed at
+  // the homepage until 2026-08-30, which reads as a catalog. This pins the whole path.
+  test('a tool page signature leads to the platform page', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    await page.locator('.tool-attribution').click();
+    await expect(page).toHaveURL(/\/platform\/$/);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('The platform behind the tools');
+    // Derived from the registry, so an empty manifest here means the page is claiming a platform
+    // the build no longer supports.
+    await expect(page.locator('.engine-list .engine').first()).toBeVisible();
+  });
+
+  test('the homepage says what holds the catalog together', async ({ page }) => {
+    await page.goto('/');
+    const strip = page.locator('.platform-strip');
+    await expect(strip).toBeVisible();
+    await strip.getByRole('link', { name: 'How the platform is built' }).click();
+    await expect(page).toHaveURL(/\/platform\/$/);
   });
 
   test('privacy names the analytics that actually loads', async ({ page }) => {

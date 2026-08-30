@@ -4,14 +4,16 @@ import { generatePageTitle } from '@lib/titles';
 import { withBase } from '@lib/paths';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
+import { engineRegistry } from '@data/engines';
 
 const description =
-  'ToyTools is the internet\'s little toolbox: small, fast utilities that run in your browser. No accounts, no uploads, no servers, and nothing to sign up for.';
+  'ToyTools is the internet\'s little toolbox: small, fast utilities on one shared browser-side platform. No accounts, no uploads, no servers.';
 
 // Derived so the page cannot quietly go stale as the catalog grows.
 const toolCount = tools.length;
 const categoryCount = categories.length;
 const guideCount = tools.filter(t => t.guide !== undefined).length;
+const engineCount = engineRegistry.length;
 ---
 
 <BaseLayout title={generatePageTitle('about')} description={description} maxWidth="tool">
@@ -33,9 +35,24 @@ const guideCount = tools.filter(t => t.guide !== undefined).length;
       whole answer.
     </p>
 
+    <h2>It is a platform, not a folder</h2>
+    <p>
+      The tools are the part you see. Underneath them is one system, and that is the actual thing
+      being built here. The computation lives in {engineCount} shared engines that are tested on
+      their own, away from any page. The interface, the keyboard behaviour, the saved state, the
+      offline support and the privacy contract belong to the platform. What a tool contributes is
+      mostly a declaration of which engine it runs on.
+    </p>
+    <p>
+      That is why a correctness fix lands for every tool on an engine at once instead of in one of
+      them, why the hundredth tool is no slower or stranger than the tenth, and why every tool page
+      is signed <a href={withBase('/platform/')}>Powered by ToyTools</a> rather than standing on its
+      own.
+    </p>
+
     <h2>How it works</h2>
     <p>
-      Every tool runs in your browser. There is no application server, no database and no account
+      Every engine runs in your browser. There is no application server, no database and no account
       system, which is not a limitation being worked around but the design: a utility that computes
       a word count or a loan schedule has no business uploading your text or your salary to anyone.
       It also means the tools stay fast, keep working offline, and can be installed to a phone's
@@ -46,7 +63,8 @@ const guideCount = tools.filter(t => t.guide !== undefined).length;
       is a page and a small amount of code, not a framework. Pages have a byte budget that the build
       enforces; if a change makes a page heavier than its budget, the build fails rather than
       quietly spending your bandwidth. What that costs and what it buys is in the
-      <a href={withBase('/privacy/')}>privacy page</a> and the
+      <a href={withBase('/privacy/')}>privacy page</a>, the
+      <a href={withBase('/platform/')}>platform page</a> and the
       <a href={withBase('/architecture/')}>architecture map</a>.
     </p>
 
@@ -65,6 +83,7 @@ const guideCount = tools.filter(t => t.guide !== undefined).length;
 
     <h2>Elsewhere on the site</h2>
     <ul>
+      <li><a href={withBase('/platform/')}>Platform</a> — the engines, the runtime and the guarantees every tool inherits.</li>
       <li><a href={withBase('/architecture/')}>Architecture</a> — an interactive map of how the site is put together, generated from the catalog itself.</li>
       <li><a href={withBase('/changelog/')}>Changelog</a> — what has changed, release by release.</li>
       <li><a href={withBase('/privacy/')}>Privacy</a> — what is stored, what is sent, and what never leaves your device.</li>

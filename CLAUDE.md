@@ -337,7 +337,7 @@ URL structure (singular, not plural):
 
 - `/tool/{segment}/{slug}/`, `/category/{slug}/`, `/guide/{category}/{slug}/`
 - `/faq/{category}/{slug}/` — redirect stubs only
-- Indexable standalone pages: `/about/`, `/privacy/`, `/changelog/`, `/feedback/` (they reach the
+- Indexable standalone pages: `/about/`, `/platform/`, `/privacy/`, `/changelog/`, `/feedback/` (they reach the
   sitemap through `STANDALONE_PAGES` in `src/lib/content/manifest.ts`, which is the only edit needed
   to add another)
 - Noindex, never in a sitemap: `/settings/`, `/offline/`, `/search/`, `/architecture/`

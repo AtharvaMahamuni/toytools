@@ -853,8 +853,8 @@ deterministic. On demand via **`npm run research`** (NOT in `npm run build`). Fu
 Registry-driven, not `@astrojs/sitemap`. `src/pages/sitemap-index.xml.ts` emits a sitemap **index**
 (filename preserved so `robots.txt`, the astro.config `seoValidator`, and quality-guardian
 build-integrity keep working), referencing five semantic buckets under `src/pages/sitemaps/`:
-`tools.xml`, `guides.xml`, `categories.xml` (+ home), `pages.xml` (the standalone about/privacy/
-changelog/feedback pages). Each endpoint
+`tools.xml`, `guides.xml`, `categories.xml` (+ home), `pages.xml` (the standalone about/platform/
+privacy/changelog/feedback pages). Each endpoint
 filters `buildContentManifest()` by type and renders via `src/lib/sitemap/render.ts`, building
 absolute, trailing-slashed `<loc>`s as `new URL(withBase(path), Astro.site)`. `quality-guardian`'s
 sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/faqs appear in the

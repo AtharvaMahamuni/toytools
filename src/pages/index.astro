@@ -5,14 +5,23 @@ import HeroSearch from '@components/HeroSearch.astro';
 import CategoryIndex from '@components/CategoryIndex.astro';
 import ToolDirectory from '@components/ToolDirectory.astro';
 import { tools } from '@data/registry';
+import { engineRegistry, knownPatterns } from '@data/engines';
+import { withBase } from '@lib/paths';
 
 // Named once and used for both the meta description and the WebSite schema, which
 // carried two copies of the same sentence and could drift apart. It names the three
 // things a visitor gets before it makes any claim about privacy: trust lands after
 // someone knows what the thing is, not before.
+// Quality Guardian holds every meta description at 160 characters, which is the real
+// constraint on this sentence: the platform frame and the retrieval terms both have to fit.
 const SITE_DESCRIPTION =
-  "ToyTools is the internet's little toolbox: a hundred-plus browser-based " +
-  'calculators, converters and text tools. Nothing uploads and no account is needed.';
+  'ToyTools is one platform behind a hundred-plus browser-based calculators, ' +
+  'converters and text tools. Every one runs on your device: nothing uploads.';
+
+// The platform strip below is registry-derived for the same reason /platform/ is: a claim about
+// how the site is built should stop being made the moment the build stops supporting it.
+const engineCount = engineRegistry.length;
+const patternCount = knownPatterns.size;
 ---
 
 <BaseLayout
@@ -77,9 +86,13 @@ const SITE_DESCRIPTION =
     </p>
   </section>
 
+  {/* The line that names the thing behind the catalog. A visitor who reads only this should
+      come away with "one system, many doors" rather than "a big list", which is the sense the
+      tool pages already give with their "Powered by ToyTools" signature. */}
   <p class="hero-intro">
-    A toolbox you do not have to think about. Every tool does one job, opens instantly, and runs
-    on your device. Nothing is uploaded and there is no account to make.
+    One platform, {tools.length} doors into it. Every tool runs on the same engines, the same
+    browser runtime and the same rules: it opens instantly, computes on your device, and behaves
+    the way the last one did. Nothing is uploaded and there is no account to make.
   </p>
 
   <p class="recent-row" id="favorite-row" hidden>
@@ -94,6 +107,42 @@ const SITE_DESCRIPTION =
 
   <section class="section">
     <CategoryIndex />
+  </section>
+
+  {/* Placed after the categories on purpose: it answers the question browsing them raises, which
+      is what holds a hundred unrelated-looking utilities together. Four claims, no boxes, and
+      every number comes from the registry the build validates. */}
+  <section class="platform-strip" aria-labelledby="platform-heading">
+    <p class="strip-eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span></p>
+    <h2 id="platform-heading">These are not {tools.length} separate tools</h2>
+    <p class="strip-lede">
+      They are one platform with {tools.length} faces. The computation lives in {engineCount}
+      shared engines, the interface and the privacy contract belong to the platform, and a tool
+      is mostly a declaration of which engine it runs on.
+    </p>
+    <ul class="strip-facts">
+      <li>
+        <strong>{engineCount} engines, {patternCount} patterns</strong>
+        <span>The maths lives in a tested engine, not in a page, so a fix lands for every tool on it at once.</span>
+      </li>
+      <li>
+        <strong>One runtime, loaded once</strong>
+        <span>Copy, saved state, search, shortcuts and dark mode are the platform's. Each page then loads only its own engine.</span>
+      </li>
+      <li>
+        <strong>No server to send anything to</strong>
+        <span>There is no application server and no database behind any of it. The engines run in your browser.</span>
+      </li>
+      <li>
+        <strong>Budgets enforced by the build</strong>
+        <span>Every page has a byte budget. A change that makes one heavier than its budget fails the build.</span>
+      </li>
+    </ul>
+    <p class="strip-links">
+      <a href={withBase('/platform/')}>How the platform is built</a>
+      <span class="gold-dot" aria-hidden="true"></span>
+      <a href={withBase('/architecture/')}>See the map</a>
+    </p>
   </section>
 
   {/* The full directory still ships in the HTML, closed. It is the power-user path and it
@@ -262,6 +311,81 @@ const SITE_DESCRIPTION =
     color: var(--color-text-subtle);
     margin-inline: var(--space-1);
     user-select: none;
+  }
+
+  /* ── Platform strip ───────────────────────────────────────── */
+
+  .platform-strip {
+    padding-bottom: var(--space-12);
+  }
+
+  .strip-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+    margin: 0 0 var(--space-2);
+  }
+
+  .platform-strip h2 {
+    margin: 0;
+  }
+
+  .strip-lede {
+    margin: var(--space-3) 0 0;
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* No cards. The claims are separated by space, and the gap between them (--space-6) clearly
+     beats the gap inside one (--space-1), which is what marks each as a single unit. */
+  .strip-facts {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-8) 0 0;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .strip-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6) var(--space-8);
+    }
+  }
+
+  /* min-width: 0 so a long claim wraps inside its track instead of widening it. */
+  .strip-facts li {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .strip-facts strong {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+
+  .strip-facts span {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .strip-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    font-size: var(--text-sm);
+    max-width: unset;
   }
 
   /* ── Sections ─────────────────────────────────────────────── */

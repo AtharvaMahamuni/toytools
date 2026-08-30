@@ -7,6 +7,7 @@ import CategoryToolList from '@components/CategoryToolList.astro';
 import CategoryGuideList from '@components/CategoryGuideList.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
+import { engineRegistry } from '@data/engines';
 import { withBase } from '../../lib/paths';
 
 export const getStaticPaths = (() => {
@@ -17,6 +18,19 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { category, tools: categoryTools } = Astro.props;
+
+// The engines this category's tools actually run on. A category page is the one place a visitor
+// sees a dozen tools side by side, so it is the natural place to say what they have in common:
+// they are not a dozen separate programs, they are a few engines wearing different faces. Derived
+// from the tools themselves, so a re-homed tool cannot leave a stale claim behind.
+const engineNames = [...new Set(categoryTools.map(t => t.engine))]
+  .map(id => engineRegistry.find(e => e.id === id)?.name.replace(/ Engine$/, ''))
+  .filter((name): name is string => Boolean(name))
+  .sort();
+const engineList =
+  engineNames.length <= 1
+    ? engineNames.join('')
+    : `${engineNames.slice(0, -1).join(', ')} and ${engineNames.at(-1)}`;
 // The breadcrumb keeps the short name (it is a trail, not a description); the title and H1 use the
 // headline when one is set, so "Physics" can stay the nav label while the page says what it holds.
 const headline = category.headline ?? category.name;
@@ -75,8 +89,21 @@ const breadcrumbSchema = {
     </div>
     <p class="category-description">{category.description}</p>
     <p class="tool-count">
-      <span class="count-number">{categoryTools.length}</span>
-      {categoryTools.length === 1 ? ' tool' : ' tools'}
+      {/* Number and noun stay one flex item, or the row's gap would open between "12" and
+          "tools" as soon as the engine note turned this into a flex row. */}
+      <span>
+        <span class="count-number">{categoryTools.length}</span>
+        {categoryTools.length === 1 ? ' tool' : ' tools'}
+      </span>
+      {engineList && (
+        <>
+          <span class="gold-dot" aria-hidden="true"></span>
+          <a class="engine-note" href={withBase('/platform/')}>
+            {engineNames.length === 1 ? 'Runs on the' : 'Run on the'} {engineList}
+            {engineNames.length === 1 ? ' engine' : ' engines'}
+          </a>
+        </>
+      )}
     </p>
   </div>
 
@@ -126,6 +153,10 @@ const breadcrumbSchema = {
   }
 
   .tool-count {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-subtle);
     max-width: unset;
@@ -134,5 +165,18 @@ const breadcrumbSchema = {
   .count-number {
     font-family: var(--font-mono);
     color: var(--color-text-muted);
+  }
+
+  /* Same weight as the count beside it: this is meta about the listing, not a call to action. */
+  .engine-note {
+    color: var(--color-text-subtle);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .engine-note:hover,
+  .engine-note:active {
+    color: var(--color-text-muted);
+    text-decoration: underline;
   }
 </style>
