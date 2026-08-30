@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T16:52:43.648Z",
+  "generatedAt": "2026-08-29T12:53:57.454Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -100,7 +100,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -179,7 +179,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -246,7 +246,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -321,7 +321,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -386,7 +386,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -453,7 +453,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -529,7 +529,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -603,7 +603,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -671,7 +671,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -747,7 +747,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -819,7 +819,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -885,7 +885,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -952,7 +952,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1028,7 +1028,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1095,7 +1095,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1168,7 +1168,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1186,26 +1186,26 @@
       "relatedTools": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
+        "binary-converter",
         "binary-text-converter",
         "encoding-detector",
-        "html-entity-encoder-decoder",
-        "json-escape"
+        "html-entity-encoder-decoder"
       ],
       "relatedGuides": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
+        "binary-converter",
         "binary-text-converter",
         "encoding-detector",
-        "html-entity-encoder-decoder",
-        "json-escape"
+        "html-entity-encoder-decoder"
       ],
       "relatedFaqs": [
         "hex-encoder-decoder",
         "base64-encoder-decoder",
+        "binary-converter",
         "binary-text-converter",
         "encoding-detector",
-        "html-entity-encoder-decoder",
-        "json-escape"
+        "html-entity-encoder-decoder"
       ],
       "difficulty": "low",
       "evergreenScore": 0.86,
@@ -1244,7 +1244,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1264,20 +1264,20 @@
       ],
       "relatedTools": [
         "frequency-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
         "ideal-gas-law-calculator",
-        "inclined-plane-calculator",
-        "momentum-collision-calculator"
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "frequency-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
         "ideal-gas-law-calculator",
-        "inclined-plane-calculator",
-        "momentum-collision-calculator"
+        "inclined-plane-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.96,
@@ -1316,7 +1316,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1392,7 +1392,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1468,7 +1468,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -1485,26 +1485,26 @@
       "relatedTools": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
+        "binary-converter",
         "binary-text-converter",
         "encoding-detector",
-        "html-entity-encoder-decoder",
-        "json-escape"
+        "html-entity-encoder-decoder"
       ],
       "relatedGuides": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
+        "binary-converter",
         "binary-text-converter",
         "encoding-detector",
-        "html-entity-encoder-decoder",
-        "json-escape"
+        "html-entity-encoder-decoder"
       ],
       "relatedFaqs": [
         "base64-encoder-decoder",
         "hex-encoder-decoder",
+        "binary-converter",
         "binary-text-converter",
         "encoding-detector",
-        "html-entity-encoder-decoder",
-        "json-escape"
+        "html-entity-encoder-decoder"
       ],
       "difficulty": "low",
       "evergreenScore": 0.84,
@@ -1543,7 +1543,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -1618,7 +1618,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1691,7 +1691,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -1752,6 +1752,76 @@
       "engineExists": true
     },
     {
+      "id": "electron-configuration-calculator",
+      "title": "Electron Configuration Calculator",
+      "problem": "I need the electron configuration of an element or ion, and I need to see which electrons are the valence ones that actually take part in bonding.",
+      "userIntent": "transactional",
+      "workflow": "input → Electron Configuration → output",
+      "transformation": "Electron Configuration",
+      "proposedTool": "electron-configuration-calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "electron configuration calculator",
+        "electron configuration of an element",
+        "orbital diagram",
+        "aufbau principle",
+        "valence electrons calculator",
+        "noble gas configuration"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "existingSolutions": [
+        "periodictable.com",
+        "omnicalculator.com",
+        "chemicalaid.com"
+      ],
+      "solutionWeaknesses": [
+        "a text string with no orbital diagram",
+        "ad heavy",
+        "exceptions like chromium and copper are unexplained",
+        "ions are not supported at all"
+      ],
+      "userFailures": [
+        "Writes the configuration correctly but cannot say which electrons are the valence ones that bond.",
+        "Follows the aufbau order blindly and misses the chromium and copper exceptions."
+      ],
+      "relatedProblems": [
+        "valence electrons",
+        "periodic trends",
+        "ion formation"
+      ],
+      "relatedTools": [
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.6,
+      "searchDemand": 0.84,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.72,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 1,
+      "confidence": 0.8,
+      "finalScore": 79.6,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "sleep-cycle-calculator",
       "title": "Sleep Cycle Calculator",
       "problem": "Counting backward in ninety-minute cycles from when my alarm rings shows which bedtimes avoid waking mid-cycle.",
@@ -1770,7 +1840,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -1849,7 +1919,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -1914,7 +1984,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -1980,7 +2050,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2055,7 +2125,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2131,7 +2201,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -2208,7 +2278,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -2229,20 +2299,20 @@
       ],
       "relatedTools": [
         "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.96,
@@ -2281,7 +2351,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -2347,7 +2417,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -2421,7 +2491,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -2492,7 +2562,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -2561,7 +2631,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -2637,7 +2707,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -2686,6 +2756,76 @@
       "engineExists": true
     },
     {
+      "id": "chemical-bond-calculator",
+      "title": "Chemical Bond Calculator",
+      "problem": "I have two elements and I need to know what kind of bond they form: ionic, polar covalent or nonpolar, and how far from the midpoint the electrons actually sit.",
+      "userIntent": "transactional",
+      "workflow": "input → Bond Character → output",
+      "transformation": "Bond Character",
+      "proposedTool": "chemical-bond-calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "bond polarity calculator",
+        "electronegativity difference calculator",
+        "ionic or covalent calculator",
+        "percent ionic character",
+        "polar or nonpolar bond",
+        "bond type calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "chemicalaid.com",
+        "libretexts.org"
+      ],
+      "solutionWeaknesses": [
+        "returns a number with no picture of the bond",
+        "hard cutoffs presented as if they were laws",
+        "no view of the two atoms themselves",
+        "ad heavy"
+      ],
+      "userFailures": [
+        "Gets the electronegativity difference right, then applies a hard cutoff and calls a polar covalent bond ionic.",
+        "Reads a bond dipole without noticing that molecular geometry can cancel it to zero."
+      ],
+      "relatedProblems": [
+        "electronegativity",
+        "dipole moment",
+        "ionic character"
+      ],
+      "relatedTools": [
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.8,
+      "searchDemand": 0.71,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.7,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.83,
+      "confidence": 0.8,
+      "finalScore": 77.6,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "protein-intake-calculator",
       "title": "Protein Intake Calculator",
       "problem": "I need a daily gram target for protein from bodyweight and whether I am cutting, maintaining, or building muscle.",
@@ -2704,7 +2844,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -2782,7 +2922,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -2854,7 +2994,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -2929,7 +3069,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3003,7 +3143,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -3068,7 +3208,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -3125,6 +3265,75 @@
       "engineExists": true
     },
     {
+      "id": "reaction-rate-calculator",
+      "title": "Reaction Rate Calculator",
+      "problem": "I need a rate constant from an activation energy and temperature, and the half-life that goes with the reaction order.",
+      "userIntent": "transactional",
+      "workflow": "input → Chemical Kinetics → output",
+      "transformation": "Chemical Kinetics",
+      "proposedTool": "reaction-rate-calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "reaction rate calculator",
+        "arrhenius equation calculator",
+        "activation energy calculator",
+        "rate constant calculator",
+        "first order half life calculator",
+        "reaction order calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "calctool.org",
+        "chemicalaid.com"
+      ],
+      "solutionWeaknesses": [
+        "single-answer forms with no curve",
+        "ad heavy",
+        "no reaction order comparison",
+        "half-life formula fixed to first order"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "catalysis",
+        "shelf life estimation",
+        "temperature dependence of rate"
+      ],
+      "relatedTools": [
+        "ideal-gas-law-calculator",
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "ideal-gas-law-calculator",
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.66,
+      "searchDemand": 0.74,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.78,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.83,
+      "confidence": 0.8,
+      "finalScore": 76.7,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "pregnancy-due-date-calculator",
       "title": "Pregnancy Due Date Calculator",
       "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
@@ -3143,7 +3352,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -3222,7 +3431,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -3299,7 +3508,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -3365,7 +3574,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -3439,7 +3648,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -3459,19 +3668,19 @@
       "relatedTools": [
         "pendulum-period-calculator",
         "frequency-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "pendulum-period-calculator",
         "frequency-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.94,
@@ -3511,7 +3720,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -3601,7 +3810,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -3625,22 +3834,25 @@
         "uuid-generator",
         "random-string-generator",
         "password-generator",
-        "lorem-ipsum-generator",
-        "qr-code-generator"
+        "coin-flipper",
+        "dice-roller",
+        "lorem-ipsum-generator"
       ],
       "relatedGuides": [
         "uuid-generator",
         "random-string-generator",
         "password-generator",
-        "lorem-ipsum-generator",
-        "qr-code-generator"
+        "coin-flipper",
+        "dice-roller",
+        "lorem-ipsum-generator"
       ],
       "relatedFaqs": [
         "uuid-generator",
         "random-string-generator",
         "password-generator",
-        "lorem-ipsum-generator",
-        "qr-code-generator"
+        "coin-flipper",
+        "dice-roller",
+        "lorem-ipsum-generator"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -3670,6 +3882,73 @@
       }
     },
     {
+      "id": "newman-projection-calculator",
+      "title": "Newman Projection Calculator",
+      "problem": "I need to see a Newman projection at a given dihedral angle and know what the conformer costs in strain energy.",
+      "userIntent": "transactional",
+      "workflow": "input → Conformational Analysis → output",
+      "transformation": "Conformational Analysis",
+      "proposedTool": "newman-projection-calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "newman projection calculator",
+        "newman projection simulator",
+        "dihedral angle calculator",
+        "anti vs gauche butane",
+        "torsional strain calculator",
+        "conformational analysis butane"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "existingSolutions": [
+        "chemtube3d.com",
+        "molview.org",
+        "libretexts.org"
+      ],
+      "solutionWeaknesses": [
+        "static textbook diagrams",
+        "no live energy curve",
+        "3D viewers need a plugin or a heavy download",
+        "not mobile-first"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "cyclohexane chair conformations",
+        "staggered vs eclipsed",
+        "steric strain"
+      ],
+      "relatedTools": [
+        "reaction-rate-calculator",
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "reaction-rate-calculator",
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.9,
+      "searchDemand": 0.62,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.85,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.32,
+      "localizationPotential": 0.7,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.67,
+      "confidence": 0.8,
+      "finalScore": 74.9,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "invisible-character-detector",
       "title": "Invisible Character Detector",
       "problem": "Two strings look identical on screen and my exact-match comparison says they are different.",
@@ -3689,7 +3968,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -3780,7 +4059,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -3837,6 +4116,73 @@
       "engineExists": true
     },
     {
+      "id": "crystal-field-splitting-calculator",
+      "title": "Crystal Field Splitting Calculator",
+      "problem": "I need to fill a d-orbital splitting diagram and know whether the complex is high spin or low spin, with its CFSE and magnetic moment.",
+      "userIntent": "transactional",
+      "workflow": "input → Crystal Field Splitting → output",
+      "transformation": "Crystal Field Splitting",
+      "proposedTool": "crystal-field-splitting-calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "crystal field splitting calculator",
+        "CFSE calculator",
+        "high spin vs low spin",
+        "spin only magnetic moment calculator",
+        "d orbital splitting diagram",
+        "crystal field theory"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "existingSolutions": [
+        "libretexts.org",
+        "chemistrylearner.com",
+        "wikipedia.org"
+      ],
+      "solutionWeaknesses": [
+        "explanations without a tool",
+        "no interactive diagram",
+        "spin state asserted rather than derived",
+        "tetrahedral case usually omitted"
+      ],
+      "userFailures": [],
+      "relatedProblems": [
+        "spectrochemical series",
+        "magnetic moment",
+        "complementary colour"
+      ],
+      "relatedTools": [
+        "newman-projection-calculator",
+        "crystal-field-splitting-calculator",
+        "reaction-rate-calculator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "newman-projection-calculator",
+        "crystal-field-splitting-calculator",
+        "reaction-rate-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.93,
+      "competitionScore": 0.94,
+      "searchDemand": 0.58,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.83,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.52,
+      "localizationPotential": 0.66,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.67,
+      "confidence": 0.64,
+      "finalScore": 74.6,
+      "status": "already-exists",
+      "gap": "guide-missing",
+      "engineExists": true
+    },
+    {
       "id": "ovulation-calculator",
       "title": "Ovulation Calculator",
       "problem": "Cycle length and the previous period start predict the fertile window days in the current month.",
@@ -3855,7 +4201,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -3934,7 +4280,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -3983,6 +4329,74 @@
       "engineExists": true
     },
     {
+      "id": "molecular-geometry-calculator",
+      "title": "Molecular Geometry Calculator",
+      "problem": "I have a central atom with some bonding pairs and some lone pairs and I need the VSEPR shape and bond angles.",
+      "userIntent": "transactional",
+      "workflow": "input → VSEPR Geometry → output",
+      "transformation": "VSEPR Geometry",
+      "proposedTool": "molecular-geometry-calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "molecular geometry calculator",
+        "VSEPR calculator",
+        "bond angle calculator",
+        "electron geometry vs molecular geometry",
+        "steric number calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "existingSolutions": [
+        "libretexts.org",
+        "chemicalaid.com",
+        "wikipedia.org"
+      ],
+      "solutionWeaknesses": [
+        "a static lookup chart rather than a tool",
+        "no 3D or rotatable view",
+        "electron geometry and molecular shape are conflated"
+      ],
+      "userFailures": [
+        "Counts bonding pairs but forgets lone pairs, so electron geometry is reported where molecular shape was wanted.",
+        "Quotes the ideal bond angle without allowing for the compression lone pairs cause."
+      ],
+      "relatedProblems": [
+        "lone pairs",
+        "hybridization",
+        "bond angles"
+      ],
+      "relatedTools": [
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "relatedGuides": [],
+      "relatedFaqs": [
+        "crystal-field-splitting-calculator",
+        "newman-projection-calculator",
+        "reaction-rate-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.66,
+      "searchDemand": 0.73,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.89,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.68,
+      "algorithmicFit": 0.85,
+      "authorityWinnability": 0.67,
+      "confidence": 0.8,
+      "finalScore": 74.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true
+    },
+    {
       "id": "ideal-gas-law-calculator",
       "title": "Ideal Gas Law Simulator",
       "problem": "I want to change temperature, volume, and amount of gas and watch pressure emerge from particle collisions in a box.",
@@ -4001,7 +4415,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -4020,20 +4434,20 @@
       ],
       "relatedTools": [
         "heat-transfer-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "ideal-gas-law-calculator",
-        "inclined-plane-calculator",
-        "momentum-collision-calculator"
+        "inclined-plane-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "heat-transfer-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "ideal-gas-law-calculator",
-        "inclined-plane-calculator",
-        "momentum-collision-calculator"
+        "inclined-plane-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -4072,7 +4486,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -4143,7 +4557,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -4207,7 +4621,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -4285,7 +4699,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -4354,7 +4768,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -4444,7 +4858,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -4463,19 +4877,19 @@
       "relatedTools": [
         "wave-speed-calculator",
         "frequency-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "wave-speed-calculator",
         "frequency-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.94,
@@ -4513,7 +4927,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -4590,7 +5004,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -4668,7 +5082,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -4760,7 +5174,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -4851,7 +5265,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -4870,20 +5284,20 @@
       ],
       "relatedTools": [
         "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -4922,7 +5336,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -4997,7 +5411,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -5076,7 +5490,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -5141,7 +5555,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -5160,20 +5574,20 @@
       ],
       "relatedTools": [
         "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "pendulum-period-calculator",
+        "nuclear-reactor-calculator",
         "doppler-effect-calculator",
         "frequency-period-calculator",
         "heat-transfer-calculator",
-        "ideal-gas-law-calculator",
-        "inclined-plane-calculator"
+        "ideal-gas-law-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.93,
@@ -5211,7 +5625,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -5289,7 +5703,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -5317,7 +5731,7 @@
         "html-entity-encoder-decoder",
         "base64-encoder-decoder",
         "hex-encoder-decoder",
-        "binary-text-converter"
+        "binary-converter"
       ],
       "relatedGuides": [
         "url-encoder-decoder",
@@ -5325,7 +5739,7 @@
         "html-entity-encoder-decoder",
         "base64-encoder-decoder",
         "hex-encoder-decoder",
-        "binary-text-converter"
+        "binary-converter"
       ],
       "relatedFaqs": [
         "url-encoder-decoder",
@@ -5333,7 +5747,7 @@
         "html-entity-encoder-decoder",
         "base64-encoder-decoder",
         "hex-encoder-decoder",
-        "binary-text-converter"
+        "binary-converter"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.94,
@@ -5379,7 +5793,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -5441,7 +5855,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -5503,7 +5917,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -5564,7 +5978,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -5624,7 +6038,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -5692,7 +6106,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-21T16:52:43.648Z",
+      "discoveredAt": "2026-08-29T12:53:57.454Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

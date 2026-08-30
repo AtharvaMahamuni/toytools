@@ -1,10 +1,10 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-08-21T16:52:45.156Z
+Generated: 2026-08-29T12:53:57.454Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 
-8 structural silence(s) derived from the catalog; 7 proposal(s) considered, 3 anchored, 0 unanchored. Top latent score 76.9.
+8 structural silence(s) derived from the catalog; 7 proposal(s) considered, 3 anchored, 0 unanchored. Top latent score 80.2.
 
 ## Derived silences (from the catalog alone, nobody proposed these)
 
@@ -18,25 +18,25 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Therefore:** Someone holding a hash digest this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
 - **Evidence:** crc32-hash-generator, md5-hash-generator, sha1-hash-generator, sha256-hash-generator, sha512-hash-generator
 
-### `asymmetry:datetime` (weight 0.27)
+### `dead-end:encoded-text` (weight 0.29)
+- **Observed:** Encoded text is produced by encoding and consumed by no engine in the catalog.
+- **Therefore:** Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
+- **Evidence:** base64-encoder-decoder, binary-converter, binary-text-converter, encoding-detector, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, number-to-words, punycode-converter, roman-numeral-converter, rot13-encoder-decoder, url-encoder-decoder
+
+### `dead-end:credential` (weight 0.27)
+- **Observed:** A credential is produced by generation and consumed by no engine in the catalog.
+- **Therefore:** Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
+- **Evidence:** coin-flipper, dice-roller, lorem-ipsum-generator, password-generator, qr-code-generator, random-choice-picker, random-name-picker, random-string-generator, uuid-generator
+
+### `asymmetry:datetime` (weight 0.26)
 - **Observed:** The "datetime" engine has 2 tool(s) that produce a date/time and none that check it.
 - **Therefore:** Someone holding a date/time this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
 - **Evidence:** timezone-converter, unix-timestamp-converter
 
-### `asymmetry:units` (weight 0.27)
+### `asymmetry:units` (weight 0.26)
 - **Observed:** The "units" engine has 2 tool(s) that produce a measured quantity and none that check it.
 - **Therefore:** Someone holding a measured quantity this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
 - **Evidence:** px-to-dp-converter, px-to-rem-converter
-
-### `dead-end:encoded-text` (weight 0.27)
-- **Observed:** Encoded text is produced by encoding and consumed by no engine in the catalog.
-- **Therefore:** Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
-- **Evidence:** base64-encoder-decoder, binary-text-converter, encoding-detector, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, punycode-converter, rot13-encoder-decoder, url-encoder-decoder
-
-### `dead-end:credential` (weight 0.24)
-- **Observed:** A credential is produced by generation and consumed by no engine in the catalog.
-- **Therefore:** Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
-- **Evidence:** lorem-ipsum-generator, password-generator, qr-code-generator, random-string-generator, uuid-generator
 
 ### `dead-end:hash` (weight 0.24)
 - **Observed:** A hash digest is produced by hashing and consumed by no engine in the catalog.
@@ -52,19 +52,19 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 
 ### UUID Inspector  (`uuid-inspector`)
 
-**Latent score:** 76.9 / 100 (build-worthy)
+**Latent score:** 80.2 / 100 (build-worthy)
 
 - **The need, as behaviour:** Regenerating the identifier and retrying, hoping the next one is accepted.
 - **Why there is no query for it:** A UUID looks correct to a human at every level except the two bits that encode its version and variant. Nobody searches for a checker because nobody can see the thing that is wrong, and the rejection downstream almost never says wrong UUID version.
 - **What it costs when unmet:** Supplies a v4 UUID where the schema requires v7 and learns it only from a rejected insert.; Pastes a UUID missing one character and the resulting error names an unrelated field.; Treats a v1 UUID as random when it embeds a timestamp and a MAC address.; Generates a nil UUID as a placeholder and it passes shape validation everywhere downstream.
 - **Engine:** `generation` (existing)
-- **Reachable from:** uuid-generator, random-string-generator, password-generator, lorem-ipsum-generator, qr-code-generator
+- **Reachable from:** uuid-generator, random-string-generator, password-generator, coin-flipper, dice-roller, lorem-ipsum-generator
 
 **Anchored to:**
 - `asymmetry:generation` - Sits on "generation", which can produce but cannot check.
 - `dead-end:credential` - Touches a credential, which nothing in the catalog consumes today.
 
-**Signals:** anchorStrength 0.8, consequence 0.64, reachability 0.83, namelessness 0.7, algorithmicFit 0.97.
+**Signals:** anchorStrength 0.8, consequence 0.64, reachability 1, namelessness 0.7, algorithmicFit 0.97.
 
 ### Hash Identifier and Verifier  (`hash-identifier`)
 

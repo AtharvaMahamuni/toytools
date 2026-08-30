@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-21T16:52:45.156Z",
+  "generatedAt": "2026-08-29T12:53:57.454Z",
   "signals": [
     {
       "kind": "asymmetry",
@@ -37,6 +37,51 @@
       "weight": 0.29
     },
     {
+      "kind": "dead-end",
+      "id": "dead-end:encoded-text",
+      "observation": "Encoded text is produced by encoding and consumed by no engine in the catalog.",
+      "implication": "Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
+      "evidence": [
+        "base64-encoder-decoder",
+        "binary-converter",
+        "binary-text-converter",
+        "encoding-detector",
+        "hex-encoder-decoder",
+        "html-entity-encoder-decoder",
+        "json-escape",
+        "number-to-words",
+        "punycode-converter",
+        "roman-numeral-converter",
+        "rot13-encoder-decoder",
+        "url-encoder-decoder"
+      ],
+      "engines": [
+        "encoding"
+      ],
+      "weight": 0.29
+    },
+    {
+      "kind": "dead-end",
+      "id": "dead-end:credential",
+      "observation": "A credential is produced by generation and consumed by no engine in the catalog.",
+      "implication": "Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
+      "evidence": [
+        "coin-flipper",
+        "dice-roller",
+        "lorem-ipsum-generator",
+        "password-generator",
+        "qr-code-generator",
+        "random-choice-picker",
+        "random-name-picker",
+        "random-string-generator",
+        "uuid-generator"
+      ],
+      "engines": [
+        "generation"
+      ],
+      "weight": 0.27
+    },
+    {
       "kind": "asymmetry",
       "id": "asymmetry:datetime",
       "observation": "The \"datetime\" engine has 2 tool(s) that produce a date/time and none that check it.",
@@ -48,7 +93,7 @@
       "engines": [
         "datetime"
       ],
-      "weight": 0.27
+      "weight": 0.26
     },
     {
       "kind": "asymmetry",
@@ -62,45 +107,7 @@
       "engines": [
         "units"
       ],
-      "weight": 0.27
-    },
-    {
-      "kind": "dead-end",
-      "id": "dead-end:encoded-text",
-      "observation": "Encoded text is produced by encoding and consumed by no engine in the catalog.",
-      "implication": "Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
-      "evidence": [
-        "base64-encoder-decoder",
-        "binary-text-converter",
-        "encoding-detector",
-        "hex-encoder-decoder",
-        "html-entity-encoder-decoder",
-        "json-escape",
-        "punycode-converter",
-        "rot13-encoder-decoder",
-        "url-encoder-decoder"
-      ],
-      "engines": [
-        "encoding"
-      ],
-      "weight": 0.27
-    },
-    {
-      "kind": "dead-end",
-      "id": "dead-end:credential",
-      "observation": "A credential is produced by generation and consumed by no engine in the catalog.",
-      "implication": "Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
-      "evidence": [
-        "lorem-ipsum-generator",
-        "password-generator",
-        "qr-code-generator",
-        "random-string-generator",
-        "uuid-generator"
-      ],
-      "engines": [
-        "generation"
-      ],
-      "weight": 0.24
+      "weight": 0.26
     },
     {
       "kind": "dead-end",
@@ -168,15 +175,16 @@
         "uuid-generator",
         "random-string-generator",
         "password-generator",
-        "lorem-ipsum-generator",
-        "qr-code-generator"
+        "coin-flipper",
+        "dice-roller",
+        "lorem-ipsum-generator"
       ],
       "anchorStrength": 0.8,
       "consequence": 0.64,
-      "reachability": 0.83,
+      "reachability": 1,
       "namelessness": 0.7,
       "algorithmicFit": 0.97,
-      "latentScore": 76.9,
+      "latentScore": 80.2,
       "status": "candidate"
     },
     {
@@ -264,6 +272,6 @@
     "considered": 7,
     "anchored": 3,
     "unanchored": 0,
-    "topScore": 76.9
+    "topScore": 80.2
   }
 }

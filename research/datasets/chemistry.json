@@ -17,15 +17,25 @@
         "torsional strain calculator",
         "conformational analysis butane"
       ],
-      "existingSolutions": ["chemtube3d.com", "molview.org", "libretexts.org"],
+      "existingSolutions": [
+        "chemtube3d.com",
+        "molview.org",
+        "libretexts.org"
+      ],
       "solutionWeaknesses": [
         "static textbook diagrams",
         "no live energy curve",
         "3D viewers need a plugin or a heavy download",
         "not mobile-first"
       ],
-      "relatedProblems": ["cyclohexane chair conformations", "staggered vs eclipsed", "steric strain"],
-      "relatedTools": ["reaction-rate-calculator"],
+      "relatedProblems": [
+        "cyclohexane chair conformations",
+        "staggered vs eclipsed",
+        "steric strain"
+      ],
+      "relatedTools": [
+        "reaction-rate-calculator"
+      ],
       "demand": 62,
       "competition": 34,
       "evergreen": 94,
@@ -48,15 +58,25 @@
         "d orbital splitting diagram",
         "crystal field theory"
       ],
-      "existingSolutions": ["libretexts.org", "chemistrylearner.com", "wikipedia.org"],
+      "existingSolutions": [
+        "libretexts.org",
+        "chemistrylearner.com",
+        "wikipedia.org"
+      ],
       "solutionWeaknesses": [
         "explanations without a tool",
         "no interactive diagram",
         "spin state asserted rather than derived",
         "tetrahedral case usually omitted"
       ],
-      "relatedProblems": ["spectrochemical series", "magnetic moment", "complementary colour"],
-      "relatedTools": ["newman-projection-calculator"],
+      "relatedProblems": [
+        "spectrochemical series",
+        "magnetic moment",
+        "complementary colour"
+      ],
+      "relatedTools": [
+        "newman-projection-calculator"
+      ],
       "demand": 58,
       "competition": 30,
       "evergreen": 93,
@@ -79,20 +99,163 @@
         "first order half life calculator",
         "reaction order calculator"
       ],
-      "existingSolutions": ["omnicalculator.com", "calctool.org", "chemicalaid.com"],
+      "existingSolutions": [
+        "omnicalculator.com",
+        "calctool.org",
+        "chemicalaid.com"
+      ],
       "solutionWeaknesses": [
         "single-answer forms with no curve",
         "ad heavy",
         "no reaction order comparison",
         "half-life formula fixed to first order"
       ],
-      "relatedProblems": ["catalysis", "shelf life estimation", "temperature dependence of rate"],
-      "relatedTools": ["ideal-gas-law-calculator"],
+      "relatedProblems": [
+        "catalysis",
+        "shelf life estimation",
+        "temperature dependence of rate"
+      ],
+      "relatedTools": [
+        "ideal-gas-law-calculator"
+      ],
       "demand": 74,
       "competition": 58,
       "evergreen": 95,
       "difficulty": "medium",
       "localization": 78
+    },
+    {
+      "query": "electron configuration calculator",
+      "problem": "I need the electron configuration of an element or ion, and I need to see which electrons are the valence ones that actually take part in bonding.",
+      "intent": "transactional",
+      "transformation": "Electron Configuration",
+      "proposedTool": "electron-configuration-calculator",
+      "proposedName": "Electron Configuration Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "electron configuration calculator",
+        "electron configuration of an element",
+        "orbital diagram",
+        "aufbau principle",
+        "valence electrons calculator",
+        "noble gas configuration"
+      ],
+      "existingSolutions": [
+        "periodictable.com",
+        "omnicalculator.com",
+        "chemicalaid.com"
+      ],
+      "solutionWeaknesses": [
+        "a text string with no orbital diagram",
+        "ad heavy",
+        "exceptions like chromium and copper are unexplained",
+        "ions are not supported at all"
+      ],
+      "relatedProblems": [
+        "valence electrons",
+        "periodic trends",
+        "ion formation"
+      ],
+      "relatedTools": [
+        "crystal-field-splitting-calculator"
+      ],
+      "userFailures": [
+        "Writes the configuration correctly but cannot say which electrons are the valence ones that bond.",
+        "Follows the aufbau order blindly and misses the chromium and copper exceptions."
+      ],
+      "demand": 84,
+      "competition": 64,
+      "evergreen": 96,
+      "difficulty": "medium",
+      "localization": 72
+    },
+    {
+      "query": "bond polarity calculator",
+      "problem": "I have two elements and I need to know what kind of bond they form: ionic, polar covalent or nonpolar, and how far from the midpoint the electrons actually sit.",
+      "intent": "transactional",
+      "transformation": "Bond Character",
+      "proposedTool": "chemical-bond-calculator",
+      "proposedName": "Chemical Bond Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "bond polarity calculator",
+        "electronegativity difference calculator",
+        "ionic or covalent calculator",
+        "percent ionic character",
+        "polar or nonpolar bond",
+        "bond type calculator"
+      ],
+      "existingSolutions": [
+        "omnicalculator.com",
+        "chemicalaid.com",
+        "libretexts.org"
+      ],
+      "solutionWeaknesses": [
+        "returns a number with no picture of the bond",
+        "hard cutoffs presented as if they were laws",
+        "no view of the two atoms themselves",
+        "ad heavy"
+      ],
+      "relatedProblems": [
+        "electronegativity",
+        "dipole moment",
+        "ionic character"
+      ],
+      "relatedTools": [
+        "electron-configuration-calculator"
+      ],
+      "userFailures": [
+        "Gets the electronegativity difference right, then applies a hard cutoff and calls a polar covalent bond ionic.",
+        "Reads a bond dipole without noticing that molecular geometry can cancel it to zero."
+      ],
+      "demand": 71,
+      "competition": 44,
+      "evergreen": 95,
+      "difficulty": "medium",
+      "localization": 70
+    },
+    {
+      "query": "molecular geometry calculator",
+      "problem": "I have a central atom with some bonding pairs and some lone pairs and I need the VSEPR shape and bond angles.",
+      "intent": "transactional",
+      "transformation": "VSEPR Geometry",
+      "proposedTool": "molecular-geometry-calculator",
+      "proposedName": "Molecular Geometry Calculator",
+      "proposedEngine": "chemistry-lab",
+      "searchQueries": [
+        "molecular geometry calculator",
+        "VSEPR calculator",
+        "bond angle calculator",
+        "electron geometry vs molecular geometry",
+        "steric number calculator"
+      ],
+      "existingSolutions": [
+        "libretexts.org",
+        "chemicalaid.com",
+        "wikipedia.org"
+      ],
+      "solutionWeaknesses": [
+        "a static lookup chart rather than a tool",
+        "no 3D or rotatable view",
+        "electron geometry and molecular shape are conflated"
+      ],
+      "relatedProblems": [
+        "lone pairs",
+        "hybridization",
+        "bond angles"
+      ],
+      "relatedTools": [
+        "chemical-bond-calculator"
+      ],
+      "userFailures": [
+        "Counts bonding pairs but forgets lone pairs, so electron geometry is reported where molecular shape was wanted.",
+        "Quotes the ideal bond angle without allowing for the compression lone pairs cause."
+      ],
+      "demand": 73,
+      "competition": 52,
+      "evergreen": 95,
+      "difficulty": "medium",
+      "localization": 68
     }
   ]
 }

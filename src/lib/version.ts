@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 8,
-  minor: 1,
+  minor: 2,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-29',
-  description: 'Cross-subject links for the chemistry simulators and an engine shape gate',
+  description: 'Electron configuration and chemical bond simulators',
 };
 
 export function formatVersion(config: VersionConfig): string {

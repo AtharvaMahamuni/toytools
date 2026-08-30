@@ -265,9 +265,11 @@
       "supportedFamilies": [
         "organic-chemistry",
         "inorganic-chemistry",
-        "physical-chemistry"
+        "physical-chemistry",
+        "atomic-structure",
+        "chemical-bonding"
       ],
-      "toolCount": 3
+      "toolCount": 5
     },
     "wellness": {
       "name": "Wellness Engine",
@@ -736,6 +738,36 @@
       "pattern": "simulate",
       "family": "physical-chemistry",
       "processorId": "reaction-kinetics",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "electron-configuration-calculator": {
+      "name": "Electron Configuration Calculator",
+      "dir": "src/tools/chemistry/electron-configuration-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/electron-configuration-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "atomic-structure",
+      "processorId": "electron-configuration",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "chemical-bond-calculator": {
+      "name": "Chemical Bond Calculator",
+      "dir": "src/tools/chemistry/chemical-bond-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/chemical-bond-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "chemical-bonding",
+      "processorId": "chemical-bond",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

@@ -81,6 +81,8 @@ const FAMILY_GLYPH: Record<string, string> = {
   'organic-chemistry': 'benzene',
   'inorganic-chemistry': 'complexIon',
   'physical-chemistry': 'barrier',
+  'atomic-structure': 'shells',
+  'chemical-bonding': 'bond',
   // applied math
   trigonometry: 'unitCircle',
   algebra: 'parabola',
