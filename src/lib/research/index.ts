@@ -13,9 +13,11 @@ import type { SeedDataset, ProviderContext } from './models/provider';
 import type { ResearchInputs, CatalogRef } from './types';
 import type { ResearchReports } from './models/report';
 import { PROVIDERS } from './registry';
+import { fingerprintInputs } from './fingerprint';
 import { runPipeline } from './pipeline';
 
 export { runPipeline } from './pipeline';
+export { fingerprintInputs } from './fingerprint';
 export * from './models/report';
 export type { ResearchInputs, CatalogRef } from './types';
 
@@ -33,6 +35,7 @@ export function catalogInputs(): Omit<ResearchInputs, 'raw' | 'now'> {
     existingSlugs: new Set(allTools.map(t => t.slug)),
     engineIds: new Set(engineRegistry.map(e => e.id)),
     catalog,
+    craftSlugs: new Set(allTools.filter(t => t.craft).map(t => t.slug)),
     knowledgeSlugs: new Set(KNOWLEDGE.keys()),
     guideSlugs: new Set(registeredGuideSlugs),
     faqSlugs: new Set(Object.keys(faqsByToolSlug).filter(s => (faqsByToolSlug[s]?.length ?? 0) > 0)),
@@ -44,7 +47,13 @@ export function defaultInputs(datasets: SeedDataset[], now = new Date().toISOStr
   const base = catalogInputs();
   const ctx: ProviderContext = { datasets, existingSlugs: base.existingSlugs };
   const raw = PROVIDERS.flatMap(p => p.discover(ctx));
-  return { ...base, raw, now };
+  const fingerprint = fingerprintInputs({
+    datasets,
+    existingSlugs: base.existingSlugs,
+    engineIds: base.engineIds,
+    craftSlugs: base.craftSlugs,
+  });
+  return { ...base, raw, fingerprint, now };
 }
 
 /** Orchestrator. */

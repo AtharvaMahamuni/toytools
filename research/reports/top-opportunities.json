@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "generatedAt": "2026-08-29T12:53:57.454Z",
+  "version": 3,
+  "generatedAt": "2026-08-31T15:40:03.484Z",
   "top": [
     {
       "id": "statistics-visualizer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -34,6 +34,7 @@
         "no combined histogram and box plot view"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "variance",
         "interquartile range",
@@ -73,7 +74,8 @@
       "finalScore": 81.7,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
     },
     {
       "id": "triangle-solver",
@@ -94,7 +96,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -107,6 +109,7 @@
         "no ambiguous case explanation"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "law of sines",
         "law of cosines",
@@ -146,77 +149,8 @@
       "finalScore": 79.8,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "electron-configuration-calculator",
-      "title": "Electron Configuration Calculator",
-      "problem": "I need the electron configuration of an element or ion, and I need to see which electrons are the valence ones that actually take part in bonding.",
-      "userIntent": "transactional",
-      "workflow": "input → Electron Configuration → output",
-      "transformation": "Electron Configuration",
-      "proposedTool": "electron-configuration-calculator",
-      "proposedEngine": "chemistry-lab",
-      "searchQueries": [
-        "electron configuration calculator",
-        "electron configuration of an element",
-        "orbital diagram",
-        "aufbau principle",
-        "valence electrons calculator",
-        "noble gas configuration"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
-      "existingSolutions": [
-        "periodictable.com",
-        "omnicalculator.com",
-        "chemicalaid.com"
-      ],
-      "solutionWeaknesses": [
-        "a text string with no orbital diagram",
-        "ad heavy",
-        "exceptions like chromium and copper are unexplained",
-        "ions are not supported at all"
-      ],
-      "userFailures": [
-        "Writes the configuration correctly but cannot say which electrons are the valence ones that bond.",
-        "Follows the aufbau order blindly and misses the chromium and copper exceptions."
-      ],
-      "relatedProblems": [
-        "valence electrons",
-        "periodic trends",
-        "ion formation"
-      ],
-      "relatedTools": [
-        "crystal-field-splitting-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
-      ],
-      "relatedGuides": [],
-      "relatedFaqs": [
-        "crystal-field-splitting-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.6,
-      "searchDemand": 0.84,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.94,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.57,
-      "localizationPotential": 0.72,
-      "algorithmicFit": 0.85,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 79.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
     },
     {
       "id": "sleep-cycle-calculator",
@@ -237,7 +171,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -249,6 +183,7 @@
         "ignores time to fall asleep"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "sleep latency allowance",
         "nap length",
@@ -294,7 +229,8 @@
       "finalScore": 79.5,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
     },
     {
       "id": "color-shades-generator",
@@ -316,7 +252,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -327,6 +263,7 @@
         "no perceptual (OKLCH) spacing"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "color conversion",
         "perceptual gradient"
@@ -359,7 +296,8 @@
       "finalScore": 79.4,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
     },
     {
       "id": "type-scale-generator",
@@ -381,7 +319,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -392,6 +330,7 @@
         "not mobile-first"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "px to rem",
         "aspect ratio"
@@ -427,7 +366,8 @@
       "finalScore": 79.2,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
     },
     {
       "id": "matrix-calculator",
@@ -448,7 +388,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -461,6 +401,7 @@
         "painful matrix entry on mobile"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "determinant",
         "matrix inverse",
@@ -498,7 +439,8 @@
       "finalScore": 78.3,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
     },
     {
       "id": "colorblind-simulator",
@@ -519,7 +461,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -533,6 +475,7 @@
         "The simulation shows the problem but nothing says which of the eight types the user is looking at, or which one actually failed.",
         "A palette passes for one deficiency and fails another, and checking them one at a time hides the comparison that matters."
       ],
+      "signals": [],
       "relatedProblems": [
         "contrast ratio",
         "accessible palette"
@@ -565,77 +508,8 @@
       "finalScore": 77.8,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
-    },
-    {
-      "id": "chemical-bond-calculator",
-      "title": "Chemical Bond Calculator",
-      "problem": "I have two elements and I need to know what kind of bond they form: ionic, polar covalent or nonpolar, and how far from the midpoint the electrons actually sit.",
-      "userIntent": "transactional",
-      "workflow": "input → Bond Character → output",
-      "transformation": "Bond Character",
-      "proposedTool": "chemical-bond-calculator",
-      "proposedEngine": "chemistry-lab",
-      "searchQueries": [
-        "bond polarity calculator",
-        "electronegativity difference calculator",
-        "ionic or covalent calculator",
-        "percent ionic character",
-        "polar or nonpolar bond",
-        "bond type calculator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
-      "existingSolutions": [
-        "omnicalculator.com",
-        "chemicalaid.com",
-        "libretexts.org"
-      ],
-      "solutionWeaknesses": [
-        "returns a number with no picture of the bond",
-        "hard cutoffs presented as if they were laws",
-        "no view of the two atoms themselves",
-        "ad heavy"
-      ],
-      "userFailures": [
-        "Gets the electronegativity difference right, then applies a hard cutoff and calls a polar covalent bond ionic.",
-        "Reads a bond dipole without noticing that molecular geometry can cancel it to zero."
-      ],
-      "relatedProblems": [
-        "electronegativity",
-        "dipole moment",
-        "ionic character"
-      ],
-      "relatedTools": [
-        "crystal-field-splitting-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
-      ],
-      "relatedGuides": [],
-      "relatedFaqs": [
-        "crystal-field-splitting-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.8,
-      "searchDemand": 0.71,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.88,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.7,
-      "algorithmicFit": 0.85,
-      "authorityWinnability": 0.83,
-      "confidence": 0.8,
-      "finalScore": 77.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": false
     },
     {
       "id": "normal-distribution-visualizer",
@@ -656,7 +530,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-29T12:53:57.454Z",
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -669,6 +543,7 @@
         "no shaded area interaction"
       ],
       "userFailures": [],
+      "signals": [],
       "relatedProblems": [
         "z score",
         "empirical rule",
@@ -702,7 +577,168 @@
       "finalScore": 77.1,
       "status": "recommended",
       "gap": "cluster-missing",
-      "engineExists": true
+      "engineExists": true,
+      "craftRisk": true
+    },
+    {
+      "id": "pregnancy-due-date-calculator",
+      "title": "Pregnancy Due Date Calculator",
+      "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
+      "userIntent": "transactional",
+      "workflow": "a date/time → Health Date Calculation → a date/time",
+      "transformation": "Health Date Calculation",
+      "proposedTool": "pregnancy-due-date-calculator",
+      "proposedEngine": "datetime",
+      "searchQueries": [
+        "due date calculator",
+        "pregnancy due date calculator",
+        "naegele rule calculator",
+        "how many weeks pregnant am i",
+        "estimated delivery date"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "existingSolutions": [
+        "whattoexpect.com",
+        "babycenter.com",
+        "mayoclinic.org"
+      ],
+      "solutionWeaknesses": [
+        "requires signup for the full timeline",
+        "heavy tracking scripts",
+        "upsells products",
+        "slow on mobile"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "gestational age today",
+        "trimester boundaries",
+        "conception date estimate"
+      ],
+      "relatedTools": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedGuides": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "relatedFaqs": [
+        "age-calculator",
+        "date-difference-calculator",
+        "cron-expression-parser",
+        "systemd-timer-converter",
+        "timezone-converter",
+        "unix-timestamp-converter"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.95,
+      "competitionScore": 0.46,
+      "searchDemand": 0.88,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.95,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.58,
+      "localizationPotential": 0.88,
+      "algorithmicFit": 0.95,
+      "authorityWinnability": 0.08,
+      "confidence": 0.8,
+      "finalScore": 76.6,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": true
+    },
+    {
+      "id": "lean-body-mass-calculator",
+      "title": "Lean Body Mass Calculator",
+      "problem": "Separating fat mass from everything else in my bodyweight tells me how much muscle and bone I carry.",
+      "userIntent": "transactional",
+      "workflow": "numbers → Body Composition Calculation → a computed result",
+      "transformation": "Body Composition Calculation",
+      "proposedTool": "lean-body-mass-calculator",
+      "proposedEngine": "wellness",
+      "searchQueries": [
+        "lean body mass calculator",
+        "lbm calculator",
+        "boer formula calculator",
+        "fat free mass calculator",
+        "muscle mass estimate"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "existingSolutions": [
+        "omnicalculator.com",
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "ad heavy",
+        "no formula comparison",
+        "no link to body fat percentage"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "formula selection",
+        "fat free mass index",
+        "drug dosing by lean mass"
+      ],
+      "relatedTools": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedGuides": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "relatedFaqs": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "bmi-calculator",
+        "bmr-calculator",
+        "calorie-deficit-calculator",
+        "heart-rate-zone-calculator"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.92,
+      "competitionScore": 0.7,
+      "searchDemand": 0.55,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.82,
+      "topicClusterPotential": 0.5,
+      "commercialPotential": 0.51,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.95,
+      "authorityWinnability": 0.5,
+      "confidence": 0.64,
+      "finalScore": 76.5,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": true
     }
   ]
 }

@@ -47,6 +47,14 @@ step "version + changelog"   npm run check:version
 # registries and the knowledge graph, so this runs before the build rather than after it.
 step "engine shape"          npm run check:engines
 
+# The RIE's own evidence, which until 2026-08-31 nothing checked automatically: a malformed seed
+# record or a broken report relationship surfaced only when somebody happened to run the engine.
+# It is integrity ONLY - it does not fail on a stale report bundle. Staleness misleads exactly one
+# reader, the person deciding what to build next, and the next-tool skill checks it there
+# (`npm run research:status`); failing every unrelated PR on report regeneration would be enforcing
+# bookkeeping rather than correctness.
+step "research evidence"     npm run research:validate
+
 # KNOWLEDGE_REQUIRED mirrors CI: coverage is 100%, so a missing knowledge.ts must fail, not warn.
 printf '\n\033[1m▶ build (KNOWLEDGE_REQUIRED=true)\033[0m\n'
 if KNOWLEDGE_REQUIRED=true npm run build; then

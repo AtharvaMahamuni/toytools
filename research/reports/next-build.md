@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-08-29T12:53:57.454Z
+Generated: 2026-08-31T15:40:03.484Z
 
 ## Statistics Visualizer  (`statistics-visualizer`)
 
@@ -12,6 +12,7 @@ Generated: 2026-08-29T12:53:57.454Z
 - Low implementation cost
 - Creates 4 internal links
 - Deterministic algorithm solves this exactly (AI adds nothing)
+- CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch
 
 ### Why incumbents are weak
 - tables of numbers with no chart
@@ -43,3 +44,7 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 - FAQs: How do I descriptive statistics?; Is Statistics Visualizer free and private?; Does Statistics Visualizer avoid "tables of numbers with no chart"?
 - Internal links / related tools: probability-calculator, combinations-permutations-calculator, fraction-calculator, prime-factorization-calculator
 - Schema: SoftwareApplication, FAQPage
+
+---
+
+_Inputs fingerprint: `e3dd6507`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

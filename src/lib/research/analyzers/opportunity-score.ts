@@ -100,6 +100,7 @@ function normalizeAndScore(
     existingSolutions: raw.existingSolutions,
     solutionWeaknesses: raw.solutionWeaknesses,
     userFailures: raw.userFailures,
+    signals: raw.signals,
     relatedProblems: raw.relatedProblems,
     relatedTools,
     relatedGuides,
@@ -121,6 +122,10 @@ function normalizeAndScore(
     status: exists ? 'already-exists' : finalScore >= THRESHOLDS.recommend ? 'recommended' : 'discovered',
     gap,
     engineExists,
+    // Buildable + no recorded task-level failure = this tool would ship with nothing of its own.
+    // Already-shipped tools are excluded here because their craft debt is a different question,
+    // answered against the registry rather than the evidence (see analyzers/craft-debt.ts).
+    craftRisk: !exists && raw.userFailures.length === 0,
     ...(raw.latent ? { latent: raw.latent } : {}),
   };
 }

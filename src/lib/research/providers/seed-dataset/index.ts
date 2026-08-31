@@ -24,6 +24,9 @@ function toRaw(rec: SeedRecord): RawOpportunity {
     existingSolutions: rec.existingSolutions ?? [],
     solutionWeaknesses: rec.solutionWeaknesses ?? [],
     userFailures: rec.userFailures ?? [],
+    // Observed evidence, normalized but never invented: an absent block stays an empty list rather
+    // than becoming a manufactured signal. Strength is clamped like every other 0-100 field.
+    signals: (rec.signals ?? []).map(sig => ({ ...sig, strength: clamp(sig.strength, 0, 100) })),
     relatedProblems: rec.relatedProblems ?? [],
     relatedTools: rec.relatedTools ?? [],
     demand: clamp(rec.demand, 0, 100),

@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "generatedAt": "2026-08-29T12:53:57.454Z",
+  "version": 3,
+  "generatedAt": "2026-08-31T15:40:03.484Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -586,14 +586,18 @@
         "electron-configuration-calculator"
       ],
       "existingMembers": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "size": 1,
       "meanScore": 79.6,
       "internalLinks": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -910,14 +914,18 @@
         "chemical-bond-calculator"
       ],
       "existingMembers": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "size": 1,
       "meanScore": 77.6,
       "internalLinks": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -1081,14 +1089,18 @@
         "reaction-rate-calculator"
       ],
       "existingMembers": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "size": 1,
       "meanScore": 76.7,
       "internalLinks": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "ideal-gas-law-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
@@ -1231,14 +1243,18 @@
         "newman-projection-calculator"
       ],
       "existingMembers": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "size": 1,
       "meanScore": 74.9,
       "internalLinks": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -1312,14 +1328,18 @@
         "crystal-field-splitting-calculator"
       ],
       "existingMembers": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "size": 1,
       "meanScore": 74.6,
       "internalLinks": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -1352,14 +1372,18 @@
         "molecular-geometry-calculator"
       ],
       "existingMembers": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "size": 1,
       "meanScore": 74.5,
       "internalLinks": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]

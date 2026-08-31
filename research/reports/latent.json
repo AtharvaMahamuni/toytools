@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "generatedAt": "2026-08-29T12:53:57.454Z",
+  "version": 3,
+  "generatedAt": "2026-08-31T15:40:03.484Z",
   "signals": [
     {
       "kind": "asymmetry",
@@ -61,27 +61,6 @@
       "weight": 0.29
     },
     {
-      "kind": "dead-end",
-      "id": "dead-end:credential",
-      "observation": "A credential is produced by generation and consumed by no engine in the catalog.",
-      "implication": "Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
-      "evidence": [
-        "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator",
-        "password-generator",
-        "qr-code-generator",
-        "random-choice-picker",
-        "random-name-picker",
-        "random-string-generator",
-        "uuid-generator"
-      ],
-      "engines": [
-        "generation"
-      ],
-      "weight": 0.27
-    },
-    {
       "kind": "asymmetry",
       "id": "asymmetry:datetime",
       "observation": "The \"datetime\" engine has 2 tool(s) that produce a date/time and none that check it.",
@@ -106,6 +85,27 @@
       ],
       "engines": [
         "units"
+      ],
+      "weight": 0.26
+    },
+    {
+      "kind": "dead-end",
+      "id": "dead-end:credential",
+      "observation": "A credential is produced by generation and consumed by no engine in the catalog.",
+      "implication": "Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
+      "evidence": [
+        "coin-flipper",
+        "dice-roller",
+        "lorem-ipsum-generator",
+        "password-generator",
+        "qr-code-generator",
+        "random-choice-picker",
+        "random-name-picker",
+        "random-string-generator",
+        "uuid-generator"
+      ],
+      "engines": [
+        "generation"
       ],
       "weight": 0.26
     },
@@ -141,7 +141,7 @@
         "jwt",
         "structured-data"
       ],
-      "weight": 0.22
+      "weight": 0.21
     }
   ],
   "candidates": [

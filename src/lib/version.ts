@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 9,
   minor: 0,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
-  releaseDate: '2026-08-30',
-  description: 'New Music and Audio category with the equalizer settings generator',
+  releaseDate: '2026-08-31',
+  description: 'Research Intelligence feedback loop: engagement signals, craft debt, report freshness',
 };
 
 export function formatVersion(config: VersionConfig): string {

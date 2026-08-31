@@ -17,6 +17,7 @@ import { analyzeTrends } from './analyzers/trend';
 import { buildProblemGraph } from './analyzers/topic-cluster';
 import { buildRoadmap } from './analyzers/roadmap';
 import { analyzeLatentDemand } from './analyzers/latent-demand';
+import { analyzeCraftDebt } from './analyzers/craft-debt';
 
 export function runPipeline(inputs: ResearchInputs): ResearchReports {
   const dedup = deduplicate(inputs.raw);
@@ -31,6 +32,9 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
   // Runs alongside the roadmap rather than feeding it: it answers a different question and its
   // scores are not comparable with finalScore, so merging the two rankings would be meaningless.
   const latent = analyzeLatentDemand(opportunities, inputs);
+  // Reads the same opportunities from the other side: not "what should we build" but "what did we
+  // already build that the evidence says is unfinished".
+  const craftDebt = analyzeCraftDebt(opportunities, inputs);
 
   const alreadyExists = opportunities.filter(o => o.status === 'already-exists').length;
   const recommended = opportunities.filter(o => o.status === 'recommended').length;
@@ -38,6 +42,7 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
   return {
     version: RESEARCH_SCHEMA_VERSION,
     generatedAt: inputs.now,
+    fingerprint: inputs.fingerprint,
     opportunities,
     clusters,
     engines,
@@ -46,6 +51,7 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
     roadmap,
     graph,
     latent,
+    craftDebt,
     summary: {
       discovered: inputs.raw.length,
       deduped: opportunities.length,
@@ -55,6 +61,8 @@ export function runPipeline(inputs: ResearchInputs): ResearchReports {
       topScore: opportunities[0]?.finalScore ?? 0,
       latentSignals: latent.summary.signals,
       latentCandidates: latent.summary.anchored,
+      craftReadyToPolish: craftDebt.summary.readyToPolish,
+      craftAtRisk: craftDebt.summary.atRisk,
     },
   };
 }

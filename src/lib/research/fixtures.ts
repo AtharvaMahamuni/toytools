@@ -21,6 +21,7 @@ export function raw(o: Partial<RawOpportunity> & Pick<RawOpportunity, 'proposedT
     existingSolutions: [],
     solutionWeaknesses: [],
     userFailures: [],
+    signals: [],
     relatedProblems: [],
     relatedTools: [],
     demand: 70,
@@ -64,10 +65,12 @@ export interface FixtureOptions {
   raw: RawOpportunity[];
   catalog?: CatalogRef[];
   existingSlugs?: string[];
+  craftSlugs?: string[];
   engineIds?: string[];
   knowledgeSlugs?: string[];
   guideSlugs?: string[];
   faqSlugs?: string[];
+  fingerprint?: string;
   now?: string;
 }
 
@@ -78,10 +81,12 @@ export function makeInputs(opts: FixtureOptions): ResearchInputs {
     raw: opts.raw,
     catalog: opts.catalog ?? [],
     existingSlugs: new Set(opts.existingSlugs ?? []),
+    craftSlugs: new Set(opts.craftSlugs ?? []),
     engineIds: new Set(opts.engineIds ?? DEFAULT_ENGINES),
     knowledgeSlugs: new Set(opts.knowledgeSlugs ?? []),
     guideSlugs: new Set(opts.guideSlugs ?? []),
     faqSlugs: new Set(opts.faqSlugs ?? []),
+    fingerprint: opts.fingerprint ?? '',
     now: opts.now ?? FIXED_NOW,
   };
 }
