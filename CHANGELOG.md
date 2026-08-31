@@ -2,6 +2,42 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v9.0] - 2026-08-30
+
+### Added
+
+- **Music & Audio**, a new category at `/category/music-audio/`, and the **Audio Engine** that
+  powers it. An equalizer is a definition in that engine (its bands, its presets and its gain
+  limits) resolved by `processorId`, so a second EQ layout later is a registry entry and a config
+  rather than a second widget. The engine owns the curve maths, the headroom heuristic, the per-band
+  explanations, the share encoding and the share-card renderer, all pure and unit tested.
+- **Music Equalizer Settings**, at `/tool/music/equalizer-settings-generator/`. Ten starting points
+  (More Bass, Clear Vocals, Less Harsh, Late Night and the rest) load onto seven bands from 60 Hz to
+  15 kHz, which then drag, or move by arrow key, between -12 and +12 dB. One line under the result
+  says what the band you just moved tends to change, so the frequencies are learned by moving them
+  rather than by reading a chart first. The settings copy as text, travel in a readable link
+  (`?eq=6_3_-1_0_0_0_1`), and export as a 1200x675 share card drawn from the same state, which is a
+  picture of the seven values rather than a screenshot of the page. The tool says plainly that it
+  cannot reach into Spotify, a phone or a pair of headphones, and a drawer explains how to enter the
+  values where they do apply.
+- **The preamp guardrail**, the tool's thoughtful touch. A curve built out of boosts pushes a player
+  past full scale, and the crackle that follows gets blamed on the headphones; the control that
+  fixes it is a preamp cut of the same size, sitting on another screen where nothing labels it as
+  the fix. The line names the peak boost and the matching cut, and offers to scale the boosts down
+  while keeping the balance between bands. Silent below +3 dB.
+- **A guide**, "How to Set an Equalizer: What Each Frequency Does", and nine FAQs covering the
+  questions people actually arrive with: the best EQ settings for bass, which frequency makes vocals
+  clearer, whether EQ can cause distortion, and why the same settings sound different on different
+  headphones.
+
+### Changed
+
+- **A tool whose category has no siblings is no longer a dead end.** Related tools are derived from
+  engine, pattern, family and category, so the first tool in a new category derived nothing at all
+  and its page linked to no other tool, which `platform-health` rightly fails the build over. The
+  derivation now falls back to the config's own `relatedTools` when, and only when, all four tiers
+  come back empty. Anywhere the derivation finds something it still wins.
+
 ## [alpha-v8.2.1] - 2026-08-30
 
 ### Added

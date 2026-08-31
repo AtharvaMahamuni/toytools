@@ -94,6 +94,8 @@ const FAMILY_GLYPH: Record<string, string> = {
   color: 'swatch',
   'css-unit': 'ruler',
   aspect: 'aspectFrame',
+  // music & audio
+  equalizer: 'equalizer',
 };
 
 // ── per-slug override → glyph ─────────────────────────────────────────────

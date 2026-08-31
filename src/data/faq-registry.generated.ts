@@ -32,6 +32,7 @@ import { items as diceRollerFaqs } from '@tools/generate/dice-roller/faq';
 import { items as discountCalculatorFaqs } from '@tools/number/discount-calculator/faq';
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as encodingDetectorFaqs } from '@tools/developer-utilities/encoding-detector/faq';
+import { items as equalizerSettingsGeneratorFaqs } from '@tools/music/equalizer-settings-generator/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-zone-calculator/faq';
@@ -152,6 +153,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'discount-calculator': discountCalculatorFaqs,
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'encoding-detector': encodingDetectorFaqs,
+  'equalizer-settings-generator': equalizerSettingsGeneratorFaqs,
   'find-replace': findReplaceFaqs,
   'fraction-calculator': fractionCalculatorFaqs,
   'heart-rate-zone-calculator': heartRateZoneCalculatorFaqs,

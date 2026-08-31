@@ -4,12 +4,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('homepage index', () => {
-  test('leads with twelve category rows, not a wall of tool names', async ({ page }) => {
+  test('leads with thirteen category rows, not a wall of tool names', async ({ page }) => {
     await page.goto('/');
     const index = page.locator('.category-index');
-    await expect(index.locator('.cat-item')).toHaveCount(12);
+    await expect(index.locator('.cat-item')).toHaveCount(13);
     // The categories are the homepage's content outline, not just styled links.
-    await expect(index.getByRole('heading', { level: 2 })).toHaveCount(12);
+    await expect(index.getByRole('heading', { level: 2 })).toHaveCount(13);
 
     // Each row carries the three things that make the catalog legible: a linked name,
     // a tagline, and named example tools.
@@ -49,7 +49,7 @@ test.describe('homepage index', () => {
     await page.locator('.all-tools-summary').click();
 
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
-    await expect(directory.locator('.dir-column')).toHaveCount(12);
+    await expect(directory.locator('.dir-column')).toHaveCount(13);
 
     // Case converters collapse to a single entry that still covers every member slug.
     const caseEntry = directory.getByRole('link', { name: 'Case Converter' });
@@ -88,8 +88,9 @@ test.describe('homepage index', () => {
     // no pair a group switcher could sensibly swap between. The electron configuration and
     // chemical bond simulators added in alpha-v8.2 are likewise ungrouped, one per family: they are
     // a natural pair to READ together, which is what the relationship overlay expresses, but a
-    // group switcher swaps one tool for another and neither answers the other's question.
-    await expect(directory.locator('.dir-link')).toHaveCount(77);
+    // group switcher swaps one tool for another and neither answers the other's question. The
+    // equalizer added in alpha-v9.0 is ungrouped because it is the only tool on its engine so far.
+    await expect(directory.locator('.dir-link')).toHaveCount(78);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

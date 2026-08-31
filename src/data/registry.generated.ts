@@ -32,6 +32,7 @@ import { config as diceRoller } from '@tools/generate/dice-roller/config';
 import { config as discountCalculator } from '@tools/number/discount-calculator/config';
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as encodingDetector } from '@tools/developer-utilities/encoding-detector/config';
+import { config as equalizerSettingsGenerator } from '@tools/music/equalizer-settings-generator/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
@@ -152,6 +153,7 @@ export const toolConfigs: ToolConfig[] = [
   discountCalculator,
   emergencyFundCalculator,
   encodingDetector,
+  equalizerSettingsGenerator,
   findReplace,
   fractionCalculator,
   heartRateZoneCalculator,

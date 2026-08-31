@@ -199,6 +199,37 @@ describe('getRelatedTools — the guaranteed door out of the family', () => {
   });
 });
 
+describe('the curated fallback', () => {
+  // The first tool in a brand-new category derives nothing, because every tier is scoped to its own
+  // engine, family or category. Without this its page is a dead end that no authoring could fix.
+  const lonely = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio', family: 'equalizer', relatedTools: ['wave', 'freq'] });
+  const wave = tool({ slug: 'wave', categorySlug: 'physics', engine: 'physics', family: 'waves' });
+  const freq = tool({ slug: 'freq', categorySlug: 'physics', engine: 'physics', family: 'oscillations' });
+
+  it('uses the config list when the four tiers find nothing at all', () => {
+    expect(getRelatedTools(lonely, [lonely, wave, freq], 5).map(t => t.slug)).toEqual(['wave', 'freq']);
+  });
+
+  it('is a last resort: any derived candidate still wins', () => {
+    const sibling = tool({ slug: 'eq-2', categorySlug: 'music', engine: 'audio', family: 'equalizer' });
+    expect(getRelatedTools(lonely, [lonely, sibling, wave, freq], 5).map(t => t.slug)).toEqual(['eq-2']);
+  });
+
+  it('drops slugs that do not resolve, and self', () => {
+    const bad = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio', relatedTools: ['ghost', 'eq', 'wave'] });
+    expect(getRelatedTools(bad, [bad, wave], 5).map(t => t.slug)).toEqual(['wave']);
+  });
+
+  it('returns nothing when there is nothing curated either', () => {
+    const bare = tool({ slug: 'eq', categorySlug: 'music', engine: 'audio' });
+    expect(getRelatedTools(bare, [bare, wave])).toEqual([]);
+  });
+
+  it('respects max', () => {
+    expect(getRelatedTools(lonely, [lonely, wave, freq], 1)).toHaveLength(1);
+  });
+});
+
 describe('relatedCandidates', () => {
   it('returns the whole ranked pool, unsliced, so a caller can ask what was available', () => {
     const current = tool({ slug: 'a', categorySlug: 'text', family: 'cleanup' });

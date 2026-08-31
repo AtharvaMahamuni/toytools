@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 8,
-  minor: 2,
-  patch: 1,
+  major: 9,
+  minor: 0,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-08-30',
-  description: 'Homepage and supporting pages now present ToyTools as the platform behind the tools',
+  description: 'New Music and Audio category with the equalizer settings generator',
 };
 
 export function formatVersion(config: VersionConfig): string {

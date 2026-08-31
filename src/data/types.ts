@@ -152,7 +152,12 @@ export interface ToolConfig {
   family?: string;           // e.g. 'text-counting' | 'text-case' | 'transform' | 'cleanup'
   toolGroup?: string;        // unified-workspace group id (src/data/tool-groups.ts) — members share a GroupSwitcher + input state
   processorId?: string;      // engine lookup key — resolved via the engine's registry (process/encode/hash/structured)
-  relatedTools?: string[];   // explicit curated related-tool slugs (computed getRelatedTools is the fallback)
+  /**
+   * Curated neighbours, used only when the derivation in src/lib/tools/related.ts comes back
+   * empty, which happens to the first tool in a brand-new category and to nothing else. The
+   * derived list wins everywhere it exists: a hand-written one goes stale as the catalog grows.
+   */
+  relatedTools?: string[];
   keywords?: string[];       // extra search/command-palette terms (architecture metadata, not SEO copy)
   inputs?: string[];         // descriptor of input types, e.g. ['text'] | ['number','number']
   outputs?: string[];        // descriptor of output types, e.g. ['metric'] | ['text']
