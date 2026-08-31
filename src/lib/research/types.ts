@@ -25,10 +25,22 @@ export interface ResearchInputs {
   engineIds: Set<string>;
   /** Existing catalog tools for problem-graph cross-links. */
   catalog: CatalogRef[];
+  /**
+   * Slugs of catalog tools that DECLARE a craft touch (`craft` in their ToolConfig). The craft-debt
+   * analyzer joins this against the `userFailures` evidence in the datasets; without it the RIE can
+   * see what a tool's users fail at and not whether we ever did anything about it.
+   */
+  craftSlugs: Set<string>;
   /** Tools that have a knowledge file / guide / FAQ (for gap analysis + content suggestions). */
   knowledgeSlugs: Set<string>;
   guideSlugs: Set<string>;
   faqSlugs: Set<string>;
+  /**
+   * Hash of the datasets + catalog this run was assembled from (see fingerprint.ts). Stamped onto
+   * the report bundle so a reader can tell a current report from one generated before the last two
+   * tools shipped. Empty string in fixtures, where there is nothing to be stale against.
+   */
+  fingerprint: string;
   /** Fixed ISO timestamp so report output is byte-stable across runs in a given invocation. */
   now: string;
 }

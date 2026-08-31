@@ -29,7 +29,7 @@ npm run verify        # the done-condition. ~3 min.
 npm run verify:fast   # everything except e2e. Inner loop only, NOT a done-condition.
 ```
 
-It runs, in order: unit tests, coverage thresholds, engine shape, the build with
+It runs, in order: unit tests, coverage thresholds, engine shape, research evidence, the build with
 `KNOWLEDGE_REQUIRED=true`, platform health, query coverage, tool craft, the content graph, Quality
 Guardian, `seo:gate` on every tool directory changed against `origin/main`, and e2e on chromium
 **and** pixel5.
@@ -86,6 +86,10 @@ skill**, present the top scored opportunity *with its reasoning*, then implement
 To change a recommendation, change the **evidence** (`research/datasets/*.json`) and re-run. Never
 hand-edit a report.
 
+**The reports are committed, so check they are current before reading them.** `npm run
+research:status` prints FRESH or STALE; a tool shipping is enough to make `next-build.md` recommend
+something that already exists, with nothing on the page saying so. On STALE, re-run before acting.
+
 Every recommendation states three things, and the `next-tool` skill covers how:
 
 - **AI vs algorithm.** Deterministic math, conversion and simulation is home turf. Generation,
@@ -93,7 +97,9 @@ Every recommendation states three things, and the `next-tool` skill covers how:
   class chatbots are absorbing, so the roadmap flags it CAUTION.
 - **Its craft hypothesis.** Where that tool's users fail *mid-task*, and therefore what its one
   thoughtful touch could be. `hasCandidate: false` is a legitimate answer; inventing a touch to fill
-  the slot is not. This is a standing rule because craft is a gate.
+  the slot is not. This is a standing rule because craft is a gate. A recommendation carrying
+  `CRAFT RISK` has no recorded failure at all: resolve it before scaffolding, never after. Asked
+  what to *polish* rather than build, `npm run research:craft` is the answer.
 - **Which report it came from.** `research:next` ranks existing demand; `research:latent` finds needs
   with no query behind them. **Never merge the two rankings** — `latentScore` and `finalScore`
   measure different things and a blended number means nothing. Never present an `unanchored`
@@ -246,7 +252,10 @@ npm run registries:generate    # regenerate the derived registration barrels
 npm run icons:generate         # regenerate the committed per-tool PNGs
 
 npm run intel           # Content Intelligence → dist/content-intelligence/ (on demand, not in build)
+npm run research:status # ALWAYS start here: are the committed reports still current? FRESH / STALE
 npm run research:next   # the RIE headline recommendation (see the standing rules above)
+npm run research:craft  # craft debt: shipped tools whose thoughtful touch the evidence already names
+npm run research:signal # record an observed engagement signal (X probe, feedback) as evidence
 npm run seo:status -- <slug>   # ALWAYS start content work here: state + the exact next command
 npm run seo:gate -- <slug>     # the content done-condition
 npm run seo:doctor             # run when any seo:* command misbehaves

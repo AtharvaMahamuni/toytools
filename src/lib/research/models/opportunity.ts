@@ -3,7 +3,7 @@
 // fields (existingSolutions, weaknesses, demand, competition) are carried verbatim from discovery.
 
 import type { ProviderId, IntentKind, Difficulty, OpportunityStatus, GapKind } from '../constants';
-import type { LatentEvidence } from './provider';
+import type { LatentEvidence, EngagementSignal } from './provider';
 
 export interface OpportunityScores {
   searchDemand: number; // 0–1
@@ -40,6 +40,12 @@ export interface Opportunity {
   solutionWeaknesses: string[];
   /** Task-level failures, carried through so the roadmap can state a craft hypothesis. */
   userFailures: string[];
+  /**
+   * Observed engagement signals backing this need. Empty for a record resting on desk research
+   * alone, which is the normal case. They raise `confidence`, never `finalScore` — see
+   * scorers/corroboration.ts for why that separation is load-bearing.
+   */
+  signals: EngagementSignal[];
   relatedProblems: string[];
   relatedTools: string[];
   relatedGuides: string[];
@@ -69,6 +75,18 @@ export interface Opportunity {
   gap: GapKind;
   /** Whether the proposed engine is already registered in src/data/engines.ts. */
   engineExists: boolean;
+
+  /**
+   * True when this is a buildable opportunity with NO recorded `userFailures`, i.e. it would reach
+   * the end of `add-tool` with nothing honest to declare as its craft touch.
+   *
+   * It is a FLAG and not a penalty, deliberately. Scoring it down would rank a tool lower for
+   * evidence we have not written up yet, which measures the thinness of our datasets rather than
+   * the merit of the tool, and would quietly couple the demand ranking to our own note-taking.
+   * The flag reaches the builder at the only moment it can act on it: before anything is
+   * scaffolded. See analyzers/craft-debt.ts.
+   */
+  craftRisk: boolean;
 
   /**
    * Present only when the seed record makes a latent-demand claim. `finalScore` will usually be low

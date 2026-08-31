@@ -52,13 +52,51 @@ export function renderRoadmap(r: ResearchReports): string {
   }
   L.push('');
 
+  // The catalog read backwards: not what to build, but what we already built that the evidence
+  // says is unfinished. Ready-to-polish is the actionable half - the touch is already specified.
+  L.push('## Craft debt (shipped tools with no thoughtful touch)');
+  const cd = r.craftDebt;
+  if (cd.readyToPolish.length) {
+    L.push(`### Ready to polish - ${cd.readyToPolish.length} tool(s) whose craft the evidence already names`);
+    for (const i of cd.readyToPolish) {
+      L.push(`- **${i.slug}** (${i.engine}) - ${i.userFailures.join(' / ')}`);
+    }
+    L.push('');
+  } else {
+    L.push('_No shipped tool has recorded failures and no craft. The evidence is fully worked through._');
+    L.push('');
+  }
+  if (cd.needsEvidence.length) {
+    L.push(
+      `### Needs evidence - ${cd.needsEvidence.length} shipped tool(s) with no craft and no recorded failure`,
+    );
+    L.push('Add `userFailures` to the seed record before a craft can be honest. Never invent one.');
+    L.push(cd.needsEvidence.map(i => `- ${i.slug} (${i.engine})`).join('\n'));
+    L.push('');
+  }
+  if (cd.atRisk.length) {
+    L.push(`### At risk - ${cd.atRisk.length} buildable opportunit(ies) that would ship craftless`);
+    L.push(cd.atRisk.slice(0, 15).map(i => `- ${i.proposedTool} (score ${i.finalScore}, ${i.engine})`).join('\n'));
+    L.push('');
+  }
+
   L.push('## Emerging trends (by transformation)');
   for (const t of r.trends.slice(0, 10)) {
     L.push(`- ${t.transformation}: ${t.count} signal(s), mean demand ${t.meanDemand}, mean score ${t.meanScore}.`);
   }
   L.push('');
+  L.push(fingerprintFooter(r.fingerprint));
+  L.push('');
 
   return L.join('\n');
+}
+
+/** The staleness stamp. `npm run research:status` compares it against the current inputs. */
+function fingerprintFooter(fingerprint: string): string {
+  return (
+    `---\n\n_Inputs fingerprint: \`${fingerprint}\`. Run \`npm run research:status\` to check this ` +
+    'report against the current datasets and catalog before acting on it._'
+  );
 }
 
 /**
@@ -151,7 +189,7 @@ function candidateBlock(c: LatentCandidate): string[] {
   return L;
 }
 
-export function renderNextBuild(nb: NextBuild | null, generatedAt: string): string {
+export function renderNextBuild(nb: NextBuild | null, generatedAt: string, fingerprint = ''): string {
   const L: string[] = [];
   L.push('# Recommended Next Build');
   L.push('');
@@ -174,6 +212,21 @@ export function renderNextBuild(nb: NextBuild | null, generatedAt: string): stri
   L.push('### Why ToyTools can win');
   L.push(nb.whyWeCanWin.map(x => `- ${x}`).join('\n'));
   L.push('');
+  // Observed evidence, kept visually separate from everything above it. Everything above is our own
+  // desk research; this is the part somebody outside this repo did. Conflating the two is how a
+  // recommendation starts sounding better sourced than it is.
+  if (nb.observedEvidence.length) {
+    L.push('### Observed evidence (signals, not search volume)');
+    for (const sig of nb.observedEvidence) {
+      L.push(`- \`${sig.kind}\` ${sig.date}: ${sig.observation} (strength ${sig.strength})${sig.url ? ` <${sig.url}>` : ''}`);
+    }
+    L.push('');
+    L.push(
+      'These raise confidence, not the score. A signal says the need is real; it does not say more ' +
+        'people are searching for it, and one probe is not a dataset.',
+    );
+    L.push('');
+  }
   // Answered here, before anything is scaffolded, because a tool with demand and no craft is a
   // tool that will reach the last step of add-tool with nothing honest to declare.
   L.push('### Craft hypothesis (where its users actually fail)');
@@ -200,5 +253,9 @@ export function renderNextBuild(nb: NextBuild | null, generatedAt: string): stri
   if (nb.relatedTools.length) L.push(`- Internal links / related tools: ${nb.relatedTools.join(', ')}`);
   L.push(`- Schema: ${nb.content.schema.join(', ')}`);
   L.push('');
+  if (fingerprint) {
+    L.push(fingerprintFooter(fingerprint));
+    L.push('');
+  }
   return L.join('\n');
 }

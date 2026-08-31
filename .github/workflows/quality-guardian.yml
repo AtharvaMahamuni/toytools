@@ -43,6 +43,11 @@ jobs:
       - name: Version + changelog gate
         run: npm run check:version -- "${{ github.event.pull_request.base.sha }}"
 
+      # Mirrors the "research evidence" step in scripts/verify.sh. Integrity only: a stale report
+      # bundle does not fail here, it is caught by `npm run research:status` in the next-tool skill.
+      - name: Research evidence check
+        run: npm run research:validate
+
       - name: Install quality-guardian dependencies
         run: npm ci --prefix quality-guardian
 

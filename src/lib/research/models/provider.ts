@@ -4,7 +4,7 @@
 // context (the CLI loads the JSON files; tests pass datasets inline) so the analyzer layer stays
 // free of filesystem access and remains trivially testable.
 
-import type { ProviderId, IntentKind, Difficulty } from '../constants';
+import type { ProviderId, IntentKind, Difficulty, EngagementSignalKind } from '../constants';
 
 /**
  * Evidence that a need is LATENT: real, but with no query behind it because nobody has a word for
@@ -30,6 +30,38 @@ export interface LatentEvidence {
   consequence: number;
   /** What people are observed doing instead today. The behaviour that stands in for the query. */
   observedBehaviour: string[];
+}
+
+/**
+ * One OBSERVED engagement signal: a thing that happened, recorded with its provenance.
+ *
+ * Every other field on a SeedRecord is a claim we authored after research - `demand: 78` is our
+ * estimate, not a measurement. This is the only field that carries something from outside that
+ * loop, which is why it is a structured record rather than a nudge to `demand`. A probe that lands
+ * used to have nowhere to go but that number, and a hand-raised `demand` is indistinguishable from
+ * a well-researched one a month later.
+ *
+ * It deliberately does NOT feed `finalScore`. `searchDemand` measures how loudly a need is already
+ * being asked for in search, and a post doing well is not that; folding one into the other would
+ * let a single popular post reorder the roadmap, which is exactly what the x-content skill's
+ * "one probe is not a dataset" rule forbids. Signals raise `confidence` instead, which is the
+ * honest claim: we are more sure this need is real, not that more people are searching for it.
+ */
+export interface EngagementSignal {
+  kind: EngagementSignalKind;
+  /** ISO date (YYYY-MM-DD) the signal was observed. Keeps the evidence auditable and diffable. */
+  date: string;
+  /** What actually happened, in plain words. "Did well" is not an observation; say what was seen. */
+  observation: string;
+  /**
+   * 0-100: how strongly this ONE observation argues the need is real. A reply describing the exact
+   * workflow scores high; a like on a post about something else scores low. It is not a volume
+   * number - ten weak signals should not add up to a strong one, and `corroboration` scores
+   * independent KINDS above repeats for that reason.
+   */
+  strength: number;
+  /** Where to go to see it. Optional, because a /feedback/ message has no public URL. */
+  url?: string;
 }
 
 /** One curated evidence record inside research/datasets/<domain>.json. */
@@ -99,6 +131,12 @@ export interface SeedRecord {
    * `existingSolutions`, by TLD rule. State it explicitly when the fallback would be wrong.
    */
   authorityRequired?: number;
+  /**
+   * Observed engagement signals backing this record. Optional; absence is the normal case and means
+   * the record rests entirely on desk research. Append with `npm run research:signal` rather than
+   * editing the JSON by hand, so the shape stays valid and the provenance stays complete.
+   */
+  signals?: EngagementSignal[];
   /** Present when this record is a claim about latent demand. See LatentEvidence. */
   latent?: LatentEvidence;
 }
@@ -135,6 +173,8 @@ export interface RawOpportunity {
   algorithmicFit: number;
   /** Carried verbatim; undefined means "derive it from existingSolutions". See SeedRecord. */
   authorityRequired?: number;
+  /** Observed signals carried verbatim. Empty is the normal case. */
+  signals: EngagementSignal[];
   /** Carried verbatim from the seed record; undefined for ordinary demand-driven opportunities. */
   latent?: LatentEvidence;
 }

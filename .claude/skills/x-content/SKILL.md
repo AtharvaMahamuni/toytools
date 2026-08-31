@@ -132,12 +132,33 @@ also the mechanism that makes gotcha cards opt-in: nothing renders until you fil
 This is the part that makes the account worth running, and the part that is easiest to do wrong.
 
 When a probe item lands, that is a **demand signal Search Console cannot produce**, because Search
-Console only reports demand that already exists as query volume. Write it into
-`research/datasets/*.json` as evidence and re-run the RIE:
+Console only reports demand that already exists as query volume. Record it as a structured signal
+against the seed record it belongs to, then re-run the RIE:
 
 ```sh
+npm run research:signal -- --tool <slug> --kind x-probe --strength 60 \
+  --observation "what was actually seen, in words" --url https://x.com/...
+npm run research:signal -- --tool <slug> --list      # what is already recorded
 npm run research:next
 ```
+
+`--kind` is one of `x-probe`, `x-reply`, `search-console`, `feedback`, `support-thread`.
+`--strength` (0-100) is how strongly **this one observation** argues the need is real: a reply
+describing the exact workflow scores high, a like on a post about something else scores low.
+
+**Write what you saw, not how it felt.** "Did well" is rejected by the validator, and rightly:
+"three replies described diffing semicolon-delimited exports by eye" is evidence, and the other is a
+mood. The command refuses anything the RIE's own dataset validator would reject, so a bad signal
+fails here rather than silently at the next research run.
+
+**A signal raises `confidence`, never `finalScore`.** This is deliberate and worth understanding
+before recording one: `searchDemand` measures how loudly a need is already being asked for in
+search, and a post doing well is a different fact. Folding the second into the first would let one
+good post reorder the roadmap. What a signal buys is that we are more sure the need is real, and the
+recommendation reports it under its own heading so nobody mistakes it for traffic.
+
+**Nudging `demand` by hand instead is the thing this replaces.** A raised number carries no date, no
+words, and no link, so a month later it is indistinguishable from research. Use the command.
 
 **Never hand-edit a report, and never build on a hunch because a post did well.** The standing rule
 in `CLAUDE.md` holds here without exception: to change a recommendation, change the evidence. One

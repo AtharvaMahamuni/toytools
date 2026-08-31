@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "generatedAt": "2026-08-29T12:53:57.454Z",
+  "version": 3,
+  "generatedAt": "2026-08-31T15:40:03.484Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -309,12 +309,16 @@
       "engine": "chemistry-lab",
       "existing": false,
       "relatedTools": [
+        "electron-configuration-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
+        "electron-configuration-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
@@ -507,13 +511,17 @@
       "existing": false,
       "relatedTools": [
         "newman-projection-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "newman-projection-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "reaction-rate-calculator"
       ]
     },
@@ -759,12 +767,16 @@
       "existing": false,
       "relatedTools": [
         "crystal-field-splitting-calculator",
+        "chemical-bond-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "crystal-field-splitting-calculator",
+        "chemical-bond-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -1319,13 +1331,17 @@
       "engine": "chemistry-lab",
       "existing": false,
       "relatedTools": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -1407,13 +1423,17 @@
       "existing": false,
       "relatedTools": [
         "reaction-rate-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "reaction-rate-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator"
       ]
     },
@@ -1797,14 +1817,18 @@
       "existing": false,
       "relatedTools": [
         "ideal-gas-law-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
         "ideal-gas-law-calculator",
+        "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "electron-configuration-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]

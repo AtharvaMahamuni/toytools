@@ -1,0 +1,412 @@
+{
+  "version": 3,
+  "generatedAt": "2026-08-31T15:40:05.575Z",
+  "fingerprint": "e3dd6507",
+  "readyToPolish": [
+    {
+      "slug": "electron-configuration-calculator",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "Writes the configuration correctly but cannot say which electrons are the valence ones that bond.",
+        "Follows the aufbau order blindly and misses the chromium and copper exceptions."
+      ],
+      "engine": "chemistry-lab",
+      "demand": 84
+    },
+    {
+      "slug": "csv-diff",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "A semicolon-delimited European export parses as a single column and every row reads as changed.",
+        "Two files that differ only in row order are reported as wholly different."
+      ],
+      "engine": "csv",
+      "demand": 82
+    },
+    {
+      "slug": "timezone-converter",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "The converted time is correct but nothing says whether it is a reasonable hour to call.",
+        "The date rolls over across the conversion and the day change goes unnoticed."
+      ],
+      "engine": "datetime",
+      "demand": 80
+    },
+    {
+      "slug": "cron-expression-parser",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "The expression parses, but the real question is whether it fires when the user thinks, which needs the next few run times.",
+        "Day-of-month and day-of-week together are OR, not AND, so the schedule fires far more often than intended."
+      ],
+      "engine": "datetime",
+      "demand": 72
+    },
+    {
+      "slug": "chemical-bond-calculator",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "Gets the electronegativity difference right, then applies a hard cutoff and calls a polar covalent bond ionic.",
+        "Reads a bond dipole without noticing that molecular geometry can cancel it to zero."
+      ],
+      "engine": "chemistry-lab",
+      "demand": 71
+    },
+    {
+      "slug": "csv-cleaner",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "A semicolon-delimited European export parses as one column, silently, so the cleanup applies to nothing.",
+        "A trailing empty column from a spreadsheet export survives the clean because it looks like real data."
+      ],
+      "engine": "csv",
+      "demand": 70
+    },
+    {
+      "slug": "csv-to-tsv",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "The source uses semicolons rather than commas, so the whole file converts into one column per row.",
+        "A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on."
+      ],
+      "engine": "csv",
+      "demand": 58
+    }
+  ],
+  "needsEvidence": [
+    {
+      "slug": "ohms-law-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 95
+    },
+    {
+      "slug": "quadratic-equation-solver",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "math-lab",
+      "demand": 94
+    },
+    {
+      "slug": "sip-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "finance",
+      "demand": 92
+    },
+    {
+      "slug": "fraction-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "math",
+      "demand": 90
+    },
+    {
+      "slug": "projectile-motion-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 90
+    },
+    {
+      "slug": "unix-timestamp-converter",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "datetime",
+      "demand": 90
+    },
+    {
+      "slug": "age-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "datetime",
+      "demand": 88
+    },
+    {
+      "slug": "roi-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "finance",
+      "demand": 88
+    },
+    {
+      "slug": "unit-circle-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "math-lab",
+      "demand": 88
+    },
+    {
+      "slug": "date-difference-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "datetime",
+      "demand": 85
+    },
+    {
+      "slug": "probability-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "math-lab",
+      "demand": 85
+    },
+    {
+      "slug": "cagr-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "finance",
+      "demand": 82
+    },
+    {
+      "slug": "ideal-gas-law-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 82
+    },
+    {
+      "slug": "combinations-permutations-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "math",
+      "demand": 78
+    },
+    {
+      "slug": "doppler-effect-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 78
+    },
+    {
+      "slug": "json-escape",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "structured-data",
+      "demand": 76
+    },
+    {
+      "slug": "prime-factorization-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "math",
+      "demand": 75
+    },
+    {
+      "slug": "binary-text-converter",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "encoding",
+      "demand": 74
+    },
+    {
+      "slug": "reaction-rate-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "chemistry-lab",
+      "demand": 74
+    },
+    {
+      "slug": "momentum-collision-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 72
+    },
+    {
+      "slug": "simple-harmonic-motion-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 68
+    },
+    {
+      "slug": "rot13-encoder-decoder",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "encoding",
+      "demand": 64
+    },
+    {
+      "slug": "inclined-plane-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "physics",
+      "demand": 62
+    },
+    {
+      "slug": "newman-projection-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "chemistry-lab",
+      "demand": 62
+    },
+    {
+      "slug": "crystal-field-splitting-calculator",
+      "kind": "needs-evidence",
+      "userFailures": [],
+      "engine": "chemistry-lab",
+      "demand": 58
+    }
+  ],
+  "atRisk": [
+    {
+      "id": "statistics-visualizer",
+      "proposedTool": "statistics-visualizer",
+      "finalScore": 81.7,
+      "engine": "math"
+    },
+    {
+      "id": "triangle-solver",
+      "proposedTool": "triangle-solver",
+      "finalScore": 79.8,
+      "engine": "math"
+    },
+    {
+      "id": "sleep-cycle-calculator",
+      "proposedTool": "sleep-cycle-calculator",
+      "finalScore": 79.5,
+      "engine": "datetime"
+    },
+    {
+      "id": "color-shades-generator",
+      "proposedTool": "color-shades-generator",
+      "finalScore": 79.4,
+      "engine": "color"
+    },
+    {
+      "id": "type-scale-generator",
+      "proposedTool": "type-scale-generator",
+      "finalScore": 79.2,
+      "engine": "units"
+    },
+    {
+      "id": "matrix-calculator",
+      "proposedTool": "matrix-calculator",
+      "finalScore": 78.3,
+      "engine": "math"
+    },
+    {
+      "id": "normal-distribution-visualizer",
+      "proposedTool": "normal-distribution-visualizer",
+      "finalScore": 77.1,
+      "engine": "math-lab"
+    },
+    {
+      "id": "pregnancy-due-date-calculator",
+      "proposedTool": "pregnancy-due-date-calculator",
+      "finalScore": 76.6,
+      "engine": "datetime"
+    },
+    {
+      "id": "lean-body-mass-calculator",
+      "proposedTool": "lean-body-mass-calculator",
+      "finalScore": 76.5,
+      "engine": "wellness"
+    },
+    {
+      "id": "linear-regression-playground",
+      "proposedTool": "linear-regression-playground",
+      "finalScore": 76.3,
+      "engine": "math-lab"
+    },
+    {
+      "id": "ovulation-calculator",
+      "proposedTool": "ovulation-calculator",
+      "finalScore": 74.6,
+      "engine": "datetime"
+    },
+    {
+      "id": "function-grapher",
+      "proposedTool": "function-grapher",
+      "finalScore": 74.5,
+      "engine": "math-lab"
+    },
+    {
+      "id": "blood-pressure-tracker",
+      "proposedTool": "blood-pressure-tracker",
+      "finalScore": 74.3,
+      "engine": "tracker"
+    },
+    {
+      "id": "css-gradient-generator",
+      "proposedTool": "css-gradient-generator",
+      "finalScore": 74.1,
+      "engine": "color"
+    },
+    {
+      "id": "waist-to-hip-ratio-calculator",
+      "proposedTool": "waist-to-hip-ratio-calculator",
+      "finalScore": 73.7,
+      "engine": "wellness"
+    },
+    {
+      "id": "sleep-hours-tracker",
+      "proposedTool": "sleep-hours-tracker",
+      "finalScore": 73.5,
+      "engine": "tracker"
+    },
+    {
+      "id": "body-surface-area-calculator",
+      "proposedTool": "body-surface-area-calculator",
+      "finalScore": 72.9,
+      "engine": "wellness"
+    },
+    {
+      "id": "vo2-max-calculator",
+      "proposedTool": "vo2-max-calculator",
+      "finalScore": 72.2,
+      "engine": "wellness"
+    },
+    {
+      "id": "image-palette-extractor",
+      "proposedTool": "image-palette-extractor",
+      "finalScore": 71.6,
+      "engine": "color"
+    },
+    {
+      "id": "net-worth-calculator",
+      "proposedTool": "net-worth-calculator",
+      "finalScore": 66.6,
+      "engine": "budget"
+    },
+    {
+      "id": "loan-calculator",
+      "proposedTool": "loan-calculator",
+      "finalScore": 66.2,
+      "engine": "loan"
+    },
+    {
+      "id": "salary-calculator",
+      "proposedTool": "salary-calculator",
+      "finalScore": 64.7,
+      "engine": "budget"
+    },
+    {
+      "id": "mortgage-calculator",
+      "proposedTool": "mortgage-calculator",
+      "finalScore": 64.3,
+      "engine": "loan"
+    },
+    {
+      "id": "retirement-calculator",
+      "proposedTool": "retirement-calculator",
+      "finalScore": 58.3,
+      "engine": "retirement"
+    },
+    {
+      "id": "meal-plan-generator",
+      "proposedTool": "meal-plan-generator",
+      "finalScore": 45.5,
+      "engine": "meal-planning"
+    }
+  ],
+  "summary": {
+    "shippedCovered": 53,
+    "readyToPolish": 7,
+    "needsEvidence": 25,
+    "atRisk": 25
+  }
+}

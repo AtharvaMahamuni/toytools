@@ -57,6 +57,7 @@ export const ANALYZERS = [
   'guide-generator',
   'faq-generator',
   'roadmap',
+  'craft-debt',
   'io-graph',
   'latent-demand',
 ] as const;
@@ -71,5 +72,6 @@ export const SCORERS = [
   'seo',
   'localization',
   'algorithmic-fit',
+  'corroboration',
   'confidence',
 ] as const;

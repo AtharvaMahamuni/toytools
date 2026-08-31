@@ -1,11 +1,13 @@
 // Research Intelligence Engine CLI (`npm run research [subcommand]`). Runs the pipeline over the seed
 // datasets, validates before writing, and emits the report bundle to research/reports/ (+ a dated
-// snapshot). Subcommands: report | roadmap | clusters | gaps | next | latent | validate (default: report).
+// snapshot). Subcommands: report | roadmap | clusters | gaps | next | latent | craft | status |
+// validate (default: report).
 // On-demand only; never part of `npm run build`. Mirrors scripts/content-intelligence.ts.
 
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadDatasets } from './research-lib';
-import { defaultInputs, runResearchIntelligence } from '../src/lib/research/index';
+import { catalogInputs, defaultInputs, runResearchIntelligence } from '../src/lib/research/index';
+import { fingerprintInputs } from '../src/lib/research/fingerprint';
 import { validateAll } from '../src/lib/research/validate';
 import { REPORT_PATHS } from '../src/lib/research/config';
 import {
@@ -16,6 +18,7 @@ import {
   trendsJson,
   graphJson,
   latentJson,
+  craftDebtJson,
   indexJson,
 } from '../src/lib/research/reports/json';
 import { opportunitiesCsv } from '../src/lib/research/reports/csv';
@@ -26,6 +29,13 @@ const cmd = process.argv[2] ?? 'report';
 const { datasets, errors: loadErrors } = loadDatasets();
 if (loadErrors.length) fail(loadErrors);
 if (datasets.length === 0) fail(['No seed datasets found in ' + REPORT_PATHS.datasets]);
+
+const base = catalogInputs();
+
+// `status` answers "can I trust the reports already on disk?", so it runs before the pipeline and
+// without needing a valid bundle: a stale report is often an invalid one too, and failing the
+// freshness check on a validation error would hide the very thing the reader asked about.
+if (cmd === 'status') reportStatus();
 
 const now = process.env.RESEARCH_NOW ?? new Date().toISOString();
 const reports = runResearchIntelligence(defaultInputs(datasets, now));
@@ -46,7 +56,7 @@ mkdirSync(REPORT_PATHS.snapshots, { recursive: true });
 const writeJson = (name: string, data: unknown) => writeFileSync(`${root}/${name}`, JSON.stringify(data, null, 2) + '\n');
 const writeText = (name: string, text: string) => writeFileSync(`${root}/${name}`, text.endsWith('\n') ? text : text + '\n');
 
-const nextBuildMd = renderNextBuild(reports.roadmap.nextBuild, reports.generatedAt);
+const nextBuildMd = renderNextBuild(reports.roadmap.nextBuild, reports.generatedAt, reports.fingerprint);
 
 switch (cmd) {
   case 'next':
@@ -65,6 +75,17 @@ switch (cmd) {
     console.log(md);
     break;
   }
+  case 'craft': {
+    writeJson('craft-debt.json', craftDebtJson(reports));
+    const cd = reports.craftDebt;
+    console.log(`\n[research] craft debt (${cd.summary.shippedCovered} shipped tools covered by the datasets)\n`);
+    console.log(`  ready to polish   ${cd.summary.readyToPolish}  the touch is already named by recorded userFailures`);
+    for (const i of cd.readyToPolish) console.log(`      ${i.slug.padEnd(34)} ${i.userFailures[0]}`);
+    console.log(`  needs evidence    ${cd.summary.needsEvidence}  shipped, no craft, no recorded failure`);
+    console.log(`  at risk           ${cd.summary.atRisk}  buildable opportunities that would ship craftless`);
+    console.log(`\n[research] craft debt -> ${root}/craft-debt.json\n`);
+    break;
+  }
   case 'clusters':
     writeJson('clusters.json', clustersJson(reports));
     console.log(`[research] ${reports.clusters.length} clusters -> ${root}/clusters.json`);
@@ -80,7 +101,8 @@ switch (cmd) {
     break;
   default:
     console.error(
-      `[research] unknown subcommand "${cmd}". Use: report | roadmap | clusters | gaps | next | latent | validate`,
+      `[research] unknown subcommand "${cmd}". ` +
+        'Use: report | roadmap | clusters | gaps | next | latent | craft | status | validate',
     );
     process.exit(1);
 }
@@ -90,6 +112,7 @@ function writeAll(): void {
   writeText('next-build.md', nextBuildMd);
   writeText('latent.md', renderLatent(reports));
   writeJson('latent.json', latentJson(reports));
+  writeJson('craft-debt.json', craftDebtJson(reports));
   writeJson('opportunities.json', opportunitiesJson(reports));
   writeJson('top-opportunities.json', topOpportunitiesJson(reports));
   writeJson('missing-engines.json', missingEnginesJson(reports));
@@ -113,6 +136,43 @@ function writeAll(): void {
     console.error('[research] failed to write reports');
     process.exit(1);
   }
+}
+
+/**
+ * Compare the fingerprint stamped on the committed reports against the one the CURRENT datasets and
+ * catalog produce, and say plainly which it is. Exits 0 either way: staleness is not an error, it is
+ * a fact a reader needs before trusting next-build.md. The place it must block is the next-tool
+ * skill, where a stale answer becomes a build decision.
+ */
+function reportStatus(): never {
+  const current = fingerprintInputs({
+    datasets,
+    existingSlugs: base.existingSlugs,
+    engineIds: base.engineIds,
+    craftSlugs: base.craftSlugs,
+  });
+  const indexPath = `${REPORT_PATHS.root}/index.json`;
+  if (!existsSync(indexPath)) {
+    console.log('[research] STALE - no reports on disk yet. Run `npm run research:report`.');
+    process.exit(0);
+  }
+  const onDisk = JSON.parse(readFileSync(indexPath, 'utf8')) as { fingerprint?: string; generatedAt?: string; nextBuild?: string };
+  if (onDisk.fingerprint === current) {
+    console.log(
+      `[research] FRESH - reports match the current datasets and catalog (fingerprint ${current}, ` +
+        `generated ${onDisk.generatedAt}). Next build on file: ${onDisk.nextBuild ?? 'none'}.`,
+    );
+    process.exit(0);
+  }
+  console.log(
+    `[research] STALE - the reports were generated from different inputs.\n` +
+      `    on disk: ${onDisk.fingerprint ?? '(no fingerprint - generated before this check existed)'} (${onDisk.generatedAt ?? 'unknown date'})\n` +
+      `    current: ${current}\n` +
+      '    The datasets or the catalog changed since. A recommendation computed against an older\n' +
+      '    catalog can propose a tool that already ships. Re-run `npm run research:report` before\n' +
+      '    acting on next-build.md.',
+  );
+  process.exit(0);
 }
 
 function fail(errors: string[]): never {

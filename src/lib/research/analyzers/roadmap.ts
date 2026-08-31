@@ -36,6 +36,10 @@ function reasonsFor(o: Opportunity): string[] {
   // needs are an architecture mismatch and their queries are being absorbed by chatbots.
   if (o.algorithmicFit >= 0.9) r.push('Deterministic algorithm solves this exactly (AI adds nothing)');
   else if (o.algorithmicFit < 0.5) r.push('CAUTION: AI-shaped need - a client-side algorithm may underserve it');
+  // Said here, in the reasons a builder reads before scaffolding, because the coverage ratchet only
+  // catches a craftless tool once the work is done. It is a flag and never a score penalty: see
+  // Opportunity.craftRisk.
+  if (o.craftRisk) r.push('CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch');
   return r;
 }
 
@@ -100,6 +104,7 @@ function makeNextBuild(o: Opportunity, engines: EngineRecommendations): NextBuil
         ? 'Pick ONE of these and match it to a craft kind (recovery, verification, continuation, guardrail, orientation). See .claude/skills/tool-craft/SKILL.md.'
         : 'No task-level failure recorded for this tool, so there is no craft candidate from evidence. Add userFailures to the seed record if you know one, or accept that this tool ships with no craft and say so explicitly. Never invent one.',
     },
+    observedEvidence: o.signals,
     engine: o.proposedEngine,
     engineExists: o.engineExists,
     unlocksTools: unlocks,

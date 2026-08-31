@@ -49,11 +49,18 @@ export function latentJson(r: ResearchReports): unknown {
   };
 }
 
+export function craftDebtJson(r: ResearchReports): unknown {
+  return { version: r.version, generatedAt: r.generatedAt, fingerprint: r.fingerprint, ...r.craftDebt };
+}
+
 /** Summary index, mirroring content-intelligence's index.json. */
 export function indexJson(r: ResearchReports): unknown {
   return {
     version: r.version,
     generatedAt: r.generatedAt,
+    // The stamp `research:status` reads. Without it a reader cannot tell this bundle from one
+    // generated two tools ago, which is how the roadmap went quietly stale before it existed.
+    fingerprint: r.fingerprint,
     ...r.summary,
     nextBuild: r.roadmap.nextBuild?.proposedTool ?? null,
   };

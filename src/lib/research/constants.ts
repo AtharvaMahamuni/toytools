@@ -4,7 +4,7 @@
 // here and the type system + validators follow.
 
 /** Bump when any report shape changes; stamped on every report bundle so schemas evolve cleanly. */
-export const RESEARCH_SCHEMA_VERSION = 2;
+export const RESEARCH_SCHEMA_VERSION = 3;
 
 /** Every research source. The seed-dataset provider is the only one implemented; the rest are
  *  documented live-API seams that conform to the same interface and return [] until wired. */
@@ -90,6 +90,28 @@ export type RoadmapTier = (typeof ROADMAP_TIERS)[number];
  */
 export const LATENT_SIGNAL_KINDS = ['asymmetry', 'dead-end', 'handoff', 'unserved-failure'] as const;
 export type LatentSignalKind = (typeof LATENT_SIGNAL_KINDS)[number];
+
+/**
+ * Where an ENGAGEMENT SIGNAL came from. A signal is a thing we OBSERVED happening, as opposed to
+ * the rest of a seed record, which is a thing we ASSERTED after research. That distinction is the
+ * whole point of the field: every other number in a dataset was authored by us, so the RIE's
+ * standing weakness is that it measures us against ourselves (docs/analysis/2026-08-16-seo-ranking-gaps.md).
+ * These are the only inputs that come from outside that loop.
+ *
+ * - `x-probe`         - a post that deliberately floated a need, and what the response was.
+ * - `x-reply`         - an unprompted reply or quote describing the need in the wild.
+ * - `search-console`  - a real impression/click pattern on an existing page.
+ * - `feedback`        - a message through /feedback/.
+ * - `support-thread`  - somebody working around the missing tool in public (issue, forum, thread).
+ */
+export const ENGAGEMENT_SIGNAL_KINDS = [
+  'x-probe',
+  'x-reply',
+  'search-console',
+  'feedback',
+  'support-thread',
+] as const;
+export type EngagementSignalKind = (typeof ENGAGEMENT_SIGNAL_KINDS)[number];
 
 /** Lifecycle of a latent candidate. `unanchored` is the guardrail verdict, not a failure state. */
 export const LATENT_STATUSES = ['candidate', 'unanchored', 'already-exists'] as const;

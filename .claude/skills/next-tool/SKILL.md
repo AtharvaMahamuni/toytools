@@ -17,11 +17,21 @@ the `research-intelligence` subagent (`.claude/agents/research-intelligence.md`)
 
 ## The flow
 
+0. **Check the reports on disk are still current. Always, before reading any of them:**
+   ```sh
+   npm run research:status     # prints FRESH or STALE, and why
+   ```
+   The reports are committed, and the catalog moves under them: a tool shipping is enough to make
+   `next-build.md` recommend something that already exists, with no dataset edit and nothing on the
+   page saying so. That is exactly what had happened on 2026-08-31, when the committed roadmap was
+   computed two tools back. **On STALE, re-run the engine before reading anything.** A stale report
+   is intuition wearing an evidence report's clothes, which is the one thing this skill exists to
+   prevent.
 1. **Run the engine** (validates first, then writes reports):
    ```sh
    npm run research:validate   # gate: datasets + registry + report integrity
    npm run research:next       # writes research/reports/next-build.md and prints it
-   npm run research:report     # full bundle (roadmap.md, opportunities.json, missing-engines.json, ...)
+   npm run research:report     # full bundle (roadmap.md, opportunities.json, craft-debt.json, ...)
    ```
 2. **Read the evidence**: `research/reports/next-build.md` (the headline recommendation) and
    `research/reports/top-opportunities.json` (ranked alternatives + scores).
@@ -35,6 +45,13 @@ the `research-intelligence` subagent (`.claude/agents/research-intelligence.md`)
    - **the craft hypothesis** (`craftHypothesis`): where this tool's users fail MID-TASK, and
      therefore what its one thoughtful touch could be. Never skip this, including when the answer
      is "no candidate": see below.
+   - **any observed evidence** (`observedEvidence`): recorded engagement signals, which are the only
+     inputs in the whole recommendation that we did not author ourselves. Present them as what they
+     are - they raised confidence, not the score.
+   - **the craft-risk flag**, when the recommendation carries `CRAFT RISK` in its reasons. It means
+     no task-level failure is recorded, so this tool would reach the end of `add-tool` with nothing
+     honest to declare and would drag the coverage ratchet down. Resolve it BEFORE scaffolding: add
+     `userFailures` to the seed record and re-run, or state out loud that the tool ships craftless.
 4. **Confirm scope** with the user if they have not already said "build it" (how many tools, which
    ones from the ranked list).
 5. **Implement** via the **`add-tool`** skill / `npm run scaffold:tool` - the RIE only decides
@@ -64,6 +81,40 @@ tool can have one without the other.
 
 To record a failure, add `userFailures` to the tool's record in `research/datasets/<domain>.json`
 and re-run. Like every other recommendation input, change the evidence, never the report.
+
+## Craft debt: the same question asked backwards
+
+```sh
+npm run research:craft      # writes research/reports/craft-debt.json and prints the summary
+```
+
+`check:craft --report` lists the craftless backlog grouped by engine, which says where the tools
+are and nothing about where the answers are. This joins that backlog against the `userFailures` in
+the datasets and splits it in two:
+
+- **ready to polish** - shipped, no `craft`, and a task-level failure already recorded. The touch was
+  specified when the seed record was written and then never picked up, so these are the cheapest
+  craft work in the catalog. Hand one to the `tool-crafter` agent with its recorded failure.
+- **needs evidence** - shipped, no `craft`, no recorded failure. Not a build task: add `userFailures`
+  first, or the craft will be invented, which is the failure the doctrine exists to prevent.
+
+When asked what to polish (rather than what to build), this report is the answer, and it is ranked
+by demand for the same reason the roadmap is.
+
+## Recording engagement signals
+
+An X probe that lands, a `/feedback/` message, a Search Console pattern - evidence from outside our
+own desk research. It goes in as a structured signal, never as a nudge to `demand`:
+
+```sh
+npm run research:signal -- --tool <slug> --kind x-probe --strength 60 \
+  --observation "what was actually seen, in words" [--url <link>]
+npm run research:signal -- --tool <slug> --list
+```
+
+**Signals raise `confidence`, never `finalScore`.** A post doing well is not search volume, and one
+probe is not a dataset. Say that plainly when presenting a recommendation that carries them, rather
+than letting observed evidence read as demand.
 
 ## Rules
 

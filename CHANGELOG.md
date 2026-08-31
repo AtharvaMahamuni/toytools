@@ -2,6 +2,47 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v9.0.1] - 2026-08-31
+
+### Added
+
+- **Engagement signals as evidence.** A seed record in `research/datasets/` can now carry
+  `signals[]`: what was observed, on what date, how strongly it argues the need is real, and a link.
+  Until now the only home for an X probe that landed was the `demand` number, and a hand-raised
+  `demand` is indistinguishable from a researched one a month later. `npm run research:signal --
+  --tool <slug> --kind x-probe --strength 60 --observation "..."` records one, refusing anything the
+  dataset validator would reject and inserting it without reformatting the rest of the file.
+  Signals raise `confidence` and never `finalScore`: a post doing well is not search volume, and
+  folding the two together would let one probe reorder the roadmap. `next-build.md` reports them
+  under their own **Observed evidence** heading so nobody mistakes them for traffic.
+- **Craft debt** (`npm run research:craft`, `research/reports/craft-debt.json`). Joins the `craft`
+  declarations in the registry against the `userFailures` evidence in the datasets and reports where
+  the two disagree. Seven shipped tools turn out to have a task-level failure recorded and no
+  thoughtful touch built, which means their craft was specified when the seed record was written and
+  then never picked up: `csv-diff`, `csv-cleaner`, `csv-to-tsv`, `timezone-converter`,
+  `cron-expression-parser`, `electron-configuration-calculator` and `chemical-bond-calculator`.
+  Asked what to polish rather than what to build, that list is the answer.
+- **A craft-risk flag on recommendations.** A buildable opportunity with no recorded task-level
+  failure would reach the end of `add-tool` with nothing honest to declare, so the roadmap now says
+  `CRAFT RISK` in its reasons. It is a flag and not a score penalty: ranking a tool down for
+  evidence we have not written up yet would measure our note-taking rather than the tool.
+- **Report freshness.** Every report now carries a fingerprint of the datasets and catalog it was
+  generated from, and `npm run research:status` prints FRESH or STALE. The committed reports were
+  stale when this was added: they had been generated before the Music & Audio category and
+  `equalizer-settings-generator` shipped, so the recommendation had been computed against a catalog
+  two tools out of date with nothing on the page saying so. The `next-tool` skill now checks this
+  before reading anything.
+
+### Changed
+
+- `npm run verify` and the PR workflow both gained a **research evidence** step
+  (`npm run research:validate`). The RIE's own datasets and report relationships were previously
+  checked by nothing automatic - a malformed seed record surfaced only when somebody happened to run
+  the engine. Integrity only: a stale report bundle does not fail the build, because staleness
+  misleads exactly one reader and the `next-tool` skill catches it there.
+- The report bundle schema version moved to 3, and the reports were regenerated against the current
+  catalog.
+
 ## [alpha-v9.0] - 2026-08-30
 
 ### Added

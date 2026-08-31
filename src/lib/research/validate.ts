@@ -6,7 +6,7 @@
 import type { ResearchReports } from './models/report';
 import type { SeedDataset } from './models/provider';
 import { PROVIDERS, ANALYZERS, SCORERS } from './registry';
-import { PROVIDER_IDS, INTENT_KINDS, DIFFICULTIES } from './constants';
+import { PROVIDER_IDS, INTENT_KINDS, DIFFICULTIES, ENGAGEMENT_SIGNAL_KINDS } from './constants';
 import { jaccard } from './analyzers/similarity';
 
 const inRange = (n: number, lo: number, hi: number) => typeof n === 'number' && !Number.isNaN(n) && n >= lo && n <= hi;
@@ -53,6 +53,29 @@ export function validateDatasets(datasets: SeedDataset[]): string[] {
         errors.push(`${where}: authorityRequired out of range`);
       if (!Array.isArray(rec.searchQueries) || rec.searchQueries.length === 0)
         errors.push(`${where}: searchQueries must be a non-empty array`);
+      // Engagement signals are the only evidence in a dataset that came from outside our own desk
+      // research, so an unauditable one is worse than none: it reads as external corroboration
+      // while being indistinguishable from a hunch. Each needs a kind we recognize, a date, a real
+      // observation, and a strength — "it did well" recorded with no date and no words is exactly
+      // the shape of the hand-raised `demand` number this field exists to replace.
+      if (rec.signals !== undefined) {
+        if (!Array.isArray(rec.signals)) {
+          errors.push(`${where}: signals must be an array`);
+        } else {
+          rec.signals.forEach((sig, i) => {
+            const at = `${where}: signals[${i}]`;
+            if (!sig || typeof sig !== 'object') {
+              errors.push(`${at} is not an object`);
+              return;
+            }
+            if (!ENGAGEMENT_SIGNAL_KINDS.includes(sig.kind)) errors.push(`${at}: invalid kind "${sig.kind}"`);
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(sig.date ?? '')) errors.push(`${at}: date must be YYYY-MM-DD`);
+            if (!sig.observation || typeof sig.observation !== 'string' || sig.observation.trim().length < 15)
+              errors.push(`${at}: observation must say what was actually seen, not that it "did well"`);
+            if (!inRange(sig.strength, 0, 100)) errors.push(`${at}: strength out of range`);
+          });
+        }
+      }
       if (rec.latent !== undefined) {
         if (!rec.latent.whyUnnamed) errors.push(`${where}: latent.whyUnnamed is required`);
         if (!inRange(rec.latent.consequence, 0, 100)) errors.push(`${where}: latent.consequence out of range`);

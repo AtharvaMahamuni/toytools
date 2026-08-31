@@ -2,6 +2,7 @@
 // a single, fully-reasoned "next build" recommendation — the artifact the next-tool skill/agent surfaces.
 
 import type { RoadmapTier } from '../constants';
+import type { EngagementSignal } from './provider';
 
 export interface RoadmapItem {
   id: string;
@@ -61,6 +62,12 @@ export interface NextBuild {
    * exists to prevent. `hasCandidate: false` is a legitimate, useful answer.
    */
   craftHypothesis: CraftHypothesis;
+  /**
+   * Engagement signals recorded against this need: the only evidence in the recommendation that we
+   * did not author ourselves. Reported separately from `reason` on purpose - it raised confidence,
+   * not the score, and a reader must be able to tell which is which.
+   */
+  observedEvidence: EngagementSignal[];
   engine: string;
   engineExists: boolean;
   /** Other tools the same engine unlocks next. */
