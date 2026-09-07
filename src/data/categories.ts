@@ -188,6 +188,21 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
       'Frequencies are the vocabulary the rest of it is built on. Weight lives near 60 Hz, muddiness near 200 to 400 Hz, the forwardness of a voice near 3 kHz, and the sense of air at the top of the range. Those are tendencies rather than rules: the same boost lands differently on different recordings, different headphones and different ears, which is why every explanation here is written as something that can happen rather than something that will.',
     ],
   },
+
+  {
+    slug: 'fidgets',
+    name: 'Fidgets',
+    description: 'Quiet sensory toys you tap, flick or flip in the browser, with optional sound and haptics you control.',
+    tagline: 'Tap, flick and flip without installing an app.',
+    highlights: ['pop-it'],
+    accent: '#C45C7A',
+    segment: 'fidget',
+    intro: [
+      'These are the small physical toys people reach for when a meeting runs long or a thought will not settle, rebuilt as pages you can open without installing anything. A bubble board, a spinner, a row of switches: each one is about the feel of the gesture, not a score or a streak.',
+      'Sound and vibration are optional and separate. Mute the clicks for an open office and leave the pops visible, or turn haptics on for a phone that can actually vibrate. Motion follows your system reduced-motion setting unless you override it on the settings page, and nothing you do here is uploaded.',
+      'The Feel engine behind them is shared on purpose. Preferences you set once apply to every fidget on the site, so a mute decision does not have to be remade on the next toy you open.',
+    ],
+  },
 ];
 
 export const categories: Category[] = categoryDefs.map(c => ({

@@ -68,6 +68,7 @@ import { config as paragraphCounter } from '@tools/text/paragraph-counter/config
 import { config as passwordGenerator } from '@tools/generate/password-generator/config';
 import { config as percentageCalculator } from '@tools/number/percentage-calculator/config';
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
+import { config as popIt } from '@tools/fidget/pop-it/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
 import { config as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
@@ -189,6 +190,7 @@ export const toolConfigs: ToolConfig[] = [
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
+  popIt,
   primeFactorizationCalculator,
   proteinIntakeCalculator,
   punycodeConverter,

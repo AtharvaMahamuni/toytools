@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.1] - 2026-09-08
+
+### Added
+
+- **Fidgets category** (`/category/fidgets/`) with segment `fidget`, the home for sensory toys on
+  the Feel engine.
+- **Pop It** (`/tool/fidget/pop-it/`): a mobile-first 4×3 bubble board. Tap to pop, see the deflated
+  state, and use **Reset board** to continue without reloading. Sound and haptics go through
+  `ToyTools.feel` (respecting Settings → Feel); haptic rejection never breaks the pop animation;
+  an already-popped bubble ignores a paired press+release.
+- Guide, FAQ and knowledge for Pop It, including how sound and haptics stay independent.
+
 ## [alpha-v10.0] - 2026-09-08
 
 ### Added

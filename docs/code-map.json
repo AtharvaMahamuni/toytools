@@ -352,8 +352,10 @@
       ],
       "runtimeGlobal": "feel",
       "sharedWidget": "src/tools/_shared/FeelWidget.astro",
-      "supportedFamilies": [],
-      "toolCount": 0
+      "supportedFamilies": [
+        "fidget"
+      ],
+      "toolCount": 1
     }
   },
   "toolGroups": {
@@ -2171,6 +2173,27 @@
       "engine": "productivity",
       "pattern": "stateful",
       "family": "timer",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "pop-it": {
+      "name": "Pop It",
+      "dir": "src/tools/fidget/pop-it",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/pop-it/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
       "processorId": "",
       "toolGroup": "",
       "files": [

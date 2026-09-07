@@ -68,6 +68,7 @@ import { items as paragraphCounterFaqs } from '@tools/text/paragraph-counter/faq
 import { items as passwordGeneratorFaqs } from '@tools/generate/password-generator/faq';
 import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calculator/faq';
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
+import { items as popItFaqs } from '@tools/fidget/pop-it/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
 import { items as proteinIntakeCalculatorFaqs } from '@tools/health/protein-intake-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
@@ -189,6 +190,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'password-generator': passwordGeneratorFaqs,
   'percentage-calculator': percentageCalculatorFaqs,
   'pomodoro-timer': pomodoroTimerFaqs,
+  'pop-it': popItFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
   'protein-intake-calculator': proteinIntakeCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
