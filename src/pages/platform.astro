@@ -156,18 +156,25 @@ const breadcrumbSchema = {
       The current manifest, generated from the registry rather than written out by hand.
     </p>
     <ul class="engine-list">
-      {enginesByReach.map(engine => (
+      {enginesByReach.map(engine => {
+        const category = categories.find(c => c.slug === engine.category);
+        return (
         <li class="engine">
           <p class="engine-name">{engine.name}</p>
           <p class="engine-meta">
-            <a href={withBase(`/category/${engine.category}/`)}>{categoryName(engine.category)}</a>
+            {category ? (
+              <a href={withBase(`/category/${category.slug}/`)}>{category.name}</a>
+            ) : (
+              <span>{categoryName(engine.category)}</span>
+            )}
             <span class="gold-dot" aria-hidden="true"></span>
             <span>{engine.toolCount} {engine.toolCount === 1 ? 'tool' : 'tools'}</span>
             <span class="gold-dot" aria-hidden="true"></span>
             <span>{engine.patterns.join(', ')}</span>
           </p>
         </li>
-      ))}
+        );
+      })}
     </ul>
 
     <h2>See it for yourself</h2>

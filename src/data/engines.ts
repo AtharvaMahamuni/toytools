@@ -38,7 +38,7 @@ const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
   'physics', 'datetime', 'math-lab', 'math', 'chemistry-lab', 'wellness', 'tracker', 'color', 'units',
-  'audio',
+  'audio', 'feel',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -51,6 +51,7 @@ const PATTERN_IDS = [
   'simulate', 'datetime-calculate', 'datetime-convert', 'datetime-schedule', 'math-calculate',
   'health-calculate', 'health-track', 'color-convert', 'color-contrast', 'unit-convert', 'aspect-ratio',
   'eq-design',
+  'fidget-interact',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -147,6 +148,12 @@ const engineDefs: EngineDef[] = [
   // by processorId, so a second tool on a different band layout is a registry entry rather than a
   // second widget, and EqWidget stays the one place the curve and the controls are drawn.
   { id: 'audio', name: 'Audio Engine', category: 'music-audio', patterns: ['eq-design'], runtimeGlobal: 'eq', sharedWidget: 'EqWidget.astro', globals: ['eq'] },
+  // Feel Engine: one cohesive runtime for fidget tools (motion + sound + haptics). Research
+  // proposed separate "motion" and "haptics" engines; shipping those as two incomplete engines
+  // would freeze the wrong seams (sound/haptics must mute independently; motion must honour
+  // prefers-reduced-motion + a user override). Category slug `fidgets` is reserved for the first
+  // fidget tool PR — empty categories are rejected, so the category lands with Pop It.
+  { id: 'feel', name: 'Feel Engine', category: 'fidgets', patterns: ['fidget-interact'], runtimeGlobal: 'feel', sharedWidget: 'FeelWidget.astro', globals: ['feel'] },
 ];
 
 function familiesFor(engineId: string): string[] {

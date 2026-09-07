@@ -29,6 +29,7 @@ export const ENGINE_LOADERS: Record<string, () => Promise<{ attach: AttachFn }>>
   color: () => import('./engines/color'),
   units: () => import('./engines/units'),
   audio: () => import('./engines/audio'),
+  feel: () => import('./engines/feel'),
 };
 
 /** Engine ids that have a lazily-loaded browser runtime. */

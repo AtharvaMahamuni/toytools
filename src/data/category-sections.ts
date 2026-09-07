@@ -47,4 +47,5 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'unit-convert':         { title: 'CSS & Mobile Units',      order: 2 },
   'aspect-ratio':         { title: 'CSS & Mobile Units',      order: 2 },
   'eq-design':            { title: 'Equalizer',                order: 1 },
+  'fidget-interact':      { title: 'Fidgets',                  order: 1 },
 };

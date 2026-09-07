@@ -1,0 +1,59 @@
+---
+// FeelWidget: shared shell for fidget tools on the Feel engine.
+//
+// Each fidget owns its board (Pop It bubbles, spinner disc, switch row). This shell is the common
+// chrome: a stage for the board, a reduced-motion notice, and the onReady hook that confirms
+// ToyTools.feel attached. Adding a fidget is a tool directory that slots its board in here, not a
+// second widget.
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  processorId?: string;
+  config?: ToolConfig;
+}
+
+const { slug } = Astro.props;
+---
+
+<section class="feel" data-feel-slug={slug}>
+  <div class="feel-stage">
+    <slot />
+  </div>
+  <p class="feel-hint" data-feel-reduced hidden>
+    Motion is reduced on this device. Interactions still work; continuous animation stays off.
+  </p>
+</section>
+
+<script is:inline define:vars={{ slug }}>
+  (function () {
+    var TT = window.ToyTools;
+    if (!TT || !TT.onReady) return;
+    TT.onReady(function () {
+      if (!TT.feel) return;
+      var root = document.querySelector('[data-feel-slug="' + slug + '"]');
+      if (!root) return;
+      var hint = root.querySelector('[data-feel-reduced]');
+      if (hint) hint.hidden = !!TT.feel.motionAllowed();
+    });
+  })();
+</script>
+
+<style>
+  .feel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .feel-stage {
+    min-height: 12rem;
+  }
+
+  .feel-hint {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    line-height: var(--leading-relaxed);
+  }
+</style>

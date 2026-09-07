@@ -96,7 +96,9 @@ const degree = new Map<string, number>();
 for (const key of pairCounts.keys()) {
   for (const id of key.split('|')) degree.set(id, (degree.get(id) ?? 0) + 1);
 }
-const isolated = engineRegistry.filter((e) => !degree.has(e.id));
+// Engines with zero tools are infrastructure awaiting a first consumer (e.g. Feel before Pop It).
+// They are not reader dead-ends — there are no pages — so they do not count toward the ceiling.
+const isolated = engineRegistry.filter((e) => toolsOf(e.id).length > 0 && !degree.has(e.id));
 const possiblePairs = (engineRegistry.length * (engineRegistry.length - 1)) / 2;
 
 // ── Report ───────────────────────────────────────────────────────────────────────────────────

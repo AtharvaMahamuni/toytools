@@ -20,6 +20,7 @@ const description =
   description={description}
   maxWidth="tool"
   robots="noindex,follow"
+  engines={['feel']}
 >
   <article class="settings">
     <h1>Settings</h1>
@@ -35,6 +36,51 @@ const description =
         <button type="button" class="choice" data-theme-choice="light">Light</button>
         <button type="button" class="choice" data-theme-choice="dark">Dark</button>
         <button type="button" class="choice" data-theme-choice="system">System</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Feel</h2>
+      <p class="block-help">
+        Shared feedback for fidget tools (Pop It and friends). Sound and haptics mute
+        independently. Haptics stay off until you opt in. Motion intensity scales springs and
+        momentum; reduced motion follows your system setting unless you override it.
+      </p>
+
+      <h3 class="feel-sub">Sounds</h3>
+      <div class="choices" role="group" aria-label="Sounds">
+        <button type="button" class="choice" data-feel-sound="on">On</button>
+        <button type="button" class="choice" data-feel-sound="off">Off</button>
+      </div>
+
+      <h3 class="feel-sub">Haptics</h3>
+      <p class="block-help">Off by default. Only phones and some tablets can vibrate.</p>
+      <div class="choices" role="group" aria-label="Haptics">
+        <button type="button" class="choice" data-feel-haptics="on">On</button>
+        <button type="button" class="choice" data-feel-haptics="off">Off</button>
+      </div>
+
+      <h3 class="feel-sub">Motion intensity</h3>
+      <div class="choices" role="group" aria-label="Motion intensity">
+        <button type="button" class="choice" data-feel-intensity="low">Low</button>
+        <button type="button" class="choice" data-feel-intensity="medium">Medium</button>
+        <button type="button" class="choice" data-feel-intensity="high">High</button>
+      </div>
+
+      <h3 class="feel-sub">Reduced motion</h3>
+      <p class="block-help">
+        System follows your OS prefers-reduced-motion setting. Full keeps animation on; Reduced
+        turns continuous motion off.
+      </p>
+      <div class="choices" role="group" aria-label="Reduced motion">
+        <button type="button" class="choice" data-feel-motion="system">System</button>
+        <button type="button" class="choice" data-feel-motion="full">Full</button>
+        <button type="button" class="choice" data-feel-motion="reduced">Reduced</button>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="choice" id="feel-test-sound">Test sound</button>
+        <button type="button" class="choice" id="feel-test-haptics">Test haptics</button>
       </div>
     </section>
 
@@ -106,6 +152,95 @@ const description =
       });
     }
     paintTheme();
+
+    // ── Feel (sound / haptics / motion) ─────────────────────────────────────
+    // Keys live in the shared toytools:prefs JSON blob as feel.sound / feel.haptics /
+    // feel.motion / feel.intensity. Same bag TT.prefs uses. Defaults match
+    // src/lib/engines/feel/types.ts.
+    var FEEL_KEYS = {
+      sound: 'feel.sound',
+      haptics: 'feel.haptics',
+      motion: 'feel.motion',
+      intensity: 'feel.intensity'
+    };
+    var FEEL_DEFAULTS = { sound: true, haptics: false, motion: 'system', intensity: 'medium' };
+
+    function feelPrefs() {
+      var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
+      var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
+      var motion = TT.prefs.get(FEEL_KEYS.motion, FEEL_DEFAULTS.motion);
+      var intensity = TT.prefs.get(FEEL_KEYS.intensity, FEEL_DEFAULTS.intensity);
+      return {
+        sound: sound === false || sound === 'false' ? false : true,
+        haptics: haptics === true || haptics === 'true',
+        motion: motion === 'full' || motion === 'reduced' ? motion : 'system',
+        intensity: intensity === 'low' || intensity === 'high' ? intensity : 'medium'
+      };
+    }
+
+    function paintFeelChoice(attr, value) {
+      var btns = document.querySelectorAll('[' + attr + ']');
+      for (var i = 0; i < btns.length; i++) {
+        var on = btns[i].getAttribute(attr) === value;
+        btns[i].classList.toggle('is-active', on);
+        btns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+    }
+
+    function paintFeel() {
+      var p = feelPrefs();
+      paintFeelChoice('data-feel-sound', p.sound ? 'on' : 'off');
+      paintFeelChoice('data-feel-haptics', p.haptics ? 'on' : 'off');
+      paintFeelChoice('data-feel-motion', p.motion);
+      paintFeelChoice('data-feel-intensity', p.intensity);
+    }
+
+    function bindFeelGroup(attr, write) {
+      var btns = document.querySelectorAll('[' + attr + ']');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener('click', function () {
+          write(this.getAttribute(attr));
+          paintFeel();
+        });
+      }
+    }
+
+    bindFeelGroup('data-feel-sound', function (v) {
+      TT.prefs.set(FEEL_KEYS.sound, v === 'on');
+    });
+    bindFeelGroup('data-feel-haptics', function (v) {
+      TT.prefs.set(FEEL_KEYS.haptics, v === 'on');
+    });
+    bindFeelGroup('data-feel-motion', function (v) {
+      TT.prefs.set(FEEL_KEYS.motion, v);
+    });
+    bindFeelGroup('data-feel-intensity', function (v) {
+      TT.prefs.set(FEEL_KEYS.intensity, v);
+    });
+    paintFeel();
+
+    var testSound = document.getElementById('feel-test-sound');
+    if (testSound) {
+      testSound.addEventListener('click', function () {
+        TT.onReady(function () {
+          if (!TT.feel) { TT.toast('Feel runtime still loading…'); return; }
+          // play() already checks the sound pref.
+          var ok = TT.feel.play('pop');
+          TT.toast(ok ? 'Played a pop cue.' : (feelPrefs().sound ? 'Could not play sound here.' : 'Sound is off.'));
+        });
+      });
+    }
+    var testHaptics = document.getElementById('feel-test-haptics');
+    if (testHaptics) {
+      testHaptics.addEventListener('click', function () {
+        TT.onReady(function () {
+          if (!TT.feel) { TT.toast('Feel runtime still loading…'); return; }
+          if (!feelPrefs().haptics) { TT.toast('Turn haptics on first.'); return; }
+          var ok = TT.feel.vibrate(20);
+          TT.toast(ok ? 'Vibrated.' : 'This device cannot vibrate.');
+        });
+      });
+    }
 
     // ── What is stored ──────────────────────────────────────────────────────
     // Friendly names for the shared keys; anything else is a tool slug.
@@ -254,6 +389,13 @@ const description =
     font-size: var(--text-sm);
     color: var(--color-text-subtle);
     line-height: var(--leading-relaxed);
+  }
+
+  .feel-sub {
+    margin-top: var(--space-6);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
   }
 
   .choices,

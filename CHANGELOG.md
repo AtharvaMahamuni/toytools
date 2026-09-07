@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.0] - 2026-09-08
+
+### Added
+
+- **Feel platform**, a shared client runtime for fidget tools: motion, sound and haptics behind one
+  `ToyTools.feel` namespace. Research proposed separate `motion` and `haptics` engines; shipping those
+  as two incomplete engines would freeze the wrong seams (sound and haptics must mute independently,
+  and motion must honour `prefers-reduced-motion` plus a user intensity/override). One cohesive Feel
+  surface is the choice so Pop It and the rest of the fidget wave call the same API.
+- **Lazy runtime registration** matching the existing engine loader pattern
+  (`src/lib/runtime/engines/feel.ts` + `ENGINE_LOADERS.feel`), so non-fidget pages do not download
+  Feel code.
+- **Motion helpers** on the same surface: spring steps, friction/momentum, velocity clamp, and an
+  rAF loop that no-ops when reduced motion wins. Intensity (`low` / `medium` / `high`) scales those
+  helpers without a second engine.
+- **Settings → Feel**: Sounds, Haptics (opt-in, off by default), Motion intensity, Reduced motion
+  (system / full / reduced), plus test buttons. Prefs live under `toytools:prefs` as `feel.sound` /
+  `feel.haptics` / `feel.motion` / `feel.intensity`.
+- **Shared `FeelWidget.astro` shell** for upcoming fidget boards. No fidget tool pages in this
+  release. Pop It is next.
+
+### Changed
+
+- `check:engines` no longer counts zero-tool engines toward the isolated-engine ceiling. An engine
+  with no pages is infrastructure awaiting a first consumer, not a reader dead-end; the ceiling
+  stays at 1 (`finance`).
+- The platform page links an engine category only when that category exists, so Feel can ship before
+  the `fidgets` category lands with Pop It.
+
 ## [alpha-v9.0.1] - 2026-08-31
 
 ### Added

@@ -21,6 +21,7 @@ import { CSV_TOOLS } from '@lib/engines/csv/registry';
 import { TRACKER_DEFS } from '@lib/engines/tracker/registry';
 import { GENERATORS } from '@lib/generation/registry';
 import { EQ_DEFINITIONS } from '@lib/engines/audio/registry';
+import { createFeelApi, DEFAULT_FEEL_PREFS, FEEL_TOOLS } from '@lib/engines/feel/registry';
 import { headroom } from '@lib/engines/audio/headroom';
 import { engineRegistry } from '@data/engines';
 import { SIMULATIONS } from '@lib/simulation/simulations/registry';
@@ -326,6 +327,29 @@ describe('audio engine', () => {
   );
 });
 
+
+// ── feel: cohesive motion + sound + haptics facade (no fidget tools yet) ───────────────────────
+describe('feel engine', () => {
+  it('exposes an empty processor registry until the first fidget ships', () => {
+    expect(FEEL_TOOLS).toEqual({});
+  });
+
+  it('builds a ToyTools.feel facade that never throws on prefs defaults', () => {
+    const store: Record<string, unknown> = {};
+    const feel = createFeelApi({
+      prefs: {
+        get: (name, fallback) => (store[name] === undefined ? fallback : store[name]),
+        set: (name, value) => { store[name] = value; },
+      },
+    });
+    expect(feel.prefs()).toEqual(DEFAULT_FEEL_PREFS);
+    expect(feel.motionAllowed()).toBeTypeOf('boolean');
+    expect(feel.vibrate(10)).toBe(false);
+    expect(feel.play('pop')).toBeTypeOf('boolean');
+    expect(feel.feedback('click')).toEqual({ sound: expect.any(Boolean), haptic: false });
+  });
+});
+
 // ── the meta-contract: an engine cannot ship without one of the blocks above ──────────────────
 //
 // Every block above had to be written by hand, which means the honest failure mode of this file
@@ -343,7 +367,7 @@ describe('audio engine', () => {
 const CONTRACT_TESTED = new Set([
   'text-processor', 'encoding', 'hashing', 'structured-data', 'finance', 'datetime', 'math',
   'jwt', 'wellness', 'generation', 'csv', 'tracker', 'physics', 'math-lab', 'chemistry-lab',
-  'audio',
+  'audio', 'feel',
 ]);
 
 /**
