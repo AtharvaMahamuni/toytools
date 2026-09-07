@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-08-31T15:40:03.484Z",
+  "generatedAt": "2026-09-07T20:41:41.614Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -487,6 +487,34 @@
       ]
     },
     {
+      "id": "json-diff",
+      "transformation": "JSON Diff",
+      "engine": "structured-data",
+      "members": [
+        "json-diff"
+      ],
+      "existingMembers": [
+        "csv-to-json-converter",
+        "json-formatter",
+        "json-minifier",
+        "json-to-csv-converter",
+        "json-to-yaml-converter",
+        "json-tree-viewer",
+        "json-validator",
+        "yaml-to-json-converter"
+      ],
+      "size": 1,
+      "meanScore": 80.6,
+      "internalLinks": [
+        "csv-diff",
+        "csv-to-json-converter",
+        "json-formatter",
+        "json-minifier",
+        "json-tree-viewer",
+        "text-compare"
+      ]
+    },
+    {
       "id": "rot13",
       "transformation": "ROT13",
       "engine": "encoding",
@@ -621,6 +649,30 @@
       ]
     },
     {
+      "id": "file-hashing",
+      "transformation": "File Hashing",
+      "engine": "hashing",
+      "members": [
+        "file-hash-verifier"
+      ],
+      "existingMembers": [
+        "crc32-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "sha256-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "size": 1,
+      "meanScore": 79.3,
+      "internalLinks": [
+        "crc32-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "sha256-hash-generator",
+        "sha512-hash-generator"
+      ]
+    },
+    {
       "id": "timestamp-conversion",
       "transformation": "Timestamp Conversion",
       "engine": "datetime",
@@ -664,6 +716,31 @@
         "aspect-ratio-calculator",
         "px-to-dp-converter",
         "px-to-rem-converter"
+      ]
+    },
+    {
+      "id": "regex-testing",
+      "transformation": "Regex Testing",
+      "engine": "text-interactive",
+      "members": [
+        "regex-tester"
+      ],
+      "existingMembers": [
+        "character-map",
+        "find-replace",
+        "shell-quote-escalator",
+        "text-compare",
+        "text-repeater"
+      ],
+      "size": 1,
+      "meanScore": 79.1,
+      "internalLinks": [
+        "character-map",
+        "find-replace",
+        "invisible-character-detector",
+        "shell-quote-escalator",
+        "text-compare",
+        "text-repeater"
       ]
     },
     {
@@ -1454,6 +1531,40 @@
       ]
     },
     {
+      "id": "local-reading-tracker",
+      "transformation": "Local Reading Tracker",
+      "engine": "productivity",
+      "members": [
+        "book-tracker"
+      ],
+      "existingMembers": [
+        "keep-screen-awake",
+        "notepad",
+        "pomodoro-timer",
+        "todo-list"
+      ],
+      "size": 1,
+      "meanScore": 74.2,
+      "internalLinks": [
+        "keep-screen-awake",
+        "notepad",
+        "pomodoro-timer",
+        "todo-list"
+      ]
+    },
+    {
+      "id": "fidget-interaction",
+      "transformation": "Fidget Interaction",
+      "engine": "haptics",
+      "members": [
+        "switch-board"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 74.1,
+      "internalLinks": []
+    },
+    {
       "id": "perceptual-gradient",
       "transformation": "Perceptual Gradient",
       "engine": "color",
@@ -1772,6 +1883,24 @@
       ]
     },
     {
+      "id": "hot-seat-board-game",
+      "transformation": "Hot-Seat Board Game",
+      "engine": "board-game",
+      "members": [
+        "tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe"
+      ],
+      "existingMembers": [],
+      "size": 4,
+      "meanScore": 70.2,
+      "internalLinks": [
+        "coin-flipper",
+        "dice-roller"
+      ]
+    },
+    {
       "id": "shell-quoting",
       "transformation": "Shell Quoting",
       "engine": "encoding",
@@ -1804,6 +1933,36 @@
       ]
     },
     {
+      "id": "fidget-interaction",
+      "transformation": "Fidget Interaction",
+      "engine": "motion",
+      "members": [
+        "pop-it",
+        "gears",
+        "spinner",
+        "kinetic-sand",
+        "slime"
+      ],
+      "existingMembers": [],
+      "size": 5,
+      "meanScore": 69.8,
+      "internalLinks": []
+    },
+    {
+      "id": "breathing-guide",
+      "transformation": "Breathing Guide",
+      "engine": "sound",
+      "members": [
+        "breathing-circle"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 69.4,
+      "internalLinks": [
+        "pomodoro-timer"
+      ]
+    },
+    {
       "id": "net-worth",
       "transformation": "Net Worth",
       "engine": "budget",
@@ -1833,6 +1992,46 @@
       ]
     },
     {
+      "id": "pdf-page-editing",
+      "transformation": "PDF Page Editing",
+      "engine": "pdf",
+      "members": [
+        "pdf-page-toolkit"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 66,
+      "internalLinks": []
+    },
+    {
+      "id": "image-conversion",
+      "transformation": "Image Conversion",
+      "engine": "image",
+      "members": [
+        "image-convert-compress"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 65.7,
+      "internalLinks": []
+    },
+    {
+      "id": "calendar-view",
+      "transformation": "Calendar View",
+      "engine": "panchang",
+      "members": [
+        "gregorian-calendar"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 65.5,
+      "internalLinks": [
+        "age-calculator",
+        "date-difference-calculator",
+        "timezone-converter"
+      ]
+    },
+    {
       "id": "salary-conversion",
       "transformation": "Salary Conversion",
       "engine": "budget",
@@ -1858,6 +2057,21 @@
       "meanScore": 64.3,
       "internalLinks": [
         "compound-interest-calculator"
+      ]
+    },
+    {
+      "id": "panchang-calendar",
+      "transformation": "Panchang Calendar",
+      "engine": "panchang",
+      "members": [
+        "marathi-calendar"
+      ],
+      "existingMembers": [],
+      "size": 1,
+      "meanScore": 62,
+      "internalLinks": [
+        "date-difference-calculator",
+        "timezone-converter"
       ]
     },
     {

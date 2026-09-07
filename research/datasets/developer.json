@@ -9,11 +9,28 @@
       "proposedTool": "rot13-encoder-decoder",
       "proposedName": "ROT13 Encoder / Decoder",
       "proposedEngine": "encoding",
-      "searchQueries": ["rot13", "rot13 decoder", "rot13 online", "caesar cipher rot13"],
-      "existingSolutions": ["cyberchef", "random cipher sites"],
-      "solutionWeaknesses": ["cyberchef is heavy for one transform", "ad-laden single-purpose sites"],
-      "relatedProblems": ["caesar cipher", "base64"],
-      "relatedTools": ["base64-encoder-decoder", "hex-encoder-decoder"],
+      "searchQueries": [
+        "rot13",
+        "rot13 decoder",
+        "rot13 online",
+        "caesar cipher rot13"
+      ],
+      "existingSolutions": [
+        "cyberchef",
+        "random cipher sites"
+      ],
+      "solutionWeaknesses": [
+        "cyberchef is heavy for one transform",
+        "ad-laden single-purpose sites"
+      ],
+      "relatedProblems": [
+        "caesar cipher",
+        "base64"
+      ],
+      "relatedTools": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder"
+      ],
       "demand": 64,
       "competition": 38,
       "evergreen": 84,
@@ -28,11 +45,29 @@
       "proposedTool": "binary-text-converter",
       "proposedName": "Binary Text Converter",
       "proposedEngine": "encoding",
-      "searchQueries": ["text to binary", "binary to text", "ascii to binary converter", "string to binary"],
-      "existingSolutions": ["rapidtables", "misc converter sites"],
-      "solutionWeaknesses": ["cluttered UIs", "no live two-way preview", "ads"],
-      "relatedProblems": ["hex encoding", "ascii codes"],
-      "relatedTools": ["hex-encoder-decoder", "base64-encoder-decoder"],
+      "searchQueries": [
+        "text to binary",
+        "binary to text",
+        "ascii to binary converter",
+        "string to binary"
+      ],
+      "existingSolutions": [
+        "rapidtables",
+        "misc converter sites"
+      ],
+      "solutionWeaknesses": [
+        "cluttered UIs",
+        "no live two-way preview",
+        "ads"
+      ],
+      "relatedProblems": [
+        "hex encoding",
+        "ascii codes"
+      ],
+      "relatedTools": [
+        "hex-encoder-decoder",
+        "base64-encoder-decoder"
+      ],
       "demand": 74,
       "competition": 50,
       "evergreen": 86,
@@ -47,11 +82,29 @@
       "proposedTool": "json-escape",
       "proposedName": "JSON Escape / Unescape",
       "proposedEngine": "structured-data",
-      "searchQueries": ["json escape", "json string escape online", "escape json", "json unescape"],
-      "existingSolutions": ["freeformatter", "code snippets"],
-      "solutionWeaknesses": ["server round-trips", "no offline tool", "separate escape vs unescape pages"],
-      "relatedProblems": ["json formatting", "string escaping"],
-      "relatedTools": ["json-formatter", "json-minifier"],
+      "searchQueries": [
+        "json escape",
+        "json string escape online",
+        "escape json",
+        "json unescape"
+      ],
+      "existingSolutions": [
+        "freeformatter",
+        "code snippets"
+      ],
+      "solutionWeaknesses": [
+        "server round-trips",
+        "no offline tool",
+        "separate escape vs unescape pages"
+      ],
+      "relatedProblems": [
+        "json formatting",
+        "string escaping"
+      ],
+      "relatedTools": [
+        "json-formatter",
+        "json-minifier"
+      ],
       "demand": 76,
       "competition": 55,
       "evergreen": 88,
@@ -66,15 +119,33 @@
       "proposedTool": "csv-diff",
       "proposedName": "CSV Diff",
       "proposedEngine": "csv",
-      "searchQueries": ["csv diff", "compare csv files", "csv compare online", "diff two csv"],
-      "existingSolutions": ["paid desktop apps", "git diff (devs only)"],
-      "solutionWeaknesses": ["uploads sensitive data to a server", "paywalled", "not row-aware"],
+      "searchQueries": [
+        "csv diff",
+        "compare csv files",
+        "csv compare online",
+        "diff two csv"
+      ],
+      "existingSolutions": [
+        "paid desktop apps",
+        "git diff (devs only)"
+      ],
+      "solutionWeaknesses": [
+        "uploads sensitive data to a server",
+        "paywalled",
+        "not row-aware"
+      ],
       "userFailures": [
         "A semicolon-delimited European export parses as a single column and every row reads as changed.",
         "Two files that differ only in row order are reported as wholly different."
       ],
-      "relatedProblems": ["json diff", "text compare"],
-      "relatedTools": ["text-compare", "csv-to-json-converter"],
+      "relatedProblems": [
+        "json diff",
+        "text compare"
+      ],
+      "relatedTools": [
+        "text-compare",
+        "csv-to-json-converter"
+      ],
       "demand": 82,
       "competition": 40,
       "evergreen": 84,
@@ -89,15 +160,31 @@
       "proposedTool": "csv-cleaner",
       "proposedName": "CSV Cleaner",
       "proposedEngine": "csv",
-      "searchQueries": ["csv cleaner", "clean csv online", "remove empty rows csv", "fix messy csv"],
-      "existingSolutions": ["spreadsheet manual cleanup"],
-      "solutionWeaknesses": ["manual and error-prone", "no repeatable rule set"],
+      "searchQueries": [
+        "csv cleaner",
+        "clean csv online",
+        "remove empty rows csv",
+        "fix messy csv"
+      ],
+      "existingSolutions": [
+        "spreadsheet manual cleanup"
+      ],
+      "solutionWeaknesses": [
+        "manual and error-prone",
+        "no repeatable rule set"
+      ],
       "userFailures": [
         "A semicolon-delimited European export parses as one column, silently, so the cleanup applies to nothing.",
         "A trailing empty column from a spreadsheet export survives the clean because it looks like real data."
       ],
-      "relatedProblems": ["csv diff", "remove blank lines"],
-      "relatedTools": ["csv-to-json-converter", "remove-blank-lines"],
+      "relatedProblems": [
+        "csv diff",
+        "remove blank lines"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "remove-blank-lines"
+      ],
       "demand": 70,
       "competition": 36,
       "evergreen": 82,
@@ -112,15 +199,31 @@
       "proposedTool": "csv-column-picker",
       "proposedName": "CSV Column Picker",
       "proposedEngine": "csv",
-      "searchQueries": ["csv column picker", "extract columns from csv", "select csv columns online"],
-      "existingSolutions": ["spreadsheet copy/paste", "awk for devs"],
-      "solutionWeaknesses": ["awk is dev-only", "spreadsheets choke on big files"],
+      "searchQueries": [
+        "csv column picker",
+        "extract columns from csv",
+        "select csv columns online"
+      ],
+      "existingSolutions": [
+        "spreadsheet copy/paste",
+        "awk for devs"
+      ],
+      "solutionWeaknesses": [
+        "awk is dev-only",
+        "spreadsheets choke on big files"
+      ],
       "userFailures": [
         "A semicolon-delimited European export parses as one column, so there are no columns to pick from.",
         "Picking columns by index breaks the moment the source adds a column, when the user meant to pick by header name."
       ],
-      "relatedProblems": ["csv cleaning", "csv to json"],
-      "relatedTools": ["csv-to-json-converter", "json-to-csv-converter"],
+      "relatedProblems": [
+        "csv cleaning",
+        "csv to json"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter",
+        "json-to-csv-converter"
+      ],
       "demand": 60,
       "competition": 34,
       "evergreen": 80,
@@ -135,15 +238,29 @@
       "proposedTool": "csv-to-tsv",
       "proposedName": "CSV to TSV",
       "proposedEngine": "csv",
-      "searchQueries": ["csv to tsv", "convert csv to tab separated", "csv tsv online"],
-      "existingSolutions": ["spreadsheet save-as"],
-      "solutionWeaknesses": ["requires a spreadsheet app", "mangles quoting"],
+      "searchQueries": [
+        "csv to tsv",
+        "convert csv to tab separated",
+        "csv tsv online"
+      ],
+      "existingSolutions": [
+        "spreadsheet save-as"
+      ],
+      "solutionWeaknesses": [
+        "requires a spreadsheet app",
+        "mangles quoting"
+      ],
       "userFailures": [
         "The source uses semicolons rather than commas, so the whole file converts into one column per row.",
         "A field containing a tab breaks the output silently, since TSV has no quoting convention to fall back on."
       ],
-      "relatedProblems": ["csv to json", "delimiter change"],
-      "relatedTools": ["csv-to-json-converter"],
+      "relatedProblems": [
+        "csv to json",
+        "delimiter change"
+      ],
+      "relatedTools": [
+        "csv-to-json-converter"
+      ],
       "demand": 58,
       "competition": 30,
       "evergreen": 80,
@@ -158,15 +275,30 @@
       "proposedTool": "crc32-hash-generator",
       "proposedName": "CRC32 Hash Generator",
       "proposedEngine": "hashing",
-      "searchQueries": ["crc32", "crc32 hash online", "crc32 checksum generator"],
-      "existingSolutions": ["command line crc tools"],
-      "solutionWeaknesses": ["CLI not accessible to everyone", "few clean web tools"],
+      "searchQueries": [
+        "crc32",
+        "crc32 hash online",
+        "crc32 checksum generator"
+      ],
+      "existingSolutions": [
+        "command line crc tools"
+      ],
+      "solutionWeaknesses": [
+        "CLI not accessible to everyone",
+        "few clean web tools"
+      ],
       "userFailures": [
         "The user already has a checksum from elsewhere and is comparing eight hex characters by eye.",
         "A trailing newline in the pasted input changes the digest, and nothing says so."
       ],
-      "relatedProblems": ["md5", "sha256"],
-      "relatedTools": ["md5-hash-generator", "sha256-hash-generator"],
+      "relatedProblems": [
+        "md5",
+        "sha256"
+      ],
+      "relatedTools": [
+        "md5-hash-generator",
+        "sha256-hash-generator"
+      ],
       "demand": 56,
       "competition": 44,
       "evergreen": 80,
@@ -181,17 +313,40 @@
       "proposedTool": "encoding-detector",
       "proposedName": "Encoding Detector",
       "proposedEngine": "encoding",
-      "searchQueries": ["what encoding is this", "identify base64 or hex", "is this base64url", "detect string encoding"],
-      "existingSolutions": ["cyberchef", "stack overflow answers", "trial and error in a REPL"],
-      "solutionWeaknesses": ["cyberchef's magic wand is buried and assumes you know to look for it", "answers are per-case and not reusable", "no tool states WHY a decode failed"],
+      "searchQueries": [
+        "what encoding is this",
+        "identify base64 or hex",
+        "is this base64url",
+        "detect string encoding"
+      ],
+      "existingSolutions": [
+        "cyberchef",
+        "stack overflow answers",
+        "trial and error in a REPL"
+      ],
+      "solutionWeaknesses": [
+        "cyberchef's magic wand is buried and assumes you know to look for it",
+        "answers are per-case and not reusable",
+        "no tool states WHY a decode failed"
+      ],
       "userFailures": [
         "Pastes standard base64 into a base64url decoder, gets mojibake, and blames the source data.",
         "Decodes once, sees another encoded string, and cannot tell it was double-encoded rather than corrupt.",
         "Assumes a hex digest is base64 because both look like random characters of similar length.",
         "Strips padding that was load-bearing and gets a silently truncated final byte."
       ],
-      "relatedProblems": ["double encoding", "base64url vs base64", "percent-encoding in a query string"],
-      "relatedTools": ["base64-encoder-decoder", "hex-encoder-decoder", "url-encoder-decoder", "punycode-converter", "json-escape"],
+      "relatedProblems": [
+        "double encoding",
+        "base64url vs base64",
+        "percent-encoding in a query string"
+      ],
+      "relatedTools": [
+        "base64-encoder-decoder",
+        "hex-encoder-decoder",
+        "url-encoder-decoder",
+        "punycode-converter",
+        "json-escape"
+      ],
       "demand": 34,
       "competition": 30,
       "authorityRequired": 5,
@@ -217,17 +372,41 @@
       "proposedTool": "hash-identifier",
       "proposedName": "Hash Identifier and Verifier",
       "proposedEngine": "hashing",
-      "searchQueries": ["what hash is this", "identify hash type", "verify checksum online", "sha256 vs sha1 length", "why does my checksum not match"],
-      "existingSolutions": ["hashes.com", "command-line shasum", "cyberchef"],
-      "solutionWeaknesses": ["identifier sites are ad-heavy and upload-based", "the CLI requires knowing the algorithm first", "no tool explains a near-miss"],
+      "searchQueries": [
+        "what hash is this",
+        "identify hash type",
+        "verify checksum online",
+        "sha256 vs sha1 length",
+        "why does my checksum not match"
+      ],
+      "existingSolutions": [
+        "hashes.com",
+        "command-line shasum",
+        "cyberchef"
+      ],
+      "solutionWeaknesses": [
+        "identifier sites are ad-heavy and upload-based",
+        "the CLI requires knowing the algorithm first",
+        "no tool explains a near-miss"
+      ],
       "userFailures": [
         "Compares a SHA-1 against a SHA-256 and concludes the download is corrupt.",
         "Sees an uppercase digest beside a lowercase one and reads a mismatch that is not one.",
         "Cannot distinguish a truncated digest from a different algorithm of the same prefix.",
         "Pastes a digest with a trailing filename from a .sha256 file and gets no match."
       ],
-      "relatedProblems": ["checksum verification", "digest length by algorithm", "case sensitivity in hex digests"],
-      "relatedTools": ["sha256-hash-generator", "md5-hash-generator", "sha1-hash-generator", "crc32-hash-generator", "sha512-hash-generator"],
+      "relatedProblems": [
+        "checksum verification",
+        "digest length by algorithm",
+        "case sensitivity in hex digests"
+      ],
+      "relatedTools": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "sha1-hash-generator",
+        "crc32-hash-generator",
+        "sha512-hash-generator"
+      ],
       "demand": 38,
       "competition": 42,
       "authorityRequired": 5,
@@ -253,17 +432,37 @@
       "proposedTool": "uuid-inspector",
       "proposedName": "UUID Inspector",
       "proposedEngine": "generation",
-      "searchQueries": ["uuid validator", "what version is this uuid", "uuid v4 vs v7", "is this a valid uuid", "decode uuid timestamp"],
-      "existingSolutions": ["regex snippets on stack overflow", "language-specific UUID libraries"],
-      "solutionWeaknesses": ["a regex confirms shape and says nothing about version or variant", "library checks require writing code to answer one question"],
+      "searchQueries": [
+        "uuid validator",
+        "what version is this uuid",
+        "uuid v4 vs v7",
+        "is this a valid uuid",
+        "decode uuid timestamp"
+      ],
+      "existingSolutions": [
+        "regex snippets on stack overflow",
+        "language-specific UUID libraries"
+      ],
+      "solutionWeaknesses": [
+        "a regex confirms shape and says nothing about version or variant",
+        "library checks require writing code to answer one question"
+      ],
       "userFailures": [
         "Supplies a v4 UUID where the schema requires v7 and learns it only from a rejected insert.",
         "Pastes a UUID missing one character and the resulting error names an unrelated field.",
         "Treats a v1 UUID as random when it embeds a timestamp and a MAC address.",
         "Generates a nil UUID as a placeholder and it passes shape validation everywhere downstream."
       ],
-      "relatedProblems": ["uuid version detection", "sortable identifiers", "nil uuid as a sentinel"],
-      "relatedTools": ["uuid-generator", "random-string-generator", "password-generator"],
+      "relatedProblems": [
+        "uuid version detection",
+        "sortable identifiers",
+        "nil uuid as a sentinel"
+      ],
+      "relatedTools": [
+        "uuid-generator",
+        "random-string-generator",
+        "password-generator"
+      ],
       "demand": 30,
       "competition": 25,
       "authorityRequired": 5,
@@ -280,6 +479,252 @@
           "Storing a v1 UUID in a public URL without knowing it leaks a host and a timestamp."
         ]
       }
+    },
+    {
+      "query": "regex tester with live capture groups",
+      "problem": "I need to test a regular expression against sample text and see every capture group, named group, and match highlight update as I type, without sending my data to a server.",
+      "intent": "transactional",
+      "transformation": "Regex Testing",
+      "proposedTool": "regex-tester",
+      "proposedName": "Regex Tester",
+      "proposedEngine": "text-interactive",
+      "searchQueries": [
+        "regex tester",
+        "regular expression tester",
+        "regex capture groups online",
+        "regex101 alternative offline",
+        "live regex matcher"
+      ],
+      "existingSolutions": [
+        "regex101.com",
+        "regexr.com",
+        "editor find-with-regex"
+      ],
+      "solutionWeaknesses": [
+        "uploads pattern and sample text to a remote service",
+        "account walls for saved patterns",
+        "editor find shows only the next match, not all groups"
+      ],
+      "userFailures": [
+        "A greedy quantifier silently swallows the intended capture and the tool only shows the full match, so the group looks empty for the wrong reason.",
+        "A multiline sample looks correct until they paste a Windows CRLF string and ^/$ stop matching the lines they expected.",
+        "A named group works in one flavor and is treated as a literal in another, and nothing says which flavor is active.",
+        "They debug a lookbehind that the browser engine does not support and get a cryptic SyntaxError instead of a flavor note."
+      ],
+      "relatedProblems": [
+        "find and replace",
+        "text compare",
+        "invisible characters"
+      ],
+      "relatedTools": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector"
+      ],
+      "demand": 86,
+      "competition": 72,
+      "evergreen": 94,
+      "difficulty": "medium",
+      "localization": 92,
+      "algorithmicFit": 98,
+      "authorityRequired": 5
+    },
+    {
+      "query": "merge split rotate pdf in browser",
+      "problem": "I need to merge, split, rotate, or reorder PDF pages on my machine without uploading confidential documents to a random converter site.",
+      "intent": "transactional",
+      "transformation": "PDF Page Editing",
+      "proposedTool": "pdf-page-toolkit",
+      "proposedName": "PDF Merge Split Rotate",
+      "proposedEngine": "pdf",
+      "searchQueries": [
+        "merge pdf online",
+        "split pdf pages",
+        "rotate pdf pages",
+        "reorder pdf pages",
+        "combine pdf no upload"
+      ],
+      "existingSolutions": [
+        "ilovepdf.com",
+        "smallpdf.com",
+        "desktop Acrobat"
+      ],
+      "solutionWeaknesses": [
+        "documents leave the machine and sit on a third-party server",
+        "page/file limits behind a paywall",
+        "desktop suites are heavy for a one-off reorder"
+      ],
+      "userFailures": [
+        "Pages land out of order because drag-reorder applied to thumbnails of a different file than the one being exported.",
+        "A scanned PDF rotates visually in the preview but the printed page stays landscape because only the view matrix changed.",
+        "Merging two PDFs with different page sizes produces a file that print dialogs crop without warning.",
+        "A password-protected PDF fails silently mid-merge and the output keeps only the unprotected half."
+      ],
+      "relatedProblems": [
+        "image to pdf",
+        "pdf compress",
+        "document privacy"
+      ],
+      "relatedTools": [
+        "image-convert-compress",
+        "file-hash-verifier"
+      ],
+      "demand": 90,
+      "competition": 78,
+      "evergreen": 92,
+      "difficulty": "high",
+      "localization": 94,
+      "algorithmicFit": 95,
+      "authorityRequired": 5
+    },
+    {
+      "query": "convert compress resize image heic online",
+      "problem": "I need to convert, compress, or resize images including HEIC from a phone, entirely in the browser so the photos never upload.",
+      "intent": "transactional",
+      "transformation": "Image Conversion",
+      "proposedTool": "image-convert-compress",
+      "proposedName": "Image Convert Compress Resize",
+      "proposedEngine": "image",
+      "searchQueries": [
+        "heic to jpg converter",
+        "compress image online",
+        "resize image no upload",
+        "convert png to webp",
+        "batch image compressor"
+      ],
+      "existingSolutions": [
+        "cloudconvert",
+        "iloveimg",
+        "squoosh.app"
+      ],
+      "solutionWeaknesses": [
+        "most converters upload the image",
+        "HEIC support is missing or paywalled",
+        "batch limits and watermarks on free tiers"
+      ],
+      "userFailures": [
+        "A HEIC converts to JPEG but the orientation tag is dropped, so phone photos appear sideways.",
+        "Quality slider looks fine in preview and still blows the email attachment size limit because dimensions were never capped.",
+        "Transparent PNG becomes a black or white rectangle after JPEG conversion with no alpha warning.",
+        "A batch run silently skips one corrupted file and the zip looks complete until someone opens it."
+      ],
+      "relatedProblems": [
+        "pdf from images",
+        "palette extraction",
+        "file checksum"
+      ],
+      "relatedTools": [
+        "image-palette-extractor",
+        "pdf-page-toolkit",
+        "file-hash-verifier"
+      ],
+      "demand": 88,
+      "competition": 74,
+      "evergreen": 90,
+      "difficulty": "high",
+      "localization": 94,
+      "algorithmicFit": 92,
+      "authorityRequired": 5
+    },
+    {
+      "query": "json diff structural compare",
+      "problem": "I need a structural diff of two JSON documents that understands objects and arrays, not a line-oriented text compare that breaks when keys are reordered.",
+      "intent": "transactional",
+      "transformation": "JSON Diff",
+      "proposedTool": "json-diff",
+      "proposedName": "Structured JSON Diff",
+      "proposedEngine": "structured-data",
+      "searchQueries": [
+        "json diff online",
+        "compare two json",
+        "json structural diff",
+        "diff json objects",
+        "json compare ignore key order"
+      ],
+      "existingSolutions": [
+        "jsoneditoronline.org",
+        "diffchecker",
+        "git diff"
+      ],
+      "solutionWeaknesses": [
+        "text diffs treat key order as a change",
+        "uploads sensitive payloads",
+        "array moves show as delete-plus-add with no path"
+      ],
+      "userFailures": [
+        "Two objects that differ only in key order are reported as wholly different because the tool stringified without sorting keys.",
+        "An array of objects with a stable id field is diffed by index, so a reorder looks like every field changed.",
+        "A numeric 1 and a string \"1\" are shown as equal when deep-compare is too loose, or unequal with no type callout when it is strict.",
+        "A null vs missing key is collapsed into one red row and the fix goes to the wrong place."
+      ],
+      "relatedProblems": [
+        "csv diff",
+        "text compare",
+        "json formatting"
+      ],
+      "relatedTools": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer"
+      ],
+      "demand": 80,
+      "competition": 48,
+      "evergreen": 90,
+      "difficulty": "medium",
+      "localization": 94,
+      "algorithmicFit": 98,
+      "authorityRequired": 5
+    },
+    {
+      "query": "hash a file in the browser sha256",
+      "problem": "I need the SHA-256 or MD5 of a local file to verify a download, without pasting the whole file into a text hash box or uploading it.",
+      "intent": "transactional",
+      "transformation": "File Hashing",
+      "proposedTool": "file-hash-verifier",
+      "proposedName": "File Hash Verifier",
+      "proposedEngine": "hashing",
+      "searchQueries": [
+        "hash a file online",
+        "sha256 file checksum",
+        "verify download checksum",
+        "md5 file hash browser",
+        "checksum uploaded file"
+      ],
+      "existingSolutions": [
+        "online md5 file hash sites",
+        "shasum in a terminal",
+        "cyberchef with file input"
+      ],
+      "solutionWeaknesses": [
+        "upload-based hash sites receive the whole artifact",
+        "CLI is fine for developers and opaque for everyone else",
+        "text hash tools reject binary files or truncate large pastes"
+      ],
+      "userFailures": [
+        "Compares a file hash against a digest that still has the filename suffix from a .sha256 sidecar and reads a false mismatch.",
+        "Hashes a partially downloaded file and concludes the mirror is corrupt.",
+        "Picks MD5 because the site defaulted to it while the publisher published SHA-256.",
+        "Drops a multi-gigabyte ISO onto a tool that loads the whole file into memory and the tab dies with no progress."
+      ],
+      "relatedProblems": [
+        "hash identification",
+        "download verification",
+        "pdf integrity"
+      ],
+      "relatedTools": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "hash-identifier",
+        "crc32-hash-generator"
+      ],
+      "demand": 76,
+      "competition": 55,
+      "evergreen": 93,
+      "difficulty": "medium",
+      "localization": 96,
+      "algorithmicFit": 100,
+      "authorityRequired": 5
     }
   ]
 }

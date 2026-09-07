@@ -1,7 +1,78 @@
 {
   "version": 3,
-  "generatedAt": "2026-08-31T15:40:03.484Z",
+  "generatedAt": "2026-09-07T20:41:41.614Z",
   "engines": [
+    {
+      "engine": "motion",
+      "exists": false,
+      "confidence": 0.97,
+      "transformations": [
+        "Fidget Interaction"
+      ],
+      "unlocksTools": [
+        "pop-it",
+        "gears",
+        "spinner",
+        "kinetic-sand",
+        "slime"
+      ],
+      "topScore": 75.1,
+      "rationale": [
+        "5 opportunities share the missing \"motion\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 5 tools."
+      ]
+    },
+    {
+      "engine": "board-game",
+      "exists": false,
+      "confidence": 0.95,
+      "transformations": [
+        "Hot-Seat Board Game"
+      ],
+      "unlocksTools": [
+        "tic-tac-toe",
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe"
+      ],
+      "topScore": 74.3,
+      "rationale": [
+        "4 opportunities share the missing \"board-game\" engine.",
+        "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
+      ]
+    },
+    {
+      "engine": "haptics",
+      "exists": false,
+      "confidence": 0.5,
+      "transformations": [
+        "Fidget Interaction"
+      ],
+      "unlocksTools": [
+        "switch-board"
+      ],
+      "topScore": 74.1,
+      "rationale": [
+        "1 opportunity share the missing \"haptics\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
+    {
+      "engine": "sound",
+      "exists": false,
+      "confidence": 0.5,
+      "transformations": [
+        "Breathing Guide"
+      ],
+      "unlocksTools": [
+        "breathing-circle"
+      ],
+      "topScore": 69.4,
+      "rationale": [
+        "1 opportunity share the missing \"sound\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
     {
       "engine": "budget",
       "exists": false,
@@ -35,6 +106,56 @@
       "topScore": 66.2,
       "rationale": [
         "2 opportunities share the missing \"loan\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
+    {
+      "engine": "pdf",
+      "exists": false,
+      "confidence": 0.5,
+      "transformations": [
+        "PDF Page Editing"
+      ],
+      "unlocksTools": [
+        "pdf-page-toolkit"
+      ],
+      "topScore": 66,
+      "rationale": [
+        "1 opportunity share the missing \"pdf\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
+    {
+      "engine": "image",
+      "exists": false,
+      "confidence": 0.5,
+      "transformations": [
+        "Image Conversion"
+      ],
+      "unlocksTools": [
+        "image-convert-compress"
+      ],
+      "topScore": 65.7,
+      "rationale": [
+        "1 opportunity share the missing \"image\" engine.",
+        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
+      ]
+    },
+    {
+      "engine": "panchang",
+      "exists": false,
+      "confidence": 0.65,
+      "transformations": [
+        "Calendar View",
+        "Panchang Calendar"
+      ],
+      "unlocksTools": [
+        "gregorian-calendar",
+        "marathi-calendar"
+      ],
+      "topScore": 65.5,
+      "rationale": [
+        "2 opportunities share the missing \"panchang\" engine.",
         "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     },

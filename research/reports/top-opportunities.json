@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-08-31T15:40:03.484Z",
+  "generatedAt": "2026-09-07T20:41:41.614Z",
   "top": [
     {
       "id": "statistics-visualizer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -78,6 +78,92 @@
       "craftRisk": true
     },
     {
+      "id": "json-diff",
+      "title": "Structured JSON Diff",
+      "problem": "I need a structural diff of two JSON documents that understands objects and arrays, not a line-oriented text compare that breaks when keys are reordered.",
+      "userIntent": "comparison",
+      "workflow": "structured data → JSON Diff → structured data",
+      "transformation": "JSON Diff",
+      "proposedTool": "json-diff",
+      "proposedEngine": "structured-data",
+      "searchQueries": [
+        "json diff structural compare",
+        "json diff online",
+        "compare two json",
+        "json structural diff",
+        "diff json objects",
+        "json compare ignore key order"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "existingSolutions": [
+        "jsoneditoronline.org",
+        "diffchecker",
+        "git diff"
+      ],
+      "solutionWeaknesses": [
+        "text diffs treat key order as a change",
+        "uploads sensitive payloads",
+        "array moves show as delete-plus-add with no path"
+      ],
+      "userFailures": [
+        "Two objects that differ only in key order are reported as wholly different because the tool stringified without sorting keys.",
+        "An array of objects with a stable id field is diffed by index, so a reorder looks like every field changed.",
+        "A numeric 1 and a string \"1\" are shown as equal when deep-compare is too loose, or unequal with no type callout when it is strict.",
+        "A null vs missing key is collapsed into one red row and the fix goes to the wrong place."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "csv diff",
+        "text compare",
+        "json formatting"
+      ],
+      "relatedTools": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer",
+        "csv-to-json-converter",
+        "json-minifier"
+      ],
+      "relatedGuides": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer",
+        "csv-to-json-converter",
+        "json-minifier"
+      ],
+      "relatedFaqs": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer",
+        "csv-to-json-converter",
+        "json-minifier"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.9,
+      "competitionScore": 0.7,
+      "searchDemand": 0.8,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.92,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.56,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.98,
+      "authorityWinnability": 0.95,
+      "confidence": 0.8,
+      "finalScore": 80.6,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "triangle-solver",
       "title": "Triangle Solver",
       "problem": "I want to enter any three parts of a triangle and see the remaining sides and angles solved on a drawn-to-scale figure.",
@@ -96,7 +182,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -171,7 +257,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -252,7 +338,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -300,6 +386,89 @@
       "craftRisk": true
     },
     {
+      "id": "file-hash-verifier",
+      "title": "File Hash Verifier",
+      "problem": "I need the SHA-256 or MD5 of a local file to verify a download, without pasting the whole file into a text hash box or uploading it.",
+      "userIntent": "transactional",
+      "workflow": "text → File Hashing → a hash digest",
+      "transformation": "File Hashing",
+      "proposedTool": "file-hash-verifier",
+      "proposedEngine": "hashing",
+      "searchQueries": [
+        "hash a file in the browser sha256",
+        "hash a file online",
+        "sha256 file checksum",
+        "verify download checksum",
+        "md5 file hash browser",
+        "checksum uploaded file"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "existingSolutions": [
+        "online md5 file hash sites",
+        "shasum in a terminal",
+        "cyberchef with file input"
+      ],
+      "solutionWeaknesses": [
+        "upload-based hash sites receive the whole artifact",
+        "CLI is fine for developers and opaque for everyone else",
+        "text hash tools reject binary files or truncate large pastes"
+      ],
+      "userFailures": [
+        "Compares a file hash against a digest that still has the filename suffix from a .sha256 sidecar and reads a false mismatch.",
+        "Hashes a partially downloaded file and concludes the mirror is corrupt.",
+        "Picks MD5 because the site defaulted to it while the publisher published SHA-256.",
+        "Drops a multi-gigabyte ISO onto a tool that loads the whole file into memory and the tab dies with no progress."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "hash identification",
+        "download verification",
+        "pdf integrity"
+      ],
+      "relatedTools": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedGuides": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedFaqs": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.93,
+      "competitionScore": 0.63,
+      "searchDemand": 0.76,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.55,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 1,
+      "authorityWinnability": 0.95,
+      "confidence": 0.8,
+      "finalScore": 79.3,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "type-scale-generator",
       "title": "Modular Type Scale Generator",
       "problem": "I want to pick a base font size and ratio and generate a modular type scale as copyable rem CSS custom properties.",
@@ -319,7 +488,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -370,6 +539,92 @@
       "craftRisk": true
     },
     {
+      "id": "regex-tester",
+      "title": "Regex Tester",
+      "problem": "I need to test a regular expression against sample text and see every capture group, named group, and match highlight update as I type, without sending my data to a server.",
+      "userIntent": "transactional",
+      "workflow": "text → Regex Testing → text",
+      "transformation": "Regex Testing",
+      "proposedTool": "regex-tester",
+      "proposedEngine": "text-interactive",
+      "searchQueries": [
+        "regex tester with live capture groups",
+        "regex tester",
+        "regular expression tester",
+        "regex capture groups online",
+        "regex101 alternative offline",
+        "live regex matcher"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "existingSolutions": [
+        "regex101.com",
+        "regexr.com",
+        "editor find-with-regex"
+      ],
+      "solutionWeaknesses": [
+        "uploads pattern and sample text to a remote service",
+        "account walls for saved patterns",
+        "editor find shows only the next match, not all groups"
+      ],
+      "userFailures": [
+        "A greedy quantifier silently swallows the intended capture and the tool only shows the full match, so the group looks empty for the wrong reason.",
+        "A multiline sample looks correct until they paste a Windows CRLF string and ^/$ stop matching the lines they expected.",
+        "A named group works in one flavor and is treated as a literal in another, and nothing says which flavor is active.",
+        "They debug a lookbehind that the browser engine does not support and get a cryptic SyntaxError instead of a flavor note."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "find and replace",
+        "text compare",
+        "invisible characters"
+      ],
+      "relatedTools": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector",
+        "character-map",
+        "shell-quote-escalator",
+        "text-repeater"
+      ],
+      "relatedGuides": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector",
+        "character-map",
+        "shell-quote-escalator",
+        "text-repeater"
+      ],
+      "relatedFaqs": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector",
+        "character-map",
+        "shell-quote-escalator",
+        "text-repeater"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.46,
+      "searchDemand": 0.86,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.94,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.57,
+      "localizationPotential": 0.92,
+      "algorithmicFit": 0.98,
+      "authorityWinnability": 0.95,
+      "confidence": 0.8,
+      "finalScore": 79.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "matrix-calculator",
       "title": "Matrix Calculator",
       "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
@@ -388,7 +643,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -461,7 +716,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
+      "discoveredAt": "2026-09-07T20:41:41.614Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -510,235 +765,6 @@
       "gap": "cluster-missing",
       "engineExists": true,
       "craftRisk": false
-    },
-    {
-      "id": "normal-distribution-visualizer",
-      "title": "Normal Distribution Visualizer",
-      "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
-      "userIntent": "transactional",
-      "workflow": "a simulated model → Normal Distribution → a simulated model",
-      "transformation": "Normal Distribution",
-      "proposedTool": "normal-distribution-visualizer",
-      "proposedEngine": "math-lab",
-      "searchQueries": [
-        "normal distribution calculator",
-        "z score calculator",
-        "bell curve generator",
-        "empirical rule calculator",
-        "area under normal curve"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
-      "existingSolutions": [
-        "calculator.net",
-        "onlinestatbook.com",
-        "geogebra.org"
-      ],
-      "solutionWeaknesses": [
-        "static forms with tiny fixed charts",
-        "dated applets",
-        "no draggable mean and sigma",
-        "no shaded area interaction"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "z score",
-        "empirical rule",
-        "percentiles",
-        "standardizing data"
-      ],
-      "relatedTools": [
-        "probability-calculator",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
-      ],
-      "relatedGuides": [],
-      "relatedFaqs": [
-        "probability-calculator",
-        "quadratic-equation-solver",
-        "unit-circle-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.94,
-      "competitionScore": 0.61,
-      "searchDemand": 0.76,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.9,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.35,
-      "localizationPotential": 0.8,
-      "algorithmicFit": 1,
-      "authorityWinnability": 0.83,
-      "confidence": 0.8,
-      "finalScore": 77.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
-      "id": "pregnancy-due-date-calculator",
-      "title": "Pregnancy Due Date Calculator",
-      "problem": "From the first day of the last period, obstetric practice projects a delivery date and trimester milestones.",
-      "userIntent": "transactional",
-      "workflow": "a date/time → Health Date Calculation → a date/time",
-      "transformation": "Health Date Calculation",
-      "proposedTool": "pregnancy-due-date-calculator",
-      "proposedEngine": "datetime",
-      "searchQueries": [
-        "due date calculator",
-        "pregnancy due date calculator",
-        "naegele rule calculator",
-        "how many weeks pregnant am i",
-        "estimated delivery date"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
-      "existingSolutions": [
-        "whattoexpect.com",
-        "babycenter.com",
-        "mayoclinic.org"
-      ],
-      "solutionWeaknesses": [
-        "requires signup for the full timeline",
-        "heavy tracking scripts",
-        "upsells products",
-        "slow on mobile"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "gestational age today",
-        "trimester boundaries",
-        "conception date estimate"
-      ],
-      "relatedTools": [
-        "age-calculator",
-        "date-difference-calculator",
-        "cron-expression-parser",
-        "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
-      ],
-      "relatedGuides": [
-        "age-calculator",
-        "date-difference-calculator",
-        "cron-expression-parser",
-        "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
-      ],
-      "relatedFaqs": [
-        "age-calculator",
-        "date-difference-calculator",
-        "cron-expression-parser",
-        "systemd-timer-converter",
-        "timezone-converter",
-        "unix-timestamp-converter"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.46,
-      "searchDemand": 0.88,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.88,
-      "algorithmicFit": 0.95,
-      "authorityWinnability": 0.08,
-      "confidence": 0.8,
-      "finalScore": 76.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
-      "id": "lean-body-mass-calculator",
-      "title": "Lean Body Mass Calculator",
-      "problem": "Separating fat mass from everything else in my bodyweight tells me how much muscle and bone I carry.",
-      "userIntent": "transactional",
-      "workflow": "numbers → Body Composition Calculation → a computed result",
-      "transformation": "Body Composition Calculation",
-      "proposedTool": "lean-body-mass-calculator",
-      "proposedEngine": "wellness",
-      "searchQueries": [
-        "lean body mass calculator",
-        "lbm calculator",
-        "boer formula calculator",
-        "fat free mass calculator",
-        "muscle mass estimate"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-08-31T15:40:03.484Z",
-      "existingSolutions": [
-        "omnicalculator.com",
-        "calculator.net"
-      ],
-      "solutionWeaknesses": [
-        "ad heavy",
-        "no formula comparison",
-        "no link to body fat percentage"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "formula selection",
-        "fat free mass index",
-        "drug dosing by lean mass"
-      ],
-      "relatedTools": [
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "bmi-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
-      ],
-      "relatedGuides": [
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "bmi-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
-      ],
-      "relatedFaqs": [
-        "body-fat-calculator",
-        "ideal-weight-calculator",
-        "bmi-calculator",
-        "bmr-calculator",
-        "calorie-deficit-calculator",
-        "heart-rate-zone-calculator"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.92,
-      "competitionScore": 0.7,
-      "searchDemand": 0.55,
-      "implementationCost": 1,
-      "engineReuse": 1,
-      "seoPotential": 0.82,
-      "topicClusterPotential": 0.5,
-      "commercialPotential": 0.51,
-      "localizationPotential": 0.92,
-      "algorithmicFit": 0.95,
-      "authorityWinnability": 0.5,
-      "confidence": 0.64,
-      "finalScore": 76.5,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
     }
   ]
 }
