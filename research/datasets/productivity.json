@@ -1,0 +1,54 @@
+{
+  "domain": "productivity",
+  "records": [
+    {
+      "query": "book reading tracker local no account",
+      "problem": "I want to track books I am reading and have read, with progress and ratings stored in IndexedDB or localStorage, plus export/import, and absolutely no cloud account.",
+      "intent": "transactional",
+      "transformation": "Local Reading Tracker",
+      "proposedTool": "book-tracker",
+      "proposedName": "Book Tracker",
+      "proposedEngine": "productivity",
+      "searchQueries": [
+        "book reading tracker",
+        "reading list tracker offline",
+        "goodreads alternative local",
+        "track books no account",
+        "bookshelf tracker export"
+      ],
+      "existingSolutions": [
+        "Goodreads",
+        "StoryGraph",
+        "spreadsheet"
+      ],
+      "solutionWeaknesses": [
+        "cloud accounts and social graphs required",
+        "recommendation noise around a simple shelf",
+        "spreadsheets lack progress affordances"
+      ],
+      "userFailures": [
+        "Clearing site data wipes the shelf because export was never offered until after the loss.",
+        "Import of a CSV silently drops ratings when the header aliases do not match exactly.",
+        "A book marked 'finished' still appears in Currently Reading because status and progress disagree.",
+        "Duplicate entries appear after importing the same export twice with no merge-by-ISBN option."
+      ],
+      "relatedProblems": [
+        "todo list",
+        "notepad",
+        "local-first sync"
+      ],
+      "relatedTools": [
+        "todo-list",
+        "notepad",
+        "pomodoro-timer"
+      ],
+      "demand": 72,
+      "competition": 70,
+      "evergreen": 88,
+      "difficulty": "medium",
+      "localization": 85,
+      "algorithmicFit": 80,
+      "authorityRequired": 5
+    }
+  ]
+}

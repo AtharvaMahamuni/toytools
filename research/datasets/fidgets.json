@@ -1,0 +1,351 @@
+{
+  "domain": "fidgets",
+  "records": [
+    {
+      "query": "virtual pop it fidget online",
+      "problem": "I want a satisfying virtual Pop-It I can click or tap, with optional sound and haptics, that stores nothing and needs no app install.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "pop-it",
+      "proposedName": "Pop It",
+      "proposedEngine": "motion",
+      "searchQueries": [
+        "virtual pop it",
+        "pop it online",
+        "fidget pop it game",
+        "bubble pop fidget",
+        "pop it sensory"
+      ],
+      "existingSolutions": [
+        "mobile fidget apps",
+        "ad-heavy web clones"
+      ],
+      "solutionWeaknesses": [
+        "apps demand notification permissions",
+        "web clones autoplay audio ads",
+        "no shared settings across fidgets"
+      ],
+      "userFailures": [
+        "Rapid taps register twice on one bubble because press and release both popped it.",
+        "Sound plays on every pop with no mute, which is unusable in an open office.",
+        "A 'reset all' control is missing so a finished board cannot be reused without reloading.",
+        "Haptics fire on desktop where there is no vibrator and the API rejection breaks the animation loop."
+      ],
+      "relatedProblems": [
+        "fidget spinner",
+        "switch board",
+        "fidget settings"
+      ],
+      "relatedTools": [
+        "spinner",
+        "switch-board",
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
+      ],
+      "demand": 74,
+      "competition": 58,
+      "evergreen": 70,
+      "difficulty": "low",
+      "localization": 96,
+      "algorithmicFit": 90,
+      "authorityRequired": 0
+    },
+    {
+      "query": "virtual fidget spinner online",
+      "problem": "I want a physics-based fidget spinner in the browser I can flick with mouse or touch, with momentum that feels right and optional tick sounds.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "spinner",
+      "proposedName": "Fidget Spinner",
+      "proposedEngine": "motion",
+      "searchQueries": [
+        "fidget spinner online",
+        "virtual fidget spinner",
+        "spin fidget web",
+        "browser fidget spinner",
+        "spinner toy online"
+      ],
+      "existingSolutions": [
+        "novelty web toys",
+        "mobile apps"
+      ],
+      "solutionWeaknesses": [
+        "physics feels floaty or stops abruptly",
+        "no reduced-motion mode",
+        "ads around a three-second toy"
+      ],
+      "userFailures": [
+        "A flick on trackpad imparts almost no angular velocity because the tool only listened to mouse drag distance, not velocity.",
+        "The spinner never quite stops and drains battery on a phone with the tab backgrounded.",
+        "Reduced-motion users get a full spinning animation with no static alternative.",
+        "Sound ticks desync from the visual rotation after a long spin."
+      ],
+      "relatedProblems": [
+        "pop it",
+        "gears",
+        "kinetic sand"
+      ],
+      "relatedTools": [
+        "pop-it",
+        "gears",
+        "kinetic-sand",
+        "switch-board"
+      ],
+      "demand": 66,
+      "competition": 55,
+      "evergreen": 62,
+      "difficulty": "medium",
+      "localization": 96,
+      "algorithmicFit": 92,
+      "authorityRequired": 0
+    },
+    {
+      "query": "satisfying toggle switch board online",
+      "problem": "I want a board of mechanical toggle switches and buttons I can flip for the tactile feedback, with optional click sounds and vibration.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "switch-board",
+      "proposedName": "Switch Board",
+      "proposedEngine": "haptics",
+      "searchQueries": [
+        "switch fidget online",
+        "toggle switch board",
+        "satisfying switches",
+        "button fidget web",
+        "mechanical switch simulator"
+      ],
+      "existingSolutions": [
+        "ASMR videos",
+        "mobile switch simulators"
+      ],
+      "solutionWeaknesses": [
+        "videos are not interactive",
+        "apps bury the board behind IAP skins",
+        "no way to disable sound independently of haptics"
+      ],
+      "userFailures": [
+        "A toggle animates but the latch state flips back because the press handler ran twice.",
+        "Haptics and sound cannot be controlled separately, so muting also kills vibration.",
+        "Keyboard focus lands on every switch and Tab order makes the board unusable for keyboard users.",
+        "A 'all off' action is missing after exploring, so resetting means flipping dozens by hand."
+      ],
+      "relatedProblems": [
+        "pop it",
+        "fidget settings",
+        "haptics engine"
+      ],
+      "relatedTools": [
+        "pop-it",
+        "spinner",
+        "gears",
+        "breathing-circle"
+      ],
+      "demand": 58,
+      "competition": 40,
+      "evergreen": 72,
+      "difficulty": "low",
+      "localization": 96,
+      "algorithmicFit": 88,
+      "authorityRequired": 0
+    },
+    {
+      "query": "kinetic sand online play",
+      "problem": "I want a simple kinetic-sand or squish surface in the browser I can drag through, without installing a game and without accounts.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "kinetic-sand",
+      "proposedName": "Kinetic Sand",
+      "proposedEngine": "motion",
+      "searchQueries": [
+        "kinetic sand online",
+        "virtual kinetic sand",
+        "squish sand browser",
+        "sand fidget online",
+        "play with sand online"
+      ],
+      "existingSolutions": [
+        "mobile sand games",
+        "heavy WebGL demos"
+      ],
+      "solutionWeaknesses": [
+        "install required",
+        "demos are GPU-heavy on low-end phones",
+        "no calm low-particle mode"
+      ],
+      "userFailures": [
+        "Particle count is fixed so a budget phone drops to unusable frame rates with no quality preset.",
+        "Touch multitouch pinches zoom the page instead of grabbing sand because gestures were not captured.",
+        "There is no clear action and the surface packs into a corner with no reset.",
+        "Color-only depth cues make piled sand unreadable for low-vision users."
+      ],
+      "relatedProblems": [
+        "slime",
+        "gears",
+        "pop it"
+      ],
+      "relatedTools": [
+        "slime",
+        "gears",
+        "pop-it",
+        "spinner"
+      ],
+      "demand": 60,
+      "competition": 45,
+      "evergreen": 68,
+      "difficulty": "high",
+      "localization": 96,
+      "algorithmicFit": 85,
+      "authorityRequired": 0
+    },
+    {
+      "query": "breathing circle calm animation",
+      "problem": "I want a breathing-circle guide with configurable inhale/hold/exhale timings, gentle motion, and optional soft cues, fully client-side.",
+      "intent": "transactional",
+      "transformation": "Breathing Guide",
+      "proposedTool": "breathing-circle",
+      "proposedName": "Breathing Circle",
+      "proposedEngine": "sound",
+      "searchQueries": [
+        "breathing circle",
+        "box breathing online",
+        "breathing exercise animation",
+        "calm breathing visual",
+        "4-7-8 breathing timer"
+      ],
+      "existingSolutions": [
+        "meditation apps",
+        "YouTube timers"
+      ],
+      "solutionWeaknesses": [
+        "apps require accounts and subscriptions",
+        "videos cannot change the timing pattern",
+        "hard to use silently without visual-only mode"
+      ],
+      "userFailures": [
+        "Default timings are labeled 'calm' but run faster than the user's preferred box pattern with no preset names.",
+        "Audio cue cannot be disabled independently, so a silent office session is impossible.",
+        "Reduced-motion preference is ignored and the expanding circle is the only progress signal.",
+        "Session ends with no gentle fade and an abrupt stop breaks the rhythm."
+      ],
+      "relatedProblems": [
+        "pomodoro timer",
+        "fidget settings",
+        "sleep cycle"
+      ],
+      "relatedTools": [
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board",
+        "slime"
+      ],
+      "demand": 70,
+      "competition": 62,
+      "evergreen": 84,
+      "difficulty": "low",
+      "localization": 90,
+      "algorithmicFit": 90,
+      "authorityRequired": 5
+    },
+    {
+      "query": "virtual slime fidget online",
+      "problem": "I want a stretchy virtual slime I can poke and pull in the browser for a short sensory break, with no download.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "slime",
+      "proposedName": "Slime",
+      "proposedEngine": "motion",
+      "searchQueries": [
+        "virtual slime",
+        "slime fidget online",
+        "play with slime browser",
+        "stretch slime online",
+        "slime simulator"
+      ],
+      "existingSolutions": [
+        "mobile slime apps",
+        "flash-era toys"
+      ],
+      "solutionWeaknesses": [
+        "apps full of IAP goo skins",
+        "abandoned plugins",
+        "no shared motion settings with other fidgets"
+      ],
+      "userFailures": [
+        "Slime sticks permanently to a finger event that never received pointerup after leaving the canvas.",
+        "Physics stiffness is a single magic number with no calm vs stretchy presets.",
+        "Color contrast between slime and background fails WCAG and the blob disappears on a light theme.",
+        "Performance collapses when the mesh resolution stays maxed on a low-end device."
+      ],
+      "relatedProblems": [
+        "kinetic sand",
+        "pop it",
+        "gears"
+      ],
+      "relatedTools": [
+        "kinetic-sand",
+        "pop-it",
+        "gears",
+        "spinner"
+      ],
+      "demand": 64,
+      "competition": 50,
+      "evergreen": 66,
+      "difficulty": "high",
+      "localization": 96,
+      "algorithmicFit": 84,
+      "authorityRequired": 0
+    },
+    {
+      "query": "interactive gears meshing online",
+      "problem": "I want a set of intermeshing gears I can spin, with ratio labels and satisfying motion, as a fidget and a light teaching toy.",
+      "intent": "transactional",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "gears",
+      "proposedName": "Gears",
+      "proposedEngine": "motion",
+      "searchQueries": [
+        "interactive gears",
+        "gear ratio simulator",
+        "meshing gears online",
+        "spin gears fidget",
+        "gear toy browser"
+      ],
+      "existingSolutions": [
+        "physics applets",
+        "engineering textbooks",
+        "mobile toys"
+      ],
+      "solutionWeaknesses": [
+        "applets are dated Java/Flash",
+        "engineering tools are not playful",
+        "toys hide the ratio math"
+      ],
+      "userFailures": [
+        "Two gears overlap without meshing because tooth count and radius were allowed to disagree.",
+        "Direction of driven gears is wrong after adding a third idler and the label still shows the old ratio.",
+        "Dragging a gear off-canvas loses it with no undo or reset layout.",
+        "Reduced-motion users still get continuous spinning with no stepped advance control."
+      ],
+      "relatedProblems": [
+        "fidget spinner",
+        "kinetic sand",
+        "motion engine settings"
+      ],
+      "relatedTools": [
+        "spinner",
+        "kinetic-sand",
+        "pop-it",
+        "switch-board"
+      ],
+      "demand": 55,
+      "competition": 35,
+      "evergreen": 80,
+      "difficulty": "medium",
+      "localization": 94,
+      "algorithmicFit": 95,
+      "authorityRequired": 0
+    }
+  ]
+}

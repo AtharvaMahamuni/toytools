@@ -1,0 +1,202 @@
+{
+  "domain": "games",
+  "records": [
+    {
+      "query": "tic tac toe two player online no account",
+      "problem": "I want a clean two-player tic-tac-toe I can play hot-seat in one browser tab with friends in the same room, with no account and no network.",
+      "intent": "transactional",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "tic-tac-toe",
+      "proposedName": "Tic Tac Toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "tic tac toe online",
+        "tic tac toe two player",
+        "noughts and crosses",
+        "play tic tac toe same device",
+        "tic tac toe no download"
+      ],
+      "existingSolutions": [
+        "casual game sites with ads",
+        "mobile apps",
+        "paper"
+      ],
+      "solutionWeaknesses": [
+        "ad walls and autoplay video",
+        "forced online matchmaking for a couch game",
+        "no undo of an accidental tap"
+      ],
+      "userFailures": [
+        "An accidental double-tap places two marks before either player notices whose turn it was.",
+        "A finished board has no rematch affordance so they refresh and lose the score streak.",
+        "Color-only X/O styling fails for a colorblind player sharing the same screen.",
+        "They expect an optional AI opponent and the empty second seat just sits idle with no explanation."
+      ],
+      "relatedProblems": [
+        "connect four",
+        "chess tac toe",
+        "quantum tic tac toe"
+      ],
+      "relatedTools": [
+        "connect-4",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe",
+        "coin-flipper",
+        "dice-roller"
+      ],
+      "demand": 72,
+      "competition": 70,
+      "evergreen": 88,
+      "difficulty": "low",
+      "localization": 95,
+      "algorithmicFit": 100,
+      "authorityRequired": 0
+    },
+    {
+      "query": "connect 4 two player same device",
+      "problem": "I want Connect Four for two players on one device, with win detection and a reset that does not require a page reload.",
+      "intent": "transactional",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "connect-4",
+      "proposedName": "Connect 4",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "connect 4 online",
+        "connect four two player",
+        "play connect 4 same device",
+        "connect 4 no download",
+        "four in a row game"
+      ],
+      "existingSolutions": [
+        "app stores",
+        "ad-supported browser games"
+      ],
+      "solutionWeaknesses": [
+        "matchmaking when both players are on one couch",
+        "ads between every rematch",
+        "touch targets too small on phones"
+      ],
+      "userFailures": [
+        "A disc is dropped in the wrong column because the hover highlight lagged behind the finger.",
+        "A diagonal win is missed by the detector when the board is full of near-misses.",
+        "Undo reverts two plies instead of one after a mis-tap, and the turn indicator disagrees with the board.",
+        "Landscape mode clips the top row on a short phone and the winning cell is off-screen."
+      ],
+      "relatedProblems": [
+        "tic tac toe",
+        "chess tac toe",
+        "hot seat multiplayer"
+      ],
+      "relatedTools": [
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "quantum-tic-tac-toe"
+      ],
+      "demand": 68,
+      "competition": 65,
+      "evergreen": 86,
+      "difficulty": "medium",
+      "localization": 95,
+      "algorithmicFit": 100,
+      "authorityRequired": 0
+    },
+    {
+      "query": "chess tac toe hybrid board game",
+      "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
+      "intent": "transactional",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "chess-tac-toe",
+      "proposedName": "Chess Tac Toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "chess tac toe",
+        "chess tic tac toe",
+        "hybrid chess tic tac toe",
+        "chess piece tic tac toe",
+        "play chess tac toe"
+      ],
+      "existingSolutions": [
+        "rules blog posts",
+        "one-off itch.io prototypes",
+        "house rules on paper"
+      ],
+      "solutionWeaknesses": [
+        "rules pages never ship a playable board",
+        "prototypes vanish or require download",
+        "legal moves are undocumented mid-game"
+      ],
+      "userFailures": [
+        "A player places a piece on an occupied square because the UI reused plain tic-tac-toe click handling.",
+        "Knight-move legality is checked from the wrong origin after a capture variant the ruleset does not allow.",
+        "Win detection fires on three-in-a-row while a chess-check rule the house uses is ignored, with no mode toggle.",
+        "New players cannot tell whose turn it is because piece color and turn banner disagree after undo."
+      ],
+      "relatedProblems": [
+        "tic tac toe",
+        "quantum tic tac toe",
+        "connect four"
+      ],
+      "relatedTools": [
+        "tic-tac-toe",
+        "quantum-tic-tac-toe",
+        "connect-4"
+      ],
+      "demand": 42,
+      "competition": 28,
+      "evergreen": 80,
+      "difficulty": "medium",
+      "localization": 94,
+      "algorithmicFit": 98,
+      "authorityRequired": 0
+    },
+    {
+      "query": "quantum tic tac toe online",
+      "problem": "I want Quantum Tic-Tac-Toe with entanglement and collapse rules playable hot-seat in the browser, so the weird rules are enforced by the tool instead of argued over.",
+      "intent": "transactional",
+      "transformation": "Hot-Seat Board Game",
+      "proposedTool": "quantum-tic-tac-toe",
+      "proposedName": "Quantum Tic Tac Toe",
+      "proposedEngine": "board-game",
+      "searchQueries": [
+        "quantum tic tac toe",
+        "quantum tic-tac-toe play",
+        "entanglement tic tac toe",
+        "quantum noughts and crosses",
+        "play quantum tic tac toe"
+      ],
+      "existingSolutions": [
+        "academic demos",
+        "PDF rule sheets",
+        "rare flash ports"
+      ],
+      "solutionWeaknesses": [
+        "demos assume you already know the collapse rules",
+        "broken or abandoned ports",
+        "no step-through of why a collapse fired"
+      ],
+      "userFailures": [
+        "A player marks two classical cells thinking a spooky mark is already collapsed, and the board accepts an illegal classical move.",
+        "Collapse order is ambiguous when two cycles resolve and the tool picks one silently.",
+        "The entanglement graph is never shown, so disputes about which marks are linked cannot be settled.",
+        "Undo after a collapse cannot restore the prior superposition and the match has to be abandoned."
+      ],
+      "relatedProblems": [
+        "tic tac toe",
+        "chess tac toe",
+        "webrtc local multiplayer"
+      ],
+      "relatedTools": [
+        "tic-tac-toe",
+        "chess-tac-toe",
+        "connect-4"
+      ],
+      "demand": 48,
+      "competition": 22,
+      "evergreen": 78,
+      "difficulty": "high",
+      "localization": 94,
+      "algorithmicFit": 96,
+      "authorityRequired": 0
+    }
+  ]
+}

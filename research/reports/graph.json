@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-08-31T15:40:03.484Z",
+  "generatedAt": "2026-09-07T20:41:41.614Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -221,6 +221,47 @@
       "relatedFaqs": []
     },
     {
+      "id": "book-tracker",
+      "title": "Book Tracker",
+      "transformation": "Local Reading Tracker",
+      "engine": "productivity",
+      "existing": false,
+      "relatedTools": [
+        "todo-list",
+        "notepad",
+        "pomodoro-timer",
+        "keep-screen-awake"
+      ],
+      "relatedGuides": [
+        "todo-list",
+        "notepad",
+        "pomodoro-timer",
+        "keep-screen-awake"
+      ],
+      "relatedFaqs": [
+        "todo-list",
+        "notepad",
+        "pomodoro-timer",
+        "keep-screen-awake"
+      ]
+    },
+    {
+      "id": "breathing-circle",
+      "title": "Breathing Circle",
+      "transformation": "Breathing Guide",
+      "engine": "sound",
+      "existing": false,
+      "relatedTools": [
+        "pomodoro-timer"
+      ],
+      "relatedGuides": [
+        "pomodoro-timer"
+      ],
+      "relatedFaqs": [
+        "pomodoro-timer"
+      ]
+    },
+    {
       "id": "cagr-calculator",
       "title": "CAGR Calculator",
       "transformation": "Compound Annual Growth Rate",
@@ -303,6 +344,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "character-map",
+      "title": "Character Map",
+      "transformation": "character-map",
+      "engine": "text-interactive",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "chemical-bond-calculator",
       "title": "Chemical Bond Calculator",
       "transformation": "Bond Character",
@@ -323,6 +374,16 @@
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
+    },
+    {
+      "id": "chess-tac-toe",
+      "title": "Chess Tac Toe",
+      "transformation": "Hot-Seat Board Game",
+      "engine": "board-game",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "coin-flipper",
@@ -440,6 +501,16 @@
       "transformation": "interest",
       "engine": "finance",
       "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "connect-4",
+      "title": "Connect 4",
+      "transformation": "Hot-Seat Board Game",
+      "engine": "board-game",
+      "existing": false,
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
@@ -823,6 +894,34 @@
       ]
     },
     {
+      "id": "file-hash-verifier",
+      "title": "File Hash Verifier",
+      "transformation": "File Hashing",
+      "engine": "hashing",
+      "existing": false,
+      "relatedTools": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedGuides": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ],
+      "relatedFaqs": [
+        "sha256-hash-generator",
+        "md5-hash-generator",
+        "crc32-hash-generator",
+        "sha1-hash-generator",
+        "sha512-hash-generator"
+      ]
+    },
+    {
       "id": "find-replace",
       "title": "Find and Replace",
       "transformation": "find-replace",
@@ -882,6 +981,38 @@
         "quadratic-equation-solver",
         "probability-calculator",
         "unit-circle-calculator"
+      ]
+    },
+    {
+      "id": "gears",
+      "title": "Gears",
+      "transformation": "Fidget Interaction",
+      "engine": "motion",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "gregorian-calendar",
+      "title": "Gregorian Calendar",
+      "transformation": "Calendar View",
+      "engine": "panchang",
+      "existing": false,
+      "relatedTools": [
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
+      ],
+      "relatedGuides": [
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
+      ],
+      "relatedFaqs": [
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
       ]
     },
     {
@@ -987,6 +1118,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "image-convert-compress",
+      "title": "Image Convert Compress Resize",
+      "transformation": "Image Conversion",
+      "engine": "image",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "image-palette-extractor",
       "title": "Image Palette Extractor",
       "transformation": "Palette Extraction",
@@ -1068,6 +1209,37 @@
         "text-compare",
         "invisible-character-detector",
         "camel-case-converter"
+      ]
+    },
+    {
+      "id": "json-diff",
+      "title": "Structured JSON Diff",
+      "transformation": "JSON Diff",
+      "engine": "structured-data",
+      "existing": false,
+      "relatedTools": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer",
+        "csv-to-json-converter",
+        "json-minifier"
+      ],
+      "relatedGuides": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer",
+        "csv-to-json-converter",
+        "json-minifier"
+      ],
+      "relatedFaqs": [
+        "csv-diff",
+        "text-compare",
+        "json-formatter",
+        "json-tree-viewer",
+        "csv-to-json-converter",
+        "json-minifier"
       ]
     },
     {
@@ -1157,6 +1329,26 @@
       "transformation": "transform",
       "engine": "text-processor",
       "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "keep-screen-awake",
+      "title": "Keep Screen Awake",
+      "transformation": "utility",
+      "engine": "productivity",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "kinetic-sand",
+      "title": "Kinetic Sand",
+      "transformation": "Fidget Interaction",
+      "engine": "motion",
+      "existing": false,
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
@@ -1275,6 +1467,25 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "marathi-calendar",
+      "title": "Marathi Calendar",
+      "transformation": "Panchang Calendar",
+      "engine": "panchang",
+      "existing": false,
+      "relatedTools": [
+        "timezone-converter",
+        "date-difference-calculator"
+      ],
+      "relatedGuides": [
+        "timezone-converter",
+        "date-difference-calculator"
+      ],
+      "relatedFaqs": [
+        "timezone-converter",
+        "date-difference-calculator"
+      ]
     },
     {
       "id": "matrix-calculator",
@@ -1466,6 +1677,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "notepad",
+      "title": "Notepad",
+      "transformation": "note",
+      "engine": "productivity",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "nuclear-reactor-calculator",
       "title": "Nuclear Reactor Calculator",
       "transformation": "nuclear-physics",
@@ -1582,6 +1803,16 @@
       "relatedFaqs": []
     },
     {
+      "id": "pdf-page-toolkit",
+      "title": "PDF Merge Split Rotate",
+      "transformation": "PDF Page Editing",
+      "engine": "pdf",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "pendulum-period-calculator",
       "title": "Pendulum Period Calculator",
       "transformation": "oscillations",
@@ -1597,6 +1828,26 @@
       "transformation": "arithmetic",
       "engine": "calculator",
       "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "pomodoro-timer",
+      "title": "Pomodoro Timer",
+      "transformation": "timer",
+      "engine": "productivity",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "pop-it",
+      "title": "Pop It",
+      "transformation": "Fidget Interaction",
+      "engine": "motion",
+      "existing": false,
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
@@ -1800,6 +2051,16 @@
       ]
     },
     {
+      "id": "quantum-tic-tac-toe",
+      "title": "Quantum Tic Tac Toe",
+      "transformation": "Hot-Seat Board Game",
+      "engine": "board-game",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "random-string-generator",
       "title": "Random String Generator",
       "transformation": "credential",
@@ -1842,6 +2103,37 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "regex-tester",
+      "title": "Regex Tester",
+      "transformation": "Regex Testing",
+      "engine": "text-interactive",
+      "existing": false,
+      "relatedTools": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector",
+        "character-map",
+        "shell-quote-escalator",
+        "text-repeater"
+      ],
+      "relatedGuides": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector",
+        "character-map",
+        "shell-quote-escalator",
+        "text-repeater"
+      ],
+      "relatedFaqs": [
+        "find-replace",
+        "text-compare",
+        "invisible-character-detector",
+        "character-map",
+        "shell-quote-escalator",
+        "text-repeater"
+      ]
     },
     {
       "id": "remove-accents",
@@ -2308,6 +2600,16 @@
       ]
     },
     {
+      "id": "slime",
+      "title": "Slime",
+      "transformation": "Fidget Interaction",
+      "engine": "motion",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "slugify-text",
       "title": "Slugify Text",
       "transformation": "Slugification",
@@ -2339,6 +2641,16 @@
       ]
     },
     {
+      "id": "spinner",
+      "title": "Fidget Spinner",
+      "transformation": "Fidget Interaction",
+      "engine": "motion",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "statistics-visualizer",
       "title": "Statistics Visualizer",
       "transformation": "Descriptive Statistics",
@@ -2361,6 +2673,16 @@
         "fraction-calculator",
         "prime-factorization-calculator"
       ]
+    },
+    {
+      "id": "switch-board",
+      "title": "Switch Board",
+      "transformation": "Fidget Interaction",
+      "engine": "haptics",
+      "existing": false,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "systemd-timer-converter",
@@ -2414,6 +2736,35 @@
       "relatedFaqs": []
     },
     {
+      "id": "text-repeater",
+      "title": "Text Repeater",
+      "transformation": "repeat",
+      "engine": "text-interactive",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
+      "id": "tic-tac-toe",
+      "title": "Tic Tac Toe",
+      "transformation": "Hot-Seat Board Game",
+      "engine": "board-game",
+      "existing": false,
+      "relatedTools": [
+        "coin-flipper",
+        "dice-roller"
+      ],
+      "relatedGuides": [
+        "coin-flipper",
+        "dice-roller"
+      ],
+      "relatedFaqs": [
+        "coin-flipper",
+        "dice-roller"
+      ]
+    },
+    {
       "id": "timezone-converter",
       "title": "Timezone Converter",
       "transformation": "Timezone Conversion",
@@ -2443,6 +2794,16 @@
         "systemd-timer-converter",
         "unix-timestamp-converter"
       ]
+    },
+    {
+      "id": "todo-list",
+      "title": "Todo List",
+      "transformation": "task",
+      "engine": "productivity",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
     },
     {
       "id": "triangle-solver",
@@ -2896,6 +3257,31 @@
       "kind": "shares-engine"
     },
     {
+      "from": "book-tracker",
+      "to": "keep-screen-awake",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "book-tracker",
+      "to": "notepad",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "book-tracker",
+      "to": "pomodoro-timer",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "book-tracker",
+      "to": "todo-list",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "breathing-circle",
+      "to": "pomodoro-timer",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "cagr-calculator",
       "to": "compound-interest-calculator",
       "kind": "links-to-tool"
@@ -2979,6 +3365,11 @@
       "from": "chemical-bond-calculator",
       "to": "reaction-rate-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "chess-tac-toe",
+      "to": "quantum-tic-tac-toe",
+      "kind": "same-transformation"
     },
     {
       "from": "color-contrast-checker",
@@ -3091,6 +3482,16 @@
       "kind": "shares-engine"
     },
     {
+      "from": "connect-4",
+      "to": "chess-tac-toe",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "connect-4",
+      "to": "quantum-tic-tac-toe",
+      "kind": "same-transformation"
+    },
+    {
       "from": "crc32-hash-generator",
       "to": "hash-identifier",
       "kind": "shares-engine"
@@ -3189,6 +3590,11 @@
       "from": "csv-diff",
       "to": "csv-to-tsv",
       "kind": "shares-engine"
+    },
+    {
+      "from": "csv-diff",
+      "to": "json-diff",
+      "kind": "related-problem"
     },
     {
       "from": "csv-diff",
@@ -3336,6 +3742,41 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "file-hash-verifier",
+      "to": "crc32-hash-generator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "file-hash-verifier",
+      "to": "hash-identifier",
+      "kind": "related-problem"
+    },
+    {
+      "from": "file-hash-verifier",
+      "to": "hash-identifier",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "file-hash-verifier",
+      "to": "md5-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "file-hash-verifier",
+      "to": "sha1-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "file-hash-verifier",
+      "to": "sha256-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "file-hash-verifier",
+      "to": "sha512-hash-generator",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "fraction-calculator",
       "to": "combinations-permutations-calculator",
       "kind": "shares-engine"
@@ -3359,6 +3800,36 @@
       "from": "fraction-calculator",
       "to": "triangle-solver",
       "kind": "shares-engine"
+    },
+    {
+      "from": "gears",
+      "to": "kinetic-sand",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "gears",
+      "to": "slime",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "gears",
+      "to": "spinner",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "gregorian-calendar",
+      "to": "date-difference-calculator",
+      "kind": "related-problem"
+    },
+    {
+      "from": "gregorian-calendar",
+      "to": "marathi-calendar",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "gregorian-calendar",
+      "to": "timezone-converter",
+      "kind": "related-problem"
     },
     {
       "from": "hash-identifier",
@@ -3411,6 +3882,11 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "image-convert-compress",
+      "to": "image-palette-extractor",
+      "kind": "related-problem"
+    },
+    {
       "from": "image-palette-extractor",
       "to": "color-format-converter",
       "kind": "related-problem"
@@ -3451,9 +3927,44 @@
       "kind": "links-to-tool"
     },
     {
+      "from": "json-diff",
+      "to": "csv-diff",
+      "kind": "related-problem"
+    },
+    {
+      "from": "json-diff",
+      "to": "csv-to-json-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-diff",
+      "to": "json-formatter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-diff",
+      "to": "json-minifier",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-diff",
+      "to": "json-tree-viewer",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "json-diff",
+      "to": "text-compare",
+      "kind": "links-to-tool"
+    },
+    {
       "from": "json-escape",
       "to": "csv-to-json-converter",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "json-escape",
+      "to": "json-diff",
+      "kind": "shares-engine"
     },
     {
       "from": "json-escape",
@@ -3479,6 +3990,11 @@
       "from": "json-escape",
       "to": "json-tree-viewer",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "kinetic-sand",
+      "to": "slime",
+      "kind": "same-transformation"
     },
     {
       "from": "lean-body-mass-calculator",
@@ -3529,6 +4045,11 @@
       "from": "loan-calculator",
       "to": "mortgage-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "marathi-calendar",
+      "to": "timezone-converter",
+      "kind": "related-problem"
     },
     {
       "from": "meal-plan-generator",
@@ -3714,6 +4235,31 @@
       "from": "ovulation-calculator",
       "to": "timezone-converter",
       "kind": "shares-engine"
+    },
+    {
+      "from": "pop-it",
+      "to": "gears",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "pop-it",
+      "to": "kinetic-sand",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "pop-it",
+      "to": "slime",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "pop-it",
+      "to": "spinner",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "pop-it",
+      "to": "switch-board",
+      "kind": "same-transformation"
     },
     {
       "from": "pregnancy-due-date-calculator",
@@ -3924,6 +4470,26 @@
       "from": "reaction-rate-calculator",
       "to": "newman-projection-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "regex-tester",
+      "to": "character-map",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "regex-tester",
+      "to": "find-replace",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "regex-tester",
+      "to": "text-compare",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "regex-tester",
+      "to": "text-repeater",
+      "kind": "links-to-tool"
     },
     {
       "from": "remove-accents",
@@ -4411,6 +4977,16 @@
       "kind": "shares-engine"
     },
     {
+      "from": "spinner",
+      "to": "kinetic-sand",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "spinner",
+      "to": "slime",
+      "kind": "same-transformation"
+    },
+    {
       "from": "statistics-visualizer",
       "to": "matrix-calculator",
       "kind": "shares-engine"
@@ -4419,6 +4995,26 @@
       "from": "statistics-visualizer",
       "to": "triangle-solver",
       "kind": "shares-engine"
+    },
+    {
+      "from": "switch-board",
+      "to": "gears",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "switch-board",
+      "to": "kinetic-sand",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "switch-board",
+      "to": "slime",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "switch-board",
+      "to": "spinner",
+      "kind": "same-transformation"
     },
     {
       "from": "systemd-timer-converter",
@@ -4434,6 +5030,31 @@
       "from": "systemd-timer-converter",
       "to": "timezone-converter",
       "kind": "shares-engine"
+    },
+    {
+      "from": "tic-tac-toe",
+      "to": "chess-tac-toe",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "tic-tac-toe",
+      "to": "coin-flipper",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "tic-tac-toe",
+      "to": "connect-4",
+      "kind": "same-transformation"
+    },
+    {
+      "from": "tic-tac-toe",
+      "to": "dice-roller",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "tic-tac-toe",
+      "to": "quantum-tic-tac-toe",
+      "kind": "same-transformation"
     },
     {
       "from": "timezone-converter",

@@ -1,7 +1,19 @@
 {
   "version": 3,
-  "generatedAt": "2026-08-31T15:40:03.484Z",
+  "generatedAt": "2026-09-07T20:41:41.614Z",
   "trends": [
+    {
+      "transformation": "Fidget Interaction",
+      "count": 6,
+      "meanDemand": 0.63,
+      "meanScore": 70.5
+    },
+    {
+      "transformation": "Hot-Seat Board Game",
+      "count": 4,
+      "meanDemand": 0.57,
+      "meanScore": 70.2
+    },
     {
       "transformation": "Fitness Performance Calculation",
       "count": 3,
@@ -141,6 +153,12 @@
       "meanScore": 80.9
     },
     {
+      "transformation": "JSON Diff",
+      "count": 1,
+      "meanDemand": 0.8,
+      "meanScore": 80.6
+    },
+    {
       "transformation": "ROT13",
       "count": 1,
       "meanDemand": 0.64,
@@ -171,6 +189,12 @@
       "meanScore": 79.4
     },
     {
+      "transformation": "File Hashing",
+      "count": 1,
+      "meanDemand": 0.76,
+      "meanScore": 79.3
+    },
+    {
       "transformation": "Timestamp Conversion",
       "count": 1,
       "meanDemand": 0.9,
@@ -181,6 +205,12 @@
       "count": 1,
       "meanDemand": 0.58,
       "meanScore": 79.2
+    },
+    {
+      "transformation": "Regex Testing",
+      "count": 1,
+      "meanDemand": 0.86,
+      "meanScore": 79.1
     },
     {
       "transformation": "Systematic Investment Plan",
@@ -345,6 +375,12 @@
       "meanScore": 74.4
     },
     {
+      "transformation": "Local Reading Tracker",
+      "count": 1,
+      "meanDemand": 0.72,
+      "meanScore": 74.2
+    },
+    {
       "transformation": "Perceptual Gradient",
       "count": 1,
       "meanDemand": 0.7,
@@ -417,6 +453,12 @@
       "meanScore": 69.9
     },
     {
+      "transformation": "Breathing Guide",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 69.4
+    },
+    {
       "transformation": "Net Worth",
       "count": 1,
       "meanDemand": 0.8,
@@ -429,6 +471,24 @@
       "meanScore": 66.2
     },
     {
+      "transformation": "PDF Page Editing",
+      "count": 1,
+      "meanDemand": 0.9,
+      "meanScore": 66
+    },
+    {
+      "transformation": "Image Conversion",
+      "count": 1,
+      "meanDemand": 0.88,
+      "meanScore": 65.7
+    },
+    {
+      "transformation": "Calendar View",
+      "count": 1,
+      "meanDemand": 0.7,
+      "meanScore": 65.5
+    },
+    {
       "transformation": "Salary Conversion",
       "count": 1,
       "meanDemand": 0.9,
@@ -439,6 +499,12 @@
       "count": 1,
       "meanDemand": 0.98,
       "meanScore": 64.3
+    },
+    {
+      "transformation": "Panchang Calendar",
+      "count": 1,
+      "meanDemand": 0.78,
+      "meanScore": 62
     },
     {
       "transformation": "Retirement Projection",

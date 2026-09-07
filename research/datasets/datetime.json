@@ -9,10 +9,24 @@
       "proposedTool": "unix-timestamp-converter",
       "proposedName": "Unix Timestamp Converter",
       "proposedEngine": "datetime",
-      "searchQueries": ["unix timestamp converter", "epoch to date", "timestamp to date", "epoch converter"],
-      "existingSolutions": ["epochconverter.com"],
-      "solutionWeaknesses": ["single incumbent dominates", "dated UI", "ad-supported"],
-      "relatedProblems": ["date difference", "timezone conversion"],
+      "searchQueries": [
+        "unix timestamp converter",
+        "epoch to date",
+        "timestamp to date",
+        "epoch converter"
+      ],
+      "existingSolutions": [
+        "epochconverter.com"
+      ],
+      "solutionWeaknesses": [
+        "single incumbent dominates",
+        "dated UI",
+        "ad-supported"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "timezone conversion"
+      ],
       "relatedTools": [],
       "demand": 90,
       "competition": 65,
@@ -28,10 +42,23 @@
       "proposedTool": "date-difference-calculator",
       "proposedName": "Date Difference Calculator",
       "proposedEngine": "datetime",
-      "searchQueries": ["date difference calculator", "days between two dates", "date duration calculator"],
-      "existingSolutions": ["timeanddate.com"],
-      "solutionWeaknesses": ["cluttered with ads", "slow", "overloaded with options"],
-      "relatedProblems": ["age calculator", "business days"],
+      "searchQueries": [
+        "date difference calculator",
+        "days between two dates",
+        "date duration calculator"
+      ],
+      "existingSolutions": [
+        "timeanddate.com"
+      ],
+      "solutionWeaknesses": [
+        "cluttered with ads",
+        "slow",
+        "overloaded with options"
+      ],
+      "relatedProblems": [
+        "age calculator",
+        "business days"
+      ],
       "relatedTools": [],
       "demand": 85,
       "competition": 62,
@@ -47,10 +74,22 @@
       "proposedTool": "age-calculator",
       "proposedName": "Age Calculator",
       "proposedEngine": "datetime",
-      "searchQueries": ["age calculator", "calculate age from date of birth", "how old am i"],
-      "existingSolutions": ["calculator.net"],
-      "solutionWeaknesses": ["generic calculator hub", "no shareable clean result"],
-      "relatedProblems": ["date difference", "countdown"],
+      "searchQueries": [
+        "age calculator",
+        "calculate age from date of birth",
+        "how old am i"
+      ],
+      "existingSolutions": [
+        "calculator.net"
+      ],
+      "solutionWeaknesses": [
+        "generic calculator hub",
+        "no shareable clean result"
+      ],
+      "relatedProblems": [
+        "date difference",
+        "countdown"
+      ],
       "relatedTools": [],
       "demand": 88,
       "competition": 66,
@@ -66,14 +105,27 @@
       "proposedTool": "timezone-converter",
       "proposedName": "Timezone Converter",
       "proposedEngine": "datetime",
-      "searchQueries": ["timezone converter", "time zone conversion", "convert time between zones"],
-      "existingSolutions": ["worldtimebuddy"],
-      "solutionWeaknesses": ["heavy app", "account upsell", "overkill for a single conversion"],
+      "searchQueries": [
+        "timezone converter",
+        "time zone conversion",
+        "convert time between zones"
+      ],
+      "existingSolutions": [
+        "worldtimebuddy"
+      ],
+      "solutionWeaknesses": [
+        "heavy app",
+        "account upsell",
+        "overkill for a single conversion"
+      ],
       "userFailures": [
         "The converted time is correct but nothing says whether it is a reasonable hour to call.",
         "The date rolls over across the conversion and the day change goes unnoticed."
       ],
-      "relatedProblems": ["unix timestamp", "meeting planner"],
+      "relatedProblems": [
+        "unix timestamp",
+        "meeting planner"
+      ],
       "relatedTools": [],
       "demand": 80,
       "competition": 64,
@@ -89,14 +141,27 @@
       "proposedTool": "cron-expression-parser",
       "proposedName": "Cron Expression Parser",
       "proposedEngine": "datetime",
-      "searchQueries": ["cron expression parser", "crontab explained", "cron to human readable", "cron next run"],
-      "existingSolutions": ["crontab.guru"],
-      "solutionWeaknesses": ["single incumbent", "no offline/private mode"],
+      "searchQueries": [
+        "cron expression parser",
+        "crontab explained",
+        "cron to human readable",
+        "cron next run"
+      ],
+      "existingSolutions": [
+        "crontab.guru"
+      ],
+      "solutionWeaknesses": [
+        "single incumbent",
+        "no offline/private mode"
+      ],
       "userFailures": [
         "The expression parses, but the real question is whether it fires when the user thinks, which needs the next few run times.",
         "Day-of-month and day-of-week together are OR, not AND, so the schedule fires far more often than intended."
       ],
-      "relatedProblems": ["timestamp conversion", "scheduling"],
+      "relatedProblems": [
+        "timestamp conversion",
+        "scheduling"
+      ],
       "relatedTools": [],
       "demand": 72,
       "competition": 58,
@@ -112,17 +177,38 @@
       "proposedTool": "date-format-detector",
       "proposedName": "Date Format Detector",
       "proposedEngine": "datetime",
-      "searchQueries": ["is this date dd/mm or mm/dd", "ambiguous date format", "how will this date be parsed", "excel date locale wrong", "iso 8601 vs us date"],
-      "existingSolutions": ["spreadsheet locale settings", "language date parsing docs", "guesswork"],
-      "solutionWeaknesses": ["a spreadsheet silently applies one interpretation and shows no warning", "docs describe the parser rather than your specific string"],
+      "searchQueries": [
+        "is this date dd/mm or mm/dd",
+        "ambiguous date format",
+        "how will this date be parsed",
+        "excel date locale wrong",
+        "iso 8601 vs us date"
+      ],
+      "existingSolutions": [
+        "spreadsheet locale settings",
+        "language date parsing docs",
+        "guesswork"
+      ],
+      "solutionWeaknesses": [
+        "a spreadsheet silently applies one interpretation and shows no warning",
+        "docs describe the parser rather than your specific string"
+      ],
       "userFailures": [
         "Opens a European CSV export in a US locale and twelve rows silently shift month and day.",
         "Pastes a timestamp with no zone and the stored date lands one day earlier than intended.",
         "Reads a date that is unambiguous in one row and ambiguous in the next without noticing the difference.",
         "Assumes a two-digit year maps to 20xx when the source system pivots at a different century."
       ],
-      "relatedProblems": ["locale-dependent parsing", "two-digit years", "timezone-less timestamps"],
-      "relatedTools": ["timezone-converter", "unix-timestamp-converter", "date-difference-calculator"],
+      "relatedProblems": [
+        "locale-dependent parsing",
+        "two-digit years",
+        "timezone-less timestamps"
+      ],
+      "relatedTools": [
+        "timezone-converter",
+        "unix-timestamp-converter",
+        "date-difference-calculator"
+      ],
       "demand": 36,
       "competition": 22,
       "authorityRequired": 5,
@@ -139,6 +225,105 @@
           "Correcting individual rows by hand after a report shows an impossible date."
         ]
       }
+    },
+    {
+      "query": "marathi calendar panchang today",
+      "problem": "I need today's Marathi calendar date with tithi, nakshatra, and festival markers, computed locally so I am not depending on an ad-heavy panchang site.",
+      "intent": "transactional",
+      "transformation": "Panchang Calendar",
+      "proposedTool": "marathi-calendar",
+      "proposedName": "Marathi Calendar",
+      "proposedEngine": "panchang",
+      "searchQueries": [
+        "marathi calendar",
+        "marathi calendar today",
+        "panchang today",
+        "tithi today marathi",
+        "marathi masik calendar"
+      ],
+      "existingSolutions": [
+        "drikpanchang.com",
+        "local print calendars",
+        "phone calendar apps with limited tithi"
+      ],
+      "solutionWeaknesses": [
+        "ad-heavy and slow on mobile",
+        "location defaults are wrong so tithi flips a day early",
+        "no offline mode once the page is closed"
+      ],
+      "userFailures": [
+        "Reads a tithi that already rolled over after sunset because the tool used sunrise boundaries without saying so.",
+        "Picks the wrong city and every festival shifts by a day with no location callout on the page.",
+        "Confuses Amanta and Purnimanta month labeling and schedules an event in the wrong Marathi month.",
+        "Exports a date that looks Gregorian-local but was computed in a fixed zone the user never chose."
+      ],
+      "relatedProblems": [
+        "gregorian calendar",
+        "festival dates",
+        "timezone conversion"
+      ],
+      "relatedTools": [
+        "gregorian-calendar",
+        "timezone-converter",
+        "date-difference-calculator"
+      ],
+      "demand": 78,
+      "competition": 60,
+      "evergreen": 92,
+      "difficulty": "high",
+      "localization": 40,
+      "algorithmicFit": 96,
+      "authorityRequired": 25
+    },
+    {
+      "query": "simple gregorian calendar with lunar overlay",
+      "problem": "I want a clean Gregorian month view that can optionally overlay lunar or panchang markers, running fully client-side with no account.",
+      "intent": "transactional",
+      "transformation": "Calendar View",
+      "proposedTool": "gregorian-calendar",
+      "proposedName": "Gregorian Calendar",
+      "proposedEngine": "panchang",
+      "searchQueries": [
+        "gregorian calendar online",
+        "month calendar view",
+        "calendar with lunar dates",
+        "printable monthly calendar",
+        "calendar without login"
+      ],
+      "existingSolutions": [
+        "Google Calendar",
+        "timeanddate.com",
+        "OS calendar apps"
+      ],
+      "solutionWeaknesses": [
+        "account required for anything beyond a static grid",
+        "lunar overlays buried behind region settings",
+        "cluttered with holidays the user did not ask for"
+      ],
+      "userFailures": [
+        "Week starts on Sunday when the user expected Monday and every planned block is off by a day in conversation.",
+        "A lunar overlay is shown for the wrong longitude because the tool reused a default city silently.",
+        "Printing cuts the last row of the month grid and the missing week is not obvious until after the paper is handed out.",
+        "Crossing a DST boundary makes an all-day marker appear on the previous civil day."
+      ],
+      "relatedProblems": [
+        "marathi calendar",
+        "date difference",
+        "timezone conversion"
+      ],
+      "relatedTools": [
+        "marathi-calendar",
+        "date-difference-calculator",
+        "timezone-converter",
+        "age-calculator"
+      ],
+      "demand": 70,
+      "competition": 68,
+      "evergreen": 95,
+      "difficulty": "medium",
+      "localization": 70,
+      "algorithmicFit": 97,
+      "authorityRequired": 10
     }
   ]
 }

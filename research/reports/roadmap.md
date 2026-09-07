@@ -1,35 +1,59 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-08-31T15:40:03.484Z
+Generated: 2026-09-07T20:41:41.614Z
 
-Discovered 84 signals -> 84 unique opportunities (29 recommended, 53 already shipped). Top score 85.9. Missing-engine candidates: 0.
+Discovered 103 signals -> 103 unique opportunities (48 recommended, 53 already shipped). Top score 85.9. Missing-engine candidates: 2.
 
 ## Immediate builds (top tier)
 - **Statistics Visualizer** (`statistics-visualizer`) - score 81.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Structured JSON Diff** (`json-diff`) - score 80.6, reuses structured-data. High search demand; Weak / incomplete incumbents; Reuses the existing structured-data engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Triangle Solver** (`triangle-solver`) - score 79.8, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Sleep Cycle Calculator** (`sleep-cycle-calculator`) - score 79.5, reuses datetime. High search demand; Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Color Shades & Tints Generator** (`color-shades-generator`) - score 79.4, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **File Hash Verifier** (`file-hash-verifier`) - score 79.3, reuses hashing. High search demand; Weak / incomplete incumbents; Reuses the existing hashing engine; Low implementation cost; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Modular Type Scale Generator** (`type-scale-generator`) - score 79.2, reuses units. Weak / incomplete incumbents; Reuses the existing units engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Regex Tester** (`regex-tester`) - score 79.1, reuses text-interactive. High search demand; Reuses the existing text-interactive engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Matrix Calculator** (`matrix-calculator`) - score 78.3, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Colorblind Simulator** (`colorblind-simulator`) - score 77.8, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Normal Distribution Visualizer** (`normal-distribution-visualizer`) - score 77.1, reuses math-lab. High search demand; Weak / incomplete incumbents; Reuses the existing math-lab engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Pregnancy Due Date Calculator** (`pregnancy-due-date-calculator`) - score 76.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Lean Body Mass Calculator** (`lean-body-mass-calculator`) - score 76.5, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Quick wins (low effort, recommended)
 - **CSV Column Picker** (`csv-column-picker`) - score 74.7, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
 - **Ovulation Calculator** (`ovulation-calculator`) - score 74.6, reuses datetime. High search demand; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Molecular Geometry Calculator** (`molecular-geometry-calculator`) - score 74.5, reuses chemistry-lab. Weak / incomplete incumbents; Reuses the existing chemistry-lab engine; Low implementation cost; Creates 5 internal links.
 - **Blood Pressure Tracker** (`blood-pressure-tracker`) - score 74.3, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Tic Tac Toe** (`tic-tac-toe`) - score 74.3, new board-game engine. Implies a new board-game engine; Low implementation cost; Strong topic-cluster potential; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Book Tracker** (`book-tracker`) - score 74.2, reuses productivity. Reuses the existing productivity engine; Low implementation cost; Creates 4 internal links.
 - **Perceptual Gradient Generator** (`css-gradient-generator`) - score 74.1, reuses color. Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Switch Board** (`switch-board`) - score 74.1, new haptics engine. Weak / incomplete incumbents; Implies a new haptics engine; Low implementation cost; Strong topic-cluster potential.
 - **Waist to Hip Ratio Calculator** (`waist-to-hip-ratio-calculator`) - score 73.7, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Sleep Hours Tracker** (`sleep-hours-tracker`) - score 73.5, reuses tracker. Weak / incomplete incumbents; Reuses the existing tracker engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Date Format Detector** (`date-format-detector`) - score 73.2, reuses datetime. Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Body Surface Area Calculator** (`body-surface-area-calculator`) - score 72.9, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **VO2 Max Calculator** (`vo2-max-calculator`) - score 72.2, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Breathing Circle** (`breathing-circle`) - score 69.4, new sound engine. Implies a new sound engine; Low implementation cost; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 66.6, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links; CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Missing engines (new reusable engines this evidence justifies)
+### motion (confidence 0.97) - unlocks 5
+- 5 opportunities share the missing "motion" engine.
+- Cluster ≥ 3 → justifies a new reusable engine that unlocks 5 tools.
+- Tools: pop-it, gears, spinner, kinetic-sand, slime
+
+### board-game (confidence 0.95) - unlocks 4
+- 4 opportunities share the missing "board-game" engine.
+- Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools.
+- Tools: tic-tac-toe, connect-4, chess-tac-toe, quantum-tic-tac-toe
+
+### haptics (confidence 0.5) - unlocks 1
+- 1 opportunity share the missing "haptics" engine.
+- Below the 3-tool bar for a new engine - revisit as more demand accrues.
+- Tools: switch-board
+
+### sound (confidence 0.5) - unlocks 1
+- 1 opportunity share the missing "sound" engine.
+- Below the 3-tool bar for a new engine - revisit as more demand accrues.
+- Tools: breathing-circle
+
 ### budget (confidence 0.65) - unlocks 2
 - 2 opportunities share the missing "budget" engine.
 - Below the 3-tool bar for a new engine - revisit as more demand accrues.
@@ -39,6 +63,21 @@ Discovered 84 signals -> 84 unique opportunities (29 recommended, 53 already shi
 - 2 opportunities share the missing "loan" engine.
 - Below the 3-tool bar for a new engine - revisit as more demand accrues.
 - Tools: loan-calculator, mortgage-calculator
+
+### pdf (confidence 0.5) - unlocks 1
+- 1 opportunity share the missing "pdf" engine.
+- Below the 3-tool bar for a new engine - revisit as more demand accrues.
+- Tools: pdf-page-toolkit
+
+### image (confidence 0.5) - unlocks 1
+- 1 opportunity share the missing "image" engine.
+- Below the 3-tool bar for a new engine - revisit as more demand accrues.
+- Tools: image-convert-compress
+
+### panchang (confidence 0.65) - unlocks 2
+- 2 opportunities share the missing "panchang" engine.
+- Below the 3-tool bar for a new engine - revisit as more demand accrues.
+- Tools: gregorian-calendar, marathi-calendar
 
 ### retirement (confidence 0.5) - unlocks 1
 - 1 opportunity share the missing "retirement" engine.
@@ -70,13 +109,16 @@ Discovered 84 signals -> 84 unique opportunities (29 recommended, 53 already shi
 - **JSON String Escaping** (structured-data) - 1 tool(s), mean score 81.3.
 - **Fitness Performance Calculation** (wellness) - 3 tool(s), mean score 81.2.
 - **CSV Diff** (csv) - 1 tool(s), mean score 80.9.
+- **JSON Diff** (structured-data) - 1 tool(s), mean score 80.6.
 - **ROT13** (encoding) - 1 tool(s), mean score 80.
 - **Diacritic Removal** (text-processor) - 1 tool(s), mean score 79.8.
 - **Triangles** (math) - 1 tool(s), mean score 79.8.
 - **Electron Configuration** (chemistry-lab) - 1 tool(s), mean score 79.6.
 - **Color Scale** (color) - 1 tool(s), mean score 79.4.
+- **File Hashing** (hashing) - 1 tool(s), mean score 79.3.
 - **Timestamp Conversion** (datetime) - 1 tool(s), mean score 79.2.
 - **Type Scale** (units) - 1 tool(s), mean score 79.2.
+- **Regex Testing** (text-interactive) - 1 tool(s), mean score 79.1.
 - **Systematic Investment Plan** (finance) - 1 tool(s), mean score 79.1.
 - **Energy And Nutrition Planning** (wellness) - 3 tool(s), mean score 78.8.
 - **Projectile Motion** (physics) - 1 tool(s), mean score 78.8.
@@ -107,6 +149,8 @@ Discovered 84 signals -> 84 unique opportunities (29 recommended, 53 already shi
 - **VSEPR Geometry** (chemistry-lab) - 1 tool(s), mean score 74.5.
 - **Body Composition Calculation** (wellness) - 3 tool(s), mean score 74.4.
 - **Ideal Gas Law** (physics) - 1 tool(s), mean score 74.4.
+- **Local Reading Tracker** (productivity) - 1 tool(s), mean score 74.2.
+- **Fidget Interaction** (haptics) - 1 tool(s), mean score 74.1.
 - **Perceptual Gradient** (color) - 1 tool(s), mean score 74.1.
 - **Personal Health Logging** (tracker) - 2 tool(s), mean score 73.9.
 - **Date Format Disambiguation** (datetime) - 1 tool(s), mean score 73.2.
@@ -119,11 +163,18 @@ Discovered 84 signals -> 84 unique opportunities (29 recommended, 53 already shi
 - **Palette Extraction** (color) - 1 tool(s), mean score 71.6.
 - **Inclined Plane and Friction** (physics) - 1 tool(s), mean score 71.5.
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 70.8.
+- **Hot-Seat Board Game** (board-game) - 4 tool(s), mean score 70.2.
 - **Shell Quoting** (encoding) - 1 tool(s), mean score 69.9.
+- **Fidget Interaction** (motion) - 5 tool(s), mean score 69.8.
+- **Breathing Guide** (sound) - 1 tool(s), mean score 69.4.
 - **Net Worth** (budget) - 1 tool(s), mean score 66.6.
 - **Loan Amortization** (loan) - 1 tool(s), mean score 66.2.
+- **PDF Page Editing** (pdf) - 1 tool(s), mean score 66.
+- **Image Conversion** (image) - 1 tool(s), mean score 65.7.
+- **Calendar View** (panchang) - 1 tool(s), mean score 65.5.
 - **Salary Conversion** (budget) - 1 tool(s), mean score 64.7.
 - **Mortgage Amortization** (loan) - 1 tool(s), mean score 64.3.
+- **Panchang Calendar** (panchang) - 1 tool(s), mean score 62.
 - **Retirement Projection** (retirement) - 1 tool(s), mean score 58.3.
 - **Nutrition Authoring** (meal-planning) - 1 tool(s), mean score 45.5.
 
@@ -183,6 +234,8 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - waist-to-hip-ratio-calculator (score 73.7, wellness)
 
 ## Emerging trends (by transformation)
+- Fidget Interaction: 6 signal(s), mean demand 0.63, mean score 70.5.
+- Hot-Seat Board Game: 4 signal(s), mean demand 0.57, mean score 70.2.
 - Fitness Performance Calculation: 3 signal(s), mean demand 0.78, mean score 81.2.
 - Energy And Nutrition Planning: 3 signal(s), mean demand 0.77, mean score 78.8.
 - Health Date Calculation: 3 signal(s), mean demand 0.82, mean score 76.9.
@@ -191,9 +244,7 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 - Quadratic Equations: 1 signal(s), mean demand 0.94, mean score 85.4.
 - Fractions: 1 signal(s), mean demand 0.9, mean score 83.9.
 - Color Conversion: 1 signal(s), mean demand 0.92, mean score 83.8.
-- Unit Circle: 1 signal(s), mean demand 0.88, mean score 83.8.
-- Line Break Removal: 1 signal(s), mean demand 0.84, mean score 83.6.
 
 ---
 
-_Inputs fingerprint: `e3dd6507`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `a6516d89`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
