@@ -343,6 +343,17 @@
         "equalizer"
       ],
       "toolCount": 1
+    },
+    "feel": {
+      "name": "Feel Engine",
+      "category": "fidgets",
+      "patterns": [
+        "fidget-interact"
+      ],
+      "runtimeGlobal": "feel",
+      "sharedWidget": "src/tools/_shared/FeelWidget.astro",
+      "supportedFamilies": [],
+      "toolCount": 0
     }
   },
   "toolGroups": {

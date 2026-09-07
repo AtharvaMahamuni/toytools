@@ -1,6 +1,6 @@
 # Engine Types — Quick Reference
 
-All 20 engines, their contracts, and the exact Widget.astro template for each. `src/data/engines.ts`
+All 21 engines, their contracts, and the exact Widget.astro template for each. `src/data/engines.ts`
 is the single source of truth for the current list (`ENGINE_IDS`/`PATTERN_IDS` + `engineDefs`) — if
 this file and that one disagree, trust the code and fix this file.
 
@@ -30,6 +30,8 @@ Lab) — see the "Are you adding an interactive SIMULATION?" branch of `SKILL.md
 | `tracker` | `health-track` | `TrackerDef` (data, not a function) | `ToyTools.tracker.*` namespace (`upsert`, `currentStreak`, `barsSvg`, …) |
 | `color` | `color-convert`, `color-contrast` | *(none — namespace)* | `ToyTools.color.*` (`parse`, `formats`, `contrast`, `check`, …) |
 | `units` | `unit-convert`, `aspect-ratio` | *(none — namespace)* | `ToyTools.units.*` (`pxToCss`, `aspect`, `dpToPxBuckets`, …) |
+| `audio` | `eq-design` | `EqDefinition` (data) | `ToyTools.eq.*` |
+| `feel` | `fidget-interact` | *(namespace: motion/sound/haptics)* | `ToyTools.feel.*` (`prefs`, `motionAllowed`, `motionScale`, `spring`, `friction`, `raf`, `vibrate`, `play`, `feedback`) |
 | `calculator` | `calculate` | *(none — bespoke per tool)* | none — tool owns its own inline script |
 | `productivity` | `stateful` | *(none — bespoke per tool)* | none — tool owns its own inline script + `ToyTools.state` |
 | `text-interactive` | `text-interactive` | *(none — bespoke per tool)* | none — tool owns its own inline script |

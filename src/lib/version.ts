@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 9,
+  major: 10,
   minor: 0,
-  patch: 1,
+  patch: 0,
   status: 'alpha',
-  releaseDate: '2026-08-31',
-  description: 'Research Intelligence feedback loop: engagement signals, craft debt, report freshness',
+  releaseDate: '2026-09-08',
+  description: 'Feel platform: shared motion, sound and haptics for fidget tools',
 };
 
 export function formatVersion(config: VersionConfig): string {
