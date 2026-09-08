@@ -3,6 +3,7 @@ import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
 import ToyToolsRuntime from '@components/ToyToolsRuntime.astro';
 import { withBase } from '../lib/paths';
+import { BRAND_X, identityGraph } from '@lib/schema/identity';
 import '../styles/global.css';
 
 interface PwaMeta {
@@ -44,6 +45,7 @@ const {
 
 const pageTitle = title;
 const canonical = canonicalUrl ?? Astro.url.href;
+const logoUrl = new URL('/favicon-512.png', Astro.site ?? 'https://toytoolsapp.com/').href;
 
 const maxWidthVar =
   maxWidth === 'tool' ? 'var(--width-tool)' :
@@ -73,6 +75,7 @@ const maxWidthVar =
     <meta property="og:image" content={withBase('/favicon.svg')} />
     <meta name="robots" content={robots} />
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content={BRAND_X.handle} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={withBase('/favicon.svg')} />
@@ -102,6 +105,11 @@ const maxWidthVar =
       </>
     )}
     {engines.length > 0 && <meta name="tt-engines" content={engines.join(',')} />}
+    {/* Stable Organization + Person entities, on indexable pages only. /search/ is already at
+        the HTML budget (it renders every tool), and noindex pages are not what models quote. */}
+    {!robots.includes('noindex') && (
+      <script type="application/ld+json" set:html={JSON.stringify(identityGraph(logoUrl))} />
+    )}
     <!--
       Google Analytics is loaded from ToyToolsRuntime (client-side) and ONLY for
       real users. The analytics guard (src/lib/analytics/guard.ts) excludes dev,
@@ -126,6 +134,6 @@ const maxWidthVar =
         <slot />
       </div>
     </main>
-    <Footer feedbackTool={feedbackTool} />
+    <Footer feedbackTool={feedbackTool} credit={!robots.includes('noindex')} />
   </body>
 </html>

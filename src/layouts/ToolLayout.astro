@@ -8,6 +8,8 @@ import { iconColors } from '@lib/icons/tool-icon';
 import { APPLE_TOUCH_SIZE } from '@lib/icons/sizes';
 import type { Tool, Category } from '@data/types';
 import { withBase } from '../lib/paths';
+import { openingAnswer } from '@lib/privacy';
+import { orgRef, personRef } from '@lib/schema/identity';
 
 interface Props {
   tool: Tool;
@@ -45,13 +47,15 @@ const softwareSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: tool.name,
-  description: tool.description,
+  description: openingAnswer(tool),
   url: Astro.url.href,
   applicationCategory: 'WebApplication',
   operatingSystem: 'Any',
+  isAccessibleForFree: true,
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   ...(tool.updatedAt ? { dateModified: tool.updatedAt } : {}),
-  publisher: { '@type': 'Organization', name: 'ToyTools' },
+  publisher: orgRef(),
+  author: personRef(),
 };
 ---
 

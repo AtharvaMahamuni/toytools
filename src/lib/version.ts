@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
-  minor: 3,
+  minor: 4,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Switch Board fidget and Pop It SEO',
+  description: 'Author entity, ToyTools X account, canonical privacy line, named related tools',
 };
 
 export function formatVersion(config: VersionConfig): string {

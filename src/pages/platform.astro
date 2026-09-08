@@ -12,6 +12,7 @@ import { withBase } from '@lib/paths';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { engineRegistry, knownPatterns } from '@data/engines';
+import XAccountLink from '@components/XAccountLink.astro';
 
 // Kept under the 160-character ceiling Quality Guardian enforces on every meta description.
 const description =
@@ -53,13 +54,14 @@ const breadcrumbSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <article class="page-doc">
-    <p class="eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span></p>
+    <p class="eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span><XAccountLink /></p>
     <h1>The platform behind the tools</h1>
     <p class="lede">
       Every tool on this site signs itself the same way. This page is what that signature means:
       not a badge, but the {engineCount} engines, the shared browser runtime and the build gates
       that all {toolCount} tools are assembled from.
     </p>
+    <p class="byline" hidden>Built by Atharva.</p>
 
     <dl class="stat-row">
       <div class="stat">
@@ -207,10 +209,24 @@ const breadcrumbSchema = {
     margin: 0 0 var(--space-3);
   }
 
+  .eyebrow :global(.x-account) {
+    margin-left: var(--space-2);
+  }
+
   .lede {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     margin-top: var(--space-4);
+  }
+
+  .byline {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  .byline[hidden] {
+    display: none;
   }
 
   .page-doc h2 {

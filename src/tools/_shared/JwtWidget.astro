@@ -18,6 +18,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
 import CopyButton from '@components/CopyButton.astro';
 import TechnicalDetails from '@tools/_shared/converter/TechnicalDetails.astro';
 import { JWT_TOOLS } from '@lib/engines/jwt/registry';
+import { PRIVACY_LINE } from '@lib/privacy';
 import type { ToolConfig } from '@data/types';
 import type { TechnicalEntry } from '@lib/engines/transform/types';
 
@@ -130,7 +131,7 @@ const sigId = `${slug}-sig`;
 
 <p class="jwt-privacy">
   <span aria-hidden="true">🔒</span>
-  Decoded entirely in your browser. Your token is never sent to any server.
+  {PRIVACY_LINE} Your token is never sent to any server.
 </p>
 
 <ToolActions clearTarget={inputId} pasteTarget={inputId}>

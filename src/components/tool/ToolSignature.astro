@@ -13,6 +13,7 @@
 //
 // See docs/analysis/2026-08-08-tool-identity-architecture.md (D2, Zone B).
 import TrustNotice from '@components/tool/TrustNotice.astro';
+import XAccountLink from '@components/XAccountLink.astro';
 import { withBase } from '@lib/paths';
 import type { Tool } from '@data/types';
 
@@ -40,9 +41,12 @@ const { tool } = Astro.props;
       It used to point at the homepage, which reads as a catalog: following it taught a visitor
       that ToyTools has many tools, not that one platform is underneath them. /platform/ is the
       other half of the sentence this line starts. */}
-  <a class="tool-attribution" href={withBase('/platform/')} title="What powers this tool">
-    Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span>
-  </a>
+  <div class="tool-signoff">
+    <a class="tool-attribution" href={withBase('/platform/')} title="What powers this tool">
+      Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span>
+    </a>
+    <XAccountLink />
+  </div>
 </div>
 
 <style>
@@ -66,8 +70,14 @@ const { tool } = Astro.props;
   }
 
   /* Pushed to the far end on desktop; on a phone the row wraps and it simply follows. */
-  .tool-attribution {
+  .tool-signoff {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .tool-attribution {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -85,8 +95,13 @@ const { tool } = Astro.props;
     text-decoration: none;
   }
 
+  .tool-signoff :global(.x-account) {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
   @media (max-width: 640px) {
-    .tool-attribution {
+    .tool-signoff {
       margin-left: 0;
     }
   }

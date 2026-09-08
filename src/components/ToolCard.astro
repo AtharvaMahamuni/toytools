@@ -12,6 +12,9 @@ interface Props {
 const { tool, categoryName, categorySegment: segmentProp } = Astro.props;
 const segment = segmentProp ?? categories.find(c => c.slug === tool.categorySlug)?.segment ?? tool.categorySlug;
 const toolHref = withBase(`/tool/${segment}/${tool.slug}/`);
+// Tagline is the short on-page line; description is the SEO meta (up to 160 chars). Cards
+// that print the meta blow the /search/ HTML budget as those metas thicken.
+const blurb = tool.tagline || tool.description;
 ---
 
 <a href={toolHref} class="tool-card" data-slug={tool.slug}>
@@ -19,7 +22,7 @@ const toolHref = withBase(`/tool/${segment}/${tool.slug}/`);
     <span class="tool-name">{tool.name}</span>
     {tool.isNew && <span class="tool-badge">New</span>}
   </div>
-  <span class="tool-description">{tool.description}</span>
+  <span class="tool-description">{blurb}</span>
   {categoryName && <span class="tool-category">{categoryName}</span>}
 </a>
 

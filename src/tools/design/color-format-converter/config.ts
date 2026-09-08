@@ -4,6 +4,7 @@ export const config: ToolConfig = {
   slug: 'color-format-converter',
   name: 'Color Format Converter',
   description: 'Convert colors between HEX, RGB, HSL, HSV, OKLCH, and CMYK instantly.',
+  tagline: 'HEX, RGB, HSL, HSV, OKLCH and CMYK, on your device.',
   categorySlug: 'design-tools',
   tags: ['color format converter', 'hex to rgb', 'rgb to hex', 'hex to hsl', 'hex to oklch', 'rgb to cmyk', 'color converter', 'css color converter', 'hsl to hex', 'oklch converter'],
   updatedAt: '2026-07-31',

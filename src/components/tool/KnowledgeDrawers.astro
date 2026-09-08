@@ -17,16 +17,11 @@
 //
 // Two things are load-bearing and must survive any future tidying:
 //
-//   0. RELATED TOOLS CAME BACK, 2026-08-18, and the reasoning above needs one correction. The
-//      deletion note says related tools "collapse into the category link (the catalog is one click
-//      away either way)". That is true for a reader and false for a crawler: a category link hands
-//      authority to a hub that splits it across up to eighteen tools, while a tool-to-tool link is
-//      a topical signal between two specific pages. Measured before this change, 47 of 121
-//      indexable tool pages had ZERO outbound links to any other tool, and the median was four,
-//      all of them tool-group pills pointing at near-identical siblings.
-//      So the links are back, but not the 682px: five text links inside a <details> that is closed
-//      by default, in the row that already exists. Crawlers read closed <details> content; a reader
-//      sees one more chip. Group members are excluded because GroupSwitcher already shows them.
+//   0. RELATED TOOLS CAME BACK, 2026-08-18, and became three named links on 2026-09-08. A category
+//      link hands authority to a hub that splits it across up to eighteen tools; a tool-to-tool
+//      link is a topical signal between two specific pages. They used to sit in a closed <details>.
+//      Crawlers can read that, extractors often do not, so the three nearest siblings are now
+//      visible in the row. Group members are excluded because GroupSwitcher already shows them.
 //
 //   1. Each <summary> contains a real <h2>. <h2> is one of four slots
 //      scripts/check-query-coverage.ts scores query targeting against, and THRESHOLDS
@@ -71,12 +66,14 @@ const concept = knowledge?.primaryConcepts?.[0] || tool.name;
 const category = categories.find((c) => c.slug === tool.categorySlug);
 
 // Derived, never authored: engine → pattern → family → category, with one slot guaranteed to a
-// different family (src/lib/tools/related.ts). Group members are dropped because GroupSwitcher
-// renders them as pills at the top of the page, and a second copy would be the repetition this
-// zone was rebuilt to remove.
-const related = getRelatedTools(tool, tools, MAX_ITEMS + 3)
+// different family (src/lib/tools/related.ts). Three named siblings, not a category dump.
+// Group members are dropped because GroupSwitcher renders them as pills at the top of the page.
+const RELATED_COUNT = 3;
+// Fetch well past the largest tool group (body-metrics is 11) so that after dropping
+// GroupSwitcher members we still have three named out-of-group siblings to show.
+const related = getRelatedTools(tool, tools, 24)
   .filter((t) => !tool.toolGroup || t.toolGroup !== tool.toolGroup)
-  .slice(0, MAX_ITEMS);
+  .slice(0, RELATED_COUNT);
 
 const drawers = [
   { id: 'uses', heading: `Uses of ${concept}`, items: useCases },
@@ -124,27 +121,23 @@ const hasFaq = faqItems.length > 0;
       )}
 
       {related.length > 0 && (
-        <details class="kd" id="related">
-          <summary class="kd-summary">
-            <span class="kd-chevron" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"/>
-              </svg>
-            </span>
-            <h2 class="kd-heading">Tools related to {concept}</h2>
-          </summary>
-          <ul class="kd-list kd-related">
-            {related.map((r) => {
+        <nav class="kd-related-nav" aria-labelledby="kd-related-heading">
+          <h2 id="kd-related-heading" class="kd-heading">Tools related to {concept}</h2>
+          <span class="kd-related-links">
+            {related.map((r, i) => {
               const cat = categories.find((c) => c.slug === r.categorySlug);
               return (
-                <li>
-                  <a href={withBase(`/tool/${cat?.segment ?? r.categorySlug}/${r.slug}/`)}>{r.name}</a>
-                </li>
+                <>
+                  {i > 0 && <span class="kd-sep" aria-hidden="true">·</span>}
+                  <a
+                    class="kd-sibling"
+                    href={withBase(`/tool/${cat?.segment ?? r.categorySlug}/${r.slug}/`)}
+                  >{r.name}</a>
+                </>
               );
             })}
-          </ul>
-        </details>
+          </span>
+        </nav>
       )}
 
       {guideHref && (
@@ -314,17 +307,44 @@ const hasFaq = faqItems.length > 0;
 </style>
 
 <style>
-  /* The related list reuses .kd-list's rhythm and only restyles the anchors, so the drawer looks
-     like the two beside it rather than like a new component. */
-  .kd-related a {
+  /* Three named siblings in the existing Zone C row, always visible. Not a second section. */
+  .kd-related-nav {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+    max-width: 100%;
+  }
+
+  .kd-related-nav .kd-heading {
+    color: var(--color-text-muted);
+  }
+
+  .kd-related-links {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .kd-sibling {
     color: var(--color-text);
+    font-size: var(--text-sm);
     text-decoration: underline;
     text-decoration-color: var(--color-border-strong, var(--color-border));
     text-underline-offset: 3px;
+    min-height: var(--touch-target);
+    display: inline-flex;
+    align-items: center;
   }
-  .kd-related a:hover,
-  .kd-related a:focus-visible {
+
+  .kd-sibling:hover,
+  .kd-sibling:focus-visible {
     color: var(--color-accent-strong, var(--color-accent));
     text-decoration-color: currentColor;
+  }
+
+  .kd-sep {
+    color: var(--color-text-subtle);
   }
 </style>

@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Reading Time Calculator',
   seoTitle: 'Reading Time Calculator — Estimate Read Time Instantly',
   description: 'Calculate how many minutes to read or speak any text, instantly in your browser.',
+  tagline: 'Minutes to read or speak a text. Nothing is uploaded.',
   categorySlug: 'text-utilities',
   tags: ['reading time calculator', 'read time estimator', 'how long to read', 'reading time', 'speaking time', 'presentation timer', 'blog post reading time', 'article reading time', 'minutes to read'],
   isNew: true,

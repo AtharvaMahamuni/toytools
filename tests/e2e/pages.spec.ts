@@ -81,6 +81,49 @@ test.describe('information pages', () => {
     await expect(page).toHaveURL(/\/platform\/$/);
   });
 
+  test('the footer names the author in the HTML, hidden from view', async ({ page }) => {
+    await page.goto('/');
+    const author = page.locator('.footer-author');
+    await expect(author).toBeHidden();
+    await expect(author).toContainText('Made by Atharva');
+    await expect(author.locator('a[href="https://x.com/athmatwt"]')).toHaveCount(1);
+    await expect(author.locator('a[href="https://www.linkedin.com/in/atharvamahamuni"]')).toHaveCount(1);
+  });
+
+  test('the platform page carries a hidden byline', async ({ page }) => {
+    await page.goto('/platform/');
+    const byline = page.locator('.byline');
+    await expect(byline).toBeHidden();
+    await expect(byline).toHaveText('Built by Atharva.');
+  });
+
+  test('Powered by ToyTools is followed by the brand X account', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    const x = page.locator('.tool-signoff .x-account');
+    await expect(x).toBeVisible();
+    await expect(x).toHaveAttribute('href', 'https://x.com/ToytoolsApp');
+    await expect(x).toContainText('@ToytoolsApp');
+  });
+
+  test('the Person entity is in the homepage JSON-LD', async ({ page }) => {
+    await page.goto('/');
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const joined = blocks.join('\n');
+    expect(joined).toContain('https://toytoolsapp.com/#atharva');
+    expect(joined).toContain('https://toytoolsapp.com/#org');
+    expect(joined).toContain('https://x.com/athmatwt');
+    expect(joined).toContain('https://www.linkedin.com/in/atharvamahamuni');
+  });
+
+  test('a tool page names three sibling tools in the open', async ({ page }) => {
+    // An ungrouped tool, so the three links are not hidden behind a GroupSwitcher.
+    await page.goto('/tool/text/reverse-text/');
+    const nav = page.locator('.kd-related-nav');
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole('link')).toHaveCount(3);
+    await expect(page.locator('details#related')).toHaveCount(0);
+  });
+
   test('privacy names the analytics that actually loads', async ({ page }) => {
     await page.goto('/privacy/');
     // The page must not claim there is no tracking when GA is present for real visitors.
