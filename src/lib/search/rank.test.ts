@@ -218,6 +218,10 @@ describe('buildClientIndex', () => {
 
   it('stays small enough to fetch on an interaction', () => {
     const bytes = Buffer.byteLength(JSON.stringify(index), 'utf8');
-    expect(bytes).toBeLessThan(40_000);
+    // 2026-09-08: 40_000 → 41_000. A new client-index entry is ~170 bytes even with a thin
+    // keyword list (slug, name, interned category, family). Switch Board is the 121st
+    // widget-backed tool and the previous slack is gone. Trim k terms first; do not raise
+    // this again to paper over alias bloat.
+    expect(bytes).toBeLessThan(41_000);
   });
 });

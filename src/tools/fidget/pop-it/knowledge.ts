@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Pop It',
   category: 'fidgets',
   summary:
-    'Tap a free virtual Pop It with optional sound and haptics, Infinite mode, then reset without reloading or uploading anything.',
+    'Tap a free virtual Pop It with optional sound and haptics, Infinite mode, then reset without reloading, downloading, or uploading anything.',
   primaryConcepts: ['virtual Pop It'],
   secondaryConcepts: [
     'virtual pop it',
@@ -15,6 +15,9 @@ export const knowledge: Knowledge = {
     'online Pop It',
     'digital pop it',
     'pop it sensory',
+    'fidget toy',
+    'virtual fidget',
+    'bubble popping',
   ],
   intentGroups: {
     informational: ['What is a virtual Pop It?', 'How do online Pop It fidgets handle sound?'],
@@ -25,7 +28,12 @@ export const knowledge: Knowledge = {
       'How to play Pop It online on a phone',
       'How to use Pop It Infinite mode',
     ],
-    comparison: ['Browser Pop It vs a phone fidget app', 'Optional haptics vs always-on vibration'],
+    comparison: [
+      'Browser Pop It vs a phone fidget app',
+      'Optional haptics vs always-on vibration',
+      'Virtual Pop It vs virtual bubble wrap',
+      'Fidget loop vs timed pop-it games',
+    ],
     misconception: [
       'Desktop vibration should always fire',
       'A finished board needs a page reload',
@@ -56,6 +64,7 @@ export const knowledge: Knowledge = {
     'What does Infinite mode do?',
   ],
   usedWith: [
+    { slug: 'switch-board', reason: 'Another browser fidget when you want latches instead of bubbles', strength: 0.8 },
     { slug: 'pomodoro-timer', reason: 'Fidget between focus blocks without leaving the browser', strength: 0.7 },
     { slug: 'keep-screen-awake', reason: 'Keep the phone awake while the board stays on screen', strength: 0.6 },
   ],
@@ -79,7 +88,12 @@ export const knowledge: Knowledge = {
     'bubble fidget',
     'popit',
   ],
-  entityAliases: ['popit', 'pop-it', 'virtual fidget', 'fidget pop it'],
+  entityAliases: [
+    'popit',
+    'pop-it',
+    'virtual fidget',
+    'fidget pop it',
+  ],
   inputs: [],
   outputs: ['board'],
   difficulty: 'beginner',

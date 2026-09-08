@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-07T20:41:41.614Z",
+  "generatedAt": "2026-09-08T16:05:58.360Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -252,13 +252,19 @@
       "engine": "sound",
       "existing": false,
       "relatedTools": [
-        "pomodoro-timer"
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board"
       ],
       "relatedGuides": [
-        "pomodoro-timer"
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board"
       ],
       "relatedFaqs": [
-        "pomodoro-timer"
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board"
       ]
     },
     {
@@ -987,11 +993,20 @@
       "id": "gears",
       "title": "Gears",
       "transformation": "Fidget Interaction",
-      "engine": "motion",
+      "engine": "feel",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedGuides": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedFaqs": [
+        "pop-it",
+        "switch-board"
+      ]
     },
     {
       "id": "gregorian-calendar",
@@ -1347,11 +1362,20 @@
       "id": "kinetic-sand",
       "title": "Kinetic Sand",
       "transformation": "Fidget Interaction",
-      "engine": "motion",
+      "engine": "feel",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedGuides": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedFaqs": [
+        "pop-it",
+        "switch-board"
+      ]
     },
     {
       "id": "lean-body-mass-calculator",
@@ -1846,11 +1870,20 @@
       "id": "pop-it",
       "title": "Pop It",
       "transformation": "Fidget Interaction",
-      "engine": "motion",
+      "engine": "feel",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "switch-board",
+        "pop-it"
+      ],
+      "relatedGuides": [
+        "switch-board",
+        "pop-it"
+      ],
+      "relatedFaqs": [
+        "switch-board",
+        "pop-it"
+      ]
     },
     {
       "id": "pregnancy-due-date-calculator",
@@ -2603,11 +2636,20 @@
       "id": "slime",
       "title": "Slime",
       "transformation": "Fidget Interaction",
-      "engine": "motion",
+      "engine": "feel",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedGuides": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedFaqs": [
+        "pop-it",
+        "switch-board"
+      ]
     },
     {
       "id": "slugify-text",
@@ -2644,11 +2686,20 @@
       "id": "spinner",
       "title": "Fidget Spinner",
       "transformation": "Fidget Interaction",
-      "engine": "motion",
+      "engine": "feel",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedGuides": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedFaqs": [
+        "pop-it",
+        "switch-board"
+      ]
     },
     {
       "id": "statistics-visualizer",
@@ -2678,11 +2729,20 @@
       "id": "switch-board",
       "title": "Switch Board",
       "transformation": "Fidget Interaction",
-      "engine": "haptics",
+      "engine": "feel",
       "existing": false,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
+      "relatedTools": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedGuides": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedFaqs": [
+        "pop-it",
+        "switch-board"
+      ]
     },
     {
       "id": "systemd-timer-converter",

@@ -139,9 +139,11 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
 export type FeelApi = ReturnType<typeof createFeelApi>;
 
 /**
- * Processor registry placeholder. Fidget tools will register defs here the way trackers and EQ
- * definitions do; empty until Pop It lands. Declared so validate-registry can grow an entry later.
+ * Processor registry for fidget tools on the Feel engine. Keys are tool slugs.
+ * The shared FeelWidget does not dispatch through this map yet; it exists so contract tests
+ * and validate-registry can grow a def (layout, default latch) without a second widget.
  */
 export const FEEL_TOOLS: Record<string, { id: string }> = {
   'pop-it': { id: 'pop-it' },
+  'switch-board': { id: 'switch-board' },
 };

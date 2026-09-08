@@ -355,7 +355,7 @@
       "supportedFamilies": [
         "fidget"
       ],
-      "toolCount": 1
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -2931,6 +2931,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "switch-board": {
+      "name": "Switch Board",
+      "dir": "src/tools/fidget/switch-board",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/switch-board/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

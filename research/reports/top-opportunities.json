@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-07T20:41:41.614Z",
+  "generatedAt": "2026-09-08T16:05:58.360Z",
   "top": [
     {
       "id": "statistics-visualizer",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -78,6 +78,80 @@
       "craftRisk": true
     },
     {
+      "id": "gears",
+      "title": "Gears",
+      "problem": "I want a set of intermeshing gears I can spin, with ratio labels and satisfying motion, as a fidget and a light teaching toy.",
+      "userIntent": "transactional",
+      "workflow": "input → Fidget Interaction → output",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "gears",
+      "proposedEngine": "feel",
+      "searchQueries": [
+        "interactive gears meshing online",
+        "interactive gears",
+        "gear ratio simulator",
+        "meshing gears online",
+        "spin gears fidget",
+        "gear toy browser"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "existingSolutions": [
+        "physics applets",
+        "engineering textbooks",
+        "mobile toys"
+      ],
+      "solutionWeaknesses": [
+        "applets are dated Java/Flash",
+        "engineering tools are not playful",
+        "toys hide the ratio math"
+      ],
+      "userFailures": [
+        "Two gears overlap without meshing because tooth count and radius were allowed to disagree.",
+        "Direction of driven gears is wrong after adding a third idler and the label still shows the old ratio.",
+        "Dragging a gear off-canvas loses it with no undo or reset layout.",
+        "Reduced-motion users still get continuous spinning with no stepped advance control."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "fidget spinner",
+        "kinetic sand",
+        "motion engine settings"
+      ],
+      "relatedTools": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedGuides": [
+        "pop-it",
+        "switch-board"
+      ],
+      "relatedFaqs": [
+        "pop-it",
+        "switch-board"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.8,
+      "competitionScore": 0.83,
+      "searchDemand": 0.55,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.82,
+      "topicClusterPotential": 1,
+      "commercialPotential": 0.51,
+      "localizationPotential": 0.94,
+      "algorithmicFit": 0.95,
+      "authorityWinnability": 1,
+      "confidence": 0.64,
+      "finalScore": 81.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "json-diff",
       "title": "Structured JSON Diff",
       "problem": "I need a structural diff of two JSON documents that understands objects and arrays, not a line-oriented text compare that breaks when keys are reordered.",
@@ -97,7 +171,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -182,7 +256,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -257,7 +331,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -338,7 +412,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -405,7 +479,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -488,7 +562,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -558,7 +632,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -625,142 +699,73 @@
       "craftRisk": false
     },
     {
-      "id": "matrix-calculator",
-      "title": "Matrix Calculator",
-      "problem": "I want to fill in two matrices and see the product, determinant, or inverse computed with the intermediate steps laid out.",
-      "userIntent": "howTo",
-      "workflow": "a simulated model → Matrices → a simulated model",
-      "transformation": "Matrices",
-      "proposedTool": "matrix-calculator",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "matrix multiplication calculator",
-        "determinant calculator",
-        "inverse matrix calculator",
-        "rref calculator",
-        "matrix calculator with steps"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
-      "existingSolutions": [
-        "matrixcalc.org",
-        "symbolab.com",
-        "wolframalpha.com"
-      ],
-      "solutionWeaknesses": [
-        "cluttered 2000s-era UI",
-        "steps paywalled",
-        "ad heavy",
-        "painful matrix entry on mobile"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "determinant",
-        "matrix inverse",
-        "row reduction",
-        "systems of equations"
-      ],
-      "relatedTools": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedGuides": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedFaqs": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.95,
-      "competitionScore": 0.46,
-      "searchDemand": 0.88,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.95,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.85,
-      "algorithmicFit": 1,
-      "authorityWinnability": 0.83,
-      "confidence": 0.8,
-      "finalScore": 78.3,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
-      "id": "colorblind-simulator",
-      "title": "Colorblind Simulator",
-      "problem": "I want to see how my palette or colors look to people with protanopia, deuteranopia, and tritanopia.",
+      "id": "spinner",
+      "title": "Fidget Spinner",
+      "problem": "I want a physics-based fidget spinner in the browser I can flick with mouse or touch, with momentum that feels right and optional tick sounds.",
       "userIntent": "transactional",
-      "workflow": "a color → Color Vision Simulation → a color",
-      "transformation": "Color Vision Simulation",
-      "proposedTool": "colorblind-simulator",
-      "proposedEngine": "color",
+      "workflow": "input → Fidget Interaction → output",
+      "transformation": "Fidget Interaction",
+      "proposedTool": "spinner",
+      "proposedEngine": "feel",
       "searchQueries": [
-        "colorblind simulator",
-        "color blindness simulator",
-        "deuteranopia simulator",
-        "protanopia color check",
-        "colorblind palette checker"
+        "virtual fidget spinner online",
+        "fidget spinner online",
+        "virtual fidget spinner",
+        "spin fidget web",
+        "browser fidget spinner",
+        "spinner toy online"
       ],
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-07T20:41:41.614Z",
+      "discoveredAt": "2026-09-08T16:05:58.360Z",
       "existingSolutions": [
-        "coblis (color-blindness.com)",
-        "venngage colorblind simulator"
+        "novelty web toys",
+        "mobile apps"
       ],
       "solutionWeaknesses": [
-        "image-upload only, no palette input",
-        "server-side upload (privacy)",
-        "no side-by-side type comparison"
+        "physics feels floaty or stops abruptly",
+        "no reduced-motion mode",
+        "ads around a three-second toy"
       ],
       "userFailures": [
-        "The simulation shows the problem but nothing says which of the eight types the user is looking at, or which one actually failed.",
-        "A palette passes for one deficiency and fails another, and checking them one at a time hides the comparison that matters."
+        "A flick on trackpad imparts almost no angular velocity because the tool only listened to mouse drag distance, not velocity.",
+        "The spinner never quite stops and drains battery on a phone with the tab backgrounded.",
+        "Reduced-motion users get a full spinning animation with no static alternative.",
+        "Sound ticks desync from the visual rotation after a long spin."
       ],
       "signals": [],
       "relatedProblems": [
-        "contrast ratio",
-        "accessible palette"
+        "pop it",
+        "gears",
+        "kinetic sand"
       ],
       "relatedTools": [
-        "color-contrast-checker",
-        "color-format-converter"
+        "pop-it",
+        "switch-board"
       ],
       "relatedGuides": [
-        "color-contrast-checker",
-        "color-format-converter"
+        "pop-it",
+        "switch-board"
       ],
       "relatedFaqs": [
-        "color-contrast-checker",
-        "color-format-converter"
+        "pop-it",
+        "switch-board"
       ],
       "difficulty": "medium",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.7,
+      "evergreenScore": 0.62,
+      "competitionScore": 0.63,
       "searchDemand": 0.66,
       "implementationCost": 0.7,
       "engineReuse": 1,
       "seoPotential": 0.86,
-      "topicClusterPotential": 0,
+      "topicClusterPotential": 1,
       "commercialPotential": 0.53,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.95,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 0.92,
       "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 77.8,
+      "confidence": 0.64,
+      "finalScore": 79,
       "status": "recommended",
       "gap": "cluster-missing",
       "engineExists": true,

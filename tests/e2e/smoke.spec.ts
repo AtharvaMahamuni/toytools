@@ -25,23 +25,6 @@ function isAllowed(text: string): boolean {
   return ALLOWED_CONSOLE.some((re) => re.test(text));
 }
 
-// In-page accessible-name check (smoke-level: aria-label / aria-labelledby /
-// label[for] / wrapping <label>). Placeholder alone does NOT count as a name.
-const HAS_NAME = (el: Element): boolean => {
-  const aria = el.getAttribute('aria-label');
-  if (aria && aria.trim()) return true;
-  const lb = el.getAttribute('aria-labelledby');
-  if (lb && lb.split(/\s+/).some((id) => document.getElementById(id)?.textContent?.trim())) return true;
-  const id = (el as HTMLElement).id;
-  if (id) {
-    const lab = document.querySelector(`label[for="${CSS.escape(id)}"]`);
-    if (lab && lab.textContent && lab.textContent.trim()) return true;
-  }
-  if (el.closest('label')) return true;
-  const txt = el.textContent;
-  return !!(txt && txt.trim());
-};
-
 async function attachConsoleGuards(page: Page) {
   const consoleIssues: string[] = [];
   const pageErrors: string[] = [];
@@ -77,25 +60,62 @@ for (const path of toolPaths()) {
     await expect(page.locator('h1'), 'exactly one <h1>').toHaveCount(1);
 
     // Scope to <main> so we exercise the tool, not shared chrome (nav search, theme toggle).
-    const buttons = main.getByRole('button');
-    const buttonCount = await buttons.count();
-    for (let i = 0; i < buttonCount; i++) {
-      const btn = buttons.nth(i);
-      if (!(await btn.isVisible())) continue;
-      const named = await btn.evaluate(HAS_NAME);
-      expect(named, `visible button #${i} has an accessible name`).toBe(true);
-    }
+    // One in-page pass: character-map has hundreds of glyph buttons, and a Playwright
+    // round-trip per button times out the 30s budget.
+    const unnamedButtons = await main.getByRole('button').evaluateAll((nodes) => {
+      const hasName = (el: Element): boolean => {
+        const aria = el.getAttribute('aria-label');
+        if (aria && aria.trim()) return true;
+        const lb = el.getAttribute('aria-labelledby');
+        if (lb && lb.split(/\s+/).some((id) => document.getElementById(id)?.textContent?.trim())) return true;
+        const id = (el as HTMLElement).id;
+        if (id) {
+          const lab = document.querySelector(`label[for="${CSS.escape(id)}"]`);
+          if (lab && lab.textContent && lab.textContent.trim()) return true;
+        }
+        if (el.closest('label')) return true;
+        const txt = el.textContent;
+        return !!(txt && txt.trim());
+      };
+      return nodes
+        .map((el, i) => {
+          const style = getComputedStyle(el);
+          if (style.display === 'none' || style.visibility === 'hidden') return -1;
+          if ((el as HTMLElement).offsetParent === null && style.position !== 'fixed') return -1;
+          return hasName(el) ? -1 : i;
+        })
+        .filter((i) => i >= 0);
+    });
+    expect(unnamedButtons, `visible buttons missing an accessible name: ${unnamedButtons.join(', ')}`).toEqual([]);
 
     const fields = main.locator(
       'textarea, [contenteditable="true"], input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"])'
     );
-    const fieldCount = await fields.count();
-    for (let i = 0; i < fieldCount; i++) {
-      const field = fields.nth(i);
-      if (!(await field.isVisible())) continue;
-      const named = await field.evaluate(HAS_NAME);
-      expect(named, `visible input/textarea #${i} has an accessible name`).toBe(true);
-    }
+    const unnamedFields = await fields.evaluateAll((nodes) => {
+      const hasName = (el: Element): boolean => {
+        const aria = el.getAttribute('aria-label');
+        if (aria && aria.trim()) return true;
+        const lb = el.getAttribute('aria-labelledby');
+        if (lb && lb.split(/\s+/).some((id) => document.getElementById(id)?.textContent?.trim())) return true;
+        const id = (el as HTMLElement).id;
+        if (id) {
+          const lab = document.querySelector(`label[for="${CSS.escape(id)}"]`);
+          if (lab && lab.textContent && lab.textContent.trim()) return true;
+        }
+        if (el.closest('label')) return true;
+        const txt = el.textContent;
+        return !!(txt && txt.trim());
+      };
+      return nodes
+        .map((el, i) => {
+          const style = getComputedStyle(el);
+          if (style.display === 'none' || style.visibility === 'hidden') return -1;
+          if ((el as HTMLElement).offsetParent === null && style.position !== 'fixed') return -1;
+          return hasName(el) ? -1 : i;
+        })
+        .filter((i) => i >= 0);
+    });
+    expect(unnamedFields, `visible fields missing an accessible name: ${unnamedFields.join(', ')}`).toEqual([]);
 
     // --- Interaction: exercise the first editable control, confirm it sticks ---
     const editable = fields.first();

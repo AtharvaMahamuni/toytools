@@ -104,6 +104,7 @@ export const authoredGuideSlugs = [
   'slugify-text',
   'snake-case-converter',
   'space-counter',
+  'switch-board',
   'systemd-timer-converter',
   'tax-calculator',
   'tdee-calculator',

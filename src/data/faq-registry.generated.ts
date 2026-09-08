@@ -104,6 +104,7 @@ import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
 import { items as spaceCounterFaqs } from '@tools/text/space-counter/faq';
+import { items as switchBoardFaqs } from '@tools/fidget/switch-board/faq';
 import { items as systemdTimerConverterFaqs } from '@tools/datetime/systemd-timer-converter/faq';
 import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
 import { items as tdeeCalculatorFaqs } from '@tools/health/tdee-calculator/faq';
@@ -226,6 +227,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,
   'space-counter': spaceCounterFaqs,
+  'switch-board': switchBoardFaqs,
   'systemd-timer-converter': systemdTimerConverterFaqs,
   'tax-calculator': taxCalculatorFaqs,
   'tdee-calculator': tdeeCalculatorFaqs,

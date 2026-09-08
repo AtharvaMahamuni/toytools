@@ -104,6 +104,7 @@ import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowle
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
+import { knowledge as switchBoard } from '@tools/fidget/switch-board/knowledge';
 import { knowledge as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/knowledge';
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
 import { knowledge as tdeeCalculator } from '@tools/health/tdee-calculator/knowledge';
@@ -226,6 +227,7 @@ export const authoredKnowledge: Knowledge[] = [
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
+  switchBoard,
   systemdTimerConverter,
   taxCalculator,
   tdeeCalculator,
