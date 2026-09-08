@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.1.1] - 2026-09-08
+
+### Fixed
+
+- **Pop It** first-pop feedback no longer drops silently when the Feel chunk is still attaching:
+  `TT.feel` is resolved synchronously when already ready, otherwise the first gesture cue is queued.
+- **Pop It** bubble transitions follow `ToyTools.feel.motionAllowed()` (Settings → Feel), so Full /
+  Reduced overrides are not ignored by a CSS-only `prefers-reduced-motion` media query.
+- E2E coverage for Pop It on chromium and pixel5: pop → pressed + `.is-popped`, second activation is
+  a no-op for remaining/status, Reset restores all 12 and "12 ready".
+
 ## [alpha-v10.1] - 2026-09-08
 
 ### Added

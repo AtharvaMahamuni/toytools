@@ -131,10 +131,10 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     outline-offset: var(--focus-ring-offset);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .pop-bubble {
-      transition: none;
-    }
+  /* Motion gate follows ToyTools.feel.motionAllowed() (Settings → Feel), not only the OS
+     prefers-reduced-motion media query — so Full / Reduced overrides actually take effect. */
+  .pop-it.is-motion-reduced .pop-bubble {
+    transition: none;
   }
 </style>
 
@@ -149,6 +149,9 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     var bubbles = root.querySelectorAll('[data-pop-bubble]');
     var total = bubbles.length;
     var feel = null;
+    // First gesture may land before the Feel chunk attaches. Queue at most one feedback cue
+    // so the first pop is never silently dropped.
+    var pendingCue = null;
 
     function remaining() {
       var n = 0;
@@ -177,28 +180,81 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
       );
     }
 
+    function syncMotionClass() {
+      if (!feel || typeof feel.motionAllowed !== 'function') return;
+      var allowed = false;
+      try {
+        allowed = !!feel.motionAllowed();
+      } catch (e) {
+        allowed = true;
+      }
+      root.classList.toggle('is-motion-reduced', !allowed);
+    }
+
+    function runCue(kind) {
+      if (!feel) return;
+      try {
+        if (kind === 'pop' && typeof feel.feedback === 'function') feel.feedback('pop');
+        else if (kind === 'soft' && typeof feel.play === 'function') feel.play('soft');
+      } catch (e) {
+        // Feel already swallows haptic failures; this keeps the board alive if the API throws.
+      }
+    }
+
+    function flushPendingCue() {
+      if (!pendingCue || !feel) return;
+      var cue = pendingCue;
+      pendingCue = null;
+      runCue(cue);
+    }
+
+    /** Grab TT.feel synchronously when it is already attached. Returns true when feel is set. */
+    function tryResolveFeelSync() {
+      if (feel) return true;
+      var TT = window.ToyTools;
+      if (TT && TT.feel) {
+        feel = TT.feel;
+        syncMotionClass();
+        return true;
+      }
+      return false;
+    }
+
+    var readyArmed = false;
+    function armFeelReady() {
+      if (readyArmed) return;
+      var TT = window.ToyTools;
+      if (!TT || !TT.onReady) return;
+      readyArmed = true;
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        syncMotionClass();
+        flushPendingCue();
+      });
+    }
+
+    function requestCue(kind) {
+      if (tryResolveFeelSync()) {
+        runCue(kind);
+        return;
+      }
+      // Queue the first gesture until Feel attaches so it is never silently dropped.
+      if (!pendingCue) pendingCue = kind;
+      armFeelReady();
+    }
+
     function popBubble(btn) {
       if (!btn || btn.getAttribute('aria-pressed') === 'true') return;
       // Mark first so a paired press+release or pointerdown+click cannot double-pop.
       setPopped(btn, true);
       syncStatus();
-      if (feel && typeof feel.feedback === 'function') {
-        try {
-          feel.feedback('pop');
-        } catch (e) {
-          // Feel already swallows haptic failures; this keeps animation alive if the API throws.
-        }
-      }
+      requestCue('pop');
     }
 
     function resetBoard() {
       for (var i = 0; i < bubbles.length; i++) setPopped(bubbles[i], false);
       syncStatus();
-      if (feel && typeof feel.play === 'function') {
-        try {
-          feel.play('soft');
-        } catch (e) {}
-      }
+      requestCue('soft');
     }
 
     function onPointerDown(ev) {
@@ -222,12 +278,15 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     }
     if (resetBtn) resetBtn.addEventListener('click', resetBoard);
 
-    var TT = window.ToyTools;
-    if (TT && TT.onReady) {
-      TT.onReady(function () {
-        feel = TT.feel || null;
-      });
-    }
+    // Provisional OS gate before Feel attaches; Feel sync replaces it so Settings overrides win.
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        root.classList.add("is-motion-reduced");
+      }
+    } catch (e) {}
+
+    // Attach early if ready; otherwise wait. Motion class updates when Feel resolves.
+    if (!tryResolveFeelSync()) armFeelReady();
 
     syncStatus();
   })();
