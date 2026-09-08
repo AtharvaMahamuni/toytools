@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
   minor: 1,
-  patch: 1,
+  patch: 2,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Pop It must-fixes: Feel motion, first-pop cue, e2e',
+  description: 'Pop It SEO GEO free no-download FAQs',
 };
 
 export function formatVersion(config: VersionConfig): string {

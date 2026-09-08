@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.1.2] - 2026-09-08
+
+### Changed
+
+- **Pop It** SEO/GEO copy now leads with free, no-download, no-account positioning: meta title and
+  description, Guide quick answer, and knowledge summary call out that the board runs in the tab
+  with nothing uploaded.
+- **Pop It** FAQ and knowledge add visitor questions for what a virtual Pop It is, whether it is
+  free / needs a download, and whether it works on a phone; reduced-motion and Feel override wording
+  stays aligned with the must-fix behavior.
+
 ## [alpha-v10.1.1] - 2026-09-08
 
 ### Fixed
