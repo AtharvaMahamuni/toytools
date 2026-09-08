@@ -142,4 +142,6 @@ export type FeelApi = ReturnType<typeof createFeelApi>;
  * Processor registry placeholder. Fidget tools will register defs here the way trackers and EQ
  * definitions do; empty until Pop It lands. Declared so validate-registry can grow an entry later.
  */
-export const FEEL_TOOLS: Record<string, { id: string }> = {};
+export const FEEL_TOOLS: Record<string, { id: string }> = {
+  'pop-it': { id: 'pop-it' },
+};

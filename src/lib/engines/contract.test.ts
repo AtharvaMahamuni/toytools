@@ -330,8 +330,8 @@ describe('audio engine', () => {
 
 // ── feel: cohesive motion + sound + haptics facade (no fidget tools yet) ───────────────────────
 describe('feel engine', () => {
-  it('exposes an empty processor registry until the first fidget ships', () => {
-    expect(FEEL_TOOLS).toEqual({});
+  it('registers Pop It as the first feel processor', () => {
+    expect(FEEL_TOOLS).toEqual({ 'pop-it': { id: 'pop-it' } });
   });
 
   it('builds a ToyTools.feel facade that never throws on prefs defaults', () => {

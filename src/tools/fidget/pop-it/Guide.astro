@@ -1,0 +1,167 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A virtual Pop It is a bubble board you tap in the browser instead of squeezing silicone. Open
+      the page, tap a bubble, watch it deflate, and keep going until the grid is clear. Then hit
+      Reset board and start again.
+    </p>
+    <p>
+      For example: Input: a phone-width tab and twelve inflated bubbles. Output: a quiet sensory
+      loop with optional sound and haptics, no app install, and nothing uploaded about which bubbles
+      you popped.
+    </p>
+    <p>
+      Therefore this page is a virtual fidget you can use on a call with sound muted, or on a phone
+      with haptics on, without granting notification permissions.
+    </p>
+    <a href={toolHref} class="cta-link">Open Pop It →</a>
+  </section>
+
+  <section id="what-is">
+    <h2>What is a virtual Pop It? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A physical Pop It is a silicone tray of bubbles you push through for the click and the feel.
+      A virtual pop it online is the same gesture as a grid of buttons: each cell starts raised,
+      and a tap leaves it flat until you reset the board.
+    </p>
+    <p>
+      However, the useful part is not the picture of silicone. It is that a browser tab needs no
+      install, no account, and no ad-heavy clone that autoplays audio. Preferences for sound and
+      vibration live under Settings → Feel and apply to every fidget on ToyTools.
+    </p>
+    <p>
+      People search for a pop it sensory toy when they want something to do with their hands while
+      thinking. A digital pop it, a bubble pop fidget, or a plain popit by another name answers that
+      without another app icon on the home screen. A fidget pop it in the browser is still a
+      pop-it: the hyphen is packaging, the tap is the product.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does this Pop It online work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Twelve bubbles sit in a four by three grid sized for a phone-width screen. Tap one and three
+      things happen in order.
+    </p>
+    <p>
+      The bubble marks itself popped so a second event on the same press cannot fire again.
+      The Feel engine plays a short pop cue if Sounds are on.
+      If Haptics are opted in, the same call asks the phone to vibrate once, and a missing
+      vibrator is ignored instead of throwing.
+    </p>
+    <p>
+      For example, on a laptop with haptics left off, you still see the bubble flatten and may hear
+      the soft cue. On a phone with haptics on, you get the buzz as well. Sound and vibration stay
+      independent, therefore muting for an open office does not turn vibration off for later.
+    </p>
+  </section>
+
+  <section id="sound">
+    <h2>How do online Pop It fidgets handle sound? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Badly, on many pages. Always-on audio is fine alone and unusable on a shared desk. Optional
+      haptics vs always-on vibration is the same problem with a different API: desktop browsers
+      often have no vibrator, and some toys call <code>navigator.vibrate</code> without catching a
+      rejection, which is why some Pop It pages break when vibration is unsupported.
+    </p>
+    <p>
+      Here, both channels go through <code>ToyTools.feel</code>. Sounds default on; haptics default
+      off. Change either under Settings → Feel. A rejected haptic promise never stops the pop
+      animation.
+    </p>
+    <p>
+      Therefore you can mute Pop It sounds but keep haptics for a phone session, or the reverse on
+      a quiet call. That is how to use a Pop It online without installing an app and without
+      fighting the page for control of your speakers.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Leaving sound on in a shared space">
+      <p>
+        Blaming the page for every click ignores the Settings → Feel toggle. Mute once and every
+        fidget on the site stays quiet, including this one.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Expecting desktop vibration">
+      <p>
+        Most laptops have no vibrator. Haptics stay off by default, and even when opted in a missing
+        API is ignored so the bubble still flattens.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="reset">
+    <h2>How to reset a finished Pop It board <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      When every bubble is flat, tap Reset board. The grid inflates again and your Feel preferences
+      stay as they were. Reloading the tab when Reset would continue the session is the common
+      mistake this control exists to remove.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Reload is not Reset">
+      <p>
+        A finished board looks like a dead end. Refreshing the page works, but it also drops focus,
+        reloads assets, and breaks the fidget loop. Reset board is the continuation: twelve bubbles
+        ready again without leaving the tool.
+      </p>
+    </ReferenceBlock>
+    <p>
+      Another failure shows up as double pops: press and release both fire on clones that listen to
+      both events. This board marks a bubble popped before feedback runs, so the paired click is a
+      no-op.
+    </p>
+  </section>
+
+  <section id="when-it-helps">
+    <h2>When a browser Pop It helps <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Quietly fidgeting through a long call with sound muted is the usual case. Using a phone with
+      haptics on and no app install is the other. Giving a child a sensory bubble board without ads
+      or accounts is a third, because the page is just a grid of buttons.
+    </p>
+    <p>
+      Instead of opening another novelty site with trackers, keep this tab beside a
+      <a href={withBase('/tool/productivity/pomodoro-timer/')}>Pomodoro timer</a> and reset between
+      short breaks. A bubble fidget and a focus timer answer different needs, however they sit well
+      in the same browser session.
+    </p>
+    <p>
+      Browser Pop It vs a phone fidget app is mostly about trust and friction: the app wants
+      permissions and updates; the page asks for a tap. Pick the app only if you need offline icons
+      on the home screen. Otherwise the online fidget is enough.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Try the board <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the tool, tap a few bubbles, mute sound if you need to, and reset when the grid is clear.
+      That is the whole product.
+    </p>
+    <a href={toolHref} class="cta-link">Open Pop It →</a>
+  </section>
+</GuideLayout>

@@ -68,6 +68,7 @@ export const authoredGuideSlugs = [
   'password-generator',
   'percentage-calculator',
   'pomodoro-timer',
+  'pop-it',
   'prime-factorization-calculator',
   'protein-intake-calculator',
   'punycode-converter',

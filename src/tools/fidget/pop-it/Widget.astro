@@ -1,0 +1,234 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+
+const COLS = 4;
+const ROWS = 3;
+const COUNT = COLS * ROWS;
+const bubbles = Array.from({ length: COUNT }, (_, i) => i);
+---
+
+<FeelWidget slug={config.slug}>
+  <div class="pop-it" data-pop-it data-cols={COLS} data-rows={ROWS} data-count={COUNT}>
+    <div
+      class="pop-board"
+      data-pop-board
+      role="group"
+      aria-label="Pop It bubble board"
+      style={`--pop-cols: ${COLS}`}
+    >
+      {
+        bubbles.map((i) => (
+          <button
+            type="button"
+            class="pop-bubble"
+            data-pop-bubble
+            data-index={i}
+            aria-pressed="false"
+            aria-label={`Bubble ${i + 1}, ready to pop`}
+          />
+        ))
+      }
+    </div>
+    <div class="pop-bar">
+      <p class="pop-status" data-pop-status aria-live="polite">
+        {COUNT} ready
+      </p>
+      <button type="button" class="pop-reset" data-pop-reset data-craft={config.craft!.id}>
+        Reset board
+      </button>
+    </div>
+  </div>
+</FeelWidget>
+
+<style>
+  .pop-it {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 24rem;
+  }
+
+  .pop-board {
+    display: grid;
+    grid-template-columns: repeat(var(--pop-cols, 4), minmax(0, 1fr));
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: var(--border);
+  }
+
+  .pop-bubble {
+    aspect-ratio: 1;
+    width: 100%;
+    min-block-size: var(--touch-target);
+    border-radius: 999px;
+    border: var(--border);
+    padding: 0;
+    cursor: pointer;
+    background: color-mix(in srgb, var(--color-accent) 28%, var(--color-surface));
+    box-shadow:
+      inset 0 -0.2rem color-mix(in srgb, var(--color-accent) 45%, transparent),
+      0 0.15rem 0.35rem color-mix(in srgb, var(--color-text) 12%, transparent);
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background-color 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .pop-bubble:active:not(.is-popped) {
+    transform: scale(0.94);
+  }
+
+  .pop-bubble.is-popped {
+    background: var(--color-bg-tertiary);
+    box-shadow: inset 0 0.2rem 0.45rem color-mix(in srgb, var(--color-text) 18%, transparent);
+    cursor: default;
+  }
+
+  .pop-bubble:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .pop-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .pop-status {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .pop-reset {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+
+  .pop-reset:active {
+    background: var(--color-surface-hover);
+  }
+
+  .pop-reset:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pop-bubble {
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-pop-it]');
+    if (!root) return;
+
+    var board = root.querySelector('[data-pop-board]');
+    var statusEl = root.querySelector('[data-pop-status]');
+    var resetBtn = root.querySelector('[data-pop-reset]');
+    var bubbles = root.querySelectorAll('[data-pop-bubble]');
+    var total = bubbles.length;
+    var feel = null;
+
+    function remaining() {
+      var n = 0;
+      for (var i = 0; i < bubbles.length; i++) {
+        if (bubbles[i].getAttribute('aria-pressed') !== 'true') n++;
+      }
+      return n;
+    }
+
+    function syncStatus() {
+      if (!statusEl) return;
+      var left = remaining();
+      if (left === total) statusEl.textContent = total + ' ready';
+      else if (left === 0) statusEl.textContent = 'Board clear. Reset to continue.';
+      else statusEl.textContent = left + ' left';
+    }
+
+    function setPopped(btn, popped) {
+      btn.setAttribute('aria-pressed', popped ? 'true' : 'false');
+      btn.classList.toggle('is-popped', popped);
+      btn.setAttribute(
+        'aria-label',
+        popped
+          ? 'Bubble ' + (Number(btn.getAttribute('data-index')) + 1) + ', popped'
+          : 'Bubble ' + (Number(btn.getAttribute('data-index')) + 1) + ', ready to pop'
+      );
+    }
+
+    function popBubble(btn) {
+      if (!btn || btn.getAttribute('aria-pressed') === 'true') return;
+      // Mark first so a paired press+release or pointerdown+click cannot double-pop.
+      setPopped(btn, true);
+      syncStatus();
+      if (feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('pop');
+        } catch (e) {
+          // Feel already swallows haptic failures; this keeps animation alive if the API throws.
+        }
+      }
+    }
+
+    function resetBoard() {
+      for (var i = 0; i < bubbles.length; i++) setPopped(bubbles[i], false);
+      syncStatus();
+      if (feel && typeof feel.play === 'function') {
+        try {
+          feel.play('soft');
+        } catch (e) {}
+      }
+    }
+
+    function onPointerDown(ev) {
+      // Only primary button / touch. Ignore right-click.
+      if (ev.button != null && ev.button !== 0) return;
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-pop-bubble]') : null;
+      if (!btn || !board.contains(btn)) return;
+      popBubble(btn);
+    }
+
+    function onClick(ev) {
+      // Keyboard activation synthesizes click without a prior pointerdown pop path.
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-pop-bubble]') : null;
+      if (!btn || !board.contains(btn)) return;
+      popBubble(btn);
+    }
+
+    if (board) {
+      board.addEventListener('pointerdown', onPointerDown);
+      board.addEventListener('click', onClick);
+    }
+    if (resetBtn) resetBtn.addEventListener('click', resetBoard);
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+      });
+    }
+
+    syncStatus();
+  })();
+</script>

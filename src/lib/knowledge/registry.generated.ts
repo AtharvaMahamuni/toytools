@@ -68,6 +68,7 @@ import { knowledge as paragraphCounter } from '@tools/text/paragraph-counter/kno
 import { knowledge as passwordGenerator } from '@tools/generate/password-generator/knowledge';
 import { knowledge as percentageCalculator } from '@tools/number/percentage-calculator/knowledge';
 import { knowledge as pomodoroTimer } from '@tools/productivity/pomodoro-timer/knowledge';
+import { knowledge as popIt } from '@tools/fidget/pop-it/knowledge';
 import { knowledge as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/knowledge';
 import { knowledge as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/knowledge';
 import { knowledge as punycodeConverter } from '@tools/developer-utilities/punycode-converter/knowledge';
@@ -189,6 +190,7 @@ export const authoredKnowledge: Knowledge[] = [
   passwordGenerator,
   percentageCalculator,
   pomodoroTimer,
+  popIt,
   primeFactorizationCalculator,
   proteinIntakeCalculator,
   punycodeConverter,

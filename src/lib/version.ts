@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
-  minor: 0,
+  minor: 1,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Feel platform: shared motion, sound and haptics for fidget tools',
+  description: 'Pop It: first fidget on the Feel engine',
 };
 
 export function formatVersion(config: VersionConfig): string {

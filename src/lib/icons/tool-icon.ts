@@ -96,6 +96,8 @@ const FAMILY_GLYPH: Record<string, string> = {
   aspect: 'aspectFrame',
   // music & audio
   equalizer: 'equalizer',
+  // fidgets
+  fidget: 'dots',
 };
 
 // ── per-slug override → glyph ─────────────────────────────────────────────
@@ -197,6 +199,9 @@ const SLUG_GLYPH: Record<string, string> = {
   notepad: 'note',
   'todo-list': 'checklist',
   'keep-screen-awake': 'sun',
+
+  // fidgets
+  'pop-it': 'dots',
 
   // number — numerals (the notation IS the identity)
   'roman-numeral-converter': 'roman',

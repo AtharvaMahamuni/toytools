@@ -174,4 +174,5 @@ export const searchAliases: Record<string, string[]> = {
 
   // Music & audio
   'equalizer-settings-generator': ['eq', 'equaliser', 'bass booster'],
+  'pop-it': ['popit'],
 };
