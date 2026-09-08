@@ -2,6 +2,26 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.3] - 2026-09-08
+
+### Added
+
+- **Switch Board** (`/tool/fidget/switch-board/`): sixteen latching toggles on the Feel engine.
+  Optional click sound and haptics (independent, same prefs as Pop It). All off clears a mixed
+  board without a reload. Keyboard: one tab stop, arrows move, Space or Enter flips. Guide, FAQ,
+  and knowledge ship with the tool.
+
+### Changed
+
+- **Pop It** SEO: SERP-backed copy (virtual bubble wrap vs Pop It, synthesised sound, fidget loop
+  vs timed games), tighter title, `no download` in the meta description, and search aliases
+  (`pop it online`, `virtual pop it`, `fidget pop it`, `bubble pop`, `digital pop it`,
+  `pop it fidget toy`). Related tools now include Switch Board.
+- Fidget research seeds now propose the existing `feel` engine instead of missing `motion` /
+  `haptics` engines, so the roadmap scores Feel reuse honestly.
+- Client search index payload cap 40 KB → 41 KB. A new catalog entry is about 170 bytes even with
+  a thin keyword list; Switch Board consumed the remaining slack. Keyword lists were trimmed first.
+
 ## [alpha-v10.2.1] - 2026-09-08
 
 ### Fixed

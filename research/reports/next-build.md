@@ -1,6 +1,6 @@
 # Recommended Next Build
 
-Generated: 2026-09-07T20:41:41.614Z
+Generated: 2026-09-08T16:05:58.360Z
 
 ## Statistics Visualizer  (`statistics-visualizer`)
 
@@ -47,4 +47,4 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 
 ---
 
-_Inputs fingerprint: `a6516d89`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `ade0baaf`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

@@ -90,7 +90,9 @@ test.describe('homepage index', () => {
     // a natural pair to READ together, which is what the relationship overlay expresses, but a
     // group switcher swaps one tool for another and neither answers the other's question. The
     // equalizer added in alpha-v9.0 is ungrouped because it is the only tool on its engine so far.
-    await expect(directory.locator('.dir-link')).toHaveCount(79);
+    // Switch Board (alpha-v10.3) is ungrouped with Pop It: they share engine and pattern but are
+    // different toys, not modes of one workspace, so a group switcher would shuffle the tool.
+    await expect(directory.locator('.dir-link')).toHaveCount(80);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

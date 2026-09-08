@@ -202,6 +202,7 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // fidgets
   'pop-it': 'dots',
+  'switch-board': 'toggle',
 
   // number — numerals (the notation IS the identity)
   'roman-numeral-converter': 'roman',

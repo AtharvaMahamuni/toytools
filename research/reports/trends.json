@@ -1,12 +1,12 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-07T20:41:41.614Z",
+  "generatedAt": "2026-09-08T16:05:58.360Z",
   "trends": [
     {
       "transformation": "Fidget Interaction",
       "count": 6,
       "meanDemand": 0.63,
-      "meanScore": 70.5
+      "meanScore": 79.9
     },
     {
       "transformation": "Hot-Seat Board Game",

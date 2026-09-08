@@ -148,7 +148,8 @@ const THRESHOLDS = {
   // 2026-09-08: 0.641 (77/120). pop-it ships with Reset board (continuation). A finished or
   //   half-scrolled bubble field looks like a dead end, so people reload and break the fidget loop; Reset inflates every
   //   bubble again without dropping focus.
-  coverage: 0.641,
+  // 2026-09-08: 0.644 (78/121). switch-board ships All off (continuation).
+  coverage: 0.644,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

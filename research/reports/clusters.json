@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-07T20:41:41.614Z",
+  "generatedAt": "2026-09-08T16:05:58.360Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -544,6 +544,29 @@
         "encoding-detector",
         "hex-encoder-decoder",
         "html-entity-encoder-decoder"
+      ]
+    },
+    {
+      "id": "fidget-interaction",
+      "transformation": "Fidget Interaction",
+      "engine": "feel",
+      "members": [
+        "pop-it",
+        "switch-board",
+        "gears",
+        "spinner",
+        "kinetic-sand",
+        "slime"
+      ],
+      "existingMembers": [
+        "pop-it",
+        "switch-board"
+      ],
+      "size": 6,
+      "meanScore": 79.9,
+      "internalLinks": [
+        "pop-it",
+        "switch-board"
       ]
     },
     {
@@ -1553,18 +1576,6 @@
       ]
     },
     {
-      "id": "fidget-interaction",
-      "transformation": "Fidget Interaction",
-      "engine": "haptics",
-      "members": [
-        "switch-board"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 74.1,
-      "internalLinks": []
-    },
-    {
       "id": "perceptual-gradient",
       "transformation": "Perceptual Gradient",
       "engine": "color",
@@ -1933,22 +1944,6 @@
       ]
     },
     {
-      "id": "fidget-interaction",
-      "transformation": "Fidget Interaction",
-      "engine": "motion",
-      "members": [
-        "pop-it",
-        "gears",
-        "spinner",
-        "kinetic-sand",
-        "slime"
-      ],
-      "existingMembers": [],
-      "size": 5,
-      "meanScore": 69.8,
-      "internalLinks": []
-    },
-    {
       "id": "breathing-guide",
       "transformation": "Breathing Guide",
       "engine": "sound",
@@ -1959,7 +1954,9 @@
       "size": 1,
       "meanScore": 69.4,
       "internalLinks": [
-        "pomodoro-timer"
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board"
       ]
     },
     {

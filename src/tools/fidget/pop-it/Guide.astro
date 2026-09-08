@@ -53,6 +53,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       and a tap leaves it flat until you reset the board.
     </p>
     <p>
+      Search results mix this with virtual bubble wrap. Wrap pops once and stays dead. A Pop It
+      fidget toy is reversible: you finish one side, turn it over, and the bubbles are ready again.
+      This page is that loop as buttons, not a sheet of wrap, and Reset is the digital flip.
+    </p>
+    <p>
       However, the useful part is not the picture of silicone. It is that a browser tab needs no
       install, no account, and no ad-heavy clone that autoplays audio. Preferences for sound and
       vibration live under Settings → Feel and apply to every fidget on ToyTools.
@@ -98,7 +103,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       rejection, which is why some Pop It pages break when vibration is unsupported.
     </p>
     <p>
-      Here, both channels go through <code>ToyTools.feel</code>. Sounds default on; haptics default
+      Here, both channels go through <code>ToyTools.feel</code>. The pop cue is a short tone the
+      browser synthesises. There is no audio file to download. Sounds default on; haptics default
       off. Change either under Settings → Feel. A rejected haptic promise never stops the pop
       animation.
     </p>
@@ -166,9 +172,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       <a href={withBase('/category/fidgets/')}>Fidgets</a> category.
     </p>
     <p>
+      Many browser pop-it games put a timer and a best-time board on the same grid. That is a race.
+      This page is a fidget: no countdown, no leaderboard, no points. Infinite mode is more board
+      when you want it, not a survival clock.
+    </p>
+    <p>
       Browser Pop It vs a phone fidget app is mostly about trust and friction: the app wants
       permissions and updates; the page asks for a tap. Pick the app only if you need offline icons
-      on the home screen. Otherwise the online fidget is enough.
+      on the home screen. Otherwise the online fidget is enough. Once the tab has loaded, it keeps
+      working without a server.
     </p>
   </section>
 

@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'pop-faq-1',
     question: 'Does this Pop It make sound on every tap?',
     answer:
-      'Only if Sounds are on. The default is on. Toggle Sound under the board, or under Settings → Feel; both write the same preference so every fidget on the site stays in sync. Muting sound does not turn haptics off. Sound and vibration are separate on purpose, so an open office can stay quiet while a phone still buzzes if you want it to.',
+      'Only if Sounds are on. The default is on. The cue is a short tone the browser synthesises, so there is no audio file to fetch. Toggle Sound under the board, or under Settings → Feel; both write the same preference so every fidget on the site stays in sync. Muting sound does not turn haptics off. Sound and vibration are separate on purpose, so an open office can stay quiet while a phone still buzzes if you want it to.',
   },
   {
     id: 'pop-faq-2',
@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'pop-faq-6',
     question: 'How is this different from a phone Pop It app?',
     answer:
-      'You do not install anything, grant notification permissions, or sit through autoplaying ads. Preferences are shared with other ToyTools fidgets through the Feel settings, instead of being trapped inside one app.',
+      'You do not install anything, grant notification permissions, or sit through autoplaying ads. Timed pop-it games on other sites add a clock and a best-time board. This one does not: it is a fidget loop, and Infinite mode is more bubbles rather than a survival mode. Preferences are shared with other ToyTools fidgets through the Feel settings, instead of being trapped inside one app.',
   },
   {
     id: 'pop-faq-7',

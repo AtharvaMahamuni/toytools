@@ -1,0 +1,464 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+
+const COLS = 4;
+const COUNT = 16;
+const switches = Array.from({ length: COUNT }, (_, i) => i);
+const settingsHref = withBase('/settings/');
+---
+
+<FeelWidget slug={config.slug}>
+  <div class="sb" data-switch-board data-cols={COLS} data-count={COUNT}>
+    <div class="sb-toolbar">
+      <a class="sb-feel-link" href={settingsHref}>Feel settings</a>
+    </div>
+
+    <div
+      class="sb-board"
+      data-sb-board
+      role="grid"
+      aria-label="Switch board"
+      tabindex="0"
+      style={`--sb-cols: ${COLS}`}
+    >
+      {
+        switches.map((i) => (
+          <button
+            type="button"
+            class="sb-switch"
+            data-sb-switch
+            data-index={i}
+            role="gridcell"
+            aria-pressed="false"
+            aria-label={`Switch ${i + 1}, off`}
+            tabindex="-1"
+          />
+        ))
+      }
+    </div>
+
+    <div class="sb-bar">
+      <p class="sb-status" data-sb-status aria-live="polite">0 on</p>
+      <button
+        type="button"
+        class="sb-all-off"
+        data-sb-all-off
+        data-craft={config.craft!.id}
+        hidden
+      >
+        All off
+      </button>
+    </div>
+
+    <div class="sb-feel-strip" data-sb-feel-strip>
+      <div class="sb-feel-group" role="group" aria-label="Sound">
+        <span class="sb-feel-label">Sound</span>
+        <button type="button" class="sb-feel-toggle" data-sb-sound="on" aria-pressed="true">
+          On
+        </button>
+        <button type="button" class="sb-feel-toggle" data-sb-sound="off" aria-pressed="false">
+          Off
+        </button>
+      </div>
+      <div class="sb-feel-group" role="group" aria-label="Haptics">
+        <span class="sb-feel-label">Haptics</span>
+        <button type="button" class="sb-feel-toggle" data-sb-haptics="on" aria-pressed="false">
+          On
+        </button>
+        <button type="button" class="sb-feel-toggle" data-sb-haptics="off" aria-pressed="true">
+          Off
+        </button>
+      </div>
+    </div>
+  </div>
+</FeelWidget>
+
+<style>
+  .sb {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 24rem;
+    min-width: 0;
+  }
+
+  .sb-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .sb-feel-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .sb-board {
+    display: grid;
+    grid-template-columns: repeat(var(--sb-cols, 4), minmax(0, 1fr));
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: var(--border);
+    min-width: 0;
+  }
+
+  .sb-board:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .sb-switch {
+    aspect-ratio: 3 / 5;
+    width: 100%;
+    min-block-size: var(--touch-target);
+    min-width: 0;
+    border-radius: var(--radius-md);
+    border: var(--border);
+    padding: 0;
+    cursor: pointer;
+    background: var(--color-surface);
+    box-shadow:
+      inset 0 -0.15rem color-mix(in srgb, var(--color-text) 12%, transparent),
+      0 0.12rem 0.28rem color-mix(in srgb, var(--color-text) 10%, transparent);
+    transition:
+      background-color 0.12s ease,
+      box-shadow 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .sb-switch:active {
+    background: var(--color-surface-hover);
+  }
+
+  .sb-switch.is-on {
+    background: color-mix(in srgb, var(--color-accent) 28%, var(--color-surface));
+    box-shadow: inset 0 0.18rem 0.4rem color-mix(in srgb, var(--color-text) 16%, transparent);
+  }
+
+  .sb-switch.is-focused,
+  .sb-switch:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .sb-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .sb-status {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .sb-all-off,
+  .sb-feel-toggle {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+
+  .sb-all-off:active,
+  .sb-feel-toggle:active {
+    background: var(--color-surface-hover);
+  }
+
+  .sb-feel-toggle.is-active {
+    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  }
+
+  .sb-all-off:focus-visible,
+  .sb-feel-toggle:focus-visible,
+  .sb-feel-link:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .sb-all-off[hidden],
+  .sb [hidden] {
+    display: none;
+  }
+
+  .sb-feel-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .sb-feel-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .sb-feel-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-inline-end: var(--space-1);
+  }
+
+  .sb.is-motion-reduced .sb-switch {
+    transition: none;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-switch-board]');
+    if (!root) return;
+
+    var board = root.querySelector('[data-sb-board]');
+    var statusEl = root.querySelector('[data-sb-status]');
+    var allOffBtn = root.querySelector('[data-sb-all-off]');
+    var feelStrip = root.querySelector('[data-sb-feel-strip]');
+    var cols = Number(root.getAttribute('data-cols')) || 4;
+    var feel = null;
+    var ignoreClick = false;
+    var focusIndex = 0;
+
+    var FEEL_KEYS = { sound: 'feel.sound', haptics: 'feel.haptics' };
+    var FEEL_DEFAULTS = { sound: true, haptics: false };
+
+    function switches() {
+      return root.querySelectorAll('[data-sb-switch]');
+    }
+
+    function isOn(btn) {
+      return btn.getAttribute('aria-pressed') === 'true';
+    }
+
+    function onCount() {
+      var list = switches();
+      var n = 0;
+      for (var i = 0; i < list.length; i++) {
+        if (isOn(list[i])) n++;
+      }
+      return n;
+    }
+
+    function syncStatus() {
+      var n = onCount();
+      if (statusEl) statusEl.textContent = n + ' on';
+      if (allOffBtn) allOffBtn.hidden = n === 0;
+    }
+
+    function setSwitch(btn, on) {
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('is-on', on);
+      var idx = Number(btn.getAttribute('data-index')) + 1;
+      btn.setAttribute('aria-label', 'Switch ' + idx + ', ' + (on ? 'on' : 'off'));
+    }
+
+    function cue() {
+      if (feel && typeof feel.feedback === 'function') {
+        try { feel.feedback('click'); } catch (e) {}
+      }
+    }
+
+    function flip(btn) {
+      if (!btn) return;
+      setSwitch(btn, !isOn(btn));
+      cue();
+      syncStatus();
+    }
+
+    function allOff() {
+      var list = switches();
+      var any = false;
+      for (var i = 0; i < list.length; i++) {
+        if (isOn(list[i])) {
+          setSwitch(list[i], false);
+          any = true;
+        }
+      }
+      if (any) cue();
+      syncStatus();
+    }
+
+    function setFocus(index) {
+      var list = switches();
+      if (!list.length) return;
+      var next = ((index % list.length) + list.length) % list.length;
+      for (var i = 0; i < list.length; i++) {
+        list[i].tabIndex = -1;
+        list[i].classList.toggle('is-focused', i === next);
+      }
+      list[next].tabIndex = 0;
+      list[next].focus();
+      focusIndex = next;
+    }
+
+    function onPointerDown(ev) {
+      if (ev.button != null && ev.button !== 0) return;
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-sb-switch]') : null;
+      if (!btn || !board || !board.contains(btn)) return;
+      ignoreClick = true;
+      focusIndex = Number(btn.getAttribute('data-index')) || 0;
+      flip(btn);
+    }
+
+    function onClick(ev) {
+      if (ignoreClick) {
+        ignoreClick = false;
+        return;
+      }
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-sb-switch]') : null;
+      if (!btn || !board || !board.contains(btn)) return;
+      flip(btn);
+    }
+
+    function onKeyDown(ev) {
+      if (!board) return;
+      var t = ev.target;
+      var onBoard = document.activeElement === board || (t && t.closest && t.closest('[data-sb-switch]'));
+      if (!onBoard) return;
+      var list = switches();
+      var max = list.length - 1;
+      if (ev.key === 'ArrowRight') {
+        ev.preventDefault();
+        setFocus(focusIndex + 1);
+      } else if (ev.key === 'ArrowLeft') {
+        ev.preventDefault();
+        setFocus(focusIndex - 1);
+      } else if (ev.key === 'ArrowDown') {
+        ev.preventDefault();
+        setFocus(focusIndex + cols);
+      } else if (ev.key === 'ArrowUp') {
+        ev.preventDefault();
+        setFocus(focusIndex - cols);
+      } else if (ev.key === 'Home') {
+        ev.preventDefault();
+        setFocus(0);
+      } else if (ev.key === 'End') {
+        ev.preventDefault();
+        setFocus(max);
+      } else if (ev.key === ' ' || ev.key === 'Enter') {
+        ev.preventDefault();
+        flip(list[focusIndex]);
+      }
+    }
+
+    function readLocalFeel() {
+      var TT = window.ToyTools;
+      if (feel && typeof feel.prefs === 'function') {
+        try {
+          var p = feel.prefs();
+          return { sound: !!p.sound, haptics: !!p.haptics };
+        } catch (e) {}
+      }
+      if (TT && TT.prefs && typeof TT.prefs.get === 'function') {
+        var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
+        var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
+        return {
+          sound: sound === false || sound === 'false' ? false : true,
+          haptics: haptics === true || haptics === 'true',
+        };
+      }
+      return { sound: FEEL_DEFAULTS.sound, haptics: FEEL_DEFAULTS.haptics };
+    }
+
+    function writeLocalFeel(patch) {
+      var TT = window.ToyTools;
+      if (feel && typeof feel.setPrefs === 'function') {
+        try {
+          feel.setPrefs(patch);
+          paintLocalFeel();
+          return;
+        } catch (e) {}
+      }
+      if (TT && TT.prefs && typeof TT.prefs.set === 'function') {
+        try {
+          if (typeof patch.sound === 'boolean') TT.prefs.set(FEEL_KEYS.sound, patch.sound);
+          if (typeof patch.haptics === 'boolean') TT.prefs.set(FEEL_KEYS.haptics, patch.haptics);
+        } catch (e) {}
+      }
+      paintLocalFeel();
+    }
+
+    function paintLocalFeel() {
+      if (!feelStrip) return;
+      var p = readLocalFeel();
+      var soundBtns = feelStrip.querySelectorAll('[data-sb-sound]');
+      for (var i = 0; i < soundBtns.length; i++) {
+        var on = soundBtns[i].getAttribute('data-sb-sound') === (p.sound ? 'on' : 'off');
+        soundBtns[i].classList.toggle('is-active', on);
+        soundBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      var hapBtns = feelStrip.querySelectorAll('[data-sb-haptics]');
+      for (var j = 0; j < hapBtns.length; j++) {
+        var hon = hapBtns[j].getAttribute('data-sb-haptics') === (p.haptics ? 'on' : 'off');
+        hapBtns[j].classList.toggle('is-active', hon);
+        hapBtns[j].setAttribute('aria-pressed', hon ? 'true' : 'false');
+      }
+    }
+
+    function bindLocalFeel() {
+      if (!feelStrip) return;
+      var soundBtns = feelStrip.querySelectorAll('[data-sb-sound]');
+      for (var i = 0; i < soundBtns.length; i++) {
+        soundBtns[i].addEventListener('click', function () {
+          writeLocalFeel({ sound: this.getAttribute('data-sb-sound') === 'on' });
+        });
+      }
+      var hapBtns = feelStrip.querySelectorAll('[data-sb-haptics]');
+      for (var j = 0; j < hapBtns.length; j++) {
+        hapBtns[j].addEventListener('click', function () {
+          writeLocalFeel({ haptics: this.getAttribute('data-sb-haptics') === 'on' });
+        });
+      }
+    }
+
+    if (board) {
+      board.addEventListener('pointerdown', onPointerDown);
+      board.addEventListener('click', onClick);
+      board.addEventListener('keydown', onKeyDown);
+      board.addEventListener('focus', function () {
+        var list = switches();
+        if (list[focusIndex]) list[focusIndex].tabIndex = 0;
+      });
+    }
+    if (allOffBtn) {
+      allOffBtn.addEventListener('click', allOff);
+    }
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        if (feel && typeof feel.motionAllowed === 'function' && !feel.motionAllowed()) {
+          root.classList.add('is-motion-reduced');
+        }
+        paintLocalFeel();
+        bindLocalFeel();
+      });
+    } else {
+      paintLocalFeel();
+      bindLocalFeel();
+    }
+
+    syncStatus();
+  })();
+</script>

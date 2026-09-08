@@ -8,7 +8,7 @@
       "transformation": "Fidget Interaction",
       "proposedTool": "pop-it",
       "proposedName": "Pop It",
-      "proposedEngine": "motion",
+      "proposedEngine": "feel",
       "searchQueries": [
         "virtual pop it",
         "pop it online",
@@ -59,7 +59,7 @@
       "transformation": "Fidget Interaction",
       "proposedTool": "spinner",
       "proposedName": "Fidget Spinner",
-      "proposedEngine": "motion",
+      "proposedEngine": "feel",
       "searchQueries": [
         "fidget spinner online",
         "virtual fidget spinner",
@@ -108,7 +108,7 @@
       "transformation": "Fidget Interaction",
       "proposedTool": "switch-board",
       "proposedName": "Switch Board",
-      "proposedEngine": "haptics",
+      "proposedEngine": "feel",
       "searchQueries": [
         "switch fidget online",
         "toggle switch board",
@@ -157,7 +157,7 @@
       "transformation": "Fidget Interaction",
       "proposedTool": "kinetic-sand",
       "proposedName": "Kinetic Sand",
-      "proposedEngine": "motion",
+      "proposedEngine": "feel",
       "searchQueries": [
         "kinetic sand online",
         "virtual kinetic sand",
@@ -255,7 +255,7 @@
       "transformation": "Fidget Interaction",
       "proposedTool": "slime",
       "proposedName": "Slime",
-      "proposedEngine": "motion",
+      "proposedEngine": "feel",
       "searchQueries": [
         "virtual slime",
         "slime fidget online",
@@ -304,7 +304,7 @@
       "transformation": "Fidget Interaction",
       "proposedTool": "gears",
       "proposedName": "Gears",
-      "proposedEngine": "motion",
+      "proposedEngine": "feel",
       "searchQueries": [
         "interactive gears",
         "gear ratio simulator",
