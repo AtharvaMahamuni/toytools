@@ -31,12 +31,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       A virtual Pop It is a bubble board you tap in the browser instead of squeezing silicone. It is
       free, needs no download, and runs in the tab with no app and no account. Open the page, tap a
       bubble, watch it deflate, and keep going until the grid is clear. Then hit Reset board and
-      start again.
+      start again. Turn on Infinite mode when you want a scrollable field that grows as you go.
     </p>
     <p>
-      For example: Input: a phone-width tab and twelve inflated bubbles. Output: a quiet sensory
-      loop with optional sound and haptics, no app install, and nothing uploaded about which bubbles
-      you popped.
+      For example: Input: a phone-width tab and a scrollable field of inflated bubbles. Output: a
+      quiet sensory loop with optional sound and haptics, no app install, and nothing uploaded about
+      which bubbles you popped.
     </p>
     <p>
       Therefore this page is a virtual fidget you can use on a call with sound muted, or on a phone
@@ -68,8 +68,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-it-works">
     <h2>How does this Pop It online work? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Twelve bubbles sit in a four by three grid sized for a phone-width screen. Tap one and three
-      things happen in order.
+      The board opens as a four by three field sized for a phone-width screen. With Infinite mode
+      on, it grows by more rows as you scroll. Tap one bubble and three things happen in order.
     </p>
     <p>
       The bubble marks itself popped so a second event on the same press cannot fire again.
@@ -124,15 +124,22 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="reset">
     <h2>How to reset a finished Pop It board <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      When every bubble is flat, tap Reset board. The grid inflates again and your Feel preferences
-      stay as they were. Reloading the tab when Reset would continue the session is the common
+      When every bubble is flat, tap Reset board, or turn on Infinite mode and scroll for more rows.
+      Reset inflates every loaded bubble, scrolls the field back to the top, and leaves your Feel
+      preferences alone. Reloading the tab when Reset would continue the session is the common
       mistake this control exists to remove.
+    </p>
+    <p>
+      Infinite mode hides the trust row, knowledge drawers, and footer, and turns on the scrollable
+      infinite board together. ToolBar stays for landmarks. Sound and Haptics toggles under the board
+      stay in sync with Settings → Feel, and tuck under the overlay in Infinite mode. Escape or Exit
+      Infinite brings the finite board and the rest of the page back.
     </p>
     <ReferenceBlock type="common-mistake" heading="Reload is not Reset">
       <p>
         A finished board looks like a dead end. Refreshing the page works, but it also drops focus,
-        reloads assets, and breaks the fidget loop. Reset board is the continuation: twelve bubbles
-        ready again without leaving the tool.
+        reloads assets, and breaks the fidget loop. Reset board is the continuation: every loaded
+        bubble ready again at the top of the field, without leaving the tool.
       </p>
     </ReferenceBlock>
     <p>
@@ -167,8 +174,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="try">
     <h2>Try the board <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Open the tool, tap a few bubbles, mute sound if you need to, and reset when the grid is clear.
-      That is the whole product.
+      Open the tool, tap a few bubbles, mute sound from the board toggles if you need to, try
+      Infinite mode when you want more rows, and reset when you are done. That is the whole product.
     </p>
     <a href={toolHref} class="cta-link">Open Pop It →</a>
   </section>

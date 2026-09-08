@@ -5,8 +5,8 @@ export const config: ToolConfig = {
   name: 'Pop It',
   seoTitle: 'Pop It Online: Free Virtual Fidget Bubble Board',
   description:
-    'Free virtual Pop It game in the browser. Tap a sensory bubble board with optional sound and haptics. Reset with no reload. No app, no account, nothing uploaded.',
-  tagline: 'Tap the bubbles. Reset when the board is done.',
+    'Free fidget pop it game in the browser. A pop it sensory board with optional sound and haptics, Infinite mode, Reset. No app, nothing uploaded.',
+  tagline: 'Tap the bubbles. Infinite mode when you want more.',
   categorySlug: 'fidgets',
   tags: [
     'virtual pop it',
@@ -26,7 +26,7 @@ export const config: ToolConfig = {
     id: 'pop-it-reset',
     kind: 'continuation',
     solves:
-      'A finished board looks like a dead end, so people reload the tab and break the fidget loop. Reset board inflates every bubble again without dropping focus or reloading assets.',
+      'A finished or half-scrolled board looks like a dead end, so people reload the tab and break the fidget loop. Reset board inflates every loaded bubble and scrolls the field back to the top without dropping focus or reloading assets.',
   },
   relatedTools: ['pomodoro-timer', 'keep-screen-awake', 'dice-roller', 'coin-flipper'],
   keywords: ['virtual pop it', 'bubble fidget'],
@@ -37,7 +37,7 @@ export const config: ToolConfig = {
     categorySlug: 'fidget',
     title: 'Virtual Pop It: Sound, Haptics and Reset',
     description:
-      'How a browser Pop It works, why sound and haptics stay separate, how Feel motion works, and how Reset continues the board without a reload.',
+      'How a browser Pop It works, why sound and haptics stay separate, how Feel motion and Infinite mode work, and how Reset continues without a reload.',
     readMinutes: 6,
     updatedAt: '2026-09-08',
   },
