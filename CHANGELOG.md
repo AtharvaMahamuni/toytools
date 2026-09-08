@@ -2,6 +2,22 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.2.1] - 2026-09-08
+
+### Fixed
+
+- **Pop It** Infinite mode pop visuals: dynamically appended bubbles never received Astro scoped
+  CSS (`data-astro-cid`), so press state updated but the raised/flat look did not paint. Bubble
+  styles are now global class rules so Infinite pops stay visible.
+- **Pop It** finite board is no longer scrollable (`overflow: hidden`); only Infinite mode unlocks
+  board scrolling and scroll-append.
+
+### Changed
+
+- **Pop It** Infinite chrome is board-only: mode toggles, Exit button, Reset/status bar, Feel
+  settings link, and local Feel strip are all hidden. Exit with Escape. Finite page keeps those
+  controls. FAQ, guide, and e2e (chromium + pixel5) updated for the contract.
+
 ## [alpha-v10.2] - 2026-09-08
 
 ### Added

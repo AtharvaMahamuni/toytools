@@ -3,8 +3,8 @@ import FeelWidget from '@tools/_shared/FeelWidget.astro';
 import { config } from './config';
 import { withBase } from '@lib/paths';
 
-// Finite 4x3 by default. Infinite mode turns on fullscreen chrome and scroll-append together.
-// Local Sound/Haptics write the same feel.* prefs as Settings → Feel.
+// Finite 4x3 by default (fixed board, no scroll). Infinite: board-only chrome + scroll-append.
+// Exit Infinite with Escape. Local Sound/Haptics write the same feel.* prefs as Settings → Feel.
 const COLS = 4;
 const INITIAL_ROWS = 3;
 const ROW_BATCH = 3;
@@ -24,7 +24,7 @@ const settingsHref = withBase('/settings/');
     data-max-rows={MAX_ROWS}
     data-count={COUNT}
   >
-    <div class="pop-toolbar">
+    <div class="pop-toolbar" data-pop-toolbar>
       <button
         type="button"
         class="pop-infinite"
@@ -35,15 +35,6 @@ const settingsHref = withBase('/settings/');
         Infinite mode
       </button>
       <a class="pop-feel-link" data-pop-feel-link href={settingsHref}>Feel settings</a>
-      <button
-        type="button"
-        class="pop-exit-infinite"
-        data-pop-exit-infinite
-        hidden
-        aria-label="Exit Infinite mode"
-      >
-        Exit Infinite
-      </button>
     </div>
 
     <div class="pop-scroller" data-pop-scroller tabindex="0" aria-label="Pop It board">
@@ -69,7 +60,7 @@ const settingsHref = withBase('/settings/');
       </div>
     </div>
 
-    <div class="pop-bar">
+    <div class="pop-bar" data-pop-bar>
       <p class="pop-status" data-pop-status aria-live="polite">
         {COUNT} ready
       </p>
@@ -117,7 +108,6 @@ const settingsHref = withBase('/settings/');
   }
 
   .pop-infinite,
-  .pop-exit-infinite,
   .pop-reset,
   .pop-feel-toggle {
     flex: 0 0 auto;
@@ -133,7 +123,6 @@ const settingsHref = withBase('/settings/');
   }
 
   .pop-infinite:active,
-  .pop-exit-infinite:active,
   .pop-reset:active,
   .pop-feel-toggle:active {
     background: var(--color-surface-hover);
@@ -144,7 +133,6 @@ const settingsHref = withBase('/settings/');
   }
 
   .pop-infinite:focus-visible,
-  .pop-exit-infinite:focus-visible,
   .pop-reset:focus-visible,
   .pop-feel-link:focus-visible,
   .pop-feel-toggle:focus-visible {
@@ -159,15 +147,13 @@ const settingsHref = withBase('/settings/');
     text-underline-offset: 0.15em;
   }
 
-  /* Tall enough for the opening 4x3 field; extra height only matters in Infinite mode growth. */
+  /* Finite board: fixed viewport, never scrollable. Infinite unlocks overflow. */
   .pop-scroller {
-    max-height: 14.5rem;
-    overflow: auto;
+    overflow: hidden;
     overscroll-behavior: contain;
     border-radius: var(--radius-md);
     background: var(--color-surface);
     border: var(--border);
-    -webkit-overflow-scrolling: touch;
   }
 
   .pop-board {
@@ -177,7 +163,12 @@ const settingsHref = withBase('/settings/');
     padding: var(--space-4);
   }
 
-  .pop-bubble {
+  /*
+   * Bubble visuals are :global on purpose. Infinite mode appends bubbles with createElement,
+   * and Astro scoped selectors (class + data-astro-cid) never match those nodes — so presses
+   * updated aria/class but the raised/flat look never painted. Global class rules fix that.
+   */
+  :global(.pop-bubble) {
     aspect-ratio: 1;
     width: 100%;
     min-block-size: var(--touch-target);
@@ -197,17 +188,17 @@ const settingsHref = withBase('/settings/');
     touch-action: manipulation;
   }
 
-  .pop-bubble:active:not(.is-popped) {
+  :global(.pop-bubble:active:not(.is-popped)) {
     transform: scale(0.94);
   }
 
-  .pop-bubble.is-popped {
+  :global(.pop-bubble.is-popped) {
     background: var(--color-bg-tertiary);
     box-shadow: inset 0 0.2rem 0.45rem color-mix(in srgb, var(--color-text) 18%, transparent);
     cursor: default;
   }
 
-  .pop-bubble:focus-visible {
+  :global(.pop-bubble:focus-visible) {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
   }
@@ -249,13 +240,14 @@ const settingsHref = withBase('/settings/');
 
   /* Motion gate follows ToyTools.feel.motionAllowed() (Settings → Feel), not only the OS
      prefers-reduced-motion media query, so Full / Reduced overrides actually take effect. */
-  .pop-it.is-motion-reduced .pop-bubble {
+  .pop-it.is-motion-reduced :global(.pop-bubble) {
     transition: none;
   }
 </style>
 
 <style is:global>
-  /* Infinite mode: keep ToolBar + this widget; hide Zone B/C, tagline, and site footer. */
+  /* Infinite mode: keep ToolBar + board only; hide Zone B/C, tagline, site footer, and all
+     Pop It chrome (mode toggles, Feel link/strip, status/reset). Exit with Escape. */
   html.tt-infinite-mode .tool-header,
   html.tt-infinite-mode .tool-signature,
   html.tt-infinite-mode .knowledge-drawers,
@@ -272,17 +264,17 @@ const settingsHref = withBase('/settings/');
     max-width: none;
   }
 
+  html.tt-infinite-mode [data-pop-toolbar],
+  html.tt-infinite-mode [data-pop-bar],
+  html.tt-infinite-mode [data-pop-feel-strip],
+  html.tt-infinite-mode [data-pop-feel-link] {
+    display: none !important;
+  }
+
   html.tt-infinite-mode [data-pop-scroller] {
-    max-height: calc(100dvh - 11rem);
-  }
-
-  html.tt-infinite-mode [data-pop-infinite] {
-    display: none !important;
-  }
-
-  /* Tuck under-board Feel strip in Infinite mode; keep reachable via Feel settings link. */
-  html.tt-infinite-mode [data-pop-feel-strip] {
-    display: none !important;
+    max-height: calc(100dvh - 5rem);
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 </style>
 
@@ -296,7 +288,6 @@ const settingsHref = withBase('/settings/');
     var statusEl = root.querySelector('[data-pop-status]');
     var resetBtn = root.querySelector('[data-pop-reset]');
     var infiniteBtn = root.querySelector('[data-pop-infinite]');
-    var exitInfiniteBtn = root.querySelector('[data-pop-exit-infinite]');
     var feelStrip = root.querySelector('[data-pop-feel-strip]');
     var cols = Number(root.getAttribute('data-cols')) || 4;
     var rowBatch = Number(root.getAttribute('data-row-batch')) || 3;
@@ -507,13 +498,11 @@ const settingsHref = withBase('/settings/');
       document.documentElement.classList.toggle('tt-infinite-mode', infiniteOn);
       if (infiniteBtn) {
         infiniteBtn.setAttribute('aria-pressed', infiniteOn ? 'true' : 'false');
-        infiniteBtn.hidden = infiniteOn;
         infiniteBtn.setAttribute(
           'aria-label',
           infiniteOn ? 'Infinite mode on' : 'Enter Infinite mode'
         );
       }
-      if (exitInfiniteBtn) exitInfiniteBtn.hidden = !infiniteOn;
       if (!infiniteOn) {
         trimToFinite();
       } else {
@@ -529,9 +518,10 @@ const settingsHref = withBase('/settings/');
         );
       }
       syncStatus();
-      if (infiniteOn && exitInfiniteBtn) {
+      // Infinite chrome is board-only (no Exit button). Focus the scroller; leave with Escape.
+      if (infiniteOn && scroller) {
         try {
-          exitInfiniteBtn.focus();
+          scroller.focus();
         } catch (e) {}
       } else if (!infiniteOn && infiniteBtn) {
         try {
@@ -668,11 +658,6 @@ const settingsHref = withBase('/settings/');
     if (infiniteBtn) {
       infiniteBtn.addEventListener('click', function () {
         setInfiniteMode(true);
-      });
-    }
-    if (exitInfiniteBtn) {
-      exitInfiniteBtn.addEventListener('click', function () {
-        setInfiniteMode(false);
       });
     }
     document.addEventListener('keydown', onKeyDown);
