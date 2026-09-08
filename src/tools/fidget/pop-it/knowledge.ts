@@ -6,12 +6,13 @@ export const knowledge: Knowledge = {
   title: 'Pop It',
   category: 'fidgets',
   summary:
-    'Tap a virtual Pop It bubble board in the browser, with optional sound and haptics, then reset without reloading.',
-  primaryConcepts: ['Pop It'],
+    'Tap a free virtual Pop It in the browser, with optional sound and haptics, then reset without reloading or uploading anything.',
+  primaryConcepts: ['virtual Pop It'],
   secondaryConcepts: [
     'virtual pop it',
     'bubble fidget',
     'online fidget',
+    'online Pop It',
     'digital pop it',
     'pop it sensory',
   ],
@@ -21,11 +22,13 @@ export const knowledge: Knowledge = {
       'How to use a Pop It online without installing an app',
       'How to mute Pop It sounds but keep haptics',
       'How to reset a finished Pop It board',
+      'How to play Pop It online on a phone',
     ],
     comparison: ['Browser Pop It vs a phone fidget app', 'Optional haptics vs always-on vibration'],
     misconception: [
       'Desktop vibration should always fire',
       'A finished board needs a page reload',
+      'Reduced motion disables the fidget',
     ],
     troubleshooting: [
       'Why do some Pop It pages break when vibration is unsupported?',
@@ -46,8 +49,9 @@ export const knowledge: Knowledge = {
   commonQuestions: [
     'Does this Pop It make sound on every tap?',
     'How do I reuse the board after every bubble is popped?',
-    'Can one tap pop the same bubble twice?',
-    'Is anything uploaded when I use this?',
+    'What is a virtual Pop It?',
+    'Is this Pop It free, and do I need to download it?',
+    'Does this Pop It work on a phone?',
   ],
   usedWith: [
     { slug: 'pomodoro-timer', reason: 'Fidget between focus blocks without leaving the browser', strength: 0.7 },
@@ -64,6 +68,7 @@ export const knowledge: Knowledge = {
     'pop it',
     'virtual pop it',
     'pop it online',
+    'online Pop It',
     'fidget pop it',
     'bubble pop fidget',
     'pop it sensory',

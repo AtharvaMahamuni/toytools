@@ -28,9 +28,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A virtual Pop It is a bubble board you tap in the browser instead of squeezing silicone. Open
-      the page, tap a bubble, watch it deflate, and keep going until the grid is clear. Then hit
-      Reset board and start again.
+      A virtual Pop It is a bubble board you tap in the browser instead of squeezing silicone. It is
+      free, needs no download, and runs in the tab with no app and no account. Open the page, tap a
+      bubble, watch it deflate, and keep going until the grid is clear. Then hit Reset board and
+      start again.
     </p>
     <p>
       For example: Input: a phone-width tab and twelve inflated bubbles. Output: a quiet sensory
@@ -80,6 +81,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       For example, on a laptop with haptics left off, you still see the bubble flatten and may hear
       the soft cue. On a phone with haptics on, you get the buzz as well. Sound and vibration stay
       independent, therefore muting for an open office does not turn vibration off for later.
+    </p>
+    <p>
+      Reduced motion (from your system or Settings → Feel) turns off bubble transitions. Taps still
+      pop bubbles and Reset still works. Once Feel loads, the Full or Reduced choice under
+      Settings → Feel overrides the system preference.
     </p>
   </section>
 
@@ -139,15 +145,17 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="when-it-helps">
     <h2>When a browser Pop It helps <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Quietly fidgeting through a long call with sound muted is the usual case. Using a phone with
-      haptics on and no app install is the other. Giving a child a sensory bubble board without ads
-      or accounts is a third, because the page is just a grid of buttons.
+      Quietly fidgeting through a long call with sound muted is the usual case. How to play Pop It
+      online on a phone is the same grid: open the tab, tap, and turn Haptics on under Settings →
+      Feel when you want a buzz. Giving a child a sensory bubble board without ads or accounts is a
+      third, because the page is just a grid of buttons.
     </p>
     <p>
       Instead of opening another novelty site with trackers, keep this tab beside a
       <a href={withBase('/tool/productivity/pomodoro-timer/')}>Pomodoro timer</a> and reset between
       short breaks. A bubble fidget and a focus timer answer different needs, however they sit well
-      in the same browser session.
+      in the same browser session. More toys live in the
+      <a href={withBase('/category/fidgets/')}>Fidgets</a> category.
     </p>
     <p>
       Browser Pop It vs a phone fidget app is mostly about trust and friction: the app wants

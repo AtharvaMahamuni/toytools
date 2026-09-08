@@ -41,12 +41,30 @@ export const items: FAQItem[] = [
     id: 'pop-faq-7',
     question: 'Does reduced motion disable the fidget?',
     answer:
-      'No. Preferring reduced motion turns off continuous decoration; taps still pop bubbles and Reset still works. You can override the system choice under Settings → Feel if you want full motion or a quieter board.',
+      'No. Reduced motion (from your system or Settings → Feel) turns off bubble transitions. Taps still pop bubbles and Reset still works. Once Feel loads, the Full or Reduced choice under Settings → Feel overrides the system preference.',
   },
   {
     id: 'pop-faq-8',
     question: 'How many bubbles are on the board?',
     answer:
       'Twelve, in a four by three grid sized for a phone-width screen. That is enough to fidget through without scrolling the board away, and small enough to reset in one tap when you are done.',
+  },
+  {
+    id: 'pop-faq-9',
+    question: 'What is a virtual Pop It?',
+    answer:
+      'A virtual Pop It is a browser bubble board you tap instead of squeezing silicone. This one is a four by three grid of twelve bubbles. Tap to flatten one, then use Reset board when the grid is clear. Optional sound and haptics live under Settings → Feel, and nothing about which bubbles you popped is uploaded.',
+  },
+  {
+    id: 'pop-faq-10',
+    question: 'Is this Pop It free, and do I need to download it?',
+    answer:
+      'Yes. It runs in the tab with no install, no account, and no paywall. Open the page, tap, and leave when you are done.',
+  },
+  {
+    id: 'pop-faq-11',
+    question: 'Does this Pop It work on a phone?',
+    answer:
+      'Yes. The twelve-bubble grid is sized for a phone-width screen and accepts tap. On a phone you can turn Haptics on under Settings → Feel; on most laptops there is no vibrator, so leave haptics off.',
   },
 ];

@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'pop-it',
   name: 'Pop It',
-  seoTitle: 'Virtual Pop It Fidget Online: Sensory Bubble Board',
+  seoTitle: 'Pop It Online: Free Virtual Fidget Bubble Board',
   description:
-    'Virtual pop it fidget online: a pop it sensory bubble pop fidget game with optional sound and haptics. Reset restores the board.',
+    'Free virtual Pop It game in the browser. Tap a sensory bubble board with optional sound and haptics. Reset with no reload. No app, no account, nothing uploaded.',
   tagline: 'Tap the bubbles. Reset when the board is done.',
   categorySlug: 'fidgets',
   tags: [
@@ -37,7 +37,7 @@ export const config: ToolConfig = {
     categorySlug: 'fidget',
     title: 'Virtual Pop It: Sound, Haptics and Reset',
     description:
-      'How a browser Pop It works, why sound and haptics stay separate, and how Reset continues the board without a reload.',
+      'How a browser Pop It works, why sound and haptics stay separate, how Feel motion works, and how Reset continues the board without a reload.',
     readMinutes: 6,
     updatedAt: '2026-09-08',
   },
