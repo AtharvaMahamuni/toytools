@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   AUTHOR,
+  BRAND_X,
   identityGraph,
   ORG_ID,
   organizationNode,
@@ -29,12 +30,15 @@ describe('identity schema', () => {
     expect(AUTHOR.linkedin).toBe('https://www.linkedin.com/in/atharvamahamuni');
   });
 
-  it('Organization points at the Person as founder', () => {
+  it('Organization points at the Person as founder and names the brand X account', () => {
     const org = organizationNode(LOGO);
     expect(org['@type']).toBe('Organization');
     expect(org['@id']).toBe(ORG_ID);
     expect(org.founder).toEqual({ '@id': PERSON_ID });
     expect(org.logo).toBe(LOGO);
+    expect(org.sameAs).toEqual([BRAND_X.url]);
+    expect(BRAND_X.handle).toBe('@ToytoolsApp');
+    expect(BRAND_X.url).toBe('https://x.com/ToytoolsApp');
   });
 
   it('identityGraph is one @graph of Organization then Person', () => {

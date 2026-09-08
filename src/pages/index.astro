@@ -8,6 +8,7 @@ import { tools } from '@data/registry';
 import { engineRegistry, knownPatterns } from '@data/engines';
 import { withBase } from '@lib/paths';
 import { ORG_ID } from '@lib/schema/identity';
+import XAccountLink from '@components/XAccountLink.astro';
 
 // Named once and used for both the meta description and the WebSite schema, which
 // carried two copies of the same sentence and could drift apart. It names the three
@@ -103,7 +104,7 @@ const patternCount = knownPatterns.size;
       is what holds a hundred unrelated-looking utilities together. Four claims, no boxes, and
       every number comes from the registry the build validates. */}
   <section class="platform-strip" aria-labelledby="platform-heading">
-    <p class="strip-eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span></p>
+    <p class="strip-eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span><XAccountLink /></p>
     <h2 id="platform-heading">These are not {tools.length} separate tools</h2>
     <p class="strip-lede">
       They are one platform with {tools.length} faces. The computation lives in {engineCount}
@@ -319,6 +320,10 @@ const patternCount = knownPatterns.size;
     letter-spacing: 0.06em;
     color: var(--color-text-subtle);
     margin: 0 0 var(--space-2);
+  }
+
+  .strip-eyebrow :global(.x-account) {
+    margin-left: var(--space-2);
   }
 
   .platform-strip h2 {

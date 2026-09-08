@@ -25,7 +25,11 @@ function getCategoryName(slug: string): string {
  * changing a single result.
  */
 function searchVocabulary(tool: (typeof tools)[number], categoryName: string): string {
-  let haystack = `${tool.name} ${tool.description} ${categoryName}`.toLowerCase();
+  // Seed with what the card actually paints (name, tagline, category) so extras stay
+  // complementary rather than duplicating the visible blurb. Description is the SEO meta
+  // and is not on the card; unique description phrases still match via tags/keywords.
+  const blurb = tool.tagline || tool.description;
+  let haystack = `${tool.name} ${blurb} ${categoryName}`.toLowerCase();
   const extra: string[] = [];
   for (const raw of [...(tool.tags ?? []), ...(tool.keywords ?? []), tool.family ?? '']) {
     const phrase = raw.trim().toLowerCase();

@@ -81,23 +81,28 @@ test.describe('information pages', () => {
     await expect(page).toHaveURL(/\/platform\/$/);
   });
 
-  test('the footer names the author, with X and LinkedIn', async ({ page }) => {
+  test('the footer names the author in the HTML, hidden from view', async ({ page }) => {
     await page.goto('/');
     const author = page.locator('.footer-author');
+    await expect(author).toBeHidden();
     await expect(author).toContainText('Made by Atharva');
-    await expect(author.getByRole('link', { name: 'X' })).toHaveAttribute(
-      'href',
-      'https://x.com/athmatwt',
-    );
-    await expect(author.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
-      'href',
-      'https://www.linkedin.com/in/atharvamahamuni',
-    );
+    await expect(author.locator('a[href="https://x.com/athmatwt"]')).toHaveCount(1);
+    await expect(author.locator('a[href="https://www.linkedin.com/in/atharvamahamuni"]')).toHaveCount(1);
   });
 
-  test('the platform page carries a one-line byline', async ({ page }) => {
+  test('the platform page carries a hidden byline', async ({ page }) => {
     await page.goto('/platform/');
-    await expect(page.locator('.byline')).toHaveText('Built by Atharva.');
+    const byline = page.locator('.byline');
+    await expect(byline).toBeHidden();
+    await expect(byline).toHaveText('Built by Atharva.');
+  });
+
+  test('Powered by ToyTools is followed by the brand X account', async ({ page }) => {
+    await page.goto('/tool/text/word-counter/');
+    const x = page.locator('.tool-signoff .x-account');
+    await expect(x).toBeVisible();
+    await expect(x).toHaveAttribute('href', 'https://x.com/ToytoolsApp');
+    await expect(x).toContainText('@ToytoolsApp');
   });
 
   test('the Person entity is in the homepage JSON-LD', async ({ page }) => {

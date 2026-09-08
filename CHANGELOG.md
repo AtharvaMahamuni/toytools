@@ -6,14 +6,15 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Added
 
-- **Author entity.** The footer now carries a small "Made by Atharva" line with links to X and LinkedIn. `/platform/` adds one sentence, "Built by Atharva." JSON-LD on every page names a `Person` (`https://toytoolsapp.com/#atharva`) and an `Organization` with that person as `founder`; tool `SoftwareApplication` and guide `Article` schema point at those `@id`s rather than restating a nameless publisher.
+- **Author entity.** JSON-LD on every indexable page names a `Person` (`https://toytoolsapp.com/#atharva`) and an `Organization` with that person as `founder`; tool `SoftwareApplication` and guide `Article` schema point at those `@id`s rather than restating a nameless publisher. A "Made by Atharva" line with X and LinkedIn stays in the footer HTML (and "Built by Atharva." on `/platform/`) so models can read it; it is not painted.
+- **ToyTools on X.** The "Powered by ToyTools" signature on tool pages, the homepage, and `/platform/` is followed by [@ToytoolsApp](https://x.com/ToytoolsApp) with the X logo. Organization schema `sameAs` and `twitter:site` name the same account.
 - **Core tools in `llms.txt`.** Twenty-five absolute tool URLs sit above the category list, so an agent that only reads that file can land on a specific tool instead of a category hub.
 
 ### Changed
 
 - **One privacy sentence.** Banners, the footer "Private" tooltip, generator and JWT footers, the privacy page lede, `llms.txt`, and schema descriptions now share "Runs entirely on your device. Nothing is uploaded."
 - **Related tools are three named links.** Zone C shows the three nearest siblings in the open, not a closed drawer and not a category dump. GroupSwitcher members stay out of that list because they already have pills.
-- **Thicker calculator metas.** Percentage, discount, tip, tax, margin, compound interest and Rule of 72 descriptions now carry the formula, one worked example, and the privacy line, inside the 160-character cap. Tools that had no tagline got a one-line job statement so the fold stays a single line.
+- **Thicker calculator metas.** Percentage, discount, tip, tax, margin, compound interest and Rule of 72 descriptions now carry the formula, one worked example, and the privacy line, inside the 160-character cap. Tools that had no tagline got a one-line job statement so the fold stays a single line. Tool cards paint that tagline rather than the meta, so `/search/` stays inside its HTML budget.
 
 ## [alpha-v10.3] - 2026-09-08
 

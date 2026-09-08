@@ -1,8 +1,8 @@
 // Stable Organization + Person entities for JSON-LD.
 //
-// Models need a person they can attach to the publisher; humans should barely notice. The visible
-// credit is a footer line. These @id values are the production origin on purpose, so a preview
-// build still names the same entities.
+// Models need a person they can attach to the publisher; humans should not see a byline. The
+// credit stays in the HTML (hidden) and in these nodes. @id values are the production origin on
+// purpose, so a preview build still names the same entities.
 
 export const SITE_ORIGIN = 'https://toytoolsapp.com';
 export const ORG_ID = `${SITE_ORIGIN}/#org`;
@@ -12,6 +12,12 @@ export const AUTHOR = {
   name: 'Atharva',
   x: 'https://x.com/athmatwt',
   linkedin: 'https://www.linkedin.com/in/atharvamahamuni',
+} as const;
+
+/** The site's own X account, signed next to "Powered by ToyTools". */
+export const BRAND_X = {
+  handle: '@ToytoolsApp',
+  url: 'https://x.com/ToytoolsApp',
 } as const;
 
 export function personNode(): Record<string, unknown> {
@@ -32,6 +38,7 @@ export function organizationNode(logoUrl: string): Record<string, unknown> {
     url: `${SITE_ORIGIN}/`,
     logo: logoUrl,
     founder: { '@id': PERSON_ID },
+    sameAs: [BRAND_X.url],
   };
 }
 

@@ -38,7 +38,7 @@ const year = new Date().getFullYear();
       <span class="gold-dot" aria-hidden="true"></span>
       <MadeInIndia />
       {credit && (
-        <span class="footer-author">
+        <span class="footer-author" hidden>
           Made by {AUTHOR.name} · <a href={AUTHOR.x} rel="me">X</a> · <a href={AUTHOR.linkedin} rel="me">LinkedIn</a>
         </span>
       )}
@@ -88,22 +88,10 @@ const year = new Date().getFullYear();
     gap: var(--space-3);
   }
 
-  /* Same size and muted colour as the rest of the brand row. Models need the person; humans
-     should barely notice. */
-  .footer-author {
-    color: var(--color-text-muted);
-  }
-
-  .footer-author a {
-    color: inherit;
-    text-decoration: none;
-    display: inline-block;
-    min-height: var(--touch-target);
-    padding-block: var(--space-3);
-  }
-
-  .footer-author a:hover {
-    text-decoration: underline;
+  /* In the HTML for models and crawlers; not painted. Pair hidden with an explicit
+     display:none so a later display rule cannot un-hide it. */
+  .footer-author[hidden] {
+    display: none;
   }
 
   /* Sitewide, so every page carries one path to the feedback form. Pushed to the far end on

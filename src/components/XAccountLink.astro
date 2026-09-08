@@ -1,0 +1,38 @@
+---
+import { BRAND_X } from '@lib/schema/identity';
+---
+
+<a class="x-account" href={BRAND_X.url} rel="me">
+  <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" focusable="false">
+    <path
+      fill="currentColor"
+      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.822L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+    ></path>
+  </svg>
+  <span>{BRAND_X.handle}</span>
+</a>
+
+<style>
+  .x-account {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: inherit;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-color);
+  }
+
+  .x-account:hover {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .x-account svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+</style>

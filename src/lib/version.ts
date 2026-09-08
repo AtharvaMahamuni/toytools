@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Author entity, canonical privacy line, named related tools, llms.txt core list',
+  description: 'Author entity, ToyTools X account, canonical privacy line, named related tools',
 };
 
 export function formatVersion(config: VersionConfig): string {
