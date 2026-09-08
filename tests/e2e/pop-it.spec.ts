@@ -1,7 +1,8 @@
 // Pop It board behaviour on desktop Chromium and Pixel 5.
 //
-// Unit tests cover Feel itself; this spec locks the widget contract: finite default,
-// Infinite mode on/off (chrome + scroll-load), Reset, Feel cues, and local toggles syncing prefs.
+// Unit tests cover Feel itself; this spec locks the widget contract: finite default (no scroll),
+// Infinite mode board-only chrome + scroll-load, Escape exit, Reset, Feel cues, local toggles,
+// and visible pop styles on dynamically appended bubbles.
 import { test, expect, type Page } from '@playwright/test';
 
 const URL = '/tool/fidget/pop-it/';
@@ -11,8 +12,10 @@ const status = (page: Page) => page.locator('[data-pop-status]');
 const reset = (page: Page) => page.locator('[data-pop-reset]');
 const scroller = (page: Page) => page.locator('[data-pop-scroller]');
 const infiniteBtn = (page: Page) => page.locator('[data-pop-infinite]');
-const exitInfinite = (page: Page) => page.locator('[data-pop-exit-infinite]');
 const feelStrip = (page: Page) => page.locator('[data-pop-feel-strip]');
+const feelLink = (page: Page) => page.locator('[data-pop-feel-link]');
+const toolbar = (page: Page) => page.locator('[data-pop-toolbar]');
+const bar = (page: Page) => page.locator('[data-pop-bar]');
 
 test.describe('pop it', () => {
   test('popping one bubble marks it pressed and updates the count', async ({ page }) => {
@@ -60,23 +63,33 @@ test.describe('pop it', () => {
     await expect(bubbles(page).nth(1)).toHaveAttribute('aria-pressed', 'false');
   });
 
-  test('finite default: scrolling does not append rows until Infinite mode is on', async ({
+  test('finite default: board is not scrollable and scrolling does not append rows', async ({
     page,
   }) => {
     await page.goto(URL);
     await expect(bubbles(page)).toHaveCount(12);
     await expect(page.locator('html')).not.toHaveClass(/tt-infinite-mode/);
 
-    await scroller(page).evaluate((el) => {
+    const metrics = await scroller(page).evaluate((el) => {
       const node = el as HTMLElement;
+      const style = getComputedStyle(node);
       node.scrollTop = node.scrollHeight;
+      return {
+        overflowY: style.overflowY,
+        scrollHeight: node.scrollHeight,
+        clientHeight: node.clientHeight,
+        scrollTopAfter: node.scrollTop,
+      };
     });
-    // Give any mistaken scroll listener a beat; count must stay finite.
+    expect(['hidden', 'clip']).toContain(metrics.overflowY);
+    expect(metrics.scrollHeight).toBeLessThanOrEqual(metrics.clientHeight + 1);
+    expect(metrics.scrollTopAfter).toBe(0);
+
     await page.waitForTimeout(300);
     await expect(bubbles(page)).toHaveCount(12);
   });
 
-  test('Infinite mode: enter/exit chrome, scroll-load only while on, exit restores finite', async ({
+  test('Infinite mode: board-only chrome, Escape exits, scroll-load, pops visible on appended', async ({
     page,
   }) => {
     await page.goto(URL);
@@ -84,6 +97,9 @@ test.describe('pop it', () => {
     await expect(page.locator('.tool-signature')).toBeVisible();
     await expect(page.locator('.knowledge-drawers')).toBeVisible();
     await expect(feelStrip(page)).toBeVisible();
+    await expect(feelLink(page)).toBeVisible();
+    await expect(toolbar(page)).toBeVisible();
+    await expect(bar(page)).toBeVisible();
 
     await infiniteBtn(page).click();
     await expect(page.locator('html')).toHaveClass(/tt-infinite-mode/);
@@ -91,9 +107,19 @@ test.describe('pop it', () => {
     await expect(page.locator('.knowledge-drawers')).toBeHidden();
     await expect(page.locator('footer[role="contentinfo"]')).toBeHidden();
     await expect(page.locator('.tool-bar')).toBeVisible();
-    await expect(page.locator('[data-pop-feel-link]')).toBeVisible();
-    await expect(exitInfinite(page)).toBeVisible();
+
+    // Infinite chrome = board only: no Feel link/strip, no toolbar/bar buttons.
+    await expect(feelLink(page)).toBeHidden();
     await expect(feelStrip(page)).toBeHidden();
+    await expect(toolbar(page)).toBeHidden();
+    await expect(bar(page)).toBeHidden();
+    await expect(reset(page)).toBeHidden();
+    await expect(page.locator('[data-pop-exit-infinite]')).toHaveCount(0);
+
+    const overflowY = await scroller(page).evaluate(
+      (el) => getComputedStyle(el as HTMLElement).overflowY,
+    );
+    expect(['auto', 'scroll', 'overlay']).toContain(overflowY);
 
     // Entering Infinite may seed rows so the tall scroller overflows; scroll still loads more.
     await expect
@@ -118,16 +144,32 @@ test.describe('pop it', () => {
     const grown = await bubbles(page).count();
     expect(grown % 4).toBe(0);
 
-    await exitInfinite(page).click();
+    // Appended bubbles must paint pop visuals (Astro scoped CSS used to miss createElement nodes).
+    const appended = bubbles(page).nth(afterEnter);
+    await appended.scrollIntoViewIfNeeded();
+    await appended.click();
+    await expect(appended).toHaveAttribute('aria-pressed', 'true');
+    await expect(appended).toHaveClass(/is-popped/);
+    const painted = await appended.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return {
+        borderRadius: s.borderRadius,
+        background: s.backgroundColor,
+        cursor: s.cursor,
+      };
+    });
+    expect(painted.borderRadius).not.toBe('0px');
+    expect(painted.background).not.toBe('rgba(0, 0, 0, 0)');
+    expect(painted.cursor).toBe('default');
+
+    await page.keyboard.press('Escape');
     await expect(page.locator('html')).not.toHaveClass(/tt-infinite-mode/);
     await expect(page.locator('.tool-signature')).toBeVisible();
     await expect(bubbles(page)).toHaveCount(12);
     await expect(feelStrip(page)).toBeVisible();
-
-    await infiniteBtn(page).click();
-    await page.keyboard.press('Escape');
-    await expect(page.locator('html')).not.toHaveClass(/tt-infinite-mode/);
-    await expect(bubbles(page)).toHaveCount(12);
+    await expect(feelLink(page)).toBeVisible();
+    await expect(toolbar(page)).toBeVisible();
+    await expect(bar(page)).toBeVisible();
   });
 
   test('Reset clears all loaded bubbles, restores ready status, and scrolls to top', async ({
@@ -135,45 +177,16 @@ test.describe('pop it', () => {
   }) => {
     await page.goto(URL);
 
-    await infiniteBtn(page).click();
-    await expect
-      .poll(async () => bubbles(page).count(), { timeout: 5_000 })
-      .toBeGreaterThan(12);
-
-    const seeded = await bubbles(page).count();
-    await expect
-      .poll(
-        async () => {
-          await scroller(page).evaluate((el) => {
-            const node = el as HTMLElement;
-            node.scrollTop = node.scrollHeight;
-          });
-          return bubbles(page).count();
-        },
-        { timeout: 10_000 },
-      )
-      .toBeGreaterThan(seeded);
-
-    const loaded = await bubbles(page).count();
-
     for (const i of [0, 1, 2, 5]) {
       await bubbles(page).nth(i).click();
     }
-    await expect(status(page)).toHaveText(`${loaded - 4} left`);
-
-    // Mid-board scroll so Reset is not racing a near-bottom append re-arm.
-    await scroller(page).evaluate((el) => {
-      const node = el as HTMLElement;
-      node.scrollTop = Math.min(120, Math.floor(node.scrollHeight / 3));
-    });
+    await expect(status(page)).toHaveText('8 left');
 
     await reset(page).click();
 
-    const after = await bubbles(page).count();
-    // Reset does not shrink; a stray scroll-append may add a batch, never remove.
-    expect(after).toBeGreaterThanOrEqual(loaded);
-    await expect(status(page)).toHaveText(`${after} ready`);
-    for (let i = 0; i < Math.min(after, 16); i++) {
+    await expect(bubbles(page)).toHaveCount(12);
+    await expect(status(page)).toHaveText('12 ready');
+    for (let i = 0; i < 12; i++) {
       const bubble = bubbles(page).nth(i);
       await expect(bubble).toHaveAttribute('aria-pressed', 'false');
       await expect(bubble).not.toHaveClass(/is-popped/);

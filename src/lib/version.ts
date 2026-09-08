@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
   minor: 2,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Pop It Infinite mode and local Feel controls',
+  description: 'Pop It Infinite polish: visible pops, finite no-scroll, board-only chrome',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -53,7 +53,7 @@ export const items: FAQItem[] = [
     id: 'pop-faq-9',
     question: 'What does Infinite mode do?',
     answer:
-      'Infinite mode hides the trust row, knowledge drawers, and footer, and turns on the scrollable infinite board at the same time. Rows append only while Infinite mode is on. ToolBar stays for accessibility. Sound and Haptics under the board tuck under the overlay. Leave with Exit Infinite or Escape to restore the finite board and normal chrome. Preferences and reduced motion still apply.',
+      'Infinite mode hides the trust row, knowledge drawers, footer, and every Pop It control so only the scrollable board remains. Rows append only while Infinite mode is on. ToolBar stays for landmarks. Leave with Escape to restore the finite board, Feel toggles, and normal chrome. Sound and haptics stay available under Settings → Feel before you enter; reduced motion still applies.',
   },
   {
     id: 'pop-faq-10',
