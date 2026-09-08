@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
   minor: 1,
-  patch: 0,
+  patch: 1,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Pop It: first fidget on the Feel engine',
+  description: 'Pop It must-fixes: Feel motion, first-pop cue, e2e',
 };
 
 export function formatVersion(config: VersionConfig): string {
