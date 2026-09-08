@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Paragraph Counter',
   seoTitle: 'Paragraph Counter — Count Paragraphs in Text Online',
   description: 'Count paragraphs in any text instantly. Paragraphs are separated by blank lines.',
+  tagline: 'Count paragraphs split by blank lines. On your device.',
   categorySlug: 'text-utilities',
   tags: ['paragraph counter', 'count paragraphs', 'paragraph count', 'number of paragraphs', 'paragraphs in text', 'text structure', 'essay paragraph counter', 'article structure'],
   isNew: true,

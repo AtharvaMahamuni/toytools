@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Remove Extra Spaces',
   seoTitle: 'Remove Extra Spaces — Clean Up Double Spaces Online',
   description: 'Collapse multiple spaces and tabs into single spaces.',
+  tagline: 'Collapse extra spaces and tabs. Nothing is uploaded.',
   categorySlug: 'text-utilities',
   tags: ['remove extra spaces', 'remove double spaces', 'delete extra spaces', 'collapse spaces', 'clean up spaces', 'remove multiple spaces', 'fix spacing'],
   updatedAt: '2026-07-09',

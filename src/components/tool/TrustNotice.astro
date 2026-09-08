@@ -1,4 +1,6 @@
 ---
+import { PRIVACY_BADGE, PRIVACY_LINE } from '@lib/privacy';
+
 interface Props {
   variant?: 'private' | 'offline' | 'local';
 }
@@ -7,8 +9,8 @@ const { variant = 'private' } = Astro.props;
 
 const notices = {
   private: {
-    badge: 'Private ● Runs entirely in your browser',
-    toast: 'Your text never leaves your device — no account, no upload.',
+    badge: PRIVACY_BADGE,
+    toast: PRIVACY_LINE,
   },
   offline: {
     badge: 'Offline ● Works without internet after loading',
@@ -24,9 +26,8 @@ const notice = notices[variant];
 
 const tooltipLines: Record<string, string[]> = {
   private: [
-    'Your text never leaves your device.',
+    PRIVACY_LINE,
     'No account required.',
-    'No data uploaded.',
     'Nothing stored unless you choose to save it.',
   ],
   offline: ['After the first page load, no network connection is needed.'],

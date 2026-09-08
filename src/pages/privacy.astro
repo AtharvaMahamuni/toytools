@@ -9,11 +9,12 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
 import { withBase } from '@lib/paths';
 import { GA_MEASUREMENT_ID } from '@lib/analytics/guard';
+import { PRIVACY_LINE } from '@lib/privacy';
 
 const description =
-  'What ToyTools stores and sends, and what never leaves your device. Every tool runs in your browser: no account, no database, no server sees your input.';
+  `${PRIVACY_LINE} No account, no database, no server sees your input. Analytics is the one exception, named below.`;
 
-const updated = '3 August 2026';
+const updated = '8 September 2026';
 ---
 
 <BaseLayout title={generatePageTitle('privacy')} description={description} maxWidth="tool">
@@ -24,7 +25,7 @@ const updated = '3 August 2026';
 
     <h2>The short version</h2>
     <ul>
-      <li>Every tool runs entirely in your browser. What you type into a tool is never sent anywhere.</li>
+      <li>What you type into a tool is never sent anywhere. There is nothing on the other end to send it to.</li>
       <li>There is no account, no login, and no database. Nothing is stored against your identity because there is no identity to store it against.</li>
       <li>Anything a tool saves for you is saved on your device, and you can export or delete all of it from <a href={withBase('/settings/')}>Settings</a>.</li>
       <li>Google Analytics does load for ordinary visitors. That is the one thing on this site that reports back, and it is described below.</li>

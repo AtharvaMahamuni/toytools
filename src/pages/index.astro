@@ -7,6 +7,7 @@ import ToolDirectory from '@components/ToolDirectory.astro';
 import { tools } from '@data/registry';
 import { engineRegistry, knownPatterns } from '@data/engines';
 import { withBase } from '@lib/paths';
+import { ORG_ID } from '@lib/schema/identity';
 
 // Named once and used for both the meta description and the WebSite schema, which
 // carried two copies of the same sentence and could drift apart. It names the three
@@ -31,30 +32,19 @@ const patternCount = knownPatterns.size;
 >
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebSite',
-        name: 'ToyTools',
-        url: Astro.site?.href ?? 'https://toytoolsapp.com/',
-        description: SITE_DESCRIPTION,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: `${Astro.site?.href ?? 'https://toytoolsapp.com/'}search?q={search_term_string}`,
-          },
-          'query-input': 'required name=search_term_string',
-        },
+    '@type': 'WebSite',
+    name: 'ToyTools',
+    url: Astro.site?.href ?? 'https://toytoolsapp.com/',
+    description: SITE_DESCRIPTION,
+    publisher: { '@id': ORG_ID },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${Astro.site?.href ?? 'https://toytoolsapp.com/'}search?q={search_term_string}`,
       },
-      {
-        '@type': 'Organization',
-        name: 'ToyTools',
-        url: Astro.site?.href ?? 'https://toytoolsapp.com/',
-        // A raster well above Google's 112px minimum for an Organization logo; the SVG
-        // it pointed at has no intrinsic size, which Google treats as ineligible.
-        logo: new URL('/favicon-512.png', Astro.site ?? 'https://toytoolsapp.com/').href,
-      },
-    ],
+      'query-input': 'required name=search_term_string',
+    },
   })} />
 
   <section class="hero">

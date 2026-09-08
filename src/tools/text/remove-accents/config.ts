@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'Remove Accents',
   seoTitle: 'Remove Accents — Strip Diacritics From Text Online',
   description: 'Remove diacritical marks and convert accented characters to plain ASCII letters.',
+  tagline: 'Strip diacritics to plain ASCII. Nothing is uploaded.',
   categorySlug: 'text-utilities',
   tags: ['remove accents', 'strip diacritics', 'remove diacritical marks', 'accents to plain text', 'unaccent text', 'normalize accents', 'remove accents online'],
   updatedAt: '2026-07-10',

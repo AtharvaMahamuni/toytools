@@ -12,6 +12,8 @@ import type { EcosystemEntry } from '@data/types';
 import { categories } from '@data/categories';
 import { formatMonthYear } from '@lib/dates';
 import { withBase } from '../lib/paths';
+import { withPrivacy } from '@lib/privacy';
+import { orgRef, personRef } from '@lib/schema/identity';
 
 interface Props {
   title: string;
@@ -57,12 +59,13 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
-  description: description,
+  description: withPrivacy(description),
   datePublished: updatedAt,
   dateModified: updatedAt,
   url: Astro.url.href,
   inLanguage: 'en',
-  author: { '@type': 'Organization', name: 'ToyTools' },
+  author: personRef(),
+  publisher: orgRef(),
 };
 ---
 

@@ -5,6 +5,7 @@ export const config: ToolConfig = {
   name: 'camelCase Converter',
   seoTitle: 'camelCase Converter — Convert Text To camelCase Online',
   description: 'Convert text to camelCase for variable and function names.',
+  tagline: 'camelCase for variable names. Runs on your device.',
   categorySlug: 'text-utilities',
   tags: ['camelcase', 'camel case converter', 'convert to camelcase', 'camelCase', 'variable name', 'javascript naming', 'camel case generator'],
   updatedAt: '2026-07-09',

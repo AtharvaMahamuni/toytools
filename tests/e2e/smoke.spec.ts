@@ -48,6 +48,10 @@ for (const path of toolPaths()) {
   const slug = slugFromPath(path);
 
   test(`smoke: ${slug}`, async ({ page }) => {
+    // Character Map paints a button per glyph. The a11y loop is hundreds of round-trips, and
+    // 30s is not enough under the full chromium+pixel5 suite. The assertion is unchanged.
+    if (slug === 'character-map') test.setTimeout(90_000);
+
     const { consoleIssues, pageErrors } = await attachConsoleGuards(page);
 
     // --- Render ---

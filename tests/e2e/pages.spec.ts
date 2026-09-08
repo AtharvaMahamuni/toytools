@@ -81,6 +81,44 @@ test.describe('information pages', () => {
     await expect(page).toHaveURL(/\/platform\/$/);
   });
 
+  test('the footer names the author, with X and LinkedIn', async ({ page }) => {
+    await page.goto('/');
+    const author = page.locator('.footer-author');
+    await expect(author).toContainText('Made by Atharva');
+    await expect(author.getByRole('link', { name: 'X' })).toHaveAttribute(
+      'href',
+      'https://x.com/athmatwt',
+    );
+    await expect(author.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
+      'href',
+      'https://www.linkedin.com/in/atharvamahamuni',
+    );
+  });
+
+  test('the platform page carries a one-line byline', async ({ page }) => {
+    await page.goto('/platform/');
+    await expect(page.locator('.byline')).toHaveText('Built by Atharva.');
+  });
+
+  test('the Person entity is in the homepage JSON-LD', async ({ page }) => {
+    await page.goto('/');
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const joined = blocks.join('\n');
+    expect(joined).toContain('https://toytoolsapp.com/#atharva');
+    expect(joined).toContain('https://toytoolsapp.com/#org');
+    expect(joined).toContain('https://x.com/athmatwt');
+    expect(joined).toContain('https://www.linkedin.com/in/atharvamahamuni');
+  });
+
+  test('a tool page names three sibling tools in the open', async ({ page }) => {
+    // An ungrouped tool, so the three links are not hidden behind a GroupSwitcher.
+    await page.goto('/tool/text/reverse-text/');
+    const nav = page.locator('.kd-related-nav');
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole('link')).toHaveCount(3);
+    await expect(page.locator('details#related')).toHaveCount(0);
+  });
+
   test('privacy names the analytics that actually loads', async ({ page }) => {
     await page.goto('/privacy/');
     // The page must not claim there is no tracking when GA is present for real visitors.
