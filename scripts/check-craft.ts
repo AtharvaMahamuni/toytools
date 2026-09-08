@@ -145,8 +145,8 @@ const THRESHOLDS = {
   //   blamed on the headphones; the preamp cut that fixes it is a control on another screen that
   //   nothing labels as the fix. The line names the peak boost and the matching cut, and offers to
   //   scale the boosts down when they are large enough to be worth it. Silent under +3 dB.
-  // 2026-09-08: 0.641 (77/120). pop-it ships with Reset board (continuation). A finished bubble
-  //   grid looks like a dead end, so people reload and break the fidget loop; Reset inflates every
+  // 2026-09-08: 0.641 (77/120). pop-it ships with Reset board (continuation). A finished or
+  //   half-scrolled bubble field looks like a dead end, so people reload and break the fidget loop; Reset inflates every
   //   bubble again without dropping focus.
   coverage: 0.641,
   boxesPerTool: 4,

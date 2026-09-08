@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.2] - 2026-09-08
+
+### Added
+
+- **Pop It** Infinite mode: one control turns on fullscreen chrome and the infinite scrolling
+  board together. Default stays a finite 4x3 field with no scroll-append. Exit via Exit Infinite or
+  Escape restores the finite board and normal chrome. Scroll-load appends rows only while Infinite
+  mode is on (scroll listener, capped for Feel and page budget). Scroll listener only.
+- **Pop It** local Sound and Haptics toggles under the board, writing the same `feel.sound` /
+  `feel.haptics` prefs as Settings → Feel so both stay in sync. In Infinite mode the strip is tucked
+  under the overlay so it is reachable without always-visible clutter.
+
+### Changed
+
+- **Pop It** Reset craft: clears every loaded bubble and scrolls the board scroller back to the top.
+  Documented in the guide and FAQ. Board-clear no longer auto-appends rows outside Infinite mode.
+- E2E on chromium and pixel5: finite default, Infinite mode on/off, scroll-load only in Infinite,
+  Reset, Feel cues, and local toggles syncing prefs.
+
 ## [alpha-v10.1.2] - 2026-09-08
 
 ### Changed

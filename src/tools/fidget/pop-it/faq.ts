@@ -5,19 +5,19 @@ export const items: FAQItem[] = [
     id: 'pop-faq-1',
     question: 'Does this Pop It make sound on every tap?',
     answer:
-      'Only if Sounds are on under Settings → Feel. The default is on, and one toggle mutes every fidget on the site without turning haptics off. Sound and vibration are separate on purpose, so an open office can stay quiet while a phone still buzzes if you want it to.',
+      'Only if Sounds are on. The default is on. Toggle Sound under the board, or under Settings → Feel; both write the same preference so every fidget on the site stays in sync. Muting sound does not turn haptics off. Sound and vibration are separate on purpose, so an open office can stay quiet while a phone still buzzes if you want it to.',
   },
   {
     id: 'pop-faq-2',
     question: 'Why is there no vibration on my laptop?',
     answer:
-      'Most desktops and laptops have no vibrator. Haptics stay off by default, and even when you opt in the Feel engine swallows a missing or rejected vibration API so the bubble still pops. Turn Haptics on under Settings → Feel when you are on a phone that can actually vibrate.',
+      'Most desktops and laptops have no vibrator. Haptics stay off by default, and even when you opt in the Feel engine swallows a missing or rejected vibration API so the bubble still pops. Turn Haptics on under the board or Settings → Feel when you are on a phone that can actually vibrate.',
   },
   {
     id: 'pop-faq-3',
     question: 'How do I reuse the board after every bubble is popped?',
     answer:
-      'Tap Reset board. That is the craft of this tool: a finished grid should not force a reload. Reset inflates every bubble again and leaves your sound and haptics preferences alone.',
+      'Tap Reset board. That is the craft of this tool: a finished or half-scrolled board should not force a reload. Reset inflates every loaded bubble, scrolls the field to the top, and leaves your sound and haptics preferences alone.',
   },
   {
     id: 'pop-faq-4',
@@ -47,24 +47,30 @@ export const items: FAQItem[] = [
     id: 'pop-faq-8',
     question: 'How many bubbles are on the board?',
     answer:
-      'Twelve, in a four by three grid sized for a phone-width screen. That is enough to fidget through without scrolling the board away, and small enough to reset in one tap when you are done.',
+      'It opens with twelve bubbles in a four by three field. That finite board stays put until you turn on Infinite mode, which adds more rows as you scroll (capped so the page stays light). Reset clears every loaded bubble in one tap and returns you to the top.',
   },
   {
     id: 'pop-faq-9',
-    question: 'What is a virtual Pop It?',
+    question: 'What does Infinite mode do?',
     answer:
-      'A virtual Pop It is a browser bubble board you tap instead of squeezing silicone. This one is a four by three grid of twelve bubbles. Tap to flatten one, then use Reset board when the grid is clear. Optional sound and haptics live under Settings → Feel, and nothing about which bubbles you popped is uploaded.',
+      'Infinite mode hides the trust row, knowledge drawers, and footer, and turns on the scrollable infinite board at the same time. Rows append only while Infinite mode is on. ToolBar stays for accessibility. Sound and Haptics under the board tuck under the overlay. Leave with Exit Infinite or Escape to restore the finite board and normal chrome. Preferences and reduced motion still apply.',
   },
   {
     id: 'pop-faq-10',
+    question: 'What is a virtual Pop It?',
+    answer:
+      'A virtual Pop It is a browser bubble board you tap instead of squeezing silicone. This one opens as a four by three grid of twelve bubbles. Tap to flatten one, then use Reset board when the grid is clear. Optional sound and haptics live under the board and Settings → Feel, and nothing about which bubbles you popped is uploaded.',
+  },
+  {
+    id: 'pop-faq-11',
     question: 'Is this Pop It free, and do I need to download it?',
     answer:
       'Yes. It runs in the tab with no install, no account, and no paywall. Open the page, tap, and leave when you are done.',
   },
   {
-    id: 'pop-faq-11',
+    id: 'pop-faq-12',
     question: 'Does this Pop It work on a phone?',
     answer:
-      'Yes. The twelve-bubble grid is sized for a phone-width screen and accepts tap. On a phone you can turn Haptics on under Settings → Feel; on most laptops there is no vibrator, so leave haptics off.',
+      'Yes. The twelve-bubble grid is sized for a phone-width screen and accepts tap. On a phone you can turn Haptics on under the board or Settings → Feel; on most laptops there is no vibrator, so leave haptics off.',
   },
 ];

@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
-  minor: 1,
-  patch: 2,
+  minor: 2,
+  patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-08',
-  description: 'Pop It SEO GEO free no-download FAQs',
+  description: 'Pop It Infinite mode and local Feel controls',
 };
 
 export function formatVersion(config: VersionConfig): string {

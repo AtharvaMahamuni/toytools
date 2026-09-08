@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Pop It',
   category: 'fidgets',
   summary:
-    'Tap a free virtual Pop It in the browser, with optional sound and haptics, then reset without reloading or uploading anything.',
+    'Tap a free virtual Pop It with optional sound and haptics, Infinite mode, then reset without reloading or uploading anything.',
   primaryConcepts: ['virtual Pop It'],
   secondaryConcepts: [
     'virtual pop it',
@@ -23,6 +23,7 @@ export const knowledge: Knowledge = {
       'How to mute Pop It sounds but keep haptics',
       'How to reset a finished Pop It board',
       'How to play Pop It online on a phone',
+      'How to use Pop It Infinite mode',
     ],
     comparison: ['Browser Pop It vs a phone fidget app', 'Optional haptics vs always-on vibration'],
     misconception: [
@@ -52,6 +53,7 @@ export const knowledge: Knowledge = {
     'What is a virtual Pop It?',
     'Is this Pop It free, and do I need to download it?',
     'Does this Pop It work on a phone?',
+    'What does Infinite mode do?',
   ],
   usedWith: [
     { slug: 'pomodoro-timer', reason: 'Fidget between focus blocks without leaving the browser', strength: 0.7 },

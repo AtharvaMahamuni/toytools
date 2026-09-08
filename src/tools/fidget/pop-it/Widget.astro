@@ -1,35 +1,74 @@
 ---
 import FeelWidget from '@tools/_shared/FeelWidget.astro';
 import { config } from './config';
+import { withBase } from '@lib/paths';
 
+// Finite 4x3 by default. Infinite mode turns on fullscreen chrome and scroll-append together.
+// Local Sound/Haptics write the same feel.* prefs as Settings → Feel.
 const COLS = 4;
-const ROWS = 3;
-const COUNT = COLS * ROWS;
+const INITIAL_ROWS = 3;
+const ROW_BATCH = 3;
+const MAX_ROWS = 48; // hard cap so Feel + page budget stay honest without a virtualizer
+const COUNT = COLS * INITIAL_ROWS;
 const bubbles = Array.from({ length: COUNT }, (_, i) => i);
+const settingsHref = withBase('/settings/');
 ---
 
 <FeelWidget slug={config.slug}>
-  <div class="pop-it" data-pop-it data-cols={COLS} data-rows={ROWS} data-count={COUNT}>
-    <div
-      class="pop-board"
-      data-pop-board
-      role="group"
-      aria-label="Pop It bubble board"
-      style={`--pop-cols: ${COLS}`}
-    >
-      {
-        bubbles.map((i) => (
-          <button
-            type="button"
-            class="pop-bubble"
-            data-pop-bubble
-            data-index={i}
-            aria-pressed="false"
-            aria-label={`Bubble ${i + 1}, ready to pop`}
-          />
-        ))
-      }
+  <div
+    class="pop-it"
+    data-pop-it
+    data-cols={COLS}
+    data-initial-rows={INITIAL_ROWS}
+    data-row-batch={ROW_BATCH}
+    data-max-rows={MAX_ROWS}
+    data-count={COUNT}
+  >
+    <div class="pop-toolbar">
+      <button
+        type="button"
+        class="pop-infinite"
+        data-pop-infinite
+        aria-pressed="false"
+        aria-label="Enter Infinite mode"
+      >
+        Infinite mode
+      </button>
+      <a class="pop-feel-link" data-pop-feel-link href={settingsHref}>Feel settings</a>
+      <button
+        type="button"
+        class="pop-exit-infinite"
+        data-pop-exit-infinite
+        hidden
+        aria-label="Exit Infinite mode"
+      >
+        Exit Infinite
+      </button>
     </div>
+
+    <div class="pop-scroller" data-pop-scroller tabindex="0" aria-label="Pop It board">
+      <div
+        class="pop-board"
+        data-pop-board
+        role="group"
+        aria-label="Pop It bubble board"
+        style={`--pop-cols: ${COLS}`}
+      >
+        {
+          bubbles.map((i) => (
+            <button
+              type="button"
+              class="pop-bubble"
+              data-pop-bubble
+              data-index={i}
+              aria-pressed="false"
+              aria-label={`Bubble ${i + 1}, ready to pop`}
+            />
+          ))
+        }
+      </div>
+    </div>
+
     <div class="pop-bar">
       <p class="pop-status" data-pop-status aria-live="polite">
         {COUNT} ready
@@ -37,6 +76,27 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
       <button type="button" class="pop-reset" data-pop-reset data-craft={config.craft!.id}>
         Reset board
       </button>
+    </div>
+
+    <div class="pop-feel-strip" data-pop-feel-strip>
+      <div class="pop-feel-group" role="group" aria-label="Sound">
+        <span class="pop-feel-label">Sound</span>
+        <button type="button" class="pop-feel-toggle" data-pop-sound="on" aria-pressed="true">
+          On
+        </button>
+        <button type="button" class="pop-feel-toggle" data-pop-sound="off" aria-pressed="false">
+          Off
+        </button>
+      </div>
+      <div class="pop-feel-group" role="group" aria-label="Haptics">
+        <span class="pop-feel-label">Haptics</span>
+        <button type="button" class="pop-feel-toggle" data-pop-haptics="on" aria-pressed="false">
+          On
+        </button>
+        <button type="button" class="pop-feel-toggle" data-pop-haptics="off" aria-pressed="true">
+          Off
+        </button>
+      </div>
     </div>
   </div>
 </FeelWidget>
@@ -49,14 +109,72 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     max-width: 24rem;
   }
 
+  .pop-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .pop-infinite,
+  .pop-exit-infinite,
+  .pop-reset,
+  .pop-feel-toggle {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+
+  .pop-infinite:active,
+  .pop-exit-infinite:active,
+  .pop-reset:active,
+  .pop-feel-toggle:active {
+    background: var(--color-surface-hover);
+  }
+
+  .pop-feel-toggle.is-active {
+    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  }
+
+  .pop-infinite:focus-visible,
+  .pop-exit-infinite:focus-visible,
+  .pop-reset:focus-visible,
+  .pop-feel-link:focus-visible,
+  .pop-feel-toggle:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .pop-feel-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  /* Tall enough for the opening 4x3 field; extra height only matters in Infinite mode growth. */
+  .pop-scroller {
+    max-height: 14.5rem;
+    overflow: auto;
+    overscroll-behavior: contain;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: var(--border);
+    -webkit-overflow-scrolling: touch;
+  }
+
   .pop-board {
     display: grid;
     grid-template-columns: repeat(var(--pop-cols, 4), minmax(0, 1fr));
     gap: var(--space-3);
     padding: var(--space-4);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    border: var(--border);
   }
 
   .pop-bubble {
@@ -109,32 +227,62 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     line-height: var(--leading-relaxed);
   }
 
-  .pop-reset {
-    flex: 0 0 auto;
-    min-block-size: var(--touch-target);
-    padding-inline: var(--space-4);
-    border: var(--border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    color: var(--color-text);
+  .pop-feel-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .pop-feel-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .pop-feel-label {
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-  }
-
-  .pop-reset:active {
-    background: var(--color-surface-hover);
-  }
-
-  .pop-reset:focus-visible {
-    outline: var(--focus-ring);
-    outline-offset: var(--focus-ring-offset);
+    color: var(--color-text-muted);
+    margin-inline-end: var(--space-1);
   }
 
   /* Motion gate follows ToyTools.feel.motionAllowed() (Settings → Feel), not only the OS
-     prefers-reduced-motion media query — so Full / Reduced overrides actually take effect. */
+     prefers-reduced-motion media query, so Full / Reduced overrides actually take effect. */
   .pop-it.is-motion-reduced .pop-bubble {
     transition: none;
+  }
+</style>
+
+<style is:global>
+  /* Infinite mode: keep ToolBar + this widget; hide Zone B/C, tagline, and site footer. */
+  html.tt-infinite-mode .tool-header,
+  html.tt-infinite-mode .tool-signature,
+  html.tt-infinite-mode .knowledge-drawers,
+  html.tt-infinite-mode .group-switcher,
+  html.tt-infinite-mode footer[role='contentinfo'] {
+    display: none !important;
+  }
+
+  html.tt-infinite-mode .page-content {
+    max-width: 28rem !important;
+  }
+
+  html.tt-infinite-mode [data-pop-it] {
+    max-width: none;
+  }
+
+  html.tt-infinite-mode [data-pop-scroller] {
+    max-height: calc(100dvh - 11rem);
+  }
+
+  html.tt-infinite-mode [data-pop-infinite] {
+    display: none !important;
+  }
+
+  /* Tuck under-board Feel strip in Infinite mode; keep reachable via Feel settings link. */
+  html.tt-infinite-mode [data-pop-feel-strip] {
+    display: none !important;
   }
 </style>
 
@@ -144,19 +292,44 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     if (!root) return;
 
     var board = root.querySelector('[data-pop-board]');
+    var scroller = root.querySelector('[data-pop-scroller]');
     var statusEl = root.querySelector('[data-pop-status]');
     var resetBtn = root.querySelector('[data-pop-reset]');
-    var bubbles = root.querySelectorAll('[data-pop-bubble]');
-    var total = bubbles.length;
+    var infiniteBtn = root.querySelector('[data-pop-infinite]');
+    var exitInfiniteBtn = root.querySelector('[data-pop-exit-infinite]');
+    var feelStrip = root.querySelector('[data-pop-feel-strip]');
+    var cols = Number(root.getAttribute('data-cols')) || 4;
+    var rowBatch = Number(root.getAttribute('data-row-batch')) || 3;
+    var maxRows = Number(root.getAttribute('data-max-rows')) || 48;
+    var initialRows = Number(root.getAttribute('data-initial-rows')) || 3;
+    var rows = initialRows;
     var feel = null;
     // First gesture may land before the Feel chunk attaches. Queue at most one feedback cue
     // so the first pop is never silently dropped.
     var pendingCue = null;
+    var infiniteOn = false;
+    var appending = false;
+
+    // Same keys Settings → Feel uses (toytools:prefs bag).
+    var FEEL_KEYS = {
+      sound: 'feel.sound',
+      haptics: 'feel.haptics',
+    };
+    var FEEL_DEFAULTS = { sound: true, haptics: false };
+
+    function bubbles() {
+      return root.querySelectorAll('[data-pop-bubble]');
+    }
+
+    function total() {
+      return bubbles().length;
+    }
 
     function remaining() {
+      var list = bubbles();
       var n = 0;
-      for (var i = 0; i < bubbles.length; i++) {
-        if (bubbles[i].getAttribute('aria-pressed') !== 'true') n++;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].getAttribute('aria-pressed') !== 'true') n++;
       }
       return n;
     }
@@ -164,19 +337,24 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
     function syncStatus() {
       if (!statusEl) return;
       var left = remaining();
-      if (left === total) statusEl.textContent = total + ' ready';
-      else if (left === 0) statusEl.textContent = 'Board clear. Reset to continue.';
-      else statusEl.textContent = left + ' left';
+      var all = total();
+      if (left === all) statusEl.textContent = all + ' ready';
+      else if (left === 0) {
+        if (infiniteOn && rows < maxRows) {
+          statusEl.textContent = 'Board clear. Scroll for more, or Reset.';
+        } else {
+          statusEl.textContent = 'Board clear. Reset to continue.';
+        }
+      } else statusEl.textContent = left + ' left';
     }
 
     function setPopped(btn, popped) {
       btn.setAttribute('aria-pressed', popped ? 'true' : 'false');
       btn.classList.toggle('is-popped', popped);
+      var idx = Number(btn.getAttribute('data-index')) + 1;
       btn.setAttribute(
         'aria-label',
-        popped
-          ? 'Bubble ' + (Number(btn.getAttribute('data-index')) + 1) + ', popped'
-          : 'Bubble ' + (Number(btn.getAttribute('data-index')) + 1) + ', ready to pop'
+        popped ? 'Bubble ' + idx + ', popped' : 'Bubble ' + idx + ', ready to pop'
       );
     }
 
@@ -230,6 +408,7 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
         feel = TT.feel || null;
         syncMotionClass();
         flushPendingCue();
+        paintLocalFeel();
       });
     }
 
@@ -243,6 +422,68 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
       armFeelReady();
     }
 
+    function createBubble(index) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pop-bubble';
+      btn.setAttribute('data-pop-bubble', '');
+      btn.setAttribute('data-index', String(index));
+      setPopped(btn, false);
+      return btn;
+    }
+
+    function appendRows(count) {
+      if (!board || appending || !infiniteOn) return 0;
+      if (rows >= maxRows) return 0;
+      appending = true;
+      var add = Math.min(count, maxRows - rows);
+      var start = rows * cols;
+      var frag = document.createDocumentFragment();
+      for (var r = 0; r < add; r++) {
+        for (var c = 0; c < cols; c++) {
+          frag.appendChild(createBubble(start + r * cols + c));
+        }
+      }
+      board.appendChild(frag);
+      rows += add;
+      root.setAttribute('data-rows', String(rows));
+      root.setAttribute('data-count', String(total()));
+      appending = false;
+      syncStatus();
+      return add;
+    }
+
+    /**
+     * Infinite mode uses a tall scroller, so the opening 4x3 field often fits without overflow.
+     * Seed rows until the board can scroll (or the cap), so scroll-load has a surface to work on.
+     */
+    function ensureScrollable() {
+      if (!infiniteOn || !scroller) return;
+      var guard = 0;
+      while (
+        guard < 16 &&
+        rows < maxRows &&
+        scroller.scrollHeight <= scroller.clientHeight + 8
+      ) {
+        if (appendRows(rowBatch) === 0) break;
+        guard++;
+      }
+    }
+
+    /** Restore the opening finite field when leaving Infinite mode. */
+    function trimToFinite() {
+      if (!board) return;
+      var list = bubbles();
+      var keep = initialRows * cols;
+      for (var i = list.length - 1; i >= keep; i--) {
+        board.removeChild(list[i]);
+      }
+      rows = initialRows;
+      root.setAttribute('data-rows', String(rows));
+      root.setAttribute('data-count', String(total()));
+      if (scroller) scroller.scrollTop = 0;
+    }
+
     function popBubble(btn) {
       if (!btn || btn.getAttribute('aria-pressed') === 'true') return;
       // Mark first so a paired press+release or pointerdown+click cannot double-pop.
@@ -251,25 +492,172 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
       requestCue('pop');
     }
 
+    // Reset craft: un-pop every loaded cell and scroll the field to the top.
+    // Does not shrink or grow the board; append stays gated by Infinite mode.
     function resetBoard() {
-      for (var i = 0; i < bubbles.length; i++) setPopped(bubbles[i], false);
+      var list = bubbles();
+      for (var i = 0; i < list.length; i++) setPopped(list[i], false);
+      if (scroller) scroller.scrollTop = 0;
       syncStatus();
       requestCue('soft');
+    }
+
+    function setInfiniteMode(on) {
+      infiniteOn = !!on;
+      document.documentElement.classList.toggle('tt-infinite-mode', infiniteOn);
+      if (infiniteBtn) {
+        infiniteBtn.setAttribute('aria-pressed', infiniteOn ? 'true' : 'false');
+        infiniteBtn.hidden = infiniteOn;
+        infiniteBtn.setAttribute(
+          'aria-label',
+          infiniteOn ? 'Infinite mode on' : 'Enter Infinite mode'
+        );
+      }
+      if (exitInfiniteBtn) exitInfiniteBtn.hidden = !infiniteOn;
+      if (!infiniteOn) {
+        trimToFinite();
+      } else {
+        // Force layout with Infinite max-height before measuring overflow to seed rows.
+        if (scroller) void scroller.offsetHeight;
+        ensureScrollable();
+        bottomArmed = true;
+      }
+      if (scroller) {
+        scroller.setAttribute(
+          'aria-label',
+          infiniteOn ? 'Scrollable Pop It board' : 'Pop It board'
+        );
+      }
+      syncStatus();
+      if (infiniteOn && exitInfiniteBtn) {
+        try {
+          exitInfiniteBtn.focus();
+        } catch (e) {}
+      } else if (!infiniteOn && infiniteBtn) {
+        try {
+          infiniteBtn.focus();
+        } catch (e) {}
+      }
+    }
+
+    function readLocalFeel() {
+      var TT = window.ToyTools;
+      if (feel && typeof feel.prefs === 'function') {
+        try {
+          var p = feel.prefs();
+          return {
+            sound: p.sound !== false,
+            haptics: !!p.haptics,
+          };
+        } catch (e) {}
+      }
+      if (TT && TT.prefs && typeof TT.prefs.get === 'function') {
+        var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
+        var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
+        return {
+          sound: sound === false || sound === 'false' ? false : true,
+          haptics: haptics === true || haptics === 'true',
+        };
+      }
+      return { sound: FEEL_DEFAULTS.sound, haptics: FEEL_DEFAULTS.haptics };
+    }
+
+    function writeLocalFeel(patch) {
+      var TT = window.ToyTools;
+      if (feel && typeof feel.setPrefs === 'function') {
+        try {
+          feel.setPrefs(patch);
+          paintLocalFeel();
+          return;
+        } catch (e) {}
+      }
+      if (TT && TT.prefs && typeof TT.prefs.set === 'function') {
+        try {
+          if (typeof patch.sound === 'boolean') TT.prefs.set(FEEL_KEYS.sound, patch.sound);
+          if (typeof patch.haptics === 'boolean') TT.prefs.set(FEEL_KEYS.haptics, patch.haptics);
+        } catch (e) {}
+      }
+      paintLocalFeel();
+    }
+
+    function paintLocalFeel() {
+      if (!feelStrip) return;
+      var p = readLocalFeel();
+      var soundBtns = feelStrip.querySelectorAll('[data-pop-sound]');
+      for (var i = 0; i < soundBtns.length; i++) {
+        var on = soundBtns[i].getAttribute('data-pop-sound') === (p.sound ? 'on' : 'off');
+        soundBtns[i].classList.toggle('is-active', on);
+        soundBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      var hapBtns = feelStrip.querySelectorAll('[data-pop-haptics]');
+      for (var j = 0; j < hapBtns.length; j++) {
+        var hon = hapBtns[j].getAttribute('data-pop-haptics') === (p.haptics ? 'on' : 'off');
+        hapBtns[j].classList.toggle('is-active', hon);
+        hapBtns[j].setAttribute('aria-pressed', hon ? 'true' : 'false');
+      }
+    }
+
+    function bindLocalFeel() {
+      if (!feelStrip) return;
+      var soundBtns = feelStrip.querySelectorAll('[data-pop-sound]');
+      for (var i = 0; i < soundBtns.length; i++) {
+        soundBtns[i].addEventListener('click', function () {
+          writeLocalFeel({ sound: this.getAttribute('data-pop-sound') === 'on' });
+        });
+      }
+      var hapBtns = feelStrip.querySelectorAll('[data-pop-haptics]');
+      for (var j = 0; j < hapBtns.length; j++) {
+        hapBtns[j].addEventListener('click', function () {
+          writeLocalFeel({ haptics: this.getAttribute('data-pop-haptics') === 'on' });
+        });
+      }
     }
 
     function onPointerDown(ev) {
       // Only primary button / touch. Ignore right-click.
       if (ev.button != null && ev.button !== 0) return;
       var btn = ev.target && ev.target.closest ? ev.target.closest('[data-pop-bubble]') : null;
-      if (!btn || !board.contains(btn)) return;
+      if (!btn || !board || !board.contains(btn)) return;
       popBubble(btn);
     }
 
     function onClick(ev) {
       // Keyboard activation synthesizes click without a prior pointerdown pop path.
       var btn = ev.target && ev.target.closest ? ev.target.closest('[data-pop-bubble]') : null;
-      if (!btn || !board.contains(btn)) return;
+      if (!btn || !board || !board.contains(btn)) return;
       popBubble(btn);
+    }
+
+    function onKeyDown(ev) {
+      if (!infiniteOn) return;
+      if (ev.key === 'Escape' || ev.key === 'Esc') {
+        ev.preventDefault();
+        setInfiniteMode(false);
+      }
+    }
+
+    // Scroll-only append. One batch per visit to the bottom while Infinite mode is on.
+    // Leaving the bottom re-arms so a long fling cannot chain-append to maxRows.
+    var bottomArmed = true;
+
+    function armInfiniteScroll() {
+      if (!scroller) return;
+      scroller.addEventListener(
+        'scroll',
+        function () {
+          if (!infiniteOn) return;
+          var nearBottom =
+            scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 64;
+          if (!nearBottom) {
+            bottomArmed = true;
+            return;
+          }
+          if (!bottomArmed) return;
+          var added = appendRows(rowBatch);
+          if (added > 0) bottomArmed = false;
+        },
+        { passive: true }
+      );
     }
 
     if (board) {
@@ -277,17 +665,32 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
       board.addEventListener('click', onClick);
     }
     if (resetBtn) resetBtn.addEventListener('click', resetBoard);
+    if (infiniteBtn) {
+      infiniteBtn.addEventListener('click', function () {
+        setInfiniteMode(true);
+      });
+    }
+    if (exitInfiniteBtn) {
+      exitInfiniteBtn.addEventListener('click', function () {
+        setInfiniteMode(false);
+      });
+    }
+    document.addEventListener('keydown', onKeyDown);
+    bindLocalFeel();
 
     // Provisional OS gate before Feel attaches; Feel sync replaces it so Settings overrides win.
     try {
-      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        root.classList.add("is-motion-reduced");
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        root.classList.add('is-motion-reduced');
       }
     } catch (e) {}
 
     // Attach early if ready; otherwise wait. Motion class updates when Feel resolves.
     if (!tryResolveFeelSync()) armFeelReady();
+    paintLocalFeel();
 
+    root.setAttribute('data-rows', String(rows));
+    armInfiniteScroll();
     syncStatus();
   })();
 </script>
