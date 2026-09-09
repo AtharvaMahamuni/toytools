@@ -9,7 +9,7 @@ import { DEFAULT_FEEL_PREFS } from './types';
 
 export type VibrateFn = (pattern: number | number[]) => boolean;
 
-const DEFAULT_PATTERN = 24;
+const DEFAULT_PATTERN = 16;
 
 /**
  * Fire a short vibration when haptics are opted in. Returns whether a vibrate call was attempted

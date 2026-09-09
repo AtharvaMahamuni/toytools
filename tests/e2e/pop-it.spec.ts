@@ -204,6 +204,7 @@ test.describe('pop it', () => {
     await page.goto(URL);
 
     // Defaults: sound on, haptics off.
+    await expect(page.locator('[data-feel-spin-speed]')).toHaveCount(0);
     await expect(page.locator('[data-feel-sound="on"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('[data-feel-haptics="off"]')).toHaveAttribute('aria-pressed', 'true');
 

@@ -31,6 +31,7 @@ import {
   FEEL_INTENSITY_SCALE,
   FEEL_PREF_KEYS,
   FEEL_TONES,
+  clampSpinSpeed,
   type FeelPrefs,
   type FeelSoundId,
   type FeelTone,
@@ -46,6 +47,7 @@ export {
   FEEL_INTENSITY_SCALE,
   FEEL_PREF_KEYS,
   FEEL_TONES,
+  clampSpinSpeed,
   resetSoundContext,
   stepSpring,
   applyFriction,
@@ -98,6 +100,10 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
     intensityScale(): number {
       return intensityScale(prefsOf().intensity);
     },
+    /** Swipe-speed multiplier for gears and the spinner (0.5..2). */
+    spinSpeed(): number {
+      return clampSpinSpeed(prefsOf().spinSpeed);
+    },
     /** One spring step toward `target`. Uses the live motion scale. */
     spring(state: SpringState, target: number, opts?: SpringOpts, dt?: number): SpringState {
       return stepSpring(state, target, opts, dt, scaleOf());
@@ -149,7 +155,7 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
       return vibrateRaw(pattern, { prefs: prefsOf() });
     },
     /**
-     * Play a named cue (`pop` | `click` | `tick` | `soft` | `grain` | `squish`) or a custom tone.
+     * Play a named cue (`pop` | `click` | `tick` | `soft` | `grain` | `squish` | `metal` | `plastic`) or a custom tone.
      * Respects the sound pref; never throws.
      */
     play(idOrTone: FeelSoundId | FeelTone | string, volume?: number): boolean {
@@ -164,7 +170,7 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
       sound: boolean;
       haptic: boolean;
     } {
-      const hapticPattern = pattern ?? FEEL_HAPTICS[kind] ?? 24;
+      const hapticPattern = pattern ?? FEEL_HAPTICS[kind] ?? 16;
       return {
         sound: playSoundRaw(kind, { prefs: prefsOf() }),
         haptic: vibrateRaw(hapticPattern, { prefs: prefsOf() }),

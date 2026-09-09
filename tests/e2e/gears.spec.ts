@@ -31,6 +31,19 @@ test.describe('gears', () => {
     await expect(page.locator('[data-gears-driver="12"]')).toHaveAttribute('aria-pressed', 'true');
   });
 
+  test('exposes a swipe-speed slider that writes Feel prefs', async ({ page }) => {
+    await page.goto(URL);
+    const slider = page.locator('[data-feel-spin-speed]');
+    await expect(slider).toBeVisible();
+    await slider.fill('1.5');
+    await expect(page.locator('[data-feel-spin-speed-value]')).toHaveText('1.5×');
+    const stored = await page.evaluate(() => {
+      const TT = (window as unknown as { ToyTools?: { prefs?: { get: (n: string, f?: unknown) => unknown } } }).ToyTools;
+      return TT && TT.prefs ? TT.prefs.get('feel.spinSpeed', 1) : null;
+    });
+    expect(Number(stored)).toBeCloseTo(1.5);
+  });
+
   test('Play hides page chrome and Exit restores it', async ({ page }) => {
     await page.goto(URL);
     await expect(page.locator('.tool-signature')).toBeVisible();

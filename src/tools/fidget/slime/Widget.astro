@@ -215,7 +215,7 @@ import { config } from './config';
       }
       if (feel && typeof feel.vibrate === 'function') {
         try {
-          feel.vibrate(force ? [18, 14, 36, 16, 48, 20, 28] : 32);
+          feel.vibrate(force ? 16 : 12);
         } catch (e) {}
       }
     }

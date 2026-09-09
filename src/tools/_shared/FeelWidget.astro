@@ -11,9 +11,11 @@ interface Props {
   playLabel?: string;
   playSurface?: 'paper' | 'night';
   showPlay?: boolean;
+  showSpinSpeed?: boolean;
 }
 
-const { slug, playLabel = 'Play', playSurface = 'paper', showPlay = true } = Astro.props;
+const { slug, playLabel = 'Play', playSurface = 'paper', showPlay = true, showSpinSpeed = false } =
+  Astro.props;
 const settingsHref = withBase('/settings/');
 ---
 
@@ -66,6 +68,24 @@ const settingsHref = withBase('/settings/');
       <button type="button" class="feel-btn" data-feel-haptics="on" aria-pressed="false">On</button>
       <button type="button" class="feel-btn" data-feel-haptics="off" aria-pressed="true">Off</button>
     </div>
+    {
+      showSpinSpeed && (
+        <div class="feel-speed" role="group" aria-label="Swipe speed">
+          <span class="feel-label" id="feel-spin-speed-label">Swipe speed</span>
+          <input
+            type="range"
+            class="feel-speed-input"
+            data-feel-spin-speed
+            min="0.5"
+            max="2"
+            step="0.1"
+            value="1"
+            aria-labelledby="feel-spin-speed-label"
+          />
+          <span class="feel-speed-value" data-feel-spin-speed-value>1.0×</span>
+        </div>
+      )
+    }
   </div>
 
   <p class="feel-hint" data-feel-reduced hidden>
@@ -73,7 +93,7 @@ const settingsHref = withBase('/settings/');
   </p>
 </section>
 
-<script is:inline define:vars={{ slug, playSurface }}>
+<script is:inline define:vars={{ slug, playSurface, showSpinSpeed }}>
   (function () {
     var root = document.querySelector('[data-feel-slug="' + slug + '"]');
     if (!root) return;
@@ -87,26 +107,42 @@ const settingsHref = withBase('/settings/');
     var playing = false;
     var feel = null;
 
-    var FEEL_KEYS = { sound: 'feel.sound', haptics: 'feel.haptics' };
-    var FEEL_DEFAULTS = { sound: true, haptics: false };
+    var FEEL_KEYS = { sound: 'feel.sound', haptics: 'feel.haptics', spinSpeed: 'feel.spinSpeed' };
+    var FEEL_DEFAULTS = { sound: true, haptics: false, spinSpeed: 1 };
+    var speedInput = root.querySelector('[data-feel-spin-speed]');
+    var speedValue = root.querySelector('[data-feel-spin-speed-value]');
+
+    function clampSpeed(n) {
+      var v = Number(n);
+      if (!isFinite(v)) return 1;
+      if (v < 0.5) return 0.5;
+      if (v > 2) return 2;
+      return Math.round(v * 10) / 10;
+    }
 
     function readLocalFeel() {
       var TT = window.ToyTools;
       if (feel && typeof feel.prefs === 'function') {
         try {
           var p = feel.prefs();
-          return { sound: p.sound !== false, haptics: !!p.haptics };
+          return {
+            sound: p.sound !== false,
+            haptics: !!p.haptics,
+            spinSpeed: clampSpeed(p.spinSpeed),
+          };
         } catch (e) {}
       }
       if (TT && TT.prefs && typeof TT.prefs.get === 'function') {
         var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
         var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
+        var spinSpeed = TT.prefs.get(FEEL_KEYS.spinSpeed, FEEL_DEFAULTS.spinSpeed);
         return {
           sound: sound === false || sound === 'false' ? false : true,
           haptics: haptics === true || haptics === 'true',
+          spinSpeed: clampSpeed(spinSpeed),
         };
       }
-      return { sound: FEEL_DEFAULTS.sound, haptics: FEEL_DEFAULTS.haptics };
+      return { sound: FEEL_DEFAULTS.sound, haptics: FEEL_DEFAULTS.haptics, spinSpeed: 1 };
     }
 
     function writeLocalFeel(patch) {
@@ -123,6 +159,7 @@ const settingsHref = withBase('/settings/');
         try {
           if (typeof patch.sound === 'boolean') TT.prefs.set(FEEL_KEYS.sound, patch.sound);
           if (typeof patch.haptics === 'boolean') TT.prefs.set(FEEL_KEYS.haptics, patch.haptics);
+          if (typeof patch.spinSpeed === 'number') TT.prefs.set(FEEL_KEYS.spinSpeed, patch.spinSpeed);
         } catch (e) {}
       }
       paintLocalFeel();
@@ -146,6 +183,8 @@ const settingsHref = withBase('/settings/');
         muteBtn.setAttribute('aria-pressed', p.sound ? 'false' : 'true');
         muteBtn.textContent = p.sound ? 'Mute' : 'Unmute';
       }
+      if (speedInput) speedInput.value = String(p.spinSpeed);
+      if (speedValue) speedValue.textContent = p.spinSpeed.toFixed(1) + '×';
     }
 
     function syncMotion() {
@@ -211,6 +250,11 @@ const settingsHref = withBase('/settings/');
       for (var j = 0; j < hapBtns.length; j++) {
         hapBtns[j].addEventListener('click', function () {
           writeLocalFeel({ haptics: this.getAttribute('data-feel-haptics') === 'on' });
+        });
+      }
+      if (speedInput) {
+        speedInput.addEventListener('input', function () {
+          writeLocalFeel({ spinSpeed: clampSpeed(speedInput.value) });
         });
       }
     }
@@ -295,6 +339,30 @@ const settingsHref = withBase('/settings/');
 
   .feel-group {
     gap: var(--space-2);
+  }
+
+  .feel-speed {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+
+  .feel-speed-input {
+    flex: 1 1 8rem;
+    min-width: 0;
+    min-block-size: var(--touch-target);
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  .feel-speed-value {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    min-inline-size: 3.2em;
   }
 
   .feel-stage {

@@ -60,6 +60,26 @@ const description =
         <button type="button" class="choice" data-feel-haptics="off">Off</button>
       </div>
 
+      <h3 class="feel-sub">Swipe speed</h3>
+      <p class="block-help">
+        How far Gears and the Spinner coast from one swipe. Also scales their tick sound and
+        haptics. Each toy still uses its own material: metal for gears, plastic for the spinner.
+      </p>
+      <div class="feel-slider">
+        <label class="feel-slider-label" for="feel-spin-speed">Speed</label>
+        <input
+          type="range"
+          id="feel-spin-speed"
+          min="0.5"
+          max="2"
+          step="0.1"
+          value="1"
+          aria-valuemin="0.5"
+          aria-valuemax="2"
+        />
+        <span class="feel-slider-value" data-feel-spin-speed-value>1.0×</span>
+      </div>
+
       <h3 class="feel-sub">Motion intensity</h3>
       <div class="choices" role="group" aria-label="Motion intensity">
         <button type="button" class="choice" data-feel-intensity="low">Low</button>
@@ -161,20 +181,27 @@ const description =
       sound: 'feel.sound',
       haptics: 'feel.haptics',
       motion: 'feel.motion',
-      intensity: 'feel.intensity'
+      intensity: 'feel.intensity',
+      spinSpeed: 'feel.spinSpeed'
     };
-    var FEEL_DEFAULTS = { sound: true, haptics: false, motion: 'system', intensity: 'medium' };
+    var FEEL_DEFAULTS = { sound: true, haptics: false, motion: 'system', intensity: 'medium', spinSpeed: 1 };
 
     function feelPrefs() {
       var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
       var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
       var motion = TT.prefs.get(FEEL_KEYS.motion, FEEL_DEFAULTS.motion);
       var intensity = TT.prefs.get(FEEL_KEYS.intensity, FEEL_DEFAULTS.intensity);
+      var spinSpeed = TT.prefs.get(FEEL_KEYS.spinSpeed, FEEL_DEFAULTS.spinSpeed);
+      var speed = Number(spinSpeed);
+      if (!isFinite(speed)) speed = 1;
+      if (speed < 0.5) speed = 0.5;
+      if (speed > 2) speed = 2;
       return {
         sound: sound === false || sound === 'false' ? false : true,
         haptics: haptics === true || haptics === 'true',
         motion: motion === 'full' || motion === 'reduced' ? motion : 'system',
-        intensity: intensity === 'low' || intensity === 'high' ? intensity : 'medium'
+        intensity: intensity === 'low' || intensity === 'high' ? intensity : 'medium',
+        spinSpeed: Math.round(speed * 10) / 10
       };
     }
 
@@ -193,6 +220,10 @@ const description =
       paintFeelChoice('data-feel-haptics', p.haptics ? 'on' : 'off');
       paintFeelChoice('data-feel-motion', p.motion);
       paintFeelChoice('data-feel-intensity', p.intensity);
+      var speedEl = document.getElementById('feel-spin-speed');
+      var speedVal = document.querySelector('[data-feel-spin-speed-value]');
+      if (speedEl) speedEl.value = String(p.spinSpeed);
+      if (speedVal) speedVal.textContent = p.spinSpeed.toFixed(1) + '×';
     }
 
     function bindFeelGroup(attr, write) {
@@ -217,6 +248,15 @@ const description =
     bindFeelGroup('data-feel-intensity', function (v) {
       TT.prefs.set(FEEL_KEYS.intensity, v);
     });
+    var speedEl = document.getElementById('feel-spin-speed');
+    if (speedEl) {
+      speedEl.addEventListener('input', function () {
+        var v = Number(speedEl.value);
+        if (!isFinite(v)) v = 1;
+        TT.prefs.set(FEEL_KEYS.spinSpeed, v);
+        paintFeel();
+      });
+    }
     paintFeel();
 
     var testSound = document.getElementById('feel-test-sound');
@@ -236,7 +276,7 @@ const description =
         TT.onReady(function () {
           if (!TT.feel) { TT.toast('Feel runtime still loading…'); return; }
           if (!feelPrefs().haptics) { TT.toast('Turn haptics on first.'); return; }
-          var ok = TT.feel.vibrate(36);
+          var ok = TT.feel.vibrate(18);
           TT.toast(ok ? 'Vibrated.' : 'This device cannot vibrate.');
         });
       });
@@ -396,6 +436,35 @@ const description =
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--color-text);
+  }
+
+  .feel-slider {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    min-width: 0;
+  }
+
+  .feel-slider-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .feel-slider input[type='range'] {
+    flex: 1 1 10rem;
+    min-width: 0;
+    min-height: var(--touch-target);
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  .feel-slider-value {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    min-inline-size: 3.2em;
   }
 
   .choices,

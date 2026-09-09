@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.8] - 2026-09-09
+
+### Changed
+
+- **Subtle haptics.** Every fidget cue is a single 16-18ms tap. The old multi-pulse rumbles
+  on pop, slime, sand, spinner, and gears were too harsh on a phone. Ticks while spinning
+  are spaced further apart so they stay a tap, not a buzz.
+- **Material sounds.** Gears tick as metal, the spinner as plastic. Sand, slime, pop, and
+  switch keep their own grain, squish, rubber, and click.
+- **Swipe speed.** A slider on Feel settings and on Gears / Spinner (0.5× to 2×) sets how
+  far one swipe coasts and how strong the matching tick and haptic are. Dragging the right
+  gear now follows the finger; the left turns the other way so the mesh stays locked.
+
 ## [alpha-v10.7] - 2026-09-09
 
 ### Changed

@@ -17,7 +17,7 @@ const d2 = gearPath(layout.drivenTeeth);
 const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180) / Math.PI;
 ---
 
-<FeelWidget slug={config.slug}>
+<FeelWidget slug={config.slug} showSpinSpeed>
   <div
     slot="stage"
     class="gears"
@@ -217,6 +217,7 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
     var lastT = 0;
     var loop = null;
     var samples = [];
+    var grabHub = 'driver';
 
     function api() {
       return feel && feel.gears ? feel.gears : null;
@@ -276,16 +277,18 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       lastTooth = b;
       if (feel && typeof feel.play === 'function') {
         try {
-          feel.play('tick');
+          var cfgCue = gearCfg();
+          var vol = Math.min(1, 0.35 + (Math.abs(omega) / cfgCue.max) * 0.7);
+          feel.play('metal', vol);
         } catch (e) {}
       }
       var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
       var speed = Math.abs(omega);
-      var gap = speed > 10 ? 70 : speed > 4 ? 45 : 30;
+      var gap = speed > 10 ? 120 : speed > 4 ? 90 : 70;
       if (now - lastHapticAt > gap && feel && typeof feel.vibrate === 'function') {
         lastHapticAt = now;
         try {
-          feel.vibrate(speed > 10 ? [10, 10, 18] : speed > 4 ? [16, 12, 26] : [22, 14, 32]);
+          feel.vibrate(16);
         } catch (e) {}
       }
     }
@@ -324,13 +327,23 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       }
     }
 
+    function spinSpeed() {
+      if (feel && typeof feel.spinSpeed === 'function') {
+        try {
+          return feel.spinSpeed();
+        } catch (e) {}
+      }
+      return 1;
+    }
+
     function gearCfg() {
       var g = api() || {};
+      var speed = spinSpeed();
       return {
         rest: g.GEAR_REST || 0.08,
         friction: g.GEAR_FRICTION || 0.982,
-        max: g.GEAR_MAX_OMEGA || 40,
-        boost: g.GEAR_FLICK_BOOST || 2.1,
+        max: (g.GEAR_MAX_OMEGA || 40) * speed,
+        boost: (g.GEAR_FLICK_BOOST || 2.1) * speed,
       };
     }
 
@@ -344,17 +357,30 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       return pt.matrixTransform(ctm.inverse());
     }
 
+    function hubCenter() {
+      if (!layout) return { cx: 0, cy: 0 };
+      return grabHub === 'driven' ? layout.driven : layout.driver;
+    }
+
     function hubDa(x0, y0, x1, y1) {
       if (!layout) return 0;
+      var c = hubCenter();
+      var da = 0;
       if (feel && typeof feel.hubDelta === 'function') {
-        return feel.hubDelta(x0, y0, x1, y1, layout.driver.cx, layout.driver.cy, 10);
+        da = feel.hubDelta(x0, y0, x1, y1, c.cx, c.cy, 10);
+      } else {
+        var a0 = Math.atan2(y0 - c.cy, x0 - c.cx);
+        var a1 = Math.atan2(y1 - c.cy, x1 - c.cx);
+        da = a1 - a0;
+        if (da > Math.PI) da -= Math.PI * 2;
+        if (da < -Math.PI) da += Math.PI * 2;
+        if (Math.abs(da) > 2.2) da = 0;
       }
-      var a0 = Math.atan2(y0 - layout.driver.cy, x0 - layout.driver.cx);
-      var a1 = Math.atan2(y1 - layout.driver.cy, x1 - layout.driver.cx);
-      var da = a1 - a0;
-      if (da > Math.PI) da -= Math.PI * 2;
-      if (da < -Math.PI) da += Math.PI * 2;
-      if (Math.abs(da) > 2.2) return 0;
+      var g = api();
+      if (g && typeof g.driverDeltaFromHub === 'function') {
+        return g.driverDeltaFromHub(da, grabHub, driverTeeth, drivenTeeth);
+      }
+      if (grabHub === 'driven') return -da * (drivenTeeth / Math.max(1, driverTeeth));
       return da;
     }
 
@@ -389,6 +415,17 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       var p0 = svgPoint(ev);
       lastPx = p0 ? p0.x : 0;
       lastPy = p0 ? p0.y : 0;
+      grabHub = 'driver';
+      if (p0 && layout) {
+        var g = api();
+        if (g && typeof g.nearerHub === 'function') {
+          grabHub = g.nearerHub(p0.x, p0.y, layout.driver, layout.driven);
+        } else {
+          var d1 = (p0.x - layout.driver.cx) * (p0.x - layout.driver.cx) + (p0.y - layout.driver.cy) * (p0.y - layout.driver.cy);
+          var d2 = (p0.x - layout.driven.cx) * (p0.x - layout.driven.cx) + (p0.y - layout.driven.cy) * (p0.y - layout.driven.cy);
+          grabHub = d2 < d1 ? 'driven' : 'driver';
+        }
+      }
       lastT = ev.timeStamp || Date.now();
       omega = 0;
       samples = [];
@@ -438,7 +475,7 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       samples = [];
       if (Math.abs(omega) >= cfg.rest && feel && typeof feel.vibrate === 'function') {
         try {
-          feel.vibrate([16, 14, 36, 18, 24]);
+          feel.vibrate(16);
         } catch (e) {}
       }
       startLoop();

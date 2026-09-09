@@ -163,6 +163,13 @@ test.describe('settings', () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
   });
 
+  test('Feel swipe-speed slider is on the page', async ({ page }) => {
+    await page.goto('/settings/');
+    await expect(page.locator('#feel-spin-speed')).toBeVisible();
+    await page.locator('#feel-spin-speed').fill('0.8');
+    await expect(page.locator('[data-feel-spin-speed-value]')).toHaveText('0.8×');
+  });
+
   test('lists what a tool has saved', async ({ page }) => {
     // Save something real first.
     await page.goto('/tool/productivity/notepad/');

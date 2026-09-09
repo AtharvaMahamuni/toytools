@@ -76,6 +76,7 @@ describe('feel prefs', () => {
       haptics: true,
       motion: 'reduced',
       intensity: 'high',
+      spinSpeed: 1,
     });
   });
 
@@ -96,7 +97,7 @@ describe('feel prefs', () => {
       motion: 'full',
       intensity: 'low',
     });
-    expect(next).toEqual({ sound: false, haptics: true, motion: 'full', intensity: 'low' });
+    expect(next).toEqual({ sound: false, haptics: true, motion: 'full', intensity: 'low', spinSpeed: 1 });
     expect(prefs.store[FEEL_PREF_KEYS.haptics]).toBe(true);
     expect(prefs.store[FEEL_PREF_KEYS.sound]).toBe(false);
     expect(prefs.store[FEEL_PREF_KEYS.motion]).toBe('full');
@@ -323,7 +324,12 @@ describe('ToyTools.feel facade', () => {
       haptics: true,
       motion: 'reduced',
       intensity: 'high',
+      spinSpeed: 1,
     });
+    feel.setPrefs({ spinSpeed: 1.6 });
+    expect(feel.spinSpeed()).toBe(1.6);
+    feel.setPrefs({ spinSpeed: 9 });
+    expect(feel.spinSpeed()).toBe(2);
     expect(feel.motionAllowed()).toBe(false);
     expect(feel.motionScale()).toBe(0);
     expect(feel.intensityScale()).toBeGreaterThan(1);
@@ -333,9 +339,9 @@ describe('ToyTools.feel facade', () => {
     expect(feel.vibrate(10)).toBe(false);
     expect(feel.feedback('click')).toEqual({ sound: false, haptic: false });
     expect(typeof feel.unlock).toBe('function');
-    expect(Array.isArray(FEEL_HAPTICS.tick)).toBe(true);
-    expect(Array.isArray(FEEL_HAPTICS.pop)).toBe(true);
-    expect(Array.isArray(FEEL_HAPTICS.grain)).toBe(true);
-    expect(Array.isArray(FEEL_HAPTICS.squish)).toBe(true);
+    expect(FEEL_HAPTICS.tick).toBeLessThanOrEqual(18);
+    expect(FEEL_HAPTICS.pop).toBeLessThanOrEqual(18);
+    expect(FEEL_HAPTICS.grain).toBeLessThanOrEqual(18);
+    expect(FEEL_HAPTICS.squish).toBeLessThanOrEqual(18);
   });
 });
