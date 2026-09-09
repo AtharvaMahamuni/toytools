@@ -178,4 +178,9 @@ export const searchAliases: Record<string, string[]> = {
     'popit',
     'fidget pop it',
   ],
+  gears: ['meshing gears'],
+  spinner: ['virtual spinner'],
+  'kinetic-sand': ['virtual sand'],
+  slime: ['slime fidget'],
+  'breathing-circle': ['box breathing'],
 };

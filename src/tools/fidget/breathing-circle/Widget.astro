@@ -1,0 +1,333 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+import { BREATH_PRESETS, DEFAULT_BREATH_PRESET } from '@lib/engines/feel/breathing';
+---
+
+<FeelWidget slug={config.slug} playLabel="Play session" playSurface="night">
+  <div slot="stage" class="br" data-breathing-circle data-preset={DEFAULT_BREATH_PRESET.id}>
+    <div class="br-presets" data-craft={config.craft!.id} role="group" aria-label="Breathing pattern">
+      {
+        BREATH_PRESETS.map((p) => (
+          <button
+            type="button"
+            class:list={['br-choice', p.id === DEFAULT_BREATH_PRESET.id && 'is-active']}
+            data-br-preset={p.id}
+            aria-pressed={p.id === DEFAULT_BREATH_PRESET.id ? 'true' : 'false'}
+          >
+            {p.name}
+            <span class="br-pattern">{p.pattern}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="br-stage" data-br-stage>
+      <p class="br-phase" data-br-phase>Inhale</p>
+      <p class="br-count" data-br-count>4</p>
+      <div class="br-circle" data-br-circle aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <p slot="status" class="br-status" data-br-status aria-live="polite">
+    {DEFAULT_BREATH_PRESET.name} {DEFAULT_BREATH_PRESET.pattern}
+  </p>
+</FeelWidget>
+
+<style>
+  .br {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 24rem;
+    min-width: 0;
+  }
+
+  .br-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .br-choice {
+    flex: 1 1 auto;
+    min-block-size: var(--touch-target);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1em;
+  }
+
+  .br-choice:active {
+    background: var(--color-surface-hover);
+  }
+
+  .br-choice.is-active {
+    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  }
+
+  .br-choice:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .br-pattern {
+    font-size: var(--text-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-normal);
+  }
+
+  .br-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-6) var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: var(--border);
+  }
+
+  .br-phase {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .br-count {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-3xl);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+  }
+
+  .br-circle {
+    width: min(12rem, 56vw);
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-accent) 28%, var(--color-surface));
+    transform: scale(var(--breathe, 1));
+    transform-origin: center;
+  }
+
+  .br.is-motion-reduced .br-circle {
+    transform: none;
+  }
+
+  .br-status {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .br.is-complete .br-circle {
+    opacity: 0.35;
+  }
+</style>
+
+<style is:global>
+  html.tt-play-mode [data-breathing-circle] {
+    max-width: none;
+    height: 100%;
+  }
+
+  html.tt-play-mode [data-br-stage] {
+    flex: 1 1 auto;
+    border: none;
+    background: transparent;
+    justify-content: center;
+  }
+
+  html.tt-play-mode[data-feel-play-surface='night'] [data-br-phase],
+  html.tt-play-mode[data-feel-play-surface='night'] [data-br-count] {
+    color: var(--color-overlay-text);
+  }
+
+  html.tt-play-mode[data-feel-play-surface='night'] [data-br-circle] {
+    background: color-mix(in srgb, var(--color-overlay-text) 18%, var(--color-overlay-bg));
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-breathing-circle]');
+    if (!root) return;
+
+    var phaseEl = root.querySelector('[data-br-phase]');
+    var countEl = root.querySelector('[data-br-count]');
+    var circle = root.querySelector('[data-br-circle]');
+    var statusEl = document.querySelector('[data-br-status]');
+    var feelRoot = root.closest('[data-feel-slug]');
+    var feel = null;
+    var presetId = root.getAttribute('data-preset') || 'box';
+    var started = 0;
+    var loop = null;
+    var lastPhase = '';
+    var complete = false;
+
+    function api() {
+      return feel && feel.breathing ? feel.breathing : null;
+    }
+
+    function preset() {
+      var b = api();
+      if (b && typeof b.presetById === 'function') return b.presetById(presetId);
+      return { id: 'box', name: 'Box', pattern: '4-4-4-4', inhale: 4, holdIn: 4, exhale: 4, holdOut: 4 };
+    }
+
+    function phaseLabel(phase) {
+      if (phase === 'inhale') return 'Inhale';
+      if (phase === 'exhale') return 'Exhale';
+      return 'Hold';
+    }
+
+    function paintChoices() {
+      var btns = root.querySelectorAll('[data-br-preset]');
+      for (var i = 0; i < btns.length; i++) {
+        var on = btns[i].getAttribute('data-br-preset') === presetId;
+        btns[i].classList.toggle('is-active', on);
+        btns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+    }
+
+    function reduced() {
+      if (feel && typeof feel.motionAllowed === 'function') {
+        try {
+          return !feel.motionAllowed();
+        } catch (e) {}
+      }
+      return false;
+    }
+
+    function applyState(state) {
+      if (phaseEl) phaseEl.textContent = complete ? 'Session complete' : phaseLabel(state.phase);
+      if (countEl) countEl.textContent = complete ? '' : String(Math.max(1, Math.ceil(state.remaining)));
+      if (circle && !reduced()) circle.style.setProperty('--breathe', String(state.scale));
+      if (circle && reduced()) circle.style.setProperty('--breathe', '1');
+      root.classList.toggle('is-motion-reduced', reduced());
+      root.classList.toggle('is-complete', complete);
+      if (state.phase !== lastPhase && !complete) {
+        lastPhase = state.phase;
+        if (feel && typeof feel.play === 'function') {
+          try {
+            feel.play('soft');
+          } catch (e) {}
+        }
+      }
+    }
+
+    function tick() {
+      var b = api();
+      var p = preset();
+      var elapsed = (Date.now() - started) / 1000;
+      var state = b && typeof b.phaseAt === 'function' ? b.phaseAt(elapsed, p) : { phase: 'inhale', remaining: 4, scale: 1, done: false };
+      if (state.done) {
+        complete = true;
+        applyState(state);
+        return false;
+      }
+      applyState(state);
+      return true;
+    }
+
+    function start() {
+      complete = false;
+      started = Date.now();
+      lastPhase = '';
+      if (loop && loop.stop) loop.stop();
+      loop = null;
+      tick();
+      if (!feel || typeof feel.raf !== 'function') return;
+      loop = feel.raf(function () {
+        return tick();
+      });
+      if (loop && loop.start) loop.start();
+    }
+
+    function setPreset(id) {
+      presetId = id;
+      root.setAttribute('data-preset', id);
+      var p = preset();
+      if (statusEl) statusEl.textContent = p.name + ' ' + p.pattern;
+      paintChoices();
+      start();
+    }
+
+    var btns = root.querySelectorAll('[data-br-preset]');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function () {
+        setPreset(this.getAttribute('data-br-preset'));
+      });
+    }
+
+    if (feelRoot) {
+      feelRoot.addEventListener('feel:play', function () {
+        var TT = window.ToyTools;
+        if (TT && TT.focus && typeof TT.focus.attach === 'function') {
+          // Native FS is a bonus after the night surface is already up.
+        }
+        start();
+      });
+      feelRoot.addEventListener('feel:exit', function () {
+        var fade = 1.5;
+        if (feel && feel.breathing && typeof feel.breathing.FADE_SECONDS === 'number') {
+          fade = feel.breathing.FADE_SECONDS;
+        }
+        // Soft end: mark complete and keep the last phase painted for FADE_SECONDS, no hard cut.
+        complete = true;
+        root.classList.add('is-complete');
+        if (phaseEl) phaseEl.textContent = 'Session complete';
+        if (countEl) countEl.textContent = '';
+        if (loop && loop.stop) loop.stop();
+        loop = null;
+        var until = Date.now() + fade * 1000;
+        if (feel && typeof feel.raf === 'function') {
+          var fadeLoop = feel.raf(function () {
+            if (Date.now() >= until) {
+              complete = false;
+              root.classList.remove('is-complete');
+              if (circle) circle.style.setProperty('--breathe', '1');
+              return false;
+            }
+            return true;
+          });
+          if (fadeLoop && fadeLoop.start) fadeLoop.start();
+        } else {
+          setTimeout(function () {
+            complete = false;
+            root.classList.remove('is-complete');
+          }, fade * 1000);
+        }
+      });
+    }
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        if (feel && typeof feel.motionAllowed === 'function' && !feel.motionAllowed()) {
+          root.classList.add('is-motion-reduced');
+        }
+        paintChoices();
+        var p = preset();
+        if (statusEl) statusEl.textContent = p.name + ' ' + p.pattern;
+      });
+    } else {
+      paintChoices();
+    }
+  })();
+</script>

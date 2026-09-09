@@ -2,6 +2,32 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.5] - 2026-09-09
+
+### Added
+
+- **Shared Feel play mode.** Play hides tagline, trust, knowledge, and footer so a fidget stage
+  fills the screen under the tool name. Exit (48px) and Escape leave. Mute stays in the corner.
+  Pop It Infinite mode uses this shell; Exit is visible on phones. Switch Board gets Play too.
+- **Gears** (`/tool/fidget/gears/`): two meshing gears on Feel. Tooth count owns radius so the
+  pair cannot overlap without meshing. Live ratio, Reset layout, reduced-motion Step.
+- **Fidget Spinner** (`/tool/fidget/spinner/`): flick velocity (not drag distance), ticks from
+  angle, rest threshold so the loop actually stops.
+- **Kinetic Sand** (`/tool/fidget/kinetic-sand/`): column pile you drag. Reset pile restores a
+  packed mound. Feel intensity picks column count.
+- **Slime** (`/tool/fidget/slime/`): one blob to poke and pull. Release unsticks a missed
+  pointerup.
+- **Breathing Circle** (`/tool/fidget/breathing-circle/`): named Box, 4-7-8, and Coherent
+  presets. Play session uses the dark overlay surface.
+
+### Changed
+
+- Pop It and Switch Board Feel strip, settings link, and play chrome live in `FeelWidget`.
+- Breathing Circle seed now proposes the existing Feel engine instead of a missing sound engine.
+- Feel play Exit uses safe-area insets and stays at the 48px touch target; Pop It Infinite copy
+  says Exit or Escape. Gears pulse on tooth-pass; spinner reduced-motion nudges; slime Release on
+  stuck grab; Breathing Circle exit fades with `FADE_SECONDS`. Kinetic Sand meta rewritten.
+
 ## [alpha-v10.4] - 2026-09-08
 
 ### Added

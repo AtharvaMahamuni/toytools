@@ -68,11 +68,11 @@ test.describe('switch board', () => {
   }) => {
     await page.goto(URL);
 
-    await expect(page.locator('[data-sb-sound="on"]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('[data-sb-haptics="off"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-feel-sound="on"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-feel-haptics="off"]')).toHaveAttribute('aria-pressed', 'true');
 
-    await page.locator('[data-sb-sound="off"]').click();
-    await page.locator('[data-sb-haptics="on"]').click();
+    await page.locator('[data-feel-sound="off"]').click();
+    await page.locator('[data-feel-haptics="on"]').click();
 
     const prefs = await page.evaluate(() => {
       const TT = (window as unknown as { ToyTools?: { prefs?: { get: (k: string, f?: unknown) => unknown } } }).ToyTools;

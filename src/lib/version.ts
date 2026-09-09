@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
-  minor: 4,
+  minor: 5,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-09-08',
-  description: 'Author entity, ToyTools X account, canonical privacy line, named related tools',
+  releaseDate: '2026-09-09',
+  description: 'Gears, Spinner, Kinetic Sand, Slime, and Breathing Circle on the Feel engine',
 };
 
 export function formatVersion(config: VersionConfig): string {

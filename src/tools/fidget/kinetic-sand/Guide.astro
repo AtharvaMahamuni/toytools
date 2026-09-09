@@ -1,0 +1,150 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Kinetic sand online is a pile you drag in the browser. Virtual kinetic sand here is a sand
+      fidget you can play with sand online as a column mound, not a GPU demo. Drag through it.
+      Grains settle. Reset pile restores a centred heap when the sand packs into a corner.
+    </p>
+    <p>
+      For example: Input: a finger on a 4:3 stage. Output: a displaced pile that settles, with no
+      account and no install. Feel intensity picks column count so a budget phone can keep up.
+    </p>
+    <a href={toolHref} class="cta-link">Open Kinetic Sand →</a>
+  </section>
+
+  <section id="what-is">
+    <h2>What is kinetic sand in a browser? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Physical kinetic sand is a mouldable heap. Virtual sand is the same urge as a drag. Mobile
+      games want an install. WebGL demos drop frames on a low-end phone. This pile is a grid of
+      heights, cheap enough to run in a tab.
+    </p>
+    <p>
+      Depth is height plus a short shadow, not colour alone, so a low-vision user can still see
+      a ridge. How to stop pinch-zoom while dragging sand: the canvas sets touch-action to none
+      and captures the pointer, so a pinch grabs sand instead of the page.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does a browser sand pile stay light? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The stage is a row of columns. A drag lowers heights under the pointer and spills a little
+      to the sides. Then a settle pass lets steep slopes fall. Therefore the pile looks like it
+      flows without running a particle ocean. That is how a browser sand pile stays light on a
+      phone-width tab.
+    </p>
+    <p>
+      For example, on low intensity there are 24 columns. High uses 56. Settings → Feel intensity
+      is the quality control, so a budget phone can stay on low. More particles always feel better
+      is the trap: a denser grid can drop frames, so intensity caps the column count on purpose.
+      However, reduced motion still lets you dig: grains jump to rest instead of trickling.
+    </p>
+  </section>
+
+  <section id="reset">
+    <h2>Why is there a Reset pile control? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Drag enough and the heap packs into a corner. Other toys leave you there with no next
+      action, so people reload and break the loop. Reset restores the centred mound, keeps focus,
+      and does not reload assets. That continuation is the craft of this tool.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Reloading a packed pile">
+      <p>
+        A refresh drops Feel prefs from the session even if they persist, and it costs a second.
+        Reset pile is the digital scoop back to the middle.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="Quality is intensity, not a third slider">
+      <p>
+        Low, medium, and high under Settings → Feel change how many columns the pile uses. A
+        Quality dropdown would duplicate a preference every fidget already shares.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reloading a packed corner throws away a second and feels like the toy ended. Reset pile is
+      the scoop back to the middle. Another mistake is expecting a GPU demo: this is a column
+      pile on purpose, so a phone-width tab stays usable.
+    </p>
+    <p>
+      Judging depth by colour only fails when contrast is low. Height plus a short shadow is the
+      ridge. Therefore a packed edge is still readable.
+    </p>
+  </section>
+
+  <section id="vs">
+    <h2>Kinetic sand vs alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mobile sand games want an install. WebGL sand looks richer and then drops frames. Slime is
+      pull instead of a pile. Pop It is taps. Pick kinetic sand when the gesture is a drag through
+      a heap, in the browser, with a reset.
+    </p>
+  </section>
+
+  <section id="play">
+    <h2>How do I play kinetic sand on a phone? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The stage is sized for a phone-width column. Play hides the rest of the page so the pile
+      fills the screen. Reset stays in the corner because packing is how the task ends. Exit or
+      Escape restores the page. Reduced motion still lets you dig; grains jump to rest.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Try the pile <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the tool, drag through the mound, then Reset pile when it packs. Mute if you need the
+      room quiet. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open Kinetic Sand →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

@@ -355,7 +355,7 @@
       "supportedFamilies": [
         "fidget"
       ],
-      "toolCount": 2
+      "toolCount": 7
     }
   },
   "toolGroups": {
@@ -989,6 +989,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "breathing-circle": {
+      "name": "Breathing Circle",
+      "dir": "src/tools/fidget/breathing-circle",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/breathing-circle/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "cagr-calculator": {
       "name": "CAGR Calculator",
       "dir": "src/tools/finance/cagr-calculator",
@@ -1493,6 +1514,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "gears": {
+      "name": "Gears",
+      "dir": "src/tools/fidget/gears",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/gears/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "heart-rate-zone-calculator": {
       "name": "Heart Rate Zone Calculator",
       "dir": "src/tools/health/heart-rate-zone-calculator",
@@ -1816,6 +1858,27 @@
       "engine": "productivity",
       "pattern": "stateful",
       "family": "utility",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "kinetic-sand": {
+      "name": "Kinetic Sand",
+      "dir": "src/tools/fidget/kinetic-sand",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/kinetic-sand/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
       "processorId": "",
       "toolGroup": "",
       "files": [
@@ -2879,6 +2942,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "slime": {
+      "name": "Slime",
+      "dir": "src/tools/fidget/slime",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/slime/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "slugify-text": {
       "name": "Slugify Text",
       "dir": "src/tools/text/slugify-text",
@@ -2931,6 +3015,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "spinner": {
+      "name": "Fidget Spinner",
+      "dir": "src/tools/fidget/spinner",
+      "categorySlug": "fidgets",
+      "url": "/tool/fidget/spinner/",
+      "engine": "feel",
+      "pattern": "fidget-interact",
+      "family": "fidget",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

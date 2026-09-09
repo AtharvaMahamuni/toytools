@@ -61,4 +61,10 @@ export const items: FAQItem[] = [
     answer:
       'No. Reduced motion (from your system or Settings → Feel) turns off switch transitions. Taps still latch and All off still works. Once Feel loads, the Full or Reduced choice under Settings → Feel overrides the system preference.',
   },
+  {
+    id: 'sb-faq-11',
+    question: 'What does Play do?',
+    answer:
+      'Play hides the trust row, knowledge drawers, footer, and Feel strip so the board fills the screen. Exit or Escape restores the page. Mute only flips sound; set Sound and Haptics under Feel before Play, because the Feel strip is hidden in play.',
+  },
 ];

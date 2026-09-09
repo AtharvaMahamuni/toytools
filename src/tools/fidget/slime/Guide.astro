@@ -1,0 +1,148 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Virtual slime is a slime fidget and slime simulator you poke and pull in the browser. Press,
+      drag, let go to stretch slime online. Stiffness follows Feel intensity. If a finger leaves
+      the canvas without a pointerup, Release appears so the blob does not stay glued to a ghost.
+    </p>
+    <p>
+      For example: Input: a grab on a square stage. Output: a stretch that eases back, with no
+      goo skins and no download.
+    </p>
+    <a href={toolHref} class="cta-link">Open Slime →</a>
+  </section>
+
+  <section id="what-is">
+    <h2>What is virtual slime? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Physical slime is stretch and squish. Browser slime is one blob, not a store of colours.
+      Mobile apps bury the blob behind in-app purchases. Flash-era toys are gone. This page is
+      the gesture: grab a vertex, pull, release.
+    </p>
+    <p>
+      The fill is mixed from the accent and the surface, so the blob does not vanish on a light
+      theme. That contrast failure is common on other slime pages.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does browser slime stay attached to a finger? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The blob is a ring of points. A grab pins one point to the pointer. That is how browser
+      slime stays attached to a finger while you drag. The others follow with a stiffness from
+      Feel intensity. Let go and the ring eases toward a circle. Therefore a pull feels stretchy
+      without a mesh zoo. How to stretch slime online: press near the edge, drag, and release.
+    </p>
+    <p>
+      For example, low intensity is calm. High is stretchy. However, reduced motion only stops
+      idle jiggle. A grab still stretches, because that is the task.
+    </p>
+  </section>
+
+  <section id="release">
+    <h2>How to unstick slime after leaving the canvas <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Leaving the canvas should keep the grab is the wrong assumption. A pointer that leaves the
+      window sometimes never fires pointerup. Other toys keep the grab. The blob then follows
+      nothing. How to unstick slime after leaving the canvas: this page listens for pointerup,
+      pointercancel, and lostpointercapture. If a grab is still held with no buttons down, Release
+      shows. One tap detaches. It stays hidden when the path is clean.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Silent until it is stuck">
+      <p>
+        Recovery that is always on screen is clutter. Release exists for the missed pointerup, and
+        for that only.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Reloading a stuck blob">
+      <p>
+        A refresh works and costs the session. Release is the one-tap detach the failure actually
+        needs.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reloading a stuck blob works and costs the session. Release is the one-tap detach. Looking
+      for colour skins is the mobile-app habit this page will not feed. One blob is the product.
+    </p>
+    <p>
+      Expecting idle jiggle under reduced motion is the other miss. The grab still works.
+      Therefore the fidget survives a motion setting that other toys treat as a hard off.
+    </p>
+  </section>
+
+  <section id="vs">
+    <h2>Slime vs alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mobile slime apps bury the blob behind in-app goo skins. Kinetic sand is a pile you drag.
+      A spinner is a flick. This page is pull: play with slime as goo fidget slime online, with
+      stretch slime and sensory slime in the tab, plus Release if the pointer leaves the canvas.
+    </p>
+  </section>
+
+  <section id="feel">
+    <h2>How do I make slime calmer or stretchier? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Settings → Feel intensity maps to stiffness. Low is calm. High is stretchy. There is no
+      second slider on the page, because every fidget already shares that preference. Reduced
+      motion stops idle jiggle; a grab still stretches, because that is the task.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Try the blob <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the tool, pull the blob, let go, and use Play if you want it to fill the screen. If it
+      ever sticks, tap Release.
+    </p>
+    <a href={toolHref} class="cta-link">Open Slime →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

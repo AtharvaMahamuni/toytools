@@ -1,41 +1,257 @@
 ---
-// FeelWidget: shared shell for fidget tools on the Feel engine.
+// Shared shell for fidget tools on the Feel engine.
 //
-// Each fidget owns its board (Pop It bubbles, spinner disc, switch row). This shell is the common
-// chrome: a stage for the board, a reduced-motion notice, and the onReady hook that confirms
-// ToyTools.feel attached. Adding a fidget is a tool directory that slots its board in here, not a
-// second widget.
-import type { ToolConfig } from '@data/types';
+// Owns chrome every fidget used to copy: Play, Feel settings, the sound/haptics strip,
+// reduced-motion hint, and play-mode Exit/Mute. Each tool slots its board, status, and
+// craft action. Play mode CSS lives in tool-widget.css so widgets never name Zone B/C.
+import { withBase } from '@lib/paths';
 
 interface Props {
   slug: string;
-  processorId?: string;
-  config?: ToolConfig;
+  playLabel?: string;
+  playSurface?: 'paper' | 'night';
+  showPlay?: boolean;
 }
 
-const { slug } = Astro.props;
+const { slug, playLabel = 'Play', playSurface = 'paper', showPlay = true } = Astro.props;
+const settingsHref = withBase('/settings/');
 ---
 
-<section class="feel" data-feel-slug={slug}>
-  <div class="feel-stage">
-    <slot />
+<section
+  class="feel"
+  data-feel-slug={slug}
+  data-feel-play-surface={playSurface}
+>
+  <div class="feel-toolbar" data-feel-chrome data-feel-toolbar>
+    {
+      showPlay && (
+        <button
+          type="button"
+          class="feel-btn"
+          data-feel-play
+          aria-pressed="false"
+          aria-label={playLabel}
+        >
+          {playLabel}
+        </button>
+      )
+    }
+    <a class="feel-settings" data-feel-settings href={settingsHref}>Feel settings</a>
   </div>
+
+  <div class="feel-stage" data-feel-stage>
+    <div class="feel-stage-board" data-feel-board>
+      <slot name="stage" />
+      <slot />
+    </div>
+    <button type="button" class="feel-exit" data-feel-exit hidden>Exit</button>
+    <button type="button" class="feel-mute" data-feel-mute hidden aria-pressed="false">
+      Mute
+    </button>
+  </div>
+
+  <div class="feel-bar" data-feel-chrome data-feel-bar>
+    <div class="feel-status"><slot name="status" /></div>
+    <div class="feel-actions"><slot name="actions" /></div>
+  </div>
+
+  <div class="feel-strip" data-feel-chrome data-feel-strip>
+    <div class="feel-group" role="group" aria-label="Sound">
+      <span class="feel-label">Sound</span>
+      <button type="button" class="feel-btn" data-feel-sound="on" aria-pressed="true">On</button>
+      <button type="button" class="feel-btn" data-feel-sound="off" aria-pressed="false">Off</button>
+    </div>
+    <div class="feel-group" role="group" aria-label="Haptics">
+      <span class="feel-label">Haptics</span>
+      <button type="button" class="feel-btn" data-feel-haptics="on" aria-pressed="false">On</button>
+      <button type="button" class="feel-btn" data-feel-haptics="off" aria-pressed="true">Off</button>
+    </div>
+  </div>
+
   <p class="feel-hint" data-feel-reduced hidden>
     Motion is reduced on this device. Interactions still work; continuous animation stays off.
   </p>
 </section>
 
-<script is:inline define:vars={{ slug }}>
+<script is:inline define:vars={{ slug, playSurface }}>
   (function () {
-    var TT = window.ToyTools;
-    if (!TT || !TT.onReady) return;
-    TT.onReady(function () {
-      if (!TT.feel) return;
-      var root = document.querySelector('[data-feel-slug="' + slug + '"]');
-      if (!root) return;
-      var hint = root.querySelector('[data-feel-reduced]');
-      if (hint) hint.hidden = !!TT.feel.motionAllowed();
+    var root = document.querySelector('[data-feel-slug="' + slug + '"]');
+    if (!root) return;
+
+    var playBtn = root.querySelector('[data-feel-play]');
+    var exitBtn = root.querySelector('[data-feel-exit]');
+    var muteBtn = root.querySelector('[data-feel-mute]');
+    var strip = root.querySelector('[data-feel-strip]');
+    var hint = root.querySelector('[data-feel-reduced]');
+    var html = document.documentElement;
+    var playing = false;
+    var feel = null;
+
+    var FEEL_KEYS = { sound: 'feel.sound', haptics: 'feel.haptics' };
+    var FEEL_DEFAULTS = { sound: true, haptics: false };
+
+    function readLocalFeel() {
+      var TT = window.ToyTools;
+      if (feel && typeof feel.prefs === 'function') {
+        try {
+          var p = feel.prefs();
+          return { sound: p.sound !== false, haptics: !!p.haptics };
+        } catch (e) {}
+      }
+      if (TT && TT.prefs && typeof TT.prefs.get === 'function') {
+        var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
+        var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
+        return {
+          sound: sound === false || sound === 'false' ? false : true,
+          haptics: haptics === true || haptics === 'true',
+        };
+      }
+      return { sound: FEEL_DEFAULTS.sound, haptics: FEEL_DEFAULTS.haptics };
+    }
+
+    function writeLocalFeel(patch) {
+      var TT = window.ToyTools;
+      if (feel && typeof feel.setPrefs === 'function') {
+        try {
+          feel.setPrefs(patch);
+          paintLocalFeel();
+          syncMotion();
+          return;
+        } catch (e) {}
+      }
+      if (TT && TT.prefs && typeof TT.prefs.set === 'function') {
+        try {
+          if (typeof patch.sound === 'boolean') TT.prefs.set(FEEL_KEYS.sound, patch.sound);
+          if (typeof patch.haptics === 'boolean') TT.prefs.set(FEEL_KEYS.haptics, patch.haptics);
+        } catch (e) {}
+      }
+      paintLocalFeel();
+    }
+
+    function paintLocalFeel() {
+      var p = readLocalFeel();
+      var soundBtns = root.querySelectorAll('[data-feel-sound]');
+      for (var i = 0; i < soundBtns.length; i++) {
+        var on = soundBtns[i].getAttribute('data-feel-sound') === (p.sound ? 'on' : 'off');
+        soundBtns[i].classList.toggle('is-active', on);
+        soundBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      var hapBtns = root.querySelectorAll('[data-feel-haptics]');
+      for (var j = 0; j < hapBtns.length; j++) {
+        var hon = hapBtns[j].getAttribute('data-feel-haptics') === (p.haptics ? 'on' : 'off');
+        hapBtns[j].classList.toggle('is-active', hon);
+        hapBtns[j].setAttribute('aria-pressed', hon ? 'true' : 'false');
+      }
+      if (muteBtn) {
+        muteBtn.setAttribute('aria-pressed', p.sound ? 'false' : 'true');
+        muteBtn.textContent = p.sound ? 'Mute' : 'Unmute';
+      }
+    }
+
+    function syncMotion() {
+      var allowed = true;
+      if (feel && typeof feel.motionAllowed === 'function') {
+        try {
+          allowed = !!feel.motionAllowed();
+        } catch (e) {
+          allowed = true;
+        }
+      } else {
+        try {
+          if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            allowed = false;
+          }
+        } catch (e) {}
+      }
+      root.classList.toggle('is-motion-reduced', !allowed);
+      if (hint) hint.hidden = allowed;
+    }
+
+    function setPlay(on) {
+      if (playing === !!on) return;
+      playing = !!on;
+      if (playing) {
+        html.classList.add('tt-play-mode');
+        html.setAttribute('data-feel-play-surface', playSurface || 'paper');
+        document.body.classList.add('tt-play-lock');
+        if (playBtn) playBtn.setAttribute('aria-pressed', 'true');
+        if (exitBtn) exitBtn.hidden = false;
+        if (muteBtn) muteBtn.hidden = false;
+        root.dispatchEvent(new CustomEvent('feel:play', { bubbles: true }));
+        if (exitBtn) {
+          try {
+            exitBtn.focus();
+          } catch (e) {}
+        }
+      } else {
+        root.dispatchEvent(new CustomEvent('feel:exit', { bubbles: true }));
+        html.classList.remove('tt-play-mode');
+        html.removeAttribute('data-feel-play-surface');
+        document.body.classList.remove('tt-play-lock');
+        if (playBtn) playBtn.setAttribute('aria-pressed', 'false');
+        if (exitBtn) exitBtn.hidden = true;
+        if (muteBtn) muteBtn.hidden = true;
+        if (playBtn) {
+          try {
+            playBtn.focus();
+          } catch (e) {}
+        }
+      }
+    }
+
+    function bindStrip() {
+      if (!strip) return;
+      var soundBtns = strip.querySelectorAll('[data-feel-sound]');
+      for (var i = 0; i < soundBtns.length; i++) {
+        soundBtns[i].addEventListener('click', function () {
+          writeLocalFeel({ sound: this.getAttribute('data-feel-sound') === 'on' });
+        });
+      }
+      var hapBtns = strip.querySelectorAll('[data-feel-haptics]');
+      for (var j = 0; j < hapBtns.length; j++) {
+        hapBtns[j].addEventListener('click', function () {
+          writeLocalFeel({ haptics: this.getAttribute('data-feel-haptics') === 'on' });
+        });
+      }
+    }
+
+    if (playBtn) {
+      playBtn.addEventListener('click', function () {
+        setPlay(true);
+      });
+    }
+    if (exitBtn) {
+      exitBtn.addEventListener('click', function () {
+        setPlay(false);
+      });
+    }
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function () {
+        var p = readLocalFeel();
+        writeLocalFeel({ sound: !p.sound });
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (!playing) return;
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        if (document.fullscreenElement || document.webkitFullscreenElement) return;
+        e.preventDefault();
+        setPlay(false);
+      }
     });
+
+    bindStrip();
+    paintLocalFeel();
+    syncMotion();
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        paintLocalFeel();
+        syncMotion();
+      });
+    }
   })();
 </script>
 
@@ -44,10 +260,97 @@ const { slug } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .feel-toolbar,
+  .feel-bar,
+  .feel-strip,
+  .feel-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .feel-bar {
+    justify-content: space-between;
+  }
+
+  .feel-strip {
+    gap: var(--space-4);
+  }
+
+  .feel-group {
+    gap: var(--space-2);
   }
 
   .feel-stage {
+    position: relative;
     min-height: 12rem;
+    min-width: 0;
+  }
+
+  .feel-stage-board {
+    min-width: 0;
+  }
+
+  .feel-btn,
+  .feel-exit,
+  .feel-mute {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .feel-btn:active,
+  .feel-exit:active,
+  .feel-mute:active {
+    background: var(--color-surface-hover);
+  }
+
+  .feel-btn.is-active {
+    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  }
+
+  .feel-btn:focus-visible,
+  .feel-exit:focus-visible,
+  .feel-mute:focus-visible,
+  .feel-settings:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .feel-settings {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .feel-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-inline-end: var(--space-1);
+  }
+
+  .feel-status {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .feel-status :global(p) {
+    margin: 0;
+    max-width: none;
   }
 
   .feel-hint {
@@ -55,5 +358,71 @@ const { slug } = Astro.props;
     font-size: var(--text-sm);
     color: var(--color-text-subtle);
     line-height: var(--leading-relaxed);
+  }
+
+  .feel-exit,
+  .feel-mute {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .feel-exit {
+    top: calc(var(--space-3) + env(safe-area-inset-top, 0px));
+    right: calc(var(--space-3) + env(safe-area-inset-right, 0px));
+    min-inline-size: var(--touch-target);
+  }
+
+  .feel-mute {
+    bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    left: calc(var(--space-3) + env(safe-area-inset-left, 0px));
+    min-inline-size: var(--touch-target);
+  }
+
+  .feel-exit[hidden],
+  .feel-mute[hidden],
+  .feel [hidden] {
+    display: none;
+  }
+</style>
+
+<style is:global>
+  /* Play mode lives here, not in tool-widget.css, so converter pages do not pay for it. */
+  body.tt-play-lock { overflow: hidden; }
+  html.tt-play-mode .tool-header,
+  html.tt-play-mode .tool-signature,
+  html.tt-play-mode .knowledge-drawers,
+  html.tt-play-mode .group-switcher,
+  html.tt-play-mode footer[role='contentinfo'],
+  html.tt-play-mode [data-feel-chrome] { display: none !important; }
+  html.tt-play-mode [data-feel-stage] {
+    position: fixed;
+    inset: 0;
+    top: 3.5rem;
+    z-index: var(--z-focus);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background: var(--color-bg);
+    padding: var(--space-4);
+    padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    padding-left: calc(var(--space-4) + env(safe-area-inset-left));
+    padding-right: calc(var(--space-4) + env(safe-area-inset-right));
+    overflow: hidden;
+  }
+  html.tt-play-mode [data-feel-board] {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    max-width: none;
+  }
+  html.tt-play-mode[data-feel-play-surface='night'] [data-feel-stage] {
+    background: var(--color-overlay-bg);
+    color: var(--color-overlay-text);
+  }
+  html.tt-play-mode[data-feel-play-surface='night'] [data-feel-exit],
+  html.tt-play-mode[data-feel-play-surface='night'] [data-feel-mute] {
+    color: var(--color-overlay-text);
+    border-color: var(--color-overlay-border);
+    background: transparent;
   }
 </style>

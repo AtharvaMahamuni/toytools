@@ -1,0 +1,160 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A virtual fidget spinner is a spinner toy and spinner fidget you flick in the browser. This
+      fidget spinner online reads pointer velocity, not drag distance, so a short fast trackpad
+      flick still spins. It coasts, then stops. Optional ticks fire when an arm crosses the top.
+    </p>
+    <p>
+      For example: Input: a flick on a phone-width tab. Output: rotation that decays to Stopped,
+      with no leftover crawl that would drain a battery in a background tab.
+    </p>
+    <p>
+      Therefore this is a fidget, not a three-second ad. It is free, needs no download, and uploads
+      nothing.
+    </p>
+    <a href={toolHref} class="cta-link">Open Fidget Spinner →</a>
+  </section>
+
+  <section id="what-is">
+    <h2>What is a virtual fidget spinner? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A physical spinner is a bearing and three arms. A browser spinner is the same gesture as
+      rotation. Novelty pages often feel floaty, stop abruptly, or never stop. Ads sit around a
+      toy that lasts three seconds.
+    </p>
+    <p>
+      This disc has three arms and a hub. Flick anywhere on the stage. Momentum comes from how
+      fast the pointer moved, which is why a trackpad flick that barely travels can still work.
+      Other toys listened only to drag distance, which is the recorded failure.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How to flick a fidget spinner online <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Flick anywhere on the stage. That is how to flick a fidget spinner online. Pointer movement
+      around the centre becomes angular velocity. Velocity flick vs drag-distance spin is the
+      difference that matters: this page uses velocity. A longer drag always means a faster spin
+      is false here. The Feel engine clamps a spike so a trackpad jump cannot run forever, then
+      applies friction each frame. When speed falls below rest, the loop ends and the status reads
+      Stopped.
+    </p>
+    <p>
+      Hiding the tab also stops the loop. A spinner that crawls at 0.01 radians in a background
+      tab is a battery leak. That rest threshold is the craft of this tool.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Velocity, not distance">
+      <p>
+        A long slow drag is a weak flick. A short fast one is a strong flick. Measuring only how
+        far the pointer travelled is why some web spinners feel dead on a trackpad.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Leaving a crawl running">
+      <p>
+        If the disc never quite stops, the animation loop keeps waking the phone. Stopped means
+        the loop is gone, not that a tiny omega is still scheduled.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ticks">
+    <h2>How do tick sounds stay in sync? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Ticks fire when an arm crosses 12 o'clock, from the angle, not from a timer. A long spin
+      cannot desync the way a setInterval tick can. Mute under the board or Settings → Feel. Muting
+      does not change haptics.
+    </p>
+    <p>
+      Reduced motion turns rotation off. A tap still counts, so the control remains a fidget. The
+      disc does not pretend to spin.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The first mistake is judging a flick by how far the pointer travelled. Therefore a long slow
+      drag feels strong and then does nothing. For example, a two-centimetre trackpad flick that
+      lasts 80 milliseconds will out-spin a slow drag across the whole disc.
+    </p>
+    <p>
+      The second is leaving a crawl running in a background tab. However small the leftover speed
+      looks, the animation loop is still scheduled. Stopped means the loop is gone.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Expecting reduced motion to freeze the control">
+      <p>
+        Reduced motion stops rotation. A tap still counts. The disc remains a fidget, not a dead
+        picture.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="vs">
+    <h2>Spinner vs alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A phone spinner app wants install permissions and often wraps the disc in ads. A novelty web
+      toy often never stops, or stops so hard it feels broken. This page is the middle: a virtual
+      spinner and spin fidget web disc in the tab, a browser fidget spinner with spin fidget
+      momentum spinner behaviour, velocity-based flicks, and a real rest.
+    </p>
+    <p>
+      Compared with Gears, there is no ratio to read. Compared with Pop It, there is no board to
+      clear. Pick the spinner online when the gesture you want is a flick, not a tap or a mesh.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Try the disc <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the tool, flick once, wait until the status reads Stopped, then try Play if you want the
+      disc to fill the screen. Exit or Escape brings the page back.
+    </p>
+    <a href={toolHref} class="cta-link">Open Fidget Spinner →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
