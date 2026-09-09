@@ -10,6 +10,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
 import { withBase } from '@lib/paths';
+import { SPIN_SPEED_MAX, SPIN_SPEED_MIN, SPIN_SPEED_STEP } from '@lib/engines/feel/types';
 
 const description =
   'Manage what ToyTools has saved on this device: export a backup, restore one, or delete everything.';
@@ -62,20 +63,21 @@ const description =
 
       <h3 class="feel-sub">Swipe speed</h3>
       <p class="block-help">
-        How far Gears and the Spinner coast from one swipe. Also scales their tick sound and
-        haptics. Each toy still uses its own material: metal for gears, plastic for the spinner.
+        How fast Gears and the Spinner coast after a swipe. 0.05× is a lazy turn; 2× is a long
+        spin. Also scales their tick sound and haptics. Each toy still uses its own material:
+        metal for gears, plastic for the spinner.
       </p>
       <div class="feel-slider">
         <label class="feel-slider-label" for="feel-spin-speed">Speed</label>
         <input
           type="range"
           id="feel-spin-speed"
-          min="0.5"
-          max="2"
-          step="0.1"
+          min={SPIN_SPEED_MIN}
+          max={SPIN_SPEED_MAX}
+          step={SPIN_SPEED_STEP}
           value="1"
-          aria-valuemin="0.5"
-          aria-valuemax="2"
+          aria-valuemin={String(SPIN_SPEED_MIN)}
+          aria-valuemax={String(SPIN_SPEED_MAX)}
         />
         <span class="feel-slider-value" data-feel-spin-speed-value>1.0×</span>
       </div>
@@ -140,7 +142,7 @@ const description =
   </article>
 </BaseLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ SPIN_SPEED_MIN, SPIN_SPEED_MAX, SPIN_SPEED_STEP }}>
   (function () {
     var TT = window.ToyTools;
     if (!TT) return;
@@ -194,14 +196,15 @@ const description =
       var spinSpeed = TT.prefs.get(FEEL_KEYS.spinSpeed, FEEL_DEFAULTS.spinSpeed);
       var speed = Number(spinSpeed);
       if (!isFinite(speed)) speed = 1;
-      if (speed < 0.5) speed = 0.5;
-      if (speed > 2) speed = 2;
+      if (speed < SPIN_SPEED_MIN) speed = SPIN_SPEED_MIN;
+      if (speed > SPIN_SPEED_MAX) speed = SPIN_SPEED_MAX;
+      speed = Math.round(speed / SPIN_SPEED_STEP) * SPIN_SPEED_STEP;
       return {
         sound: sound === false || sound === 'false' ? false : true,
         haptics: haptics === true || haptics === 'true',
         motion: motion === 'full' || motion === 'reduced' ? motion : 'system',
         intensity: intensity === 'low' || intensity === 'high' ? intensity : 'medium',
-        spinSpeed: Math.round(speed * 10) / 10
+        spinSpeed: speed
       };
     }
 
@@ -223,7 +226,10 @@ const description =
       var speedEl = document.getElementById('feel-spin-speed');
       var speedVal = document.querySelector('[data-feel-spin-speed-value]');
       if (speedEl) speedEl.value = String(p.spinSpeed);
-      if (speedVal) speedVal.textContent = p.spinSpeed.toFixed(1) + '×';
+      if (speedVal) {
+        var h = Math.round(p.spinSpeed * 100);
+        speedVal.textContent = (h / 100).toFixed(h % 10 === 0 ? 1 : 2) + '×';
+      }
     }
 
     function bindFeelGroup(attr, write) {

@@ -14,6 +14,7 @@ export const knowledge: Knowledge = {
     'play with sand online',
     'squish sand',
     'sand pile',
+    'tilt sand',
   ],
   intentGroups: {
     informational: ['What is kinetic sand online?', 'How does a browser sand pile stay light?'],
@@ -21,6 +22,7 @@ export const knowledge: Knowledge = {
       'How to play kinetic sand in a browser',
       'How to reset a packed sand pile',
       'How to stop pinch-zoom while dragging sand',
+      'How to tilt a phone to pour kinetic sand',
     ],
     comparison: ['Browser sand vs a mobile sand game', 'Column pile vs WebGL sand'],
     misconception: [
@@ -46,6 +48,7 @@ export const knowledge: Knowledge = {
     'How do I play kinetic sand online?',
     'What does Reset pile do?',
     'Is this free, and do I need to download it?',
+    'Can I tilt my phone to pour the sand?',
   ],
   usedWith: [
     { slug: 'slime', reason: 'A stretch fidget when you want pull instead of a pile', strength: 0.8 },
@@ -64,6 +67,7 @@ export const knowledge: Knowledge = {
     'virtual kinetic sand',
     'sand fidget',
     'play with sand online',
+    'tilt sand',
   ],
   entityAliases: ['virtual sand', 'sand toy', 'squish sand browser'],
   inputs: [],

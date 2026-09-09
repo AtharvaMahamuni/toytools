@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'sand-faq-1',
     question: 'How do I play kinetic sand online?',
     answer:
-      'Drag through the mound. Grains displace and settle. There is no account and no install. This sand fidget is virtual kinetic sand you play with sand online; Feel intensity (Settings → Feel) picks how many columns the pile uses, so a budget phone can stay calm.',
+      'Drag through the mound. Grains displace and settle. On a phone, tilt left or right after you touch the pile or tap Play, and the grains run downhill. There is no account and no install. This sand fidget is virtual kinetic sand you play with sand online; Feel intensity (Settings → Feel) picks how many columns the pile uses, so a budget phone can stay calm.',
   },
   {
     id: 'sand-faq-2',
@@ -36,5 +36,11 @@ export const items: FAQItem[] = [
     question: 'What does Play do?',
     answer:
       'Play fills the screen with the sand stage under the tool name. Reset pile stays in the corner because packing is the end of the task. Exit or Escape restores the page. Mute only flips sound; set Sound and Haptics under Feel before Play, because the Feel strip hides in play.',
+  },
+  {
+    id: 'sand-faq-7',
+    question: 'Can I tilt my phone to pour the sand?',
+    answer:
+      'Yes. After you touch the pile or tap Play, tilt the phone and the grains run downhill. The tilt reading stays on your device. Drag still works on a desktop, where there is no gyroscope.',
   },
 ];

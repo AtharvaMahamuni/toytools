@@ -26,7 +26,7 @@ export interface FeelPrefs {
   /** Scales spring stiffness / momentum when motion is allowed. Default medium. */
   intensity: FeelIntensity;
   /**
-   * How far a gears / spinner swipe coasts. 0.5 is a short nudge, 2 is a long spin.
+   * How fast a gears / spinner coast runs. 0.05 is a lazy turn, 2 is a long spin.
    * Also scales their tick sound and haptics. Default 1.
    */
   spinSpeed: number;
@@ -65,15 +65,23 @@ export const DEFAULT_FEEL_PREFS: FeelPrefs = {
   spinSpeed: 1,
 };
 
-export const SPIN_SPEED_MIN = 0.5;
+export const SPIN_SPEED_MIN = 0.05;
 export const SPIN_SPEED_MAX = 2;
-export const SPIN_SPEED_STEP = 0.1;
+export const SPIN_SPEED_STEP = 0.05;
 
 /** Clamp the swipe-speed pref into the slider range. Junk becomes 1. */
 export function clampSpinSpeed(value: unknown): number {
   const n = typeof value === 'number' ? value : typeof value === 'string' ? Number(value) : NaN;
   if (!Number.isFinite(n)) return DEFAULT_FEEL_PREFS.spinSpeed;
-  return Math.min(SPIN_SPEED_MAX, Math.max(SPIN_SPEED_MIN, n));
+  const clamped = Math.min(SPIN_SPEED_MAX, Math.max(SPIN_SPEED_MIN, n));
+  return Math.round(clamped / SPIN_SPEED_STEP) * SPIN_SPEED_STEP;
+}
+
+/** Slider label: 0.05× at the slow end, 1.0× / 1.5× on tenths. */
+export function formatSpinSpeed(value: unknown): string {
+  const hundredths = Math.round(clampSpinSpeed(value) * 100);
+  const decimals = hundredths % 10 === 0 ? 1 : 2;
+  return `${(hundredths / 100).toFixed(decimals)}×`;
 }
 
 /** Multipliers for spring / momentum helpers. */

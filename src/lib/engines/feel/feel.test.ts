@@ -16,7 +16,15 @@ import {
   systemPrefersReducedMotion,
 } from './motion';
 import { readFeelPrefs, writeFeelPrefs, type PrefsBag } from './prefs';
-import { createFeelApi, DEFAULT_FEEL_PREFS, FEEL_HAPTICS, FEEL_PREF_KEYS, FEEL_TONES } from './registry';
+import {
+  clampSpinSpeed,
+  createFeelApi,
+  DEFAULT_FEEL_PREFS,
+  FEEL_HAPTICS,
+  FEEL_PREF_KEYS,
+  FEEL_TONES,
+  formatSpinSpeed,
+} from './registry';
 import { playSound, resetSoundContext, resolveTone, unlockSound, type AudioContextLike } from './sound';
 
 function memoryPrefs(seed: Record<string, unknown> = {}): PrefsBag & { store: Record<string, unknown> } {
@@ -112,6 +120,17 @@ describe('feel prefs', () => {
       },
     };
     expect(() => writeFeelPrefs(prefs, { sound: false })).not.toThrow();
+  });
+
+  it('clamps swipe speed down to a lazy 0.05×', () => {
+    expect(clampSpinSpeed(0.05)).toBe(0.05);
+    expect(clampSpinSpeed(0.01)).toBe(0.05);
+    expect(clampSpinSpeed(9)).toBe(2);
+    expect(clampSpinSpeed('1.6')).toBe(1.6);
+    expect(clampSpinSpeed('nope')).toBe(1);
+    expect(formatSpinSpeed(0.05)).toBe('0.05×');
+    expect(formatSpinSpeed(0.8)).toBe('0.8×');
+    expect(formatSpinSpeed(1.5)).toBe('1.5×');
   });
 });
 
@@ -328,6 +347,8 @@ describe('ToyTools.feel facade', () => {
     });
     feel.setPrefs({ spinSpeed: 1.6 });
     expect(feel.spinSpeed()).toBe(1.6);
+    feel.setPrefs({ spinSpeed: 0.05 });
+    expect(feel.spinSpeed()).toBe(0.05);
     feel.setPrefs({ spinSpeed: 9 });
     expect(feel.spinSpeed()).toBe(2);
     expect(feel.motionAllowed()).toBe(false);
@@ -339,6 +360,8 @@ describe('ToyTools.feel facade', () => {
     expect(feel.vibrate(10)).toBe(false);
     expect(feel.feedback('click')).toEqual({ sound: false, haptic: false });
     expect(typeof feel.unlock).toBe('function');
+    expect(typeof feel.tilt.start).toBe('function');
+    expect(feel.tilt.x()).toBe(0);
     expect(FEEL_HAPTICS.tick).toBeLessThanOrEqual(18);
     expect(FEEL_HAPTICS.pop).toBeLessThanOrEqual(18);
     expect(FEEL_HAPTICS.grain).toBeLessThanOrEqual(18);

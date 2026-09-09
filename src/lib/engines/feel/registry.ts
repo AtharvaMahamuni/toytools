@@ -32,6 +32,7 @@ import {
   FEEL_PREF_KEYS,
   FEEL_TONES,
   clampSpinSpeed,
+  formatSpinSpeed,
   type FeelPrefs,
   type FeelSoundId,
   type FeelTone,
@@ -39,6 +40,7 @@ import {
 import { breathingApi } from './breathing';
 import { gearsApi } from './gears';
 import { spinnerApi } from './spinner';
+import { createTilt } from './tilt';
 
 export type { FeelPrefs, FeelSoundId, FeelTone, PrefsBag, SpringState, SpringOpts, MomentumOpts, FlickSample };
 export {
@@ -48,6 +50,7 @@ export {
   FEEL_PREF_KEYS,
   FEEL_TONES,
   clampSpinSpeed,
+  formatSpinSpeed,
   resetSoundContext,
   stepSpring,
   applyFriction,
@@ -100,7 +103,7 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
     intensityScale(): number {
       return intensityScale(prefsOf().intensity);
     },
-    /** Swipe-speed multiplier for gears and the spinner (0.5..2). */
+    /** Swipe-speed multiplier for gears and the spinner (0.05..2). */
     spinSpeed(): number {
       return clampSpinSpeed(prefsOf().spinSpeed);
     },
@@ -179,6 +182,8 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
     gears: gearsApi,
     spinner: spinnerApi,
     breathing: breathingApi,
+    /** Phone tilt. Kinetic Sand pours with it. No-op on desktop. */
+    tilt: createTilt(),
   };
 }
 

@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.9] - 2026-09-09
+
+### Changed
+
+- **Slower swipe speed.** Gears and Spinner now go from 0.05× to 2×. The old floor of 0.5×
+  still felt fast; the slow end is a lazy coast. A flick still launches, then the cap holds
+  the turn down.
+- **Kinetic Sand tray.** Flattening used to drain the pile to a film. Displaced grains stay
+  in the tray, the packed floor is thicker, and the mound is taller, so a flatten is still
+  a slab you can dig.
+- **Tilt to pour.** On a phone, Kinetic Sand reads the gyroscope after a touch or Play and
+  grains run downhill. The reading stays on the device. Drag still works on a desktop.
+
 ## [alpha-v10.8] - 2026-09-09
 
 ### Changed

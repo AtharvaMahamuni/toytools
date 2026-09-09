@@ -132,6 +132,7 @@ import { config } from './config';
     var playing = false;
     var lastCol = -1;
     var lastCueAt = 0;
+    var tiltBound = false;
 
     function colors() {
       var cs = getComputedStyle(root);
@@ -222,6 +223,38 @@ import { config } from './config';
       draw();
     }
 
+    function tiltX() {
+      if (feel && feel.tilt && typeof feel.tilt.x === 'function') {
+        try {
+          return feel.tilt.x();
+        } catch (e) {}
+      }
+      return 0;
+    }
+
+    function tilting() {
+      return Math.abs(tiltX()) >= 0.12;
+    }
+
+    function startTilt() {
+      if (!feel || !feel.tilt || typeof feel.tilt.start !== 'function') return;
+      if (!tiltBound && typeof feel.tilt.onChange === 'function') {
+        tiltBound = true;
+        try {
+          feel.tilt.onChange(function () {
+            if (feel.tilt.live && feel.tilt.live() && statusEl && /Drag/.test(statusEl.textContent || '')) {
+              statusEl.textContent = 'Tilt to pour';
+            }
+            if (tilting()) startSettle();
+          });
+        } catch (e) {}
+      }
+      try {
+        var p = feel.tilt.start();
+        if (p && typeof p.then === 'function') p.then(function () {}, function () {});
+      } catch (e) {}
+    }
+
     function startSettle() {
       if (loop || !feel || typeof feel.raf !== 'function' || !sand) return;
       if (feel.motionAllowed && !feel.motionAllowed()) {
@@ -233,9 +266,14 @@ import { config } from './config';
       }
       loop = feel.raf(function () {
         if (!pile) return false;
-        var moved = sand.settle(pile);
+        var tx = tiltX();
+        var slope = sand.SAND_SLOPE || 1.15;
+        var moved = sand.settle(pile, slope, tx);
         draw();
-        if (!moved && !poking) {
+        if (moved && tilting() && !poking) {
+          if (statusEl) statusEl.textContent = 'Tilting';
+        }
+        if (!moved && !poking && !tilting()) {
           loop = null;
           return false;
         }
@@ -256,6 +294,7 @@ import { config } from './config';
           feel.unlock();
         } catch (e) {}
       }
+      startTilt();
       pokeAt(ev, true);
       startSettle();
     }
@@ -286,6 +325,7 @@ import { config } from './config';
         syncPlayReset();
         sizeCanvas();
         draw();
+        startTilt();
       });
       feelRoot.addEventListener('feel:exit', function () {
         playing = false;
@@ -311,6 +351,7 @@ import { config } from './config';
         colors();
         sizeCanvas();
         draw();
+        startTilt();
       });
     }
   })();
