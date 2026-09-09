@@ -222,7 +222,11 @@ import { BREATH_PRESETS, DEFAULT_BREATH_PRESET } from '@lib/engines/feel/breathi
       root.classList.toggle('is-complete', complete);
       if (state.phase !== lastPhase && !complete) {
         lastPhase = state.phase;
-        if (feel && typeof feel.play === 'function') {
+        if (feel && typeof feel.feedback === 'function') {
+          try {
+            feel.feedback('soft');
+          } catch (e) {}
+        } else if (feel && typeof feel.play === 'function') {
           try {
             feel.play('soft');
           } catch (e) {}

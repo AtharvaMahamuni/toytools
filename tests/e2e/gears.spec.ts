@@ -13,6 +13,8 @@ test.describe('gears', () => {
     await expect(page.locator('[data-craft="gears-mesh"]')).toBeVisible();
     await expect(page.locator('[data-gears-driver="12"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('[data-gears-driven="24"]')).toHaveAttribute('aria-pressed', 'true');
+    const driven = await page.locator('[data-gears-driven-g]').getAttribute('transform');
+    expect(driven).toMatch(/rotate\(/);
   });
 
   test('changing teeth updates the ratio when the pair still fits', async ({ page }) => {

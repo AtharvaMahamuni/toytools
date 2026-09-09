@@ -205,6 +205,11 @@ import { config } from './config';
       try {
         canvas.setPointerCapture(ev.pointerId);
       } catch (e) {}
+      if (feel && typeof feel.unlock === 'function') {
+        try {
+          feel.unlock();
+        } catch (e) {}
+      }
       if (feel && typeof feel.feedback === 'function') {
         try {
           feel.feedback('soft');

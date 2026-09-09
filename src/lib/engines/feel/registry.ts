@@ -20,9 +20,10 @@ import {
   type SpringState,
 } from './motion';
 import { readFeelPrefs, writeFeelPrefs, type PrefsBag } from './prefs';
-import { playSound as playSoundRaw, resetSoundContext } from './sound';
+import { playSound as playSoundRaw, resetSoundContext, unlockSound } from './sound';
 import {
   DEFAULT_FEEL_PREFS,
+  FEEL_HAPTICS,
   FEEL_INTENSITY_SCALE,
   FEEL_PREF_KEYS,
   FEEL_TONES,
@@ -37,6 +38,7 @@ import { spinnerApi } from './spinner';
 export type { FeelPrefs, FeelSoundId, FeelTone, PrefsBag, SpringState, SpringOpts, MomentumOpts };
 export {
   DEFAULT_FEEL_PREFS,
+  FEEL_HAPTICS,
   FEEL_INTENSITY_SCALE,
   FEEL_PREF_KEYS,
   FEEL_TONES,
@@ -120,20 +122,25 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
       return vibrateRaw(pattern, { prefs: prefsOf() });
     },
     /**
-     * Play a named cue (`pop` | `click` | `tick` | `soft`) or a custom tone.
+     * Play a named cue (`pop` | `click` | `tick` | `soft` | `grain`) or a custom tone.
      * Respects the sound pref; never throws.
      */
     play(idOrTone: FeelSoundId | FeelTone | string, volume?: number): boolean {
       return playSoundRaw(idOrTone, { prefs: prefsOf(), volume });
     },
-    /** Convenience: sound + optional haptic in one call for a pop/click gesture. */
-    feedback(kind: FeelSoundId = 'pop', pattern: number | number[] = 12): {
+    /** Resume audio on a user gesture so the next cue is not eaten by autoplay policy. */
+    unlock(): void {
+      unlockSound();
+    },
+    /** Convenience: sound + haptic in one call. Haptic length comes from the named cue unless overridden. */
+    feedback(kind: FeelSoundId = 'pop', pattern?: number | number[]): {
       sound: boolean;
       haptic: boolean;
     } {
+      const hapticPattern = pattern ?? FEEL_HAPTICS[kind] ?? 24;
       return {
         sound: playSoundRaw(kind, { prefs: prefsOf() }),
-        haptic: vibrateRaw(pattern, { prefs: prefsOf() }),
+        haptic: vibrateRaw(hapticPattern, { prefs: prefsOf() }),
       };
     },
     gears: gearsApi,

@@ -128,6 +128,8 @@ import { config } from './config';
     var fill = '';
     var shadow = '';
     var playing = false;
+    var lastCol = -1;
+    var lastCueAt = 0;
 
     function colors() {
       var cs = getComputedStyle(root);
@@ -184,24 +186,37 @@ import { config } from './config';
       if (!pile) pile = sand.createPile(intensity());
     }
 
+    function cueGrain(force) {
+      var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      if (!force && now - lastCueAt < 55) return;
+      lastCueAt = now;
+      if (feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('grain');
+        } catch (e) {}
+      } else if (feel && typeof feel.play === 'function') {
+        try {
+          feel.play('grain');
+        } catch (e) {}
+      }
+    }
+
     function resetPile() {
       if (!sand) return;
       sand.resetPile(pile || (pile = sand.createPile(intensity())));
       if (statusEl) statusEl.textContent = 'Mound restored';
       draw();
-      if (feel && typeof feel.play === 'function') {
-        try {
-          feel.play('soft');
-        } catch (e) {}
-      }
+      cueGrain(true);
     }
 
-    function pokeAt(ev) {
+    function pokeAt(ev, first) {
       if (!sand || !pile) return;
       var r = canvas.getBoundingClientRect();
       var col = sand.colAt(ev.clientX - r.left, r.width, pile.cols);
       sand.poke(pile, col);
       if (statusEl) statusEl.textContent = 'Dragging';
+      if (first || col !== lastCol) cueGrain(!!first);
+      lastCol = col;
       draw();
     }
 
@@ -230,16 +245,22 @@ import { config } from './config';
     function onDown(ev) {
       if (ev.button != null && ev.button !== 0) return;
       poking = true;
+      lastCol = -1;
       try {
         canvas.setPointerCapture(ev.pointerId);
       } catch (e) {}
-      pokeAt(ev);
+      if (feel && typeof feel.unlock === 'function') {
+        try {
+          feel.unlock();
+        } catch (e) {}
+      }
+      pokeAt(ev, true);
       startSettle();
     }
 
     function onMove(ev) {
       if (!poking) return;
-      pokeAt(ev);
+      pokeAt(ev, false);
     }
 
     function onUp() {

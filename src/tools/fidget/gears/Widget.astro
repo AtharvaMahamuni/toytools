@@ -5,6 +5,7 @@ import {
   DEFAULT_DRIVEN_TEETH,
   DEFAULT_DRIVER_TEETH,
   TEETH_CHOICES,
+  drivenAngle,
   gearPath,
   layoutPair,
 } from '@lib/engines/feel/gears';
@@ -13,6 +14,7 @@ const layout = layoutPair(DEFAULT_DRIVER_TEETH, DEFAULT_DRIVEN_TEETH);
 if (!layout.ok) throw new Error('default gears must mesh');
 const d1 = gearPath(layout.driverTeeth);
 const d2 = gearPath(layout.drivenTeeth);
+const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180) / Math.PI;
 ---
 
 <FeelWidget slug={config.slug}>
@@ -63,7 +65,10 @@ const d2 = gearPath(layout.drivenTeeth);
       <g data-gears-driver-g transform={`translate(${layout.driver.cx} ${layout.driver.cy})`}>
         <path data-gears-driver-path d={d1} fill-rule="evenodd" />
       </g>
-      <g data-gears-driven-g transform={`translate(${layout.driven.cx} ${layout.driven.cy})`}>
+      <g
+        data-gears-driven-g
+        transform={`translate(${layout.driven.cx} ${layout.driven.cy}) rotate(${drivenRot0})`}
+      >
         <path data-gears-driven-path d={d2} fill-rule="evenodd" />
       </g>
     </svg>
@@ -146,9 +151,10 @@ const d2 = gearPath(layout.drivenTeeth);
   }
 
   .gears-svg path {
-    fill: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
+    fill: color-mix(in srgb, var(--color-accent) 38%, var(--color-surface));
     stroke: color-mix(in srgb, var(--color-accent) 70%, var(--color-text));
-    stroke-width: 1.8;
+    stroke-width: 1.1;
+    stroke-linejoin: round;
   }
 
   .gears-ratio {
@@ -198,6 +204,7 @@ const d2 = gearPath(layout.drivenTeeth);
     var angle = 0;
     var omega = 0;
     var lastTooth = 0;
+    var lastHapticAt = 0;
     var dragging = false;
     var lastAngle = 0;
     var lastT = 0;
@@ -246,18 +253,29 @@ const d2 = gearPath(layout.drivenTeeth);
       return Math.floor(((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) / step);
     }
 
+    function meshDrivenAngle() {
+      var g = api();
+      if (g && typeof g.drivenAngle === 'function') {
+        return g.drivenAngle(angle, driverTeeth, drivenTeeth);
+      }
+      return -angle * (driverTeeth / drivenTeeth) + Math.PI / Math.max(1, drivenTeeth);
+    }
+
     function pulseToothPass(prevAngle, nextAngle) {
       var a = toothIndex(prevAngle);
       var b = toothIndex(nextAngle);
       if (a === b) return;
       lastTooth = b;
-      if (feel && typeof feel.feedback === 'function') {
-        try {
-          feel.feedback('tick', 8);
-        } catch (e) {}
-      } else if (feel && typeof feel.play === 'function') {
+      if (feel && typeof feel.play === 'function') {
         try {
           feel.play('tick');
+        } catch (e) {}
+      }
+      var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      if (now - lastHapticAt > 40 && feel && typeof feel.vibrate === 'function') {
+        lastHapticAt = now;
+        try {
+          feel.vibrate(22);
         } catch (e) {}
       }
     }
@@ -265,7 +283,7 @@ const d2 = gearPath(layout.drivenTeeth);
     function paintAngle(prevAngle) {
       if (!layout) return;
       if (typeof prevAngle === 'number') pulseToothPass(prevAngle, angle);
-      var drivenA = -angle * (driverTeeth / drivenTeeth);
+      var drivenA = meshDrivenAngle();
       var deg = (angle * 180) / Math.PI;
       var ddeg = (drivenA * 180) / Math.PI;
       driverG.setAttribute(
@@ -343,6 +361,11 @@ const d2 = gearPath(layout.drivenTeeth);
       try {
         svg.setPointerCapture(ev.pointerId);
       } catch (e) {}
+      if (feel && typeof feel.unlock === 'function') {
+        try {
+          feel.unlock();
+        } catch (e) {}
+      }
     }
 
     function onMove(ev) {
@@ -373,15 +396,10 @@ const d2 = gearPath(layout.drivenTeeth);
     }
 
     function stepOne() {
-      var g = api();
       var step = (Math.PI * 2) / driverTeeth;
+      var prev = angle;
       angle += step;
-      paintAngle();
-      if (feel && typeof feel.play === 'function') {
-        try {
-          feel.play('tick');
-        } catch (e) {}
-      }
+      paintAngle(prev);
     }
 
     function syncStep() {

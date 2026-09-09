@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
-  minor: 5,
+  minor: 6,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-09',
-  description: 'Gears, Spinner, Kinetic Sand, Slime, and Breathing Circle on the Feel engine',
+  description: 'Mesh gears so teeth lock, and make fidget sound and haptics feelable',
 };
 
 export function formatVersion(config: VersionConfig): string {
