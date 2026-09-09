@@ -241,3 +241,81 @@ function clamp(n: number, min: number, max: number): number {
   if (!Number.isFinite(n)) return min;
   return Math.min(max, Math.max(min, n));
 }
+
+const TAU = Math.PI * 2;
+
+/** Shortest signed turn from `a0` to `a1`, in (-π, π]. */
+export function shortestDelta(a0: number, a1: number): number {
+  const x = Number.isFinite(a0) ? a0 : 0;
+  const y = Number.isFinite(a1) ? a1 : 0;
+  let d = y - x;
+  d = ((d + Math.PI) % TAU + TAU) % TAU - Math.PI;
+  return d;
+}
+
+/**
+ * Pointer angle change around a hub. Filters the π jump when a swipe passes through
+ * the centre so one finger stroke stays one continuous turn.
+ */
+export function hubDeltaAngle(
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+  cx: number,
+  cy: number,
+  minR = 18,
+): number {
+  const ax = x0 - cx;
+  const ay = y0 - cy;
+  const bx = x1 - cx;
+  const by = y1 - cy;
+  const r = Math.max(Math.hypot(ax, ay), Math.hypot(bx, by));
+  if (!(r >= minR)) return 0;
+  const da = shortestDelta(Math.atan2(ay, ax), Math.atan2(by, bx));
+  if (Math.abs(da) > 2.2) return 0;
+  return da;
+}
+
+export interface FlickSample {
+  omega: number;
+  dt: number;
+}
+
+/** Keep the last `maxAge` seconds of samples so a flick reads the stroke, not the last frame. */
+export function pushFlickSample(
+  samples: FlickSample[],
+  omega: number,
+  dt: number,
+  maxAge = 0.14,
+): FlickSample[] {
+  const o = Number.isFinite(omega) ? omega : 0;
+  const d = Number.isFinite(dt) && dt > 0 ? dt : 0.016;
+  samples.push({ omega: o, dt: d });
+  let acc = 0;
+  for (let i = samples.length - 1; i >= 0; i--) {
+    acc += samples[i].dt;
+    if (acc > maxAge) {
+      samples.splice(0, i);
+      break;
+    }
+  }
+  return samples;
+}
+
+/**
+ * Weighted recent angular velocity, then a boost so one swipe can carry several rotations.
+ * Later samples count more, so a slow-down at lift does not kill a real flick.
+ */
+export function flickOmega(samples: FlickSample[], boost = 2.2): number {
+  if (!samples.length) return 0;
+  const b = Number.isFinite(boost) && boost > 0 ? boost : 1;
+  let vsum = 0;
+  let wsum = 0;
+  for (let i = 0; i < samples.length; i++) {
+    const w = samples[i].dt * (i + 1);
+    vsum += samples[i].omega * w;
+    wsum += w;
+  }
+  return wsum > 0 ? (vsum / wsum) * b : 0;
+}

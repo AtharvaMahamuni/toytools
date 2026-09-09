@@ -141,12 +141,16 @@ import { BREATH_PRESETS, DEFAULT_BREATH_PRESET } from '@lib/engines/feel/breathi
 
 <style is:global>
   html.tt-play-mode [data-breathing-circle] {
+    display: flex;
+    flex-direction: column;
     max-width: none;
     height: 100%;
+    min-height: 0;
   }
 
   html.tt-play-mode [data-br-stage] {
     flex: 1 1 auto;
+    min-height: 0;
     border: none;
     background: transparent;
     justify-content: center;

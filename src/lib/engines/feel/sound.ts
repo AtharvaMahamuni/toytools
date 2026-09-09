@@ -17,7 +17,10 @@ export type AudioContextLike = {
   sampleRate?: number;
   createOscillator: () => {
     type: string;
-    frequency: { setValueAtTime: (value: number, time: number) => void };
+    frequency: {
+      setValueAtTime: (value: number, time: number) => void;
+      exponentialRampToValueAtTime?: (value: number, time: number) => void;
+    };
     connect: (dest: unknown) => void;
     start: (when?: number) => void;
     stop: (when?: number) => void;
@@ -71,6 +74,10 @@ export function resolveTone(idOrTone: FeelSoundId | FeelTone | string): FeelTone
   }
   return {
     frequency: Number.isFinite(idOrTone.frequency) ? idOrTone.frequency : 720,
+    frequencyEnd:
+      Number.isFinite(idOrTone.frequencyEnd) && (idOrTone.frequencyEnd as number) > 0
+        ? idOrTone.frequencyEnd
+        : undefined,
     duration: Number.isFinite(idOrTone.duration) && idOrTone.duration > 0 ? idOrTone.duration : 0.025,
     gain: idOrTone.gain,
     type: idOrTone.type,
@@ -119,7 +126,15 @@ export function playSound(
     const gain = ctx.createGain();
     osc.type = tone.type ?? 'sine';
     const t0 = ctx.currentTime;
-    osc.frequency.setValueAtTime(tone.frequency, t0);
+    const startHz = Math.max(20, tone.frequency);
+    osc.frequency.setValueAtTime(startHz, t0);
+    if (
+      tone.frequencyEnd &&
+      tone.frequencyEnd > 0 &&
+      typeof osc.frequency.exponentialRampToValueAtTime === 'function'
+    ) {
+      osc.frequency.exponentialRampToValueAtTime(Math.max(20, tone.frequencyEnd), t0 + tone.duration);
+    }
     gain.gain.setValueAtTime(Math.max(0.0001, peak), t0);
     gain.gain.exponentialRampToValueAtTime(0.0001, t0 + tone.duration);
     osc.connect(gain);

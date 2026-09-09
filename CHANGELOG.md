@@ -2,6 +2,23 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.7] - 2026-09-09
+
+### Changed
+
+- **Play chrome stays off the toy.** Exit and Mute sit in a reserved row above the fidget
+  stage instead of floating on the canvas. Kinetic Sand Reset pile and Slime Release sit
+  below the canvas instead of covering it.
+- **Slime squish.** Grab plays a downward blorp and a longer haptic rumble; pulling keeps
+  a quieter pulse; release snaps. The old `soft` sine sat too low to hear on most speakers.
+- **Spinner and Gears flicks.** One swipe is read over the whole stroke, not the last
+  frame, then boosted so a short flick can carry several rotations. Friction is lower so
+  the coast is smooth instead of stopping in a tenth of a second. A swipe through the hub
+  no longer jumps a half turn.
+- **Fidget haptics.** Pop, click, tick, grain, and breath cues use multi-pulse patterns
+  so a phone can actually feel them. Spinner and gears scale the pulse with speed and
+  add a launch rumble on flick.
+
 ## [alpha-v10.6] - 2026-09-09
 
 ### Changed

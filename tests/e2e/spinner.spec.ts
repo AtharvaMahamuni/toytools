@@ -18,9 +18,9 @@ test.describe('fidget spinner', () => {
     expect(box).toBeTruthy();
     const x = box!.x + box!.width / 2;
     const y = box!.y + box!.height / 2;
-    await page.mouse.move(x, y);
+    await page.mouse.move(x + 50, y);
     await page.mouse.down();
-    await page.mouse.move(x + 40, y - 80, { steps: 4 });
+    await page.mouse.move(x, y - 70, { steps: 6 });
     await page.mouse.up();
     await expect(status(page)).toHaveText(/Spinning|Stopped/);
     await expect.poll(async () => status(page).textContent(), { timeout: 8_000 }).toBe('Stopped');

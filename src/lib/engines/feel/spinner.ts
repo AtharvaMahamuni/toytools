@@ -1,8 +1,11 @@
 // Spinner rest + tick detection. Widget owns the disc; this decides when to stop and when to tick.
 
-export const SPINNER_REST = 0.35;
+export const SPINNER_REST = 0.12;
 export const SPINNER_ARM_COUNT = 3;
 export const SPINNER_TICK_STEP = (Math.PI * 2) / SPINNER_ARM_COUNT;
+export const SPINNER_FRICTION = 0.985;
+export const SPINNER_MAX_OMEGA = 52;
+export const SPINNER_FLICK_BOOST = 2.4;
 
 export function isAtRest(omega: number, rest = SPINNER_REST): boolean {
   return !Number.isFinite(omega) || Math.abs(omega) < rest;
@@ -34,4 +37,7 @@ export const spinnerApi = {
   restOmega,
   SPINNER_REST,
   SPINNER_ARM_COUNT,
+  SPINNER_FRICTION,
+  SPINNER_MAX_OMEGA,
+  SPINNER_FLICK_BOOST,
 };

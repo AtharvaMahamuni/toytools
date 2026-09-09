@@ -4,9 +4,9 @@ import { crossedTick, isAtRest, restOmega, wrapAngle } from './spinner';
 
 describe('spinner rest and ticks', () => {
   it('snaps a dying spin to rest', () => {
-    expect(isAtRest(0.1)).toBe(true);
+    expect(isAtRest(0.05)).toBe(true);
     expect(isAtRest(2)).toBe(false);
-    expect(restOmega(0.1)).toBe(0);
+    expect(restOmega(0.05)).toBe(0);
     expect(restOmega(4)).toBe(4);
   });
 
