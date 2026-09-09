@@ -189,11 +189,11 @@ import { config } from './config';
       }
       var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
       var speed = Math.abs(omega);
-      var gap = speed > 14 ? 80 : speed > 6 ? 50 : 32;
+      var gap = speed > 14 ? 130 : speed > 6 ? 100 : 75;
       if (now - lastHapticAt > gap && feel && typeof feel.vibrate === 'function') {
         lastHapticAt = now;
         try {
-          feel.vibrate(speed > 14 ? [10, 10, 18] : speed > 6 ? [16, 12, 24] : [22, 14, 32]);
+          feel.vibrate(16);
         } catch (e) {}
       }
     }
@@ -313,7 +313,7 @@ import { config } from './config';
       samples = [];
       if (Math.abs(omega) >= cfg.rest && feel && typeof feel.vibrate === 'function') {
         try {
-          feel.vibrate([16, 14, 36, 18, 24]);
+          feel.vibrate(16);
         } catch (e) {}
       }
       startLoop();

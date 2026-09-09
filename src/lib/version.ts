@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 10,
-  minor: 7,
+  minor: 8,
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-09',
-  description: 'Fidget play chrome, material sounds, swipe speed, and smoother flicks',
+  description: 'Subtle fidget haptics, material sounds, and swipe speed',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -276,7 +276,7 @@ const description =
         TT.onReady(function () {
           if (!TT.feel) { TT.toast('Feel runtime still loading…'); return; }
           if (!feelPrefs().haptics) { TT.toast('Turn haptics on first.'); return; }
-          var ok = TT.feel.vibrate(36);
+          var ok = TT.feel.vibrate(18);
           TT.toast(ok ? 'Vibrated.' : 'This device cannot vibrate.');
         });
       });

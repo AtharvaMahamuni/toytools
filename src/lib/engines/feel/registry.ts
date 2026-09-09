@@ -170,7 +170,7 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
       sound: boolean;
       haptic: boolean;
     } {
-      const hapticPattern = pattern ?? FEEL_HAPTICS[kind] ?? 24;
+      const hapticPattern = pattern ?? FEEL_HAPTICS[kind] ?? 16;
       return {
         sound: playSoundRaw(kind, { prefs: prefsOf() }),
         haptic: vibrateRaw(hapticPattern, { prefs: prefsOf() }),

@@ -339,9 +339,9 @@ describe('ToyTools.feel facade', () => {
     expect(feel.vibrate(10)).toBe(false);
     expect(feel.feedback('click')).toEqual({ sound: false, haptic: false });
     expect(typeof feel.unlock).toBe('function');
-    expect(Array.isArray(FEEL_HAPTICS.tick)).toBe(true);
-    expect(Array.isArray(FEEL_HAPTICS.pop)).toBe(true);
-    expect(Array.isArray(FEEL_HAPTICS.grain)).toBe(true);
-    expect(Array.isArray(FEEL_HAPTICS.squish)).toBe(true);
+    expect(FEEL_HAPTICS.tick).toBeLessThanOrEqual(18);
+    expect(FEEL_HAPTICS.pop).toBeLessThanOrEqual(18);
+    expect(FEEL_HAPTICS.grain).toBeLessThanOrEqual(18);
+    expect(FEEL_HAPTICS.squish).toBeLessThanOrEqual(18);
   });
 });

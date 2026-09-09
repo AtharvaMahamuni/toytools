@@ -284,11 +284,11 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       }
       var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
       var speed = Math.abs(omega);
-      var gap = speed > 10 ? 70 : speed > 4 ? 45 : 30;
+      var gap = speed > 10 ? 120 : speed > 4 ? 90 : 70;
       if (now - lastHapticAt > gap && feel && typeof feel.vibrate === 'function') {
         lastHapticAt = now;
         try {
-          feel.vibrate(speed > 10 ? [10, 10, 18] : speed > 4 ? [16, 12, 26] : [22, 14, 32]);
+          feel.vibrate(16);
         } catch (e) {}
       }
     }
@@ -475,7 +475,7 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       samples = [];
       if (Math.abs(omega) >= cfg.rest && feel && typeof feel.vibrate === 'function') {
         try {
-          feel.vibrate([16, 14, 36, 18, 24]);
+          feel.vibrate(16);
         } catch (e) {}
       }
       startLoop();

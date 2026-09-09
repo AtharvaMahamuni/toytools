@@ -96,16 +96,16 @@ export const FEEL_TONES: Record<FeelSoundId, FeelTone> = {
 };
 
 /**
- * Vibration patterns that register on a phone. Sub-15ms pulses are commonly swallowed, which
- * is why the old 8-12ms defaults felt like silence even with haptics on.
+ * Short, single pulses. Multi-burst rumbles read as a motor on a phone; 16-18ms is long
+ * enough to register and short enough to stay a tap, not a thump.
  */
 export const FEEL_HAPTICS: Record<FeelSoundId, number | number[]> = {
-  pop: [12, 16, 40],
-  click: [10, 18, 32],
-  tick: [20, 12, 26],
-  soft: [20, 24, 44, 28],
-  grain: [12, 8, 20, 10, 28, 12, 18],
-  squish: [18, 14, 36, 16, 48, 20, 28],
-  metal: [8, 12, 30],
-  plastic: [14, 12, 24],
+  pop: 18,
+  click: 16,
+  tick: 16,
+  soft: 18,
+  grain: 16,
+  squish: 16,
+  metal: 16,
+  plastic: 16,
 };
