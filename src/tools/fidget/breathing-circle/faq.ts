@@ -17,13 +17,13 @@ export const items: FAQItem[] = [
     id: 'br-faq-3',
     question: 'Can I use this silently?',
     answer:
-      'Yes. Mute under the board or Settings → Feel turns off the soft cue. Motion and mute are independent. Play session still works with sound off.',
+      'Yes. Mute under the board or Settings → Feel turns off the soft cues. Motion and mute are independent. Play session still works with sound off. Mute only flips sound; set haptics under Feel before Play if you want vibration, because the Feel strip hides in Play.',
   },
   {
     id: 'br-faq-4',
     question: 'What does Play session do?',
     answer:
-      'It hides the rest of the page and uses the dark overlay surface so the circle is the only thing in front of you. Exit or Escape restores the page. Native fullscreen is attempted as a bonus; if the browser refuses, the overlay stays.',
+      'It hides the rest of the page and uses the dark overlay surface so the circle is the only thing in front of you. Exit or Escape restores the page. Native fullscreen is attempted as a bonus; if the browser refuses, the overlay stays. Set Sound and Haptics under Feel before Play session, because Mute in play only flips sound.',
   },
   {
     id: 'br-faq-5',

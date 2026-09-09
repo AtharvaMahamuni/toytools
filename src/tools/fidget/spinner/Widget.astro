@@ -203,7 +203,21 @@ import { config } from './config';
 
     function onMove(ev) {
       if (!dragging) return;
-      if (reduced()) return;
+      if (reduced()) {
+        // Discrete drag: no momentum loop, but the disc still turns under the finger.
+        var a = Math.atan2(ev.clientY - cy, ev.clientX - cx);
+        var da = a - lastAngle;
+        if (da > Math.PI) da -= Math.PI * 2;
+        if (da < -Math.PI) da += Math.PI * 2;
+        angle += da;
+        lastAngle = a;
+        lastX = ev.clientX;
+        lastY = ev.clientY;
+        lastT = ev.timeStamp || Date.now();
+        setStatus('Motion reduced');
+        paint();
+        return;
+      }
       var now = ev.timeStamp || Date.now();
       var dt = Math.max(0.008, (now - lastT) / 1000);
       var a = Math.atan2(ev.clientY - cy, ev.clientX - cx);
@@ -229,8 +243,17 @@ import { config } from './config';
         stage.releasePointerCapture(ev.pointerId);
       } catch (e) {}
       if (reduced()) {
+        // Discrete nudge so reduced motion is not a dead toy.
+        var step = (Math.PI * 2) / 12;
+        angle += step;
         tapCount += 1;
-        setStatus(tapCount === 1 ? '1 tap' : tapCount + ' taps');
+        setStatus('Motion reduced');
+        paint();
+        if (feel && typeof feel.play === 'function') {
+          try {
+            feel.play('tick');
+          } catch (e) {}
+        }
         return;
       }
       startLoop();
@@ -255,6 +278,7 @@ import { config } from './config';
         feel = TT.feel || null;
         if (feel && typeof feel.motionAllowed === 'function' && !feel.motionAllowed()) {
           root.classList.add('is-motion-reduced');
+          setStatus('Motion reduced');
         }
       });
     }

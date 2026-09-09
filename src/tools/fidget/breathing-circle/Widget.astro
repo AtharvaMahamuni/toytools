@@ -283,8 +283,35 @@ import { BREATH_PRESETS, DEFAULT_BREATH_PRESET } from '@lib/engines/feel/breathi
         start();
       });
       feelRoot.addEventListener('feel:exit', function () {
-        complete = false;
-        root.classList.remove('is-complete');
+        var fade = 1.5;
+        if (feel && feel.breathing && typeof feel.breathing.FADE_SECONDS === 'number') {
+          fade = feel.breathing.FADE_SECONDS;
+        }
+        // Soft end: mark complete and keep the last phase painted for FADE_SECONDS, no hard cut.
+        complete = true;
+        root.classList.add('is-complete');
+        if (phaseEl) phaseEl.textContent = 'Session complete';
+        if (countEl) countEl.textContent = '';
+        if (loop && loop.stop) loop.stop();
+        loop = null;
+        var until = Date.now() + fade * 1000;
+        if (feel && typeof feel.raf === 'function') {
+          var fadeLoop = feel.raf(function () {
+            if (Date.now() >= until) {
+              complete = false;
+              root.classList.remove('is-complete');
+              if (circle) circle.style.setProperty('--breathe', '1');
+              return false;
+            }
+            return true;
+          });
+          if (fadeLoop && fadeLoop.start) fadeLoop.start();
+        } else {
+          setTimeout(function () {
+            complete = false;
+            root.classList.remove('is-complete');
+          }, fade * 1000);
+        }
       });
     }
 

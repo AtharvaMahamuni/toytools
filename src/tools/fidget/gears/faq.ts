@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'gears-faq-7',
     question: 'What does Play do?',
     answer:
-      'Play hides the trust row, knowledge drawers, footer, and Feel strip so the gears fill the screen under the tool name. Exit or Escape restores the page. Mute stays in the corner. Sound and haptics still follow Settings → Feel.',
+      'Play hides the trust row, knowledge drawers, footer, and Feel strip so the gears fill the screen under the tool name. Exit or Escape restores the page. Mute stays in the corner and only flips sound. Set Sound and Haptics under Feel before Play, because the Feel strip is hidden in play.',
   },
   {
     id: 'gears-faq-8',

@@ -178,6 +178,11 @@ const settingsHref = withBase('/settings/');
         if (exitBtn) exitBtn.hidden = false;
         if (muteBtn) muteBtn.hidden = false;
         root.dispatchEvent(new CustomEvent('feel:play', { bubbles: true }));
+        if (exitBtn) {
+          try {
+            exitBtn.focus();
+          } catch (e) {}
+        }
       } else {
         root.dispatchEvent(new CustomEvent('feel:exit', { bubbles: true }));
         html.classList.remove('tt-play-mode');
@@ -362,13 +367,15 @@ const settingsHref = withBase('/settings/');
   }
 
   .feel-exit {
-    top: var(--space-3);
-    right: var(--space-3);
+    top: calc(var(--space-3) + env(safe-area-inset-top, 0px));
+    right: calc(var(--space-3) + env(safe-area-inset-right, 0px));
+    min-inline-size: var(--touch-target);
   }
 
   .feel-mute {
-    bottom: var(--space-3);
-    left: var(--space-3);
+    bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    left: calc(var(--space-3) + env(safe-area-inset-left, 0px));
+    min-inline-size: var(--touch-target);
   }
 
   .feel-exit[hidden],

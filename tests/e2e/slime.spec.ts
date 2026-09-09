@@ -35,4 +35,19 @@ test.describe('slime', () => {
     await page.keyboard.press('Escape');
     await expect(page.locator('html')).not.toHaveClass(/tt-play-mode/);
   });
+
+  test('missed pointerup shows Release and unsticks', async ({ page }) => {
+    await page.goto(URL);
+    const box = await canvas(page).boundingBox();
+    expect(box).toBeTruthy();
+    const x = box!.x + box!.width / 2;
+    const y = box!.y + box!.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x + 24, y - 18, { steps: 3 });
+    await canvas(page).dispatchEvent('pointercancel');
+    await expect(release(page)).toBeVisible();
+    await release(page).click();
+    await expect(release(page)).toBeHidden();
+  });
 });

@@ -38,8 +38,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       without a reload.
     </p>
     <p>
-      Therefore this is a fidget and a light teaching toy, not a CAD worksheet. It is free, needs
-      no download, and uploads nothing about how you spun it.
+      Therefore this is a fidget and a light teaching toy, not a CAD worksheet. Spin gears here as
+      a gear toy and virtual gears pair. It is free, needs no download, and uploads nothing about
+      how you spun it.
     </p>
     <a href={toolHref} class="cta-link">Open Gears →</a>
   </section>
@@ -68,9 +69,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="how-it-works">
     <h2>How do meshing gears work here? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Drag on the stage. Pointer movement around the driver centre becomes angular velocity. The
-      driven gear uses the negative tooth ratio, so an external mesh reverses. Friction from the
-      Feel engine lets the pair coast and then stop, the same rest idea as the fidget spinner.
+      How it works: this gear simulator and gear fidget is meshing gears online with a spin gears
+      fidget loop. Use the driver and driven buttons. That is how to change tooth count without
+      breaking the mesh: radius snaps to the new count, and a pair that would not fit the stage is
+      refused. Drag on the stage. Pointer movement around the driver centre becomes angular
+      velocity. The driven gear uses the negative tooth ratio, so an external mesh reverses.
+      Friction from the Feel engine lets the pair coast and then stop, the same rest idea as the
+      fidget spinner.
     </p>
     <p>
       Sound is optional. A click can fire when you change teeth. Mute under the board or Settings
@@ -97,8 +102,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       and the other way because the mesh is external.
     </p>
     <p>
-      Engineering applets often bury that line in a table. Toys often omit it. This fidget keeps
-      it on the status row so a parent can point at it without opening a textbook.
+      Playful gears vs engineering applets is the trade this page makes. Engineering applets often
+      bury that line in a table. Toys often omit it. This fidget keeps it on the status row so a
+      parent can point at it without opening a textbook, instead of opening CAD.
     </p>
     <ReferenceBlock type="common-mistake" heading="Reading the ratio as a speed">
       <p>
@@ -120,6 +126,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Use it when the rest of the page is the distraction. A phone in one hand can flick the pair
       without scrolling past related tools. Safe-area padding keeps Exit above the home indicator.
+    </p>
+  </section>
+
+  <section id="vs">
+    <h2>Gears vs a CAD calculator <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Compared to a CAD gear calculator, this page is a spin first. Unlike a static diagram, you
+      drag the pair. The alternative is an applet that hides the ratio; rather than that, the
+      status row stays visible.
     </p>
   </section>
 

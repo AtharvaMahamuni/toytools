@@ -28,9 +28,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Virtual slime is a blob you poke and pull in the browser. Press, drag, let go. Stiffness
-      follows Feel intensity. If a finger leaves the canvas without a pointerup, Release appears
-      so the blob does not stay glued to a ghost.
+      Virtual slime is a slime fidget and slime simulator you poke and pull in the browser. Press,
+      drag, let go to stretch slime online. Stiffness follows Feel intensity. If a finger leaves
+      the canvas without a pointerup, Release appears so the blob does not stay glued to a ghost.
     </p>
     <p>
       For example: Input: a grab on a square stage. Output: a stretch that eases back, with no
@@ -53,11 +53,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="how-it-works">
-    <h2>How does virtual slime work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How does browser slime stay attached to a finger? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The blob is a ring of points. A grab pins one point to the pointer. The others follow with
-      a stiffness from Feel intensity. Let go and the ring eases toward a circle. Therefore a
-      pull feels stretchy without a mesh zoo.
+      The blob is a ring of points. A grab pins one point to the pointer. That is how browser
+      slime stays attached to a finger while you drag. The others follow with a stiffness from
+      Feel intensity. Let go and the ring eases toward a circle. Therefore a pull feels stretchy
+      without a mesh zoo. How to stretch slime online: press near the edge, drag, and release.
     </p>
     <p>
       For example, low intensity is calm. High is stretchy. However, reduced motion only stops
@@ -66,12 +67,13 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   </section>
 
   <section id="release">
-    <h2>What does Release do? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How to unstick slime after leaving the canvas <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A pointer that leaves the canvas sometimes never fires pointerup. Other toys keep the grab.
-      The blob then follows nothing. This page listens for pointerup, pointercancel, and
-      lostpointercapture. If a grab is still held with no buttons down, Release shows. One tap
-      detaches. It stays hidden when the path is clean.
+      Leaving the canvas should keep the grab is the wrong assumption. A pointer that leaves the
+      window sometimes never fires pointerup. Other toys keep the grab. The blob then follows
+      nothing. How to unstick slime after leaving the canvas: this page listens for pointerup,
+      pointercancel, and lostpointercapture. If a grab is still held with no buttons down, Release
+      shows. One tap detaches. It stays hidden when the path is clean.
     </p>
     <ReferenceBlock type="key-idea" heading="Silent until it is stuck">
       <p>
@@ -103,8 +105,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Slime vs alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Mobile slime apps bury the blob behind in-app goo skins. Kinetic sand is a pile you drag.
-      A spinner is a flick. This page is pull. Pick slime when you want stretch in the tab, with
-      a Release control if the pointer leaves the canvas.
+      A spinner is a flick. This page is pull: play with slime as goo fidget slime online, with
+      stretch slime and sensory slime in the tab, plus Release if the pointer leaves the canvas.
     </p>
   </section>
 

@@ -14,7 +14,7 @@ export const VERSION_CONFIG: VersionConfig = {
   minor: 5,
   patch: 0,
   status: 'alpha',
-  releaseDate: '2026-09-08',
+  releaseDate: '2026-09-09',
   description: 'Gears, Spinner, Kinetic Sand, Slime, and Breathing Circle on the Feel engine',
 };
 

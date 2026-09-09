@@ -24,6 +24,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - Pop It and Switch Board Feel strip, settings link, and play chrome live in `FeelWidget`.
 - Breathing Circle seed now proposes the existing Feel engine instead of a missing sound engine.
+- Feel play Exit uses safe-area insets and stays at the 48px touch target; Pop It Infinite copy
+  says Exit or Escape. Gears pulse on tooth-pass; spinner reduced-motion nudges; slime Release on
+  stuck grab; Breathing Circle exit fades with `FADE_SECONDS`. Kinetic Sand meta rewritten.
 
 ## [alpha-v10.4] - 2026-09-08
 

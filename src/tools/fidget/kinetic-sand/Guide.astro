@@ -28,9 +28,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Kinetic sand online is a pile you drag in the browser. This page is a column mound, not a
-      GPU demo. Drag through it. Grains settle. Reset pile restores a centred heap when the sand
-      packs into a corner.
+      Kinetic sand online is a pile you drag in the browser. Virtual kinetic sand here is a sand
+      fidget you can play with sand online as a column mound, not a GPU demo. Drag through it.
+      Grains settle. Reset pile restores a centred heap when the sand packs into a corner.
     </p>
     <p>
       For example: Input: a finger on a 4:3 stage. Output: a displaced pile that settles, with no
@@ -48,21 +48,24 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       Depth is height plus a short shadow, not colour alone, so a low-vision user can still see
-      a ridge. Pinch does not zoom the page: the canvas captures the pointer.
+      a ridge. How to stop pinch-zoom while dragging sand: the canvas sets touch-action to none
+      and captures the pointer, so a pinch grabs sand instead of the page.
     </p>
   </section>
 
   <section id="how-it-works">
-    <h2>How does the sand pile work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How does a browser sand pile stay light? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       The stage is a row of columns. A drag lowers heights under the pointer and spills a little
       to the sides. Then a settle pass lets steep slopes fall. Therefore the pile looks like it
-      flows without running a particle ocean.
+      flows without running a particle ocean. That is how a browser sand pile stays light on a
+      phone-width tab.
     </p>
     <p>
       For example, on low intensity there are 24 columns. High uses 56. Settings → Feel intensity
-      is the quality control, so a budget phone can stay on low. However, reduced motion still
-      lets you dig: grains jump to rest instead of trickling.
+      is the quality control, so a budget phone can stay on low. More particles always feel better
+      is the trap: a denser grid can drop frames, so intensity caps the column count on purpose.
+      However, reduced motion still lets you dig: grains jump to rest instead of trickling.
     </p>
   </section>
 

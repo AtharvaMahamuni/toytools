@@ -147,8 +147,8 @@ const d2 = gearPath(layout.drivenTeeth);
 
   .gears-svg path {
     fill: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
-    stroke: color-mix(in srgb, var(--color-accent) 55%, var(--color-text));
-    stroke-width: 1.2;
+    stroke: color-mix(in srgb, var(--color-accent) 70%, var(--color-text));
+    stroke-width: 1.8;
   }
 
   .gears-ratio {
@@ -197,6 +197,7 @@ const d2 = gearPath(layout.drivenTeeth);
     var drivenTeeth = Number(root.getAttribute('data-driven')) || 24;
     var angle = 0;
     var omega = 0;
+    var lastTooth = 0;
     var dragging = false;
     var lastAngle = 0;
     var lastT = 0;
@@ -240,8 +241,30 @@ const d2 = gearPath(layout.drivenTeeth);
       }
     }
 
-    function paintAngle() {
+    function toothIndex(a) {
+      var step = (Math.PI * 2) / Math.max(1, driverTeeth);
+      return Math.floor(((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) / step);
+    }
+
+    function pulseToothPass(prevAngle, nextAngle) {
+      var a = toothIndex(prevAngle);
+      var b = toothIndex(nextAngle);
+      if (a === b) return;
+      lastTooth = b;
+      if (feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('tick', 8);
+        } catch (e) {}
+      } else if (feel && typeof feel.play === 'function') {
+        try {
+          feel.play('tick');
+        } catch (e) {}
+      }
+    }
+
+    function paintAngle(prevAngle) {
       if (!layout) return;
+      if (typeof prevAngle === 'number') pulseToothPass(prevAngle, angle);
       var drivenA = -angle * (driverTeeth / drivenTeeth);
       var deg = (angle * 180) / Math.PI;
       var ddeg = (drivenA * 180) / Math.PI;
@@ -254,6 +277,7 @@ const d2 = gearPath(layout.drivenTeeth);
         'translate(' + layout.driven.cx + ' ' + layout.driven.cy + ') rotate(' + ddeg + ')',
       );
     }
+
 
     function tryTeeth(nextDriver, nextDriven) {
       var g = api();
@@ -301,8 +325,9 @@ const d2 = gearPath(layout.drivenTeeth);
           loop = null;
           return false;
         }
+        var prev = angle;
         angle += omega * dt;
-        paintAngle();
+        paintAngle(prev);
         return true;
       });
       if (loop && loop.start) loop.start();
@@ -331,11 +356,11 @@ const d2 = gearPath(layout.drivenTeeth);
       var dt = Math.max(0.008, (now - lastT) / 1000);
       omega = da / dt;
       if (feel && typeof feel.clampVelocity === 'function') {
-        omega = feel.clampVelocity(omega, 18);
+        omega = feel.clampVelocity(omega, 14);
       }
       lastAngle = a;
       lastT = now;
-      paintAngle();
+      paintAngle(angle - da);
     }
 
     function onUp(ev) {
@@ -402,9 +427,13 @@ const d2 = gearPath(layout.drivenTeeth);
       svg.addEventListener('pointercancel', onUp);
     }
     if (feelRoot) {
+      feelRoot.addEventListener('feel:play', function () {
+        syncStep();
+      });
       feelRoot.addEventListener('feel:exit', function () {
         if (loop && loop.stop) loop.stop();
         loop = null;
+        syncStep();
       });
     }
 

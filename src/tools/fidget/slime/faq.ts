@@ -35,6 +35,6 @@ export const items: FAQItem[] = [
     id: 'slime-faq-6',
     question: 'What does Play do?',
     answer:
-      'Play fills the screen with the blob. Release, if it is needed, stays on the stage. Exit or Escape restores the page.',
+      'Play fills the screen with the blob. Release, if it is needed, stays on the stage. Exit or Escape restores the page. Mute only flips sound; set Sound and Haptics under Feel before Play, because the Feel strip hides in play.',
   },
 ];

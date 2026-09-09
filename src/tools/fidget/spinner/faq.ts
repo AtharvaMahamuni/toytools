@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'spin-faq-3',
     question: 'Does reduced motion disable the spinner?',
     answer:
-      'Continuous rotation turns off. A tap still counts, so the disc remains a fidget. Settings → Feel Full or Reduced overrides the system preference once Feel loads.',
+      'Continuous rotation turns off. Status reads Motion reduced. A tap still nudges the disc by a discrete step, so the control is not a dead toy. Settings → Feel Full or Reduced overrides the system preference once Feel loads.',
   },
   {
     id: 'spin-faq-4',
@@ -35,7 +35,7 @@ export const items: FAQItem[] = [
     id: 'spin-faq-6',
     question: 'What does Play do?',
     answer:
-      'Play hides the trust row, knowledge drawers, footer, and Feel strip so the disc fills the screen. Flick anywhere on the stage. Exit or Escape restores the page. Mute stays in the corner.',
+      'Play hides the trust row, knowledge drawers, footer, and Feel strip so the disc fills the screen. Flick anywhere on the stage. Exit or Escape restores the page. Mute stays in the corner and only flips sound. Set Sound and Haptics under Feel before Play.',
   },
   {
     id: 'spin-faq-7',

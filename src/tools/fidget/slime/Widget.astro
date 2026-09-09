@@ -235,14 +235,21 @@ import { config } from './config';
       showRelease(false);
     }
 
+    function onStuck() {
+      if (!slime || !blob) return;
+      if (slime.isGrabbed(blob)) showRelease(true);
+    }
+
     canvas.addEventListener('pointerdown', onDown);
     canvas.addEventListener('pointermove', onMove);
     canvas.addEventListener('pointerup', onUp);
-    canvas.addEventListener('pointercancel', onUp);
-    window.addEventListener('pointerup', function () {
-      if (slime && blob && slime.isGrabbed(blob)) showRelease(true);
+    canvas.addEventListener('pointercancel', onStuck);
+    canvas.addEventListener('lostpointercapture', onLost);
+    window.addEventListener('pointerup', onStuck);
+    window.addEventListener('blur', onStuck);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState !== 'visible') onStuck();
     });
-    window.addEventListener('lostpointercapture', onLost, true);
     if (releaseBtn) releaseBtn.addEventListener('click', doRelease);
     window.addEventListener('resize', function () {
       sizeCanvas();
