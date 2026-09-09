@@ -240,6 +240,18 @@ const settingsHref = withBase('/settings/');
       }
     });
 
+    root.addEventListener(
+      'pointerdown',
+      function () {
+        if (feel && typeof feel.unlock === 'function') {
+          try {
+            feel.unlock();
+          } catch (e) {}
+        }
+      },
+      { passive: true },
+    );
+
     bindStrip();
     paintLocalFeel();
     syncMotion();

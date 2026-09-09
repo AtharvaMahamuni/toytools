@@ -28,16 +28,18 @@ export interface FeelPrefs {
 }
 
 /** Named cue ids fidgets can play without shipping audio assets. */
-export type FeelSoundId = 'pop' | 'click' | 'tick' | 'soft';
+export type FeelSoundId = 'pop' | 'click' | 'tick' | 'soft' | 'grain';
+
+export type FeelWave = OscillatorType | 'noise';
 
 export interface FeelTone {
-  /** Oscillator frequency in Hz. */
+  /** Oscillator frequency in Hz. For `noise`, used as a bandpass centre when available. */
   frequency: number;
   /** Duration in seconds. */
   duration: number;
   /** Peak gain 0..1 before the prefs volume scale. */
   gain?: number;
-  type?: OscillatorType;
+  type?: FeelWave;
 }
 
 export const FEEL_PREF_KEYS = {
@@ -63,8 +65,21 @@ export const FEEL_INTENSITY_SCALE: Record<FeelIntensity, number> = {
 
 /** Built-in cues. Short, soft, and synthesised. No media files on the critical path. */
 export const FEEL_TONES: Record<FeelSoundId, FeelTone> = {
-  pop: { frequency: 380, duration: 0.045, gain: 0.18, type: 'sine' },
-  click: { frequency: 720, duration: 0.025, gain: 0.12, type: 'triangle' },
-  tick: { frequency: 1100, duration: 0.018, gain: 0.08, type: 'square' },
-  soft: { frequency: 240, duration: 0.08, gain: 0.1, type: 'sine' },
+  pop: { frequency: 380, duration: 0.055, gain: 0.22, type: 'sine' },
+  click: { frequency: 720, duration: 0.032, gain: 0.16, type: 'triangle' },
+  tick: { frequency: 980, duration: 0.028, gain: 0.14, type: 'square' },
+  soft: { frequency: 240, duration: 0.1, gain: 0.14, type: 'sine' },
+  grain: { frequency: 650, duration: 0.09, gain: 0.24, type: 'noise' },
+};
+
+/**
+ * Vibration patterns that register on a phone. Sub-15ms pulses are commonly swallowed, which
+ * is why the old 8-12ms defaults felt like silence even with haptics on.
+ */
+export const FEEL_HAPTICS: Record<FeelSoundId, number | number[]> = {
+  pop: 32,
+  click: 26,
+  tick: 22,
+  soft: 24,
+  grain: [18, 16, 28],
 };

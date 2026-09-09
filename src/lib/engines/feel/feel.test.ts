@@ -13,8 +13,8 @@ import {
   systemPrefersReducedMotion,
 } from './motion';
 import { readFeelPrefs, writeFeelPrefs, type PrefsBag } from './prefs';
-import { createFeelApi, DEFAULT_FEEL_PREFS, FEEL_PREF_KEYS, FEEL_TONES } from './registry';
-import { playSound, resetSoundContext, resolveTone, type AudioContextLike } from './sound';
+import { createFeelApi, DEFAULT_FEEL_PREFS, FEEL_HAPTICS, FEEL_PREF_KEYS, FEEL_TONES } from './registry';
+import { playSound, resetSoundContext, resolveTone, unlockSound, type AudioContextLike } from './sound';
 
 function memoryPrefs(seed: Record<string, unknown> = {}): PrefsBag & { store: Record<string, unknown> } {
   const store = { ...seed };
@@ -252,6 +252,32 @@ describe('feel sound', () => {
   it('returns false when AudioContext cannot be created', () => {
     expect(playSound('pop', { prefs: { sound: true }, createContext: () => null })).toBe(false);
   });
+
+  it('plays grain as noise when the context can make a buffer', () => {
+    const data = new Float32Array(8);
+    const ctx = fakeAudioContext() as AudioContextLike & {
+      createBuffer: ReturnType<typeof vi.fn>;
+      createBufferSource: ReturnType<typeof vi.fn>;
+      sampleRate: number;
+    };
+    ctx.sampleRate = 44100;
+    ctx.createBuffer = vi.fn(() => ({
+      getChannelData: () => data,
+    }));
+    const src = { buffer: null as unknown, connect: vi.fn(), start: vi.fn(), stop: vi.fn() };
+    ctx.createBufferSource = vi.fn(() => src);
+    expect(FEEL_TONES.grain.type).toBe('noise');
+    expect(playSound('grain', { prefs: { sound: true }, context: ctx })).toBe(true);
+    expect(ctx.createBufferSource).toHaveBeenCalled();
+    expect(src.start).toHaveBeenCalled();
+  });
+
+  it('unlocks a suspended context without throwing', () => {
+    const ctx = fakeAudioContext();
+    ctx.state = 'suspended';
+    expect(() => unlockSound({ context: ctx })).not.toThrow();
+    expect(ctx.resume).toHaveBeenCalled();
+  });
 });
 
 describe('ToyTools.feel facade', () => {
@@ -274,5 +300,8 @@ describe('ToyTools.feel facade', () => {
     expect(feel.play('pop')).toBe(false);
     expect(feel.vibrate(10)).toBe(false);
     expect(feel.feedback('click')).toEqual({ sound: false, haptic: false });
+    expect(typeof feel.unlock).toBe('function');
+    expect(FEEL_HAPTICS.tick).toBeGreaterThanOrEqual(20);
+    expect(FEEL_HAPTICS.grain).toEqual(expect.any(Array));
   });
 });

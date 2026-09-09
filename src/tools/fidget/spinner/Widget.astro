@@ -110,6 +110,7 @@ import { config } from './config';
     var lastAngle = 0;
     var loop = null;
     var tapCount = 0;
+    var lastHapticAt = 0;
     var cx = 0;
     var cy = 0;
 
@@ -140,9 +141,17 @@ import { config } from './config';
     function maybeTick(prev, next) {
       var s = feel && feel.spinner;
       if (!s || typeof s.crossedTick !== 'function') return;
-      if (s.crossedTick(prev, next) && feel.play) {
+      if (!s.crossedTick(prev, next)) return;
+      if (feel && typeof feel.play === 'function') {
         try {
           feel.play('tick');
+        } catch (e) {}
+      }
+      var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      if (now - lastHapticAt > 45 && feel && typeof feel.vibrate === 'function') {
+        lastHapticAt = now;
+        try {
+          feel.vibrate(22);
         } catch (e) {}
       }
     }
@@ -199,6 +208,11 @@ import { config } from './config';
       try {
         stage.setPointerCapture(ev.pointerId);
       } catch (e) {}
+      if (feel && typeof feel.unlock === 'function') {
+        try {
+          feel.unlock();
+        } catch (e) {}
+      }
     }
 
     function onMove(ev) {
@@ -249,9 +263,9 @@ import { config } from './config';
         tapCount += 1;
         setStatus('Motion reduced');
         paint();
-        if (feel && typeof feel.play === 'function') {
+        if (feel && typeof feel.feedback === 'function') {
           try {
-            feel.play('tick');
+            feel.feedback('tick');
           } catch (e) {}
         }
         return;

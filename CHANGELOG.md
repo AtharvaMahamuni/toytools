@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [alpha-v10.6] - 2026-09-09
+
+### Changed
+
+- **Gears mesh.** The driven gear now starts half a tooth out of phase, and teeth are
+  trapezoid (wide root, narrow tip) so a tooth sits in the other gear's gap instead of two
+  valleys facing each other. Stroke is thinner so the fill, not the outline, defines the lock.
+- **Fidget sound and haptics.** Kinetic Sand rustles and rumbles while you drag (it was silent
+  on poke). Named cues are louder and longer; haptic pulses start at 22ms so a phone can feel
+  them (the old 8-12ms ticks were swallowed). Spinner ticks and Breathing Circle phase changes
+  now pulse as well. Audio unlocks on the first touch so the first cue is not eaten by autoplay.
+
 ## [alpha-v10.5] - 2026-09-09
 
 ### Added

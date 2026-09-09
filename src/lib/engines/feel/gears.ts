@@ -44,6 +44,23 @@ export function drivenOmega(driverOmega: number, driverTeeth: number, drivenTeet
   return -driverOmega * (driverTeeth / drivenTeeth);
 }
 
+/**
+ * Half a tooth on the driven gear. Every even tooth-count path has a gap on the line of
+ * centres; without this offset both gaps face each other and the pair looks unlocked.
+ */
+export function meshPhase(drivenTeeth: number): number {
+  const n = Math.max(1, Math.floor(drivenTeeth));
+  return Math.PI / n;
+}
+
+/** Driven rotation including the mesh-phase offset so a tooth sits in the driver gap. */
+export function drivenAngle(driverAngle: number, driverTeeth: number, drivenTeeth: number): number {
+  const n2 = Math.max(1, Math.floor(drivenTeeth));
+  const n1 = Math.max(1, Math.floor(driverTeeth));
+  const a = Number.isFinite(driverAngle) ? driverAngle : 0;
+  return -a * (n1 / n2) + meshPhase(n2);
+}
+
 export function canMesh(
   teethA: number,
   teethB: number,
@@ -119,20 +136,28 @@ export function layoutPair(
 export function gearPath(teeth: number, module = GEAR_MODULE): string {
   const n = Math.max(6, Math.floor(teeth));
   const rp = pitchRadius(n, module);
-  const addendum = module * 0.85;
+  // Involute-ish trapezoid: wide roots, narrow tips, clearance past the pitch circle so a
+  // tooth of one gear sits in the root of the other instead of butting square corners.
+  const addendum = module * 1;
+  const dedendum = module * 1.2;
   const rOuter = rp + addendum;
-  const rInner = Math.max(rp - addendum, rp * 0.52);
+  const rRoot = Math.max(rp - dedendum, rp * 0.42);
   const step = (Math.PI * 2) / n;
-  const toothFrac = 0.42;
+  const rootFrac = 0.54;
+  const pitchFrac = 0.42;
+  const tipFrac = 0.3;
   const pts: string[] = [];
+  const xy = (r: number, a: number) => `${(Math.cos(a) * r).toFixed(3)},${(Math.sin(a) * r).toFixed(3)}`;
   for (let i = 0; i < n; i++) {
-    const a0 = i * step - Math.PI / 2;
-    const a1 = a0 + (step * (1 - toothFrac)) / 2;
-    const a2 = a0 + (step * (1 + toothFrac)) / 2;
-    const a3 = a0 + step;
-    const xy = (r: number, a: number) => `${(Math.cos(a) * r).toFixed(3)},${(Math.sin(a) * r).toFixed(3)}`;
-    if (i === 0) pts.push(`M ${xy(rInner, a0)}`);
-    pts.push(`L ${xy(rInner, a1)} L ${xy(rOuter, a1)} L ${xy(rOuter, a2)} L ${xy(rInner, a2)} L ${xy(rInner, a3)}`);
+    const mid = i * step - Math.PI / 2 + step / 2;
+    const rootHalf = (step * rootFrac) / 2;
+    const pitchHalf = (step * pitchFrac) / 2;
+    const tipHalf = (step * tipFrac) / 2;
+    if (i === 0) pts.push(`M ${xy(rRoot, mid - rootHalf)}`);
+    else pts.push(`L ${xy(rRoot, mid - rootHalf)}`);
+    pts.push(
+      `L ${xy(rp, mid - pitchHalf)} L ${xy(rOuter, mid - tipHalf)} L ${xy(rOuter, mid + tipHalf)} L ${xy(rp, mid + pitchHalf)} L ${xy(rRoot, mid + rootHalf)}`,
+    );
   }
   pts.push('Z');
   const hub = rp * 0.22;
@@ -146,6 +171,8 @@ export const gearsApi = {
   canMesh,
   formatRatio,
   drivenOmega,
+  meshPhase,
+  drivenAngle,
   layoutPair,
   gearPath,
   TEETH_CHOICES,

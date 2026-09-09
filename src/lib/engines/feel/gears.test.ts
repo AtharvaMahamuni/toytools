@@ -3,12 +3,15 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_DRIVEN_TEETH,
   DEFAULT_DRIVER_TEETH,
+  TEETH_CHOICES,
   canMesh,
+  drivenAngle,
   drivenOmega,
   formatRatio,
   gearPath,
   layoutPair,
   meshDistance,
+  meshPhase,
   pitchRadius,
 } from './gears';
 
@@ -45,5 +48,24 @@ describe('gears layout', () => {
     expect(d.startsWith('M ')).toBe(true);
     expect(d.includes('A ')).toBe(true);
     expect(meshDistance(8, 8)).toBe(pitchRadius(8) * 2);
+  });
+
+  it('offsets the driven gear by half a tooth so a tooth sits in the driver gap', () => {
+    expect(meshPhase(24)).toBeCloseTo(Math.PI / 24);
+    expect(drivenAngle(0, 12, 24)).toBeCloseTo(Math.PI / 24);
+    // One driver tooth (2π/12) turns the driven by one of its teeth, plus the static mesh phase.
+    expect(drivenAngle(Math.PI / 6, 12, 24)).toBeCloseTo(-Math.PI / 12 + Math.PI / 24);
+  });
+
+  it('keeps every offered pair meshed on the stage', () => {
+    for (const a of TEETH_CHOICES) {
+      for (const b of TEETH_CHOICES) {
+        const next = layoutPair(a, b);
+        expect(next.ok).toBe(true);
+        if (next.ok) {
+          expect(canMesh(next.driverTeeth, next.drivenTeeth, next.distance)).toBe(true);
+        }
+      }
+    }
   });
 });
