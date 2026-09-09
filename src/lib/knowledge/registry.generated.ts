@@ -11,6 +11,7 @@ import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowled
 import { knowledge as bmrCalculator } from '@tools/health/bmr-calculator/knowledge';
 import { knowledge as bodyFatCalculator } from '@tools/health/body-fat-calculator/knowledge';
 import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracker/knowledge';
+import { knowledge as breathingCircle } from '@tools/fidget/breathing-circle/knowledge';
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/knowledge';
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
@@ -35,6 +36,7 @@ import { knowledge as encodingDetector } from '@tools/developer-utilities/encodi
 import { knowledge as equalizerSettingsGenerator } from '@tools/music/equalizer-settings-generator/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
+import { knowledge as gears } from '@tools/fidget/gears/knowledge';
 import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/knowledge';
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
@@ -51,6 +53,7 @@ import { knowledge as jsonValidator } from '@tools/developer-utilities/json-vali
 import { knowledge as jwtDecoder } from '@tools/developer-utilities/jwt-decoder/knowledge';
 import { knowledge as kebabCaseConverter } from '@tools/text/kebab-case-converter/knowledge';
 import { knowledge as keepScreenAwake } from '@tools/productivity/keep-screen-awake/knowledge';
+import { knowledge as kineticSand } from '@tools/fidget/kinetic-sand/knowledge';
 import { knowledge as letterCounter } from '@tools/text/letter-counter/knowledge';
 import { knowledge as lineCounter } from '@tools/text/line-counter/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
@@ -101,9 +104,11 @@ import { knowledge as sha256HashGenerator } from '@tools/developer-utilities/sha
 import { knowledge as sha512HashGenerator } from '@tools/developer-utilities/sha512-hash-generator/knowledge';
 import { knowledge as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/knowledge';
 import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowledge';
+import { knowledge as slime } from '@tools/fidget/slime/knowledge';
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
+import { knowledge as spinner } from '@tools/fidget/spinner/knowledge';
 import { knowledge as switchBoard } from '@tools/fidget/switch-board/knowledge';
 import { knowledge as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/knowledge';
 import { knowledge as taxCalculator } from '@tools/number/tax-calculator/knowledge';
@@ -134,6 +139,7 @@ export const authoredKnowledge: Knowledge[] = [
   bmrCalculator,
   bodyFatCalculator,
   bodyWeightTracker,
+  breathingCircle,
   cagrCalculator,
   calorieDeficitCalculator,
   camelCaseConverter,
@@ -158,6 +164,7 @@ export const authoredKnowledge: Knowledge[] = [
   equalizerSettingsGenerator,
   findReplace,
   fractionCalculator,
+  gears,
   heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
@@ -174,6 +181,7 @@ export const authoredKnowledge: Knowledge[] = [
   jwtDecoder,
   kebabCaseConverter,
   keepScreenAwake,
+  kineticSand,
   letterCounter,
   lineCounter,
   loremIpsumGenerator,
@@ -224,9 +232,11 @@ export const authoredKnowledge: Knowledge[] = [
   sha512HashGenerator,
   shellQuoteEscalator,
   sipCalculator,
+  slime,
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
+  spinner,
   switchBoard,
   systemdTimerConverter,
   taxCalculator,

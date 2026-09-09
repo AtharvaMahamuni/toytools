@@ -11,11 +11,12 @@ const bubbles = (page: Page) => page.locator('[data-pop-bubble]');
 const status = (page: Page) => page.locator('[data-pop-status]');
 const reset = (page: Page) => page.locator('[data-pop-reset]');
 const scroller = (page: Page) => page.locator('[data-pop-scroller]');
-const infiniteBtn = (page: Page) => page.locator('[data-pop-infinite]');
-const feelStrip = (page: Page) => page.locator('[data-pop-feel-strip]');
-const feelLink = (page: Page) => page.locator('[data-pop-feel-link]');
-const toolbar = (page: Page) => page.locator('[data-pop-toolbar]');
-const bar = (page: Page) => page.locator('[data-pop-bar]');
+const infiniteBtn = (page: Page) => page.locator('[data-feel-play]');
+const feelStrip = (page: Page) => page.locator('[data-feel-strip]');
+const feelLink = (page: Page) => page.locator('[data-feel-settings]');
+const toolbar = (page: Page) => page.locator('[data-feel-toolbar]');
+const bar = (page: Page) => page.locator('[data-feel-bar]');
+const exitPlay = (page: Page) => page.locator('[data-feel-exit]');
 
 test.describe('pop it', () => {
   test('popping one bubble marks it pressed and updates the count', async ({ page }) => {
@@ -68,7 +69,7 @@ test.describe('pop it', () => {
   }) => {
     await page.goto(URL);
     await expect(bubbles(page)).toHaveCount(12);
-    await expect(page.locator('html')).not.toHaveClass(/tt-infinite-mode/);
+    await expect(page.locator('html')).not.toHaveClass(/tt-play-mode/);
 
     const metrics = await scroller(page).evaluate((el) => {
       const node = el as HTMLElement;
@@ -101,20 +102,21 @@ test.describe('pop it', () => {
     await expect(toolbar(page)).toBeVisible();
     await expect(bar(page)).toBeVisible();
 
+    await expect(exitPlay(page)).toBeHidden();
     await infiniteBtn(page).click();
-    await expect(page.locator('html')).toHaveClass(/tt-infinite-mode/);
+    await expect(page.locator('html')).toHaveClass(/tt-play-mode/);
     await expect(page.locator('.tool-signature')).toBeHidden();
     await expect(page.locator('.knowledge-drawers')).toBeHidden();
     await expect(page.locator('footer[role="contentinfo"]')).toBeHidden();
     await expect(page.locator('.tool-bar')).toBeVisible();
 
-    // Infinite chrome = board only: no Feel link/strip, no toolbar/bar buttons.
+    // Play chrome = board only: Feel strip/toolbar/bar hide. Exit is the way out on a phone.
     await expect(feelLink(page)).toBeHidden();
     await expect(feelStrip(page)).toBeHidden();
     await expect(toolbar(page)).toBeHidden();
     await expect(bar(page)).toBeHidden();
     await expect(reset(page)).toBeHidden();
-    await expect(page.locator('[data-pop-exit-infinite]')).toHaveCount(0);
+    await expect(exitPlay(page)).toBeVisible();
 
     const overflowY = await scroller(page).evaluate(
       (el) => getComputedStyle(el as HTMLElement).overflowY,
@@ -163,7 +165,7 @@ test.describe('pop it', () => {
     expect(painted.cursor).toBe('default');
 
     await page.keyboard.press('Escape');
-    await expect(page.locator('html')).not.toHaveClass(/tt-infinite-mode/);
+    await expect(page.locator('html')).not.toHaveClass(/tt-play-mode/);
     await expect(page.locator('.tool-signature')).toBeVisible();
     await expect(bubbles(page)).toHaveCount(12);
     await expect(feelStrip(page)).toBeVisible();
@@ -202,11 +204,11 @@ test.describe('pop it', () => {
     await page.goto(URL);
 
     // Defaults: sound on, haptics off.
-    await expect(page.locator('[data-pop-sound="on"]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('[data-pop-haptics="off"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-feel-sound="on"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-feel-haptics="off"]')).toHaveAttribute('aria-pressed', 'true');
 
-    await page.locator('[data-pop-sound="off"]').click();
-    await page.locator('[data-pop-haptics="on"]').click();
+    await page.locator('[data-feel-sound="off"]').click();
+    await page.locator('[data-feel-haptics="on"]').click();
 
     const prefs = await page.evaluate(() => {
       const TT = (window as unknown as { ToyTools?: { prefs?: { get: (k: string, f?: unknown) => unknown } } }).ToyTools;

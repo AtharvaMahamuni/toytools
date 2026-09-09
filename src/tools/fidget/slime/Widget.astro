@@ -1,0 +1,269 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+---
+
+<FeelWidget slug={config.slug}>
+  <div slot="stage" class="slime" data-slime>
+    <div class="slime-stage">
+      <canvas class="slime-canvas" data-slime-canvas aria-label="Slime blob"></canvas>
+    </div>
+    <button
+      type="button"
+      class="slime-release"
+      data-slime-release
+      data-craft={config.craft!.id}
+      hidden
+    >
+      Release
+    </button>
+  </div>
+
+  <p slot="status" class="slime-status" data-slime-status>Poke and pull</p>
+</FeelWidget>
+
+<style>
+  .slime {
+    position: relative;
+    max-width: 24rem;
+    min-width: 0;
+  }
+
+  .slime-stage {
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 24rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: var(--border);
+    overflow: hidden;
+  }
+
+  .slime-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .slime-canvas:active {
+    cursor: grabbing;
+  }
+
+  .slime-status {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .slime-release {
+    position: absolute;
+    right: var(--space-3);
+    bottom: var(--space-3);
+    z-index: 1;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .slime-release:active {
+    background: var(--color-surface-hover);
+  }
+
+  .slime-release:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .slime-release[hidden] {
+    display: none;
+  }
+</style>
+
+<style is:global>
+  html.tt-play-mode [data-slime] {
+    max-width: none;
+    height: 100%;
+  }
+
+  html.tt-play-mode [data-slime] .slime-stage {
+    max-width: none;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-slime]');
+    if (!root) return;
+
+    var canvas = root.querySelector('[data-slime-canvas]');
+    var releaseBtn = root.querySelector('[data-slime-release]');
+    var statusEl = document.querySelector('[data-slime-status]');
+    var ctx = canvas.getContext('2d');
+    var feel = null;
+    var slime = null;
+    var blob = null;
+    var loop = null;
+    var fill = '';
+    var w = 320;
+    var h = 320;
+
+    function colors() {
+      var cs = getComputedStyle(root);
+      fill = cs.getPropertyValue('--color-accent').trim() || '#2f6f4e';
+    }
+
+    function sizeCanvas() {
+      var wrap = canvas.parentElement;
+      w = wrap.clientWidth || 320;
+      h = wrap.clientHeight || w;
+      var dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.max(1, Math.round(w * dpr));
+      canvas.height = Math.max(1, Math.round(h * dpr));
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw() {
+      if (!blob || !ctx) return;
+      ctx.clearRect(0, 0, w, h);
+      ctx.beginPath();
+      var verts = blob.verts;
+      ctx.moveTo(verts[0].x, verts[0].y);
+      for (var i = 1; i < verts.length; i++) ctx.lineTo(verts[i].x, verts[i].y);
+      ctx.closePath();
+      ctx.globalAlpha = 0.82;
+      ctx.fillStyle = fill;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    function stiffness() {
+      var map = slime && slime.SLIME_STIFFNESS ? slime.SLIME_STIFFNESS : { low: 0.18, medium: 0.32, high: 0.48 };
+      if (feel && typeof feel.prefs === 'function') {
+        try {
+          var p = feel.prefs();
+          if (p.intensity && map[p.intensity] != null) return map[p.intensity];
+        } catch (e) {}
+      }
+      return map.medium;
+    }
+
+    function motionScale() {
+      if (feel && typeof feel.motionScale === 'function') {
+        try {
+          return feel.motionScale();
+        } catch (e) {}
+      }
+      return 1;
+    }
+
+    function showRelease(on) {
+      if (releaseBtn) releaseBtn.hidden = !on;
+      if (statusEl) statusEl.textContent = on ? 'Stuck. Tap Release.' : 'Poke and pull';
+    }
+
+    function ensureBlob() {
+      if (!slime) return;
+      if (!blob) blob = slime.createBlob(w / 2, h / 2, Math.min(w, h) * 0.28, 24);
+    }
+
+    function startLoop() {
+      if (loop || !feel || typeof feel.raf !== 'function' || !slime || !blob) return;
+      loop = feel.raf(function () {
+        slime.step(blob, w, h, stiffness(), motionScale());
+        draw();
+        return true;
+      });
+      if (loop && loop.start) loop.start();
+    }
+
+    function local(ev) {
+      var r = canvas.getBoundingClientRect();
+      return { x: ev.clientX - r.left, y: ev.clientY - r.top };
+    }
+
+    function onDown(ev) {
+      if (ev.button != null && ev.button !== 0) return;
+      if (!slime || !blob) return;
+      var p = local(ev);
+      slime.grab(blob, p.x, p.y);
+      slime.moveGrab(blob, p.x, p.y);
+      showRelease(false);
+      try {
+        canvas.setPointerCapture(ev.pointerId);
+      } catch (e) {}
+      if (feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('soft');
+        } catch (e) {}
+      }
+    }
+
+    function onMove(ev) {
+      if (!slime || !blob || !slime.isGrabbed(blob)) return;
+      var p = local(ev);
+      slime.moveGrab(blob, p.x, p.y);
+    }
+
+    function onUp() {
+      if (!slime || !blob) return;
+      slime.release(blob);
+      showRelease(false);
+    }
+
+    function onLost() {
+      if (!slime || !blob) return;
+      if (slime.isGrabbed(blob)) showRelease(true);
+    }
+
+    function doRelease() {
+      if (!slime || !blob) return;
+      slime.release(blob);
+      showRelease(false);
+    }
+
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove);
+    canvas.addEventListener('pointerup', onUp);
+    canvas.addEventListener('pointercancel', onUp);
+    window.addEventListener('pointerup', function () {
+      if (slime && blob && slime.isGrabbed(blob)) showRelease(true);
+    });
+    window.addEventListener('lostpointercapture', onLost, true);
+    if (releaseBtn) releaseBtn.addEventListener('click', doRelease);
+    window.addEventListener('resize', function () {
+      sizeCanvas();
+      if (slime) blob = slime.createBlob(w / 2, h / 2, Math.min(w, h) * 0.28, 24);
+      draw();
+    });
+
+    colors();
+    sizeCanvas();
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        slime = feel && feel.slime ? feel.slime : null;
+        sizeCanvas();
+        colors();
+        ensureBlob();
+        draw();
+        startLoop();
+      });
+    }
+  })();
+</script>

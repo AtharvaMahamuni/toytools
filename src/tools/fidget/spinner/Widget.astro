@@ -1,0 +1,262 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+---
+
+<FeelWidget slug={config.slug}>
+  <div slot="stage" class="spin" data-spinner>
+    <div
+      class="spin-stage"
+      data-spin-stage
+      tabindex="0"
+      role="img"
+      aria-label="Fidget spinner. Flick to spin."
+    >
+      <svg class="spin-svg" data-spin-disc viewBox="-80 -80 160 160" aria-hidden="true">
+        <circle cx="0" cy="0" r="18" />
+        <circle cx="0" cy="-52" r="22" />
+        <circle cx="45" cy="26" r="22" />
+        <circle cx="-45" cy="26" r="22" />
+        <circle cx="0" cy="0" r="7" class="spin-hub" />
+      </svg>
+    </div>
+  </div>
+
+  <p slot="status" class="spin-status" data-spin-status data-craft={config.craft!.id} aria-live="polite">
+    Stopped
+  </p>
+</FeelWidget>
+
+<style>
+  .spin {
+    max-width: 24rem;
+    min-width: 0;
+  }
+
+  .spin-stage {
+    aspect-ratio: 1;
+    width: 100%;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: var(--border);
+    display: grid;
+    place-items: center;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .spin-stage:active {
+    cursor: grabbing;
+  }
+
+  .spin-stage:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .spin-svg {
+    width: min(72%, 16rem);
+    height: auto;
+    transform-origin: 50% 50%;
+    fill: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
+    stroke: color-mix(in srgb, var(--color-accent) 55%, var(--color-text));
+    stroke-width: 1.5;
+  }
+
+  .spin-hub {
+    fill: var(--color-surface);
+  }
+
+  .spin-status {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .spin.is-motion-reduced .spin-svg {
+    transition: none;
+  }
+</style>
+
+<style is:global>
+  html.tt-play-mode [data-spinner] {
+    max-width: none;
+    height: 100%;
+  }
+
+  html.tt-play-mode [data-spin-stage] {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-spinner]');
+    if (!root) return;
+
+    var stage = root.querySelector('[data-spin-stage]');
+    var disc = root.querySelector('[data-spin-disc]');
+    var statusEl = document.querySelector('[data-spin-status]');
+    var feelRoot = root.closest('[data-feel-slug]');
+    var feel = null;
+    var angle = 0;
+    var omega = 0;
+    var dragging = false;
+    var lastX = 0;
+    var lastY = 0;
+    var lastT = 0;
+    var lastAngle = 0;
+    var loop = null;
+    var tapCount = 0;
+    var cx = 0;
+    var cy = 0;
+
+    function setStatus(text) {
+      if (statusEl) statusEl.textContent = text;
+    }
+
+    function paint() {
+      disc.style.transform = 'rotate(' + (angle * 180) / Math.PI + 'deg)';
+    }
+
+    function reduced() {
+      if (feel && typeof feel.motionAllowed === 'function') {
+        try {
+          return !feel.motionAllowed();
+        } catch (e) {}
+      }
+      return root.classList.contains('is-motion-reduced');
+    }
+
+    function stopLoop() {
+      if (loop && loop.stop) loop.stop();
+      loop = null;
+      omega = 0;
+      setStatus('Stopped');
+    }
+
+    function maybeTick(prev, next) {
+      var s = feel && feel.spinner;
+      if (!s || typeof s.crossedTick !== 'function') return;
+      if (s.crossedTick(prev, next) && feel.play) {
+        try {
+          feel.play('tick');
+        } catch (e) {}
+      }
+    }
+
+    function startLoop() {
+      if (loop || !feel || typeof feel.raf !== 'function') return;
+      if (reduced()) {
+        stopLoop();
+        return;
+      }
+      setStatus('Spinning');
+      loop = feel.raf(function (dt) {
+        if (dragging) return true;
+        var prev = angle;
+        if (typeof feel.friction === 'function') {
+          omega = feel.friction(omega, { friction: 0.965, restVelocity: 0.35 }, dt);
+        } else {
+          omega *= 0.98;
+        }
+        var rest = feel.spinner && feel.spinner.SPINNER_REST ? feel.spinner.SPINNER_REST : 0.35;
+        if (feel.spinner && typeof feel.spinner.isAtRest === 'function' && feel.spinner.isAtRest(omega, rest)) {
+          omega = 0;
+          loop = null;
+          setStatus('Stopped');
+          return false;
+        }
+        if (typeof feel.integrate === 'function') {
+          angle = feel.integrate(angle, omega, dt);
+        } else {
+          angle += omega * dt;
+        }
+        maybeTick(prev, angle);
+        paint();
+        return true;
+      });
+      if (loop && loop.start) loop.start();
+    }
+
+    function stageCenter() {
+      var r = stage.getBoundingClientRect();
+      cx = r.left + r.width / 2;
+      cy = r.top + r.height / 2;
+    }
+
+    function onDown(ev) {
+      if (ev.button != null && ev.button !== 0) return;
+      dragging = true;
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+      lastT = ev.timeStamp || Date.now();
+      stageCenter();
+      lastAngle = Math.atan2(ev.clientY - cy, ev.clientX - cx);
+      omega = 0;
+      try {
+        stage.setPointerCapture(ev.pointerId);
+      } catch (e) {}
+    }
+
+    function onMove(ev) {
+      if (!dragging) return;
+      if (reduced()) return;
+      var now = ev.timeStamp || Date.now();
+      var dt = Math.max(0.008, (now - lastT) / 1000);
+      var a = Math.atan2(ev.clientY - cy, ev.clientX - cx);
+      var da = a - lastAngle;
+      if (da > Math.PI) da -= Math.PI * 2;
+      if (da < -Math.PI) da += Math.PI * 2;
+      var prev = angle;
+      angle += da;
+      omega = da / dt;
+      if (feel && typeof feel.clampVelocity === 'function') omega = feel.clampVelocity(omega, 28);
+      lastAngle = a;
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+      lastT = now;
+      maybeTick(prev, angle);
+      paint();
+    }
+
+    function onUp(ev) {
+      if (!dragging) return;
+      dragging = false;
+      try {
+        stage.releasePointerCapture(ev.pointerId);
+      } catch (e) {}
+      if (reduced()) {
+        tapCount += 1;
+        setStatus(tapCount === 1 ? '1 tap' : tapCount + ' taps');
+        return;
+      }
+      startLoop();
+    }
+
+    function onVis() {
+      if (document.visibilityState !== 'visible') stopLoop();
+    }
+
+    stage.addEventListener('pointerdown', onDown);
+    stage.addEventListener('pointermove', onMove);
+    stage.addEventListener('pointerup', onUp);
+    stage.addEventListener('pointercancel', onUp);
+    document.addEventListener('visibilitychange', onVis);
+    if (feelRoot) {
+      feelRoot.addEventListener('feel:exit', stopLoop);
+    }
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        if (feel && typeof feel.motionAllowed === 'function' && !feel.motionAllowed()) {
+          root.classList.add('is-motion-reduced');
+        }
+      });
+    }
+  })();
+</script>

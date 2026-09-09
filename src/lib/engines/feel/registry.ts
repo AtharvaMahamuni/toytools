@@ -30,6 +30,9 @@ import {
   type FeelSoundId,
   type FeelTone,
 } from './types';
+import { breathingApi } from './breathing';
+import { gearsApi } from './gears';
+import { spinnerApi } from './spinner';
 
 export type { FeelPrefs, FeelSoundId, FeelTone, PrefsBag, SpringState, SpringOpts, MomentumOpts };
 export {
@@ -133,6 +136,9 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
         haptic: vibrateRaw(pattern, { prefs: prefsOf() }),
       };
     },
+    gears: gearsApi,
+    spinner: spinnerApi,
+    breathing: breathingApi,
   };
 }
 
@@ -146,4 +152,9 @@ export type FeelApi = ReturnType<typeof createFeelApi>;
 export const FEEL_TOOLS: Record<string, { id: string }> = {
   'pop-it': { id: 'pop-it' },
   'switch-board': { id: 'switch-board' },
+  gears: { id: 'gears' },
+  spinner: { id: 'spinner' },
+  'kinetic-sand': { id: 'kinetic-sand' },
+  slime: { id: 'slime' },
+  'breathing-circle': { id: 'breathing-circle' },
 };

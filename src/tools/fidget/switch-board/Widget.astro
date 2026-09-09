@@ -1,20 +1,14 @@
 ---
 import FeelWidget from '@tools/_shared/FeelWidget.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
 
 const COLS = 4;
 const COUNT = 16;
 const switches = Array.from({ length: COUNT }, (_, i) => i);
-const settingsHref = withBase('/settings/');
 ---
 
 <FeelWidget slug={config.slug}>
-  <div class="sb" data-switch-board data-cols={COLS} data-count={COUNT}>
-    <div class="sb-toolbar">
-      <a class="sb-feel-link" href={settingsHref}>Feel settings</a>
-    </div>
-
+  <div slot="stage" class="sb" data-switch-board data-cols={COLS} data-count={COUNT}>
     <div
       class="sb-board"
       data-sb-board
@@ -38,64 +32,27 @@ const settingsHref = withBase('/settings/');
         ))
       }
     </div>
-
-    <div class="sb-bar">
-      <p class="sb-status" data-sb-status aria-live="polite">0 on</p>
-      <button
-        type="button"
-        class="sb-all-off"
-        data-sb-all-off
-        data-craft={config.craft!.id}
-        hidden
-      >
-        All off
-      </button>
-    </div>
-
-    <div class="sb-feel-strip" data-sb-feel-strip>
-      <div class="sb-feel-group" role="group" aria-label="Sound">
-        <span class="sb-feel-label">Sound</span>
-        <button type="button" class="sb-feel-toggle" data-sb-sound="on" aria-pressed="true">
-          On
-        </button>
-        <button type="button" class="sb-feel-toggle" data-sb-sound="off" aria-pressed="false">
-          Off
-        </button>
-      </div>
-      <div class="sb-feel-group" role="group" aria-label="Haptics">
-        <span class="sb-feel-label">Haptics</span>
-        <button type="button" class="sb-feel-toggle" data-sb-haptics="on" aria-pressed="false">
-          On
-        </button>
-        <button type="button" class="sb-feel-toggle" data-sb-haptics="off" aria-pressed="true">
-          Off
-        </button>
-      </div>
-    </div>
   </div>
+
+  <p slot="status" class="sb-status" data-sb-status aria-live="polite">0 on</p>
+  <button
+    slot="actions"
+    type="button"
+    class="sb-all-off"
+    data-sb-all-off
+    data-craft={config.craft!.id}
+    hidden
+  >
+    All off
+  </button>
 </FeelWidget>
 
 <style>
   .sb {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
     max-width: 24rem;
     min-width: 0;
-  }
-
-  .sb-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .sb-feel-link {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
   }
 
   .sb-board {
@@ -149,14 +106,6 @@ const settingsHref = withBase('/settings/');
     outline-offset: var(--focus-ring-offset);
   }
 
-  .sb-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
-  }
-
   .sb-status {
     margin: 0;
     max-width: none;
@@ -165,8 +114,7 @@ const settingsHref = withBase('/settings/');
     line-height: var(--leading-relaxed);
   }
 
-  .sb-all-off,
-  .sb-feel-toggle {
+  .sb-all-off {
     flex: 0 0 auto;
     min-block-size: var(--touch-target);
     padding-inline: var(--space-4);
@@ -179,49 +127,32 @@ const settingsHref = withBase('/settings/');
     cursor: pointer;
   }
 
-  .sb-all-off:active,
-  .sb-feel-toggle:active {
+  .sb-all-off:active {
     background: var(--color-surface-hover);
   }
 
-  .sb-feel-toggle.is-active {
-    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
-  }
-
-  .sb-all-off:focus-visible,
-  .sb-feel-toggle:focus-visible,
-  .sb-feel-link:focus-visible {
+  .sb-all-off:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
   }
 
-  .sb-all-off[hidden],
-  .sb [hidden] {
+  .sb-all-off[hidden] {
     display: none;
-  }
-
-  .sb-feel-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    align-items: center;
-  }
-
-  .sb-feel-group {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .sb-feel-label {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin-inline-end: var(--space-1);
   }
 
   .sb.is-motion-reduced .sb-switch {
     transition: none;
+  }
+</style>
+
+<style is:global>
+  html.tt-play-mode [data-switch-board] {
+    max-width: none;
+    height: 100%;
+  }
+
+  html.tt-play-mode [data-sb-board] {
+    height: 100%;
   }
 </style>
 
@@ -231,16 +162,12 @@ const settingsHref = withBase('/settings/');
     if (!root) return;
 
     var board = root.querySelector('[data-sb-board]');
-    var statusEl = root.querySelector('[data-sb-status]');
-    var allOffBtn = root.querySelector('[data-sb-all-off]');
-    var feelStrip = root.querySelector('[data-sb-feel-strip]');
+    var statusEl = document.querySelector('[data-sb-status]');
+    var allOffBtn = document.querySelector('[data-sb-all-off]');
     var cols = Number(root.getAttribute('data-cols')) || 4;
     var feel = null;
     var ignoreClick = false;
     var focusIndex = 0;
-
-    var FEEL_KEYS = { sound: 'feel.sound', haptics: 'feel.haptics' };
-    var FEEL_DEFAULTS = { sound: true, haptics: false };
 
     function switches() {
       return root.querySelectorAll('[data-sb-switch]');
@@ -274,7 +201,9 @@ const settingsHref = withBase('/settings/');
 
     function cue() {
       if (feel && typeof feel.feedback === 'function') {
-        try { feel.feedback('click'); } catch (e) {}
+        try {
+          feel.feedback('click');
+        } catch (e) {}
       }
     }
 
@@ -333,7 +262,8 @@ const settingsHref = withBase('/settings/');
     function onKeyDown(ev) {
       if (!board) return;
       var t = ev.target;
-      var onBoard = document.activeElement === board || (t && t.closest && t.closest('[data-sb-switch]'));
+      var onBoard =
+        document.activeElement === board || (t && t.closest && t.closest('[data-sb-switch]'));
       if (!onBoard) return;
       var list = switches();
       var max = list.length - 1;
@@ -361,76 +291,6 @@ const settingsHref = withBase('/settings/');
       }
     }
 
-    function readLocalFeel() {
-      var TT = window.ToyTools;
-      if (feel && typeof feel.prefs === 'function') {
-        try {
-          var p = feel.prefs();
-          return { sound: !!p.sound, haptics: !!p.haptics };
-        } catch (e) {}
-      }
-      if (TT && TT.prefs && typeof TT.prefs.get === 'function') {
-        var sound = TT.prefs.get(FEEL_KEYS.sound, FEEL_DEFAULTS.sound);
-        var haptics = TT.prefs.get(FEEL_KEYS.haptics, FEEL_DEFAULTS.haptics);
-        return {
-          sound: sound === false || sound === 'false' ? false : true,
-          haptics: haptics === true || haptics === 'true',
-        };
-      }
-      return { sound: FEEL_DEFAULTS.sound, haptics: FEEL_DEFAULTS.haptics };
-    }
-
-    function writeLocalFeel(patch) {
-      var TT = window.ToyTools;
-      if (feel && typeof feel.setPrefs === 'function') {
-        try {
-          feel.setPrefs(patch);
-          paintLocalFeel();
-          return;
-        } catch (e) {}
-      }
-      if (TT && TT.prefs && typeof TT.prefs.set === 'function') {
-        try {
-          if (typeof patch.sound === 'boolean') TT.prefs.set(FEEL_KEYS.sound, patch.sound);
-          if (typeof patch.haptics === 'boolean') TT.prefs.set(FEEL_KEYS.haptics, patch.haptics);
-        } catch (e) {}
-      }
-      paintLocalFeel();
-    }
-
-    function paintLocalFeel() {
-      if (!feelStrip) return;
-      var p = readLocalFeel();
-      var soundBtns = feelStrip.querySelectorAll('[data-sb-sound]');
-      for (var i = 0; i < soundBtns.length; i++) {
-        var on = soundBtns[i].getAttribute('data-sb-sound') === (p.sound ? 'on' : 'off');
-        soundBtns[i].classList.toggle('is-active', on);
-        soundBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
-      }
-      var hapBtns = feelStrip.querySelectorAll('[data-sb-haptics]');
-      for (var j = 0; j < hapBtns.length; j++) {
-        var hon = hapBtns[j].getAttribute('data-sb-haptics') === (p.haptics ? 'on' : 'off');
-        hapBtns[j].classList.toggle('is-active', hon);
-        hapBtns[j].setAttribute('aria-pressed', hon ? 'true' : 'false');
-      }
-    }
-
-    function bindLocalFeel() {
-      if (!feelStrip) return;
-      var soundBtns = feelStrip.querySelectorAll('[data-sb-sound]');
-      for (var i = 0; i < soundBtns.length; i++) {
-        soundBtns[i].addEventListener('click', function () {
-          writeLocalFeel({ sound: this.getAttribute('data-sb-sound') === 'on' });
-        });
-      }
-      var hapBtns = feelStrip.querySelectorAll('[data-sb-haptics]');
-      for (var j = 0; j < hapBtns.length; j++) {
-        hapBtns[j].addEventListener('click', function () {
-          writeLocalFeel({ haptics: this.getAttribute('data-sb-haptics') === 'on' });
-        });
-      }
-    }
-
     if (board) {
       board.addEventListener('pointerdown', onPointerDown);
       board.addEventListener('click', onClick);
@@ -451,12 +311,7 @@ const settingsHref = withBase('/settings/');
         if (feel && typeof feel.motionAllowed === 'function' && !feel.motionAllowed()) {
           root.classList.add('is-motion-reduced');
         }
-        paintLocalFeel();
-        bindLocalFeel();
       });
-    } else {
-      paintLocalFeel();
-      bindLocalFeel();
     }
 
     syncStatus();

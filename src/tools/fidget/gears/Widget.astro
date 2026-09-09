@@ -1,0 +1,424 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+import {
+  DEFAULT_DRIVEN_TEETH,
+  DEFAULT_DRIVER_TEETH,
+  TEETH_CHOICES,
+  gearPath,
+  layoutPair,
+} from '@lib/engines/feel/gears';
+
+const layout = layoutPair(DEFAULT_DRIVER_TEETH, DEFAULT_DRIVEN_TEETH);
+if (!layout.ok) throw new Error('default gears must mesh');
+const d1 = gearPath(layout.driverTeeth);
+const d2 = gearPath(layout.drivenTeeth);
+---
+
+<FeelWidget slug={config.slug}>
+  <div
+    slot="stage"
+    class="gears"
+    data-gears
+    data-driver={layout.driverTeeth}
+    data-driven={layout.drivenTeeth}
+  >
+    <div class="gears-teeth" data-craft={config.craft!.id} role="group" aria-label="Tooth counts">
+      <span class="gears-teeth-label">Driver</span>
+      {
+        TEETH_CHOICES.map((n) => (
+          <button
+            type="button"
+            class:list={['gears-choice', n === layout.driverTeeth && 'is-active']}
+            data-gears-driver={n}
+            aria-pressed={n === layout.driverTeeth ? 'true' : 'false'}
+          >
+            {n}
+          </button>
+        ))
+      }
+      <span class="gears-teeth-label">Driven</span>
+      {
+        TEETH_CHOICES.map((n) => (
+          <button
+            type="button"
+            class:list={['gears-choice', n === layout.drivenTeeth && 'is-active']}
+            data-gears-driven={n}
+            aria-pressed={n === layout.drivenTeeth ? 'true' : 'false'}
+          >
+            {n}
+          </button>
+        ))
+      }
+    </div>
+
+    <svg
+      class="gears-svg"
+      data-gears-svg
+      viewBox={`0 0 ${layout.width} ${layout.height}`}
+      role="img"
+      aria-label="Two meshing gears"
+      tabindex="0"
+    >
+      <g data-gears-driver-g transform={`translate(${layout.driver.cx} ${layout.driver.cy})`}>
+        <path data-gears-driver-path d={d1} fill-rule="evenodd" />
+      </g>
+      <g data-gears-driven-g transform={`translate(${layout.driven.cx} ${layout.driven.cy})`}>
+        <path data-gears-driven-path d={d2} fill-rule="evenodd" />
+      </g>
+    </svg>
+
+    <button type="button" class="gears-step" data-gears-step hidden>Step</button>
+  </div>
+
+  <p slot="status" class="gears-ratio" data-gears-ratio aria-live="polite">{layout.ratio}</p>
+  <button slot="actions" type="button" class="gears-reset" data-gears-reset>Reset layout</button>
+</FeelWidget>
+
+<style>
+  .gears {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 24rem;
+    min-width: 0;
+  }
+
+  .gears-teeth {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .gears-teeth-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-inline-end: var(--space-1);
+  }
+
+  .gears-choice,
+  .gears-reset,
+  .gears-step {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    min-inline-size: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .gears-choice:active,
+  .gears-reset:active,
+  .gears-step:active {
+    background: var(--color-surface-hover);
+  }
+
+  .gears-choice.is-active {
+    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  }
+
+  .gears-choice:focus-visible,
+  .gears-reset:focus-visible,
+  .gears-step:focus-visible,
+  .gears-svg:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .gears-svg {
+    width: 100%;
+    height: auto;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: var(--border);
+    touch-action: none;
+    display: block;
+  }
+
+  .gears-svg path {
+    fill: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
+    stroke: color-mix(in srgb, var(--color-accent) 55%, var(--color-text));
+    stroke-width: 1.2;
+  }
+
+  .gears-ratio {
+    margin: 0;
+    max-width: none;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .gears-step[hidden] {
+    display: none;
+  }
+</style>
+
+<style is:global>
+  html.tt-play-mode [data-gears] {
+    max-width: none;
+    height: 100%;
+  }
+
+  html.tt-play-mode [data-gears-svg] {
+    flex: 1 1 auto;
+    height: 100%;
+    max-height: none;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-gears]');
+    if (!root) return;
+
+    var svg = root.querySelector('[data-gears-svg]');
+    var driverG = root.querySelector('[data-gears-driver-g]');
+    var drivenG = root.querySelector('[data-gears-driven-g]');
+    var driverPath = root.querySelector('[data-gears-driver-path]');
+    var drivenPath = root.querySelector('[data-gears-driven-path]');
+    var ratioEl = document.querySelector('[data-gears-ratio]');
+    var resetBtn = document.querySelector('[data-gears-reset]');
+    var stepBtn = root.querySelector('[data-gears-step]');
+    var feelRoot = root.closest('[data-feel-slug]');
+    var feel = null;
+    var layout = null;
+    var driverTeeth = Number(root.getAttribute('data-driver')) || 12;
+    var drivenTeeth = Number(root.getAttribute('data-driven')) || 24;
+    var angle = 0;
+    var omega = 0;
+    var dragging = false;
+    var lastAngle = 0;
+    var lastT = 0;
+    var loop = null;
+
+    function api() {
+      return feel && feel.gears ? feel.gears : null;
+    }
+
+    function applyLayout(next) {
+      layout = next;
+      driverTeeth = next.driverTeeth;
+      drivenTeeth = next.drivenTeeth;
+      root.setAttribute('data-driver', String(driverTeeth));
+      root.setAttribute('data-driven', String(drivenTeeth));
+      svg.setAttribute('viewBox', '0 0 ' + next.width + ' ' + next.height);
+      var g = api();
+      if (g) {
+        driverPath.setAttribute('d', g.gearPath(driverTeeth));
+        drivenPath.setAttribute('d', g.gearPath(drivenTeeth));
+      }
+      paintAngle();
+      if (ratioEl) ratioEl.textContent = next.ratio;
+      paintChoices();
+    }
+
+    function paintChoices() {
+      var dBtns = root.querySelectorAll('[data-gears-driver]');
+      for (var i = 0; i < dBtns.length; i++) {
+        var n = Number(dBtns[i].getAttribute('data-gears-driver'));
+        var on = n === driverTeeth;
+        dBtns[i].classList.toggle('is-active', on);
+        dBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      var nBtns = root.querySelectorAll('[data-gears-driven]');
+      for (var j = 0; j < nBtns.length; j++) {
+        var m = Number(nBtns[j].getAttribute('data-gears-driven'));
+        var hon = m === drivenTeeth;
+        nBtns[j].classList.toggle('is-active', hon);
+        nBtns[j].setAttribute('aria-pressed', hon ? 'true' : 'false');
+      }
+    }
+
+    function paintAngle() {
+      if (!layout) return;
+      var drivenA = -angle * (driverTeeth / drivenTeeth);
+      var deg = (angle * 180) / Math.PI;
+      var ddeg = (drivenA * 180) / Math.PI;
+      driverG.setAttribute(
+        'transform',
+        'translate(' + layout.driver.cx + ' ' + layout.driver.cy + ') rotate(' + deg + ')',
+      );
+      drivenG.setAttribute(
+        'transform',
+        'translate(' + layout.driven.cx + ' ' + layout.driven.cy + ') rotate(' + ddeg + ')',
+      );
+    }
+
+    function tryTeeth(nextDriver, nextDriven) {
+      var g = api();
+      if (!g) return;
+      var next = g.layoutPair(nextDriver, nextDriven);
+      if (!next.ok) {
+        var TT = window.ToyTools;
+        if (TT && TT.toast) TT.toast(next.reason);
+        return;
+      }
+      applyLayout(next);
+      if (feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('click');
+        } catch (e) {}
+      }
+    }
+
+    function pointerAngle(ev) {
+      if (!layout || !svg) return 0;
+      var ctm = svg.getScreenCTM();
+      if (!ctm) return 0;
+      var pt = svg.createSVGPoint();
+      pt.x = ev.clientX;
+      pt.y = ev.clientY;
+      var p = pt.matrixTransform(ctm.inverse());
+      var dx = p.x - layout.driver.cx;
+      var dy = p.y - layout.driver.cy;
+      return Math.atan2(dy, dx);
+    }
+
+    function startLoop() {
+      if (loop || !feel || typeof feel.raf !== 'function') return;
+      if (feel.motionAllowed && !feel.motionAllowed()) return;
+      loop = feel.raf(function (dt) {
+        if (dragging) return true;
+        if (feel && typeof feel.friction === 'function') {
+          omega = feel.friction(omega, { friction: 0.9, restVelocity: 0.08 }, dt);
+        } else {
+          omega *= 0.98;
+          if (Math.abs(omega) < 0.08) omega = 0;
+        }
+        if (Math.abs(omega) < 0.08) {
+          omega = 0;
+          loop = null;
+          return false;
+        }
+        angle += omega * dt;
+        paintAngle();
+        return true;
+      });
+      if (loop && loop.start) loop.start();
+    }
+
+    function onDown(ev) {
+      if (ev.button != null && ev.button !== 0) return;
+      if (!svg.contains(ev.target)) return;
+      dragging = true;
+      lastAngle = pointerAngle(ev);
+      lastT = ev.timeStamp || Date.now();
+      omega = 0;
+      try {
+        svg.setPointerCapture(ev.pointerId);
+      } catch (e) {}
+    }
+
+    function onMove(ev) {
+      if (!dragging) return;
+      var a = pointerAngle(ev);
+      var da = a - lastAngle;
+      if (da > Math.PI) da -= Math.PI * 2;
+      if (da < -Math.PI) da += Math.PI * 2;
+      angle += da;
+      var now = ev.timeStamp || Date.now();
+      var dt = Math.max(0.008, (now - lastT) / 1000);
+      omega = da / dt;
+      if (feel && typeof feel.clampVelocity === 'function') {
+        omega = feel.clampVelocity(omega, 18);
+      }
+      lastAngle = a;
+      lastT = now;
+      paintAngle();
+    }
+
+    function onUp(ev) {
+      if (!dragging) return;
+      dragging = false;
+      try {
+        svg.releasePointerCapture(ev.pointerId);
+      } catch (e) {}
+      startLoop();
+    }
+
+    function stepOne() {
+      var g = api();
+      var step = (Math.PI * 2) / driverTeeth;
+      angle += step;
+      paintAngle();
+      if (feel && typeof feel.play === 'function') {
+        try {
+          feel.play('tick');
+        } catch (e) {}
+      }
+    }
+
+    function syncStep() {
+      var reduced = false;
+      if (feel && typeof feel.motionAllowed === 'function') {
+        try {
+          reduced = !feel.motionAllowed();
+        } catch (e) {}
+      }
+      if (stepBtn) stepBtn.hidden = !reduced;
+      if (reduced && loop && loop.stop) {
+        loop.stop();
+        loop = null;
+        omega = 0;
+      }
+    }
+
+    var driverBtns = root.querySelectorAll('[data-gears-driver]');
+    for (var i = 0; i < driverBtns.length; i++) {
+      driverBtns[i].addEventListener('click', function () {
+        tryTeeth(Number(this.getAttribute('data-gears-driver')), drivenTeeth);
+      });
+    }
+    var drivenBtns = root.querySelectorAll('[data-gears-driven]');
+    for (var j = 0; j < drivenBtns.length; j++) {
+      drivenBtns[j].addEventListener('click', function () {
+        tryTeeth(driverTeeth, Number(this.getAttribute('data-gears-driven')));
+      });
+    }
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        tryTeeth(12, 24);
+        angle = 0;
+        omega = 0;
+        paintAngle();
+      });
+    }
+    if (stepBtn) stepBtn.addEventListener('click', stepOne);
+    if (svg) {
+      svg.addEventListener('pointerdown', onDown);
+      svg.addEventListener('pointermove', onMove);
+      svg.addEventListener('pointerup', onUp);
+      svg.addEventListener('pointercancel', onUp);
+    }
+    if (feelRoot) {
+      feelRoot.addEventListener('feel:exit', function () {
+        if (loop && loop.stop) loop.stop();
+        loop = null;
+      });
+    }
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        var g = api();
+        if (g) {
+          var next = g.layoutPair(driverTeeth, drivenTeeth);
+          if (next.ok) applyLayout(next);
+        }
+        syncStep();
+      });
+    }
+  })();
+</script>

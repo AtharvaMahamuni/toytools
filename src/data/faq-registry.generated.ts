@@ -11,6 +11,7 @@ import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
 import { items as bmrCalculatorFaqs } from '@tools/health/bmr-calculator/faq';
 import { items as bodyFatCalculatorFaqs } from '@tools/health/body-fat-calculator/faq';
 import { items as bodyWeightTrackerFaqs } from '@tools/health/body-weight-tracker/faq';
+import { items as breathingCircleFaqs } from '@tools/fidget/breathing-circle/faq';
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
 import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-deficit-calculator/faq';
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
@@ -35,6 +36,7 @@ import { items as encodingDetectorFaqs } from '@tools/developer-utilities/encodi
 import { items as equalizerSettingsGeneratorFaqs } from '@tools/music/equalizer-settings-generator/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
+import { items as gearsFaqs } from '@tools/fidget/gears/faq';
 import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-zone-calculator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
@@ -51,6 +53,7 @@ import { items as jsonValidatorFaqs } from '@tools/developer-utilities/json-vali
 import { items as jwtDecoderFaqs } from '@tools/developer-utilities/jwt-decoder/faq';
 import { items as kebabCaseConverterFaqs } from '@tools/text/kebab-case-converter/faq';
 import { items as keepScreenAwakeFaqs } from '@tools/productivity/keep-screen-awake/faq';
+import { items as kineticSandFaqs } from '@tools/fidget/kinetic-sand/faq';
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
@@ -101,9 +104,11 @@ import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha
 import { items as sha512HashGeneratorFaqs } from '@tools/developer-utilities/sha512-hash-generator/faq';
 import { items as shellQuoteEscalatorFaqs } from '@tools/developer-utilities/shell-quote-escalator/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
+import { items as slimeFaqs } from '@tools/fidget/slime/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
 import { items as spaceCounterFaqs } from '@tools/text/space-counter/faq';
+import { items as spinnerFaqs } from '@tools/fidget/spinner/faq';
 import { items as switchBoardFaqs } from '@tools/fidget/switch-board/faq';
 import { items as systemdTimerConverterFaqs } from '@tools/datetime/systemd-timer-converter/faq';
 import { items as taxCalculatorFaqs } from '@tools/number/tax-calculator/faq';
@@ -134,6 +139,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'bmr-calculator': bmrCalculatorFaqs,
   'body-fat-calculator': bodyFatCalculatorFaqs,
   'body-weight-tracker': bodyWeightTrackerFaqs,
+  'breathing-circle': breathingCircleFaqs,
   'cagr-calculator': cagrCalculatorFaqs,
   'calorie-deficit-calculator': calorieDeficitCalculatorFaqs,
   'camel-case-converter': camelCaseConverterFaqs,
@@ -158,6 +164,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'equalizer-settings-generator': equalizerSettingsGeneratorFaqs,
   'find-replace': findReplaceFaqs,
   'fraction-calculator': fractionCalculatorFaqs,
+  'gears': gearsFaqs,
   'heart-rate-zone-calculator': heartRateZoneCalculatorFaqs,
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
@@ -174,6 +181,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'jwt-decoder': jwtDecoderFaqs,
   'kebab-case-converter': kebabCaseConverterFaqs,
   'keep-screen-awake': keepScreenAwakeFaqs,
+  'kinetic-sand': kineticSandFaqs,
   'letter-counter': letterCounterFaqs,
   'line-counter': lineCounterFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
@@ -224,9 +232,11 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'sha512-hash-generator': sha512HashGeneratorFaqs,
   'shell-quote-escalator': shellQuoteEscalatorFaqs,
   'sip-calculator': sipCalculatorFaqs,
+  'slime': slimeFaqs,
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,
   'space-counter': spaceCounterFaqs,
+  'spinner': spinnerFaqs,
   'switch-board': switchBoardFaqs,
   'systemd-timer-converter': systemdTimerConverterFaqs,
   'tax-calculator': taxCalculatorFaqs,

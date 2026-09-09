@@ -1,0 +1,134 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A breathing circle is a visual for inhale, hold, and exhale. This one names the pattern:
+      Box (4-4-4-4), 4-7-8, or Coherent (5-5). Default is Box. There is no preset called Calm,
+      because a calm label that runs a different timing is a lie.
+    </p>
+    <p>
+      For example: Input: Box selected. Output: four seconds in, four hold, four out, four hold,
+      with a phase name and a remaining-seconds count. Mute the soft cue if the room is shared.
+    </p>
+    <a href={toolHref} class="cta-link">Open Breathing Circle →</a>
+  </section>
+
+  <section id="what-is">
+    <h2>What is a breathing circle? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Meditation apps want an account. YouTube timers cannot change the pattern. A circle that
+      expands on inhale and settles on exhale is the usual visual. The useful part is the timing
+      you can read, not the glow.
+    </p>
+    <p>
+      Box breathing is 4-4-4-4. 4-7-8 is inhale 4, hold 7, exhale 8. Coherent is an even 5-5.
+      Pick one. The numbers sit on the button so the tool cannot hide what it is doing.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Name the pattern">
+      <p>
+        If the default is labelled calm and runs faster than box, the user cannot tell what they
+        are practising. Named presets with visible counts are the orientation this tool adds.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="session">
+    <h2>How do I run a silent session? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mute under the board or Settings → Feel. Sound and motion are independent, the same Feel
+      contract as Pop It. Play session hides the rest of the page and uses the dark overlay
+      surface. Exit or Escape restores the page. Native fullscreen is a bonus; if the browser
+      refuses, the overlay stays.
+    </p>
+    <p>
+      Reduced motion keeps the circle still. Phase name and seconds remain, so you can follow
+      Box without the scale animation. A session ends with a fade, not a cut.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Leaving the cue on in an office">
+      <p>
+        The soft tone is optional. Mute once under Settings → Feel and every fidget, including
+        this circle, stays quiet.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Trusting a calm label that is not a named pattern is the failure this page exists to
+      avoid. Box is 4-4-4-4. 4-7-8 is 4, 7, and 8. Coherent is 5-5. Therefore you can read what
+      you are practising.
+    </p>
+    <p>
+      Leaving the cue on in an office is the other miss. Mute under Settings → Feel. Reduced
+      motion does not end the session: the phase name and seconds still run.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Treating reduced motion as off">
+      <p>
+        The circle stops expanding. The counts do not. You can still finish a Box round.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="vs">
+    <h2>Breathing circle vs alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No account, no subscription, no voice. The circle runs in the tab. You cannot change
+      another site's YouTube timer. You can change Box to 4-7-8 here in one tap. That is the
+      whole difference that matters for a two-minute reset.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Try a Box round <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the tool, confirm Box 4-4-4-4 is selected, mute if you need to, then Play session if
+      you want the rest of the page gone. Exit when you are done.
+    </p>
+    <a href={toolHref} class="cta-link">Open Breathing Circle →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

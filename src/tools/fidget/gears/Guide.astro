@@ -1,0 +1,153 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Interactive gears in a browser are two discs with teeth that mesh so spinning one turns the
+      other. This page opens a 12-tooth driver against a 24-tooth driven gear. The live ratio reads
+      1 : 2. Drag either gear. The pair stays meshed because tooth count owns radius.
+    </p>
+    <p>
+      For example: Input: a 12 and 24 tooth pair on a phone-width tab. Output: a reverse-direction
+      spin at half speed, optional click sound, and a Reset layout that restores the default pair
+      without a reload.
+    </p>
+    <p>
+      Therefore this is a fidget and a light teaching toy, not a CAD worksheet. It is free, needs
+      no download, and uploads nothing about how you spun it.
+    </p>
+    <a href={toolHref} class="cta-link">Open Gears →</a>
+  </section>
+
+  <section id="what-is">
+    <h2>What are interactive gears? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A physical gear train is teeth on a pitch circle. The number of teeth and the radius have to
+      agree or the teeth will not meet. Interactive gears online should follow the same rule. Many
+      applets do not: they let you drag size independently, so two discs overlap and the ratio
+      label keeps lying.
+    </p>
+    <p>
+      This pair is built from tooth count. Twelve teeth set one radius. Twenty-four teeth set
+      twice that radius. The centres sit one sum of radii apart. Change the counts with the driver
+      and driven buttons. A pair that would not fit the stage is refused, and the previous layout
+      stays.
+    </p>
+    <p>
+      People search for a gear ratio simulator when they want to see 1 : 2, not compute it. A
+      meshing gears page that hides the numbers is a toy that forgot the one fact the user came
+      for. The line under the stage is that fact, in tabular numerals.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How do meshing gears work here? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Drag on the stage. Pointer movement around the driver centre becomes angular velocity. The
+      driven gear uses the negative tooth ratio, so an external mesh reverses. Friction from the
+      Feel engine lets the pair coast and then stop, the same rest idea as the fidget spinner.
+    </p>
+    <p>
+      Sound is optional. A click can fire when you change teeth. Mute under the board or Settings
+      → Feel. Haptics stay separate, off by default, because most laptops have no vibrator.
+    </p>
+    <p>
+      Reduced motion (system or Settings → Feel) turns continuous spin off. A Step control appears
+      so you can advance one tooth. The mesh and the ratio stay. Interactions still work; the
+      decoration stops.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Tooth count owns radius">
+      <p>
+        If radius and teeth can disagree, two gears overlap without meshing. The guardrail is that
+        this page never lets them disagree. A refused pair is a toast, not a broken picture.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="ratio">
+    <h2>How do I read the gear ratio? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The ratio is driver teeth to driven teeth, reduced. 12 and 24 is 1 : 2. 8 and 12 is 2 : 3.
+      It is a count ratio, not a speedometer. The driven disc turns slower when it has more teeth,
+      and the other way because the mesh is external.
+    </p>
+    <p>
+      Engineering applets often bury that line in a table. Toys often omit it. This fidget keeps
+      it on the status row so a parent can point at it without opening a textbook.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Reading the ratio as a speed">
+      <p>
+        1 : 2 names teeth, not kilometres per hour. The driven gear turns at half the driver angle
+        for a 12 and 24 pair. The sign is negative. If the label did not update after a teeth
+        change, the toy would be lying.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="play">
+    <h2>What does Play do on gears? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Play hides the trust row, knowledge drawers, footer, and Feel strip so the gears fill the
+      space under the tool name. The ratio stays, because it is the answer. Mute stays in a
+      corner. Exit or Escape restores the page. There is no native fullscreen requirement; the
+      chrome-hide is the mode.
+    </p>
+    <p>
+      Use it when the rest of the page is the distraction. A phone in one hand can flick the pair
+      without scrolling past related tools. Safe-area padding keeps Exit above the home indicator.
+    </p>
+  </section>
+
+  <section id="try">
+    <h2>Try the pair <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Open the tool, drag the 12-tooth gear, watch the 24-tooth follow the other way, change a
+      tooth count, and hit Reset layout if you want the default pair back. Mute if you need the
+      room quiet. That is the whole product.
+    </p>
+    <a href={toolHref} class="cta-link">Open Gears →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

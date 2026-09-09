@@ -194,7 +194,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     name: 'Fidgets',
     description: 'Quiet sensory toys you tap, flick or flip in the browser, with optional sound and haptics you control.',
     tagline: 'Tap, flick and flip without installing an app.',
-    highlights: ['pop-it', 'switch-board'],
+    highlights: ['pop-it', 'gears', 'spinner'],
     accent: '#C45C7A',
     segment: 'fidget',
     intro: [

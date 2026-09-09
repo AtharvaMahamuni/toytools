@@ -11,6 +11,7 @@ import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
 import { config as bmrCalculator } from '@tools/health/bmr-calculator/config';
 import { config as bodyFatCalculator } from '@tools/health/body-fat-calculator/config';
 import { config as bodyWeightTracker } from '@tools/health/body-weight-tracker/config';
+import { config as breathingCircle } from '@tools/fidget/breathing-circle/config';
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/config';
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
@@ -35,6 +36,7 @@ import { config as encodingDetector } from '@tools/developer-utilities/encoding-
 import { config as equalizerSettingsGenerator } from '@tools/music/equalizer-settings-generator/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
+import { config as gears } from '@tools/fidget/gears/config';
 import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
@@ -51,6 +53,7 @@ import { config as jsonValidator } from '@tools/developer-utilities/json-validat
 import { config as jwtDecoder } from '@tools/developer-utilities/jwt-decoder/config';
 import { config as kebabCaseConverter } from '@tools/text/kebab-case-converter/config';
 import { config as keepScreenAwake } from '@tools/productivity/keep-screen-awake/config';
+import { config as kineticSand } from '@tools/fidget/kinetic-sand/config';
 import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
@@ -101,9 +104,11 @@ import { config as sha256HashGenerator } from '@tools/developer-utilities/sha256
 import { config as sha512HashGenerator } from '@tools/developer-utilities/sha512-hash-generator/config';
 import { config as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/config';
 import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
+import { config as slime } from '@tools/fidget/slime/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
 import { config as spaceCounter } from '@tools/text/space-counter/config';
+import { config as spinner } from '@tools/fidget/spinner/config';
 import { config as switchBoard } from '@tools/fidget/switch-board/config';
 import { config as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/config';
 import { config as taxCalculator } from '@tools/number/tax-calculator/config';
@@ -134,6 +139,7 @@ export const toolConfigs: ToolConfig[] = [
   bmrCalculator,
   bodyFatCalculator,
   bodyWeightTracker,
+  breathingCircle,
   cagrCalculator,
   calorieDeficitCalculator,
   camelCaseConverter,
@@ -158,6 +164,7 @@ export const toolConfigs: ToolConfig[] = [
   equalizerSettingsGenerator,
   findReplace,
   fractionCalculator,
+  gears,
   heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
@@ -174,6 +181,7 @@ export const toolConfigs: ToolConfig[] = [
   jwtDecoder,
   kebabCaseConverter,
   keepScreenAwake,
+  kineticSand,
   letterCounter,
   lineCounter,
   loremIpsumGenerator,
@@ -224,9 +232,11 @@ export const toolConfigs: ToolConfig[] = [
   sha512HashGenerator,
   shellQuoteEscalator,
   sipCalculator,
+  slime,
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
+  spinner,
   switchBoard,
   systemdTimerConverter,
   taxCalculator,

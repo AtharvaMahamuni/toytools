@@ -182,6 +182,23 @@ export const EXPANSION_TAXONOMY: ExpansionTaxonomy = [
       },
     ],
   },
+  {
+    engine: 'feel',
+    families: [
+      {
+        family: 'fidget',
+        expected: [
+          'pop-it',
+          'switch-board',
+          'gears',
+          'spinner',
+          'kinetic-sand',
+          'slime',
+          'breathing-circle',
+        ],
+      },
+    ],
+  },
 ];
 
 /** Expected tool slugs for an engine/family. Never throws; unknown lookups return []. */

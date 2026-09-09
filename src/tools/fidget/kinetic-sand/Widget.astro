@@ -1,0 +1,294 @@
+---
+import FeelWidget from '@tools/_shared/FeelWidget.astro';
+import { config } from './config';
+---
+
+<FeelWidget slug={config.slug}>
+  <div slot="stage" class="sand" data-kinetic-sand>
+    <div class="sand-stage">
+      <canvas class="sand-canvas" data-sand-canvas aria-label="Kinetic sand pile"></canvas>
+    </div>
+    <button type="button" class="sand-reset-play" data-sand-reset-play hidden>
+      Reset pile
+    </button>
+  </div>
+
+  <p slot="status" class="sand-status" data-sand-status>Drag through the pile</p>
+  <button slot="actions" type="button" class="sand-reset" data-sand-reset data-craft={config.craft!.id}>
+    Reset pile
+  </button>
+</FeelWidget>
+
+<style>
+  .sand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 28rem;
+    min-width: 0;
+  }
+
+  .sand-stage {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    max-width: 28rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: var(--border);
+    overflow: hidden;
+  }
+
+  .sand-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .sand-canvas:active {
+    cursor: grabbing;
+  }
+
+  .sand-status {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .sand-reset,
+  .sand-reset-play {
+    flex: 0 0 auto;
+    min-block-size: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .sand-reset:active,
+  .sand-reset-play:active {
+    background: var(--color-surface-hover);
+  }
+
+  .sand-reset:focus-visible,
+  .sand-reset-play:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .sand-reset-play {
+    position: absolute;
+    right: var(--space-3);
+    bottom: var(--space-3);
+    z-index: 1;
+  }
+
+  .sand-reset-play[hidden] {
+    display: none;
+  }
+</style>
+
+<style is:global>
+  html.tt-play-mode [data-kinetic-sand] {
+    position: relative;
+    max-width: none;
+    height: 100%;
+  }
+
+  html.tt-play-mode [data-kinetic-sand] .sand-stage {
+    max-width: none;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-kinetic-sand]');
+    if (!root) return;
+
+    var canvas = root.querySelector('[data-sand-canvas]');
+    var resetBtn = document.querySelector('[data-sand-reset]');
+    var resetPlay = root.querySelector('[data-sand-reset-play]');
+    var statusEl = document.querySelector('[data-sand-status]');
+    var feelRoot = root.closest('[data-feel-slug]');
+    var ctx = canvas.getContext('2d');
+    var feel = null;
+    var pile = null;
+    var sand = null;
+    var loop = null;
+    var poking = false;
+    var fill = '';
+    var shadow = '';
+    var playing = false;
+
+    function colors() {
+      var cs = getComputedStyle(root);
+      fill = cs.getPropertyValue('--color-accent').trim() || '#2f6f4e';
+      shadow = cs.getPropertyValue('--color-text').trim() || '#222';
+    }
+
+    function sizeCanvas() {
+      var wrap = canvas.parentElement;
+      var w = wrap.clientWidth || 320;
+      var h = wrap.clientHeight || Math.round(w * 0.75);
+      var dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.max(1, Math.round(w * dpr));
+      canvas.height = Math.max(1, Math.round(h * dpr));
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw() {
+      if (!pile || !ctx) return;
+      var wrap = canvas.parentElement;
+      var w = wrap.clientWidth || 320;
+      var h = wrap.clientHeight || Math.round(w * 0.75);
+      ctx.clearRect(0, 0, w, h);
+      var colW = w / pile.cols;
+      var maxH = pile.maxHeight;
+      for (var i = 0; i < pile.cols; i++) {
+        var hh = (pile.heights[i] / maxH) * h * 0.92;
+        var x = i * colW;
+        var y = h - hh;
+        ctx.fillStyle = fill;
+        ctx.globalAlpha = 0.55 + (pile.heights[i] / maxH) * 0.4;
+        ctx.fillRect(x, y, colW + 0.5, hh);
+        ctx.globalAlpha = 0.18;
+        ctx.fillStyle = shadow;
+        ctx.fillRect(x, y, colW + 0.5, 4);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function intensity() {
+      if (feel && typeof feel.prefs === 'function') {
+        try {
+          var p = feel.prefs();
+          if (p.intensity === 'low' || p.intensity === 'high') return p.intensity;
+        } catch (e) {}
+      }
+      return 'medium';
+    }
+
+    function ensurePile() {
+      if (!sand) return;
+      if (!pile) pile = sand.createPile(intensity());
+    }
+
+    function resetPile() {
+      if (!sand) return;
+      sand.resetPile(pile || (pile = sand.createPile(intensity())));
+      if (statusEl) statusEl.textContent = 'Mound restored';
+      draw();
+      if (feel && typeof feel.play === 'function') {
+        try {
+          feel.play('soft');
+        } catch (e) {}
+      }
+    }
+
+    function pokeAt(ev) {
+      if (!sand || !pile) return;
+      var r = canvas.getBoundingClientRect();
+      var col = sand.colAt(ev.clientX - r.left, r.width, pile.cols);
+      sand.poke(pile, col);
+      if (statusEl) statusEl.textContent = 'Dragging';
+      draw();
+    }
+
+    function startSettle() {
+      if (loop || !feel || typeof feel.raf !== 'function' || !sand) return;
+      if (feel.motionAllowed && !feel.motionAllowed()) {
+        if (pile) {
+          for (var i = 0; i < 24; i++) sand.settle(pile);
+          draw();
+        }
+        return;
+      }
+      loop = feel.raf(function () {
+        if (!pile) return false;
+        var moved = sand.settle(pile);
+        draw();
+        if (!moved && !poking) {
+          loop = null;
+          return false;
+        }
+        return true;
+      });
+      if (loop && loop.start) loop.start();
+    }
+
+    function onDown(ev) {
+      if (ev.button != null && ev.button !== 0) return;
+      poking = true;
+      try {
+        canvas.setPointerCapture(ev.pointerId);
+      } catch (e) {}
+      pokeAt(ev);
+      startSettle();
+    }
+
+    function onMove(ev) {
+      if (!poking) return;
+      pokeAt(ev);
+    }
+
+    function onUp() {
+      poking = false;
+      startSettle();
+    }
+
+    function syncPlayReset() {
+      if (resetPlay) resetPlay.hidden = !playing;
+    }
+
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove);
+    canvas.addEventListener('pointerup', onUp);
+    canvas.addEventListener('pointercancel', onUp);
+    if (resetBtn) resetBtn.addEventListener('click', resetPile);
+    if (resetPlay) resetPlay.addEventListener('click', resetPile);
+    if (feelRoot) {
+      feelRoot.addEventListener('feel:play', function () {
+        playing = true;
+        syncPlayReset();
+        sizeCanvas();
+        draw();
+      });
+      feelRoot.addEventListener('feel:exit', function () {
+        playing = false;
+        syncPlayReset();
+        sizeCanvas();
+        draw();
+      });
+    }
+    window.addEventListener('resize', function () {
+      sizeCanvas();
+      draw();
+    });
+
+    colors();
+    sizeCanvas();
+
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) {
+      TT.onReady(function () {
+        feel = TT.feel || null;
+        sand = feel && feel.sand ? feel.sand : null;
+        ensurePile();
+        colors();
+        sizeCanvas();
+        draw();
+      });
+    }
+  })();
+</script>

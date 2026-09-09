@@ -28,7 +28,7 @@ export const config: ToolConfig = {
     solves:
       'A finished or half-scrolled board looks like a dead end, so people reload the tab and break the fidget loop. Reset board inflates every loaded bubble and scrolls the field back to the top without dropping focus or reloading assets.',
   },
-  relatedTools: ['switch-board', 'pomodoro-timer', 'keep-screen-awake', 'dice-roller', 'coin-flipper'],
+  relatedTools: ['switch-board', 'gears', 'spinner', 'pomodoro-timer', 'keep-screen-awake'],
   keywords: ['virtual pop it', 'bubble fidget'],
   inputs: [],
   outputs: [],
