@@ -24,7 +24,9 @@ import { config } from './config';
 
 <style>
   .slime {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
     max-width: 24rem;
     min-width: 0;
   }
@@ -59,10 +61,7 @@ import { config } from './config';
   }
 
   .slime-release {
-    position: absolute;
-    right: var(--space-3);
-    bottom: var(--space-3);
-    z-index: 1;
+    align-self: flex-end;
     min-block-size: var(--touch-target);
     padding-inline: var(--space-4);
     border: var(--border);
@@ -93,11 +92,14 @@ import { config } from './config';
   html.tt-play-mode [data-slime] {
     max-width: none;
     height: 100%;
+    min-height: 0;
   }
 
   html.tt-play-mode [data-slime] .slime-stage {
+    flex: 1 1 auto;
+    min-height: 0;
     max-width: none;
-    height: 100%;
+    height: auto;
     aspect-ratio: auto;
   }
 </style>
@@ -118,6 +120,8 @@ import { config } from './config';
     var fill = '';
     var w = 320;
     var h = 320;
+    var lastCueAt = 0;
+    var lastPull = 0;
 
     function colors() {
       var cs = getComputedStyle(root);
@@ -195,38 +199,62 @@ import { config } from './config';
       return { x: ev.clientX - r.left, y: ev.clientY - r.top };
     }
 
+    function cueSquish(force, volume) {
+      var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      if (!force && now - lastCueAt < 70) return;
+      lastCueAt = now;
+      if (feel && typeof feel.unlock === 'function') {
+        try {
+          feel.unlock();
+        } catch (e) {}
+      }
+      if (feel && typeof feel.play === 'function') {
+        try {
+          feel.play('squish', volume == null ? 1 : volume);
+        } catch (e) {}
+      }
+      if (feel && typeof feel.vibrate === 'function') {
+        try {
+          feel.vibrate(force ? [18, 14, 36, 16, 48, 20, 28] : 32);
+        } catch (e) {}
+      }
+    }
+
     function onDown(ev) {
       if (ev.button != null && ev.button !== 0) return;
       if (!slime || !blob) return;
       var p = local(ev);
       slime.grab(blob, p.x, p.y);
       slime.moveGrab(blob, p.x, p.y);
+      lastPull = Math.hypot(p.x - blob.cx, p.y - blob.cy);
       showRelease(false);
       try {
         canvas.setPointerCapture(ev.pointerId);
       } catch (e) {}
-      if (feel && typeof feel.unlock === 'function') {
-        try {
-          feel.unlock();
-        } catch (e) {}
-      }
-      if (feel && typeof feel.feedback === 'function') {
-        try {
-          feel.feedback('soft');
-        } catch (e) {}
-      }
+      cueSquish(true, 1);
     }
 
     function onMove(ev) {
       if (!slime || !blob || !slime.isGrabbed(blob)) return;
       var p = local(ev);
       slime.moveGrab(blob, p.x, p.y);
+      var pull = Math.hypot(p.x - blob.cx, p.y - blob.cy);
+      if (Math.abs(pull - lastPull) > 10) {
+        lastPull = pull;
+        cueSquish(false, 0.55);
+      }
     }
 
     function onUp() {
       if (!slime || !blob) return;
+      var wasGrabbed = slime.isGrabbed(blob);
       slime.release(blob);
       showRelease(false);
+      if (wasGrabbed && feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('pop');
+        } catch (e) {}
+      }
     }
 
     function onLost() {
@@ -236,8 +264,14 @@ import { config } from './config';
 
     function doRelease() {
       if (!slime || !blob) return;
+      var wasGrabbed = slime.isGrabbed(blob);
       slime.release(blob);
       showRelease(false);
+      if (wasGrabbed && feel && typeof feel.feedback === 'function') {
+        try {
+          feel.feedback('pop');
+        } catch (e) {}
+      }
     }
 
     function onStuck() {

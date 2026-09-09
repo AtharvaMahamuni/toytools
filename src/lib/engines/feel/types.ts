@@ -28,13 +28,15 @@ export interface FeelPrefs {
 }
 
 /** Named cue ids fidgets can play without shipping audio assets. */
-export type FeelSoundId = 'pop' | 'click' | 'tick' | 'soft' | 'grain';
+export type FeelSoundId = 'pop' | 'click' | 'tick' | 'soft' | 'grain' | 'squish';
 
 export type FeelWave = OscillatorType | 'noise';
 
 export interface FeelTone {
   /** Oscillator frequency in Hz. For `noise`, used as a bandpass centre when available. */
   frequency: number;
+  /** Optional glide target in Hz. When set, the oscillator ramps from `frequency`. */
+  frequencyEnd?: number;
   /** Duration in seconds. */
   duration: number;
   /** Peak gain 0..1 before the prefs volume scale. */
@@ -70,6 +72,7 @@ export const FEEL_TONES: Record<FeelSoundId, FeelTone> = {
   tick: { frequency: 980, duration: 0.028, gain: 0.14, type: 'square' },
   soft: { frequency: 240, duration: 0.1, gain: 0.14, type: 'sine' },
   grain: { frequency: 650, duration: 0.09, gain: 0.24, type: 'noise' },
+  squish: { frequency: 320, frequencyEnd: 120, duration: 0.18, gain: 0.3, type: 'triangle' },
 };
 
 /**
@@ -77,9 +80,10 @@ export const FEEL_TONES: Record<FeelSoundId, FeelTone> = {
  * is why the old 8-12ms defaults felt like silence even with haptics on.
  */
 export const FEEL_HAPTICS: Record<FeelSoundId, number | number[]> = {
-  pop: 32,
-  click: 26,
-  tick: 22,
-  soft: 24,
-  grain: [18, 16, 28],
+  pop: [12, 16, 40],
+  click: [10, 18, 32],
+  tick: [20, 12, 26],
+  soft: [20, 24, 44, 28],
+  grain: [12, 8, 20, 10, 28, 12, 18],
+  squish: [18, 14, 36, 16, 48, 20, 28],
 };

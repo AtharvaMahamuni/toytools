@@ -5,6 +5,10 @@ export const TEETH_CHOICES = [8, 12, 16, 24] as const;
 export const DEFAULT_DRIVER_TEETH = 12;
 export const DEFAULT_DRIVEN_TEETH = 24;
 export const GEAR_PAD = 12;
+export const GEAR_FRICTION = 0.982;
+export const GEAR_REST = 0.08;
+export const GEAR_MAX_OMEGA = 40;
+export const GEAR_FLICK_BOOST = 2.1;
 
 export type TeethChoice = (typeof TEETH_CHOICES)[number];
 
@@ -178,4 +182,8 @@ export const gearsApi = {
   TEETH_CHOICES,
   DEFAULT_DRIVER_TEETH,
   DEFAULT_DRIVEN_TEETH,
+  GEAR_FRICTION,
+  GEAR_REST,
+  GEAR_MAX_OMEGA,
+  GEAR_FLICK_BOOST,
 };

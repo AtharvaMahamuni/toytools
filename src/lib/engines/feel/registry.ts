@@ -8,12 +8,16 @@ import {
   applyFriction,
   clampVelocity,
   createRafLoop,
+  flickOmega,
+  hubDeltaAngle,
   integratePosition,
   intensityScale,
   motionAllowed,
   motionScale,
+  pushFlickSample,
   stepSpring,
   systemPrefersReducedMotion,
+  type FlickSample,
   type FrameCallback,
   type MomentumOpts,
   type SpringOpts,
@@ -35,7 +39,7 @@ import { breathingApi } from './breathing';
 import { gearsApi } from './gears';
 import { spinnerApi } from './spinner';
 
-export type { FeelPrefs, FeelSoundId, FeelTone, PrefsBag, SpringState, SpringOpts, MomentumOpts };
+export type { FeelPrefs, FeelSoundId, FeelTone, PrefsBag, SpringState, SpringOpts, MomentumOpts, FlickSample };
 export {
   DEFAULT_FEEL_PREFS,
   FEEL_HAPTICS,
@@ -50,6 +54,9 @@ export {
   createRafLoop,
   intensityScale,
   motionScale,
+  hubDeltaAngle,
+  flickOmega,
+  pushFlickSample,
 };
 
 type RuntimePrefs = PrefsBag | null | undefined;
@@ -107,6 +114,26 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
     clampVelocity(velocity: number, max?: number): number {
       return clampVelocity(velocity, max, scaleOf());
     },
+    /** Signed angle change of a pointer around a hub. Filters centre-crossing jumps. */
+    hubDelta(
+      x0: number,
+      y0: number,
+      x1: number,
+      y1: number,
+      cx: number,
+      cy: number,
+      minR?: number,
+    ): number {
+      return hubDeltaAngle(x0, y0, x1, y1, cx, cy, minR);
+    },
+    /** Weighted recent omega with a boost so one swipe can carry several rotations. */
+    flick(samples: FlickSample[], boost?: number): number {
+      return flickOmega(samples, boost);
+    },
+    /** Push a sample, dropping anything older than the flick window. */
+    pushFlick(samples: FlickSample[], omega: number, dt: number, maxAge?: number): FlickSample[] {
+      return pushFlickSample(samples, omega, dt, maxAge);
+    },
     /**
      * rAF loop that no-ops when motion is disallowed. Callback returns false to stop.
      * Re-checks prefs on start only; stop and start again after a Settings change.
@@ -122,7 +149,7 @@ export function createFeelApi(host: { prefs?: PrefsBag }) {
       return vibrateRaw(pattern, { prefs: prefsOf() });
     },
     /**
-     * Play a named cue (`pop` | `click` | `tick` | `soft` | `grain`) or a custom tone.
+     * Play a named cue (`pop` | `click` | `tick` | `soft` | `grain` | `squish`) or a custom tone.
      * Respects the sound pref; never throws.
      */
     play(idOrTone: FeelSoundId | FeelTone | string, volume?: number): boolean {

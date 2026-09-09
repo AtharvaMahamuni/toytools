@@ -5,10 +5,13 @@ import {
   applyFriction,
   clampVelocity,
   createRafLoop,
+  flickOmega,
+  hubDeltaAngle,
   integratePosition,
   intensityScale,
   motionAllowed,
   motionScale,
+  pushFlickSample,
   stepSpring,
   systemPrefersReducedMotion,
 } from './motion';
@@ -33,7 +36,7 @@ function fakeAudioContext(): AudioContextLike & {
 } {
   const osc = {
     type: 'sine',
-    frequency: { setValueAtTime: vi.fn() },
+    frequency: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
     connect: vi.fn(),
     start: vi.fn(),
     stop: vi.fn(),
@@ -161,6 +164,25 @@ describe('feel motion', () => {
     expect(clampVelocity(100, 40, 0)).toBe(0);
   });
 
+  it('reads a quarter-turn around a hub and ignores a centre-crossing jump', () => {
+    expect(hubDeltaAngle(40, 0, 0, 40, 0, 0)).toBeCloseTo(Math.PI / 2, 5);
+    expect(hubDeltaAngle(40, 0, 0, -40, 0, 0)).toBeCloseTo(-Math.PI / 2, 5);
+    expect(hubDeltaAngle(-40, 2, 40, 2, 0, 0)).toBe(0);
+  });
+
+  it('weights a flick so one swipe carries more than the last frame', () => {
+    const samples = [
+      { omega: 4, dt: 0.02 },
+      { omega: 8, dt: 0.02 },
+      { omega: 10, dt: 0.02 },
+    ];
+    expect(flickOmega(samples, 2)).toBeGreaterThan(10);
+    expect(flickOmega([], 2)).toBe(0);
+    const buf: { omega: number; dt: number }[] = [];
+    pushFlickSample(buf, 5, 0.2, 0.1);
+    expect(buf).toHaveLength(1);
+  });
+
   it('runs a rAF loop until the callback returns false', () => {
     const frames: number[] = [];
     let id = 0;
@@ -278,6 +300,16 @@ describe('feel sound', () => {
     expect(() => unlockSound({ context: ctx })).not.toThrow();
     expect(ctx.resume).toHaveBeenCalled();
   });
+
+  it('glides squish from a high blorp down to a low one', () => {
+    const ctx = fakeAudioContext();
+    expect(FEEL_TONES.squish.frequencyEnd).toBeLessThan(FEEL_TONES.squish.frequency);
+    expect(playSound('squish', { prefs: { sound: true }, context: ctx })).toBe(true);
+    const osc = ctx.createOscillator.mock.results[0].value as {
+      frequency: { exponentialRampToValueAtTime: ReturnType<typeof vi.fn> };
+    };
+    expect(osc.frequency.exponentialRampToValueAtTime).toHaveBeenCalled();
+  });
 });
 
 describe('ToyTools.feel facade', () => {
@@ -301,7 +333,9 @@ describe('ToyTools.feel facade', () => {
     expect(feel.vibrate(10)).toBe(false);
     expect(feel.feedback('click')).toEqual({ sound: false, haptic: false });
     expect(typeof feel.unlock).toBe('function');
-    expect(FEEL_HAPTICS.tick).toBeGreaterThanOrEqual(20);
-    expect(FEEL_HAPTICS.grain).toEqual(expect.any(Array));
+    expect(Array.isArray(FEEL_HAPTICS.tick)).toBe(true);
+    expect(Array.isArray(FEEL_HAPTICS.pop)).toBe(true);
+    expect(Array.isArray(FEEL_HAPTICS.grain)).toBe(true);
+    expect(Array.isArray(FEEL_HAPTICS.squish)).toBe(true);
   });
 });

@@ -160,12 +160,17 @@ const bubbles = Array.from({ length: COUNT }, (_, i) => i);
 
 <style is:global>
   html.tt-play-mode [data-pop-it] {
+    display: flex;
+    flex-direction: column;
     max-width: none;
     height: 100%;
+    min-height: 0;
   }
 
   html.tt-play-mode [data-pop-scroller] {
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
     max-height: none;
     overflow: auto;
     -webkit-overflow-scrolling: touch;

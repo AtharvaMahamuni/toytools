@@ -148,6 +148,7 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
     border: var(--border);
     touch-action: none;
     display: block;
+    will-change: transform;
   }
 
   .gears-svg path {
@@ -172,13 +173,18 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
 
 <style is:global>
   html.tt-play-mode [data-gears] {
+    display: flex;
+    flex-direction: column;
     max-width: none;
     height: 100%;
+    min-height: 0;
   }
 
   html.tt-play-mode [data-gears-svg] {
     flex: 1 1 auto;
-    height: 100%;
+    min-height: 0;
+    height: auto;
+    width: 100%;
     max-height: none;
   }
 </style>
@@ -206,9 +212,11 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
     var lastTooth = 0;
     var lastHapticAt = 0;
     var dragging = false;
-    var lastAngle = 0;
+    var lastPx = 0;
+    var lastPy = 0;
     var lastT = 0;
     var loop = null;
+    var samples = [];
 
     function api() {
       return feel && feel.gears ? feel.gears : null;
@@ -272,10 +280,12 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
         } catch (e) {}
       }
       var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
-      if (now - lastHapticAt > 40 && feel && typeof feel.vibrate === 'function') {
+      var speed = Math.abs(omega);
+      var gap = speed > 10 ? 70 : speed > 4 ? 45 : 30;
+      if (now - lastHapticAt > gap && feel && typeof feel.vibrate === 'function') {
         lastHapticAt = now;
         try {
-          feel.vibrate(22);
+          feel.vibrate(speed > 10 ? [10, 10, 18] : speed > 4 ? [16, 12, 26] : [22, 14, 32]);
         } catch (e) {}
       }
     }
@@ -314,17 +324,38 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       }
     }
 
-    function pointerAngle(ev) {
-      if (!layout || !svg) return 0;
+    function gearCfg() {
+      var g = api() || {};
+      return {
+        rest: g.GEAR_REST || 0.08,
+        friction: g.GEAR_FRICTION || 0.982,
+        max: g.GEAR_MAX_OMEGA || 40,
+        boost: g.GEAR_FLICK_BOOST || 2.1,
+      };
+    }
+
+    function svgPoint(ev) {
+      if (!svg) return null;
       var ctm = svg.getScreenCTM();
-      if (!ctm) return 0;
+      if (!ctm) return null;
       var pt = svg.createSVGPoint();
       pt.x = ev.clientX;
       pt.y = ev.clientY;
-      var p = pt.matrixTransform(ctm.inverse());
-      var dx = p.x - layout.driver.cx;
-      var dy = p.y - layout.driver.cy;
-      return Math.atan2(dy, dx);
+      return pt.matrixTransform(ctm.inverse());
+    }
+
+    function hubDa(x0, y0, x1, y1) {
+      if (!layout) return 0;
+      if (feel && typeof feel.hubDelta === 'function') {
+        return feel.hubDelta(x0, y0, x1, y1, layout.driver.cx, layout.driver.cy, 10);
+      }
+      var a0 = Math.atan2(y0 - layout.driver.cy, x0 - layout.driver.cx);
+      var a1 = Math.atan2(y1 - layout.driver.cy, x1 - layout.driver.cx);
+      var da = a1 - a0;
+      if (da > Math.PI) da -= Math.PI * 2;
+      if (da < -Math.PI) da += Math.PI * 2;
+      if (Math.abs(da) > 2.2) return 0;
+      return da;
     }
 
     function startLoop() {
@@ -332,13 +363,13 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       if (feel.motionAllowed && !feel.motionAllowed()) return;
       loop = feel.raf(function (dt) {
         if (dragging) return true;
+        var cfg = gearCfg();
         if (feel && typeof feel.friction === 'function') {
-          omega = feel.friction(omega, { friction: 0.9, restVelocity: 0.08 }, dt);
+          omega = feel.friction(omega, { friction: cfg.friction, restVelocity: cfg.rest }, dt);
         } else {
-          omega *= 0.98;
-          if (Math.abs(omega) < 0.08) omega = 0;
+          omega *= cfg.friction;
         }
-        if (Math.abs(omega) < 0.08) {
+        if (Math.abs(omega) < cfg.rest) {
           omega = 0;
           loop = null;
           return false;
@@ -355,9 +386,12 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       if (ev.button != null && ev.button !== 0) return;
       if (!svg.contains(ev.target)) return;
       dragging = true;
-      lastAngle = pointerAngle(ev);
+      var p0 = svgPoint(ev);
+      lastPx = p0 ? p0.x : 0;
+      lastPy = p0 ? p0.y : 0;
       lastT = ev.timeStamp || Date.now();
       omega = 0;
+      samples = [];
       try {
         svg.setPointerCapture(ev.pointerId);
       } catch (e) {}
@@ -370,18 +404,23 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
 
     function onMove(ev) {
       if (!dragging) return;
-      var a = pointerAngle(ev);
-      var da = a - lastAngle;
-      if (da > Math.PI) da -= Math.PI * 2;
-      if (da < -Math.PI) da += Math.PI * 2;
-      angle += da;
+      var p = svgPoint(ev);
+      if (!p) return;
+      var da = hubDa(lastPx, lastPy, p.x, p.y);
       var now = ev.timeStamp || Date.now();
       var dt = Math.max(0.008, (now - lastT) / 1000);
-      omega = da / dt;
-      if (feel && typeof feel.clampVelocity === 'function') {
-        omega = feel.clampVelocity(omega, 14);
+      angle += da;
+      var cfg = gearCfg();
+      var instant = da / dt;
+      if (feel && typeof feel.clampVelocity === 'function') instant = feel.clampVelocity(instant, cfg.max);
+      omega = instant;
+      if (feel && typeof feel.pushFlick === 'function') {
+        feel.pushFlick(samples, instant, dt);
+      } else {
+        samples.push({ omega: instant, dt: dt });
       }
-      lastAngle = a;
+      lastPx = p.x;
+      lastPy = p.y;
       lastT = now;
       paintAngle(angle - da);
     }
@@ -392,6 +431,16 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
       try {
         svg.releasePointerCapture(ev.pointerId);
       } catch (e) {}
+      var cfg = gearCfg();
+      var flicked = feel && typeof feel.flick === 'function' ? feel.flick(samples, cfg.boost) : omega * cfg.boost;
+      if (feel && typeof feel.clampVelocity === 'function') flicked = feel.clampVelocity(flicked, cfg.max);
+      omega = Math.abs(flicked) < cfg.rest ? 0 : flicked;
+      samples = [];
+      if (Math.abs(omega) >= cfg.rest && feel && typeof feel.vibrate === 'function') {
+        try {
+          feel.vibrate([16, 14, 36, 18, 24]);
+        } catch (e) {}
+      }
       startLoop();
     }
 

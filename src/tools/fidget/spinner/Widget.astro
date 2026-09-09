@@ -58,6 +58,7 @@ import { config } from './config';
     width: min(72%, 16rem);
     height: auto;
     transform-origin: 50% 50%;
+    will-change: transform;
     fill: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
     stroke: color-mix(in srgb, var(--color-accent) 55%, var(--color-text));
     stroke-width: 1.5;
@@ -81,12 +82,17 @@ import { config } from './config';
 
 <style is:global>
   html.tt-play-mode [data-spinner] {
+    display: flex;
+    flex-direction: column;
     max-width: none;
     height: 100%;
+    min-height: 0;
   }
 
   html.tt-play-mode [data-spin-stage] {
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
     aspect-ratio: auto;
   }
 </style>
@@ -107,19 +113,41 @@ import { config } from './config';
     var lastX = 0;
     var lastY = 0;
     var lastT = 0;
-    var lastAngle = 0;
     var loop = null;
     var tapCount = 0;
     var lastHapticAt = 0;
     var cx = 0;
     var cy = 0;
+    var samples = [];
 
     function setStatus(text) {
       if (statusEl) statusEl.textContent = text;
     }
 
     function paint() {
-      disc.style.transform = 'rotate(' + (angle * 180) / Math.PI + 'deg)';
+      disc.style.transform = 'rotate(' + (angle * 180) / Math.PI + 'deg) translateZ(0)';
+    }
+
+    function spinCfg() {
+      var s = feel && feel.spinner ? feel.spinner : {};
+      return {
+        rest: s.SPINNER_REST || 0.12,
+        friction: s.SPINNER_FRICTION || 0.985,
+        max: s.SPINNER_MAX_OMEGA || 52,
+        boost: s.SPINNER_FLICK_BOOST || 2.4,
+      };
+    }
+
+    function hubDa(x0, y0, x1, y1) {
+      if (feel && typeof feel.hubDelta === 'function') {
+        return feel.hubDelta(x0, y0, x1, y1, cx, cy, 16);
+      }
+      var a0 = Math.atan2(y0 - cy, x0 - cx);
+      var a1 = Math.atan2(y1 - cy, x1 - cx);
+      var da = a1 - a0;
+      if (da > Math.PI) da -= Math.PI * 2;
+      if (da < -Math.PI) da += Math.PI * 2;
+      return da;
     }
 
     function reduced() {
@@ -148,10 +176,12 @@ import { config } from './config';
         } catch (e) {}
       }
       var now = typeof performance !== 'undefined' ? performance.now() : Date.now();
-      if (now - lastHapticAt > 45 && feel && typeof feel.vibrate === 'function') {
+      var speed = Math.abs(omega);
+      var gap = speed > 14 ? 80 : speed > 6 ? 50 : 32;
+      if (now - lastHapticAt > gap && feel && typeof feel.vibrate === 'function') {
         lastHapticAt = now;
         try {
-          feel.vibrate(22);
+          feel.vibrate(speed > 14 ? [10, 10, 18] : speed > 6 ? [16, 12, 24] : [22, 14, 32]);
         } catch (e) {}
       }
     }
@@ -166,12 +196,13 @@ import { config } from './config';
       loop = feel.raf(function (dt) {
         if (dragging) return true;
         var prev = angle;
+        var cfg = spinCfg();
         if (typeof feel.friction === 'function') {
-          omega = feel.friction(omega, { friction: 0.965, restVelocity: 0.35 }, dt);
+          omega = feel.friction(omega, { friction: cfg.friction, restVelocity: cfg.rest }, dt);
         } else {
-          omega *= 0.98;
+          omega *= 0.985;
         }
-        var rest = feel.spinner && feel.spinner.SPINNER_REST ? feel.spinner.SPINNER_REST : 0.35;
+        var rest = cfg.rest;
         if (feel.spinner && typeof feel.spinner.isAtRest === 'function' && feel.spinner.isAtRest(omega, rest)) {
           omega = 0;
           loop = null;
@@ -203,8 +234,8 @@ import { config } from './config';
       lastY = ev.clientY;
       lastT = ev.timeStamp || Date.now();
       stageCenter();
-      lastAngle = Math.atan2(ev.clientY - cy, ev.clientX - cx);
       omega = 0;
+      samples = [];
       try {
         stage.setPointerCapture(ev.pointerId);
       } catch (e) {}
@@ -217,35 +248,28 @@ import { config } from './config';
 
     function onMove(ev) {
       if (!dragging) return;
+      var now = ev.timeStamp || Date.now();
+      var dt = Math.max(0.008, (now - lastT) / 1000);
+      var da = hubDa(lastX, lastY, ev.clientX, ev.clientY);
+      var prev = angle;
+      angle += da;
+      var instant = da / dt;
+      var cfg = spinCfg();
+      if (feel && typeof feel.clampVelocity === 'function') instant = feel.clampVelocity(instant, cfg.max);
+      omega = instant;
+      if (feel && typeof feel.pushFlick === 'function') {
+        feel.pushFlick(samples, instant, dt);
+      } else {
+        samples.push({ omega: instant, dt: dt });
+      }
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+      lastT = now;
       if (reduced()) {
-        // Discrete drag: no momentum loop, but the disc still turns under the finger.
-        var a = Math.atan2(ev.clientY - cy, ev.clientX - cx);
-        var da = a - lastAngle;
-        if (da > Math.PI) da -= Math.PI * 2;
-        if (da < -Math.PI) da += Math.PI * 2;
-        angle += da;
-        lastAngle = a;
-        lastX = ev.clientX;
-        lastY = ev.clientY;
-        lastT = ev.timeStamp || Date.now();
         setStatus('Motion reduced');
         paint();
         return;
       }
-      var now = ev.timeStamp || Date.now();
-      var dt = Math.max(0.008, (now - lastT) / 1000);
-      var a = Math.atan2(ev.clientY - cy, ev.clientX - cx);
-      var da = a - lastAngle;
-      if (da > Math.PI) da -= Math.PI * 2;
-      if (da < -Math.PI) da += Math.PI * 2;
-      var prev = angle;
-      angle += da;
-      omega = da / dt;
-      if (feel && typeof feel.clampVelocity === 'function') omega = feel.clampVelocity(omega, 28);
-      lastAngle = a;
-      lastX = ev.clientX;
-      lastY = ev.clientY;
-      lastT = now;
       maybeTick(prev, angle);
       paint();
     }
@@ -269,6 +293,16 @@ import { config } from './config';
           } catch (e) {}
         }
         return;
+      }
+      var cfg = spinCfg();
+      var flicked = feel && typeof feel.flick === 'function' ? feel.flick(samples, cfg.boost) : omega * cfg.boost;
+      if (feel && typeof feel.clampVelocity === 'function') flicked = feel.clampVelocity(flicked, cfg.max);
+      omega = Math.abs(flicked) < cfg.rest ? 0 : flicked;
+      samples = [];
+      if (Math.abs(omega) >= cfg.rest && feel && typeof feel.vibrate === 'function') {
+        try {
+          feel.vibrate([16, 14, 36, 18, 24]);
+        } catch (e) {}
       }
       startLoop();
     }
