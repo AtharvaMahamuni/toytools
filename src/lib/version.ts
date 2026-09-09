@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 0,
   status: 'alpha',
   releaseDate: '2026-09-09',
-  description: 'Fidget play chrome, slime squish, smoother flicks, and richer haptics',
+  description: 'Fidget play chrome, material sounds, swipe speed, and smoother flicks',
 };
 
 export function formatVersion(config: VersionConfig): string {

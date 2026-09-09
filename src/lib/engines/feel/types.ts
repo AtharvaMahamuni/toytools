@@ -25,10 +25,15 @@ export interface FeelPrefs {
   motion: FeelMotionPref;
   /** Scales spring stiffness / momentum when motion is allowed. Default medium. */
   intensity: FeelIntensity;
+  /**
+   * How far a gears / spinner swipe coasts. 0.5 is a short nudge, 2 is a long spin.
+   * Also scales their tick sound and haptics. Default 1.
+   */
+  spinSpeed: number;
 }
 
 /** Named cue ids fidgets can play without shipping audio assets. */
-export type FeelSoundId = 'pop' | 'click' | 'tick' | 'soft' | 'grain' | 'squish';
+export type FeelSoundId = 'pop' | 'click' | 'tick' | 'soft' | 'grain' | 'squish' | 'metal' | 'plastic';
 
 export type FeelWave = OscillatorType | 'noise';
 
@@ -49,6 +54,7 @@ export const FEEL_PREF_KEYS = {
   haptics: 'feel.haptics',
   motion: 'feel.motion',
   intensity: 'feel.intensity',
+  spinSpeed: 'feel.spinSpeed',
 } as const;
 
 export const DEFAULT_FEEL_PREFS: FeelPrefs = {
@@ -56,7 +62,19 @@ export const DEFAULT_FEEL_PREFS: FeelPrefs = {
   haptics: false,
   motion: 'system',
   intensity: 'medium',
+  spinSpeed: 1,
 };
+
+export const SPIN_SPEED_MIN = 0.5;
+export const SPIN_SPEED_MAX = 2;
+export const SPIN_SPEED_STEP = 0.1;
+
+/** Clamp the swipe-speed pref into the slider range. Junk becomes 1. */
+export function clampSpinSpeed(value: unknown): number {
+  const n = typeof value === 'number' ? value : typeof value === 'string' ? Number(value) : NaN;
+  if (!Number.isFinite(n)) return DEFAULT_FEEL_PREFS.spinSpeed;
+  return Math.min(SPIN_SPEED_MAX, Math.max(SPIN_SPEED_MIN, n));
+}
 
 /** Multipliers for spring / momentum helpers. */
 export const FEEL_INTENSITY_SCALE: Record<FeelIntensity, number> = {
@@ -73,6 +91,8 @@ export const FEEL_TONES: Record<FeelSoundId, FeelTone> = {
   soft: { frequency: 240, duration: 0.1, gain: 0.14, type: 'sine' },
   grain: { frequency: 650, duration: 0.09, gain: 0.24, type: 'noise' },
   squish: { frequency: 320, frequencyEnd: 120, duration: 0.18, gain: 0.3, type: 'triangle' },
+  metal: { frequency: 820, frequencyEnd: 240, duration: 0.05, gain: 0.24, type: 'square' },
+  plastic: { frequency: 210, duration: 0.055, gain: 0.2, type: 'triangle' },
 };
 
 /**
@@ -86,4 +106,6 @@ export const FEEL_HAPTICS: Record<FeelSoundId, number | number[]> = {
   soft: [20, 24, 44, 28],
   grain: [12, 8, 20, 10, 28, 12, 18],
   squish: [18, 14, 36, 16, 48, 20, 28],
+  metal: [8, 12, 30],
+  plastic: [14, 12, 24],
 };

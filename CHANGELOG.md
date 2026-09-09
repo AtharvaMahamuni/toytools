@@ -18,6 +18,11 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **Fidget haptics.** Pop, click, tick, grain, and breath cues use multi-pulse patterns
   so a phone can actually feel them. Spinner and gears scale the pulse with speed and
   add a launch rumble on flick.
+- **Material sounds.** Gears tick as metal, the spinner as plastic. Sand, slime, pop, and
+  switch keep their own grain, squish, rubber, and click.
+- **Swipe speed.** A slider on Feel settings and on Gears / Spinner (0.5× to 2×) sets how
+  far one swipe coasts and how strong the matching tick and haptic are. Dragging the right
+  gear now follows the finger; the left turns the other way so the mesh stays locked.
 
 ## [alpha-v10.6] - 2026-09-09
 

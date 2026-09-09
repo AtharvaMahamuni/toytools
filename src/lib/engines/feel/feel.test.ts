@@ -76,6 +76,7 @@ describe('feel prefs', () => {
       haptics: true,
       motion: 'reduced',
       intensity: 'high',
+      spinSpeed: 1,
     });
   });
 
@@ -96,7 +97,7 @@ describe('feel prefs', () => {
       motion: 'full',
       intensity: 'low',
     });
-    expect(next).toEqual({ sound: false, haptics: true, motion: 'full', intensity: 'low' });
+    expect(next).toEqual({ sound: false, haptics: true, motion: 'full', intensity: 'low', spinSpeed: 1 });
     expect(prefs.store[FEEL_PREF_KEYS.haptics]).toBe(true);
     expect(prefs.store[FEEL_PREF_KEYS.sound]).toBe(false);
     expect(prefs.store[FEEL_PREF_KEYS.motion]).toBe('full');
@@ -323,7 +324,12 @@ describe('ToyTools.feel facade', () => {
       haptics: true,
       motion: 'reduced',
       intensity: 'high',
+      spinSpeed: 1,
     });
+    feel.setPrefs({ spinSpeed: 1.6 });
+    expect(feel.spinSpeed()).toBe(1.6);
+    feel.setPrefs({ spinSpeed: 9 });
+    expect(feel.spinSpeed()).toBe(2);
     expect(feel.motionAllowed()).toBe(false);
     expect(feel.motionScale()).toBe(0);
     expect(feel.intensityScale()).toBeGreaterThan(1);

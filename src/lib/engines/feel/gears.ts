@@ -65,6 +65,37 @@ export function drivenAngle(driverAngle: number, driverTeeth: number, drivenTeet
   return -a * (n1 / n2) + meshPhase(n2);
 }
 
+export type GearHub = 'driver' | 'driven';
+
+/** Which hub the pointer is closer to, so a swipe on the right gear follows the finger. */
+export function nearerHub(
+  x: number,
+  y: number,
+  driver: { cx: number; cy: number },
+  driven: { cx: number; cy: number },
+): GearHub {
+  const d1 = (x - driver.cx) * (x - driver.cx) + (y - driver.cy) * (y - driver.cy);
+  const d2 = (x - driven.cx) * (x - driven.cx) + (y - driven.cy) * (y - driven.cy);
+  return d2 < d1 ? 'driven' : 'driver';
+}
+
+/**
+ * Turn a swipe around `hub` into a driver-angle delta. Dragging the driven gear follows
+ * the finger; the driver then turns the other way so the mesh stays locked.
+ */
+export function driverDeltaFromHub(
+  da: number,
+  hub: GearHub,
+  driverTeeth: number,
+  drivenTeeth: number,
+): number {
+  const n1 = Math.max(1, Math.floor(driverTeeth));
+  const n2 = Math.max(1, Math.floor(drivenTeeth));
+  const d = Number.isFinite(da) ? da : 0;
+  if (hub === 'driven') return -d * (n2 / n1);
+  return d;
+}
+
 export function canMesh(
   teethA: number,
   teethB: number,
@@ -177,6 +208,8 @@ export const gearsApi = {
   drivenOmega,
   meshPhase,
   drivenAngle,
+  nearerHub,
+  driverDeltaFromHub,
   layoutPair,
   gearPath,
   TEETH_CHOICES,

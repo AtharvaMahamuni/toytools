@@ -3,7 +3,7 @@ import FeelWidget from '@tools/_shared/FeelWidget.astro';
 import { config } from './config';
 ---
 
-<FeelWidget slug={config.slug}>
+<FeelWidget slug={config.slug} showSpinSpeed>
   <div slot="stage" class="spin" data-spinner>
     <div
       class="spin-stage"
@@ -128,13 +128,23 @@ import { config } from './config';
       disc.style.transform = 'rotate(' + (angle * 180) / Math.PI + 'deg) translateZ(0)';
     }
 
+    function spinSpeed() {
+      if (feel && typeof feel.spinSpeed === 'function') {
+        try {
+          return feel.spinSpeed();
+        } catch (e) {}
+      }
+      return 1;
+    }
+
     function spinCfg() {
       var s = feel && feel.spinner ? feel.spinner : {};
+      var speed = spinSpeed();
       return {
         rest: s.SPINNER_REST || 0.12,
         friction: s.SPINNER_FRICTION || 0.985,
-        max: s.SPINNER_MAX_OMEGA || 52,
-        boost: s.SPINNER_FLICK_BOOST || 2.4,
+        max: (s.SPINNER_MAX_OMEGA || 52) * speed,
+        boost: (s.SPINNER_FLICK_BOOST || 2.4) * speed,
       };
     }
 
@@ -172,7 +182,9 @@ import { config } from './config';
       if (!s.crossedTick(prev, next)) return;
       if (feel && typeof feel.play === 'function') {
         try {
-          feel.play('tick');
+          var cfgCue = spinCfg();
+          var vol = Math.min(1, 0.35 + (Math.abs(omega) / cfgCue.max) * 0.7);
+          feel.play('plastic', vol);
         } catch (e) {}
       }
       var now = typeof performance !== 'undefined' ? performance.now() : Date.now();

@@ -5,6 +5,7 @@
 import {
   DEFAULT_FEEL_PREFS,
   FEEL_PREF_KEYS,
+  clampSpinSpeed,
   type FeelIntensity,
   type FeelMotionPref,
   type FeelPrefs,
@@ -52,6 +53,7 @@ export function readFeelPrefs(prefs?: PrefsBag | null): FeelPrefs {
         prefs.get(FEEL_PREF_KEYS.intensity, DEFAULT_FEEL_PREFS.intensity),
         DEFAULT_FEEL_PREFS.intensity,
       ),
+      spinSpeed: clampSpinSpeed(prefs.get(FEEL_PREF_KEYS.spinSpeed, DEFAULT_FEEL_PREFS.spinSpeed)),
     };
   } catch {
     return { ...DEFAULT_FEEL_PREFS };
@@ -67,6 +69,7 @@ export function writeFeelPrefs(prefs: PrefsBag | null | undefined, patch: Partia
     prefs.set(FEEL_PREF_KEYS.haptics, next.haptics);
     prefs.set(FEEL_PREF_KEYS.motion, next.motion);
     prefs.set(FEEL_PREF_KEYS.intensity, next.intensity);
+    prefs.set(FEEL_PREF_KEYS.spinSpeed, next.spinSpeed);
   } catch {
     // private browsing / quota: callers still get the resolved next value
   }
@@ -83,5 +86,6 @@ function sanitizePatch(patch: Partial<FeelPrefs>): Partial<FeelPrefs> {
   if (patch.intensity === 'low' || patch.intensity === 'medium' || patch.intensity === 'high') {
     out.intensity = patch.intensity;
   }
+  if (patch.spinSpeed !== undefined) out.spinSpeed = clampSpinSpeed(patch.spinSpeed);
   return out;
 }

@@ -7,6 +7,8 @@ import {
   canMesh,
   drivenAngle,
   drivenOmega,
+  driverDeltaFromHub,
+  nearerHub,
   formatRatio,
   gearPath,
   layoutPair,
@@ -36,6 +38,18 @@ describe('gears layout', () => {
   it('flips the driven sign and scales by the tooth ratio', () => {
     expect(drivenOmega(2, 12, 24)).toBeCloseTo(-1);
     expect(drivenOmega(1, 16, 8)).toBeCloseTo(-2);
+  });
+
+  it('turns a swipe on the right gear into the opposite driver delta so the finger wins', () => {
+    const da = 0.2;
+    const driverDa = driverDeltaFromHub(da, 'driven', 12, 24);
+    expect(driverDa).toBeCloseTo(-0.4);
+    expect(drivenAngle(driverDa, 12, 24) - drivenAngle(0, 12, 24)).toBeCloseTo(da);
+    expect(driverDeltaFromHub(da, 'driver', 12, 24)).toBe(da);
+    const layout = layoutPair(12, 24);
+    if (!layout.ok) return;
+    expect(nearerHub(layout.driven.cx, layout.driven.cy, layout.driver, layout.driven)).toBe('driven');
+    expect(nearerHub(layout.driver.cx, layout.driver.cy, layout.driver, layout.driven)).toBe('driver');
   });
 
   it('formats a reduced ratio', () => {
