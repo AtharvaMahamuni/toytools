@@ -35,6 +35,8 @@ test.describe('gears', () => {
     await page.goto(URL);
     const slider = page.locator('[data-feel-spin-speed]');
     await expect(slider).toBeVisible();
+    await slider.fill('0.05');
+    await expect(page.locator('[data-feel-spin-speed-value]')).toHaveText('0.05×');
     await slider.fill('1.5');
     await expect(page.locator('[data-feel-spin-speed-value]')).toHaveText('1.5×');
     const stored = await page.evaluate(() => {

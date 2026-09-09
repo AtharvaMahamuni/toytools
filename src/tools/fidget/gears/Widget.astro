@@ -339,11 +339,12 @@ const drivenRot0 = (drivenAngle(0, layout.driverTeeth, layout.drivenTeeth) * 180
     function gearCfg() {
       var g = api() || {};
       var speed = spinSpeed();
+      var boostScale = speed < 1 ? 1 : speed;
       return {
         rest: g.GEAR_REST || 0.08,
         friction: g.GEAR_FRICTION || 0.982,
         max: (g.GEAR_MAX_OMEGA || 40) * speed,
-        boost: (g.GEAR_FLICK_BOOST || 2.1) * speed,
+        boost: (g.GEAR_FLICK_BOOST || 2.1) * boostScale,
       };
     }
 

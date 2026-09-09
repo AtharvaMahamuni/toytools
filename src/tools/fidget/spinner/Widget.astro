@@ -140,11 +140,12 @@ import { config } from './config';
     function spinCfg() {
       var s = feel && feel.spinner ? feel.spinner : {};
       var speed = spinSpeed();
+      var boostScale = speed < 1 ? 1 : speed;
       return {
         rest: s.SPINNER_REST || 0.12,
         friction: s.SPINNER_FRICTION || 0.985,
         max: (s.SPINNER_MAX_OMEGA || 52) * speed,
-        boost: (s.SPINNER_FLICK_BOOST || 2.4) * speed,
+        boost: (s.SPINNER_FLICK_BOOST || 2.4) * boostScale,
       };
     }
 

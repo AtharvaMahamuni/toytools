@@ -5,6 +5,7 @@
 // reduced-motion hint, and play-mode Exit/Mute. Each tool slots its board, status, and
 // craft action. Play mode CSS lives in tool-widget.css so widgets never name Zone B/C.
 import { withBase } from '@lib/paths';
+import { SPIN_SPEED_MAX, SPIN_SPEED_MIN, SPIN_SPEED_STEP } from '@lib/engines/feel/types';
 
 interface Props {
   slug: string;
@@ -76,9 +77,9 @@ const settingsHref = withBase('/settings/');
             type="range"
             class="feel-speed-input"
             data-feel-spin-speed
-            min="0.5"
-            max="2"
-            step="0.1"
+            min={SPIN_SPEED_MIN}
+            max={SPIN_SPEED_MAX}
+            step={SPIN_SPEED_STEP}
             value="1"
             aria-labelledby="feel-spin-speed-label"
           />
@@ -93,7 +94,7 @@ const settingsHref = withBase('/settings/');
   </p>
 </section>
 
-<script is:inline define:vars={{ slug, playSurface, showSpinSpeed }}>
+<script is:inline define:vars={{ slug, playSurface, showSpinSpeed, SPIN_SPEED_MIN, SPIN_SPEED_MAX, SPIN_SPEED_STEP }}>
   (function () {
     var root = document.querySelector('[data-feel-slug="' + slug + '"]');
     if (!root) return;
@@ -115,9 +116,14 @@ const settingsHref = withBase('/settings/');
     function clampSpeed(n) {
       var v = Number(n);
       if (!isFinite(v)) return 1;
-      if (v < 0.5) return 0.5;
-      if (v > 2) return 2;
-      return Math.round(v * 10) / 10;
+      if (v < SPIN_SPEED_MIN) v = SPIN_SPEED_MIN;
+      if (v > SPIN_SPEED_MAX) v = SPIN_SPEED_MAX;
+      return Math.round(v / SPIN_SPEED_STEP) * SPIN_SPEED_STEP;
+    }
+
+    function formatSpeed(n) {
+      var h = Math.round(clampSpeed(n) * 100);
+      return (h / 100).toFixed(h % 10 === 0 ? 1 : 2) + '×';
     }
 
     function readLocalFeel() {
@@ -184,7 +190,7 @@ const settingsHref = withBase('/settings/');
         muteBtn.textContent = p.sound ? 'Mute' : 'Unmute';
       }
       if (speedInput) speedInput.value = String(p.spinSpeed);
-      if (speedValue) speedValue.textContent = p.spinSpeed.toFixed(1) + '×';
+      if (speedValue) speedValue.textContent = formatSpeed(p.spinSpeed);
     }
 
     function syncMotion() {

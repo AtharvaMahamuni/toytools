@@ -26,6 +26,20 @@ test.describe('kinetic sand', () => {
     await expect(page.locator('[data-sand-status]')).toHaveText(/Mound restored|Drag through the pile/);
   });
 
+  test('a tilt event after a drag does not throw', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (err) => errors.push(err.message));
+    await page.goto(URL);
+    await canvas(page).click();
+    await page.evaluate(() => {
+      window.dispatchEvent(
+        new DeviceOrientationEvent('deviceorientation', { beta: 8, gamma: 28, alpha: 0 }),
+      );
+    });
+    await expect(canvas(page)).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
   test('Play hides Zone B and keeps ToolBar', async ({ page }) => {
     await page.goto(URL);
     await page.locator('[data-feel-play]').click();
