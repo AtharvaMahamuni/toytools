@@ -30,6 +30,7 @@ export const ENGINE_LOADERS: Record<string, () => Promise<{ attach: AttachFn }>>
   units: () => import('./engines/units'),
   audio: () => import('./engines/audio'),
   feel: () => import('./engines/feel'),
+  network: () => import('./engines/network'),
 };
 
 /** Engine ids that have a lazily-loaded browser runtime. */

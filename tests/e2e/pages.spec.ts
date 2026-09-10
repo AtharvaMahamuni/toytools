@@ -44,6 +44,7 @@ test.describe('information pages', () => {
   // the version badge is not there by design. Chrome belongs to whoever owns the page.
   test('the nav version badge links to the changelog', async ({ page }) => {
     await page.goto('/');
+    await expect(page.locator('.nav-version-tooltip')).toContainText('Welcome, beta testers');
     await page.locator('.nav-version').click();
     await expect(page).toHaveURL(/\/changelog\/$/);
   });

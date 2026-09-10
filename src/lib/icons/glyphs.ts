@@ -189,6 +189,22 @@ export const GLYPHS: Record<string, string> = {
   // everybody recognises about it, and it reads at 48px.
   equalizer: S + '<path d="M6 3v6M6 15v6M12 3v9M12 18v3M18 3v3M18 12v9"/><path d="M4 11h4M10 14h4M16 8h4"/>' + E,
 
+  // ── fidgets (per-toy marks; the family default is still `dots`) ──────
+  // Three lobes around a hub: the spinner, not a loading ring.
+  spinner: S + '<circle cx="12" cy="12" r="2.2"/><circle cx="12" cy="5.2" r="3.1"/><circle cx="18.1" cy="15.4" r="3.1"/><circle cx="5.9" cy="15.4" r="3.1"/>' + E,
+  // Two overlapping cogs: tooth-count identity lives in the pair, not a single gear.
+  gears: S + '<circle cx="9" cy="14" r="5"/><circle cx="9" cy="14" r="1.8" fill="#fff" stroke="none"/><circle cx="16" cy="9" r="4"/><circle cx="16" cy="9" r="1.4" fill="#fff" stroke="none"/>' + E,
+  // A pile you can drag: rounded top, flat base.
+  sand: S + '<path d="M4 20h16L15.5 9H8.5Z"/><path d="M8.5 9c1-3.2 6-3.2 7 0"/>' + E,
+  // A lumpy blob, deliberately not the health `droplet`.
+  slime: S + '<path d="M7.2 8.2c0-2.8 2-4.8 4.8-4.8s4.8 2 4.8 4.8c2 .5 3.6 2.6 3.6 5.2 0 3.6-3.6 6.6-8.4 6.6S3.6 17 3.6 13.4c0-2.6 1.6-4.7 3.6-5.2Z"/>' + E,
+  // Expanding rings: a named breathing pattern, not a spinner.
+  breath: S + '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.2"/><circle cx="12" cy="12" r="9.4"/>' + E,
+
+  // ── network ───────────────────────────────────────────────────────────
+  // Four octets on a line: an IPv4 address, which is what CIDR is about.
+  cidr: S + '<path d="M4 12h16"/><circle cx="4" cy="12" r="2.1"/><circle cx="9.3" cy="12" r="2.1"/><circle cx="14.7" cy="12" r="2.1"/><circle cx="20" cy="12" r="2.1"/>' + E,
+
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,
 };

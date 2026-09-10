@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-08T16:05:58.360Z",
+  "generatedAt": "2026-09-09T19:22:28.273Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -249,22 +249,31 @@
       "id": "breathing-circle",
       "title": "Breathing Circle",
       "transformation": "Breathing Guide",
-      "engine": "sound",
+      "engine": "feel",
       "existing": false,
       "relatedTools": [
         "pomodoro-timer",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "slime",
+        "breathing-circle",
+        "gears"
       ],
       "relatedGuides": [
         "pomodoro-timer",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "slime",
+        "breathing-circle",
+        "gears"
       ],
       "relatedFaqs": [
         "pomodoro-timer",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "slime",
+        "breathing-circle",
+        "gears"
       ]
     },
     {
@@ -390,6 +399,34 @@
       "relatedTools": [],
       "relatedGuides": [],
       "relatedFaqs": []
+    },
+    {
+      "id": "cidr-calculator",
+      "title": "CIDR Calculator",
+      "transformation": "IPv4 Subnet Math",
+      "engine": "network",
+      "existing": false,
+      "relatedTools": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "cidr-calculator"
+      ],
+      "relatedGuides": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "cidr-calculator"
+      ],
+      "relatedFaqs": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "cidr-calculator"
+      ]
     },
     {
       "id": "coin-flipper",
@@ -996,16 +1033,28 @@
       "engine": "feel",
       "existing": false,
       "relatedTools": [
+        "spinner",
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "breathing-circle",
+        "gears"
       ],
       "relatedGuides": [
+        "spinner",
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "breathing-circle",
+        "gears"
       ],
       "relatedFaqs": [
+        "spinner",
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "breathing-circle",
+        "gears"
       ]
     },
     {
@@ -1227,6 +1276,31 @@
       ]
     },
     {
+      "id": "ipv4-converter",
+      "title": "IPv4 Converter",
+      "transformation": "IPv4 Representation",
+      "engine": "network",
+      "existing": false,
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedGuides": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedFaqs": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ]
+    },
+    {
       "id": "json-diff",
       "title": "Structured JSON Diff",
       "transformation": "JSON Diff",
@@ -1365,16 +1439,28 @@
       "engine": "feel",
       "existing": false,
       "relatedTools": [
+        "slime",
+        "gears",
         "pop-it",
-        "switch-board"
+        "spinner",
+        "breathing-circle",
+        "kinetic-sand"
       ],
       "relatedGuides": [
+        "slime",
+        "gears",
         "pop-it",
-        "switch-board"
+        "spinner",
+        "breathing-circle",
+        "kinetic-sand"
       ],
       "relatedFaqs": [
+        "slime",
+        "gears",
         "pop-it",
-        "switch-board"
+        "spinner",
+        "breathing-circle",
+        "kinetic-sand"
       ]
     },
     {
@@ -1873,16 +1959,28 @@
       "engine": "feel",
       "existing": false,
       "relatedTools": [
+        "spinner",
         "switch-board",
-        "pop-it"
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
       ],
       "relatedGuides": [
+        "spinner",
         "switch-board",
-        "pop-it"
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
       ],
       "relatedFaqs": [
+        "spinner",
         "switch-board",
-        "pop-it"
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
       ]
     },
     {
@@ -2639,16 +2737,28 @@
       "engine": "feel",
       "existing": false,
       "relatedTools": [
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "gears",
+        "spinner",
+        "breathing-circle",
+        "slime"
       ],
       "relatedGuides": [
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "gears",
+        "spinner",
+        "breathing-circle",
+        "slime"
       ],
       "relatedFaqs": [
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "gears",
+        "spinner",
+        "breathing-circle",
+        "slime"
       ]
     },
     {
@@ -2690,15 +2800,27 @@
       "existing": false,
       "relatedTools": [
         "pop-it",
-        "switch-board"
+        "gears",
+        "kinetic-sand",
+        "switch-board",
+        "breathing-circle",
+        "slime"
       ],
       "relatedGuides": [
         "pop-it",
-        "switch-board"
+        "gears",
+        "kinetic-sand",
+        "switch-board",
+        "breathing-circle",
+        "slime"
       ],
       "relatedFaqs": [
         "pop-it",
-        "switch-board"
+        "gears",
+        "kinetic-sand",
+        "switch-board",
+        "breathing-circle",
+        "slime"
       ]
     },
     {
@@ -2733,15 +2855,27 @@
       "existing": false,
       "relatedTools": [
         "pop-it",
-        "switch-board"
+        "spinner",
+        "gears",
+        "breathing-circle",
+        "kinetic-sand",
+        "slime"
       ],
       "relatedGuides": [
         "pop-it",
-        "switch-board"
+        "spinner",
+        "gears",
+        "breathing-circle",
+        "kinetic-sand",
+        "slime"
       ],
       "relatedFaqs": [
         "pop-it",
-        "switch-board"
+        "spinner",
+        "gears",
+        "breathing-circle",
+        "kinetic-sand",
+        "slime"
       ]
     },
     {
@@ -3104,6 +3238,31 @@
       "relatedFaqs": []
     },
     {
+      "id": "what-is-my-ip",
+      "title": "What Is My IP",
+      "transformation": "Public Address Lookup",
+      "engine": "network",
+      "existing": false,
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedGuides": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedFaqs": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ]
+    },
+    {
       "id": "word-counter",
       "title": "Word Counter",
       "transformation": "text-counting",
@@ -3338,8 +3497,18 @@
     },
     {
       "from": "breathing-circle",
+      "to": "kinetic-sand",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "breathing-circle",
       "to": "pomodoro-timer",
       "kind": "links-to-tool"
+    },
+    {
+      "from": "breathing-circle",
+      "to": "slime",
+      "kind": "shares-engine"
     },
     {
       "from": "cagr-calculator",
@@ -3430,6 +3599,21 @@
       "from": "chess-tac-toe",
       "to": "quantum-tic-tac-toe",
       "kind": "same-transformation"
+    },
+    {
+      "from": "cidr-calculator",
+      "to": "binary-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "cidr-calculator",
+      "to": "hex-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "cidr-calculator",
+      "to": "ipv4-converter",
+      "kind": "shares-engine"
     },
     {
       "from": "color-contrast-checker",
@@ -3863,6 +4047,11 @@
     },
     {
       "from": "gears",
+      "to": "breathing-circle",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "gears",
       "to": "kinetic-sand",
       "kind": "same-transformation"
     },
@@ -3984,6 +4173,16 @@
     {
       "from": "invisible-character-detector",
       "to": "text-compare",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "ipv4-converter",
+      "to": "binary-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "ipv4-converter",
+      "to": "hex-encoder-decoder",
       "kind": "links-to-tool"
     },
     {
@@ -4294,6 +4493,11 @@
     {
       "from": "ovulation-calculator",
       "to": "timezone-converter",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "pop-it",
+      "to": "breathing-circle",
       "kind": "shares-engine"
     },
     {
@@ -5038,6 +5242,11 @@
     },
     {
       "from": "spinner",
+      "to": "breathing-circle",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "spinner",
       "to": "kinetic-sand",
       "kind": "same-transformation"
     },
@@ -5054,6 +5263,11 @@
     {
       "from": "statistics-visualizer",
       "to": "triangle-solver",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "switch-board",
+      "to": "breathing-circle",
       "kind": "shares-engine"
     },
     {
@@ -5274,6 +5488,26 @@
     {
       "from": "waist-to-hip-ratio-calculator",
       "to": "vo2-max-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "what-is-my-ip",
+      "to": "binary-converter",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "what-is-my-ip",
+      "to": "cidr-calculator",
+      "kind": "shares-engine"
+    },
+    {
+      "from": "what-is-my-ip",
+      "to": "hex-encoder-decoder",
+      "kind": "links-to-tool"
+    },
+    {
+      "from": "what-is-my-ip",
+      "to": "ipv4-converter",
       "kind": "shares-engine"
     },
     {

@@ -29,6 +29,8 @@ Use this before writing any code. Picking the wrong engine requires a full refac
 | Repeat-entry habit/measurement log with streaks (water, weight, workouts) | `tracker` | `health-track` |
 | Parse/convert/check a CSS color (HEX/RGB/HSL/HSV/OKLCH/CMYK, contrast) | `color` | `color-convert` or `color-contrast` |
 | Convert CSS/mobile units (px/rem/em/pt/dp/sp) or solve an aspect ratio | `units` | `unit-convert` or `aspect-ratio` |
+| IPv4 CIDR/subnet math (network, mask, wildcard, usable range) | `network` | `network-calculate` |
+| Public IP lookup (what is my IP) | `network` | `network-lookup` |
 
 `physics` and `math-lab` are manifest-driven simulations, not registry engines — see the decision
 tree in `SKILL.md` and skip this scaffold/classification flow entirely for a sim.
@@ -144,7 +146,7 @@ Find and replace, side-by-side text diff
 
 ## When none of the above fit
 
-There are 20 engines today (`src/data/engines.ts` is authoritative — check it, not just the tables
+There are 24 engines today (`src/data/engines.ts` is authoritative — check it, not just the tables
 above, before concluding nothing fits). If the tool genuinely cannot be expressed by any existing
 engine:
 1. Confirm at least 2–3 tools would use the same new engine (single-tool engines are a sign of misclassification).

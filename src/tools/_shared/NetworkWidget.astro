@@ -1,0 +1,329 @@
+---
+// NetworkWidget — the ONE network-calculator widget. Like MathWidget it is deliberately THIN: it
+// renders the input form from the tool's field schema (via SmartInput) and delegates ALL result
+// rendering to the platform ExperienceRenderer. It is network-specific only in its wiring
+// (ToyTools.runNetwork) and the optional recover control filled from result.meta.
+//
+// If a new network calculator ever requires editing this file, the architecture has failed — add
+// a calculator under src/lib/engines/network/calculators/ instead.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import SmartInput from '@components/inputs/SmartInput.astro';
+import ExperienceRenderer from '@components/experience/ExperienceRenderer.astro';
+import { getNetworkCalculator } from '@lib/engines/network/registry';
+import { networkExamplesFor } from '@lib/engines/network/examples';
+import { DEFAULT_CAPABILITIES } from '@lib/results/types';
+import { urlStateMode } from '@lib/url-state';
+import type { ToolConfig } from '@data/types';
+
+interface Props {
+  slug: string;
+  networkId: string;
+  config: ToolConfig;
+  emptyText?: string;
+}
+
+const { slug, networkId, config, emptyText } = Astro.props;
+
+const urlMode = urlStateMode(config.engine, config.pattern);
+const tool = getNetworkCalculator(networkId);
+const fields = tool?.fields ?? [];
+const caps = { ...DEFAULT_CAPABILITIES, ...(tool?.capabilities ?? {}) };
+const examples = networkExamplesFor(networkId).map((e) => e.inputs);
+const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
+const resolvedEmpty = emptyText ?? 'Enter an address to calculate.';
+const craftId = config.craft?.id;
+---
+
+<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel
+    slot="input"
+    label="Details"
+    variant="prose"
+    data-network={networkId}
+    data-slug={slug}
+    data-url-state={urlMode}
+    data-defaults={JSON.stringify(defaults)}
+  >
+    <div class="io-body network-form" id={`${slug}-form`} data-network-form>
+      {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
+    </div>
+    <button
+      type="button"
+      class="net-recover"
+      id={`${slug}-recover`}
+      data-craft={craftId}
+      hidden
+    ></button>
+  </IoPanel>
+
+  <ExperienceRenderer
+    slot="output"
+    idPrefix={slug}
+    emptyText={resolvedEmpty}
+    layout={tool?.layout}
+    capabilities={caps}
+  />
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
+  {caps.loadExample && examples.length > 0 && (
+    <button class="action-btn" id={`${slug}-example`} type="button">Load Example</button>
+  )}
+  {urlMode !== 'off' && (
+    <button class="action-btn" id={`${slug}-share`} data-label="Copy link" type="button">Copy link</button>
+  )}
+  <button class="action-btn action-btn--clear" id={`${slug}-reset`} data-label="Reset" type="button">Reset to Defaults</button>
+</div>
+
+{examples.length > 0 && (
+  <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
+)}
+
+<style>
+  .net-recover[hidden] {
+    display: none;
+  }
+
+  .net-recover {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    margin-top: var(--space-2);
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--color-accent-strong);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .net-recover::before {
+    content: '↳';
+    color: var(--color-text-subtle);
+  }
+
+  .net-recover:hover,
+  .net-recover:active {
+    color: var(--color-text);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-network][data-slug]');
+    if (!root) return;
+    var nid = root.getAttribute('data-network');
+    var slug = root.getAttribute('data-slug');
+    var defaults = {};
+    try { defaults = JSON.parse(root.getAttribute('data-defaults') || '{}'); } catch (_) {}
+
+    var form = document.getElementById(slug + '-form');
+    var expRoot = document.getElementById(slug + '-experience');
+    var heroEl = document.getElementById(slug + '-hero');
+    var recoverBtn = document.getElementById(slug + '-recover');
+    if (!form || !expRoot) return;
+
+    var fieldEls = form.querySelectorAll('[data-field-id]');
+
+    function fieldById(id) {
+      for (var i = 0; i < fieldEls.length; i++) {
+        if (fieldEls[i].getAttribute('data-field-id') === id) return fieldEls[i];
+      }
+      return null;
+    }
+
+    function isStringField(el) {
+      var t = el.getAttribute('data-field-type');
+      return t === 'select' || t === 'segmented' || t === 'date' || t === 'datetime' || t === 'text';
+    }
+
+    function readValue(el) {
+      if (isStringField(el)) return el.value;
+      var raw = el.getAttribute('data-raw');
+      if (raw === '' || raw == null) return '';
+      var n = parseFloat(raw);
+      return isNaN(n) ? '' : n;
+    }
+
+    function setField(id, value) {
+      var el = fieldById(id);
+      if (!el) return;
+      el.value = value == null ? '' : String(value);
+      if (!isStringField(el)) el.setAttribute('data-raw', el.value);
+    }
+
+    function collect() {
+      var input = {};
+      var missingRequired = false;
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        var id = el.getAttribute('data-field-id');
+        var required = el.getAttribute('data-required') === 'true';
+        var v = readValue(el);
+        if (v === '' && required) missingRequired = true;
+        input[id] = v;
+      }
+      return { input: input, missingRequired: missingRequired };
+    }
+
+    function showCraft(res) {
+      if (!recoverBtn) return;
+      var meta = res && res.meta ? res.meta : null;
+      var field = meta && meta.craftApplyField;
+      var value = meta && meta.craftApplyValue;
+      var label = meta && meta.craftLabel;
+      if (!field || !value || !label) {
+        recoverBtn.hidden = true;
+        recoverBtn.textContent = '';
+        recoverBtn.removeAttribute('data-apply-field');
+        recoverBtn.removeAttribute('data-apply-value');
+        return;
+      }
+      recoverBtn.textContent = label;
+      recoverBtn.setAttribute('data-apply-field', field);
+      recoverBtn.setAttribute('data-apply-value', value);
+      recoverBtn.hidden = false;
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.runNetwork && ToyTools.experience)) return;
+      var c = collect();
+      if (c.missingRequired) {
+        ToyTools.experience.render(expRoot, { ok: false, uiState: 'empty', metrics: [] });
+        showCraft(null);
+        return;
+      }
+      var res = ToyTools.runNetwork(nid, c.input, {});
+      ToyTools.experience.render(expRoot, res);
+      showCraft(res);
+    }
+
+    var urlMode = root.getAttribute('data-url-state') || 'off';
+
+    function shareValues() {
+      var out = {};
+      for (var i = 0; i < fieldEls.length; i++) {
+        var el = fieldEls[i];
+        var v = readValue(el);
+        if (v !== '' && v !== null && v !== undefined) out[el.getAttribute('data-field-id')] = v;
+      }
+      return out;
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      var data = { fields: {} };
+      for (var i = 0; i < fieldEls.length; i++) {
+        data.fields[fieldEls[i].getAttribute('data-field-id')] = fieldEls[i].value;
+      }
+      ToyTools.state.save(slug, data);
+      if (urlMode === 'auto' && ToyTools.url) ToyTools.url.write(shareValues());
+    }
+
+    function applyValues(values) {
+      for (var id in values) setField(id, values[id]);
+    }
+
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load(slug);
+      var savedFields = (saved && saved.fields) || {};
+      for (var id in savedFields) setField(id, savedFields[id]);
+    } catch (_) {}
+
+    if (urlMode !== 'off') {
+      try {
+        var incoming = (window.ToyTools && ToyTools.url) ? ToyTools.url.read() : {};
+        for (var uid in incoming) if (fieldById(uid)) setField(uid, incoming[uid]);
+      } catch (_) {}
+    }
+
+    for (var i = 0; i < fieldEls.length; i++) {
+      fieldEls[i].addEventListener('change', function () { run(); persist(); });
+      fieldEls[i].addEventListener('input', function () { run(); persist(); });
+    }
+
+    form.querySelectorAll('[data-preset-for]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var targetId = chip.getAttribute('data-preset-for');
+        if (!targetId) return;
+        setField(targetId, chip.getAttribute('data-preset-value'));
+        run(); persist();
+      });
+    });
+
+    if (recoverBtn) recoverBtn.addEventListener('click', function () {
+      var field = recoverBtn.getAttribute('data-apply-field');
+      var value = recoverBtn.getAttribute('data-apply-value');
+      if (!field || !value) return;
+      setField(field, value);
+      run(); persist();
+    });
+
+    var shareBtn = document.getElementById(slug + '-share');
+    if (shareBtn) shareBtn.addEventListener('click', function () {
+      if (!(window.ToyTools && ToyTools.url)) return;
+      ToyTools.url.share(shareValues(), document.title);
+      if (!navigator.share) {
+        shareBtn.classList.add('is-success');
+        shareBtn.textContent = '✓ Link copied';
+        setTimeout(function () {
+          shareBtn.classList.remove('is-success');
+          shareBtn.textContent = 'Copy link';
+        }, 2000);
+      }
+    });
+
+    var resetBtn = document.getElementById(slug + '-reset');
+    var resetTimer;
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      if (!resetBtn.classList.contains('is-confirming')) {
+        resetBtn.classList.add('is-confirming');
+        resetBtn.textContent = 'Confirm Reset';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () {
+          resetBtn.classList.remove('is-confirming');
+          resetBtn.textContent = 'Reset to Defaults';
+        }, 3000);
+        return;
+      }
+      resetBtn.classList.remove('is-confirming');
+      resetBtn.textContent = 'Reset to Defaults';
+      for (var id in defaults) setField(id, defaults[id]);
+      run(); persist();
+    });
+
+    var exampleNode = document.getElementById(slug + '-examples');
+    var exampleBtn = document.getElementById(slug + '-example');
+    var exampleIdx = 0;
+    if (exampleBtn && exampleNode) {
+      var examples = [];
+      try { examples = JSON.parse(exampleNode.textContent || '[]'); } catch (_) {}
+      exampleBtn.addEventListener('click', function () {
+        if (!examples.length) return;
+        applyValues(examples[exampleIdx % examples.length]);
+        exampleIdx++;
+        run(); persist();
+      });
+    }
+
+    var copyBtn = document.getElementById(slug + '-copy');
+    var copyTimer;
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var val = heroEl ? heroEl.textContent : '';
+      if (!val || val === '0') { if (window.ToyTools) ToyTools.toast('Nothing to copy yet!'); return; }
+      if (window.ToyTools) ToyTools.copy(val);
+      copyBtn.classList.add('is-success'); copyBtn.textContent = '✓ Copied';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () { copyBtn.classList.remove('is-success'); copyBtn.textContent = 'Copy'; }, 2000);
+    });
+
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>

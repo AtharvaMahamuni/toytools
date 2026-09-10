@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-08T16:05:58.360Z",
+  "generatedAt": "2026-09-09T19:22:28.273Z",
   "signals": [
     {
       "kind": "asymmetry",
@@ -17,7 +17,7 @@
       "engines": [
         "generation"
       ],
-      "weight": 0.29
+      "weight": 0.28
     },
     {
       "kind": "asymmetry",
@@ -34,7 +34,7 @@
       "engines": [
         "hashing"
       ],
-      "weight": 0.29
+      "weight": 0.28
     },
     {
       "kind": "dead-end",
@@ -58,7 +58,7 @@
       "engines": [
         "encoding"
       ],
-      "weight": 0.29
+      "weight": 0.28
     },
     {
       "kind": "asymmetry",
@@ -124,7 +124,7 @@
       "engines": [
         "hashing"
       ],
-      "weight": 0.24
+      "weight": 0.23
     },
     {
       "kind": "handoff",

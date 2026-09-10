@@ -48,4 +48,6 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'aspect-ratio':         { title: 'CSS & Mobile Units',      order: 2 },
   'eq-design':            { title: 'Equalizer',                order: 1 },
   'fidget-interact':      { title: 'Fidgets',                  order: 1 },
+  'network-calculate':    { title: 'Network',                  order: 6 },
+  'network-lookup':       { title: 'Network',                  order: 6 },
 };

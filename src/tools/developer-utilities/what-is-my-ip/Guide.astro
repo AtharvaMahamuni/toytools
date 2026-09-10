@@ -1,0 +1,130 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Whats my ip, and show my ip, both mean the public IP address this connection presents. Find
+      my public IP here as IPv4 and, when the path has it, IPv6. They are two families, not two
+      writings of the same number. Copy my ipv4 for v4-only forms and allowlists. Copy my ipv6 when
+      the peer is v6-first. Your browser asks an IP echo for the number. ToyTools never sees the
+      reply.
+    </p>
+    <a href={toolHref} class="cta-link">See What Is My IP →</a>
+  </section>
+
+  <section id="how-a-lookup-works">
+    <h2>How a Public IP Lookup Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A static page cannot know your public IP address by itself. The address is assigned on the
+      path out, by a router, a carrier NAT, or a VPN. The only way to read it is to ask a host on
+      the other side what it saw. This page does that from your browser, toward ipify.org, and
+      prints the reply. Nothing is stored here, and ToyTools is not in the middle of the request.
+      Therefore a blocker that stops ipify will make the lookup fail. A VPN changes the number
+      because the echo sees the egress, not your living room.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A public IPv4.</strong> For example, 203.0.113.10 is a public IP address. Paste that
+      dotted string into a security group that asks for IPv4.
+    </p>
+    <p>
+      <strong>Dual stack.</strong> For example, the same session can also show 2001:db8::1. That is
+      my ipv6, not a rewriting of my ipv4. An allowlist of one will not match the other.
+    </p>
+    <p>
+      <strong>CGNAT.</strong> For example, 100.64.1.20 sits in 100.64.0.0/10. Treat it as shared,
+      not as a public IP versus CGNAT mix-up you can whitelist.
+    </p>
+  </section>
+
+  <section id="ipv4-and-ipv6">
+    <h2>IPv4 and IPv6 on the Same Path <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between IPv4 and IPv6 is the address family, not the spelling. IPv4 versus
+      IPv6 on the same path is dual-stack: both are true at once. An IPv4 allowlist will not match
+      an IPv6 packet, and a v4-only form will reject a v6 address even when both are correct for
+      this connection. Try the other family before assuming the lookup failed. A v6-only path has
+      no IPv4 to copy, which is a fact rather than a bug.
+    </p>
+  </section>
+
+  <section id="cgnat">
+    <h2>When the Address Is CGNAT <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      100.64.0.0/10 is shared address space for carrier-grade NAT, RFC 6598. Public IP versus CGNAT
+      is the reachability test: a 100.64 address is not globally reachable. Opening a port on it,
+      or whitelisting it on a cloud host, will not match traffic from the public internet. The same
+      is true of RFC 1918 private ranges (10/8, 172.16/12, 192.168/16) if an echo ever returned
+      one. That usually means the lookup saw a local or VPN-internal address rather than the
+      public egress.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Copying the family the form does not accept">
+      <p>
+        IPv4 and IPv6 are both "your IP". A security group that wants dotted IPv4 will reject the
+        v6 string. Copy the labelled family, not whichever number sat higher on the page.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Whitelisting a 100.64 address">
+      <p>
+        CGNAT addresses are shared and not dialable from the public internet. If you need inbound
+        reachability, that is a public IP or a tunnel, not a 100.64 allowlist.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="The echo sees the VPN">
+      <p>
+        If a home whitelist still fails, look up again with the VPN off. The number this page shows
+        is the egress the remote host sees, which is the VPN when it is on.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

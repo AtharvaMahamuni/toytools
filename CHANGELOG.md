@@ -2,6 +2,29 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.0] - 2026-09-11
+
+### Added
+
+- **Network engine.** IPv4 CIDR math on the shared experience calculators, plus a lookup
+  namespace for public address checks. First tools:
+  - **What Is My IP** (`/tool/developer-utilities/what-is-my-ip/`): public IPv4 and IPv6
+    from an IP echo your browser asks. CGNAT and dual-stack paths are named so the wrong
+    family is not copied into a v4-only form.
+  - **CIDR Calculator** (`/tool/developer-utilities/cidr-calculator/`): network, broadcast,
+    usable range, subnet mask, and wildcard from a CIDR or a dotted mask. `/31` and `/32`
+    follow RFC 3021 instead of the minus-two host rule. Pasting a host like `192.168.1.50/24`
+    offers the canonical network address.
+
+### Changed
+
+- **Beta.** The site leaves alpha. Experimentation is over; the version badge now greets
+  beta testers instead of warning that a UI revamp is still in progress.
+- **Fidget icons.** Spinner, gears, kinetic sand, slime, and breathing circle no longer
+  share the bubble-row mark. Each toy has its own glyph on the home screen and in search.
+- **Search index ceiling.** The client search payload limit moved from 41 KB to 41.5 KB
+  for the two new network entries, with thin keyword lists. Not an alias-bloat raise.
+
 ## [alpha-v10.9] - 2026-09-09
 
 ### Changed

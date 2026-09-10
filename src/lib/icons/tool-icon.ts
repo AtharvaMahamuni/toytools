@@ -98,6 +98,9 @@ const FAMILY_GLYPH: Record<string, string> = {
   equalizer: 'equalizer',
   // fidgets
   fidget: 'dots',
+  // network
+  addressing: 'cidr',
+  identity: 'globe',
 };
 
 // ── per-slug override → glyph ─────────────────────────────────────────────
@@ -200,9 +203,20 @@ const SLUG_GLYPH: Record<string, string> = {
   'todo-list': 'checklist',
   'keep-screen-awake': 'sun',
 
-  // fidgets
+  // fidgets — each toy is a different object, so sharing `dots` made the
+  // home-screen icons interchangeable. pop-it keeps the bubble row; the rest
+  // name the toy.
   'pop-it': 'dots',
   'switch-board': 'toggle',
+  spinner: 'spinner',
+  gears: 'gears',
+  'kinetic-sand': 'sand',
+  slime: 'slime',
+  'breathing-circle': 'breath',
+
+  // network
+  'cidr-calculator': 'cidr',
+  'what-is-my-ip': 'globe',
 
   // number — numerals (the notation IS the identity)
   'roman-numeral-converter': 'roman',

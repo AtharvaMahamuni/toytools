@@ -16,6 +16,7 @@ import { JWT_TOOLS } from '@lib/engines/jwt/registry';
 import { FINANCE_CALCULATORS, financeFields } from '@lib/engines/finance/registry';
 import { DATETIME_TOOLS, dateTimeFields } from '@lib/engines/datetime/registry';
 import { MATH_CALCULATORS, mathFields } from '@lib/engines/math/registry';
+import { NETWORK_CALCULATORS, networkFields } from '@lib/engines/network/registry';
 import { WELLNESS_CALCULATORS, wellnessFields } from '@lib/engines/wellness/registry';
 import { CSV_TOOLS } from '@lib/engines/csv/registry';
 import { TRACKER_DEFS } from '@lib/engines/tracker/registry';
@@ -149,6 +150,19 @@ describe('math engine', () => {
       expect(calc, `math calculator "${processorId}" registered`).toBeDefined();
       expect(typeof calc.calculate).toBe('function');
       expect(mathFields(processorId!).length).toBeGreaterThan(0);
+    },
+  );
+});
+
+describe('network engine', () => {
+  const dispatching = byEngine('network').filter(t => !NON_DISPATCHING_PATTERNS.has(t.pattern as never));
+  it.each(dispatching.map(t => [t.slug, t.processorId] as const))(
+    '%s resolves a calculator with calculate() and fields',
+    (_slug, processorId) => {
+      const calc = NETWORK_CALCULATORS[processorId!];
+      expect(calc, `network calculator "${processorId}" registered`).toBeDefined();
+      expect(typeof calc.calculate).toBe('function');
+      expect(networkFields(processorId!).length).toBeGreaterThan(0);
     },
   );
 });
@@ -371,7 +385,7 @@ describe('feel engine', () => {
 const CONTRACT_TESTED = new Set([
   'text-processor', 'encoding', 'hashing', 'structured-data', 'finance', 'datetime', 'math',
   'jwt', 'wellness', 'generation', 'csv', 'tracker', 'physics', 'math-lab', 'chemistry-lab',
-  'audio', 'feel',
+  'audio', 'feel', 'network',
 ]);
 
 /**

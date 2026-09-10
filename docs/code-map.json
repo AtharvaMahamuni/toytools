@@ -356,6 +356,21 @@
         "fidget"
       ],
       "toolCount": 7
+    },
+    "network": {
+      "name": "Network Engine",
+      "category": "developer-utilities",
+      "patterns": [
+        "network-calculate",
+        "network-lookup"
+      ],
+      "runtimeGlobal": "runNetwork",
+      "sharedWidget": "src/tools/_shared/NetworkWidget.astro",
+      "supportedFamilies": [
+        "addressing",
+        "identity"
+      ],
+      "toolCount": 2
     }
   },
   "toolGroups": {
@@ -1103,6 +1118,27 @@
       "pattern": "text-interactive",
       "family": "character-map",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "cidr-calculator": {
+      "name": "CIDR Calculator",
+      "dir": "src/tools/developer-utilities/cidr-calculator",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/cidr-calculator/",
+      "engine": "network",
+      "pattern": "network-calculate",
+      "family": "addressing",
+      "processorId": "cidr",
       "toolGroup": "",
       "files": [
         "Guide.astro",
@@ -3372,6 +3408,27 @@
       "family": "habit",
       "processorId": "water-intake",
       "toolGroup": "health-trackers",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "what-is-my-ip": {
+      "name": "What Is My IP",
+      "dir": "src/tools/developer-utilities/what-is-my-ip",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/what-is-my-ip/",
+      "engine": "network",
+      "pattern": "network-lookup",
+      "family": "identity",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

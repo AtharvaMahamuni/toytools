@@ -94,7 +94,9 @@ test.describe('homepage index', () => {
     // different toys, not modes of one workspace, so a group switcher would shuffle the tool.
     // Five more Feel fidgets (gears, spinner, kinetic-sand, slime, breathing-circle) are likewise
     // ungrouped: they share engine and pattern but are different toys, not modes of one workspace.
-    await expect(directory.locator('.dir-link')).toHaveCount(85);
+    // What Is My IP and the CIDR calculator (alpha-v11.0) are ungrouped: they share the network
+    // engine but not a pattern (lookup versus calculate), so they cannot sit in one group.
+    await expect(directory.locator('.dir-link')).toHaveCount(87);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

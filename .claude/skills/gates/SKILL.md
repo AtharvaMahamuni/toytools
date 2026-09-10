@@ -86,6 +86,22 @@ checks, and a phone regression could merge green on a mobile-first catalog.
 A check that only one of them runs is a check that catches nothing. There is no sanctioned
 divergence; anything else is drift and should be fixed, not documented.
 
+### Before a PR
+
+`npm run verify` is the local mirror of PR CI. Opening or pushing a PR before it is green is the
+failure mode this document exists to prevent (PR #190, 2026-09-10: branch coverage 84.99% against
+the 85% floor, after a session that skipped the Stop hook).
+
+1. `git rebase origin/main` so you are measuring the same tree CI will.
+2. `npm run verify` (not `verify:fast`, not `build` + `test` + `test:e2e`).
+3. Only then `git push`, and only then open or update the PR.
+
+Coverage is the check that most often looks green until it is not. v8 reports two decimals, the
+floor in `vitest.config.ts` is 85, and a new engine with untested branches will drop a catalog that
+was sitting just above. Run `npm run test:coverage` and read the table for the files you added; do
+not lower `thresholds.branches`. If you touched `.claude/.skip-verify` this session, delete it
+before the PR. That file is a session opt-out, never a commit.
+
 ## 2. Performance budget
 
 **Every page has a byte budget and `npm run build` fails when one is exceeded.** Not advisory.

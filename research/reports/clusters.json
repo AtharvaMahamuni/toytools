@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-08T16:05:58.360Z",
+  "generatedAt": "2026-09-09T19:22:28.273Z",
   "clusters": [
     {
       "id": "quadratic-equations",
@@ -515,6 +515,47 @@
       ]
     },
     {
+      "id": "public-address-lookup",
+      "transformation": "Public Address Lookup",
+      "engine": "network",
+      "members": [
+        "what-is-my-ip"
+      ],
+      "existingMembers": [
+        "cidr-calculator",
+        "what-is-my-ip"
+      ],
+      "size": 1,
+      "meanScore": 80.1,
+      "internalLinks": [
+        "binary-converter",
+        "cidr-calculator",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ]
+    },
+    {
+      "id": "ipv4-subnet-math",
+      "transformation": "IPv4 Subnet Math",
+      "engine": "network",
+      "members": [
+        "cidr-calculator"
+      ],
+      "existingMembers": [
+        "cidr-calculator",
+        "what-is-my-ip"
+      ],
+      "size": 1,
+      "meanScore": 80,
+      "internalLinks": [
+        "binary-converter",
+        "cidr-calculator",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "what-is-my-ip"
+      ]
+    },
+    {
       "id": "rot13",
       "transformation": "ROT13",
       "engine": "encoding",
@@ -559,13 +600,23 @@
         "slime"
       ],
       "existingMembers": [
+        "breathing-circle",
+        "gears",
+        "kinetic-sand",
         "pop-it",
+        "slime",
+        "spinner",
         "switch-board"
       ],
       "size": 6,
       "meanScore": 79.9,
       "internalLinks": [
+        "breathing-circle",
+        "gears",
+        "kinetic-sand",
         "pop-it",
+        "slime",
+        "spinner",
         "switch-board"
       ]
     },
@@ -792,6 +843,33 @@
         "inflation-calculator",
         "roi-calculator",
         "savings-goal-calculator"
+      ]
+    },
+    {
+      "id": "breathing-guide",
+      "transformation": "Breathing Guide",
+      "engine": "feel",
+      "members": [
+        "breathing-circle"
+      ],
+      "existingMembers": [
+        "breathing-circle",
+        "gears",
+        "kinetic-sand",
+        "pop-it",
+        "slime",
+        "spinner",
+        "switch-board"
+      ],
+      "size": 1,
+      "meanScore": 78.8,
+      "internalLinks": [
+        "breathing-circle",
+        "gears",
+        "pomodoro-timer",
+        "pop-it",
+        "slime",
+        "switch-board"
       ]
     },
     {
@@ -1104,6 +1182,26 @@
         "systemd-timer-converter",
         "timezone-converter",
         "unix-timestamp-converter"
+      ]
+    },
+    {
+      "id": "ipv4-representation",
+      "transformation": "IPv4 Representation",
+      "engine": "network",
+      "members": [
+        "ipv4-converter"
+      ],
+      "existingMembers": [
+        "cidr-calculator",
+        "what-is-my-ip"
+      ],
+      "size": 1,
+      "meanScore": 77.1,
+      "internalLinks": [
+        "binary-converter",
+        "cidr-calculator",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
       ]
     },
     {
@@ -1941,22 +2039,6 @@
         "html-entity-encoder-decoder",
         "json-escape",
         "url-encoder-decoder"
-      ]
-    },
-    {
-      "id": "breathing-guide",
-      "transformation": "Breathing Guide",
-      "engine": "sound",
-      "members": [
-        "breathing-circle"
-      ],
-      "existingMembers": [],
-      "size": 1,
-      "meanScore": 69.4,
-      "internalLinks": [
-        "pomodoro-timer",
-        "pop-it",
-        "switch-board"
       ]
     },
     {

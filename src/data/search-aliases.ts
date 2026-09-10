@@ -34,6 +34,8 @@ export const searchAliases: Record<string, string[]> = {
   'json-tree-viewer': ['json viewer', 'explore json'],
   'json-validator': ['validate json', 'json lint'],
   'jwt-decoder': ['json web token', 'decode token'],
+  'cidr-calculator': ['subnet calculator'],
+  'what-is-my-ip': ['whats my ip'],
   'md5-hash-generator': ['md5 checksum'],
   'punycode-converter': ['idn', 'internationalized domain'],
   'rot13-encoder-decoder': ['caesar cipher'],

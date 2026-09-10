@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-08T16:05:58.360Z",
-  "fingerprint": "ade0baaf",
+  "generatedAt": "2026-09-09T19:22:28.273Z",
+  "fingerprint": "74f558a3",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -404,7 +404,7 @@
     }
   ],
   "summary": {
-    "shippedCovered": 55,
+    "shippedCovered": 62,
     "readyToPolish": 7,
     "needsEvidence": 25,
     "atRisk": 25

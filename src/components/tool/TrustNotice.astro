@@ -2,7 +2,7 @@
 import { PRIVACY_BADGE, PRIVACY_LINE } from '@lib/privacy';
 
 interface Props {
-  variant?: 'private' | 'offline' | 'local';
+  variant?: 'private' | 'offline' | 'local' | 'lookup';
 }
 
 const { variant = 'private' } = Astro.props;
@@ -20,6 +20,10 @@ const notices = {
     badge: 'Local ● Data stored only on this device',
     toast: 'No sync, no cloud. Your data stays on this device.',
   },
+  lookup: {
+    badge: 'Lookup ● Your browser asks an IP echo',
+    toast: 'Your browser asks an IP echo. ToyTools never sees the reply.',
+  },
 } as const;
 
 const notice = notices[variant];
@@ -32,6 +36,7 @@ const tooltipLines: Record<string, string[]> = {
   ],
   offline: ['After the first page load, no network connection is needed.'],
   local:   ['No sync, no cloud. Your data stays on this device.'],
+  lookup:  ['Your browser asks an IP echo for the address the internet already sees.', 'ToyTools never sees the reply, and nothing is stored here.'],
 };
 
 const lines = tooltipLines[variant];

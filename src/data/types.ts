@@ -145,7 +145,7 @@ export interface ToolConfig {
     detail: string;
   };
   guide?: GuideConfig;
-  trustVariant?: 'private' | 'offline' | 'local';
+  trustVariant?: 'private' | 'offline' | 'local' | 'lookup';
   // Platform metadata — drives related tools, patterns, and future discovery
   engine?: EngineId;         // closed set — see EngineId in src/data/engines.ts
   pattern?: PatternId;       // closed set — see PatternId in src/data/engines.ts

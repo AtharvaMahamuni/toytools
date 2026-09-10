@@ -1,0 +1,151 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A CIDR calculator turns an IPv4 prefix into the numbers a firewall, a VPC, or an ACL actually
+      wants. Paste 192.168.1.0/24, or an address and mask like 10.0.0.1 255.255.0.0, and you get the
+      network address, the broadcast, the usable host range, the subnet mask, and the wildcard mask.
+      This page is a subnet calculator and a subnet mask calculator: CIDR versus dotted subnet mask
+      is two writings of the same prefix, so convert CIDR to IP range and you get the same block
+      either way. For example, 192.168.1.0/24 has 256 addresses, 254 usable hosts from 192.168.1.1
+      to 192.168.1.254, mask 255.255.255.0, and wildcard 0.0.0.255. That cidr to ip range is what a
+      security group wants.
+    </p>
+    <a href={toolHref} class="cta-link">Try The CIDR Calculator →</a>
+  </section>
+
+  <section id="how-cidr-works">
+    <h2>How CIDR Notation Works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      CIDR notation writes the address and the prefix length together. The number after the slash is
+      how many leading bits identify the network. A /24 keeps the first 24 bits and leaves 8 bits
+      for hosts, which is 256 addresses. A /16 leaves 16 host bits, which is 65,536 addresses. The
+      subnet mask is the same fact written as four octets: /24 is 255.255.255.0, /16 is 255.255.0.0.
+      To get the network address, AND the typed address with that mask. Host bits that were set in
+      what you pasted drop out, which is why 192.168.1.50/24 still describes the 192.168.1.0/24
+      network.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      <strong>A home /24.</strong> 192.168.1.0/24 has mask 255.255.255.0, broadcast 192.168.1.255,
+      and usable hosts 192.168.1.1 through 192.168.1.254.
+    </p>
+    <p>
+      <strong>A host in a /24.</strong> 192.168.1.50/24 is still the 192.168.1.0/24 network. A
+      firewall rule that lists 192.168.1.50/24 as if it were the network is listing one host. Use
+      the network address the calculator offers.
+    </p>
+    <p>
+      <strong>A /31 link.</strong> 10.0.0.0/31 has two addresses and no broadcast. Both 10.0.0.0 and
+      10.0.0.1 are usable, per RFC 3021. Subtracting two hosts here would leave an empty subnet.
+      That is the /31 versus /32 host counts difference: /32 is one host, /31 is two, and neither
+      uses the minus-two rule.
+    </p>
+  </section>
+
+  <section id="slash-31-and-32">
+    <h2>Why /31 and /32 Break the Minus-Two Rule <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The textbook usable-host formula is 2 to the power of host bits, minus two. The minus two
+      removes the network address and the broadcast address. That formula is right for /0 through
+      /30 and wrong at the edges. A /32 is a host route: there is one address, and talking about a
+      broadcast inside a single host is meaningless. A /31 is a point-to-point link. RFC 3021 says
+      both addresses are usable, so a calculator that still subtracts two will tell you the subnet
+      is empty. Cloud security groups and ISP interconnects use /31 for exactly this reason.
+    </p>
+  </section>
+
+  <section id="wildcard-mask">
+    <h2>Wildcard Masks for ACLs <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A wildcard mask is the inverse of the subnet mask. Bits that are 0 must match; bits that are 1
+      are ignored. For 255.255.255.0 the wildcard is 0.0.0.255. To find the wildcard mask for an ACL
+      on Cisco IOS, invert the prefix rather than guessing. This page is a wildcard mask calculator
+      for that job: it shows both so the ACL and the CIDR stay in step. A mask with a hole in the
+      bits, like 255.0.255.0, is not a CIDR prefix and is rejected rather than rounded.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>Common Questions <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h3>Is CIDR the same as a subnet calculator?</h3>
+    <p>
+      Yes for IPv4. CIDR is the notation. A subnet calculator is the same math with a dotted mask
+      as the input. This page accepts both.
+    </p>
+    <h3>Does this handle IPv6?</h3>
+    <p>
+      No. IPv6 prefixes have no broadcast and a different host-count story. Paste an IPv4 address.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Treating a host CIDR as the network">
+      <p>
+        192.168.1.50/24 is a host inside 192.168.1.0/24. A security group that lists the host as if
+        it were the network matches one address. Use the network address the calculator offers.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Subtracting two hosts from a /31">
+      <p>
+        The minus-two rule is for prefixes that have a network address and a broadcast. A /31 has
+        neither. Both addresses are usable, per RFC 3021.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="The math stays on this device">
+      <p>
+        Every result is bit math in your browser. Nothing you paste is uploaded, so a prefix from a
+        private runbook never leaves the tab. Therefore you can size an AWS VPC subnet before
+        applying a Terraform plan without sending the block to a third party.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
