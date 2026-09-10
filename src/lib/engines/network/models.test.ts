@@ -4,6 +4,7 @@ import {
   classifyIPv4String,
   intToIp,
   ipToInt,
+  kindLabel,
   looksLikeIPv6,
   maskToPrefix,
   parseDotted,
@@ -30,6 +31,15 @@ describe('masks', () => {
     expect(intToIp(prefixToMask(0))).toBe('0.0.0.0');
     expect(intToIp(prefixToMask(24))).toBe('255.255.255.0');
     expect(intToIp(prefixToMask(32))).toBe('255.255.255.255');
+  });
+
+  it('clamps a prefix below 0 or above 32 to the all-zero and all-one masks', () => {
+    expect(intToIp(prefixToMask(-1))).toBe('0.0.0.0');
+    expect(intToIp(prefixToMask(40))).toBe('255.255.255.255');
+  });
+
+  it('reads prefix 0 back from the all-zero mask', () => {
+    expect(maskToPrefix(0)).toBe(0);
   });
 
   it('rejects a mask with a hole in the bits', () => {
@@ -67,9 +77,29 @@ describe('parseIPv4Network', () => {
     }
   });
 
-  it('rejects IPv6 and a non-contiguous mask', () => {
+  it('reads a dotted mask after the slash the same way as a space-separated pair', () => {
+    const slashMask = parseIPv4Network('10.0.0.1/255.255.0.0');
+    expect(slashMask.ok).toBe(true);
+    if (slashMask.ok) {
+      expect(slashMask.value.prefix).toBe(16);
+      expect(slashMask.value.source).toBe('mask');
+    }
+  });
+
+  it('rejects IPv6, a non-contiguous mask, an empty string, a prefix past 32, and junk', () => {
     expect(parseIPv4Network('2001:db8::1').ok).toBe(false);
     expect(parseIPv4Network('10.0.0.1 255.0.255.0').ok).toBe(false);
+    expect(parseIPv4Network('10.0.0.1/255.0.255.0').ok).toBe(false);
+    expect(parseIPv4Network('').ok).toBe(false);
+    expect(parseIPv4Network('   ').ok).toBe(false);
+    expect(parseIPv4Network('10.0.0.1/33').ok).toBe(false);
+    expect(parseIPv4Network('not-an-address').ok).toBe(false);
+  });
+
+  it('treats commas as spaces so 192.168.1.0,/24 still parses', () => {
+    const parsed = parseIPv4Network('192.168.1.0,/24');
+    expect(parsed.ok).toBe(true);
+    if (parsed.ok) expect(parsed.value.prefix).toBe(24);
   });
 });
 
@@ -106,6 +136,16 @@ describe('subnetFrom', () => {
       expect(intToIp(net.network)).toBe('8.8.8.8');
     }
   });
+
+  it('covers the whole IPv4 space on /0', () => {
+    const parsed = parseIPv4Network('0.0.0.0/0');
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    const net = subnetFrom(parsed.value);
+    expect(intToIp(net.network)).toBe('0.0.0.0');
+    expect(intToIp(net.broadcast)).toBe('255.255.255.255');
+    expect(net.usable).toBe(2 ** 32 - 2);
+  });
 });
 
 describe('classifyIPv4', () => {
@@ -118,11 +158,29 @@ describe('classifyIPv4', () => {
     expect(classifyIPv4(ipToInt(8, 8, 8, 8))).toBe('public');
     expect(classifyIPv4String('169.254.1.1')).toBe('link-local');
   });
+
+  it('names broadcast, unspecified, multicast and reserved', () => {
+    expect(classifyIPv4(0xffffffff)).toBe('broadcast');
+    expect(classifyIPv4(0)).toBe('unspecified');
+    expect(classifyIPv4(ipToInt(224, 0, 0, 1))).toBe('multicast');
+    expect(classifyIPv4(ipToInt(240, 0, 0, 1))).toBe('reserved');
+  });
+
+  it('returns null for a string that is not dotted IPv4', () => {
+    expect(classifyIPv4String('not-an-ip')).toBeNull();
+    expect(kindLabel('cgnat')).toContain('CGNAT');
+    expect(kindLabel('broadcast')).toBe('limited broadcast');
+  });
 });
 
 describe('looksLikeIPv6', () => {
   it('accepts a compressed v6 and rejects dotted v4', () => {
     expect(looksLikeIPv6('2001:db8::1')).toBe(true);
     expect(looksLikeIPv6('192.168.1.1')).toBe(false);
+  });
+
+  it('rejects a single-colon token and a string with non-hex characters', () => {
+    expect(looksLikeIPv6('a:b')).toBe(false);
+    expect(looksLikeIPv6('gggg::1')).toBe(false);
   });
 });

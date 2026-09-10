@@ -55,6 +55,11 @@ exception; any divergence is drift, and the fix is to re-sync, not to document i
 assertion, or adding a validator exemption without saying so explicitly in the PR and giving the
 reason. Details, diagnosis playbooks and the current thresholds: **`gates` skill**.
 
+**Do not open or push a PR until `npm run verify` has exited 0 on this branch after rebase onto
+`origin/main`.** The Stop hook is not a substitute: `.claude/.skip-verify` opts a session out, and a
+skipped or `verify:fast` run is how a PR reaches GitHub with a gate still red. Coverage in particular
+sits on 85% branches; 84.99% fails CI even when unit tests are green. Playbook: **`gates` skill**.
+
 ## The six hard gates
 
 Five are **ratchets**: the number records what the catalog achieves today and moves one way only, in

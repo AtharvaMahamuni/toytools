@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import { NETWORK_CALCULATORS, networkFields, runNetwork } from './registry';
-import { NETWORK_EXAMPLES } from './examples';
-import { lookupCraft, lookupPublic } from './lookup';
+import { NETWORK_CALCULATORS, getNetworkCalculator, networkApi, networkFields, runNetwork } from './registry';
+import { NETWORK_EXAMPLES, networkExamplesFor } from './examples';
+import { LOOKUP_DISCLOSURE, lookupCraft, lookupPublic } from './lookup';
+import { decisions, insight, toolDecision } from './story';
 import type { InteractiveResult } from '@lib/results/types';
 
 function cardRaw(result: InteractiveResult, id: string): number | undefined {
@@ -25,6 +26,31 @@ describe('network registry', () => {
 
   it('unknown ids surface as calculation errors, never exceptions', () => {
     expect(runNetwork('nope', {}).uiState).toBe('calculation-error');
+    expect(networkFields('nope')).toEqual([]);
+    expect(getNetworkCalculator('cidr')?.id).toBe('cidr');
+    expect(getNetworkCalculator('nope')).toBeUndefined();
+  });
+
+  it('turns a throwing calculator into a calculation error', () => {
+    const orig = NETWORK_CALCULATORS.cidr;
+    NETWORK_CALCULATORS.cidr = {
+      ...orig,
+      calculate() {
+        throw new Error('boom');
+      },
+    };
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      expect(runNetwork('cidr', { cidr: '10.0.0.0/24' }).uiState).toBe('calculation-error');
+    } finally {
+      NETWORK_CALCULATORS.cidr = orig;
+      warn.mockRestore();
+    }
+  });
+
+  it('exposes the lookup helpers on the browser namespace', () => {
+    expect(networkApi.disclosure).toBe(LOOKUP_DISCLOSURE);
+    expect(networkApi.classifyIPv4('8.8.8.8')).toBe('public');
   });
 });
 
@@ -35,6 +61,11 @@ describe('worked examples', () => {
     for (const [cardId, raw] of Object.entries(ex.expect ?? {})) {
       expect(cardRaw(res, cardId), cardId).toBe(raw);
     }
+  });
+
+  it('lists the cidr examples for the widget and none for an unknown ref', () => {
+    expect(networkExamplesFor('cidr').length).toBeGreaterThan(0);
+    expect(networkExamplesFor('nope')).toEqual([]);
   });
 });
 
@@ -83,6 +114,27 @@ describe('lookupPublic', () => {
     expect(res.error).toBeUndefined();
   });
 
+  it('takes v4 from the second echo when the first one is v6', async () => {
+    const fetchImpl = vi.fn(async (url: string) => {
+      const ip = String(url).includes('api64') ? '1.1.1.1' : '2001:db8::1';
+      return { ok: true, json: async () => ({ ip }) };
+    });
+    const res = await lookupPublic(fetchImpl);
+    expect(res.ipv4).toBe('1.1.1.1');
+    expect(res.ipv6).toBe('2001:db8::1');
+  });
+
+  it('forwards an abort signal and treats a non-ok or empty body as a miss', async () => {
+    const signal = new AbortController().signal;
+    const fetchImpl = vi.fn(async (url: string, init?: { signal?: AbortSignal }) => {
+      expect(init?.signal).toBe(signal);
+      if (String(url).includes('api64')) return { ok: false, json: async () => ({ ip: '8.8.8.8' }) };
+      return { ok: true, json: async () => ({ ip: '  ' }) };
+    });
+    const res = await lookupPublic(fetchImpl, signal);
+    expect(res.error).toBeTruthy();
+  });
+
   it('returns an error when both echoes fail', async () => {
     const fetchImpl = vi.fn(async () => {
       throw new Error('offline');
@@ -90,6 +142,12 @@ describe('lookupPublic', () => {
     const res = await lookupPublic(fetchImpl);
     expect(res.error).toBeTruthy();
     expect(res.ipv4).toBeUndefined();
+  });
+
+  it('returns an error when the body has no ip field', async () => {
+    const fetchImpl = vi.fn(async () => ({ ok: true, json: async () => ({}) }));
+    const res = await lookupPublic(fetchImpl);
+    expect(res.error).toBeTruthy();
   });
 });
 
@@ -104,7 +162,25 @@ describe('lookupCraft', () => {
     expect(lookupCraft({ ipv6: '2001:db8::1' })?.kind).toBe('ipv6-only');
   });
 
-  it('stays silent when the lookup failed', () => {
+  it('names a private, loopback or link-local echo so it is not copied as public', () => {
+    expect(lookupCraft({ ipv4: '10.0.0.1' })?.kind).toBe('private');
+    expect(lookupCraft({ ipv4: '127.0.0.1' })?.kind).toBe('loopback');
+    expect(lookupCraft({ ipv4: '169.254.1.1' })?.kind).toBe('link-local');
+  });
+
+  it('stays silent when the lookup failed or the v4 string is not an address', () => {
     expect(lookupCraft({ error: 'offline' })).toBeNull();
+    expect(lookupCraft({ ipv4: 'not-an-ip' })).toBeNull();
+    expect(lookupCraft({})).toBeNull();
+  });
+});
+
+describe('story helpers', () => {
+  it('drops a decision whose slug is not on this engine', () => {
+    expect(toolDecision('Nope', 'no-such-tool')).toBeNull();
+    const kept = decisions([toolDecision('See the public address', 'what-is-my-ip'), null]);
+    expect(kept).toHaveLength(1);
+    expect(kept[0]?.href).toContain('what-is-my-ip');
+    expect(insight('A note').tone).toBe('info');
   });
 });
