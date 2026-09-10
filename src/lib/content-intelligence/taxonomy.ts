@@ -199,6 +199,19 @@ export const EXPANSION_TAXONOMY: ExpansionTaxonomy = [
       },
     ],
   },
+  {
+    engine: 'network',
+    families: [
+      {
+        family: 'addressing',
+        expected: ['cidr-calculator', 'ipv4-converter'],
+      },
+      {
+        family: 'identity',
+        expected: ['what-is-my-ip'],
+      },
+    ],
+  },
 ];
 
 /** Expected tool slugs for an engine/family. Never throws; unknown lookups return []. */

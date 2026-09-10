@@ -166,7 +166,7 @@ export interface PresentationMeta {
   tags: string[];
   updatedAt: string;
   isNew?: boolean;
-  trustVariant?: 'private' | 'offline' | 'local';
+  trustVariant?: 'private' | 'offline' | 'local' | 'lookup';
 }
 
 /** The declarative half: everything a generator needs to emit content, SEO, and relationships. */

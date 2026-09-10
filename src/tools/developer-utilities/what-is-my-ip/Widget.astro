@@ -1,0 +1,199 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+import { LOOKUP_DISCLOSURE } from '@lib/engines/network/lookup';
+import { config } from './config';
+---
+
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false}>
+  <IoPanel slot="output" label="This connection" variant="prose" result data-tool="what-is-my-ip">
+    <div class="tm-hero">
+      <span class="hero-value" id="ip-hero">Looking up…</span>
+      <span class="hero-label" id="ip-hero-label">Public IPv4</span>
+      <p class="empty-hint" id="ip-hint">Asking an IP echo from this browser.</p>
+      <CraftNote id="ip-note" craftId={config.craft!.id} />
+    </div>
+    <dl class="ip-alts" id="ip-alts" hidden>
+      <div class="ip-alt" id="ip-v6-row" hidden>
+        <dt>IPv6</dt>
+        <dd><code id="ip-v6"></code></dd>
+      </div>
+    </dl>
+  </IoPanel>
+
+  <IoPanel slot="input" label="About this lookup" variant="prose">
+    <p class="ip-disclose" id="ip-disclose">{LOOKUP_DISCLOSURE}</p>
+  </IoPanel>
+</ToolSplit>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="ip-copy" data-label="Copy IPv4" type="button">Copy IPv4</button>
+  <button class="action-btn" id="ip-copy-v6" data-label="Copy IPv6" type="button" hidden>Copy IPv6</button>
+  <button class="action-btn" id="ip-refresh" type="button">Look up again</button>
+</div>
+
+<style>
+  .ip-alts[hidden],
+  .ip-alt[hidden],
+  #ip-copy-v6[hidden],
+  .empty-hint[hidden] {
+    display: none;
+  }
+
+  .ip-alts {
+    margin: var(--space-6) 0 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .ip-alt dt {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-2);
+  }
+
+  .ip-alt dd {
+    margin: 0;
+  }
+
+  .ip-alt code {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+  }
+
+  .ip-disclose {
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .hero-value {
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var hero = document.getElementById('ip-hero');
+    var heroLabel = document.getElementById('ip-hero-label');
+    var hint = document.getElementById('ip-hint');
+    var note = document.getElementById('ip-note');
+    var noteTxt = document.getElementById('ip-note-text');
+    var alts = document.getElementById('ip-alts');
+    var v6row = document.getElementById('ip-v6-row');
+    var v6el = document.getElementById('ip-v6');
+    var copyV4 = document.getElementById('ip-copy');
+    var copyV6 = document.getElementById('ip-copy-v6');
+    var refresh = document.getElementById('ip-refresh');
+    if (!hero) return;
+
+    var lastV4 = '';
+    var lastV6 = '';
+
+    function flash(btn, label) {
+      if (!btn) return;
+      btn.classList.add('is-success');
+      btn.textContent = '✓ Copied';
+      setTimeout(function () {
+        btn.classList.remove('is-success');
+        btn.textContent = label;
+      }, 2000);
+    }
+
+    function showNote(text) {
+      if (!note || !noteTxt) return;
+      if (!text) {
+        note.hidden = true;
+        noteTxt.textContent = '';
+        return;
+      }
+      noteTxt.textContent = text;
+      note.hidden = false;
+    }
+
+    function render(res) {
+      lastV4 = (res && res.ipv4) || '';
+      lastV6 = (res && res.ipv6) || '';
+      if (res && res.error) {
+        hero.textContent = 'Lookup failed';
+        if (heroLabel) heroLabel.textContent = 'Public address';
+        if (hint) {
+          hint.hidden = false;
+          hint.textContent = res.error;
+        }
+        if (alts) alts.hidden = true;
+        if (v6row) v6row.hidden = true;
+        if (copyV6) copyV6.hidden = true;
+        showNote('');
+        return;
+      }
+      if (hint) hint.hidden = true;
+      if (lastV4) {
+        hero.textContent = lastV4;
+        if (heroLabel) heroLabel.textContent = 'Public IPv4';
+      } else if (lastV6) {
+        hero.textContent = lastV6;
+        if (heroLabel) heroLabel.textContent = 'Public IPv6';
+      }
+      if (lastV6 && lastV4) {
+        if (v6el) v6el.textContent = lastV6;
+        if (v6row) v6row.hidden = false;
+        if (alts) alts.hidden = false;
+        if (copyV6) copyV6.hidden = false;
+      } else {
+        if (v6row) v6row.hidden = true;
+        if (alts) alts.hidden = true;
+        if (copyV6) copyV6.hidden = !lastV6 || !!lastV4;
+      }
+      var craft = window.ToyTools && ToyTools.network && ToyTools.network.lookupCraft
+        ? ToyTools.network.lookupCraft(res)
+        : null;
+      showNote(craft && craft.text ? craft.text : '');
+    }
+
+    function lookup() {
+      hero.textContent = 'Looking up…';
+      if (hint) {
+        hint.hidden = false;
+        hint.textContent = 'Asking an IP echo from this browser.';
+      }
+      showNote('');
+      if (!(window.ToyTools && ToyTools.network && ToyTools.network.lookupPublic)) return;
+      ToyTools.network.lookupPublic().then(render);
+    }
+
+    if (copyV4) copyV4.addEventListener('click', function () {
+      var val = lastV4 || (!lastV6 ? '' : '');
+      if (lastV4) {
+        if (window.ToyTools) ToyTools.copy(lastV4);
+        flash(copyV4, 'Copy IPv4');
+        return;
+      }
+      if (lastV6 && !lastV4) {
+        if (window.ToyTools) ToyTools.copy(lastV6);
+        flash(copyV4, 'Copy IPv4');
+        return;
+      }
+      if (window.ToyTools) ToyTools.toast('Nothing to copy yet!');
+    });
+
+    if (copyV6) copyV6.addEventListener('click', function () {
+      if (!lastV6) { if (window.ToyTools) ToyTools.toast('No IPv6 on this path.'); return; }
+      if (window.ToyTools) ToyTools.copy(lastV6);
+      flash(copyV6, 'Copy IPv6');
+    });
+
+    if (refresh) refresh.addEventListener('click', lookup);
+
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(lookup); else lookup();
+  })();
+</script>

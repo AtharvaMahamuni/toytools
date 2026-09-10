@@ -1,0 +1,157 @@
+{
+  "domain": "network",
+  "records": [
+    {
+      "query": "what is my ip",
+      "problem": "I need to see the public address this connection presents to the internet, and tell IPv4 from IPv6, without an app or an account.",
+      "intent": "transactional",
+      "transformation": "Public Address Lookup",
+      "proposedTool": "what-is-my-ip",
+      "proposedName": "What Is My IP",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "what is my ip",
+        "what is my ip address",
+        "my ip address",
+        "whats my ip",
+        "show my ip",
+        "public ip address",
+        "what is my ipv4",
+        "what is my ipv6"
+      ],
+      "existingSolutions": [
+        "Google's featured snippet",
+        "whatismyipaddress.com",
+        "ipleak.net",
+        "ifconfig.me"
+      ],
+      "solutionWeaknesses": [
+        "Google answers the number and stops, so IPv4 versus IPv6 and CGNAT go unexplained",
+        "the big lookup sites wrap the number in ads, trackers, and a map",
+        "several copy the wrong family because v4 and v6 are stacked without labels"
+      ],
+      "userFailures": [
+        "Copies the IPv6 address into a form that only accepts IPv4 and thinks the lookup is wrong",
+        "Reads a 100.64 CGNAT address as their public IP and opens a firewall hole that nothing can reach",
+        "Leaves a VPN on, copies that egress, and wonders why a home whitelist still fails",
+        "Sees only one family on a dual-stack path and assumes the other does not exist"
+      ],
+      "relatedProblems": [
+        "CIDR subnet planning",
+        "private versus public ranges",
+        "VPN egress identity"
+      ],
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder"
+      ],
+      "demand": 94,
+      "competition": 82,
+      "evergreen": 98,
+      "difficulty": "low",
+      "localization": 96,
+      "algorithmicFit": 58,
+      "authorityRequired": 12
+    },
+    {
+      "query": "cidr calculator",
+      "problem": "I have an IPv4 address and a prefix or mask and I need the network, broadcast, usable range, and wildcard without doing the bit math by hand.",
+      "intent": "howTo",
+      "transformation": "IPv4 Subnet Math",
+      "proposedTool": "cidr-calculator",
+      "proposedName": "CIDR Calculator",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "cidr calculator",
+        "subnet calculator",
+        "ip subnet calculator",
+        "cidr to ip range",
+        "subnet mask calculator",
+        "wildcard mask calculator",
+        "network address calculator",
+        "cidr notation calculator"
+      ],
+      "existingSolutions": [
+        "subnet-calculator.com",
+        "whatismyip.com cidr calculator",
+        "spiceworks subnet calculator",
+        "networkcalc.com"
+      ],
+      "solutionWeaknesses": [
+        "most still default to classful masks when you paste a host address",
+        "ad-supported pages bury the usable range below a table of every prefix",
+        "/31 and /32 are shown with the same minus-two host rule that does not apply"
+      ],
+      "userFailures": [
+        "Pastes 192.168.1.50/24 and treats that host as the network in a firewall rule",
+        "Uses total minus two on a /31 point-to-point link and thinks the subnet is empty",
+        "Enters a dotted mask with a hole in the bits and accepts a silently rounded prefix",
+        "Copies the broadcast as a usable host into a cloud security group"
+      ],
+      "relatedProblems": [
+        "public IP lookup",
+        "binary conversion of an address",
+        "wildcard ACL writing"
+      ],
+      "relatedTools": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter"
+      ],
+      "demand": 76,
+      "competition": 48,
+      "evergreen": 96,
+      "difficulty": "medium",
+      "localization": 97,
+      "algorithmicFit": 98,
+      "authorityRequired": 6
+    },
+    {
+      "query": "ip to decimal converter",
+      "problem": "I need to turn a dotted IPv4 address into its 32-bit decimal, hex, or binary form, and back, without a spreadsheet formula.",
+      "intent": "transactional",
+      "transformation": "IPv4 Representation",
+      "proposedTool": "ipv4-converter",
+      "proposedName": "IPv4 Converter",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "ip to decimal",
+        "ipv4 to decimal",
+        "ip to hex",
+        "dotted decimal to binary",
+        "convert ip address to integer"
+      ],
+      "existingSolutions": [
+        "browser bits-and-bytes converters",
+        "rapidtables",
+        "subnet calculator side panels"
+      ],
+      "solutionWeaknesses": [
+        "converters that take a generic integer do not reject 256 in an octet",
+        "hex output often drops the leading zeros that packet captures show"
+      ],
+      "userFailures": [
+        "Treats the four octets as a base-10 number like 19216811 and gets a different host",
+        "Pastes an IPv6 address into an IPv4 converter and reads the truncation as a result"
+      ],
+      "relatedProblems": [
+        "CIDR math",
+        "binary conversion"
+      ],
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder"
+      ],
+      "demand": 42,
+      "competition": 36,
+      "evergreen": 94,
+      "difficulty": "low",
+      "localization": 98,
+      "algorithmicFit": 99,
+      "authorityRequired": 5
+    }
+  ]
+}

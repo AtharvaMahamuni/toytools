@@ -17,6 +17,7 @@ import { knowledge as calorieDeficitCalculator } from '@tools/health/calorie-def
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
 import { knowledge as characterMap } from '@tools/text/character-map/knowledge';
+import { knowledge as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/knowledge';
 import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
 import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
@@ -125,6 +126,7 @@ import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
 import { knowledge as waterIntakeTracker } from '@tools/health/water-intake-tracker/knowledge';
+import { knowledge as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/knowledge';
 import { knowledge as wordCounter } from '@tools/text/word-counter/knowledge';
 import { knowledge as wordFrequencyCounter } from '@tools/text/word-frequency-counter/knowledge';
 import { knowledge as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/knowledge';
@@ -145,6 +147,7 @@ export const authoredKnowledge: Knowledge[] = [
   camelCaseConverter,
   characterCounter,
   characterMap,
+  cidrCalculator,
   coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
@@ -253,6 +256,7 @@ export const authoredKnowledge: Knowledge[] = [
   urlEncoderDecoder,
   uuidGenerator,
   waterIntakeTracker,
+  whatIsMyIp,
   wordCounter,
   wordFrequencyCounter,
   yamlToJsonConverter,

@@ -17,6 +17,7 @@ import { config as calorieDeficitCalculator } from '@tools/health/calorie-defici
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
 import { config as characterMap } from '@tools/text/character-map/config';
+import { config as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/config';
 import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
 import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
@@ -125,6 +126,7 @@ import { config as uppercaseConverter } from '@tools/text/uppercase-converter/co
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
 import { config as waterIntakeTracker } from '@tools/health/water-intake-tracker/config';
+import { config as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/config';
 import { config as wordCounter } from '@tools/text/word-counter/config';
 import { config as wordFrequencyCounter } from '@tools/text/word-frequency-counter/config';
 import { config as yamlToJsonConverter } from '@tools/developer-utilities/yaml-to-json-converter/config';
@@ -145,6 +147,7 @@ export const toolConfigs: ToolConfig[] = [
   camelCaseConverter,
   characterCounter,
   characterMap,
+  cidrCalculator,
   coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
@@ -253,6 +256,7 @@ export const toolConfigs: ToolConfig[] = [
   urlEncoderDecoder,
   uuidGenerator,
   waterIntakeTracker,
+  whatIsMyIp,
   wordCounter,
   wordFrequencyCounter,
   yamlToJsonConverter,

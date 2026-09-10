@@ -1,12 +1,11 @@
 # ToyTools Research Roadmap
 
-Generated: 2026-09-08T16:05:58.360Z
+Generated: 2026-09-09T19:22:28.273Z
 
-Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already shipped). Top score 85.9. Missing-engine candidates: 1.
+Discovered 106 signals -> 106 unique opportunities (42 recommended, 62 already shipped). Top score 85.9. Missing-engine candidates: 1.
 
 ## Immediate builds (top tier)
 - **Statistics Visualizer** (`statistics-visualizer`) - score 81.7, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Gears** (`gears`) - score 81.1, reuses feel. Weak / incomplete incumbents; Reuses the existing feel engine; Low implementation cost; Strong topic-cluster potential; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Structured JSON Diff** (`json-diff`) - score 80.6, reuses structured-data. High search demand; Weak / incomplete incumbents; Reuses the existing structured-data engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Triangle Solver** (`triangle-solver`) - score 79.8, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 4 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Sleep Cycle Calculator** (`sleep-cycle-calculator`) - score 79.5, reuses datetime. High search demand; Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
@@ -14,7 +13,8 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - **File Hash Verifier** (`file-hash-verifier`) - score 79.3, reuses hashing. High search demand; Weak / incomplete incumbents; Reuses the existing hashing engine; Low implementation cost; Creates 5 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Modular Type Scale Generator** (`type-scale-generator`) - score 79.2, reuses units. Weak / incomplete incumbents; Reuses the existing units engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **Regex Tester** (`regex-tester`) - score 79.1, reuses text-interactive. High search demand; Reuses the existing text-interactive engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
-- **Fidget Spinner** (`spinner`) - score 79, reuses feel. Weak / incomplete incumbents; Reuses the existing feel engine; Low implementation cost; Strong topic-cluster potential; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
+- **Matrix Calculator** (`matrix-calculator`) - score 78.3, reuses math. High search demand; Reuses the existing math engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
+- **Colorblind Simulator** (`colorblind-simulator`) - score 77.8, reuses color. Weak / incomplete incumbents; Reuses the existing color engine; Low implementation cost; Creates 2 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 
 ## Quick wins (low effort, recommended)
 - **CSV Column Picker** (`csv-column-picker`) - score 74.7, reuses csv. Weak / incomplete incumbents; Reuses the existing csv engine; Low implementation cost; Creates 5 internal links.
@@ -29,7 +29,6 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - **Date Format Detector** (`date-format-detector`) - score 73.2, reuses datetime. Weak / incomplete incumbents; Reuses the existing datetime engine; Low implementation cost; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Body Surface Area Calculator** (`body-surface-area-calculator`) - score 72.9, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 - **VO2 Max Calculator** (`vo2-max-calculator`) - score 72.2, reuses wellness. Weak / incomplete incumbents; Reuses the existing wellness engine; Low implementation cost; Strong topic-cluster potential; Creates 6 internal links; Deterministic algorithm solves this exactly (AI adds nothing); CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
-- **Breathing Circle** (`breathing-circle`) - score 69.4, new sound engine. Implies a new sound engine; Low implementation cost; Creates 3 internal links; Deterministic algorithm solves this exactly (AI adds nothing).
 - **Net Worth Calculator** (`net-worth-calculator`) - score 66.6, new budget engine. High search demand; Weak / incomplete incumbents; Implies a new budget engine; Low implementation cost; Creates 2 internal links; CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch.
 
 ## Missing engines (new reusable engines this evidence justifies)
@@ -37,11 +36,6 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - 4 opportunities share the missing "board-game" engine.
 - Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools.
 - Tools: tic-tac-toe, connect-4, chess-tac-toe, quantum-tic-tac-toe
-
-### sound (confidence 0.5) - unlocks 1
-- 1 opportunity share the missing "sound" engine.
-- Below the 3-tool bar for a new engine - revisit as more demand accrues.
-- Tools: breathing-circle
 
 ### budget (confidence 0.65) - unlocks 2
 - 2 opportunities share the missing "budget" engine.
@@ -99,6 +93,8 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - **Fitness Performance Calculation** (wellness) - 3 tool(s), mean score 81.2.
 - **CSV Diff** (csv) - 1 tool(s), mean score 80.9.
 - **JSON Diff** (structured-data) - 1 tool(s), mean score 80.6.
+- **Public Address Lookup** (network) - 1 tool(s), mean score 80.1.
+- **IPv4 Subnet Math** (network) - 1 tool(s), mean score 80.
 - **ROT13** (encoding) - 1 tool(s), mean score 80.
 - **Fidget Interaction** (feel) - 6 tool(s), mean score 79.9.
 - **Diacritic Removal** (text-processor) - 1 tool(s), mean score 79.8.
@@ -110,6 +106,7 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - **Type Scale** (units) - 1 tool(s), mean score 79.2.
 - **Regex Testing** (text-interactive) - 1 tool(s), mean score 79.1.
 - **Systematic Investment Plan** (finance) - 1 tool(s), mean score 79.1.
+- **Breathing Guide** (feel) - 1 tool(s), mean score 78.8.
 - **Energy And Nutrition Planning** (wellness) - 3 tool(s), mean score 78.8.
 - **Projectile Motion** (physics) - 1 tool(s), mean score 78.8.
 - **Probability** (math-lab) - 1 tool(s), mean score 78.6.
@@ -122,6 +119,7 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - **CSV Cleaning** (csv) - 1 tool(s), mean score 77.4.
 - **Compound Annual Growth Rate** (finance) - 1 tool(s), mean score 77.2.
 - **Age Calculation** (datetime) - 1 tool(s), mean score 77.1.
+- **IPv4 Representation** (network) - 1 tool(s), mean score 77.1.
 - **Normal Distribution** (math-lab) - 1 tool(s), mean score 77.1.
 - **Date Difference** (datetime) - 1 tool(s), mean score 77.
 - **Health Date Calculation** (datetime) - 3 tool(s), mean score 76.9.
@@ -154,7 +152,6 @@ Discovered 103 signals -> 103 unique opportunities (46 recommended, 55 already s
 - **Cron Parsing** (datetime) - 1 tool(s), mean score 70.8.
 - **Hot-Seat Board Game** (board-game) - 4 tool(s), mean score 70.2.
 - **Shell Quoting** (encoding) - 1 tool(s), mean score 69.9.
-- **Breathing Guide** (sound) - 1 tool(s), mean score 69.4.
 - **Net Worth** (budget) - 1 tool(s), mean score 66.6.
 - **Loan Amortization** (loan) - 1 tool(s), mean score 66.2.
 - **PDF Page Editing** (pdf) - 1 tool(s), mean score 66.
@@ -235,4 +232,4 @@ Add `userFailures` to the seed record before a craft can be honest. Never invent
 
 ---
 
-_Inputs fingerprint: `ade0baaf`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `74f558a3`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

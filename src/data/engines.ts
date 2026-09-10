@@ -38,7 +38,7 @@ const ENGINE_IDS = [
   'text-analysis', 'text-processor', 'encoding', 'hashing', 'structured-data',
   'jwt', 'text-interactive', 'calculator', 'productivity', 'finance', 'csv', 'generation',
   'physics', 'datetime', 'math-lab', 'math', 'chemistry-lab', 'wellness', 'tracker', 'color', 'units',
-  'audio', 'feel',
+  'audio', 'feel', 'network',
 ] as const;
 export type EngineId = (typeof ENGINE_IDS)[number];
 
@@ -52,6 +52,8 @@ const PATTERN_IDS = [
   'health-calculate', 'health-track', 'color-convert', 'color-contrast', 'unit-convert', 'aspect-ratio',
   'eq-design',
   'fidget-interact',
+  'network-calculate',
+  'network-lookup',
 ] as const;
 export type PatternId = (typeof PATTERN_IDS)[number];
 
@@ -68,7 +70,7 @@ export type PatternId = (typeof PATTERN_IDS)[number];
  * Declared here rather than inferred, so adding one stays a deliberate act with a reviewer, and so
  * the processorId rule keeps its full force everywhere else.
  */
-export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect']);
+export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect', 'network-lookup']);
 
 interface EngineDef {
   id: EngineId;
@@ -154,6 +156,10 @@ const engineDefs: EngineDef[] = [
   // prefers-reduced-motion + a user override). Category slug `fidgets` is reserved for the first
   // fidget tool PR — empty categories are rejected, so the category lands with Pop It.
   { id: 'feel', name: 'Feel Engine', category: 'fidgets', patterns: ['fidget-interact'], runtimeGlobal: 'feel', sharedWidget: 'FeelWidget.astro', globals: ['feel'] },
+  // Network Engine: IPv4 CIDR/subnet math on the platform experience calculators, plus a lookup
+  // namespace for "what is my IP". The lookup is a browser fetch to an IP echo (declared as
+  // network-lookup, non-dispatching); the math is local and never leaves the device.
+  { id: 'network', name: 'Network Engine', category: 'developer-utilities', patterns: ['network-calculate', 'network-lookup'], runtimeGlobal: 'runNetwork', sharedWidget: 'NetworkWidget.astro', globals: ['runNetwork', 'network', 'experience'] },
 ];
 
 function familiesFor(engineId: string): string[] {

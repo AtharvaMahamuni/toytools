@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-08T16:05:58.360Z",
+  "generatedAt": "2026-09-09T19:22:28.273Z",
   "engines": [
     {
       "engine": "board-game",
@@ -19,22 +19,6 @@
       "rationale": [
         "4 opportunities share the missing \"board-game\" engine.",
         "Cluster ≥ 3 → justifies a new reusable engine that unlocks 4 tools."
-      ]
-    },
-    {
-      "engine": "sound",
-      "exists": false,
-      "confidence": 0.5,
-      "transformations": [
-        "Breathing Guide"
-      ],
-      "unlocksTools": [
-        "breathing-circle"
-      ],
-      "topScore": 69.4,
-      "rationale": [
-        "1 opportunity share the missing \"sound\" engine.",
-        "Below the 3-tool bar for a new engine - revisit as more demand accrues."
       ]
     },
     {

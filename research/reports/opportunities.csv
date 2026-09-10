@@ -20,9 +20,11 @@ statistics-visualizer,statistics-visualizer,Statistics Visualizer,Descriptive St
 binary-text-converter,binary-text-converter,Binary Text Converter,Binary Encoding,encoding,true,needs-improvement,already-exists,low,0.74,0.68,0.86,1,1,0.9,0,0.9,0.8,81.6
 ohms-law-calculator,ohms-law-calculator,Ohm's Law Simulator,Ohm's Law,physics,true,guide-missing,already-exists,medium,0.95,0.52,0.96,0.7,1,0.98,0,0.85,0.8,81.4
 json-escape,json-escape,JSON Escape / Unescape,JSON String Escaping,structured-data,true,needs-improvement,already-exists,low,0.76,0.63,0.88,1,1,0.9,0,0.92,0.8,81.3
-gears,gears,Gears,Fidget Interaction,feel,true,cluster-missing,recommended,medium,0.55,0.83,0.8,0.7,1,0.82,1,0.94,0.64,81.1
+gears,gears,Gears,Fidget Interaction,feel,true,needs-improvement,already-exists,medium,0.55,0.83,0.8,0.7,1,0.82,1,0.94,0.64,81.1
 csv-diff,csv-diff,CSV Diff,CSV Diff,csv,true,needs-improvement,already-exists,medium,0.82,0.78,0.84,0.7,1,0.93,0,0.88,0.8,80.9
 json-diff,json-diff,Structured JSON Diff,JSON Diff,structured-data,true,cluster-missing,recommended,medium,0.8,0.7,0.9,0.7,1,0.92,0,0.94,0.8,80.6
+what-is-my-ip,what-is-my-ip,What Is My IP,Public Address Lookup,network,true,needs-improvement,already-exists,low,0.94,0.36,0.98,1,1,0.98,0,0.96,0.8,80.1
+cidr-calculator,cidr-calculator,CIDR Calculator,IPv4 Subnet Math,network,true,needs-improvement,already-exists,medium,0.76,0.7,0.96,0.7,1,0.9,0,0.97,0.8,80
 rot13-encoder-decoder,rot13-encoder-decoder,ROT13 Encoder / Decoder,ROT13,encoding,true,needs-improvement,already-exists,low,0.64,0.74,0.84,1,1,0.86,0,0.9,0.8,80
 remove-accents,remove-accents,Remove Accents,Diacritic Removal,text-processor,true,needs-improvement,already-exists,low,0.7,0.72,0.85,1,1,0.88,0,0.6,0.8,79.8
 triangle-solver,triangle-solver,Triangle Solver,Triangles,math,true,cluster-missing,recommended,medium,0.8,0.59,0.95,0.7,1,0.92,0,0.8,0.8,79.8
@@ -36,7 +38,8 @@ unix-timestamp-converter,unix-timestamp-converter,Unix Timestamp Converter,Times
 bmr-calculator,bmr-calculator,BMR Calculator,Energy And Nutrition Planning,wellness,true,needs-improvement,already-exists,low,0.8,0.46,0.95,1,1,0.92,0.5,0.9,0.8,79.1
 regex-tester,regex-tester,Regex Tester,Regex Testing,text-interactive,true,cluster-missing,recommended,medium,0.86,0.46,0.94,0.7,1,0.94,0,0.92,0.8,79.1
 sip-calculator,sip-calculator,SIP Calculator,Systematic Investment Plan,finance,true,needs-improvement,already-exists,low,0.92,0.6,0.9,1,1,0.73,0,0.95,0.8,79.1
-spinner,spinner,Fidget Spinner,Fidget Interaction,feel,true,cluster-missing,recommended,medium,0.66,0.63,0.62,0.7,1,0.86,1,0.96,0.64,79
+spinner,spinner,Fidget Spinner,Fidget Interaction,feel,true,needs-improvement,already-exists,medium,0.66,0.63,0.62,0.7,1,0.86,1,0.96,0.64,79
+breathing-circle,breathing-circle,Breathing Circle,Breathing Guide,feel,true,needs-improvement,already-exists,low,0.7,0.56,0.84,1,1,0.88,0,0.9,0.8,78.8
 projectile-motion-calculator,projectile-motion-calculator,Projectile Motion Simulator,Projectile Motion,physics,true,guide-missing,already-exists,medium,0.9,0.69,0.96,0.7,1,0.96,0,0.82,0.8,78.8
 probability-calculator,probability-calculator,Probability Lab,Probability,math-lab,true,guide-missing,already-exists,medium,0.85,0.69,0.95,0.7,1,0.94,0,0.82,0.8,78.6
 remove-emoji,remove-emoji,Remove Emoji,Emoji Removal,text-processor,true,needs-improvement,already-exists,low,0.66,0.76,0.78,1,1,0.74,0,0.8,0.8,78.5
@@ -49,6 +52,7 @@ protein-intake-calculator,protein-intake-calculator,Protein Intake Calculator,En
 csv-cleaner,csv-cleaner,CSV Cleaner,CSV Cleaning,csv,true,needs-improvement,already-exists,medium,0.7,0.76,0.82,0.7,1,0.88,0,0.86,0.8,77.4
 cagr-calculator,cagr-calculator,CAGR Calculator,Compound Annual Growth Rate,finance,true,needs-improvement,already-exists,low,0.82,0.6,0.88,1,1,0.69,0,0.8,0.8,77.2
 age-calculator,age-calculator,Age Calculator,Age Calculation,datetime,true,needs-improvement,already-exists,medium,0.88,0.46,0.88,0.7,1,0.83,0,0.78,0.8,77.1
+ipv4-converter,ipv4-converter,IPv4 Converter,IPv4 Representation,network,true,cluster-missing,recommended,low,0.42,0.76,0.94,1,1,0.77,0,0.98,0.64,77.1
 normal-distribution-visualizer,normal-distribution-visualizer,Normal Distribution Visualizer,Normal Distribution,math-lab,true,cluster-missing,recommended,medium,0.76,0.61,0.94,0.7,1,0.9,0,0.8,0.8,77.1
 date-difference-calculator,date-difference-calculator,Date Difference Calculator,Date Difference,datetime,true,needs-improvement,already-exists,medium,0.85,0.56,0.9,0.7,1,0.7,0,0.8,0.8,77
 reaction-rate-calculator,reaction-rate-calculator,Reaction Rate Calculator,Chemical Kinetics,chemistry-lab,true,guide-missing,already-exists,medium,0.74,0.66,0.95,0.7,1,0.9,0,0.78,0.8,76.7
@@ -58,8 +62,8 @@ linear-regression-playground,linear-regression-playground,Linear Regression Play
 crc32-hash-generator,crc32-hash-generator,CRC32 Hash Generator,Checksum (CRC32),hashing,true,needs-improvement,already-exists,low,0.56,0.68,0.8,1,1,0.7,0,0.92,0.64,76.1
 simple-harmonic-motion-calculator,simple-harmonic-motion-calculator,Spring (SHM) Simulator,Simple Harmonic Motion,physics,true,guide-missing,already-exists,low,0.68,0.73,0.94,1,1,0.87,0,0.8,0.8,76.1
 hash-identifier,hash-identifier,Hash Identifier and Verifier,Hash Identification,hashing,true,cluster-missing,recommended,low,0.38,0.76,0.92,1,1,0.75,0,0.95,0.64,75.9
-kinetic-sand,kinetic-sand,Kinetic Sand,Fidget Interaction,feel,true,cluster-missing,recommended,high,0.6,0.73,0.68,0.4,1,0.84,1,0.96,0.64,75.6
-slime,slime,Slime,Fidget Interaction,feel,true,cluster-missing,recommended,high,0.64,0.68,0.66,0.4,1,0.86,1,0.96,0.64,75.5
+kinetic-sand,kinetic-sand,Kinetic Sand,Fidget Interaction,feel,true,needs-improvement,already-exists,high,0.6,0.73,0.68,0.4,1,0.84,1,0.96,0.64,75.6
+slime,slime,Slime,Fidget Interaction,feel,true,needs-improvement,already-exists,high,0.64,0.68,0.66,0.4,1,0.86,1,0.96,0.64,75.5
 uuid-inspector,uuid-inspector,UUID Inspector,Identifier Inspection,generation,true,cluster-missing,recommended,low,0.3,0.87,0.88,1,1,0.72,0,0.92,0.64,75
 newman-projection-calculator,newman-projection-calculator,Newman Projection Calculator,Conformational Analysis,chemistry-lab,true,guide-missing,already-exists,medium,0.62,0.9,0.94,0.7,1,0.85,0,0.7,0.8,74.9
 invisible-character-detector,invisible-character-detector,Invisible Character Detector,Invisible Character Detection,text-processor,true,needs-improvement,already-exists,medium,0.41,0.9,0.94,0.7,1,0.76,0,0.88,0.64,74.8
@@ -89,7 +93,6 @@ inclined-plane-calculator,inclined-plane-calculator,Inclined Plane Simulator,Inc
 cron-expression-parser,cron-expression-parser,Cron Expression Parser,Cron Parsing,datetime,true,needs-improvement,already-exists,high,0.72,0.54,0.84,0.4,1,0.77,0,0.92,0.8,70.8
 connect-4,connect-4,Connect 4,Hot-Seat Board Game,board-game,false,engine-missing,recommended,medium,0.68,0.53,0.86,0.6,0.3,0.87,0.75,0.95,0.8,70.4
 shell-quote-escalator,shell-quote-escalator,Shell Quote Escalator,Shell Quoting,encoding,true,needs-improvement,already-exists,medium,0.11,1,0.94,0.7,1,0.64,0,0.96,0.64,69.9
-breathing-circle,breathing-circle,Breathing Circle,Breathing Guide,sound,false,engine-missing,recommended,low,0.7,0.56,0.84,0.9,0.3,0.88,0,0.9,0.8,69.4
 chess-tac-toe,chess-tac-toe,Chess Tac Toe,Hot-Seat Board Game,board-game,false,engine-missing,recommended,medium,0.42,0.9,0.8,0.6,0.3,0.77,0.75,0.94,0.64,68.8
 quantum-tic-tac-toe,quantum-tic-tac-toe,Quantum Tic Tac Toe,Hot-Seat Board Game,board-game,false,engine-missing,recommended,high,0.48,0.96,0.78,0.3,0.3,0.79,0.75,0.94,0.64,67.1
 net-worth-calculator,net-worth-calculator,Net Worth Calculator,Net Worth,budget,false,engine-missing,recommended,low,0.8,0.62,0.88,0.9,0.3,0.68,0,0.78,0.8,66.6

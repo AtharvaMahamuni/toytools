@@ -1,6 +1,6 @@
 # Latent Demand: what nobody is searching for
 
-Generated: 2026-09-08T16:05:58.360Z
+Generated: 2026-09-09T19:22:28.273Z
 
 The roadmap ranks needs by how loudly they are already being asked for. This report ranks needs that produce no query at all, because the person does not yet have a word for the thing or does not yet know the failure is possible. The two scores are not comparable and are never merged.
 
@@ -8,17 +8,17 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 
 ## Derived silences (from the catalog alone, nobody proposed these)
 
-### `asymmetry:generation` (weight 0.29)
+### `asymmetry:generation` (weight 0.28)
 - **Observed:** The "generation" engine has 5 tool(s) that produce a credential and none that check it.
 - **Therefore:** Someone holding a credential this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
 - **Evidence:** lorem-ipsum-generator, password-generator, qr-code-generator, random-string-generator, uuid-generator
 
-### `asymmetry:hashing` (weight 0.29)
+### `asymmetry:hashing` (weight 0.28)
 - **Observed:** The "hashing" engine has 5 tool(s) that produce a hash digest and none that check it.
 - **Therefore:** Someone holding a hash digest this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.
 - **Evidence:** crc32-hash-generator, md5-hash-generator, sha1-hash-generator, sha256-hash-generator, sha512-hash-generator
 
-### `dead-end:encoded-text` (weight 0.29)
+### `dead-end:encoded-text` (weight 0.28)
 - **Observed:** Encoded text is produced by encoding and consumed by no engine in the catalog.
 - **Therefore:** Whatever a visitor does with encoded text next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
 - **Evidence:** base64-encoder-decoder, binary-converter, binary-text-converter, encoding-detector, hex-encoder-decoder, html-entity-encoder-decoder, json-escape, number-to-words, punycode-converter, roman-numeral-converter, rot13-encoder-decoder, url-encoder-decoder
@@ -38,7 +38,7 @@ The roadmap ranks needs by how loudly they are already being asked for. This rep
 - **Therefore:** Whatever a visitor does with a credential next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
 - **Evidence:** coin-flipper, dice-roller, lorem-ipsum-generator, password-generator, qr-code-generator, random-choice-picker, random-name-picker, random-string-generator, uuid-generator
 
-### `dead-end:hash` (weight 0.24)
+### `dead-end:hash` (weight 0.23)
 - **Observed:** A hash digest is produced by hashing and consumed by no engine in the catalog.
 - **Therefore:** Whatever a visitor does with a hash digest next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.
 - **Evidence:** crc32-hash-generator, md5-hash-generator, sha1-hash-generator, sha256-hash-generator, sha512-hash-generator

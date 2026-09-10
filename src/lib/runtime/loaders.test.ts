@@ -47,7 +47,7 @@ describe('engine loader maps', () => {
   it('declares shared surfaces on every engine that attaches them', () => {
     expect(ENGINE_GLOBALS.encoding).toContain('transform');
     expect(ENGINE_GLOBALS.hashing).toContain('transform');
-    for (const id of ['finance', 'datetime', 'math', 'wellness']) {
+    for (const id of ['finance', 'datetime', 'math', 'wellness', 'network']) {
       expect(ENGINE_GLOBALS[id], `"${id}" renders InteractiveResults`).toContain('experience');
     }
     for (const id of ['wellness', 'tracker']) {

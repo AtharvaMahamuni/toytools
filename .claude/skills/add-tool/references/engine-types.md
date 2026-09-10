@@ -32,6 +32,7 @@ Lab) — see the "Are you adding an interactive SIMULATION?" branch of `SKILL.md
 | `units` | `unit-convert`, `aspect-ratio` | *(none — namespace)* | `ToyTools.units.*` (`pxToCss`, `aspect`, `dpToPxBuckets`, …) |
 | `audio` | `eq-design` | `EqDefinition` (data) | `ToyTools.eq.*` |
 | `feel` | `fidget-interact` | *(namespace: motion/sound/haptics)* | `ToyTools.feel.*` (`prefs`, `motionAllowed`, `motionScale`, `spring`, `friction`, `raf`, `vibrate`, `play`, `feedback`) |
+| `network` | `network-calculate`, `network-lookup` | `NetworkCalculator` | `ToyTools.runNetwork(id, input)` → `InteractiveResult`; `ToyTools.network.lookupPublic()` |
 | `calculator` | `calculate` | *(none — bespoke per tool)* | none — tool owns its own inline script |
 | `productivity` | `stateful` | *(none — bespoke per tool)* | none — tool owns its own inline script + `ToyTools.state` |
 | `text-interactive` | `text-interactive` | *(none — bespoke per tool)* | none — tool owns its own inline script |
@@ -329,6 +330,7 @@ Per-engine specifics:
 | `datetime` | `src/lib/engines/datetime/registry.ts` → `DATETIME_TOOLS` | `calculators/` | `age`, `duration`, `timezone`, `timestamp`, `schedule` | `dateTimeId` | `runDateTime` |
 | `math` | `src/lib/engines/math/registry.ts` → `MATH_CALCULATORS` | `calculators/` | `fractions`, `combinatorics`, `number-theory` | `mathId` | `runMath` |
 | `wellness` | `src/lib/engines/wellness/registry.ts` → `WELLNESS_CALCULATORS` | `calculators/` | `body-composition`, `energy` | `wellnessId` | `runWellness` |
+| `network` | `src/lib/engines/network/registry.ts` → `NETWORK_CALCULATORS` | `calculators/` | `addressing` | `networkId` | `runNetwork` |
 
 `wellness` adds two optional fields not present on the others: `produces` (results this calculator
 publishes to a shared cross-tool profile, e.g. TDEE publishing a `tdee` card) and `consumes` (fields

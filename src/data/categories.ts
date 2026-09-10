@@ -41,13 +41,13 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     name: 'Developer Utilities',
     description: 'Encode, decode, format, and inspect data structures.',
     tagline: 'Format, encode, hash and inspect data.',
-    highlights: ['json-formatter', 'base64-encoder-decoder', 'jwt-decoder'],
+    highlights: ['json-formatter', 'what-is-my-ip', 'cidr-calculator'],
     accent: '#56568F',
     segment: 'developer-utilities',
     intro: [
       'The largest group on the site, and the most repetitive work in a developer\'s day: encode this, decode that, format the thing that arrived minified, and find out why a payload will not parse. JSON accounts for the biggest share, from formatting and validating to converting into CSV or YAML and walking a large document as a tree.',
       'Encoders and decoders come in pairs because the return trip is where mistakes surface. Base64, URL encoding, HTML entities, hex, binary and punycode each mangle a different set of characters, and the fastest way to find which layer broke your string is to run it back the other way.',
-      'Hashing is one-way and is here for checking, not hiding: comparing a download against a published checksum, or telling whether two files differ. A JWT decoder reads a token\'s header and claims without verifying its signature, which is the right tool for seeing what is inside one and the wrong tool for deciding whether to trust it.',
+      'Hashing is one-way and is here for checking, not hiding: comparing a download against a published checksum, or telling whether two files differ. A JWT decoder reads a token\'s header and claims without verifying its signature, which is the right tool for seeing what is inside one and the wrong tool for deciding whether to trust it. Network tools sit here too: a CIDR calculator for IPv4 prefixes, and a public IP lookup that asks an echo from your browser.',
     ],
   },
   {

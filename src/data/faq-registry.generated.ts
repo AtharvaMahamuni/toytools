@@ -17,6 +17,7 @@ import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-def
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
 import { items as characterMapFaqs } from '@tools/text/character-map/faq';
+import { items as cidrCalculatorFaqs } from '@tools/developer-utilities/cidr-calculator/faq';
 import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
@@ -125,6 +126,7 @@ import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
 import { items as waterIntakeTrackerFaqs } from '@tools/health/water-intake-tracker/faq';
+import { items as whatIsMyIpFaqs } from '@tools/developer-utilities/what-is-my-ip/faq';
 import { items as wordCounterFaqs } from '@tools/text/word-counter/faq';
 import { items as wordFrequencyCounterFaqs } from '@tools/text/word-frequency-counter/faq';
 import { items as yamlToJsonConverterFaqs } from '@tools/developer-utilities/yaml-to-json-converter/faq';
@@ -145,6 +147,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
   'character-map': characterMapFaqs,
+  'cidr-calculator': cidrCalculatorFaqs,
   'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
   'color-format-converter': colorFormatConverterFaqs,
@@ -253,6 +256,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,
   'water-intake-tracker': waterIntakeTrackerFaqs,
+  'what-is-my-ip': whatIsMyIpFaqs,
   'word-counter': wordCounterFaqs,
   'word-frequency-counter': wordFrequencyCounterFaqs,
   'yaml-to-json-converter': yamlToJsonConverterFaqs,

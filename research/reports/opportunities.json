@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-08T16:05:58.360Z",
+  "generatedAt": "2026-09-09T19:22:28.273Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -253,7 +253,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "mobile fidget apps",
         "ad-heavy web clones"
@@ -276,16 +276,28 @@
         "fidget settings"
       ],
       "relatedTools": [
+        "spinner",
         "switch-board",
-        "pop-it"
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
       ],
       "relatedGuides": [
+        "spinner",
         "switch-board",
-        "pop-it"
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
       ],
       "relatedFaqs": [
+        "spinner",
         "switch-board",
-        "pop-it"
+        "kinetic-sand",
+        "slime",
+        "gears",
+        "breathing-circle"
       ],
       "difficulty": "low",
       "evergreenScore": 0.7,
@@ -325,7 +337,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -402,7 +414,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -469,7 +481,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -538,7 +550,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -616,7 +628,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -692,7 +704,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -763,7 +775,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "ASMR videos",
         "mobile switch simulators"
@@ -787,15 +799,27 @@
       ],
       "relatedTools": [
         "pop-it",
-        "switch-board"
+        "spinner",
+        "gears",
+        "breathing-circle",
+        "kinetic-sand",
+        "slime"
       ],
       "relatedGuides": [
         "pop-it",
-        "switch-board"
+        "spinner",
+        "gears",
+        "breathing-circle",
+        "kinetic-sand",
+        "slime"
       ],
       "relatedFaqs": [
         "pop-it",
-        "switch-board"
+        "spinner",
+        "gears",
+        "breathing-circle",
+        "kinetic-sand",
+        "slime"
       ],
       "difficulty": "low",
       "evergreenScore": 0.72,
@@ -835,7 +859,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -913,7 +937,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -987,7 +1011,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -1055,7 +1079,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1124,7 +1148,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1202,7 +1226,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1271,7 +1295,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1346,7 +1370,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1424,7 +1448,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1498,7 +1522,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1577,7 +1601,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "physics applets",
         "engineering textbooks",
@@ -1601,16 +1625,28 @@
         "motion engine settings"
       ],
       "relatedTools": [
+        "spinner",
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "breathing-circle",
+        "gears"
       ],
       "relatedGuides": [
+        "spinner",
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "breathing-circle",
+        "gears"
       ],
       "relatedFaqs": [
+        "spinner",
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "switch-board",
+        "breathing-circle",
+        "gears"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.8,
@@ -1626,8 +1662,8 @@
       "authorityWinnability": 1,
       "confidence": 0.64,
       "finalScore": 81.1,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -1650,7 +1686,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1729,7 +1765,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -1796,6 +1832,175 @@
       "craftRisk": false
     },
     {
+      "id": "what-is-my-ip",
+      "title": "What Is My IP",
+      "problem": "I need to see the public address this connection presents to the internet, and tell IPv4 from IPv6, without an app or an account.",
+      "userIntent": "transactional",
+      "workflow": "input → Public Address Lookup → output",
+      "transformation": "Public Address Lookup",
+      "proposedTool": "what-is-my-ip",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "what is my ip",
+        "what is my ip address",
+        "my ip address",
+        "whats my ip",
+        "show my ip",
+        "public ip address",
+        "what is my ipv4",
+        "what is my ipv6"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "existingSolutions": [
+        "Google's featured snippet",
+        "whatismyipaddress.com",
+        "ipleak.net",
+        "ifconfig.me"
+      ],
+      "solutionWeaknesses": [
+        "Google answers the number and stops, so IPv4 versus IPv6 and CGNAT go unexplained",
+        "the big lookup sites wrap the number in ads, trackers, and a map",
+        "several copy the wrong family because v4 and v6 are stacked without labels"
+      ],
+      "userFailures": [
+        "Copies the IPv6 address into a form that only accepts IPv4 and thinks the lookup is wrong",
+        "Reads a 100.64 CGNAT address as their public IP and opens a firewall hole that nothing can reach",
+        "Leaves a VPN on, copies that egress, and wonders why a home whitelist still fails",
+        "Sees only one family on a dual-stack path and assumes the other does not exist"
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "CIDR subnet planning",
+        "private versus public ranges",
+        "VPN egress identity"
+      ],
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedGuides": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedFaqs": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.98,
+      "competitionScore": 0.36,
+      "searchDemand": 0.94,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.98,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.59,
+      "localizationPotential": 0.96,
+      "algorithmicFit": 0.58,
+      "authorityWinnability": 0.88,
+      "confidence": 0.8,
+      "finalScore": 80.1,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
+      "id": "cidr-calculator",
+      "title": "CIDR Calculator",
+      "problem": "I have an IPv4 address and a prefix or mask and I need the network, broadcast, usable range, and wildcard without doing the bit math by hand.",
+      "userIntent": "transactional",
+      "workflow": "input → IPv4 Subnet Math → output",
+      "transformation": "IPv4 Subnet Math",
+      "proposedTool": "cidr-calculator",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "cidr calculator",
+        "subnet calculator",
+        "ip subnet calculator",
+        "cidr to ip range",
+        "subnet mask calculator",
+        "wildcard mask calculator",
+        "network address calculator",
+        "cidr notation calculator"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "existingSolutions": [
+        "subnet-calculator.com",
+        "whatismyip.com cidr calculator",
+        "spiceworks subnet calculator",
+        "networkcalc.com"
+      ],
+      "solutionWeaknesses": [
+        "most still default to classful masks when you paste a host address",
+        "ad-supported pages bury the usable range below a table of every prefix",
+        "/31 and /32 are shown with the same minus-two host rule that does not apply"
+      ],
+      "userFailures": [
+        "Pastes 192.168.1.50/24 and treats that host as the network in a firewall rule",
+        "Uses total minus two on a /31 point-to-point link and thinks the subnet is empty",
+        "Enters a dotted mask with a hole in the bits and accepts a silently rounded prefix",
+        "Copies the broadcast as a usable host into a cloud security group"
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "public IP lookup",
+        "binary conversion of an address",
+        "wildcard ACL writing"
+      ],
+      "relatedTools": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "cidr-calculator"
+      ],
+      "relatedGuides": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "cidr-calculator"
+      ],
+      "relatedFaqs": [
+        "what-is-my-ip",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "unix-timestamp-converter",
+        "cidr-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.96,
+      "competitionScore": 0.7,
+      "searchDemand": 0.76,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.35,
+      "localizationPotential": 0.97,
+      "algorithmicFit": 0.98,
+      "authorityWinnability": 0.94,
+      "confidence": 0.8,
+      "finalScore": 80,
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "rot13-encoder-decoder",
       "title": "ROT13 Encoder / Decoder",
       "problem": "I need to ROT13-encode/decode a string for an obfuscation puzzle.",
@@ -1814,7 +2019,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -1891,7 +2096,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -1968,7 +2173,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2043,7 +2248,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2125,7 +2330,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "periodictable.com",
         "omnicalculator.com",
@@ -2200,7 +2405,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -2281,7 +2486,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2348,7 +2553,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -2431,7 +2636,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -2499,7 +2704,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2576,7 +2781,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2657,7 +2862,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -2740,7 +2945,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -2820,7 +3025,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "novelty web toys",
         "mobile apps"
@@ -2844,15 +3049,27 @@
       ],
       "relatedTools": [
         "pop-it",
-        "switch-board"
+        "gears",
+        "kinetic-sand",
+        "switch-board",
+        "breathing-circle",
+        "slime"
       ],
       "relatedGuides": [
         "pop-it",
-        "switch-board"
+        "gears",
+        "kinetic-sand",
+        "switch-board",
+        "breathing-circle",
+        "slime"
       ],
       "relatedFaqs": [
         "pop-it",
-        "switch-board"
+        "gears",
+        "kinetic-sand",
+        "switch-board",
+        "breathing-circle",
+        "slime"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.62,
@@ -2868,8 +3085,93 @@
       "authorityWinnability": 1,
       "confidence": 0.64,
       "finalScore": 79,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
+      "id": "breathing-circle",
+      "title": "Breathing Circle",
+      "problem": "I want a breathing-circle guide with configurable inhale/hold/exhale timings, gentle motion, and optional soft cues, fully client-side.",
+      "userIntent": "howTo",
+      "workflow": "input → Breathing Guide → output",
+      "transformation": "Breathing Guide",
+      "proposedTool": "breathing-circle",
+      "proposedEngine": "feel",
+      "searchQueries": [
+        "breathing circle calm animation",
+        "breathing circle",
+        "box breathing online",
+        "breathing exercise animation",
+        "calm breathing visual",
+        "4-7-8 breathing timer"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "existingSolutions": [
+        "meditation apps",
+        "YouTube timers"
+      ],
+      "solutionWeaknesses": [
+        "apps require accounts and subscriptions",
+        "videos cannot change the timing pattern",
+        "hard to use silently without visual-only mode"
+      ],
+      "userFailures": [
+        "Default timings are labeled 'calm' but run faster than the user's preferred box pattern with no preset names.",
+        "Audio cue cannot be disabled independently, so a silent office session is impossible.",
+        "Reduced-motion preference is ignored and the expanding circle is the only progress signal.",
+        "Session ends with no gentle fade and an abrupt stop breaks the rhythm."
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "pomodoro timer",
+        "fidget settings",
+        "sleep cycle"
+      ],
+      "relatedTools": [
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board",
+        "slime",
+        "breathing-circle",
+        "gears"
+      ],
+      "relatedGuides": [
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board",
+        "slime",
+        "breathing-circle",
+        "gears"
+      ],
+      "relatedFaqs": [
+        "pomodoro-timer",
+        "pop-it",
+        "switch-board",
+        "slime",
+        "breathing-circle",
+        "gears"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.84,
+      "competitionScore": 0.56,
+      "searchDemand": 0.7,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.88,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.54,
+      "localizationPotential": 0.9,
+      "algorithmicFit": 0.9,
+      "authorityWinnability": 0.95,
+      "confidence": 0.8,
+      "finalScore": 78.8,
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -2892,7 +3194,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -2967,7 +3269,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -3035,7 +3337,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3111,7 +3413,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3184,7 +3486,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -3255,7 +3557,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3333,7 +3635,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3403,7 +3705,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "omnicalculator.com",
         "chemicalaid.com",
@@ -3478,7 +3780,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -3558,7 +3860,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -3632,7 +3934,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -3709,7 +4011,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3767,6 +4069,82 @@
       "craftRisk": false
     },
     {
+      "id": "ipv4-converter",
+      "title": "IPv4 Converter",
+      "problem": "I need to turn a dotted IPv4 address into its 32-bit decimal, hex, or binary form, and back, without a spreadsheet formula.",
+      "userIntent": "transactional",
+      "workflow": "input → IPv4 Representation → output",
+      "transformation": "IPv4 Representation",
+      "proposedTool": "ipv4-converter",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "ip to decimal converter",
+        "ip to decimal",
+        "ipv4 to decimal",
+        "ip to hex",
+        "dotted decimal to binary",
+        "convert ip address to integer"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "existingSolutions": [
+        "browser bits-and-bytes converters",
+        "rapidtables",
+        "subnet calculator side panels"
+      ],
+      "solutionWeaknesses": [
+        "converters that take a generic integer do not reject 256 in an octet",
+        "hex output often drops the leading zeros that packet captures show"
+      ],
+      "userFailures": [
+        "Treats the four octets as a base-10 number like 19216811 and gets a different host",
+        "Pastes an IPv6 address into an IPv4 converter and reads the truncation as a result"
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "CIDR math",
+        "binary conversion"
+      ],
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedGuides": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedFaqs": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.76,
+      "searchDemand": 0.42,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.48,
+      "localizationPotential": 0.98,
+      "algorithmicFit": 0.99,
+      "authorityWinnability": 0.95,
+      "confidence": 0.64,
+      "finalScore": 77.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
       "id": "normal-distribution-visualizer",
       "title": "Normal Distribution Visualizer",
       "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
@@ -3785,7 +4163,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -3852,7 +4230,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -3930,7 +4308,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calctool.org",
@@ -4004,7 +4382,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -4085,7 +4463,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -4164,7 +4542,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -4232,7 +4610,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -4308,7 +4686,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -4382,7 +4760,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -4474,7 +4852,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "mobile sand games",
         "heavy WebGL demos"
@@ -4497,16 +4875,28 @@
         "pop it"
       ],
       "relatedTools": [
+        "slime",
+        "gears",
         "pop-it",
-        "switch-board"
+        "spinner",
+        "breathing-circle",
+        "kinetic-sand"
       ],
       "relatedGuides": [
+        "slime",
+        "gears",
         "pop-it",
-        "switch-board"
+        "spinner",
+        "breathing-circle",
+        "kinetic-sand"
       ],
       "relatedFaqs": [
+        "slime",
+        "gears",
         "pop-it",
-        "switch-board"
+        "spinner",
+        "breathing-circle",
+        "kinetic-sand"
       ],
       "difficulty": "high",
       "evergreenScore": 0.68,
@@ -4522,8 +4912,8 @@
       "authorityWinnability": 1,
       "confidence": 0.64,
       "finalScore": 75.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -4547,7 +4937,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "mobile slime apps",
         "flash-era toys"
@@ -4570,16 +4960,28 @@
         "gears"
       ],
       "relatedTools": [
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "gears",
+        "spinner",
+        "breathing-circle",
+        "slime"
       ],
       "relatedGuides": [
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "gears",
+        "spinner",
+        "breathing-circle",
+        "slime"
       ],
       "relatedFaqs": [
+        "kinetic-sand",
         "pop-it",
-        "switch-board"
+        "gears",
+        "spinner",
+        "breathing-circle",
+        "slime"
       ],
       "difficulty": "high",
       "evergreenScore": 0.66,
@@ -4595,8 +4997,8 @@
       "authorityWinnability": 1,
       "confidence": 0.64,
       "finalScore": 75.5,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -4620,7 +5022,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -4713,7 +5115,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "chemtube3d.com",
         "molview.org",
@@ -4786,7 +5188,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -4879,7 +5281,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -4957,7 +5359,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "libretexts.org",
         "chemistrylearner.com",
@@ -5029,7 +5431,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -5110,7 +5512,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -5179,7 +5581,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "libretexts.org",
         "chemicalaid.com",
@@ -5253,7 +5655,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -5326,7 +5728,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -5399,7 +5801,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "casual game sites with ads",
         "mobile apps",
@@ -5473,7 +5875,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "Goodreads",
         "StoryGraph",
@@ -5553,7 +5955,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -5619,7 +6021,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -5699,7 +6101,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -5770,7 +6172,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -5862,7 +6264,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -5933,7 +6335,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -6012,7 +6414,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -6092,7 +6494,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -6186,7 +6588,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -6279,7 +6681,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6352,7 +6754,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -6429,7 +6831,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -6510,7 +6912,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -6577,7 +6979,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -6649,7 +7051,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -6729,7 +7131,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "app stores",
         "ad-supported browser games"
@@ -6793,7 +7195,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -6869,82 +7271,6 @@
       }
     },
     {
-      "id": "breathing-circle",
-      "title": "Breathing Circle",
-      "problem": "I want a breathing-circle guide with configurable inhale/hold/exhale timings, gentle motion, and optional soft cues, fully client-side.",
-      "userIntent": "howTo",
-      "workflow": "input → Breathing Guide → output",
-      "transformation": "Breathing Guide",
-      "proposedTool": "breathing-circle",
-      "proposedEngine": "sound",
-      "searchQueries": [
-        "breathing circle calm animation",
-        "breathing circle",
-        "box breathing online",
-        "breathing exercise animation",
-        "calm breathing visual",
-        "4-7-8 breathing timer"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
-      "existingSolutions": [
-        "meditation apps",
-        "YouTube timers"
-      ],
-      "solutionWeaknesses": [
-        "apps require accounts and subscriptions",
-        "videos cannot change the timing pattern",
-        "hard to use silently without visual-only mode"
-      ],
-      "userFailures": [
-        "Default timings are labeled 'calm' but run faster than the user's preferred box pattern with no preset names.",
-        "Audio cue cannot be disabled independently, so a silent office session is impossible.",
-        "Reduced-motion preference is ignored and the expanding circle is the only progress signal.",
-        "Session ends with no gentle fade and an abrupt stop breaks the rhythm."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "pomodoro timer",
-        "fidget settings",
-        "sleep cycle"
-      ],
-      "relatedTools": [
-        "pomodoro-timer",
-        "pop-it",
-        "switch-board"
-      ],
-      "relatedGuides": [
-        "pomodoro-timer",
-        "pop-it",
-        "switch-board"
-      ],
-      "relatedFaqs": [
-        "pomodoro-timer",
-        "pop-it",
-        "switch-board"
-      ],
-      "difficulty": "low",
-      "evergreenScore": 0.84,
-      "competitionScore": 0.56,
-      "searchDemand": 0.7,
-      "implementationCost": 0.9,
-      "engineReuse": 0.3,
-      "seoPotential": 0.88,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.54,
-      "localizationPotential": 0.9,
-      "algorithmicFit": 0.9,
-      "authorityWinnability": 0.95,
-      "confidence": 0.8,
-      "finalScore": 69.4,
-      "status": "recommended",
-      "gap": "engine-missing",
-      "engineExists": false,
-      "craftRisk": false
-    },
-    {
       "id": "chess-tac-toe",
       "title": "Chess Tac Toe",
       "problem": "I want Chess-Tac-Toe (chess piece movement constraints on a tic-tac-toe style win) as a local hot-seat puzzle game with clear legal-move hints.",
@@ -6964,7 +7290,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "rules blog posts",
         "one-off itch.io prototypes",
@@ -7029,7 +7355,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "academic demos",
         "PDF rule sheets",
@@ -7091,7 +7417,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -7155,7 +7481,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -7221,7 +7547,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -7286,7 +7612,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -7351,7 +7677,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -7426,7 +7752,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -7489,7 +7815,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -7554,7 +7880,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -7625,7 +7951,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -7695,7 +8021,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-08T16:05:58.360Z",
+      "discoveredAt": "2026-09-09T19:22:28.273Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

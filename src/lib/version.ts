@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 10,
-  minor: 9,
+  major: 11,
+  minor: 0,
   patch: 0,
-  status: 'alpha',
-  releaseDate: '2026-09-09',
-  description: 'Slower fidget spins, thicker sand, and tilt-to-pour'
+  status: 'beta',
+  releaseDate: '2026-09-11',
+  description: 'Beta: network tools, distinct fidget icons, and a welcome for beta testers',
 };
 
 export function formatVersion(config: VersionConfig): string {

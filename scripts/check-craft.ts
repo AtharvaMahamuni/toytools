@@ -151,7 +151,9 @@ const THRESHOLDS = {
   // 2026-09-08: 0.644 (78/121). switch-board ships All off (continuation).
   // 2026-09-09: 0.658 (83/126). Five Feel fidgets ship craft-first: gears mesh guardrail,
   //   spinner rest, sand reset, slime release, breathing named presets.
-  coverage: 0.658,
+  // 2026-09-10: 0.664 (85/128). Network tools ship craft-first: CIDR host-to-network recovery,
+  //   and What Is My IP names CGNAT and dual-stack so the wrong family is not copied.
+  coverage: 0.664,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,
