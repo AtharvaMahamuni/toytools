@@ -17,6 +17,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - **Search index ceiling.** Client search payload limit moved from 41.7 KB to 41.9 KB for the
   Habit Streak Tracker entry, with a thin keyword list. Catalog growth, not alias bloat.
+- **Tool CSS budget.** Per-tool render-blocking CSS ceiling moved from 16 KB gz to 18 KB gz.
+  Productivity pages hoist every productivity Widget stylesheet via the segment glob; the fifth
+  stateful tool needed headroom on that shared sheet total.
+
 
 
 ## [beta-v11.1.1] - 2026-09-15

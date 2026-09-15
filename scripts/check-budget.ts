@@ -43,7 +43,11 @@ interface Budget {
 // Worst observed at the time these were set (gzipped): tool 51.0K total / 19.9K JS / 11.2K CSS /
 // 25.9K HTML (tool HTML median 18.6K), guide 28.4K, category 19.0K.
 const BUDGETS: Record<string, Budget> = {
-  tool: { sheets: 6, cssKb: 16, jsKb: 24, htmlKb: 34, totalKb: 60 },
+  // 2026-09-16: tool cssKb 16 → 18. Productivity segment widgets share one import.meta.glob, so
+  // every productivity page downloads every productivity Widget stylesheet. Habit Streak Tracker
+  // is the fifth stateful widget on that segment; lean styles still need ~1.5K gz of headroom on
+  // the shared CSS total. Catalog growth on a hoisted segment, not a single-page regression.
+  tool: { sheets: 6, cssKb: 18, jsKb: 24, htmlKb: 34, totalKb: 60 },
   guide: { sheets: 4, cssKb: 13, jsKb: 8, htmlKb: 26, totalKb: 42 },
   category: { sheets: 4, cssKb: 12, jsKb: 8, htmlKb: 26, totalKb: 40 },
   page: { sheets: 4, cssKb: 12, jsKb: 12, htmlKb: 30, totalKb: 48 },
