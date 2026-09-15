@@ -13,6 +13,7 @@ export const buildIntegrityValidator: Validator = {
       { file: 'robots.txt', code: 'missing-robots' },
       { file: 'llms.txt', code: 'missing-llms-txt' },
       { file: 'sitemap-index.xml', code: 'missing-sitemap' },
+      { file: 'sitemap.xml', code: 'missing-sitemap-alias' },
       { file: '404.html', code: 'missing-404' },
       { file: 'route-manifest.json', code: 'missing-manifest' },
     ];

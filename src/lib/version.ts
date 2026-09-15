@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 0,
-  patch: 0,
+  patch: 1,
   status: 'beta',
-  releaseDate: '2026-09-11',
-  description: 'Beta: network tools, distinct fidget icons, and a welcome for beta testers',
+  releaseDate: '2026-09-15',
+  description: '/sitemap.xml alias serving same index XML',
 };
 
 export function formatVersion(config: VersionConfig): string {

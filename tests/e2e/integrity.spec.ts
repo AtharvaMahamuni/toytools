@@ -3,7 +3,7 @@
 // and that every published sitemap URL actually resolves. Structured over the generated
 // sitemap buckets so it extends to guides/faqs/categories/languages as they grow.
 import { test, expect } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { getAllMetadata } from '../../src/data/metadata';
@@ -54,6 +54,25 @@ test.describe('integrity', () => {
     const all = buckets.flatMap(sitemapLocs);
     expect(all.length, 'sitemap has URLs').toBeGreaterThan(0);
     expect(new Set(all).size, 'every sitemap <loc> is unique').toBe(all.length);
+  });
+
+
+  test('sitemap.xml is application/xml index (not HTML 404)', async ({ request }) => {
+    // Live site previously served the SPA 404 HTML at /sitemap.xml while /sitemap-index.xml
+    // was fine. Assert the built artifact and the preview response are real sitemap index XML.
+    const filePath = resolve(repoRoot, 'dist/sitemap.xml');
+    expect(existsSync(filePath), 'dist/sitemap.xml exists').toBe(true);
+    const built = readFileSync(filePath, 'utf8');
+    expect(built, 'built sitemap.xml is a sitemap index').toContain('<sitemapindex');
+    expect(built.toLowerCase()).not.toContain('<!doctype html');
+
+    const resp = await request.get('/sitemap.xml');
+    expect(resp.status(), 'GET /sitemap.xml').toBe(200);
+    const ct = (resp.headers()['content-type'] ?? '').toLowerCase();
+    expect(ct.includes('xml') || ct.includes('text/plain'), `content-type ${ct}`).toBe(true);
+    const body = await resp.text();
+    expect(body).toContain('<sitemapindex');
+    expect(body.toLowerCase()).not.toContain('<!doctype html');
   });
 
   test('every sitemap tool URL resolves (HTTP 200)', async ({ request }) => {

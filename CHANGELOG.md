@@ -2,6 +2,15 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.0.1] - 2026-09-15
+
+### Fixed
+
+- **`/sitemap.xml`.** Serves the same sitemap index XML as `/sitemap-index.xml` with
+  `Content-Type: application/xml`, so crawlers that probe the conventional path no longer get the
+  HTML 404 shell. `robots.txt` and Quality Guardian still require `sitemap-index.xml`; buckets are
+  unchanged.
+
 ## [beta-v11.0] - 2026-09-11
 
 ### Added
