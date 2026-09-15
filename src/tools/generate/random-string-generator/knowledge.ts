@@ -7,7 +7,7 @@ export const knowledge: Knowledge = {
   category: 'generate',
   summary:
     'Generate random strings, tokens, and keys in the browser: set length and character sets or a custom alphabet, with a live entropy estimate.',
-  primaryConcepts: ['random string generation', 'tokens and keys'],
+  primaryConcepts: ['random string generator'],
   secondaryConcepts: ['entropy', 'character sets', 'custom alphabet', 'nonces', 'api keys'],
   intentGroups: {
     informational: [
@@ -37,11 +37,10 @@ export const knowledge: Knowledge = {
     'Reusing a nonce that must be unique',
   ],
   commonQuestions: [
-    'What is a random string used for?',
-    'Is it safe for tokens and keys?',
-    'Can I use my own character set?',
-    'How long should a token be?',
-    'Does it work offline?',
+    'What is a random string generator?',
+    'How is this different from a password generator?',
+    'Can I use a custom character set?',
+    'Is anything uploaded when I generate a string?',
   ],
   usedWith: [],
   alternatives: [

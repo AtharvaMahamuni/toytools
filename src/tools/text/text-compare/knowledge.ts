@@ -5,7 +5,7 @@ export const knowledge: Knowledge = {
   slug: 'text-compare',
   title: 'Text Compare',
   category: 'text-utilities',
-  summary: 'Compare two pieces of text side by side and highlight the differences between them.',
+  summary: 'Compare two texts side by side and highlight which lines changed.',
   primaryConcepts: ['text comparison'],
   secondaryConcepts: ['diff', 'added and removed lines', 'side-by-side', 'change detection'],
   intentGroups: {
@@ -26,9 +26,10 @@ export const knowledge: Knowledge = {
     'Expecting it to merge the two texts rather than just show differences',
   ],
   commonQuestions: [
-    'What is the difference between a line-level diff and a character-level diff?',
-    'Why do trailing spaces show as differences in a text compare?',
-    'Why do reordered lines look like a full rewrite in a diff?',
+    'How do I compare two texts online?',
+    'Is this a character-by-character compare or a line diff?',
+    'What do the + and - lines mean?',
+    'Is my text uploaded when I compare it?',
   ],
   usedWith: [
     { slug: 'find-replace', reason: 'Apply fixes after spotting the differences', strength: 0.6 },

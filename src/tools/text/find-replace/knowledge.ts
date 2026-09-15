@@ -5,7 +5,7 @@ export const knowledge: Knowledge = {
   slug: 'find-replace',
   title: 'Find and Replace',
   category: 'text-utilities',
-  summary: 'Find every occurrence of a string and replace it across the whole text, with case and match options.',
+  summary: 'Find text in your document and replace every match, with case and regex options.',
   primaryConcepts: ['find and replace'],
   secondaryConcepts: ['search and replace', 'bulk edit', 'case sensitivity', 'match all occurrences'],
   intentGroups: {
@@ -26,9 +26,10 @@ export const knowledge: Knowledge = {
     'Forgetting that case sensitivity can skip valid matches',
   ],
   commonQuestions: [
-    'What is case-sensitive matching?',
-    'Does replace all change matches inside other words?',
-    'Is find and replace better than manual editing?',
+    'How do I find text in a document and replace it?',
+    'Can I find and replace with regex?',
+    'Does replace change matches inside other words?',
+    'Is my text uploaded?',
   ],
   usedWith: [
     { slug: 'text-compare', reason: 'Diff before and after to confirm the edits', strength: 0.6 },

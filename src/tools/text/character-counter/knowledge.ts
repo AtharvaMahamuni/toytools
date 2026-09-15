@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Character Counter',
   category: 'text-utilities',
   summary: 'Count characters with and without spaces, the way platform limits like Twitter/X, SMS, and meta tags measure them.',
-  primaryConcepts: ['character count'],
+  primaryConcepts: ['character counter'],
   secondaryConcepts: ['character limit', 'with spaces vs without spaces', 'unicode code point', 'grapheme'],
   intentGroups: {
     informational: ['What is a character count?', 'How are spaces and line breaks counted?'],
@@ -26,9 +26,10 @@ export const knowledge: Knowledge = {
     'Assuming one emoji equals one character (many are multi-code-point)',
   ],
   commonQuestions: [
-    'How do I fit my text into 280 characters?',
-    'Why does my emoji count as 2 characters?',
-    'Do line breaks count as characters?',
+    'How do I count characters in text?',
+    'Do spaces count as characters?',
+    'Do emoji count as one character?',
+    'Is my text uploaded?',
   ],
   usedWith: [
     { slug: 'word-counter', reason: 'Track a word limit and a character limit together', strength: 0.6 },

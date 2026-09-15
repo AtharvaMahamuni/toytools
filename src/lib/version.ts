@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 1,
-  patch: 0,
+  patch: 1,
   status: 'beta',
   releaseDate: '2026-09-15',
-  description: 'Statistics Visualizer with on-device histogram and box plot',
+  description: 'SEO titles, metas, FAQs for GSC deep pages',
 };
 
 export function formatVersion(config: VersionConfig): string {

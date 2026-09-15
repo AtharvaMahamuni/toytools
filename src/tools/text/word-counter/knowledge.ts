@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Word Counter',
   category: 'text-utilities',
   summary: 'Count words in any text, plus characters, sentences, and estimated reading time, live as you type.',
-  primaryConcepts: ['word count'],
+  primaryConcepts: ['word counter'],
   secondaryConcepts: ['word limit', 'word boundary', 'token', 'whitespace splitting'],
   intentGroups: {
     informational: ['What counts as a word?', 'How is word count calculated?'],
@@ -26,9 +26,10 @@ export const knowledge: Knowledge = {
     'Forgetting that a word limit usually excludes references or footnotes',
   ],
   commonQuestions: [
-    'How does the counter decide where one word ends and the next begins?',
-    'Does it count numbers as words?',
-    'Why is my count slightly different from my word processor?',
+    'How does a word counter work?',
+    'What counts as a word?',
+    'What is the difference between word count and character count?',
+    'Is my text uploaded?',
   ],
   usedWith: [
     { slug: 'reading-time-calculator', reason: 'Turn the word count into an estimated read time', strength: 0.8 },

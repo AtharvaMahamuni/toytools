@@ -5,8 +5,8 @@ export const knowledge: Knowledge = {
   slug: 'random-name-picker',
   title: 'Random Name Picker',
   category: 'generate',
-  summary: 'Paste a list of names, draw one or several at random without repeats, and get told when a duplicated entry is quietly skewing the odds.',
-  primaryConcepts: ['Random name draw'],
+  summary: 'Paste a list of names and draw one or several at random without repeats.',
+  primaryConcepts: ['random name picker'],
   secondaryConcepts: ['raffle', 'without replacement', 'duplicate entry', 'classroom draw', 'fair draw'],
   intentGroups: {
     informational: ['What is a fair random draw?', 'Drawing without replacement'],
@@ -27,9 +27,10 @@ export const knowledge: Knowledge = {
     'Pasting names separated by commas on one line, which reads as a single entry',
   ],
   commonQuestions: [
-    'How do I draw more than one name without repeats?',
-    'Why does the same name keep coming up?',
-    'Does a duplicate in my list matter?',
+    'How do I pick a random name from a list?',
+    'Can I draw several names without repeats?',
+    'Do duplicate names in my list change the odds?',
+    'Is my list of names uploaded?',
   ],
   usedWith: [
     { slug: 'remove-duplicate-lines', reason: 'Clean a longer list before drawing from it', strength: 0.8 },

@@ -5,7 +5,7 @@ export const knowledge: Knowledge = {
   slug: 'emergency-fund-calculator',
   title: 'Emergency Fund Calculator',
   category: 'money-finance',
-  summary: 'Work out how large an emergency fund you need from your monthly expenses and track progress toward it.',
+  summary: 'Work out an emergency fund from your monthly expenses and track progress toward it.',
   primaryConcepts: ['emergency fund'],
   secondaryConcepts: ['months of expenses', 'financial safety net', 'savings progress', 'liquidity'],
   intentGroups: {
@@ -27,8 +27,9 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'How much emergency fund do I need?',
-    'How many months of expenses should an emergency fund cover?',
-    'Where should I keep my emergency fund?',
+    'Can I target 8 months of expenses?',
+    'Should the fund be based on income or expenses?',
+    'Are my numbers uploaded?',
   ],
   usedWith: [
     { slug: 'savings-goal-calculator', reason: 'Plan a monthly amount to close the gap', strength: 0.8 },

@@ -3,8 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'character-counter',
   name: 'Character Counter',
-  seoTitle: 'Character Counter — Free Online Character Count Tool',
-  description: 'Count characters instantly in your browser. Includes characters with and without spaces.',
+  seoTitle: 'Character Counter Online',
+  description: 'Count characters with and without spaces against common platform limits. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Count characters, with and without spaces.',
   categorySlug: 'text-utilities',
   tags: ['character counter', 'count characters', 'character count', 'characters with spaces', 'characters without spaces', 'text length', 'string length', 'twitter character counter', 'character limit checker'],
@@ -19,8 +19,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'character-counter',
     categorySlug: 'text-utilities',
-    title: 'Character Counter: How to Count Characters in Text',
-    description: 'Learn how character counting works, why character limits matter for social media and SEO, and the difference between characters with and without spaces.',
+    title: 'How to Count Characters in Text',
+    description: 'Learn characters with vs without spaces, and why platform limits differ. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 4,
     updatedAt: '2026-06-07',
   },  pattern: 'text-metric',
@@ -31,4 +31,5 @@ export const config: ToolConfig = {
     label: 'Characters',
     formatter: 'integer',
   },
+  relatedTools: ['word-counter', 'letter-counter', 'remove-extra-spaces'],
 };

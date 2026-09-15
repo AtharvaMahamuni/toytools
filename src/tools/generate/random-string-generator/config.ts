@@ -3,9 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'random-string-generator',
   name: 'Random String Generator',
-  seoTitle: 'Random String Generator — Tokens, Keys & Nonces',
-  description:
-    'Generate random strings, tokens, and keys with a custom alphabet and a live entropy estimate, all in your browser. Nothing is uploaded.',
+  seoTitle: 'Random String Generator for Tokens',
+  description: 'Generate random strings, tokens, and keys with a custom alphabet. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Random strings and tokens with a custom alphabet.',
   categorySlug: 'generate',
   tags: [
