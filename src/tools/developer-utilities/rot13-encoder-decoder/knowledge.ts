@@ -5,7 +5,7 @@ export const knowledge: Knowledge = {
   slug: 'rot13-encoder-decoder',
   title: 'ROT13 Encoder / Decoder',
   category: 'developer-utilities',
-  summary: 'Rotate Latin letters 13 places to encode or decode ROT13 text; the cipher is its own inverse, so one pass does both.',
+  summary: 'Rotate Latin letters by 13 places to encode or decode ROT13 in one pass.',
   primaryConcepts: ['ROT13 cipher'],
   secondaryConcepts: ['caesar cipher', 'letter rotation', 'obfuscation', 'self-inverse'],
   intentGroups: {
@@ -27,8 +27,9 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'What is ROT13?',
+    'Why are encode and decode the same?',
     'Is ROT13 encryption?',
-    'Why are encoding and decoding the same operation?',
+    'Is my text sent anywhere?',
   ],
   usedWith: [
     { slug: 'base64-encoder-decoder', reason: 'Stack casual obfuscation onto binary-safe transport encoding', strength: 0.6 },

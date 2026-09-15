@@ -6,8 +6,8 @@ export const knowledge: Knowledge = {
   title: 'Uppercase Converter',
   category: 'text-utilities',
   summary: 'Convert any text to ALL UPPERCASE, for headings, acronyms, constants, and emphasis.',
-  primaryConcepts: ['uppercase'],
-  secondaryConcepts: ['all caps', 'capitalization', 'letter case', 'text-transform'],
+  primaryConcepts: ['convert to uppercase'],
+  secondaryConcepts: ['uppercase', 'all caps', 'capitalization', 'letter case', 'text-transform'],
   intentGroups: {
     informational: ['What is uppercase text?', 'When should text be all caps?'],
     howTo: ['How to make text all uppercase', 'How to convert a heading to caps without retyping'],
@@ -26,9 +26,10 @@ export const knowledge: Knowledge = {
     'Relying on CSS text-transform when the stored value must actually be uppercase',
   ],
   commonQuestions: [
-    'Should I use CSS text-transform: uppercase or convert the text itself?',
-    'Is converting text to uppercase the same in every language?',
-    'Why did accented letters not uppercase as I expected?',
+    'How do I convert text to uppercase?',
+    'Does uppercase change numbers or punctuation?',
+    'Why does text look uppercase on a page but paste as lowercase?',
+    'Is my text uploaded?',
   ],
   usedWith: [
     { slug: 'lowercase-converter', reason: 'Flip back to lowercase when needed', strength: 0.6 },

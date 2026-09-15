@@ -96,9 +96,9 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Unit Circle Calculator: Interactive Sin, Cos & Tan',
+    title: 'Unit Circle Calculator: Sin Cos Tan',
     description:
-      'Drag a point around the trig circle and watch sin cos tan values update live in both radians and degrees, with the reference triangle and sine wave.',
+      'Interactive unit circle: drag the trig circle and read sin cos tan values in radians and degrees. Runs entirely on your device. Nothing is uploaded.',
     tagline: 'Drag a point around the circle and watch sin, cos and tan update.',
     keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles'],
   },
@@ -121,12 +121,12 @@ export const manifest: SimulationManifest = {
         'The unit circle is a circle of radius 1 centered at the origin. Its power is that the point at angle θ sits at coordinates (cos θ, sin θ), so one picture defines sine and cosine for every angle, not just the acute angles of a right triangle. The explorer draws the angle, the reference triangle, and the live values as you drag, so the definition becomes something you can feel rather than memorize.',
     },
     {
-      question: 'How do I read sin cos tan values on the unit circle?',
+      question: 'How do I read sin cos tan on the unit circle?',
       answer:
         'Read the coordinates of the point: the horizontal coordinate is cos θ and the vertical coordinate is sin θ. For example, drag the point to 30° and the readouts show cos θ = 0.866 and sin θ = 0.5, which are the exact values √3/2 and 1/2. Tangent is not a coordinate: it is the ratio sin θ / cos θ, shown as its own live measurement. The reference triangle drawn inside the circle makes the two legs visible.',
     },
     {
-      question: 'Why is tan θ undefined at 90 degrees?',
+      question: 'Why is tan undefined at 90 degrees?',
       answer:
         'Because tan θ = sin θ / cos θ, and at 90° the cosine is exactly 0, so the division has no value. Drag the point toward 90° and watch tan θ grow without bound while cos θ shrinks: that runaway growth is the vertical asymptote of the tangent function. The same thing happens at 270°, the other angle where the point crosses the y-axis.',
     },
@@ -158,9 +158,9 @@ export const manifest: SimulationManifest = {
   ],
   guide: {
     slug: 'how-the-unit-circle-works',
-    title: 'How the Unit Circle Works: Sin, Cos and Tan',
+    title: 'How the Unit Circle Works',
     description:
-      'How the unit circle gives sin, cos, and tan for any angle, why radians make sense, the special angles worth memorizing, and where the sine wave comes from.',
+      'See how sin, cos, and tan come from a point on the unit circle. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 6,
     updatedAt: '2026-07-14',
     quickAnswer:

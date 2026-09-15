@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.1.1] - 2026-09-15
+
+### Changed
+
+- **GSC deep-page SEO content.** Titles, metas, FAQs, knowledge primaryConcepts/summaries, and
+  relatedTools swaps for text-compare, find-replace, uppercase-converter, random-name-picker,
+  random-string-generator, emergency-fund-calculator, rot13 (guide+tool), unit-circle (guide+sim),
+  character-counter (guide+tool), and word-counter (guide+tool). Privacy line exact on metas.
+  Content-only; no widget or sitemap changes.
+
 ## [beta-v11.1] - 2026-09-15
 
 ### Added

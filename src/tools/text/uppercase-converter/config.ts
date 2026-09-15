@@ -3,8 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'uppercase-converter',
   name: 'Uppercase Converter',
-  seoTitle: 'Uppercase Converter — Convert Text To UPPERCASE Online',
-  description: 'Convert any text to UPPERCASE, or all caps, instantly in your browser. Paste, convert and copy, with no uploads.',
+  seoTitle: 'Convert Text to Uppercase Online',
+  description: 'Convert any pasted text to UPPERCASE (all caps) in one click, then copy it. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Convert any text to UPPERCASE, then copy it.',
   categorySlug: 'text-utilities',
   tags: ['uppercase', 'uppercase converter', 'convert to uppercase', 'all caps', 'capital letters', 'text to uppercase', 'uppercase text generator', 'make text uppercase'],
@@ -14,6 +14,7 @@ export const config: ToolConfig = {
   family: 'transform',
   processorId: 'uppercase',
   toolGroup: 'case-converters',
+  relatedTools: ['lowercase-converter', 'title-case-converter', 'character-counter'],
   guide: {
     slug: 'how-to-convert-text-to-uppercase',
     categorySlug: 'text',
