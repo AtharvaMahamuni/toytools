@@ -1,0 +1,790 @@
+---
+---
+
+<section class="tool-panel hst" data-tool="habit-streak-tracker">
+  <div class="hst-header">
+    <p class="hst-storage-note">
+      Stored locally <span class="gold-dot" aria-hidden="true"></span> Never leaves your device
+    </p>
+    <p class="hst-date" id="hst-date" aria-live="polite"></p>
+  </div>
+
+  <p
+    id="hst-encourage"
+    class="hst-encourage"
+    data-craft="habit-loop-encourage"
+    role="status"
+    aria-live="polite"
+    hidden
+  ></p>
+
+  <div id="hst-empty" class="hst-empty" hidden>
+    <p class="hst-empty-lead">Start with one tiny habit. Two minutes is enough.</p>
+    <div class="hst-chips" role="group" aria-label="Starter habits">
+      <button type="button" class="hst-chip" data-starter="Drink water">Drink water</button>
+      <button type="button" class="hst-chip" data-starter="Stretch 2 min">Stretch 2 min</button>
+      <button type="button" class="hst-chip" data-starter="Read 1 page">Read 1 page</button>
+    </div>
+  </div>
+
+  <div id="hst-today" class="hst-today" aria-live="polite"></div>
+
+  <details class="hst-add" id="hst-add-panel">
+    <summary>Add habit</summary>
+    <form id="hst-add-form" class="hst-add-form">
+      <label class="hst-field">
+        <span>Name</span>
+        <input id="hst-name" type="text" maxlength="48" required autocomplete="off" placeholder="e.g. Walk 5 minutes" />
+      </label>
+      <label class="hst-field">
+        <span>Cue (optional)</span>
+        <input id="hst-cue" type="text" maxlength="80" autocomplete="off" placeholder="After I pour coffee" />
+      </label>
+      <label class="hst-field">
+        <span>Identity (optional)</span>
+        <input id="hst-identity" type="text" maxlength="80" autocomplete="off" placeholder="I am someone who..." />
+      </label>
+      <label class="hst-field">
+        <span>Stack (optional)</span>
+        <input id="hst-stack" type="text" maxlength="100" autocomplete="off" placeholder="After I ___, I will ___" />
+      </label>
+      <fieldset class="hst-colors">
+        <legend>Color</legend>
+        <label class="hst-color"><input type="radio" name="hst-color" value="green" checked /><span class="hst-swatch hst-swatch--green" aria-hidden="true"></span><span class="hst-sr">Green</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="teal" /><span class="hst-swatch hst-swatch--teal" aria-hidden="true"></span><span class="hst-sr">Teal</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="blue" /><span class="hst-swatch hst-swatch--blue" aria-hidden="true"></span><span class="hst-sr">Blue</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="amber" /><span class="hst-swatch hst-swatch--amber" aria-hidden="true"></span><span class="hst-sr">Amber</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="rose" /><span class="hst-swatch hst-swatch--rose" aria-hidden="true"></span><span class="hst-sr">Rose</span></label>
+      </fieldset>
+      <p id="hst-add-msg" class="hst-msg" role="status" hidden></p>
+      <button type="submit" class="hst-primary">Save habit</button>
+    </form>
+  </details>
+
+  <div class="hst-footer">
+    <button type="button" id="hst-export" class="hst-tool-btn">Export JSON</button>
+    <button type="button" id="hst-import-btn" class="hst-tool-btn" aria-expanded="false" aria-controls="hst-import-panel">Import JSON</button>
+    <button type="button" id="hst-toggle-archive" class="hst-tool-btn" aria-pressed="false">Show archived</button>
+  </div>
+  <div id="hst-import-panel" class="hst-import" hidden>
+    <label class="hst-field" for="hst-import-text">
+      <span>Paste backup JSON</span>
+      <textarea id="hst-import-text" rows="4" placeholder='{"v":1,"habits":[...]}'></textarea>
+    </label>
+    <div class="hst-import-row">
+      <input id="hst-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
+      <button type="button" id="hst-import-run" class="hst-primary">Import</button>
+    </div>
+    <p id="hst-import-msg" class="hst-msg" role="status" hidden></p>
+  </div>
+
+  <div id="hst-archived" class="hst-archived" hidden></div>
+</section>
+
+<style is:global>
+  .hst-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .hst-storage-note,
+  .hst-date {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    margin: 0;
+  }
+  .hst-encourage {
+    margin: 0;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+  .hst-encourage[hidden],
+  .hst-empty[hidden],
+  .hst-import[hidden],
+  .hst-archived[hidden],
+  .hst-msg[hidden] { display: none; }
+  .hst-empty { text-align: center; padding: var(--space-6) 0 var(--space-3); }
+  .hst-empty-lead { margin: 0 0 var(--space-4); color: var(--color-text-muted); font-size: var(--text-sm); }
+  .hst-chips, .hst-footer, .hst-actions, .hst-import-row, .hst-today, .hst-archived {
+    display: flex; flex-wrap: wrap; gap: var(--space-2);
+  }
+  .hst-today, .hst-archived { flex-direction: column; gap: var(--space-3); }
+  .hst-chip, .hst-tool-btn {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-full, 999px);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+  .hst-chip { color: var(--color-text); padding-inline: var(--space-4); }
+  .hst-chip:hover, .hst-tool-btn:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .hst-tool-btn[aria-pressed="true"] {
+    color: var(--color-accent-strong);
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+  }
+  .hst-card {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-secondary);
+  }
+  .hst-card-row { display: flex; align-items: flex-start; gap: var(--space-3); }
+  .hst-check {
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    border-radius: 999px;
+    border: 2px solid var(--color-border-strong);
+    background: var(--color-bg);
+    color: var(--color-text-inverse);
+    font: inherit;
+    font-size: var(--text-lg);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hst-check[aria-pressed="true"] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .hst-card-main { flex: 1; min-width: 0; }
+  .hst-card-top {
+    display: flex; flex-wrap: wrap; align-items: center;
+    justify-content: space-between; gap: var(--space-2);
+  }
+  .hst-name {
+    margin: 0;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    word-break: break-word;
+  }
+  .hst-cue, .hst-meta { margin: var(--space-1) 0 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .hst-meta p { margin: 0 0 var(--space-1); }
+  .hst-badge {
+    display: inline-flex; align-items: center;
+    min-height: 28px; padding-inline: var(--space-2);
+    border-radius: 999px; background: var(--color-bg);
+    font-size: var(--text-xs); font-variant-numeric: tabular-nums;
+  }
+  .hst-expand { margin-top: var(--space-2); }
+  .hst-expand > summary, .hst-add > summary {
+    cursor: pointer;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    min-height: var(--touch-target);
+    display: inline-flex; align-items: center;
+    list-style: none;
+  }
+  .hst-add > summary { color: var(--color-accent-strong); font-weight: var(--font-weight-semibold); display: flex; }
+  .hst-expand > summary::-webkit-details-marker,
+  .hst-add > summary::-webkit-details-marker { display: none; }
+  .hst-heat {
+    display: grid;
+    grid-template-rows: repeat(7, 10px);
+    grid-auto-flow: column;
+    grid-auto-columns: 10px;
+    gap: 3px;
+    overflow-x: auto;
+    padding-block: var(--space-2);
+  }
+  .hst-heat-cell {
+    width: 10px; height: 10px; border-radius: 2px;
+    background: var(--color-bg-tertiary);
+  }
+  .hst-heat-cell.is-checked { background: var(--color-accent); }
+  .hst-heat-cell.is-today { outline: 1px solid var(--color-text); outline-offset: 1px; }
+  .hst-add { margin-top: var(--space-4); }
+  .hst-add-form, .hst-import { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-3); }
+  .hst-field {
+    display: flex; flex-direction: column; gap: var(--space-1);
+    font-size: var(--text-sm); color: var(--color-text-muted);
+  }
+  .hst-field input, .hst-field textarea {
+    min-height: var(--touch-target);
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+  }
+  .hst-field textarea { min-height: 96px; resize: vertical; }
+  .hst-colors {
+    border: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;
+  }
+  .hst-colors legend {
+    font-size: var(--text-sm); color: var(--color-text-muted);
+    margin-bottom: var(--space-1); padding: 0; width: 100%;
+  }
+  .hst-color {
+    position: relative; width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .hst-color input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .hst-swatch {
+    width: 28px; height: 28px; border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  }
+  .hst-color input:checked + .hst-swatch {
+    box-shadow: inset 0 0 0 1px var(--color-border-strong), 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+  }
+  .hst-swatch--green { background: var(--color-accent); }
+  .hst-swatch--teal { background: var(--color-info, var(--color-accent)); }
+  .hst-swatch--blue { background: var(--color-link, var(--color-accent)); }
+  .hst-swatch--amber { background: var(--color-warning, var(--color-accent)); }
+  .hst-swatch--rose { background: var(--color-danger, var(--color-accent)); }
+  .hst-sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+  }
+  .hst-primary {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-5);
+    border: none; border-radius: var(--radius-md);
+    background: var(--color-accent); color: var(--color-text-inverse);
+    font: inherit; font-weight: var(--font-weight-semibold);
+    cursor: pointer; align-self: flex-start;
+  }
+  .hst-msg { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .hst-msg.is-error { color: var(--color-danger, var(--color-text)); }
+  .hst-archived-title {
+    margin: 0; font-size: var(--text-sm); color: var(--color-text-muted);
+    font-weight: var(--font-weight-semibold);
+  }
+  .hst-footer { margin-top: var(--space-4); }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-tool="habit-streak-tracker"]');
+    if (!root) return;
+
+    var STORAGE_KEY = 'toytools.habit-streak-tracker.v1';
+    var MAX_ACTIVE = 8;
+    var KEEP_DAYS = 366;
+    var MAX_STORE = 80000;
+    var COLORS = ['green', 'teal', 'blue', 'amber', 'rose'];
+    var LINES = [
+      'That is the loop.',
+      'Never miss twice. You are back.',
+      'Small today still counts.',
+      'One check. Keep going.',
+      'Cue, response, reward.',
+      'A tiny vote for who you are becoming.'
+    ];
+
+    var habits = [];
+    var showArchived = false;
+    var encourageTimer = null;
+
+    var dateEl = document.getElementById('hst-date');
+    var emptyEl = document.getElementById('hst-empty');
+    var todayEl = document.getElementById('hst-today');
+    var archivedEl = document.getElementById('hst-archived');
+    var encourageEl = document.getElementById('hst-encourage');
+    var addMsg = document.getElementById('hst-add-msg');
+    var importPanel = document.getElementById('hst-import-panel');
+    var importMsg = document.getElementById('hst-import-msg');
+    var importText = document.getElementById('hst-import-text');
+    var toggleArchiveBtn = document.getElementById('hst-toggle-archive');
+
+    function todayKey() {
+      var d = new Date();
+      var m = d.getMonth() + 1;
+      var day = d.getDate();
+      return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+    }
+
+    function shiftKey(key, delta) {
+      var p = key.split('-');
+      var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      d.setDate(d.getDate() + delta);
+      var m = d.getMonth() + 1;
+      var day = d.getDate();
+      return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+    }
+
+    function formatNice(key) {
+      var p = key.split('-');
+      var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      try {
+        return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+      } catch (_) {
+        return key;
+      }
+    }
+
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    }
+
+    function pruneChecks(checks) {
+      if (!checks || !checks.length) return [];
+      var cutoff = shiftKey(todayKey(), -(KEEP_DAYS - 1));
+      var out = [];
+      var seen = {};
+      for (var i = 0; i < checks.length; i++) {
+        var c = checks[i];
+        if (typeof c !== 'string' || c.length !== 10) continue;
+        if (c < cutoff) continue;
+        if (seen[c]) continue;
+        seen[c] = true;
+        out.push(c);
+      }
+      out.sort();
+      return out;
+    }
+
+    function normalizeHabit(raw) {
+      if (!raw || typeof raw !== 'object') return null;
+      var name = String(raw.name || '').trim().slice(0, 48);
+      if (!name) return null;
+      var color = COLORS.indexOf(raw.color) >= 0 ? raw.color : 'green';
+      var checks = Array.isArray(raw.checks) ? pruneChecks(raw.checks) : [];
+      return {
+        id: String(raw.id || uid()),
+        name: name,
+        cue: String(raw.cue || '').trim().slice(0, 80),
+        identity: String(raw.identity || '').trim().slice(0, 80),
+        stack: String(raw.stack || '').trim().slice(0, 100),
+        color: color,
+        archived: !!raw.archived,
+        createdAt: String(raw.createdAt || new Date().toISOString()),
+        checks: checks
+      };
+    }
+
+    function load() {
+      try {
+        var raw = (window.ToyTools && ToyTools.storage)
+          ? ToyTools.storage.get(STORAGE_KEY)
+          : (localStorage.getItem(STORAGE_KEY) || '');
+        if (!raw) { habits = []; return; }
+        var parsed = JSON.parse(raw);
+        var list = Array.isArray(parsed) ? parsed : (parsed && parsed.habits);
+        if (!Array.isArray(list)) { habits = []; return; }
+        habits = [];
+        for (var i = 0; i < list.length; i++) {
+          var h = normalizeHabit(list[i]);
+          if (h) habits.push(h);
+        }
+      } catch (_) {
+        habits = [];
+      }
+    }
+
+    function save() {
+      for (var i = 0; i < habits.length; i++) {
+        habits[i].checks = pruneChecks(habits[i].checks);
+      }
+      var payload = JSON.stringify({ v: 1, habits: habits });
+      try {
+        if (window.ToyTools && ToyTools.storage) {
+          ToyTools.storage.set(STORAGE_KEY, payload, MAX_STORE);
+        } else if (payload.length < MAX_STORE) {
+          localStorage.setItem(STORAGE_KEY, payload);
+        }
+      } catch (_) {}
+    }
+
+    function activeHabits() {
+      return habits.filter(function (h) { return !h.archived; });
+    }
+
+    function archivedHabits() {
+      return habits.filter(function (h) { return h.archived; });
+    }
+
+    function findHabit(id) {
+      for (var i = 0; i < habits.length; i++) if (habits[i].id === id) return habits[i];
+      return null;
+    }
+
+    function hasCheck(h, key) {
+      return h.checks.indexOf(key) !== -1;
+    }
+
+    function setCheck(h, key, on) {
+      var idx = h.checks.indexOf(key);
+      if (on && idx === -1) h.checks.push(key);
+      if (!on && idx !== -1) h.checks.splice(idx, 1);
+      h.checks = pruneChecks(h.checks);
+    }
+
+    function computeStreaks(h) {
+      var set = {};
+      for (var i = 0; i < h.checks.length; i++) set[h.checks[i]] = true;
+      var today = todayKey();
+      var start = set[today] ? today : shiftKey(today, -1);
+      var current = 0;
+      if (set[start]) {
+        var cursor = start;
+        while (set[cursor]) {
+          current++;
+          cursor = shiftKey(cursor, -1);
+        }
+      }
+      var longest = 0;
+      var run = 0;
+      var sorted = h.checks.slice().sort();
+      for (var j = 0; j < sorted.length; j++) {
+        if (j === 0 || sorted[j] === shiftKey(sorted[j - 1], 1)) run++;
+        else run = 1;
+        if (run > longest) longest = run;
+      }
+      if (current > longest) longest = current;
+      return { current: current, longest: longest };
+    }
+
+    function heatKeys() {
+      var end = todayKey();
+      // Align to week columns: end on today, 12 weeks = 84 days, pad so first column starts on Sunday-ish local week start.
+      var keys = [];
+      var first = shiftKey(end, -(12 * 7 - 1));
+      // Pad to start of week (Sunday = 0)
+      var p = first.split('-');
+      var fd = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      var dow = fd.getDay();
+      first = shiftKey(first, -dow);
+      var cur = first;
+      var last = end;
+      // Ensure we cover through today; stop after today's column completes? Show through today only for filled cells; still render full weeks.
+      var weeks = 12;
+      var total = weeks * 7;
+      // Recalculate so last cell is end of the week containing today
+      var ep = end.split('-');
+      var ed = new Date(Number(ep[0]), Number(ep[1]) - 1, Number(ep[2]));
+      var endPad = 6 - ed.getDay();
+      last = shiftKey(end, endPad);
+      first = shiftKey(last, -(total - 1));
+      cur = first;
+      for (var i = 0; i < total; i++) {
+        keys.push(cur);
+        cur = shiftKey(cur, 1);
+      }
+      return keys;
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showEncourage(text) {
+      if (!encourageEl) return;
+      encourageEl.textContent = text;
+      encourageEl.hidden = false;
+      if (encourageTimer) clearTimeout(encourageTimer);
+      encourageTimer = setTimeout(function () {
+        encourageEl.hidden = true;
+      }, 3200);
+    }
+
+
+    function renderHeat(h) {
+      var keys = heatKeys();
+      var today = todayKey();
+      var html = '<div class="hst-heat" role="img" aria-label="12-week habit heat calendar">';
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var checked = hasCheck(h, k);
+        var cls = 'hst-heat-cell' + (checked ? ' is-checked' : '') + (k === today ? ' is-today' : '');
+        var label = k + (checked ? ', checked' : ', missed or empty');
+        html += '<span class="' + cls + '" title="' + k + '" aria-label="' + label + '"></span>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderCard(h, opts) {
+      opts = opts || {};
+      var today = todayKey();
+      var checked = hasCheck(h, today);
+      var streaks = computeStreaks(h);
+      var badge = streaks.current > 0
+        ? (streaks.current + ' day' + (streaks.current === 1 ? '' : 's'))
+        : 'Start today';
+      var html = '';
+      html += '<article class="hst-card" data-id="' + escapeHtml(h.id) + '" data-color="' + escapeHtml(h.color) + '">';
+      html += '<div class="hst-card-row">';
+      if (!opts.archived) {
+        html += '<button type="button" class="hst-check" data-action="toggle" aria-pressed="' + (checked ? 'true' : 'false') + '" aria-label="' + (checked ? 'Uncheck ' : 'Check ') + escapeHtml(h.name) + ' for today">' + (checked ? '✓' : '') + '</button>';
+      }
+      html += '<div class="hst-card-main">';
+      html += '<div class="hst-card-top"><p class="hst-name">' + escapeHtml(h.name) + '</p>';
+      html += '<span class="hst-badge" title="Current streak">' + escapeHtml(badge) + '</span></div>';
+      if (h.cue) html += '<p class="hst-cue">' + escapeHtml(h.cue) + '</p>';
+      html += '<details class="hst-expand"><summary>Details</summary>';
+      html += '<div class="hst-meta">';
+      if (h.identity) html += '<p><strong>Identity:</strong> ' + escapeHtml(h.identity) + '</p>';
+      if (h.stack) html += '<p><strong>Stack:</strong> ' + escapeHtml(h.stack) + '</p>';
+      html += '<p>Current streak: <strong>' + streaks.current + '</strong> · Longest: <strong>' + streaks.longest + '</strong></p>';
+      if (streaks.current === 0 && streaks.longest > 0) {
+        html += '<p>Miss resets the current count. Longest stays. Never miss twice: start again today.</p>';
+      }
+      html += '</div>';
+      html += renderHeat(h);
+      html += '<div class="hst-actions">';
+      if (opts.archived) {
+        html += '<button type="button" class="hst-tool-btn" data-action="restore">Restore</button>';
+      } else {
+        html += '<button type="button" class="hst-tool-btn" data-action="archive">Archive</button>';
+      }
+      html += '<button type="button" class="hst-tool-btn" data-action="delete">Delete</button>';
+      html += '</div></details></div></div></article>';
+      return html;
+    }
+
+    function render() {
+      var today = todayKey();
+      if (dateEl) dateEl.textContent = formatNice(today);
+      var active = activeHabits();
+      if (emptyEl) emptyEl.hidden = active.length > 0;
+      if (todayEl) {
+        if (!active.length) todayEl.innerHTML = '';
+        else {
+          var html = '';
+          for (var i = 0; i < active.length; i++) html += renderCard(active[i], { archived: false });
+          todayEl.innerHTML = html;
+        }
+      }
+      if (archivedEl) {
+        var arch = archivedHabits();
+        if (!showArchived || !arch.length) {
+          archivedEl.hidden = true;
+          archivedEl.innerHTML = '';
+        } else {
+          var ahtml = '<p class="hst-archived-title">Archived</p>';
+          for (var j = 0; j < arch.length; j++) ahtml += renderCard(arch[j], { archived: true });
+          archivedEl.innerHTML = ahtml;
+          archivedEl.hidden = false;
+        }
+      }
+      if (toggleArchiveBtn) {
+        toggleArchiveBtn.hidden = archivedHabits().length === 0 && !showArchived;
+        toggleArchiveBtn.setAttribute('aria-pressed', showArchived ? 'true' : 'false');
+        toggleArchiveBtn.textContent = showArchived ? 'Hide archived' : 'Show archived';
+      }
+    }
+
+    function addHabit(fields) {
+      if (activeHabits().length >= MAX_ACTIVE) {
+        if (addMsg) {
+          addMsg.hidden = false;
+          addMsg.className = 'hst-msg is-error';
+          addMsg.textContent = 'You can keep 8 active habits. Archive one to add another.';
+        }
+        return false;
+      }
+      var h = normalizeHabit({
+        id: uid(),
+        name: fields.name,
+        cue: fields.cue || '',
+        identity: fields.identity || '',
+        stack: fields.stack || '',
+        color: fields.color || 'green',
+        archived: false,
+        createdAt: new Date().toISOString(),
+        checks: []
+      });
+      if (!h) return false;
+      habits.unshift(h);
+      save();
+      render();
+      if (addMsg) { addMsg.hidden = true; addMsg.textContent = ''; }
+      return true;
+    }
+
+    function onToggle(id) {
+      var h = findHabit(id);
+      if (!h || h.archived) return;
+      var today = todayKey();
+      var was = hasCheck(h, today);
+      setCheck(h, today, !was);
+      save();
+      var streaks = computeStreaks(h);
+      if (!was) {
+        var line = LINES[Math.floor(Math.random() * LINES.length)];
+        if (streaks.current === 1 && streaks.longest > 1) {
+          line = 'Never miss twice. You are back.';
+        }
+        showEncourage(line);
+      }
+      render();
+    }
+
+    function onArchive(id) {
+      var h = findHabit(id);
+      if (!h) return;
+      h.archived = true;
+      save();
+      render();
+    }
+
+    function onRestore(id) {
+      if (activeHabits().length >= MAX_ACTIVE) {
+        if (window.ToyTools && ToyTools.toast) ToyTools.toast('Archive another habit first. Max 8 active.');
+        return;
+      }
+      var h = findHabit(id);
+      if (!h) return;
+      h.archived = false;
+      save();
+      render();
+    }
+
+    function onDelete(id) {
+      var h = findHabit(id);
+      if (!h) return;
+      if (!window.confirm('Delete "' + h.name + '" and its history? This cannot be undone.')) return;
+      habits = habits.filter(function (x) { return x.id !== id; });
+      save();
+      render();
+    }
+
+    todayEl && todayEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var card = btn.closest('[data-id]');
+      if (!card) return;
+      var id = card.getAttribute('data-id');
+      var action = btn.getAttribute('data-action');
+      if (action === 'toggle') onToggle(id);
+      else if (action === 'archive') onArchive(id);
+      else if (action === 'delete') onDelete(id);
+    });
+
+    archivedEl && archivedEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var card = btn.closest('[data-id]');
+      if (!card) return;
+      var id = card.getAttribute('data-id');
+      var action = btn.getAttribute('data-action');
+      if (action === 'restore') onRestore(id);
+      else if (action === 'delete') onDelete(id);
+    });
+
+    root.querySelectorAll('[data-starter]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        addHabit({ name: chip.getAttribute('data-starter'), color: 'green' });
+      });
+    });
+
+    var form = document.getElementById('hst-add-form');
+    form && form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('hst-name').value;
+      var cue = document.getElementById('hst-cue').value;
+      var identity = document.getElementById('hst-identity').value;
+      var stack = document.getElementById('hst-stack').value;
+      var colorInput = form.querySelector('input[name="hst-color"]:checked');
+      var ok = addHabit({
+        name: name,
+        cue: cue,
+        identity: identity,
+        stack: stack,
+        color: colorInput ? colorInput.value : 'green'
+      });
+      if (ok) {
+        form.reset();
+        var green = form.querySelector('input[name="hst-color"][value="green"]');
+        if (green) green.checked = true;
+        var panel = document.getElementById('hst-add-panel');
+        if (panel) panel.open = false;
+      }
+    });
+
+    document.getElementById('hst-export') && document.getElementById('hst-export').addEventListener('click', function () {
+      var payload = JSON.stringify({ v: 1, exportedAt: new Date().toISOString(), habits: habits }, null, 2);
+      var blob = new Blob([payload], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'habit-streak-tracker-backup.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+      if (window.ToyTools && ToyTools.toast) ToyTools.toast('Backup downloaded.');
+    });
+
+    var importBtn = document.getElementById('hst-import-btn');
+    importBtn && importBtn.addEventListener('click', function () {
+      var open = importPanel && importPanel.hidden;
+      if (importPanel) importPanel.hidden = !open;
+      importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    function applyImport(text) {
+      try {
+        var parsed = JSON.parse(text);
+        var list = Array.isArray(parsed) ? parsed : (parsed && parsed.habits);
+        if (!Array.isArray(list)) throw new Error('missing habits');
+        var next = [];
+        for (var i = 0; i < list.length; i++) {
+          var h = normalizeHabit(list[i]);
+          if (h) next.push(h);
+        }
+        if (!next.length) throw new Error('empty');
+        // Enforce max active after import
+        var activeCount = 0;
+        for (var j = 0; j < next.length; j++) {
+          if (!next[j].archived) {
+            activeCount++;
+            if (activeCount > MAX_ACTIVE) next[j].archived = true;
+          }
+        }
+        habits = next;
+        save();
+        render();
+        if (importMsg) {
+          importMsg.hidden = false;
+          importMsg.className = 'hst-msg';
+          importMsg.textContent = 'Imported ' + next.length + ' habit' + (next.length === 1 ? '' : 's') + '.';
+        }
+        if (window.ToyTools && ToyTools.toast) ToyTools.toast('Import complete.');
+      } catch (_) {
+        if (importMsg) {
+          importMsg.hidden = false;
+          importMsg.className = 'hst-msg is-error';
+          importMsg.textContent = 'Could not import that JSON. Check the file and try again.';
+        }
+      }
+    }
+
+    document.getElementById('hst-import-run') && document.getElementById('hst-import-run').addEventListener('click', function () {
+      applyImport((importText && importText.value) || '');
+    });
+
+    document.getElementById('hst-import-file') && document.getElementById('hst-import-file').addEventListener('change', function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () { applyImport(String(reader.result || '')); };
+      reader.readAsText(file);
+    });
+
+    toggleArchiveBtn && toggleArchiveBtn.addEventListener('click', function () {
+      showArchived = !showArchived;
+      render();
+    });
+
+    load();
+    render();
+  })();
+</script>

@@ -1,0 +1,175 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A habit loop that sticks is usually four plain steps: a cue that starts the action, a craving
+      for the outcome, a response that is tiny enough to do today, and a reward that makes the loop
+      feel worth repeating. Identity language helps: act like the kind of person who already does
+      this, then let the streak be evidence, not a scoreboard.
+    </p>
+    <p>
+      This daily habit tracker keeps that loop on your device. You check a daily habit once per
+      local calendar day, see an honest current streak, keep your longest streak after a miss, and
+      read warm recovery copy instead of guilt. It is a private daily habit tracker for daily habits
+      you want to protect. Nothing is uploaded, and there is no account.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Habit Streak Tracker →</a>
+  </section>
+
+  <section id="habit-loop">
+    <h2>How to Build a Habit Loop That Sticks <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Popular habit writing (including ideas associated with Atomic Habits) describes a cycle most
+      people already feel. This guide uses that educational framing only. It is not an official
+      product, and it does not claim affiliation with any book.
+    </p>
+    <p>
+      <strong>Cue.</strong> Something obvious that says now. After I pour coffee. When I sit at the
+      desk. A cue you can see beats a vague hope that you will remember.
+    </p>
+    <p>
+      <strong>Craving.</strong> The feeling you want: calm, clean teeth, a clear inbox, being
+      someone who keeps promises to yourself. Craving is the motive; the checkmark is not the
+      motive.
+    </p>
+    <p>
+      <strong>Response.</strong> The action itself, made easy. Two minutes of stretching counts.
+      One page of reading counts. The two-minute rule exists because a tiny response still closes
+      the loop, and a closed loop is easier to repeat tomorrow.
+    </p>
+    <p>
+      <strong>Reward.</strong> Something satisfying right away: the streak bump, a calm breath, the
+      sense that you showed up. Delayed life benefits matter, but the brain needs a near-term
+      signal that the loop worked.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Make it obvious, easy, and satisfying">
+      <p>
+        If the cue is invisible, the action is huge, or the reward never shows up, the loop frays.
+        Shrink the response first. Add a clear cue second. Let the tracker handle a light, honest
+        reward third.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="tiny-habits">
+    <h2>Tiny Habits Beat Hero Days <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      People fail habit trackers when the first version of the habit is too big. Meditate thirty
+      minutes is a project. Sit and breathe for two minutes is a habit you can protect on a bad
+      day. Start with the version you can still do when you are tired.
+    </p>
+    <p>
+      Habit stacking is a practical cue: After I ___, I will ___. Pair the new action with
+      something you already do. After I brush my teeth, I will floss one tooth. After I open the
+      laptop, I will write one sentence. The stack note on each habit is optional, but it turns a
+      name into a next action.
+    </p>
+  </section>
+
+  <section id="identity">
+    <h2>Identity Over Outcome <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Outcome goals sound like I want to read more. Identity goals sound like I am a reader. Each
+      check is a vote for that identity. You do not need a perfect month; you need evidence that
+      the story you tell about yourself is becoming true.
+    </p>
+    <p>
+      Optional identity lines on this tool are short prompts such as I am someone who moves daily.
+      Use them when they help. Skip them when the name alone is enough.
+    </p>
+  </section>
+
+  <section id="honest-streaks">
+    <h2>Honest Streaks and Never Miss Twice <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A streak is consecutive local calendar days with a check. Miss a day and the current streak
+      resets to zero. The longest streak stays, so one gap does not erase your history. There are
+      no grace days or skip tokens here on purpose: honesty beats a streak that quietly cheats.
+    </p>
+    <p>
+      All-or-nothing thinking is the trap. One miss is data, not a verdict. Never miss twice means
+      the recovery move is to show up today. The tracker keeps encouraging copy and your longest
+      streak visible so a reset does not feel like starting from nothing.
+    </p>
+
+    <ReferenceBlock type="common-mistake" heading="One miss is not a quit signal">
+      <p>
+        Treating one missed day as a reason to quit entirely is the all-or-nothing trap. Reset the
+        current streak, keep the longest, and check today. Never miss twice is the recovery rule.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="key-idea" heading="Guilt is not a feature">
+      <p>
+        Cloud habit apps often mix streaks with XP, leaderboards, and shame after a break. A
+        private checklist should encourage the next check, not punish the last miss.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-to-use">
+    <h2>How to Use This Tracker <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start with one to three tiny habits from the starter chips, or add your own. Keep the active
+      list at eight or fewer so Today stays scannable. Check once per local day; tap again the same
+      day to undo. Expand a habit for its heat grid, identity, and stack notes.
+    </p>
+    <p>
+      Export JSON before you clear site data or switch browsers. Habits do not sync across devices.
+      Archive habits you are pausing; delete only when you want that history gone.
+    </p>
+    <a href={toolHref} class="cta-link">Track today on your device →</a>
+  </section>
+
+
+  <section id="without-account">
+    <h2>How to Track Daily Habits Without an Account <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You do not need a signup to keep a daily habit checklist. This page writes checks to local
+      storage in your browser: the same private store that keeps a notepad or todo list on ToyTools.
+      Open the daily habit tracker on the device you already use, check today, and come back
+      tomorrow. Export JSON if you want a backup before clearing site data.
+    </p>
+    <p>
+      Cloud habit apps trade convenience for an account, sync, and often a guilt dashboard. If your
+      daily habits are personal and small, on-device storage is enough. Use one browser as home for
+      the list so you are not surprised by an empty phone profile.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Runs entirely on your device. Nothing is uploaded. Checks, names, and notes live in browser
+      local storage on this profile. Clearing site data deletes them unless you exported a backup first.
+    </p>
+  </section>
+
+</GuideLayout>

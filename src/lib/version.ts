@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 1,
-  patch: 1,
+  minor: 2,
+  patch: 0,
   status: 'beta',
-  releaseDate: '2026-09-15',
-  description: 'SEO titles, metas, FAQs for GSC deep pages',
+  releaseDate: '2026-09-16',
+  description: 'Habit Streak Tracker with on-device habit loop and honest streaks',
 };
 
 export function formatVersion(config: VersionConfig): string {

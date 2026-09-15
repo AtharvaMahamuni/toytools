@@ -98,7 +98,9 @@ test.describe('homepage index', () => {
     // engine but not a pattern (lookup versus calculate), so they cannot sit in one group.
     // Statistics Visualizer (beta-v11.1) is ungrouped: first tool on the math statistics family,
     // so there is nothing to collapse it with.
-    await expect(directory.locator('.dir-link')).toHaveCount(88);
+    // Habit Streak Tracker (beta-v11.2) is ungrouped: first productivity habit-family tool, not a
+    // mode of todo-list / notepad / pomodoro.
+    await expect(directory.locator('.dir-link')).toHaveCount(89);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
@@ -137,6 +139,7 @@ test.describe('category pages', () => {
   test('single-section categories render no section headings', async ({ page }) => {
     await page.goto('/category/productivity/');
     await expect(page.locator('.cat-section-heading')).toHaveCount(0);
-    await expect(page.locator('.cat-row')).toHaveCount(4);
+    // Habit Streak Tracker (beta-v11.2) is the fifth productivity tool.
+    await expect(page.locator('.cat-row')).toHaveCount(5);
   });
 });

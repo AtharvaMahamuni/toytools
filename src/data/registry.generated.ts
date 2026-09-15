@@ -38,6 +38,7 @@ import { config as equalizerSettingsGenerator } from '@tools/music/equalizer-set
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as gears } from '@tools/fidget/gears/config';
+import { config as habitStreakTracker } from '@tools/productivity/habit-streak-tracker/config';
 import { config as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/config';
 import { config as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/config';
 import { config as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/config';
@@ -169,6 +170,7 @@ export const toolConfigs: ToolConfig[] = [
   findReplace,
   fractionCalculator,
   gears,
+  habitStreakTracker,
   heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,
