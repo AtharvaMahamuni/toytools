@@ -36,7 +36,7 @@ export const config: ToolConfig = {
   guide: {
     slug: 'statistics-visualizer',
     categorySlug: 'applied-math',
-    title: 'How to Read Mean, Median, SD, Histograms, and Box Plots',
+    title: 'How to Read Mean, Median, SD, Histogram, Box Plot',
     description:
       'What mean, median, mode, quartiles, and standard deviation each tell you, how to read a histogram with a box plot, and when to use sample versus population SD.',
     readMinutes: 6,

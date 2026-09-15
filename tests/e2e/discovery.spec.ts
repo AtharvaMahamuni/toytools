@@ -96,7 +96,9 @@ test.describe('homepage index', () => {
     // ungrouped: they share engine and pattern but are different toys, not modes of one workspace.
     // What Is My IP and the CIDR calculator (alpha-v11.0) are ungrouped: they share the network
     // engine but not a pattern (lookup versus calculate), so they cannot sit in one group.
-    await expect(directory.locator('.dir-link')).toHaveCount(87);
+    // Statistics Visualizer (beta-v11.1) is ungrouped: first tool on the math statistics family,
+    // so there is nothing to collapse it with.
+    await expect(directory.locator('.dir-link')).toHaveCount(88);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
