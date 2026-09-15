@@ -139,6 +139,7 @@ test.describe('category pages', () => {
   test('single-section categories render no section headings', async ({ page }) => {
     await page.goto('/category/productivity/');
     await expect(page.locator('.cat-section-heading')).toHaveCount(0);
-    await expect(page.locator('.cat-row')).toHaveCount(4);
+    // Habit Streak Tracker (beta-v11.2) is the fifth productivity tool.
+    await expect(page.locator('.cat-row')).toHaveCount(5);
   });
 });

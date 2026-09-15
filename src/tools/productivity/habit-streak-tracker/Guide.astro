@@ -35,15 +35,16 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       this, then let the streak be evidence, not a scoreboard.
     </p>
     <p>
-      This browser habit streak tracker keeps that loop on your device. You check a habit once per
+      This daily habit tracker keeps that loop on your device. You check a daily habit once per
       local calendar day, see an honest current streak, keep your longest streak after a miss, and
-      read warm recovery copy instead of guilt. Nothing is uploaded, and there is no account.
+      read warm recovery copy instead of guilt. It is a private daily habit tracker for daily habits
+      you want to protect. Nothing is uploaded, and there is no account.
     </p>
     <a href={toolHref} class="cta-link">Open the Habit Streak Tracker →</a>
   </section>
 
   <section id="habit-loop">
-    <h2>The Habit Loop in Plain Language <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How to Build a Habit Loop That Sticks <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Popular habit writing (including ideas associated with Atomic Habits) describes a cycle most
       people already feel. This guide uses that educational framing only. It is not an official
@@ -117,6 +118,14 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       the recovery move is to show up today. The tracker keeps encouraging copy and your longest
       streak visible so a reset does not feel like starting from nothing.
     </p>
+
+    <ReferenceBlock type="common-mistake" heading="One miss is not a quit signal">
+      <p>
+        Treating one missed day as a reason to quit entirely is the all-or-nothing trap. Reset the
+        current streak, keep the longest, and check today. Never miss twice is the recovery rule.
+      </p>
+    </ReferenceBlock>
+
     <ReferenceBlock type="key-idea" heading="Guilt is not a feature">
       <p>
         Cloud habit apps often mix streaks with XP, leaderboards, and shame after a break. A
@@ -139,11 +148,27 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <a href={toolHref} class="cta-link">Track today on your device →</a>
   </section>
 
+
+  <section id="without-account">
+    <h2>How to Track Daily Habits Without an Account <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You do not need a signup to keep a daily habit checklist. This page writes checks to local
+      storage in your browser: the same private store that keeps a notepad or todo list on ToyTools.
+      Open the daily habit tracker on the device you already use, check today, and come back
+      tomorrow. Export JSON if you want a backup before clearing site data.
+    </p>
+    <p>
+      Cloud habit apps trade convenience for an account, sync, and often a guilt dashboard. If your
+      daily habits are personal and small, on-device storage is enough. Use one browser as home for
+      the list so you are not surprised by an empty phone profile.
+    </p>
+  </section>
+
   <section id="privacy">
     <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Runs entirely on your device. Nothing is uploaded. Checks, names, and notes live in browser
-      storage on this profile. Clearing site data deletes them unless you exported a backup first.
+      local storage on this profile. Clearing site data deletes them unless you exported a backup first.
     </p>
   </section>
 
