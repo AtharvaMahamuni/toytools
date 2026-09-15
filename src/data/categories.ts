@@ -59,7 +59,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#3E7B55',
     segment: 'productivity',
     intro: [
-      'A small group on purpose. A notepad that keeps what you typed, a to-do list, a Pomodoro timer, and a switch that stops your screen sleeping while you are reading a recipe or following instructions with your hands full.',
+      'A small group on purpose. A notepad that keeps what you typed, a to-do list, a habit streak tracker, a Pomodoro timer, and a switch that stops your screen sleeping while you are reading a recipe or following instructions with your hands full.',
       'What these have in common is state: they are the tools here that remember something between visits. That memory is stored by your own browser on the device you are using, never uploaded, and never synced anywhere, so it is on this device and only this device. The settings page can export all of it as one file, which is worth doing before you clear your browser.',
     ],
   },

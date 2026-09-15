@@ -2,6 +2,23 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.2] - 2026-09-16
+
+### Added
+
+- **Habit Streak Tracker** (`/tool/productivity/habit-streak-tracker/`). Track up to eight daily
+  habits with binary local-date checks, honest current/longest streaks, a 12-week heat grid,
+  soft archive, and export/import JSON. Optional cue, identity, and stack notes. Starter chips
+  and encouraging recovery copy after a miss. Runs entirely on your device. Nothing is uploaded.
+- **Craft (orientation):** `habit-loop-encourage` - cue→response→reward loop, honest streaks, and
+  never-miss-twice recovery on-device, against signup/cloud/guilt-dashboard incumbents.
+
+### Changed
+
+- **Search index ceiling.** Client search payload limit moved from 41.7 KB to 41.9 KB for the
+  Habit Streak Tracker entry, with a thin keyword list. Catalog growth, not alias bloat.
+
+
 ## [beta-v11.1.1] - 2026-09-15
 
 ### Changed

@@ -157,6 +157,7 @@ export const searchAliases: Record<string, string[]> = {
   'notepad': ['scratchpad', 'quick notes'],
   'pomodoro-timer': ['focus timer', '25 minute timer'],
   'todo-list': ['task list', 'checklist'],
+  'habit-streak-tracker': ['habit tracker', 'streak tracker'],
 
   // Physics playground
   // The "<subject> simulator" / "interactive <subject>" phrasings are DERIVED for every simulation

@@ -226,6 +226,8 @@ describe('buildClientIndex', () => {
     // entries (~130 bytes of k between them). This is catalog growth, not alias bloat.
     // 2026-09-15: 41_500 → 41_700. Statistics Visualizer is one thin math entry (~100 bytes of
     // k after trimming). Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(41_700);
+    // 2026-09-16: 41_700 → 41_900. Habit Streak Tracker is one thin productivity entry after a
+    // short tag list. Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(41_900);
   });
 });

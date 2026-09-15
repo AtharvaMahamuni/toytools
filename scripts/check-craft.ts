@@ -155,7 +155,9 @@ const THRESHOLDS = {
   //   and What Is My IP names CGNAT and dual-stack so the wrong family is not copied.
   // 2026-09-15: 0.667 (86/129). Statistics Visualizer ships orientation craft: histogram + box
   //   plot together on-device, against table-only / upload incumbents (no userFailures seed).
-  coverage: 0.666,
+  // 2026-09-16: 0.669 (87/130). Habit Streak Tracker ships orientation craft habit-loop-encourage:
+  //   cue-response-reward loop, honest streaks, never-miss-twice recovery on-device.
+  coverage: 0.669,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

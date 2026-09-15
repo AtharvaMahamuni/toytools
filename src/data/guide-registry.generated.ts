@@ -38,6 +38,7 @@ export const authoredGuideSlugs = [
   'find-replace',
   'fraction-calculator',
   'gears',
+  'habit-streak-tracker',
   'heart-rate-zone-calculator',
   'hex-encoder-decoder',
   'html-entity-encoder-decoder',
