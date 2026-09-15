@@ -1,0 +1,13 @@
+---
+// Statistics Visualizer — thin MathWidget wrapper. Calculation and charts live in the math engine
+// (src/lib/engines/math/calculators/statistics.ts), resolved at runtime via ToyTools.runMath.
+import MathWidget from '@tools/_shared/MathWidget.astro';
+import { config } from './config';
+---
+
+<MathWidget
+  slug={config.slug}
+  mathId="statistics"
+  config={config}
+  emptyText="Paste a list of numbers to see the summary and charts."
+/>

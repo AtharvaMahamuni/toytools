@@ -110,6 +110,7 @@ export const authoredGuideSlugs = [
   'snake-case-converter',
   'space-counter',
   'spinner',
+  'statistics-visualizer',
   'switch-board',
   'systemd-timer-converter',
   'tax-calculator',

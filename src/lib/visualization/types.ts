@@ -14,6 +14,8 @@ export type VizKind =
   | 'bars'
   | 'stacked'
   | 'distribution'
+  // Vertical frequency bins plus an optional five-number box plot on a shared numeric scale.
+  | 'histogram'
   // A value marker positioned on a segmented scale (BMI bands, body-fat categories). The answer is
   // a POSITION, not a number, so the chart carries the meaning the label alone cannot.
   | 'band';
@@ -59,6 +61,17 @@ export interface VizPart {
   display?: string;
 }
 
+
+/** Five-number summary for a box plot drawn under a histogram on the same numeric scale. */
+export interface VizBox {
+  min: number;
+  q1: number;
+  median: number;
+  q3: number;
+  max: number;
+  outliers?: number[];
+}
+
 /**
  * Engine-emitted visualization request. `data.series` carries line/area/bar data; `data.value`/
  * `data.target` drive a progress kind; `data.parts` drive stacked/distribution/bars; `data.bands`
@@ -77,6 +90,8 @@ export interface VizSpec {
     highlight?: VizHighlight;
     /** Pre-formatted marker caption for a band, e.g. "22.9". */
     valueLabel?: string;
+    /** Five-number summary drawn under a histogram. */
+    box?: VizBox;
   };
 }
 
@@ -135,5 +150,19 @@ export function bandSpec(
     title: opts.title,
     description: opts.description,
     data: { value, bands, highlight: opts.highlight, valueLabel: opts.valueLabel },
+  };
+}
+
+/** Build a histogram (+ optional box plot) from bin counts and a five-number summary. */
+export function histogramSpec(
+  bins: VizPart[],
+  box: VizBox,
+  opts: { title?: string; description?: string } = {},
+): VizSpec {
+  return {
+    kind: 'histogram',
+    title: opts.title,
+    description: opts.description,
+    data: { parts: bins, box },
   };
 }

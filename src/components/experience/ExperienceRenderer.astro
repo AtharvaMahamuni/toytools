@@ -20,9 +20,11 @@ interface Props {
   emptyText: string;
   layout?: SectionId[];
   capabilities?: Partial<Capabilities>;
+  /** Optional tool craft id, attached to the visualization section when present. */
+  craftId?: string;
 }
 
-const { idPrefix, emptyText, layout = DEFAULT_LAYOUT, capabilities = {} } = Astro.props;
+const { idPrefix, emptyText, layout = DEFAULT_LAYOUT, capabilities = {}, craftId } = Astro.props;
 const caps: Capabilities = { ...DEFAULT_CAPABILITIES, ...capabilities };
 const heroId = `${idPrefix}-hero`;
 ---
@@ -53,7 +55,7 @@ const heroId = `${idPrefix}-hero`;
         <dl class="tm-stats tm-secondary" aria-live="off"></dl>
       </div>
 
-      <div class="experience-section experience-viz" data-section="visualization" hidden>
+      <div class="experience-section experience-viz" data-section="visualization" data-craft={craftId} hidden>
         <div class="viz-mount" data-viz></div>
         <p class="viz-caption" data-viz-caption hidden></p>
       </div>

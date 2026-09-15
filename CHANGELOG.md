@@ -2,6 +2,27 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.1] - 2026-09-15
+
+### Added
+
+- **Statistics Visualizer** (`/tool/math/statistics-visualizer/`). Paste a list of numbers for
+  mean, median, mode, quartiles, variance, and standard deviation (sample or population). A
+  histogram and box plot draw together on the same scale so skew and Tukey outliers are visible,
+  not only a table of cards. Runs entirely in the browser; the paste is never uploaded.
+- **Craft (orientation):** `stats-shape` — incumbents dump summary rows with no chart and often
+  upload the paste. The thoughtful touch is the combined on-device histogram + box plot against
+  that table-only / server-upload pattern. RIE had no `userFailures` seed; this craft is named
+  from incumbent weaknesses, not invented task failures.
+
+### Changed
+
+- Visualization contract gains a `histogram` kind (optional five-number `box`) so descriptive
+  statistics can emit shape without calculator-side SVG.
+- Smart text fields may set `multiline` to render a textarea for paste-friendly input.
+- **Search index ceiling.** Client search payload limit moved from 41.5 KB to 41.7 KB
+  for the Statistics Visualizer entry, with a thin keyword list. Catalog growth, not alias bloat.
+
 ## [beta-v11.0.1] - 2026-09-15
 
 ### Fixed
@@ -10,6 +31,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   `Content-Type: application/xml`, so crawlers that probe the conventional path no longer get the
   HTML 404 shell. `robots.txt` and Quality Guardian still require `sitemap-index.xml`; buckets are
   unchanged.
+
 
 ## [beta-v11.0] - 2026-09-11
 

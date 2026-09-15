@@ -90,6 +90,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   combinatorics: 'ncr',
   fractions: 'frac',
   'number-theory': 'primeX',
+  statistics: 'chartBar',
   // design & CSS
   color: 'swatch',
   'css-unit': 'ruler',

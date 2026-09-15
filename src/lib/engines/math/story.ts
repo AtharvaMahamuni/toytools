@@ -29,6 +29,7 @@ export const MATH_TOOL_PATH: Record<string, string> = {
   'probability-calculator': '/tool/math/probability-calculator/',
   'unit-circle-calculator': '/tool/math/unit-circle-calculator/',
   'quadratic-equation-solver': '/tool/math/quadratic-equation-solver/',
+  'statistics-visualizer': '/tool/math/statistics-visualizer/',
 };
 
 /** A decision linking to a sibling math tool, or null when that tool has not shipped yet. */
