@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { bandSvg, stackedSvg, barsSvg, sparklineSvg, renderViz } from './render';
-import { bandSpec, partsSpec, lineSpec } from './types';
+import { bandSvg, stackedSvg, barsSvg, sparklineSvg, histogramSvg, renderViz } from './render';
+import { bandSpec, partsSpec, lineSpec, histogramSpec } from './types';
 import type { VizBand } from './types';
 
 const BMI_BANDS: VizBand[] = [
@@ -181,5 +181,36 @@ describe('renderViz dispatch', () => {
     expect(() => renderViz({ kind: 'band', data: {} })).not.toThrow();
     expect(() => renderViz({ kind: 'stacked', data: {} })).not.toThrow();
     expect(() => renderViz({ kind: 'bars', data: {} })).not.toThrow();
+  });
+});
+
+describe('histogramSvg', () => {
+  const bins = [
+    { id: 'a', label: '0–2', value: 2, display: '2' },
+    { id: 'b', label: '2–4', value: 5, display: '5' },
+    { id: 'c', label: '4–6', value: 1, display: '1' },
+  ];
+  const box = { min: 0, q1: 1, median: 2.5, q3: 4, max: 6, outliers: [9] };
+
+  it('draws bars and a box plot on a shared scale', () => {
+    const out = histogramSvg(bins, box, { title: 'Demo' });
+    expect(out).toContain('viz-hist-bar');
+    expect(out).toContain('viz-box-body');
+    expect(out).toContain('viz-box-outlier');
+    expect(out).toContain('aria-label="Demo"');
+  });
+
+  it('degrades safely on empty bins', () => {
+    expect(histogramSvg([], box)).toContain('role="presentation"');
+  });
+});
+
+describe('histogramSpec dispatch', () => {
+  it('renderViz draws a histogram kind', () => {
+    const spec = histogramSpec(
+      [{ id: 'a', label: '0–1', value: 3 }],
+      { min: 0, q1: 0.2, median: 0.5, q3: 0.8, max: 1 },
+    );
+    expect(renderViz(spec)).toContain('viz-hist-bar');
   });
 });

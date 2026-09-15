@@ -153,7 +153,9 @@ const THRESHOLDS = {
   //   spinner rest, sand reset, slime release, breathing named presets.
   // 2026-09-10: 0.664 (85/128). Network tools ship craft-first: CIDR host-to-network recovery,
   //   and What Is My IP names CGNAT and dual-stack so the wrong family is not copied.
-  coverage: 0.664,
+  // 2026-09-15: 0.667 (86/129). Statistics Visualizer ships orientation craft: histogram + box
+  //   plot together on-device, against table-only / upload incumbents (no userFailures seed).
+  coverage: 0.666,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

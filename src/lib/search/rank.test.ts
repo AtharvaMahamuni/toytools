@@ -224,6 +224,8 @@ describe('buildClientIndex', () => {
     // this again to paper over alias bloat.
     // 2026-09-10: 41_000 → 41_500. What Is My IP and the CIDR calculator are two thin
     // entries (~130 bytes of k between them). This is catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(41_500);
+    // 2026-09-15: 41_500 → 41_700. Statistics Visualizer is one thin math entry (~100 bytes of
+    // k after trimming). Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(41_700);
   });
 });

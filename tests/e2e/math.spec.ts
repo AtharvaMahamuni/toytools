@@ -159,3 +159,22 @@ test.describe('unit circle explorer', () => {
     expect(angle).toBeLessThan(110);
   });
 });
+
+test.describe('statistics visualizer (math engine)', () => {
+  test('summarizes a paste and draws histogram + box plot', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto('/tool/math/statistics-visualizer/');
+    const hero = page.locator('#statistics-visualizer-hero');
+    // Default class-score paste computes on load once the runtime attaches.
+    await expect(hero).not.toHaveText('0');
+    await expect(page.locator('#statistics-visualizer-experience')).toContainText('Median');
+    await expect(page.locator('[data-section="visualization"] svg.viz')).toBeVisible();
+    await expect(page.locator('[data-craft="stats-shape"]')).toHaveCount(1);
+    // Population teaching set: mean 5, population SD 2.
+    await page.locator('[data-field-id="values"]').fill('2, 4, 4, 4, 5, 5, 7, 9');
+    await page.locator('[data-field-id="stdevMode"]').selectOption('population');
+    await expect(hero).toHaveText('5');
+    await expect(page.locator('#statistics-visualizer-experience')).toContainText('2');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});

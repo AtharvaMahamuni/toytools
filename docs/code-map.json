@@ -250,9 +250,10 @@
       "supportedFamilies": [
         "combinatorics",
         "fractions",
-        "number-theory"
+        "number-theory",
+        "statistics"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "chemistry-lab": {
       "name": "Chemistry Lab Engine",
@@ -3071,6 +3072,27 @@
       "pattern": "fidget-interact",
       "family": "fidget",
       "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "statistics-visualizer": {
+      "name": "Statistics Visualizer",
+      "dir": "src/tools/math/statistics-visualizer",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/statistics-visualizer/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "statistics",
+      "processorId": "statistics",
       "toolGroup": "",
       "files": [
         "Guide.astro",

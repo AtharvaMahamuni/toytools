@@ -57,6 +57,8 @@ export interface SmartFieldDef {
   optional?: boolean;
   /** Per-field quick-pick chips. */
   presets?: SmartFieldPreset[];
+  /** When type is text, render a textarea so pastes with new lines stay intact. */
+  multiline?: boolean;
 }
 
 /** The field types whose canonical value is a parsed number (steppers, human-number parsing, grouping). */

@@ -1,0 +1,191 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const probabilityHref = withBase('/tool/math/probability-calculator/');
+const combinationsHref = withBase('/tool/math/combinations-permutations-calculator/');
+const fractionHref = withBase('/tool/math/fraction-calculator/');
+const primesHref = withBase('/tool/math/prime-factorization-calculator/');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Descriptive statistics summarize a list without replacing the list. The mean is the
+      arithmetic average. The median is the middle sorted value. The mode is the most common
+      value. Quartiles split the sorted list into fourths. Standard deviation measures spread
+      around the mean. Paste the numbers into the statistics visualizer to get those cards plus a
+      histogram and box plot in one view. The paste stays in your browser; nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open The Statistics Visualizer →</a>
+  </section>
+
+  <section id="center">
+    <h2>Mean, Median, and Mode</h2>
+    <p>
+      For the list 2, 4, 4, 4, 5, 5, 7, 9 the mean is 5 (the sum 40 divided by 8). The median is
+      4.5 (halfway between the 4th and 5th sorted values). The mode is 4 (it appears three times).
+      When a few large values stretch the upper tail, the mean climbs while the median holds the
+      middle rank. That gap is mean versus median when the data are skewed: the mean follows the tail while the median holds the middle rank. A mean median mode calculator that only prints “mean = …” hides it; a
+      histogram maker shows it.
+    </p>
+  </section>
+
+  <section id="spread">
+    <h2>Range, Quartiles, and Standard Deviation</h2>
+    <p>
+      The range is max − min. To find quartiles and the interquartile range, sort the list, take
+      Q1 as the median of the lower half and Q3 as the median of the upper half (inclusive Tukey
+      hinges), then compute IQR as Q3 − Q1. That is what a dedicated quartile calculator prints;
+      here the same hinges also size the box plot.
+    </p>
+    <p>
+      Sample versus population standard deviation is a divisor choice. Sample standard deviation
+      divides squared deviations by n − 1. Population standard deviation divides by n. Use sample
+      when the list is a sample from a larger group. Use population when the list is the whole
+      group you care about. To calculate standard deviation from a pasted list, keep the numbers
+      in the box, pick Sample or Population, and read the SD card; the histogram does not change
+      when only the divisor changes.
+    </p>
+    <p>
+      On the classic teaching set above, population SD is exactly 2. Switch the control in the
+      tool to sample and the divisor becomes 7 instead of 8, so the SD rises slightly. Matching
+      that choice to the homework wording avoids the most common off-by-one in intro stats.
+    </p>
+  </section>
+
+  <section id="charts">
+    <h2>Histogram and Box Plot Together</h2>
+    <p>
+      A histogram bins the range into equal-width intervals and draws a bar for each count. Tall
+      bars mark clusters. Empty bins mark gaps. A box plot under the same scale marks the
+      five-number summary: minimum, Q1, median, Q3, and maximum. The box is the middle half of
+      the data. Whiskers reach the farthest non-outlier values. Dots beyond 1.5 × IQR from the
+      quartiles are Tukey outliers.
+    </p>
+    <p>
+      Incumbent calculators stop at a table of numbers. Seeing the histogram and box plot
+      together answers the question the table cannot: where does the mass sit, and which points
+      stand apart?
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Why On-Device Matters for Real Data</h2>
+    <p>
+      Class scores, anonymous survey columns, and lab measurements are still personal in context.
+      Many online SD calculators upload the paste to render a page of ads. This tool runs the
+      arithmetic and the SVG charts in the tab you already have open. Share a screenshot if you
+      want; the raw list never has to leave the device.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How Descriptive Statistics Work Here</h2>
+    <p>
+      Paste the list into the numbers field. The tool sorts a copy, then computes the mean as the
+      sum divided by the count, the median as the middle sorted value (or the average of the two
+      middle values), and the mode as every value tied for the highest frequency. Quartiles use
+      inclusive Tukey hinges: Q1 is the median of the lower half and Q3 is the median of the upper
+      half. Sample standard deviation divides squared deviations by n − 1; population divides by n.
+      Equal-width histogram bins cover the range; the box plot marks the five-number summary on the
+      same scale. Therefore the cards and the charts describe one paste, not two different datasets.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>Real Examples</h2>
+    <p>
+      For example, input: 72, 85, 90, 68, 75, 88, 92, 70, 81, 79, 95, 66, 84, 77, 89. Output: mean
+      about 80.7, median 81, with a histogram that shows most scores in the high 70s and 80s and a
+      box plot whose whiskers reach from the mid-60s to the mid-90s. That is a statistics visualizer
+      example for a short quiz: center near 81, no single mode dominating the list.
+    </p>
+    <p>
+      Another example, input: 2, 4, 4, 4, 5, 5, 7, 9 with population standard deviation. Output:
+      mean 5, median 4.5, mode 4, population SD exactly 2. The histogram piles on 4 and 5; the box
+      plot sits low-center because the mode pulls mass left of the mean.
+    </p>
+    <p>
+      For example, input: 1, 2, 2, 2, 3, 3, 100. Output: the cards still report a mean near 16, but
+      the box plot marks 100 as a Tukey outlier. However the median stays at 2, so the middle of the
+      data is unchanged even though the mean jumped.
+    </p>
+  </section>
+
+  <section id="vs-alternatives">
+    <h2>Statistics Visualizer vs the Alternatives</h2>
+    <p>
+      Calculator.net and similar pages print mean, median, and standard deviation as a table of
+      numbers. Omnicalculator and Socscistatistics add more rows, still without a combined histogram
+      and box plot, and many ask you to submit the list to a server. Call it a stats calculator, a descriptive statistics calculator, or a box plot generator: this statistics visualizer vs
+      alternatives tradeoff is deliberate: the same summaries appear as cards, and the distribution
+      is drawn in the tab so skew and outliers are visible without an upload.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Reading only the mean">
+      <p>
+        A mean of 80 can hide a class that split into a cluster at 70 and a cluster at 95. The
+        histogram shows that gap; the mean alone does not. Prefer the median when a few extreme
+        scores stretch the average.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Dividing by n on a sample">
+      <p>
+        Most homework asks for sample standard deviation (n − 1). Using n understates spread on
+        small lists. Match the tool’s Sample / Population control to the wording on the sheet.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="key-idea" heading="Shape is part of the answer">
+      <p>
+        Mean, median, and SD are cards. The histogram and box plot are the reason to open this
+        tool instead of a table-only calculator: skew and outliers become visible without uploading
+        the paste.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next">
+    <h2>What To Do Next</h2>
+    <p>
+      After you have the summary, you may need probabilities for those outcomes in the
+      <a href={probabilityHref}>Probability Lab</a>, counting arguments in the
+      <a href={combinationsHref}>Combinations and Permutations Calculator</a>, exact ratios in the
+      <a href={fractionHref}>Fraction Calculator</a>, or factors in the
+      <a href={primesHref}>Prime Factorization Calculator</a>.
+    </p>
+    <a href={toolHref} class="cta-link">Paste A List In The Statistics Visualizer →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

@@ -1145,3 +1145,10 @@ body.tt-focus-lock {
     transform: none;
   }
 }
+
+/* Histogram + box plot (descriptive statistics) */
+.viz-hist-bar { fill: var(--color-accent-subtle); stroke: var(--color-bg); stroke-width: 1; }
+.viz-box-body { fill: var(--color-accent-subtle); stroke: var(--color-accent); stroke-width: 1.5; }
+.viz-box-whisker, .viz-box-cap { stroke: var(--color-text-subtle); stroke-width: 1.5; }
+.viz-box-median { stroke: var(--color-accent); stroke-width: 2; }
+.viz-box-outlier { fill: var(--color-accent); }

@@ -89,6 +89,20 @@ function compactCurrency(value: number, code: string): string {
         <option value={o.value} selected={String(field.default) === o.value}>{o.label}</option>
       ))}
     </select>
+  ) : isPlain && field.multiline && field.type === 'text' ? (
+    <textarea
+      id={inputId}
+      class="widget-input widget-textarea"
+      rows={5}
+      autocomplete="off"
+      enterkeyhint={enterKeyHint}
+      placeholder={String(field.default ?? '')}
+      data-field-id={field.id}
+      data-field-type={field.type}
+      data-required={field.optional ? 'false' : 'true'}
+      data-raw={initialDisplay}
+      aria-describedby={helpId}
+    >{initialDisplay}</textarea>
   ) : isPlain ? (
     <input
       id={inputId}

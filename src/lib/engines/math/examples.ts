@@ -78,6 +78,27 @@ export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
     expect: { gcf: 12, lcm: 180 },
     narrative: '36 = 2² × 3² and 60 = 2² × 3 × 5 share 2² × 3 = 12 (GCF); taking the higher exponents gives 2² × 3² × 5 = 180 (LCM).',
   },
+  {
+    id: 'statistics-class-scores',
+    engine: 'math',
+    ref: 'statistics',
+    title: 'Class scores (sample SD)',
+    inputs: {
+      values: '72, 85, 90, 68, 75, 88, 92, 70, 81, 79, 95, 66, 84, 77, 89',
+      stdevMode: 'sample',
+    },
+    expect: { mean: 80.73333333333333, median: 81, count: 15 },
+    narrative: 'Fifteen class scores average about 80.7 with median 81; the histogram and box plot show the spread without uploading the list.',
+  },
+  {
+    id: 'statistics-population-simple',
+    engine: 'math',
+    ref: 'statistics',
+    title: 'Population of five values',
+    inputs: { values: '2, 4, 4, 4, 5, 5, 7, 9', stdevMode: 'population' },
+    expect: { mean: 5, median: 4.5, stdev: 2 },
+    narrative: 'A classic teaching set: mean 5, population SD 2, with mode 4.',
+  },
 ];
 
 export const MATH_EXAMPLE_MAP = buildExampleRegistry(MATH_EXAMPLES);

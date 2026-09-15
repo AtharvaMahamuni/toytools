@@ -23,7 +23,7 @@ export interface MathOpts {
 export interface MathCalculator {
   /** Stable id == ToolConfig.processorId, unique across the engine. */
   id: string;
-  /** Grouping family (fractions | combinatorics | number-theory) for taxonomy + metadata. */
+  /** Grouping family (fractions | combinatorics | number-theory | statistics) for taxonomy + metadata. */
   family: string;
   /** The fields the widget renders (build-time schema). */
   fields: MathFieldDef[];
