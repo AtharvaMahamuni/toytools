@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.2.1] - 2026-09-16
+
+### Added
+
+- **Habit Streak Tracker e2e.** Tool-level Playwright coverage on Chromium and Pixel 5 for
+  consecutive-day streak increment, miss-reset (current clears, longest stays), the eight-active
+  habit cap, and export/import JSON round-trip. Closes the interactive gap left by discovery-only
+  bumps for the beta-v11.2 tool.
+
+
 ## [beta-v11.2] - 2026-09-16
 
 ### Added

@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 2,
-  patch: 0,
+  patch: 1,
   status: 'beta',
   releaseDate: '2026-09-16',
-  description: 'Habit Streak Tracker with on-device habit loop and honest streaks',
+  description: 'Habit Streak Tracker tool-level e2e: streaks, 8-active cap, export/import',
 };
 
 export function formatVersion(config: VersionConfig): string {
