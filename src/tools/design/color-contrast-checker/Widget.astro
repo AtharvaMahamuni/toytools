@@ -3,8 +3,9 @@ import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 ---
 
-<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Colors" variant="prose" data-tool="color-contrast-checker">
+<div class="calc-ledger">
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Colors" variant="prose" bare data-tool="color-contrast-checker">
     <div class="io-body">
       <label class="widget-label" for="ccc-fg">Text color</label>
       <div class="ccc-input-row">
@@ -21,7 +22,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result>
+  <IoPanel slot="output" label="Result" variant="prose" result bare>
     <div class="ccc-out">
       <div class="ccc-sample" id="ccc-sample">
         <span class="ccc-sample-lg">Large text</span>
@@ -41,6 +42,7 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
     </div>
   </IoPanel>
 </ToolSplit>
+</div>
 
 
 <script is:inline>

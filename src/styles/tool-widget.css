@@ -926,7 +926,7 @@ body.tt-focus-lock {
 
 /* ── Calculator ledger ───────────────────────────────────────────────────────
    Platform default for every form-and-answer calculator (finance, wellness,
-   datetime, math, network, number). A statement, not two captioned cards.
+   datetime, math, network, number, design). A statement, not two captioned cards.
    The number and a few rows stay open. Workings fold into one disclosure.
    Between-group space (~space-8) beats within-field space (~space-1).
    Text-window tools (encode, hash, JSON) do not use this class. */

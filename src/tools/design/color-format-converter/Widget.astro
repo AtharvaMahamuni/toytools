@@ -4,8 +4,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
-<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Color" variant="prose" data-tool="color-format-converter">
+<div class="calc-ledger">
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Color" variant="prose" bare data-tool="color-format-converter">
     <div class="io-body">
       <label class="widget-label" for="cfc-input">Enter a color</label>
       <div class="cfc-input-row">
@@ -27,7 +28,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Formats" variant="mono" result>
+  <IoPanel slot="output" label="Formats" variant="mono" result bare>
     <div class="cfc-out">
       <div class="cfc-swatch" id="cfc-swatch" aria-hidden="true"></div>
       <ul class="cfc-formats" id="cfc-formats"></ul>
@@ -35,6 +36,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     <CraftNote id="cfc-note" craftId="cfc-byte-order" action />
   </IoPanel>
 </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="cfc-copy" data-label="Copy all" type="button">Copy all</button>
