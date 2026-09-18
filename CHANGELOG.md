@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.8.1] - 2026-09-18
+
+### Added
+
+- **UPI 1999 Split** shows one next unpaid chunk and an optional UPI app link. The tick is your own mark, not a bank receipt.
+
 ## [beta-v11.8] - 2026-09-18
 
 ### Added

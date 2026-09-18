@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 8,
-  patch: 0,
+  patch: 1,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'UPI MDR estimator, split bill, and shop UPI tally',
+  description: 'One next unpaid UPI chunk on the 1999 split',
 };
 
 export function formatVersion(config: VersionConfig): string {
