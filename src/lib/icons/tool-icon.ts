@@ -173,6 +173,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'sip-calculator': 'recurring',
   'savings-goal-calculator': 'target',
   'emergency-fund-calculator': 'piggy',
+  'upi-1999-split': 'receipt',
   'compound-interest-calculator': 'coins',
   'cagr-calculator': 'trendUp',
   'roi-calculator': 'chartUp',

@@ -127,6 +127,7 @@ import { config as titleCaseConverter } from '@tools/text/title-case-converter/c
 import { config as todoList } from '@tools/productivity/todo-list/config';
 import { config as trimText } from '@tools/text/trim-text/config';
 import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/config';
+import { config as upi1999Split } from '@tools/finance/upi-1999-split/config';
 import { config as uppercaseConverter } from '@tools/text/uppercase-converter/config';
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
@@ -263,6 +264,7 @@ export const toolConfigs: ToolConfig[] = [
   todoList,
   trimText,
   unixTimestampConverter,
+  upi1999Split,
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,

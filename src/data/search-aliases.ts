@@ -114,6 +114,7 @@ export const searchAliases: Record<string, string[]> = {
   'compound-interest-calculator': ['interest growth'],
   'discount-calculator': ['percent off', 'sale price'],
   'emergency-fund-calculator': ['rainy day fund'],
+  'upi-1999-split': ['upi split meme'],
   'inflation-calculator': ['purchasing power'],
   'margin-calculator': ['profit margin'],
   'markup-calculator': ['cost plus'],

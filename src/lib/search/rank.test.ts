@@ -234,6 +234,8 @@ describe('buildClientIndex', () => {
     // 2026-09-18: 42_100 → 42_300. Hash Identifier is one thin developer entry (about 150
     // bytes, four short keyword terms). Remaining slack was 54 bytes. Catalog growth, not
     // alias bloat.
-    expect(bytes).toBeLessThan(42_300);
+    // 2026-09-18: 42_300 → 42_500. UPI 1999 Split is one thin finance entry (about 160 bytes,
+    // one short alias). Remaining slack was gone. Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(42_500);
   });
 });

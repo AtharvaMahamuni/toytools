@@ -127,6 +127,7 @@ import { knowledge as titleCaseConverter } from '@tools/text/title-case-converte
 import { knowledge as todoList } from '@tools/productivity/todo-list/knowledge';
 import { knowledge as trimText } from '@tools/text/trim-text/knowledge';
 import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/knowledge';
+import { knowledge as upi1999Split } from '@tools/finance/upi-1999-split/knowledge';
 import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter/knowledge';
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
@@ -263,6 +264,7 @@ export const authoredKnowledge: Knowledge[] = [
   todoList,
   trimText,
   unixTimestampConverter,
+  upi1999Split,
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,

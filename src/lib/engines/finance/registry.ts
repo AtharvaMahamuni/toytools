@@ -14,6 +14,7 @@ import { emergencyFund } from './calculators/emergency-fund';
 import { sip } from './calculators/sip';
 import { roi } from './calculators/roi';
 import { cagr } from './calculators/cagr';
+import { upi1999Split } from './calculators/upi-1999-split';
 
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
@@ -24,6 +25,7 @@ export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'sip': sip,
   'roi': roi,
   'cagr': cagr,
+  'upi-1999-split': upi1999Split,
 };
 
 /**

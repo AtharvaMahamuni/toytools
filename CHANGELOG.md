@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.7] - 2026-09-18
+
+### Added
+
+- **UPI 1999 Split** (`/tool/finance/upi-1999-split/`). A meme calculator, not a payment app and not advice. Type whole rupees. At 2000 or less the page says one payment and nothing to split. Above 2000 it lists locked chunks of 1999 plus a remainder that sums to the input, for example 1999 + 1999 + 1002 = 5000. Totals above 10,00,000 are refused. Runs entirely on your device. Nothing is uploaded.
+- **Craft (orientation):** `upi-split-meme`. A viral claim says a UPI payment above 2000 rupees is taxed, so a chunk list looks like a way to dodge a fee. The page says that claim is false, says a customer does not owe the tax, and shows the chunks still add up to the same total. It does not help anyone evade a rule.
+
 ## [beta-v11.6] - 2026-09-18
 
 ### Added

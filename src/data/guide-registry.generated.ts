@@ -127,6 +127,7 @@ export const authoredGuideSlugs = [
   'todo-list',
   'trim-text',
   'unix-timestamp-converter',
+  'upi-1999-split',
   'uppercase-converter',
   'url-encoder-decoder',
   'uuid-generator',
