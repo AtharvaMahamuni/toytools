@@ -11,6 +11,7 @@ import { config as bmiCalculator } from '@tools/health/bmi-calculator/config';
 import { config as bmrCalculator } from '@tools/health/bmr-calculator/config';
 import { config as bodyFatCalculator } from '@tools/health/body-fat-calculator/config';
 import { config as bodyWeightTracker } from '@tools/health/body-weight-tracker/config';
+import { config as bookTracker } from '@tools/productivity/book-tracker/config';
 import { config as breathingCircle } from '@tools/fidget/breathing-circle/config';
 import { config as cagrCalculator } from '@tools/finance/cagr-calculator/config';
 import { config as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/config';
@@ -143,6 +144,7 @@ export const toolConfigs: ToolConfig[] = [
   bmrCalculator,
   bodyFatCalculator,
   bodyWeightTracker,
+  bookTracker,
   breathingCircle,
   cagrCalculator,
   calorieDeficitCalculator,

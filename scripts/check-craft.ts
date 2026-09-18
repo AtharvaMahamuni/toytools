@@ -157,7 +157,9 @@ const THRESHOLDS = {
   //   plot together on-device, against table-only / upload incumbents (no userFailures seed).
   // 2026-09-16: 0.669 (87/130). Habit Streak Tracker ships orientation craft habit-loop-encourage:
   //   cue-response-reward loop, honest streaks, never-miss-twice recovery on-device.
-  coverage: 0.669,
+  // 2026-09-18: 0.671 (88/131). Book Tracker ships orientation craft book-shelf-local:
+  //   a private shelf against Goodreads and StoryGraph account walls. No signup, no sync.
+  coverage: 0.671,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

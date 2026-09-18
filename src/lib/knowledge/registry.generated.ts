@@ -11,6 +11,7 @@ import { knowledge as bmiCalculator } from '@tools/health/bmi-calculator/knowled
 import { knowledge as bmrCalculator } from '@tools/health/bmr-calculator/knowledge';
 import { knowledge as bodyFatCalculator } from '@tools/health/body-fat-calculator/knowledge';
 import { knowledge as bodyWeightTracker } from '@tools/health/body-weight-tracker/knowledge';
+import { knowledge as bookTracker } from '@tools/productivity/book-tracker/knowledge';
 import { knowledge as breathingCircle } from '@tools/fidget/breathing-circle/knowledge';
 import { knowledge as cagrCalculator } from '@tools/finance/cagr-calculator/knowledge';
 import { knowledge as calorieDeficitCalculator } from '@tools/health/calorie-deficit-calculator/knowledge';
@@ -143,6 +144,7 @@ export const authoredKnowledge: Knowledge[] = [
   bmrCalculator,
   bodyFatCalculator,
   bodyWeightTracker,
+  bookTracker,
   breathingCircle,
   cagrCalculator,
   calorieDeficitCalculator,

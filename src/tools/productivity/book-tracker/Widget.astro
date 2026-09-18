@@ -1,0 +1,719 @@
+---
+---
+
+<section class="tool-panel bt" data-tool="book-tracker">
+  <p class="bt-storage">
+    Stored locally <span class="gold-dot" aria-hidden="true"></span> Never leaves your device
+  </p>
+  <p id="bt-craft" class="bt-craft" data-craft="book-shelf-local" role="status" hidden>
+    Private shelf on this device. No Goodreads account and no sync.
+  </p>
+
+  <div class="bt-filters" role="group" aria-label="Filter shelf">
+    <button type="button" id="bt-filter-all" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" id="bt-filter-reading" data-filter="reading" aria-pressed="false">Reading</button>
+    <button type="button" id="bt-filter-want" data-filter="want" aria-pressed="false">Want</button>
+    <button type="button" id="bt-filter-finished" data-filter="finished" aria-pressed="false">Finished</button>
+  </div>
+
+  <label class="bt-search-label" for="bt-search">
+    <span class="bt-sr">Search title or author</span>
+    <input id="bt-search" type="search" placeholder="Search title or author" autocomplete="off" enterkeyhint="search" />
+  </label>
+  <p id="bt-count" class="bt-count" aria-live="polite"></p>
+  <p id="bt-start" class="bt-start" hidden>Your shelf is empty. Add a title below.</p>
+  <div id="bt-list" class="bt-list" aria-live="polite"></div>
+  <p id="bt-empty" class="bt-empty" hidden>No books match this view.</p>
+
+  <details class="bt-add" id="bt-add-panel" open>
+    <summary>Add a book</summary>
+    <form id="bt-add-form" class="bt-form">
+      <label class="bt-field">
+        <span>Title</span>
+        <input id="bt-title" type="text" maxlength="120" required autocomplete="off" placeholder="Title" />
+      </label>
+      <label class="bt-field">
+        <span>Author (optional)</span>
+        <input id="bt-author" type="text" maxlength="80" autocomplete="off" placeholder="Author" />
+      </label>
+      <label class="bt-field">
+        <span>Status</span>
+        <select id="bt-status">
+          <option value="want">Want</option>
+          <option value="reading" selected>Reading</option>
+          <option value="finished">Finished</option>
+        </select>
+      </label>
+      <label class="bt-field" id="bt-progress-wrap">
+        <span>Progress (0-100)</span>
+        <input id="bt-progress" type="number" min="0" max="100" step="1" inputmode="numeric" value="0" />
+      </label>
+      <label class="bt-field">
+        <span>Rating (optional)</span>
+        <select id="bt-rating">
+          <option value="">No rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </label>
+      <label class="bt-field">
+        <span>Note (optional)</span>
+        <textarea id="bt-note" maxlength="240" rows="2" placeholder="Short note"></textarea>
+      </label>
+      <p id="bt-add-msg" class="bt-msg" role="status" hidden></p>
+      <button type="submit" class="bt-primary">Add book</button>
+    </form>
+  </details>
+
+  <div class="bt-footer">
+    <button type="button" id="bt-export" class="bt-tool-btn">Export JSON</button>
+    <button type="button" id="bt-import-btn" class="bt-tool-btn" aria-expanded="false" aria-controls="bt-import-panel">Import JSON</button>
+  </div>
+  <div id="bt-import-panel" class="bt-import" hidden>
+    <label class="bt-field" for="bt-import-text">
+      <span>Paste backup JSON</span>
+      <textarea id="bt-import-text" rows="4" placeholder='{"v":1,"books":[...]}'></textarea>
+    </label>
+    <div class="bt-import-row">
+      <input id="bt-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
+      <label class="bt-replace"><input id="bt-replace" type="checkbox" /> Replace entire shelf</label>
+      <button type="button" id="bt-import-run" class="bt-primary">Import</button>
+    </div>
+    <p id="bt-import-msg" class="bt-msg" role="status" hidden></p>
+  </div>
+</section>
+
+<style is:inline>
+  .bt-storage, .bt-count, .bt-start, .bt-empty, .bt-msg {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .bt-storage { font-size: var(--text-xs); color: var(--color-text-subtle); }
+  .bt-craft {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-medium);
+  }
+  .bt-craft[hidden],
+  .bt-start[hidden],
+  .bt-empty[hidden],
+  .bt-msg[hidden],
+  .bt-import[hidden],
+  .bt-card[hidden],
+  .bt-field[hidden] { display: none; }
+  .bt-filters, .bt-footer, .bt-import-row, .bt-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .bt-list { flex-direction: column; margin-top: var(--space-3); }
+  .bt-filters { margin-top: var(--space-3); }
+  .bt-filters button, .bt-tool-btn, .bt-primary, .bt-card .bt-delete, .bt-field input, .bt-field select, .bt-field textarea, .bt-search-label input {
+    min-height: var(--touch-target);
+    font: inherit;
+  }
+  .bt-filters button, .bt-tool-btn {
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: 999px;
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+  .bt-filters button[aria-pressed="true"] {
+    color: var(--color-accent-strong);
+    background: var(--color-accent-subtle);
+    border-color: var(--color-accent);
+  }
+  .bt-search-label { display: block; margin-top: var(--space-3); }
+  .bt-search-label input, .bt-field input, .bt-field select, .bt-field textarea {
+    width: 100%;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+  .bt-field textarea { min-height: 72px; resize: vertical; }
+  .bt-count { margin-top: var(--space-2); }
+  .bt-card {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .bt-card-top { display: flex; justify-content: space-between; gap: var(--space-2); align-items: baseline; }
+  .bt-title { margin: 0; font-size: var(--text-base); font-weight: var(--font-weight-semibold); word-break: break-word; }
+  .bt-author, .bt-rating-text { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .bt-badge {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    padding-inline: var(--space-2);
+    border-radius: 999px;
+    background: var(--color-bg);
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .bt-card-fields, .bt-form, .bt-import { display: flex; flex-direction: column; gap: var(--space-2); }
+  .bt-field { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .bt-inline { display: flex; gap: var(--space-2); align-items: center; }
+  .bt-inline input { width: 6rem; }
+  .bt-primary {
+    align-self: flex-start;
+    padding-inline: var(--space-5);
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .bt-delete {
+    align-self: flex-start;
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+  .bt-add { margin-top: var(--space-4); }
+  .bt-add > summary {
+    cursor: pointer;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
+    list-style: none;
+  }
+  .bt-add > summary::-webkit-details-marker { display: none; }
+  .bt-form { margin-top: var(--space-3); }
+  .bt-footer { margin-top: var(--space-4); }
+  .bt-msg.is-error { color: var(--color-danger, var(--color-text)); }
+  .bt-replace { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); min-height: var(--touch-target); }
+  .bt-sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-tool="book-tracker"]');
+    if (!root) return;
+
+    var STORAGE_KEY = 'toytools.book-tracker.v1';
+    var MAX_BOOKS = 200;
+    var MAX_STORE = 160000;
+    var TITLE_MAX = 120;
+    var AUTHOR_MAX = 80;
+    var NOTE_MAX = 240;
+
+    var books = [];
+    var filter = 'all';
+
+    var listEl = document.getElementById('bt-list');
+    var countEl = document.getElementById('bt-count');
+    var startEl = document.getElementById('bt-start');
+    var emptyEl = document.getElementById('bt-empty');
+    var craftEl = document.getElementById('bt-craft');
+    var searchEl = document.getElementById('bt-search');
+    var addMsg = document.getElementById('bt-add-msg');
+    var importPanel = document.getElementById('bt-import-panel');
+    var importMsg = document.getElementById('bt-import-msg');
+    var importText = document.getElementById('bt-import-text');
+    var progressWrap = document.getElementById('bt-progress-wrap');
+    var statusInput = document.getElementById('bt-status');
+
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+      });
+    }
+
+    function clampProgress(v) {
+      if (v === undefined || v === null || v === '') return 0;
+      var n = parseInt(String(v).replace('%', ''), 10);
+      if (!isFinite(n)) return 0;
+      if (n < 0) return 0;
+      if (n > 100) return 100;
+      return n;
+    }
+
+    function parseRating(v) {
+      if (v === undefined || v === null || v === '') return null;
+      var n = parseInt(String(v), 10);
+      if (n >= 1 && n <= 5) return n;
+      return null;
+    }
+
+    function parseStatus(v) {
+      var s = String(v == null ? '' : v).trim().toLowerCase();
+      if (s === 'reading' || s === 'currently reading' || s === 'current') return 'reading';
+      if (s === 'finished' || s === 'read' || s === 'done' || s === 'completed') return 'finished';
+      if (s === 'want' || s === 'to read' || s === 'want to read' || s === 'wishlist' || s === 'to-read') return 'want';
+      return 'want';
+    }
+
+    function applyRules(status, progress) {
+      if (status === 'finished') return { status: 'finished', progress: 100 };
+      if (status === 'want') return { status: 'want', progress: 0 };
+      return { status: 'reading', progress: clampProgress(progress) };
+    }
+
+    function pick(obj, names) {
+      if (!obj || typeof obj !== 'object') return undefined;
+      var keys = Object.keys(obj);
+      for (var i = 0; i < names.length; i++) {
+        var want = names[i].toLowerCase();
+        for (var j = 0; j < keys.length; j++) {
+          if (keys[j].toLowerCase() === want) return obj[keys[j]];
+        }
+      }
+      return undefined;
+    }
+
+    function hasKey(obj, names) {
+      if (!obj || typeof obj !== 'object') return false;
+      var keys = Object.keys(obj);
+      for (var i = 0; i < names.length; i++) {
+        var want = names[i].toLowerCase();
+        for (var j = 0; j < keys.length; j++) {
+          if (keys[j].toLowerCase() === want) return true;
+        }
+      }
+      return false;
+    }
+
+    function bookKey(title, author) {
+      return String(title || '').trim().toLowerCase() + '\n' + String(author || '').trim().toLowerCase();
+    }
+
+    function normalizeBook(raw, keepId) {
+      if (!raw || typeof raw !== 'object') return null;
+      var title = String(pick(raw, ['title', 'name', 'book']) || '').trim().slice(0, TITLE_MAX);
+      if (!title) return null;
+      var author = String(pick(raw, ['author', 'writer']) || '').trim().slice(0, AUTHOR_MAX);
+      var rules = applyRules(parseStatus(pick(raw, ['status', 'state', 'shelf'])), pick(raw, ['progress', 'percent', 'pct']));
+      var rating = hasKey(raw, ['rating', 'stars', 'score']) ? parseRating(pick(raw, ['rating', 'stars', 'score'])) : null;
+      var note = String(pick(raw, ['note', 'notes', 'comment']) || '').trim().slice(0, NOTE_MAX);
+      return {
+        id: keepId ? String(raw.id || uid()) : String(raw.id || uid()),
+        title: title,
+        author: author,
+        status: rules.status,
+        progress: rules.progress,
+        rating: rating,
+        note: note,
+        createdAt: String(raw.createdAt || new Date().toISOString())
+      };
+    }
+
+    function sampleBook() {
+      return {
+        id: 'sample-lantern',
+        title: 'The Lantern Road',
+        author: 'A. Sample',
+        status: 'reading',
+        progress: 20,
+        rating: null,
+        note: 'Sample row. Delete this when you add a real book.',
+        createdAt: new Date().toISOString()
+      };
+    }
+
+    function readRaw() {
+      try {
+        if (window.ToyTools && ToyTools.storage) return ToyTools.storage.get(STORAGE_KEY) || '';
+        return localStorage.getItem(STORAGE_KEY) || '';
+      } catch (_) {
+        return '';
+      }
+    }
+
+    function load() {
+      var raw = readRaw();
+      if (!raw) {
+        books = [sampleBook()];
+        save();
+        return;
+      }
+      try {
+        var parsed = JSON.parse(raw);
+        var list = Array.isArray(parsed) ? parsed : (parsed && (parsed.books || parsed.items || parsed.shelf));
+        books = [];
+        if (Array.isArray(list)) {
+          for (var i = 0; i < list.length && books.length < MAX_BOOKS; i++) {
+            var b = normalizeBook(list[i], true);
+            if (b) books.push(b);
+          }
+          books = dedupe(books);
+        }
+      } catch (_) {
+        books = [];
+      }
+    }
+
+    function save() {
+      var payload = JSON.stringify({ v: 1, books: books });
+      try {
+        if (payload.length >= MAX_STORE) {
+          showAdd('This shelf is too large to save. Shorten a note or delete a book.', true);
+          return false;
+        }
+        if (window.ToyTools && ToyTools.storage) ToyTools.storage.set(STORAGE_KEY, payload, MAX_STORE);
+        else localStorage.setItem(STORAGE_KEY, payload);
+        return true;
+      } catch (_) {
+        showAdd('Could not save. This browser blocked storage.', true);
+        return false;
+      }
+    }
+
+    function dedupe(list) {
+      var map = {};
+      var order = [];
+      for (var i = 0; i < list.length; i++) {
+        var b = list[i];
+        var k = bookKey(b.title, b.author);
+        if (map[k]) {
+          var prev = map[k];
+          prev.title = b.title;
+          prev.author = b.author;
+          prev.status = b.status;
+          prev.progress = b.progress;
+          if (b.rating !== null) prev.rating = b.rating;
+          if (b.note) prev.note = b.note;
+        } else {
+          map[k] = b;
+          order.push(k);
+        }
+      }
+      var out = [];
+      for (var j = 0; j < order.length; j++) out.push(map[order[j]]);
+      return out;
+    }
+
+    function rowsToObjects(headers, rows) {
+      var out = [];
+      for (var i = 0; i < rows.length; i++) {
+        if (!Array.isArray(rows[i])) continue;
+        var obj = {};
+        for (var j = 0; j < headers.length; j++) obj[String(headers[j])] = rows[i][j];
+        out.push(obj);
+      }
+      return out;
+    }
+
+    function extractList(parsed) {
+      if (Array.isArray(parsed)) return parsed;
+      if (!parsed || typeof parsed !== 'object') return null;
+      if (Array.isArray(parsed.headers) && Array.isArray(parsed.rows)) return rowsToObjects(parsed.headers, parsed.rows);
+      if (Array.isArray(parsed.books)) return parsed.books;
+      if (Array.isArray(parsed.items)) return parsed.items;
+      if (Array.isArray(parsed.shelf)) return parsed.shelf;
+      return null;
+    }
+
+    function statusLabel(status) {
+      if (status === 'reading') return 'Reading';
+      if (status === 'finished') return 'Finished';
+      return 'Want';
+    }
+
+    function findBook(id) {
+      for (var i = 0; i < books.length; i++) if (books[i].id === id) return books[i];
+      return null;
+    }
+
+    function showAdd(text, isError) {
+      if (!addMsg) return;
+      addMsg.hidden = !text;
+      addMsg.className = 'bt-msg' + (isError ? ' is-error' : '');
+      addMsg.textContent = text || '';
+    }
+
+    function showImport(text, isError) {
+      if (!importMsg) return;
+      importMsg.hidden = false;
+      importMsg.className = 'bt-msg' + (isError ? ' is-error' : '');
+      importMsg.textContent = text;
+    }
+
+    function optionTags(status) {
+      var opts = [
+        ['want', 'Want'],
+        ['reading', 'Reading'],
+        ['finished', 'Finished']
+      ];
+      var html = '';
+      for (var i = 0; i < opts.length; i++) {
+        html += '<option value="' + opts[i][0] + '"' + (status === opts[i][0] ? ' selected' : '') + '>' + opts[i][1] + '</option>';
+      }
+      return html;
+    }
+
+    function ratingOptions(rating) {
+      var html = '<option value=""' + (rating == null ? ' selected' : '') + '>No rating</option>';
+      for (var n = 1; n <= 5; n++) {
+        html += '<option value="' + n + '"' + (rating === n ? ' selected' : '') + '>' + n + '</option>';
+      }
+      return html;
+    }
+
+    function cardHtml(book) {
+      var progress = '';
+      if (book.status === 'reading') {
+        progress = '<label class="bt-field"><span>Progress</span><span class="bt-inline"><input class="bt-progress" type="number" min="0" max="100" step="1" inputmode="numeric" value="' + book.progress + '" aria-label="Progress for ' + esc(book.title) + '" /><span class="bt-progress-label">' + book.progress + '%</span></span></label>';
+      }
+      var author = book.author ? '<p class="bt-author">' + esc(book.author) + '</p>' : '';
+      var ratingText = book.rating ? '<p class="bt-rating-text">Rating ' + book.rating + '</p>' : '';
+      return '<article class="bt-card" data-id="' + esc(book.id) + '" data-status="' + book.status + '" data-progress="' + book.progress + '">' +
+        '<div class="bt-card-top"><h3 class="bt-title">' + esc(book.title) + '</h3><span class="bt-badge">' + statusLabel(book.status) + '</span></div>' +
+        author + ratingText +
+        '<div class="bt-card-fields">' +
+          '<label class="bt-field"><span>Status</span><select class="bt-status" aria-label="Status for ' + esc(book.title) + '">' + optionTags(book.status) + '</select></label>' +
+          progress +
+          '<label class="bt-field"><span>Rating</span><select class="bt-rating" aria-label="Rating for ' + esc(book.title) + '">' + ratingOptions(book.rating) + '</select></label>' +
+          '<label class="bt-field"><span>Note</span><textarea class="bt-note-input" maxlength="240" aria-label="Note for ' + esc(book.title) + '">' + esc(book.note) + '</textarea></label>' +
+          '<button type="button" class="bt-delete" data-action="delete">Delete</button>' +
+        '</div></article>';
+    }
+
+    function applyView() {
+      var q = (searchEl && searchEl.value || '').trim().toLowerCase();
+      var cards = listEl.querySelectorAll('.bt-card');
+      var shown = 0;
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var status = card.getAttribute('data-status');
+        var title = (card.querySelector('.bt-title') || {}).textContent || '';
+        var author = (card.querySelector('.bt-author') || {}).textContent || '';
+        var hay = (title + ' ' + author).toLowerCase();
+        var ok = (filter === 'all' || status === filter) && (!q || hay.indexOf(q) >= 0);
+        card.hidden = !ok;
+        if (ok) shown++;
+      }
+      if (emptyEl) emptyEl.hidden = !(books.length > 0 && shown === 0);
+      var buttons = root.querySelectorAll('[data-filter]');
+      for (var b = 0; b < buttons.length; b++) {
+        buttons[b].setAttribute('aria-pressed', buttons[b].getAttribute('data-filter') === filter ? 'true' : 'false');
+      }
+    }
+
+    function render() {
+      var html = '';
+      for (var i = 0; i < books.length; i++) html += cardHtml(books[i]);
+      listEl.innerHTML = html;
+      if (countEl) countEl.textContent = books.length === 1 ? '1 book' : books.length + ' books';
+      if (startEl) startEl.hidden = books.length !== 0;
+      if (craftEl) craftEl.hidden = books.length === 0;
+      applyView();
+    }
+
+    function syncAddProgress() {
+      if (!progressWrap || !statusInput) return;
+      progressWrap.hidden = statusInput.value !== 'reading';
+    }
+
+    root.querySelectorAll('[data-filter]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filter = btn.getAttribute('data-filter') || 'all';
+        applyView();
+      });
+    });
+
+    if (searchEl) searchEl.addEventListener('input', applyView);
+    if (statusInput) statusInput.addEventListener('change', syncAddProgress);
+
+    listEl.addEventListener('change', function (e) {
+      var t = e.target;
+      var card = t.closest ? t.closest('.bt-card') : null;
+      if (!card) return;
+      var book = findBook(card.getAttribute('data-id'));
+      if (!book) return;
+      if (t.classList.contains('bt-status')) {
+        var rules = applyRules(t.value, book.progress);
+        book.status = rules.status;
+        book.progress = rules.progress;
+        save();
+        render();
+        return;
+      }
+      if (t.classList.contains('bt-progress')) {
+        if (book.status !== 'reading') return;
+        book.progress = clampProgress(t.value);
+        save();
+        card.setAttribute('data-progress', String(book.progress));
+        var label = card.querySelector('.bt-progress-label');
+        if (label) label.textContent = book.progress + '%';
+        return;
+      }
+      if (t.classList.contains('bt-rating')) {
+        book.rating = parseRating(t.value);
+        save();
+        render();
+        return;
+      }
+      if (t.classList.contains('bt-note-input')) {
+        book.note = String(t.value || '').slice(0, NOTE_MAX);
+        save();
+      }
+    });
+
+    listEl.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-action="delete"]') : null;
+      if (!btn) return;
+      var card = btn.closest('.bt-card');
+      if (!card) return;
+      var book = findBook(card.getAttribute('data-id'));
+      if (!book) return;
+      if (!window.confirm('Delete "' + book.title + '" from this device? This cannot be undone.')) return;
+      books = books.filter(function (x) { return x.id !== book.id; });
+      save();
+      render();
+    });
+
+    var form = document.getElementById('bt-add-form');
+    form && form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var title = document.getElementById('bt-title').value;
+      if (!String(title || '').trim()) {
+        showAdd('Title is required.', true);
+        return;
+      }
+      if (books.length >= MAX_BOOKS) {
+        showAdd('This shelf holds 200 books. Delete one to add another.', true);
+        return;
+      }
+      var book = normalizeBook({
+        title: title,
+        author: document.getElementById('bt-author').value,
+        status: statusInput.value,
+        progress: document.getElementById('bt-progress').value,
+        rating: document.getElementById('bt-rating').value,
+        note: document.getElementById('bt-note').value
+      }, false);
+      if (!book) {
+        showAdd('Title is required.', true);
+        return;
+      }
+      books = dedupe(books.concat([book]));
+      if (books.length > MAX_BOOKS) books = books.slice(0, MAX_BOOKS);
+      if (!save()) return;
+      showAdd('', false);
+      form.reset();
+      statusInput.value = 'reading';
+      syncAddProgress();
+      render();
+    });
+
+    document.getElementById('bt-export') && document.getElementById('bt-export').addEventListener('click', function () {
+      var payload = JSON.stringify({ v: 1, exportedAt: new Date().toISOString(), books: books }, null, 2);
+      var blob = new Blob([payload], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'book-tracker-backup.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+    });
+
+    var importBtn = document.getElementById('bt-import-btn');
+    importBtn && importBtn.addEventListener('click', function () {
+      var open = importPanel && importPanel.hidden;
+      if (importPanel) importPanel.hidden = !open;
+      importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    var fileInput = document.getElementById('bt-import-file');
+    fileInput && fileInput.addEventListener('change', function () {
+      var file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () { if (importText) importText.value = String(reader.result || ''); };
+      reader.readAsText(file);
+    });
+
+    function applyImport(text) {
+      var trimmed = String(text || '').replace(/^\uFEFF/, '').trim();
+      if (!trimmed) {
+        showImport('Paste a JSON backup first.', true);
+        return;
+      }
+      var parsed;
+      try { parsed = JSON.parse(trimmed); }
+      catch (_) {
+        showImport('Could not import that JSON. Check the file and try again.', true);
+        return;
+      }
+      var list = extractList(parsed);
+      if (!list) {
+        showImport('Could not import that JSON. Check the file and try again.', true);
+        return;
+      }
+      var incoming = [];
+      for (var i = 0; i < list.length; i++) {
+        var b = normalizeBook(list[i], true);
+        if (b) incoming.push(b);
+      }
+      incoming = dedupe(incoming);
+      if (!incoming.length) {
+        showImport('Could not find any books in that JSON.', true);
+        return;
+      }
+      var replaceBox = document.getElementById('bt-replace');
+      var replace = !!(replaceBox && replaceBox.checked);
+      var trimmedCount = 0;
+      if (replace) {
+        if (!window.confirm('Replace the shelf on this device? Books that are not in this file will be removed.')) {
+          showImport('Import cancelled. Your shelf was not replaced.', true);
+          return;
+        }
+        if (incoming.length > MAX_BOOKS) {
+          trimmedCount = incoming.length - MAX_BOOKS;
+          incoming = incoming.slice(0, MAX_BOOKS);
+        }
+        books = incoming;
+      } else {
+        var merged = dedupe(books.concat(incoming));
+        if (merged.length > MAX_BOOKS) {
+          trimmedCount = merged.length - MAX_BOOKS;
+          merged = merged.slice(0, MAX_BOOKS);
+        }
+        books = merged;
+      }
+      save();
+      render();
+      var noun = incoming.length === 1 ? 'book' : 'books';
+      var msg = replace
+        ? 'Replaced the shelf with ' + books.length + ' ' + (books.length === 1 ? 'book' : 'books') + '.'
+        : 'Imported ' + incoming.length + ' ' + noun + '. Shelf now has ' + books.length + '. Matching title and author were merged, not duplicated.';
+      if (trimmedCount) msg += ' This shelf holds 200 books. Extra titles were not added.';
+      showImport(msg, false);
+    }
+
+    document.getElementById('bt-import-run') && document.getElementById('bt-import-run').addEventListener('click', function () {
+      applyImport(importText ? importText.value : '');
+    });
+
+    load();
+    syncAddProgress();
+    render();
+  })();
+</script>

@@ -1,0 +1,264 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A private reading shelf is a short list of books you want, are reading, or have finished.
+      You type the title. You set a status. While a book is reading, you keep a percent from 0 to
+      100. A rating from 1 to 5 and a short note are optional.
+    </p>
+    <p>
+      This book tracker keeps that list on your device. There is no account, no cloud sync, and
+      no cover lookup. Privacy is the product: the browser stores the shelf, and the page never
+      sends the titles out. Runs entirely on your device. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Book Tracker →</a>
+  </section>
+
+  <section id="what-is-a-private-shelf">
+    <h2>What is a private reading shelf? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A reading list is the set of titles you intend to finish, not a social profile. Goodreads
+      and StoryGraph start with an account. A spreadsheet starts with columns you have to maintain.
+      A private shelf starts with one title and a status.
+    </p>
+    <p>
+      The three statuses are want, reading, and finished. Want means you have not started.
+      Reading means you are in the book now. Finished means you are done. The page shows filters
+      for All, Reading, Want, and Finished, plus a search box that matches title or author.
+    </p>
+    <p>
+      Because the list lives in one browser, it is useful as a private log rather than a public
+      one. The shelf is free. Open it online in the browser you already use, then come back later
+      in the same profile. Another browser will not see the list unless you export JSON and import
+      it there.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How it works is simple. Title is required. Author is optional. Status is one of the three
+      values. Reading progress is a whole number from 0 to 100, and the field appears only while the
+      status is reading. Rating is optional and stays between 1 and 5. The note is optional and
+      short.
+    </p>
+    <p>
+      Changes are instant. Set a book to reading, type 40, and the card shows 40%. Move the same
+      card to want and the percent field goes away, because want has no progress. The shelf holds
+      200 books. At the cap the form names the limit and refuses the next title until you delete
+      one.
+    </p>
+    <p>
+      The first visit places one sample row, The Lantern Road by A. Sample, set to reading at 20%.
+      Delete that row when you add a real title. The add form stays on the page either way.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Progress belongs only to Reading">
+      <p>
+        Want has no percent. Reading holds 0 to 100. Finished locks the percent at 100 and leaves
+        the Reading filter. Status and progress stay on the same story.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="finished-rule">
+    <h2>How does a finished book leave Reading? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Mark a book finished and two things happen together. Progress becomes 100, even if the field
+      still showed 10. The card leaves Currently Reading, so the Reading filter no longer lists it.
+      Open Finished to see it.
+    </p>
+    <p>
+      That pairing is the whole point of the status. A card marked finished that still sits in
+      Reading is a contradiction, and it is how people lose track of what they owe attention to
+      this week. The page will not save that contradiction.
+    </p>
+    <p>
+      For example, you are at 60% of a novel and you set the status to finished by mistake. The
+      saved percent is 100 and the card sits under Finished. Switch the status back to reading if
+      you were not done, then set the percent again. The move is local and instant.
+    </p>
+  </section>
+
+  <section id="import-merge">
+    <h2>What is the difference between merge and replace? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Export JSON downloads the shelf as a file. Import JSON reads that file back. The default
+      path merges. A row matches an existing book when title and author are the same, ignoring
+      letter case. The match updates the card. It does not add a second copy.
+    </p>
+    <p>
+      Re-import of the same export therefore leaves the count unchanged. Header aliases title,
+      author, status, progress, and rating are accepted when the capitalization differs, so a
+      column named Rating is not dropped. If a later file omits rating, the stars already on the
+      card stay.
+    </p>
+    <p>
+      Replace is the other path. Check Replace entire shelf and confirm before the page removes
+      titles that are not in the file. Cancel the confirm and the shelf stays as it was. Use merge
+      for a second copy of a backup. Use replace only when the file is the shelf you want to keep.
+    </p>
+    <p>
+      For example, you export two books, import the file again, and still see two cards. Import a
+      row whose Title is Dune and whose Rating is 5, and the stars show. A later row for the same
+      title and author with no Rating keeps the 5.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The shelf is honest about its limits. It does not sync. It does not look up an ISBN. It does
+      not fetch covers. Avoid treating it like a cloud account, and avoid clearing the browser
+      before you have a file.
+    </p>
+
+    <ReferenceBlock type="common-mistake" heading="Expecting sync across phones and laptops">
+      <p>
+        Expecting the shelf to sync across phones and laptops leaves you with two empty pages.
+        Each browser profile keeps its own file. Export JSON on the device that has the list, then
+        import that file on the other one.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Clearing site data before an export">
+      <p>
+        Clearing browser data without exporting JSON first deletes the shelf. Site data, cookies,
+        and a closed private window all drop local storage. Export first, then clear the browser.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="Finished still listed as reading">
+      <p>
+        Leaving a finished book in the reading list because progress was not updated is a real
+        failure in other tools. Here, finished forces 100 and leaves Reading. Do not keep a second
+        list in your head to correct the filter.
+      </p>
+    </ReferenceBlock>
+
+    <ReferenceBlock type="common-mistake" heading="A second import that duplicates rows">
+      <p>
+        Importing the same backup twice and getting duplicate rows wastes the shelf. This import
+        merges on title and author. The second pass updates the row that is already there.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="versus-alternatives">
+    <h2>Book Tracker vs alternatives <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Goodreads is a social catalog. It wants an account, friends, and reviews in public. StoryGraph
+      is a reading log with charts, and it also wants an account. Both are useful when you want
+      recommendations. Both are the wrong first screen when you want a private count of what you
+      are reading this month.
+    </p>
+    <p>
+      A spreadsheet can hold title, author, status, and stars. It lacks a finished rule that
+      forces progress to 100, and a re-import pastes duplicate rows. Unlike those sheets,
+      this page merges on title and author and keeps the Reading filter consistent.
+    </p>
+    <p>
+      Choose this shelf instead of a cloud app when the list is personal and small. This page is a
+      Goodreads alternative: offline books, a private count, and no signup. Choose the cloud app
+      when you want shared reviews. The difference between them is an account wall, not the three
+      statuses.
+    </p>
+    <p>
+      How to export a bookshelf backup: tap Export JSON and keep that file. A bookshelf export is
+      the copy you import later, on this browser or another. Do it before you clear site data.
+    </p>
+  </section>
+
+  <section id="how-to-use">
+    <h2>How do you use this book tracker? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Delete the sample if you do not want it. Add a title, an author, and a status. If the status
+      is reading, set a percent. Add a rating when you have one. Leave it blank when you do not.
+      Search when the list grows. Filter when you want one status on screen.
+    </p>
+    <p>
+      For example, add Dracula by Bram Stoker as want, then switch it to reading at 15 when you
+      start the first chapter. When you close the book, set finished. The card leaves Reading and
+      the percent becomes 100. Export JSON that evening if the browser is one you do not control.
+    </p>
+    <p>
+      Pair the shelf with a daily check if you want a reading habit, and with a note tool if a
+      review runs longer than the short field. The shelf is the list. It is not a diary and it is
+      not a streak.
+    </p>
+    <a href={toolHref} class="cta-link">Track a book on your device →</a>
+  </section>
+
+  <section id="why-offline">
+    <h2>Why keep a reading list offline? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      An account is a tax on a small job. You wanted to remember that a novel is at 40%, not to
+      join a network. Offline here means the file never leaves the device. You can still open the
+      page online. The data does not travel with that request.
+    </p>
+    <p>
+      Keeping a private reading list without a Goodreads account is the use. Marking a book
+      finished so it leaves the reading view is the second. Backing up the shelf with export JSON
+      before clearing the browser is the third. Merging an import so ratings stay on the same
+      title and author is the fourth.
+    </p>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Runs entirely on your device. Nothing is uploaded. Titles, authors, notes, ratings, and
+      progress stay in browser local storage on this profile. There is no ISBN call and no cover
+      call. Clearing site data deletes them unless you exported a backup first.
+    </p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

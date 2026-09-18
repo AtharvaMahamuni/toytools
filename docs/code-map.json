@@ -128,13 +128,14 @@
       "runtimeGlobal": "",
       "sharedWidget": "",
       "supportedFamilies": [
+        "shelf",
         "habit",
         "utility",
         "note",
         "timer",
         "task"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "finance": {
       "name": "Finance Engine",
@@ -995,6 +996,27 @@
       "family": "measurement",
       "processorId": "body-weight",
       "toolGroup": "health-trackers",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "book-tracker": {
+      "name": "Book Tracker",
+      "dir": "src/tools/productivity/book-tracker",
+      "categorySlug": "productivity",
+      "url": "/tool/productivity/book-tracker/",
+      "engine": "productivity",
+      "pattern": "stateful",
+      "family": "shelf",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

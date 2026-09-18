@@ -67,6 +67,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   placeholder: 'paragraph',
   // productivity
   note: 'note',
+  shelf: 'note',
   task: 'checklist',
   timer: 'tomato',
   utility: 'sun',

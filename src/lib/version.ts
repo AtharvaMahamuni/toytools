@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 2,
-  patch: 2,
+  minor: 3,
+  patch: 0,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'Redirect stubs for retired GSC 404 URLs',
+  description: 'Book Tracker: private on-device bookshelf',
 };
 
 export function formatVersion(config: VersionConfig): string {

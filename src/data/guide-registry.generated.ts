@@ -11,6 +11,7 @@ export const authoredGuideSlugs = [
   'bmr-calculator',
   'body-fat-calculator',
   'body-weight-tracker',
+  'book-tracker',
   'breathing-circle',
   'cagr-calculator',
   'calorie-deficit-calculator',

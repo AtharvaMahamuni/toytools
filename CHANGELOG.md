@@ -2,6 +2,20 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.3] - 2026-09-18
+
+### Added
+
+- **Book Tracker** (`/tool/productivity/book-tracker/`). A private shelf for books you want,
+  are reading, or have finished. Title is required. Author, a 1-5 rating, and a short note are
+  optional. Progress 0-100 only while reading. Finished sets progress to 100 and leaves the
+  Reading filter. Up to 200 books, with filters and search. Export and import JSON. Import
+  merges on title plus author (case-insensitive) so the same file does not duplicate rows, and
+  header aliases keep ratings. Confirm before a full replace. Runs entirely on your device.
+  Nothing is uploaded.
+- **Craft (orientation):** `book-shelf-local` - a private shelf against Goodreads and StoryGraph
+  account walls, with no signup and no sync.
+
 ## [beta-v11.2.2] - 2026-09-18
 
 ### Fixed

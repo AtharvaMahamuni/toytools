@@ -11,6 +11,7 @@ import { items as bmiCalculatorFaqs } from '@tools/health/bmi-calculator/faq';
 import { items as bmrCalculatorFaqs } from '@tools/health/bmr-calculator/faq';
 import { items as bodyFatCalculatorFaqs } from '@tools/health/body-fat-calculator/faq';
 import { items as bodyWeightTrackerFaqs } from '@tools/health/body-weight-tracker/faq';
+import { items as bookTrackerFaqs } from '@tools/productivity/book-tracker/faq';
 import { items as breathingCircleFaqs } from '@tools/fidget/breathing-circle/faq';
 import { items as cagrCalculatorFaqs } from '@tools/finance/cagr-calculator/faq';
 import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-deficit-calculator/faq';
@@ -143,6 +144,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'bmr-calculator': bmrCalculatorFaqs,
   'body-fat-calculator': bodyFatCalculatorFaqs,
   'body-weight-tracker': bodyWeightTrackerFaqs,
+  'book-tracker': bookTrackerFaqs,
   'breathing-circle': breathingCircleFaqs,
   'cagr-calculator': cagrCalculatorFaqs,
   'calorie-deficit-calculator': calorieDeficitCalculatorFaqs,
