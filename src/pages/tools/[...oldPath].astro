@@ -1,0 +1,55 @@
+---
+// Redirect stubs for every retired `/tools/...` URL (plural prefix, pre-2026-06-07).
+//
+// Same shell as src/pages/tool/[...oldPath].astro: noindex, meta-refresh, canonical to the
+// current tool page, not in any sitemap. A rest param because the list mixes one segment
+// (`word-counter`, the first-day routes) and two (`text/word-counter`).
+import type { GetStaticPaths } from 'astro';
+import { toolsPrefixRedirects } from '@data/tool-redirects';
+import { tools }      from '@data/registry';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+
+export const getStaticPaths = (() => {
+  const seen = new Set<string>();
+  return toolsPrefixRedirects.map(redirect => {
+    if (seen.has(redirect.oldPath)) {
+      throw new Error(`tools-prefix-redirects: duplicate old path "${redirect.oldPath}"`);
+    }
+    seen.add(redirect.oldPath);
+    const tool = tools.find(t => t.slug === redirect.toolSlug);
+    if (!tool) throw new Error(`tools-prefix-redirects: unknown tool slug "${redirect.toolSlug}"`);
+    const category = categories.find(c => c.slug === tool.categorySlug);
+    if (!category) throw new Error(`tools-prefix-redirects: unresolved category for "${tool.slug}"`);
+    const livePath = `/tool/${category.segment}/${tool.slug}/`;
+    const stubPath = `/tools/${redirect.oldPath}/`;
+    if (stubPath === livePath) {
+      throw new Error(`tools-prefix-redirects: "${redirect.oldPath}" is a live tool URL, not a retired one`);
+    }
+    return {
+      params: { oldPath: redirect.oldPath },
+      props:  { toolName: tool.name, toolPath: livePath },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { toolName, toolPath } = Astro.props;
+
+const target = withBase(toolPath);
+const canonical = Astro.site ? new URL(withBase(toolPath), Astro.site).href : withBase(toolPath);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{toolName} — moved</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>This tool has moved. <a href={target}>Continue to {toolName}</a>.</p>
+  </body>
+</html>

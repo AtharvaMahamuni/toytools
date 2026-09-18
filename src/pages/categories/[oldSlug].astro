@@ -1,0 +1,51 @@
+---
+// Redirect stubs for deprecated /categories/{oldSlug}/ URLs (plural prefix, pre-2026-06-07).
+//
+// Same shell as src/pages/category/[oldSlug].astro. This directory is `categories`, not
+// `category`, so it cannot collide with the live category route. Only the slugs listed in
+// categoriesPrefixRedirects are emitted. Intentionally NOT in any sitemap.
+import type { GetStaticPaths } from 'astro';
+import { categoriesPrefixRedirects } from '@data/tool-redirects';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+
+export const getStaticPaths = (() => {
+  const seen = new Set<string>();
+  return categoriesPrefixRedirects.map(redirect => {
+    if (seen.has(redirect.oldSlug)) {
+      throw new Error(`categories-prefix-redirects: duplicate old slug "${redirect.oldSlug}"`);
+    }
+    seen.add(redirect.oldSlug);
+    const category = categories.find(c => c.slug === redirect.categorySlug);
+    if (!category) throw new Error(`categories-prefix-redirects: unknown category "${redirect.categorySlug}"`);
+    const livePath = `/category/${category.slug}/`;
+    if (`/categories/${redirect.oldSlug}/` === livePath) {
+      throw new Error(`categories-prefix-redirects: "${redirect.oldSlug}" is a live category URL`);
+    }
+    return {
+      params: { oldSlug: redirect.oldSlug },
+      props:  { name: category.name, path: livePath },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { name, path } = Astro.props;
+
+const target = withBase(path);
+const canonical = Astro.site ? new URL(withBase(path), Astro.site).href : withBase(path);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{name} — moved</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>This category has moved. <a href={target}>Continue to {name}</a>.</p>
+  </body>
+</html>

@@ -48,8 +48,8 @@ export const sitemapValidator: Validator = {
     // 404, and the thin language stubs /de/ /en/ /fr/ /ja/) so this stays correct as pages
     // are added or de-indexed. Redirect stubs for retired URLs are likewise absent from every
     // sitemap by design, and are recognised by their meta refresh rather than by a list of path
-    // prefixes, so a slug rename needs no edit here. See src/data/tool-redirects.ts and
-    // src/data/faq-redirects.ts.
+    // prefixes, so a slug rename needs no edit here. See src/data/tool-redirects.ts,
+    // src/data/faq-redirects.ts, and src/data/guide-redirects.ts.
     const noindexRoutes = new Set(
       pages.filter(p => /noindex/i.test(p.robots) || p.isRedirectStub).map(p => p.urlPath),
     );

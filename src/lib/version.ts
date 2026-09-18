@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 2,
-  patch: 1,
+  patch: 2,
   status: 'beta',
-  releaseDate: '2026-09-16',
-  description: 'Habit Streak Tracker tool-level e2e: streaks, 8-active cap, export/import',
+  releaseDate: '2026-09-18',
+  description: 'Redirect stubs for retired GSC 404 URLs',
 };
 
 export function formatVersion(config: VersionConfig): string {

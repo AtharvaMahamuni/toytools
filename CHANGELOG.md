@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.2.2] - 2026-09-18
+
+### Fixed
+
+- **Retired URLs no longer 404.** Developer guides that moved from `/guide/developer/` to
+  `/guide/developer-utilities/`, the pre-June plural `/tools/` and `/categories/` paths, the
+  deleted Case Converter URLs, and three retired sitemap filenames (`/sitemap-0.xml`,
+  `/sitemaps/faqs.xml`, `/sitemaps/languages.xml`) now serve a noindex meta-refresh stub with a
+  canonical to the page that replaced them. Stubs are not in any sitemap. The 29 deleted locale
+  landings stay 404; they were already noindex.
+
+
 ## [beta-v11.2.1] - 2026-09-16
 
 ### Added

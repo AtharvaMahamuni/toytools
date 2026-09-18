@@ -31,6 +31,9 @@ export const faqRedirects: FaqRedirect[] = [
   { oldPath: 'productivity/notepad',                  toolSlug: 'notepad' },
   { oldPath: 'productivity/pomodoro-timer',           toolSlug: 'pomodoro-timer' },
   { oldPath: 'productivity/todo-list',                toolSlug: 'todo-list' },
+  // Deleted Case Converter tool (4f74abc). The original 32 entries missed this URL.
+  // Title Case Converter is the closest remaining page, same choice as the tool stub.
+  { oldPath: 'text/case-converter',                   toolSlug: 'title-case-converter' },
   { oldPath: 'text/camel-case-converter',             toolSlug: 'camel-case-converter' },
   { oldPath: 'text/kebab-case-converter',             toolSlug: 'kebab-case-converter' },
   { oldPath: 'text/lowercase-converter',              toolSlug: 'lowercase-converter' },
