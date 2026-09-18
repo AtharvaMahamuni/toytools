@@ -22,6 +22,9 @@ interface Props {
   result?: boolean;
   /** When set, the header gets data-copy-bar + a CopyButton for this target id */
   copyTargetId?: string;
+  /** Skip the labelled header. Used by the finance ledger so the form and the
+   *  number are not two captioned cards. Copy still lives in ToolActions. */
+  bare?: boolean;
   class?: string;
   /** data-* attributes pass through to the panel root */
   [key: string]: unknown;
@@ -33,6 +36,7 @@ const {
   variant = 'mono',
   result = false,
   copyTargetId,
+  bare = false,
   class: className,
   ...rest
 } = Astro.props;
@@ -41,17 +45,19 @@ const {
 <div
   class:list={[
     'io-panel',
-    { 'io-panel--prose': variant === 'prose', 'io-panel--result': result },
+    { 'io-panel--prose': variant === 'prose', 'io-panel--result': result, 'io-panel--bare': bare },
     className,
   ]}
   {...rest}
 >
-  <div class="io-header" {...(copyTargetId ? { 'data-copy-bar': '' } : {})}>
-    {labelFor
-      ? <label class="io-label" for={labelFor}>{label}</label>
-      : <span class="io-label">{label}</span>}
-    <slot name="header-end" />
-    {copyTargetId && <CopyButton targetId={copyTargetId} />}
-  </div>
+  {!bare && (
+    <div class="io-header" {...(copyTargetId ? { 'data-copy-bar': '' } : {})}>
+      {labelFor
+        ? <label class="io-label" for={labelFor}>{label}</label>
+        : <span class="io-label">{label}</span>}
+      <slot name="header-end" />
+      {copyTargetId && <CopyButton targetId={copyTargetId} />}
+    </div>
+  )}
   <slot />
 </div>

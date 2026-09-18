@@ -181,9 +181,10 @@ export function renderExperience(
     li((m.reached ? '✓ ' : '○ ') + m.label, m.reached ? 'milestone is-reached' : 'milestone'),
   );
 
-  // Insights.
+  // Insights. Tone is a class, not an emoji: a filled card with a lightbulb was
+  // furniture around a sentence the number had already earned.
   fillList(root, 'insights', result.insights, (ins: Insight) =>
-    li('💡 ' + ins.text, `insight insight--${ins.tone ?? 'info'}`),
+    li(ins.text, `insight insight--${ins.tone ?? 'info'}`),
   );
 
   // Assumptions (inside a disclosure in the shell).

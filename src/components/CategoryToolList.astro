@@ -54,7 +54,11 @@ for (const t of categoryTools) {
       chips: group.members.map(m => ({ label: m.label, href: toolHref(m.slug) })),
     });
   } else {
-    section.rows.push({ label: t.name, description: t.description, href: toolHref(t.slug) });
+    section.rows.push({
+      label: t.name,
+      description: t.tagline || t.description,
+      href: toolHref(t.slug),
+    });
   }
 }
 

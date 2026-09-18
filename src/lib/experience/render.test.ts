@@ -79,8 +79,10 @@ describe('renderExperience', () => {
     expect(ms[0].textContent).toContain('○');
     expect(ms[1].textContent).toContain('✓');
     expect((ms[1] as HTMLElement).className).toContain('is-reached');
-    // insights tone class
-    expect(root.querySelector('[data-section="insights"] li')!.className).toContain('insight--positive');
+    // insights: the sentence itself, no decorative prefix, tone is a class
+    const insightEl = root.querySelector('[data-section="insights"] li')!;
+    expect(insightEl.className).toContain('insight--positive');
+    expect(insightEl.textContent).toBe('Compounding helps');
     // timeline rows
     expect(root.querySelectorAll('[data-section="timeline"] .tm-stat-row').length).toBe(2);
     // decisions: first is a link, second plain text
@@ -123,5 +125,37 @@ describe('renderExperience', () => {
     renderExperience(root, successResult({ metrics: [] }));
     expect(root.querySelector('[data-section="hero"]')!.hasAttribute('hidden')).toBe(true);
     expect(root.querySelector('[data-section="insights"]')!.hasAttribute('hidden')).toBe(true);
+  });
+
+  it('fills nested workings sections used by the finance ledger', () => {
+    const root = document.createElement('div');
+    root.setAttribute('data-experience', '');
+    root.dataset.emptyText = 'Enter values';
+    root.innerHTML = `
+      <p data-experience-empty>Enter values</p>
+      <div data-experience-sections hidden>
+        <div data-section="hero" hidden><span data-hero-value></span><span data-hero-label></span><p data-hero-note hidden></p></div>
+        <div data-section="metrics" hidden><dl class="tm-stats"></dl></div>
+        <div data-section="insights" hidden><ul data-list></ul></div>
+        <details class="experience-workings">
+          <summary>How this was worked out</summary>
+          <div data-section="explanation" hidden><p data-explanation></p></div>
+          <div data-section="assumptions" hidden><dl data-list></dl></div>
+          <div data-section="timeline" hidden><dl data-list></dl></div>
+          <div data-section="milestones" hidden><ul data-list></ul></div>
+          <div data-section="nextQuestions" hidden><ul data-list></ul></div>
+          <div data-section="decisions" hidden><ul data-list></ul></div>
+        </details>
+      </div>`;
+    document.body.appendChild(root);
+    renderExperience(root, fullResult());
+    expect(root.querySelector('[data-explanation]')!.textContent).toBe('It grows.');
+    expect(root.querySelectorAll('[data-section="timeline"] .tm-stat-row').length).toBe(2);
+    expect(root.querySelectorAll('[data-section="assumptions"] .tm-stat-row').length).toBe(1);
+    expect(root.querySelector('[data-section="milestones"]')!.hasAttribute('hidden')).toBe(false);
+    expect(root.querySelectorAll('[data-section="nextQuestions"] li').length).toBe(1);
+    expect(root.querySelector('[data-section="decisions"] a')!.getAttribute('href')).toBe(
+      '/tool/finance/inflation-calculator/',
+    );
   });
 });

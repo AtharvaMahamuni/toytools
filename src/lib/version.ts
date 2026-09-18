@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 8,
-  patch: 1,
+  minor: 9,
+  patch: 0,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'One next unpaid UPI chunk on the 1999 split',
+  description: 'Finance tools as a ledger instead of stacked cards',
 };
 
 export function formatVersion(config: VersionConfig): string {
