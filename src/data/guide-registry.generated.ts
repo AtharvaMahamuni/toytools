@@ -47,6 +47,7 @@ export const authoredGuideSlugs = [
   'ideal-weight-calculator',
   'inflation-calculator',
   'invisible-character-detector',
+  'json-diff',
   'json-escape',
   'json-formatter',
   'json-minifier',

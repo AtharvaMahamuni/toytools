@@ -1,0 +1,277 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+const csvHref = withBase(`/tool/${category.segment}/csv-diff/`);
+const formatHref = withBase(`/tool/${category.segment}/json-formatter/`);
+const validateHref = withBase(`/tool/${category.segment}/json-validator/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON diff is a structural compare of two JSON documents. Paste the left value and the
+      right value. The page parses both, then names the paths that were added, removed, or
+      changed. Object key order does not count. Array order does. The number 1 and the number
+      1.0 are equal. A string, a boolean, and null are compared exactly.
+    </p>
+    <p>
+      This is not a line diff and it does not pretty-print. If either side is not valid JSON,
+      the page says which side and prints the parse error. It does not invent a diff. If both
+      panes are empty, the page stays quiet. Runs entirely on your device. Nothing is uploaded.
+    </p>
+    <p>
+      Use it when you are comparing two API responses before and after a deploy, checking a
+      config file after an editor reordered keys, or reviewing a payload two services claim is
+      the same. Spotting an array that one side sorted is the same job.
+    </p>
+    <a href={toolHref} class="cta-link">Compare two JSON documents</a>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How does a JSON diff work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How does the comparison actually run? It works by parsing, then walking. JSON.parse reads
+      each pane. The walk starts at the root. When both sides are objects, keys are matched by
+      name. When both sides are arrays, indexes are matched by position. Everything else is one
+      changed path, including a type swap such as an object becoming an array.
+    </p>
+    <p>
+      A path uses a dot for a plain key and brackets for an index or an awkward key. user.email
+      is a field. tags[0] is the first array element. ["a.b"] is a key that itself contains a
+      dot, so a dot path would be a lie. The line starts with added, removed, or changed, then
+      the path, then the value JSON.stringify would print.
+    </p>
+    <p>
+      For example, the left document is {`{"id":1,"name":"Ada","tags":["a","b"]}`} and the right
+      document is {`{"name":"Ada","id":1.0,"tags":["b","a"],"role":"admin"}`}. id is equal because
+      both numbers are 1. name is equal. tags[0] changed from "a" to "b", tags[1] changed from
+      "b" to "a", and role was added. Key order between name and id is ignored.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Paths, not lines">
+      <p>
+        The result is a list of paths. A reprint of the file would hide the one field that
+        actually moved. The path is the whole report.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="key-order">
+    <h2>Why does object key order not count? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because a JSON object is a map. The specification does not give keys an order that
+      affects meaning. {`{"b":1,"a":2}`} and {`{"a":2,"b":1}`} parse to the same value. Pretty printers,
+      JSON.stringify, and many editors still rewrite the order, and a text diff then reports
+      every line as edited. The values did not change. Calling that a data change is the common
+      mistake of treating reordered object keys as a data change.
+    </p>
+    <p>
+      The verification line exists for that case. When the characters differ and the parsed
+      values do not, the page says the text differs and the values match. It names the usual
+      reasons: key order, spacing, and 1 versus 1.0. When the two pastes are already the same
+      characters, that sentence stays quiet and the status is simply that there are no
+      differences. Silence is the point. A match that is already obvious does not need a lecture.
+    </p>
+    <p>
+      Checking a config file after an editor reordered keys is the everyday version. You wanted
+      to know whether a setting changed. The editor also sorted the file. A line diff cannot
+      tell those apart. A structural diff can, because the walk never sees key order.
+    </p>
+    <ReferenceBlock type="note" heading="The note only fires when the text still differs">
+      <p>
+        Identical text does not get the "values match" line. A real path change does not get it
+        either. The path list is the answer in that case.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="array-order">
+    <h2>When does array order count? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Array order counts because arrays are ordered. [1,2] and [2,1] are different JSON values.
+      The walk compares index 0 with index 0. You see two changed paths, not a shrug that says
+      the arrays differ. An extra tail element is added at that index. A missing tail element is
+      removed. Spotting an array that one side sorted is this rule in a real file: the items
+      may all still be present, and the indexes still moved.
+    </p>
+    <p>
+      Objects inside an array are walked too. items[0].qty changed from 1 to 2 is more useful
+      than reprinting items[0]. If the types disagree at an index, the walk stops at that path.
+      changed items[0] from an object to a string is one line. Inventing child removals inside
+      a value the other side does not have would be a story, not a diff.
+    </p>
+    <p>
+      Nested object key order still does not count. {`{"a":1,"b":2}`} at items[0] matches
+      {`{"b":2,"a":1}`} at items[0]. Only the array position is ordered. That split is the reason a
+      single rule of "order never matters" fails this data. Objects and arrays are not the same
+      kind of container.
+    </p>
+  </section>
+
+  <section id="numbers">
+    <h2>Why are 1 and 1.0 the same number? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      JSON.parse reads both tokens as the number 1. Numeric comparison then uses equality, so
+      1 and 1.0 match. The source text still differs, which is why the values-match line can
+      appear. Treating 1 and 1.0 as different numbers is the mistake a line diff makes, and it
+      is the mistake this page refuses.
+    </p>
+    <p>
+      Strings, booleans, and null stay strict. "1" is not 1. true is not 1. null is not 0 and
+      it is not false. For example, changed qty: 1 to "1" means one service quoted the field.
+      Reviewing a payload two services claim is the same often ends on exactly that line: the
+      shape looks right, the type is not.
+    </p>
+    <p>
+      Very large integers are a limit of the parser, not a clever equality. JavaScript numbers
+      cannot tell 9007199254740993 from 9007199254740992. Both become the same value before the
+      walk starts. If those digits matter, quote them as strings. A one-character difference in
+      a string is then a real change. The page will not pretend otherwise.
+    </p>
+  </section>
+
+  <section id="invalid-json">
+    <h2>What if one side is not valid JSON? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The page names the side and the parse error. Left is not valid JSON, or Right is not
+      valid JSON, followed by the message JSON.parse produced. If both fail, both sentences
+      appear. The path list stays empty. Showing a partial diff against a value that never
+      parsed would be guessing.
+    </p>
+    <p>
+      Both panes blank is not an error. One pane blank is, because an empty string is not JSON.
+      A trailing comma, a single quote, a comment, and a trailing note from a log line all fail
+      the same way. This page does not repair them. The JSON formatter will offer a repair for
+      a trailing comma or a smart quote. The JSON validator reports one document. Use those when
+      the job is syntax. Come back here when both sides parse.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="A parse error is not a diff">
+      <p>
+        If the status names a side, there is no path to read. Fix that side first. Do not
+        compare the error text to the other document.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="mistakes">
+    <h2>What mistakes does a text diff make? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A text diff compares lines. Indentation, key order, and numeric spelling all look like
+      edits. A real change, such as flags[2] flipping, sits in that noise. People then edit the
+      wrong file, or they re-send a payload that was already correct. The first mistake is
+      treating reordered object keys as a data change. The second is treating 1 and 1.0 as
+      different numbers.
+    </p>
+    <p>
+      The third mistake is uploading private JSON to a server-side comparison site. Tokens,
+      customer records, and environment files are routine in these pastes. Runs entirely on your
+      device. Nothing is uploaded. Open the network panel while you paste if you want to see
+      the absence of a request. The comparison does not need one, because both trees are already
+      in the tab.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Treating reordered object keys as a data change">
+      <p>
+        Sort the file if you want, then compare values. A moved key with the same contents is
+        not an edit to the data.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Treating 1 and 1.0 as different numbers">
+      <p>
+        They parse to the same number. Quote the value if the source text of the number is what
+        you actually needed to keep.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Uploading private JSON to a server-side comparison site">
+      <p>
+        The bytes of a config file are not a public sample. Keep the compare in the browser
+        that already has the paste.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="versus">
+    <h2>How is this different from a text diff or a CSV diff? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A json compare and a line diff are different jobs. JSON diff versus text diff is a difference of subject. A text diff answers "which lines
+      changed in this source file?" This page answers "which values changed in this JSON?"
+      Use the text diff when spacing in a committed file is the thing you review. Use this page
+      when an API body, a config document, or a log payload is the thing you review.
+    </p>
+    <p>
+      JSON diff versus CSV diff is the same idea on a different shape. CSV Diff matches rows,
+      often by a key column, and reports cell edits. JSON has no header row. It has paths.
+      Comparing two API responses before and after a deploy belongs here. Comparing two
+      spreadsheet exports belongs on the CSV page. Neither page converts the other format. A
+      table pasted as JSON stays JSON. A JSON array of objects is still a structural diff, not
+      a row diff, even when it looks tabular.
+    </p>
+    <p>
+      YAML, JSON Schema, and a three-way merge are out of scope. Convert YAML to JSON first if
+      you need this compare. A schema says whether a document is allowed. It does not say how
+      two documents differ. A merge tries to produce a third document. This page only lists
+      paths.
+    </p>
+  </section>
+
+  <section id="related">
+    <h2>Where do I go next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start here when both documents already exist. If one side fails to parse, open the
+      <a href={validateHref}>JSON validator</a> for that document, or the
+      <a href={formatHref}>JSON formatter</a> when the only fault is a trailing comma or a
+      smart quote. After the paths match and you want indentation, the formatter is the next
+      step. It is not a substitute for the compare.
+    </p>
+    <p>
+      Tabular files go to <a href={csvHref}>CSV Diff</a>. Both tools live in
+      <a href={categoryHref}>Developer Utilities</a>. They share the habit of naming what
+      changed instead of reprinting the file. They do not share a parser. Pick the one that
+      matches the file you actually have.
+    </p>
+    <a href={toolHref} class="cta-link">Open the JSON Diff</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

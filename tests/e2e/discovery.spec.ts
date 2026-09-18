@@ -106,7 +106,9 @@ test.describe('homepage index', () => {
     // reading a UUID is not a mode of minting one, so a group switcher would swap the task.
     // Hash Identifier (beta-v11.5) is ungrouped: it sits on the hashing engine, but pattern
     // hash-identify is not hash, so it cannot share the Hash Generator switcher.
-    await expect(directory.locator('.dir-link')).toHaveCount(92);
+    // JSON Diff (beta-v11.6) is ungrouped: pattern structured-compare is not structured-transform,
+    // so it cannot share the JSON Tools switcher (formatter, minifier, tree).
+    await expect(directory.locator('.dir-link')).toHaveCount(93);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

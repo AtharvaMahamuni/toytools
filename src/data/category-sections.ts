@@ -21,6 +21,7 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'hash-identify':        { title: 'Hashing',                order: 2 },
   'structured-transform': { title: 'JSON & Structured Data', order: 3 },
   'structured-validate':  { title: 'JSON & Structured Data', order: 3 },
+  'structured-compare':   { title: 'JSON & Structured Data', order: 3 },
   'token-decode':         { title: 'Tokens & JWT',          order: 4 },
   'csv-transform':        { title: 'CSV Tools',             order: 5 },
   'calculate':            { title: 'Calculators',            order: 1 },
