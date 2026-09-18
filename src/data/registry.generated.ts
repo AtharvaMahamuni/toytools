@@ -128,6 +128,7 @@ import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp
 import { config as uppercaseConverter } from '@tools/text/uppercase-converter/config';
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
+import { config as uuidInspector } from '@tools/generate/uuid-inspector/config';
 import { config as waterIntakeTracker } from '@tools/health/water-intake-tracker/config';
 import { config as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/config';
 import { config as wordCounter } from '@tools/text/word-counter/config';
@@ -261,6 +262,7 @@ export const toolConfigs: ToolConfig[] = [
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,
+  uuidInspector,
   waterIntakeTracker,
   whatIsMyIp,
   wordCounter,

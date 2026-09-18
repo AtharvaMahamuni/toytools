@@ -1,0 +1,11 @@
+---
+import GeneratorWidget from '@tools/_shared/GeneratorWidget.astro';
+import { config } from './config';
+---
+
+<GeneratorWidget
+  slug={config.slug}
+  generatorId={config.processorId!}
+  config={config}
+  emptyText="Paste a UUID to see its version and variant."
+/>

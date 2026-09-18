@@ -128,6 +128,7 @@ import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timest
 import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter/knowledge';
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
+import { knowledge as uuidInspector } from '@tools/generate/uuid-inspector/knowledge';
 import { knowledge as waterIntakeTracker } from '@tools/health/water-intake-tracker/knowledge';
 import { knowledge as whatIsMyIp } from '@tools/developer-utilities/what-is-my-ip/knowledge';
 import { knowledge as wordCounter } from '@tools/text/word-counter/knowledge';
@@ -261,6 +262,7 @@ export const authoredKnowledge: Knowledge[] = [
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,
+  uuidInspector,
   waterIntakeTracker,
   whatIsMyIp,
   wordCounter,

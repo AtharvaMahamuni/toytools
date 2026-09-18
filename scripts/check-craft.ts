@@ -159,7 +159,10 @@ const THRESHOLDS = {
   //   cue-response-reward loop, honest streaks, never-miss-twice recovery on-device.
   // 2026-09-18: 0.671 (88/131). Book Tracker ships orientation craft book-shelf-local:
   //   a private shelf against Goodreads and StoryGraph account walls. No signup, no sync.
-  coverage: 0.671,
+  // 2026-09-18: 0.674 (89/132). UUID Inspector ships verification craft uuid-version-check.
+  //   A version 4 UUID looks fine when a system wants version 7. The expected-version note
+  //   names that mismatch and stays silent when no version is expected.
+  coverage: 0.674,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

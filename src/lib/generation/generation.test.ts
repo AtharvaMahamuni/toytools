@@ -27,9 +27,10 @@ describe('runGeneration', () => {
   });
 
   it.each(Object.keys(GENERATORS))('generator "%s" produces ok output with defaults', (id) => {
-    // qr-code is the one generator that needs content — give it some.
+    // qr-code and uuid-inspector have no meaningful default content. Give each a sample.
     const opts = defaultsFor(id);
     if (id === 'qr-code') opts.text = 'https://toytoolsapp.com';
+    if (id === 'uuid-inspector') opts.input = '919108f7-52d1-4320-9bac-f847db4148a8';
     const r = runGeneration(id, opts);
     expect(r.ok, JSON.stringify(r)).toBe(true);
     if (r.kind === 'text') expect((r.text ?? '').length).toBeGreaterThan(0);
