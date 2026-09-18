@@ -35,7 +35,7 @@ write. For "where does X live", read `docs/code-map.json` first.
 
 1. **Identify engine type first.** The engine determines which files to create, which registry to update, and which shared widget to use. Read `references/tool-classification.md` if you are unsure.
 
-2. **Never edit shared widget files.** `TextProcessorWidget.astro`, `ConverterWidget.astro`, `StructuredDataWidget.astro`, `TextMetricWidget.astro`, `FinanceWidget.astro`, `JwtWidget.astro` — these are platform infrastructure. A tool's `Widget.astro` is always a 3-line wrapper that passes props into the shared widget.
+2. **Never edit shared widget files.** `TextProcessorWidget.astro`, `ConverterWidget.astro`, `StructuredDataWidget.astro`, `TextMetricWidget.astro`, `FinanceWidget.astro`, `WellnessWidget.astro`, `DateTimeWidget.astro`, `MathWidget.astro`, `NetworkWidget.astro`, `JwtWidget.astro` — these are platform infrastructure. A tool's `Widget.astro` is always a 3-line wrapper that passes props into the shared widget. Calculator engines already render as a **ledger** (bare `IoPanel`, `ExperienceRenderer` density `ledger`, answer-first on a phone). Do not add Details/Result frames or extra result cards; the contract is in the **ui-design-system** skill → "Calculator ledger". Text-window engines keep two labelled panes.
 
 3. **Never add rendering or processing logic inside a tool folder.** If behavior is used by more than one tool (or could be), it belongs in the engine lib or shared widget. A tool folder contains only: `config.ts`, `Widget.astro`, and optionally `faq.ts`, `Guide.astro`, `knowledge.ts`.
 

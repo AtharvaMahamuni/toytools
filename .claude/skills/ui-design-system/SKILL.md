@@ -181,8 +181,30 @@ Set via `maxWidth` prop on `BaseLayout` (`'shell' | 'content' | 'tool' | 'full'`
 ### Two-column tools (`ToolSplit`)
 `src/tools/_shared/ToolSplit.astro` — desktop input-left / output-right, sticky output, stacks at
 **1024px**. Props `ratio` (`1-1|3-2|3-1`), `stackOrder` (`input-first|output-first`), `stickyOutput`.
-Answer-first tools (text metrics) stack output-first on mobile; transform tools stack input-first.
+Answer-first tools (text metrics, calculators) stack output-first on mobile; transform tools stack input-first.
 Live tools (case, percentage) update on input — no submit button.
+
+### Calculator ledger (form-and-answer tools)
+
+The platform result for every **interactive calculator** (finance, wellness, datetime, math,
+network, and the number family). A statement, not two captioned cards. Wrap the split in
+`.calc-ledger`. Compose `IoPanel` with `bare`. Let `ExperienceRenderer` keep its default
+`density="ledger"`. Copy lives in `ToolActions`, not a panel header.
+
+```
+Open:     the number, a few ledger rows, the chart if any, one insight sentence
+Folded:   one disclosure, "How this was worked out" (assumptions, timeline, milestones, explanation, related tools)
+Phone:    stackOrder="output-first" when the result is short (finance, datetime, number).
+          Chart-heavy families (wellness, math, network) stay input-first so the first
+          control stays inside the fold ratchet.
+Never:    labelled Details/Result frames, filled insight tiles, an open milestone checklist
+```
+
+Text-window tools (encode, hash, JSON, CSV, JWT, generators) are **not** this. Their two panes
+are windows onto text and keep headers. Do not put `.calc-ledger` on those widgets.
+
+A new calculator engine inherits this by composing `ExperienceRenderer` and a bare `IoPanel`.
+Do not invent a third result chrome. `density="panel"` exists only as an opt-out.
 
 ### Action buttons & state colour
 All tool buttons (`.action-btn`, defined in `tool-widget.css`) are transparent utility controls.

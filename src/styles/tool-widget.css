@@ -924,12 +924,22 @@ body.tt-focus-lock {
 .experience-section[data-section="visualization"]:not([hidden]),
 .experience-section[data-section="comparison"]:not([hidden]) { display: block; }
 
-/* ── Finance ledger ──────────────────────────────────────────────────────────
-   A statement, not two captioned cards. The number and a few rows stay open.
-   Workings fold into one disclosure. Related tools are a quiet link row.
-   Between-group space (~space-8) beats within-field space (~space-1). */
-.finance-ledger {
+/* ── Calculator ledger ───────────────────────────────────────────────────────
+   Platform default for every form-and-answer calculator (finance, wellness,
+   datetime, math, network, number). A statement, not two captioned cards.
+   The number and a few rows stay open. Workings fold into one disclosure.
+   Between-group space (~space-8) beats within-field space (~space-1).
+   Text-window tools (encode, hash, JSON) do not use this class. */
+.calc-ledger {
   min-width: 0;
+}
+
+.calc-ledger .io-body {
+  gap: var(--space-5);
+}
+
+.calc-ledger .smart-preset {
+  background: transparent;
 }
 
 .finance-ledger-toolbar {
@@ -939,18 +949,10 @@ body.tt-focus-lock {
   gap: var(--space-2);
 }
 
-.finance-ledger .finance-form {
-  gap: var(--space-5);
-}
-
 .finance-scenarios {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-}
-
-.finance-ledger .smart-preset {
-  background: transparent;
 }
 
 .io-panel--bare.io-panel--result:not(:has(.tm-secondary:not([hidden]))) .tm-hero {

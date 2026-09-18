@@ -5,9 +5,10 @@
 //
 // It renders the whole experience, not just numbers: hero -> visualization -> metrics -> timeline ->
 // milestones -> insights -> comparison -> assumptions -> explanation -> next questions -> decisions.
-// Verbose sections use native <details>. Density `ledger` (finance) keeps the number, the ledger
-// rows and one insight sentence open, and folds the rest into a single "How this was worked out"
-// disclosure so the result is a statement rather than a stack of cards.
+// Verbose sections use native <details>. Density `ledger` is the platform default for every
+// calculator engine: the number, ledger rows, chart and one insight stay open; the rest folds
+// into a single "How this was worked out" disclosure. `panel` is the labelled chrome for
+// text-window tools that do not use this renderer.
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import { DEFAULT_LAYOUT, DEFAULT_CAPABILITIES } from '@lib/results/types';
 import type { SectionId, Capabilities } from '@lib/results/types';
@@ -21,9 +22,9 @@ interface Props {
   /** Optional tool craft id, attached to the visualization section when present. */
   craftId?: string;
   /**
-   * `ledger` is the finance statement: the number and a few rows stay open, the
-   * workings fold into one disclosure, and related tools are a quiet link row.
-   * Default keeps the labelled result panel other engines already use.
+   * `ledger` is the calculator statement (platform default): the number, a few
+   * rows and one insight stay open; workings fold into one disclosure.
+   * `panel` keeps labelled result chrome. Text-window tools do not use this renderer.
    */
   density?: 'panel' | 'ledger';
 }
@@ -34,7 +35,7 @@ const {
   layout = DEFAULT_LAYOUT,
   capabilities = {},
   craftId,
-  density = 'panel',
+  density = 'ledger',
 } = Astro.props;
 const caps: Capabilities = { ...DEFAULT_CAPABILITIES, ...capabilities };
 const heroId = `${idPrefix}-hero`;

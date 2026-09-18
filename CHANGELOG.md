@@ -6,7 +6,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 ### Changed
 
-- **Finance tools** are a ledger instead of two captioned cards. The number, a few supporting rows, and one insight sentence stay open. Timeline, assumptions, milestones, related tools, and the explanation fold into a single "How this was worked out" disclosure. Insight lines use a left stripe, not a filled tile. On a phone the answer stacks first. Copy still lives in the action row.
+- **Calculator tools** are a ledger instead of two captioned cards. Finance, health calculators, date and time, math, network, and the number family (tip, tax, discount, margin, markup, percentage) share one surface: the number, a few supporting rows, and one insight sentence stay open. Timeline, assumptions, milestones, related tools, and the explanation fold into a single "How this was worked out" disclosure. Insight lines use a left stripe, not a filled tile. On a phone the answer stacks first. Copy still lives in the action row. Text-window tools (encode, hash, JSON) keep their two panes.
 - **Money & Finance** (and other category listings) use each tool's tagline on the category page, not the long meta description, so the directory reads as a list rather than a stack of paragraphs.
 
 ## [beta-v11.8.1] - 2026-09-18

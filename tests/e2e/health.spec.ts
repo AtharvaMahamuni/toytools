@@ -114,20 +114,17 @@ test.describe('result layout', () => {
     await page.goto('/tool/health/bmi-calculator/');
     const exp = page.locator('#bmi-calculator-experience');
 
-    // Open by default: the answer, the chart, and what to do next.
+    // Open by default: the answer and the chart. Workings (explanation, related
+    // tools, assumptions) fold into one disclosure.
     await expect(exp.locator('[data-section="hero"]')).toBeVisible();
     await expect(exp.locator('[data-section="visualization"] svg')).toBeVisible();
-    await expect(exp.locator('[data-section="decisions"]')).toBeVisible();
-
-    // Folded: the read-if-curious material.
-    for (const section of ['explanation', 'nextQuestions', 'assumptions']) {
-      const el = exp.locator(`[data-section="${section}"]`);
-      await expect(el).toHaveJSProperty('open', false);
-    }
+    const workings = exp.locator('.experience-workings');
+    await expect(workings).toBeVisible();
+    await expect(workings).toHaveJSProperty('open', false);
 
     // Still reachable in one click.
-    await exp.locator('[data-section="explanation"] summary').click();
-    await expect(exp.locator('[data-section="explanation"]')).toHaveJSProperty('open', true);
+    await workings.locator('summary').click();
+    await expect(workings).toHaveJSProperty('open', true);
     await expect(exp.locator('[data-explanation]')).toContainText('BMI divides your weight');
   });
 
@@ -171,8 +168,12 @@ test.describe('density and alignment', () => {
           result: h(document.querySelector('.io-panel--result')),
         };
       });
-      // A short form next to a long result must NOT be padded out to match it.
-      expect(input, `${slug} form should not be stretched`).toBeLessThan(result);
+      // equalHeight={false}: each pane hugs its own content. Stretching would make
+      // the heights match. After the ledger pass the form can be taller than the
+      // folded result, so "form < result" is no longer the signal.
+      expect(input, `${slug} form should render`).toBeGreaterThan(0);
+      expect(result, `${slug} result should render`).toBeGreaterThan(0);
+      expect(input === result, `${slug} panes were equalized to the same height`).toBe(false);
     }
   });
 
@@ -182,7 +183,7 @@ test.describe('density and alignment', () => {
   // protein) the last 15 to 35px of chart now falls past a 1280x720 fold. Grouping is worth that,
   // but the hero answer being visible is not negotiable, so that is what is pinned here.
   test('the answer and the start of its chart land above the fold', async ({ page }, info) => {
-    test.skip(info.project.name !== 'chromium', 'the phone stacks form-then-answer by design');
+    test.skip(info.project.name !== 'chromium', 'phone stacks form then answer on chart-heavy health tools');
     for (const slug of CALCULATORS) {
       await page.goto(`/tool/health/${slug}/`);
       await answerDrawn(page);

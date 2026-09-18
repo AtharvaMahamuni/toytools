@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'Finance tools as a ledger instead of stacked cards',
+  description: 'Calculator tools as a ledger instead of stacked cards',
 };
 
 export function formatVersion(config: VersionConfig): string {

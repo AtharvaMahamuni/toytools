@@ -4,9 +4,9 @@
 // ExperienceRenderer. It is finance-specific only in its wiring (ToyTools.runFinance); the input layer
 // and the entire result experience are platform-owned and reused unchanged by future engines.
 //
-// The finance surface is a ledger, not two captioned cards: bare IoPanels, answer-first on
-// a phone, and ExperienceRenderer density="ledger". If a new finance tool ever requires
-// editing this file for a new *field*, the architecture has failed.
+// The calculator surface is a ledger, not two captioned cards: bare IoPanels, answer-first
+// on a phone, ExperienceRenderer density ledger (platform default). If a new finance tool
+// ever requires editing this file for a new *field*, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
@@ -51,7 +51,7 @@ const currencyMeta = Object.fromEntries(
 );
 ---
 
-<div class="finance-ledger">
+<div class="calc-ledger">
   <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
     <IoPanel
       slot="input"
@@ -85,7 +85,6 @@ const currencyMeta = Object.fromEntries(
       emptyText={resolvedEmpty}
       layout={calc?.layout}
       capabilities={caps}
-      density="ledger"
     />
   </ToolSplit>
 </div>

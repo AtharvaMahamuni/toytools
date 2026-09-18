@@ -170,3 +170,6 @@ each with the concrete failure it resolves, is section 8 of
 - **Per-tool themes.** No colours, typefaces or marks per tool. The derived icon is the visual
   identity and it is already free.
 - **Filling the cap.** A tool with no honest answer to the failure test declares no craft and waits.
+- **Calculator chrome.** Form-and-answer tools already render as a ledger (bare `IoPanel`,
+  `ExperienceRenderer` density `ledger`). Do not add a Details/Result frame or a result card to
+  deliver craft. The contract is in the **ui-design-system** skill.
