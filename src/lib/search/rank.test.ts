@@ -228,6 +228,9 @@ describe('buildClientIndex', () => {
     // k after trimming). Catalog growth, not alias bloat.
     // 2026-09-16: 41_700 → 41_900. Habit Streak Tracker is one thin productivity entry after a
     // short tag list. Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(41_900);
+    // 2026-09-18: 41_900 → 42_100. UUID Inspector is one thin generate entry. Remaining slack
+    // was 85 bytes and the entry itself is about 230, including the dataset phrases the
+    // ranker has to hit verbatim. Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(42_100);
   });
 });

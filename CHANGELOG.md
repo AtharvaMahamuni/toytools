@@ -2,6 +2,20 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.4] - 2026-09-18
+
+### Added
+
+- **UUID Inspector** (`/tool/generate/uuid-inspector/`). Paste one UUID, or up to 50, one per
+  line. Each line is marked valid or invalid, with the version (nil, max, v1 through v8, or
+  unknown), the variant (RFC 4122, or NCS, Microsoft, or future when the bits say so), and a
+  one-line reason when it is not a UUID. Hyphenated and 32-hex forms are both accepted. Version
+  1, 6, and 7 show the encoded timestamp in UTC. Version 4 does not get a timestamp. Nil and max
+  are called out as special values, not as a normal version 4. Runs entirely on your device.
+  Nothing is uploaded.
+- **Craft (verification):** `uuid-version-check`. A version 4 UUID looks fine to a human even
+  when a system wants version 7. Expected version flags that mismatch and stays quiet otherwise.
+
 ## [beta-v11.3] - 2026-09-18
 
 ### Added

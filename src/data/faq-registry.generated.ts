@@ -128,6 +128,7 @@ import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timest
 import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter/faq';
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
+import { items as uuidInspectorFaqs } from '@tools/generate/uuid-inspector/faq';
 import { items as waterIntakeTrackerFaqs } from '@tools/health/water-intake-tracker/faq';
 import { items as whatIsMyIpFaqs } from '@tools/developer-utilities/what-is-my-ip/faq';
 import { items as wordCounterFaqs } from '@tools/text/word-counter/faq';
@@ -261,6 +262,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'uppercase-converter': uppercaseConverterFaqs,
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,
+  'uuid-inspector': uuidInspectorFaqs,
   'water-intake-tracker': waterIntakeTrackerFaqs,
   'what-is-my-ip': whatIsMyIpFaqs,
   'word-counter': wordCounterFaqs,

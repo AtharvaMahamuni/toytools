@@ -102,7 +102,9 @@ test.describe('homepage index', () => {
     // mode of todo-list / notepad / pomodoro.
     // Book Tracker (beta-v11.3) is ungrouped: shelf family, not a mode of todo-list, notepad,
     // or habit-streak-tracker.
-    await expect(directory.locator('.dir-link')).toHaveCount(90);
+    // UUID Inspector (beta-v11.4) is ungrouped: same engine and pattern as UUID Generator, but
+    // reading a UUID is not a mode of minting one, so a group switcher would swap the task.
+    await expect(directory.locator('.dir-link')).toHaveCount(91);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

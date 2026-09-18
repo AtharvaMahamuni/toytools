@@ -15,6 +15,7 @@ import { dice } from './generators/dice';
 import { coinFlip } from './generators/coinFlip';
 import { namePicker } from './generators/namePicker';
 import { choicePicker } from './generators/choicePicker';
+import { uuidInspector } from './generators/uuidInspector';
 
 // Keyed by generator id, referenced from a tool config's `processorId`.
 export const GENERATORS: Record<string, Generator> = {
@@ -27,6 +28,7 @@ export const GENERATORS: Record<string, Generator> = {
   'coin-flip': coinFlip,
   'name-picker': namePicker,
   'choice-picker': choicePicker,
+  'uuid-inspector': uuidInspector,
 };
 
 /** Resolve a generator by id. Returns undefined for unknown ids. */

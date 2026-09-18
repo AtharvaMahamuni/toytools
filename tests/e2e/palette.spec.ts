@@ -141,7 +141,8 @@ test.describe('search page', () => {
   });
 
   test('honours a ?q= deep link', async ({ page }) => {
-    await page.goto('/search/?q=uuid');
+    // "uuid" is no longer one tool. "bulk uuid" is still only the generator.
+    await page.goto('/search/?q=bulk%20uuid');
     await expect(page.locator('#search-results')).toHaveAttribute('data-search-ready', 'true');
     const visible = page.locator('[data-search-item]:not([hidden])');
     await expect(visible).toHaveCount(1);

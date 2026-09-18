@@ -95,6 +95,7 @@ export const searchAliases: Record<string, string[]> = {
   'qr-code-generator': ['qr'],
   'random-string-generator': ['random token'],
   'uuid-generator': ['guid'],
+  'uuid-inspector': ['uuid validator', 'what version is this uuid', 'uuid v4 vs v7', 'is this a valid uuid', 'is this uuid valid', 'decode uuid timestamp'],
   'dice-roller': ['roll a dice', 'roll a die', 'd20', 'virtual dice', 'dnd dice'],
   'coin-flipper': ['flip a coin', 'heads or tails', 'coin toss'],
   'random-name-picker': ['pick a name', 'wheel of names', 'raffle draw', 'classroom picker'],

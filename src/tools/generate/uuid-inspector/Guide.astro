@@ -1,0 +1,259 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+const generatorHref = withBase(`/tool/${category.segment}/uuid-generator/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A UUID is a 128-bit identifier, usually written as 32 hex digits with hyphens. What is inside
+      those digits is not obvious. Two of the fields are a version and a variant. They decide whether
+      the value is random, time-based, a name hash, or a reserved layout. This inspector reads those
+      fields for you. Paste one UUID, or one per line. Each line comes back valid or invalid, with
+      the version, the variant, and a timestamp only when a time is really stored.
+    </p>
+    <p>
+      The paste stays on your device. Runs entirely on your device. Nothing is uploaded. There is no
+      account and no network call. Use it when a log, an API, or a database row handed you an id and
+      you need to know which kind it is before you insert it again.
+    </p>
+    <a href={toolHref} class="cta-link">Open the UUID Inspector</a>
+  </section>
+
+  <section id="version-bits">
+    <h2>What do the version bits actually say? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The version is four bits. In the usual text form they sit in one hex digit, the first digit of
+      the third group. That digit is the whole story. A 4 means version 4, which is random. A 7 means
+      version 7, which starts with a Unix time in milliseconds. A 1 means version 1, which carries a
+      much older clock.
+    </p>
+    <p>
+      How does that digit get there? The generator sets it on purpose. The other bits can be random,
+      a hash, or a timestamp, but those four bits are reserved so a reader can tell the layouts apart.
+      This tool works by reading that nibble, then reading the variant bits next to it. It does not
+      guess from the shape of the string. Every valid UUID has the same shape.
+    </p>
+    <p>
+      The labels you will see are nil, version 1 through version 8, max, and unknown. Version 2 is
+      the old DCE security form. Version 8 is a custom layout. Both are named, and neither gets a
+      made-up decoding of the private bits. A nibble outside that set, other than the two specials,
+      is unknown. Unknown means the bits do not name a version this spec defines. It does not mean
+      the string failed to parse.
+    </p>
+    <ReferenceBlock type="key-idea" heading="The version is one hex digit">
+      <p>
+        In 550e8400-e29b-41d4-a716-446655440000 the 4 after the second hyphen is the version. You do
+        not have to count 128 bits. You do have to know which digit it is, because every other digit
+        is allowed to look the same.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="variant">
+    <h2>Why does the variant matter? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The variant is a few bits at the start of the fourth group. It answers a question the version
+      does not: which family of layouts is this? Almost every UUID you meet today uses the family
+      this page labels RFC 4122. The current spec is RFC 9562, and it kept those same bits. When the
+      bits match, the line says RFC 4122.
+    </p>
+    <p>
+      Older families still show up in old data. If the bits say so, the line uses the old names:
+      NCS, Microsoft, or future. NCS is the Apollo layout from before the modern format. Microsoft
+      is the reserved backward-compatible range. Future is the range the spec has not defined yet.
+      A string can be the right length and still be one of those. The variant is how you see it.
+    </p>
+    <p>
+      Why this matters: a library that only checks the hyphen pattern will accept all four families.
+      A column or an API that only wants the RFC layout may not. The rejection often does not say
+      "wrong variant". It says the value is invalid, and you have to find the bits yourself.
+    </p>
+    <ReferenceBlock type="note" heading="RFC 9562 kept the variant bits">
+      <p>
+        Versions 6, 7, and 8 were added later. They still use the RFC 4122 variant. A version 7 UUID
+        is new in the version digit, not in the variant bits.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="version-4-trap">
+    <h2>How can a version 4 look right and still be wrong? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A v4 looks fine to a human even when a system wants v7. Both strings are 36 characters. Both
+      have hyphens in the same places. Both pass a regex. The difference between them is that one
+      digit. Version 4 is random on purpose, so new rows land all over a database index. Version 7
+      sorts by time, which is why new schemas ask for it.
+    </p>
+    <p>
+      People hit this because the next version looks identical at a glance. They paste a version 4
+      into a version 7 column, the insert fails, and the error names a constraint rather than the
+      hex digit. Set Expected version to 7 on this page. A version 4 line is then marked not version
+      7. Leave the control on Any version and that warning stays away. The tool still shows the
+      version either way.
+    </p>
+    <p>
+      Do not read a time out of a version 4. There is no clock in those bits. This page will not
+      print one. If you need a time, the version has to be 1, 6, or 7.
+    </p>
+  </section>
+
+  <section id="examples">
+    <h2>What does each version look like in practice? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      These are published test values, not ones this page invented. For example, the version 7
+      vector 017F22E2-79B0-7CC3-98C4-DC0C0C07398F is 22 February 2022 at 19:22:22.000 UTC. The
+      matching version 1 value C232AB00-9414-11EC-B3C8-9F6BDECED846 and the version 6 value
+      1EC9414C-232A-6B00-B3C8-9F6BDECED846 are the same instant, stored in 100-nanosecond ticks
+      since 15 October 1582. The line shows that finer precision. The version 7 line does not,
+      because version 7 only stored milliseconds.
+    </p>
+    <p>
+      The version 4 vector 919108f7-52d1-4320-9bac-f847db4148a8 is valid and random. It has no
+      timestamp. The version 3 value 5df41881-3aed-3515-88a7-2f4a814cf09e and the version 5 value
+      2ed6657d-e927-568b-95e1-2665a8aea6a2 are name hashes. They also have no clock. A compact form
+      such as 919108f752d143209bacf847db4148a8 is the same version 4 value without hyphens, and it
+      is valid here.
+    </p>
+    <p>
+      The nil UUID is 00000000-0000-0000-0000-000000000000. The max UUID is
+      ffffffff-ffff-ffff-ffff-ffffffffffff. Neither is a normal version 4. Nil is a stand-in for
+      "no id". Max is a sentinel at the other end. Real work still runs into both of them, often as
+      placeholders that slipped into a row.
+    </p>
+  </section>
+
+  <section id="timestamps-and-truncation">
+    <h2>When is there a timestamp, and when is the string just short? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Version 1 and version 6 encode the same kind of clock: a count of 100-nanosecond intervals
+      from 15 October 1582. Version 6 only reorders those bits so new values sort near each other.
+      Version 7 uses the Unix epoch in milliseconds. That is the timestamp people usually want to
+      decode. If the version is anything else, the line omits the time rather than implying one.
+    </p>
+    <p>
+      A truncated UUID fails here before a database rejects it. Cut the example above after the
+      third group and the reason is wrong length. A character that is not hex is bad hex. Hyphens
+      in the wrong places are called out as such. A missing hyphen, on a clean 32-hex string, is
+      not a failure. Braces and a urn:uuid: prefix are also refused, with a reason that says what
+      to strip. The point is a one-line cause, not a parser stack trace.
+    </p>
+    <p>
+      Checking a UUID copied from a log before inserting it is the ordinary case. Confirming an API
+      returned version 7 rather than version 4 is the other. Reading the timestamp out of a version
+      7 identifier is safe only because the version digit said 7. Spotting a nil or max UUID used
+      as a placeholder is why those two values get their own names.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>What are the common mistakes? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most failures are not exotic. They are a well-formed string that means the wrong thing, or a
+      string that is one character short. These are the ones worth catching before the database
+      does.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Version 4 where version 7 was required">
+      <p>
+        Treating a version 4 UUID as acceptable when the system wants version 7 is the expensive
+        one. The string looks finished. The index does not want it. Check the version digit, or set
+        Expected version, before you retry the insert.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A truncated value reaches the database">
+      <p>
+        Letting a truncated UUID reach the database before checking length wastes a round trip. The
+        error you get back often names a column, not the missing character. A short string fails
+        here first.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Nil treated as a random id">
+      <p>
+        Reading the nil UUID as an ordinary random identifier lets a placeholder pass every shape
+        check downstream. All zeros is a reserved value. It is not a lucky draw from version 4.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Variant bits ignored">
+      <p>
+        Ignoring variant bits that say NCS, Microsoft, or future hides a layout the rest of the
+        system does not share. Length alone cannot show it. The fourth group's first digit can.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="versus-generator">
+    <h2>How does this differ from generating a UUID? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The difference between this tool and the UUID generator is the direction of the work. The
+      generator mints a new version 4 value. This page does not. It reads a value you already have.
+      Generating a new id will not explain why the old one was rejected. Inspecting a blank box
+      will not give you an id to insert.
+    </p>
+    <p>
+      Unlike a password, a UUID is not a secret. Version 1 and version 6 can even carry a time, and
+      older version 1 values can carry a network address. That is a reason to inspect one before
+      you put it in a public URL. It is not a reason to treat the value as a credential.
+    </p>
+    <p>
+      Up to 50 lines are checked. A longer paste is not silently chopped: the result says how many
+      lines were left out. There is no file upload. Paste, read, copy the line if you need it.
+    </p>
+    <a href={generatorHref} class="cta-link">Open the UUID Generator</a>
+  </section>
+
+  <section id="related-tools">
+    <h2>Where do I go next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start with the inspector when the id already exists. Move to the
+      <a href={generatorHref}>UUID generator</a> when you need a fresh version 4 value. Both sit in
+      <a href={categoryHref}>Generators</a>. The generator is the neighbor, not a replacement: it
+      cannot tell you the version of a value you pasted, and this page will not mint one.
+    </p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

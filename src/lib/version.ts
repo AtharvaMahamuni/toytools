@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 3,
+  minor: 4,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'Book Tracker: private on-device bookshelf',
+  description: 'UUID Inspector: check version and variant on device',
 };
 
 export function formatVersion(config: VersionConfig): string {

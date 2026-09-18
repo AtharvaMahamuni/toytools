@@ -67,3 +67,25 @@ if (qrPath) {
     await expect(page.getByRole('button', { name: 'Download SVG' })).toBeVisible();
   });
 }
+
+test('uuid-inspector: a pasted UUID shows its version, and the version check stays quiet', async ({ page }) => {
+  await page.goto('/tool/generate/uuid-inspector/');
+  const input = page.locator('#uuid-inspector-f-input');
+  const output = page.locator('#uuid-inspector-text');
+  const note = page.locator('[data-craft="uuid-version-check"]');
+
+  await expect(note).toBeHidden();
+  await input.fill('919108f7-52d1-4320-9bac-f847db4148a8');
+  await expect(output).toContainText('valid, v4, RFC 4122');
+  await expect(output).not.toContainText('UTC');
+  await expect(note).toBeHidden();
+
+  await page.locator('#uuid-inspector-f-expect').selectOption('7');
+  await expect(note).toBeVisible();
+  await expect(note).toContainText('version 7');
+  await expect(output).toContainText('not version 7');
+
+  await input.fill('919108f7-52d1');
+  await expect(output).toContainText('wrong length');
+  await expect(note).toBeHidden();
+});

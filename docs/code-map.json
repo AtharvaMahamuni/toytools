@@ -187,7 +187,7 @@
         "code",
         "identifier"
       ],
-      "toolCount": 9
+      "toolCount": 10
     },
     "physics": {
       "name": "Physics Playground Engine",
@@ -3452,6 +3452,27 @@
       "pattern": "generate-identifier",
       "family": "identifier",
       "processorId": "uuid",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "uuid-inspector": {
+      "name": "UUID Inspector",
+      "dir": "src/tools/generate/uuid-inspector",
+      "categorySlug": "generate",
+      "url": "/tool/generate/uuid-inspector/",
+      "engine": "generation",
+      "pattern": "generate-identifier",
+      "family": "identifier",
+      "processorId": "uuid-inspector",
       "toolGroup": "",
       "files": [
         "Guide.astro",
