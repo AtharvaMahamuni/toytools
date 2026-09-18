@@ -1,0 +1,109 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>What is UPI MDR on this page? It is an estimate of a merchant discount rate, in rupees.</p>
+    <p>This is an ecosystem charge on some merchant payments, not a fee the customer owes, and not a government tax. The page prints that line next to the number because a quote can look like a tax.</p>
+    <p>You type whole rupees and a kind. The kinds are ordinary merchant, essential sector, capital market, and small merchant. Person-to-person stays free at any amount, and this page does not estimate that.</p>
+    <a href={toolHref} class="cta-link">Open the UPI MDR Estimator</a>
+  </section>
+
+  <section id="pib-delhi">
+    <h2>What did the PIB note say on 15 Sep 2026? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Person-to-person UPI stays free at any amount.</p>
+    <p>MDR is not a tax and not a customer charge. Some person-to-merchant payments above 2000 rupees are 0.4 percent, capped at 300 rupees once the amount is 75000 or more.</p>
+    <p>Essential or thin-margin sectors above 2000 rupees are a flat 5 rupees. The note names rail, telecom, insurance, fuel, and agri inputs. Capital-market payments are 0.02 percent, with a cap of 300 rupees.</p>
+    <p>Small merchants on P2PM, about 1 lakh a month of UPI QR, stay on zero MDR. The source is the <a href="https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2310586">PIB Delhi release from 15 Sep 2026</a>.</p>
+    <p>That is the whole rate set this page will state. It does not add dates, rates, or extra sectors on top of that note.</p>
+    <ReferenceBlock type="key-idea" heading="MDR is not a tax">
+      <p>MDR is not a tax and not a customer charge. The number on the page is not money the customer owes.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-the-estimate-works">
+    <h2>How does the estimate work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>How does the formula pick a rule? Amount comes first.</p>
+    <p>At 2000 rupees or less, every kind is zero. Therefore the page refuses to invent a fee under that line. Above 2000, the kind decides the rest.</p>
+    <p>Ordinary merchant uses 0.4 percent until the amount reaches 75000. From 75000 the MDR is 300 rupees. 74999 still uses 0.4 percent, and that product rounds to 300 paise, but the rule label stays the percent.</p>
+    <p>Essential sector above 2000 is a flat 5 rupees, not a percent. Capital market above 2000 is 0.02 percent, and the cap cuts it to 300 rupees once the percent would pass 300. Small merchant is zero at any amount in this toy.</p>
+  </section>
+
+  <section id="five-thousand">
+    <h2>What does 5000 ordinary become? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>For example, 5000 rupees on an ordinary merchant is 20 rupees of MDR.</p>
+    <p>0.4 percent of 5000 is 20. The page shows rupees, including paise, so the unit is obvious. 2001 ordinary is 8 rupees. 2000 is zero.</p>
+    <p>For example, 2001 on essential sector is 5 rupees. For example, 2001 on capital market is 0.40 rupees. 20,00,000 on capital market hits the 300 rupee cap.</p>
+    <p>Checking a merchant quote against the PIB rates is the job. The page does not send the payment, and it does not say the charge will apply at a bank.</p>
+  </section>
+
+  <section id="small-merchant">
+    <h2>Why is the small-merchant choice a what-if? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Real small-merchant status depends on the bank.</p>
+    <p>The PIB note describes small merchants on P2PM as about 1 lakh a month of UPI QR, and those stay on zero MDR. This toggle does not ask the bank. It only answers the what-if.</p>
+    <p>However, a zero on this toggle is not a certificate. The bank decides. The page will not tell you how to qualify, and it will not list steps that dodge a charge.</p>
+  </section>
+
+  <section id="versus-tax">
+    <h2>UPI MDR versus a tax calculator <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>UPI MDR versus a tax calculator is a different job.</p>
+    <p>The tax calculator applies a rate you type. Unlike that, this page has no free rate box. The rates are locked to the PIB note. The UPI 1999 split is a meme list of chunks, not an estimate of MDR.</p>
+    <p>The difference between them is the question. One applies your rate. One draws a joke list. This one estimates a merchant charge and then says it is not a tax you owe.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Two mistakes turn an estimate into a bill the customer thinks they must pay.</p>
+    <ReferenceBlock type="common-mistake" heading="Reading the MDR figure as a tax the customer owes">
+      <p>Do not treat the rupees as a government tax. The customer does not owe that figure.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Treating the small-merchant toggle as a bank decision">
+      <p>The toggle is a what-if. Real status depends on the bank. Do not read a zero here as a category the bank already granted.</p>
+    </ReferenceBlock>
+    <p>Runs entirely on your device. Nothing is uploaded. The amount stays in the tab, and the result does not wait on a server.</p>
+  </section>
+
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

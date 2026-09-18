@@ -1,0 +1,325 @@
+---
+---
+
+<div class="shop-caution" data-craft="shop-upi-tally" role="note">
+  <p>This is your own tally, not your bank or NPCI category. Crossing or staying under ₹1,00,000 here does not change your merchant status. Clearing site data deletes it.</p>
+  <p>Runs entirely on your device. Nothing is uploaded.</p>
+</div>
+
+<section class="shop-tally" data-tool="shop-upi-tally">
+  <p id="shop-month" class="shop-month">This month</p>
+  <p id="shop-total" class="shop-total" aria-live="polite">Add an amount to see this month.</p>
+  <p id="shop-gap" class="shop-gap"></p>
+  <form id="shop-form" class="shop-form">
+    <label class="shop-field" for="shop-amount">
+      <span>Amount in rupees</span>
+      <input id="shop-amount" inputmode="decimal" autocomplete="off" placeholder="500" />
+    </label>
+    <button type="submit" class="shop-add">Add amount</button>
+  </form>
+  <p id="shop-msg" class="shop-msg" role="status" hidden></p>
+  <div class="shop-row">
+    <button type="button" id="shop-export" class="shop-btn">Export JSON</button>
+    <button type="button" id="shop-import-btn" class="shop-btn" aria-expanded="false" aria-controls="shop-import">Import JSON</button>
+    <button type="button" id="shop-clear" class="shop-btn">Clear tally</button>
+  </div>
+  <div id="shop-import" class="shop-import" hidden>
+    <label class="shop-field" for="shop-import-text">Paste export JSON</label>
+    <textarea id="shop-import-text" rows="4"></textarea>
+    <div class="shop-row">
+      <input id="shop-import-file" type="file" accept="application/json,.json" aria-label="Choose a tally JSON file" />
+      <button type="button" id="shop-import-run" class="shop-add">Replace tally</button>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(function () {
+  var KEY = 'toytools.shop-upi-tally.v1';
+  var MAX_STORE = 50000;
+  var monthEl = document.getElementById('shop-month');
+  var totalEl = document.getElementById('shop-total');
+  var gapEl = document.getElementById('shop-gap');
+  var form = document.getElementById('shop-form');
+  var amountEl = document.getElementById('shop-amount');
+  var msgEl = document.getElementById('shop-msg');
+  var importPanel = document.getElementById('shop-import');
+  var importBtn = document.getElementById('shop-import-btn');
+  var importText = document.getElementById('shop-import-text');
+  var importFile = document.getElementById('shop-import-file');
+  var store = { v: 1, entries: [] };
+
+  function say(text) {
+    if (!msgEl) return;
+    if (!text) {
+      msgEl.hidden = true;
+      msgEl.textContent = '';
+      return;
+    }
+    msgEl.hidden = false;
+    msgEl.textContent = text;
+  }
+
+  function readRaw() {
+    try {
+      if (window.ToyTools && ToyTools.storage) return ToyTools.storage.get(KEY) || '';
+      return localStorage.getItem(KEY) || '';
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function load() {
+    store = { v: 1, entries: [] };
+    var raw = readRaw();
+    if (!raw) return;
+    try {
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.v === 1 && Array.isArray(parsed.entries)) store = parsed;
+    } catch (_) {
+      store = { v: 1, entries: [] };
+    }
+  }
+
+  function save() {
+    var payload = JSON.stringify(store);
+    if (payload.length >= MAX_STORE) {
+      say('This tally is too large for local storage, so the last change was not saved.');
+      return false;
+    }
+    try {
+      if (window.ToyTools && ToyTools.storage) ToyTools.storage.set(KEY, payload, MAX_STORE);
+      else localStorage.setItem(KEY, payload);
+    } catch (_) {
+      say('Could not save on this device.');
+      return false;
+    }
+    return true;
+  }
+
+  function toPaise(text) {
+    var t = String(text || '').trim().replace(/,/g, '').replace(/\u20b9/g, '');
+    if (!/^\d+(\.\d{1,2})?$/.test(t)) return null;
+    var n = Number(t);
+    if (!(n > 0) || n > 100000000) return null;
+    return Math.round(n * 100);
+  }
+
+  function render() {
+    if (!(window.ToyTools && ToyTools.runFinance)) return;
+    var res = ToyTools.runFinance('shop-upi-tally', { entries: JSON.stringify(store) }, { currency: 'INR' });
+    if (!res.ok) {
+      say(res.error || 'Could not read this tally.');
+      return;
+    }
+    if (monthEl) monthEl.textContent = res.hero && res.hero.note ? res.hero.note : 'This month';
+    if (totalEl) totalEl.textContent = res.hero ? res.hero.value : '';
+    var gap = null;
+    var count = null;
+    var metrics = res.metrics || [];
+    for (var i = 0; i < metrics.length; i++) {
+      if (metrics[i].id === 'gap') gap = metrics[i];
+      if (metrics[i].id === 'count') count = metrics[i];
+    }
+    if (gapEl && gap) {
+      gapEl.textContent = gap.label + ': ' + gap.value + (count ? '. ' + count.value + ' receipts this month.' : '');
+    }
+  }
+
+  function boot() {
+    load();
+    render();
+  }
+
+  if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(boot);
+  else boot();
+
+  if (form) {
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var paise = toPaise(amountEl && amountEl.value);
+      if (paise === null) {
+        say('Enter a positive amount in rupees, with at most two decimal places.');
+        return;
+      }
+      store.entries.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        paise: paise,
+        at: new Date().toISOString(),
+      });
+      if (!save()) {
+        store.entries.pop();
+        return;
+      }
+      if (amountEl) amountEl.value = '';
+      say('');
+      render();
+    });
+  }
+
+  var exportBtn = document.getElementById('shop-export');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', function () {
+      var blob = new Blob([JSON.stringify(store, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'shop-upi-tally.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  if (importBtn && importPanel) {
+    importBtn.addEventListener('click', function () {
+      var open = importPanel.hidden;
+      importPanel.hidden = !open;
+      importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  function applyImport(text) {
+    if (!(window.ToyTools && ToyTools.runFinance)) return;
+    var res = ToyTools.runFinance('shop-upi-tally', { entries: text }, { currency: 'INR' });
+    if (!res.ok) {
+      say(res.error || 'Could not import that file.');
+      return;
+    }
+    if (!window.confirm('Replace the tally on this device with this file?')) return;
+    var normalized = res.meta && res.meta.normalized;
+    if (!normalized) {
+      say('Could not import that file.');
+      return;
+    }
+    try {
+      store = JSON.parse(normalized);
+    } catch (_) {
+      say('Could not import that file.');
+      return;
+    }
+    if (!save()) return;
+    say('Imported. Older months stay in the file. The total is this calendar month.');
+    render();
+  }
+
+  var importRun = document.getElementById('shop-import-run');
+  if (importRun) {
+    importRun.addEventListener('click', function () {
+      var text = importText ? importText.value : '';
+      if (importFile && importFile.files && importFile.files[0]) {
+        importFile.files[0].text().then(applyImport).catch(function () {
+          say('Could not read that file.');
+        });
+        return;
+      }
+      applyImport(text);
+    });
+  }
+
+  var clearBtn = document.getElementById('shop-clear');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      if (!window.confirm('Clear this tally on this device?')) return;
+      store = { v: 1, entries: [] };
+      save();
+      say('Cleared on this device.');
+      render();
+    });
+  }
+})();
+</script>
+
+<style>
+  .shop-caution {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-3);
+    border-left: var(--border);
+  }
+
+  .shop-caution p,
+  .shop-month,
+  .shop-gap,
+  .shop-msg {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .shop-caution p:last-child {
+    margin-bottom: 0;
+  }
+
+  .shop-total {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .shop-form,
+  .shop-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .shop-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    flex: 1 1 12rem;
+  }
+
+  .shop-field input,
+  .shop-field textarea,
+  .shop-import input[type="file"] {
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-size: var(--text-base);
+  }
+
+  .shop-add,
+  .shop-btn {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+
+  .shop-add {
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    border-color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .shop-add:active,
+  .shop-btn:active {
+    opacity: 0.85;
+  }
+
+  .shop-import {
+    margin-top: var(--space-3);
+  }
+
+  .shop-msg[hidden],
+  .shop-import[hidden] {
+    display: none;
+  }
+</style>

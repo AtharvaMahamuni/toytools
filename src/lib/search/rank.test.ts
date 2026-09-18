@@ -236,6 +236,9 @@ describe('buildClientIndex', () => {
     // alias bloat.
     // 2026-09-18: 42_300 → 42_500. UPI 1999 Split is one thin finance entry (about 160 bytes,
     // one short alias). Remaining slack was gone. Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(42_500);
+    // 2026-09-18: 42_500 → 42_700. UPI MDR Estimator, Split Bill, and Shop UPI Tally are three
+    // thin finance entries. Keyword lists were trimmed to the category label before this raise
+    // (measured 42_654). Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(42_700);
   });
 });

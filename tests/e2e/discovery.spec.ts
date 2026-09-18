@@ -110,7 +110,9 @@ test.describe('homepage index', () => {
     // so it cannot share the JSON Tools switcher (formatter, minifier, tree).
     // UPI 1999 Split (beta-v11.7) is ungrouped: a finance-planning meme, not a mode of the
     // growth calculators and not a switch with the emergency fund calculator.
-    await expect(directory.locator('.dir-link')).toHaveCount(94);
+    // UPI MDR Estimator, Split Bill, and Shop UPI Tally (beta-v11.8) are ungrouped:
+    // each answers a different question, so a group switcher would swap the task.
+    await expect(directory.locator('.dir-link')).toHaveCount(97);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

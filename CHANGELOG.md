@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.8] - 2026-09-18
+
+### Added
+
+- **UPI MDR Estimator** (`/tool/finance/upi-mdr-estimator/`). Whole rupees plus a kind: ordinary merchant, essential sector, capital market, or small merchant. At 2000 or less the MDR is zero for every kind. Ordinary above 2000 is 0.4 percent, and from 75000 the MDR is 300 rupees. Essential above 2000 is a flat 5 rupees. Capital market above 2000 is 0.02 percent, capped at 300 rupees. Small merchant is zero at any amount in this toy, and the page says real status depends on the bank. The result says this is an ecosystem charge on some merchant payments, not a fee the customer owes, and not a government tax. Rates come only from the PIB note of 15 Sep 2026. Runs entirely on your device. Nothing is uploaded.
+- **Split Bill** (`/tool/finance/split-bill/`). A dinner split. Bill total, 2 to 30 people, optional tip 0 to 30 percent. Shows the total with tip and each equal share. The last person takes leftover paise so the shares sum to the total. No accounts. Not a UPI fee tool. Runs entirely on your device. Nothing is uploaded.
+- **Shop UPI Tally** (`/tool/finance/shop-upi-tally/`). Add a receipt and see this local calendar month total, and how far it sits from 1,00,000 rupees. Storage key `toytools.shop-upi-tally.v1`. Export and import JSON. The month rolls on the local calendar month. The caution stays visible: this is your own tally, not your bank or NPCI category. Crossing or staying under 1,00,000 here does not change merchant status. Clearing site data deletes it. Runs entirely on your device. Nothing is uploaded.
+- **Craft (orientation):** `upi-mdr-estimate`. A merchant quote can look like a tax the customer must pay. The line names the charge and stays a merchant-side figure, not a tax.
+- **Craft (verification):** `bill-split-fair`. Shares that round on their own stop adding up. The last person takes the leftover paise, and the line stays quiet when the total already divides evenly.
+- **Craft (orientation):** `shop-upi-tally`. A month total near 1,00,000 looks like a status switch. The page says the line does not change bank or NPCI status.
+
 ## [beta-v11.7] - 2026-09-18
 
 ### Added

@@ -108,12 +108,14 @@ import { items as sha1HashGeneratorFaqs } from '@tools/developer-utilities/sha1-
 import { items as sha256HashGeneratorFaqs } from '@tools/developer-utilities/sha256-hash-generator/faq';
 import { items as sha512HashGeneratorFaqs } from '@tools/developer-utilities/sha512-hash-generator/faq';
 import { items as shellQuoteEscalatorFaqs } from '@tools/developer-utilities/shell-quote-escalator/faq';
+import { items as shopUpiTallyFaqs } from '@tools/finance/shop-upi-tally/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
 import { items as slimeFaqs } from '@tools/fidget/slime/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
 import { items as spaceCounterFaqs } from '@tools/text/space-counter/faq';
 import { items as spinnerFaqs } from '@tools/fidget/spinner/faq';
+import { items as splitBillFaqs } from '@tools/finance/split-bill/faq';
 import { items as statisticsVisualizerFaqs } from '@tools/math/statistics-visualizer/faq';
 import { items as switchBoardFaqs } from '@tools/fidget/switch-board/faq';
 import { items as systemdTimerConverterFaqs } from '@tools/datetime/systemd-timer-converter/faq';
@@ -128,6 +130,7 @@ import { items as todoListFaqs } from '@tools/productivity/todo-list/faq';
 import { items as trimTextFaqs } from '@tools/text/trim-text/faq';
 import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timestamp-converter/faq';
 import { items as upi1999SplitFaqs } from '@tools/finance/upi-1999-split/faq';
+import { items as upiMdrEstimatorFaqs } from '@tools/finance/upi-mdr-estimator/faq';
 import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter/faq';
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
@@ -245,12 +248,14 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'sha256-hash-generator': sha256HashGeneratorFaqs,
   'sha512-hash-generator': sha512HashGeneratorFaqs,
   'shell-quote-escalator': shellQuoteEscalatorFaqs,
+  'shop-upi-tally': shopUpiTallyFaqs,
   'sip-calculator': sipCalculatorFaqs,
   'slime': slimeFaqs,
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,
   'space-counter': spaceCounterFaqs,
   'spinner': spinnerFaqs,
+  'split-bill': splitBillFaqs,
   'statistics-visualizer': statisticsVisualizerFaqs,
   'switch-board': switchBoardFaqs,
   'systemd-timer-converter': systemdTimerConverterFaqs,
@@ -265,6 +270,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'trim-text': trimTextFaqs,
   'unix-timestamp-converter': unixTimestampConverterFaqs,
   'upi-1999-split': upi1999SplitFaqs,
+  'upi-mdr-estimator': upiMdrEstimatorFaqs,
   'uppercase-converter': uppercaseConverterFaqs,
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,

@@ -108,12 +108,14 @@ import { config as sha1HashGenerator } from '@tools/developer-utilities/sha1-has
 import { config as sha256HashGenerator } from '@tools/developer-utilities/sha256-hash-generator/config';
 import { config as sha512HashGenerator } from '@tools/developer-utilities/sha512-hash-generator/config';
 import { config as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/config';
+import { config as shopUpiTally } from '@tools/finance/shop-upi-tally/config';
 import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
 import { config as slime } from '@tools/fidget/slime/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
 import { config as spaceCounter } from '@tools/text/space-counter/config';
 import { config as spinner } from '@tools/fidget/spinner/config';
+import { config as splitBill } from '@tools/finance/split-bill/config';
 import { config as statisticsVisualizer } from '@tools/math/statistics-visualizer/config';
 import { config as switchBoard } from '@tools/fidget/switch-board/config';
 import { config as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/config';
@@ -128,6 +130,7 @@ import { config as todoList } from '@tools/productivity/todo-list/config';
 import { config as trimText } from '@tools/text/trim-text/config';
 import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/config';
 import { config as upi1999Split } from '@tools/finance/upi-1999-split/config';
+import { config as upiMdrEstimator } from '@tools/finance/upi-mdr-estimator/config';
 import { config as uppercaseConverter } from '@tools/text/uppercase-converter/config';
 import { config as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/config';
 import { config as uuidGenerator } from '@tools/generate/uuid-generator/config';
@@ -245,12 +248,14 @@ export const toolConfigs: ToolConfig[] = [
   sha256HashGenerator,
   sha512HashGenerator,
   shellQuoteEscalator,
+  shopUpiTally,
   sipCalculator,
   slime,
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
   spinner,
+  splitBill,
   statisticsVisualizer,
   switchBoard,
   systemdTimerConverter,
@@ -265,6 +270,7 @@ export const toolConfigs: ToolConfig[] = [
   trimText,
   unixTimestampConverter,
   upi1999Split,
+  upiMdrEstimator,
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,

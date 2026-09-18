@@ -1,0 +1,104 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>What is a shop UPI tally? It is your own monthly count of UPI receipts you type in.</p>
+    <p>You add an amount. The page shows this calendar month total, and how far that total sits from 1,00,000 rupees. Crossing or staying under that line here does not change your merchant status.</p>
+    <p>This is not your bank or NPCI category. Runs entirely on your device. Nothing is uploaded.</p>
+    <a href={toolHref} class="cta-link">Open Shop UPI Tally</a>
+  </section>
+
+  <section id="what-it-counts">
+    <h2>What does this month include? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Only receipts whose local date falls in the current calendar month.</p>
+    <p>The clock is the device clock. A receipt you add now is stamped now. A receipt from last month stays in the file and drops out of the total. The month name sits above the rupees so you can see which month is on screen.</p>
+    <p>Adding shop UPI receipts to a private monthly count is the job. The page does not pull a statement from a bank, because it cannot see one.</p>
+  </section>
+
+  <section id="month-roll">
+    <h2>What happens when the calendar month changes? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>The visible total rolls. The file does not forget.</p>
+    <p>On the first local day of the next month, the total is zero until you add a receipt in that month. Last month's receipts remain in the export. Importing the same file later puts them back in the file, and they still count only in their own month.</p>
+    <p>Therefore a new month is a new total, not a deleted notebook. For example, 400 rupees on 2 September and 250 rupees on 18 September sum to 650 for September. An August receipt of 10000 stays in the file and does not enter that 650.</p>
+    <ReferenceBlock type="key-idea" heading="The month is local">
+      <p>The calendar month follows this device, not a server clock. Another phone has another month only if its clock disagrees.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="band">
+    <h2>Does the 1,00,000 line change merchant status? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>No. The line is a reference on your own tally.</p>
+    <p>The <a href="https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2310586">PIB Delhi release from 15 Sep 2026</a> describes small merchants on P2PM as about 1 lakh a month of UPI QR, and says those stay on zero MDR. This page does not apply that status.</p>
+    <p>However, the number you typed is not what the bank sees. Real status depends on the bank. The page will not tell you to split receipts, and it will not offer a way to stay under a band.</p>
+    <p>Under the line, the page shows how many rupees remain until 1,00,000. On the line, it says so. Over the line, it shows how far over. None of those three lines change a category.</p>
+  </section>
+
+  <section id="storage">
+    <h2>How do export and import work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>The browser keeps the file under the key toytools.shop-upi-tally.v1.</p>
+    <p>Export downloads JSON. Version is 1. Each receipt has an id, paise, and a timestamp. Import replaces the tally after you confirm. A file that is not that shape is rejected, and the current tally stays.</p>
+    <p>Clearing site data deletes it. The Clear tally button asks first, and it only clears this key on this device. Export before you clear the browser if you want a copy. There is no second copy on a server, because nothing is uploaded.</p>
+  </section>
+
+  <section id="versus-mdr">
+    <h2>Shop UPI Tally versus the MDR estimator <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Shop UPI Tally versus the MDR estimator is a memory question versus a rate question.</p>
+    <p>The estimator prices one amount from the PIB note and forgets it when you close the tab. Unlike that, this tally keeps a month on the device. The difference between them is storage. The estimator does not read your receipts, and this tally does not print an MDR.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Two mistakes treat a private count as if a bank had confirmed it.</p>
+    <ReferenceBlock type="common-mistake" heading="Reading the 1,00,000 line as a merchant-status switch">
+      <p>Do not read the line as a category. Crossing it or staying under it here does not change merchant status.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Expecting the tally to survive cleared site data">
+      <p>Do not assume the browser will keep it. Clearing site data deletes it. Export JSON if you want a file.</p>
+    </ReferenceBlock>
+    <p>Runs entirely on your device. Nothing is uploaded.</p>
+  </section>
+
+</GuideLayout>
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
