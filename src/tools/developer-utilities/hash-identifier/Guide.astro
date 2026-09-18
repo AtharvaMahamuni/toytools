@@ -38,6 +38,11 @@ const sha1Href = withBase(`/tool/${category.segment}/sha1-hash-generator/`);
       not guess.
     </p>
     <p>
+      The page is a checksum verifier and a digest identifier. It will identify hash input by
+      digest length, and it states SHA-1 versus SHA-256 when the character count is the difference.
+      Strip a sha256sum filename before comparing.
+    </p>
+    <p>
       You can also check the digest. Paste the text, or pick a local file. The browser hashes
       that input with the algorithm you pick, or with the one the length implies when only one
       length fits. The result is a match or a mismatch. Case does not count as a difference.

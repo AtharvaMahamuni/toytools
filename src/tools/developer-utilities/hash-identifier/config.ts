@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'hash-identifier',
   name: 'Hash Identifier',
-  seoTitle: 'Hash Identifier and Verifier',
+  seoTitle: 'Identify hash type: which algorithm produced this digest',
   description:
-    'Identify a hash from digest length, then verify the checksum. Hash identifier for MD5, SHA-1, SHA-256, SHA-512, and CRC32. Runs entirely on your device. Nothing is uploaded.',
+    'What hash is this? Compare sha256 vs sha1 length, then verify why a checksum does not match. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Identify a digest and verify the checksum.',
   categorySlug: 'developer-utilities',
   tags: ['hash identifier', 'identify hash', 'checksum verifier', 'digest length'],

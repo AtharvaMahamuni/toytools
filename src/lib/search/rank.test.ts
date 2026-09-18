@@ -231,6 +231,9 @@ describe('buildClientIndex', () => {
     // 2026-09-18: 41_900 → 42_100. UUID Inspector is one thin generate entry. Remaining slack
     // was 85 bytes and the entry itself is about 230, including the dataset phrases the
     // ranker has to hit verbatim. Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(42_100);
+    // 2026-09-18: 42_100 → 42_300. Hash Identifier is one thin developer entry (about 150
+    // bytes, four short keyword terms). Remaining slack was 54 bytes. Catalog growth, not
+    // alias bloat.
+    expect(bytes).toBeLessThan(42_300);
   });
 });
