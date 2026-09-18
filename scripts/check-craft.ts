@@ -162,7 +162,11 @@ const THRESHOLDS = {
   // 2026-09-18: 0.674 (89/132). UUID Inspector ships verification craft uuid-version-check.
   //   A version 4 UUID looks fine when a system wants version 7. The expected-version note
   //   names that mismatch and stays silent when no version is expected.
-  coverage: 0.674,
+  // 2026-09-18: 0.676 (90/133). Hash Identifier ships verification craft hash-identify-verify.
+  //   A filename glued to a digest, a SHA-1 length checked as SHA-256, or a case-only
+  //   difference all read as a broken file. The result line names the one that happened
+  //   and stays quiet when the paste is already a clean lowercase digest of the right length.
+  coverage: 0.676,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

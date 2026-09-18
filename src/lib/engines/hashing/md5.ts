@@ -166,9 +166,12 @@ function wordsToHex(state: State): string {
   return out;
 }
 
-export function md5hex(input: string): string {
-  const bytes = new TextEncoder().encode(input);
+export function md5hexBytes(bytes: Uint8Array): string {
   return wordsToHex(md5bytes(bytes));
+}
+
+export function md5hex(input: string): string {
+  return md5hexBytes(new TextEncoder().encode(input));
 }
 
 export const md5: HashTool = {

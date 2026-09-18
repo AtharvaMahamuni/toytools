@@ -1,0 +1,309 @@
+---
+// Bespoke widget. ConverterWidget hashes one chosen algorithm and stops. This page
+// has not chosen one until it has read the digest, and it also hashes a local file.
+// The reading lives in src/lib/engines/hashing/identify.ts. This file only renders it.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+---
+
+<div class="hi">
+  <div id="hi-out" data-craft="hash-identify-verify">
+    <p class="hi-verdict" id="hi-verdict" role="status" aria-live="polite">Paste a digest to identify it.</p>
+    <ol class="hi-results" id="hi-results" hidden></ol>
+  </div>
+
+  <IoPanel label="Digest" labelFor="hi-digest">
+    <textarea
+      id="hi-digest"
+      placeholder="One digest per line, or a sha256sum line"
+      spellcheck="false"
+      autocapitalize="off"
+      autocorrect="off"
+      autocomplete="off"
+      inputmode="text"
+      aria-label="Digest to identify"></textarea>
+  </IoPanel>
+
+  <div class="hi-toolbar">
+    <button class="action-btn action-btn--sample" id="hi-sample" type="button">Sample</button>
+  </div>
+  <ToolActions pasteTarget="hi-digest" clearTarget="hi-digest" />
+
+  <div class="hi-algo">
+    <label for="hi-algo">Algorithm</label>
+    <select id="hi-algo" aria-label="Algorithm">
+      <option value="infer">Infer from the digest</option>
+      <option value="md5">MD5</option>
+      <option value="sha1">SHA-1</option>
+      <option value="sha256">SHA-256</option>
+      <option value="sha512">SHA-512</option>
+      <option value="crc32">CRC32</option>
+    </select>
+  </div>
+
+  <IoPanel label="Text to check" labelFor="hi-text">
+    <textarea
+      id="hi-text"
+      placeholder="Optional. Paste the text the digest should match."
+      spellcheck="false"
+      autocapitalize="off"
+      autocorrect="off"
+      autocomplete="off"
+      aria-label="Text to hash"></textarea>
+  </IoPanel>
+
+  <p class="hi-file-label" id="hi-file-label">Local file</p>
+  <input id="hi-file" class="hi-file" type="file" aria-labelledby="hi-file-label" />
+  <button type="button" class="action-btn" id="hi-file-clear" hidden>Clear file</button>
+  <p class="hi-privacy">Runs entirely on your device. Nothing is uploaded.</p>
+</div>
+
+<style is:global>
+  .hi { min-width: 0; max-width: 100%; --io-pane-h: 9rem; }
+  .hi [hidden] { display: none !important; }
+
+  .hi-verdict {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    color: var(--color-text);
+  }
+
+  .hi-results {
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .hi-line {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .hi-toolbar { margin: var(--space-3) 0 0; }
+
+  .hi .io-panel textarea,
+  .hi-algo select,
+  .hi-file {
+    font-size: var(--text-base);
+  }
+
+  .hi-algo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin: var(--space-4) 0 var(--space-3);
+  }
+
+  .hi-algo label,
+  .hi-file-label {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .hi-algo select,
+  .hi-file,
+  #hi-file-clear {
+    min-height: var(--touch-target);
+  }
+
+  .hi-algo select {
+    flex: 1 1 12rem;
+    max-width: 100%;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    padding-inline: var(--space-3);
+  }
+
+  .hi-algo select:focus,
+  .hi-file:focus,
+  #hi-file-clear:focus {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .hi-algo select:active,
+  #hi-file-clear:active {
+    background: var(--color-accent-subtle);
+  }
+
+  .hi-file-label { display: block; margin-top: var(--space-4); }
+
+  .hi-file {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-top: var(--space-2);
+  }
+
+  .hi-privacy {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var digest = document.getElementById('hi-digest');
+    var textEl = document.getElementById('hi-text');
+    var algo = document.getElementById('hi-algo');
+    var fileInput = document.getElementById('hi-file');
+    var fileClear = document.getElementById('hi-file-clear');
+    var verdict = document.getElementById('hi-verdict');
+    var results = document.getElementById('hi-results');
+    var sample = document.getElementById('hi-sample');
+    if (!digest || !textEl || !algo || !fileInput || !verdict || !results) return;
+
+    var MAX_FILE = 32 * 1024 * 1024;
+    var SAMPLE_DIGEST = '2CF24DBA5FB0A30E26E83B2AC5B9E29E1B161E5C1FA7425E73043362938B9824  hello.txt\naaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d';
+    var ticket = 0;
+
+    function show(identified, lines, note) {
+      var list = lines || identified.lines;
+      results.textContent = '';
+      if (!list.length) {
+        results.hidden = true;
+        verdict.textContent = note || 'Paste a digest to identify it.';
+        return;
+      }
+      if (list.length === 1 && !identified.omitted) {
+        results.hidden = true;
+        verdict.textContent = note ? note + ' ' + list[0].summary : list[0].summary;
+        return;
+      }
+      results.hidden = false;
+      var head = list.length + (list.length === 1 ? ' digest checked.' : ' digests checked.');
+      if (identified.omittedNote) head += ' ' + identified.omittedNote;
+      if (note) head += ' ' + note;
+      verdict.textContent = head;
+      for (var i = 0; i < list.length; i++) {
+        var li = document.createElement('li');
+        li.className = 'hi-line';
+        li.textContent = (i + 1) + '. ' + list[i].summary;
+        results.appendChild(li);
+      }
+    }
+
+    function needed(lines, picked) {
+      if (picked !== 'infer') return [picked];
+      var ids = [];
+      for (var i = 0; i < lines.length; i++) {
+        var row = lines[i];
+        if (row.kind === 'identified' && row.matches && row.matches.length === 1) {
+          var id = row.matches[0].id;
+          if (ids.indexOf(id) === -1) ids.push(id);
+        }
+      }
+      return ids;
+    }
+
+    function applyVerify(identified, actual, picked, note) {
+      var TT = window.ToyTools;
+      var lines = [];
+      for (var i = 0; i < identified.lines.length; i++) {
+        lines.push(TT.verifyHash(identified.lines[i], actual, picked));
+      }
+      show(identified, lines, note);
+    }
+
+    function hashThen(identified, picked, hashFn, mine, note) {
+      var ids = needed(identified.lines, picked);
+      var actual = {};
+      if (!ids.length) {
+        if (mine === ticket) applyVerify(identified, actual, picked, note);
+        return;
+      }
+      var left = ids.length;
+      for (var i = 0; i < ids.length; i++) {
+        (function (id) {
+          Promise.resolve(hashFn(id)).then(function (hex) {
+            actual[id] = hex || '';
+            left -= 1;
+            if (left === 0 && mine === ticket) applyVerify(identified, actual, picked, note);
+          });
+        })(ids[i]);
+      }
+    }
+
+    function run() {
+      var mine = ++ticket;
+      var TT = window.ToyTools;
+      if (!TT || !TT.identifyHash) return;
+      var identified = TT.identifyHash(digest.value);
+      var picked = algo.value;
+      var file = fileInput.files && fileInput.files[0];
+      if (fileClear) fileClear.hidden = !file;
+
+      if (file) {
+        if (file.size > MAX_FILE) {
+          show(identified, null, 'That file is over 32 MB. Nothing was uploaded.');
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          if (mine !== ticket) return;
+          if (!(reader.result instanceof ArrayBuffer)) {
+            show(identified, null, 'Could not read that file. Nothing was uploaded.');
+            return;
+          }
+          var bytes = new Uint8Array(reader.result);
+          hashThen(identified, picked, function (id) {
+            return TT.hashBytes(id, bytes);
+          }, mine, 'Checked against ' + file.name + '.');
+        };
+        reader.onerror = function () {
+          if (mine !== ticket) return;
+          show(identified, null, 'Could not read that file. Nothing was uploaded.');
+        };
+        show(identified, null, 'Hashing the file on this device.');
+        reader.readAsArrayBuffer(file);
+        return;
+      }
+
+      if (textEl.value) {
+        hashThen(identified, picked, function (id) {
+          return TT.runHash(id, textEl.value);
+        }, mine, 'Checked against the text.');
+        return;
+      }
+
+      show(identified, null, '');
+    }
+
+    ToyTools.onReady(function () {
+      digest.addEventListener('input', run);
+      textEl.addEventListener('input', run);
+      algo.addEventListener('change', run);
+      fileInput.addEventListener('change', run);
+      if (sample) {
+        sample.addEventListener('click', function () {
+          digest.value = SAMPLE_DIGEST;
+          textEl.value = 'hello';
+          fileInput.value = '';
+          algo.value = 'infer';
+          run();
+          digest.focus();
+        });
+      }
+      if (fileClear) {
+        fileClear.addEventListener('click', function () {
+          fileInput.value = '';
+          fileClear.hidden = true;
+          run();
+        });
+      }
+      run();
+    });
+  })();
+</script>

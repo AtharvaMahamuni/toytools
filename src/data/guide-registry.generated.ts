@@ -40,6 +40,7 @@ export const authoredGuideSlugs = [
   'fraction-calculator',
   'gears',
   'habit-streak-tracker',
+  'hash-identifier',
   'heart-rate-zone-calculator',
   'hex-encoder-decoder',
   'html-entity-encoder-decoder',

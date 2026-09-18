@@ -104,7 +104,9 @@ test.describe('homepage index', () => {
     // or habit-streak-tracker.
     // UUID Inspector (beta-v11.4) is ungrouped: same engine and pattern as UUID Generator, but
     // reading a UUID is not a mode of minting one, so a group switcher would swap the task.
-    await expect(directory.locator('.dir-link')).toHaveCount(91);
+    // Hash Identifier (beta-v11.5) is ungrouped: it sits on the hashing engine, but pattern
+    // hash-identify is not hash, so it cannot share the Hash Generator switcher.
+    await expect(directory.locator('.dir-link')).toHaveCount(92);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

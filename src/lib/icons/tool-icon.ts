@@ -32,6 +32,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   compare: 'compare',
   convert: 'swap',
   detect: 'detect',
+  identify: 'detect',
   // The backslash is the thing this family is about: one more of them per shell in the path.
   'shell-quoting': 'backslash',
   // text

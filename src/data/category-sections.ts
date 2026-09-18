@@ -18,6 +18,7 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'encode-decode':        { title: 'Encode & Decode',        order: 1 },
   'encode-detect':        { title: 'Encode & Decode',        order: 1 },
   'hash':                 { title: 'Hashing',                order: 2 },
+  'hash-identify':        { title: 'Hashing',                order: 2 },
   'structured-transform': { title: 'JSON & Structured Data', order: 3 },
   'structured-validate':  { title: 'JSON & Structured Data', order: 3 },
   'token-decode':         { title: 'Tokens & JWT',          order: 4 },

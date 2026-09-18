@@ -1,0 +1,253 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find((c) => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const categoryHref = withBase(`/category/${category.slug}/`);
+const sha256Href = withBase(`/tool/${category.segment}/sha256-hash-generator/`);
+const md5Href = withBase(`/tool/${category.segment}/md5-hash-generator/`);
+const sha1Href = withBase(`/tool/${category.segment}/sha1-hash-generator/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A hash identifier is a reading of a digest you already have. It does not mint a new one.
+      Paste one line, or up to 20. Each line is named by length: MD5, SHA-1, SHA-256, SHA-512,
+      or CRC32. A length that matches none of those five is truncated or unknown. The page will
+      not guess.
+    </p>
+    <p>
+      You can also check the digest. Paste the text, or pick a local file. The browser hashes
+      that input with the algorithm you pick, or with the one the length implies when only one
+      length fits. The result is a match or a mismatch. Case does not count as a difference.
+    </p>
+    <p>
+      The paste stays on your device. Runs entirely on your device. Nothing is uploaded. There
+      is no account. A file is read with the browser file reader, hashed in this tab, and then
+      dropped. Use it when a download page, a terminal, or a ticket handed you a hash and you
+      need to know what it is before you trust the file.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Hash Identifier</a>
+  </section>
+
+  <section id="how-length-works">
+    <h2>How does length identify a hash? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How does a tool tell these apart without hashing anything? It counts hex characters. MD5
+      is defined as 128 bits, which is 32 hex characters. SHA-1 is 160 bits, which is 40. SHA-256
+      is 256 bits, 64 hex characters. SHA-512 is 512 bits, 128 hex characters. CRC32 is 32 bits,
+      written as 8 hex characters. The width is part of the algorithm. It is not a hint.
+    </p>
+    <p>
+      The page works by matching that width and nothing else. It does not look at the letters
+      and decide the value "looks like" SHA-256. Every full digest looks like random hex. For
+      example, the SHA-256 of the word hello is
+      2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824. Count the characters.
+      There are 64. That is the whole identification.
+    </p>
+    <p>
+      The same word under SHA-1 is aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d. That is 40
+      characters. Under MD5 it is 5d41402abc4b2a76b9719d911017c592, 32 characters. Under CRC32
+      it is 3610a686, 8 characters. Same input, four widths, four names.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Length is the algorithm, not a clue">
+      <p>
+        If the length matches one of the five, that is the name. If it matches more than one,
+        the line says so. Today the five widths do not overlap, so a match is a single name.
+        If the length matches none, the line says truncated or unknown.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="sha1-not-sha256">
+    <h2>Why is a SHA-1 length not SHA-256? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Because 40 is not 64. A SHA-1 digest is shorter. Treating a SHA-1 digest as SHA-256
+      because both look like hex is the mistake that wastes the most time. The checker you
+      opened produces 64 characters. Your paste has 40. They cannot match. The file is not
+      corrupt. The algorithm is different.
+    </p>
+    <p>
+      This page says that in the result line: a SHA-1 length is not SHA-256. It refuses to
+      compute a SHA-256 and then call the file bad. For example, paste
+      aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d and choose SHA-256. The line names the length.
+      It does not print a mismatch.
+    </p>
+    <p>
+      SHA-1 is also a weaker function. Collisions are practical, so new signatures should use
+      SHA-256. That is a reason to care which name you were given. It is not a reason to
+      stretch a 40 character string into a 64 character one.
+    </p>
+    <ReferenceBlock type="note" heading="Unknown lengths stay unknown">
+      <p>
+        SHA-224 is 56 hex characters. SHA-384 is 96. Neither is in this set, so both are
+        truncated or unknown. The page does not round them to SHA-256. Paste the algorithm
+        name from the publisher when the length is not one of the five.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="sha256sum-lines">
+    <h2>What does a sha256sum line look like? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Reading a sha256sum line copied from a terminal is a normal way this digest arrives.
+      GNU sha256sum prints two shapes. Text mode is the hex, two spaces, then the filename.
+      Binary mode is the hex, one space, an asterisk, then the filename. For example:
+    </p>
+    <p>
+      <code>2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824  hello.txt</code>
+    </p>
+    <p>
+      The filename is not part of the digest. Pasting a sha256sum line with the filename still
+      attached used to make the whole line look like nonsense. This page strips that trailing
+      name when the line has that shape, then it tells you a trailing filename was stripped.
+      Checking a download checksum printed next to a file works the same way: keep the hex,
+      drop the label.
+    </p>
+    <p>
+      A single space is a different string. <code>3610a686 hello.txt</code> is not the
+      sha256sum shape, so it is not treated as hex. Windows certutil wraps the digest in a
+      sentence. Copy the hex on its own in that case. A <code>sha256:</code> prefix is also
+      left alone, so you can see that the line is not bare hex.
+    </p>
+  </section>
+
+  <section id="verify-a-file">
+    <h2>How do I verify a file without uploading it? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Pick the file. The browser reads the bytes with a file reader and hashes them here. The
+      bytes stay on this device. Nothing is sent. There is no form and no server. Files over
+      32 MB are refused so the tab does not lock up. That refusal happens before the read
+      finishes the hash, and it is still local.
+    </p>
+    <p>
+      The algorithm is the one you pick, or the one inferred when the digest matches exactly
+      one length. Infer is the default. If you paste a 64 character digest and the word hello,
+      the page hashes hello as SHA-256 and compares. Confirming a pasted string matches a
+      digest you were given is that comparison.
+    </p>
+    <p>
+      Text and files are not the same input. Text is hashed as UTF-8. A file is hashed as the
+      raw bytes. Hashing pasted text when the checksum was of a file fails when the file has a
+      newline you did not paste. For example, hello with no newline has SHA-256
+      2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824. hello followed by a
+      line feed is a different digest. Use the file control for a file checksum.
+    </p>
+    <p>
+      While a file is selected, the text box is ignored. Clear the file if you meant to hash
+      the text. The page says which source it used.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Which mistakes look like a corrupt file? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Three mistakes show up as a mismatch when the bytes were fine. Each one is named in the
+      result line when it applies, and stays out of the line when it does not.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Treating a SHA-1 digest as SHA-256 because both look like hex">
+      <p>
+        Count before you compare. 40 hex characters are SHA-1. 64 are SHA-256. A mismatch
+        between those widths is an algorithm choice, not a damaged download.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Pasting a sha256sum line with the filename still attached">
+      <p>
+        Two spaces, or a space and an asterisk, start the filename. The tool strips that tail
+        and says so. If you leave a different label glued on, the line is not hex, and the
+        page will not invent a digest from it.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Calling a case difference a mismatch">
+      <p>
+        Hex does not care about case. Upper case from certutil and lower case from this page
+        are the same digest. The line says the case differs and the digest still matches. A
+        changed digit is a real mismatch. A changed case is not.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Hashing pasted text when the checksum was of a file">
+      <p>
+        A missing newline is enough to fail a file checksum. Hash the file itself when the
+        publisher hashed a file. Hash the text when the publisher hashed the text.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="versus-generator">
+    <h2>What is the difference between this page and a hash generator? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A generator's job is to create a digest. This page's job is to read one. Telling an MD5
+      digest from a SHA-256 digest by length is the first step. Verifying it is the second.
+      The <a href={sha256Href}>SHA-256 generator</a> and the <a href={md5Href}>MD5 generator</a>
+      already compare a digest you paste against the one they just made. They do that for one
+      algorithm, the one written on the page.
+    </p>
+    <p>
+      Those generators are the alternatives when the algorithm is already known. Use a generator
+      when you do not have a digest yet. Use this page when the digest arrived first and the
+      algorithm is the question. The <a href={sha1Href}>SHA-1 generator</a> is
+      the right next stop when you have decided the file really should be hashed as SHA-1.
+      CRC32 lives next to them for checksums that are not security checks.
+    </p>
+    <p>
+      This page will not crack a hash, build an HMAC, or upload the bytes. Those are different
+      tools, and two of them do not belong in a browser tab at all. Cracking is search. HMAC
+      needs a secret. Upload means the bytes left the device. None of that happens here.
+    </p>
+  </section>
+
+  <section id="related-tools">
+    <h2>Where do I go next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start here when the digest already exists. Move to a generator when you need a fresh
+      one. Both sit in <a href={categoryHref}>Developer Utilities</a>. The generators are
+      neighbors, not replacements: they will not tell you that a 40 character string was SHA-1
+      unless you already opened the SHA-1 page. This page will not mint a digest as its main
+      job.
+    </p>
+    <a href={toolHref} class="cta-link">Identify a digest</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .cta-link:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

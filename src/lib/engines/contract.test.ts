@@ -91,7 +91,10 @@ describe('encoding engine', () => {
 
 // ── hashing: produces a lowercase-hex digest of the declared width ───────────────────────────
 describe('hashing engine', () => {
-  it.each(byEngine('hashing').map(t => [t.slug, t.processorId] as const))(
+  // hash-identify names an algorithm from length. It does not produce a digest, so it
+  // registers no hasher. Same exclusion encode-detect uses, read from the same set.
+  const dispatching = byEngine('hashing').filter(t => !NON_DISPATCHING_PATTERNS.has(t.pattern as never));
+  it.each(dispatching.map(t => [t.slug, t.processorId] as const))(
     '%s returns a hex digest of the expected length',
     async (_slug, processorId) => {
       const hasher = HASHERS[processorId!];

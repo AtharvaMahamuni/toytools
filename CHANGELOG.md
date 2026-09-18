@@ -2,6 +2,23 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.5] - 2026-09-18
+
+### Added
+
+- **Hash Identifier** (`/tool/developer-utilities/hash-identifier/`). Paste a digest, or up to
+  20, one per line. Each line is named by length: MD5 (32 hex), SHA-1 (40), SHA-256 (64),
+  SHA-512 (128), or CRC32 (8). A length that matches more than one algorithm says so. A length
+  that matches none is truncated or unknown, with no guess. A `sha256sum` line (`hex  filename`
+  or `hex *filename`) has the filename stripped, and the result line says so. Verify mode hashes
+  pasted text or a local file in the browser, with the algorithm you pick or the one inferred
+  from the digest. A case-only difference is still a match. A SHA-1 length checked as SHA-256
+  is named as a length problem, not a corrupt file. File bytes are read with FileReader and
+  never uploaded. Runs entirely on your device. Nothing is uploaded.
+- **Craft (verification):** `hash-identify-verify`. A filename glued to a digest, a SHA-1
+  length checked as SHA-256, or a case-only difference all read as a broken file. The result
+  line names the one that happened and stays quiet when the paste is already clean.
+
 ## [beta-v11.4] - 2026-09-18
 
 ### Added
