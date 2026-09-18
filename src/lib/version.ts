@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 6,
+  minor: 7,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'JSON structural diff on device',
+  description: 'UPI 1999 split meme calculator',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -170,7 +170,10 @@ const THRESHOLDS = {
   //   Reordered keys, 1 versus 1.0, or pretty-print spacing all look like edits in a line
   //   diff. The result says the values match, and stays quiet when the paste is already
   //   identical, empty, invalid, or a real path change.
-  coverage: 0.679,
+  // 2026-09-18: 0.681 (92/135). UPI 1999 Split ships orientation craft upi-split-meme.
+  //   A viral claim says a payment above 2000 rupees is taxed, so a chunk list looks
+  //   like a way to dodge a fee. The page says the claim is false and stays a joke.
+  coverage: 0.681,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

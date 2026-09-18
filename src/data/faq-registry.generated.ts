@@ -127,6 +127,7 @@ import { items as titleCaseConverterFaqs } from '@tools/text/title-case-converte
 import { items as todoListFaqs } from '@tools/productivity/todo-list/faq';
 import { items as trimTextFaqs } from '@tools/text/trim-text/faq';
 import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timestamp-converter/faq';
+import { items as upi1999SplitFaqs } from '@tools/finance/upi-1999-split/faq';
 import { items as uppercaseConverterFaqs } from '@tools/text/uppercase-converter/faq';
 import { items as urlEncoderDecoderFaqs } from '@tools/developer-utilities/url-encoder-decoder/faq';
 import { items as uuidGeneratorFaqs } from '@tools/generate/uuid-generator/faq';
@@ -263,6 +264,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'todo-list': todoListFaqs,
   'trim-text': trimTextFaqs,
   'unix-timestamp-converter': unixTimestampConverterFaqs,
+  'upi-1999-split': upi1999SplitFaqs,
   'uppercase-converter': uppercaseConverterFaqs,
   'url-encoder-decoder': urlEncoderDecoderFaqs,
   'uuid-generator': uuidGeneratorFaqs,

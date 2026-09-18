@@ -108,7 +108,9 @@ test.describe('homepage index', () => {
     // hash-identify is not hash, so it cannot share the Hash Generator switcher.
     // JSON Diff (beta-v11.6) is ungrouped: pattern structured-compare is not structured-transform,
     // so it cannot share the JSON Tools switcher (formatter, minifier, tree).
-    await expect(directory.locator('.dir-link')).toHaveCount(93);
+    // UPI 1999 Split (beta-v11.7) is ungrouped: a finance-planning meme, not a mode of the
+    // growth calculators and not a switch with the emergency fund calculator.
+    await expect(directory.locator('.dir-link')).toHaveCount(94);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

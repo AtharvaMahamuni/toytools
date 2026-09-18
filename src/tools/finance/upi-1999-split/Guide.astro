@@ -1,0 +1,125 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <p>For fun only. ToyTools does not support splitting payments to dodge a fee, a tax, or a reporting rule. This is not tax, legal, or payments advice.</p>
+  <p>We do not know whether NPCI, a bank, or a UPI app treats several payments as one total. Do not use this for that.</p>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>This UPI split is a meme calculator, not advice.</p>
+    <p>You type whole rupees. The page either says one payment, or it lists locked chunks of 1999 plus a remainder. It does not pay anyone.</p>
+    <p>People open it while checking the viral 2000 rupee claim. The claim is false. Therefore the list is a joke, not a plan.</p>
+    <a href={toolHref} class="cta-link">Open the UPI 1999 Split</a>
+  </section>
+
+  <section id="government-tax">
+    <h2>Is there a government tax on UPI above 2000 rupees? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>There is no government tax on a UPI payment above 2000 rupees.</p>
+    <p>The Finance Ministry called GST-on-UPI-above-2000 reports false. A customer does not owe a 2000 rupee UPI tax because that tax does not exist.</p>
+    <p>However, a post can still sound official. Read the press note, then look at the chunks as arithmetic. Do not read them as a way past a rule.</p>
+  </section>
+
+  <section id="pib-delhi">
+    <h2>What did PIB Delhi say on 15 Sep 2026? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Person-to-person UPI stays free at any amount.</p>
+    <p>MDR is not a tax and is not collected by the government or NPCI. A 0.4% MDR can apply to some person-to-merchant payments above 2000 rupees. Customers are not supposed to pay that MDR.</p>
+    <p>
+      The source is the
+      <a href="https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2310586">PIB Delhi release from 15 Sep 2026</a>.
+    </p>
+    <p>That is the whole rule set this page will state. It does not add dates, rates, or extra conditions on top of that note.</p>
+    <ReferenceBlock type="key-idea" heading="There is no 2000 rupee UPI tax">
+      <p>The Finance Ministry called GST-on-UPI-above-2000 reports false.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-the-split-works">
+    <h2>How does the integer split work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>It subtracts 1999 until the remainder is 1999 or less.</p>
+    <p>The threshold is locked at 2000. The chunk is locked at 1999. There is no control for either number, because a meme is not a tax planner.</p>
+    <p>For example, 2001 becomes 1999 plus 2. For example, 3998 is 1999 plus 1999. For example, 10000 is five chunks of 1999 plus 5, and 1999 times 5 is 9995.</p>
+    <p>Negative numbers, zero, and anything that is not a number are rejected. Paise are rejected too. Whole rupees only.</p>
+  </section>
+
+  <section id="five-thousand">
+    <h2>What does 5000 become? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>5000 becomes 1999, then 1999, then 1002.</p>
+    <p>1999 plus 1999 plus 1002 equals 5000. The page shows that sum check next to the count of payments. Seeing chunk amounts sum to the typed total is the point of the check.</p>
+    <p>The last chunk is whatever is left. It can be under 1999, as 1002 is. It can also be exactly 1999 when the total divides cleanly, as 3998 does.</p>
+  </section>
+
+  <section id="under-2000">
+    <h2>What if the total is under 2000? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>A total under 2000 is one payment.</p>
+    <p>The line reads: one payment, nothing to split. 2000 itself uses that same line. The split starts only above 2000, and even then it is still the same rupees.</p>
+    <p>A total above 10,00,000 is refused. The page says so, instead of printing hundreds of rows. 10,00,000 itself is still listed, and the chunks still add up.</p>
+  </section>
+
+  <section id="hide-the-total">
+    <h2>Does splitting hide the total? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Splitting does not hide the total from the person you paid.</p>
+    <p>The chunks are a picture of one number. They do not shrink it, and they do not hide it. We do not know whether NPCI, a bank, or a UPI app treats several payments as one total.</p>
+    <p>Do not use this page for that. It will not tell you how to send the chunks, and it will not say that a split works as a trick.</p>
+  </section>
+
+  <section id="versus-tax">
+    <h2>UPI 1999 Split versus a tax calculator <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>This UPI split versus a tax calculator is a joke, not a rate.</p>
+    <p>The tax calculator applies a percent you type. The tip calculator adds a percent you choose. The discount calculator takes a percent off a price. Unlike those tools, this page has no rate field.</p>
+    <p>The difference between them is the job. Those three answer a percent question. This one answers a meme with integer chunks. Use the other tools when you actually have a rate.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Two mistakes treat a joke list as if it were a rule.</p>
+    <ReferenceBlock type="common-mistake" heading="Reading the chunk list as a fee dodge">
+      <p>The list is arithmetic. It is not a plan, and this page will not help you send it.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Believing a post about a 2000 rupee tax as fact">
+      <p>A customer does not owe that tax. Splitting does not hide the total.</p>
+    </ReferenceBlock>
+    <p>Runs entirely on your device. Nothing is uploaded. The number you type stays in the tab, and the result does not wait on a server.</p>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>
