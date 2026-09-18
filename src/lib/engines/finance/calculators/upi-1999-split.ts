@@ -65,6 +65,94 @@ function readAmount(raw: unknown): { ok: true; value: number } | { ok: false; re
   return { ok: true, value: n };
 }
 
+const VPA_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}@[A-Za-z][A-Za-z0-9]{1,63}$/;
+
+export const UPI_VPA_HINT = 'That does not look like a UPI ID. Use name@handle.';
+
+export function looksLikeVpa(raw: string): boolean {
+  return VPA_RE.test(String(raw ?? '').trim());
+}
+
+/** Whole-rupee payments this page can open. Null when the total is not a legal input. */
+export function payableChunks(amount: number): number[] | null {
+  if (!Number.isInteger(amount) || amount <= 0 || amount > UPI_CAP) return null;
+  if (amount <= UPI_THRESHOLD) return [amount];
+  return splitWholeRupees(amount);
+}
+
+export function paymentHeading(index: number, total: number, amount: number): string {
+  return `Payment ${index + 1} of ${total} \u00b7 ${moneyWhole(amount, 'INR')}`;
+}
+
+/**
+ * upi://pay with pa, am, cu, and a short tn only.
+ * No payee name (pn) and no invented transaction id (tid, tr).
+ */
+export function upiPayHref(vpa: string, amount: number, index: number, total: number): string {
+  const tn = `Payment ${index + 1} of ${total}`;
+  const query = [
+    ['pa', vpa.trim()],
+    ['am', String(amount)],
+    ['cu', 'INR'],
+    ['tn', tn],
+  ]
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+  return `upi://pay?${query}`;
+}
+
+export interface UpiNextPayView {
+  index: number;
+  total: number;
+  amount: number;
+  label: string;
+  href: string | null;
+  vpaMessage: string | null;
+  allMarked: boolean;
+  signature: string;
+}
+
+/** The one chunk on screen. Empty VPA means no link. A bad VPA means a message and no link. */
+export function describeUpiNextPay(amount: number, vpaRaw: string, doneCount: number): UpiNextPayView | null {
+  const chunks = payableChunks(amount);
+  if (!chunks || chunks.length === 0) return null;
+  const total = chunks.length;
+  const done = Math.max(0, Math.min(Math.trunc(Number(doneCount)) || 0, total));
+  const allMarked = done >= total;
+  const index = allMarked ? total - 1 : done;
+  const vpa = String(vpaRaw ?? '').trim();
+  let vpaMessage: string | null = null;
+  let href: string | null = null;
+  if (vpa !== '' && !VPA_RE.test(vpa)) {
+    vpaMessage = UPI_VPA_HINT;
+  } else if (vpa !== '' && !allMarked) {
+    href = upiPayHref(vpa, chunks[index], index, total);
+  }
+  return {
+    index: index + 1,
+    total,
+    amount: chunks[index],
+    label: paymentHeading(index, total, chunks[index]),
+    href,
+    vpaMessage,
+    allMarked,
+    signature: chunks.join(','),
+  };
+}
+
+/** A tick unlocks the next chunk. An untick steps back one. */
+export function stepUpiDone(done: number, total: number, checked: boolean): number {
+  const safeTotal = Math.max(0, Math.trunc(Number(total)) || 0);
+  const current = Math.max(0, Math.min(Math.trunc(Number(done)) || 0, safeTotal));
+  if (checked) return Math.min(safeTotal, current + 1);
+  return Math.max(0, current - 1);
+}
+
+export const upiNextPay = {
+  describe: describeUpiNextPay,
+  step: stepUpiDone,
+};
+
 export const upi1999Split: FinanceCalculator = {
   id: 'upi-1999-split',
   family: 'savings',

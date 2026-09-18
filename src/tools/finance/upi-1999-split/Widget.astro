@@ -15,6 +15,139 @@ import { config } from './config';
   emptyText="Enter a total in whole rupees."
 />
 
+<section class="upi-next" aria-label="Next chunk">
+  <label class="upi-vpa" for="upi-1999-split-vpa">
+    <span>Payee UPI ID</span>
+    <input
+      id="upi-1999-split-vpa"
+      class="widget-input"
+      type="text"
+      inputmode="email"
+      autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
+      spellcheck="false"
+      enterkeyhint="done"
+      placeholder="name@upi"
+    />
+  </label>
+  <p id="upi-1999-split-vpa-msg" class="upi-msg" role="status" hidden></p>
+  <div id="upi-1999-split-chunk" hidden>
+    <p id="upi-1999-split-next" class="upi-next-line" aria-live="polite"></p>
+    <div id="upi-1999-split-link-wrap" hidden>
+      <a id="upi-1999-split-link" class="upi-open">Open UPI app</a>
+      <p id="upi-1999-split-phone" class="upi-phone">Opens a UPI app on a phone.</p>
+    </div>
+    <label class="upi-tick" for="upi-1999-split-done">
+      <input id="upi-1999-split-done" type="checkbox" />
+      <span>Marked done. This is your own tick, not a receipt from the bank or UPI app.</span>
+    </label>
+    <p id="upi-1999-split-all" class="upi-msg" hidden>You marked every chunk. This is your tick, not a receipt.</p>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var vpaEl = document.getElementById('upi-1999-split-vpa');
+    var msgEl = document.getElementById('upi-1999-split-vpa-msg');
+    var chunkEl = document.getElementById('upi-1999-split-chunk');
+    var nextEl = document.getElementById('upi-1999-split-next');
+    var wrapEl = document.getElementById('upi-1999-split-link-wrap');
+    var linkEl = document.getElementById('upi-1999-split-link');
+    var boxEl = document.getElementById('upi-1999-split-done');
+    var allEl = document.getElementById('upi-1999-split-all');
+    var amountEl = document.getElementById('upi-1999-split-f-amount');
+    var done = 0;
+    var amountKey = null;
+    var lock = false;
+
+    function readAmount() {
+      if (!amountEl) return NaN;
+      var raw = amountEl.getAttribute('data-raw');
+      if (raw == null || raw === '') return NaN;
+      return Number(String(raw).replace(/,/g, '').replace(/\s/g, ''));
+    }
+
+    function clearLink() {
+      if (linkEl) linkEl.removeAttribute('href');
+      if (wrapEl) wrapEl.hidden = true;
+    }
+
+    function setChecked(value) {
+      if (!boxEl) return;
+      lock = true;
+      boxEl.checked = value;
+      lock = false;
+    }
+
+    function paint() {
+      if (!(window.ToyTools && ToyTools.upiNextPay && chunkEl && vpaEl)) return;
+      var amount = readAmount();
+      var key = String(amount);
+      if (key !== amountKey) {
+        amountKey = key;
+        done = 0;
+      }
+      var view = ToyTools.upiNextPay.describe(amount, vpaEl.value, done);
+      if (!view) {
+        chunkEl.hidden = true;
+        if (msgEl) {
+          msgEl.hidden = true;
+          msgEl.textContent = '';
+        }
+        clearLink();
+        if (vpaEl) vpaEl.removeAttribute('aria-invalid');
+        return;
+      }
+      chunkEl.hidden = false;
+      if (nextEl) nextEl.textContent = view.label;
+      if (msgEl) {
+        if (view.vpaMessage) {
+          msgEl.hidden = false;
+          msgEl.textContent = view.vpaMessage;
+          vpaEl.setAttribute('aria-invalid', 'true');
+        } else {
+          msgEl.hidden = true;
+          msgEl.textContent = '';
+          vpaEl.removeAttribute('aria-invalid');
+        }
+      }
+      if (view.href && String(view.href).indexOf('upi://pay?') === 0 && linkEl && wrapEl) {
+        linkEl.setAttribute('href', view.href);
+        wrapEl.hidden = false;
+      } else {
+        clearLink();
+      }
+      if (allEl) allEl.hidden = !view.allMarked;
+      setChecked(!!view.allMarked);
+    }
+
+    function onToggle() {
+      if (lock) return;
+      if (!(window.ToyTools && ToyTools.upiNextPay && vpaEl && boxEl)) return;
+      var base = ToyTools.upiNextPay.describe(readAmount(), vpaEl.value, 0);
+      if (!base) return;
+      done = ToyTools.upiNextPay.step(done, base.total, boxEl.checked);
+      paint();
+    }
+
+    function boot() {
+      if (!amountEl || !vpaEl || !boxEl) return;
+      vpaEl.addEventListener('input', paint);
+      amountEl.addEventListener('input', paint);
+      amountEl.addEventListener('change', paint);
+      if (window.MutationObserver) {
+        new MutationObserver(paint).observe(amountEl, { attributes: true, attributeFilter: ['data-raw'] });
+      }
+      boxEl.addEventListener('change', onToggle);
+      paint();
+    }
+
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(boot);
+    else boot();
+  })();
+</script>
+
 <style>
   .upi-caution {
     margin: 0 0 var(--space-4);
@@ -31,5 +164,94 @@ import { config } from './config';
 
   .upi-caution p:last-child {
     margin-bottom: 0;
+  }
+
+  .upi-next {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .upi-vpa {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .upi-vpa input {
+    font-size: var(--text-base);
+    width: 100%;
+  }
+
+  .upi-next-line {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .upi-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-target);
+    padding-inline: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    text-decoration: none;
+  }
+
+  .upi-open:active {
+    opacity: 0.85;
+  }
+
+  .upi-phone {
+    display: none;
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .upi-tick {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--touch-target);
+    font-size: var(--text-base);
+    line-height: 1.4;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .upi-tick input {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    accent-color: var(--color-accent);
+  }
+
+  .upi-msg {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .upi-next [hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .upi-phone {
+      display: block;
+    }
   }
 </style>

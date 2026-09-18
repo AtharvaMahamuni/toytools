@@ -109,7 +109,7 @@ const engineDefs: EngineDef[] = [
   { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '', globals: ['diff', 'diffStats', 'whitespaceNoise', 'shell'] },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '', globals: ['pitfall'] },
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
-  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro', globals: ['runFinance', 'experience'] },
+  { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro', globals: ['runFinance', 'upiNextPay', 'experience'] },
   { id: 'csv', name: 'CSV Engine', category: 'developer-utilities', patterns: ['csv-transform'], runtimeGlobal: 'runCsv', sharedWidget: 'CsvWidget.astro', globals: ['runCsv', 'csv'] },
   { id: 'generation', name: 'Generation Engine', category: 'generate', patterns: ['generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code', 'generate-chance'], runtimeGlobal: 'runGeneration', sharedWidget: 'GeneratorWidget.astro', globals: ['runGeneration'] },
   // Physics Playground: interactive canvas simulations. runtimeGlobal is '' — unlike the
