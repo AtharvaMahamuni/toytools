@@ -35,13 +35,13 @@ export const items: FAQItem[] = [
     id: 'upi-faq-6',
     question: 'What happens at 2000 rupees or less?',
     answer:
-      'The page says one payment and nothing to split.\n2000 itself stays one payment, and 1999 stays one payment. 2001 becomes 1999 plus 2, because it crosses the locked line. A total under 2000 is the same quiet result.',
+      'The page says one payment of that amount, and nothing to split.\n2000 itself stays one payment, and 1999 stays one payment. 2001 becomes 1 times 1,999, then 2. A total under 2000 is the same quiet result.',
   },
   {
     id: 'upi-faq-7',
     question: 'Does splitting hide the total from the person you paid?',
     answer:
-      'No. Splitting does not hide the total from the person you paid.\nThe chunks add to the same rupees you typed. The list does not hide that total. This page does not send a payment and does not change what the other person can see.',
+      'No. Splitting does not hide the total from the person you paid.\nThe parts add to the same rupees you typed. One line does not hide that total. This page does not send a payment and does not change what the other person can see.',
   },
   {
     id: 'upi-faq-8',
@@ -53,7 +53,7 @@ export const items: FAQItem[] = [
     id: 'upi-faq-9',
     question: 'What is the input cap?',
     answer:
-      'The cap is 10,00,000 rupees.\nA larger total would print hundreds of rows, so the page refuses it and says so. 10,00,000 itself still lists the chunks. Their sum matches the typed total.',
+      'The cap is 10,00,000 rupees.\nA larger total is refused. 10,00,000 itself is still grouped into one line. The parts sum to the typed total.',
   },
   {
     id: 'upi-faq-10',

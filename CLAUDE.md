@@ -335,6 +335,16 @@ All tool scripts use `<script is:inline>` inside `Widget.astro`:
 
 Widget composition, tokens, components and the design language: **`ui-design-system` skill**.
 
+## Widget UX
+
+Future tools show the answer in one glance. Group identical repeated values ("3 × ₹1,999") instead of printing the same row over and over.
+
+Put explanation, caveats, and sources in the guide and FAQ. The widget keeps one short caution when the tool can be misused, not an essay.
+
+No empty-state lectures, no settings for a one-job tool, no second copy of the guide above the result.
+
+Local tools still use the exact privacy line: Runs entirely on your device. Nothing is uploaded.
+
 ## Path/URL handling — always use `withBase`
 
 Every internal `href` and form `action` goes through `src/lib/paths.ts:withBase()`. Bypassing it

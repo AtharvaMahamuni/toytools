@@ -31,8 +31,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>This UPI split is a meme calculator, not advice.</p>
-    <p>You type whole rupees. The page either says one payment, or it lists locked chunks of 1999 plus a remainder. It does not pay anyone.</p>
-    <p>People open it while checking the viral 2000 rupee claim. The claim is false. Therefore the list is a joke, not a plan.</p>
+    <p>You type whole rupees. The page either says one payment, or it groups the 1999 amounts into one line. It does not pay anyone.</p>
+    <p>People open it while checking the viral 2000 rupee claim. The claim is false. Therefore the line is a joke, not a plan.</p>
     <a href={toolHref} class="cta-link">Open the UPI 1999 Split</a>
   </section>
 
@@ -68,15 +68,15 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="five-thousand">
     <h2>What does 5000 become? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>5000 becomes 1999, then 1999, then 1002.</p>
-    <p>1999 plus 1999 plus 1002 equals 5000. The page shows that sum check next to the count of payments. Seeing chunk amounts sum to the typed total is the point of the check.</p>
+    <p>The page reads 2 times 1,999, then 1,002, and 3 payments. The parts sum to 5000. It does not print one row per chunk.</p>
     <p>The last chunk is whatever is left. It can be under 1999, as 1002 is. It can also be exactly 1999 when the total divides cleanly, as 3998 does.</p>
   </section>
 
   <section id="under-2000">
     <h2>What if the total is under 2000? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>A total under 2000 is one payment.</p>
-    <p>The line reads: one payment, nothing to split. 2000 itself uses that same line. The split starts only above 2000, and even then it is still the same rupees.</p>
-    <p>A total above 10,00,000 is refused. The page says so, instead of printing hundreds of rows. 10,00,000 itself is still listed, and the chunks still add up.</p>
+    <p>The line reads: one payment of that amount, nothing to split. 2000 itself uses that same line. The split starts only above 2000, and even then it is still the same rupees.</p>
+    <p>A total above 10,00,000 is refused. The page says so. 10,00,000 itself is still grouped, and the parts still add up.</p>
   </section>
 
   <section id="hide-the-total">

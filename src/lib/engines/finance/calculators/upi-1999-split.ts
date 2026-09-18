@@ -30,11 +30,25 @@ export function splitWholeRupees(amount: number): number[] {
   return chunks;
 }
 
-export function chunkSumLine(chunks: number[], amount: number): string {
-  if (chunks.length > 12) {
-    return `${chunks.length} chunks sum to ${amount}.`;
-  }
-  return `${chunks.join(' + ')} = ${amount}`;
+/** Identical 1999s collapse. "2 × ₹1,999, then ₹1,002". A clean divide is "2 × ₹1,999" only. */
+export function groupedSplitLine(chunks: number[]): string {
+  const full = chunks.filter((n) => n === UPI_CHUNK).length;
+  const rest = chunks.find((n) => n !== UPI_CHUNK);
+  const chunkLabel = moneyWhole(UPI_CHUNK, 'INR');
+  if (rest === undefined) return `${full} × ${chunkLabel}`;
+  return `${full} × ${chunkLabel}, then ${moneyWhole(rest, 'INR')}`;
+}
+
+export function paymentCountLabel(count: number): string {
+  return count === 1 ? '1 payment' : `${count} payments`;
+}
+
+export function partsSumLine(amount: number): string {
+  return `The parts sum to ${moneyWhole(amount, 'INR')}.`;
+}
+
+export function onePaymentLine(amount: number): string {
+  return `One payment of ${moneyWhole(amount, 'INR')}. Nothing to split.`;
 }
 
 function readAmount(raw: unknown): { ok: true; value: number } | { ok: false; result: InteractiveResult } {
@@ -46,7 +60,7 @@ function readAmount(raw: unknown): { ok: true; value: number } | { ok: false; re
   if (n <= 0) return { ok: false, result: fail('Total rupees must be greater than zero.') };
   if (!Number.isInteger(n)) return { ok: false, result: fail('Enter whole rupees only. No paise.') };
   if (n > UPI_CAP) {
-    return { ok: false, result: fail('That is above the 10,00,000 cap, so this page will not list the chunks.') };
+    return { ok: false, result: fail('That is above the 10,00,000 cap, so this page will not split it.') };
   }
   return { ok: true, value: n };
 }
@@ -76,11 +90,13 @@ export const upi1999Split: FinanceCalculator = {
     if (!amount.ok) return amount.result;
 
     if (amount.value <= UPI_THRESHOLD) {
+      const hero = card('line', 'Nothing to split', onePaymentLine(amount.value), {
+        raw: amount.value,
+        emphasis: 'hero',
+      });
       return successResult({
-        hero: card('count', ONE_PAYMENT, '1', { raw: 1, emphasis: 'hero' }),
-        metrics: [
-          card('p1', 'Payment 1', moneyWhole(amount.value, 'INR'), { raw: amount.value }),
-        ],
+        hero,
+        metrics: [hero],
         insights: [insight(ONE_PAYMENT)],
         milestones: [milestone('Nothing to split', true)],
         assumptions: [
@@ -90,29 +106,22 @@ export const upi1999Split: FinanceCalculator = {
         decisions: [
           decision('Open the tax calculator when you have a real rate', '/tool/number/tax-calculator/'),
         ],
-        explanation: 'The total is 2000 rupees or less, so the page does not split it. This is a meme calculator. It does not send a payment.',
       });
     }
 
     const chunks = splitWholeRupees(amount.value);
-    const line = chunkSumLine(chunks, amount.value);
+    const hero = card('line', paymentCountLabel(chunks.length), groupedSplitLine(chunks), {
+      raw: chunks.length,
+      emphasis: 'hero',
+      note: partsSumLine(amount.value),
+    });
     return successResult({
-      hero: card('count', 'payments', String(chunks.length), {
-        raw: chunks.length,
-        emphasis: 'hero',
-        note: line,
-      }),
-      metrics: chunks.map((value, i) =>
-        card(`p${i + 1}`, `Payment ${i + 1}`, moneyWhole(value, 'INR'), { raw: value }),
-      ),
+      hero,
+      metrics: [hero],
       insights: [
-        insight(line, 'info'),
-        insight(
-          'A customer does not owe a 2000 rupee UPI tax. Splitting does not hide the total from the person you paid.',
-          'caution',
-        ),
+        insight('A customer does not owe a 2000 rupee UPI tax.', 'caution'),
       ],
-      milestones: [milestone('Sum matches the typed total', true)],
+      milestones: [milestone('Parts sum to the typed total', true)],
       assumptions: [
         { id: 'threshold', label: 'Threshold', value: '2000, locked' },
         { id: 'chunk', label: 'Chunk', value: '1999, locked' },
@@ -120,7 +129,6 @@ export const upi1999Split: FinanceCalculator = {
       decisions: [
         decision('Open the tax calculator when you have a real rate', '/tool/number/tax-calculator/'),
       ],
-      explanation: 'Whole rupees only. Take 1999 as many times as it fits, then the remainder. The chunks add up to the same total. This page does not pay anyone.',
     });
   },
 };

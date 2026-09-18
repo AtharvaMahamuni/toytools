@@ -1,0 +1,105 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>What is Split Bill? It is a dinner split that adds an optional tip, then gives each person a share.</p>
+    <p>The shares sum to the total. If the total does not divide evenly, the last person takes the leftover paise. If it does divide evenly, the leftover line stays quiet.</p>
+    <p>There is no account. The page does not remember names. Runs entirely on your device. Nothing is uploaded.</p>
+    <a href={toolHref} class="cta-link">Open Split Bill</a>
+  </section>
+
+  <section id="how-the-split-works">
+    <h2>How does the leftover paise work? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>How does the split stay honest? It works in paise, not in rounded rupees that drift apart.</p>
+    <p>The tip is added first. A 10 percent tip on 1000 rupees is 100 rupees, so the total is 1100. The page then splits 1100, not the pre-tip bill.</p>
+    <p>Everyone gets the same base share. The leftover paise, if any, land on the last person. Therefore the printed shares add back to the total you can see in the headline.</p>
+    <p>For example, 100 rupees across 3 people with no tip is 33.33, 33.33, and 33.34. The last share holds the extra paise. 33.33 plus 33.33 plus 33.34 equals 100.</p>
+  </section>
+
+  <section id="one-thousand">
+    <h2>What does 1000 at 10 percent across 3 people look like? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>For example, a 1000 rupee bill with a 10 percent tip is a 1100 rupee total.</p>
+    <p>The shares are 366.66, 366.66, and 366.68. The last person holds 2 extra paise. Those three shares sum to 1100.</p>
+    <p>Splitting a dinner bill after an optional tip is the job. You sit at the table, type the receipt, and read who pays what. The page does not send the money.</p>
+    <ReferenceBlock type="key-idea" heading="The shares have to add up">
+      <p>A split that looks equal and misses a rupee starts an argument. The leftover paise close that gap.</p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="even-split">
+    <h2>What if the total divides evenly? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Then every share is the same.</p>
+    <p>A 900 rupee bill, no tip, across 3 people is 300 each. The headline says the shares add up. It does not mention leftover paise, because the remainder is zero.</p>
+    <p>However, a different bill can reopen the remainder. Change the people count or the tip and the last share moves. The quiet line is the check that nothing extra was needed.</p>
+  </section>
+
+  <section id="limits">
+    <h2>What inputs does the page accept? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>People must be a whole number from 2 to 30. The tip must be a whole number from 0 to 30, and blank means no tip.</p>
+    <p>The bill is rupees with at most two decimal places. Zero, a blank bill, and a third decimal are rejected. 31 people is rejected.</p>
+    <p>There is no friend list and no names. The page says what each person pays, once. Close the tab and the numbers are gone, because nothing is stored.</p>
+  </section>
+
+  <section id="versus-tip">
+    <h2>Split Bill versus the tip calculator <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Split Bill versus the tip calculator is a longer job, not a fee job.</p>
+    <p>The tip calculator works out a tip and a total. Unlike that stop, this page assigns the shares and checks the sum. The difference between them is the leftover paise.</p>
+    <p>The UPI MDR estimator is a different page again. This dinner split does not look up a merchant charge, and it does not use a payment threshold. Use that other page when the question is a merchant charge.</p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Two mistakes make a fair split look unfair, or make this page look like something else.</p>
+    <ReferenceBlock type="common-mistake" heading="Rounding each share alone so the sum misses the bill">
+      <p>Do not round each person in isolation. The last person takes the leftover paise so the shares still sum to the total.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Treating this page as a payment-fee tool">
+      <p>Do not look here for a network charge. This is a dinner split. It keeps no accounts.</p>
+    </ReferenceBlock>
+    <p>Runs entirely on your device. Nothing is uploaded.</p>
+  </section>
+
+</GuideLayout>
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding-inline: var(--space-5);
+    margin-top: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  .cta-link:hover { opacity: 0.9; text-decoration: none; }
+</style>

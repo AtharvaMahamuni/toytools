@@ -235,6 +235,11 @@ const SLUG_GLYPH: Record<string, string> = {
   'fraction-calculator': 'frac',
   'prime-factorization-calculator': 'primeX',
   'combinations-permutations-calculator': 'ncr',
+
+  // money — specifics
+  'upi-mdr-estimator': 'coins',
+  'split-bill': 'pct',
+  'shop-upi-tally': 'target',
 };
 
 /** Category accent hex for a tool, with a safe fallback. */

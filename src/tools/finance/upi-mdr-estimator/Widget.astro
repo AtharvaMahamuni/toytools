@@ -1,0 +1,35 @@
+---
+import FinanceWidget from '@tools/_shared/FinanceWidget.astro';
+import { config } from './config';
+---
+
+<div class="mdr-note" data-craft="upi-mdr-estimate" role="note">
+  <p>Not a customer fee. Not a tax. Small merchant is a what-if. Real status depends on the bank.</p>
+  <p>Runs entirely on your device. Nothing is uploaded.</p>
+</div>
+
+<FinanceWidget
+  slug={config.slug}
+  financeId="upi-mdr-estimator"
+  config={config}
+  emptyText="Enter an amount in whole rupees."
+/>
+
+<style>
+  .mdr-note {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-3);
+    border-left: var(--border);
+  }
+
+  .mdr-note p {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .mdr-note p:last-child {
+    margin-bottom: 0;
+  }
+</style>

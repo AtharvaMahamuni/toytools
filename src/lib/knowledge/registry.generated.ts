@@ -108,12 +108,14 @@ import { knowledge as sha1HashGenerator } from '@tools/developer-utilities/sha1-
 import { knowledge as sha256HashGenerator } from '@tools/developer-utilities/sha256-hash-generator/knowledge';
 import { knowledge as sha512HashGenerator } from '@tools/developer-utilities/sha512-hash-generator/knowledge';
 import { knowledge as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/knowledge';
+import { knowledge as shopUpiTally } from '@tools/finance/shop-upi-tally/knowledge';
 import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowledge';
 import { knowledge as slime } from '@tools/fidget/slime/knowledge';
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
 import { knowledge as spaceCounter } from '@tools/text/space-counter/knowledge';
 import { knowledge as spinner } from '@tools/fidget/spinner/knowledge';
+import { knowledge as splitBill } from '@tools/finance/split-bill/knowledge';
 import { knowledge as statisticsVisualizer } from '@tools/math/statistics-visualizer/knowledge';
 import { knowledge as switchBoard } from '@tools/fidget/switch-board/knowledge';
 import { knowledge as systemdTimerConverter } from '@tools/datetime/systemd-timer-converter/knowledge';
@@ -128,6 +130,7 @@ import { knowledge as todoList } from '@tools/productivity/todo-list/knowledge';
 import { knowledge as trimText } from '@tools/text/trim-text/knowledge';
 import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/knowledge';
 import { knowledge as upi1999Split } from '@tools/finance/upi-1999-split/knowledge';
+import { knowledge as upiMdrEstimator } from '@tools/finance/upi-mdr-estimator/knowledge';
 import { knowledge as uppercaseConverter } from '@tools/text/uppercase-converter/knowledge';
 import { knowledge as urlEncoderDecoder } from '@tools/developer-utilities/url-encoder-decoder/knowledge';
 import { knowledge as uuidGenerator } from '@tools/generate/uuid-generator/knowledge';
@@ -245,12 +248,14 @@ export const authoredKnowledge: Knowledge[] = [
   sha256HashGenerator,
   sha512HashGenerator,
   shellQuoteEscalator,
+  shopUpiTally,
   sipCalculator,
   slime,
   slugifyText,
   snakeCaseConverter,
   spaceCounter,
   spinner,
+  splitBill,
   statisticsVisualizer,
   switchBoard,
   systemdTimerConverter,
@@ -265,6 +270,7 @@ export const authoredKnowledge: Knowledge[] = [
   trimText,
   unixTimestampConverter,
   upi1999Split,
+  upiMdrEstimator,
   uppercaseConverter,
   urlEncoderDecoder,
   uuidGenerator,

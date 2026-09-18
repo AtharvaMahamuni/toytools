@@ -173,7 +173,10 @@ const THRESHOLDS = {
   // 2026-09-18: 0.681 (92/135). UPI 1999 Split ships orientation craft upi-split-meme.
   //   A viral claim says a payment above 2000 rupees is taxed, so a chunk list looks
   //   like a way to dodge a fee. The page says the claim is false and stays a joke.
-  coverage: 0.681,
+  // 2026-09-18: 0.688 (95/138). Three finance tools ship craft: upi-mdr-estimate
+  //   (the figure is not a customer tax), bill-split-fair (last person takes leftover
+  //   paise so shares sum), and shop-upi-tally (the 1,00,000 line is not a status change).
+  coverage: 0.688,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

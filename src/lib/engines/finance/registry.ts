@@ -15,6 +15,9 @@ import { sip } from './calculators/sip';
 import { roi } from './calculators/roi';
 import { cagr } from './calculators/cagr';
 import { upi1999Split } from './calculators/upi-1999-split';
+import { upiMdrEstimator } from './calculators/upi-mdr-estimator';
+import { splitBillCalc } from './calculators/split-bill';
+import { shopUpiTally } from './calculators/shop-upi-tally';
 
 export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'compound-interest': compoundInterest,
@@ -26,6 +29,9 @@ export const FINANCE_CALCULATORS: Record<string, FinanceCalculator> = {
   'roi': roi,
   'cagr': cagr,
   'upi-1999-split': upi1999Split,
+  'upi-mdr-estimator': upiMdrEstimator,
+  'split-bill': splitBillCalc,
+  'shop-upi-tally': shopUpiTally,
 };
 
 /**

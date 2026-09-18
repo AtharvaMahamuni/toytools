@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 7,
+  minor: 8,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-18',
-  description: 'UPI 1999 split meme calculator',
+  description: 'UPI MDR estimator, split bill, and shop UPI tally',
 };
 
 export function formatVersion(config: VersionConfig): string {
