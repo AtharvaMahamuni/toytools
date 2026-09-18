@@ -55,9 +55,13 @@ describe('upi-mdr-estimator calculator', () => {
     expect(r.hero?.raw).toBe(20);
     expect(r.hero?.value).toBe(money(20, 'INR'));
     expect(r.hero?.value).toBe('₹20.00');
-    expect(r.hero?.note).toBe(NOT_A_CUSTOMER_FEE);
-    expect(r.insights?.some((i) => i.text === NOT_A_CUSTOMER_FEE && i.tone === 'caution')).toBe(true);
-    expect(r.explanation).toContain('not a government tax');
+    expect(r.hero?.label).toBe('MDR');
+    expect(r.hero?.note).toBe('Not a customer fee. Not a tax.');
+    expect(r.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
+    expect(r.insights?.some((i) => i.text === 'Person-to-person UPI stays free at any amount.')).toBe(true);
+    expect(NOT_A_CUSTOMER_FEE).toBe(
+      'This is an ecosystem charge on some merchant payments, not a fee the customer owes, and not a government tax.',
+    );
   });
 
   it('reports the named thresholds through the calculator', () => {

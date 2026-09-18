@@ -3,7 +3,7 @@
 
 import type { FinanceCalculator } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
-import type { InteractiveResult, ResultCard } from '@lib/results/types';
+import type { InteractiveResult } from '@lib/results/types';
 import { money } from '../format';
 import { insight, milestone, assumption, decision } from '../story';
 
@@ -129,26 +129,26 @@ export const splitBillCalc: FinanceCalculator = {
 
     const split = splitBillFair(bill.value, people.value, tip.value);
     const total = rupeesFromPaise(split.totalPaise);
-    const shares = split.sharesPaise.map(rupeesFromPaise);
+    const each = rupeesFromPaise(split.sharesPaise[0]);
+    const last = rupeesFromPaise(split.sharesPaise[split.sharesPaise.length - 1]);
     const even = split.remainderPaise === 0;
+    const eachLine = `Each person pays ${money(each, 'INR')}.`;
+    const note = even
+      ? `${people.value} people. ${eachLine}`
+      : `${people.value} people. ${eachLine} The last person pays ${money(last, 'INR')}.`;
 
-    const metrics: ResultCard[] = shares.map((value, i) =>
-      card(`p${i + 1}`, `Person ${i + 1}`, money(value, 'INR'), { raw: value }),
-    );
-
+    const hero = card('total', 'Total with tip', money(total, 'INR'), {
+      raw: total,
+      emphasis: 'hero',
+      note,
+    });
     return successResult({
-      hero: card('total', 'Total with tip', money(total, 'INR'), {
-        raw: total,
-        emphasis: 'hero',
-        note: even
-          ? 'Each share is the same, and the shares add up to the total.'
-          : 'The last person takes the leftover paise so the shares add up to the total.',
-      }),
-      metrics,
+      hero,
+      metrics: [hero],
       insights: [
         even
-          ? insight('Each share is the same. The shares add up to the total.')
-          : insight('The last person takes the leftover paise so the shares add up to the total.', 'info'),
+          ? insight('Each share is the same.')
+          : insight('The last person takes the leftover paise.', 'info'),
       ],
       milestones: [milestone('Shares sum to the total', true)],
       assumptions: [
@@ -158,12 +158,8 @@ export const splitBillCalc: FinanceCalculator = {
       ],
       decisions: [
         decision('Work out a tip percent on the tip calculator', '/tool/number/tip-calculator/'),
-        decision('Estimate a merchant MDR on a different page', '/tool/finance/upi-mdr-estimator/'),
       ],
-      explanation: even
-        ? 'The tip is added first. The total divides evenly, so every person pays the same rupees. There is no account on this page.'
-        : 'The tip is added first. The last person takes the leftover paise so the shares still sum to the total. There is no account on this page.',
-      meta: { total, remainderPaise: split.remainderPaise, people: people.value },
+      meta: { total, remainderPaise: split.remainderPaise, people: people.value, each, last },
     });
   },
 };

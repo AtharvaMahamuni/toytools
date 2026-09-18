@@ -5,7 +5,7 @@ export const knowledge: Knowledge = {
   slug: 'upi-1999-split',
   title: 'UPI 1999 Split',
   category: 'money-finance',
-  summary: 'A meme calculator that lists 1999 rupee chunks. Not tax or payments advice.',
+  summary: 'A meme calculator that groups 1999 rupee chunks. Not tax or payments advice.',
   primaryConcepts: ['UPI split'],
   secondaryConcepts: ['meme calculator', '1999'],
   intentGroups: {

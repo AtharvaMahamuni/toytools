@@ -8,7 +8,7 @@
 
 <section class="shop-tally" data-tool="shop-upi-tally">
   <p id="shop-month" class="shop-month">This month</p>
-  <p id="shop-total" class="shop-total" aria-live="polite">Add an amount to see this month.</p>
+  <p id="shop-total" class="shop-total" aria-live="polite">₹0.00</p>
   <p id="shop-gap" class="shop-gap"></p>
   <form id="shop-form" class="shop-form">
     <label class="shop-field" for="shop-amount">
@@ -18,6 +18,10 @@
     <button type="submit" class="shop-add">Add amount</button>
   </form>
   <p id="shop-msg" class="shop-msg" role="status" hidden></p>
+  <details id="shop-recent" class="shop-recent" hidden>
+    <summary id="shop-recent-sum">Receipts this month</summary>
+    <ul id="shop-recent-list"></ul>
+  </details>
   <div class="shop-row">
     <button type="button" id="shop-export" class="shop-btn">Export JSON</button>
     <button type="button" id="shop-import-btn" class="shop-btn" aria-expanded="false" aria-controls="shop-import">Import JSON</button>
@@ -43,6 +47,9 @@
   var form = document.getElementById('shop-form');
   var amountEl = document.getElementById('shop-amount');
   var msgEl = document.getElementById('shop-msg');
+  var recentEl = document.getElementById('shop-recent');
+  var recentSum = document.getElementById('shop-recent-sum');
+  var recentList = document.getElementById('shop-recent-list');
   var importPanel = document.getElementById('shop-import');
   var importBtn = document.getElementById('shop-import-btn');
   var importText = document.getElementById('shop-import-text');
@@ -105,6 +112,21 @@
     return Math.round(n * 100);
   }
 
+  function rupeesFromPaise(paise) {
+    var sign = paise < 0 ? '-' : '';
+    var n = Math.abs(paise);
+    var whole = Math.floor(n / 100);
+    var frac = String(n % 100).padStart(2, '0');
+    var s = String(whole);
+    if (s.length > 3) {
+      var head = s.slice(0, s.length - 3);
+      var tail = s.slice(-3);
+      head = head.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+      s = head + ',' + tail;
+    }
+    return sign + '₹' + s + '.' + frac;
+  }
+
   function render() {
     if (!(window.ToyTools && ToyTools.runFinance)) return;
     var res = ToyTools.runFinance('shop-upi-tally', { entries: JSON.stringify(store) }, { currency: 'INR' });
@@ -121,8 +143,26 @@
       if (metrics[i].id === 'gap') gap = metrics[i];
       if (metrics[i].id === 'count') count = metrics[i];
     }
+    var countN = count ? Number(count.raw) : 0;
     if (gapEl && gap) {
-      gapEl.textContent = gap.label + ': ' + gap.value + (count ? '. ' + count.value + ' receipts this month.' : '');
+      gapEl.textContent = gap.label + ': ' + gap.value;
+    }
+    if (!recentEl || !recentSum || !recentList) return;
+    recentList.textContent = '';
+    if (!countN) {
+      recentEl.hidden = true;
+      return;
+    }
+    var latest = String((res.meta && res.meta.latest) || '').split(',').filter(Boolean);
+    recentEl.hidden = false;
+    var shown = latest.length;
+    recentSum.textContent = countN > shown
+      ? countN + ' receipts this month. Latest ' + shown + '.'
+      : (countN === 1 ? '1 receipt this month.' : countN + ' receipts this month.');
+    for (var j = 0; j < latest.length; j++) {
+      var li = document.createElement('li');
+      li.textContent = rupeesFromPaise(Number(latest[j]));
+      recentList.appendChild(li);
     }
   }
 
@@ -318,8 +358,27 @@
     margin-top: var(--space-3);
   }
 
+  .shop-recent {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  .shop-recent summary {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .shop-recent ul {
+    margin: 0;
+    padding-inline-start: var(--space-4);
+  }
+
   .shop-msg[hidden],
-  .shop-import[hidden] {
+  .shop-import[hidden],
+  .shop-recent[hidden] {
     display: none;
   }
 </style>

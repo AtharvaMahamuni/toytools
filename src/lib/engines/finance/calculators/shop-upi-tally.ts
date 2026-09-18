@@ -48,6 +48,8 @@ export interface MonthTally {
   deltaRupees: number;
   count: number;
   receiptPaise: number[];
+  /** Newest first, at most three, this month only. */
+  latestPaise: number[];
 }
 
 export function tallyMonth(entries: ShopEntry[], now: Date): MonthTally {
@@ -68,6 +70,7 @@ export function tallyMonth(entries: ShopEntry[], now: Date): MonthTally {
     deltaRupees: totalRupees - SHOP_BAND,
     count: receiptPaise.length,
     receiptPaise,
+    latestPaise: receiptPaise.slice(-3).reverse(),
   };
 }
 
@@ -193,6 +196,7 @@ export const shopUpiTally: FinanceCalculator = {
         delta: tally.deltaRupees,
         count: tally.count,
         normalized: JSON.stringify(parsed.store),
+        latest: tally.latestPaise.join(','),
       },
     });
   },

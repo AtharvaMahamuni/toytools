@@ -35,13 +35,13 @@ export const items: FAQItem[] = [
     id: 'bill-faq-6',
     question: 'How many people can share a bill?',
     answer:
-      'From 2 to 30 people.\nOne person is not a split, so 1 is rejected. 31 is rejected so the page does not print a huge list. 2.5 is rejected because people have to be a whole number.',
+      'From 2 to 30 people.\nOne person is not a split, so 1 is rejected. 31 is rejected. The page states the equal share once. 2.5 is rejected because people have to be a whole number.',
   },
   {
     id: 'bill-faq-7',
     question: 'Does this page keep accounts?',
     answer:
-      'No. There is no account, no friend list, and no saved names.\nYou see Person 1, Person 2, and so on. Close the tab and the bill is gone. The page does not remember who came to dinner.',
+      'No. There is no account, no friend list, and no saved names.\nThe page says what each person pays, once. Close the tab and the bill is gone. The page does not remember who came to dinner.',
   },
   {
     id: 'bill-faq-8',

@@ -29,27 +29,29 @@ describe('split-bill calculator', () => {
     expect(r.hero?.raw).toBe(1100);
     expect(r.hero?.value).toBe(money(1100, 'INR'));
     expect(r.hero?.value).toBe('₹1,100.00');
-    expect(r.metrics.map((m) => m.raw)).toEqual([366.66, 366.66, 366.68]);
-    expect(r.metrics.map((m) => m.value)).toEqual(['₹366.66', '₹366.66', '₹366.68']);
-    const sum = r.metrics.reduce((a, m) => a + (m.raw ?? 0), 0);
-    expect(Math.round(sum * 100) / 100).toBe(1100);
-    expect(r.hero?.note).toMatch(/leftover paise/);
+    expect(r.hero?.label).toBe('Total with tip');
+    expect(r.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
+    expect(r.hero?.note).toBe('3 people. Each person pays ₹366.66. The last person pays ₹366.68.');
+    expect(r.meta?.each).toBe(366.66);
+    expect(r.meta?.last).toBe(366.68);
     expect(r.assumptions?.find((a) => a.label === 'Remainder paise')?.value).toBe('2');
   });
 
   it('does not mention leftover paise when shares are equal', () => {
     const r = runFinance('split-bill', { bill: 900, people: 3, tip: 0 }, INR);
     expect(r.ok).toBe(true);
-    expect(r.hero?.note).not.toMatch(/leftover/);
-    expect(r.insights?.some((i) => /leftover/.test(i.text))).toBe(false);
-    expect(r.metrics.every((m) => m.raw === 300)).toBe(true);
+    expect(r.hero?.note).toBe('3 people. Each person pays ₹300.00.');
+    expect(r.hero?.note).not.toMatch(/last person/);
+    expect(r.insights?.some((i) => /leftover|last person/.test(i.text))).toBe(false);
+    expect(r.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
   });
 
   it('treats a blank tip as zero and keeps the last person on the remainder', () => {
     const r = runFinance('split-bill', { bill: 100, people: 3, tip: '' }, INR);
     expect(r.ok).toBe(true);
     expect(r.hero?.raw).toBe(100);
-    expect(r.metrics.map((m) => m.raw)).toEqual([33.33, 33.33, 33.34]);
+    expect(r.hero?.note).toBe('3 people. Each person pays ₹33.33. The last person pays ₹33.34.');
+    expect(r.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
   });
 
   it('rejects out of range people, a high tip, paise past two places, and a zero bill', () => {

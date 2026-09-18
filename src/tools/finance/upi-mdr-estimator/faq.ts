@@ -1,11 +1,12 @@
 import type { FAQItem } from '@data/types';
+import { NOT_A_CUSTOMER_FEE } from '@lib/engines/finance/calculators/upi-mdr-estimator';
 
 export const items: FAQItem[] = [
   {
     id: 'mdr-faq-1',
     question: 'What is UPI MDR on this page?',
     answer:
-      'MDR is a merchant discount rate, and on this page it is an estimate of that charge in rupees.\nThis is an ecosystem charge on some merchant payments, not a fee the customer owes, and not a government tax. The page only uses the rates in the PIB note from 15 Sep 2026.',
+      `MDR is a merchant discount rate, and on this page it is an estimate of that charge in rupees.\n${NOT_A_CUSTOMER_FEE} The page only uses the rates in the PIB note from 15 Sep 2026.`,
   },
   {
     id: 'mdr-faq-2',

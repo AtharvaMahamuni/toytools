@@ -37,6 +37,7 @@ describe('shop month roll', () => {
     expect(tally.totalRupees).toBe(650);
     expect(tally.deltaRupees).toBe(650 - SHOP_BAND);
     expect(tally.receiptPaise.reduce((a, b) => a + b, 0)).toBe(65000);
+    expect(tally.latestPaise).toEqual([25000, 40000]);
   });
 
   it('starts the next month at zero without deleting older receipts from the file', () => {
@@ -74,6 +75,7 @@ describe('shop-upi-tally calculator', () => {
     expect(r.metrics.find((m) => m.id === 'gap')?.raw).toBe(650 - 100000);
     expect(r.metrics.find((m) => m.id === 'gap')?.label).toBe('Under 1,00,000');
     expect(r.metrics.find((m) => m.id === 'count')?.raw).toBe(2);
+    expect(r.meta?.latest).toBe('25000,40000');
     expect(r.insights?.[0]?.text).toBe(SHOP_CAUTION);
     expect(r.explanation).toContain('does not change your merchant status');
     expect(SHOP_STORE_KEY).toBe('toytools.shop-upi-tally.v1');

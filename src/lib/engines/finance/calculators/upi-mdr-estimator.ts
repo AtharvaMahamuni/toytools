@@ -94,7 +94,7 @@ export const upiMdrEstimator: FinanceCalculator = {
       step: 1,
       min: 1,
       suffix: '₹',
-      help: 'Whole rupees. 2000 and under is zero for every kind on this page.',
+      help: 'Whole rupees.',
       presets: [
         { label: '2,000', value: 2000 },
         { label: '5,000', value: 5000 },
@@ -106,7 +106,7 @@ export const upiMdrEstimator: FinanceCalculator = {
       label: 'Payment kind',
       type: 'select',
       default: 'ordinary',
-      help: 'Small merchant is a what-if. Real status depends on the bank, not this toggle.',
+      help: 'Small merchant is a what-if. The bank decides real status.',
       options: [
         { value: 'ordinary', label: 'Ordinary merchant' },
         { value: 'essential', label: 'Essential sector' },
@@ -123,33 +123,24 @@ export const upiMdrEstimator: FinanceCalculator = {
     if (!kind.ok) return kind.result;
 
     const estimate = estimateMdr(amount.value, kind.value);
+    const short = 'Not a customer fee. Not a tax.';
+    const hero = card('mdr', 'MDR', money(estimate.mdr, 'INR'), {
+      raw: estimate.mdr,
+      emphasis: 'hero',
+      note: short,
+    });
     return successResult({
-      hero: card('mdr', 'MDR', money(estimate.mdr, 'INR'), {
-        raw: estimate.mdr,
-        emphasis: 'hero',
-        note: NOT_A_CUSTOMER_FEE,
-      }),
-      metrics: [
-        card('amount', 'Amount', money(amount.value, 'INR'), { raw: amount.value }),
-        card('kind', 'Kind', KIND_LABEL[kind.value], { raw: amount.value }),
-      ],
+      hero,
+      metrics: [hero],
       milestones: [milestone('Not a customer charge', true)],
-      insights: [
-        insight(NOT_A_CUSTOMER_FEE, 'caution'),
-        insight('Person-to-person UPI stays free at any amount. This page does not estimate that.', 'info'),
-      ],
+      insights: [insight('Person-to-person UPI stays free at any amount.', 'info')],
       assumptions: [
         assumption('Rule', estimate.rule),
         assumption('Kind', KIND_LABEL[kind.value]),
-        kind.value === 'small'
-          ? assumption('Small merchant', 'What-if only. Real status depends on the bank.')
-          : assumption('Source', 'PIB note, 15 Sep 2026'),
       ],
       decisions: [
-        decision('Open the meme split (not a fee tool)', '/tool/finance/upi-1999-split/'),
         decision('Open the tax calculator when you have a real rate', '/tool/number/tax-calculator/'),
       ],
-      explanation: NOT_A_CUSTOMER_FEE + ' MDR is not a tax and not a customer charge. The rates on this page are the ones in the 15 Sep 2026 PIB note, and nothing else.',
       meta: { mdr: estimate.mdr, amount: amount.value },
     });
   },

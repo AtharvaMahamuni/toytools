@@ -1,50 +1,58 @@
 import { describe, it, expect } from 'vitest';
 import { runFinance } from '../registry';
+import { moneyWhole } from '../format';
 import {
   splitWholeRupees,
-  chunkSumLine,
+  groupedSplitLine,
+  onePaymentLine,
+  partsSumLine,
+  paymentCountLabel,
   UPI_CAP,
   upi1999Split,
 } from './upi-1999-split';
 
 const INR = { currency: 'INR' };
 
-describe('splitWholeRupees', () => {
-  it('splits 5000 into 1999 + 1999 + 1002', () => {
+describe('groupedSplitLine', () => {
+  it('groups 5000 as two chunks then the remainder', () => {
     const chunks = splitWholeRupees(5000);
     expect(chunks).toEqual([1999, 1999, 1002]);
     expect(chunks.reduce((sum, n) => sum + n, 0)).toBe(5000);
-    expect(chunkSumLine(chunks, 5000)).toBe('1999 + 1999 + 1002 = 5000');
+    expect(groupedSplitLine(chunks)).toBe('2 × ₹1,999, then ₹1,002');
+    expect(paymentCountLabel(chunks.length)).toBe('3 payments');
+    expect(partsSumLine(5000)).toBe('The parts sum to ₹5,000.');
   });
 
-  it('keeps a short remainder, including under 1999', () => {
-    expect(splitWholeRupees(2001)).toEqual([1999, 2]);
+  it('omits the remainder clause when every part is 1999', () => {
     expect(splitWholeRupees(3998)).toEqual([1999, 1999]);
+    expect(groupedSplitLine(splitWholeRupees(3998))).toBe('2 × ₹1,999');
+    expect(groupedSplitLine(splitWholeRupees(9995))).toBe('5 × ₹1,999');
+    expect(splitWholeRupees(2001)).toEqual([1999, 2]);
+    expect(groupedSplitLine(splitWholeRupees(2001))).toBe('1 × ₹1,999, then ₹2');
   });
 });
 
 describe('upi-1999-split calculator', () => {
-  it('says nothing to split at 2000 and below', () => {
+  it('says one payment of the amount at 2000 and below', () => {
     for (const amount of [1, 1999, 2000]) {
       const r = runFinance('upi-1999-split', { amount }, INR);
       expect(r.ok).toBe(true);
-      expect(r.hero?.label).toBe('One payment. Nothing to split.');
-      expect(r.hero?.raw).toBe(1);
-      expect(r.metrics.map((m) => m.raw)).toEqual([amount]);
+      expect(r.hero?.value).toBe(onePaymentLine(amount));
+      expect(r.hero?.value).toBe(`One payment of ${moneyWhole(amount, 'INR')}. Nothing to split.`);
+      expect(r.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
       expect(r.insights?.some((i) => i.text.includes('UPI tax'))).toBe(false);
     }
   });
 
-  it('lists the 5000 chunks and the sum check', () => {
+  it('groups 5000 into one line, a payment count, and a sum check', () => {
     const r = runFinance('upi-1999-split', { amount: 5000 }, INR);
     expect(r.ok).toBe(true);
     expect(r.hero?.raw).toBe(3);
-    expect(r.hero?.note).toBe('1999 + 1999 + 1002 = 5000');
-    expect(r.metrics.map((m) => m.raw)).toEqual([1999, 1999, 1002]);
-    expect(r.metrics.map((m) => m.value)).toEqual(['₹1,999', '₹1,999', '₹1,002']);
-    const sum = (r.metrics.map((m) => m.raw ?? 0)).reduce((a, b) => a + b, 0);
-    expect(sum).toBe(5000);
-    expect(r.insights?.some((i) => i.tone === 'caution')).toBe(true);
+    expect(r.hero?.value).toBe('2 × ₹1,999, then ₹1,002');
+    expect(r.hero?.label).toBe('3 payments');
+    expect(r.hero?.note).toBe('The parts sum to ₹5,000.');
+    expect(r.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
+    expect(r.insights?.some((i) => i.tone === 'caution' && i.text.includes('does not owe'))).toBe(true);
   });
 
   it('rejects negative, zero, blank, and non-numeric input', () => {
@@ -55,21 +63,23 @@ describe('upi-1999-split calculator', () => {
     expect(runFinance('upi-1999-split', {}, INR).ok).toBe(false);
   });
 
-  it('rejects paise and amounts over the cap', () => {
+  it('rejects paise and amounts over the cap, and groups the cap itself', () => {
     expect(runFinance('upi-1999-split', { amount: 10.5 }, INR).error).toMatch(/No paise/);
     const over = runFinance('upi-1999-split', { amount: UPI_CAP + 1 }, INR);
     expect(over.ok).toBe(false);
     expect(over.error).toMatch(/10,00,000/);
     const atCap = runFinance('upi-1999-split', { amount: UPI_CAP }, INR);
     expect(atCap.ok).toBe(true);
-    const raws = atCap.metrics.map((m) => m.raw ?? 0);
-    expect(raws.reduce((a, b) => a + b, 0)).toBe(UPI_CAP);
-    expect(atCap.hero?.note).toMatch(/sum to 1000000/);
+    expect(atCap.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
+    expect(atCap.hero?.value).toBe('500 × ₹1,999, then ₹500');
+    expect(atCap.hero?.label).toBe('501 payments');
+    expect(atCap.hero?.note).toBe('The parts sum to ₹10,00,000.');
   });
 
   it('parses Indian grouping and stays quiet under the threshold about the tax line', () => {
     const grouped = runFinance('upi-1999-split', { amount: '5,000' }, INR);
-    expect(grouped.metrics.map((m) => m.raw)).toEqual([1999, 1999, 1002]);
+    expect(grouped.hero?.value).toBe('2 × ₹1,999, then ₹1,002');
+    expect(grouped.metrics.filter((m) => m.emphasis !== 'hero')).toEqual([]);
     expect(upi1999Split.id).toBe('upi-1999-split');
   });
 });
