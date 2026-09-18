@@ -14,10 +14,11 @@ import type {
   ValidationDetail,
   DigestComparison,
 } from '../transform/types';
-import { md5 } from './md5';
-import { sha1, sha256, sha512 } from './sha';
-import { crc32 } from './crc32';
+import { md5, md5hexBytes } from './md5';
+import { sha1, sha256, sha512, shaBytes } from './sha';
+import { crc32, crc32hexBytes } from './crc32';
 import { compareDigest } from './compare';
+import { identifyHash, verifyHash } from './identify';
 
 // Keyed by hasher id, referenced from a tool config's `processorId`.
 export const HASHERS: Record<string, HashTool> = {
@@ -49,6 +50,34 @@ export async function runHash(id: string, text: string): Promise<string> {
     return '';
   }
 }
+
+const SHA_OF: Record<string, 'SHA-1' | 'SHA-256' | 'SHA-512'> = {
+  sha1: 'SHA-1',
+  sha256: 'SHA-256',
+  sha512: 'SHA-512',
+};
+
+/**
+ * Hash raw bytes with an existing hasher. Text tools keep going through runHash, which
+ * UTF-8 encodes a string. A local file must be hashed as the bytes on disk, not as text.
+ */
+export async function hashBytes(id: string, bytes: Uint8Array): Promise<string> {
+  try {
+    if (id === 'md5') return md5hexBytes(bytes);
+    if (id === 'crc32') return crc32hexBytes(bytes);
+    const sha = SHA_OF[id];
+    if (sha) return await shaBytes(sha, bytes);
+    // eslint-disable-next-line no-console
+    console.warn(`[hashing] Unknown hasher id "${id}" — returning empty string.`);
+    return '';
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn(`[hashing] "${id}" failed (crypto.subtle requires a secure context):`, err);
+    return '';
+  }
+}
+
+export { identifyHash, verifyHash };
 
 // ── Generic transform surface (one-way) ──────────────────────────────────────
 // Hashing has no decode, so it plugs into the same ConverterWidget as a one-way,

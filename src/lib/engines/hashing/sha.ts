@@ -12,10 +12,14 @@ function toHex(buffer: ArrayBuffer): string {
   return out;
 }
 
-async function digest(algorithm: 'SHA-1' | 'SHA-256' | 'SHA-512', input: string): Promise<string> {
-  const data = new TextEncoder().encode(input);
+async function digest(algorithm: 'SHA-1' | 'SHA-256' | 'SHA-512', input: string | Uint8Array): Promise<string> {
+  const data = typeof input === 'string' ? new TextEncoder().encode(input) : input;
   const buffer = await crypto.subtle.digest(algorithm, data);
   return toHex(buffer);
+}
+
+export function shaBytes(algorithm: 'SHA-1' | 'SHA-256' | 'SHA-512', bytes: Uint8Array): Promise<string> {
+  return digest(algorithm, bytes);
 }
 
 const SAMPLE = 'The quick brown fox jumps over the lazy dog';

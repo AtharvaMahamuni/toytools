@@ -52,15 +52,17 @@
       "name": "Hashing Engine",
       "category": "developer-utilities",
       "patterns": [
-        "hash"
+        "hash",
+        "hash-identify"
       ],
       "runtimeGlobal": "runHash",
       "sharedWidget": "src/tools/_shared/ConverterWidget.astro",
       "supportedFamilies": [
         "checksum",
+        "identify",
         "cryptographic"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "structured-data": {
       "name": "Structured Data Engine",
@@ -1603,6 +1605,27 @@
       "engine": "productivity",
       "pattern": "stateful",
       "family": "habit",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "hash-identifier": {
+      "name": "Hash Identifier",
+      "dir": "src/tools/developer-utilities/hash-identifier",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/hash-identifier/",
+      "engine": "hashing",
+      "pattern": "hash-identify",
+      "family": "identify",
       "processorId": "",
       "toolGroup": "",
       "files": [

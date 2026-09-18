@@ -40,6 +40,7 @@ import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as gears } from '@tools/fidget/gears/knowledge';
 import { knowledge as habitStreakTracker } from '@tools/productivity/habit-streak-tracker/knowledge';
+import { knowledge as hashIdentifier } from '@tools/developer-utilities/hash-identifier/knowledge';
 import { knowledge as heartRateZoneCalculator } from '@tools/health/heart-rate-zone-calculator/knowledge';
 import { knowledge as hexEncoderDecoder } from '@tools/developer-utilities/hex-encoder-decoder/knowledge';
 import { knowledge as htmlEntityEncoderDecoder } from '@tools/developer-utilities/html-entity-encoder-decoder/knowledge';
@@ -174,6 +175,7 @@ export const authoredKnowledge: Knowledge[] = [
   fractionCalculator,
   gears,
   habitStreakTracker,
+  hashIdentifier,
   heartRateZoneCalculator,
   hexEncoderDecoder,
   htmlEntityEncoderDecoder,

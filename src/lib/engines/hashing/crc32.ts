@@ -15,14 +15,17 @@ const TABLE: number[] = (() => {
   return t;
 })();
 
-export function crc32hex(input: string): string {
-  const bytes = new TextEncoder().encode(input);
+export function crc32hexBytes(bytes: Uint8Array): string {
   let crc = 0xffffffff;
   for (let i = 0; i < bytes.length; i++) {
     crc = TABLE[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
   }
   crc = (crc ^ 0xffffffff) >>> 0;
   return crc.toString(16).padStart(8, '0');
+}
+
+export function crc32hex(input: string): string {
+  return crc32hexBytes(new TextEncoder().encode(input));
 }
 
 export const crc32: HashTool = {

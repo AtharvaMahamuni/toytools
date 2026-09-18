@@ -40,6 +40,7 @@ import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as gearsFaqs } from '@tools/fidget/gears/faq';
 import { items as habitStreakTrackerFaqs } from '@tools/productivity/habit-streak-tracker/faq';
+import { items as hashIdentifierFaqs } from '@tools/developer-utilities/hash-identifier/faq';
 import { items as heartRateZoneCalculatorFaqs } from '@tools/health/heart-rate-zone-calculator/faq';
 import { items as hexEncoderDecoderFaqs } from '@tools/developer-utilities/hex-encoder-decoder/faq';
 import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilities/html-entity-encoder-decoder/faq';
@@ -174,6 +175,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'fraction-calculator': fractionCalculatorFaqs,
   'gears': gearsFaqs,
   'habit-streak-tracker': habitStreakTrackerFaqs,
+  'hash-identifier': hashIdentifierFaqs,
   'heart-rate-zone-calculator': heartRateZoneCalculatorFaqs,
   'hex-encoder-decoder': hexEncoderDecoderFaqs,
   'html-entity-encoder-decoder': htmlEntityEncoderDecoderFaqs,
