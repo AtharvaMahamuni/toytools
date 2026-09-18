@@ -100,7 +100,9 @@ test.describe('homepage index', () => {
     // so there is nothing to collapse it with.
     // Habit Streak Tracker (beta-v11.2) is ungrouped: first productivity habit-family tool, not a
     // mode of todo-list / notepad / pomodoro.
-    await expect(directory.locator('.dir-link')).toHaveCount(89);
+    // Book Tracker (beta-v11.3) is ungrouped: shelf family, not a mode of todo-list, notepad,
+    // or habit-streak-tracker.
+    await expect(directory.locator('.dir-link')).toHaveCount(90);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {
@@ -139,7 +141,7 @@ test.describe('category pages', () => {
   test('single-section categories render no section headings', async ({ page }) => {
     await page.goto('/category/productivity/');
     await expect(page.locator('.cat-section-heading')).toHaveCount(0);
-    // Habit Streak Tracker (beta-v11.2) is the fifth productivity tool.
-    await expect(page.locator('.cat-row')).toHaveCount(5);
+    // Book Tracker (beta-v11.3) is the sixth productivity tool.
+    await expect(page.locator('.cat-row')).toHaveCount(6);
   });
 });
