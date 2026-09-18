@@ -5,7 +5,7 @@
 // what preserves link equity: GitHub Pages answers an unmatched path with the noindex 404.html,
 // and that is what Search Console reports as "noindex detected in robots meta tag".
 //
-// Two migrations are recorded here.
+// Four migrations are recorded here.
 //
 // 1. Segment rename (commit 45f4f9f): the Developer category's URL segment became
 //    `developer` → `developer-utilities`, moving every developer tool from
@@ -17,6 +17,18 @@
 //    named after what they are (`*-simulator`, `*-explorer`) rather than what people search for,
 //    so they were renamed to calculator/solver intent. The segment is unchanged; only the slug
 //    moved. See docs/analysis/2026-08-03-text-cluster-ranking-factors.md, factor 1.
+//
+// 3. Case Converter deletion (commit 4f74abc, 2026-06-07): the tool was split into seven case
+//    tools. `/tool/text/case-converter/` existed only from the `/tool/` rename that afternoon
+//    until the split. Title Case Converter is the single best target (the old description was
+//    "uppercase, lowercase, title case, and more").
+//
+// 4. Plural prefix. From 9525024 (2026-06-04) until 901fe85 (2026-06-07) the routes were
+//    `/tools/{segment}/{slug}/` and `/categories/{slug}/`, and `@astrojs/sitemap` listed exactly
+//    those prefixes. The rename to `/tool/` and `/category/` added no redirects. The first-day
+//    single-segment `/tools/{slug}/` routes (b84252e, 2026-06-03) are in the same list. Those
+//    live in `toolsPrefixRedirects` and `categoriesPrefixRedirects`, not in the `/tool/` list,
+//    because the prefix is the URL that was indexed.
 //
 // Adding an entry is how a URL is allowed to change. Never delete an old URL silently.
 // These stubs are intentionally noindex and in no sitemap.
@@ -37,7 +49,9 @@ export interface CategoryRedirect {
 
 // The same rename also changed the category slug `developer-tools` → `developer-utilities`,
 // so the previously-indexed `/category/developer-tools/` URL now 404s. Same redirect-stub
-// treatment. (The other three categories kept their slugs.)
+// treatment. (The other three categories kept their slugs under /category/.)
+// The plural `/categories/` URLs are a separate list further down: all four categories that
+// the pre-2026-06-07 sitemap published, including the three whose slug did not change.
 export const categoryRedirects: CategoryRedirect[] = [
   { oldSlug: 'developer-tools', categorySlug: 'developer-utilities' },
 ];
@@ -68,4 +82,33 @@ export const toolRedirects: ToolRedirect[] = [
   { oldPath: 'math/unit-circle-explorer',            toolSlug: 'unit-circle-calculator' },
   { oldPath: 'math/quadratic-equation-explorer',     toolSlug: 'quadratic-equation-solver' },
   { oldPath: 'math/probability-simulator',           toolSlug: 'probability-calculator' },
+
+  // Case Converter split. See migration 3 above.
+  { oldPath: 'text/case-converter',                  toolSlug: 'title-case-converter' },
+];
+
+// Plural `/tools/...` URLs from before the 2026-06-07 singular rename, plus the first-day
+// single-segment routes. Served by src/pages/tools/[...oldPath].astro, not the /tool/ stub.
+export const toolsPrefixRedirects: ToolRedirect[] = [
+  { oldPath: 'developer/base64-encoder-decoder', toolSlug: 'base64-encoder-decoder' },
+  { oldPath: 'text/word-counter',                toolSlug: 'word-counter' },
+  { oldPath: 'number/percentage-calculator',     toolSlug: 'percentage-calculator' },
+  { oldPath: 'productivity/keep-screen-awake',   toolSlug: 'keep-screen-awake' },
+  { oldPath: 'productivity/notepad',             toolSlug: 'notepad' },
+  { oldPath: 'productivity/pomodoro-timer',      toolSlug: 'pomodoro-timer' },
+  { oldPath: 'productivity/todo-list',           toolSlug: 'todo-list' },
+  { oldPath: 'text/case-converter',              toolSlug: 'title-case-converter' },
+  { oldPath: 'word-counter',                     toolSlug: 'word-counter' },
+  { oldPath: 'percentage-calculator',            toolSlug: 'percentage-calculator' },
+  { oldPath: 'base64-encoder',                   toolSlug: 'base64-encoder-decoder' },
+  { oldPath: 'case-converter',                   toolSlug: 'title-case-converter' },
+];
+
+// Plural `/categories/...` URLs from the same window. Served by
+// src/pages/categories/[oldSlug].astro, not the /category/ stub.
+export const categoriesPrefixRedirects: CategoryRedirect[] = [
+  { oldSlug: 'text-utilities',   categorySlug: 'text-utilities' },
+  { oldSlug: 'number-utilities', categorySlug: 'number-utilities' },
+  { oldSlug: 'developer-tools',  categorySlug: 'developer-utilities' },
+  { oldSlug: 'productivity',     categorySlug: 'productivity' },
 ];

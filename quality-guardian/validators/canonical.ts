@@ -17,7 +17,7 @@ export const canonicalValidator: Validator = {
       // by the meta refresh rather than by a list of path prefixes, because that list went stale
       // the first time a tool slug was renamed (14 simulation URLs, 2026-08-04) and a validator
       // that has to be edited for every migration is a validator that blocks the migration.
-      // Sources: src/data/tool-redirects.ts, src/data/faq-redirects.ts.
+      // Sources: src/data/tool-redirects.ts, src/data/faq-redirects.ts, src/data/guide-redirects.ts, src/data/sitemap-redirects.ts.
       if (page.isRedirectStub) continue;
       if (!page.canonical) continue; // missing canonical caught by build-integrity
 

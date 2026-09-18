@@ -1,0 +1,70 @@
+---
+// Redirect stubs for retired `/guide/...` URLs.
+//
+// The live guide route is also a rest param (src/pages/guide/[...slug].astro). The two
+// routes do not share any static path: getStaticPaths here emits only the retired paths in
+// src/data/guide-redirects.ts, and it throws if one of those is a guide the live route
+// still builds. Same shell as the tool stubs: noindex, meta-refresh, canonical, not in
+// any sitemap.
+import type { GetStaticPaths } from 'astro';
+import { guideRedirects } from '@data/guide-redirects';
+import { tools }      from '@data/registry';
+import { categories } from '@data/categories';
+import { withBase } from '@lib/paths';
+
+export const getStaticPaths = (() => {
+  // getStaticPaths is extracted into its own scope, so this lookup stays inside it.
+  const labelFor = (targetPath: string): string => {
+    for (const tool of tools) {
+      const category = categories.find(c => c.slug === tool.categorySlug);
+      if (!category) continue;
+      if (targetPath === `/tool/${category.segment}/${tool.slug}/`) return tool.name;
+      if (tool.guide && targetPath === `/guide/${tool.guide.categorySlug}/${tool.guide.slug}/`) {
+        return tool.guide.title;
+      }
+    }
+    throw new Error(`guide-redirects: "${targetPath}" is not a live tool or guide URL`);
+  };
+  const liveGuidePaths = new Set(
+    tools.flatMap(t => t.guide ? [`${t.guide.categorySlug}/${t.guide.slug}`] : []),
+  );
+  const seen = new Set<string>();
+  return guideRedirects.map(redirect => {
+    if (seen.has(redirect.oldPath)) {
+      throw new Error(`guide-redirects: duplicate old path "${redirect.oldPath}"`);
+    }
+    seen.add(redirect.oldPath);
+    if (liveGuidePaths.has(redirect.oldPath)) {
+      throw new Error(`guide-redirects: "${redirect.oldPath}" is a live guide URL, not a retired one`);
+    }
+    if (!redirect.targetPath.startsWith('/') || !redirect.targetPath.endsWith('/')) {
+      throw new Error(`guide-redirects: target must be a site path with trailing slash: "${redirect.targetPath}"`);
+    }
+    return {
+      params: { oldPath: redirect.oldPath },
+      props:  { label: labelFor(redirect.targetPath), targetPath: redirect.targetPath },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { label, targetPath } = Astro.props;
+
+const target = withBase(targetPath);
+const canonical = Astro.site ? new URL(withBase(targetPath), Astro.site).href : withBase(targetPath);
+const lead = targetPath.startsWith('/guide/') ? 'This guide has moved.' : 'This page has moved.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{label} — moved</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>{lead} <a href={target}>Continue to {label}</a>.</p>
+  </body>
+</html>
