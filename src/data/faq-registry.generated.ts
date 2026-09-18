@@ -47,6 +47,7 @@ import { items as htmlEntityEncoderDecoderFaqs } from '@tools/developer-utilitie
 import { items as idealWeightCalculatorFaqs } from '@tools/health/ideal-weight-calculator/faq';
 import { items as inflationCalculatorFaqs } from '@tools/finance/inflation-calculator/faq';
 import { items as invisibleCharacterDetectorFaqs } from '@tools/text/invisible-character-detector/faq';
+import { items as jsonDiffFaqs } from '@tools/developer-utilities/json-diff/faq';
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as jsonFormatterFaqs } from '@tools/developer-utilities/json-formatter/faq';
 import { items as jsonMinifierFaqs } from '@tools/developer-utilities/json-minifier/faq';
@@ -182,6 +183,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'ideal-weight-calculator': idealWeightCalculatorFaqs,
   'inflation-calculator': inflationCalculatorFaqs,
   'invisible-character-detector': invisibleCharacterDetectorFaqs,
+  'json-diff': jsonDiffFaqs,
   'json-escape': jsonEscapeFaqs,
   'json-formatter': jsonFormatterFaqs,
   'json-minifier': jsonMinifierFaqs,

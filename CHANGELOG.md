@@ -2,6 +2,20 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.6] - 2026-09-18
+
+### Added
+
+- **JSON Diff** (`/tool/developer-utilities/json-diff/`). Paste JSON on the left and the right.
+  Both sides are parsed. If either side is not valid JSON, the page names that side and the
+  parse error, and it does not invent a diff. If both are valid, the page lists added, removed,
+  and changed paths. Object key order does not count. Array order does. Numbers compare
+  numerically, so 1 and 1.0 are equal. Strings, booleans, and null compare strictly. Both panes
+  empty is a quiet empty state, not an error. Runs entirely on your device. Nothing is uploaded.
+- **Craft (verification):** `json-structural-diff`. Reordered keys, 1 versus 1.0, or spacing all
+  look like a change in a line diff. The result says the text differs and the values match, and
+  stays quiet when the paste is already identical, empty, invalid, or a real path change.
+
 ## [beta-v11.5] - 2026-09-18
 
 ### Added

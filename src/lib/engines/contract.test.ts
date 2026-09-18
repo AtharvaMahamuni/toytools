@@ -108,7 +108,10 @@ describe('hashing engine', () => {
 
 // ── structured-data: every tool exposes an execute() ─────────────────────────────────────────
 describe('structured-data engine', () => {
-  it.each(byEngine('structured-data').map(t => [t.slug, t.processorId] as const))(
+  // structured-compare reads two documents. It is not a one-string transform, so it
+  // registers no processor. Same exclusion hash-identify uses, read from the same set.
+  const dispatching = byEngine('structured-data').filter(t => !NON_DISPATCHING_PATTERNS.has(t.pattern as never));
+  it.each(dispatching.map(t => [t.slug, t.processorId] as const))(
     '%s resolves a tool with an execute()',
     (_slug, processorId) => {
       const tool = STRUCTURED_TOOLS[processorId!];

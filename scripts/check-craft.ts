@@ -166,7 +166,11 @@ const THRESHOLDS = {
   //   A filename glued to a digest, a SHA-1 length checked as SHA-256, or a case-only
   //   difference all read as a broken file. The result line names the one that happened
   //   and stays quiet when the paste is already a clean lowercase digest of the right length.
-  coverage: 0.676,
+  // 2026-09-18: 0.679 (91/134). JSON Diff ships verification craft json-structural-diff.
+  //   Reordered keys, 1 versus 1.0, or pretty-print spacing all look like edits in a line
+  //   diff. The result says the values match, and stays quiet when the paste is already
+  //   identical, empty, invalid, or a real path change.
+  coverage: 0.679,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

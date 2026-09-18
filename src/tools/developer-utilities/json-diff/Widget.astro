@@ -1,0 +1,193 @@
+---
+// Bespoke widget. StructuredDataWidget reads one string. This page compares two.
+// The reading lives in src/lib/engines/structured-data/jsonDiff.ts. This file only renders it.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import { PRIVACY_LINE } from '@lib/privacy';
+---
+
+<div class="jd">
+  <div class="jd-panes">
+    <IoPanel label="Left" labelFor="jd-left">
+      <textarea
+        id="jd-left"
+        placeholder="Paste JSON here"
+        spellcheck="false"
+        autocapitalize="off"
+        autocorrect="off"
+        autocomplete="off"
+        aria-label="Left JSON"></textarea>
+    </IoPanel>
+    <IoPanel label="Right" labelFor="jd-right">
+      <textarea
+        id="jd-right"
+        placeholder="Paste the other JSON here"
+        spellcheck="false"
+        autocapitalize="off"
+        autocorrect="off"
+        autocomplete="off"
+        aria-label="Right JSON"></textarea>
+    </IoPanel>
+  </div>
+
+  <div class="jd-toolbar">
+    <button class="action-btn action-btn--sample" id="jd-sample" type="button">Sample</button>
+    <button class="action-btn" id="jd-clear" type="button">Clear both</button>
+    <button class="action-btn" id="jd-copy" type="button" hidden>Copy result</button>
+  </div>
+  <ToolActions pasteTarget="jd-left" />
+
+  <div id="jd-out" data-craft="json-structural-diff">
+    <p class="jd-summary" id="jd-summary" role="status" aria-live="polite">Paste JSON on both sides.</p>
+    <ol class="jd-lines" id="jd-lines" hidden></ol>
+  </div>
+  <p class="jd-privacy">{PRIVACY_LINE}</p>
+</div>
+
+<style is:global>
+  .jd { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  .jd [hidden] { display: none !important; }
+
+  .jd-panes {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .jd-summary {
+    margin: var(--space-4) 0 0;
+    font-size: var(--text-base);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    color: var(--color-text);
+  }
+
+  .jd-lines {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .jd-line {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    font-family: var(--font-mono);
+    color: var(--color-text);
+  }
+
+  .jd-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .jd-toolbar .action-btn {
+    min-height: var(--touch-target);
+  }
+
+  .jd-toolbar .action-btn:active {
+    background: var(--color-accent-subtle);
+  }
+
+  .jd-privacy {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 640px) {
+    .jd-panes {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var left = document.getElementById('jd-left');
+    var right = document.getElementById('jd-right');
+    var summary = document.getElementById('jd-summary');
+    var lines = document.getElementById('jd-lines');
+    var sample = document.getElementById('jd-sample');
+    var clearBtn = document.getElementById('jd-clear');
+    var copyBtn = document.getElementById('jd-copy');
+    if (!left || !right || !summary || !lines || !sample || !clearBtn || !copyBtn) return;
+
+    var SAMPLE_LEFT = '{\n  "id": 1,\n  "name": "Ada",\n  "tags": ["a", "b"]\n}';
+    var SAMPLE_RIGHT = '{\n  "name": "Ada",\n  "id": 1.0,\n  "tags": ["b", "a"],\n  "role": "admin"\n}';
+    var lastText = '';
+
+    function paint(res) {
+      lines.textContent = '';
+      if (!res || res.status === 'empty') {
+        summary.textContent = 'Paste JSON on both sides.';
+        lines.hidden = true;
+        copyBtn.hidden = true;
+        lastText = '';
+        return;
+      }
+      summary.textContent = res.summary;
+      var list = res.lines || [];
+      if (!list.length) {
+        lines.hidden = true;
+      } else {
+        lines.hidden = false;
+        for (var i = 0; i < list.length; i++) {
+          var li = document.createElement('li');
+          li.className = 'jd-line';
+          li.textContent = list[i];
+          lines.appendChild(li);
+        }
+      }
+      lastText = list.length ? res.summary + '\n' + list.join('\n') : res.summary;
+      copyBtn.hidden = !lastText;
+    }
+
+    function run() {
+      if (!(window.ToyTools && ToyTools.diffJson)) return;
+      paint(ToyTools.diffJson(left.value, right.value));
+    }
+
+    function persist() {
+      if (!(window.ToyTools && ToyTools.state)) return;
+      ToyTools.state.save('json-diff', { left: left.value, right: right.value });
+    }
+
+    try {
+      var saved = window.ToyTools && ToyTools.state && ToyTools.state.load('json-diff');
+      if (saved && typeof saved.left === 'string') left.value = saved.left;
+      if (saved && typeof saved.right === 'string') right.value = saved.right;
+    } catch (_) {}
+
+    left.addEventListener('input', function () { run(); persist(); });
+    right.addEventListener('input', function () { run(); persist(); });
+
+    sample.addEventListener('click', function () {
+      left.value = SAMPLE_LEFT;
+      right.value = SAMPLE_RIGHT;
+      run();
+      persist();
+      left.focus();
+    });
+
+    clearBtn.addEventListener('click', function () {
+      left.value = '';
+      right.value = '';
+      run();
+      persist();
+      left.focus();
+    });
+
+    copyBtn.addEventListener('click', function () {
+      if (!lastText || !(window.ToyTools && ToyTools.copy)) return;
+      ToyTools.copy(lastText);
+    });
+
+    if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
+  })();
+</script>

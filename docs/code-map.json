@@ -69,14 +69,15 @@
       "category": "developer-utilities",
       "patterns": [
         "structured-transform",
-        "structured-validate"
+        "structured-validate",
+        "structured-compare"
       ],
       "runtimeGlobal": "runStructuredData",
       "sharedWidget": "src/tools/_shared/StructuredDataWidget.astro",
       "supportedFamilies": [
         "json"
       ],
-      "toolCount": 8
+      "toolCount": 9
     },
     "jwt": {
       "name": "JWT Engine",
@@ -1752,6 +1753,27 @@
       "engine": "text-processor",
       "pattern": "text-inspect",
       "family": "detect",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "json-diff": {
+      "name": "JSON Diff",
+      "dir": "src/tools/developer-utilities/json-diff",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/json-diff/",
+      "engine": "structured-data",
+      "pattern": "structured-compare",
+      "family": "json",
       "processorId": "",
       "toolGroup": "",
       "files": [

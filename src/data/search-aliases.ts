@@ -27,6 +27,7 @@ export const searchAliases: Record<string, string[]> = {
   'hex-encoder-decoder': ['hexadecimal', 'text to hex'],
   'html-entity-encoder-decoder': ['escape html', 'html escape'],
   'json-escape': ['escape json string'],
+  'json-diff': ['compare json'],
   'json-formatter': ['beautify json', 'pretty print json', 'prettify json'],
   'json-minifier': ['compress json', 'shrink json'],
   'json-to-csv-converter': ['json2csv'],
