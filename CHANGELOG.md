@@ -2,11 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [beta-v11.9] - 2026-09-18
+## [beta-v11.10] - 2026-09-19
 
 ### Changed
 
 - **UPI 1999 Split** puts Pay next chunk (payee, Open UPI app, tick) above the calculator on a phone, so the pay step is on the first screen. On desktop it stays under the split.
+
+## [beta-v11.9] - 2026-09-18
+
+### Changed
+
 - **Calculator tools** are a ledger instead of two captioned cards. Finance, health calculators, date and time, math, network, the number family (tip, tax, discount, margin, markup, percentage), design (aspect ratio, px to rem, px to dp, color format, color contrast), What is my IP, and Shop UPI Tally share one surface: the number, a few supporting rows, and one insight sentence stay open. Timeline, assumptions, milestones, related tools, and the explanation fold into a single "How this was worked out" disclosure. Insight lines use a left stripe, not a filled tile. On a phone the answer stacks first. Copy still lives in the action row. Text-window tools (encode, hash, JSON) keep their two panes.
 - **Money & Finance** (and other category listings) use each tool's tagline on the category page, not the long meta description, so the directory reads as a list rather than a stack of paragraphs.
 
