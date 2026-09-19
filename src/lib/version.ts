@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 13,
+  minor: 14,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-19',
-  description: 'Desktop calculator fields cap at a control width; short forms use a 1-1 split',
+  description: 'Payment tools use a 50/50 desktop stage',
 };
 
 export function formatVersion(config: VersionConfig): string {
