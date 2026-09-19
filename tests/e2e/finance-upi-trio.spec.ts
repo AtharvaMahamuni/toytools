@@ -23,6 +23,33 @@ test('1000 with a 10 percent tip across 3 people sums to 1100', async ({ page })
   await expect(result).not.toContainText('Person 1');
 });
 
+test('on desktop MDR, split bill, and shop tally are two halves', async ({ page }, info) => {
+  test.skip(info.project.name === 'pixel5', 'phone stacks these tools');
+
+  await page.goto('/tool/finance/upi-mdr-estimator/');
+  await expect(page.locator('#upi-mdr-estimator-hero')).toHaveText('₹20.00', { timeout: 15000 });
+  const mdrAmount = await page.locator('#upi-mdr-estimator-f-amount').boundingBox();
+  const mdrHero = await page.locator('#upi-mdr-estimator-hero').boundingBox();
+  expect(mdrAmount).not.toBeNull();
+  expect(mdrHero).not.toBeNull();
+  expect(mdrHero!.x).toBeGreaterThan(mdrAmount!.x);
+
+  await page.goto('/tool/finance/split-bill/');
+  await expect(page.locator('#split-bill-hero')).toHaveText('₹1,100.00', { timeout: 15000 });
+  const bill = await page.locator('#split-bill-f-bill').boundingBox();
+  const billHero = await page.locator('#split-bill-hero').boundingBox();
+  expect(bill).not.toBeNull();
+  expect(billHero).not.toBeNull();
+  expect(billHero!.x).toBeGreaterThan(bill!.x);
+
+  await page.goto('/tool/finance/shop-upi-tally/');
+  const total = await page.locator('#shop-total').boundingBox();
+  const amount = await page.locator('#shop-amount').boundingBox();
+  expect(total).not.toBeNull();
+  expect(amount).not.toBeNull();
+  expect(amount!.x).toBeGreaterThan(total!.x);
+});
+
 test('a new shop receipt counts in this month and stays under 1,00,000', async ({ page }) => {
   await page.goto('/tool/finance/shop-upi-tally/');
   await page.evaluate(() => localStorage.removeItem('toytools.shop-upi-tally.v1'));

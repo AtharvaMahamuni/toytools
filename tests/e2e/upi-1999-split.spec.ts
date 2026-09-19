@@ -129,7 +129,7 @@ test('amount chips set the total', async ({ page }) => {
 });
 
 test('on a phone the amount field sits above the next-chunk payee', async ({ page }, info) => {
-  test.skip(info.project.name !== 'pixel5', 'desktop keeps pay under the split, beside the amount');
+  test.skip(info.project.name !== 'pixel5', 'desktop keeps pay on the right half');
   await ready(page);
   const vpa = await page.locator(VPA).boundingBox();
   const amount = await page.locator('#upi-1999-split-f-amount').boundingBox();
@@ -141,7 +141,7 @@ test('on a phone the amount field sits above the next-chunk payee', async ({ pag
   expect(amount!.y).toBeLessThan(vpa!.y);
 });
 
-test('on desktop the next-chunk payee sits under the amount, beside the split', async ({ page }, info) => {
+test('on desktop the bill is the left half and pay is the right half', async ({ page }, info) => {
   test.skip(info.project.name === 'pixel5', 'phone stacks the split, then the amount, then pay');
   await ready(page);
   const vpa = await page.locator(VPA).boundingBox();
@@ -150,9 +150,10 @@ test('on desktop the next-chunk payee sits under the amount, beside the split', 
   expect(vpa, 'payee field should render').not.toBeNull();
   expect(amount, 'amount field should render').not.toBeNull();
   expect(hero, 'split line should render').not.toBeNull();
-  expect(hero!.x).toBeGreaterThan(amount!.x);
-  expect(vpa!.y).toBeGreaterThan(amount!.y);
-  expect(Math.abs(vpa!.x - amount!.x)).toBeLessThan(48);
+  expect(amount!.y).toBeLessThan(hero!.y);
+  expect(Math.abs(hero!.x - amount!.x)).toBeLessThan(48);
+  expect(vpa!.x).toBeGreaterThan(amount!.x);
+  expect(vpa!.x).toBeGreaterThan(hero!.x);
   await expect(page.locator(COPY)).toBeVisible();
   await expect(page.locator(COPY)).toHaveText('Copy ₹1,999');
   await expect(page.locator(LINK)).toBeHidden();
