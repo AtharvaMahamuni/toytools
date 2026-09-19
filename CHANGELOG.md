@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.11] - 2026-09-19
+
+### Changed
+
+- **UPI 1999 Split** is one ledger instead of a pay block stacked on a calculator. On a phone: the split, then the amount, then the payee. On desktop the payee sits under the split, beside the amount. Amount chips (2,000 / 5,000 / 10,000) are quiet text, not hollow boxes. The rupee field drops the currency toggle and the plus/minus steppers. Open UPI app matches the other tool actions.
+
 ## [beta-v11.10] - 2026-09-19
 
 ### Changed
