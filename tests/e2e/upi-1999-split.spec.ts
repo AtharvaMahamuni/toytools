@@ -101,6 +101,16 @@ test('one next chunk opens in a UPI app, and the tick is not a receipt', async (
   expect(stored).not.toContain('name%40upi');
 });
 
+test('on a phone the next-chunk payee sits above the amount field', async ({ page }, info) => {
+  test.skip(info.project.name !== 'pixel5', 'desktop keeps pay under the split panes');
+  await ready(page);
+  const vpa = await page.locator(VPA).boundingBox();
+  const amount = await page.locator('#upi-1999-split-f-amount').boundingBox();
+  expect(vpa, 'payee field should render').not.toBeNull();
+  expect(amount, 'amount field should render').not.toBeNull();
+  expect(vpa!.y).toBeLessThan(amount!.y);
+});
+
 test('a new total clears ticks, and 2000 is one payment', async ({ page }) => {
   await ready(page);
   await page.locator(VPA).fill('name@upi');
