@@ -83,17 +83,7 @@ import { config } from './config';
       lock = false;
     }
 
-    function markAmountChips() {
-      var amount = readAmount();
-      var chips = document.querySelectorAll('.upi-split [data-preset-for="amount"]');
-      for (var i = 0; i < chips.length; i++) {
-        var chip = chips[i];
-        chip.classList.toggle('is-active', Number(chip.getAttribute('data-preset-value')) === amount);
-      }
-    }
-
     function paint() {
-      markAmountChips();
       if (!(window.ToyTools && ToyTools.upiNextPay && chunkEl && vpaEl)) return;
       var amount = readAmount();
       var key = String(amount);
@@ -188,33 +178,6 @@ import { config } from './config';
      Currency is a display toggle other finance tools need; this page is rupees. */
   .upi-split :global(.smart-step),
   .upi-split :global(.finance-ledger-toolbar) { display: none; }
-
-  .upi-split :global(.smart-presets) {
-    gap: var(--space-1);
-  }
-
-  .upi-split :global(.smart-preset) {
-    min-height: var(--touch-target);
-    padding-inline: var(--space-3);
-    border-color: transparent;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .upi-split :global(.smart-preset.is-active) {
-    border-color: transparent;
-    background: transparent;
-    color: var(--color-accent-strong);
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .upi-split :global(.smart-preset:hover),
-  .upi-split :global(.smart-preset:active) {
-    border-color: transparent;
-    background: var(--color-accent-subtle);
-    color: var(--color-accent-strong);
-  }
 
   .upi-caution {
     margin: 0;

@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.12] - 2026-09-19
+
+### Changed
+
+- **Calculator amount chips** (finance, CIDR, macros, tip, discount) are quiet text, not hollow boxes. The current value is accent-colored. Shop UPI Tally actions match the other tool buttons.
+
 ## [beta-v11.11] - 2026-09-19
 
 ### Changed
