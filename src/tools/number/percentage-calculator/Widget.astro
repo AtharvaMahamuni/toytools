@@ -4,8 +4,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Values" variant="prose" data-tool="percentage-calculator">
+<div class="calc-ledger">
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Values" variant="prose" bare data-tool="percentage-calculator">
     <div class="io-body">
       <label class="widget-label" for="percentage-mode">Calculation</label>
       <select id="percentage-mode" class="widget-select">
@@ -20,7 +21,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result>
+  <IoPanel slot="output" label="Result" variant="prose" result bare>
     <div class="tm-hero">
       <span class="hero-value" id="pct-value">0</span>
       <span class="hero-label">Result</span>
@@ -30,6 +31,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="pct-copy" data-label="Copy" type="button">Copy</button>

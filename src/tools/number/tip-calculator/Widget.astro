@@ -4,8 +4,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Bill Details" variant="prose" data-tool="tip-calculator">
+<div class="calc-ledger">
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Bill Details" variant="prose" bare data-tool="tip-calculator">
     <div class="io-body">
       <label class="widget-label" for="tip-bill">Bill Amount</label>
       <input id="tip-bill" class="widget-input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Example: 85.00" />
@@ -24,7 +25,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result>
+  <IoPanel slot="output" label="Result" variant="prose" result bare>
     <div class="tm-hero">
       <span class="hero-value" id="tip-amount">$0.00</span>
       <span class="hero-label">Tip Amount</span>
@@ -47,6 +48,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     <CraftNote id="tip-note" craftId="tip-round-up" />
   </IoPanel>
 </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="tip-copy" data-label="Copy" type="button">Copy</button>

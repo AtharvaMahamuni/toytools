@@ -39,37 +39,40 @@ const resolvedEmpty = emptyText ?? 'Enter your details to calculate.';
 const craftId = config.craft?.id;
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
-  <IoPanel
-    slot="input"
-    label="Details"
-    variant="prose"
-    data-wellness={wellnessId}
-    data-slug={slug}
-    data-url-state={urlMode}
-    data-defaults={JSON.stringify(defaults)}
-    data-produces={JSON.stringify(tool?.produces ?? [])}
-    data-consumes={JSON.stringify(tool?.consumes ?? [])}
-  >
-    <p class="wellness-profile" id={`${slug}-profile`} hidden>
-      <span data-profile-text></span>
-      <button type="button" class="wellness-profile-forget" id={`${slug}-forget`}>Forget</button>
-    </p>
-    <div class="io-body wellness-form" id={`${slug}-form`} data-wellness-form>
-      {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
-    </div>
-  </IoPanel>
+<div class="calc-ledger">
+  <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel
+      slot="input"
+      label="Details"
+      variant="prose"
+      bare
+      data-wellness={wellnessId}
+      data-slug={slug}
+      data-url-state={urlMode}
+      data-defaults={JSON.stringify(defaults)}
+      data-produces={JSON.stringify(tool?.produces ?? [])}
+      data-consumes={JSON.stringify(tool?.consumes ?? [])}
+    >
+      <p class="wellness-profile" id={`${slug}-profile`} hidden>
+        <span data-profile-text></span>
+        <button type="button" class="wellness-profile-forget" id={`${slug}-forget`}>Forget</button>
+      </p>
+      <div class="io-body wellness-form" id={`${slug}-form`} data-wellness-form>
+        {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
+      </div>
+    </IoPanel>
 
-  <div slot="output">
-    <ExperienceRenderer
-      idPrefix={slug}
-      emptyText={resolvedEmpty}
-      layout={tool?.layout}
-      capabilities={caps}
-    />
-    {craftId && <CraftNote id={`${slug}-caveat`} craftId={craftId} />}
-  </div>
-</ToolSplit>
+    <div slot="output">
+      <ExperienceRenderer
+        idPrefix={slug}
+        emptyText={resolvedEmpty}
+        layout={tool?.layout}
+        capabilities={caps}
+      />
+      {craftId && <CraftNote id={`${slug}-caveat`} craftId={craftId} />}
+    </div>
+  </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>

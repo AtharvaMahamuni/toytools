@@ -36,30 +36,33 @@ const defaults = Object.fromEntries(fields.map((f) => [f.id, f.default]));
 const resolvedEmpty = emptyText ?? 'Enter your values to calculate.';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
-  <IoPanel
-    slot="input"
-    label="Details"
-    variant="prose"
-    data-math={mathId}
-    data-slug={slug}
-    data-url-state={urlMode}
-    data-defaults={JSON.stringify(defaults)}
-  >
-    <div class="io-body math-form" id={`${slug}-form`} data-math-form>
-      {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
-    </div>
-  </IoPanel>
+<div class="calc-ledger">
+  <ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel
+      slot="input"
+      label="Details"
+      variant="prose"
+      bare
+      data-math={mathId}
+      data-slug={slug}
+      data-url-state={urlMode}
+      data-defaults={JSON.stringify(defaults)}
+    >
+      <div class="io-body math-form" id={`${slug}-form`} data-math-form>
+        {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
+      </div>
+    </IoPanel>
 
-  <ExperienceRenderer
-    slot="output"
-    idPrefix={slug}
-    emptyText={resolvedEmpty}
-    layout={tool?.layout}
-    capabilities={caps}
-    craftId={config.craft?.id}
-  />
-</ToolSplit>
+    <ExperienceRenderer
+      slot="output"
+      idPrefix={slug}
+      emptyText={resolvedEmpty}
+      layout={tool?.layout}
+      capabilities={caps}
+      craftId={config.craft?.id}
+    />
+  </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>

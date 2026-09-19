@@ -113,6 +113,17 @@
   margin-top: var(--space-2);
 }
 
+.hero-note {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  max-width: none;
+}
+
+.hero-note[hidden] {
+  display: none;
+}
+
 .empty-hint {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
@@ -222,6 +233,11 @@
   flex-direction: column;
   gap: var(--space-2);
   min-height: 280px;
+}
+
+/* A ledger has no captioned frame, so it must not reserve a 280px empty box. */
+.io-panel--bare {
+  min-height: 0;
 }
 
 /* A pane holding a textarea or an <output> is a WINDOW onto text, not a container that grows
@@ -819,6 +835,12 @@ body.tt-focus-lock {
   gap: var(--space-4);
 }
 
+/* display:flex above would otherwise beat the hidden attribute and show the
+   result body in the empty state. */
+.experience-sections[hidden] {
+  display: none;
+}
+
 .experience-section { margin: 0; }
 
 .experience-heading {
@@ -850,14 +872,14 @@ body.tt-focus-lock {
 .milestone.is-reached { color: var(--color-accent-strong); font-weight: var(--font-weight-medium); }
 
 .insight {
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
+  padding: 0 0 0 var(--space-3);
+  background: transparent;
   font-size: var(--text-sm);
   line-height: 1.45;
+  border-left: 2px solid var(--color-border);
 }
-.insight--positive { border-color: var(--color-accent); background: var(--color-accent-subtle); }
-.insight--caution { border-color: var(--color-danger); background: var(--color-danger-bg); }
+.insight--positive { border-left-color: var(--color-accent); background: transparent; }
+.insight--caution { border-left-color: var(--color-danger); background: transparent; }
 
 .decision a { font-weight: var(--font-weight-medium); }
 
@@ -901,6 +923,78 @@ body.tt-focus-lock {
 .experience-placeholder { display: none; } /* reserved seam — capability-gated on by the renderer */
 .experience-section[data-section="visualization"]:not([hidden]),
 .experience-section[data-section="comparison"]:not([hidden]) { display: block; }
+
+/* ── Calculator ledger ───────────────────────────────────────────────────────
+   Platform default for every form-and-answer calculator (finance, wellness,
+   datetime, math, network, number, design). A statement, not two captioned cards.
+   The number and a few rows stay open. Workings fold into one disclosure.
+   Between-group space (~space-8) beats within-field space (~space-1).
+   Text-window tools (encode, hash, JSON) do not use this class. */
+.calc-ledger {
+  min-width: 0;
+}
+
+.calc-ledger .io-body {
+  gap: var(--space-5);
+}
+
+.calc-ledger .smart-preset {
+  background: transparent;
+}
+
+.finance-ledger-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.finance-scenarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.io-panel--bare.io-panel--result:not(:has(.tm-secondary:not([hidden]))) .tm-hero {
+  flex: none;
+  justify-content: flex-start;
+}
+
+.experience--ledger .experience-sections {
+  gap: var(--space-6);
+}
+
+.experience--ledger .tm-hero {
+  padding: 0;
+}
+
+.experience-workings {
+  order: 7;
+}
+
+.experience-workings:not(:has([data-section]:not([hidden]))) {
+  display: none;
+}
+
+.experience-workings[hidden] {
+  display: none;
+}
+
+.experience-workings > .experience-section {
+  margin-top: var(--space-4);
+}
+
+.experience-workings > .experience-section:first-of-type {
+  margin-top: var(--space-3);
+}
+
+.experience--ledger .decision-list {
+  gap: var(--space-1);
+}
+
+.experience--ledger .decision {
+  font-size: var(--text-sm);
+}
 
 /* ── Platform visualization ──────────────────────────────────────────────────
    Styling for the inline SVG built by src/lib/visualization/render.ts. Every
@@ -963,13 +1057,12 @@ body.tt-focus-lock {
 .viz-spark { stroke: var(--color-accent); stroke-width: 2; }
 .viz-spark-dot { fill: var(--color-accent); }
 
-/* Phone refinements — the hero numeral and the boxed result sections are the tightest spots on a
-   narrow screen (long currency strings, padded panels). Trim the side padding and the hero size so
-   text keeps clear of the panel borders/hairlines instead of crowding or wrapping onto them. */
+/* Phone refinements — a long grouped currency string is the tightest spot on a
+   narrow screen. The side padding on .tm-stats used to clear a panel frame that
+   is no longer there; leaving it indented the ledger away from the hero. */
 @media (max-width: 640px) {
   .tm-hero { padding: 0 0 var(--space-4); }
   .hero-value { font-size: clamp(var(--text-2xl), 8vw, var(--text-4xl)); }
-  .tm-stats { padding-inline: var(--space-4); }
 
   /* Stack each metric row (label over value) so a long grouped value (e.g. ₹20,93,777.93) gets the
      full width and never breaks mid-number against the opposite column. */

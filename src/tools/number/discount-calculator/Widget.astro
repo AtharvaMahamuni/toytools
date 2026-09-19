@@ -4,8 +4,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Discount Details" variant="prose" data-tool="discount-calculator">
+<div class="calc-ledger">
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Discount Details" variant="prose" bare data-tool="discount-calculator">
     <div class="io-body">
       <label class="widget-label" for="disc-mode">Discount Type</label>
       <select id="disc-mode" class="widget-select">
@@ -27,7 +28,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result>
+  <IoPanel slot="output" label="Result" variant="prose" result bare>
     <div class="tm-hero">
       <span class="hero-value" id="disc-final">$0.00</span>
       <span class="hero-label">Final Price</span>
@@ -46,6 +47,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     <CraftNote id="disc-note" craftId="disc-stack" action />
   </IoPanel>
 </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="disc-copy" data-label="Copy" type="button">Copy</button>

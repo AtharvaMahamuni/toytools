@@ -4,8 +4,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
-<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Value" variant="prose" data-tool="px-to-dp-converter">
+<div class="calc-ledger">
+<ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Value" variant="prose" bare data-tool="px-to-dp-converter">
     <div class="io-body">
       <label class="widget-label" for="ptd-mode">Convert</label>
       <select id="ptd-mode" class="widget-select">
@@ -23,11 +24,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="mono" result>
+  <IoPanel slot="output" label="Result" variant="mono" result bare>
     <ul class="ptd-out" id="ptd-out"></ul>
     <CraftNote id="ptd-note" craftId="ptd-fractional" />
   </IoPanel>
 </ToolSplit>
+</div>
 
 
 <script is:inline>

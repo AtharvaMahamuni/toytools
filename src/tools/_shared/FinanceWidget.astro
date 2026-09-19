@@ -4,7 +4,9 @@
 // ExperienceRenderer. It is finance-specific only in its wiring (ToyTools.runFinance); the input layer
 // and the entire result experience are platform-owned and reused unchanged by future engines.
 //
-// If a new finance tool ever requires editing this file, the architecture has failed.
+// The calculator surface is a ledger, not two captioned cards: bare IoPanels, answer-first
+// on a phone, ExperienceRenderer density ledger (platform default). If a new finance tool
+// ever requires editing this file for a new *field*, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
@@ -49,39 +51,43 @@ const currencyMeta = Object.fromEntries(
 );
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
-  <IoPanel
-    slot="input"
-    label="Details"
-    variant="prose"
-    data-finance={financeId}
-    data-slug={slug}
-    data-defaults={JSON.stringify(defaults)}
-    data-currency-meta={JSON.stringify(currencyMeta)}
-    data-url-state={urlMode}
-  >
-    <CurrencyInput slot="header-end" id={`${slug}-currency`} />
-
-    <div class="io-body finance-form" id={`${slug}-form`} data-finance-form>
-      {scenarios.length > 0 && (
-        <div class="finance-scenarios" role="group" aria-label="Scenarios">
-          {scenarios.map((s) => (
-            <button type="button" class="smart-preset finance-scenario" data-scenario={JSON.stringify(s.values)}>{s.label}</button>
-          ))}
+<div class="calc-ledger">
+  <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel
+      slot="input"
+      label="Details"
+      variant="prose"
+      bare
+      data-finance={financeId}
+      data-slug={slug}
+      data-defaults={JSON.stringify(defaults)}
+      data-currency-meta={JSON.stringify(currencyMeta)}
+      data-url-state={urlMode}
+    >
+      <div class="io-body finance-form" id={`${slug}-form`} data-finance-form>
+        <div class="finance-ledger-toolbar">
+          <CurrencyInput id={`${slug}-currency`} />
+          {scenarios.length > 0 && (
+            <div class="finance-scenarios" role="group" aria-label="Scenarios">
+              {scenarios.map((s) => (
+                <button type="button" class="smart-preset finance-scenario" data-scenario={JSON.stringify(s.values)}>{s.label}</button>
+              ))}
+            </div>
+          )}
         </div>
-      )}
-      {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
-    </div>
-  </IoPanel>
+        {fields.map((field) => <SmartInput field={field} idPrefix={slug} />)}
+      </div>
+    </IoPanel>
 
-  <ExperienceRenderer
-    slot="output"
-    idPrefix={slug}
-    emptyText={resolvedEmpty}
-    layout={calc?.layout}
-    capabilities={caps}
-  />
-</ToolSplit>
+    <ExperienceRenderer
+      slot="output"
+      idPrefix={slug}
+      emptyText={resolvedEmpty}
+      layout={calc?.layout}
+      capabilities={caps}
+    />
+  </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id={`${slug}-copy`} data-label="Copy" type="button">Copy</button>
@@ -100,7 +106,6 @@ const currencyMeta = Object.fromEntries(
 {examples.length > 0 && (
   <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />
 )}
-
 
 <script is:inline>
   (function () {
@@ -501,12 +506,3 @@ const currencyMeta = Object.fromEntries(
     if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>
-
-<style>
-  .finance-scenarios {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-2);
-  }
-</style>

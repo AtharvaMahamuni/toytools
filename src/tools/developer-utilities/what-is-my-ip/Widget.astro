@@ -6,8 +6,9 @@ import { LOOKUP_DISCLOSURE } from '@lib/engines/network/lookup';
 import { config } from './config';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false}>
-  <IoPanel slot="output" label="This connection" variant="prose" result data-tool="what-is-my-ip">
+<div class="calc-ledger">
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="output" label="This connection" variant="prose" result bare data-tool="what-is-my-ip">
     <div class="tm-hero">
       <span class="hero-value" id="ip-hero">Looking up…</span>
       <span class="hero-label" id="ip-hero-label">Public IPv4</span>
@@ -22,10 +23,11 @@ import { config } from './config';
     </dl>
   </IoPanel>
 
-  <IoPanel slot="input" label="About this lookup" variant="prose">
+  <IoPanel slot="input" label="About this lookup" variant="prose" bare>
     <p class="ip-disclose" id="ip-disclose">{LOOKUP_DISCLOSURE}</p>
   </IoPanel>
 </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="ip-copy" data-label="Copy IPv4" type="button">Copy IPv4</button>

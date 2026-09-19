@@ -341,14 +341,16 @@ holds everywhere it claims to.
 **IoPanel vocabulary.** Every tool widget is built from `src/tools/_shared/IoPanel.astro` — the
 *only* place `.io-panel`/`.io-header` markup exists. Props: `label` (+ optional `labelFor` for a11y),
 `variant` (`mono` for developer tools, `prose` for text tools), `result` (mobile content-hug +
-empty-state hero centering), `copyTargetId` (header CopyButton + `data-copy-bar`), `header-end` slot
-(e.g. the encode/decode mode select), `data-*` passthrough. **New widgets must compose `IoPanel`;
-hand-writing panel markup is an architecture failure.** Panel headers use the uppercase
-letter-spaced `.io-label` micro-label voice — the same voice as `.dir-heading`,
-`.cat-section-heading`, and the ToolNavRow "Related" label. Panels are fixed-height
-(min 280px desktop) with internal scroll; auto-growing textareas are forbidden (page geometry must
-not change while typing). `.io-body` is the padded flex body for form-style panels
-(percentage-calculator).
+empty-state hero centering), `copyTargetId` (header CopyButton + `data-copy-bar`), `bare` (skip the
+labelled header; calculator ledgers use this so the form and the number are not two captioned
+cards), `header-end` slot (e.g. the encode/decode mode select), `data-*` passthrough. **New widgets
+must compose `IoPanel`; hand-writing panel markup is an architecture failure.** Panel headers use
+the uppercase letter-spaced `.io-label` micro-label voice — the same voice as `.dir-heading`,
+`.cat-section-heading`, and the ToolNavRow "Related" label. Text-window panes are fixed-height
+(min 280px desktop) with internal scroll; `bare` calculator panes drop that floor. Auto-growing
+textareas are forbidden (page geometry must not change while typing). `.io-body` is the padded flex
+body for form-style panels (percentage-calculator). Calculator widgets wrap the split in
+`.calc-ledger` (see Design Language in the ui-design-system skill).
 
 **Control states.** One global `:focus-visible` ring (`--focus-ring` + offset in `global.css`);
 opt out only where a container draws its own focus treatment (gold search `focus-within`). Hover
@@ -556,9 +558,11 @@ engines feel identical and a new engine inherits the whole experience for free.
   — fills a static shell rather than building markup. Section **order is data** (the engine's
   `layout`), applied via CSS `order`. `DEFAULT_LAYOUT` puts **visualization directly under the
   hero**, ahead of the metric ledger: for a banded or part-to-whole result the chart is the answer
-  and the numbers are the detail. Verbose sections (timeline, assumptions, explanation,
-  nextQuestions) are `<details>`: the answer, chart, insights, and decisions stay open, the
-  read-if-curious material folds away.
+  and the numbers are the detail. Density **`ledger` is the default**: the number, ledger rows,
+  chart and one insight stay open; timeline, assumptions, milestones, explanation, next questions
+  and related tools fold into one "How this was worked out" disclosure. `density="panel"` is the
+  opt-out for labelled chrome. The contract lives in the **ui-design-system** skill → "Calculator
+  ledger".
 - **Capabilities** — an engine *declares* what it has (`visualization`, `timeline`, `loadExample`,
   …) instead of the renderer probing. A section renders only when its capability is on **and** the
   data exists. Comparison is still a reserved seam.

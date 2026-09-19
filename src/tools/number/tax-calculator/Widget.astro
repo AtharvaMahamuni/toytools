@@ -4,8 +4,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 ---
 
-<ToolSplit ratio="3-2" stackOrder="input-first" stickyOutput={false}>
-  <IoPanel slot="input" label="Amount & Rate" variant="prose" data-tool="tax-calculator">
+<div class="calc-ledger">
+<ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <IoPanel slot="input" label="Amount & Rate" variant="prose" bare data-tool="tax-calculator">
     <div class="io-body">
       <label class="widget-label" for="tx-mode">Calculate</label>
       <select id="tx-mode" class="widget-select">
@@ -21,7 +22,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     </div>
   </IoPanel>
 
-  <IoPanel slot="output" label="Result" variant="prose" result>
+  <IoPanel slot="output" label="Result" variant="prose" result bare>
     <div class="tm-hero">
       <span class="hero-value" id="tx-hero">$0.00</span>
       <span class="hero-label" id="tx-hero-label">Total With Tax</span>
@@ -40,6 +41,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     <CraftNote id="tx-note" craftId="tx-remove-gap" />
   </IoPanel>
 </ToolSplit>
+</div>
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="tx-copy" data-label="Copy" type="button">Copy</button>
