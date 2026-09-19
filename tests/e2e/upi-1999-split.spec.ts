@@ -7,6 +7,7 @@ test('default 5000 groups 2 times 1999 then 1002 under the caution', async ({ pa
   await expect(caution).toContainText('For fun only');
   await expect(caution).toContainText('Do not use this for that');
   await expect(page.locator('#upi-1999-split-hero')).toHaveText('2 × ₹1,999, then ₹1,002', { timeout: 15000 });
+  await expect(page.getByRole('button', { name: '5,000' })).toHaveClass(/is-active/);
   const result = page.locator('#upi-1999-split-experience');
   await expect(result).toContainText('3 payments');
   await expect(result).toContainText('The parts sum to ₹5,000.');
@@ -101,14 +102,39 @@ test('one next chunk opens in a UPI app, and the tick is not a receipt', async (
   expect(stored).not.toContain('name%40upi');
 });
 
-test('on a phone the next-chunk payee sits above the amount field', async ({ page }, info) => {
-  test.skip(info.project.name !== 'pixel5', 'desktop keeps pay under the split panes');
+test('amount chips set the total', async ({ page }) => {
+  await ready(page);
+  await expect(page.getByRole('button', { name: '5,000' })).toHaveClass(/is-active/);
+  await page.getByRole('button', { name: '10,000' }).click();
+  await expect(page.locator('#upi-1999-split-hero')).toHaveText('5 × ₹1,999, then ₹5');
+  await expect(page.getByRole('button', { name: '10,000' })).toHaveClass(/is-active/);
+  await expect(page.getByRole('button', { name: '5,000' })).not.toHaveClass(/is-active/);
+});
+
+test('on a phone the amount field sits above the next-chunk payee', async ({ page }, info) => {
+  test.skip(info.project.name !== 'pixel5', 'desktop keeps pay under the split, beside the amount');
   await ready(page);
   const vpa = await page.locator(VPA).boundingBox();
   const amount = await page.locator('#upi-1999-split-f-amount').boundingBox();
+  const hero = await page.locator('#upi-1999-split-hero').boundingBox();
   expect(vpa, 'payee field should render').not.toBeNull();
   expect(amount, 'amount field should render').not.toBeNull();
-  expect(vpa!.y).toBeLessThan(amount!.y);
+  expect(hero, 'split line should render').not.toBeNull();
+  expect(hero!.y).toBeLessThan(amount!.y);
+  expect(amount!.y).toBeLessThan(vpa!.y);
+});
+
+test('on desktop the next-chunk payee sits with the split, beside the amount', async ({ page }, info) => {
+  test.skip(info.project.name === 'pixel5', 'phone stacks the split, then the amount, then pay');
+  await ready(page);
+  const vpa = await page.locator(VPA).boundingBox();
+  const amount = await page.locator('#upi-1999-split-f-amount').boundingBox();
+  const hero = await page.locator('#upi-1999-split-hero').boundingBox();
+  expect(vpa, 'payee field should render').not.toBeNull();
+  expect(amount, 'amount field should render').not.toBeNull();
+  expect(hero, 'split line should render').not.toBeNull();
+  expect(vpa!.x).toBeGreaterThan(amount!.x);
+  expect(vpa!.y).toBeGreaterThan(hero!.y);
 });
 
 test('a new total clears ticks, and 2000 is one payment', async ({ page }) => {

@@ -169,7 +169,19 @@ const craftId = config.craft?.id;
       caveatEl.hidden = false;
     }
 
+    function markPresetChips() {
+      var chips = form.querySelectorAll('[data-preset-for]');
+      for (var i = 0; i < chips.length; i++) {
+        var chip = chips[i];
+        var target = fieldById(chip.getAttribute('data-preset-for'));
+        var raw = target ? String(readValue(target)) : '';
+        var val = chip.getAttribute('data-preset-value');
+        chip.classList.toggle('is-active', val !== null && raw !== '' && Number(raw) === Number(val));
+      }
+    }
+
     function run() {
+      markPresetChips();
       if (!(window.ToyTools && ToyTools.runWellness && ToyTools.experience)) return;
       var c = collect();
       if (c.missingRequired) {
@@ -392,6 +404,15 @@ const craftId = config.craft?.id;
       fieldEls[i].addEventListener('change', function () { run(); persist(); saveProfile(); });
       fieldEls[i].addEventListener('input', function () { run(); persist(); saveProfile(); });
     }
+
+    form.querySelectorAll('[data-preset-for]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var targetId = chip.getAttribute('data-preset-for');
+        if (!targetId) return;
+        setField(targetId, chip.getAttribute('data-preset-value'));
+        run(); persist(); saveProfile();
+      });
+    });
 
     // Copy link / share.
     var shareBtn = document.getElementById(slug + '-share');

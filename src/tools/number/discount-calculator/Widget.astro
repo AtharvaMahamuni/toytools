@@ -267,9 +267,10 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     min-height: var(--touch-target);
     padding-inline: var(--space-3);
     border: var(--border);
+    border-color: transparent;
     border-radius: var(--radius-md);
-    background: var(--color-surface);
-    color: var(--color-text);
+    background: transparent;
+    color: var(--color-text-muted);
     font: inherit;
     font-weight: var(--font-weight-medium);
     font-variant-numeric: tabular-nums;
@@ -277,15 +278,18 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     transition: var(--transition-color);
   }
 
-  .disc-preset:hover {
-    border-color: var(--color-border-strong);
-    background: var(--color-surface-hover);
+  .disc-preset:hover,
+  .disc-preset:active {
+    border-color: transparent;
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
   }
 
   .disc-preset.is-active,
   .disc-preset.is-active:hover {
-    border-color: var(--color-accent);
-    background: var(--color-accent-subtle);
+    border-color: transparent;
+    background: transparent;
     color: var(--color-accent-strong);
+    font-weight: var(--font-weight-semibold);
   }
 </style>

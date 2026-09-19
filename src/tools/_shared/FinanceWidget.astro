@@ -269,7 +269,19 @@ const currencyMeta = Object.fromEntries(
       if (undoBtn) undoBtn.hidden = false;
     }
 
+    function markPresetChips() {
+      var chips = form.querySelectorAll('[data-preset-for]');
+      for (var i = 0; i < chips.length; i++) {
+        var chip = chips[i];
+        var target = fieldById(chip.getAttribute('data-preset-for'));
+        var raw = target ? String(readValue(target)) : '';
+        var val = chip.getAttribute('data-preset-value');
+        chip.classList.toggle('is-active', val !== null && raw !== '' && Number(raw) === Number(val));
+      }
+    }
+
     function run() {
+      markPresetChips();
       if (!(window.ToyTools && ToyTools.runFinance && ToyTools.experience)) return;
       var c = collect();
       var currency = currencyEl ? currencyEl.value : 'USD';

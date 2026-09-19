@@ -940,6 +940,16 @@ body.tt-focus-lock {
 
 .calc-ledger .smart-preset {
   background: transparent;
+  border-color: transparent;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-ledger .smart-preset.is-active {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-accent-strong);
+  font-weight: var(--font-weight-semibold);
 }
 
 .finance-ledger-toolbar {
@@ -1193,6 +1203,13 @@ body.tt-focus-lock {
   border-color: var(--color-accent);
   background: var(--color-accent-subtle);
   transform: scale(0.94);
+}
+
+.calc-ledger .smart-preset:hover,
+.calc-ledger .smart-preset:active {
+  border-color: transparent;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-strong);
 }
 
 .tt-focus-exit:active {
