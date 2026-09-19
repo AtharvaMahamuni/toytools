@@ -31,7 +31,12 @@ test('2000 is one payment and nothing to split', async ({ page }) => {
 const NEXT = '#upi-1999-split-next';
 const VPA = '#upi-1999-split-vpa';
 const LINK = '#upi-1999-split-link';
+const COPY = '#upi-1999-split-copy-chunk';
 const BOX = '#upi-1999-split-done';
+
+function isWide(page: import('@playwright/test').Page) {
+  return (page.viewportSize()?.width ?? 0) >= 1024;
+}
 
 async function ready(page: import('@playwright/test').Page) {
   await page.goto('/tool/finance/upi-1999-split/');
@@ -57,15 +62,23 @@ test('one next chunk opens in a UPI app, and the tick is not a receipt', async (
   await ready(page);
   await page.locator(VPA).fill('name@upi');
   const link = page.locator(LINK);
-  await expect(link).toBeVisible();
-  await expect(link).toHaveText('Open UPI app');
+  const copy = page.locator(COPY);
   const first = 'upi://pay?pa=name%40upi&am=1999&cu=INR&tn=Payment%201%20of%203';
   await expect(link).toHaveAttribute('href', first);
   expect(first).not.toMatch(/[?&](pn|tid|tr)=/);
   await expect(page.locator('a[href^="upi://"]')).toHaveCount(1);
-  const wide = (page.viewportSize()?.width ?? 0) >= 1024;
-  if (wide) await expect(page.locator('#upi-1999-split-phone')).toBeVisible();
-  else await expect(page.locator('#upi-1999-split-phone')).toBeHidden();
+  const wide = isWide(page);
+  if (wide) {
+    await expect(link).toBeHidden();
+    await expect(page.locator('#upi-1999-split-phone')).toBeHidden();
+    await expect(copy).toBeVisible();
+    await expect(copy).toHaveText('Copy ₹1,999');
+  } else {
+    await expect(link).toBeVisible();
+    await expect(link).toHaveText('Open UPI app');
+    await expect(page.locator('#upi-1999-split-phone')).toBeHidden();
+    await expect(copy).toBeHidden();
+  }
   await expect(page.locator('label[for="upi-1999-split-done"]')).toContainText('your own tick');
   await expect(page.locator('label[for="upi-1999-split-done"]')).toContainText('not a receipt');
 
@@ -73,14 +86,17 @@ test('one next chunk opens in a UPI app, and the tick is not a receipt', async (
   await expect(page.locator(NEXT)).toHaveText('Payment 2 of 3 · ₹1,999');
   await expect(link).toHaveAttribute('href', 'upi://pay?pa=name%40upi&am=1999&cu=INR&tn=Payment%202%20of%203');
   await expect(page.locator('a[href^="upi://"]')).toHaveCount(1);
+  if (wide) await expect(copy).toHaveText('Copy ₹1,999');
 
   await page.locator(BOX).click();
   await expect(page.locator(NEXT)).toHaveText('Payment 3 of 3 · ₹1,002');
   await expect(link).toHaveAttribute('href', 'upi://pay?pa=name%40upi&am=1002&cu=INR&tn=Payment%203%20of%203');
+  if (wide) await expect(copy).toHaveText('Copy ₹1,002');
 
   await page.locator(BOX).click();
   await expect(page.locator('a[href^="upi://"]')).toHaveCount(0);
   await expect(page.locator(BOX)).toBeChecked();
+  await expect(copy).toBeHidden();
   await expect(page.locator('#upi-1999-split-all')).toContainText('not a receipt');
   await expect(page.locator('main')).not.toContainText(/pay all/i);
   await expect(page.locator('main')).not.toContainText(/succeeded|payment successful/i);
@@ -89,6 +105,7 @@ test('one next chunk opens in a UPI app, and the tick is not a receipt', async (
   await expect(page.locator(NEXT)).toHaveText('Payment 3 of 3 · ₹1,002');
   await expect(link).toHaveAttribute('href', /am=1002/);
   await expect(page.locator(BOX)).not.toBeChecked();
+  if (wide) await expect(copy).toBeVisible();
 
   const stored = await page.evaluate(() => {
     const parts: string[] = [];
@@ -124,7 +141,7 @@ test('on a phone the amount field sits above the next-chunk payee', async ({ pag
   expect(amount!.y).toBeLessThan(vpa!.y);
 });
 
-test('on desktop the next-chunk payee sits with the split, beside the amount', async ({ page }, info) => {
+test('on desktop the next-chunk payee sits under the amount, beside the split', async ({ page }, info) => {
   test.skip(info.project.name === 'pixel5', 'phone stacks the split, then the amount, then pay');
   await ready(page);
   const vpa = await page.locator(VPA).boundingBox();
@@ -133,14 +150,19 @@ test('on desktop the next-chunk payee sits with the split, beside the amount', a
   expect(vpa, 'payee field should render').not.toBeNull();
   expect(amount, 'amount field should render').not.toBeNull();
   expect(hero, 'split line should render').not.toBeNull();
-  expect(vpa!.x).toBeGreaterThan(amount!.x);
-  expect(vpa!.y).toBeGreaterThan(hero!.y);
+  expect(hero!.x).toBeGreaterThan(amount!.x);
+  expect(vpa!.y).toBeGreaterThan(amount!.y);
+  expect(Math.abs(vpa!.x - amount!.x)).toBeLessThan(48);
+  await expect(page.locator(COPY)).toBeVisible();
+  await expect(page.locator(COPY)).toHaveText('Copy ₹1,999');
+  await expect(page.locator(LINK)).toBeHidden();
 });
 
 test('a new total clears ticks, and 2000 is one payment', async ({ page }) => {
   await ready(page);
   await page.locator(VPA).fill('name@upi');
-  await expect(page.locator(LINK)).toBeVisible();
+  if (isWide(page)) await expect(page.locator(COPY)).toBeVisible();
+  else await expect(page.locator(LINK)).toBeVisible();
   await page.locator(BOX).click();
   await expect(page.locator(NEXT)).toHaveText('Payment 2 of 3 · ₹1,999');
   await page.locator('#upi-1999-split-f-amount').evaluate((el) => {
@@ -153,4 +175,5 @@ test('a new total clears ticks, and 2000 is one payment', async ({ page }) => {
   await expect(page.locator(NEXT)).toHaveText('Payment 1 of 1 · ₹2,000');
   await expect(page.locator(LINK)).toHaveAttribute('href', /am=2000/);
   await expect(page.locator('a[href^="upi://"]')).toHaveCount(1);
+  if (isWide(page)) await expect(page.locator(COPY)).toHaveText('Copy ₹2,000');
 });

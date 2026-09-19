@@ -164,6 +164,7 @@ apart. A `<p>` that is display maths, a metric, or a centred caption sets `max-w
 --width-content   /* 1100px — tool pages and 2-column splits */
 --width-prose     /* 72ch  — guide reading measure */
 --width-tool      /* 820px  — FAQ pages and narrow forms */
+--width-control   /* 28rem — desktop cap for numeric/amount fields; phone stays 100% */
 --width-category  /* alias of --width-shell (legacy) */
 --width-nav       /* alias of --width-shell (chrome) */
 ```
@@ -181,8 +182,11 @@ Set via `maxWidth` prop on `BaseLayout` (`'shell' | 'content' | 'tool' | 'full'`
 ### Two-column tools (`ToolSplit`)
 `src/tools/_shared/ToolSplit.astro` — desktop input-left / output-right, sticky output, stacks at
 **1024px**. Props `ratio` (`1-1|3-2|3-1`), `stackOrder` (`input-first|output-first`), `stickyOutput`.
-Answer-first tools (text metrics, calculators) stack output-first on mobile; transform tools stack input-first.
-Live tools (case, percentage) update on input — no submit button.
+Shared calculator widgets (`FinanceWidget`, `WellnessWidget`, `DateTimeWidget`, `MathWidget`,
+`NetworkWidget`) pick the ratio from the field schema: **1–2 fields → `1-1`**, **3+ → `3-2`**.
+Do not hardcode `3-2` on a one-field form. A ledger with no form (What is my IP) uses `1-1`.
+Answer-first tools (text metrics, calculators) stack output-first on mobile; transform tools stack
+input-first. Live tools (case, percentage) update on input — no submit button.
 
 ### Calculator ledger (form-and-answer tools)
 
@@ -197,8 +201,17 @@ Folded:   one disclosure, "How this was worked out" (assumptions, timeline, mile
 Phone:    stackOrder="output-first" when the result is short (finance, datetime, number,
           design). Chart-heavy families (wellness, math, network CIDR) stay input-first so
           the first control stays inside the fold ratchet.
+Desktop:  numeric SmartInput rows and ledger `input.widget-input` cap at `--width-control`
+          from 1024px. A rupee or percent field is not a full pane. Textareas, cron/CIDR
+          text, and selects stay full width.
 Never:    labelled Details/Result frames, filled insight tiles, an open milestone checklist
 ```
+
+A 3-region tool (form, result, and a third stage such as UPI 1999 Split’s payee) may dissolve
+`ToolSplit` with `display: contents` so those pieces share one grid. That is the exception, not a
+second ledger. Do not span the form cell across the third stage on desktop: stack form + third
+stage in the left column, statement on the right, `1fr 1fr`. Phone-only actions (`upi://`) stay
+hidden from 1024px.
 
 Text-window tools (encode, hash, JSON, CSV, JWT, generators) are **not** this. Their two panes
 are windows onto text and keep headers. Do not put `.calc-ledger` on those widgets.

@@ -29,10 +29,11 @@ import { config } from './config';
   <p id="upi-1999-split-vpa-msg" class="upi-msg" role="status" hidden></p>
   <div id="upi-1999-split-chunk" hidden>
     <p id="upi-1999-split-next" class="upi-next-line" aria-live="polite"></p>
-    <div id="upi-1999-split-link-wrap" hidden>
+    <div id="upi-1999-split-link-wrap" class="upi-link-wrap" hidden>
       <a id="upi-1999-split-link" class="action-btn upi-open">Open UPI app</a>
       <p id="upi-1999-split-phone" class="upi-phone">Opens a UPI app on a phone.</p>
     </div>
+    <button type="button" id="upi-1999-split-copy-chunk" class="action-btn upi-copy" hidden>Copy chunk</button>
     <label class="upi-tick" for="upi-1999-split-done">
       <input id="upi-1999-split-done" type="checkbox" />
       <span>Marked done. This is your own tick, not a receipt from the bank or UPI app.</span>
@@ -57,6 +58,7 @@ import { config } from './config';
     var nextEl = document.getElementById('upi-1999-split-next');
     var wrapEl = document.getElementById('upi-1999-split-link-wrap');
     var linkEl = document.getElementById('upi-1999-split-link');
+    var copyEl = document.getElementById('upi-1999-split-copy-chunk');
     var boxEl = document.getElementById('upi-1999-split-done');
     var allEl = document.getElementById('upi-1999-split-all');
     var amountEl = document.getElementById('upi-1999-split-f-amount');
@@ -71,9 +73,26 @@ import { config } from './config';
       return Number(String(raw).replace(/,/g, '').replace(/\s/g, ''));
     }
 
+    function rupeeLabel(amount) {
+      return '₹' + Number(amount).toLocaleString('en-IN');
+    }
+
     function clearLink() {
       if (linkEl) linkEl.removeAttribute('href');
       if (wrapEl) wrapEl.hidden = true;
+    }
+
+    function paintCopy(view) {
+      if (!copyEl) return;
+      if (!view || view.allMarked) {
+        copyEl.hidden = true;
+        copyEl.removeAttribute('data-amount');
+        return;
+      }
+      var label = rupeeLabel(view.amount);
+      copyEl.hidden = false;
+      copyEl.setAttribute('data-amount', label);
+      copyEl.textContent = 'Copy ' + label;
     }
 
     function setChecked(value) {
@@ -99,6 +118,7 @@ import { config } from './config';
           msgEl.textContent = '';
         }
         clearLink();
+        paintCopy(null);
         if (vpaEl) vpaEl.removeAttribute('aria-invalid');
         return;
       }
@@ -121,6 +141,7 @@ import { config } from './config';
       } else {
         clearLink();
       }
+      paintCopy(view);
       if (allEl) allEl.hidden = !view.allMarked;
       setChecked(!!view.allMarked);
     }
@@ -143,6 +164,12 @@ import { config } from './config';
         new MutationObserver(paint).observe(amountEl, { attributes: true, attributeFilter: ['data-raw'] });
       }
       boxEl.addEventListener('change', onToggle);
+      if (copyEl) {
+        copyEl.addEventListener('click', function () {
+          var amt = copyEl.getAttribute('data-amount');
+          if (amt && window.ToyTools && ToyTools.copy) ToyTools.copy(amt);
+        });
+      }
       paint();
     }
 
@@ -230,7 +257,14 @@ import { config } from './config';
     color: var(--color-text);
   }
 
-  .upi-open {
+  /* Grouping line is the answer; the 36px money-hero clamp is for a single number. */
+  .upi-split :global(.hero-value) {
+    font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
+    line-height: 1.25;
+  }
+
+  .upi-open,
+  .upi-copy {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -238,7 +272,12 @@ import { config } from './config';
     text-decoration: none;
   }
 
-  .upi-open:active {
+  .upi-copy {
+    display: none;
+  }
+
+  .upi-open:active,
+  .upi-copy:active {
     border-color: var(--color-border-strong);
     background: var(--color-surface-hover);
   }
@@ -281,24 +320,35 @@ import { config } from './config';
   }
 
   @media (min-width: 1024px) {
+    /* Desktop copies the chunk; a upi:// link cannot open here. */
+    .upi-link-wrap,
+    .upi-open,
     .upi-phone {
-      display: block;
+      display: none;
     }
 
-    /* Desktop: amount left, split + pay as one right-hand statement. */
+    .upi-copy:not([hidden]) {
+      display: inline-flex;
+    }
+
+    /* Do column (amount, payee, actions) | see column (split). 1-1, no spanning hole. */
     .upi-split {
-      grid-template-columns: 3fr 2fr;
+      grid-template-columns: 1fr 1fr;
       grid-template-areas:
         'caution caution'
         'input   output'
-        'input   next'
-        'actions actions';
+        'next    output'
+        'actions output';
       column-gap: var(--space-8);
       row-gap: var(--space-6);
     }
 
     .upi-next {
       gap: var(--space-2);
+    }
+
+    .upi-vpa input {
+      max-width: var(--width-control);
     }
   }
 </style>

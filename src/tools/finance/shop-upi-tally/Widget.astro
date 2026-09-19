@@ -329,6 +329,13 @@
     font-size: var(--text-base);
   }
 
+  @media (min-width: 1024px) {
+    .shop-field:has(#shop-amount) {
+      flex: 0 1 var(--width-control);
+      max-width: var(--width-control);
+    }
+  }
+
   .shop-add,
   .shop-btn {
     min-height: var(--touch-target);

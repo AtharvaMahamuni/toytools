@@ -2,6 +2,14 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.13] - 2026-09-19
+
+### Changed
+
+- **Calculator fields on desktop** stop stretching across the pane. Numeric SmartInput rows and ledger number inputs cap at `--width-control` (28rem) from 1024px. Shared calculator widgets with one or two fields use a 1-1 split instead of 3-2. What is my IP has no form, so it uses 1-1 as well. Tip, tax, discount, margin, markup, and percentage keep 3-2 (three or more controls) and pick up the same field cap.
+- **UPI 1999 Split** on desktop stacks the amount and payee on the left and the split statement on the right, so the form is not an empty 3fr column. The grouping line is a statement, not a 36px money hero. From 1024px, Copy ₹1,999 replaces Open UPI app. Phone order is unchanged: split, then amount, then payee.
+- **Shop UPI Tally** amount field uses the same desktop control width.
+
 ## [beta-v11.12] - 2026-09-19
 
 ### Changed

@@ -114,6 +114,7 @@
   --width-content:  1100px;  /* tool interactive area / 2-col splits */
   --width-prose:    72ch;    /* guide/FAQ/marketing reading measure */
   --width-tool:     820px;   /* single-column tools + narrow forms */
+  --width-control:  28rem;   /* desktop cap for numeric/amount fields; phone stays 100% */
   --width-category: var(--width-shell);  /* alias — existing refs keep working */
   --width-nav:      var(--width-shell);  /* alias — nav/footer chrome */
 
