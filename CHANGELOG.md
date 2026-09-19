@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.10] - 2026-09-19
+
+### Changed
+
+- **UPI 1999 Split** puts Pay next chunk (payee, Open UPI app, tick) above the calculator on a phone, so the pay step is on the first screen. On desktop it stays under the split.
+
 ## [beta-v11.9] - 2026-09-18
 
 ### Changed
