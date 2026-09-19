@@ -203,15 +203,15 @@ Phone:    stackOrder="output-first" when the result is short (finance, datetime,
           the first control stays inside the fold ratchet.
 Desktop:  numeric SmartInput rows and ledger `input.widget-input` cap at `--width-control`
           from 1024px. A rupee or percent field is not a full pane. Textareas, cron/CIDR
-          text, and selects stay full width.
+          text, and selects stay full width. Finance 1–2 field tools, and payment tools
+          that opt in (`splitScreens`), use `.split-screens`: equal halves, filled result.
 Never:    labelled Details/Result frames, filled insight tiles, an open milestone checklist
 ```
 
 A 3-region tool (form, result, and a third stage such as UPI 1999 Split’s payee) may dissolve
 `ToolSplit` with `display: contents` so those pieces share one grid. That is the exception, not a
-second ledger. Do not span the form cell across the third stage on desktop: stack form + third
-stage in the left column, statement on the right, `1fr 1fr`. Phone-only actions (`upi://`) stay
-hidden from 1024px.
+second ledger. On desktop use two equal halves: amount + statement on the left, payee + chunk
+action on the right (`1fr 1fr`). Phone-only actions (`upi://`) stay hidden from 1024px.
 
 Text-window tools (encode, hash, JSON, CSV, JWT, generators) are **not** this. Their two panes
 are windows onto text and keep headers. Do not put `.calc-ledger` on those widgets.

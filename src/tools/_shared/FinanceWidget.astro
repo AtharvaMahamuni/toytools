@@ -25,12 +25,15 @@ interface Props {
   financeId: string;
   config: ToolConfig;
   emptyText?: string;
+  /** Desktop 50/50 form | filled result. Defaults on for 1–2 field tools. */
+  splitScreens?: boolean;
 }
 
-const { slug, financeId, config, emptyText } = Astro.props;
+const { slug, financeId, config, emptyText, splitScreens: splitScreensProp } = Astro.props;
 const calc = getFinanceCalculator(financeId);
 const fields = calc?.fields ?? [];
-const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
+const splitScreens = splitScreensProp ?? fields.length <= 2;
+const splitRatio = splitScreens ? '1-1' : '3-2';
 const scenarios = calc?.scenarios ?? [];
 const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
 const examples = financeExamplesFor(financeId).map((e) => e.inputs);
@@ -53,7 +56,7 @@ const currencyMeta = Object.fromEntries(
 );
 ---
 
-<div class="calc-ledger">
+<div class:list={['calc-ledger', { 'split-screens': splitScreens }]}>
   <ToolSplit ratio={splitRatio} stackOrder="output-first" stickyOutput={false} equalHeight={false}>
     <IoPanel
       slot="input"
@@ -520,3 +523,24 @@ const currencyMeta = Object.fromEntries(
     if (window.ToyTools && ToyTools.onReady) ToyTools.onReady(run); else run();
   })();
 </script>
+
+<style>
+  @media (min-width: 1024px) {
+    .split-screens :global(.tool-split.natural-height:has(.io-panel)) {
+      align-items: stretch;
+    }
+
+    .split-screens :global(.ts-output) {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .split-screens :global(.ts-output .io-panel) {
+      flex: 1;
+      background: var(--color-surface);
+      padding: var(--space-6);
+      border-radius: var(--radius-md);
+    }
+  }
+</style>

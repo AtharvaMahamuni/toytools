@@ -7,32 +7,39 @@
 </div>
 
 <section class="shop-tally calc-ledger" data-tool="shop-upi-tally">
-  <p id="shop-month" class="shop-month">This month</p>
-  <p id="shop-total" class="shop-total" aria-live="polite">₹0.00</p>
-  <p id="shop-gap" class="shop-gap"></p>
-  <form id="shop-form" class="shop-form">
-    <label class="shop-field" for="shop-amount">
-      <span>Amount in rupees</span>
-      <input id="shop-amount" inputmode="decimal" autocomplete="off" placeholder="500" />
-    </label>
-    <button type="submit" class="shop-add">Add amount</button>
-  </form>
-  <p id="shop-msg" class="shop-msg" role="status" hidden></p>
-  <details id="shop-recent" class="shop-recent" hidden>
-    <summary id="shop-recent-sum">Receipts this month</summary>
-    <ul id="shop-recent-list"></ul>
-  </details>
-  <div class="shop-row">
-    <button type="button" id="shop-export" class="shop-btn">Export JSON</button>
-    <button type="button" id="shop-import-btn" class="shop-btn" aria-expanded="false" aria-controls="shop-import">Import JSON</button>
-    <button type="button" id="shop-clear" class="shop-btn">Clear tally</button>
-  </div>
-  <div id="shop-import" class="shop-import" hidden>
-    <label class="shop-field" for="shop-import-text">Paste export JSON</label>
-    <textarea id="shop-import-text" rows="4"></textarea>
-    <div class="shop-row">
-      <input id="shop-import-file" type="file" accept="application/json,.json" aria-label="Choose a tally JSON file" />
-      <button type="button" id="shop-import-run" class="shop-add">Replace tally</button>
+  <div class="shop-stage">
+    <div class="shop-balance">
+      <p id="shop-month" class="shop-month">This month</p>
+      <p id="shop-total" class="shop-total" aria-live="polite">₹0.00</p>
+      <p id="shop-gap" class="shop-gap"></p>
+      <details id="shop-recent" class="shop-recent" hidden>
+        <summary id="shop-recent-sum">Receipts this month</summary>
+        <ul id="shop-recent-list"></ul>
+      </details>
+    </div>
+    <div class="shop-pay">
+      <p class="shop-pay-kicker">Add a receipt</p>
+      <form id="shop-form" class="shop-form">
+        <label class="shop-field" for="shop-amount">
+          <span>Amount in rupees</span>
+          <input id="shop-amount" inputmode="decimal" autocomplete="off" placeholder="500" />
+        </label>
+        <button type="submit" class="shop-add">Add amount</button>
+      </form>
+      <p id="shop-msg" class="shop-msg" role="status" hidden></p>
+      <div class="shop-row">
+        <button type="button" id="shop-export" class="shop-btn">Export JSON</button>
+        <button type="button" id="shop-import-btn" class="shop-btn" aria-expanded="false" aria-controls="shop-import">Import JSON</button>
+        <button type="button" id="shop-clear" class="shop-btn">Clear tally</button>
+      </div>
+      <div id="shop-import" class="shop-import" hidden>
+        <label class="shop-field" for="shop-import-text">Paste export JSON</label>
+        <textarea id="shop-import-text" rows="4"></textarea>
+        <div class="shop-row">
+          <input id="shop-import-file" type="file" accept="application/json,.json" aria-label="Choose a tally JSON file" />
+          <button type="button" id="shop-import-run" class="shop-add">Replace tally</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -298,6 +305,15 @@
     color: var(--color-text);
   }
 
+  .shop-pay-kicker {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
   .shop-form,
   .shop-row {
     display: flex;
@@ -330,9 +346,32 @@
   }
 
   @media (min-width: 1024px) {
+    .shop-stage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-8);
+      align-items: stretch;
+    }
+
+    .shop-pay {
+      padding: var(--space-6);
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+    }
+
+    .shop-form {
+      flex-direction: column;
+      align-items: stretch;
+      margin-top: 0;
+    }
+
     .shop-field:has(#shop-amount) {
-      flex: 0 1 var(--width-control);
-      max-width: var(--width-control);
+      flex: 1 1 auto;
+      max-width: none;
+    }
+
+    .shop-add {
+      width: 100%;
     }
   }
 

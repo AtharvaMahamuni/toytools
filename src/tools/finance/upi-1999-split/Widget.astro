@@ -328,27 +328,53 @@ import { config } from './config';
     }
 
     .upi-copy:not([hidden]) {
-      display: inline-flex;
+      display: flex;
+      width: 100%;
     }
 
-    /* Do column (amount, payee, actions) | see column (split). 1-1, no spanning hole. */
+    #upi-1999-split-chunk {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    #upi-1999-split-chunk[hidden] {
+      display: none;
+    }
+
+    /* Half and half: bill (amount + split) | pay (payee + chunk). */
     .upi-split {
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
         'caution caution'
-        'input   output'
-        'next    output'
-        'actions output';
+        'input   next'
+        'output  next'
+        'actions next';
       column-gap: var(--space-8);
       row-gap: var(--space-6);
     }
 
     .upi-next {
-      gap: var(--space-2);
+      align-self: stretch;
+      gap: var(--space-4);
+      padding: var(--space-6);
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+    }
+
+    .upi-next-line {
+      font-size: var(--text-2xl);
     }
 
     .upi-vpa input {
-      max-width: var(--width-control);
+      max-width: none;
+    }
+
+    /* Pay pane is the filled half; the split statement stays a ledger, not a second card. */
+    .upi-split :global(.ts-output .io-panel) {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
     }
   }
 </style>
