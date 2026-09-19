@@ -5,8 +5,9 @@
 // and the entire result experience are platform-owned and reused unchanged by future engines.
 //
 // The calculator surface is a ledger, not two captioned cards: bare IoPanels, answer-first
-// on a phone, ExperienceRenderer density ledger (platform default). If a new finance tool
-// ever requires editing this file for a new *field*, the architecture has failed.
+// on a phone, ExperienceRenderer density ledger (platform default). Split ratio follows the
+// field schema (1-2 fields → 1-1, else 3-2) so a single amount is not stretched across 3fr.
+// If a new finance tool ever requires editing this file for a new *field*, the architecture has failed.
 import ToolSplit from '@tools/_shared/ToolSplit.astro';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import SmartInput from '@components/inputs/SmartInput.astro';
@@ -29,6 +30,7 @@ interface Props {
 const { slug, financeId, config, emptyText } = Astro.props;
 const calc = getFinanceCalculator(financeId);
 const fields = calc?.fields ?? [];
+const splitRatio = fields.length <= 2 ? '1-1' : '3-2';
 const scenarios = calc?.scenarios ?? [];
 const caps = { ...DEFAULT_CAPABILITIES, ...(calc?.capabilities ?? {}) };
 const examples = financeExamplesFor(financeId).map((e) => e.inputs);
@@ -52,7 +54,7 @@ const currencyMeta = Object.fromEntries(
 ---
 
 <div class="calc-ledger">
-  <ToolSplit ratio="3-2" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+  <ToolSplit ratio={splitRatio} stackOrder="output-first" stickyOutput={false} equalHeight={false}>
     <IoPanel
       slot="input"
       label="Details"
