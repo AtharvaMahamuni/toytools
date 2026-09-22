@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.1] - 2026-09-22
+
+### Changed
+
+- **Mobile More about.** On phone widths (under 640px), Zone C (KnowledgeDrawers) collapses
+  behind one "More about" control so tool pages feel app-first. Desktop keeps the drawer row
+  fully visible. FAQ, guides, concept H2s, related links, and JSON-LD stay in the first HTML
+  response — folded, not removed or JS-fetched. Visiting `/path#faq` on a phone opens More about
+  and the FAQ drawer. Tool critical-path total budget 60 KB → 61 KB gz for the
+  ~0.2 KB shell on every tool page (json-tree-viewer sat on the previous ceiling).
+
 ## [beta-v11.14] - 2026-09-19
 
 ### Changed

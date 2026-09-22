@@ -29,6 +29,9 @@ test.describe('information pages', () => {
     const drawer = page.locator('details#faq');
     await expect(drawer).toHaveAttribute('open', '');
     await expect(drawer.getByRole('heading', { level: 2 })).toBeVisible();
+    // On phones Zone C sits behind a closed "More about" shell; the hash must open that too.
+    const more = page.locator('details.kd-more');
+    await expect(more).toHaveAttribute('open', '');
   });
 
   test('the changelog renders the real releases from CHANGELOG.md', async ({ page }) => {
@@ -116,9 +119,13 @@ test.describe('information pages', () => {
     expect(joined).toContain('https://www.linkedin.com/in/atharvamahamuni');
   });
 
-  test('a tool page names three sibling tools in the open', async ({ page }) => {
+  test('a tool page names three sibling tools in the open', async ({ page }, testInfo) => {
     // An ungrouped tool, so the three links are not hidden behind a GroupSwitcher.
     await page.goto('/tool/text/reverse-text/');
+    // On phones Zone C sits behind More about — open it so the sibling row is reachable.
+    if (testInfo.project.name === 'pixel5') {
+      await page.locator('details.kd-more > summary').click();
+    }
     const nav = page.locator('.kd-related-nav');
     await expect(nav).toBeVisible();
     await expect(nav.getByRole('link')).toHaveCount(3);
