@@ -41,6 +41,24 @@
       <div id="todo-progress-bar" class="todo-progress-bar"></div>
     </div>
   </div>
+
+  <!-- Export/Import stay on the tool screen (Atharva hard rule) - never behind More about, Details, or menus.
+       Always visible even when the progress footer is hidden (empty list). -->
+  <div class="todo-backup" role="group" aria-label="Backup">
+    <button type="button" id="todo-export" class="todo-backup-btn">Export JSON</button>
+    <button type="button" id="todo-import-btn" class="todo-backup-btn" aria-expanded="false" aria-controls="todo-import-panel">Import JSON</button>
+  </div>
+  <div id="todo-import-panel" class="todo-import" hidden>
+    <label class="todo-import-field" for="todo-import-text">
+      <span>Paste backup JSON</span>
+      <textarea id="todo-import-text" rows="4" placeholder='{"v":1,"tasks":[...]}'></textarea>
+    </label>
+    <div class="todo-import-row">
+      <input id="todo-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
+      <button type="button" id="todo-import-run" class="todo-import-primary">Import</button>
+    </div>
+    <p id="todo-import-msg" class="todo-import-msg" role="status" hidden></p>
+  </div>
 </section>
 
 
@@ -501,6 +519,62 @@
   }
   .todo-footer[hidden] { display: none; }
 
+  .todo-backup, .todo-import-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .todo-backup { margin-top: var(--space-4); }
+  .todo-import[hidden], .todo-import-msg[hidden] { display: none; }
+  .todo-import {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  .todo-backup-btn {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-full, 999px);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+  .todo-backup-btn:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .todo-import-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .todo-import-field textarea {
+    min-height: 96px;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    resize: vertical;
+  }
+  .todo-import-primary {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-5);
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .todo-import-msg { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .todo-import-msg.is-error { color: var(--color-danger, var(--color-text)); }
+
   .todo-footer-row {
     display: flex;
     align-items: center;
@@ -945,6 +1019,105 @@
     });
 
     document.getElementById('todo-hide-completed')?.addEventListener('change', render);
+
+    // Backup covers the real storage key (toytools.todo.tasks — dot namespace,
+    // so Settings global toytools:* backup may miss it). Always visible.
+    var importPanel = document.getElementById('todo-import-panel');
+    var importMsg = document.getElementById('todo-import-msg');
+    var importText = document.getElementById('todo-import-text');
+
+    document.getElementById('todo-export') && document.getElementById('todo-export').addEventListener('click', function () {
+      var payload = JSON.stringify({
+        v: 1,
+        exportedAt: new Date().toISOString(),
+        tasks: tasks
+      }, null, 2);
+      var blob = new Blob([payload], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'todo-list-backup.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+      if (window.ToyTools && ToyTools.toast) ToyTools.toast('Backup downloaded.');
+    });
+
+    var importBtn = document.getElementById('todo-import-btn');
+    importBtn && importBtn.addEventListener('click', function () {
+      var open = importPanel && importPanel.hidden;
+      if (importPanel) importPanel.hidden = !open;
+      importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    function normalizeTask(raw) {
+      if (!raw || typeof raw !== 'object') return null;
+      var title = typeof raw.title === 'string' ? raw.title.trim() : '';
+      if (!title) return null;
+      var subs = Array.isArray(raw.subtasks) ? raw.subtasks : [];
+      var cleanSubs = [];
+      for (var i = 0; i < subs.length; i++) {
+        var s = subs[i];
+        if (!s || typeof s !== 'object') continue;
+        var st = typeof s.title === 'string' ? s.title.trim() : '';
+        if (!st) continue;
+        cleanSubs.push({
+          id: typeof s.id === 'string' ? s.id : uid(),
+          title: st,
+          completed: !!s.completed
+        });
+      }
+      return {
+        id: typeof raw.id === 'string' ? raw.id : uid(),
+        title: title,
+        completed: !!raw.completed,
+        createdAt: typeof raw.createdAt === 'string' ? raw.createdAt : new Date().toISOString(),
+        subtasks: cleanSubs,
+        collapsed: raw.collapsed === false ? false : (cleanSubs.length ? true : undefined)
+      };
+    }
+
+    function applyImport(text) {
+      try {
+        var parsed = JSON.parse(text);
+        var list = Array.isArray(parsed) ? parsed : (parsed && parsed.tasks);
+        if (!Array.isArray(list)) throw new Error('missing tasks');
+        var next = [];
+        for (var i = 0; i < list.length; i++) {
+          var t = normalizeTask(list[i]);
+          if (t) next.push(t);
+        }
+        tasks = next;
+        addingSet = {};
+        saveTasks();
+        render();
+        if (importMsg) {
+          importMsg.hidden = false;
+          importMsg.className = 'todo-import-msg';
+          importMsg.textContent = 'Imported ' + next.length + ' task' + (next.length === 1 ? '' : 's') + '.';
+        }
+        if (window.ToyTools && ToyTools.toast) ToyTools.toast('Import complete.');
+      } catch (_) {
+        if (importMsg) {
+          importMsg.hidden = false;
+          importMsg.className = 'todo-import-msg is-error';
+          importMsg.textContent = 'Could not import that JSON. Check the file and try again.';
+        }
+      }
+    }
+
+    document.getElementById('todo-import-run') && document.getElementById('todo-import-run').addEventListener('click', function () {
+      applyImport((importText && importText.value) || '');
+    });
+
+    document.getElementById('todo-import-file') && document.getElementById('todo-import-file').addEventListener('change', function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () { applyImport(String(reader.result || '')); };
+      reader.readAsText(file);
+    });
 
     loadTasks(); render();
 

@@ -183,7 +183,7 @@ test.describe('settings', () => {
   test('lists what a tool has saved', async ({ page }) => {
     // Save something real first.
     await page.goto('/tool/productivity/notepad/');
-    await page.locator('textarea').first().fill('a note worth keeping');
+    await page.locator('#notepad-input').fill('a note worth keeping');
     await page.waitForTimeout(400);
 
     await page.goto('/settings/');
@@ -193,7 +193,7 @@ test.describe('settings', () => {
 
   test('exports a backup file containing the saved data', async ({ page }) => {
     await page.goto('/tool/productivity/notepad/');
-    await page.locator('textarea').first().fill('exported note');
+    await page.locator('#notepad-input').fill('exported note');
     await page.waitForTimeout(400);
 
     await page.goto('/settings/');
@@ -207,7 +207,7 @@ test.describe('settings', () => {
 
   test('delete everything needs two taps and then clears storage', async ({ page }) => {
     await page.goto('/tool/productivity/notepad/');
-    await page.locator('textarea').first().fill('about to be deleted');
+    await page.locator('#notepad-input').fill('about to be deleted');
     await page.waitForTimeout(400);
     await page.goto('/settings/');
 

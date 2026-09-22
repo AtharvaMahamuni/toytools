@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.3] - 2026-09-22
+
+### Added
+
+- **Phase 3 backup audit.** Always-visible Export JSON / Import JSON on Notepad, Todo List,
+  and Pomodoro Timer (Habit/Book footer pattern). Covers the real `toytools.*` dot-namespace
+  keys Settings global `toytools:*` backup may miss: `toytools.notepad.note`,
+  `toytools.todo.tasks`, and `toytools.pomodoro-timer.settings|prefs|stats`. Controls stay on
+  the tool screen — never behind More about, Details, Customize, or menus. Focus/fullscreen
+  unchanged. Pomodoro skips ephemeral timerstate. First-screen slim waves for these three
+  remain out of scope.
+
 ## [beta-v11.14.2] - 2026-09-22
 
 ### Changed
