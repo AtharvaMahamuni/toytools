@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 3,
+  patch: 4,
   status: 'beta',
   releaseDate: '2026-09-22',
-  description: 'Notepad, Todo, Pomodoro always-visible Export/Import',
+  description: 'Remove Made in India footer badge',
 };
 
 export function formatVersion(config: VersionConfig): string {

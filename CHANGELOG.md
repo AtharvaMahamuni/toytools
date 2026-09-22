@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.4] - 2026-09-22
+
+### Changed
+
+- **Footer branding.** Removes the Indian flag and “Made in India” badge from the site footer.
+
 ## [beta-v11.14.3] - 2026-09-22
 
 ### Added
