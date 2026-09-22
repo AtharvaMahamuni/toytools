@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 1,
+  patch: 2,
   status: 'beta',
   releaseDate: '2026-09-22',
-  description: 'Mobile More about collapses Zone C on phones',
+  description: 'Habit Streak Tracker mobile slim first screen',
 };
 
 export function formatVersion(config: VersionConfig): string {

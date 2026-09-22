@@ -1,4 +1,4 @@
-// Deep suite for Habit Streak Tracker — Chromium + Pixel 5.
+// Deep suite for Habit Streak Tracker - Chromium + Pixel 5.
 //
 // Discovery/smoke already bump the directory count; this fills the interactive gap:
 // streak math (increment + miss-reset), the 8-active cap, and JSON export/import.
@@ -219,14 +219,59 @@ test.describe('habit streak tracker', () => {
     await expect(page.locator('#hst-import-msg')).toContainText('Imported 2 habits');
     await expect(card(page, 'Read 1 page')).toBeVisible();
     await expect(card(page, 'Read 1 page').locator('.hst-badge')).toHaveText('2 days');
-    await expect(card(page, 'Read 1 page').locator('.hst-cue')).toHaveText('After breakfast');
+    // Cue / identity extras live under Details (slim first screen).
+    await expect(card(page, 'Read 1 page').locator('.hst-cue')).toBeHidden();
+    await card(page, 'Read 1 page').locator('summary', { hasText: 'Details' }).click();
+    await expect(card(page, 'Read 1 page').locator('.hst-cue')).toContainText('After breakfast');
 
+    await page.locator('#hst-manage-panel > summary').click();
     await page.locator('#hst-toggle-archive').click();
     await expect(page.locator('#hst-archived .hst-card', { hasText: 'Stretch 2 min' })).toBeVisible();
 
     // Persistence: import wrote localStorage; a plain reload must keep it.
     await page.reload();
     await expect(card(page, 'Read 1 page').locator('.hst-badge')).toHaveText('2 days');
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+  test('mobile slim: checklist + Export/Import visible; cue and heat behind Details', async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone slim first screen only');
+    const errors = guardConsole(page);
+    await openWithHabits(page, [
+      {
+        id: 'read',
+        name: 'Read 1 page',
+        cue: 'After breakfast',
+        identity: 'I am a reader',
+        stack: 'After coffee, I read',
+        checks: [dateKey(-1), dateKey(0)],
+      },
+    ]);
+
+    const read = card(page, 'Read 1 page');
+    await expect(read.locator('.hst-check')).toBeVisible();
+    await expect(read.locator('.hst-name')).toHaveText('Read 1 page');
+    await expect(read.locator('.hst-badge')).toHaveText('2 days');
+
+    // Secondary chrome stays folded until Details opens.
+    await expect(read.locator('.hst-cue')).toBeHidden();
+    await expect(read.locator('.hst-heat')).toBeHidden();
+    await expect(read.locator('.hst-meta')).toBeHidden();
+
+    // Atharva hard rule: Export/Import stay on the tool screen - not behind Details or More about.
+    await expect(page.locator('#hst-export')).toBeVisible();
+    await expect(page.locator('#hst-import-btn')).toBeVisible();
+    await expect(page.locator('#hst-export')).toBeInViewport();
+    await expect(page.locator('#hst-import-btn')).toBeInViewport();
+
+    await read.locator('summary', { hasText: 'Details' }).click();
+    await expect(read.locator('.hst-cue')).toContainText('After breakfast');
+    await expect(read.locator('.hst-meta')).toContainText('I am a reader');
+    await expect(read.locator('.hst-heat')).toBeVisible();
+    // Backup controls remain findable without closing Details.
+    await expect(page.locator('#hst-export')).toBeVisible();
 
     expect(errors, errors.join('\n')).toEqual([]);
   });
