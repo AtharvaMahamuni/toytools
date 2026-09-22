@@ -85,6 +85,9 @@ const hasFaq = faqItems.length > 0;
 
 {(drawers.length > 0 || hasFaq || related.length > 0 || guideHref || category) && (
   <section class="knowledge-drawers" aria-label={`More about ${tool.name}`}>
+    {/* Mobile More about shell; desktop CSS reveals .kd-row and hides summary. */}
+    <details class="kd-more" id="kd-more">
+      <summary>▸ More about</summary>
     <div class="kd-row">
       {drawers.map((d) => (
         <details class="kd" id={`kd-${d.id}`}>
@@ -154,19 +157,34 @@ const hasFaq = faqItems.length > 0;
         </a>
       )}
     </div>
+    </details>
   </section>
 )}
 
 <script is:inline>
   (function () {
-    // Open the drawer the URL points at, including in-page navigation from a redirect stub.
+    // Desktop (≥640px): keep the shell open. Author CSS cannot reliably defeat the UA rule that
+    // hides non-summary children of a closed <details>, so we set .open from matchMedia instead.
+    var mq = window.matchMedia('(min-width: 640px)');
+    function syncDesktop() {
+      var more = document.getElementById('kd-more');
+      if (!more) return;
+      if (mq.matches) more.open = true;
+      else if (!location.hash) more.open = false;
+    }
     function openFromHash() {
       var id = location.hash.slice(1);
       if (!id) return;
       var el = document.getElementById(id);
-      if (el && el.tagName === 'DETAILS') el.open = true;
+      if (!el) return;
+      if (el.tagName === 'DETAILS') el.open = true;
+      var more = el.closest && el.closest('details.kd-more');
+      if (more) more.open = true;
     }
+    syncDesktop();
     openFromHash();
+    if (mq.addEventListener) mq.addEventListener('change', syncDesktop);
+    else if (mq.addListener) mq.addListener(syncDesktop);
     window.addEventListener('hashchange', openFromHash);
   })();
 </script>
@@ -179,6 +197,7 @@ const hasFaq = faqItems.length > 0;
     padding-top: var(--space-6);
     border-top: var(--border);
   }
+
 
   .kd-row {
     display: flex;

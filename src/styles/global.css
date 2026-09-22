@@ -450,3 +450,24 @@ main:focus {
     break-inside: avoid;
   }
 }
+
+/* === mobile More about (Zone C) ===
+   Phone: native <details> keeps Zone C collapsed. Desktop: show the row, hide the summary.
+   Added with beta-v11.14.1; tool totalKb 60→61 covers the ~0.2–0.4KB gz shell on every tool page. */
+.kd-more { border: none; }
+.kd-more > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  list-style: none;
+}
+.kd-more > summary::-webkit-details-marker { display: none; }
+.kd-more[open] > summary { color: var(--color-text); }
+@media (min-width: 640px) {
+  .kd-more > summary { display: none; }
+  .kd-more > .kd-row { display: flex !important; }
+}

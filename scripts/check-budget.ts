@@ -47,7 +47,10 @@ const BUDGETS: Record<string, Budget> = {
   // every productivity page downloads every productivity Widget stylesheet. Habit Streak Tracker
   // is the fifth stateful widget on that segment; lean styles still need ~1.5K gz of headroom on
   // the shared CSS total. Catalog growth on a hoisted segment, not a single-page regression.
-  tool: { sheets: 6, cssKb: 18, jsKb: 24, htmlKb: 34, totalKb: 60 },
+  // 2026-09-22: totalKb 60 → 61. Site-wide mobile "More about" wraps Zone C in a closed
+  // <details> on phones (~0.2 KB gz of shell markup + CSS on every tool page). json-tree-viewer
+  // was already at the 60 KB ceiling (display rounds to 60.0 while still failing `> 60`).
+  tool: { sheets: 6, cssKb: 18, jsKb: 24, htmlKb: 34, totalKb: 61 },
   guide: { sheets: 4, cssKb: 13, jsKb: 8, htmlKb: 26, totalKb: 42 },
   category: { sheets: 4, cssKb: 12, jsKb: 8, htmlKb: 26, totalKb: 40 },
   page: { sheets: 4, cssKb: 12, jsKb: 12, htmlKb: 30, totalKb: 48 },
