@@ -94,6 +94,23 @@ const iconUrl  = withBase('/favicon.ico');
   <button id="pt-rd-btn" type="button" class="pt-fs-btn" aria-label="Remove distractions">Remove Distractions</button>
 </div>
 
+<!-- Backup: always on the tool screen (Atharva hard rule). Not behind Customize. -->
+<div slot="input" class="pt-backup" role="group" aria-label="Backup">
+  <button type="button" id="pt-export" class="pt-backup-btn">Export JSON</button>
+  <button type="button" id="pt-import-btn" class="pt-backup-btn" aria-expanded="false" aria-controls="pt-import-panel">Import JSON</button>
+</div>
+<div slot="input" id="pt-import-panel" class="pt-import" hidden>
+  <label class="pt-import-field" for="pt-import-text">
+    <span>Paste backup JSON</span>
+    <textarea id="pt-import-text" rows="4" placeholder='{"v":1,"settings":{...},"prefs":{...},"stats":{...}}'></textarea>
+  </label>
+  <div class="pt-import-row">
+    <input id="pt-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
+    <button type="button" id="pt-import-run" class="pt-btn-primary">Import</button>
+  </div>
+  <p id="pt-import-msg" class="pt-import-msg" role="status" hidden></p>
+</div>
+
 <!-- Today's statistics -->
 <div slot="output" class="pt-stats-section">
   <span id="pt-stats" class="pt-stats" aria-live="polite" aria-atomic="true">
@@ -317,6 +334,46 @@ const iconUrl  = withBase('/favicon.ico');
     transition: color var(--duration-fast) ease;
   }
   .pt-fs-btn:hover { color: var(--color-text-muted); }
+
+  /* ── Backup (always visible; not behind Customize) ────── */
+  .pt-backup, .pt-import-row {
+    display: flex; flex-wrap: wrap; gap: var(--space-2);
+    justify-content: center;
+  }
+  .pt-backup {
+    padding-inline: var(--space-6);
+    padding-bottom: var(--space-2);
+  }
+  .pt-import[hidden], .pt-import-msg[hidden] { display: none; }
+  .pt-import {
+    display: flex; flex-direction: column; gap: var(--space-3);
+    padding-inline: var(--space-6);
+    padding-bottom: var(--space-4);
+  }
+  .pt-backup-btn {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-full, 999px);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+  .pt-backup-btn:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .pt-import-field {
+    display: flex; flex-direction: column; gap: var(--space-1);
+    font-size: var(--text-sm); color: var(--color-text-muted);
+  }
+  .pt-import-field textarea {
+    min-height: 96px; padding: var(--space-3);
+    border: var(--border); border-radius: var(--radius-md);
+    background: var(--color-bg); color: var(--color-text);
+    font: inherit; resize: vertical;
+  }
+  .pt-import-msg { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); text-align: center; }
+  .pt-import-msg.is-error { color: var(--color-danger, var(--color-text)); }
 
   /* ── Today's stats ────────────────────────────────────── */
   .pt-stats-section {
@@ -1041,6 +1098,121 @@ const iconUrl  = withBase('/favicon.ico');
     if ((e.key === ' ' || e.key === 'Spacebar') && e.target === document.body) {
       e.preventDefault(); handleStartPause();
     }
+  });
+
+  // Backup covers real storage keys (toytools.pomodoro-timer.* — dot namespace,
+  // so Settings global toytools:* backup may miss them). Timerstate is session-only
+  // and is not part of the durable backup.
+  var importPanel = document.getElementById('pt-import-panel');
+  var importMsg = document.getElementById('pt-import-msg');
+  var importText = document.getElementById('pt-import-text');
+
+  document.getElementById('pt-export') && document.getElementById('pt-export').addEventListener('click', function () {
+    var payload = JSON.stringify({
+      v: 1,
+      exportedAt: new Date().toISOString(),
+      settings: settings,
+      prefs: prefs,
+      stats: stats
+    }, null, 2);
+    var blob = new Blob([payload], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'pomodoro-timer-backup.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+    if (window.ToyTools && ToyTools.toast) ToyTools.toast('Backup downloaded.');
+  });
+
+  var importBtn = document.getElementById('pt-import-btn');
+  importBtn && importBtn.addEventListener('click', function () {
+    var open = importPanel && importPanel.hidden;
+    if (importPanel) importPanel.hidden = !open;
+    importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  function clampInt(n, min, max, fallback) {
+    var v = Number(n);
+    if (!isFinite(v)) return fallback;
+    v = Math.round(v);
+    if (v < min) return min;
+    if (v > max) return max;
+    return v;
+  }
+
+  function applyImport(text) {
+    try {
+      var parsed = JSON.parse(text);
+      if (!parsed || typeof parsed !== 'object') throw new Error('bad');
+      var s = parsed.settings || parsed;
+      var p = parsed.prefs || {};
+      var st = parsed.stats || {};
+      if (!s || typeof s !== 'object') throw new Error('missing settings');
+
+      settings.focusMins        = clampInt(s.focusMins, 1, 180, settings.focusMins);
+      settings.shortBreakMins   = clampInt(s.shortBreakMins, 1, 60, settings.shortBreakMins);
+      settings.longBreakMins    = clampInt(s.longBreakMins, 1, 120, settings.longBreakMins);
+      settings.sessionsPerCycle = clampInt(s.sessionsPerCycle, 1, 12, settings.sessionsPerCycle);
+
+      prefs.sound         = !!p.sound;
+      prefs.notifications = !!p.notifications;
+      prefs.autoStart     = !!p.autoStart;
+
+      if (st && typeof st === 'object') {
+        stats.date = typeof st.date === 'string' ? st.date : stats.date;
+        stats.completedSessions = clampInt(st.completedSessions, 0, 100000, 0);
+        stats.focusedMinutes    = clampInt(st.focusedMinutes, 0, 1000000, 0);
+      }
+
+      saveSettings();
+      savePrefs();
+      saveStats();
+
+      if (focusInput)      focusInput.value      = String(settings.focusMins);
+      if (shortInput)      shortInput.value      = String(settings.shortBreakMins);
+      if (longInput)       longInput.value       = String(settings.longBreakMins);
+      if (sessionsInput)   sessionsInput.value   = String(settings.sessionsPerCycle);
+      if (soundToggle)     soundToggle.checked   = prefs.sound;
+      if (notifToggle)     notifToggle.checked   = prefs.notifications;
+      if (autostartToggle) autostartToggle.checked = prefs.autoStart;
+
+      // Rebuild the idle timer from imported durations (do not clobber a mid-run session).
+      if (pom && pom.getState() !== 'running') {
+        pom.reset();
+        clearTimerState();
+        uiCallbacks.renderTimer(settings.focusMins * 60000, settings.focusMins * 60000);
+        document.title = origTitle;
+      }
+      uiCallbacks.renderStats();
+
+      if (importMsg) {
+        importMsg.hidden = false;
+        importMsg.className = 'pt-import-msg';
+        importMsg.textContent = 'Imported settings, prefs, and stats.';
+      }
+      if (window.ToyTools && ToyTools.toast) ToyTools.toast('Import complete.');
+    } catch (_) {
+      if (importMsg) {
+        importMsg.hidden = false;
+        importMsg.className = 'pt-import-msg is-error';
+        importMsg.textContent = 'Could not import that JSON. Check the file and try again.';
+      }
+    }
+  }
+
+  document.getElementById('pt-import-run') && document.getElementById('pt-import-run').addEventListener('click', function () {
+    applyImport((importText && importText.value) || '');
+  });
+
+  document.getElementById('pt-import-file') && document.getElementById('pt-import-file').addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () { applyImport(String(reader.result || '')); };
+    reader.readAsText(file);
   });
 
 })();

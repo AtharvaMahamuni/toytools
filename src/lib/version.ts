@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 2,
+  patch: 3,
   status: 'beta',
   releaseDate: '2026-09-22',
-  description: 'Habit Streak Tracker mobile slim first screen',
+  description: 'Notepad, Todo, Pomodoro always-visible Export/Import',
 };
 
 export function formatVersion(config: VersionConfig): string {

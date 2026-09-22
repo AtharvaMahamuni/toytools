@@ -19,6 +19,25 @@
     <button id="notepad-wake" type="button" aria-pressed="false">Keep Awake</button>
     <button id="notepad-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
   </div>
+
+  <!-- Export/Import stay on the tool screen (Atharva hard rule) - never behind More about, Details, or menus.
+       Placed above the note so they stay findable without scrolling past the textarea. -->
+  <div class="np-backup" role="group" aria-label="Backup">
+    <button type="button" id="np-export" class="np-tool-btn">Export JSON</button>
+    <button type="button" id="np-import-btn" class="np-tool-btn" aria-expanded="false" aria-controls="np-import-panel">Import JSON</button>
+  </div>
+  <div id="np-import-panel" class="np-import" hidden>
+    <label class="np-field" for="np-import-text">
+      <span>Paste backup JSON</span>
+      <textarea id="np-import-text" rows="4" placeholder='{"v":1,"note":"..."}'></textarea>
+    </label>
+    <div class="np-import-row">
+      <input id="np-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
+      <button type="button" id="np-import-run" class="np-primary">Import</button>
+    </div>
+    <p id="np-import-msg" class="np-msg" role="status" hidden></p>
+  </div>
+
   <textarea
     id="notepad-input"
     aria-label="Notepad"
@@ -95,6 +114,62 @@
     color: var(--color-text-muted);
     padding-top: var(--space-2);
   }
+
+  .np-backup, .np-import-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .np-backup { margin-bottom: var(--space-3); }
+  .np-import[hidden], .np-msg[hidden] { display: none; }
+  .np-import {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  .np-tool-btn {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-full, 999px);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+  .np-tool-btn:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .np-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .np-field textarea {
+    min-height: 96px;
+    padding: var(--space-3);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    resize: vertical;
+  }
+  .np-primary {
+    min-height: var(--touch-target);
+    padding-inline: var(--space-5);
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .np-msg { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .np-msg.is-error { color: var(--color-danger, var(--color-text)); }
 </style>
 
 <script is:inline>
@@ -200,6 +275,74 @@
         if (clearBtn.classList.contains('is-confirming') && !e.target.closest('#notepad-clear')) resetClear();
       });
     }
+
+    // Backup covers the real storage key (toytools.notepad.note — dot namespace,
+    // so Settings global toytools:* backup may miss it).
+    var importPanel = document.getElementById('np-import-panel');
+    var importMsg = document.getElementById('np-import-msg');
+    var importText = document.getElementById('np-import-text');
+
+    document.getElementById('np-export') && document.getElementById('np-export').addEventListener('click', function () {
+      var payload = JSON.stringify({
+        v: 1,
+        exportedAt: new Date().toISOString(),
+        note: textarea.value
+      }, null, 2);
+      var blob = new Blob([payload], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'notepad-backup.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+      if (window.ToyTools && ToyTools.toast) ToyTools.toast('Backup downloaded.');
+    });
+
+    var importBtn = document.getElementById('np-import-btn');
+    importBtn && importBtn.addEventListener('click', function () {
+      var open = importPanel && importPanel.hidden;
+      if (importPanel) importPanel.hidden = !open;
+      importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    function applyImport(text) {
+      try {
+        var parsed = JSON.parse(text);
+        var note = null;
+        if (typeof parsed === 'string') note = parsed;
+        else if (parsed && typeof parsed.note === 'string') note = parsed.note;
+        else throw new Error('missing note');
+        textarea.value = note;
+        ToyTools.storage.set(STORAGE_KEY, note);
+        updateStats();
+        if (importMsg) {
+          importMsg.hidden = false;
+          importMsg.className = 'np-msg';
+          importMsg.textContent = 'Imported note (' + note.length + ' character' + (note.length === 1 ? '' : 's') + ').';
+        }
+        if (window.ToyTools && ToyTools.toast) ToyTools.toast('Import complete.');
+      } catch (_) {
+        if (importMsg) {
+          importMsg.hidden = false;
+          importMsg.className = 'np-msg is-error';
+          importMsg.textContent = 'Could not import that JSON. Check the file and try again.';
+        }
+      }
+    }
+
+    document.getElementById('np-import-run') && document.getElementById('np-import-run').addEventListener('click', function () {
+      applyImport((importText && importText.value) || '');
+    });
+
+    document.getElementById('np-import-file') && document.getElementById('np-import-file').addEventListener('change', function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () { applyImport(String(reader.result || '')); };
+      reader.readAsText(file);
+    });
 
     ToyTools.focus.attach({
       panel: document.querySelector('.notepad-panel'),
