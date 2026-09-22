@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.6] - 2026-09-23
+
+### Changed
+
+- **Store-style home category shelves.** Homepage CategoryIndex is horizontal AppTile
+  shelves (one row per category: title, count, See all → `/category/{slug}/`, scroll of
+  highlight tiles). Prefers `category.highlights`, falls back to the first three tools —
+  does not dump the catalog on the home HTML budget. Favourites/Recent stay chip rows.
+  Platform strip is collapsed below "Browse all tools"; `/platform/` and `/architecture/`
+  links remain. Closed ToolDirectory, WebSite schema, and crawlable links unchanged.
+
 ## [beta-v11.14.5] - 2026-09-23
 
 ### Changed

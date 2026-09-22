@@ -207,13 +207,13 @@ for (const group of toolGroups) {
   }
 }
 
-// Category highlights: the three example tools each category shows on the homepage index.
-// A stale slug here does not throw at build time, it just silently drops an example from the
-// homepage, which is exactly the kind of drift a rename causes and nobody notices.
+// Category highlights: the three AppTiles each category shelf shows on the homepage.
+// A stale slug here does not throw at build time, it just silently drops a tile from the
+// shelf, which is exactly the kind of drift a rename causes and nobody notices.
 for (const category of categories) {
   const highlights = category.highlights ?? [];
   if (highlights.length > 3) {
-    errors.push(`Category "${category.slug}" lists ${highlights.length} highlights — the homepage index renders at most 3`);
+    errors.push(`Category "${category.slug}" lists ${highlights.length} highlights — the homepage shelves render at most 3`);
   }
   const highlightsSeen = new Set<string>();
   for (const slug of highlights) {

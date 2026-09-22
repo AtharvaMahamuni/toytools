@@ -1,32 +1,37 @@
-// Discovery surfaces — the homepage index, the full directory behind it, and the sectioned
-// category pages. These specs pin the compact structure: a category-first homepage, full tool
-// coverage still in the HTML, recent-tools chips, and pattern-based category sections.
+// Discovery surfaces — the homepage shelves, the full directory behind them, and the sectioned
+// category pages. These specs pin the store-style structure: category AppTile shelves on home,
+// full tool coverage still in the HTML, recent-tools chips, and pattern-based category sections.
 import { test, expect } from '@playwright/test';
 
 test.describe('homepage index', () => {
-  test('leads with fourteen category rows, not a wall of tool names', async ({ page }) => {
+  test('leads with fourteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
     await page.goto('/');
-    const index = page.locator('.category-index');
-    await expect(index.locator('.cat-item')).toHaveCount(14);
+    const shelves = page.locator('.category-shelves');
+    await expect(shelves.locator('.shelf')).toHaveCount(14);
     // The categories are the homepage's content outline, not just styled links.
-    await expect(index.getByRole('heading', { level: 2 })).toHaveCount(14);
+    await expect(shelves.getByRole('heading', { level: 2 })).toHaveCount(14);
 
-    // Each row carries the three things that make the catalog legible: a linked name,
-    // a tagline, and named example tools.
-    const text = index.locator('.cat-item').filter({ hasText: 'Text Utilities' });
+    // Each shelf carries a linked name, tagline, See all, and a capped AppTile row.
+    const text = shelves.locator('.shelf').filter({ hasText: 'Text Utilities' });
     await expect(text.getByRole('link', { name: 'Text Utilities' })).toHaveAttribute(
       'href', /\/category\/text-utilities\/$/,
     );
-    await expect(text.locator('.cat-tagline')).toHaveText('Count, convert, clean and compare text.');
-    await expect(text.getByRole('link', { name: 'Word Counter' })).toHaveAttribute(
+    await expect(text.locator('.shelf-tagline')).toHaveText('Count, convert, clean and compare text.');
+    await expect(text.getByRole('link', { name: 'See all' })).toHaveAttribute(
+      'href', /\/category\/text-utilities\/$/,
+    );
+    await expect(text.locator('.app-tile')).toHaveCount(3);
+    await expect(text.locator('.app-tile-main[data-slug="word-counter"]')).toHaveAttribute(
       'href', /\/tool\/text\/word-counter\/$/,
     );
-    await expect(text.locator('.cat-example')).toHaveCount(3);
+    // Install is a sibling deep-link, not a multi-instance InstallButton.
+    await expect(text.locator('[data-app-tile-install]').first()).toHaveAttribute(
+      'href', /\/tool\/text\/word-counter\/\?install=1$/,
+    );
 
-    // The examples name tools the collapsed directory hides behind a group entry, which is
-    // the whole reason they are authored rather than derived from the directory.
-    const health = index.locator('.cat-item').filter({ hasText: 'Health & Fitness' });
-    await expect(health.getByRole('link', { name: 'BMI Calculator' })).toBeVisible();
+    // Highlights name tools the collapsed directory hides behind a group entry.
+    const health = shelves.locator('.shelf').filter({ hasText: 'Health & Fitness' });
+    await expect(health.locator('.app-tile-main[data-slug="bmi-calculator"]')).toBeVisible();
   });
 
   test('the full directory ships closed but present', async ({ page }) => {
