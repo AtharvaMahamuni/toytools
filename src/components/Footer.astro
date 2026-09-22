@@ -1,5 +1,4 @@
 ---
-import MadeInIndia from '@components/MadeInIndia.astro';
 import { withBase } from '@lib/paths';
 import { PRIVACY_LINE } from '@lib/privacy';
 import { AUTHOR } from '@lib/schema/identity';
@@ -35,8 +34,6 @@ const year = new Date().getFullYear();
         data-tooltip={PRIVACY_LINE}
         data-toast={PRIVACY_LINE}
       >Private</span>
-      <span class="gold-dot" aria-hidden="true"></span>
-      <MadeInIndia />
       {credit && (
         <span class="footer-author" hidden>
           Made by {AUTHOR.name} · <a href={AUTHOR.x} rel="me">X</a> · <a href={AUTHOR.linkedin} rel="me">LinkedIn</a>
