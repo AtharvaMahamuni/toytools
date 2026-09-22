@@ -1,122 +1,142 @@
 ---
-// Category Index — the homepage's answer to "what is in here?".
+// Category Index — store-style home shelves.
 //
-// It replaced ToolDirectory as the homepage's primary surface (2026-08-07). The directory
-// listed all 58 collapsed tool entries as bare names, which rendered as roughly 9,800px of
-// undifferentiated links on a Pixel 5: complete, but unreadable, and silent about what any
-// category actually does. This lists the eleven categories instead, each with a tagline and
-// three named example tools, so the page describes the catalog rather than enumerating it.
-// The full directory still ships below it, inside a closed <details>.
-import type { Category } from '@data/types';
+// One horizontal AppTile shelf per category (title, count, See all → /category/{slug}/).
+// Tiles prefer category.highlights; fallback is the first N tools in the category so a new
+// category still renders before anyone authors examples. Cap stays at 3 to match
+// validate-registry and keep the homepage HTML budget honest — do not dump the catalog here.
+// The closed ToolDirectory below remains the SEO / power-user full list.
+import type { Category, ToolConfig } from '@data/types';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { withBase } from '@lib/paths';
+import AppTile from '@components/AppTile.astro';
 
-interface Example {
+/** Hard cap per shelf — matches category.highlights validation and home HTML budget. */
+const TILES_PER_SHELF = 3;
+
+interface ShelfTile {
+  slug: string;
   name: string;
-  href: string;
+  tagline: string;
+  isNew: boolean;
 }
 
-// The category page's `description` is written for its meta tag and runs to two sentences;
-// the first one is the usable label when a category has not authored a shorter tagline.
 function labelFor(category: Category): string {
   if (category.tagline) return category.tagline;
   const [first] = category.description.split('. ');
   return first?.endsWith('.') ? first : `${first}.`;
 }
 
-// Highlights are authored slugs (validate-registry pins them to this category). Falling back
-// to the first three tools keeps a new category renderable the moment it is declared, before
-// anyone has chosen its examples.
-function examplesFor(category: Category): Example[] {
+function tilesFor(category: Category): ShelfTile[] {
   const categoryTools = tools.filter(t => t.categorySlug === category.slug);
   const bySlug = new Map(categoryTools.map(t => [t.slug, t]));
   const chosen = (category.highlights ?? [])
     .map(slug => bySlug.get(slug))
-    .filter((t): t is NonNullable<typeof t> => Boolean(t));
-  const picked = chosen.length > 0 ? chosen : categoryTools.slice(0, 3);
-  return picked.slice(0, 3).map(t => ({
+    .filter((t): t is ToolConfig => Boolean(t));
+  const picked = chosen.length > 0 ? chosen : categoryTools.slice(0, TILES_PER_SHELF);
+  return picked.slice(0, TILES_PER_SHELF).map(t => ({
+    slug: t.slug,
     name: t.name,
-    href: withBase(`/tool/${category.segment}/${t.slug}/`),
+    tagline: t.tagline || t.description,
+    isNew: Boolean(t.isNew),
   }));
 }
 
-const rows = categories.map(category => ({
+const shelves = categories.map(category => ({
+  slug: category.slug,
   name: category.name,
   href: withBase(`/category/${category.slug}/`),
   tagline: labelFor(category),
   count: category.toolCount,
   accent: category.accent,
-  examples: examplesFor(category),
+  segment: category.segment,
+  tiles: tilesFor(category),
 }));
 ---
 
-<ul class="category-index" aria-label="Browse tools by category">
-  {rows.map(row => (
-    <li class="cat-item" style={row.accent ? `--cat-accent: ${row.accent}` : ''}>
-      {/* An h2 per category: this is the homepage's actual content outline, and before this
-          the page offered none below its h1. The link keeps the whole row tappable. */}
-      <h2 class="cat-heading">
-        <a class="cat-name" href={row.href}>
-          <span class="cat-dot" aria-hidden="true"></span>
-          <span class="cat-name-text">{row.name}</span>
-          <span class="cat-count">{row.count}</span>
-        </a>
-      </h2>
-      <p class="cat-tagline">{row.tagline}</p>
-      {/* Each separator is bundled with the link it precedes so a wrapped line can never
-          end on a dangling "·" — at these column widths three tool names wrap constantly. */}
-      <p class="cat-examples">
-        {row.examples.map((example, i) => (
-          <span class="cat-example-item">
-            {i > 0 && <span class="cat-sep" aria-hidden="true">·</span>}
-            <a class="cat-example" href={example.href}>{example.name}</a>
-          </span>
+<div class="category-shelves" aria-label="Browse tools by category">
+  {shelves.map(shelf => (
+    <section
+      class="shelf"
+      style={shelf.accent ? `--cat-accent: ${shelf.accent}` : ''}
+      aria-labelledby={`shelf-${shelf.slug}`}
+    >
+      <div class="shelf-head">
+        <h2 class="shelf-title" id={`shelf-${shelf.slug}`}>
+          <a class="shelf-name" href={shelf.href}>
+            <span class="shelf-dot" aria-hidden="true"></span>
+            <span class="shelf-name-text">{shelf.name}</span>
+            <span class="shelf-count">{shelf.count}</span>
+          </a>
+        </h2>
+        <a class="shelf-see-all" href={shelf.href}>See all</a>
+      </div>
+      <p class="shelf-tagline">{shelf.tagline}</p>
+      <ul class="shelf-track">
+        {shelf.tiles.map(tile => (
+          <li class="shelf-item">
+            <AppTile
+              slug={tile.slug}
+              name={tile.name}
+              tagline={tile.tagline}
+              segment={shelf.segment}
+              isNew={tile.isNew}
+            />
+          </li>
         ))}
-      </p>
-    </li>
+      </ul>
+    </section>
   ))}
-</ul>
+</div>
+
+{/* Same honesty as category listings: hide Install when standalone or Firefox. */}
+<script is:inline>
+  (function () {
+    function hideInstalls() {
+      try {
+        var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+        var firefox = /firefox|fxios/i.test(navigator.userAgent || '');
+        if (!standalone && !firefox) return;
+        var nodes = document.querySelectorAll('[data-app-tile-install]');
+        for (var i = 0; i < nodes.length; i++) nodes[i].classList.add('is-hidden');
+      } catch (e) {}
+    }
+    hideInstalls();
+  })();
+</script>
 
 <style>
-  .category-index {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-8) var(--space-12);
-  }
-
-  @media (max-width: 768px) {
-    .category-index {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-    }
-  }
-
-  .cat-item {
+  .category-shelves {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--space-10);
   }
 
-  /* The heading is structure only; every visual property belongs to the link inside it. */
-  .cat-heading {
+  .shelf {
+    min-width: 0;
+  }
+
+  .shelf-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .shelf-title {
     font-size: inherit;
     font-weight: inherit;
     line-height: inherit;
+    margin: 0;
+    min-width: 0;
   }
 
-  /* The whole heading line is the category link, so the tap target is a full row rather
-     than the width of the word. Centred rather than baseline-aligned: at 48px the text
-     would otherwise sit at the top of the box and leave the hairline visually detached. */
-  .cat-name {
+  .shelf-name {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     min-height: var(--touch-target);
-    padding-bottom: var(--space-2);
     font-size: var(--text-lg);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text);
@@ -124,14 +144,13 @@ const rows = categories.map(category => ({
     transition: var(--transition-color);
   }
 
-  .cat-name:hover,
-  .cat-name:active {
+  .shelf-name:hover,
+  .shelf-name:active {
     color: var(--color-accent);
-    border-bottom-color: var(--color-accent);
     text-decoration: none;
   }
 
-  .cat-dot {
+  .shelf-dot {
     flex-shrink: 0;
     width: 8px;
     height: 8px;
@@ -139,12 +158,12 @@ const rows = categories.map(category => ({
     background: var(--cat-accent, var(--color-accent));
   }
 
-  .cat-name-text {
+  .shelf-name-text {
     flex: 1;
     min-width: 0;
   }
 
-  .cat-count {
+  .shelf-count {
     flex-shrink: 0;
     font-size: var(--text-sm);
     font-weight: var(--font-weight-normal);
@@ -152,49 +171,56 @@ const rows = categories.map(category => ({
     font-variant-numeric: tabular-nums;
   }
 
-  .cat-tagline {
-    margin: 0;
+  .shelf-see-all {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .shelf-see-all:hover,
+  .shelf-see-all:active {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .shelf-tagline {
+    margin: 0 0 var(--space-4);
     max-width: unset;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     line-height: var(--leading-normal);
   }
 
-  .cat-examples {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0 var(--space-2);
+  /* Horizontal store shelf. Scroll lives on the track so body overflow-x:hidden stays intact. */
+  .shelf-track {
+    list-style: none;
     margin: 0;
-    max-width: unset;
-    font-size: var(--text-sm);
+    padding: 0 0 var(--space-2);
+    display: flex;
+    gap: var(--space-4);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    /* Fade the trailing edge so a sliced tile reads as "more" rather than broken. */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
   }
 
-  .cat-example-item {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
+  .shelf-item {
+    flex: 0 0 auto;
+    width: 168px;
+    min-width: 0;
   }
 
-  .cat-example {
-    display: inline-flex;
-    align-items: center;
-    /* Examples sit in a dense row, so they carry their own touch height rather than
-       inheriting the 48px one that would space the line out. */
-    min-height: 32px;
-    color: var(--color-text-subtle);
-    text-decoration: none;
-    transition: var(--transition-color);
-  }
-
-  .cat-example:hover,
-  .cat-example:active {
-    color: var(--color-text);
-    text-decoration: none;
-  }
-
-  .cat-sep {
-    color: var(--color-border-strong);
-    user-select: none;
+  @media (max-width: 480px) {
+    .shelf-item {
+      width: 148px;
+    }
   }
 </style>

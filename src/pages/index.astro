@@ -100,42 +100,6 @@ const patternCount = knownPatterns.size;
     <CategoryIndex />
   </section>
 
-  {/* Placed after the categories on purpose: it answers the question browsing them raises, which
-      is what holds a hundred unrelated-looking utilities together. Four claims, no boxes, and
-      every number comes from the registry the build validates. */}
-  <section class="platform-strip" aria-labelledby="platform-heading">
-    <p class="strip-eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span><XAccountLink /></p>
-    <h2 id="platform-heading">These are not {tools.length} separate tools</h2>
-    <p class="strip-lede">
-      They are one platform with {tools.length} faces. The computation lives in {engineCount}
-      shared engines, the interface and the privacy contract belong to the platform, and a tool
-      is mostly a declaration of which engine it runs on.
-    </p>
-    <ul class="strip-facts">
-      <li>
-        <strong>{engineCount} engines, {patternCount} patterns</strong>
-        <span>The maths lives in a tested engine, not in a page, so a fix lands for every tool on it at once.</span>
-      </li>
-      <li>
-        <strong>One runtime, loaded once</strong>
-        <span>Copy, saved state, search, shortcuts and dark mode are the platform's. Each page then loads only its own engine.</span>
-      </li>
-      <li>
-        <strong>No server to send anything to</strong>
-        <span>There is no application server and no database behind any of it. The engines run in your browser.</span>
-      </li>
-      <li>
-        <strong>Budgets enforced by the build</strong>
-        <span>Every page has a byte budget. A change that makes one heavier than its budget fails the build.</span>
-      </li>
-    </ul>
-    <p class="strip-links">
-      <a href={withBase('/platform/')}>How the platform is built</a>
-      <span class="gold-dot" aria-hidden="true"></span>
-      <a href={withBase('/architecture/')}>See the map</a>
-    </p>
-  </section>
-
   {/* The full directory still ships in the HTML, closed. It is the power-user path and it
       keeps every tool one internal link from the homepage; what it is not, any more, is the
       first thing a visitor has to read. */}
@@ -145,6 +109,47 @@ const patternCount = knownPatterns.size;
     </summary>
     <div class="all-tools-body">
       <ToolDirectory />
+    </div>
+  </details>
+
+  {/* Tucked below the store shelves + directory so the first screen reads as a catalog.
+      Links to /platform/ and /architecture/ stay; the long fact grid is behind a closed summary. */}
+  <details class="platform-strip">
+    <summary class="platform-summary">
+      <span class="strip-eyebrow-inline">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span></span>
+      <span class="platform-summary-text">One platform, {tools.length} faces — how it is built</span>
+    </summary>
+    <div class="platform-body" aria-labelledby="platform-heading">
+      <p class="strip-eyebrow">Powered by ToyTools<span class="gold-dot" aria-hidden="true"></span><XAccountLink /></p>
+      <h2 id="platform-heading">These are not {tools.length} separate tools</h2>
+      <p class="strip-lede">
+        They are one platform with {tools.length} faces. The computation lives in {engineCount}
+        shared engines, the interface and the privacy contract belong to the platform, and a tool
+        is mostly a declaration of which engine it runs on.
+      </p>
+      <ul class="strip-facts">
+        <li>
+          <strong>{engineCount} engines, {patternCount} patterns</strong>
+          <span>The maths lives in a tested engine, not in a page, so a fix lands for every tool on it at once.</span>
+        </li>
+        <li>
+          <strong>One runtime, loaded once</strong>
+          <span>Copy, saved state, search, shortcuts and dark mode are the platform's. Each page then loads only its own engine.</span>
+        </li>
+        <li>
+          <strong>No server to send anything to</strong>
+          <span>There is no application server and no database behind any of it. The engines run in your browser.</span>
+        </li>
+        <li>
+          <strong>Budgets enforced by the build</strong>
+          <span>Every page has a byte budget. A change that makes one heavier than its budget fails the build.</span>
+        </li>
+      </ul>
+      <p class="strip-links">
+        <a href={withBase('/platform/')}>How the platform is built</a>
+        <span class="gold-dot" aria-hidden="true"></span>
+        <a href={withBase('/architecture/')}>See the map</a>
+      </p>
     </div>
   </details>
 
@@ -304,10 +309,51 @@ const patternCount = knownPatterns.size;
     user-select: none;
   }
 
-  /* ── Platform strip ───────────────────────────────────────── */
+  /* ── Platform strip (collapsed below the store catalog) ───── */
 
   .platform-strip {
+    padding-top: var(--space-8);
     padding-bottom: var(--space-12);
+    border-top: var(--border);
+  }
+
+  .platform-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    min-height: var(--touch-target);
+    cursor: pointer;
+    list-style: none;
+    transition: var(--transition-color);
+  }
+
+  .platform-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .platform-summary:hover .platform-summary-text {
+    color: var(--color-text);
+  }
+
+  .strip-eyebrow-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-subtle);
+  }
+
+  .platform-summary-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .platform-body {
+    padding-top: var(--space-6);
   }
 
   .strip-eyebrow {

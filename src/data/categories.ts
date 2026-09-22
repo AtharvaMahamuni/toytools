@@ -2,11 +2,11 @@ import type { Category } from './types';
 import { tools } from './registry';
 import { engineRegistry } from './engines';
 
-// `tagline` and `highlights` drive the homepage index (CategoryIndex.astro): the homepage
-// now shows eleven category rows instead of every tool name, so these three example slugs
-// are the concrete picture a visitor gets of what a category holds. Prefer the tools people
-// actually arrive looking for, and prefer ones the collapsed directory hides (BMI and TDEE
-// both sit behind a single "Health Calculator" group entry, so name them here).
+// `tagline` and `highlights` drive the homepage shelves (CategoryIndex.astro): each category
+// gets a horizontal AppTile shelf capped at three tiles, so these highlight slugs are the
+// concrete picture a visitor gets without dumping the catalog on the home HTML budget.
+// Prefer the tools people actually arrive looking for, and prefer ones the collapsed
+// directory hides (BMI and TDEE both sit behind a single "Health Calculator" group entry).
 const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   {
     slug: 'text-utilities',

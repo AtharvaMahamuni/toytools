@@ -81,6 +81,8 @@ test.describe('information pages', () => {
     await page.goto('/');
     const strip = page.locator('.platform-strip');
     await expect(strip).toBeVisible();
+    // Platform strip is collapsed below the store shelves so the first screen reads as a catalog.
+    await strip.locator('.platform-summary').click();
     await strip.getByRole('link', { name: 'How the platform is built' }).click();
     await expect(page).toHaveURL(/\/platform\/$/);
   });
