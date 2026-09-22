@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.2] - 2026-09-22
+
+### Changed
+
+- **Habit Streak Tracker** first screen is slim on phones: date, checklist, check-in, and
+  always-visible Export JSON / Import JSON. Cue, identity, stack, heat map, and archive/delete
+  stay under each habit's Details (not deleted). Add habit keeps name + color up front; cue and
+  identity fold under an optional disclosure. Show archived lives under Manage. Desktop layout
+  stays the same patterns; streak and check-in logic unchanged. FAQ/guide/knowledge untouched.
+
 ## [beta-v11.14.1] - 2026-09-22
 
 ### Changed

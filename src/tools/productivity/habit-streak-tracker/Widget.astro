@@ -29,42 +29,10 @@
 
   <div id="hst-today" class="hst-today" aria-live="polite"></div>
 
-  <details class="hst-add" id="hst-add-panel">
-    <summary>Add habit</summary>
-    <form id="hst-add-form" class="hst-add-form">
-      <label class="hst-field">
-        <span>Name</span>
-        <input id="hst-name" type="text" maxlength="48" required autocomplete="off" placeholder="e.g. Walk 5 minutes" />
-      </label>
-      <label class="hst-field">
-        <span>Cue (optional)</span>
-        <input id="hst-cue" type="text" maxlength="80" autocomplete="off" placeholder="After I pour coffee" />
-      </label>
-      <label class="hst-field">
-        <span>Identity (optional)</span>
-        <input id="hst-identity" type="text" maxlength="80" autocomplete="off" placeholder="I am someone who..." />
-      </label>
-      <label class="hst-field">
-        <span>Stack (optional)</span>
-        <input id="hst-stack" type="text" maxlength="100" autocomplete="off" placeholder="After I ___, I will ___" />
-      </label>
-      <fieldset class="hst-colors">
-        <legend>Color</legend>
-        <label class="hst-color"><input type="radio" name="hst-color" value="green" checked /><span class="hst-swatch hst-swatch--green" aria-hidden="true"></span><span class="hst-sr">Green</span></label>
-        <label class="hst-color"><input type="radio" name="hst-color" value="teal" /><span class="hst-swatch hst-swatch--teal" aria-hidden="true"></span><span class="hst-sr">Teal</span></label>
-        <label class="hst-color"><input type="radio" name="hst-color" value="blue" /><span class="hst-swatch hst-swatch--blue" aria-hidden="true"></span><span class="hst-sr">Blue</span></label>
-        <label class="hst-color"><input type="radio" name="hst-color" value="amber" /><span class="hst-swatch hst-swatch--amber" aria-hidden="true"></span><span class="hst-sr">Amber</span></label>
-        <label class="hst-color"><input type="radio" name="hst-color" value="rose" /><span class="hst-swatch hst-swatch--rose" aria-hidden="true"></span><span class="hst-sr">Rose</span></label>
-      </fieldset>
-      <p id="hst-add-msg" class="hst-msg" role="status" hidden></p>
-      <button type="submit" class="hst-primary">Save habit</button>
-    </form>
-  </details>
-
-  <div class="hst-footer">
+  <!-- Export/Import stay on the tool screen (Atharva hard rule) - never behind More about, Details, or menus. -->
+  <div class="hst-footer" role="group" aria-label="Backup">
     <button type="button" id="hst-export" class="hst-tool-btn">Export JSON</button>
     <button type="button" id="hst-import-btn" class="hst-tool-btn" aria-expanded="false" aria-controls="hst-import-panel">Import JSON</button>
-    <button type="button" id="hst-toggle-archive" class="hst-tool-btn" aria-pressed="false">Show archived</button>
   </div>
   <div id="hst-import-panel" class="hst-import" hidden>
     <label class="hst-field" for="hst-import-text">
@@ -78,7 +46,48 @@
     <p id="hst-import-msg" class="hst-msg" role="status" hidden></p>
   </div>
 
-  <div id="hst-archived" class="hst-archived" hidden></div>
+  <details class="hst-add" id="hst-add-panel">
+    <summary>Add habit</summary>
+    <form id="hst-add-form" class="hst-add-form">
+      <label class="hst-field">
+        <span>Name</span>
+        <input id="hst-name" type="text" maxlength="48" required autocomplete="off" placeholder="e.g. Walk 5 minutes" />
+      </label>
+      <fieldset class="hst-colors">
+        <legend>Color</legend>
+        <label class="hst-color"><input type="radio" name="hst-color" value="green" checked /><span class="hst-swatch hst-swatch--green" aria-hidden="true"></span><span class="hst-sr">Green</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="teal" /><span class="hst-swatch hst-swatch--teal" aria-hidden="true"></span><span class="hst-sr">Teal</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="blue" /><span class="hst-swatch hst-swatch--blue" aria-hidden="true"></span><span class="hst-sr">Blue</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="amber" /><span class="hst-swatch hst-swatch--amber" aria-hidden="true"></span><span class="hst-sr">Amber</span></label>
+        <label class="hst-color"><input type="radio" name="hst-color" value="rose" /><span class="hst-swatch hst-swatch--rose" aria-hidden="true"></span><span class="hst-sr">Rose</span></label>
+      </fieldset>
+      <details class="hst-add-extras">
+        <summary>Cue &amp; identity (optional)</summary>
+        <label class="hst-field">
+          <span>Cue</span>
+          <input id="hst-cue" type="text" maxlength="80" autocomplete="off" placeholder="After I pour coffee" />
+        </label>
+        <label class="hst-field">
+          <span>Identity</span>
+          <input id="hst-identity" type="text" maxlength="80" autocomplete="off" placeholder="I am someone who..." />
+        </label>
+        <label class="hst-field">
+          <span>Stack</span>
+          <input id="hst-stack" type="text" maxlength="100" autocomplete="off" placeholder="After I ___, I will ___" />
+        </label>
+      </details>
+      <p id="hst-add-msg" class="hst-msg" role="status" hidden></p>
+      <button type="submit" class="hst-primary">Save habit</button>
+    </form>
+  </details>
+
+  <details class="hst-manage" id="hst-manage-panel" hidden>
+    <summary>Manage</summary>
+    <div class="hst-manage-body">
+      <button type="button" id="hst-toggle-archive" class="hst-tool-btn" aria-pressed="false">Show archived</button>
+      <div id="hst-archived" class="hst-archived" hidden></div>
+    </div>
+  </details>
 </section>
 
 <style is:global>
@@ -108,7 +117,9 @@
   .hst-empty[hidden],
   .hst-import[hidden],
   .hst-archived[hidden],
-  .hst-msg[hidden] { display: none; }
+  .hst-msg[hidden],
+  .hst-manage[hidden],
+  .hst-manage #hst-toggle-archive[hidden] { display: none; }
   .hst-empty { text-align: center; padding: var(--space-6) 0 var(--space-3); }
   .hst-empty-lead { margin: 0 0 var(--space-4); color: var(--color-text-muted); font-size: var(--text-sm); }
   .hst-chips, .hst-footer, .hst-actions, .hst-import-row, .hst-today, .hst-archived {
@@ -177,7 +188,7 @@
     font-size: var(--text-xs); font-variant-numeric: tabular-nums;
   }
   .hst-expand { margin-top: var(--space-2); }
-  .hst-expand > summary, .hst-add > summary {
+  .hst-expand > summary, .hst-add > summary, .hst-manage > summary, .hst-add-extras > summary {
     cursor: pointer;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
@@ -187,7 +198,18 @@
   }
   .hst-add > summary { color: var(--color-accent-strong); font-weight: var(--font-weight-semibold); display: flex; }
   .hst-expand > summary::-webkit-details-marker,
-  .hst-add > summary::-webkit-details-marker { display: none; }
+  .hst-add > summary::-webkit-details-marker,
+  .hst-manage > summary::-webkit-details-marker,
+  .hst-add-extras > summary::-webkit-details-marker { display: none; }
+  .hst-add-extras {
+    display: flex; flex-direction: column; gap: var(--space-3);
+  }
+  .hst-add-extras > summary { font-weight: var(--font-weight-medium); }
+  .hst-manage { margin-top: var(--space-2); }
+  .hst-manage-body {
+    display: flex; flex-direction: column; gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
   .hst-heat {
     display: grid;
     grid-template-rows: repeat(7, 10px);
@@ -263,6 +285,13 @@
     font-weight: var(--font-weight-semibold);
   }
   .hst-footer { margin-top: var(--space-4); }
+  /* Slim first screen on phones: checklist + check-in + Export/Import stay primary. */
+  @media (max-width: 640px) {
+    .hst-card { padding: var(--space-2) var(--space-3); }
+    .hst-card-top { align-items: center; }
+    .hst-footer { margin-top: var(--space-3); }
+    .hst-add { margin-top: var(--space-3); }
+  }
 </style>
 
 <script is:inline>
@@ -527,9 +556,9 @@
       html += '<div class="hst-card-main">';
       html += '<div class="hst-card-top"><p class="hst-name">' + escapeHtml(h.name) + '</p>';
       html += '<span class="hst-badge" title="Current streak">' + escapeHtml(badge) + '</span></div>';
-      if (h.cue) html += '<p class="hst-cue">' + escapeHtml(h.cue) + '</p>';
       html += '<details class="hst-expand"><summary>Details</summary>';
       html += '<div class="hst-meta">';
+      if (h.cue) html += '<p class="hst-cue"><strong>Cue:</strong> ' + escapeHtml(h.cue) + '</p>';
       if (h.identity) html += '<p><strong>Identity:</strong> ' + escapeHtml(h.identity) + '</p>';
       if (h.stack) html += '<p><strong>Stack:</strong> ' + escapeHtml(h.stack) + '</p>';
       html += '<p>Current streak: <strong>' + streaks.current + '</strong> · Longest: <strong>' + streaks.longest + '</strong></p>';
@@ -578,6 +607,11 @@
         toggleArchiveBtn.hidden = archivedHabits().length === 0 && !showArchived;
         toggleArchiveBtn.setAttribute('aria-pressed', showArchived ? 'true' : 'false');
         toggleArchiveBtn.textContent = showArchived ? 'Hide archived' : 'Show archived';
+      }
+      var managePanel = document.getElementById('hst-manage-panel');
+      if (managePanel) {
+        var hideManage = archivedHabits().length === 0 && !showArchived;
+        managePanel.hidden = hideManage;
       }
     }
 
