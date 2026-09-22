@@ -152,6 +152,16 @@ test.describe('category pages', () => {
     await page.goto('/category/productivity/');
     await expect(page.locator('.cat-section-heading')).toHaveCount(0);
     // Book Tracker (beta-v11.3) is the sixth productivity tool.
-    await expect(page.locator('.cat-row')).toHaveCount(6);
+    await expect(page.locator('.app-tile-item')).toHaveCount(6);
+  });
+
+  test('category AppTiles deep-link Install with ?install=1', async ({ page }) => {
+    await page.goto('/category/productivity/');
+    const install = page.locator('[data-app-tile-install]').first();
+    await expect(install).toBeVisible();
+    await expect(install).toHaveAttribute('href', /\/tool\/[^/]+\/[^/]+\/\?install=1$/);
+    // Tile body opens the tool without the install query.
+    const main = page.locator('.app-tile-main').first();
+    await expect(main).toHaveAttribute('href', /\/tool\/[^/]+\/[^/]+\/$/);
   });
 });

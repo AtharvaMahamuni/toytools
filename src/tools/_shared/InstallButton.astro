@@ -148,6 +148,30 @@ const { toolName } = Astro.props;
     var sheet = document.getElementById('tt-install-sheet');
     if (!btn) return;
 
+    // Category AppTiles deep-link here with ?install=1 (or bare ?install). Consume once and
+    // strip so a refresh does not re-open the sheet forever.
+    function hasInstallIntent() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (!params.has('install')) return false;
+        var v = params.get('install');
+        return v === null || v === '' || v === '1' || v === 'true';
+      } catch (e) { return false; }
+    }
+    function clearInstallIntent() {
+      try {
+        var url = new URL(window.location.href);
+        if (!url.searchParams.has('install')) return;
+        url.searchParams.delete('install');
+        var qs = url.searchParams.toString();
+        var next = url.pathname + (qs ? '?' + qs : '') + url.hash;
+        history.replaceState(null, '', next);
+      } catch (e) {}
+    }
+
+    var wantInstall = hasInstallIntent();
+    if (wantInstall) clearInstallIntent();
+
     function isStandalone() {
       try {
         return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
@@ -167,6 +191,7 @@ const { toolName } = Astro.props;
     if (isFirefox) return;
     var platform = isIOS ? 'ios' : (isAndroid ? 'android' : 'desktop');
     var deferred = null;
+    var installHandled = false;
 
     function showBtn() { btn.classList.add('is-visible'); }
     function hideBtn() { btn.classList.remove('is-visible'); }
@@ -185,11 +210,28 @@ const { toolName } = Astro.props;
       sheet.classList.add('is-open');
     }
 
+    function runInstallFlow() {
+      if (deferred) {
+        deferred.prompt();
+        var choice = deferred.userChoice;
+        deferred = null;
+        hideBtn();
+        if (choice && choice.catch) choice.catch(function () {});
+        return;
+      }
+      openSheet();
+    }
+
     // Android / Chromium: intercept the native prompt so our button drives it.
     window.addEventListener('beforeinstallprompt', function (e) {
       e.preventDefault();
       deferred = e;
       showBtn();
+      // Deep-link arrived before BIP: trigger native prompt as soon as it is ready.
+      if (wantInstall && !installHandled) {
+        installHandled = true;
+        runInstallFlow();
+      }
     });
     window.addEventListener('appinstalled', function () {
       deferred = null;
@@ -202,15 +244,7 @@ const { toolName } = Astro.props;
     showBtn();
 
     btn.addEventListener('click', function () {
-      if (deferred) {
-        deferred.prompt();
-        var choice = deferred.userChoice;
-        deferred = null;
-        hideBtn();
-        if (choice && choice.catch) choice.catch(function () {});
-        return;
-      }
-      openSheet();
+      runInstallFlow();
     });
 
     if (sheet) {
@@ -220,6 +254,16 @@ const { toolName } = Astro.props;
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeSheet();
       });
+    }
+
+    // ?install=1 from a category AppTile: wait briefly for beforeinstallprompt, then fall
+    // back to the manual sheet so iOS / desktop Safari still get an honest path.
+    if (wantInstall) {
+      setTimeout(function () {
+        if (installHandled) return;
+        installHandled = true;
+        runInstallFlow();
+      }, 400);
     }
   })();
 </script>

@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.5] - 2026-09-23
+
+### Changed
+
+- **Store-style category listings.** Category pages render a grid of AppTiles (icon, name,
+  tagline, optional New badge, Install) instead of compact text rows. Pattern sections and
+  tool-group chips stay. Install deep-links to the tool with `?install=1`; the tool page
+  InstallButton auto-opens the native prompt or sheet once, then strips the query so refresh
+  does not re-open. Listing pages do not mount multi-instance InstallButton IDs.
+
 ## [beta-v11.14.4] - 2026-09-22
 
 ### Changed

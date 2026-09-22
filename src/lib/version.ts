@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 4,
+  patch: 5,
   status: 'beta',
-  releaseDate: '2026-09-22',
-  description: 'Remove Made in India footer badge',
+  releaseDate: '2026-09-23',
+  description: 'Store-style category AppTiles and install deep-link',
 };
 
 export function formatVersion(config: VersionConfig): string {
