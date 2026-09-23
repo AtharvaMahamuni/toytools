@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 6,
+  patch: 7,
   status: 'beta',
   releaseDate: '2026-09-23',
-  description: 'Store-style home category AppTile shelves',
+  description: 'SEO: drop listing Install / ?install=1 from AppTiles',
 };
 
 export function formatVersion(config: VersionConfig): string {

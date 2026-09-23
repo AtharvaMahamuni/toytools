@@ -2,6 +2,14 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.7] - 2026-09-23
+
+### Changed
+
+- **SEO: drop listing Install.** Home shelves and category AppTiles are a single link to the
+  tool page (icon + title/meta). Crawlable `?install=1` sibling links are gone from listings.
+  Tool-page InstallButton and `?install=1` deep-link behavior stay for bookmarks and the tool UI.
+
 ## [beta-v11.14.6] - 2026-09-23
 
 ### Changed

@@ -1,7 +1,7 @@
 ---
 // Category tool listing — store-style AppTile grid, sectioned by pattern.
 // Tool-group members collapse into one tile with mode chips (same as before).
-// Install is a per-tile deep-link (?install=1); the tool page owns the real InstallButton.
+// Tiles link to the tool page only; Install lives on the tool page (InstallButton).
 import type { ToolConfig, Category } from '@data/types';
 import { sectionsByPattern } from '@data/category-sections';
 import { toolGroups } from '@data/tool-groups';
@@ -105,22 +105,6 @@ const showHeadings = ordered.length > 1;
     </section>
   ))}
 </div>
-
-{/* One script for the whole listing: hide Install when already standalone or on Firefox. */}
-<script is:inline>
-  (function () {
-    function hideInstalls() {
-      try {
-        var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-        var firefox = /firefox|fxios/i.test(navigator.userAgent || '');
-        if (!standalone && !firefox) return;
-        var nodes = document.querySelectorAll('[data-app-tile-install]');
-        for (var i = 0; i < nodes.length; i++) nodes[i].classList.add('is-hidden');
-      } catch (e) {}
-    }
-    hideInstalls();
-  })();
-</script>
 
 <style>
   .category-list {

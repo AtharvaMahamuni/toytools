@@ -24,10 +24,9 @@ test.describe('homepage index', () => {
     await expect(text.locator('.app-tile-main[data-slug="word-counter"]')).toHaveAttribute(
       'href', /\/tool\/text\/word-counter\/$/,
     );
-    // Install is a sibling deep-link, not a multi-instance InstallButton.
-    await expect(text.locator('[data-app-tile-install]').first()).toHaveAttribute(
-      'href', /\/tool\/text\/word-counter\/\?install=1$/,
-    );
+    // Listings are a single tool-page link — no crawlable ?install=1 Install sibling.
+    await expect(text.locator('[data-app-tile-install]')).toHaveCount(0);
+    await expect(text.locator('a[href*="install=1"]')).toHaveCount(0);
 
     // Highlights name tools the collapsed directory hides behind a group entry.
     const health = shelves.locator('.shelf').filter({ hasText: 'Health & Fitness' });
@@ -160,12 +159,11 @@ test.describe('category pages', () => {
     await expect(page.locator('.app-tile-item')).toHaveCount(6);
   });
 
-  test('category AppTiles deep-link Install with ?install=1', async ({ page }) => {
+  test('category AppTiles link to the tool page without ?install=1', async ({ page }) => {
     await page.goto('/category/productivity/');
-    const install = page.locator('[data-app-tile-install]').first();
-    await expect(install).toBeVisible();
-    await expect(install).toHaveAttribute('href', /\/tool\/[^/]+\/[^/]+\/\?install=1$/);
-    // Tile body opens the tool without the install query.
+    // No listing Install / crawlable ?install=1 — install stays on the tool page.
+    await expect(page.locator('[data-app-tile-install]')).toHaveCount(0);
+    await expect(page.locator('a[href*="install=1"]')).toHaveCount(0);
     const main = page.locator('.app-tile-main').first();
     await expect(main).toHaveAttribute('href', /\/tool\/[^/]+\/[^/]+\/$/);
   });

@@ -148,8 +148,8 @@ const { toolName } = Astro.props;
     var sheet = document.getElementById('tt-install-sheet');
     if (!btn) return;
 
-    // Category AppTiles deep-link here with ?install=1 (or bare ?install). Consume once and
-    // strip so a refresh does not re-open the sheet forever.
+    // Bookmarks / remaining deep-links may land here with ?install=1 (or bare ?install).
+    // Consume once and strip so a refresh does not re-open the sheet forever.
     function hasInstallIntent() {
       try {
         var params = new URLSearchParams(window.location.search);
@@ -256,7 +256,7 @@ const { toolName } = Astro.props;
       });
     }
 
-    // ?install=1 from a category AppTile: wait briefly for beforeinstallprompt, then fall
+    // ?install=1 deep-link: wait briefly for beforeinstallprompt, then fall
     // back to the manual sheet so iOS / desktop Safari still get an honest path.
     if (wantInstall) {
       setTimeout(function () {
