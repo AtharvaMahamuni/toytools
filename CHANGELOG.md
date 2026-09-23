@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.9] - 2026-09-23
+
+### Changed
+
+- **SEO Phase 1a: Newman Projection Calculator.** Head-match title and privacy-line
+  description for practice intent, draw + exam-mistakes FAQ (10 total), definition-first
+  guide ATF with early calculator CTA, and a light usedWith edge to crystal-field
+  splitting. Content-only; no Widget or runtime changes. Categories intro already
+  highlights Newman, left unchanged.
+
 ## [beta-v11.14.8] - 2026-09-23
 
 ### Changed

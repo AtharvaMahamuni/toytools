@@ -90,9 +90,9 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Newman Projection Calculator and Conformer Energy',
+    title: 'Newman Projection Calculator: Practice Online',
     description:
-      'Conformational analysis you can turn: set the dihedral angle of butane and read torsional vs steric strain, with live anti and gauche populations.',
+      'Practice Newman projection: dihedral angle, anti vs gauche butane, torsional strain, conformational analysis. Runs entirely on your device. Nothing is uploaded.',
     tagline: 'Rotate the bond and watch the strain energy curve draw itself.',
     keywords: ['newman projection simulator', 'newman projection', 'dihedral angle', 'conformational analysis', 'anti vs gauche', 'torsional strain', 'butane conformers'],
   },
@@ -102,7 +102,7 @@ export const manifest: SimulationManifest = {
     // reaches the knowledge graph. seo.keywords does NOT reach the index, which is why a phrase
     // needed for retrieval is repeated here on purpose.
     tags: ['newman projection calculator', 'newman projection', 'conformational analysis', 'conformational analysis butane', 'dihedral angle', 'torsion angle', 'torsional strain', 'steric strain', 'anti conformer', 'gauche conformer', 'anti vs gauche', 'anti vs gauche butane', 'staggered vs eclipsed', 'butane conformers', 'organic chemistry'],
-    updatedAt: '2026-08-29',
+    updatedAt: '2026-09-23',
     isNew: true,
     trustVariant: 'offline',
   },
@@ -114,6 +114,21 @@ export const manifest: SimulationManifest = {
   ],
   faq: [
     {
+      question: 'How do I draw a Newman projection?',
+      answer:
+        'Look down the C-C bond. Front carbon is the center dot; back carbon is the circle. Draw the three front bonds as lines from the center; three back bonds as lines from the rim. Choose the highest-priority group on each carbon, then set the angle between those two bonds. Zero degrees is eclipsed; 180 degrees is anti. Practice the same angles on the calculator so the drawing matches a real conformer.',
+    },
+    {
+      question: 'What is the difference between staggered and eclipsed conformers?',
+      answer:
+        'Staggered means every front bond sits between two back bonds, at 60, 180 and 300 degrees. Eclipsed means front and back bonds line up, at 0, 120 and 240 degrees. Staggered conformers are the minima on the energy curve and eclipsed conformers are the maxima. Nothing rests at an eclipsed angle, because there is no well there to rest in.',
+    },
+    {
+      question: 'What exam mistakes are common with Newman projections?',
+      answer:
+        'Measuring the dihedral between the wrong front and back bonds, then naming the wrong conformer. Calling anti and gauche separate compounds you could bottle. Writing an eclipsed angle as a most-stable answer, when eclipsed angles are maxima. Pick one priority pair and stay with it for the whole problem.',
+    },
+    {
       question: 'What is a Newman projection?',
       answer:
         'A Newman projection is what one carbon-carbon bond looks like end on. The front carbon is the point where three bonds meet. The back carbon is the circle behind it, and its three bonds start at the circumference. Drawing the bond this way makes the angle between front and back groups the only thing you have to read.',
@@ -122,11 +137,6 @@ export const manifest: SimulationManifest = {
       question: 'What is the dihedral angle in a Newman projection?',
       answer:
         'The dihedral angle, also called the torsion angle, is the angle between a chosen front bond and a chosen back bond. Zero degrees means the two point the same way, so the groups eclipse. One hundred and eighty degrees means they point opposite ways, which is the anti arrangement. Pick the two highest-priority groups and measure between those, or you will read a different number for the same molecule.',
-    },
-    {
-      question: 'What is the difference between staggered and eclipsed conformers?',
-      answer:
-        'Staggered means every front bond sits between two back bonds, at 60, 180 and 300 degrees. Eclipsed means front and back bonds line up, at 0, 120 and 240 degrees. Staggered conformers are the minima on the energy curve and eclipsed conformers are the maxima. Nothing rests at an eclipsed angle, because there is no well there to rest in.',
     },
     {
       question: 'Why is anti butane more stable than gauche butane?',
@@ -156,13 +166,13 @@ export const manifest: SimulationManifest = {
   ],
   guide: {
     slug: 'how-newman-projections-work',
-    title: 'How Newman Projections Work',
+    title: 'How Newman Projections Work: Draw and Practice',
     description:
       'How to read a Newman projection, tell torsional strain from steric strain, and turn a conformer energy gap into anti and gauche populations.',
     readMinutes: 7,
-    updatedAt: '2026-08-29',
+    updatedAt: '2026-09-23',
     quickAnswer:
-      'A Newman projection shows one carbon-carbon bond viewed end on, so you can read the angle between the groups on either end. That angle is the dihedral angle, and the energy it costs is E(phi) = E torsional + E steric. Staggered angles at 60, 180 and 300 degrees are the minima; eclipsed angles at 0, 120 and 240 degrees are the maxima. For butane the anti conformer at 180 degrees is the global minimum, gauche at 60 degrees costs 3.8 kJ/mol, and rotating through the fully eclipsed conformation costs 19 kJ/mol. Drag the molecule here and the energy curve fills in underneath it.',
+      'A Newman projection views a C-C bond end-on so you can read the dihedral and name the conformer. Practice on the calculator: rotate butane conformers, compare staggered vs eclipsed, and watch the anti conformer sit at the energy minimum.',
     sections: [
       {
         id: 'reading',
@@ -262,6 +272,11 @@ export const manifest: SimulationManifest = {
         slug: 'simple-harmonic-motion-calculator',
         reason: 'The thermal wobble in a conformer well is small-amplitude harmonic motion, the same maths as a mass on a spring',
         strength: 0.6,
+      },
+      {
+        slug: 'crystal-field-splitting-calculator',
+        reason: 'Another chemistry-lab diagram where energy levels rearrange as you change a setting',
+        strength: 0.45,
       },
     ],
   },
