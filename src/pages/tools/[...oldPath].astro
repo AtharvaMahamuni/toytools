@@ -1,6 +1,8 @@
 ---
-// Redirect stubs for every retired `/tools/...` URL (plural prefix, pre-2026-06-07).
+// Redirect stubs for `/tools/...` → canonical `/tool/...` (SEO Phase 0 crawl hygiene).
 //
+// Covers every live tool at `{segment}/{slug}` plus historical extras in toolsPrefixRedirects
+// (pre-2026-06-07 plural sitemap paths, developer segment under plural, first-day single-segment).
 // Same shell as src/pages/tool/[...oldPath].astro: noindex, meta-refresh, canonical to the
 // current tool page, not in any sitemap. A rest param because the list mixes one segment
 // (`word-counter`, the first-day routes) and two (`text/word-counter`).

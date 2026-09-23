@@ -41,7 +41,8 @@ All URLs are **singular** (not plural):
 Retired URLs that used to be real pages are noindex meta-refresh stubs with a canonical to the
 replacement. They are not in any sitemap and they are not `404.html`. Lists:
 `src/data/tool-redirects.ts` (`/tool/` and `/category/` renames, plus the plural `/tools/` and
-`/categories/` prefixes), `src/data/faq-redirects.ts`, `src/data/guide-redirects.ts`. Historical
+`/categories/` prefixes — every live tool also has a `/tools/{segment}/{slug}/` stub so niche
+URLs do not split signals across a dual tree), `src/data/faq-redirects.ts`, `src/data/guide-redirects.ts`. Historical
 sitemap filenames (`/sitemap-0.xml`, `/sitemaps/faqs.xml`, `/sitemaps/languages.xml`) are the same
 stub pointed at `/sitemap-index.xml`. Deleted locale landings (`/de/`, `/hi/`, and the rest) stay
 404: they were already noindex.

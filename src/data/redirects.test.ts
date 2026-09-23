@@ -10,6 +10,7 @@ import {
 import { faqRedirects } from './faq-redirects';
 import { guideRedirects } from './guide-redirects';
 import { sitemapRedirects, SITEMAP_STUB_TARGET } from './sitemap-redirects';
+import { contentByType } from '@lib/content/manifest';
 
 function liveToolPath(slug: string): string {
   const tool = tools.find(t => t.slug === slug);
@@ -37,23 +38,60 @@ describe('redirect stubs', () => {
     }
   });
 
-  it('plural /tools/ redirects cover the required set and resolve', () => {
+  it('legacy /tool/developer/json-* and siblings redirect to developer-utilities', () => {
+    for (const slug of [
+      'json-formatter',
+      'json-minifier',
+      'json-validator',
+      'base64-encoder-decoder',
+      'html-entity-encoder-decoder',
+      'md5-hash-generator',
+      'sha1-hash-generator',
+      'sha256-hash-generator',
+      'url-encoder-decoder',
+    ]) {
+      const entry = toolRedirects.find(r => r.oldPath === `developer/${slug}`);
+      expect(entry, `missing tool redirect for developer/${slug}`).toBeTruthy();
+      expect(entry!.toolSlug).toBe(slug);
+      expect(liveToolPath(slug)).toBe(`/tool/developer-utilities/${slug}/`);
+    }
+  });
+
+  it('plural /tools/ redirects cover every live tool plus historical extras', () => {
     const olds = toolsPrefixRedirects.map(r => r.oldPath);
     expect(new Set(olds).size).toBe(olds.length);
-    expect(olds.sort()).toEqual([
+
+    // Every live tool has /tools/{segment}/{slug}/ → /tool/{segment}/{slug}/
+    for (const tool of tools) {
+      const category = categories.find(c => c.slug === tool.categorySlug)!;
+      const oldPath = `${category.segment}/${tool.slug}`;
+      const entry = toolsPrefixRedirects.find(r => r.oldPath === oldPath);
+      expect(entry, `missing tools-prefix redirect for ${oldPath}`).toBeTruthy();
+      expect(entry!.toolSlug).toBe(tool.slug);
+    }
+
+    // Historical extras that are not live segment/slug paths.
+    for (const required of [
+      'developer/base64-encoder-decoder',
+      'developer/json-formatter',
+      'developer/json-minifier',
+      'developer/json-validator',
+      'developer/html-entity-encoder-decoder',
+      'developer/md5-hash-generator',
+      'developer/sha1-hash-generator',
+      'developer/sha256-hash-generator',
+      'developer/url-encoder-decoder',
+      'text/case-converter',
+      'word-counter',
+      'percentage-calculator',
       'base64-encoder',
       'case-converter',
-      'developer/base64-encoder-decoder',
-      'number/percentage-calculator',
-      'percentage-calculator',
       'productivity/keep-screen-awake',
-      'productivity/notepad',
       'productivity/pomodoro-timer',
-      'productivity/todo-list',
-      'text/case-converter',
-      'text/word-counter',
-      'word-counter',
-    ]);
+    ]) {
+      expect(olds, `missing historical tools-prefix path ${required}`).toContain(required);
+    }
+
     for (const redirect of toolsPrefixRedirects) {
       const live = liveToolPath(redirect.toolSlug);
       expect(liveTools.has(live)).toBe(true);
@@ -61,6 +99,7 @@ describe('redirect stubs', () => {
     }
     expect(liveToolPath('base64-encoder-decoder')).toBe('/tool/developer-utilities/base64-encoder-decoder/');
     expect(liveToolPath('title-case-converter')).toBe('/tool/text/title-case-converter/');
+    expect(toolsPrefixRedirects.length).toBeGreaterThanOrEqual(tools.length + 14);
   });
 
   it('category redirects, singular and plural, resolve to live categories', () => {
@@ -120,5 +159,15 @@ describe('redirect stubs', () => {
       '/sitemaps/languages.xml',
     ]);
     expect(SITEMAP_STUB_TARGET).toBe('/sitemap-index.xml');
+  });
+
+  it('content manifest / sitemap registry emit only canonical /tool/ paths', () => {
+    const toolEntries = contentByType('tool');
+    expect(toolEntries.length).toBe(tools.length);
+    for (const entry of toolEntries) {
+      expect(entry.url.startsWith('/tool/'), entry.url).toBe(true);
+      expect(entry.url.includes('/tools/'), entry.url).toBe(false);
+      expect(entry.url.includes('/tool/developer/'), entry.url).toBe(false);
+    }
   });
 });
