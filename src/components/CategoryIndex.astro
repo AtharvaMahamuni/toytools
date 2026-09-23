@@ -90,22 +90,6 @@ const shelves = categories.map(category => ({
   ))}
 </div>
 
-{/* Same honesty as category listings: hide Install when standalone or Firefox. */}
-<script is:inline>
-  (function () {
-    function hideInstalls() {
-      try {
-        var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-        var firefox = /firefox|fxios/i.test(navigator.userAgent || '');
-        if (!standalone && !firefox) return;
-        var nodes = document.querySelectorAll('[data-app-tile-install]');
-        for (var i = 0; i < nodes.length; i++) nodes[i].classList.add('is-hidden');
-      } catch (e) {}
-    }
-    hideInstalls();
-  })();
-</script>
-
 <style>
   .category-shelves {
     display: flex;
