@@ -42,6 +42,15 @@ describe('buildContentManifest', () => {
     expect(base64?.relatedTools).toContain('url-encoder-decoder');
   });
 
+
+  it('never emits plural /tools/ or legacy /tool/developer/ paths', () => {
+    for (const entry of contentByType('tool')) {
+      expect(entry.url.includes('/tools/'), entry.url).toBe(false);
+      expect(entry.url.includes('/tool/developer/'), entry.url).toBe(false);
+      expect(entry.url.startsWith('/tool/'), entry.url).toBe(true);
+    }
+  });
+
   it('tool URLs use the category segment, not the category slug', () => {
     const base64 = contentByType('tool').find(e => e.slug === 'base64-encoder-decoder');
     expect(base64?.url).toContain('/tool/developer-utilities/');

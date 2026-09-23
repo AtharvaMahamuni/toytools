@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.8] - 2026-09-23
+
+### Changed
+
+- **SEO Phase 0: crawl hygiene.** Every live tool now has a `/tools/{segment}/{slug}/` noindex
+  meta-refresh stub to its canonical `/tool/...` URL (GitHub Pages cannot emit HTTP 301; stub +
+  canonical is the permanent equivalent). Historical extras stay: pre-rename `/tools/developer/*`,
+  Case Converter, and first-day single-segment routes. Legacy `/tool/developer/{json-*}` and the
+  other eight developer tools that existed at the segment rename already redirect to
+  `developer-utilities`; plural `/tools/developer/{same nine}` stubs are added so those paths do
+  not 404. Content manifest / sitemap registry continue to emit only canonical `/tool/...` paths
+  (no `/tools/`, no `/tool/developer/`). No intentional dual tree; tool pages unchanged.
+
 ## [beta-v11.14.7] - 2026-09-23
 
 ### Changed
