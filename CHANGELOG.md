@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.10] - 2026-09-23
+
+### Changed
+
+- **SEO Phase 1b: Keep Screen Awake.** Head-match title `Keep Screen Awake Online` (em dash
+  removed), privacy-line description (adds "to prevent sleep" so the search-alias targeting
+  floor stays at 100%) and tagline for online intent, browser / Wake Lock / mobile / privacy
+  FAQ (11 total) synced to commonQuestions, and guide Quick Answer ATF that leads with the
+  keep-screen-awake-online job plus an early tool CTA. Content-only; no Widget or runtime
+  changes.
+
 ## [beta-v11.14.9] - 2026-09-23
 
 ### Changed
