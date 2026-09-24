@@ -87,9 +87,9 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Crystal Field Splitting Calculator and CFSE',
+    title: 'Crystal Field Splitting Calculator Online',
     description:
-      'Crystal field theory made interactive: fill the d orbital diagram, compare high spin vs low spin, and read CFSE and the spin-only magnetic moment.',
+      'Crystal field theory: d orbital splitting diagram, high spin vs low spin, CFSE, spin only magnetic moment. Runs entirely on your device. Nothing is uploaded.',
     tagline: 'Watch the electrons pick high spin or low spin for themselves.',
     keywords: ['crystal field splitting calculator', 'CFSE calculator', 'high spin vs low spin', 'crystal field theory', 'spin only magnetic moment', 'd orbital splitting', 'octahedral vs tetrahedral'],
   },
@@ -99,7 +99,7 @@ export const manifest: SimulationManifest = {
     // reaches the knowledge graph. seo.keywords does NOT reach the index, which is why a phrase
     // needed for retrieval is repeated here on purpose.
     tags: ['crystal field splitting calculator', 'crystal field splitting', 'crystal field theory', 'ligand field', 'CFSE', 'CFSE calculator', 'high spin', 'low spin', 'high spin vs low spin', 'delta octahedral', 'octahedral vs tetrahedral', 'd orbital splitting', 'd orbital splitting diagram', 'pairing energy', 'magnetic moment', 'spin only magnetic moment', 'coordination chemistry', 'inorganic chemistry'],
-    updatedAt: '2026-08-29',
+    updatedAt: '2026-09-24',
     isNew: true,
     trustVariant: 'offline',
   },
@@ -155,11 +155,11 @@ export const manifest: SimulationManifest = {
     slug: 'how-crystal-field-splitting-works',
     title: 'How Crystal Field Splitting Works',
     description:
-      'How ligands split the d orbitals, when a complex goes high spin or low spin, and how the splitting sets both the magnetic moment and the colour.',
+      'What crystal field splitting is, high spin vs low spin, and CFSE. Open the calculator. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 8,
-    updatedAt: '2026-08-29',
+    updatedAt: '2026-09-24',
     quickAnswer:
-      'Crystal field splitting is the gap that opens between the d orbitals when ligands approach a metal ion. In an octahedral complex the three t2g orbitals drop by 0.4 delta and the two eg orbitals rise by 0.6 delta. Electrons then fill the diagram whichever way costs less: spreading out if the splitting is smaller than the pairing energy, pairing up if it is larger. That single comparison sets the number of unpaired electrons, the crystal field stabilization energy CFSE = (-0.4 x n(t2g) + 0.6 x n(eg)) x delta, the magnetic moment, and the colour. Move the sliders here and watch the electrons rearrange themselves at the crossover.',
+      'Crystal field splitting is the energy gap that opens between the d orbitals when ligands approach a metal ion. Fill the d-orbital diagram to decide high spin vs low spin, then read CFSE, the magnetic moment, and the colour that follows from the gap. Open the Crystal Field Splitting Calculator, move the sliders, and watch the electrons rearrange at the crossover.',
     sections: [
       {
         id: 'why-split',
@@ -250,7 +250,7 @@ export const manifest: SimulationManifest = {
         type: 'note',
         heading: 'Everything Runs On Your Device',
         body:
-          'The simulation runs entirely in your browser. Nothing is uploaded, logged, or shared, and it works offline once the page has loaded. Field strengths and pairing energies are the tabulated values you look up, so treat the sliders as a way to explore them rather than as a source for them.',
+          'Field strengths and pairing energies are the tabulated values you look up, so treat the sliders as a way to explore them rather than as a source for them. Runs entirely on your device. Nothing is uploaded.',
       },
     ],
   },
@@ -261,6 +261,11 @@ export const manifest: SimulationManifest = {
         slug: 'wave-speed-calculator',
         reason: 'Turning a splitting in wavenumbers into an absorbed colour is the wavelength and frequency relation',
         strength: 0.55,
+      },
+      {
+        slug: 'newman-projection-calculator',
+        reason: 'Another chemistry-lab diagram where energy levels rearrange as you change a setting',
+        strength: 0.45,
       },
     ],
   },

@@ -26,21 +26,19 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="overview">
     <h2>Overview</h2>
     <p>
-      An equalizer changes how loud different parts of the frequency range are. That is the whole
-      idea. Every slider in an EQ owns one slice of the spectrum, and moving it up or down makes
-      that slice louder or quieter relative to everything else. What makes an equalizer hard to
-      learn is not the concept, it is the labels: a screen of numbers from 60 Hz to 15 kHz says
-      nothing about what any of them will do to the song you are listening to.
+      An equalizer changes how loud different parts of the frequency range are. Every slider owns
+      one slice of the spectrum, and moving it up or down makes that slice louder or quieter
+      relative to everything else. The useful habit is one band at a time: change one slider,
+      listen to a track you know, and keep the move or undo it before you touch the next band.
     </p>
     <p>
-      This guide maps those numbers onto what you actually hear, so you can go from a complaint
-      like "not enough bass" or "the vocals are buried" to a set of equalizer settings you can
+      This guide maps the numbers from 60 Hz to 15 kHz onto what you actually hear, so a complaint
+      like "not enough bass" or "the vocals are buried" becomes a set of equalizer settings you can
       enter anywhere. For example, "the vocals are buried" is a cut at 400 Hz far more than it is a
-      boost anywhere. The EQ generator on this site loads that shape for you, and the guide below
-      explains why it is the shape. It also covers the one way EQ can make things measurably worse,
-      which is running out of headroom.
+      boost anywhere. Practice on the settings tool, then copy the dB into your player. The guide
+      also covers the one way EQ can make things measurably worse, which is running out of headroom.
     </p>
-    <a href={toolHref} class="cta-link">Open the Music Equalizer Settings tool →</a>
+    <a href={toolHref} class="cta-link">Open Music Equalizer Settings →</a>
   </section>
 
   <section id="why-it-matters">
@@ -221,13 +219,12 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="privacy">
     <h2>Private by design</h2>
     <p>
-      The tool runs entirely in your browser. Nothing is uploaded, no microphone or audio permission
-      is requested, and no account is involved. Your settings are kept in your browser's own storage
-      so the page remembers them, and when you copy a link the seven values travel inside the link
-      itself. For example, a link ending <code>?eq=6_3_-1_0_0_0_1</code> is the whole preset, which
-      is why you can read it in the address bar before sending it. The share image is drawn in the
-      same way, from the settings on screen, so sending a friend the exact EQ settings you landed on
-      costs nothing and reveals nothing else.
+      No microphone or audio permission is requested, and no account is involved. Your settings are
+      kept in your browser's own storage so the page remembers them, and when you copy a link the
+      seven values travel inside the link itself. For example, a link ending
+      <code>?eq=6_3_-1_0_0_0_1</code> is the whole preset, which is why you can read it in the
+      address bar before sending it. The share image is drawn the same way, from the settings on
+      screen. Runs entirely on your device. Nothing is uploaded.
     </p>
   </section>
 </GuideLayout>

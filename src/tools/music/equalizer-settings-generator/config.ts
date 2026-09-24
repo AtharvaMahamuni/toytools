@@ -3,8 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'equalizer-settings-generator',
   name: 'Music Equalizer Settings',
-  seoTitle: 'Music Equalizer Settings Generator',
-  description: 'Turn more bass or clearer vocals into equalizer settings: tune seven bands from 60 Hz to 15 kHz, load a bass booster curve, copy the dB into your player.',
+  seoTitle: 'Music Equalizer Settings Online',
+  description: 'Build EQ settings online for a bass booster curve or clearer vocals, then copy the dB into your player. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Find your sound, then copy the numbers into your own player.',
   categorySlug: 'music-audio',
   tags: [
@@ -22,7 +22,7 @@ export const config: ToolConfig = {
     'eq curve',
   ],
   isNew: true,
-  updatedAt: '2026-08-30',
+  updatedAt: '2026-09-24',
   engine: 'audio',
   pattern: 'eq-design',
   family: 'equalizer',
@@ -36,9 +36,9 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-set-an-equalizer',
     categorySlug: 'music',
-    title: 'How to Set an Equalizer: What Each Frequency Does',
-    description: 'What each EQ band changes, how to get more bass or clearer vocals without making a mess, and why the same settings sound different on different headphones.',
+    title: 'How to Set an Equalizer',
+    description: 'How to set an equalizer for bass, vocals, and clarity without clipping. Practice on the settings tool. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 8,
-    updatedAt: '2026-08-30',
+    updatedAt: '2026-09-24',
   },
 };

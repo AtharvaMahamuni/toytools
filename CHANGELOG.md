@@ -2,6 +2,20 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.14] - 2026-09-24
+
+### Changed
+
+- **SEO Phase 2: Equalizer, Crystal Field, Unit Circle.** Equalizer head-match
+  `Music Equalizer Settings Online`, privacy-line tool and guide descriptions,
+  how-to FAQ plus privacy FAQ ending on the exact privacy line, and guide ATF
+  with definition, one-band habit, and early tool CTA. Crystal Field online
+  title and privacy-line descriptions, definition-first guide ATF, and a
+  crystal→Newman `usedWith` edge (Newman already lists crystal; left untouched).
+  Unit Circle interactive H1/title/tagline, privacy-line description, guide ATF
+  CTA to the interactive calculator, and an interactive-calculator FAQ.
+  Content-only; no Widget or runtime changes.
+
 ## [beta-v11.14.13] - 2026-09-24
 
 ### Changed
