@@ -61,13 +61,13 @@ export const manifest: SimulationManifest = {
   ],
   educational: {
     summary:
-      'Watch an oscillator and see how frequency and period are reciprocals through T = 1 / f, with a tap-the-beat input.',
+      'Convert frequency to period with T = 1 / f, then read angular frequency. Tap a beat or drag the slider.',
     intentGroups: {
       informational: ['What is the relationship between frequency and period?', 'What is angular frequency?', 'What is period of oscillation?'],
-      howTo: ['How to convert frequency to period', 'How to find angular frequency from frequency'],
-      comparison: ['Frequency vs period', 'Frequency vs angular frequency'],
+      howTo: ['How do I convert frequency to period', 'How to find angular frequency from frequency'],
+      comparison: ['Frequency vs period', 'Frequency vs angular frequency', 'Frequency vs period vs angular frequency'],
       misconception: ['Period is not proportional to frequency, it is the reciprocal'],
-      troubleshooting: ['Why the period halves when I double the frequency'],
+      troubleshooting: ['Why does the period halve when frequency doubles?'],
     },
     commonMistakes: [
       'Thinking a higher frequency means a longer period',
@@ -83,15 +83,15 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Frequency and Period Calculator: T = 1 / f',
+    title: 'Frequency and Period Calculator Online',
     description:
-      'Frequency and period are two views of one motion. Tap a beat or drag the slider and watch cycles per second, the period, and angular frequency update live.',
-    tagline: 'Tap a beat and see cycles per second, period and angular frequency.',
-    keywords: ['frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'hertz'],
+      'Convert frequency to period online with T = 1 / f. See cycles per second, period, angular frequency live. Runs entirely on your device. Nothing is uploaded.',
+    tagline: 'Convert frequency to period online: tap a beat or drag the slider.',
+    keywords: ['frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'hertz', 'frequency to period calculator'],
   },
   presentation: {
     tags: ['frequency to period calculator', 'frequency', 'period', 'T = 1/f', 'angular frequency', 'oscillation', 'frequency to period', 'hertz', 'cycles per second'],
-    updatedAt: '2026-07-09',
+    updatedAt: '2026-09-24',
     isNew: true,
     trustVariant: 'offline',
   },
@@ -103,6 +103,11 @@ export const manifest: SimulationManifest = {
   ],
   faq: [
     {
+      question: 'How do I convert frequency to period?',
+      answer:
+        'Use T = 1 / f. Divide one by the frequency in hertz to get the period in seconds. At 50 Hz the period is 0.02 seconds. At 1 Hz it is 1 second. Equivalently, frequency is f = 1 / T. Open the calculator, set frequency with the slider or tap-the-beat, and read period and angular frequency together.',
+    },
+    {
       question: 'What is the relationship between frequency and period?',
       answer:
         'They are exact reciprocals: T = 1 / f, and equivalently f = 1 / T. Frequency counts cycles per second (hertz); period measures seconds per cycle. Multiply them together and you always get one. At 2 Hz the period is 0.5 seconds; at 0.25 Hz it is 4 seconds. The simulator shows both at once so you can watch one shrink as the other grows.',
@@ -113,25 +118,25 @@ export const manifest: SimulationManifest = {
         'Angular frequency, written omega, measures how fast the oscillation advances in radians per second: omega = 2 pi f. One full cycle is 2 pi radians, so a 1 Hz oscillation has an angular frequency of about 6.28 rad/s. It is the natural unit for the sine function that describes the motion, which is why it appears throughout wave and oscillation equations.',
     },
     {
-      question: 'How does the tap-the-beat feature work?',
-      answer:
-        'Tap or click the canvas in a steady rhythm and the simulator measures the time between your taps, then sets the frequency to match. Tapping once a second gives 1 Hz; tapping twice a second gives 2 Hz. It is a hands-on way to feel that frequency is simply how often something repeats, turned into a number.',
-    },
-    {
       question: 'If I double the frequency, what happens to the period?',
       answer:
         'The period halves. Because T = 1 / f, frequency and period always move in opposite directions by the same factor. Double the frequency and each cycle has half as much time; halve the frequency and each cycle lasts twice as long. Drag the frequency slider and watch the period reading move the opposite way.',
+    },
+    {
+      question: 'How does the tap-the-beat feature work?',
+      answer:
+        'Tap or click the canvas in a steady rhythm and the simulator measures the time between your taps, then sets the frequency to match. Tapping once a second gives 1 Hz; tapping twice a second gives 2 Hz. It is a hands-on way to feel that frequency is simply how often something repeats, turned into a number.',
     },
   ],
   guide: {
     slug: 'how-frequency-and-period-relate',
     title: 'Frequency and Period: T = 1 / f',
     description:
-      'How frequency and period are reciprocals, how to convert frequency to period, what angular frequency means, and why doubling frequency halves the period.',
+      'Convert frequency to period with T = 1 / f, then read angular frequency. Practice on the calculator. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 5,
-    updatedAt: '2026-07-09',
+    updatedAt: '2026-09-24',
     quickAnswer:
-      'Frequency and period are two views of the same oscillation, and they are reciprocals: T = 1 / f. Frequency (f) counts how many cycles happen each second, measured in hertz. Period (T) is the time one cycle takes, measured in seconds. For example, a 2 Hz oscillation repeats twice a second, so its period of oscillation is 1 / 2 = 0.5 seconds. Open the simulator, drag the frequency slider or tap a beat, and watch the period and angular frequency update live.',
+      'Frequency and period are reciprocals: T = 1 / f. Frequency counts cycles per second in hertz; period is how long one cycle takes in seconds. For example, at 2 Hz the period is 0.5 seconds. Double the frequency and the period halves. Open the Frequency and Period Calculator online to convert either way and watch angular frequency update live.',
     sections: [
       {
         id: 'frequency-vs-period',
