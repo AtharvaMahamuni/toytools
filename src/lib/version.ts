@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 9,
+  patch: 10,
   status: 'beta',
   releaseDate: '2026-09-23',
-  description: 'SEO Phase 1a: Newman Projection practice title, FAQ, and ATF guide polish',
+  description: 'SEO Phase 1b: Keep Screen Awake online title, FAQ, and ATF polish',
 };
 
 export function formatVersion(config: VersionConfig): string {

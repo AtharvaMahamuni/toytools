@@ -5,7 +5,7 @@ export const knowledge: Knowledge = {
   slug: 'keep-screen-awake',
   title: 'Keep Screen Awake',
   category: 'productivity',
-  summary: 'Stop your screen from dimming or sleeping using the browser Wake Lock API, with one toggle.',
+  summary: 'Keep your screen awake online while this tab stays open, using the browser Wake Lock API.',
   primaryConcepts: ['keep screen awake'],
   secondaryConcepts: ['wake lock', 'prevent screen sleep', 'screen timeout', 'screensaver'],
   intentGroups: {
@@ -26,9 +26,10 @@ export const knowledge: Knowledge = {
     'Assuming it overrides device-level power management entirely',
   ],
   commonQuestions: [
-    'Does it work when I switch to another tab or app?',
-    'Which browsers support the Wake Lock API?',
-    'Does it drain more battery?',
+    'What is the Wake Lock API?',
+    'Which browsers support Keep Screen Awake?',
+    'Does it work on iPhone and Chrome mobile?',
+    'Is Keep Screen Awake private?',
   ],
   usedWith: [
     { slug: 'pomodoro-timer', reason: 'Keep the timer visible without the screen sleeping', strength: 0.6 },
