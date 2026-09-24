@@ -54,6 +54,7 @@ export const knowledge: Knowledge = {
     'Adding bass to fix muddiness, when a small cut in the low mids is usually the fix',
   ],
   commonQuestions: [
+    'How do I set an equalizer?',
     'What are the best EQ settings for bass?',
     'What frequency makes vocals clearer?',
     'Can EQ cause distortion?',

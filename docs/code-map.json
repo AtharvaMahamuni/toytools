@@ -690,7 +690,7 @@
       "knowledgeRegistered": true
     },
     "unit-circle-calculator": {
-      "name": "Unit Circle Calculator",
+      "name": "Interactive Unit Circle Calculator",
       "dir": "src/tools/math/unit-circle-calculator",
       "categorySlug": "applied-math",
       "url": "/tool/math/unit-circle-calculator/",

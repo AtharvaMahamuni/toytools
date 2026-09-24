@@ -2,6 +2,11 @@ import type { FAQItem } from '@data/types';
 
 export const items: FAQItem[] = [
   {
+    id: 'equalizer-settings-generator-faq-0',
+    question: 'How do I set an equalizer?',
+    answer: 'Start from a goal such as more bass, clearer vocals, or less harshness. Move one or two bands that match that goal, listen to a track you know well, then set the preamp down by roughly your largest boost so the curve does not clip. Copy the dB values into your player\'s custom equalizer once the shape sounds right.',
+  },
+  {
     id: 'equalizer-settings-generator-faq-1',
     question: 'Can this change my Spotify or headphone equalizer?',
     answer: 'No, and no web page can. A browser tab has no access to the audio another app is playing, to your phone\'s system equalizer, or to the settings inside a pair of headphones. What this tool does is work out the settings and hand them to you. You then open the equalizer in your own player or device, choose its custom preset, and enter the values yourself. That is a deliberate limit rather than a missing feature: the alternative would be an app that wants control of your audio.',
@@ -44,6 +49,6 @@ export const items: FAQItem[] = [
   {
     id: 'equalizer-settings-generator-faq-9',
     question: 'Do my settings get uploaded anywhere?',
-    answer: 'No. Everything runs in your browser, and the settings are kept in your browser\'s own storage so the page remembers them next time. When you copy a link, the seven values travel inside the link itself, which is why the numbers are readable in the address bar. Nothing is stored on a server, and there is no account to make.',
+    answer: 'No. Everything runs in your browser, and the settings are kept in your browser\'s own storage so the page remembers them next time. When you copy a link, the seven values travel inside the link itself, which is why the numbers are readable in the address bar. Runs entirely on your device. Nothing is uploaded.',
   },
 ];

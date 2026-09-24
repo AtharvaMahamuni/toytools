@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 13,
+  patch: 14,
   status: 'beta',
   releaseDate: '2026-09-24',
-  description: 'SEO Phase 1e: Fidgets hub and seven tools online titles, FAQ, relatedTools',
+  description: 'SEO Phase 2: Equalizer CTR, crystal-field Newman pairing, interactive unit circle',
 };
 
 export function formatVersion(config: VersionConfig): string {

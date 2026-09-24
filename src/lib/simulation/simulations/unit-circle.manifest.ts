@@ -9,7 +9,7 @@ import unitCircle from './unit-circle';
 export const manifest: SimulationManifest = {
   schemaVersion: SIMULATION_SCHEMA_VERSION,
   metadata: {
-    title: 'Unit Circle Calculator',
+    title: 'Interactive Unit Circle Calculator',
     slug: 'unit-circle-calculator',
     processorId: 'unit-circle',
     domain: 'math-lab',
@@ -96,15 +96,15 @@ export const manifest: SimulationManifest = {
     workflowStage: ['analyze'],
   },
   seo: {
-    title: 'Unit Circle Calculator: Sin Cos Tan',
+    title: 'Unit Circle Calculator: Interactive Explorer',
     description:
-      'Interactive unit circle: drag the trig circle and read sin cos tan values in radians and degrees. Runs entirely on your device. Nothing is uploaded.',
-    tagline: 'Drag a point around the circle and watch sin, cos and tan update.',
-    keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles'],
+      'Interactive unit circle: drag the trig circle, read sin cos tan values, and convert radians and degrees live. Runs entirely on your device. Nothing is uploaded.',
+    tagline: 'Interactive unit circle: drag the point and read sin, cos, and tan.',
+    keywords: ['unit circle', 'sin cos tan', 'unit circle calculator', 'radians and degrees', 'reference angle', 'special angles', 'interactive unit circle'],
   },
   presentation: {
-    tags: ['unit circle', 'unit circle calculator', 'sin cos tan', 'sine cosine tangent', 'radians and degrees', 'reference angle', 'special angles', 'trigonometry'],
-    updatedAt: '2026-07-14',
+    tags: ['unit circle', 'unit circle calculator', 'sin cos tan', 'radians and degrees', 'reference angle', 'special angles', 'trigonometry'],
+    updatedAt: '2026-09-24',
     isNew: true,
     trustVariant: 'offline',
   },
@@ -115,6 +115,11 @@ export const manifest: SimulationManifest = {
     { title: 'The sine wave', body: 'Set a rotation speed and the point traces a perfect sine wave on the right: circular motion seen edge-on.' },
   ],
   faq: [
+    {
+      question: 'What is an interactive unit circle calculator?',
+      answer:
+        'An interactive unit circle calculator lets you drag a point around a circle of radius 1 and read sin, cos, and tan as live values. The horizontal coordinate is cos θ and the vertical is sin θ. Open the explorer, drag to any angle, and watch the reference triangle and the readouts update together.',
+    },
     {
       question: 'What is the unit circle?',
       answer:
@@ -162,9 +167,9 @@ export const manifest: SimulationManifest = {
     description:
       'See how sin, cos, and tan come from a point on the unit circle. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 6,
-    updatedAt: '2026-07-14',
+    updatedAt: '2026-09-24',
     quickAnswer:
-      'The unit circle is a circle of radius 1 centered at the origin, and the point at angle θ has coordinates exactly (cos θ, sin θ). That single fact defines sine and cosine for every angle. For example, at 45° the point sits at (0.707, 0.707), so sin and cos are both √2/2. Tangent is the ratio tan θ = sin θ / cos θ. Open the explorer, drag the point, and read sin cos tan values live as the reference triangle follows your angle.',
+      'The unit circle is a circle of radius 1 centered at the origin, and the point at angle θ has coordinates exactly (cos θ, sin θ). That single fact defines sine and cosine for every angle. For example, at 45° the point sits at (0.707, 0.707), so sin and cos are both √2/2. Tangent is the ratio tan θ = sin θ / cos θ. Open the Interactive Unit Circle Calculator, drag the point, and read sin, cos, and tan live as the reference triangle follows your angle.',
     sections: [
       {
         id: 'how-the-unit-circle-works',
