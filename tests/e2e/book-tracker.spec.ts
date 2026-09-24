@@ -52,8 +52,27 @@ async function openWithBooks(page: Page, books: SeedBook[]) {
   await page.reload();
 }
 
+
 const card = (page: Page, title: string) =>
   page.locator('.bt-card', { has: page.locator('.bt-title', { hasText: title }) });
+
+async function openAddForm(page: Page) {
+  const panel = page.locator('#bt-add-panel');
+  const isOpen = await panel.evaluate((el) => (el as HTMLDetailsElement).open);
+  if (!isOpen) await panel.locator(':scope > summary').click();
+}
+
+async function openAddExtras(page: Page) {
+  const extras = page.locator('#bt-add-panel .bt-add-extras');
+  const isOpen = await extras.evaluate((el) => (el as HTMLDetailsElement).open);
+  if (!isOpen) await extras.locator(':scope > summary').click();
+}
+
+async function openCardDetails(cardLoc: ReturnType<typeof card>) {
+  const details = cardLoc.locator('details.bt-expand');
+  const isOpen = await details.evaluate((el) => (el as HTMLDetailsElement).open);
+  if (!isOpen) await details.locator('summary', { hasText: 'Details' }).click();
+}
 
 test.describe('book tracker', () => {
   test('persists a shelf and finished leaves reading at 100', async ({ page }) => {
@@ -92,14 +111,18 @@ test.describe('book tracker', () => {
 
     page.once('dialog', (d) => d.accept());
     await page.locator('#bt-search').fill('');
-    await card(page, 'The Lantern Road').locator('[data-action="delete"]').click();
+    const lantern = card(page, 'The Lantern Road');
+    await openCardDetails(lantern);
+    await lantern.locator('[data-action="delete"]').click();
     await expect(page.locator('.bt-card')).toHaveCount(0);
     await expect(page.locator('#bt-start')).toBeVisible();
 
+    await openAddForm(page);
     await page.locator('#bt-title').fill('Dracula');
     await page.locator('#bt-author').fill('Bram Stoker');
     await page.locator('#bt-status').selectOption('reading');
     await page.locator('#bt-progress').fill('15');
+    await openAddExtras(page);
     await page.locator('#bt-rating').selectOption('4');
     await page.locator('#bt-add-form button[type="submit"]').click();
 
@@ -196,12 +219,57 @@ test.describe('book tracker', () => {
     }));
     await openWithBooks(page, books);
     await expect(page.locator('#bt-count')).toHaveText('200 books');
+    await openAddForm(page);
     await page.locator('#bt-title').fill('One too many');
     await page.locator('#bt-add-form button[type="submit"]').click();
     await expect(page.locator('#bt-add-msg')).toBeVisible();
     await expect(page.locator('#bt-add-msg')).toContainText('200 books');
     await expect(card(page, 'One too many')).toHaveCount(0);
     await expect(page.locator('#bt-count')).toHaveText('200 books');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+test('mobile slim: shelf + status + Export/Import visible; rating/note/delete behind Details', async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone slim first screen only');
+    const errors = guardConsole(page);
+    await openWithBooks(page, [
+      {
+        id: 'dune',
+        title: 'Dune',
+        author: 'Frank Herbert',
+        status: 'reading',
+        progress: 40,
+        rating: 5,
+        note: 'Spice must flow',
+      },
+    ]);
+
+    const dune = card(page, 'Dune');
+    await expect(dune.locator('.bt-title')).toHaveText('Dune');
+    await expect(dune.locator('.bt-badge')).toHaveText('Reading');
+    await expect(dune.locator('.bt-status')).toBeVisible();
+    await expect(dune.locator('.bt-progress')).toBeVisible();
+    await expect(dune.locator('.bt-rating-text')).toHaveText('Rating 5');
+
+    // Secondary chrome stays folded until Details opens.
+    await expect(dune.locator('.bt-rating')).toBeHidden();
+    await expect(dune.locator('.bt-note-input')).toBeHidden();
+    await expect(dune.locator('[data-action="delete"]')).toBeHidden();
+    await expect(page.locator('#bt-add-panel')).not.toHaveAttribute('open');
+
+    // Atharva hard rule: Export/Import stay on the tool screen.
+    await expect(page.locator('#bt-export')).toBeVisible();
+    await expect(page.locator('#bt-import-btn')).toBeVisible();
+    await expect(page.locator('#bt-export')).toBeInViewport();
+    await expect(page.locator('#bt-import-btn')).toBeInViewport();
+
+    await openCardDetails(dune);
+    await expect(dune.locator('.bt-rating')).toBeVisible();
+    await expect(dune.locator('.bt-note-input')).toHaveValue('Spice must flow');
+    await expect(dune.locator('[data-action="delete"]')).toBeVisible();
+    await expect(page.locator('#bt-export')).toBeVisible();
+
     expect(errors, errors.join('\n')).toEqual([]);
   });
 });

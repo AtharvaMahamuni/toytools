@@ -186,3 +186,49 @@ test.describe('Pomodoro Timer backup', () => {
     expect(errors, errors.join('\n')).toEqual([]);
   });
 });
+
+
+test.describe('Phase 4 mobile slim first screens', () => {
+  test('Notepad: note + Export/Import primary; More tools folded', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone slim first screen only');
+    const errors = guardConsole(page);
+    await page.goto('/tool/productivity/notepad/');
+    await page.locator('#notepad-input').waitFor();
+
+    await expect(page.locator('#notepad-paste')).toBeVisible();
+    await expect(page.locator('#notepad-copy')).toBeVisible();
+    await assertBackupVisible(page, '#np-export', '#np-import-btn');
+
+    await expect(page.locator('#notepad-download')).toBeHidden();
+    await expect(page.locator('#notepad-clear')).toBeHidden();
+    await expect(page.locator('#notepad-fullscreen')).toBeHidden();
+
+    await page.locator('#np-more-panel > summary').click();
+    await expect(page.locator('#notepad-download')).toBeVisible();
+    await expect(page.locator('#notepad-clear')).toBeVisible();
+    await expect(page.locator('#np-export')).toBeVisible();
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('Todo: add + list + Export/Import primary; Focus tools folded', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'pixel5', 'phone slim first screen only');
+    const errors = guardConsole(page);
+    await page.goto('/tool/productivity/todo-list/');
+    await page.locator('#todo-new-task').waitFor();
+
+    await expect(page.locator('#todo-new-task')).toBeVisible();
+    await assertBackupVisible(page, '#todo-export', '#todo-import-btn');
+
+    await expect(page.locator('#todo-fullscreen')).toBeHidden();
+    await expect(page.locator('#todo-distraction')).toBeHidden();
+    await expect(page.locator('#todo-wake')).toBeHidden();
+
+    await page.locator('#todo-focus-panel > summary').click();
+    await expect(page.locator('#todo-fullscreen')).toBeVisible();
+    await expect(page.locator('#todo-wake')).toBeVisible();
+    await expect(page.locator('#todo-export')).toBeVisible();
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+});
