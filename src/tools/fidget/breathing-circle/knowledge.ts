@@ -50,7 +50,7 @@ export const knowledge: Knowledge = {
     'What is a breathing circle?',
     'Why is there no preset called Calm?',
     'Can I use this silently?',
-    'Is this free, and do I need an account?',
+    'Do I need to download an app for Breathing Circle?',
   ],
   usedWith: [
     { slug: 'pomodoro-timer', reason: 'A breathing session between focus blocks', strength: 0.8 },

@@ -192,13 +192,15 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
   {
     slug: 'fidgets',
     name: 'Fidgets',
-    description: 'Quiet sensory toys you tap, flick or flip in the browser, with optional sound and haptics you control.',
-    tagline: 'Tap, flick and flip without installing an app.',
+    headline: 'Online Virtual Fidget Toys',
+    description:
+      'Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. Runs entirely on your device. Nothing is uploaded.',
+    tagline: 'Virtual fidget toys online. No app install.',
     highlights: ['pop-it', 'gears', 'spinner'],
     accent: '#C45C7A',
     segment: 'fidget',
     intro: [
-      'These are the small physical toys people reach for when a meeting runs long or a thought will not settle, rebuilt as pages you can open without installing anything. A bubble board, a spinner, a row of switches: each one is about the feel of the gesture, not a score or a streak.',
+      'These are virtual fidget toys online: bubble boards, spinners, switches, sand, slime, and gears you open in the browser with no app install. Each page is about the feel of the gesture, not a score.',
       'Sound and vibration are optional and separate. Mute the clicks for an open office and leave the pops visible, or turn haptics on for a phone that can actually vibrate. Motion follows your system reduced-motion setting unless you override it on the settings page, and nothing you do here is uploaded.',
       'The Feel engine behind them is shared on purpose. Preferences you set once apply to every fidget on the site, so a mute decision does not have to be remade on the next toy you open.',
     ],

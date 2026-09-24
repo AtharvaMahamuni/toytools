@@ -27,9 +27,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'spin-faq-5',
-    question: 'Is this free, and do I need to download it?',
+    question: 'Do I need to download an app for this fidget spinner?',
     answer:
-      'Yes. It runs in the tab with no install, no account, and no paywall. Nothing about how you flicked it is uploaded.',
+      'No. It is a virtual fidget spinner online: open the tab, flick, and leave. No install, no account, and no paywall. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'spin-faq-6',

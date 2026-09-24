@@ -46,7 +46,7 @@ export const knowledge: Knowledge = {
   commonQuestions: [
     'How do I spin this fidget spinner?',
     'Why does it actually stop?',
-    'Is this free, and do I need to download it?',
+    'Do I need to download an app for this fidget spinner?',
     'What does Play do?',
   ],
   usedWith: [

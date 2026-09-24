@@ -47,7 +47,7 @@ export const knowledge: Knowledge = {
   commonQuestions: [
     'How do I play kinetic sand online?',
     'What does Reset pile do?',
-    'Is this free, and do I need to download it?',
+    'Do I need to download an app for kinetic sand online?',
     'Can I tilt my phone to pour the sand?',
   ],
   usedWith: [

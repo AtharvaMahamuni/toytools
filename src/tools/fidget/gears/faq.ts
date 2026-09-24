@@ -27,9 +27,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'gears-faq-5',
-    question: 'Is anything stored or uploaded?',
+    question: 'Is anything uploaded from this gears fidget?',
     answer:
-      'The layout is not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read them. Nothing about how you spun the gears is sent to a server.',
+      'No. The layout is not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read them. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'gears-faq-6',

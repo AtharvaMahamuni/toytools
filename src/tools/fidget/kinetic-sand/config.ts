@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'kinetic-sand',
   name: 'Kinetic Sand',
-  seoTitle: 'Kinetic Sand Online Play: Virtual Kinetic Sand',
+  seoTitle: 'Kinetic Sand Online: Virtual Sand Fidget',
   description:
-    'Drag and squish a sand fidget pile in your browser, or tilt the phone to pour. Reset when packed. Runs on your device; nothing is uploaded.',
+    'Drag, squish, or tilt virtual kinetic sand. Play with sand in the browser. Reset when packed. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Drag or tilt the pile. Reset when it packs.',
   categorySlug: 'fidgets',
   tags: ['kinetic sand', 'virtual sand', 'sand fidget', 'squish sand', 'sand pile'],
-  updatedAt: '2026-09-09',
+  updatedAt: '2026-09-24',
   isNew: true,
   trustVariant: 'private',
   engine: 'feel',

@@ -52,6 +52,7 @@ export const knowledge: Knowledge = {
     'What are interactive gears in a browser?',
     'Why can I not set radius separately from tooth count?',
     'How do I read the gear ratio?',
+    'Is anything uploaded from this gears fidget?',
     'Is this free, and do I need to download it?',
   ],
   usedWith: [

@@ -45,7 +45,7 @@ export const knowledge: Knowledge = {
   commonQuestions: [
     'How do I play with virtual slime?',
     'What does Release do?',
-    'Is this free, and do I need to download it?',
+    'Is this a virtual slime fidget online, and do I need an app?',
   ],
   usedWith: [
     { slug: 'kinetic-sand', reason: 'A pile you drag when you want push instead of pull', strength: 0.8 },

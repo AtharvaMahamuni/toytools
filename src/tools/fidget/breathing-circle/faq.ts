@@ -33,9 +33,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'br-faq-6',
-    question: 'Is this free, and do I need an account?',
+    question: 'Do I need to download an app for Breathing Circle?',
     answer:
-      'Yes. It runs in the tab with no account and no download. Timing never leaves the device.',
+      'No. Follow Box, 4-7-8, or Coherent in the browser with no account and no download. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'br-faq-7',

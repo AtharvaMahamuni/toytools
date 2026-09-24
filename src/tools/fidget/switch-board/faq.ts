@@ -39,9 +39,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'sb-faq-7',
-    question: 'Is anything stored or uploaded when I use this?',
+    question: 'Is anything uploaded when I use this switch board?',
     answer:
-      'The latches themselves are not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read the same choices. Nothing about which switches you flipped is sent to a server, and there is no account.',
+      'No. The latches themselves are not saved. Feel preferences for sound, haptics, and motion live in your browser under Settings → Feel so other fidgets can read the same choices. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'sb-faq-8',

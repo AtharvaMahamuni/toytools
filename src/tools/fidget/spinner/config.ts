@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'spinner',
   name: 'Fidget Spinner',
-  seoTitle: 'Fidget Spinner Online: Spin Fidget Web',
+  seoTitle: 'Fidget Spinner Online: Virtual Spinner',
   description:
-    'Virtual fidget spinner online. Spin fidget web in the browser. Flick for momentum that actually stops, optional ticks, no download.',
+    'Flick a virtual fidget spinner. Browser spin fidget web toy, real momentum that stops, optional ticks. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Flick it. It spins, then it stops.',
   categorySlug: 'fidgets',
   tags: ['spinner online', 'virtual spinner', 'spin fidget', 'spinner toy', 'browser spinner'],
-  updatedAt: '2026-09-09',
+  updatedAt: '2026-09-24',
   isNew: true,
   trustVariant: 'private',
   engine: 'feel',

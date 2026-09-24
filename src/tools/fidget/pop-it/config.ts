@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'pop-it',
   name: 'Pop It',
-  seoTitle: 'Pop It Online: Free Virtual Fidget Game',
+  seoTitle: 'Pop It Online: Virtual Fidget Toy',
   description:
-    'Pop it online for free. A digital pop it sensory board: tap bubbles, optional sound and haptics, Infinite mode, Reset. No download, nothing uploaded.',
+    'Pop bubbles on a free virtual Pop It. Sensory bubble fidget game, optional sound and haptics. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Tap the bubbles. Infinite mode when you want more.',
   categorySlug: 'fidgets',
   tags: [
@@ -16,7 +16,7 @@ export const config: ToolConfig = {
     'pop it sensory',
     'digital pop it',
   ],
-  updatedAt: '2026-09-08',
+  updatedAt: '2026-09-24',
   isNew: true,
   trustVariant: 'private',
   engine: 'feel',
@@ -28,7 +28,7 @@ export const config: ToolConfig = {
     solves:
       'A finished or half-scrolled board looks like a dead end, so people reload the tab and break the fidget loop. Reset board inflates every loaded bubble and scrolls the field back to the top without dropping focus or reloading assets.',
   },
-  relatedTools: ['switch-board', 'gears', 'spinner', 'pomodoro-timer', 'keep-screen-awake'],
+  relatedTools: ['spinner', 'switch-board', 'gears'],
   keywords: ['virtual pop it', 'bubble fidget'],
   inputs: [],
   outputs: [],
