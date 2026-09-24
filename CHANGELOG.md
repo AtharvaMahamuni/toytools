@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.13] - 2026-09-24
+
+### Changed
+
+- **SEO Phase 1e: Fidgets hub + seven tools.** Hub headline `Online Virtual Fidget Toys`,
+  privacy-line description and virtual-fidget intro; tool head-match titles and privacy-line
+  descriptions for pop-it, spinner, gears, switch-board, kinetic-sand, slime, and
+  breathing-circle (kills spinner "Spin Fidget Web", slime doubled Online / Spime, gears
+  "Gear Ratio Simulator" lead). relatedTools stay in the fidget family only. One privacy or
+  virtual/online FAQ per tool with the exact privacy line, synced to commonQuestions.
+  Content-only; no Widget, Feel, or runtime changes.
+
 ## [beta-v11.14.12] - 2026-09-24
 
 ### Changed

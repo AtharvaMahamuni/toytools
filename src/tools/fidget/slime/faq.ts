@@ -27,9 +27,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'slime-faq-5',
-    question: 'Is this free, and do I need to download it?',
+    question: 'Is this a virtual slime fidget online, and do I need an app?',
     answer:
-      'Yes. It runs in the tab. Nothing about how you pulled the slime is uploaded.',
+      'Yes, it is virtual slime online, and no app is required. Stretch and poke in the tab, then leave. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'slime-faq-6',

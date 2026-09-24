@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'gears',
   name: 'Gears',
-  seoTitle: 'Gear Ratio Simulator: Spin Gears Fidget Online',
+  seoTitle: 'Gears Fidget Online: Spin Meshing Gears',
   description:
-    'Gear ratio simulator and spin gears fidget. Interactive meshing gears in the browser, live ratio, no download. Tooth count always matches radius.',
+    'Spin interactive meshing gears as a virtual fidget. Gear ratio simulator, gear toy browser. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Spin the pair. The ratio stays honest.',
   categorySlug: 'fidgets',
   tags: ['gear ratio', 'meshing gears', 'spin gears', 'gear toy', 'interactive gears'],
-  updatedAt: '2026-09-09',
+  updatedAt: '2026-09-24',
   isNew: true,
   trustVariant: 'private',
   engine: 'feel',
@@ -21,7 +21,7 @@ export const config: ToolConfig = {
     solves:
       'Two gears overlap without meshing because tooth count and radius were allowed to disagree, so the pair looks like it drives when it does not.',
   },
-  relatedTools: ['pop-it', 'switch-board', 'spinner'],
+  relatedTools: ['spinner', 'pop-it', 'switch-board'],
   keywords: [],
   inputs: [],
   outputs: [],

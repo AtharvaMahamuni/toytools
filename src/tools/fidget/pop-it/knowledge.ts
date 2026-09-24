@@ -59,6 +59,7 @@ export const knowledge: Knowledge = {
     'Does this Pop It make sound on every tap?',
     'How do I reuse the board after every bubble is popped?',
     'What is a virtual Pop It?',
+    'Is anything stored or uploaded when I use this?',
     'Is this Pop It free, and do I need to download it?',
     'Does this Pop It work on a phone?',
     'What does Infinite mode do?',

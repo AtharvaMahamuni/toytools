@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'slime',
   name: 'Slime',
-  seoTitle: 'Virtual Slime Fidget Online: Stretch Slime Online',
+  seoTitle: 'Slime Online: Virtual Slime Fidget',
   description:
-    'Virtual slime fidget online, stretch slime online, slime simulator. Play with slime browser. No download.',
+    'Stretch and poke virtual slime. Slime simulator you play with in the browser. No download. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Poke and pull. Release if it sticks.',
   categorySlug: 'fidgets',
   tags: ['virtual slime', 'slime fidget', 'stretch slime', 'slime toy', 'goo fidget'],
-  updatedAt: '2026-09-09',
+  updatedAt: '2026-09-24',
   isNew: true,
   trustVariant: 'private',
   engine: 'feel',

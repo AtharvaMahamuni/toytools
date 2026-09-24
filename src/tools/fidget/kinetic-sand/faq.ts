@@ -27,9 +27,9 @@ export const items: FAQItem[] = [
   },
   {
     id: 'sand-faq-5',
-    question: 'Is this free, and do I need to download it?',
+    question: 'Do I need to download an app for kinetic sand online?',
     answer:
-      'Yes. It runs in the tab. Nothing about how you dragged the sand is uploaded.',
+      'No. This is virtual kinetic sand online in the browser. Open the tab, drag or tilt, and leave. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'sand-faq-6',

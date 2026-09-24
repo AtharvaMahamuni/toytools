@@ -55,6 +55,7 @@ export const knowledge: Knowledge = {
     'Does every flip make a sound?',
     'How do I clear the board after flipping around?',
     'Can I use the board with a keyboard?',
+    'Is anything uploaded when I use this switch board?',
     'Is this Switch Board free, and do I need to download it?',
   ],
   usedWith: [
