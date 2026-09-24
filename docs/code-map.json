@@ -1665,7 +1665,7 @@
       "knowledgeRegistered": true
     },
     "hex-encoder-decoder": {
-      "name": "Hex Encoder & Decoder",
+      "name": "Hex Encoder and Decoder",
       "dir": "src/tools/developer-utilities/hex-encoder-decoder",
       "categorySlug": "developer-utilities",
       "url": "/tool/developer-utilities/hex-encoder-decoder/",

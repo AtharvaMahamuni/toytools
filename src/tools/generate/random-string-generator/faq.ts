@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'random-string-generator-faq-4',
     question: 'Is anything uploaded when I generate a string?',
     answer:
-      'No. There is no account, no server call, and no analytics tied to the values you generate. Strings are created and shown entirely in your browser. The only thing kept is your local option preference, which never contains a generated string.',
+      'No. There is no account, no server call, and no analytics tied to the values you generate. The only thing kept is your local option preference, which never contains a generated string. Runs entirely on your device. Nothing is uploaded.',
   },
 
   {

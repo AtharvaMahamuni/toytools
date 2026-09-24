@@ -3,9 +3,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'password-generator',
   name: 'Password Generator',
-  seoTitle: 'Password Generator — Strong Random Passwords',
+  seoTitle: 'Password Generator Online',
   description:
-    'Create strong, random passwords in your browser. Pick the length and character sets, see a live entropy and strength estimate, then copy. Nothing is uploaded.',
+    'Create strong random passwords with length, character sets, and a live entropy estimate. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Strong random passwords, with a live strength estimate.',
   categorySlug: 'generate',
   tags: [
@@ -18,7 +18,7 @@ export const config: ToolConfig = {
     'entropy',
   ],
   isNew: true,
-  updatedAt: '2026-07-10',
+  updatedAt: '2026-09-25',
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-credential',
@@ -38,8 +38,8 @@ export const config: ToolConfig = {
     categorySlug: 'generate',
     title: 'How to Generate a Strong Password',
     description:
-      'What makes a password strong, how length and character sets change entropy, and how to use a generator safely.',
+      'What makes a password strong, and how to use a generator safely. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 8,
-    updatedAt: '2026-07-10',
+    updatedAt: '2026-09-25',
   },
 };

@@ -48,6 +48,7 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'qr-code-generator', reason: 'Encode a generated Wi-Fi password into a scannable QR code' },
+    { slug: 'random-string-generator', reason: 'Make a machine-facing token or API key alongside the human password', strength: 0.6 },
   ],
   alternatives: [
     { slug: 'random-string-generator', reason: 'A general-purpose random token with control over the alphabet' },

@@ -29,6 +29,7 @@ export const knowledge: Knowledge = {
     'What punctuation ends a sentence?',
     'How are abbreviations and decimals handled?',
     'Can it measure average words per sentence?',
+    'Does this sentence counter upload my text?',
   ],
   usedWith: [
     { slug: 'word-counter', reason: 'Derive average words per sentence', strength: 0.7 },

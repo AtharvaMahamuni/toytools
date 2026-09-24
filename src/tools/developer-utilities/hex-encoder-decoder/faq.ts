@@ -61,4 +61,10 @@ export const items: FAQItem[] = [
     answer:
       'No. Hex encoding provides no security. It is a display format, not a protection mechanism. Anyone who sees hex output can decode it instantly with any hex decoder. If you need to protect sensitive data, use encryption such as AES. Using hex for passwords or API keys gives a false sense of security.',
   },
+  {
+    id: 'hed-faq-11',
+    question: 'Is my text uploaded?',
+    answer:
+      'No. Encoding and decoding both run in your browser with JavaScript, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
+  },
 ];

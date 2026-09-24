@@ -3,7 +3,7 @@ import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
 export const knowledge: Knowledge = {
   schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
   slug: 'hex-encoder-decoder',
-  title: 'Hex Encoder & Decoder',
+  title: 'Hex Encoder and Decoder',
   category: 'developer-utilities',
   summary: 'Encode text to hexadecimal bytes and decode hex strings back to human-readable text, with UTF-8 support.',
   primaryConcepts: ['hex encoding', 'hexadecimal'],
@@ -13,7 +13,7 @@ export const knowledge: Knowledge = {
     howTo: ['How to encode text to hex', 'How to decode a hex string', 'How to convert text to hexadecimal bytes'],
     comparison: ['Hex vs Base64 encoding', 'Hex vs binary representation'],
     misconception: ['Hex encoded output is twice as long as the input in bytes', 'Spaces between hex pairs are optional separators, not part of the encoding'],
-    troubleshooting: ['Odd number of hex digits — missing a nibble', 'Non-hex characters in input — strip whitespace first'],
+    troubleshooting: ['Odd number of hex digits, missing a nibble', 'Non-hex characters in input, strip whitespace first'],
   },
   realWorldUseCases: [
     'Inspecting raw byte values of strings for debugging',
@@ -31,6 +31,7 @@ export const knowledge: Knowledge = {
     'How do I convert text to hex?',
     'What is the difference between hex encoding and Base64?',
     'Why does each character produce two hex digits?',
+    'Is my text uploaded?',
   ],
   usedWith: [
     { slug: 'base64-encoder-decoder', reason: 'Alternative binary-to-text encoding', strength: 0.7 },

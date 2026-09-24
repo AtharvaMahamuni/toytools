@@ -43,4 +43,10 @@ export const items: FAQItem[] = [
     answer:
       'No, the goal is treated as a fixed future amount. If your goal is years away, the real cost will be higher than today price because of inflation. To set a more realistic target, run your goal through the inflation calculator first and use the future cost as your goal here.',
   },
+  {
+    id: 'sg-faq-8',
+    question: 'Are my numbers uploaded?',
+    answer:
+      'No. Every calculation runs in your browser, so your goal, savings, and return figures stay with you. Runs entirely on your device. Nothing is uploaded.',
+  },
 ];

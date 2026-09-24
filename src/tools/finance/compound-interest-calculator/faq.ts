@@ -43,4 +43,16 @@ export const items: FAQItem[] = [
     answer:
       'No. It shows gross compound growth at the rate you enter, with no taxes, fees, or inflation. To see the result in today purchasing power, run the final amount through the inflation calculator. To allow for fees, simply lower the rate of return you enter.',
   },
+  {
+    id: 'ci-faq-8',
+    question: 'How much is $1,000 at 5% for 10 years?',
+    answer:
+      'About $1,629 with yearly compounding, using FV = P(1 + r/n)^(n x t) with P = 1,000, r = 0.05, n = 1, and t = 10. Monthly compounding at the same rate gives about $1,647, because interest is added twelve times a year instead of once.',
+  },
+  {
+    id: 'ci-faq-9',
+    question: 'Are my numbers uploaded?',
+    answer:
+      'No. Every calculation runs in your browser, so your principal, rate, and contribution figures stay with you. Runs entirely on your device. Nothing is uploaded.',
+  },
 ];

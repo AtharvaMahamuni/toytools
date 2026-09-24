@@ -5,7 +5,7 @@ export const items: FAQItem[] = [
     id: 'lc-faq-1',
     question: 'What counts as a letter?',
     answer:
-      'A letter is any alphabetic character: A through Z and a through z in English, plus accented and Unicode letters from other scripts (é, ñ, ü, Arabic, Chinese characters, etc.). Digits (0–9), spaces, punctuation, and symbols are not letters. "Hello, World!" contains 10 letters.',
+      'A letter is any alphabetic character: A through Z and a through z in English, plus accented and Unicode letters from other scripts (é, ñ, ü, Arabic, Chinese characters, etc.). Digits (0 to 9), spaces, punctuation, and symbols are not letters. "Hello, World!" contains 10 letters.',
   },
   {
     id: 'lc-faq-2',
@@ -17,7 +17,7 @@ export const items: FAQItem[] = [
     id: 'lc-faq-3',
     question: 'Do numbers count as letters?',
     answer:
-      'No. Digits (0–9) are not letters. They are numeric characters. "abc123" has 3 letters and 6 total characters. If you need a count that includes digits as well as letters, use the Character Counter instead.',
+      'No. Digits (0 to 9) are not letters. They are numeric characters. "abc123" has 3 letters and 6 total characters. If you need a count that includes digits as well as letters, use the Character Counter instead.',
   },
   {
     id: 'lc-faq-4',
@@ -54,6 +54,12 @@ export const items: FAQItem[] = [
     question: 'Why did my letter count drop after I deleted the numbers?',
     answer:
       'Deleting digits alone never changes the letter count, because this tool counts only alphabetic characters and never included the numbers to begin with. If your total fell, you removed letters at the same time. For example, "abc123" and "abc" both report 3 letters, but trimming to "ab" drops the total to 2. Check that you deleted only the 0 through 9 characters and left every alphabetic character in place.',
+  },
+  {
+    id: 'lc-faq-11',
+    question: 'Is my text uploaded?',
+    answer:
+      'No. Letters are counted in your browser as you type or paste, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'lc-faq-10',

@@ -42,7 +42,9 @@ export const knowledge: Knowledge = {
     'Can I use a custom character set?',
     'Is anything uploaded when I generate a string?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'password-generator', reason: 'Make a human-facing password alongside the token', strength: 0.6 },
+  ],
   alternatives: [
     { slug: 'password-generator', reason: 'A human-facing password with an exclude-ambiguous option' },
   ],

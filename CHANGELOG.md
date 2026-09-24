@@ -2,6 +2,25 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.16] - 2026-09-25
+
+### Changed
+
+- **Niche SEO Phase 3: text counters, savings and interest, hex, password, discount.**
+  Head-match `Online` titles with em dashes removed for letter, sentence, and paragraph
+  counters, savings goal, compound interest, password generator, and discount calculator.
+  Hex tool renamed `Hex Encoder and Decoder` (no ampersand in name, title, guide title, or
+  CTA) with `Hex Encoder Decoder Online`. Every scoped tool and guide description now ends
+  on the exact privacy line, and each tool has a privacy FAQ ending on that line, synced to
+  commonQuestions (new FAQs for letter counter, savings goal, compound interest, hex, and
+  discount). Compound interest formula example moved out of the meta into a new FAQ.
+  Compound interest and savings goal metas keep "interest growth" and "save" so the
+  search-alias targeting floor stays at 100%.
+  Sentence and paragraph counters gain relatedTools (word, paragraph, letter / sentence,
+  word, line). Password and random string generators now pair both ways in usedWith.
+  Character counter and emergency fund keep their titles (privacy FAQ and guide meta only).
+  Content-only; no Widget, runtime, or hub page changes.
+
 ## [beta-v11.14.15] - 2026-09-25
 
 ### Changed

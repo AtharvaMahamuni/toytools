@@ -16,7 +16,7 @@ export const config: ToolConfig = {
     'custom alphabet',
   ],
   isNew: true,
-  updatedAt: '2026-07-10',
+  updatedAt: '2026-09-25',
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-credential',
@@ -31,8 +31,8 @@ export const config: ToolConfig = {
     categorySlug: 'generate',
     title: 'How to Generate a Random String',
     description:
-      'What random strings are used for, how length and alphabet set the entropy, and how to generate tokens and keys safely in the browser.',
+      'What random strings are used for, and how length and alphabet set the entropy. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 8,
-    updatedAt: '2026-07-10',
+    updatedAt: '2026-09-25',
   },
 };

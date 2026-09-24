@@ -29,6 +29,7 @@ export const knowledge: Knowledge = {
     'How do I check that a text field contains only letters?',
     'Why did my letter count drop after I deleted the numbers?',
     'Why do accented letters count the same as regular letters?',
+    'Is my text uploaded?',
   ],
   usedWith: [
     { slug: 'character-counter', reason: 'Compare letters against the full character total', strength: 0.7 },

@@ -29,6 +29,7 @@ export const knowledge: Knowledge = {
     'What is compound interest?',
     'What is the difference between monthly and yearly compounding?',
     'Is compound interest the same as CAGR?',
+    'Are my numbers uploaded?',
   ],
   usedWith: [
     { slug: 'savings-goal-calculator', reason: 'Work backwards from a target to a monthly amount', strength: 0.8 },

@@ -29,6 +29,7 @@ export const knowledge: Knowledge = {
     'What separates one paragraph from the next?',
     'Do bullet points in a list count as separate paragraphs?',
     'Why did my paragraph count change when I pasted from Word?',
+    'Does this paragraph counter upload my text?',
   ],
   usedWith: [
     { slug: 'sentence-counter', reason: 'See how many sentences sit in each paragraph', strength: 0.6 },

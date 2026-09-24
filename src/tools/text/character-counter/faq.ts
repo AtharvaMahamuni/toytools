@@ -23,7 +23,7 @@ export const items: FAQItem[] = [
     id: 'cc-faq-4',
     question: 'Is my text uploaded?',
     answer:
-      'No. All counting happens in your browser using JavaScript. Your text never leaves your device: there is no server, no upload, and no account required.',
+      'No. All counting happens in your browser using JavaScript, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'cc-faq-5',
