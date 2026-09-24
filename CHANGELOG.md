@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.11] - 2026-09-24
+
+### Changed
+
+- **SEO Phase 1c: Frequency and Period Calculator.** Head-match title
+  `Frequency and Period Calculator Online`, privacy-line description (keeps
+  "cycles per second" so the search-alias targeting floor stays at 100%) and
+  convert tagline for frequency-to-period intent, convert how-to FAQ (5 total)
+  synced to commonQuestions, and guide Quick Answer ATF that leads with T = 1 / f
+  plus an early calculator CTA. Content-only; no Widget or runtime changes.
+
 ## [beta-v11.14.10] - 2026-09-23
 
 ### Changed
