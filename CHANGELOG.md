@@ -2,6 +2,18 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.15] - 2026-09-25
+
+### Changed
+
+- **Mobile Play Phase 4: slim first screens for app-like tools.** Habit (#211) was the
+  reference. Book Tracker closes Add by default, parks rating/note under optional extras and
+  per-card Details (status + progress stay primary), and keeps Export/Import on the tool screen.
+  Todo parks Full Screen / Remove Distractions / Keep Awake behind Focus tools (wake timer stays
+  visible when active). Notepad keeps Paste/Copy + Export/Import above the note; Download TXT,
+  Clear, and focus modes sit under More tools; phone notepad min-height drops to 220px. Habit
+  untouched. Pomodoro left as-is (timer-first after Phase 3). No KnowledgeDrawers / SEO rewrites.
+
 ## [beta-v11.14.14] - 2026-09-24
 
 ### Changed

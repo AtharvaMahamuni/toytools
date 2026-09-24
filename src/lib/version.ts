@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 14,
+  patch: 15,
   status: 'beta',
-  releaseDate: '2026-09-24',
-  description: 'SEO Phase 2: Equalizer CTR, crystal-field Newman pairing, interactive unit circle',
+  releaseDate: '2026-09-25',
+  description: 'Mobile Play Phase 4: slim Book, Todo, Notepad first screens',
 };
 
 export function formatVersion(config: VersionConfig): string {

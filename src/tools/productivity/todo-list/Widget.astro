@@ -9,25 +9,30 @@
     <input id="todo-new-task" type="text" aria-label="Add a task" placeholder="Add a task..." autocomplete="off" enterkeyhint="done" />
     <button id="todo-add-btn" type="button">Add</button>
   </div>
-  <div class="todo-toolbar">
-    <button id="todo-fullscreen" type="button" class="todo-tool-btn" aria-pressed="false">
-      <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2H2v4M10 2h4v4M6 14H2v-4M10 14h4v-4"/></svg>
-      <span>Full Screen</span>
-    </button>
-    <button id="todo-distraction" type="button" class="todo-tool-btn" aria-pressed="false">
-      <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/></svg>
-      <span>Remove Distractions</span>
-    </button>
-    <button id="todo-wake" type="button" class="todo-tool-btn" aria-pressed="false">
-      <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M2.6 2.6l1 1M12.4 12.4l1 1M1.5 8h1.5M13 8h1.5M2.6 13.4l1-1M12.4 3.6l1-1"/></svg>
-      <span>Keep Awake</span>
-    </button>
-    <span id="todo-wake-timer" class="todo-wake-timer" hidden aria-live="polite">
-      <span class="todo-wake-dot" aria-hidden="true"></span>
-      <span id="todo-wake-elapsed" class="todo-wake-elapsed">00:00:00</span>
-    </span>
-    <button id="todo-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
-  </div>
+  <!-- Focus tools behind Details so the list + add row lead on first paint. -->
+  <details class="todo-focus" id="todo-focus-panel">
+    <summary>Focus tools</summary>
+    <div class="todo-toolbar">
+      <button id="todo-fullscreen" type="button" class="todo-tool-btn" aria-pressed="false">
+        <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2H2v4M10 2h4v4M6 14H2v-4M10 14h4v-4"/></svg>
+        <span>Full Screen</span>
+      </button>
+      <button id="todo-distraction" type="button" class="todo-tool-btn" aria-pressed="false">
+        <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/></svg>
+        <span>Remove Distractions</span>
+      </button>
+      <button id="todo-wake" type="button" class="todo-tool-btn" aria-pressed="false">
+        <svg class="todo-tool-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M2.6 2.6l1 1M12.4 12.4l1 1M1.5 8h1.5M13 8h1.5M2.6 13.4l1-1M12.4 3.6l1-1"/></svg>
+        <span>Keep Awake</span>
+      </button>
+      <button id="todo-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
+    </div>
+  </details>
+  <!-- Wake timer stays outside Details so an active lock remains visible. -->
+  <span id="todo-wake-timer" class="todo-wake-timer" hidden aria-live="polite">
+    <span class="todo-wake-dot" aria-hidden="true"></span>
+    <span id="todo-wake-elapsed" class="todo-wake-elapsed">00:00:00</span>
+  </span>
   <div id="todo-list-container" aria-live="polite"></div>
   <div class="todo-footer" hidden>
     <div class="todo-footer-row">
@@ -107,12 +112,31 @@
 
   /* Understated pill toggles — clearly tappable buttons, but lighter than the
      task list so the tasks lead. A filled accent state reads "on" at a glance. */
+  .todo-focus {
+    margin-top: var(--space-2);
+  }
+  .todo-focus > summary {
+    cursor: pointer;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .todo-focus > summary::-webkit-details-marker { display: none; }
   .todo-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
-    padding-block: var(--space-3);
+    padding-block: var(--space-2);
+  }
+  /* Slim first screen on phones: add + list + Export/Import stay primary. */
+  @media (max-width: 640px) {
+    .todo-backup { margin-top: var(--space-3); }
+    .todo-focus { margin-top: var(--space-1); }
   }
 
   .todo-tool-btn {

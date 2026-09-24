@@ -21,11 +21,30 @@
     <input id="bt-search" type="search" placeholder="Search title or author" autocomplete="off" enterkeyhint="search" />
   </label>
   <p id="bt-count" class="bt-count" aria-live="polite"></p>
+
+  <!-- Export/Import stay on the tool screen (Atharva hard rule) - above the shelf so they stay findable on phones. -->
+  <div class="bt-footer">
+    <button type="button" id="bt-export" class="bt-tool-btn">Export JSON</button>
+    <button type="button" id="bt-import-btn" class="bt-tool-btn" aria-expanded="false" aria-controls="bt-import-panel">Import JSON</button>
+  </div>
+  <div id="bt-import-panel" class="bt-import" hidden>
+    <label class="bt-field" for="bt-import-text">
+      <span>Paste backup JSON</span>
+      <textarea id="bt-import-text" rows="4" placeholder='{"v":1,"books":[...]}'></textarea>
+    </label>
+    <div class="bt-import-row">
+      <input id="bt-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
+      <label class="bt-replace"><input id="bt-replace" type="checkbox" /> Replace entire shelf</label>
+      <button type="button" id="bt-import-run" class="bt-primary">Import</button>
+    </div>
+    <p id="bt-import-msg" class="bt-msg" role="status" hidden></p>
+  </div>
+
   <p id="bt-start" class="bt-start" hidden>Your shelf is empty. Add a title below.</p>
   <div id="bt-list" class="bt-list" aria-live="polite"></div>
   <p id="bt-empty" class="bt-empty" hidden>No books match this view.</p>
 
-  <details class="bt-add" id="bt-add-panel" open>
+  <details class="bt-add" id="bt-add-panel">
     <summary>Add a book</summary>
     <form id="bt-add-form" class="bt-form">
       <label class="bt-field">
@@ -48,42 +67,29 @@
         <span>Progress (0-100)</span>
         <input id="bt-progress" type="number" min="0" max="100" step="1" inputmode="numeric" value="0" />
       </label>
-      <label class="bt-field">
-        <span>Rating (optional)</span>
-        <select id="bt-rating">
-          <option value="">No rating</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </label>
-      <label class="bt-field">
-        <span>Note (optional)</span>
-        <textarea id="bt-note" maxlength="240" rows="2" placeholder="Short note"></textarea>
-      </label>
+      <details class="bt-add-extras">
+        <summary>Rating &amp; note (optional)</summary>
+        <label class="bt-field">
+          <span>Rating</span>
+          <select id="bt-rating">
+            <option value="">No rating</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </label>
+        <label class="bt-field">
+          <span>Note</span>
+          <textarea id="bt-note" maxlength="240" rows="2" placeholder="Short note"></textarea>
+        </label>
+      </details>
       <p id="bt-add-msg" class="bt-msg" role="status" hidden></p>
       <button type="submit" class="bt-primary">Add book</button>
     </form>
   </details>
 
-  <div class="bt-footer">
-    <button type="button" id="bt-export" class="bt-tool-btn">Export JSON</button>
-    <button type="button" id="bt-import-btn" class="bt-tool-btn" aria-expanded="false" aria-controls="bt-import-panel">Import JSON</button>
-  </div>
-  <div id="bt-import-panel" class="bt-import" hidden>
-    <label class="bt-field" for="bt-import-text">
-      <span>Paste backup JSON</span>
-      <textarea id="bt-import-text" rows="4" placeholder='{"v":1,"books":[...]}'></textarea>
-    </label>
-    <div class="bt-import-row">
-      <input id="bt-import-file" type="file" accept="application/json,.json" aria-label="Choose JSON backup file" />
-      <label class="bt-replace"><input id="bt-replace" type="checkbox" /> Replace entire shelf</label>
-      <button type="button" id="bt-import-run" class="bt-primary">Import</button>
-    </div>
-    <p id="bt-import-msg" class="bt-msg" role="status" hidden></p>
-  </div>
 </section>
 
 <style is:inline>
@@ -195,14 +201,45 @@
     font-weight: var(--font-weight-semibold);
     list-style: none;
   }
-  .bt-add > summary::-webkit-details-marker { display: none; }
+  .bt-add > summary::-webkit-details-marker,
+  .bt-add-extras > summary::-webkit-details-marker,
+  .bt-expand > summary::-webkit-details-marker { display: none; }
   .bt-form { margin-top: var(--space-3); }
-  .bt-footer { margin-top: var(--space-4); }
+  .bt-add-extras {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .bt-add-extras > summary,
+  .bt-expand > summary {
+    cursor: pointer;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .bt-expand { margin-top: var(--space-1); }
+  .bt-expand-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+  .bt-footer { margin-top: var(--space-3); margin-bottom: var(--space-2); }
   .bt-msg.is-error { color: var(--color-danger, var(--color-text)); }
   .bt-replace { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); min-height: var(--touch-target); }
   .bt-sr {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+  }
+  /* Slim first screen on phones: shelf + status/progress + Export/Import stay primary. */
+  @media (max-width: 640px) {
+    .bt-card { padding: var(--space-2) var(--space-3); }
+    .bt-footer { margin-top: var(--space-2); margin-bottom: var(--space-2); }
+    .bt-add { margin-top: var(--space-3); }
   }
 </style>
 
@@ -481,16 +518,19 @@
       }
       var author = book.author ? '<p class="bt-author">' + esc(book.author) + '</p>' : '';
       var ratingText = book.rating ? '<p class="bt-rating-text">Rating ' + book.rating + '</p>' : '';
+      // Primary: title, badge, status, progress. Rating/note/delete sit under Details (Habit pattern).
       return '<article class="bt-card" data-id="' + esc(book.id) + '" data-status="' + book.status + '" data-progress="' + book.progress + '">' +
         '<div class="bt-card-top"><h3 class="bt-title">' + esc(book.title) + '</h3><span class="bt-badge">' + statusLabel(book.status) + '</span></div>' +
         author + ratingText +
         '<div class="bt-card-fields">' +
           '<label class="bt-field"><span>Status</span><select class="bt-status" aria-label="Status for ' + esc(book.title) + '">' + optionTags(book.status) + '</select></label>' +
           progress +
+        '</div>' +
+        '<details class="bt-expand"><summary>Details</summary><div class="bt-expand-body">' +
           '<label class="bt-field"><span>Rating</span><select class="bt-rating" aria-label="Rating for ' + esc(book.title) + '">' + ratingOptions(book.rating) + '</select></label>' +
           '<label class="bt-field"><span>Note</span><textarea class="bt-note-input" maxlength="240" aria-label="Note for ' + esc(book.title) + '">' + esc(book.note) + '</textarea></label>' +
           '<button type="button" class="bt-delete" data-action="delete">Delete</button>' +
-        '</div></article>';
+        '</div></details></article>';
     }
 
     function applyView() {

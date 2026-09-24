@@ -5,19 +5,10 @@
   <p class="notepad-storage-note">
     Stored locally <span class="gold-dot" aria-hidden="true"></span> Auto-saved
   </p>
-  <div class="notepad-toolbar">
+  <div class="notepad-toolbar" role="group" aria-label="Clipboard">
     <button id="notepad-paste" type="button">Paste</button>
     <span class="gold-dot" aria-hidden="true"></span>
     <button id="notepad-copy" type="button" class="action-btn action-btn--copy" data-label="Copy">Copy</button>
-    <span class="gold-dot" aria-hidden="true"></span>
-    <button id="notepad-download" type="button">Download TXT</button>
-    <span class="gold-dot" aria-hidden="true"></span>
-    <button id="notepad-clear" type="button" class="action-btn action-btn--clear" data-label="Clear">Clear</button>
-    <span class="gold-dot" aria-hidden="true"></span>
-    <button id="notepad-fullscreen" type="button" aria-pressed="false">Full Screen</button>
-    <button id="notepad-distraction" type="button" aria-pressed="false">Remove Distractions</button>
-    <button id="notepad-wake" type="button" aria-pressed="false">Keep Awake</button>
-    <button id="notepad-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
   </div>
 
   <!-- Export/Import stay on the tool screen (Atharva hard rule) - never behind More about, Details, or menus.
@@ -50,6 +41,19 @@
     <span class="gold-dot" aria-hidden="true"></span>
     <span id="notepad-chars">0 Characters</span>
   </div>
+
+  <!-- Secondary chrome behind Details so the note leads on first paint. -->
+  <details class="np-more" id="np-more-panel">
+    <summary>More tools</summary>
+    <div class="notepad-more-toolbar">
+      <button id="notepad-download" type="button">Download TXT</button>
+      <button id="notepad-clear" type="button" class="action-btn action-btn--clear" data-label="Clear">Clear</button>
+      <button id="notepad-fullscreen" type="button" aria-pressed="false">Full Screen</button>
+      <button id="notepad-distraction" type="button" aria-pressed="false">Remove Distractions</button>
+      <button id="notepad-wake" type="button" aria-pressed="false">Keep Awake</button>
+      <button id="notepad-focus-exit" type="button" class="tt-focus-exit" hidden>Exit Focus</button>
+    </div>
+  </details>
 </section>
 
 
@@ -62,7 +66,8 @@
     margin-bottom: var(--space-1);
   }
 
-  .notepad-toolbar {
+  .notepad-toolbar,
+  .notepad-more-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -70,7 +75,8 @@
     padding-block: var(--space-2);
   }
 
-  .notepad-toolbar button {
+  .notepad-toolbar button,
+  .notepad-more-toolbar button {
     min-height: var(--touch-target);
     padding-inline: var(--space-4);
     background: transparent;
@@ -83,15 +89,32 @@
     transition: var(--transition-color);
   }
 
-  .notepad-toolbar button:hover {
+  .notepad-toolbar button:hover,
+  .notepad-more-toolbar button:hover {
     color: var(--color-text);
     border-color: var(--color-text-muted);
   }
 
-  .notepad-toolbar button[aria-pressed="true"] {
+  .notepad-toolbar button[aria-pressed="true"],
+  .notepad-more-toolbar button[aria-pressed="true"] {
     color: var(--color-text);
     border-color: var(--color-accent);
   }
+
+  .np-more {
+    margin-top: var(--space-2);
+  }
+  .np-more > summary {
+    cursor: pointer;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .np-more > summary::-webkit-details-marker { display: none; }
 
   .notepad-panel textarea {
     min-height: 400px;
@@ -104,6 +127,11 @@
     background: var(--color-bg);
     color: var(--color-text);
     font-family: inherit;
+  }
+  /* Slim first screen on phones: clipboard + backup + note lead; shorter notepad. */
+  @media (max-width: 640px) {
+    #notepad-input { min-height: 220px; }
+    .np-backup { margin-bottom: var(--space-2); }
   }
 
   .notepad-stats {
