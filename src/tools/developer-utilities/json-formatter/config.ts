@@ -3,13 +3,13 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'json-formatter',
   name: 'JSON Formatter',
-  seoTitle: 'JSON Formatter & Beautifier — Free Online Tool',
-  description: 'Prettify, pretty-print and beautify JSON with proper indentation instantly in your browser. Fast, private, and free.',
+  seoTitle: 'JSON Formatter Online',
+  description: 'Format and beautify JSON online with clear indentation. Pretty print or prettify for a readable layout. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Pretty-print JSON with proper indentation.',
   categorySlug: 'developer-utilities',
   tags: ['json formatter', 'json beautifier', 'format json', 'pretty print json', 'json pretty', 'json indent', 'beautify json', 'json online', 'developer'],
   isNew: true,
-  updatedAt: '2026-06-09',
+  updatedAt: '2026-09-24',
   engine: 'structured-data',
   pattern: 'structured-transform',
   family: 'json',
@@ -25,7 +25,8 @@ export const config: ToolConfig = {
     slug: 'what-is-json-formatting',
     categorySlug: 'developer-utilities',
     title: 'What Is JSON Formatting?',
-    description: 'Understand what JSON pretty-printing does, why formatted and minified JSON are identical in meaning, and when to use each.',
+    description: 'What JSON formatting does, why pretty-print and minify keep the same data, and when to use each. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 4,
-    updatedAt: '2026-06-09',
-  },};
+    updatedAt: '2026-09-24',
+  },
+};

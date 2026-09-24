@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.12] - 2026-09-24
+
+### Changed
+
+- **SEO Phase 1d: JSON Formatter.** Head-match title `JSON Formatter Online`,
+  privacy-line description (keeps "pretty print" / "prettify" so the search-alias
+  targeting floor stays at 100%) for format/beautify intent, convert how-to and
+  privacy FAQ (9 total) synced to commonQuestions, and guide Quick Answer ATF
+  that leads with pretty-print semantics plus an early tool CTA. Content-only;
+  no Widget or runtime changes.
+
 ## [beta-v11.14.11] - 2026-09-24
 
 ### Changed
