@@ -49,4 +49,10 @@ export const items: FAQItem[] = [
     answer:
       'No. A 25% discount reduces the price by 25% of the sale price. A 25% markup reduction reduces the selling price by 25% of the cost price. These produce different results unless the markup percentage equals the discount percentage by coincidence. Discount and markup use different bases: sale price vs cost price.',
   },
+  {
+    id: 'disc-faq-9',
+    question: 'Are my prices uploaded?',
+    answer:
+      'No. Every calculation runs in your browser, so the prices and discounts you enter stay with you. Runs entirely on your device. Nothing is uploaded.',
+  },
 ];

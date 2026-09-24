@@ -29,6 +29,7 @@ export const knowledge: Knowledge = {
     'How do I calculate a percentage discount?',
     'What is the difference between percent off and amount off?',
     'How much will I save?',
+    'Are my prices uploaded?',
   ],
   usedWith: [
     { slug: 'percentage-calculator', reason: 'Work out the underlying percentage math', strength: 0.7 },

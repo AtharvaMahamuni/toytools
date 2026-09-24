@@ -143,6 +143,6 @@ export const items: FAQItem[] = [
     id: 'password-generator-faq-24',
     question: 'Is any of my data uploaded or shared?',
     answer:
-      'No. There is no account, no server call, and no analytics tied to what you generate. Passwords are created and displayed entirely in your browser. The only thing kept is your local option preference, which stays on your device and contains no passwords.',
+      'No. There is no account, no server call, and no analytics tied to what you generate. The only thing kept is your local option preference, which contains no passwords. Runs entirely on your device. Nothing is uploaded.',
   },
 ];

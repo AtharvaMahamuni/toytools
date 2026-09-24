@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 15,
+  patch: 16,
   status: 'beta',
   releaseDate: '2026-09-25',
-  description: 'Mobile Play Phase 4: slim Book, Todo, Notepad first screens',
+  description: 'Niche SEO Phase 3: text counters, savings, compound interest, hex, password, random string, discount',
 };
 
 export function formatVersion(config: VersionConfig): string {

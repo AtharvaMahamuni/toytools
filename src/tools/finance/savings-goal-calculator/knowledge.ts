@@ -29,6 +29,7 @@ export const knowledge: Knowledge = {
     'How much should I save each month?',
     'How do investment returns change what I need to save?',
     'What happens if I start saving later?',
+    'Are my numbers uploaded?',
   ],
   usedWith: [
     { slug: 'compound-interest-calculator', reason: 'See how the balance compounds toward the goal', strength: 0.8 },
