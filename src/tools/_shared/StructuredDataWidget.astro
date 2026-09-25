@@ -105,7 +105,17 @@ const statusId = `${slug}-status`;
         repair.offer(true);
         return;
       }
+      var ticket = ++runSeq;
       var res = ToyTools.runStructuredData(sid, input.value);
+      if (res && typeof res.then === 'function') {
+        res.then(function (settled) { if (ticket === runSeq) apply(settled); });
+        return;
+      }
+      apply(res);
+    }
+
+    var runSeq = 0;
+    function apply(res) {
       status.setAttribute('data-ok', res.ok ? 'true' : 'false');
       status.textContent = res.ok ? '✓ Valid' : '✗ ' + (res.error || 'Invalid');
       setOutput(res.ok ? (res.output || '') : 'Output will appear here', !res.ok);

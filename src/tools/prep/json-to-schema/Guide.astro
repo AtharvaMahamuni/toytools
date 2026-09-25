@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A JSON schema generator here is an example schema. What can one JSON example tell a schema?
+      The json types that appear, and the object properties that appear. A string example is not a format.
+    </p>
+    <a href={toolHref} class="cta-link">Open JSON to JSON Schema →</a>
+  </section>
+  <section id="why-it-matters">
+    <h2>Why it matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, a minified payload is hard to check by eye. A schema of the types lets you see
+      the shape before you write the checks yourself.
+    </p>
+  </section>
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How to draft a schema from a sample payload: paste one JSON value. What is an integer versus
+      a number here? A whole number is integer. A fraction is number. How to read an empty array
+      in the result: the type is array, and items is absent, because the example showed no elements.
+    </p>
+    <p>
+      A type from an example vs a required field: presence in one object does not mean required.
+      JSON Schema vs JSON validation is the next page. This one only drafts the types.
+    </p>
+  </section>
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Not a contract">
+      <p>Treating the result as a complete contract.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A string is a string">
+      <p>Expecting a person-name format from a string.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Required">
+      <p>Expecting required because the key was in the sample.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

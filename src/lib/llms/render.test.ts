@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CORE_TOOL_SLUGS, renderLlmsTxt } from './render';
+import { CORE_TOOL_SLUGS, PREP_HIGHLIGHT_SLUGS, doesNotLine, renderLlmsFull, renderLlmsTxt } from './render';
 import { tools } from '@data/registry';
 import { PRIVACY_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
@@ -37,9 +37,75 @@ describe('renderLlmsTxt', () => {
     expect(catsAt).toBeGreaterThan(coreAt);
   });
 
+  it('lists Prep highlight tools between Core and Categories', () => {
+    const coreAt = txt.indexOf('## Core tools');
+    const prepAt = txt.indexOf('## Prep tools');
+    const catsAt = txt.indexOf('## Categories');
+    expect(prepAt).toBeGreaterThan(coreAt);
+    expect(catsAt).toBeGreaterThan(prepAt);
+    expect(txt).toContain('prepare text before a model');
+    expect(txt).toContain('ToyTools does not run a model');
+    expect(PREP_HIGHLIGHT_SLUGS).toHaveLength(3);
+    const known = new Set(tools.map(t => t.slug));
+    for (const slug of PREP_HIGHLIGHT_SLUGS) {
+      expect(known.has(slug), slug).toBe(true);
+      expect(txt).toContain(`/${slug}/`);
+    }
+  });
+
+  it('mentions prep in the summary blockquote', () => {
+    const summary = txt.split('\n').find(line => line.startsWith('> '));
+    expect(summary).toBeTruthy();
+    expect(summary!.toLowerCase()).toContain('prep');
+    expect(summary).toContain('does not run a model');
+  });
+
   it('still lists categories and the platform page', () => {
     expect(txt).toContain('/category/text-utilities/');
     expect(txt).toContain('/platform/');
     expect(txt).toContain('/feedback/');
+  });
+
+  it('points at the full inventory without inlining it', () => {
+    expect(txt).toContain('https://toytoolsapp.com/llms-full.txt');
+    expect(txt.indexOf('llms-full.txt')).toBeLessThan(txt.indexOf('## Core tools'));
+  });
+});
+
+describe('renderLlmsFull', () => {
+  const full = renderLlmsFull(SITE);
+
+  it('lists every published tool once, with an absolute tool URL', () => {
+    const urls = [...full.matchAll(/^URL: (\S+)$/gm)].map(m => m[1]);
+    expect(urls).toHaveLength(tools.length);
+    expect(new Set(urls).size).toBe(tools.length);
+    for (const tool of tools) {
+      expect(urls.some(url => url.endsWith(`/${tool.slug}/`)), tool.slug).toBe(true);
+      expect(full).toContain(`## ${tool.name}`);
+    }
+    expect(urls.every(url => url.startsWith('https://toytoolsapp.com/tool/'))).toBe(true);
+  });
+
+  it('states privacy and a non-goal on every block', () => {
+    const blocks = full.split(/\n(?=## )/).filter(block => block.startsWith('## '));
+    expect(blocks.length).toBe(tools.length);
+    for (const block of blocks) {
+      expect(block).toMatch(/^Use for: \S/m);
+      expect(block).toMatch(/^Privacy: \S/m);
+      expect(block).toMatch(/^Does not: \S/m);
+    }
+    expect(full).toContain(PRIVACY_LINE);
+  });
+
+  it('uses a lookup tool\'s real privacy claim', () => {
+    const ip = full.split(/\n(?=## )/).find(block => block.includes('/what-is-my-ip/'));
+    expect(ip).toBeTruthy();
+    expect(ip).toContain('IP echo');
+    expect(ip).not.toContain('Nothing is uploaded');
+  });
+
+  it('capitalises a citation non-goal', () => {
+    expect(doesNotLine(undefined)).toBe('Call an AI model.');
+    expect(doesNotLine('verify the signature.')).toBe('Verify the signature.');
   });
 });

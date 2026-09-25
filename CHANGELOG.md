@@ -2,6 +2,22 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.0] - 2026-09-25
+
+### Added
+
+- **Prep for a model**, at `/category/prep/`. Deterministic browser tools that prepare text before you paste it into a model. ToyTools does not run a model.
+- **Prompt Packer**, at `/tool/prep/prompt-packer/`. Assembles role, task, context, constraints, and output format into Markdown sections or XML-style tags. Empty fields are left out. It does not write the prompt.
+- **Chat Export Cleaner**, at `/tool/prep/chat-export-cleaner/`. Turns a copied transcript into plain text: timestamps, speaker labels, empty fences, and citation chips, with a choice to keep user turns, assistant turns, or code blocks. It says when a choice drops text. It does not rewrite the words.
+- **JSON to JSON Schema**, at `/tool/prep/json-to-schema/`. Builds a schema from the types in one JSON example. It does not mark fields required or guess what a string means.
+- **JSON Schema Validator**, at `/tool/prep/json-schema-validator/`. Checks JSON against the schema keywords this page lists, and names any keyword it does not check.
+- **Context Fit Checker**, at `/tool/prep/context-fit-checker/`. Estimates tokens as characters divided by 4 and compares that with a context window copied from the vendor page named on the tool. It is an estimate, not a tokenizer count. No prices.
+- **llms.txt Generator**, at `/tool/prep/llms-txt-generator/`. Writes a short site description in the same H1, blockquote, and H2 layout ToyTools publishes. Empty optional sections are left out. It does not claim that layout is an official standard.
+- **Guides** for the six prep tools, under `/guide/prep/`. Each one says what the tool does, what it refuses to infer, and that ToyTools does not call a model.
+- **`/llms-full.txt`.** One block per published tool, generated from the registry: URL, what it is for, the privacy claim that tool can actually make, and what it does not do. `/llms.txt` stays short and links to it.
+- **When to send someone here.** Tools that set a citation show that block on the page. JSON Formatter, JWT Decoder, the hash generators, the word, character, and sentence counters, Password Generator, and UPI 1999 Split have one.
+- **Crawler policy in `robots.txt`.** Public pages stay allowed for every crawler, and GPTBot, ClaudeBot, PerplexityBot, and Google-Extended are named so the file says so.
+
 ## [beta-v11.16.1] - 2026-09-25
 
 ### Fixed

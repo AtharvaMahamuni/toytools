@@ -1,0 +1,169 @@
+---
+// Bespoke widget. StructuredDataWidget reads one string. This page checks a schema against data.
+// The check lives in src/lib/engines/structured-data/schemaValidate.ts.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+---
+
+<div class="sv">
+  <div class="sv-panes">
+    <IoPanel label="Schema" labelFor="sv-schema">
+      <textarea id="sv-schema" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="JSON Schema" placeholder="Paste a JSON Schema here"></textarea>
+    </IoPanel>
+    <IoPanel label="Data" labelFor="sv-data">
+      <textarea id="sv-data" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="JSON data" placeholder="Paste JSON data here"></textarea>
+    </IoPanel>
+  </div>
+  <div class="sv-actions">
+    <button class="action-btn action-btn--sample" id="sv-sample" type="button">Sample</button>
+    <button class="action-btn" id="sv-clear" type="button">Clear both</button>
+  </div>
+  <p class="sv-status" id="sv-status" data-craft="schema-unchecked" role="status">Paste a schema and JSON data.</p>
+  <ol class="sv-errors" id="sv-errors" hidden></ol>
+  <ToolActions pasteTarget="sv-data" />
+  <p class="sv-note">Checks the keywords this page lists. Does not call a model.</p>
+</div>
+
+<style>
+  .sv { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  .sv [hidden] { display: none !important; }
+
+  .sv-panes {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .sv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .sv-actions .action-btn {
+    min-height: var(--touch-target);
+  }
+
+  .sv-actions .action-btn:active {
+    background: var(--color-accent-subtle);
+  }
+
+  .sv-status,
+  .sv-note {
+    margin: var(--space-3) 0 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .sv-errors {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .sv-errors li {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .sv textarea {
+    font-size: var(--text-base);
+  }
+
+  @media (min-width: 640px) {
+    .sv-panes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+</style>
+
+<script is:inline>
+  ToyTools.onReady(function () {
+    var schema = document.getElementById('sv-schema');
+    var data = document.getElementById('sv-data');
+    var status = document.getElementById('sv-status');
+    var errors = document.getElementById('sv-errors');
+    var sample = document.getElementById('sv-sample');
+    var clearBtn = document.getElementById('sv-clear');
+    if (!schema || !data || !status || !errors || !sample || !clearBtn) return;
+
+    var SAMPLE_SCHEMA = '{\n  "type": "object",\n  "properties": {\n    "name": { "type": "string" },\n    "age": { "type": "integer" }\n  },\n  "required": ["name"]\n}';
+    var SAMPLE_DATA = '{\n  "name": "Atharva",\n  "age": 30\n}';
+    var clearArmed = false;
+    var clearTimer = 0;
+
+    var seq = 0;
+    function paint() {
+      if (!(window.ToyTools && ToyTools.validateJsonSchema)) return;
+      var ticket = ++seq;
+      Promise.resolve(ToyTools.validateJsonSchema(schema.value, data.value)).then(function (result) {
+        if (ticket !== seq || !result) return;
+        apply(result);
+      });
+    }
+
+    function apply(result) {
+      errors.textContent = '';
+      var unchecked = result.unchecked && result.unchecked.length
+        ? ' Not checked: ' + result.unchecked.join(', ') + '.'
+        : '';
+      if (!schema.value.trim() && !data.value.trim()) {
+        status.textContent = 'Paste a schema and JSON data.';
+        errors.hidden = true;
+        return;
+      }
+      if (result.parseError) {
+        status.textContent = result.parseError;
+        errors.hidden = true;
+        return;
+      }
+      if (result.ok) {
+        status.textContent = 'Valid.' + unchecked;
+        errors.hidden = true;
+        return;
+      }
+      var list = result.errors || [];
+      status.textContent = list.length + (list.length === 1 ? ' problem.' : ' problems.') + unchecked;
+      errors.hidden = list.length === 0;
+      for (var i = 0; i < list.length; i++) {
+        var li = document.createElement('li');
+        li.textContent = (list[i].path || '/') + ' ' + list[i].message;
+        errors.appendChild(li);
+      }
+    }
+
+    function disarm() {
+      clearArmed = false;
+      clearBtn.textContent = 'Clear both';
+      if (clearTimer) window.clearTimeout(clearTimer);
+    }
+
+    schema.addEventListener('input', paint);
+    data.addEventListener('input', paint);
+    sample.addEventListener('click', function () {
+      schema.value = SAMPLE_SCHEMA;
+      data.value = SAMPLE_DATA;
+      disarm();
+      paint();
+    });
+    clearBtn.addEventListener('click', function () {
+      if (!clearArmed) {
+        clearArmed = true;
+        clearBtn.textContent = 'Confirm clear';
+        clearTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      schema.value = '';
+      data.value = '';
+      disarm();
+      paint();
+    });
+    paint();
+  });
+</script>

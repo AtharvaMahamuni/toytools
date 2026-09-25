@@ -1,0 +1,174 @@
+---
+// Bespoke widget. TextProcessorWidget reads one string. This page joins five fields.
+// The assembly lives in src/lib/text/promptPack.ts. This file only renders it.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+---
+
+<div class="pp">
+  <div class="pp-fields">
+    <IoPanel label="Role" labelFor="pp-role" variant="prose">
+      <textarea id="pp-role" placeholder="You are a senior Android engineer." spellcheck="true" aria-label="Role"></textarea>
+    </IoPanel>
+    <IoPanel label="Task" labelFor="pp-task" variant="prose">
+      <textarea id="pp-task" placeholder="Explain how Binder IPC works." spellcheck="true" aria-label="Task"></textarea>
+    </IoPanel>
+    <IoPanel label="Context" labelFor="pp-context" variant="prose">
+      <textarea id="pp-context" placeholder="The audience understands Kotlin but is new to Android internals." spellcheck="true" aria-label="Context"></textarea>
+    </IoPanel>
+    <IoPanel label="Constraints" labelFor="pp-constraints" variant="prose">
+      <textarea id="pp-constraints" placeholder="Use simple language. Include a concrete example." spellcheck="true" aria-label="Constraints"></textarea>
+    </IoPanel>
+    <IoPanel label="Output format" labelFor="pp-format-field" variant="prose">
+      <textarea id="pp-format-field" placeholder="Use headings and bullet points." spellcheck="true" aria-label="Output format"></textarea>
+    </IoPanel>
+  </div>
+
+  <div class="pp-format" role="group" aria-label="Output format">
+    <button class="action-btn" id="pp-md" type="button" aria-pressed="true">Markdown</button>
+    <button class="action-btn" id="pp-xml" type="button" aria-pressed="false">Tags</button>
+    <button class="action-btn action-btn--sample" id="pp-sample" type="button">Sample</button>
+    <button class="action-btn" id="pp-clear" type="button">Clear</button>
+  </div>
+
+  <p class="pp-omit" id="pp-omit" data-craft="prompt-omit-empty" role="status" hidden></p>
+  <p class="pp-counts" id="pp-counts" aria-live="polite">0 characters · 0 words</p>
+
+  <IoPanel label="Assembled prompt" labelFor="pp-out" variant="prose">
+    <textarea id="pp-out" readonly aria-label="Assembled prompt" placeholder="The assembled prompt appears here."></textarea>
+  </IoPanel>
+  <ToolActions copyTarget="pp-out" />
+  <p class="pp-note">Assembles the prompt. Does not write it.</p>
+</div>
+
+<style>
+  .pp { min-width: 0; max-width: 100%; --io-pane-h: 4.5rem; }
+  .pp [hidden] { display: none !important; }
+
+  .pp-fields {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .pp-format {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .pp-format .action-btn {
+    min-height: var(--touch-target);
+  }
+
+  .pp-format .action-btn:active,
+  .pp-format .action-btn[aria-pressed="true"] {
+    background: var(--color-accent-subtle);
+  }
+
+  .pp-omit,
+  .pp-counts,
+  .pp-note {
+    margin: var(--space-3) 0 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .pp-counts {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pp textarea {
+    font-size: var(--text-base);
+  }
+</style>
+
+<script is:inline>
+  ToyTools.onReady(function () {
+    var role = document.getElementById('pp-role');
+    var task = document.getElementById('pp-task');
+    var context = document.getElementById('pp-context');
+    var constraints = document.getElementById('pp-constraints');
+    var outputFormat = document.getElementById('pp-format-field');
+    var out = document.getElementById('pp-out');
+    var omit = document.getElementById('pp-omit');
+    var counts = document.getElementById('pp-counts');
+    var md = document.getElementById('pp-md');
+    var xml = document.getElementById('pp-xml');
+    var sample = document.getElementById('pp-sample');
+    var clearBtn = document.getElementById('pp-clear');
+    if (!role || !task || !context || !constraints || !outputFormat || !out || !omit || !counts || !md || !xml || !sample || !clearBtn) return;
+
+    var format = 'markdown';
+    var clearArmed = false;
+    var clearTimer = 0;
+
+    function fields() {
+      return {
+        role: role.value,
+        task: task.value,
+        context: context.value,
+        constraints: constraints.value,
+        outputFormat: outputFormat.value,
+      };
+    }
+
+    function paint() {
+      if (!(window.ToyTools && ToyTools.packPrompt)) return;
+      var packed = ToyTools.packPrompt(fields(), format);
+      out.value = packed.text;
+      counts.textContent = packed.characters + ' characters · ' + packed.words + (packed.words === 1 ? ' word' : ' words');
+      var filled = packed.omitted.length < 5;
+      var dropped = packed.omitted.length > 0 && filled;
+      omit.hidden = !dropped;
+      omit.textContent = dropped ? 'Left out: ' + packed.omitted.join(', ') + '.' : '';
+    }
+
+    function setFormat(next) {
+      format = next;
+      md.setAttribute('aria-pressed', next === 'markdown' ? 'true' : 'false');
+      xml.setAttribute('aria-pressed', next === 'xml' ? 'true' : 'false');
+      paint();
+    }
+
+    function disarm() {
+      clearArmed = false;
+      clearBtn.textContent = 'Clear';
+      if (clearTimer) window.clearTimeout(clearTimer);
+    }
+
+    [role, task, context, constraints, outputFormat].forEach(function (el) {
+      el.addEventListener('input', paint);
+    });
+    md.addEventListener('click', function () { setFormat('markdown'); });
+    xml.addEventListener('click', function () { setFormat('xml'); });
+    sample.addEventListener('click', function () {
+      role.value = 'You are a senior Android engineer.';
+      task.value = 'Explain how Binder IPC works.';
+      context.value = 'The audience understands Kotlin but is new to Android internals.';
+      constraints.value = 'Use simple language.\nInclude a concrete example.';
+      outputFormat.value = 'Use headings and bullet points.';
+      disarm();
+      paint();
+    });
+    clearBtn.addEventListener('click', function () {
+      if (!clearArmed) {
+        clearArmed = true;
+        clearBtn.textContent = 'Confirm clear';
+        clearTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      role.value = '';
+      task.value = '';
+      context.value = '';
+      constraints.value = '';
+      outputFormat.value = '';
+      disarm();
+      paint();
+    });
+    paint();
+  });
+</script>

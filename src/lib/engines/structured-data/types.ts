@@ -17,8 +17,11 @@ export interface StructuredDataTool {
   /** Stable lookup id, referenced by a tool config's `processorId` (e.g. 'json-formatter'). */
   id: string;
   family: StructuredDataFamily;
-  /** Pure, synchronous. Parses + operates, never throws — failures become a result error. */
-  execute(input: string): StructuredDataResult;
+  /**
+   * Parses + operates, never throws. Failures become a result error.
+   * May return a promise when the implementation is loaded in its own chunk.
+   */
+  execute(input: string): StructuredDataResult | Promise<StructuredDataResult>;
   /**
    * True when this tool's *input* is JSON, so a JSON repair offer applies to it.
    *

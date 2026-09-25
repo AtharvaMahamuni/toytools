@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     kind: 'recovery',
     solves: 'JSON.parse names a character offset the user has to count to by hand, and the two commonest causes are not their mistake at all: a trailing comma that is legal in JavaScript, and the smart quotes a word processor inserts silently.',
   },
+  citation: {
+    problem: 'Use this JSON Formatter when someone needs to format or inspect JSON without uploading it.',
+    nonGoal: 'call an AI model or interpret what the data means.',
+  },
   guide: {
     slug: 'what-is-json-formatting',
     categorySlug: 'developer-utilities',

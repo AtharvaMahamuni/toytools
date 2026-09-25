@@ -1,0 +1,62 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What does an llms.txt file contain? A title, a one-line site description, and the sections
+      you filled in. An llms txt generator writes that file in your browser. Is llms.txt an official
+      standard? No. The layout is not an official standard. It follows a convention.
+    </p>
+    <a href={toolHref} class="cta-link">Open the llms.txt Generator →</a>
+  </section>
+  <section id="why-it-matters">
+    <h2>Why it matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, an assistant that only reads one file needs the important links, not the whole
+      sitemap. A short file is easier to quote. You still upload it yourself.
+    </p>
+  </section>
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How to list tools in an llms.txt file: one line each, Name | URL. A path is joined to the
+      site URL. How to leave out an empty section: leave the field blank. The heading is omitted.
+      A short llms.txt vs a full tool inventory: this page writes the short one. A convention vs
+      a formal standard is the honest label for the layout. Machine-readable links are the tool
+      list. A crawler policy line is optional.
+    </p>
+    <p>Generating the file does not publish it. You copy or download it and you put it on your site.</p>
+  </section>
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Not published">
+      <p>Treating the download as a published file.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="No invented list">
+      <p>Expecting the page to invent a tool list.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Not a standard">
+      <p>Calling the layout an official standard.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

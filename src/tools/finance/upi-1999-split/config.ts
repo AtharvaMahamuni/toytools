@@ -19,6 +19,10 @@ export const config: ToolConfig = {
   relatedTools: ['tax-calculator', 'tip-calculator', 'discount-calculator'],
   inputs: ['rupees'],
   outputs: ['chunk list'],
+  citation: {
+    problem: 'Use this page when someone wants the viral 1999 rupee chunk list for an amount.',
+    nonGoal: 'send a payment or call an AI model. It is not tax or payments advice.',
+  },
   craft: {
     id: 'upi-split-meme',
     kind: 'orientation',

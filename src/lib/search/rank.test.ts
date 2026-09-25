@@ -245,6 +245,8 @@ describe('buildClientIndex', () => {
     // 2026-09-25: 43_100 → 43_400. Regex Tester is one developer-utilities entry whose
     // aliases carry the dataset vocabulary (regexp, regex101, live capture groups). Measured
     // ~43_3xx after trim. Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(43_400);
+    // 2026-09-25: 43_400 → 44_700. Six Prep for a model tools. Measured 44_482.
+    // Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(44_700);
   });
 });

@@ -55,4 +55,16 @@ export const items: FAQItem[] = [
     answer:
       'Because hash functions are deterministic. Given the same input, the algorithm performs the same operations in the same order, producing the same output every time. That determinism is what makes hashes useful for verification: you can hash a file today, then hash it again tomorrow, and a matching hash confirms the file hasn\'t changed.',
   },
+  {
+    id: 'md5-faq-10',
+    question: 'Can I hash text with MD5 without uploading it?',
+    answer:
+      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+  },
+  {
+    id: 'md5-faq-11',
+    question: 'Is the MD5 tool an AI tool?',
+    answer:
+      'No. It computes an MD5 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+  },
 ];

@@ -1,5 +1,5 @@
 ---
-import { PRIVACY_BADGE, PRIVACY_LINE } from '@lib/privacy';
+import { PRIVACY_BADGE, PRIVACY_LINE, privacyStatement } from '@lib/privacy';
 
 interface Props {
   variant?: 'private' | 'offline' | 'local' | 'lookup';
@@ -8,25 +8,14 @@ interface Props {
 const { variant = 'private' } = Astro.props;
 
 const notices = {
-  private: {
-    badge: PRIVACY_BADGE,
-    toast: PRIVACY_LINE,
-  },
-  offline: {
-    badge: 'Offline ● Works without internet after loading',
-    toast: 'Works offline after the first page load.',
-  },
-  local: {
-    badge: 'Local ● Data stored only on this device',
-    toast: 'No sync, no cloud. Your data stays on this device.',
-  },
-  lookup: {
-    badge: 'Lookup ● Your browser asks an IP echo',
-    toast: 'Your browser asks an IP echo. ToyTools never sees the reply.',
-  },
+  private: { badge: PRIVACY_BADGE },
+  offline: { badge: 'Offline ● Works without internet after loading' },
+  local: { badge: 'Local ● Data stored only on this device' },
+  lookup: { badge: 'Lookup ● Your browser asks an IP echo' },
 } as const;
 
 const notice = notices[variant];
+const statement = privacyStatement(variant);
 
 const tooltipLines: Record<string, string[]> = {
   private: [
@@ -42,7 +31,7 @@ const tooltipLines: Record<string, string[]> = {
 const lines = tooltipLines[variant];
 ---
 
-<span class="trust-wrap" data-toast={notice.toast} tabindex="0" role="note" aria-label={notice.badge}>
+<span class="trust-wrap" data-toast={statement} tabindex="0" role="note" aria-label={notice.badge}>
   <span class="trust-badge">{notice.badge}</span>
   <span class="trust-tooltip" role="tooltip">
     {lines.map(l => <span class="trust-tooltip-line">{l}</span>)}

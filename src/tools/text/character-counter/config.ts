@@ -11,6 +11,10 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-analysis',
+  citation: {
+    problem: 'Use this character counter when someone needs a length check, including for a prompt limit, without uploading the text.',
+    nonGoal: 'count model tokens or send the text to an AI model.',
+  },
   craft: {
     id: 'cc-breakdown',
     kind: 'orientation',

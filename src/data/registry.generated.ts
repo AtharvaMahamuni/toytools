@@ -18,12 +18,14 @@ import { config as calorieDeficitCalculator } from '@tools/health/calorie-defici
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
 import { config as characterMap } from '@tools/text/character-map/config';
+import { config as chatExportCleaner } from '@tools/prep/chat-export-cleaner/config';
 import { config as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/config';
 import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
 import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
+import { config as contextFitChecker } from '@tools/prep/context-fit-checker/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
@@ -51,7 +53,9 @@ import { config as jsonDiff } from '@tools/developer-utilities/json-diff/config'
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
 import { config as jsonMinifier } from '@tools/developer-utilities/json-minifier/config';
+import { config as jsonSchemaValidator } from '@tools/prep/json-schema-validator/config';
 import { config as jsonToCsvConverter } from '@tools/developer-utilities/json-to-csv-converter/config';
+import { config as jsonToSchema } from '@tools/prep/json-to-schema/config';
 import { config as jsonToYamlConverter } from '@tools/developer-utilities/json-to-yaml-converter/config';
 import { config as jsonTreeViewer } from '@tools/developer-utilities/json-tree-viewer/config';
 import { config as jsonValidator } from '@tools/developer-utilities/json-validator/config';
@@ -61,6 +65,7 @@ import { config as keepScreenAwake } from '@tools/productivity/keep-screen-awake
 import { config as kineticSand } from '@tools/fidget/kinetic-sand/config';
 import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
+import { config as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as lowercaseConverter } from '@tools/text/lowercase-converter/config';
 import { config as macroCalculator } from '@tools/health/macro-calculator/config';
@@ -78,6 +83,7 @@ import { config as percentageCalculator } from '@tools/number/percentage-calcula
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
 import { config as popIt } from '@tools/fidget/pop-it/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
+import { config as promptPacker } from '@tools/prep/prompt-packer/config';
 import { config as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
 import { config as pxToDpConverter } from '@tools/design/px-to-dp-converter/config';
@@ -159,12 +165,14 @@ export const toolConfigs: ToolConfig[] = [
   camelCaseConverter,
   characterCounter,
   characterMap,
+  chatExportCleaner,
   cidrCalculator,
   coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
+  contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
   csvCleaner,
@@ -192,7 +200,9 @@ export const toolConfigs: ToolConfig[] = [
   jsonEscape,
   jsonFormatter,
   jsonMinifier,
+  jsonSchemaValidator,
   jsonToCsvConverter,
+  jsonToSchema,
   jsonToYamlConverter,
   jsonTreeViewer,
   jsonValidator,
@@ -202,6 +212,7 @@ export const toolConfigs: ToolConfig[] = [
   kineticSand,
   letterCounter,
   lineCounter,
+  llmsTxtGenerator,
   loremIpsumGenerator,
   lowercaseConverter,
   macroCalculator,
@@ -219,6 +230,7 @@ export const toolConfigs: ToolConfig[] = [
   pomodoroTimer,
   popIt,
   primeFactorizationCalculator,
+  promptPacker,
   proteinIntakeCalculator,
   punycodeConverter,
   pxToDpConverter,

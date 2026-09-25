@@ -55,6 +55,14 @@ export const searchAliases: Record<string, string[]> = {
   'url-encoder-decoder': ['percent encoding', 'urlencode'],
   'yaml-to-json-converter': ['yml to json'],
 
+  // Prep for a model
+  'prompt-packer': ['prompt builder', 'structured prompt'],
+  'chat-export-cleaner': ['chat export', 'conversation cleaner'],
+  'json-to-schema': ['schema from example', 'json to schema'],
+  'json-schema-validator': ['check json schema', 'validate a schema'],
+  'context-fit-checker': ['context window', 'token estimate'],
+  'llms-txt-generator': ['llms.txt', 'llms txt'],
+
   // Text utilities
   'camel-case-converter': ['camelcase'],
   'character-counter': ['char count', 'character limit'],

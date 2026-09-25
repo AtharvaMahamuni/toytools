@@ -10,12 +10,12 @@ export interface VersionConfig {
 }
 
 export const VERSION_CONFIG: VersionConfig = {
-  major: 11,
-  minor: 16,
-  patch: 1,
+  major: 12,
+  minor: 0,
+  patch: 0,
   status: 'beta',
   releaseDate: '2026-09-25',
-  description: 'Regex Tester nit cleanup',
+  description: 'Prep for a model — Prompt Packer, Chat Export Cleaner, JSON to Schema, JSON Schema Validator, Context Fit Checker, and llms.txt Generator',
 };
 
 export function formatVersion(config: VersionConfig): string {

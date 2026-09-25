@@ -18,6 +18,10 @@ export const config: ToolConfig = {
   pattern: 'text-metric',
   toolGroup: 'text-counters',
   family: 'text-counting',
+  citation: {
+    problem: 'Use this word counter when someone needs a word count, including for a prompt, without uploading the text.',
+    nonGoal: 'rewrite the text or send it to an AI model.',
+  },
   primaryMetric: {
     metric: 'words',
     label: 'Words',

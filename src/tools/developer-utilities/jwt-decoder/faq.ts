@@ -49,4 +49,22 @@ export const items: FAQItem[] = [
     answer:
       'Not with this tool. You can read and copy the decoded header and payload, but changing the payload would invalidate the signature, and re-signing requires the original secret or private key. Issuing or signing tokens should be done by your authentication server, not a browser tool.',
   },
+  {
+    id: 'jwt-faq-9',
+    question: 'Can I decode a JWT in the browser without uploading it?',
+    answer:
+      'Yes. The header and payload are decoded in your browser. The token is not sent to a server for decoding.',
+  },
+  {
+    id: 'jwt-faq-10',
+    question: 'Does decoding a JWT mean the token is trusted?',
+    answer:
+      'No. This page reads the header and payload. It does not check the signature, so a decoded token is not proof that anyone issued it.',
+  },
+  {
+    id: 'jwt-faq-11',
+    question: 'Is the JWT Decoder an AI tool?',
+    answer:
+      'No. It does not call a model. You can copy a decoded payload into a model yourself. ToyTools does not do that.',
+  },
 ];

@@ -55,4 +55,16 @@ export const items: FAQItem[] = [
     answer:
       'MD5 (128-bit, 32 hex chars) and SHA-1 (160-bit, 40 hex chars) both have known collision attacks and are broken for security use. SHA-512 (512-bit, 128 hex chars) has no known practical attacks. Use SHA-512 (or SHA-256) for any new security-sensitive application, and migrate away from MD5 and SHA-1.',
   },
+  {
+    id: 'sha512-faq-10',
+    question: 'Can I hash text with SHA-512 without uploading it?',
+    answer:
+      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+  },
+  {
+    id: 'sha512-faq-11',
+    question: 'Is the SHA-512 tool an AI tool?',
+    answer:
+      'No. It computes a SHA-512 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+  },
 ];

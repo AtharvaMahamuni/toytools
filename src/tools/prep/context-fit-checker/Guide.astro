@@ -1,0 +1,61 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What is a context window? It is the published token capacity of one model. This context window
+      checker estimates a prompt length as a token estimate: characters per token is 4, and that
+      divisor is ours. Why is characters divided by 4 only an estimate? A tokenizer can split the
+      same text differently. The percent is not an official token count.
+    </p>
+    <a href={toolHref} class="cta-link">Open Context Fit Checker →</a>
+  </section>
+  <section id="why-it-matters">
+    <h2>Why it matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, a draft that looks short in words can still be long in characters. The estimate
+      is a warning before you paste, not a bill and not a recommendation.
+    </p>
+  </section>
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How to estimate whether a prompt fits: paste the text and pick a model. How to read the source
+      note on a model row: it is the vendor page and the date it was read. An estimate vs an official
+      tokenizer is that gap. Character count vs token count is two different numbers on the same page.
+      The page does not recommend a model.
+    </p>
+  </section>
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Not the tokenizer">
+      <p>Treating the estimate as the model's own tokenizer.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A stale window">
+      <p>Ignoring the date on the source note after a model update.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="No price">
+      <p>Expecting a price.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

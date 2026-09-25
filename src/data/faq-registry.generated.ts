@@ -18,12 +18,14 @@ import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-def
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
 import { items as characterMapFaqs } from '@tools/text/character-map/faq';
+import { items as chatExportCleanerFaqs } from '@tools/prep/chat-export-cleaner/faq';
 import { items as cidrCalculatorFaqs } from '@tools/developer-utilities/cidr-calculator/faq';
 import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
+import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
 import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
@@ -51,7 +53,9 @@ import { items as jsonDiffFaqs } from '@tools/developer-utilities/json-diff/faq'
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as jsonFormatterFaqs } from '@tools/developer-utilities/json-formatter/faq';
 import { items as jsonMinifierFaqs } from '@tools/developer-utilities/json-minifier/faq';
+import { items as jsonSchemaValidatorFaqs } from '@tools/prep/json-schema-validator/faq';
 import { items as jsonToCsvConverterFaqs } from '@tools/developer-utilities/json-to-csv-converter/faq';
+import { items as jsonToSchemaFaqs } from '@tools/prep/json-to-schema/faq';
 import { items as jsonToYamlConverterFaqs } from '@tools/developer-utilities/json-to-yaml-converter/faq';
 import { items as jsonTreeViewerFaqs } from '@tools/developer-utilities/json-tree-viewer/faq';
 import { items as jsonValidatorFaqs } from '@tools/developer-utilities/json-validator/faq';
@@ -61,6 +65,7 @@ import { items as keepScreenAwakeFaqs } from '@tools/productivity/keep-screen-aw
 import { items as kineticSandFaqs } from '@tools/fidget/kinetic-sand/faq';
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
+import { items as llmsTxtGeneratorFaqs } from '@tools/prep/llms-txt-generator/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter/faq';
 import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
@@ -78,6 +83,7 @@ import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calc
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
 import { items as popItFaqs } from '@tools/fidget/pop-it/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
+import { items as promptPackerFaqs } from '@tools/prep/prompt-packer/faq';
 import { items as proteinIntakeCalculatorFaqs } from '@tools/health/protein-intake-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
 import { items as pxToDpConverterFaqs } from '@tools/design/px-to-dp-converter/faq';
@@ -159,12 +165,14 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
   'character-map': characterMapFaqs,
+  'chat-export-cleaner': chatExportCleanerFaqs,
   'cidr-calculator': cidrCalculatorFaqs,
   'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
   'color-format-converter': colorFormatConverterFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
+  'context-fit-checker': contextFitCheckerFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
   'csv-cleaner': csvCleanerFaqs,
@@ -192,7 +200,9 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'json-escape': jsonEscapeFaqs,
   'json-formatter': jsonFormatterFaqs,
   'json-minifier': jsonMinifierFaqs,
+  'json-schema-validator': jsonSchemaValidatorFaqs,
   'json-to-csv-converter': jsonToCsvConverterFaqs,
+  'json-to-schema': jsonToSchemaFaqs,
   'json-to-yaml-converter': jsonToYamlConverterFaqs,
   'json-tree-viewer': jsonTreeViewerFaqs,
   'json-validator': jsonValidatorFaqs,
@@ -202,6 +212,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'kinetic-sand': kineticSandFaqs,
   'letter-counter': letterCounterFaqs,
   'line-counter': lineCounterFaqs,
+  'llms-txt-generator': llmsTxtGeneratorFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'lowercase-converter': lowercaseConverterFaqs,
   'macro-calculator': macroCalculatorFaqs,
@@ -219,6 +230,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'pomodoro-timer': pomodoroTimerFaqs,
   'pop-it': popItFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
+  'prompt-packer': promptPackerFaqs,
   'protein-intake-calculator': proteinIntakeCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
   'px-to-dp-converter': pxToDpConverterFaqs,

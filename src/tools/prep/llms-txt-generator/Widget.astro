@@ -1,0 +1,159 @@
+---
+// Bespoke widget. The layout lives in src/lib/text/llmsDraft.ts.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+---
+
+<div class="lg">
+  <div class="lg-fields">
+    <label for="lg-name">Site name<input id="lg-name" type="text" autocomplete="organization" /></label>
+    <label for="lg-url">Site URL<input id="lg-url" type="url" inputmode="url" placeholder="https://example.com/" autocomplete="url" /></label>
+    <label for="lg-purpose">One-line purpose<input id="lg-purpose" type="text" /></label>
+    <label for="lg-contact">Contact<input id="lg-contact" type="text" placeholder="Optional URL or email" /></label>
+    <IoPanel label="Tools" labelFor="lg-pages" variant="prose">
+      <textarea id="lg-pages" spellcheck="false" aria-label="Tools, one per line as Name | URL" placeholder="Formatter | /format/"></textarea>
+    </IoPanel>
+    <label for="lg-usage">Usage<input id="lg-usage" type="text" placeholder="Optional" /></label>
+    <label for="lg-policy">Crawler policy<input id="lg-policy" type="text" placeholder="Optional" /></label>
+  </div>
+
+  <p class="lg-omit" id="lg-omit" data-craft="llms-omit-empty" role="status" hidden></p>
+
+  <div class="lg-actions">
+    <button class="action-btn action-btn--sample" id="lg-sample" type="button">Sample</button>
+    <button class="action-btn" id="lg-clear" type="button">Clear</button>
+  </div>
+
+  <IoPanel label="llms.txt" labelFor="lg-out" variant="prose">
+    <textarea id="lg-out" readonly aria-label="Generated llms.txt"></textarea>
+  </IoPanel>
+  <ToolActions copyTarget="lg-out" downloadTarget="lg-out" downloadFilename="llms.txt" />
+  <p class="lg-note">Generates the description. Does not publish it.</p>
+</div>
+
+<style>
+  .lg { min-width: 0; max-width: 100%; --io-pane-h: 6rem; }
+  .lg [hidden] { display: none !important; }
+
+  .lg-fields {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .lg-fields label {
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .lg-fields input {
+    min-height: var(--touch-target);
+    font-size: var(--text-base);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text);
+  }
+
+  .lg-omit,
+  .lg-note {
+    margin: var(--space-3) 0 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .lg-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .lg-actions .action-btn {
+    min-height: var(--touch-target);
+  }
+
+  .lg-actions .action-btn:active {
+    background: var(--color-accent-subtle);
+  }
+
+  .lg textarea {
+    font-size: var(--text-base);
+  }
+</style>
+
+<script is:inline>
+  ToyTools.onReady(function () {
+    var name = document.getElementById('lg-name');
+    var url = document.getElementById('lg-url');
+    var purpose = document.getElementById('lg-purpose');
+    var contact = document.getElementById('lg-contact');
+    var pages = document.getElementById('lg-pages');
+    var usage = document.getElementById('lg-usage');
+    var policy = document.getElementById('lg-policy');
+    var out = document.getElementById('lg-out');
+    var omit = document.getElementById('lg-omit');
+    var sample = document.getElementById('lg-sample');
+    var clearBtn = document.getElementById('lg-clear');
+    if (!name || !url || !purpose || !contact || !pages || !usage || !policy || !out || !omit || !sample || !clearBtn) return;
+
+    var fields = [name, url, purpose, contact, pages, usage, policy];
+    var clearArmed = false;
+    var clearTimer = 0;
+
+    function paint() {
+      if (!(window.ToyTools && ToyTools.buildLlmsTxt)) return;
+      var draft = ToyTools.buildLlmsTxt({
+        siteName: name.value,
+        siteUrl: url.value,
+        purpose: purpose.value,
+        contact: contact.value,
+        pagesText: pages.value,
+        usage: usage.value,
+        crawlerPolicy: policy.value,
+      });
+      out.value = draft.text;
+      var dropped = draft.omitted || [];
+      omit.hidden = dropped.length === 0;
+      omit.textContent = dropped.length ? 'Left out: ' + dropped.join(', ') + '.' : '';
+    }
+
+    function disarm() {
+      clearArmed = false;
+      clearBtn.textContent = 'Clear';
+      if (clearTimer) window.clearTimeout(clearTimer);
+    }
+
+    fields.forEach(function (el) { el.addEventListener('input', paint); });
+    sample.addEventListener('click', function () {
+      name.value = 'Ada Tools';
+      url.value = 'https://ada.example/';
+      purpose.value = 'Small browser tools.';
+      contact.value = '';
+      pages.value = 'Formatter | /format/\nCounter | /count/';
+      usage.value = '';
+      policy.value = 'Public pages may be crawled.';
+      disarm();
+      paint();
+    });
+    clearBtn.addEventListener('click', function () {
+      if (!clearArmed) {
+        clearArmed = true;
+        clearBtn.textContent = 'Confirm clear';
+        clearTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      fields.forEach(function (el) { el.value = ''; });
+      disarm();
+      paint();
+    });
+    paint();
+  });
+</script>

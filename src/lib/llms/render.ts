@@ -8,12 +8,14 @@ import type { ContentEntry } from '@lib/content/manifest';
 import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
+import type { Tool } from '@data/types';
 import { withBase } from '@lib/paths';
-import { PRIVACY_LINE } from '@lib/privacy';
+import { PRIVACY_LINE, privacyStatement } from '@lib/privacy';
 
 const SUMMARY =
   "ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, " +
-  `dates, money, health, design, and code. ${PRIVACY_LINE}`;
+  'dates, money, health, design, code, and prep — prepare text before a model ' +
+  `(ToyTools does not run a model). ${PRIVACY_LINE}`;
 
 const DETAIL =
   'ToyTools is one static platform rather than a collection of separate utilities: the ' +
@@ -55,6 +57,16 @@ export const CORE_TOOL_SLUGS = [
   'lorem-ipsum-generator',
 ] as const;
 
+/**
+ * Prep tools an agent should notice in the short llms.txt. Separate from Core so the
+ * closed 25-slug core list stays stable while the Prep category is discoverable by URL.
+ */
+export const PREP_HIGHLIGHT_SLUGS = [
+  'prompt-packer',
+  'context-fit-checker',
+  'chat-export-cleaner',
+] as const;
+
 function segmentOf(categorySlug: string): string {
   return categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
 }
@@ -66,6 +78,20 @@ function coreToolLines(site: string): string {
     throw new Error(`llms.txt core tools missing from the registry: ${missing.join(', ')}`);
   }
   return CORE_TOOL_SLUGS.map(slug => {
+    const tool = bySlug.get(slug)!;
+    const path = withBase(`/tool/${segmentOf(tool.categorySlug)}/${tool.slug}/`);
+    const blurb = tool.tagline ?? tool.description;
+    return `- [${tool.name}](${absoluteUrl(path, site)}): ${blurb}`;
+  }).join('\n');
+}
+
+function prepToolLines(site: string): string {
+  const bySlug = new Map(tools.map(t => [t.slug, t]));
+  const missing = PREP_HIGHLIGHT_SLUGS.filter(slug => !bySlug.has(slug));
+  if (missing.length) {
+    throw new Error(`llms.txt prep tools missing from the registry: ${missing.join(', ')}`);
+  }
+  return PREP_HIGHLIGHT_SLUGS.map(slug => {
     const tool = bySlug.get(slug)!;
     const path = withBase(`/tool/${segmentOf(tool.categorySlug)}/${tool.slug}/`);
     const blurb = tool.tagline ?? tool.description;
@@ -102,18 +128,71 @@ export function renderLlmsTxt(
 
   const optionalLines = extras.length ? `\n\n## Optional\n\n${extras.join('\n')}` : '';
 
+  const fullUrl = absoluteUrl(withBase('/llms-full.txt'), site);
+
   return `# ToyTools
 
 > ${SUMMARY}
 
 ${DETAIL}
 
+Every published tool is listed in [llms-full.txt](${fullUrl}).
+
 ## Core tools
 
 ${coreToolLines(site)}
 
+## Prep tools
+
+Prepare text before a model. ToyTools does not run a model.
+
+${prepToolLines(site)}
+
 ## Categories
 
 ${categoryLines}${optionalLines}
+`;
+}
+
+/** Completes "Does not: …". Citation text starts with a lowercase verb. */
+export function doesNotLine(nonGoal: string | undefined): string {
+  const text = (nonGoal?.trim() || 'call an AI model.').replace(/\.$/, '');
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}.`;
+}
+
+function useFor(tool: Tool): string {
+  const raw = (tool.tagline ?? tool.description).trim().replace(/\s+/g, ' ');
+  const sentence = raw.split(/(?<=[.!?])\s/)[0] ?? raw;
+  return sentence.endsWith('.') ? sentence : `${sentence}.`;
+}
+
+/**
+ * One compact block per published tool, in category then slug order.
+ * The registry is the only list. A tool added later appears here with no second file to edit.
+ */
+export function renderLlmsFull(site: string, catalog: Tool[] = tools): string {
+  const sorted = [...catalog].sort((a, b) => {
+    const byCategory = a.categorySlug.localeCompare(b.categorySlug);
+    return byCategory !== 0 ? byCategory : a.slug.localeCompare(b.slug);
+  });
+
+  const blocks = sorted.map(tool => {
+    const segment = segmentOf(tool.categorySlug);
+    const path = withBase(`/tool/${segment}/${tool.slug}/`);
+    return [
+      `## ${tool.name}`,
+      '',
+      `URL: ${absoluteUrl(path, site)}`,
+      `Use for: ${useFor(tool)}`,
+      `Privacy: ${privacyStatement(tool.trustVariant)}`,
+      `Does not: ${doesNotLine(tool.citation?.nonGoal)}`,
+    ].join('\n');
+  });
+
+  return `# ToyTools tool inventory
+
+> ${PRIVACY_LINE} ToyTools does not run an AI model.
+
+${blocks.join('\n\n')}
 `;
 }

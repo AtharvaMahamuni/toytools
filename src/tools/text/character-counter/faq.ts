@@ -55,4 +55,16 @@ export const items: FAQItem[] = [
     answer:
       'Yes, each line break adds exactly 1 to the characters with spaces total, because browsers normalize every pasted break to a single newline, including Windows CRLF pairs from Word or Notepad. The without spaces figure excludes line breaks entirely, since a newline is whitespace, so check the with spaces number against any platform limit.',
   },
+  {
+    id: 'cc-faq-10',
+    question: 'Can I count characters in a prompt without uploading it?',
+    answer:
+      'Yes. The count runs in your browser. The text is not sent to a server, and this page does not call an AI model.',
+  },
+  {
+    id: 'cc-faq-11',
+    question: 'Is a character count the same as a token count?',
+    answer:
+      'No. This page counts characters, with and without spaces. It does not estimate or count model tokens.',
+  },
 ];

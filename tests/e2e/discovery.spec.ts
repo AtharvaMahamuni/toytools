@@ -4,12 +4,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('homepage index', () => {
-  test('leads with fourteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
+  test('leads with fifteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
     await page.goto('/');
     const shelves = page.locator('.category-shelves');
-    await expect(shelves.locator('.shelf')).toHaveCount(14);
+    await expect(shelves.locator('.shelf')).toHaveCount(15);
     // The categories are the homepage's content outline, not just styled links.
-    await expect(shelves.getByRole('heading', { level: 2 })).toHaveCount(14);
+    await expect(shelves.getByRole('heading', { level: 2 })).toHaveCount(15);
 
     // Each shelf carries a linked name, tagline, See all, and a capped AppTile row.
     const text = shelves.locator('.shelf').filter({ hasText: 'Text Utilities' });
@@ -53,7 +53,7 @@ test.describe('homepage index', () => {
     await page.locator('.all-tools-summary').click();
 
     const directory = page.getByRole('navigation', { name: 'All tools by category' });
-    await expect(directory.locator('.dir-column')).toHaveCount(14);
+    await expect(directory.locator('.dir-column')).toHaveCount(15);
 
     // Case converters collapse to a single entry that still covers every member slug.
     const caseEntry = directory.getByRole('link', { name: 'Case Converter' });
@@ -120,7 +120,8 @@ test.describe('homepage index', () => {
     // each answers a different question, so a group switcher would swap the task.
     // Regex Tester (beta-v11.16) is ungrouped: text-interactive peer of find-replace, but
     // debugging a pattern is not a mode of document replace, so a group switcher would swap the task.
-    await expect(directory.locator('.dir-link')).toHaveCount(99);
+    // Prep for a model (beta-v12.0) adds six ungrouped tools. They share a category, not a switcher.
+    await expect(directory.locator('.dir-link')).toHaveCount(105);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

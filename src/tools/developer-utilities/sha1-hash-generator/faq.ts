@@ -55,4 +55,16 @@ export const items: FAQItem[] = [
     answer:
       'HMAC constructions are more resilient to collision attacks than bare hashing, because HMAC depends on a secret key, not just the hash function\'s collision resistance. HMAC-SHA1 is still considered secure for many use cases: for example, it\'s used in TOTP (one-time passwords, RFC 6238). That said, new protocols should use HMAC-SHA256 for margin and clarity.',
   },
+  {
+    id: 'sha1-faq-10',
+    question: 'Can I hash text with SHA-1 without uploading it?',
+    answer:
+      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+  },
+  {
+    id: 'sha1-faq-11',
+    question: 'Is the SHA-1 tool an AI tool?',
+    answer:
+      'No. It computes a SHA-1 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+  },
 ];

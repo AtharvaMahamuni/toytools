@@ -55,4 +55,16 @@ export const items: FAQItem[] = [
     answer:
       'SHA-2 is a set of hash functions (SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256) all designed by the NSA and published by NIST between 2001 and 2012. They share the same Merkle–Damgård construction but differ in output size and internal word size. SHA-256 and SHA-512 are the most commonly used members. SHA-3 is a completely separate family with a different design (Keccak sponge construction).',
   },
+  {
+    id: 'sha256-faq-10',
+    question: 'Can I hash text with SHA-256 without uploading it?',
+    answer:
+      'Yes. The digest is computed in your browser. The text is not sent to a server to be hashed.',
+  },
+  {
+    id: 'sha256-faq-11',
+    question: 'Is the SHA-256 tool an AI tool?',
+    answer:
+      'No. It computes a SHA-256 digest. It does not call a model, and it cannot turn a digest back into the original text.',
+  },
 ];

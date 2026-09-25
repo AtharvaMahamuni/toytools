@@ -177,7 +177,17 @@ const THRESHOLDS = {
   //   (the figure is not a customer tax), bill-split-fair (last person takes leftover
   //   paise so shares sum), and shop-upi-tally (the 1,00,000 line is not a status change).
   // 2026-09-25: 0.690 (96/139). Regex Tester ships orientation craft (regex-match-explain).
-  coverage: 0.690,
+  // 2026-09-25: 0.692 (97/140). Prompt Packer ships guardrail craft prompt-omit-empty.
+  //   An empty field printed as a heading reads like an instruction the person forgot to fill in.
+  // 2026-09-25: 0.695 (98/141). Chat Export Cleaner ships guardrail craft chat-removed-count.
+  //   A keep mode drops turns. The status line says how many lines changed and that text was dropped.
+  // 2026-09-25: 0.699 (100/143). JSON to Schema reuses the JSON repair button. JSON Schema
+  //   Validator ships guardrail craft schema-unchecked for keywords this page does not check.
+  // 2026-09-25: 0.701 (101/144). Context Fit Checker ships guardrail craft context-estimate-only.
+  //   The percent is characters/4 against a sourced window, and the page says it is an estimate.
+  // 2026-09-25: 0.703 (102/145). llms.txt Generator ships guardrail craft llms-omit-empty.
+  //   A blank optional section is left out of the file instead of published as an empty heading.
+  coverage: 0.703,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

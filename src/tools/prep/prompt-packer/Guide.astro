@@ -1,0 +1,80 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A structured prompt is the same job written in separate fields: role, task, context,
+      constraints, and output format. A prompt builder, sometimes called a prompt assembler,
+      joins those fields into one block. Prompt Packer does that. It does not write the wording.
+    </p>
+    <a href={toolHref} class="cta-link">Open Prompt Packer →</a>
+  </section>
+
+  <section id="why-it-matters">
+    <h2>Why a structured prompt matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A single box hides which part you forgot. For example, a task with no output format comes
+      back as a paragraph when you wanted a list. Separate fields make the gap visible before you
+      paste the text into ChatGPT, Claude, or any other model. ToyTools is not connected to those
+      products. You copy the block and you send it.
+    </p>
+  </section>
+
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Type each prompt field. The page rebuilds the block as you type. The role task context
+      split is the point of the prompt fields: each one has its own box. A prompt template builder
+      would do the same job. Markdown uses a heading per field. Tags wrap the same text in markers.
+      One format is not universally better for one model.
+    </p>
+    <p>
+      How to leave out an empty prompt section: leave the field blank. The heading is omitted, and
+      the page names what it left out. A blank heading would read like an instruction you forgot
+      to fill in.
+    </p>
+  </section>
+
+  <section id="comparison">
+    <h2>A prompt packer vs a model that writes the prompt <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A packed prompt is not written by AI. A model that writes the prompt invents sentences.
+      This page copies yours. Markdown sections versus XML-style tags is only a change of
+      punctuation around the same fields. What is a structured prompt, in this tool, is those
+      fields and nothing else.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Expecting a rewrite">
+      <p>Expecting the page to improve or rewrite the wording. The fields come back as you typed them.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A blank field">
+      <p>Leaving a field blank and still wanting that heading in the output. Empty fields are left out on purpose.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="A format is not a model setting">
+      <p>Treating the tag layout as a setting that tunes a particular model. It is only a way to label the fields.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

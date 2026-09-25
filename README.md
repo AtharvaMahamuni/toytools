@@ -134,8 +134,11 @@ Deployment is automatic via `.github/workflows/deploy.yml` on every push to `mai
 ## Project Vision
 
 A platform for small, fast, focused utility tools. Each tool solves exactly one problem. No
-accounts. No upsells. 114+ tools across Text, Number, Developer, Productivity, Money & Finance,
-Generators, Physics, Applied Math, Date & Time, Health & Fitness, and Design & CSS categories.
+accounts. No upsells. Tools across Text, Number, Developer, Productivity, Money & Finance,
+Generators, Physics, Applied Math, Date & Time, Health & Fitness, Design & CSS, and Prep for a model.
+
+Prep for a model is deterministic utilities around an external model. ToyTools does not run that
+model, and it does not compete with one.
 
 Design principles (frozen):
 

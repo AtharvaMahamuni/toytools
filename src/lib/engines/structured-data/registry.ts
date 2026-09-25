@@ -26,6 +26,14 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
   'json-to-yaml': jsonToYaml,
   'yaml-to-json': yamlToJson,
   'csv-to-json': csvToJson,
+  // Own chunk. The shared structured-data runtime is at the tool-page byte ceiling,
+  // and only the JSON to Schema page calls this id.
+  'json-to-schema': {
+    id: 'json-to-schema',
+    family: 'json',
+    jsonInput: true,
+    execute: (input) => import('./jsonToSchema').then((mod) => mod.jsonToSchema.execute(input)),
+  },
 };
 
 /**
@@ -39,7 +47,9 @@ export function runStructuredData(id: string, input: string): StructuredDataResu
     console.warn(`[structured-data] Unknown tool id "${id}".`);
     return { ok: false, output: '', error: 'Unknown tool' };
   }
-  return tool.execute(input);
+  // json-to-schema's execute is a dynamic import and returns a promise. Every other id
+  // is synchronous. The shared widget accepts both.
+  return tool.execute(input) as StructuredDataResult;
 }
 
 /**

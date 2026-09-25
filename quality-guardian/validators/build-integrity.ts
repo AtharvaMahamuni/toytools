@@ -12,6 +12,7 @@ export const buildIntegrityValidator: Validator = {
     const required = [
       { file: 'robots.txt', code: 'missing-robots' },
       { file: 'llms.txt', code: 'missing-llms-txt' },
+      { file: 'llms-full.txt', code: 'missing-llms-full-txt' },
       { file: 'sitemap-index.xml', code: 'missing-sitemap' },
       { file: 'sitemap.xml', code: 'missing-sitemap-alias' },
       { file: '404.html', code: 'missing-404' },

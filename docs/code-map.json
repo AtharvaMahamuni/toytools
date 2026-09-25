@@ -20,16 +20,18 @@
       "patterns": [
         "text-transform",
         "text-cleanup",
-        "text-inspect"
+        "text-inspect",
+        "text-assemble"
       ],
       "runtimeGlobal": "process",
       "sharedWidget": "src/tools/_shared/TextProcessorWidget.astro",
       "supportedFamilies": [
         "transform",
+        "prep-assemble",
         "detect",
         "cleanup"
       ],
-      "toolCount": 19
+      "toolCount": 23
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -70,14 +72,15 @@
       "patterns": [
         "structured-transform",
         "structured-validate",
-        "structured-compare"
+        "structured-compare",
+        "structured-schema"
       ],
       "runtimeGlobal": "runStructuredData",
       "sharedWidget": "src/tools/_shared/StructuredDataWidget.astro",
       "supportedFamilies": [
         "json"
       ],
-      "toolCount": 9
+      "toolCount": 11
     },
     "jwt": {
       "name": "JWT Engine",
@@ -1176,6 +1179,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "chat-export-cleaner": {
+      "name": "Chat Export Cleaner",
+      "dir": "src/tools/prep/chat-export-cleaner",
+      "categorySlug": "prep",
+      "url": "/tool/prep/chat-export-cleaner/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "cidr-calculator": {
       "name": "CIDR Calculator",
       "dir": "src/tools/developer-utilities/cidr-calculator",
@@ -1291,6 +1315,27 @@
       "family": "interest",
       "processorId": "compound-interest",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "context-fit-checker": {
+      "name": "Context Fit Checker",
+      "dir": "src/tools/prep/context-fit-checker",
+      "categorySlug": "prep",
+      "url": "/tool/prep/context-fit-checker/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -1869,6 +1914,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "json-schema-validator": {
+      "name": "JSON Schema Validator",
+      "dir": "src/tools/prep/json-schema-validator",
+      "categorySlug": "prep",
+      "url": "/tool/prep/json-schema-validator/",
+      "engine": "structured-data",
+      "pattern": "structured-schema",
+      "family": "json",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "json-to-csv-converter": {
       "name": "JSON to CSV Converter",
       "dir": "src/tools/developer-utilities/json-to-csv-converter",
@@ -1879,6 +1945,27 @@
       "family": "json",
       "processorId": "json-to-csv",
       "toolGroup": "json-csv",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "json-to-schema": {
+      "name": "JSON to JSON Schema",
+      "dir": "src/tools/prep/json-to-schema",
+      "categorySlug": "prep",
+      "url": "/tool/prep/json-to-schema/",
+      "engine": "structured-data",
+      "pattern": "structured-transform",
+      "family": "json",
+      "processorId": "json-to-schema",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2068,6 +2155,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "llms-txt-generator": {
+      "name": "llms.txt Generator",
+      "dir": "src/tools/prep/llms-txt-generator",
+      "categorySlug": "prep",
+      "url": "/tool/prep/llms-txt-generator/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -2424,6 +2532,27 @@
       "pattern": "math-calculate",
       "family": "number-theory",
       "processorId": "prime-factorization",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "prompt-packer": {
+      "name": "Prompt Packer",
+      "dir": "src/tools/prep/prompt-packer",
+      "categorySlug": "prep",
+      "url": "/tool/prep/prompt-packer/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
       "toolGroup": "",
       "files": [
         "Guide.astro",

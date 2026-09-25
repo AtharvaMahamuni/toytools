@@ -1,0 +1,61 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This schema checker answers which JSON Schema keywords does this page check. It checks type,
+      required properties, other schema keywords in a short list, and bounds. What does Valid mean
+      here? The checked keywords passed. Valid does not mean every keyword was applied.
+    </p>
+    <a href={toolHref} class="cta-link">Open JSON Schema Validator →</a>
+  </section>
+  <section id="why-it-matters">
+    <h2>Why it matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      For example, a reply can be valid JSON and still miss a required name. This page names that
+      path. It does not decide whether the data is the right business object.
+    </p>
+  </section>
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How to validate JSON against a schema locally: paste the schema on the left and the data on
+      the right. How to read a missing required property: the path names the key. Syntax validation
+      vs schema validation: a JSON syntax check only asks whether the text parses. A checked keyword
+      vs one this page skips: format and pattern are named as not checked.
+    </p>
+    <p>This page is not a model judging the data. The json types are the ones in the schema you pasted.</p>
+  </section>
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Not a full draft">
+      <p>Reading Valid as a full draft 2020-12 pass.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Swapped panes">
+      <p>Putting the data in the schema pane.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="format">
+      <p>Expecting format or pattern to be enforced.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

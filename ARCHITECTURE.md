@@ -873,6 +873,12 @@ absolute, trailing-slashed `<loc>`s as `new URL(withBase(path), Astro.site)`. `q
 sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/faqs appear in the
 sitemap automatically — no sitemap edits.
 
+`/llms.txt` and `/llms-full.txt` are the same registry, rendered for an assistant. `llms.txt` is a
+short overview. `llms-full.txt` is one block per published tool. Prep for a model
+(`/category/prep/`) is a normal category: deterministic browser tools that prepare text before
+someone pastes it into an external model. ToyTools does not run that model. See
+`docs/prep-for-a-model.md`.
+
 ## Architecture Diagram (`/architecture/`)
 
 `src/pages/architecture.astro` is a deployed, **registry-derived** interactive map of the whole

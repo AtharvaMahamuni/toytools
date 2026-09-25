@@ -16,6 +16,10 @@ export const config: ToolConfig = {
   processorId: 'sha1',
   toolGroup: 'hash-generators',
   relatedTools: ['md5-hash-generator', 'sha256-hash-generator'],
+  citation: {
+    problem: 'Use this SHA-1 tool when someone needs a digest of text without uploading that text.',
+    nonGoal: 'reverse a hash or send the input to an AI model.',
+  },
   craft: {
     id: 'sha1-verify',
     kind: 'verification',
