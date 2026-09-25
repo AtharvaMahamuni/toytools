@@ -211,7 +211,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     description:
       'Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model.',
     tagline: 'Prepare text before a model sees it.',
-    highlights: ['prompt-packer', 'chat-export-cleaner', 'json-to-schema'],
+    highlights: ['prompt-packer', 'json-to-schema', 'context-fit-checker'],
     accent: '#6E4B3A',
     segment: 'prep',
     intro: [

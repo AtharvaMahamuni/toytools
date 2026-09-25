@@ -25,6 +25,7 @@ import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
+import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
 import { items as crc32HashGeneratorFaqs } from '@tools/developer-utilities/crc32-hash-generator/faq';
 import { items as cronExpressionParserFaqs } from '@tools/datetime/cron-expression-parser/faq';
 import { items as csvCleanerFaqs } from '@tools/developer-utilities/csv-cleaner/faq';
@@ -170,6 +171,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'color-format-converter': colorFormatConverterFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
+  'context-fit-checker': contextFitCheckerFaqs,
   'crc32-hash-generator': crc32HashGeneratorFaqs,
   'cron-expression-parser': cronExpressionParserFaqs,
   'csv-cleaner': csvCleanerFaqs,

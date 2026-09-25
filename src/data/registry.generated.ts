@@ -25,6 +25,7 @@ import { config as colorContrastChecker } from '@tools/design/color-contrast-che
 import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
+import { config as contextFitChecker } from '@tools/prep/context-fit-checker/config';
 import { config as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/config';
 import { config as cronExpressionParser } from '@tools/datetime/cron-expression-parser/config';
 import { config as csvCleaner } from '@tools/developer-utilities/csv-cleaner/config';
@@ -170,6 +171,7 @@ export const toolConfigs: ToolConfig[] = [
   colorFormatConverter,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
+  contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
   csvCleaner,

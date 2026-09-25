@@ -183,7 +183,9 @@ const THRESHOLDS = {
   //   A keep mode drops turns. The status line says how many lines changed and that text was dropped.
   // 2026-09-25: 0.699 (100/143). JSON to Schema reuses the JSON repair button. JSON Schema
   //   Validator ships guardrail craft schema-unchecked for keywords this page does not check.
-  coverage: 0.699,
+  // 2026-09-25: 0.701 (101/144). Context Fit Checker ships guardrail craft context-estimate-only.
+  //   The percent is characters/4 against a sourced window, and the page says it is an estimate.
+  coverage: 0.701,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

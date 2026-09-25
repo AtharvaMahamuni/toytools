@@ -25,6 +25,7 @@ import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-
 import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
+import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/knowledge';
 import { knowledge as crc32HashGenerator } from '@tools/developer-utilities/crc32-hash-generator/knowledge';
 import { knowledge as cronExpressionParser } from '@tools/datetime/cron-expression-parser/knowledge';
 import { knowledge as csvCleaner } from '@tools/developer-utilities/csv-cleaner/knowledge';
@@ -170,6 +171,7 @@ export const authoredKnowledge: Knowledge[] = [
   colorFormatConverter,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
+  contextFitChecker,
   crc32HashGenerator,
   cronExpressionParser,
   csvCleaner,

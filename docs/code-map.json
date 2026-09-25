@@ -31,7 +31,7 @@
         "detect",
         "cleanup"
       ],
-      "toolCount": 21
+      "toolCount": 22
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -1322,6 +1322,26 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "context-fit-checker": {
+      "name": "Context Fit Checker",
+      "dir": "src/tools/prep/context-fit-checker",
+      "categorySlug": "prep",
+      "url": "/tool/prep/context-fit-checker/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
