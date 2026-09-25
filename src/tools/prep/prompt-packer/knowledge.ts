@@ -34,6 +34,7 @@ export const knowledge: Knowledge = {
     'Why are empty fields left out?',
   ],
   usedWith: [
+    { slug: 'context-fit-checker', reason: 'Estimate whether the assembled prompt fits a published window', strength: 0.7 },
     { slug: 'word-counter', reason: 'Count the words in the assembled prompt', strength: 0.6 },
     { slug: 'character-counter', reason: 'Check the character length of the assembled prompt', strength: 0.6 },
   ],

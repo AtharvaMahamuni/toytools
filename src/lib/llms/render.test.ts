@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CORE_TOOL_SLUGS, doesNotLine, renderLlmsFull, renderLlmsTxt } from './render';
+import { CORE_TOOL_SLUGS, PREP_HIGHLIGHT_SLUGS, doesNotLine, renderLlmsFull, renderLlmsTxt } from './render';
 import { tools } from '@data/registry';
 import { PRIVACY_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
@@ -35,6 +35,29 @@ describe('renderLlmsTxt', () => {
     const catsAt = txt.indexOf('## Categories');
     expect(coreAt).toBeGreaterThan(0);
     expect(catsAt).toBeGreaterThan(coreAt);
+  });
+
+  it('lists Prep highlight tools between Core and Categories', () => {
+    const coreAt = txt.indexOf('## Core tools');
+    const prepAt = txt.indexOf('## Prep tools');
+    const catsAt = txt.indexOf('## Categories');
+    expect(prepAt).toBeGreaterThan(coreAt);
+    expect(catsAt).toBeGreaterThan(prepAt);
+    expect(txt).toContain('prepare text before a model');
+    expect(txt).toContain('ToyTools does not run a model');
+    expect(PREP_HIGHLIGHT_SLUGS).toHaveLength(3);
+    const known = new Set(tools.map(t => t.slug));
+    for (const slug of PREP_HIGHLIGHT_SLUGS) {
+      expect(known.has(slug), slug).toBe(true);
+      expect(txt).toContain(`/${slug}/`);
+    }
+  });
+
+  it('mentions prep in the summary blockquote', () => {
+    const summary = txt.split('\n').find(line => line.startsWith('> '));
+    expect(summary).toBeTruthy();
+    expect(summary!.toLowerCase()).toContain('prep');
+    expect(summary).toContain('does not run a model');
   });
 
   it('still lists categories and the platform page', () => {

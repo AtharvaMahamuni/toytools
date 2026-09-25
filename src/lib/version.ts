@@ -15,7 +15,7 @@ export const VERSION_CONFIG: VersionConfig = {
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-25',
-  description: 'Prep for a model and Prompt Packer',
+  description: 'Prep for a model — Prompt Packer, Chat Export Cleaner, JSON to Schema, JSON Schema Validator, Context Fit Checker, and llms.txt Generator',
 };
 
 export function formatVersion(config: VersionConfig): string {

@@ -18,7 +18,7 @@ export const config: ToolConfig = {
   keywords: ['chatgpt transcript', 'clean chat log'],
   inputs: ['text'],
   outputs: ['text'],
-  relatedTools: ['find-replace', 'word-counter', 'character-counter'],
+  relatedTools: ['prompt-packer', 'context-fit-checker', 'find-replace'],
   guide: {
     slug: 'how-to-clean-a-chat-export',
     categorySlug: 'prep',

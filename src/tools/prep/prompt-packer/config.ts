@@ -18,7 +18,7 @@ export const config: ToolConfig = {
   keywords: ['prompt builder', 'prompt template', 'structured prompt'],
   inputs: ['text'],
   outputs: ['text'],
-  relatedTools: ['context-fit-checker', 'word-counter', 'character-counter'],
+  relatedTools: ['context-fit-checker', 'chat-export-cleaner', 'llms-txt-generator'],
   guide: {
     slug: 'how-to-structure-a-prompt',
     categorySlug: 'prep',
@@ -29,7 +29,7 @@ export const config: ToolConfig = {
   },
   citation: {
     problem: 'Use Prompt Packer when someone needs separate prompt fields joined into one block, without a model writing the text.',
-    nonGoal: 'write, score, or rewrite the prompt, and it does not send the text to an AI model.',
+    nonGoal: 'write, score, or rewrite the prompt, or send the text to an AI model.',
   },
   craft: {
     id: 'prompt-omit-empty',

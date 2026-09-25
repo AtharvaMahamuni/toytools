@@ -18,7 +18,7 @@ export const config: ToolConfig = {
   keywords: ['context window checker', 'prompt tokens'],
   inputs: ['text'],
   outputs: ['metric'],
-  relatedTools: ['word-counter', 'character-counter', 'prompt-packer'],
+  relatedTools: ['prompt-packer', 'chat-export-cleaner', 'character-counter'],
   guide: {
     slug: 'what-is-a-context-window',
     categorySlug: 'prep',
