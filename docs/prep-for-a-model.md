@@ -4,7 +4,7 @@ AI does the thinking. ToyTools does the preparation.
 
 Prep for a model is a category of deterministic browser tools that prepare text before a person pastes it into an external model. ToyTools does not run that model. It does not call OpenAI, Anthropic, Gemini, Grok, or any other provider. It does not take an API key.
 
-The category is not on this branch yet. This note is the boundary for the commits that add it.
+The category is `/category/prep/`. Prompt Packer is `/tool/prep/prompt-packer/`. It assembles fields. It does not write the prompt.
 
 ## Discovery files
 

@@ -55,6 +55,9 @@ export const searchAliases: Record<string, string[]> = {
   'url-encoder-decoder': ['percent encoding', 'urlencode'],
   'yaml-to-json-converter': ['yml to json'],
 
+  // Prep for a model
+  'prompt-packer': ['prompt builder', 'structured prompt'],
+
   // Text utilities
   'camel-case-converter': ['camelcase'],
   'character-counter': ['char count', 'character limit'],

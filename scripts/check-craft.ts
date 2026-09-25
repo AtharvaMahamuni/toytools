@@ -177,7 +177,9 @@ const THRESHOLDS = {
   //   (the figure is not a customer tax), bill-split-fair (last person takes leftover
   //   paise so shares sum), and shop-upi-tally (the 1,00,000 line is not a status change).
   // 2026-09-25: 0.690 (96/139). Regex Tester ships orientation craft (regex-match-explain).
-  coverage: 0.690,
+  // 2026-09-25: 0.692 (97/140). Prompt Packer ships guardrail craft prompt-omit-empty.
+  //   An empty field printed as a heading reads like an instruction the person forgot to fill in.
+  coverage: 0.692,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

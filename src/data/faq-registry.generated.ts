@@ -78,6 +78,7 @@ import { items as percentageCalculatorFaqs } from '@tools/number/percentage-calc
 import { items as pomodoroTimerFaqs } from '@tools/productivity/pomodoro-timer/faq';
 import { items as popItFaqs } from '@tools/fidget/pop-it/faq';
 import { items as primeFactorizationCalculatorFaqs } from '@tools/math/prime-factorization-calculator/faq';
+import { items as promptPackerFaqs } from '@tools/prep/prompt-packer/faq';
 import { items as proteinIntakeCalculatorFaqs } from '@tools/health/protein-intake-calculator/faq';
 import { items as punycodeConverterFaqs } from '@tools/developer-utilities/punycode-converter/faq';
 import { items as pxToDpConverterFaqs } from '@tools/design/px-to-dp-converter/faq';
@@ -219,6 +220,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'pomodoro-timer': pomodoroTimerFaqs,
   'pop-it': popItFaqs,
   'prime-factorization-calculator': primeFactorizationCalculatorFaqs,
+  'prompt-packer': promptPackerFaqs,
   'protein-intake-calculator': proteinIntakeCalculatorFaqs,
   'punycode-converter': punycodeConverterFaqs,
   'px-to-dp-converter': pxToDpConverterFaqs,

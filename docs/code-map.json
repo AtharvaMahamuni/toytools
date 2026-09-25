@@ -20,16 +20,18 @@
       "patterns": [
         "text-transform",
         "text-cleanup",
-        "text-inspect"
+        "text-inspect",
+        "text-assemble"
       ],
       "runtimeGlobal": "process",
       "sharedWidget": "src/tools/_shared/TextProcessorWidget.astro",
       "supportedFamilies": [
         "transform",
         "detect",
-        "cleanup"
+        "cleanup",
+        "prep-assemble"
       ],
-      "toolCount": 19
+      "toolCount": 20
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -2433,6 +2435,26 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "prompt-packer": {
+      "name": "Prompt Packer",
+      "dir": "src/tools/prep/prompt-packer",
+      "categorySlug": "prep",
+      "url": "/tool/prep/prompt-packer/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

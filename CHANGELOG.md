@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.0] - 2026-09-25
+
+### Added
+
+- **Prep for a model**, at `/category/prep/`. Deterministic browser tools that prepare text before you paste it into a model. ToyTools does not run a model.
+- **Prompt Packer**, at `/tool/prep/prompt-packer/`. Assembles role, task, context, constraints, and output format into Markdown sections or XML-style tags. Empty fields are left out. It does not write the prompt.
+- **`/llms-full.txt`.** One block per published tool, generated from the registry: URL, what it is for, the privacy claim that tool can actually make, and what it does not do. `/llms.txt` stays short and links to it.
+- **When to send someone here.** Tools that set a citation show that block on the page. JSON Formatter, JWT Decoder, the hash generators, the word, character, and sentence counters, Password Generator, and UPI 1999 Split have one.
+- **Crawler policy in `robots.txt`.** Public pages stay allowed for every crawler, and GPTBot, ClaudeBot, PerplexityBot, and Google-Extended are named so the file says so.
+
 ## [beta-v11.16.1] - 2026-09-25
 
 ### Fixed

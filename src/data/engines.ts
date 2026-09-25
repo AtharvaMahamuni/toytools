@@ -43,7 +43,7 @@ const ENGINE_IDS = [
 export type EngineId = (typeof ENGINE_IDS)[number];
 
 const PATTERN_IDS = [
-  'text-metric', 'text-transform', 'text-cleanup', 'text-inspect', 'encode-decode', 'encode-detect', 'hash', 'hash-identify',
+  'text-metric', 'text-transform', 'text-cleanup', 'text-inspect', 'text-assemble', 'encode-decode', 'encode-detect', 'hash', 'hash-identify',
   'structured-transform', 'structured-validate', 'structured-compare', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
@@ -69,11 +69,13 @@ export type PatternId = (typeof PATTERN_IDS)[number];
  * algorithm, and the tool does not register a hasher of its own.
  * `structured-compare` is the same shape for two JSON documents: the shared widget takes one
  * string, and a comparison is not a transform of that string. diffJson lives on the engine runtime.
+ * `text-assemble` is a multi-field form. The shared text widget takes one string, so the assembly
+ * functions live on the engine runtime and the widget only renders them.
  *
  * Declared here rather than inferred, so adding one stays a deliberate act with a reviewer, and so
  * the processorId rule keeps its full force everywhere else.
  */
-export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect', 'network-lookup', 'hash-identify', 'structured-compare']);
+export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect', 'text-assemble', 'network-lookup', 'hash-identify', 'structured-compare']);
 
 interface EngineDef {
   id: EngineId;
@@ -101,7 +103,7 @@ interface EngineDef {
 // Declared engine definitions. New engines register here exactly once.
 const engineDefs: EngineDef[] = [
   { id: 'text-analysis', name: 'Text Analysis Engine', category: 'text-utilities', patterns: ['text-metric'], runtimeGlobal: 'analyze', sharedWidget: 'TextMetricWidget.astro', globals: ['analyze', 'textNotice', 'formatMetric'] },
-  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup', 'text-inspect'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro', globals: ['process', 'textHandoff', 'detectInvisible'] },
+  { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup', 'text-inspect', 'text-assemble'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro', globals: ['process', 'textHandoff', 'detectInvisible', 'packPrompt'] },
   { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode', 'encode-detect'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro', globals: ['runEncoding', 'detectEncoding', 'transform'] },
   { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash', 'hash-identify'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro', globals: ['runHash', 'hashBytes', 'identifyHash', 'verifyHash', 'transform'] },
   { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate', 'structured-compare'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro', globals: ['runStructuredData', 'repairStructuredData', 'json', 'yaml', 'diffJson'] },

@@ -78,6 +78,7 @@ import { config as percentageCalculator } from '@tools/number/percentage-calcula
 import { config as pomodoroTimer } from '@tools/productivity/pomodoro-timer/config';
 import { config as popIt } from '@tools/fidget/pop-it/config';
 import { config as primeFactorizationCalculator } from '@tools/math/prime-factorization-calculator/config';
+import { config as promptPacker } from '@tools/prep/prompt-packer/config';
 import { config as proteinIntakeCalculator } from '@tools/health/protein-intake-calculator/config';
 import { config as punycodeConverter } from '@tools/developer-utilities/punycode-converter/config';
 import { config as pxToDpConverter } from '@tools/design/px-to-dp-converter/config';
@@ -219,6 +220,7 @@ export const toolConfigs: ToolConfig[] = [
   pomodoroTimer,
   popIt,
   primeFactorizationCalculator,
+  promptPacker,
   proteinIntakeCalculator,
   punycodeConverter,
   pxToDpConverter,

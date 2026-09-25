@@ -1,0 +1,46 @@
+import { KNOWLEDGE_SCHEMA_VERSION, type Knowledge } from '@lib/knowledge/types';
+
+export const knowledge: Knowledge = {
+  schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
+  slug: 'prompt-packer',
+  title: 'Prompt Packer',
+  category: 'prep',
+  summary: 'Assemble a structured prompt from separate fields. Does not write the prompt or call a model.',
+  primaryConcepts: ['structured prompt'],
+  secondaryConcepts: ['prompt fields', 'role task context', 'prompt template'],
+  intentGroups: {
+    informational: ['What is a structured prompt?', 'What does a prompt packer do?'],
+    howTo: ['How to assemble a prompt from fields', 'How to leave out an empty prompt section'],
+    comparison: ['Markdown prompt sections vs XML-style tags', 'A prompt packer vs a model that writes the prompt'],
+    misconception: ['A packed prompt is not written by AI', 'One format is not universally better for one model'],
+    troubleshooting: ['An empty field became a blank heading', 'Angle brackets broke an XML-style tag'],
+  },
+  realWorldUseCases: [
+    'Keeping role, task, and constraints in separate boxes before you paste them into a model',
+    'Switching the same fields between Markdown headings and XML-style tags',
+    'Noticing which field you left empty before the model treats a blank heading as an instruction',
+  ],
+  commonMistakes: [
+    'Expecting the page to improve or rewrite the wording',
+    'Leaving a field blank and still wanting that heading in the output',
+    'Treating the tag layout as a setting that tunes a particular model',
+  ],
+  commonQuestions: [
+    'Does Prompt Packer use AI?',
+    'Does ToyTools send my prompt to a server?',
+    'Can I paste the output into ChatGPT or Claude?',
+  ],
+  usedWith: [
+    { slug: 'word-counter', reason: 'Count the words in the assembled prompt', strength: 0.6 },
+    { slug: 'character-counter', reason: 'Check the character length of the assembled prompt', strength: 0.6 },
+  ],
+  alternatives: [],
+  nextSteps: [],
+  workflowStage: ['transform'],
+  keywords: ['prompt packer', 'structured prompt', 'prompt builder'],
+  entityAliases: ['prompt assembler', 'prompt template builder'],
+  inputs: ['text'],
+  outputs: ['text'],
+  difficulty: 'beginner',
+  audience: ['anyone pasting text into a model'],
+};
