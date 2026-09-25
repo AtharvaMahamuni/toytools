@@ -36,6 +36,8 @@ const FAMILY_GLYPH: Record<string, string> = {
   // The backslash is the thing this family is about: one more of them per shell in the path.
   'shell-quoting': 'backslash',
   regex: 'regex',
+  // Prep tools that assemble fields. JSON prep tools stay on the json glyph.
+  'prep-assemble': 'checklist',
   // text
   transform: 'title',
   'text-counting': 'words',

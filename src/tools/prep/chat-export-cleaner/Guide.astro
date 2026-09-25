@@ -1,0 +1,67 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+---
+
+<GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      What is a chat export? It is a copied chat transcript. A chat log cleaner, or transcript
+      cleaner, strips a speaker label, a timestamp, an empty code fence, and a citation chip
+      when you ask it to. The cleaner is not a model.
+    </p>
+    <a href={toolHref} class="cta-link">Open Chat Export Cleaner →</a>
+  </section>
+  <section id="why-it-matters">
+    <h2>Why it matters <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A conversation cleaner, which is also a transcript cleaner, is for the moment you want the
+      words without the chrome. For example, a timestamp on every line makes a quote unreadable.
+      Removing it here does not summarize the chat.
+    </p>
+  </section>
+  <section id="how-it-works">
+    <h2>How it works <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      How to clean a copied conversation: paste the text and leave the boxes that match what you
+      want removed. Which speaker labels are recognized? User, Human, You, Assistant, and the
+      names ChatGPT, Claude, Gemini, and Grok, plus System. A leading time in brackets is a
+      timestamp. A fullwidth bracket chip is a citation chip.
+    </p>
+    <p>
+      How to keep only code blocks from a chat: choose Code blocks. Everything outside a fence
+      is dropped, and the page says so. Keeping every turn vs keeping user turns is that same
+      choice. Cleaning a transcript vs rewriting it is a different job. This page does not rewrite.
+    </p>
+    <p>It does not understand every export format. A paste with none of those markers is only tidied.</p>
+  </section>
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="A perfect parse">
+      <p>Expecting a vendor-specific export to be parsed perfectly.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="One side only">
+      <p>Using Keep user messages and then wondering where the answers went.</p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Not a summary">
+      <p>Treating a cleaned transcript as a summary.</p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

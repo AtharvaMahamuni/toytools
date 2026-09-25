@@ -27,8 +27,9 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'What does JSON to JSON Schema infer?',
+    'Will a name field be marked as a person name?',
     'Are fields marked required?',
-    'Is the JSON uploaded?',
+    'Does this send my JSON to a server or a model?',
   ],
   usedWith: [
     { slug: 'json-formatter', reason: 'Pretty-print the example before reading the schema', strength: 0.7 },

@@ -98,9 +98,17 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var clearArmed = false;
     var clearTimer = 0;
 
+    var seq = 0;
     function paint() {
       if (!(window.ToyTools && ToyTools.validateJsonSchema)) return;
-      var result = ToyTools.validateJsonSchema(schema.value, data.value);
+      var ticket = ++seq;
+      Promise.resolve(ToyTools.validateJsonSchema(schema.value, data.value)).then(function (result) {
+        if (ticket !== seq || !result) return;
+        apply(result);
+      });
+    }
+
+    function apply(result) {
       errors.textContent = '';
       var unchecked = result.unchecked && result.unchecked.length
         ? ' Not checked: ' + result.unchecked.join(', ') + '.'

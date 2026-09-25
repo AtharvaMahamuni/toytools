@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'llms.txt Generator',
   seoTitle: 'Generate an llms.txt File',
   description:
-    'Generate a concise machine-readable site description. Site name, purpose, and optional links, contact, usage, and crawler notes. Same H1 and blockquote layout ToyTools publishes. Empty sections are left out. This is not a claim that the layout is an official standard. Runs entirely on your device. Nothing is uploaded.',
+    'Write a short llms.txt site description. Empty sections are left out. Not an official standard. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'A short site description. Empty sections left out.',
   categorySlug: 'prep',
   tags: ['llms.txt', 'llms txt', 'site description', 'crawler file'],
@@ -18,6 +18,15 @@ export const config: ToolConfig = {
   keywords: ['llms.txt generator', 'llmstxt'],
   inputs: ['text'],
   outputs: ['text'],
+  relatedTools: ['prompt-packer'],
+  guide: {
+    slug: 'what-is-llms-txt',
+    categorySlug: 'prep',
+    title: 'What Is llms.txt?',
+    description: 'A short site description in the layout ToyTools publishes. Not an official standard. Runs entirely on your device. Nothing is uploaded.',
+    readMinutes: 4,
+    updatedAt: '2026-09-25',
+  },
   citation: {
     problem: 'Use the llms.txt Generator when someone needs a short site description file for crawlers and assistants.',
     nonGoal: 'publish the file for you or claim the layout is an official standard.',

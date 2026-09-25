@@ -35,11 +35,11 @@ test.describe('prep for a model', () => {
   test('json to schema records types', async ({ page }) => {
     watchInput(page);
     await page.goto('/tool/prep/json-to-schema/');
-    const input = page.locator('textarea').first();
-    await input.fill(`{"name":"${SENTINEL}","age":30,"active":true}`);
-    await expect(page.locator('textarea').nth(1)).toContainText('"type": "string"');
-    await expect(page.locator('textarea').nth(1)).toContainText('"type": "integer"');
-    await expect(page.locator('textarea').nth(1)).not.toContainText('required');
+    await page.locator('#json-to-schema-input').fill(`{"name":"${SENTINEL}","age":30,"active":true}`);
+    const output = page.locator('#json-to-schema-output');
+    await expect(output).toContainText('"type": "string"');
+    await expect(output).toContainText('"type": "integer"');
+    await expect(output).not.toContainText('required');
   });
 
   test('schema validator accepts a match and rejects bad JSON', async ({ page }) => {
@@ -69,8 +69,8 @@ test.describe('prep for a model', () => {
     await page.locator('#lg-url').fill('https://ada.example/');
     await page.locator('#lg-purpose').fill('Small tools.');
     await page.locator('#lg-pages').fill('Formatter | /format/');
-    await expect(page.locator('#lg-out')).toContainText(`# ${SENTINEL}`);
-    await expect(page.locator('#lg-out')).toContainText('- [Formatter](https://ada.example/format/)');
+    await expect(page.locator('#lg-out')).toHaveValue(new RegExp(`# ${SENTINEL}`));
+    await expect(page.locator('#lg-out')).toHaveValue(/- \[Formatter\]\(https:\/\/ada\.example\/format\/\)/);
     await expect(page.locator('#lg-omit')).toContainText('Left out:');
   });
 });

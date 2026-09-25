@@ -27,8 +27,10 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'What does Chat Export Cleaner remove?',
-    'Does it upload the transcript?',
-    'Can it keep only code blocks?',
+    'Will it keep only my messages or only the model replies?',
+    'Does it understand every chat export format?',
+    'Does Chat Export Cleaner use AI?',
+    'Is the transcript uploaded?',
   ],
   usedWith: [
     { slug: 'prompt-packer', reason: 'Assemble a prompt from text you kept', strength: 0.5 },

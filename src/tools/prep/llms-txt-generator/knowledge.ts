@@ -27,10 +27,13 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'What does the llms.txt Generator produce?',
-    'Is this an official standard?',
-    'Is the text uploaded?',
+    'Is this an official llms.txt standard?',
+    'How do I list tools?',
+    'Does ToyTools upload the description or call a model?',
   ],
-  usedWith: [],
+  usedWith: [
+    { slug: 'prompt-packer', reason: 'Assemble a prompt, then describe the site that hosts the tool', strength: 0.3 },
+  ],
   alternatives: [],
   nextSteps: [],
   workflowStage: ['export'],

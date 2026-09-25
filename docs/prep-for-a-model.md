@@ -38,10 +38,13 @@ The tool page renders that, plus `privacyStatement(trustVariant)`, under "When t
 
 Do not add a chatbot, a model API, BYOK, prompt rewriting, an opaque prompt score, or a tokenizer on the shared bundle. If a feature needs a model to function, it does not belong here.
 
-Guides listed for later, not written yet:
+Guides shipped with the tools, under `/guide/prep/`:
 
 - how to structure a prompt
+- how to clean a chat export
+- what a JSON example can tell a schema
+- how to validate JSON against a schema
 - what a context window is
-- what JSON Schema is
 - what llms.txt is
-- how token counting works
+
+Exact token counting is still not written. If it is added, it stays a lazy chunk on its own route.

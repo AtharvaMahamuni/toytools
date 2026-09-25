@@ -27,8 +27,9 @@ export const knowledge: Knowledge = {
   ],
   commonQuestions: [
     'Which schema keywords are checked?',
-    'What happens to an unknown keyword?',
-    'Is the JSON uploaded?',
+    'What happens to a keyword this page does not know?',
+    'Does a valid result mean an AI wrote correct JSON?',
+    'Is the schema or the JSON uploaded?',
   ],
   usedWith: [
     { slug: 'json-to-schema', reason: 'Draft a schema from an example, then check another value', strength: 0.8 },

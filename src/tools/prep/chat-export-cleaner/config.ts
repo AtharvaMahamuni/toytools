@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Chat Export Cleaner',
   seoTitle: 'Clean a Copied Chat',
   description:
-    'Clean a copied chat transcript into plain text. Remove timestamps, speaker labels, empty code fences, and citation chips, or keep only user turns, assistant turns, or code blocks. Does not rewrite the words. Runs entirely on your device. Nothing is uploaded.',
+    'A conversation cleaner for a copied chat. Strips timestamps and labels. Does not rewrite the words. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Clean a copied chat into plain text.',
   categorySlug: 'prep',
   tags: ['chat export', 'transcript cleaner', 'conversation cleaner', 'remove timestamps'],
@@ -18,6 +18,15 @@ export const config: ToolConfig = {
   keywords: ['chatgpt transcript', 'clean chat log'],
   inputs: ['text'],
   outputs: ['text'],
+  relatedTools: ['find-replace', 'word-counter', 'character-counter'],
+  guide: {
+    slug: 'how-to-clean-a-chat-export',
+    categorySlug: 'prep',
+    title: 'How to Clean a Chat Export',
+    description: 'Strip timestamps and speaker labels from a copied chat. The page does not rewrite it. Runs entirely on your device. Nothing is uploaded.',
+    readMinutes: 4,
+    updatedAt: '2026-09-25',
+  },
   citation: {
     problem: 'Use Chat Export Cleaner when someone needs a pasted transcript turned into plain text.',
     nonGoal: 'rewrite what was said or send the transcript to an AI model.',

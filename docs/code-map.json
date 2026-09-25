@@ -1190,12 +1190,13 @@
       "processorId": "",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -1336,12 +1337,13 @@
       "processorId": "",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -1923,12 +1925,13 @@
       "processorId": "",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -1964,12 +1967,13 @@
       "processorId": "json-to-schema",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -2173,12 +2177,13 @@
       "processorId": "",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
@@ -2550,12 +2555,13 @@
       "processorId": "",
       "toolGroup": "",
       "files": [
+        "Guide.astro",
         "Widget.astro",
         "config.ts",
         "faq.ts",
         "knowledge.ts"
       ],
-      "guideRegistered": false,
+      "guideRegistered": true,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

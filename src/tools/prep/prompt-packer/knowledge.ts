@@ -26,9 +26,12 @@ export const knowledge: Knowledge = {
     'Treating the tag layout as a setting that tunes a particular model',
   ],
   commonQuestions: [
+    'What is a prompt packer?',
     'Does Prompt Packer use AI?',
     'Does ToyTools send my prompt to a server?',
-    'Can I paste the output into ChatGPT or Claude?',
+    'Can I use the output with ChatGPT or Claude?',
+    'What formats can Prompt Packer create?',
+    'Why are empty fields left out?',
   ],
   usedWith: [
     { slug: 'word-counter', reason: 'Count the words in the assembled prompt', strength: 0.6 },
