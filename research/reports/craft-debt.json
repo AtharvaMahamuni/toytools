@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-09T19:22:28.273Z",
-  "fingerprint": "74f558a3",
+  "generatedAt": "2026-09-20T12:30:10.974Z",
+  "fingerprint": "b1f26a6b",
   "readyToPolish": [
     {
       "slug": "electron-configuration-calculator",
@@ -32,6 +32,16 @@
       ],
       "engine": "datetime",
       "demand": 80
+    },
+    {
+      "slug": "molecular-geometry-calculator",
+      "kind": "ready-to-polish",
+      "userFailures": [
+        "Counts bonding pairs but forgets lone pairs, so electron geometry is reported where molecular shape was wanted.",
+        "Quotes the ideal bond angle without allowing for the compression lone pairs cause."
+      ],
+      "engine": "chemistry-lab",
+      "demand": 73
     },
     {
       "slug": "cron-expression-parser",
@@ -253,12 +263,6 @@
   ],
   "atRisk": [
     {
-      "id": "statistics-visualizer",
-      "proposedTool": "statistics-visualizer",
-      "finalScore": 81.7,
-      "engine": "math"
-    },
-    {
       "id": "triangle-solver",
       "proposedTool": "triangle-solver",
       "finalScore": 79.8,
@@ -404,9 +408,9 @@
     }
   ],
   "summary": {
-    "shippedCovered": 62,
-    "readyToPolish": 7,
+    "shippedCovered": 68,
+    "readyToPolish": 8,
     "needsEvidence": 25,
-    "atRisk": 25
+    "atRisk": 24
   }
 }

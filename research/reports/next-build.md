@@ -1,24 +1,24 @@
 # Recommended Next Build
 
-Generated: 2026-09-09T19:22:28.273Z
+Generated: 2026-09-20T12:30:10.974Z
 
-## Statistics Visualizer  (`statistics-visualizer`)
+## Triangle Solver  (`triangle-solver`)
 
-**Opportunity score:** 81.7 / 100
+**Opportunity score:** 79.8 / 100
 
 ### Why build it
 - High search demand
 - Reuses the existing math engine
 - Low implementation cost
-- Creates 4 internal links
+- Creates 5 internal links
 - Deterministic algorithm solves this exactly (AI adds nothing)
 - CRAFT RISK: no task-level failure recorded - this would ship with no thoughtful touch
 
 ### Why incumbents are weak
-- tables of numbers with no chart
+- no drawn-to-scale figure
 - ad heavy
-- data uploaded to a server
-- no combined histogram and box plot view
+- unclear which side-angle combinations are valid
+- no ambiguous case explanation
 
 ### Why ToyTools can win
 - Ships on the proven math engine - consistent UX, fast to build.
@@ -32,7 +32,7 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 
 ### Engine
 - Reuses existing engine: `math`
-- Future tools this unlocks: fraction-calculator, combinations-permutations-calculator, prime-factorization-calculator, triangle-solver, matrix-calculator
+- Future tools this unlocks: fraction-calculator, combinations-permutations-calculator, prime-factorization-calculator, statistics-visualizer, matrix-calculator
 
 ### Estimates
 - Implementation effort: **medium**
@@ -40,11 +40,11 @@ No task-level failure recorded for this tool, so there is no craft candidate fro
 - Maintenance cost: **low**
 
 ### Suggested supporting content
-- Guides: What is Descriptive Statistics?; How to descriptive statistics online; Statistics Visualizer vs the alternatives
-- FAQs: How do I descriptive statistics?; Is Statistics Visualizer free and private?; Does Statistics Visualizer avoid "tables of numbers with no chart"?
-- Internal links / related tools: probability-calculator, combinations-permutations-calculator, fraction-calculator, prime-factorization-calculator
+- Guides: What is Triangles?; How to triangles online; Triangle Solver vs the alternatives
+- FAQs: How do I triangles?; Is Triangle Solver free and private?; Does Triangle Solver avoid "no drawn-to-scale figure"?
+- Internal links / related tools: unit-circle-calculator, combinations-permutations-calculator, fraction-calculator, prime-factorization-calculator, statistics-visualizer
 - Schema: SoftwareApplication, FAQPage
 
 ---
 
-_Inputs fingerprint: `74f558a3`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._
+_Inputs fingerprint: `b1f26a6b`. Run `npm run research:status` to check this report against the current datasets and catalog before acting on it._

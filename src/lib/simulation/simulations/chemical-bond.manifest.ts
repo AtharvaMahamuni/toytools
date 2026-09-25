@@ -257,6 +257,11 @@ export const manifest: SimulationManifest = {
     ],
     nextSteps: [
       {
+        slug: 'molecular-geometry-calculator',
+        reason: 'Bond polarity is one input; molecular geometry is the other, and it can cancel the dipole to zero',
+        priority: 1,
+      },
+      {
         slug: 'crystal-field-splitting-calculator',
         reason: 'Once a bond forms to a metal centre, the ligand field decides what the d electrons do next',
         priority: 2,

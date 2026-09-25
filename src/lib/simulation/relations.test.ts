@@ -99,9 +99,9 @@ describe('resolveRelations overlay', () => {
   });
 
   it('reaches outside its own domain, so no engine is left isolated', () => {
-    // Every chemistry simulator is the only member of its family, so nothing outside the domain
-    // derives. These authored links are what connect chemistry-lab to physics on the architecture
-    // map; check-engines gates the isolated-engine count that depends on them.
+    // Most chemistry simulators are the only member of their family, so nothing outside the domain
+    // derives for those. These authored links are what connect chemistry-lab to physics on the
+    // architecture map; check-engines gates the isolated-engine count that depends on them.
     const chemistry = ['newman-projection-calculator', 'crystal-field-splitting-calculator', 'reaction-rate-calculator'];
     const chemistrySlugs = new Set(chemistry);
     const outward = chemistry.flatMap((slug) => {

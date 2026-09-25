@@ -92,7 +92,9 @@ test.describe('homepage index', () => {
     // no pair a group switcher could sensibly swap between. The electron configuration and
     // chemical bond simulators added in alpha-v8.2 are likewise ungrouped, one per family: they are
     // a natural pair to READ together, which is what the relationship overlay expresses, but a
-    // group switcher swaps one tool for another and neither answers the other's question. The
+    // group switcher swaps one tool for another and neither answers the other's question.
+    // Molecular geometry (beta-v11.15) shares the chemical-bonding family with chemical-bond and
+    // is still ungrouped: VSEPR is the next question after a bond, not a mode of the bond tool. The
     // equalizer added in alpha-v9.0 is ungrouped because it is the only tool on its engine so far.
     // Switch Board (alpha-v10.3) is ungrouped with Pop It: they share engine and pattern but are
     // different toys, not modes of one workspace, so a group switcher would shuffle the tool.
@@ -116,7 +118,7 @@ test.describe('homepage index', () => {
     // growth calculators and not a switch with the emergency fund calculator.
     // UPI MDR Estimator, Split Bill, and Shop UPI Tally (beta-v11.8) are ungrouped:
     // each answers a different question, so a group switcher would swap the task.
-    await expect(directory.locator('.dir-link')).toHaveCount(97);
+    await expect(directory.locator('.dir-link')).toHaveCount(98);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

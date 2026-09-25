@@ -239,6 +239,9 @@ describe('buildClientIndex', () => {
     // 2026-09-18: 42_500 → 42_700. UPI MDR Estimator, Split Bill, and Shop UPI Tally are three
     // thin finance entries. Keyword lists were trimmed to the category label before this raise
     // (measured 42_654). Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(42_700);
+    // 2026-09-20: 42_700 → 43_100. Molecular Geometry Calculator is one chemistry simulation
+    // entry (measured 43_016 after dropping name-contained tags). Catalog growth, not alias
+    // bloat.
+    expect(bytes).toBeLessThan(43_100);
   });
 });

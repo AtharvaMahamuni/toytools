@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 14,
-  patch: 17,
+  minor: 15,
+  patch: 0,
   status: 'beta',
   releaseDate: '2026-09-25',
-  description: 'Phase 3 SEO nit cleanup: Widget em dashes, password commonQuestions, letter FAQ order, hex related-link titles, graph.json hex name',
+  description: 'Molecular Geometry Calculator (VSEPR)',
 };
 
 export function formatVersion(config: VersionConfig): string {

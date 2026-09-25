@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.15] - 2026-09-25
+
+### Added
+
+- **Molecular Geometry Calculator**, at `/tool/chemistry/molecular-geometry-calculator/`. Bonding pairs and lone pairs in, VSEPR shape out. Steric number picks the electron geometry. Molecular shape ignores the lone pairs, so water is tetrahedral in its electrons and bent in its atoms at 104.5°. Both names stay on the canvas. The page only talks when they disagree. Drag turns the molecule. Methane, ammonia, CO2, SF4, XeF4, and SF6 are presets. Runs entirely on your device. Nothing is uploaded.
+
 ## [beta-v11.14.17] - 2026-09-25
 
 ### Fixed

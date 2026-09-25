@@ -240,6 +240,9 @@ const SLUG_GLYPH: Record<string, string> = {
   'upi-mdr-estimator': 'coins',
   'split-bill': 'pct',
   'shop-upi-tally': 'target',
+
+  // chemistry — VSEPR shares the bonding family with chemical-bond, so it needs its own sketch.
+  'molecular-geometry-calculator': 'tetrahedron',
 };
 
 /** Category accent hex for a tool, with a safe fallback. */

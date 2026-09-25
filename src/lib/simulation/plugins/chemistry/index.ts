@@ -15,6 +15,7 @@ import crystalField from '../../simulations/crystal-field';
 import reactionKinetics from '../../simulations/reaction-kinetics';
 import electronConfiguration from '../../simulations/electron-configuration';
 import chemicalBond from '../../simulations/chemical-bond';
+import molecularGeometry from '../../simulations/molecular-geometry';
 
 export const chemistryDomain: SimulationDomain = {
   id: 'chemistry-lab',
@@ -25,5 +26,6 @@ export const chemistryDomain: SimulationDomain = {
     'reaction-kinetics': reactionKinetics,
     'electron-configuration': electronConfiguration,
     'chemical-bond': chemicalBond,
+    'molecular-geometry': molecularGeometry,
   },
 };
