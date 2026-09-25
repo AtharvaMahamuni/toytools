@@ -65,6 +65,7 @@ import { config as keepScreenAwake } from '@tools/productivity/keep-screen-awake
 import { config as kineticSand } from '@tools/fidget/kinetic-sand/config';
 import { config as letterCounter } from '@tools/text/letter-counter/config';
 import { config as lineCounter } from '@tools/text/line-counter/config';
+import { config as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/config';
 import { config as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/config';
 import { config as lowercaseConverter } from '@tools/text/lowercase-converter/config';
 import { config as macroCalculator } from '@tools/health/macro-calculator/config';
@@ -211,6 +212,7 @@ export const toolConfigs: ToolConfig[] = [
   kineticSand,
   letterCounter,
   lineCounter,
+  llmsTxtGenerator,
   loremIpsumGenerator,
   lowercaseConverter,
   macroCalculator,

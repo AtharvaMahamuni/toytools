@@ -185,7 +185,9 @@ const THRESHOLDS = {
   //   Validator ships guardrail craft schema-unchecked for keywords this page does not check.
   // 2026-09-25: 0.701 (101/144). Context Fit Checker ships guardrail craft context-estimate-only.
   //   The percent is characters/4 against a sourced window, and the page says it is an estimate.
-  coverage: 0.701,
+  // 2026-09-25: 0.703 (102/145). llms.txt Generator ships guardrail craft llms-omit-empty.
+  //   A blank optional section is left out of the file instead of published as an empty heading.
+  coverage: 0.703,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

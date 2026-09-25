@@ -31,7 +31,7 @@
         "detect",
         "cleanup"
       ],
-      "toolCount": 22
+      "toolCount": 23
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -2159,6 +2159,26 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "llms-txt-generator": {
+      "name": "llms.txt Generator",
+      "dir": "src/tools/prep/llms-txt-generator",
+      "categorySlug": "prep",
+      "url": "/tool/prep/llms-txt-generator/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

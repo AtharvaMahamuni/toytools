@@ -215,7 +215,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     accent: '#6E4B3A',
     segment: 'prep',
     intro: [
-      'These tools prepare text you are about to paste into a model. Prompt Packer assembles fields. Chat Export Cleaner turns a copied transcript into plain text. JSON to Schema and JSON Schema Validator record and check types in an example. None of them writes the words or invents a meaning the example does not show.',
+      'These tools prepare text you are about to paste into a model. Prompt Packer assembles fields. Chat Export Cleaner turns a copied transcript into plain text. JSON to Schema and JSON Schema Validator record and check types in an example. Context Fit Checker estimates whether a draft fits a published window. The llms.txt Generator writes a short site description. None of them writes the words for you, and none of them calls a model.',
       'ToyTools does not run a model. There is no API key, no account, and no request that sends your draft to a provider. The work is deterministic and happens in your browser. Runs entirely on your device. Nothing is uploaded.',
       'The model stays wherever you already use it. ChatGPT, Claude, Gemini, and Grok are not built in, and this category is not affiliated with them. A format here is a way to organize fields. It is not a claim that one layout is better for one model.',
     ],

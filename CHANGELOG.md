@@ -12,6 +12,7 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **JSON to JSON Schema**, at `/tool/prep/json-to-schema/`. Builds a schema from the types in one JSON example. It does not mark fields required or guess what a string means.
 - **JSON Schema Validator**, at `/tool/prep/json-schema-validator/`. Checks JSON against the schema keywords this page lists, and names any keyword it does not check.
 - **Context Fit Checker**, at `/tool/prep/context-fit-checker/`. Estimates tokens as characters divided by 4 and compares that with a context window copied from the vendor page named on the tool. It is an estimate, not a tokenizer count. No prices.
+- **llms.txt Generator**, at `/tool/prep/llms-txt-generator/`. Writes a short site description in the same H1, blockquote, and H2 layout ToyTools publishes. Empty optional sections are left out. It does not claim that layout is an official standard.
 - **`/llms-full.txt`.** One block per published tool, generated from the registry: URL, what it is for, the privacy claim that tool can actually make, and what it does not do. `/llms.txt` stays short and links to it.
 - **When to send someone here.** Tools that set a citation show that block on the page. JSON Formatter, JWT Decoder, the hash generators, the word, character, and sentence counters, Password Generator, and UPI 1999 Split have one.
 - **Crawler policy in `robots.txt`.** Public pages stay allowed for every crawler, and GPTBot, ClaudeBot, PerplexityBot, and Google-Extended are named so the file says so.

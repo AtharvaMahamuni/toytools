@@ -65,6 +65,7 @@ import { knowledge as keepScreenAwake } from '@tools/productivity/keep-screen-aw
 import { knowledge as kineticSand } from '@tools/fidget/kinetic-sand/knowledge';
 import { knowledge as letterCounter } from '@tools/text/letter-counter/knowledge';
 import { knowledge as lineCounter } from '@tools/text/line-counter/knowledge';
+import { knowledge as llmsTxtGenerator } from '@tools/prep/llms-txt-generator/knowledge';
 import { knowledge as loremIpsumGenerator } from '@tools/generate/lorem-ipsum-generator/knowledge';
 import { knowledge as lowercaseConverter } from '@tools/text/lowercase-converter/knowledge';
 import { knowledge as macroCalculator } from '@tools/health/macro-calculator/knowledge';
@@ -211,6 +212,7 @@ export const authoredKnowledge: Knowledge[] = [
   kineticSand,
   letterCounter,
   lineCounter,
+  llmsTxtGenerator,
   loremIpsumGenerator,
   lowercaseConverter,
   macroCalculator,

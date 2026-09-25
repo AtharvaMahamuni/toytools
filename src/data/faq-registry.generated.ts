@@ -65,6 +65,7 @@ import { items as keepScreenAwakeFaqs } from '@tools/productivity/keep-screen-aw
 import { items as kineticSandFaqs } from '@tools/fidget/kinetic-sand/faq';
 import { items as letterCounterFaqs } from '@tools/text/letter-counter/faq';
 import { items as lineCounterFaqs } from '@tools/text/line-counter/faq';
+import { items as llmsTxtGeneratorFaqs } from '@tools/prep/llms-txt-generator/faq';
 import { items as loremIpsumGeneratorFaqs } from '@tools/generate/lorem-ipsum-generator/faq';
 import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter/faq';
 import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
@@ -211,6 +212,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'kinetic-sand': kineticSandFaqs,
   'letter-counter': letterCounterFaqs,
   'line-counter': lineCounterFaqs,
+  'llms-txt-generator': llmsTxtGeneratorFaqs,
   'lorem-ipsum-generator': loremIpsumGeneratorFaqs,
   'lowercase-converter': lowercaseConverterFaqs,
   'macro-calculator': macroCalculatorFaqs,
