@@ -45,6 +45,7 @@ export const knowledge: Knowledge = {
     'Does it work offline?',
     'What is entropy and why does it matter?',
     'Should I include symbols?',
+    'Is any of my data uploaded or shared?',
   ],
   usedWith: [
     { slug: 'qr-code-generator', reason: 'Encode a generated Wi-Fi password into a scannable QR code' },

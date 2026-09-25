@@ -56,15 +56,15 @@ export const items: FAQItem[] = [
       'Deleting digits alone never changes the letter count, because this tool counts only alphabetic characters and never included the numbers to begin with. If your total fell, you removed letters at the same time. For example, "abc123" and "abc" both report 3 letters, but trimming to "ab" drops the total to 2. Check that you deleted only the 0 through 9 characters and left every alphabetic character in place.',
   },
   {
-    id: 'lc-faq-11',
-    question: 'Is my text uploaded?',
-    answer:
-      'No. Letters are counted in your browser as you type or paste, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
-  },
-  {
     id: 'lc-faq-10',
     question: 'Why do accented letters count the same as regular letters?',
     answer:
       'Accented letters each count as one letter, the same as any A through Z character, because the tool matches Unicode\'s letter category rather than plain ASCII. A standalone combining accent mark is not a letter, so it never adds to the total. For example, "café" reports 4 letters whether the é is a single character or an e followed by a separate accent mark, even though its character count changes.',
+  },
+  {
+    id: 'lc-faq-11',
+    question: 'Is my text uploaded?',
+    answer:
+      'No. Letters are counted in your browser as you type or paste, with no server and no account required. Runs entirely on your device. Nothing is uploaded.',
   },
 ];

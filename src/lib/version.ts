@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
   minor: 14,
-  patch: 16,
+  patch: 17,
   status: 'beta',
   releaseDate: '2026-09-25',
-  description: 'Niche SEO Phase 3: text counters, savings, compound interest, hex, password, random string, discount',
+  description: 'Phase 3 SEO nit cleanup: Widget em dashes, password commonQuestions, letter FAQ order, hex related-link titles, graph.json hex name',
 };
 
 export function formatVersion(config: VersionConfig): string {
