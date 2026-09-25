@@ -14,7 +14,7 @@ export const MAX_MATCHES = 5_000;
 export const MATCH_TIME_BUDGET_MS = 80;
 export const DEFAULT_WORKER_TIMEOUT_MS = 150;
 
-export type RegexErrorKind = 'syntax' | 'expensive' | 'timeout' | 'cap' | 'empty-pattern';
+export type RegexErrorKind = 'syntax' | 'expensive' | 'timeout' | 'empty-pattern';
 
 export interface RegexGroup {
   index: number;
@@ -226,7 +226,7 @@ export function runRegexTest(opts: RegexTestOptions): RegexTestResult {
       break;
     }
 
-    // Zero-length match guard (e.g. /a*/g or /(?=x)/g) — advance manually.
+    // Zero-length match guard (e.g. /a*/g or /(?=x)/g): advance manually.
     if (m[0].length === 0) {
       if (re.lastIndex >= text.length) break;
       re.lastIndex += 1;
@@ -293,4 +293,93 @@ export function explainSummary(result: RegexTestResult): string | null {
   if (result.cappedText) parts.push(`test text capped at ${MAX_TEST_TEXT} characters`);
 
   return parts.join('. ') + '.';
+}
+
+/** Soft budget inside the Worker; the main thread hard-terminates separately. */
+export const WORKER_MATCH_BUDGET_MS = 120;
+
+/**
+ * Blob-Worker script for the browser widget. Single source for the Worker path:
+ * same caps as {@link runRegexTest}, with a slightly higher soft budget before the
+ * main thread kills the Worker on {@link DEFAULT_WORKER_TIMEOUT_MS}.
+ */
+export function workerSource(): string {
+  return [
+    'self.onmessage = function (e) {',
+    '  var d = e.data || {};',
+    '  var pattern = d.pattern || "";',
+    '  var flags = d.flags || "g";',
+    '  var text = d.text || "";',
+    '  var replace = d.replace;',
+    `  var MAX_TEXT = ${MAX_TEST_TEXT};`,
+    `  var MAX_MATCHES = ${MAX_MATCHES};`,
+    `  var BUDGET = ${WORKER_MATCH_BUDGET_MS};`,
+    '  function looksExpensive(p) {',
+    '    if (!p) return null;',
+    '    if (/(?:\\([^)]*[+*][^)]*\\)|\\(\\?:[^)]*[+*][^)]*\\))[+*{]/.test(p)) return "nested";',
+    '    if (/\\((?:[^|()]*\\|)+[^)]*\\)[+*{]/.test(p)) {',
+    '      var m = p.match(/\\(([^)]*\\|[^)]*)\\)[+*{]/);',
+    '      if (m) {',
+    '        var alts = m[1].split("|").map(function (a) { return a.replace(/\\\\./g, "X"); });',
+    '        if (alts.length >= 2) {',
+    '          var h = alts[0][0] || "";',
+    '          if (h && alts.every(function (a) { return (a[0] || "") === h; })) return "overlap";',
+    '        }',
+    '      }',
+    '    }',
+    '    if (/\\.\\+[+*]|\\.\\*\\.\\*/.test(p)) return "wildcards";',
+    '    return null;',
+    '  }',
+    '  try {',
+    '    if (!pattern) { self.postMessage({ ok: false, kind: "empty-pattern", error: "Enter a regular expression pattern to test." }); return; }',
+    '    if (looksExpensive(pattern)) {',
+    '      self.postMessage({ ok: false, kind: "expensive", error: "This pattern looks expensive and was blocked so the tab cannot hang. Simplify nested quantifiers or overlapping alternatives." });',
+    '      return;',
+    '    }',
+    '    var re;',
+    '    try {',
+    '      var f = flags;',
+    '      if (f.indexOf("g") < 0 && f.indexOf("y") < 0) f += "g";',
+    '      re = new RegExp(pattern, f);',
+    '    } catch (err) {',
+    '      self.postMessage({ ok: false, kind: "syntax", error: "Invalid regular expression: " + (err && err.message ? err.message : String(err)) });',
+    '      return;',
+    '    }',
+    '    var capped = text.length > MAX_TEXT;',
+    '    if (capped) text = text.slice(0, MAX_TEXT);',
+    '    var started = Date.now();',
+    '    var matches = [];',
+    '    var truncated = false;',
+    '    re.lastIndex = 0;',
+    '    while (true) {',
+    '      if (Date.now() - started > BUDGET) {',
+    '        self.postMessage({ ok: false, kind: "timeout", error: "This pattern took too long against the test text, so the run was stopped. Simplify the pattern or shorten the text." });',
+    '        return;',
+    '      }',
+    '      var m = re.exec(text);',
+    '      if (!m) break;',
+    '      var groups = [];',
+    '      for (var i = 1; i < m.length; i++) {',
+    '        var name = null;',
+    '        if (m.groups) {',
+    '          for (var n in m.groups) { if (Object.prototype.hasOwnProperty.call(m.groups, n) && m.groups[n] === m[i]) { name = n; break; } }',
+    '        }',
+    '        groups.push({ index: i, name: name, value: m[i] == null ? null : m[i], start: null, end: null });',
+    '      }',
+    '      matches.push({ ordinal: matches.length + 1, match: m[0], start: m.index, end: m.index + m[0].length, groups: groups });',
+    '      if (matches.length >= MAX_MATCHES) { truncated = true; break; }',
+    '      if (m[0].length === 0) { if (re.lastIndex >= text.length) break; re.lastIndex++; }',
+    '      if (!re.global) break;',
+    '    }',
+    '    var replaced = null;',
+    '    if (typeof replace === "string") {',
+    '      try { replaced = text.replace(new RegExp(pattern, re.flags), replace); }',
+    '      catch (err2) { self.postMessage({ ok: false, kind: "syntax", error: "Replace failed: " + (err2 && err2.message ? err2.message : String(err2)) }); return; }',
+    '    }',
+    '    self.postMessage({ ok: true, matches: matches, matchCount: truncated ? MAX_MATCHES : matches.length, truncated: truncated, replaced: replaced, textLength: text.length, cappedText: capped });',
+    '  } catch (fatal) {',
+    '    self.postMessage({ ok: false, kind: "syntax", error: String(fatal && fatal.message ? fatal.message : fatal) });',
+    '  }',
+    '};',
+  ].join('\n');
 }

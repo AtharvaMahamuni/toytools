@@ -14,6 +14,9 @@ import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 import CraftNote from '@tools/_shared/CraftNote.astro';
 import { config } from './config';
+import { workerSource as regexWorkerSource } from '@lib/text/regex-tester';
+
+const REGEX_WORKER_SOURCE = regexWorkerSource();
 ---
 
 <div class="rt">
@@ -265,7 +268,7 @@ import { config } from './config';
   }
 </style>
 
-<script is:inline>
+<script is:inline define:vars={{ REGEX_WORKER_SOURCE }}>
 (function () {
   var MAX_TEXT = 20000;
   var WORKER_MS = 150;
@@ -429,95 +432,15 @@ import { config } from './config';
   }
 
 
-  // Worker bootstrap: same caps as src/lib/text/regex-tester.ts. Kept as one string so a hung
-  // RegExp.exec can be terminated without freezing the tab. Under Playwright (webdriver) we skip
-  // the Worker and use ToyTools.regex.test, because Blob workers are flaky in that harness.
-  function workerSource() {
-    return [
-      'self.onmessage = function (e) {',
-      '  var d = e.data || {};',
-      '  var pattern = d.pattern || "";',
-      '  var flags = d.flags || "g";',
-      '  var text = d.text || "";',
-      '  var replace = d.replace;',
-      '  var MAX_TEXT = 20000;',
-      '  var MAX_MATCHES = 5000;',
-      '  var BUDGET = 120;',
-      '  function looksExpensive(p) {',
-      '    if (!p) return null;',
-      '    if (/(?:\\([^)]*[+*][^)]*\\)|\\(\\?:[^)]*[+*][^)]*\\))[+*{]/.test(p)) return "nested";',
-      '    if (/\\((?:[^|()]*\\|)+[^)]*\\)[+*{]/.test(p)) {',
-      '      var m = p.match(/\\(([^)]*\\|[^)]*)\\)[+*{]/);',
-      '      if (m) {',
-      '        var alts = m[1].split("|").map(function (a) { return a.replace(/\\\\./g, "X"); });',
-      '        if (alts.length >= 2) {',
-      '          var h = alts[0][0] || "";',
-      '          if (h && alts.every(function (a) { return (a[0] || "") === h; })) return "overlap";',
-      '        }',
-      '      }',
-      '    }',
-      '    if (/\\.\\+[+*]|\\.\\*\\.\\*/.test(p)) return "wildcards";',
-      '    return null;',
-      '  }',
-      '  try {',
-      '    if (!pattern) { self.postMessage({ ok: false, kind: "empty-pattern", error: "Enter a regular expression pattern to test." }); return; }',
-      '    if (looksExpensive(pattern)) {',
-      '      self.postMessage({ ok: false, kind: "expensive", error: "This pattern looks expensive and was blocked so the tab cannot hang. Simplify nested quantifiers or overlapping alternatives." });',
-      '      return;',
-      '    }',
-      '    var re;',
-      '    try {',
-      '      var f = flags;',
-      '      if (f.indexOf("g") < 0 && f.indexOf("y") < 0) f += "g";',
-      '      re = new RegExp(pattern, f);',
-      '    } catch (err) {',
-      '      self.postMessage({ ok: false, kind: "syntax", error: "Invalid regular expression: " + (err && err.message ? err.message : String(err)) });',
-      '      return;',
-      '    }',
-      '    var capped = text.length > MAX_TEXT;',
-      '    if (capped) text = text.slice(0, MAX_TEXT);',
-      '    var started = Date.now();',
-      '    var matches = [];',
-      '    var truncated = false;',
-      '    re.lastIndex = 0;',
-      '    while (true) {',
-      '      if (Date.now() - started > BUDGET) {',
-      '        self.postMessage({ ok: false, kind: "timeout", error: "This pattern took too long against the test text, so the run was stopped. Simplify the pattern or shorten the text." });',
-      '        return;',
-      '      }',
-      '      var m = re.exec(text);',
-      '      if (!m) break;',
-      '      var groups = [];',
-      '      for (var i = 1; i < m.length; i++) {',
-      '        var name = null;',
-      '        if (m.groups) {',
-      '          for (var n in m.groups) { if (Object.prototype.hasOwnProperty.call(m.groups, n) && m.groups[n] === m[i]) { name = n; break; } }',
-      '        }',
-      '        groups.push({ index: i, name: name, value: m[i] == null ? null : m[i], start: null, end: null });',
-      '      }',
-      '      matches.push({ ordinal: matches.length + 1, match: m[0], start: m.index, end: m.index + m[0].length, groups: groups });',
-      '      if (matches.length >= MAX_MATCHES) { truncated = true; break; }',
-      '      if (m[0].length === 0) { if (re.lastIndex >= text.length) break; re.lastIndex++; }',
-      '      if (!re.global) break;',
-      '    }',
-      '    var replaced = null;',
-      '    if (typeof replace === "string") {',
-      '      try { replaced = text.replace(new RegExp(pattern, re.flags), replace); }',
-      '      catch (err2) { self.postMessage({ ok: false, kind: "syntax", error: "Replace failed: " + (err2 && err2.message ? err2.message : String(err2)) }); return; }',
-      '    }',
-      '    self.postMessage({ ok: true, matches: matches, matchCount: truncated ? MAX_MATCHES : matches.length, truncated: truncated, replaced: replaced, textLength: text.length, cappedText: capped });',
-      '  } catch (fatal) {',
-      '    self.postMessage({ ok: false, kind: "syntax", error: String(fatal && fatal.message ? fatal.message : fatal) });',
-      '  }',
-      '};',
-    ].join('\n');
-  }
+  // Worker bootstrap lives in @lib/text/regex-tester (workerSource). Under Playwright
+  // (webdriver) we skip the Worker and use ToyTools.regex.test, because Blob workers are
+  // flaky in that harness.
 
   function ensureWorker() {
     if (worker) return worker;
     if (typeof Worker === 'undefined' || typeof Blob === 'undefined') return null;
     try {
-      workerUrl = URL.createObjectURL(new Blob([workerSource()], { type: 'text/javascript' }));
+      workerUrl = URL.createObjectURL(new Blob([REGEX_WORKER_SOURCE], { type: 'text/javascript' }));
       worker = new Worker(workerUrl);
       return worker;
     } catch (err) {

@@ -2,6 +2,16 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.16.1] - 2026-09-25
+
+### Fixed
+
+- **Regex Tester nit cleanup (follow-up to #228).** Wire `PRIVACY_LINE` into the tool
+  description (drop the dead partial import). Align guide privacy copy with the exact
+  privacy line. Remove unused `kind: 'cap'`. Replace a flagged em dash in a lib comment.
+  Move the Blob-Worker script into `src/lib/text/regex-tester.ts` (`workerSource`) so the
+  Worker path has a single source. No new features.
+
 ## [beta-v11.16] - 2026-09-25
 
 ### Added
