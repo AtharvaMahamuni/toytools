@@ -87,6 +87,7 @@ import { knowledge as randomChoicePicker } from '@tools/generate/random-choice-p
 import { knowledge as randomNamePicker } from '@tools/generate/random-name-picker/knowledge';
 import { knowledge as randomStringGenerator } from '@tools/generate/random-string-generator/knowledge';
 import { knowledge as readingTimeCalculator } from '@tools/text/reading-time-calculator/knowledge';
+import { knowledge as regexTester } from '@tools/developer-utilities/regex-tester/knowledge';
 import { knowledge as removeAccents } from '@tools/text/remove-accents/knowledge';
 import { knowledge as removeBlankLines } from '@tools/text/remove-blank-lines/knowledge';
 import { knowledge as removeDuplicateLines } from '@tools/text/remove-duplicate-lines/knowledge';
@@ -227,6 +228,7 @@ export const authoredKnowledge: Knowledge[] = [
   randomNamePicker,
   randomStringGenerator,
   readingTimeCalculator,
+  regexTester,
   removeAccents,
   removeBlankLines,
   removeDuplicateLines,

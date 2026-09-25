@@ -87,6 +87,7 @@ import { items as randomChoicePickerFaqs } from '@tools/generate/random-choice-p
 import { items as randomNamePickerFaqs } from '@tools/generate/random-name-picker/faq';
 import { items as randomStringGeneratorFaqs } from '@tools/generate/random-string-generator/faq';
 import { items as readingTimeCalculatorFaqs } from '@tools/text/reading-time-calculator/faq';
+import { items as regexTesterFaqs } from '@tools/developer-utilities/regex-tester/faq';
 import { items as removeAccentsFaqs } from '@tools/text/remove-accents/faq';
 import { items as removeBlankLinesFaqs } from '@tools/text/remove-blank-lines/faq';
 import { items as removeDuplicateLinesFaqs } from '@tools/text/remove-duplicate-lines/faq';
@@ -227,6 +228,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'random-name-picker': randomNamePickerFaqs,
   'random-string-generator': randomStringGeneratorFaqs,
   'reading-time-calculator': readingTimeCalculatorFaqs,
+  'regex-tester': regexTesterFaqs,
   'remove-accents': removeAccentsFaqs,
   'remove-blank-lines': removeBlankLinesFaqs,
   'remove-duplicate-lines': removeDuplicateLinesFaqs,

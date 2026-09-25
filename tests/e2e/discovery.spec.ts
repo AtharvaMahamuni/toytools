@@ -118,7 +118,9 @@ test.describe('homepage index', () => {
     // growth calculators and not a switch with the emergency fund calculator.
     // UPI MDR Estimator, Split Bill, and Shop UPI Tally (beta-v11.8) are ungrouped:
     // each answers a different question, so a group switcher would swap the task.
-    await expect(directory.locator('.dir-link')).toHaveCount(98);
+    // Regex Tester (beta-v11.16) is ungrouped: text-interactive peer of find-replace, but
+    // debugging a pattern is not a mode of document replace, so a group switcher would swap the task.
+    await expect(directory.locator('.dir-link')).toHaveCount(99);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

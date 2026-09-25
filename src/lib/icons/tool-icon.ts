@@ -35,6 +35,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   identify: 'detect',
   // The backslash is the thing this family is about: one more of them per shell in the path.
   'shell-quoting': 'backslash',
+  regex: 'regex',
   // text
   transform: 'title',
   'text-counting': 'words',
@@ -131,6 +132,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'csv-cleaner': 'broom',
   'csv-diff': 'compare',
   'jwt-decoder': 'jwt',
+  'regex-tester': 'regex',
 
   // text — casing (the characters are the identity)
   'camel-case-converter': 'camel',

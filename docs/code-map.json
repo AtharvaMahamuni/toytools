@@ -103,11 +103,12 @@
       "supportedFamilies": [
         "character-map",
         "find-replace",
+        "regex",
         "shell-quoting",
         "text-compare",
         "repeat"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "calculator": {
       "name": "Calculator Engine",
@@ -2613,6 +2614,27 @@
       "family": "text-counting",
       "processorId": "",
       "toolGroup": "text-counters",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "regex-tester": {
+      "name": "Regex Tester",
+      "dir": "src/tools/developer-utilities/regex-tester",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/regex-tester/",
+      "engine": "text-interactive",
+      "pattern": "text-interactive",
+      "family": "regex",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

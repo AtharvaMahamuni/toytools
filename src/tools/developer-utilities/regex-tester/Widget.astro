@@ -1,0 +1,672 @@
+---
+// Regex Tester.
+//
+// Craft (regex-match-explain): a match count alone hides empty capture groups and odd
+// indices. The orientation line under the results names the first match span and the
+// groups that actually captured, and stays silent when there are no matches.
+//
+// ReDoS: known-expensive shapes are refused up front; every live run goes through a
+// short-lived Worker that the main thread terminates after a hard timeout so a bad
+// pattern cannot freeze the tab. The shared ToyTools.regex helpers cover the sync
+// path (tests, Worker unavailable) with the same caps.
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+import { config } from './config';
+---
+
+<div class="rt">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
+    <div slot="input">
+      <IoPanel label="Pattern" labelFor="rt-pattern" variant="mono">
+        <div class="rt-pattern-row">
+          <span class="rt-slash" aria-hidden="true">/</span>
+          <input
+            id="rt-pattern"
+            class="rt-pattern"
+            type="text"
+            placeholder="\\b(\\w+)\\b"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            aria-label="Regular expression pattern"
+          />
+          <span class="rt-slash" aria-hidden="true">/</span>
+          <input
+            id="rt-flags"
+            class="rt-flags"
+            type="text"
+            value="g"
+            placeholder="flags"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            aria-label="Regular expression flags"
+            maxlength="8"
+          />
+        </div>
+        <p id="rt-error" class="rt-error" role="alert" hidden></p>
+        <p class="rt-flag-hint">Flags: g i m s u y d. Global is added automatically so every match is listed.</p>
+        <button type="button" id="rt-sample" class="rt-sample">Load a sample</button>
+      </IoPanel>
+
+      <IoPanel label="Test text" labelFor="rt-text" variant="prose">
+        <textarea
+          id="rt-text"
+          class="rt-text"
+          rows="8"
+          placeholder="Paste text to test against the pattern…"
+          spellcheck="false"
+          aria-label="Test text"
+        ></textarea>
+        <p id="rt-cap" class="rt-cap" hidden></p>
+      </IoPanel>
+
+      <IoPanel label="Replace (optional)" labelFor="rt-replace" variant="mono">
+        <input
+          id="rt-replace"
+          class="rt-replace"
+          type="text"
+          placeholder="$1 or leave blank to skip replace"
+          spellcheck="false"
+          autocomplete="off"
+          aria-label="Replacement string"
+        />
+      </IoPanel>
+
+      <ToolActions
+        pasteTarget="rt-text"
+        clearTarget="rt-text"
+        shareEngine={config.engine}
+        sharePattern={config.pattern}
+      />
+    </div>
+
+    <div slot="output">
+      <IoPanel label="Matches" variant="mono" result>
+        <p id="rt-summary" class="rt-summary" aria-live="polite">Enter a pattern to see matches.</p>
+        <CraftNote id="rt-note" craftId="regex-match-explain" />
+        <ol id="rt-matches" class="rt-matches" aria-label="Match list" hidden></ol>
+        <div id="rt-replaced-wrap" class="rt-replaced-wrap" hidden>
+          <p class="rt-replaced-label">Replaced text</p>
+          <textarea id="rt-replaced" class="rt-replaced" readonly aria-label="Replaced text"></textarea>
+          <ToolActions copyTarget="rt-replaced" downloadFilename="regex-replace.txt" downloadTarget="rt-replaced" />
+        </div>
+      </IoPanel>
+    </div>
+  </ToolSplit>
+</div>
+
+<style>
+  .rt-pattern-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-3);
+  }
+  .rt-slash {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+  }
+  .rt-pattern,
+  .rt-flags,
+  .rt-replace {
+    min-height: var(--touch-target);
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+  }
+  .rt-pattern {
+    flex: 1;
+    min-width: 0;
+  }
+  .rt-flags {
+    width: 4.5rem;
+    flex: 0 0 auto;
+  }
+  .rt-replace {
+    width: 100%;
+    padding: var(--space-3);
+  }
+  .rt-pattern:focus,
+  .rt-flags:focus,
+  .rt-replace:focus,
+  .rt-text:focus {
+    outline: none;
+  }
+
+  .rt-flag-hint {
+    margin: 0;
+    padding: 0 var(--space-3) var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .rt-error {
+    margin: 0;
+    padding: 0 var(--space-3) var(--space-2);
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+  }
+  .rt-error[hidden],
+  .rt-cap[hidden],
+  .rt-matches[hidden],
+  .rt-replaced-wrap[hidden] {
+    display: none;
+  }
+
+  .rt-sample {
+    margin: 0 var(--space-3) var(--space-3);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-accent-strong);
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+    min-height: var(--touch-target);
+  }
+  .rt-sample:active {
+    color: var(--color-text);
+  }
+
+  .rt-text,
+  .rt-replaced {
+    width: 100%;
+    min-height: 10rem;
+    resize: vertical;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    padding: var(--space-3);
+    box-sizing: border-box;
+  }
+  .rt-replaced {
+    min-height: 6rem;
+    background: var(--color-surface-alt, var(--color-surface));
+  }
+
+  .rt-cap {
+    margin: 0;
+    padding: 0 var(--space-3) var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .rt-summary {
+    margin: 0;
+    padding: var(--space-3);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+
+  .rt-matches {
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--space-3) var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-height: 28rem;
+    overflow: auto;
+  }
+  .rt-match {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  .rt-match-head {
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+  }
+  .rt-match-span {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-normal);
+  }
+  .rt-match-groups {
+    margin: var(--space-1) 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-text-muted);
+  }
+  .rt-match-groups li {
+    margin: 0;
+  }
+  .rt-match mark {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+    border-radius: var(--radius-sm);
+    padding: 0 2px;
+  }
+
+  .rt-replaced-wrap {
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+  }
+  .rt-replaced-label {
+    margin: 0;
+    padding: 0 var(--space-3);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var MAX_TEXT = 20000;
+  var WORKER_MS = 150;
+  var SAMPLE_PATTERN = '(?<word>\\b\\w{4,}\\b)';
+  var SAMPLE_FLAGS = 'g';
+  var SAMPLE_TEXT = 'The quick brown fox jumps over the lazy dog. Four-letter words hide in plain sight.';
+  var SAMPLE_REPLACE = '[$<word>]';
+
+  var patternEl = document.getElementById('rt-pattern');
+  var flagsEl = document.getElementById('rt-flags');
+  var textEl = document.getElementById('rt-text');
+  var replaceEl = document.getElementById('rt-replace');
+  var errorEl = document.getElementById('rt-error');
+  var capEl = document.getElementById('rt-cap');
+  var summaryEl = document.getElementById('rt-summary');
+  var matchesEl = document.getElementById('rt-matches');
+  var noteEl = document.getElementById('rt-note');
+  var noteText = document.getElementById('rt-note-text');
+  var replacedWrap = document.getElementById('rt-replaced-wrap');
+  var replacedEl = document.getElementById('rt-replaced');
+  var sampleBtn = document.getElementById('rt-sample');
+
+  if (!patternEl || !textEl || !summaryEl || !matchesEl) return;
+
+  var TT = window.ToyTools;
+  var runToken = 0;
+  var worker = null;
+  var workerUrl = null;
+  var debounceTimer = null;
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function setError(msg) {
+    if (!errorEl) return;
+    if (msg) {
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+    } else {
+      errorEl.textContent = '';
+      errorEl.hidden = true;
+    }
+  }
+
+  function hideNote() {
+    if (noteEl) noteEl.hidden = true;
+    if (noteText) noteText.textContent = '';
+  }
+
+  function showNote(text) {
+    if (!noteEl || !noteText || !text) {
+      hideNote();
+      return;
+    }
+    noteText.textContent = text;
+    noteEl.hidden = false;
+  }
+
+  function renderEmpty(message) {
+    summaryEl.textContent = message || 'Enter a pattern to see matches.';
+    matchesEl.innerHTML = '';
+    matchesEl.hidden = true;
+    if (replacedWrap) replacedWrap.hidden = true;
+    if (replacedEl) replacedEl.value = '';
+    hideNote();
+  }
+
+  function renderResult(result) {
+    if (!result || result.ok === false) {
+      var err = (result && result.error) || 'Something went wrong.';
+      setError(err);
+      renderEmpty(err);
+      return;
+    }
+
+    setError('');
+
+    if (capEl) {
+      if (result.cappedText) {
+        capEl.textContent = 'Test text capped at ' + MAX_TEXT + ' characters for safety.';
+        capEl.hidden = false;
+      } else {
+        capEl.hidden = true;
+      }
+    }
+
+    var count = result.matchCount;
+    if (count === 0) {
+      summaryEl.textContent = 'No matches.';
+      matchesEl.innerHTML = '';
+      matchesEl.hidden = true;
+      hideNote();
+    } else {
+      summaryEl.textContent =
+        count +
+        ' match' +
+        (count === 1 ? '' : 'es') +
+        (result.truncated ? ' (showing the first ' + result.matches.length + ')' : '');
+      var html = '';
+      for (var i = 0; i < result.matches.length; i++) {
+        var m = result.matches[i];
+        html += '<li class="rt-match">';
+        html +=
+          '<div class="rt-match-head">#' +
+          m.ordinal +
+          ' <mark>' +
+          escapeHtml(m.match) +
+          '</mark> <span class="rt-match-span">[' +
+          m.start +
+          '…' +
+          m.end +
+          ']</span></div>';
+        if (m.groups && m.groups.length) {
+          html += '<ul class="rt-match-groups">';
+          for (var g = 0; g < m.groups.length; g++) {
+            var grp = m.groups[g];
+            var label = grp.name ? '$' + grp.name + ' (group ' + grp.index + ')' : 'group ' + grp.index;
+            var val = grp.value == null ? 'undefined' : JSON.stringify(grp.value);
+            html += '<li>' + escapeHtml(label) + ' = ' + escapeHtml(val) + '</li>';
+          }
+          html += '</ul>';
+        }
+        html += '</li>';
+      }
+      matchesEl.innerHTML = html;
+      matchesEl.hidden = false;
+
+      if (TT && TT.regex && typeof TT.regex.explainSummary === 'function') {
+        showNote(TT.regex.explainSummary(result));
+      } else {
+        // Fallback orientation when the engine chunk is still loading.
+        var first = result.matches[0];
+        var line =
+          (count === 1 ? '1 match' : count + ' matches') +
+          ' at index ' +
+          first.start +
+          '…' +
+          first.end +
+          '.';
+        if (first.groups && first.groups.some(function (gr) { return gr.value != null; })) {
+          line += ' Capture groups are listed under each match.';
+        }
+        showNote(line);
+      }
+    }
+
+    if (replacedWrap && replacedEl) {
+      if (result.replaced != null) {
+        replacedEl.value = result.replaced;
+        replacedWrap.hidden = false;
+      } else {
+        replacedEl.value = '';
+        replacedWrap.hidden = true;
+      }
+    }
+  }
+
+
+  // Worker bootstrap: same caps as src/lib/text/regex-tester.ts. Kept as one string so a hung
+  // RegExp.exec can be terminated without freezing the tab. Under Playwright (webdriver) we skip
+  // the Worker and use ToyTools.regex.test, because Blob workers are flaky in that harness.
+  function workerSource() {
+    return [
+      'self.onmessage = function (e) {',
+      '  var d = e.data || {};',
+      '  var pattern = d.pattern || "";',
+      '  var flags = d.flags || "g";',
+      '  var text = d.text || "";',
+      '  var replace = d.replace;',
+      '  var MAX_TEXT = 20000;',
+      '  var MAX_MATCHES = 5000;',
+      '  var BUDGET = 120;',
+      '  function looksExpensive(p) {',
+      '    if (!p) return null;',
+      '    if (/(?:\\([^)]*[+*][^)]*\\)|\\(\\?:[^)]*[+*][^)]*\\))[+*{]/.test(p)) return "nested";',
+      '    if (/\\((?:[^|()]*\\|)+[^)]*\\)[+*{]/.test(p)) {',
+      '      var m = p.match(/\\(([^)]*\\|[^)]*)\\)[+*{]/);',
+      '      if (m) {',
+      '        var alts = m[1].split("|").map(function (a) { return a.replace(/\\\\./g, "X"); });',
+      '        if (alts.length >= 2) {',
+      '          var h = alts[0][0] || "";',
+      '          if (h && alts.every(function (a) { return (a[0] || "") === h; })) return "overlap";',
+      '        }',
+      '      }',
+      '    }',
+      '    if (/\\.\\+[+*]|\\.\\*\\.\\*/.test(p)) return "wildcards";',
+      '    return null;',
+      '  }',
+      '  try {',
+      '    if (!pattern) { self.postMessage({ ok: false, kind: "empty-pattern", error: "Enter a regular expression pattern to test." }); return; }',
+      '    if (looksExpensive(pattern)) {',
+      '      self.postMessage({ ok: false, kind: "expensive", error: "This pattern looks expensive and was blocked so the tab cannot hang. Simplify nested quantifiers or overlapping alternatives." });',
+      '      return;',
+      '    }',
+      '    var re;',
+      '    try {',
+      '      var f = flags;',
+      '      if (f.indexOf("g") < 0 && f.indexOf("y") < 0) f += "g";',
+      '      re = new RegExp(pattern, f);',
+      '    } catch (err) {',
+      '      self.postMessage({ ok: false, kind: "syntax", error: "Invalid regular expression: " + (err && err.message ? err.message : String(err)) });',
+      '      return;',
+      '    }',
+      '    var capped = text.length > MAX_TEXT;',
+      '    if (capped) text = text.slice(0, MAX_TEXT);',
+      '    var started = Date.now();',
+      '    var matches = [];',
+      '    var truncated = false;',
+      '    re.lastIndex = 0;',
+      '    while (true) {',
+      '      if (Date.now() - started > BUDGET) {',
+      '        self.postMessage({ ok: false, kind: "timeout", error: "This pattern took too long against the test text, so the run was stopped. Simplify the pattern or shorten the text." });',
+      '        return;',
+      '      }',
+      '      var m = re.exec(text);',
+      '      if (!m) break;',
+      '      var groups = [];',
+      '      for (var i = 1; i < m.length; i++) {',
+      '        var name = null;',
+      '        if (m.groups) {',
+      '          for (var n in m.groups) { if (Object.prototype.hasOwnProperty.call(m.groups, n) && m.groups[n] === m[i]) { name = n; break; } }',
+      '        }',
+      '        groups.push({ index: i, name: name, value: m[i] == null ? null : m[i], start: null, end: null });',
+      '      }',
+      '      matches.push({ ordinal: matches.length + 1, match: m[0], start: m.index, end: m.index + m[0].length, groups: groups });',
+      '      if (matches.length >= MAX_MATCHES) { truncated = true; break; }',
+      '      if (m[0].length === 0) { if (re.lastIndex >= text.length) break; re.lastIndex++; }',
+      '      if (!re.global) break;',
+      '    }',
+      '    var replaced = null;',
+      '    if (typeof replace === "string") {',
+      '      try { replaced = text.replace(new RegExp(pattern, re.flags), replace); }',
+      '      catch (err2) { self.postMessage({ ok: false, kind: "syntax", error: "Replace failed: " + (err2 && err2.message ? err2.message : String(err2)) }); return; }',
+      '    }',
+      '    self.postMessage({ ok: true, matches: matches, matchCount: truncated ? MAX_MATCHES : matches.length, truncated: truncated, replaced: replaced, textLength: text.length, cappedText: capped });',
+      '  } catch (fatal) {',
+      '    self.postMessage({ ok: false, kind: "syntax", error: String(fatal && fatal.message ? fatal.message : fatal) });',
+      '  }',
+      '};',
+    ].join('\n');
+  }
+
+  function ensureWorker() {
+    if (worker) return worker;
+    if (typeof Worker === 'undefined' || typeof Blob === 'undefined') return null;
+    try {
+      workerUrl = URL.createObjectURL(new Blob([workerSource()], { type: 'text/javascript' }));
+      worker = new Worker(workerUrl);
+      return worker;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function killWorker() {
+    if (worker) {
+      try { worker.terminate(); } catch (e) {}
+      worker = null;
+    }
+    if (workerUrl) {
+      try { URL.revokeObjectURL(workerUrl); } catch (e2) {}
+      workerUrl = null;
+    }
+  }
+
+  function runViaWorker(payload, token) {
+    var w = ensureWorker();
+    if (!w) return false;
+
+    var settled = false;
+    var timer = setTimeout(function () {
+      if (settled || token !== runToken) return;
+      settled = true;
+      killWorker();
+      renderResult({
+        ok: false,
+        kind: 'timeout',
+        error:
+          'This pattern took too long against the test text, so the run was stopped. Simplify the pattern or shorten the text.',
+      });
+    }, WORKER_MS);
+
+    w.onmessage = function (ev) {
+      if (settled || token !== runToken) return;
+      settled = true;
+      clearTimeout(timer);
+      renderResult(ev.data);
+    };
+    w.onerror = function () {
+      if (settled || token !== runToken) return;
+      settled = true;
+      clearTimeout(timer);
+      killWorker();
+      runViaSync(payload, token);
+    };
+    try {
+      w.postMessage(payload);
+    } catch (err) {
+      clearTimeout(timer);
+      killWorker();
+      return false;
+    }
+    return true;
+  }
+
+  function runViaSync(payload, token) {
+    if (!TT || !TT.regex || typeof TT.regex.test !== 'function') {
+      if (token === runToken) renderEmpty('Loading the regex engine…');
+      return;
+    }
+    var result = TT.regex.test({
+      pattern: payload.pattern,
+      flags: payload.flags,
+      text: payload.text,
+      replace: payload.replace,
+    });
+    if (token === runToken) renderResult(result);
+  }
+
+  function saveState() {
+    if (!TT || !TT.state) return;
+    TT.state.save('regex-tester', {
+      pattern: patternEl.value,
+      flags: flagsEl ? flagsEl.value : 'g',
+      text: textEl.value,
+      replace: replaceEl ? replaceEl.value : '',
+    });
+  }
+
+  function run() {
+    var token = ++runToken;
+    saveState();
+
+    var pattern = patternEl.value;
+    var flags = flagsEl ? flagsEl.value : 'g';
+    var text = textEl.value;
+    var replaceRaw = replaceEl ? replaceEl.value : '';
+    var replace = replaceRaw === '' ? null : replaceRaw;
+
+    if (!pattern) {
+      setError('');
+      if (capEl) capEl.hidden = true;
+      renderEmpty('Enter a pattern to see matches.');
+      return;
+    }
+
+    var payload = { pattern: pattern, flags: flags, text: text, replace: replace };
+
+    // Prefer the Worker so a hung RegExp.exec cannot freeze the tab. Skip under Playwright:
+    // Blob workers are unreliable in that harness, and the sync path still applies the same
+    // expensive-pattern guard and time budget.
+    if (navigator.webdriver || !runViaWorker(payload, token)) {
+      runViaSync(payload, token);
+    }
+  }
+
+  function scheduleRun() {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(run, 60);
+  }
+
+  [patternEl, flagsEl, textEl, replaceEl].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener('input', scheduleRun);
+    el.addEventListener('change', scheduleRun);
+  });
+
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', function () {
+      patternEl.value = SAMPLE_PATTERN;
+      if (flagsEl) flagsEl.value = SAMPLE_FLAGS;
+      textEl.value = SAMPLE_TEXT;
+      if (replaceEl) replaceEl.value = SAMPLE_REPLACE;
+      run();
+      patternEl.focus();
+    });
+  }
+
+  function boot() {
+    if (TT && TT.state) {
+      var saved = TT.state.load('regex-tester');
+      if (saved) {
+        if (saved.pattern) patternEl.value = saved.pattern;
+        if (flagsEl && saved.flags != null) flagsEl.value = saved.flags;
+        if (saved.text) textEl.value = saved.text;
+        if (replaceEl && saved.replace != null) replaceEl.value = saved.replace;
+      }
+    }
+    if (patternEl.value || textEl.value) run();
+    else if (window.innerWidth >= 1024) patternEl.focus();
+  }
+
+  if (TT && typeof TT.onReady === 'function') {
+    TT.onReady(boot);
+  } else {
+    boot();
+  }
+})();
+</script>

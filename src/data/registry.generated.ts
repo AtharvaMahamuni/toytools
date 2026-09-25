@@ -87,6 +87,7 @@ import { config as randomChoicePicker } from '@tools/generate/random-choice-pick
 import { config as randomNamePicker } from '@tools/generate/random-name-picker/config';
 import { config as randomStringGenerator } from '@tools/generate/random-string-generator/config';
 import { config as readingTimeCalculator } from '@tools/text/reading-time-calculator/config';
+import { config as regexTester } from '@tools/developer-utilities/regex-tester/config';
 import { config as removeAccents } from '@tools/text/remove-accents/config';
 import { config as removeBlankLines } from '@tools/text/remove-blank-lines/config';
 import { config as removeDuplicateLines } from '@tools/text/remove-duplicate-lines/config';
@@ -227,6 +228,7 @@ export const toolConfigs: ToolConfig[] = [
   randomNamePicker,
   randomStringGenerator,
   readingTimeCalculator,
+  regexTester,
   removeAccents,
   removeBlankLines,
   removeDuplicateLines,

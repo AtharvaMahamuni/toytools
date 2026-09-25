@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 11,
-  minor: 15,
+  minor: 16,
   patch: 0,
   status: 'beta',
   releaseDate: '2026-09-25',
-  description: 'Molecular Geometry Calculator (VSEPR)',
+  description: 'Regex Tester',
 };
 
 export function formatVersion(config: VersionConfig): string {

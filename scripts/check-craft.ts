@@ -176,7 +176,8 @@ const THRESHOLDS = {
   // 2026-09-18: 0.688 (95/138). Three finance tools ship craft: upi-mdr-estimate
   //   (the figure is not a customer tax), bill-split-fair (last person takes leftover
   //   paise so shares sum), and shop-upi-tally (the 1,00,000 line is not a status change).
-  coverage: 0.688,
+  // 2026-09-25: 0.690 (96/139). Regex Tester ships orientation craft (regex-match-explain).
+  coverage: 0.690,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,
