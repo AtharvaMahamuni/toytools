@@ -108,6 +108,18 @@ const STRUCTURED_INFO: Record<string, StructuredInfo> = {
     inputLabel: 'YAML input',
     placeholder: 'Paste YAML here',
   },
+  'json-to-schema': {
+    displayName: 'JSON to JSON Schema',
+    insight:
+      'The schema records JSON types seen in this example. A string stays a string: the page does not guess that it is a name, an email, or a required field.',
+    technical: [
+      { term: 'Input', detail: 'One JSON value' },
+      { term: 'Types', detail: 'string, number, integer, boolean, null, object, array' },
+      { term: 'Not inferred', detail: 'required, format, enum, or additionalProperties' },
+      { term: 'Empty array', detail: 'type array, with no items schema' },
+    ],
+    sample: '{"name":"Atharva","age":30,"active":true}',
+  },
 };
 
 /** Educational info for a structured-data tool. Never throws; unknown ids return a stub. */

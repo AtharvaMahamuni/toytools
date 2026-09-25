@@ -52,7 +52,9 @@ import { config as jsonDiff } from '@tools/developer-utilities/json-diff/config'
 import { config as jsonEscape } from '@tools/developer-utilities/json-escape/config';
 import { config as jsonFormatter } from '@tools/developer-utilities/json-formatter/config';
 import { config as jsonMinifier } from '@tools/developer-utilities/json-minifier/config';
+import { config as jsonSchemaValidator } from '@tools/prep/json-schema-validator/config';
 import { config as jsonToCsvConverter } from '@tools/developer-utilities/json-to-csv-converter/config';
+import { config as jsonToSchema } from '@tools/prep/json-to-schema/config';
 import { config as jsonToYamlConverter } from '@tools/developer-utilities/json-to-yaml-converter/config';
 import { config as jsonTreeViewer } from '@tools/developer-utilities/json-tree-viewer/config';
 import { config as jsonValidator } from '@tools/developer-utilities/json-validator/config';
@@ -195,7 +197,9 @@ export const toolConfigs: ToolConfig[] = [
   jsonEscape,
   jsonFormatter,
   jsonMinifier,
+  jsonSchemaValidator,
   jsonToCsvConverter,
+  jsonToSchema,
   jsonToYamlConverter,
   jsonTreeViewer,
   jsonValidator,

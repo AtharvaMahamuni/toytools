@@ -44,7 +44,7 @@ export type EngineId = (typeof ENGINE_IDS)[number];
 
 const PATTERN_IDS = [
   'text-metric', 'text-transform', 'text-cleanup', 'text-inspect', 'text-assemble', 'encode-decode', 'encode-detect', 'hash', 'hash-identify',
-  'structured-transform', 'structured-validate', 'structured-compare', 'token-decode', 'text-interactive',
+  'structured-transform', 'structured-validate', 'structured-compare', 'structured-schema', 'token-decode', 'text-interactive',
   'calculate', 'stateful', 'finance-growth', 'finance-planning', 'csv-transform',
   'generate-credential', 'generate-identifier', 'generate-placeholder', 'generate-code',
   'generate-chance',
@@ -75,7 +75,7 @@ export type PatternId = (typeof PATTERN_IDS)[number];
  * Declared here rather than inferred, so adding one stays a deliberate act with a reviewer, and so
  * the processorId rule keeps its full force everywhere else.
  */
-export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect', 'text-assemble', 'network-lookup', 'hash-identify', 'structured-compare']);
+export const NON_DISPATCHING_PATTERNS: ReadonlySet<PatternId> = new Set<PatternId>(['encode-detect', 'text-inspect', 'text-assemble', 'network-lookup', 'hash-identify', 'structured-compare', 'structured-schema']);
 
 interface EngineDef {
   id: EngineId;
@@ -106,7 +106,7 @@ const engineDefs: EngineDef[] = [
   { id: 'text-processor', name: 'Text Processor Engine', category: 'text-utilities', patterns: ['text-transform', 'text-cleanup', 'text-inspect', 'text-assemble'], runtimeGlobal: 'process', sharedWidget: 'TextProcessorWidget.astro', globals: ['process', 'textHandoff', 'detectInvisible', 'packPrompt', 'cleanChatExport'] },
   { id: 'encoding', name: 'Encoding Engine', category: 'developer-utilities', patterns: ['encode-decode', 'encode-detect'], runtimeGlobal: 'runEncoding', sharedWidget: 'ConverterWidget.astro', globals: ['runEncoding', 'detectEncoding', 'transform'] },
   { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash', 'hash-identify'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro', globals: ['runHash', 'hashBytes', 'identifyHash', 'verifyHash', 'transform'] },
-  { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate', 'structured-compare'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro', globals: ['runStructuredData', 'repairStructuredData', 'json', 'yaml', 'diffJson'] },
+  { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate', 'structured-compare', 'structured-schema'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro', globals: ['runStructuredData', 'repairStructuredData', 'json', 'yaml', 'diffJson', 'validateJsonSchema'] },
   { id: 'jwt', name: 'JWT Engine', category: 'developer-utilities', patterns: ['token-decode'], runtimeGlobal: 'runJwt', sharedWidget: 'JwtWidget.astro', globals: ['runJwt'] },
   { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '', globals: ['diff', 'diffStats', 'whitespaceNoise', 'shell', 'regex'] },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '', globals: ['pitfall'] },

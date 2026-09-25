@@ -23,6 +23,7 @@ export const sectionsByPattern: Record<string, CategorySection> = {
   'structured-transform': { title: 'JSON & Structured Data', order: 3 },
   'structured-validate':  { title: 'JSON & Structured Data', order: 3 },
   'structured-compare':   { title: 'JSON & Structured Data', order: 3 },
+  'structured-schema':    { title: 'JSON & Structured Data', order: 3 },
   'token-decode':         { title: 'Tokens & JWT',          order: 4 },
   'csv-transform':        { title: 'CSV Tools',             order: 5 },
   'calculate':            { title: 'Calculators',            order: 1 },

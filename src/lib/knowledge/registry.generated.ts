@@ -52,7 +52,9 @@ import { knowledge as jsonDiff } from '@tools/developer-utilities/json-diff/know
 import { knowledge as jsonEscape } from '@tools/developer-utilities/json-escape/knowledge';
 import { knowledge as jsonFormatter } from '@tools/developer-utilities/json-formatter/knowledge';
 import { knowledge as jsonMinifier } from '@tools/developer-utilities/json-minifier/knowledge';
+import { knowledge as jsonSchemaValidator } from '@tools/prep/json-schema-validator/knowledge';
 import { knowledge as jsonToCsvConverter } from '@tools/developer-utilities/json-to-csv-converter/knowledge';
+import { knowledge as jsonToSchema } from '@tools/prep/json-to-schema/knowledge';
 import { knowledge as jsonToYamlConverter } from '@tools/developer-utilities/json-to-yaml-converter/knowledge';
 import { knowledge as jsonTreeViewer } from '@tools/developer-utilities/json-tree-viewer/knowledge';
 import { knowledge as jsonValidator } from '@tools/developer-utilities/json-validator/knowledge';
@@ -195,7 +197,9 @@ export const authoredKnowledge: Knowledge[] = [
   jsonEscape,
   jsonFormatter,
   jsonMinifier,
+  jsonSchemaValidator,
   jsonToCsvConverter,
+  jsonToSchema,
   jsonToYamlConverter,
   jsonTreeViewer,
   jsonValidator,

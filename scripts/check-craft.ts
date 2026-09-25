@@ -181,7 +181,9 @@ const THRESHOLDS = {
   //   An empty field printed as a heading reads like an instruction the person forgot to fill in.
   // 2026-09-25: 0.695 (98/141). Chat Export Cleaner ships guardrail craft chat-removed-count.
   //   A keep mode drops turns. The status line says how many lines changed and that text was dropped.
-  coverage: 0.695,
+  // 2026-09-25: 0.699 (100/143). JSON to Schema reuses the JSON repair button. JSON Schema
+  //   Validator ships guardrail craft schema-unchecked for keywords this page does not check.
+  coverage: 0.699,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

@@ -58,6 +58,8 @@ export const searchAliases: Record<string, string[]> = {
   // Prep for a model
   'prompt-packer': ['prompt builder', 'structured prompt'],
   'chat-export-cleaner': ['chat export', 'conversation cleaner'],
+  'json-to-schema': ['schema from example', 'json to schema'],
+  'json-schema-validator': ['check json schema', 'validate a schema'],
 
   // Text utilities
   'camel-case-converter': ['camelcase'],

@@ -52,7 +52,9 @@ import { items as jsonDiffFaqs } from '@tools/developer-utilities/json-diff/faq'
 import { items as jsonEscapeFaqs } from '@tools/developer-utilities/json-escape/faq';
 import { items as jsonFormatterFaqs } from '@tools/developer-utilities/json-formatter/faq';
 import { items as jsonMinifierFaqs } from '@tools/developer-utilities/json-minifier/faq';
+import { items as jsonSchemaValidatorFaqs } from '@tools/prep/json-schema-validator/faq';
 import { items as jsonToCsvConverterFaqs } from '@tools/developer-utilities/json-to-csv-converter/faq';
+import { items as jsonToSchemaFaqs } from '@tools/prep/json-to-schema/faq';
 import { items as jsonToYamlConverterFaqs } from '@tools/developer-utilities/json-to-yaml-converter/faq';
 import { items as jsonTreeViewerFaqs } from '@tools/developer-utilities/json-tree-viewer/faq';
 import { items as jsonValidatorFaqs } from '@tools/developer-utilities/json-validator/faq';
@@ -195,7 +197,9 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'json-escape': jsonEscapeFaqs,
   'json-formatter': jsonFormatterFaqs,
   'json-minifier': jsonMinifierFaqs,
+  'json-schema-validator': jsonSchemaValidatorFaqs,
   'json-to-csv-converter': jsonToCsvConverterFaqs,
+  'json-to-schema': jsonToSchemaFaqs,
   'json-to-yaml-converter': jsonToYamlConverterFaqs,
   'json-tree-viewer': jsonTreeViewerFaqs,
   'json-validator': jsonValidatorFaqs,

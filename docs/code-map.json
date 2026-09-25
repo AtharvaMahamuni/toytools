@@ -72,14 +72,15 @@
       "patterns": [
         "structured-transform",
         "structured-validate",
-        "structured-compare"
+        "structured-compare",
+        "structured-schema"
       ],
       "runtimeGlobal": "runStructuredData",
       "sharedWidget": "src/tools/_shared/StructuredDataWidget.astro",
       "supportedFamilies": [
         "json"
       ],
-      "toolCount": 9
+      "toolCount": 11
     },
     "jwt": {
       "name": "JWT Engine",
@@ -1891,6 +1892,26 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "json-schema-validator": {
+      "name": "JSON Schema Validator",
+      "dir": "src/tools/prep/json-schema-validator",
+      "categorySlug": "prep",
+      "url": "/tool/prep/json-schema-validator/",
+      "engine": "structured-data",
+      "pattern": "structured-schema",
+      "family": "json",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "json-to-csv-converter": {
       "name": "JSON to CSV Converter",
       "dir": "src/tools/developer-utilities/json-to-csv-converter",
@@ -1909,6 +1930,26 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "json-to-schema": {
+      "name": "JSON to JSON Schema",
+      "dir": "src/tools/prep/json-to-schema",
+      "categorySlug": "prep",
+      "url": "/tool/prep/json-to-schema/",
+      "engine": "structured-data",
+      "pattern": "structured-transform",
+      "family": "json",
+      "processorId": "json-to-schema",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

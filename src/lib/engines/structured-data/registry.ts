@@ -15,6 +15,7 @@ import { jsonTreeViewer } from './jsonTreeViewer';
 import { jsonToYaml } from './jsonToYaml';
 import { yamlToJson } from './yamlToJson';
 import { csvToJson } from './csvToJson';
+import { jsonToSchema } from './jsonToSchema';
 
 // Keyed by tool id, referenced from a tool config's `processorId`.
 export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
@@ -26,6 +27,7 @@ export const STRUCTURED_TOOLS: Record<string, StructuredDataTool> = {
   'json-to-yaml': jsonToYaml,
   'yaml-to-json': yamlToJson,
   'csv-to-json': csvToJson,
+  'json-to-schema': jsonToSchema,
 };
 
 /**
