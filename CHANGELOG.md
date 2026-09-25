@@ -2,7 +2,7 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [beta-v11.15] - 2026-09-20
+## [beta-v11.15] - 2026-09-25
 
 ### Added
 

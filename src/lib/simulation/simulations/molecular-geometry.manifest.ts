@@ -149,7 +149,7 @@ export const manifest: SimulationManifest = {
       'molecular shape',
       'lone pairs',
     ],
-    updatedAt: '2026-09-20',
+    updatedAt: '2026-09-25',
     isNew: true,
     trustVariant: 'offline',
   },
@@ -219,7 +219,7 @@ export const manifest: SimulationManifest = {
     description:
       'How steric number picks a VSEPR shape, why electron geometry and molecular shape are two names, and how lone pairs compress the ideal bond angle.',
     readMinutes: 7,
-    updatedAt: '2026-09-20',
+    updatedAt: '2026-09-25',
     quickAnswer:
       'Molecular geometry is the arrangement of bonded atoms around a central atom, assigned by VSEPR from the steric number. Steric number is bonding pairs plus lone pairs. That integer picks the electron geometry: 2 linear, 3 trigonal planar, 4 tetrahedral, 5 trigonal bipyramidal, 6 octahedral. Molecular shape then ignores the lone pairs, so water is tetrahedral in its electrons and bent in its atoms at 104.5°. Set the two counts here and watch the two names come apart.',
     sections: [

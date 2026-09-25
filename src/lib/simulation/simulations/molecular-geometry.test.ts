@@ -72,6 +72,14 @@ describe('molecular shape', () => {
     expect(molecularShape(molecule(6, 0))).toBe('octahedral');
   });
 
+  it('maps AX1E2 (1 bonding, 2 lone) to linear like its 1:1 / 1:3 / 1:4 siblings', () => {
+    expect(isValid(molecule(1, 2))).toBe(true);
+    expect(molecularShape(molecule(1, 2))).toBe('linear');
+    expect(molecularShape(molecule(1, 1))).toBe('linear');
+    expect(molecularShape(molecule(1, 3))).toBe('linear');
+    expect(molecularShape(molecule(1, 4))).toBe('linear');
+  });
+
   it('writes AXE the way a course writes it', () => {
     expect(axeNotation(molecule(2, 2))).toBe('AX2E2');
     expect(axeNotation(molecule(4, 0))).toBe('AX4');

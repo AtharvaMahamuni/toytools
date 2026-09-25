@@ -14,7 +14,7 @@ export const VERSION_CONFIG: VersionConfig = {
   minor: 15,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-09-20',
+  releaseDate: '2026-09-25',
   description: 'Molecular Geometry Calculator (VSEPR)',
 };
 

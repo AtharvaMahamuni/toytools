@@ -105,6 +105,7 @@ export function molecularShape(s: SimState): MolecularShape {
   const table: Record<string, MolecularShape> = {
     '2:0': 'linear',
     '1:1': 'linear',
+    '1:2': 'linear',
     '3:0': 'trigonal planar',
     '2:1': 'bent',
     '4:0': 'tetrahedral',
