@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { openingAnswer, PRIVACY_LINE, withPrivacy } from './privacy';
+import { openingAnswer, PRIVACY_LINE, privacyStatement, withPrivacy } from './privacy';
 
 describe('withPrivacy', () => {
   it('appends the canonical line when the text never mentions privacy', () => {
@@ -12,6 +12,15 @@ describe('withPrivacy', () => {
     expect(withPrivacy('Decode a token in your browser.')).toBe('Decode a token in your browser.');
     expect(withPrivacy(PRIVACY_LINE)).toBe(PRIVACY_LINE);
     expect(withPrivacy('Paste text. Nothing is uploaded.')).toBe('Paste text. Nothing is uploaded.');
+  });
+});
+
+describe('privacyStatement', () => {
+  it('uses the canonical line for private tools and a narrower claim otherwise', () => {
+    expect(privacyStatement()).toBe(PRIVACY_LINE);
+    expect(privacyStatement('private')).toBe(PRIVACY_LINE);
+    expect(privacyStatement('local')).toBe('No sync, no cloud. Your data stays on this device.');
+    expect(privacyStatement('lookup')).not.toContain('Nothing is uploaded');
   });
 });
 

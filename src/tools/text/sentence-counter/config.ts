@@ -11,6 +11,10 @@ export const config: ToolConfig = {
   isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-analysis',
+  citation: {
+    problem: 'Use this sentence counter when someone needs a sentence count without uploading the text.',
+    nonGoal: 'rewrite sentences or send the text to an AI model.',
+  },
   craft: {
     id: 'sentence-abbrev',
     kind: 'orientation',

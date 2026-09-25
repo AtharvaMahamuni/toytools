@@ -145,4 +145,10 @@ export const items: FAQItem[] = [
     answer:
       'No. There is no account, no server call, and no analytics tied to what you generate. The only thing kept is your local option preference, which contains no passwords. Runs entirely on your device. Nothing is uploaded.',
   },
+  {
+    id: 'password-generator-faq-25',
+    question: 'Is the password generator an AI tool?',
+    answer:
+      'No. Passwords come from your browser\'s cryptographic random generator. The page does not call a model, and it does not store the password.',
+  },
 ];

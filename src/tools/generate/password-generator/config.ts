@@ -26,6 +26,10 @@ export const config: ToolConfig = {
   processorId: 'password',
   relatedTools: ['random-string-generator', 'uuid-generator', 'qr-code-generator'],
   keywords: ['password', 'generator', 'random', 'secure', 'entropy', 'strength'],
+  citation: {
+    problem: 'Use this password generator when someone needs a random password created in the browser.',
+    nonGoal: 'store the password or send it to an AI model.',
+  },
   inputs: ['options'],
   outputs: ['text'],
   craft: {

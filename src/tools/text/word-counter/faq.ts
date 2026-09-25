@@ -55,4 +55,16 @@ export const items: FAQItem[] = [
     answer:
       'Yes, this tool counts every word in whatever text you paste or type into it. If you paste your full document including headings, they are included. If you want to count only the body text, paste only that section. There is no automatic detection of structural elements like headings.',
   },
+  {
+    id: 'wc-faq-10',
+    question: 'Can I count words in a prompt without uploading it?',
+    answer:
+      'Yes. The count runs in your browser. The text is not sent to a server, and this page does not call an AI model.',
+  },
+  {
+    id: 'wc-faq-11',
+    question: 'Does the word counter count tokens?',
+    answer:
+      'No. It counts words, characters, sentences, and paragraphs. A model token is a different unit, and this page does not claim to count tokens.',
+  },
 ];

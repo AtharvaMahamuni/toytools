@@ -79,4 +79,10 @@ export const items: FAQItem[] = [
     answer:
       'The tax calculator applies a rate you type. This page does not.\nA tip calculator adds a percent, and a discount calculator takes a percent off. This UPI split versus a tax calculator is a joke list, not a tax.',
   },
+  {
+    id: 'upi-faq-14',
+    question: 'Does UPI 1999 Split send a payment or call a model?',
+    answer:
+      'It splits an amount into 1999 rupee chunks on this device. A pay link can open your UPI app with one chunk filled in. ToyTools does not move the money, and it does not call an AI model. It is not tax or payments advice.',
+  },
 ];

@@ -55,4 +55,22 @@ export const items: FAQItem[] = [
     answer:
       'Pretty-printing is the same thing as formatting: adding indentation and newlines to make structured text human-readable. The term comes from older programming contexts where "printing" meant outputting text. Pretty-print, format, and beautify all mean the same operation for JSON.',
   },
+  {
+    id: 'json-fmt-faq-10',
+    question: 'Can I format JSON without uploading it?',
+    answer:
+      'Yes. ToyTools formats JSON in your browser and does not require uploading the input to a server.',
+  },
+  {
+    id: 'json-fmt-faq-11',
+    question: 'Is the JSON Formatter an AI tool?',
+    answer:
+      'No. It pretty-prints JSON. It does not call ChatGPT, Claude, Gemini, Grok, or any other model. You can paste the result into a model yourself.',
+  },
+  {
+    id: 'json-fmt-faq-12',
+    question: 'Can I format JSON that a chat model returned?',
+    answer:
+      'Yes. Paste the JSON here to inspect it. ToyTools does not send that text to a model. Copy the formatted result if you want to use it somewhere else.',
+  },
 ];

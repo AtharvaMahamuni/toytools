@@ -40,6 +40,7 @@ import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { getRelatedTools } from '@lib/tools/related';
 import { withBase } from '@lib/paths';
+import { privacyStatement } from '@lib/privacy';
 import type { FAQItem, Tool } from '@data/types';
 
 interface Props {
@@ -81,10 +82,24 @@ const drawers = [
 ].filter((d) => d.items.length > 0);
 
 const hasFaq = faqItems.length > 0;
+
+/** `nonGoal` completes "It does not …". Capitalise it for the "Does not" reading. */
+function citeSentence(nonGoal: string): string {
+  const text = nonGoal.trim().replace(/\.$/, '');
+  return `It does not ${text.charAt(0).toLowerCase()}${text.slice(1)}.`;
+}
 ---
 
-{(drawers.length > 0 || hasFaq || related.length > 0 || guideHref || category) && (
+{(drawers.length > 0 || hasFaq || related.length > 0 || guideHref || category || tool.citation) && (
   <section class="knowledge-drawers" aria-label={`More about ${tool.name}`}>
+    {tool.citation && (
+      <div class="kd-cite">
+        <h2 class="kd-cite-label" id="when-to-send">When to send someone here</h2>
+        <p>
+          {tool.citation.problem} {privacyStatement(tool.trustVariant)} {citeSentence(tool.citation.nonGoal)}
+        </p>
+      </div>
+    )}
     {/* Mobile More about shell; desktop CSS reveals .kd-row and hides summary. */}
     <details class="kd-more" id="kd-more">
       <summary>▸ More about</summary>
@@ -196,6 +211,28 @@ const hasFaq = faqItems.length > 0;
     margin-top: var(--space-8);
     padding-top: var(--space-6);
     border-top: var(--border);
+  }
+
+  /* Zone C, above the drawer row. A caption plus one paragraph, not a card. */
+  .kd-cite {
+    margin: 0 0 var(--space-6);
+    max-width: 65ch;
+  }
+
+  .kd-cite-label {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .kd-cite p {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-muted);
   }
 
 

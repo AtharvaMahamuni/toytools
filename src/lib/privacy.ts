@@ -8,6 +8,27 @@ export const PRIVACY_LINE = 'Runs entirely on your device. Nothing is uploaded.'
 /** Trust-badge short form. Same claim as PRIVACY_LINE, sized for Zone B. */
 export const PRIVACY_BADGE = 'Private ● Runs entirely on your device';
 
+export type TrustVariant = 'private' | 'offline' | 'local' | 'lookup';
+
+/**
+ * The privacy sentence a tool may actually claim, keyed by its trust variant.
+ *
+ * `private` is the default and matches PRIVACY_LINE. Lookup is the exception: the browser
+ * does ask an echo, so the "nothing is uploaded" line would be false there.
+ */
+export function privacyStatement(variant?: TrustVariant): string {
+  switch (variant) {
+    case 'offline':
+      return 'Works offline after the first page load.';
+    case 'local':
+      return 'No sync, no cloud. Your data stays on this device.';
+    case 'lookup':
+      return 'Your browser asks an IP echo. ToyTools never sees the reply.';
+    default:
+      return PRIVACY_LINE;
+  }
+}
+
 const ALREADY_STATED =
   /on your device|in your browser|nothing is uploaded|never (uploaded|sent)|no uploads?/i;
 

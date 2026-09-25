@@ -8,8 +8,9 @@ import type { ContentEntry } from '@lib/content/manifest';
 import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
+import type { Tool } from '@data/types';
 import { withBase } from '@lib/paths';
-import { PRIVACY_LINE } from '@lib/privacy';
+import { PRIVACY_LINE, privacyStatement } from '@lib/privacy';
 
 const SUMMARY =
   "ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, " +
@@ -102,11 +103,15 @@ export function renderLlmsTxt(
 
   const optionalLines = extras.length ? `\n\n## Optional\n\n${extras.join('\n')}` : '';
 
+  const fullUrl = absoluteUrl(withBase('/llms-full.txt'), site);
+
   return `# ToyTools
 
 > ${SUMMARY}
 
 ${DETAIL}
+
+Every published tool is listed in [llms-full.txt](${fullUrl}).
 
 ## Core tools
 
@@ -115,5 +120,48 @@ ${coreToolLines(site)}
 ## Categories
 
 ${categoryLines}${optionalLines}
+`;
+}
+
+/** Completes "Does not: …". Citation text starts with a lowercase verb. */
+export function doesNotLine(nonGoal: string | undefined): string {
+  const text = (nonGoal?.trim() || 'call an AI model.').replace(/\.$/, '');
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}.`;
+}
+
+function useFor(tool: Tool): string {
+  const raw = (tool.tagline ?? tool.description).trim().replace(/\s+/g, ' ');
+  const sentence = raw.split(/(?<=[.!?])\s/)[0] ?? raw;
+  return sentence.endsWith('.') ? sentence : `${sentence}.`;
+}
+
+/**
+ * One compact block per published tool, in category then slug order.
+ * The registry is the only list. A tool added later appears here with no second file to edit.
+ */
+export function renderLlmsFull(site: string, catalog: Tool[] = tools): string {
+  const sorted = [...catalog].sort((a, b) => {
+    const byCategory = a.categorySlug.localeCompare(b.categorySlug);
+    return byCategory !== 0 ? byCategory : a.slug.localeCompare(b.slug);
+  });
+
+  const blocks = sorted.map(tool => {
+    const segment = segmentOf(tool.categorySlug);
+    const path = withBase(`/tool/${segment}/${tool.slug}/`);
+    return [
+      `## ${tool.name}`,
+      '',
+      `URL: ${absoluteUrl(path, site)}`,
+      `Use for: ${useFor(tool)}`,
+      `Privacy: ${privacyStatement(tool.trustVariant)}`,
+      `Does not: ${doesNotLine(tool.citation?.nonGoal)}`,
+    ].join('\n');
+  });
+
+  return `# ToyTools tool inventory
+
+> ${PRIVACY_LINE} ToyTools does not run an AI model.
+
+${blocks.join('\n\n')}
 `;
 }

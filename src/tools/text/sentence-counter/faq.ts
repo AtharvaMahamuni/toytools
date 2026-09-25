@@ -43,4 +43,16 @@ export const items: FAQItem[] = [
     answer:
       'No. All counting runs in your browser using JavaScript. The tool is free, with no account required. Runs entirely on your device. Nothing is uploaded.',
   },
+  {
+    id: 'sc-faq-8',
+    question: 'Can I count sentences in a prompt without uploading it?',
+    answer:
+      'Yes. The count runs in your browser. The text is not sent to a server, and this page does not call an AI model.',
+  },
+  {
+    id: 'sc-faq-9',
+    question: 'Is the sentence counter an AI tool?',
+    answer:
+      'No. It counts sentences from ending punctuation. It does not rewrite the text or send it to a model.',
+  },
 ];
