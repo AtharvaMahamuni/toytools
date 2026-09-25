@@ -242,6 +242,9 @@ describe('buildClientIndex', () => {
     // 2026-09-20: 42_700 → 43_100. Molecular Geometry Calculator is one chemistry simulation
     // entry (measured 43_016 after dropping name-contained tags). Catalog growth, not alias
     // bloat.
-    expect(bytes).toBeLessThan(43_100);
+    // 2026-09-25: 43_100 → 43_400. Regex Tester is one developer-utilities entry whose
+    // aliases carry the dataset vocabulary (regexp, regex101, live capture groups). Measured
+    // ~43_3xx after trim. Catalog growth, not alias bloat.
+    expect(bytes).toBeLessThan(43_400);
   });
 });

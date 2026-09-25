@@ -86,6 +86,8 @@ export const GLYPHS: Record<string, string> = {
   dots: S + '<path d="M4 12h.01M9 12h.01M14 12h.01M19 12h.01"/>' + E,
   toggle: S + '<rect x="9" y="3" width="6" height="18" rx="3"/><circle cx="12" cy="7" r="2" fill="#fff"/>' + E,
   searchSwap: S + '<circle cx="10" cy="10" r="6"/><path d="M14.5 14.5 20 20"/><path d="M8.5 8.5h3M11 7l1.5 1.5L11 10"/>' + E,
+  // Regex Tester: the /…/ delimiters are the identity of the tool.
+  regex: t('/./', 11),
   // A magnifier over a question mark: the tool answers "which of these is it?" rather than
   // applying a codec you already named. Deliberately not `fingerprint`, which is the
   // identifier family's mark (uuid-generator), and not `searchSwap`, which is find-replace.

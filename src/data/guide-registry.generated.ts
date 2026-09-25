@@ -87,6 +87,7 @@ export const authoredGuideSlugs = [
   'random-name-picker',
   'random-string-generator',
   'reading-time-calculator',
+  'regex-tester',
   'remove-accents',
   'remove-blank-lines',
   'remove-duplicate-lines',

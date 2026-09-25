@@ -2,6 +2,12 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.16] - 2026-09-25
+
+### Added
+
+- **Regex Tester**, at `/tool/developer-utilities/regex-tester/`. Pattern, flags, and test text in; every match out with indices and capture groups explained. Optional replace preview with `$1` or named groups. Known-expensive shapes are refused, and any run that takes too long is stopped so the tab cannot hang. Test text is capped near 20,000 characters. Runs entirely on your device. Nothing is uploaded.
+
 ## [beta-v11.15] - 2026-09-25
 
 ### Added

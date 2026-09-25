@@ -106,7 +106,7 @@ const engineDefs: EngineDef[] = [
   { id: 'hashing', name: 'Hashing Engine', category: 'developer-utilities', patterns: ['hash', 'hash-identify'], runtimeGlobal: 'runHash', sharedWidget: 'ConverterWidget.astro', globals: ['runHash', 'hashBytes', 'identifyHash', 'verifyHash', 'transform'] },
   { id: 'structured-data', name: 'Structured Data Engine', category: 'developer-utilities', patterns: ['structured-transform', 'structured-validate', 'structured-compare'], runtimeGlobal: 'runStructuredData', sharedWidget: 'StructuredDataWidget.astro', globals: ['runStructuredData', 'repairStructuredData', 'json', 'yaml', 'diffJson'] },
   { id: 'jwt', name: 'JWT Engine', category: 'developer-utilities', patterns: ['token-decode'], runtimeGlobal: 'runJwt', sharedWidget: 'JwtWidget.astro', globals: ['runJwt'] },
-  { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '', globals: ['diff', 'diffStats', 'whitespaceNoise', 'shell'] },
+  { id: 'text-interactive', name: 'Text Interactive Engine', category: 'text-utilities', patterns: ['text-interactive'], runtimeGlobal: '', globals: ['diff', 'diffStats', 'whitespaceNoise', 'shell', 'regex'] },
   { id: 'calculator', name: 'Calculator Engine', category: 'number-utilities', patterns: ['calculate'], runtimeGlobal: '', globals: ['pitfall'] },
   { id: 'productivity', name: 'Productivity Engine', category: 'productivity', patterns: ['stateful'], runtimeGlobal: '' },
   { id: 'finance', name: 'Finance Engine', category: 'money-finance', patterns: ['finance-growth', 'finance-planning'], runtimeGlobal: 'runFinance', sharedWidget: 'FinanceWidget.astro', globals: ['runFinance', 'upiNextPay', 'experience'] },

@@ -1,0 +1,187 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { withBase } from '@lib/paths';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const findReplaceHref = withBase('/tool/text/find-replace/');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+
+  <section id="quick-answer">
+    <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A regex tester (also called a regular expression tester or online regex tool) lets you try a
+      pattern against sample text and see every match before you ship it. This one uses your
+      browser's JavaScript <code>RegExp</code> engine, lists match indices and capture groups, and
+      can preview a replace with <code>$1</code> or named groups.
+    </p>
+    <p>
+      When you need to test regex online, paste a pattern, add regex flags, and drop in a
+      representative string. Matches update live. Expensive shapes are refused, and any run that
+      takes too long is stopped so the tab cannot hang.
+    </p>
+    <a href={toolHref} class="cta-link">Try the Regex Tester →</a>
+  </section>
+
+  <section id="what-is-a-regex-tester">
+    <h2>What Is a Live Regex Matcher? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A regular expression is a compact way to describe a set of strings: digits, email-shaped
+      tokens, log lines, or the word boundaries around a product name. Writing one by eye is easy.
+      Trusting it is harder, because a pattern that looks right can still miss edge cases or capture
+      the wrong slice.
+    </p>
+    <p>
+      A regex tester is the scratchpad for that trust. You feed it a pattern and some text, then read
+      what actually matched. Indices tell you where. Groups tell you what each pair of parentheses
+      held. A replace preview shows the edited string without touching your real document yet.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Match count is not understanding">
+      <p>
+        Three matches can still mean three empty optional groups. Read the group list under each
+        hit before you decide the pattern is done.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="how-to-test">
+    <h2>How to Test a Regular Expression Online <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start with the smallest text that shows the behaviour you care about. A single log line beats
+      a 10,000-line dump when you are still shaping the pattern. Type the expression between the
+      slashes, set flags, and watch the match list.
+    </p>
+    <p>
+      Use <code>g</code> when you expect multiple hits (the tester adds it when missing so every
+      match can be listed). Use <code>i</code> for case-insensitive matching, <code>m</code> so
+      <code>^</code> and <code>$</code> apply per line, and <code>s</code> so <code>.</code> can
+      cross newlines. The <code>d</code> flag asks the engine for match indices when you need exact
+      spans.
+    </p>
+    <p>
+      Example: pattern <code>(?&lt;word&gt;\b\w&#123;4,&#125;\b)</code> with flags <code>g</code> against
+      "The quick brown fox" reports each word of four or more letters, names the group
+      <code>word</code>, and can rewrite matches as <code>[$&lt;word&gt;]</code> in the replace
+      field.
+    </p>
+  </section>
+
+  <section id="capture-groups">
+    <h2>How Capture Groups Work <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Parentheses do two jobs. They group parts of the pattern for quantifiers, and they capture the
+      text that matched that part. Numbered groups are <code>$1</code>, <code>$2</code>, and so on
+      in a replacement. Named groups use <code>(?&lt;name&gt;...)</code> in the pattern and
+      <code>$&lt;name&gt;</code> in the replacement.
+    </p>
+    <p>
+      Optional groups that did not participate show as <code>undefined</code> in the match explain
+      list. That is the usual reason a replace looks fine while a downstream parser still breaks:
+      the group you expected was empty on some hits. Reading the regex match groups under each hit
+      is therefore the point of the tool, not an extra detail.
+    </p>
+  </section>
+
+  <section id="javascript-flavour">
+    <h2>Which Regex Flavour Is This? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      This tester is JavaScript <code>RegExp</code>, not PCRE, not Python's <code>re</code>, and not
+      the Rust regex crate. Most everyday patterns transfer. Lookbehind, named groups, and Unicode
+      property escapes depend on browser support. Constructs that exist only in PCRE (for example
+      recursive patterns) will not compile here, and that is intentional: the goal is to preview
+      what your front-end or Node code will actually do.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Flavour mismatches waste an afternoon">
+      <p>
+        A pattern copied from a PCRE cheat sheet can fail with a syntax error in JavaScript, or
+        worse, compile but match differently. When the target runtime is JavaScript, test in
+        JavaScript.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="expensive-patterns">
+    <h2>Why Some Patterns Are Blocked <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Nested quantifiers such as <code>(a+)+</code> and overlapping alternatives such as
+      <code>(a|ab)+</code> can force the matcher to explore an exponential number of paths. On the
+      wrong input that freezes the tab. The tester refuses those shapes up front and also kills any
+      run that exceeds a short time budget.
+    </p>
+    <p>
+      Test text is capped near 20,000 characters for the same reason. If you need to validate a huge
+      corpus, take a representative slice first, then move the proven pattern into your pipeline.
+    </p>
+  </section>
+
+  <section id="tester-vs-find-replace">
+    <h2>Regex Tester vs Find and Replace <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use this tester when the question is "what does this pattern do?" Use
+      <a href={findReplaceHref}>Find and Replace</a> when the question is "change every match in
+      this document." The replace field here is a preview for learning and debugging. Find and
+      Replace is the editor workflow, with match highlighting across the source.
+    </p>
+    <p>
+      A practical loop: shape the pattern here until groups look right, preview the replace, then
+      paste the same pattern into Find and Replace (with the regex toggle on) to edit the real text.
+      Diff the before and after with Text Compare if you want a second check.
+    </p>
+  </section>
+
+
+  <section id="common-mistakes">
+    <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Treating a green match count as proof. Three hits can still mean three empty optional groups.
+      Always open the group list under a match before you trust the pattern.
+    </p>
+    <p>
+      Pasting a PCRE-only construct into a JavaScript regexp tester. Recursive patterns and some
+      lookaround forms that work in PHP will throw a syntax error here, or worse, compile and match
+      differently. Therefore, test in the same flavour you will ship.
+    </p>
+    <p>
+      Shipping nested quantifiers such as <code>(a+)+</code> because they "looked fine" on short
+      happy-path input. On crafted text they hang. Prefer tighter classes, and keep the expensive
+      shapes out of production even if a different tool lets them run.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Empty groups hide inside a happy count">
+      <p>
+        For example, <code>(\d+)?-(\w+)</code> against "abc" can still report a match while group 1
+        is undefined. A regex replace preview that inserts <code>$1</code> then silently drops the
+        digits you thought were required.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="privacy">
+    <h2>Is My Text Uploaded? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. Matching runs entirely in your browser with JavaScript. Patterns, flags, and test text
+      never leave the device. That matters when the sample is a production log line, a customer
+      record, or an auth token shaped string you should not paste into a stranger's server.
+    </p>
+  </section>
+
+</GuideLayout>

@@ -59,6 +59,7 @@ export const searchAliases: Record<string, string[]> = {
   'camel-case-converter': ['camelcase'],
   'character-counter': ['char count', 'character limit'],
   'find-replace': ['search and replace'],
+  'regex-tester': ['regexp tester', 'regular expression tester', 'live regex matcher', 'regex101 alternative', 'live capture groups', 'regex replace preview', 'regex match groups'],
   'kebab-case-converter': ['kebabcase', 'dash case'],
   'letter-counter': ['count letters'],
   'line-counter': ['count lines'],
