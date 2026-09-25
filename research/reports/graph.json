@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-09T19:22:28.273Z",
+  "generatedAt": "2026-09-20T12:30:10.974Z",
   "nodes": [
     {
       "id": "age-calculator",
@@ -230,18 +230,24 @@
         "todo-list",
         "notepad",
         "pomodoro-timer",
+        "book-tracker",
+        "habit-streak-tracker",
         "keep-screen-awake"
       ],
       "relatedGuides": [
         "todo-list",
         "notepad",
         "pomodoro-timer",
+        "book-tracker",
+        "habit-streak-tracker",
         "keep-screen-awake"
       ],
       "relatedFaqs": [
         "todo-list",
         "notepad",
         "pomodoro-timer",
+        "book-tracker",
+        "habit-streak-tracker",
         "keep-screen-awake"
       ]
     },
@@ -378,6 +384,7 @@
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -386,6 +393,7 @@
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -524,18 +532,21 @@
         "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
-        "fraction-calculator"
+        "fraction-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
-        "fraction-calculator"
+        "fraction-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
-        "fraction-calculator"
+        "fraction-calculator",
+        "statistics-visualizer"
       ]
     },
     {
@@ -568,6 +579,7 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "hash-identifier",
         "sha1-hash-generator",
         "sha512-hash-generator"
       ],
@@ -575,6 +587,7 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "hash-identifier",
         "sha1-hash-generator",
         "sha512-hash-generator"
       ],
@@ -582,6 +595,7 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "hash-identifier",
         "sha1-hash-generator",
         "sha512-hash-generator"
       ]
@@ -628,6 +642,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
@@ -636,6 +651,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "reaction-rate-calculator"
       ]
     },
@@ -883,6 +899,7 @@
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -891,6 +908,7 @@
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -945,6 +963,7 @@
       "relatedTools": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -952,6 +971,7 @@
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -959,6 +979,7 @@
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -984,18 +1005,21 @@
         "prime-factorization-calculator",
         "quadratic-equation-solver",
         "fraction-calculator",
-        "combinations-permutations-calculator"
+        "combinations-permutations-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "fraction-calculator",
-        "combinations-permutations-calculator"
+        "combinations-permutations-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "prime-factorization-calculator",
         "quadratic-equation-solver",
         "fraction-calculator",
-        "combinations-permutations-calculator"
+        "combinations-permutations-calculator",
+        "statistics-visualizer"
       ]
     },
     {
@@ -1080,6 +1104,16 @@
       ]
     },
     {
+      "id": "habit-streak-tracker",
+      "title": "Habit Streak Tracker",
+      "transformation": "habit",
+      "engine": "productivity",
+      "existing": true,
+      "relatedTools": [],
+      "relatedGuides": [],
+      "relatedFaqs": []
+    },
+    {
       "id": "hash-identifier",
       "title": "Hash Identifier and Verifier",
       "transformation": "Hash Identification",
@@ -1090,21 +1124,24 @@
         "md5-hash-generator",
         "sha1-hash-generator",
         "crc32-hash-generator",
-        "sha512-hash-generator"
+        "sha512-hash-generator",
+        "hash-identifier"
       ],
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "sha1-hash-generator",
         "crc32-hash-generator",
-        "sha512-hash-generator"
+        "sha512-hash-generator",
+        "hash-identifier"
       ],
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "sha1-hash-generator",
         "crc32-hash-generator",
-        "sha512-hash-generator"
+        "sha512-hash-generator",
+        "hash-identifier"
       ]
     },
     {
@@ -1312,7 +1349,7 @@
         "json-formatter",
         "json-tree-viewer",
         "csv-to-json-converter",
-        "json-minifier"
+        "json-diff"
       ],
       "relatedGuides": [
         "csv-diff",
@@ -1320,7 +1357,7 @@
         "json-formatter",
         "json-tree-viewer",
         "csv-to-json-converter",
-        "json-minifier"
+        "json-diff"
       ],
       "relatedFaqs": [
         "csv-diff",
@@ -1328,7 +1365,7 @@
         "json-formatter",
         "json-tree-viewer",
         "csv-to-json-converter",
-        "json-minifier"
+        "json-diff"
       ]
     },
     {
@@ -1341,25 +1378,25 @@
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
+        "json-diff",
         "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
+        "json-to-yaml-converter"
       ],
       "relatedGuides": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
+        "json-diff",
         "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
+        "json-to-yaml-converter"
       ],
       "relatedFaqs": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
+        "json-diff",
         "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
+        "json-to-yaml-converter"
       ]
     },
     {
@@ -1521,12 +1558,16 @@
       "engine": "math-lab",
       "existing": false,
       "relatedTools": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -1547,16 +1588,6 @@
       "relatedFaqs": [
         "compound-interest-calculator"
       ]
-    },
-    {
-      "id": "lorem-ipsum-generator",
-      "title": "Lorem Ipsum Generator",
-      "transformation": "placeholder",
-      "engine": "generation",
-      "existing": true,
-      "relatedTools": [],
-      "relatedGuides": [],
-      "relatedFaqs": []
     },
     {
       "id": "lowercase-converter",
@@ -1604,16 +1635,19 @@
       "engine": "math",
       "existing": false,
       "relatedTools": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -1655,6 +1689,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -1663,6 +1698,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ]
@@ -1747,6 +1783,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator"
       ],
       "relatedGuides": [],
@@ -1755,6 +1792,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator"
       ]
     },
@@ -1765,12 +1803,16 @@
       "engine": "math-lab",
       "existing": false,
       "relatedTools": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -2023,17 +2065,20 @@
       "relatedTools": [
         "fraction-calculator",
         "combinations-permutations-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "fraction-calculator",
         "combinations-permutations-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "fraction-calculator",
         "combinations-permutations-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ]
     },
     {
@@ -2043,12 +2088,16 @@
       "engine": "math-lab",
       "existing": false,
       "relatedTools": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -2212,8 +2261,8 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator",
+        "newman-projection-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
@@ -2221,8 +2270,8 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator",
+        "newman-projection-calculator"
       ]
     },
     {
@@ -2831,17 +2880,20 @@
       "existing": false,
       "relatedTools": [
         "probability-calculator",
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
         "probability-calculator",
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -3009,18 +3061,21 @@
         "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ]
     },
     {
@@ -3134,25 +3189,25 @@
         "uuid-generator",
         "random-string-generator",
         "password-generator",
+        "uuid-inspector",
         "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
+        "dice-roller"
       ],
       "relatedGuides": [
         "uuid-generator",
         "random-string-generator",
         "password-generator",
+        "uuid-inspector",
         "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
+        "dice-roller"
       ],
       "relatedFaqs": [
         "uuid-generator",
         "random-string-generator",
         "password-generator",
+        "uuid-inspector",
         "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
+        "dice-roller"
       ]
     },
     {
@@ -3474,6 +3529,11 @@
       "from": "body-surface-area-calculator",
       "to": "vo2-max-calculator",
       "kind": "shares-engine"
+    },
+    {
+      "from": "book-tracker",
+      "to": "habit-streak-tracker",
+      "kind": "links-to-tool"
     },
     {
       "from": "book-tracker",
@@ -4202,11 +4262,6 @@
     },
     {
       "from": "json-diff",
-      "to": "json-minifier",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "json-diff",
       "to": "json-tree-viewer",
       "kind": "links-to-tool"
     },
@@ -4243,11 +4298,6 @@
     {
       "from": "json-escape",
       "to": "json-to-yaml-converter",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "json-escape",
-      "to": "json-tree-viewer",
       "kind": "links-to-tool"
     },
     {
@@ -5423,11 +5473,6 @@
     {
       "from": "uuid-inspector",
       "to": "dice-roller",
-      "kind": "links-to-tool"
-    },
-    {
-      "from": "uuid-inspector",
-      "to": "lorem-ipsum-generator",
       "kind": "links-to-tool"
     },
     {

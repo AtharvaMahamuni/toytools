@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-09T19:22:28.273Z",
+  "generatedAt": "2026-09-20T12:30:10.974Z",
   "opportunities": [
     {
       "id": "running-pace-calculator",
@@ -21,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "runnersworld.com",
         "calculator.net",
@@ -102,7 +102,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "strengthlevel.com",
         "bodybuilding.com",
@@ -183,7 +183,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "symbolab.com",
         "calculator.net",
@@ -253,7 +253,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "mobile fidget apps",
         "ad-heavy web clones"
@@ -337,7 +337,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "mathway.com",
@@ -361,18 +361,21 @@
         "prime-factorization-calculator",
         "quadratic-equation-solver",
         "fraction-calculator",
-        "combinations-permutations-calculator"
+        "combinations-permutations-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "fraction-calculator",
-        "combinations-permutations-calculator"
+        "combinations-permutations-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "prime-factorization-calculator",
         "quadratic-equation-solver",
         "fraction-calculator",
-        "combinations-permutations-calculator"
+        "combinations-permutations-calculator",
+        "statistics-visualizer"
       ],
       "difficulty": "low",
       "evergreenScore": 0.96,
@@ -414,7 +417,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "w3schools.com/colors",
         "rgbtohex.net"
@@ -481,7 +484,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "mathsisfun.com",
         "khanacademy.org",
@@ -550,7 +553,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "word processor find/replace",
         "random tool sites"
@@ -628,7 +631,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "calculatorsoup.com",
@@ -652,18 +655,21 @@
         "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
-        "fraction-calculator"
+        "fraction-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
-        "fraction-calculator"
+        "fraction-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "probability-calculator",
         "prime-factorization-calculator",
         "combinations-permutations-calculator",
-        "fraction-calculator"
+        "fraction-calculator",
+        "statistics-visualizer"
       ],
       "difficulty": "low",
       "evergreenScore": 0.94,
@@ -704,7 +710,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "nekocalc.com/px-to-rem",
         "pxtorem.com"
@@ -775,7 +781,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "ASMR videos",
         "mobile switch simulators"
@@ -859,7 +865,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "misc generator sites",
         "browser console hacks"
@@ -937,7 +943,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculatorsoup.com",
         "calculator.net",
@@ -960,17 +966,20 @@
       "relatedTools": [
         "fraction-calculator",
         "combinations-permutations-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "fraction-calculator",
         "combinations-permutations-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "fraction-calculator",
         "combinations-permutations-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "difficulty": "low",
       "evergreenScore": 0.95,
@@ -1011,7 +1020,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "webaim.org/resources/contrastchecker",
         "coolors.co/contrast-checker"
@@ -1079,7 +1088,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "pixplicity.com/dp-px-converter",
         "angrytools px to dp"
@@ -1148,7 +1157,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "npm slugify package",
         "CMS built-ins"
@@ -1226,7 +1235,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "andrew.hedges.name/experiments/aspect_ratio",
         "calculateaspectratio.com"
@@ -1295,7 +1304,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "socscistatistics.com",
@@ -1317,17 +1326,20 @@
       ],
       "relatedTools": [
         "probability-calculator",
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
         "probability-calculator",
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -1346,10 +1358,10 @@
       "authorityWinnability": 1,
       "confidence": 0.8,
       "finalScore": 81.7,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
-      "craftRisk": true
+      "craftRisk": false
     },
     {
       "id": "binary-text-converter",
@@ -1370,7 +1382,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "rapidtables",
         "misc converter sites"
@@ -1448,7 +1460,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -1522,7 +1534,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "freeformatter",
         "code snippets"
@@ -1542,25 +1554,25 @@
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
+        "json-diff",
         "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
+        "json-to-yaml-converter"
       ],
       "relatedGuides": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
+        "json-diff",
         "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
+        "json-to-yaml-converter"
       ],
       "relatedFaqs": [
         "json-formatter",
         "json-minifier",
         "csv-to-json-converter",
+        "json-diff",
         "json-to-csv-converter",
-        "json-to-yaml-converter",
-        "json-tree-viewer"
+        "json-to-yaml-converter"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -1601,7 +1613,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "physics applets",
         "engineering textbooks",
@@ -1686,7 +1698,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "paid desktop apps",
         "git diff (devs only)"
@@ -1765,7 +1777,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "jsoneditoronline.org",
         "diffchecker",
@@ -1794,7 +1806,7 @@
         "json-formatter",
         "json-tree-viewer",
         "csv-to-json-converter",
-        "json-minifier"
+        "json-diff"
       ],
       "relatedGuides": [
         "csv-diff",
@@ -1802,7 +1814,7 @@
         "json-formatter",
         "json-tree-viewer",
         "csv-to-json-converter",
-        "json-minifier"
+        "json-diff"
       ],
       "relatedFaqs": [
         "csv-diff",
@@ -1810,7 +1822,7 @@
         "json-formatter",
         "json-tree-viewer",
         "csv-to-json-converter",
-        "json-minifier"
+        "json-diff"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.9,
@@ -1826,8 +1838,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.8,
       "finalScore": 80.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -1853,7 +1865,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "Google's featured snippet",
         "whatismyipaddress.com",
@@ -1936,7 +1948,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "subnet-calculator.com",
         "whatismyip.com cidr calculator",
@@ -2019,7 +2031,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "cyberchef",
         "random cipher sites"
@@ -2096,7 +2108,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "spreadsheet formulas",
         "code snippets"
@@ -2173,7 +2185,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -2197,18 +2209,21 @@
         "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -2248,7 +2263,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2330,7 +2345,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "periodictable.com",
         "omnicalculator.com",
@@ -2356,6 +2371,7 @@
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -2364,6 +2380,7 @@
         "crystal-field-splitting-calculator",
         "chemical-bond-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -2405,7 +2422,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -2486,7 +2503,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -2553,7 +2570,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -2579,6 +2596,7 @@
       "relatedTools": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -2586,6 +2604,7 @@
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -2593,6 +2612,7 @@
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -2636,7 +2656,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -2704,7 +2724,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "epochconverter.com"
       ],
@@ -2781,7 +2801,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "healthline.com",
@@ -2862,7 +2882,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -2945,7 +2965,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "groww.in",
         "moneycontrol.com"
@@ -3025,7 +3045,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "novelty web toys",
         "mobile apps"
@@ -3110,7 +3130,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "meditation apps",
         "YouTube timers"
@@ -3194,7 +3214,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com",
@@ -3269,7 +3289,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "random.org",
         "calculator.net",
@@ -3290,12 +3310,16 @@
         "sample size"
       ],
       "relatedTools": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -3337,7 +3361,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "regex from blog posts"
       ],
@@ -3413,7 +3437,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "spreadsheet save-as"
       ],
@@ -3486,7 +3510,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -3507,16 +3531,19 @@
         "systems of equations"
       ],
       "relatedTools": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -3557,7 +3584,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -3635,7 +3662,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -3705,7 +3732,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "omnicalculator.com",
         "chemicalaid.com",
@@ -3731,6 +3758,7 @@
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -3739,6 +3767,7 @@
         "electron-configuration-calculator",
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -3780,7 +3809,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "healthline.com",
         "bodybuilding.com",
@@ -3860,7 +3889,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "spreadsheet manual cleanup"
       ],
@@ -3934,7 +3963,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "investopedia.com"
@@ -4011,7 +4040,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net"
       ],
@@ -4088,7 +4117,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "browser bits-and-bytes converters",
         "rapidtables",
@@ -4163,7 +4192,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "onlinestatbook.com",
@@ -4184,12 +4213,16 @@
         "standardizing data"
       ],
       "relatedTools": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -4230,7 +4263,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "timeanddate.com"
       ],
@@ -4308,7 +4341,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calctool.org",
@@ -4332,8 +4365,8 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator",
+        "newman-projection-calculator"
       ],
       "relatedGuides": [],
       "relatedFaqs": [
@@ -4341,8 +4374,8 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
-        "newman-projection-calculator",
-        "reaction-rate-calculator"
+        "molecular-geometry-calculator",
+        "newman-projection-calculator"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -4382,7 +4415,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "whattoexpect.com",
         "babycenter.com",
@@ -4463,7 +4496,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "omnicalculator.com",
         "calculator.net"
@@ -4542,7 +4575,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "desmos.com",
         "socscistatistics.com",
@@ -4563,12 +4596,16 @@
         "outlier influence"
       ],
       "relatedTools": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
       ],
-      "relatedGuides": [],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "probability-calculator",
         "quadratic-equation-solver",
         "unit-circle-calculator"
@@ -4610,7 +4647,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "command line crc tools"
       ],
@@ -4631,6 +4668,7 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "hash-identifier",
         "sha1-hash-generator",
         "sha512-hash-generator"
       ],
@@ -4638,6 +4676,7 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "hash-identifier",
         "sha1-hash-generator",
         "sha512-hash-generator"
       ],
@@ -4645,6 +4684,7 @@
         "md5-hash-generator",
         "sha256-hash-generator",
         "crc32-hash-generator",
+        "hash-identifier",
         "sha1-hash-generator",
         "sha512-hash-generator"
       ],
@@ -4686,7 +4726,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -4760,7 +4800,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "hashes.com",
         "command-line shasum",
@@ -4788,21 +4828,24 @@
         "md5-hash-generator",
         "sha1-hash-generator",
         "crc32-hash-generator",
-        "sha512-hash-generator"
+        "sha512-hash-generator",
+        "hash-identifier"
       ],
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "sha1-hash-generator",
         "crc32-hash-generator",
-        "sha512-hash-generator"
+        "sha512-hash-generator",
+        "hash-identifier"
       ],
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
         "sha1-hash-generator",
         "crc32-hash-generator",
-        "sha512-hash-generator"
+        "sha512-hash-generator",
+        "hash-identifier"
       ],
       "difficulty": "low",
       "evergreenScore": 0.92,
@@ -4818,8 +4861,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.64,
       "finalScore": 75.9,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false,
       "latent": {
@@ -4852,7 +4895,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "mobile sand games",
         "heavy WebGL demos"
@@ -4937,7 +4980,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "mobile slime apps",
         "flash-era toys"
@@ -5022,7 +5065,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "regex snippets on stack overflow",
         "language-specific UUID libraries"
@@ -5047,25 +5090,25 @@
         "uuid-generator",
         "random-string-generator",
         "password-generator",
+        "uuid-inspector",
         "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
+        "dice-roller"
       ],
       "relatedGuides": [
         "uuid-generator",
         "random-string-generator",
         "password-generator",
+        "uuid-inspector",
         "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
+        "dice-roller"
       ],
       "relatedFaqs": [
         "uuid-generator",
         "random-string-generator",
         "password-generator",
+        "uuid-inspector",
         "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
+        "dice-roller"
       ],
       "difficulty": "low",
       "evergreenScore": 0.88,
@@ -5081,8 +5124,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.64,
       "finalScore": 75,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false,
       "latent": {
@@ -5115,7 +5158,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "chemtube3d.com",
         "molview.org",
@@ -5139,6 +5182,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator"
       ],
       "relatedGuides": [],
@@ -5147,6 +5191,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator"
       ],
       "difficulty": "medium",
@@ -5188,7 +5233,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "a hex editor",
         "regex hunting in an IDE",
@@ -5281,7 +5326,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "spreadsheet copy/paste",
         "awk for devs"
@@ -5359,7 +5404,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "libretexts.org",
         "chemistrylearner.com",
@@ -5383,6 +5428,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "reaction-rate-calculator"
       ],
       "relatedGuides": [],
@@ -5391,6 +5437,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "reaction-rate-calculator"
       ],
       "difficulty": "medium",
@@ -5431,7 +5478,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "babycenter.com",
         "clearblue.com",
@@ -5512,7 +5559,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "desmos.com",
         "geogebra.org",
@@ -5581,7 +5628,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "libretexts.org",
         "chemicalaid.com",
@@ -5606,6 +5653,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -5614,6 +5662,7 @@
         "chemical-bond-calculator",
         "crystal-field-splitting-calculator",
         "electron-configuration-calculator",
+        "molecular-geometry-calculator",
         "newman-projection-calculator",
         "reaction-rate-calculator"
       ],
@@ -5631,8 +5680,8 @@
       "authorityWinnability": 0.67,
       "confidence": 0.8,
       "finalScore": 74.5,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "guide-missing",
       "engineExists": true,
       "craftRisk": false
     },
@@ -5655,7 +5704,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -5728,7 +5777,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "heart.org",
         "printable PDF charts",
@@ -5801,7 +5850,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "casual game sites with ads",
         "mobile apps",
@@ -5875,7 +5924,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "Goodreads",
         "StoryGraph",
@@ -5902,18 +5951,24 @@
         "todo-list",
         "notepad",
         "pomodoro-timer",
+        "book-tracker",
+        "habit-streak-tracker",
         "keep-screen-awake"
       ],
       "relatedGuides": [
         "todo-list",
         "notepad",
         "pomodoro-timer",
+        "book-tracker",
+        "habit-streak-tracker",
         "keep-screen-awake"
       ],
       "relatedFaqs": [
         "todo-list",
         "notepad",
         "pomodoro-timer",
+        "book-tracker",
+        "habit-streak-tracker",
         "keep-screen-awake"
       ],
       "difficulty": "medium",
@@ -5930,8 +5985,8 @@
       "authorityWinnability": 0.95,
       "confidence": 0.8,
       "finalScore": 74.2,
-      "status": "recommended",
-      "gap": "cluster-missing",
+      "status": "already-exists",
+      "gap": "needs-improvement",
       "engineExists": true,
       "craftRisk": false
     },
@@ -5955,7 +6010,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "cssgradient.io",
         "coolors gradient maker"
@@ -6021,7 +6076,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "who.int",
@@ -6101,7 +6156,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "phone app stores",
         "wearable companion apps"
@@ -6172,7 +6227,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "spreadsheet locale settings",
         "language date parsing docs",
@@ -6264,7 +6319,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6335,7 +6390,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "SEO keyword density tools"
       ],
@@ -6414,7 +6469,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "mdcalc.com",
         "calculator.net"
@@ -6494,7 +6549,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "systemd-analyze calendar on a machine you already have",
         "the systemd.time man page",
@@ -6588,7 +6643,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "cyberchef",
         "stack overflow answers",
@@ -6681,7 +6736,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "phet.colorado.edu",
         "omnicalculator.com"
@@ -6754,7 +6809,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "omnicalculator.com",
         "healthline.com"
@@ -6831,7 +6886,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "worldtimebuddy"
       ],
@@ -6912,7 +6967,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "imagecolorpicker.com",
         "coolors image picker"
@@ -6979,7 +7034,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "omnicalculator.com",
         "phet.colorado.edu"
@@ -7051,7 +7106,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "crontab.guru"
       ],
@@ -7131,7 +7186,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "app stores",
         "ad-supported browser games"
@@ -7195,7 +7250,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "trial and error against the real server",
         "python shlex.quote in a REPL",
@@ -7290,7 +7345,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "rules blog posts",
         "one-off itch.io prototypes",
@@ -7355,7 +7410,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "academic demos",
         "PDF rule sheets",
@@ -7417,7 +7472,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "nerdwallet.com"
       ],
@@ -7481,7 +7536,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "bankrate.com",
         "calculator.net"
@@ -7547,7 +7602,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "ilovepdf.com",
         "smallpdf.com",
@@ -7612,7 +7667,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "cloudconvert",
         "iloveimg",
@@ -7677,7 +7732,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "Google Calendar",
         "timeanddate.com",
@@ -7752,7 +7807,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "adp.com",
         "talent.com"
@@ -7815,7 +7870,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "zillow.com",
         "bankrate.com"
@@ -7880,7 +7935,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "drikpanchang.com",
         "local print calendars",
@@ -7951,7 +8006,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "nerdwallet.com",
         "fidelity.com"
@@ -8021,7 +8076,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "eatthismuch.com",
         "myfitnesspal.com",

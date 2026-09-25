@@ -43,7 +43,7 @@ const THRESHOLDS = {
    * 2026-08-29: 1. `finance` is the lone isolated engine and has been since it shipped: interest
    * and savings maths genuinely sits beside nothing else in the catalog. `chemistry-lab` was the
    * second until its manifests authored the cross-subject links their derivation could not produce
-   * (every chemistry simulator is the only member of its family, so nothing outside the domain
+   * (most chemistry simulators are the only member of their family, so nothing outside the domain
    * derived). Adding a subject with no neighbours is the thing this number is here to catch.
    */
   isolatedEngines: 1,

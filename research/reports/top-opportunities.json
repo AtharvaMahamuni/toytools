@@ -1,168 +1,7 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-09T19:22:28.273Z",
+  "generatedAt": "2026-09-20T12:30:10.974Z",
   "top": [
-    {
-      "id": "statistics-visualizer",
-      "title": "Statistics Visualizer",
-      "problem": "I want to paste a list of numbers and instantly see the mean, median, mode, quartiles, and standard deviation drawn as a histogram and box plot.",
-      "userIntent": "transactional",
-      "workflow": "a simulated model → Descriptive Statistics → a simulated model",
-      "transformation": "Descriptive Statistics",
-      "proposedTool": "statistics-visualizer",
-      "proposedEngine": "math",
-      "searchQueries": [
-        "standard deviation calculator",
-        "mean median mode calculator",
-        "quartile calculator",
-        "histogram maker",
-        "box plot generator"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
-      "existingSolutions": [
-        "calculator.net",
-        "socscistatistics.com",
-        "omnicalculator.com"
-      ],
-      "solutionWeaknesses": [
-        "tables of numbers with no chart",
-        "ad heavy",
-        "data uploaded to a server",
-        "no combined histogram and box plot view"
-      ],
-      "userFailures": [],
-      "signals": [],
-      "relatedProblems": [
-        "variance",
-        "interquartile range",
-        "outliers",
-        "population vs sample"
-      ],
-      "relatedTools": [
-        "probability-calculator",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedGuides": [
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "relatedFaqs": [
-        "probability-calculator",
-        "combinations-permutations-calculator",
-        "fraction-calculator",
-        "prime-factorization-calculator"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.96,
-      "competitionScore": 0.52,
-      "searchDemand": 0.92,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.97,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.58,
-      "localizationPotential": 0.84,
-      "algorithmicFit": 1,
-      "authorityWinnability": 1,
-      "confidence": 0.8,
-      "finalScore": 81.7,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": true
-    },
-    {
-      "id": "json-diff",
-      "title": "Structured JSON Diff",
-      "problem": "I need a structural diff of two JSON documents that understands objects and arrays, not a line-oriented text compare that breaks when keys are reordered.",
-      "userIntent": "comparison",
-      "workflow": "structured data → JSON Diff → structured data",
-      "transformation": "JSON Diff",
-      "proposedTool": "json-diff",
-      "proposedEngine": "structured-data",
-      "searchQueries": [
-        "json diff structural compare",
-        "json diff online",
-        "compare two json",
-        "json structural diff",
-        "diff json objects",
-        "json compare ignore key order"
-      ],
-      "source": [
-        "seed-dataset"
-      ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
-      "existingSolutions": [
-        "jsoneditoronline.org",
-        "diffchecker",
-        "git diff"
-      ],
-      "solutionWeaknesses": [
-        "text diffs treat key order as a change",
-        "uploads sensitive payloads",
-        "array moves show as delete-plus-add with no path"
-      ],
-      "userFailures": [
-        "Two objects that differ only in key order are reported as wholly different because the tool stringified without sorting keys.",
-        "An array of objects with a stable id field is diffed by index, so a reorder looks like every field changed.",
-        "A numeric 1 and a string \"1\" are shown as equal when deep-compare is too loose, or unequal with no type callout when it is strict.",
-        "A null vs missing key is collapsed into one red row and the fix goes to the wrong place."
-      ],
-      "signals": [],
-      "relatedProblems": [
-        "csv diff",
-        "text compare",
-        "json formatting"
-      ],
-      "relatedTools": [
-        "csv-diff",
-        "text-compare",
-        "json-formatter",
-        "json-tree-viewer",
-        "csv-to-json-converter",
-        "json-minifier"
-      ],
-      "relatedGuides": [
-        "csv-diff",
-        "text-compare",
-        "json-formatter",
-        "json-tree-viewer",
-        "csv-to-json-converter",
-        "json-minifier"
-      ],
-      "relatedFaqs": [
-        "csv-diff",
-        "text-compare",
-        "json-formatter",
-        "json-tree-viewer",
-        "csv-to-json-converter",
-        "json-minifier"
-      ],
-      "difficulty": "medium",
-      "evergreenScore": 0.9,
-      "competitionScore": 0.7,
-      "searchDemand": 0.8,
-      "implementationCost": 0.7,
-      "engineReuse": 1,
-      "seoPotential": 0.92,
-      "topicClusterPotential": 0,
-      "commercialPotential": 0.56,
-      "localizationPotential": 0.94,
-      "algorithmicFit": 0.98,
-      "authorityWinnability": 0.95,
-      "confidence": 0.8,
-      "finalScore": 80.6,
-      "status": "recommended",
-      "gap": "cluster-missing",
-      "engineExists": true,
-      "craftRisk": false
-    },
     {
       "id": "triangle-solver",
       "title": "Triangle Solver",
@@ -182,7 +21,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "calculator.net",
         "omnicalculator.com",
@@ -206,18 +45,21 @@
         "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedGuides": [
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "relatedFaqs": [
         "unit-circle-calculator",
         "combinations-permutations-calculator",
         "fraction-calculator",
-        "prime-factorization-calculator"
+        "prime-factorization-calculator",
+        "statistics-visualizer"
       ],
       "difficulty": "medium",
       "evergreenScore": 0.95,
@@ -257,7 +99,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "sleepfoundation.org",
         "sleepyti.me",
@@ -338,7 +180,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "uicolors.app",
         "smart-swatch"
@@ -405,7 +247,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "online md5 file hash sites",
         "shasum in a terminal",
@@ -431,6 +273,7 @@
       "relatedTools": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -438,6 +281,7 @@
       "relatedGuides": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -445,6 +289,7 @@
       "relatedFaqs": [
         "sha256-hash-generator",
         "md5-hash-generator",
+        "hash-identifier",
         "crc32-hash-generator",
         "sha1-hash-generator",
         "sha512-hash-generator"
@@ -488,7 +333,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "typescale.com",
         "type-scale.com"
@@ -558,7 +403,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "regex101.com",
         "regexr.com",
@@ -643,7 +488,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "matrixcalc.org",
         "symbolab.com",
@@ -664,16 +509,19 @@
         "systems of equations"
       ],
       "relatedTools": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedGuides": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
       ],
       "relatedFaqs": [
+        "statistics-visualizer",
         "combinations-permutations-calculator",
         "fraction-calculator",
         "prime-factorization-calculator"
@@ -716,7 +564,7 @@
       "source": [
         "seed-dataset"
       ],
-      "discoveredAt": "2026-09-09T19:22:28.273Z",
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
       "existingSolutions": [
         "coblis (color-blindness.com)",
         "venngage colorblind simulator"
@@ -765,6 +613,155 @@
       "gap": "cluster-missing",
       "engineExists": true,
       "craftRisk": false
+    },
+    {
+      "id": "ipv4-converter",
+      "title": "IPv4 Converter",
+      "problem": "I need to turn a dotted IPv4 address into its 32-bit decimal, hex, or binary form, and back, without a spreadsheet formula.",
+      "userIntent": "transactional",
+      "workflow": "input → IPv4 Representation → output",
+      "transformation": "IPv4 Representation",
+      "proposedTool": "ipv4-converter",
+      "proposedEngine": "network",
+      "searchQueries": [
+        "ip to decimal converter",
+        "ip to decimal",
+        "ipv4 to decimal",
+        "ip to hex",
+        "dotted decimal to binary",
+        "convert ip address to integer"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "existingSolutions": [
+        "browser bits-and-bytes converters",
+        "rapidtables",
+        "subnet calculator side panels"
+      ],
+      "solutionWeaknesses": [
+        "converters that take a generic integer do not reject 256 in an octet",
+        "hex output often drops the leading zeros that packet captures show"
+      ],
+      "userFailures": [
+        "Treats the four octets as a base-10 number like 19216811 and gets a different host",
+        "Pastes an IPv6 address into an IPv4 converter and reads the truncation as a result"
+      ],
+      "signals": [],
+      "relatedProblems": [
+        "CIDR math",
+        "binary conversion"
+      ],
+      "relatedTools": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedGuides": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "relatedFaqs": [
+        "cidr-calculator",
+        "binary-converter",
+        "hex-encoder-decoder",
+        "what-is-my-ip"
+      ],
+      "difficulty": "low",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.76,
+      "searchDemand": 0.42,
+      "implementationCost": 1,
+      "engineReuse": 1,
+      "seoPotential": 0.77,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.48,
+      "localizationPotential": 0.98,
+      "algorithmicFit": 0.99,
+      "authorityWinnability": 0.95,
+      "confidence": 0.64,
+      "finalScore": 77.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": false
+    },
+    {
+      "id": "normal-distribution-visualizer",
+      "title": "Normal Distribution Visualizer",
+      "problem": "I want to drag the mean and standard deviation of a bell curve and see the shaded area, z-scores, and empirical rule bands update live.",
+      "userIntent": "transactional",
+      "workflow": "a simulated model → Normal Distribution → a simulated model",
+      "transformation": "Normal Distribution",
+      "proposedTool": "normal-distribution-visualizer",
+      "proposedEngine": "math-lab",
+      "searchQueries": [
+        "normal distribution calculator",
+        "z score calculator",
+        "bell curve generator",
+        "empirical rule calculator",
+        "area under normal curve"
+      ],
+      "source": [
+        "seed-dataset"
+      ],
+      "discoveredAt": "2026-09-20T12:30:10.974Z",
+      "existingSolutions": [
+        "calculator.net",
+        "onlinestatbook.com",
+        "geogebra.org"
+      ],
+      "solutionWeaknesses": [
+        "static forms with tiny fixed charts",
+        "dated applets",
+        "no draggable mean and sigma",
+        "no shaded area interaction"
+      ],
+      "userFailures": [],
+      "signals": [],
+      "relatedProblems": [
+        "z score",
+        "empirical rule",
+        "percentiles",
+        "standardizing data"
+      ],
+      "relatedTools": [
+        "statistics-visualizer",
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
+      ],
+      "relatedGuides": [
+        "statistics-visualizer"
+      ],
+      "relatedFaqs": [
+        "statistics-visualizer",
+        "probability-calculator",
+        "quadratic-equation-solver",
+        "unit-circle-calculator"
+      ],
+      "difficulty": "medium",
+      "evergreenScore": 0.94,
+      "competitionScore": 0.61,
+      "searchDemand": 0.76,
+      "implementationCost": 0.7,
+      "engineReuse": 1,
+      "seoPotential": 0.9,
+      "topicClusterPotential": 0,
+      "commercialPotential": 0.35,
+      "localizationPotential": 0.8,
+      "algorithmicFit": 1,
+      "authorityWinnability": 0.83,
+      "confidence": 0.8,
+      "finalScore": 77.1,
+      "status": "recommended",
+      "gap": "cluster-missing",
+      "engineExists": true,
+      "craftRisk": true
     }
   ]
 }

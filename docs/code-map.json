@@ -278,7 +278,7 @@
         "atomic-structure",
         "chemical-bonding"
       ],
-      "toolCount": 5
+      "toolCount": 6
     },
     "wellness": {
       "name": "Wellness Engine",
@@ -818,6 +818,21 @@
       "pattern": "simulate",
       "family": "chemical-bonding",
       "processorId": "chemical-bond",
+      "toolGroup": "",
+      "files": [],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "molecular-geometry-calculator": {
+      "name": "Molecular Geometry Calculator",
+      "dir": "src/tools/chemistry/molecular-geometry-calculator",
+      "categorySlug": "chemistry",
+      "url": "/tool/chemistry/molecular-geometry-calculator/",
+      "engine": "chemistry-lab",
+      "pattern": "simulate",
+      "family": "chemical-bonding",
+      "processorId": "molecular-geometry",
       "toolGroup": "",
       "files": [],
       "guideRegistered": true,

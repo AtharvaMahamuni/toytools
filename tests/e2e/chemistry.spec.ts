@@ -9,6 +9,7 @@ const CRYSTAL_FIELD = '/tool/chemistry/crystal-field-splitting-calculator/';
 const REACTION = '/tool/chemistry/reaction-rate-calculator/';
 const CONFIGURATION = '/tool/chemistry/electron-configuration-calculator/';
 const BOND = '/tool/chemistry/chemical-bond-calculator/';
+const GEOMETRY = '/tool/chemistry/molecular-geometry-calculator/';
 
 function guardConsole(page: Page): string[] {
   const errors: string[] = [];
@@ -26,6 +27,7 @@ test.describe('every chemistry tool', () => {
     'reaction-rate-calculator',
     'electron-configuration-calculator',
     'chemical-bond-calculator',
+    'molecular-geometry-calculator',
   ]) {
     test(`${slug} boots its canvas without console errors`, async ({ page }) => {
       const errors = guardConsole(page);
@@ -218,5 +220,45 @@ test.describe('chemical bond simulator', () => {
     await expect(page.locator('[data-measurement="deltaEN"]')).toHaveText(/1\.78/);
     // Past the cutoff, so a naive tool would call it ionic. This one says why that is wrong.
     await expect(page.locator('[data-sim-observations]')).toContainText(/both partners are nonmetals/i);
+  });
+});
+
+test.describe('molecular geometry simulator', () => {
+  test('water splits electron geometry from molecular shape', async ({ page }) => {
+    const errors = guardConsole(page);
+    await page.goto(GEOMETRY);
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    await page.getByRole('button', { name: 'Water, bent' }).click();
+    await expect(page.locator('[data-measurement="stericNumber"]')).toHaveText(/^4$/);
+    await expect(page.locator('[data-measurement="compressedAngle"]')).toHaveText(/104\.5/);
+    await expect(page.locator('[data-sim-observations]')).toContainText(/tetrahedral/i);
+    await expect(page.locator('[data-sim-observations]')).toContainText(/bent/i);
+
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+
+  test('methane keeps the two names together', async ({ page }) => {
+    await page.goto(GEOMETRY);
+    await page.getByRole('button', { name: 'Pause' }).click();
+
+    await page.getByRole('button', { name: 'Methane, tetrahedral' }).click();
+    await expect(page.locator('[data-measurement="idealAngle"]')).toHaveText(/109\.5/);
+    await expect(page.locator('[data-measurement="compressedAngle"]')).toHaveText(/109\.5/);
+    await expect(page.locator('[data-sim-observations]')).toContainText(/both tetrahedral/i);
+    await expect(page.locator('[data-sim-observations]')).not.toContainText(/The molecular shape is/);
+  });
+
+  test('dropping the lone pairs on water collapses it to linear', async ({ page }) => {
+    await page.goto(GEOMETRY);
+    await page.getByRole('button', { name: 'Pause' }).click();
+    await page.getByRole('button', { name: 'Water, bent' }).click();
+
+    const lone = page.getByLabel('Lone pairs (E) in units');
+    await lone.fill('0');
+    await lone.dispatchEvent('input');
+    await expect(page.locator('[data-measurement="stericNumber"]')).toHaveText(/^2$/);
+    await expect(page.locator('[data-measurement="compressedAngle"]')).toHaveText(/180/);
+    await expect(page.locator('[data-sim-observations]')).toContainText(/both linear/i);
   });
 });

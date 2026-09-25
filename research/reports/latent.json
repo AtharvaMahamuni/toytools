@@ -1,40 +1,24 @@
 {
   "version": 3,
-  "generatedAt": "2026-09-09T19:22:28.273Z",
+  "generatedAt": "2026-09-20T12:30:10.974Z",
   "signals": [
     {
       "kind": "asymmetry",
       "id": "asymmetry:generation",
-      "observation": "The \"generation\" engine has 5 tool(s) that produce a credential and none that check it.",
+      "observation": "The \"generation\" engine has 6 tool(s) that produce a credential and none that check it.",
       "implication": "Someone holding a credential this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
       "evidence": [
         "lorem-ipsum-generator",
         "password-generator",
         "qr-code-generator",
         "random-string-generator",
-        "uuid-generator"
+        "uuid-generator",
+        "uuid-inspector"
       ],
       "engines": [
         "generation"
       ],
-      "weight": 0.28
-    },
-    {
-      "kind": "asymmetry",
-      "id": "asymmetry:hashing",
-      "observation": "The \"hashing\" engine has 5 tool(s) that produce a hash digest and none that check it.",
-      "implication": "Someone holding a hash digest this engine produced has no way to find out it is wrong. They will not search for a checker, because the reason to want one is knowledge they do not have.",
-      "evidence": [
-        "crc32-hash-generator",
-        "md5-hash-generator",
-        "sha1-hash-generator",
-        "sha256-hash-generator",
-        "sha512-hash-generator"
-      ],
-      "engines": [
-        "hashing"
-      ],
-      "weight": 0.28
+      "weight": 0.29
     },
     {
       "kind": "dead-end",
@@ -102,7 +86,8 @@
         "random-choice-picker",
         "random-name-picker",
         "random-string-generator",
-        "uuid-generator"
+        "uuid-generator",
+        "uuid-inspector"
       ],
       "engines": [
         "generation"
@@ -116,6 +101,7 @@
       "implication": "Whatever a visitor does with a hash digest next, they do off-site. The step after ours is the one we cannot see, and it is the one they are still doing by hand.",
       "evidence": [
         "crc32-hash-generator",
+        "hash-identifier",
         "md5-hash-generator",
         "sha1-hash-generator",
         "sha256-hash-generator",
@@ -124,18 +110,18 @@
       "engines": [
         "hashing"
       ],
-      "weight": 0.23
+      "weight": 0.24
     },
     {
       "kind": "handoff",
       "id": "handoff:jwt->structured-data",
-      "observation": "The \"jwt\" engine emits structured data and \"structured-data\" consumes it, across 9 tools, with no tool spanning the join.",
+      "observation": "The \"jwt\" engine emits structured data and \"structured-data\" consumes it, across 10 tools, with no tool spanning the join.",
       "implication": "The join is currently the clipboard. A workflow people perform in two tabs has no name, so it has no query - and it is still the thing they came to do.",
       "evidence": [
         "jwt-decoder",
         "csv-to-json-converter",
-        "json-formatter",
-        "json-minifier"
+        "json-diff",
+        "json-formatter"
       ],
       "engines": [
         "jwt",
@@ -145,89 +131,6 @@
     }
   ],
   "candidates": [
-    {
-      "id": "uuid-inspector",
-      "title": "UUID Inspector",
-      "proposedTool": "uuid-inspector",
-      "proposedEngine": "generation",
-      "engineExists": true,
-      "need": "Regenerating the identifier and retrying, hoping the next one is accepted.",
-      "whyUnnamed": "A UUID looks correct to a human at every level except the two bits that encode its version and variant. Nobody searches for a checker because nobody can see the thing that is wrong, and the rejection downstream almost never says wrong UUID version.",
-      "consequenceOf": [
-        "Supplies a v4 UUID where the schema requires v7 and learns it only from a rejected insert.",
-        "Pastes a UUID missing one character and the resulting error names an unrelated field.",
-        "Treats a v1 UUID as random when it embeds a timestamp and a MAC address.",
-        "Generates a nil UUID as a placeholder and it passes shape validation everywhere downstream."
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:generation",
-          "kind": "asymmetry",
-          "because": "Sits on \"generation\", which can produce but cannot check."
-        },
-        {
-          "signalId": "dead-end:credential",
-          "kind": "dead-end",
-          "because": "Touches a credential, which nothing in the catalog consumes today."
-        }
-      ],
-      "bridges": [
-        "uuid-generator",
-        "random-string-generator",
-        "password-generator",
-        "coin-flipper",
-        "dice-roller",
-        "lorem-ipsum-generator"
-      ],
-      "anchorStrength": 0.8,
-      "consequence": 0.64,
-      "reachability": 1,
-      "namelessness": 0.7,
-      "algorithmicFit": 0.97,
-      "latentScore": 80.2,
-      "status": "candidate"
-    },
-    {
-      "id": "hash-identifier",
-      "title": "Hash Identifier and Verifier",
-      "proposedTool": "hash-identifier",
-      "proposedEngine": "hashing",
-      "engineExists": true,
-      "need": "Re-downloading a large file repeatedly because the checksum keeps failing.",
-      "whyUnnamed": "A digest carries no label. The person holding one believes it is the checksum, singular, so the possibility that they are comparing two different algorithms never becomes a thought, let alone a query.",
-      "consequenceOf": [
-        "Compares a SHA-1 against a SHA-256 and concludes the download is corrupt.",
-        "Sees an uppercase digest beside a lowercase one and reads a mismatch that is not one.",
-        "Cannot distinguish a truncated digest from a different algorithm of the same prefix.",
-        "Pastes a digest with a trailing filename from a .sha256 file and gets no match."
-      ],
-      "anchors": [
-        {
-          "signalId": "asymmetry:hashing",
-          "kind": "asymmetry",
-          "because": "Sits on \"hashing\", which can produce but cannot check."
-        },
-        {
-          "signalId": "dead-end:hash",
-          "kind": "dead-end",
-          "because": "Touches a hash digest, which nothing in the catalog consumes today."
-        }
-      ],
-      "bridges": [
-        "sha256-hash-generator",
-        "md5-hash-generator",
-        "sha1-hash-generator",
-        "crc32-hash-generator",
-        "sha512-hash-generator"
-      ],
-      "anchorStrength": 0.8,
-      "consequence": 0.68,
-      "reachability": 0.83,
-      "namelessness": 0.62,
-      "algorithmicFit": 0.98,
-      "latentScore": 76.8,
-      "status": "candidate"
-    },
     {
       "id": "date-format-detector",
       "title": "Date Format Detector",
@@ -268,10 +171,10 @@
   ],
   "unanchored": [],
   "summary": {
-    "signals": 8,
+    "signals": 7,
     "considered": 7,
-    "anchored": 3,
+    "anchored": 1,
     "unanchored": 0,
-    "topScore": 80.2
+    "topScore": 69.4
   }
 }
