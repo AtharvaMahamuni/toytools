@@ -68,10 +68,10 @@ import { config } from './config';
     limitBarFill.className = 'cc-limit-bar-fill' + (pct >= 100 ? ' is-over' : pct >= 80 ? ' is-warning' : '');
     var remaining = activeLimit - charCount;
     if (remaining > 0) {
-      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters — ' + remaining + ' remaining (' + Math.round(pct) + '%)';
+      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters, ' + remaining + ' remaining (' + Math.round(pct) + '%)';
       limitStat.className = 'cc-limit-stat';
     } else {
-      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters — ' + Math.abs(remaining) + ' over the limit';
+      limitStat.textContent = charCount + ' / ' + activeLimit + ' characters, ' + Math.abs(remaining) + ' over the limit';
       limitStat.className = 'cc-limit-stat cc-limit-stat--over';
     }
   }

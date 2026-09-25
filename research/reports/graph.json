@@ -1129,7 +1129,7 @@
     },
     {
       "id": "hex-encoder-decoder",
-      "title": "Hex Encoder & Decoder",
+      "title": "Hex Encoder and Decoder",
       "transformation": "binary-text",
       "engine": "encoding",
       "existing": true,

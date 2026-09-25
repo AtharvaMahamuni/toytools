@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v11.14.17] - 2026-09-25
+
+### Fixed
+
+- **Phase 3 SEO nit cleanup (follow-up to #225).** Remove leftover em dashes from
+  character-counter and letter-counter Widget copy (limit-stat commas; empty frequency
+  placeholders use `-`; comment ranges say "A to Z"). Sync password-generator privacy FAQ
+  (`Is any of my data uploaded or shared?`) into knowledge `commonQuestions`. Put
+  letter-counter `lc-faq-10` before `lc-faq-11`. Align hex guide Base64/URL related-tool
+  link text with those tools' official `&` titles (tools themselves unchanged). Set
+  `research/reports/graph.json` hex title to `Hex Encoder and Decoder` to match the shipped
+  name. No new SEO, no Base64/URL renames, no regex tester.
+
 ## [beta-v11.14.16] - 2026-09-25
 
 ### Changed

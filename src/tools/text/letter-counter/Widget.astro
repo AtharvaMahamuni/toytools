@@ -33,9 +33,9 @@ import { config } from './config';
   function buildFreqChart(text) {
     var counts = {};
     var total = 0;
-    // Match all Unicode letters, then fold diacritics to their base A–Z letter
+    // Match all Unicode letters, then fold diacritics to their base A to Z letter
     // (é → e, ñ → n, ü → u) so the chart reconciles with the Unicode "Letters"
-    // hero count for Latin text. Non-Latin letters fall outside the A–Z chart.
+    // hero count for Latin text. Non-Latin letters fall outside the A to Z chart.
     var letters = text.match(/\p{L}/gu) || [];
     letters.forEach(function (ch) {
       var base = ch.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -49,8 +49,8 @@ import { config } from './config';
     var sorted = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
     var maxCount = sorted.length ? counts[sorted[0]] : 1;
 
-    var mostCommon = sorted[0] ? sorted[0].toUpperCase() + ' (' + counts[sorted[0]] + ')' : '—';
-    var leastCommon = sorted.length ? sorted[sorted.length - 1].toUpperCase() + ' (' + counts[sorted[sorted.length - 1]] + ')' : '—';
+    var mostCommon = sorted[0] ? sorted[0].toUpperCase() + ' (' + counts[sorted[0]] + ')' : '-';
+    var leastCommon = sorted.length ? sorted[sorted.length - 1].toUpperCase() + ' (' + counts[sorted[sorted.length - 1]] + ')' : '-';
 
     freqMeta.innerHTML =
       '<span class="lc-badge">Most common: <strong>' + mostCommon + '</strong></span>' +
