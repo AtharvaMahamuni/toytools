@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   slug: 'regex-tester',
   name: 'Regex Tester',
   seoTitle: 'Regex Tester: Live Capture Groups',
-  description: `Regexp tester and regular expression tester. Live regex matcher with capture groups and replace preview. Regex101 alternative offline. Nothing is uploaded.`,
+  description: `Regexp and regular expression tester. Live regex matcher with replace preview. Regex101 alternative offline. ${PRIVACY_LINE}`,
   tagline: 'Live regex matcher with capture groups. A regexp tester that stays offline.',
   categorySlug: 'developer-utilities',
   tags: [

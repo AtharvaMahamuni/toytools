@@ -5,6 +5,7 @@ import {
   looksExpensive,
   normalizeFlags,
   runRegexTest,
+  workerSource,
 } from './regex-tester';
 
 describe('looksExpensive', () => {
@@ -138,5 +139,14 @@ describe('explainSummary', () => {
     const line = explainSummary(r);
     expect(line).toMatch(/1 match at index/);
     expect(line).toMatch(/\$num=/);
+  });
+});
+
+describe('workerSource', () => {
+  it('emits a Worker script that shares the sync caps', () => {
+    const src = workerSource();
+    expect(src).toContain(`var MAX_TEXT = ${MAX_TEST_TEXT}`);
+    expect(src).toContain('self.onmessage');
+    expect(src).toContain('looksExpensive');
   });
 });

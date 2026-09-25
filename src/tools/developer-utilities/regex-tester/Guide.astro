@@ -5,6 +5,7 @@ import { config } from './config';
 import { withBase } from '@lib/paths';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
+import { PRIVACY_LINE } from '@lib/privacy';
 
 interface Props {
   title: string;
@@ -178,9 +179,9 @@ const findReplaceHref = withBase('/tool/text/find-replace/');
   <section id="privacy">
     <h2>Is My Text Uploaded? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      No. Matching runs entirely in your browser with JavaScript. Patterns, flags, and test text
-      never leave the device. That matters when the sample is a production log line, a customer
-      record, or an auth token shaped string you should not paste into a stranger's server.
+      No. Matching and replace both run in your browser. {PRIVACY_LINE} That matters when the
+      sample is a production log line, a customer record, or an auth-token-shaped string you should
+      not paste into a stranger's server.
     </p>
   </section>
 
