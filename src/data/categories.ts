@@ -211,11 +211,11 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     description:
       'Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model.',
     tagline: 'Prepare text before a model sees it.',
-    highlights: ['prompt-packer'],
+    highlights: ['prompt-packer', 'chat-export-cleaner'],
     accent: '#6E4B3A',
     segment: 'prep',
     intro: [
-      'These tools prepare text you are about to paste into a model. Prompt Packer assembles role, task, context, constraints, and output format into one block. It does not write the prompt for you. Later tools in this category stay in the same job: clean, structure, check, and estimate, still without calling a model.',
+      'These tools prepare text you are about to paste into a model. Prompt Packer assembles role, task, context, constraints, and output format into one block. Chat Export Cleaner turns a copied transcript into plain text. Neither one writes or rewrites the words for you.',
       'ToyTools does not run a model. There is no API key, no account, and no request that sends your draft to a provider. The work is deterministic and happens in your browser. Runs entirely on your device. Nothing is uploaded.',
       'The model stays wherever you already use it. ChatGPT, Claude, Gemini, and Grok are not built in, and this category is not affiliated with them. A format here is a way to organize fields. It is not a claim that one layout is better for one model.',
     ],

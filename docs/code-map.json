@@ -27,11 +27,11 @@
       "sharedWidget": "src/tools/_shared/TextProcessorWidget.astro",
       "supportedFamilies": [
         "transform",
+        "prep-assemble",
         "detect",
-        "cleanup",
-        "prep-assemble"
+        "cleanup"
       ],
-      "toolCount": 20
+      "toolCount": 21
     },
     "encoding": {
       "name": "Encoding Engine",
@@ -1175,6 +1175,26 @@
         "knowledge.ts"
       ],
       "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "chat-export-cleaner": {
+      "name": "Chat Export Cleaner",
+      "dir": "src/tools/prep/chat-export-cleaner",
+      "categorySlug": "prep",
+      "url": "/tool/prep/chat-export-cleaner/",
+      "engine": "text-processor",
+      "pattern": "text-assemble",
+      "family": "prep-assemble",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": false,
       "faqRegistered": true,
       "knowledgeRegistered": true
     },

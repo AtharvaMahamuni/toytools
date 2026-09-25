@@ -18,6 +18,7 @@ import { config as calorieDeficitCalculator } from '@tools/health/calorie-defici
 import { config as camelCaseConverter } from '@tools/text/camel-case-converter/config';
 import { config as characterCounter } from '@tools/text/character-counter/config';
 import { config as characterMap } from '@tools/text/character-map/config';
+import { config as chatExportCleaner } from '@tools/prep/chat-export-cleaner/config';
 import { config as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/config';
 import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
@@ -160,6 +161,7 @@ export const toolConfigs: ToolConfig[] = [
   camelCaseConverter,
   characterCounter,
   characterMap,
+  chatExportCleaner,
   cidrCalculator,
   coinFlipper,
   colorContrastChecker,

@@ -179,7 +179,9 @@ const THRESHOLDS = {
   // 2026-09-25: 0.690 (96/139). Regex Tester ships orientation craft (regex-match-explain).
   // 2026-09-25: 0.692 (97/140). Prompt Packer ships guardrail craft prompt-omit-empty.
   //   An empty field printed as a heading reads like an instruction the person forgot to fill in.
-  coverage: 0.692,
+  // 2026-09-25: 0.695 (98/141). Chat Export Cleaner ships guardrail craft chat-removed-count.
+  //   A keep mode drops turns. The status line says how many lines changed and that text was dropped.
+  coverage: 0.695,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

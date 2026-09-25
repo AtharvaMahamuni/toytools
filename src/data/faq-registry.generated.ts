@@ -18,6 +18,7 @@ import { items as calorieDeficitCalculatorFaqs } from '@tools/health/calorie-def
 import { items as camelCaseConverterFaqs } from '@tools/text/camel-case-converter/faq';
 import { items as characterCounterFaqs } from '@tools/text/character-counter/faq';
 import { items as characterMapFaqs } from '@tools/text/character-map/faq';
+import { items as chatExportCleanerFaqs } from '@tools/prep/chat-export-cleaner/faq';
 import { items as cidrCalculatorFaqs } from '@tools/developer-utilities/cidr-calculator/faq';
 import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
@@ -160,6 +161,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'camel-case-converter': camelCaseConverterFaqs,
   'character-counter': characterCounterFaqs,
   'character-map': characterMapFaqs,
+  'chat-export-cleaner': chatExportCleanerFaqs,
   'cidr-calculator': cidrCalculatorFaqs,
   'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,

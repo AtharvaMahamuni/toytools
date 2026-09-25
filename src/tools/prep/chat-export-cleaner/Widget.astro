@@ -1,0 +1,174 @@
+---
+// Bespoke widget. The rules live in src/lib/text/chatClean.ts. This file only renders them.
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import ToolActions from '@components/tool/ToolActions.astro';
+---
+
+<div class="cc">
+  <IoPanel label="Transcript" labelFor="cc-in" variant="prose">
+    <textarea id="cc-in" spellcheck="false" aria-label="Transcript" placeholder="Paste a copied chat here."></textarea>
+  </IoPanel>
+
+  <fieldset class="cc-options">
+    <legend>Cleanup</legend>
+    <label><input type="checkbox" id="cc-times" checked /> Remove timestamps</label>
+    <label><input type="checkbox" id="cc-speakers" checked /> Remove speaker labels</label>
+    <label><input type="checkbox" id="cc-blanks" checked /> Normalize blank lines</label>
+    <label><input type="checkbox" id="cc-fences" checked /> Remove empty code fences</label>
+    <label><input type="checkbox" id="cc-space" checked /> Normalize spaces</label>
+    <label><input type="checkbox" id="cc-chips" checked /> Remove citation chips</label>
+  </fieldset>
+
+  <fieldset class="cc-keep">
+    <legend>Keep</legend>
+    <label><input type="radio" name="cc-keep" id="cc-all" value="all" checked /> Everything</label>
+    <label><input type="radio" name="cc-keep" id="cc-user" value="user" /> User messages</label>
+    <label><input type="radio" name="cc-keep" id="cc-assistant" value="assistant" /> Assistant messages</label>
+    <label><input type="radio" name="cc-keep" id="cc-code" value="code" /> Code blocks</label>
+  </fieldset>
+
+  <p class="cc-status" id="cc-status" data-craft="chat-removed-count" role="status">Paste a transcript.</p>
+
+  <div class="cc-actions">
+    <button class="action-btn action-btn--sample" id="cc-sample" type="button">Sample</button>
+    <button class="action-btn" id="cc-clear" type="button">Clear</button>
+  </div>
+
+  <IoPanel label="Cleaned text" labelFor="cc-out" variant="prose">
+    <textarea id="cc-out" readonly aria-label="Cleaned text"></textarea>
+  </IoPanel>
+  <ToolActions copyTarget="cc-out" />
+  <p class="cc-note">Cleans the transcript. Does not rewrite it.</p>
+</div>
+
+<style>
+  .cc { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  .cc [hidden] { display: none !important; }
+
+  .cc-options,
+  .cc-keep {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .cc legend {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .cc label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--touch-target);
+    font-size: var(--text-base);
+    color: var(--color-text);
+  }
+
+  .cc-status,
+  .cc-note {
+    margin: var(--space-3) 0 0;
+    max-width: none;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .cc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .cc-actions .action-btn {
+    min-height: var(--touch-target);
+  }
+
+  .cc-actions .action-btn:active {
+    background: var(--color-accent-subtle);
+  }
+
+  .cc textarea {
+    font-size: var(--text-base);
+  }
+</style>
+
+<script is:inline>
+  ToyTools.onReady(function () {
+    var input = document.getElementById('cc-in');
+    var output = document.getElementById('cc-out');
+    var status = document.getElementById('cc-status');
+    var sample = document.getElementById('cc-sample');
+    var clearBtn = document.getElementById('cc-clear');
+    var ids = ['cc-times', 'cc-speakers', 'cc-blanks', 'cc-fences', 'cc-space', 'cc-chips', 'cc-all', 'cc-user', 'cc-assistant', 'cc-code'];
+    var nodes = {};
+    for (var i = 0; i < ids.length; i++) nodes[ids[i]] = document.getElementById(ids[i]);
+    if (!input || !output || !status || !sample || !clearBtn) return;
+
+    var SAMPLE = '[10:15] User: How do I open a file?\n\nAssistant: Use open().\n\n```\nopen(path)\n```\n\n[10:16] User: Thanks';
+    var clearArmed = false;
+    var clearTimer = 0;
+
+    function keep() {
+      if (nodes['cc-user'].checked) return 'user';
+      if (nodes['cc-assistant'].checked) return 'assistant';
+      if (nodes['cc-code'].checked) return 'code';
+      return 'all';
+    }
+
+    function paint() {
+      if (!(window.ToyTools && ToyTools.cleanChatExport)) return;
+      var result = ToyTools.cleanChatExport(input.value, {
+        removeTimestamps: nodes['cc-times'].checked,
+        removeSpeakerLabels: nodes['cc-speakers'].checked,
+        normalizeBlankLines: nodes['cc-blanks'].checked,
+        removeEmptyFences: nodes['cc-fences'].checked,
+        normalizeWhitespace: nodes['cc-space'].checked,
+        removeCitationChips: nodes['cc-chips'].checked,
+        keep: keep(),
+      });
+      output.value = result.text;
+      if (!input.value.trim()) {
+        status.textContent = 'Paste a transcript.';
+        return;
+      }
+      var count = result.removedLines + (result.removedLines === 1 ? ' line changed.' : ' lines changed.');
+      status.textContent = result.note ? count + ' ' + result.note : count;
+    }
+
+    function disarm() {
+      clearArmed = false;
+      clearBtn.textContent = 'Clear';
+      if (clearTimer) window.clearTimeout(clearTimer);
+    }
+
+    input.addEventListener('input', paint);
+    ids.forEach(function (id) { nodes[id].addEventListener('change', paint); });
+    sample.addEventListener('click', function () {
+      input.value = SAMPLE;
+      disarm();
+      paint();
+    });
+    clearBtn.addEventListener('click', function () {
+      if (!clearArmed) {
+        clearArmed = true;
+        clearBtn.textContent = 'Confirm clear';
+        clearTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      input.value = '';
+      disarm();
+      paint();
+    });
+    paint();
+  });
+</script>

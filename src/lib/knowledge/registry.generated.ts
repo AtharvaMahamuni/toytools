@@ -18,6 +18,7 @@ import { knowledge as calorieDeficitCalculator } from '@tools/health/calorie-def
 import { knowledge as camelCaseConverter } from '@tools/text/camel-case-converter/knowledge';
 import { knowledge as characterCounter } from '@tools/text/character-counter/knowledge';
 import { knowledge as characterMap } from '@tools/text/character-map/knowledge';
+import { knowledge as chatExportCleaner } from '@tools/prep/chat-export-cleaner/knowledge';
 import { knowledge as cidrCalculator } from '@tools/developer-utilities/cidr-calculator/knowledge';
 import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
@@ -160,6 +161,7 @@ export const authoredKnowledge: Knowledge[] = [
   camelCaseConverter,
   characterCounter,
   characterMap,
+  chatExportCleaner,
   cidrCalculator,
   coinFlipper,
   colorContrastChecker,
