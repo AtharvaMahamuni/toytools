@@ -2,6 +2,17 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.0.1] - 2026-09-26
+
+### Changed
+
+- **Unique install-icon glyph per tool.** Every registry tool now resolves to a
+  distinct glyph id (166 tools, 166 glyphs in use). Crowded families — cleanup
+  brooms, prep checklists, hash digests, body-composition gauges, JSON braces,
+  and the rest — get meaningful per-slug marks instead of sharing a shape and
+  relying on hue-shift. Hue-shift remains secondary gradient polish. Spark stays
+  the unknown-family fallback only. Regenerated `public/icons/tool/*` PNGs.
+
 ## [beta-v12.0] - 2026-09-25
 
 ### Added

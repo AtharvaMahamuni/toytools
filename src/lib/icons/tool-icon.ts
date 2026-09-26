@@ -2,10 +2,12 @@
 //
 // Turns a tool into a full-bleed, maskable SVG app icon, entirely from registry
 // data (no browser APIs — safe in SSR/build/tests). The identity model:
-//   Level 1  glyph   — GLYPHS[id], chosen by family (or a per-slug override)
-//   Level 2  detail  — a per-slug override glyph where a family is crowded
-//   constant colour  — the category accent, as a per-slug seeded gradient so
-//                      siblings that share a glyph still differ by shade
+//   Level 1  glyph   — GLYPHS[id], unique per tool (family default or SLUG_GLYPH)
+//   Level 2  colour  — category accent with a per-slug seeded hue-shift
+//
+// Policy: every registry tool resolves to a DISTINCT glyph id. Hue-shift is
+// secondary polish on the gradient, not the uniqueness strategy. Spark remains
+// the unknown-family fallback only and must never appear on a real tool.
 //
 // Everything is deterministic: the same tool always yields byte-identical SVG,
 // so the endpoints emit stable static files and the unit test can pin them.
@@ -17,9 +19,10 @@ import { GLYPHS } from './glyphs';
 const FALLBACK_ACCENT = '#2F6B4F';
 
 // ── family → default glyph ────────────────────────────────────────────────
-// Every family present in the registry maps to a meaningful glyph. Siblings in
-// the same family share it and separate by the seeded hue-shift; where that is
-// not enough (casing, counters, arithmetic) a per-slug override wins below.
+// Every family present in the registry maps to a meaningful glyph. Crowded
+// families (cleanup, prep-assemble, cryptographic, body-composition, …) get
+// per-slug overrides below so no two tools share a glyph id. Hue-shift only
+// varies the gradient shade; it is not how tools stay distinct.
 const FAMILY_GLYPH: Record<string, string> = {
   // developer
   'binary-text': 'swap',
@@ -132,7 +135,7 @@ const SLUG_GLYPH: Record<string, string> = {
   'yaml-to-json-converter': 'listBraces',
   'csv-to-tsv': 'table',
   'csv-cleaner': 'broom',
-  'csv-diff': 'compare',
+  'csv-diff': 'csvDiff',
   'jwt-decoder': 'jwt',
   'regex-tester': 'regex',
 
@@ -161,8 +164,8 @@ const SLUG_GLYPH: Record<string, string> = {
   // text — cleanup specifics (rest share the broom + hue)
   'trim-text': 'trim',
   'remove-duplicate-lines': 'linesX',
-  'normalize-whitespace': 'dots',
-  'remove-extra-spaces': 'dots',
+  'normalize-whitespace': 'whitespace',
+  'remove-extra-spaces': 'spacesCollapse',
 
   // number — arithmetic (domain object)
   'percentage-calculator': 'pct',
@@ -170,29 +173,29 @@ const SLUG_GLYPH: Record<string, string> = {
   'discount-calculator': 'tag',
   'tax-calculator': 'receipt',
   'margin-calculator': 'chartUp',
-  'markup-calculator': 'chartBar',
+  'markup-calculator': 'markup',
   'scientific-calculator': 'calculator',
 
   // money — specifics beyond the family default
   'sip-calculator': 'recurring',
   'savings-goal-calculator': 'target',
   'emergency-fund-calculator': 'piggy',
-  'upi-1999-split': 'receipt',
+  'upi-1999-split': 'upiSplit',
   'compound-interest-calculator': 'coins',
-  'cagr-calculator': 'trendUp',
-  'roi-calculator': 'chartUp',
+  'cagr-calculator': 'cagr',
+  'roi-calculator': 'roi',
   'inflation-calculator': 'trendUp',
 
   // health — specifics
   'water-intake-tracker': 'droplet',
-  'move-today-tracker': 'footsteps',
+  'move-today-tracker': 'walkDay',
   'body-weight-tracker': 'scaleLine',
   'tdee-calculator': 'flame',
   'macro-calculator': 'pie',
   'heart-rate-zone-calculator': 'heartPulse',
   'running-pace-calculator': 'footsteps',
-  'bmr-calculator': 'gauge',
-  'protein-intake-calculator': 'pie',
+  'bmr-calculator': 'metabolic',
+  'protein-intake-calculator': 'protein',
 
   // generate — flagships
   'dice-roller': 'dice',
@@ -224,7 +227,6 @@ const SLUG_GLYPH: Record<string, string> = {
 
   // network
   'cidr-calculator': 'cidr',
-  'what-is-my-ip': 'globe',
 
   // number — numerals (the notation IS the identity)
   'roman-numeral-converter': 'roman',
@@ -241,13 +243,97 @@ const SLUG_GLYPH: Record<string, string> = {
   'combinations-permutations-calculator': 'ncr',
 
   // money — specifics
-  'upi-mdr-estimator': 'coins',
-  'split-bill': 'pct',
-  'shop-upi-tally': 'target',
+  'upi-mdr-estimator': 'mdr',
+  'split-bill': 'splitBill',
+  'shop-upi-tally': 'tally',
 
   // chemistry — VSEPR shares the bonding family with chemical-bond, so it needs its own sketch.
   'molecular-geometry-calculator': 'tetrahedron',
+
+  // ── uniqueness overrides (every tool → distinct glyph id) ─────────────
+  // cleanup (broom family default kept by csv-cleaner)
+  'remove-accents': 'accents',
+  'remove-blank-lines': 'blankLines',
+  'remove-emoji': 'emojiOff',
+  'remove-line-breaks': 'unwrap',
+  'remove-tabs': 'tabsOff',
+
+  // prep-assemble (todo-list keeps checklist)
+  'prompt-packer': 'pack',
+  'chat-export-cleaner': 'transcript',
+  'context-fit-checker': 'windowFit',
+  'llms-txt-generator': 'llmsTxt',
+
+  // body-composition / health gauge crowd
+  'bmi-calculator': 'gauge',
+  'body-fat-calculator': 'bodyFat',
+  'ideal-weight-calculator': 'idealWeight',
+
+  // json crowd (formatter keeps braces)
+  'json-diff': 'bracesDiff',
+  'json-to-schema': 'bracesSchema',
+  'json-schema-validator': 'schemaCheck',
+
+  // cryptographic hashes (sha256 keeps hash)
+  'md5-hash-generator': 'hashMd5',
+  'sha1-hash-generator': 'hashSha1',
+  'sha256-hash-generator': 'hash',
+  'sha512-hash-generator': 'hashSha512',
+
+  // mechanics
+  'momentum-collision-calculator': 'collision',
+  'inclined-plane-calculator': 'incline',
+
+  // oscillations (pendulum-period keeps pendulum)
+  'frequency-period-calculator': 'frequency',
+  'simple-harmonic-motion-calculator': 'spring',
+
+  // interest / money
+  'rule-of-72-calculator': 'rule72',
+
+  // detect / identify
+  'hash-identifier': 'hashId',
+  'invisible-character-detector': 'invisibleChar',
+
+  // fitness / ROI already set above; one-rep-max
+  'one-rep-max-calculator': 'barbell',
+
+  // waves / thermo
+  'doppler-effect-calculator': 'doppler',
+  'ideal-gas-law-calculator': 'gasLaw',
+
+  // probability keeps dice for dice-roller via chance family override already;
+  // probability-calculator needs its own mark
+  'probability-calculator': 'probability',
+
+  // shelf vs note
+  'book-tracker': 'book',
+
+  // energy
+  'calorie-deficit-calculator': 'deficit',
+
+  // design
+  'color-contrast-checker': 'contrast',
+
+  // schedule
+  'systemd-timer-converter': 'systemd',
+
+  // habit
+  'habit-streak-tracker': 'streak',
+
+  // shell quoting (json-escape keeps backslash)
+  'shell-quote-escalator': 'shellQuote',
+
+  // css-unit
+  'px-to-dp-converter': 'densPixel',
+
+  // network identity
+  'what-is-my-ip': 'ipAddress',
+
+  // identifier
+  'uuid-inspector': 'uuidInspect',
 };
+
 
 /** Category accent hex for a tool, with a safe fallback. */
 export function toolAccent(tool: Pick<Tool, 'categorySlug'>): string {
