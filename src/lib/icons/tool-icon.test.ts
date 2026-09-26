@@ -43,13 +43,21 @@ describe('tool install icons', () => {
     }
   });
 
-  it('gives glyph-sharing siblings distinct gradients via the seeded hue-shift', () => {
-    const sha = toolIconSvg({ slug: 'sha256-hash-generator', categorySlug: 'developer-utilities', family: 'cryptographic' });
-    const md5 = toolIconSvg({ slug: 'md5-hash-generator', categorySlug: 'developer-utilities', family: 'cryptographic' });
-    // Same glyph + same category accent, but different slug → different composed SVG.
+  it('assigns every registry tool a unique glyph id', () => {
+    const ids = tools.map(t => resolveGlyphId(t));
+    const dupes = ids.filter((id, i) => ids.indexOf(id) !== i);
+    expect(dupes, `shared glyph ids: ${[...new Set(dupes)].join(', ')}`).toEqual([]);
+    expect(new Set(ids).size).toBe(tools.length);
+  });
+
+  it('still seeds distinct gradients per slug (hue-shift is secondary polish)', () => {
+    // Same category accent, different slug → different background even when glyphs differ.
+    const sha = iconColors({ slug: 'sha256-hash-generator', categorySlug: 'developer-utilities' });
+    const md5 = iconColors({ slug: 'md5-hash-generator', categorySlug: 'developer-utilities' });
+    expect(sha.accent).toBe(md5.accent);
+    expect(sha.background).not.toBe(md5.background);
     expect(resolveGlyphId({ slug: 'sha256-hash-generator', family: 'cryptographic' })).toBe('hash');
-    expect(resolveGlyphId({ slug: 'md5-hash-generator', family: 'cryptographic' })).toBe('hash');
-    expect(sha).not.toBe(md5);
+    expect(resolveGlyphId({ slug: 'md5-hash-generator', family: 'cryptographic' })).toBe('hashMd5');
   });
 
   it('emits opaque hex theme + background colours for every tool', () => {

@@ -209,6 +209,91 @@ export const GLYPHS: Record<string, string> = {
   // Four octets on a line: an IPv4 address, which is what CIDR is about.
   cidr: S + '<path d="M4 12h16"/><circle cx="4" cy="12" r="2.1"/><circle cx="9.3" cy="12" r="2.1"/><circle cx="14.7" cy="12" r="2.1"/><circle cx="20" cy="12" r="2.1"/>' + E,
 
+  // ── uniqueness pack (one mark per tool; hue-shift is secondary) ────────
+  // Cleanup variants — broom stays the family default; these name the cut.
+  accents: t('á→a', 7.5),
+  blankLines: S + '<path d="M4 5h16M4 19h16"/><path d="M4 11h16" stroke-dasharray="2.5 2.5"/>' + E,
+  emojiOff: S + '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 10.2h.01M15.5 10.2h.01M9 15.2c1.2-1.2 4.8-1.2 6 0"/><path d="M5 5l14 14"/>' + E,
+  unwrap: S + '<path d="M4 8h10a3 3 0 0 1 0 6H8"/><path d="M4 14h4"/><path d="m7 11 3 3-3 3"/>' + E,
+  tabsOff: S + '<path d="M4 7h7M4 12h12M4 17h7"/><path d="M16 7h4M18 5v4"/><path d="M15.5 15.5 20 20M20 15.5 15.5 20"/>' + E,
+  // Prep-assemble — checklist stays for todo-list; prep tools name the job.
+  pack: S + '<path d="M4 8.5 12 4l8 4.5V19l-8 4.5L4 19Z"/><path d="M12 13v10.5M4 8.5l8 4.5 8-4.5"/>' + E,
+  transcript: S + '<path d="M4 5.5h9a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 13 12.5H8l-3 2.5V5.5Z"/><path d="M11 14.5h6.5A1.5 1.5 0 0 1 19 16v3.5l-2.5-1.8H11A1.5 1.5 0 0 1 9.5 16v-0.5"/>' + E,
+  windowFit: S + '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 8.5h17"/><path d="M7 12v4M12 11v5M17 13v3"/>' + E,
+  llmsTxt: S + '<path d="M6 3.5h8.5L18.5 7.5V20.5H6Z"/><path d="M14 3.5V8h4.5"/>' + E + t('llms', 5.5).replace('y="12.7"', 'y="15.2"'),
+  // Body-composition / energy health splits
+  bodyFat: S + '<circle cx="12" cy="7" r="2.4"/><path d="M8 21v-6.5a4 4 0 0 1 8 0V21"/><path d="M9.5 14.5h5"/>' + E,
+  idealWeight: S + '<path d="M7 4h10l1.5 3H5.5Z"/><path d="M8 7v10.5a4 4 0 0 0 8 0V7"/><path d="M10 14h4"/>' + E,
+  metabolic: S + '<path d="M4.6 17a8.5 8.5 0 1 1 14.8 0"/><path d="M12 16.5 9 11"/><circle cx="12" cy="16.8" r="1.4" fill="#fff" stroke="none"/><path d="M16 7.5h3M17.5 6v3"/>' + E,
+  // JSON crowded family
+  bracesDiff: S + '<path d="M7 4H6a2 2 0 0 0-2 2v3a2 2 0 0 1-1.2 1.8"/><path d="M17 4h1a2 2 0 0 1 2 2v2"/><path d="M9 11h6M11.5 8.5 14 11l-2.5 2.5"/><path d="M7 20H6a2 2 0 0 1-2-2v-3"/><path d="M17 20h1a2 2 0 0 0 2-2v-2"/>' + E,
+  bracesSchema: S + '<path d="M7 4H6a2 2 0 0 0-2 2v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3c0 1.1.9 2 2 2h1"/><path d="M12 7h8M12 12h8M12 17h5"/><circle cx="12" cy="7" r="1.2" fill="#fff" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="#fff" stroke="none"/><circle cx="12" cy="17" r="1.2" fill="#fff" stroke="none"/>' + E,
+  schemaCheck: S + '<path d="M5 5h9v4H5Z"/><path d="M5 11h9v4H5Z"/><path d="M5 17h6"/><path d="M14.5 16.5l2 2 4-4.5"/>' + E,
+  // Hash algorithm marks — # stays for SHA-256; siblings spell the digest.
+  hashMd5: t('MD5', 8),
+  hashSha1: t('SHA1', 7),
+  hashSha512: t('512', 11),
+  // Mechanics
+  collision: S + '<circle cx="7" cy="12" r="4"/><circle cx="17" cy="12" r="4"/><path d="M11 12h2"/><path d="M9.5 9.5 7 7M14.5 9.5 17 7"/>' + E,
+  incline: S + '<path d="M3 19h18"/><path d="M4 19 18 7v12"/><circle cx="10" cy="13.5" r="1.8" fill="#fff" stroke="none"/>' + E,
+  // Oscillations — spring glyph reused for SHM; frequency gets Hz.
+  frequency: S + '<path d="M3 12c1.5-5 3-5 4.5 0s3 5 4.5 0 3-5 4.5 0 3 5 4.5 0"/><path d="M12 4v2"/>' + E +
+    '<text x="12" y="20.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" font-size="5.5" fill="#fff" text-anchor="middle">Hz</text>',
+  // Money / interest extras
+  rule72: t('72', 12),
+  mdr: S + '<rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 10h17"/><path d="M7 14h4"/>' + E +
+    '<text x="16" y="15.2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" font-size="5.5" fill="#fff" text-anchor="middle">%</text>',
+  // Detect / identify
+  hashId: S + '<path d="M5 9h10"/><path d="M5 15h10"/><path d="M9 4 7.5 20"/><path d="M13.5 4 12 20"/><circle cx="18.5" cy="18.5" r="3"/><path d="M20.5 20.5 22.5 22.5"/>' + E,
+  invisibleChar: S + '<rect x="5" y="5" width="14" height="14" rx="2" stroke-dasharray="2.5 2"/><path d="M9 12h.01M12 12h.01M15 12h.01"/>' + E,
+  // Fitness / ROI
+  barbell: S + '<path d="M3 12h18"/><path d="M6 8v8M18 8v8"/><path d="M8.5 10v4M15.5 10v4"/>' + E,
+  roi: S + '<path d="M4 17 10 11l3 2.5 6-7"/><path d="M14 6.5h5v5"/>' + E +
+    '<text x="6.5" y="8.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" font-size="6" fill="#fff">$</text>',
+  // Cleanup whitespace siblings (dots stays for pop-it)
+  whitespace: S + '<path d="M5 8v3M19 8v3M5 11h14"/><path d="M8 15h.01M12 15h.01M16 15h.01"/>' + E,
+  spacesCollapse: S + '<path d="M4 12h4M16 12h4"/><path d="M9 9l-2 3 2 3M15 9l2 3-2 3"/>' + E,
+  // Waves / thermo
+  doppler: S + '<circle cx="6" cy="12" r="2.2" fill="#fff" stroke="none"/><path d="M10 8c2 2.5 2 5.5 0 8M13.5 6c3 3.5 3 8.5 0 12M17.5 4c3.5 4.5 3.5 11.5 0 16"/>' + E,
+  gasLaw: t('PV', 11),
+  // Probability (dice stays for dice-roller)
+  probability: S + '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5A8.5 8.5 0 0 1 20.5 12L12 12Z" fill="#fff" stroke="none"/><path d="M12 3.5A8.5 8.5 0 0 1 20.5 12L12 12Z"/>' + E,
+  // Productivity shelf
+  book: S + '<path d="M5 4.5h5.5A2.5 2.5 0 0 1 13 7v13.5a2 2 0 0 0-2-2H5Z"/><path d="M19 4.5h-5.5A2.5 2.5 0 0 0 11 7v13.5a2 2 0 0 1 2-2H19Z"/>' + E,
+  // Money growth variants
+  cagr: S + '<path d="M3 18c3-1 5-6 7-6s3 4 5 4 3-7 6-9"/><path d="M17 5h4v4"/>' + E,
+  deficit: S + '<path d="M12 3s4 3 4 7.5a4 4 0 0 1-8 0C8 8.5 10 7 10 7s0 1.6 1.2 2C11.5 7.2 12 3 12 3Z"/><path d="M8 19h8"/>' + E,
+  // Design
+  contrast: S + '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="#fff"/>' + E,
+  // Schedule
+  systemd: S + '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 9h16"/><path d="M8 13h.01M12 13h.01M16 13h.01"/><path d="M9 17h6"/>' + E,
+  // Compare / CSV
+  csvDiff: S + '<rect x="3" y="4" width="7.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="7.5" height="16" rx="1.5"/><path d="M5 8h3.5M5 12h3.5"/><path d="M15.5 8h3.5M15.5 12h3.5M15.5 16h3.5"/>' + E,
+  // Habit streak (droplet stays for water)
+  streak: S + '<path d="M7 20V10l5-6 5 6v10"/><path d="M9.5 20v-6h5v6"/>' + E,
+  // Shell quoting
+  shellQuote: t("$''", 9),
+  // Nutrition protein
+  protein: S + '<path d="M6 5c0 0 2 2 6 2s6-2 6-2v3c0 5-3 10-6 11-3-1-6-6-6-11Z"/><path d="M9 10c1 .8 2 1.2 3 1.2s2-.4 3-1.2"/>' + E,
+  // Markup vs margin
+  markup: S + '<path d="M4 16h16"/><path d="M7 16V9M12 16V6M17 16v-4"/><path d="M15 5h4v4"/><path d="m16 8 3-3"/>' + E,
+  // Move-today (footsteps stays for running pace)
+  walkDay: S + '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M9 3v4M15 3v4"/><path d="M9.5 14.5c.8 0 1.4.8 1.4 2s-.6 2-1.4 2-1.4-.8-1.4-2 .6-2 1.4-2Z"/><path d="M14.5 13c.8 0 1.4.8 1.4 2s-.6 2-1.4 2"/>' + E,
+  // Bill split
+  splitBill: S + '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M4.2 9.5h15.6"/>' + E,
+  // CSS density
+  densPixel: S + '<rect x="4" y="6" width="16" height="12" rx="1.5"/><path d="M4 10h16M4 14h16M9 6v12M14 6v12"/>' + E +
+    '<text x="19" y="20.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" font-size="5" fill="#fff" text-anchor="end">dp</text>',
+  // Shop tally
+  tally: S + '<path d="M5 5v14M9 5v14M13 5v14M17 5v14"/><path d="M4 8l15 8"/>' + E,
+  // UPI 1999 split
+  upiSplit: S + '<path d="M5 3.2v17.6l2.3-1.3L9.5 21l2.5-1.5L14.5 21l2.2-1.5 2.3 1.3V3.2Z"/><path d="M8 10h8M8 14h5"/>' + E +
+    '<text x="12" y="8.2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" font-size="5" fill="#fff" text-anchor="middle">1999</text>',
+  // Network IP
+  ipAddress: S + '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.6 2.5 2.6 14.5 0 17"/><path d="M8 8h.01M16 8h.01M8 16h.01M16 16h.01"/>' + E,
+  // UUID inspector
+  uuidInspect: S + '<path d="M8 5a5 5 0 0 1 5 5v1"/><path d="M5 11v-1a5 5 0 0 1 2.8-4.5"/><path d="M9.5 10a2.5 2.5 0 0 1 5 0v2.5"/><circle cx="16.5" cy="16.5" r="4"/><path d="M19.3 19.3 21.5 21.5"/>' + E,
+
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,
 };
