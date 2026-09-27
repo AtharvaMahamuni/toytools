@@ -23,6 +23,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   Text Repeater keeps its fixed box; Notepad focus mode keeps its tall editor; Encoding Detector's hidden copy target is
   untouched; JWT Decoder keeps its compact 120px token field (now resizable). Printing still
   prints every box at full height.
+- **Fixed:** Text Repeater's boxes had grown to the new viewport-based height (320px on desktop,
+  295px on a 390x844 phone). Its panes size the boxes again as before, so the input is 180px and
+  the result 224px on desktop and phones, both still not resizable.
 
 ## [beta-v12.0.1] - 2026-09-26
 

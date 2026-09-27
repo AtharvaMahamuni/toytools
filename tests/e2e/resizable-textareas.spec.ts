@@ -103,4 +103,18 @@ test.describe('resizable textareas', () => {
     expect(await computed(page.locator('#rep-input'), 'resize')).toBe('none');
     expect(await computed(page.locator('#rep-output'), 'resize')).toBe('none');
   });
+
+  test('Text Repeater keeps its pre-v12.0.2 heights (180px input, 224px result)', async ({ page }) => {
+    // The pane, not --io-pane-h, sizes these boxes, exactly as on main before this change, at
+    // both the desktop and Pixel 5 projects: the input sits at its 180px floor under the
+    // controls and the result fills the 280px pane below its 56px header.
+    await page.goto('/tool/text/text-repeater/');
+    const input = page.locator('#rep-input');
+    const output = page.locator('#rep-output');
+    await expect(input).toBeVisible();
+    expect(await heightOf(input)).toBe(180);
+    expect(await heightOf(output)).toBe(224);
+    expect(await computed(input, 'resize')).toBe('none');
+    expect(await computed(output, 'resize')).toBe('none');
+  });
 });
