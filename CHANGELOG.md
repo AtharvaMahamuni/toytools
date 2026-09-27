@@ -2,6 +2,28 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.0.2] - 2026-09-27
+
+### Changed
+
+- **Textareas are resizable across the site.** Every text box in a tool pane can be dragged
+  taller or shorter (never wider), between 5rem and 80% of the screen height, and still
+  scrolls inside itself rather than growing as you type. The height moved from the pane to the
+  textarea: panes used to force a fixed 280px box, so every field was 224px tall and could not
+  be resized. Desktop fields now open at the viewport-based pane height (500px on a 1280x800
+  screen); phones open at about a third of the screen (295px on a 390x844 phone), because touch
+  resize handles are inconsistent.
+- **Per-tool pane heights now take effect.** Prompt Packer, Chat Export Cleaner, JSON Schema
+  Validator, Context Fit Checker, llms.txt Generator, JSON Diff and Hash Identifier already
+  declared shorter panes; the old 280px floor overrode them. They now open at their declared
+  heights (80px to 144px) and can be dragged taller.
+- Text boxes outside the shared panes (for example Statistics Visualizer's value list) are
+  resizable vertically by default unless the tool chose otherwise.
+- **Kept fixed on purpose:** JSON Tree Viewer keeps its fixed, equal Input and Tree panes;
+  Text Repeater keeps its fixed box; Notepad focus mode keeps its tall editor; Encoding Detector's hidden copy target is
+  untouched; JWT Decoder keeps its compact 120px token field (now resizable). Printing still
+  prints every box at full height.
+
 ## [beta-v12.0.1] - 2026-09-26
 
 ### Changed

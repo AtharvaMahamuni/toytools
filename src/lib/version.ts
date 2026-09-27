@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 0,
-  patch: 1,
+  patch: 2,
   status: 'beta',
-  releaseDate: '2026-09-26',
-  description: 'Unique install-icon glyph per tool',
+  releaseDate: '2026-09-27',
+  description: 'Resizable textareas site-wide',
 };
 
 export function formatVersion(config: VersionConfig): string {
