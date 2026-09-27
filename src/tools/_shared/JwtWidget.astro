@@ -144,8 +144,9 @@ const sigId = `${slug}-sig`;
 <style is:global>
   .jwt-grid { display: flex; flex-direction: column; gap: var(--space-5); }
 
-  /* The token is one long string, not prose — a compact input avoids a tall empty box. */
-  .jwt-input-panel { min-height: 0; }
+  /* The token is one long string, not prose — a compact input avoids a tall empty box.
+     --io-pane-h sets the opening height of the (resizable) textarea; see tool-widget.css. */
+  .jwt-input-panel { min-height: 0; --io-pane-h: 120px; }
   .jwt-input-panel textarea { min-height: 120px; }
 
   .jwt-out {

@@ -18,6 +18,13 @@ button, input, select, textarea {
   font: inherit;
 }
 
+/* Every textarea can be dragged taller or shorter, never wider (a wider field would push the
+   page into horizontal scroll). Element-only specificity on purpose: any widget that sets
+   resize deliberately (Text Repeater's fixed box, a JSON Tree Viewer pane) wins with a class. */
+textarea {
+  resize: vertical;
+}
+
 a {
   color: inherit;
   text-decoration-skip-ink: auto;

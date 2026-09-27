@@ -240,25 +240,39 @@
   min-height: 0;
 }
 
-/* A pane holding a textarea or an <output> is a WINDOW onto text, not a container that grows
-   with it. With no ceiling the pane matched its content: a formatted payload made
-   json-formatter's two panes 7,200px tall, so the Copy button, the status line and the whole
-   actions row sat thousands of pixels below the fold and "scroll the result" became "scroll the
-   page". Capping the pane lets its children scroll in place -- the textarea natively, the
-   <output> through its own overflow-y -- since both already carry min-height: 0.
+/* A pane holding an <output> is a WINDOW onto text, not a container that grows with it. With
+   no ceiling the pane matched its content: a formatted payload made json-formatter's two panes
+   7,200px tall, so the Copy button, the status line and the whole actions row sat thousands of
+   pixels below the fold and "scroll the result" became "scroll the page". Capping the pane lets
+   the <output> scroll in place through its own overflow-y, since it carries min-height: 0.
 
    A widget that wants taller or shorter panes sets --io-pane-h on its own root; the value
-   inherits down, so nothing here needs a per-tool exception. */
-.io-panel:has(> textarea),
+   inherits down, so nothing here needs a per-tool exception. The cap adds the header row and
+   its gap because --io-pane-h now sizes the textarea BODY (below): an <output> facing a
+   textarea in a desktop equal-height split then opens exactly as tall as its neighbour. */
 .io-panel:has(> output) {
-  max-height: var(--io-pane-h, clamp(280px, calc(100vh - 300px), 620px));
+  max-height: calc(
+    var(--io-pane-h, clamp(280px, calc(100vh - 300px), 620px)) + var(--touch-target) + var(--space-2)
+  );
 }
 
+/* Below 1024px the panes stack, so there is no neighbour to match and the cap stays as it was. */
 @media (max-width: 1023px) {
-  .io-panel:has(> textarea),
   .io-panel:has(> output) {
     max-height: var(--io-pane-h, clamp(240px, calc(100vh - 340px), 480px));
   }
+}
+
+/* A pane holding a textarea gives its height to the TEXTAREA, not to itself. The panel used to
+   own the box (a 280px floor plus the cap above), so every textarea on the site was a fixed
+   224px that could not be dragged, and a widget's --io-pane-h did nothing because the floor
+   beat it. Now the panel hugs its children and the textarea is the sized, resizable thing:
+   it opens at --io-pane-h (or the viewport default), drags between 5rem and 80vh, and still
+   scrolls internally, so it never auto-grows with its content. The 280px floor stays only on
+   panes that hold a result or an <output>. */
+.io-panel:has(> textarea) {
+  min-height: 0;
+  max-height: none;
 }
 
 .io-header {
@@ -294,7 +308,6 @@
 
 .io-panel textarea {
   flex: 1;
-  resize: none;
   width: 100%;
   min-height: 0;
   border: none;
@@ -331,6 +344,25 @@
 .io-panel--prose textarea {
   font-family: var(--font-sans);
   font-size: var(--text-base);
+}
+
+/* The sized, resizable textarea (see .io-panel:has(> textarea) above). Declared after the
+   shared .io-panel textarea rule so its flex: none / min-height win at equal specificity. */
+.io-panel > textarea {
+  flex: none;
+  height: var(--io-pane-h, clamp(280px, calc(100vh - 300px), 620px));
+  min-height: 5rem;
+  max-height: 80vh;
+  resize: vertical;
+}
+
+/* Phones: a shorter opening box. Touch resize handles are inconsistent across mobile browsers,
+   so the default has to be usable on its own without burying the result under two 480px
+   panes. Roughly a third of the screen, never under 10rem or over 22rem. */
+@media (max-width: 1023px) {
+  .io-panel > textarea {
+    height: var(--io-pane-h, clamp(10rem, 35vh, 22rem));
+  }
 }
 
 /* Padded body for form-style panels (selects/number inputs instead of a textarea) */

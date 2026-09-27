@@ -347,9 +347,13 @@ labelled header; calculator ledgers use this so the form and the number are not 
 cards), `header-end` slot (e.g. the encode/decode mode select), `data-*` passthrough. **New widgets
 must compose `IoPanel`; hand-writing panel markup is an architecture failure.** Panel headers use
 the uppercase letter-spaced `.io-label` micro-label voice — the same voice as `.dir-heading`,
-`.cat-section-heading`, and the ToolNavRow "Related" label. Text-window panes are fixed-height
-(min 280px desktop) with internal scroll; `bare` calculator panes drop that floor. Auto-growing
-textareas are forbidden (page geometry must not change while typing). `.io-body` is the padded flex
+`.cat-section-heading`, and the ToolNavRow "Related" label. A pane's direct-child textarea owns
+the height: it opens at `--io-pane-h` (default `clamp(280px, 100vh - 300px, 620px)` desktop,
+`clamp(10rem, 35vh, 22rem)` below 1024px), drags vertically between 5rem and 80vh, and scrolls
+internally; the panel itself hugs it. `<output>`/result panes keep the 280px floor and the cap.
+Every other textarea gets `resize: vertical` from `reset.css` unless it sets its own. Auto-growing
+textareas are still forbidden (page geometry must not change while typing); only the user's drag
+changes the height. `.io-body` is the padded flex
 body for form-style panels (percentage-calculator). Calculator widgets wrap the split in
 `.calc-ledger` (see Design Language in the ui-design-system skill).
 

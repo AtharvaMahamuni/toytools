@@ -100,6 +100,24 @@ const outputId = 'rep-output';
        under your thumb, which the mobile rules forbid outright. */
     resize: none;
     overflow-y: auto;
+    /* Exception to the site-wide resizable textarea (tool-widget.css): the PANE sizes this box,
+       as before beta-v12.0.2, so the field fills it (180px input under the controls, 224px
+       result) instead of taking the viewport-based --io-pane-h height. */
+    flex: 1;
+    height: auto;
+  }
+
+  /* The pane keeps the pre-beta-v12.0.2 280px floor and viewport cap that the shared
+     .io-panel:has(> textarea) rule now drops. */
+  .rep-widget :global(.io-panel:has(> textarea)) {
+    min-height: 280px;
+    max-height: var(--io-pane-h, clamp(280px, calc(100vh - 300px), 620px));
+  }
+
+  @media (max-width: 1023px) {
+    .rep-widget :global(.io-panel:has(> textarea)) {
+      max-height: var(--io-pane-h, clamp(240px, calc(100vh - 340px), 480px));
+    }
   }
 
   .rep-out {
