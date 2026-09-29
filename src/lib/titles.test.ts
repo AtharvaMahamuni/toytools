@@ -100,7 +100,7 @@ describe('generatePageTitle', () => {
 });
 
 // C3: the suffix now comes from the site identity. Every title text must be byte-for-byte what it
-// was when the 16 suffixes were literals, so no page title changes.
+// was when the 15 suffixes were literals, so no page title changes.
 describe('generatePageTitle: suffix from src/config/site.ts, text unchanged', () => {
   const pinned: Array<[PageType, string | undefined, string]> = [
     ['home', undefined, 'Free Online Tools: Convert, Calculate, Encode ● ToyTools'],
