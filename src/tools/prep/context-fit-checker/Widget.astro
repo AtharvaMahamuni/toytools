@@ -9,6 +9,7 @@ import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import MoreAbout from '@tools/_shared/MoreAbout.astro';
 import { CONTEXT_MODELS } from '@lib/text/contextModels';
+// The first row is the default <select> option, so the line reads correctly before script runs.
 ---
 
 <div class="cf">
@@ -26,7 +27,7 @@ import { CONTEXT_MODELS } from '@lib/text/contextModels';
   </label>
 
   <p class="cf-line">
-    <span class="cf-result" aria-live="polite"><span id="cf-tokens">0</span> tokens · <span id="cf-percent">0%</span> of <span id="cf-window">0</span> · <span class="cf-status" id="cf-status">Fits</span></span>
+    <span class="cf-result" aria-live="polite"><span id="cf-tokens">0</span> tokens · <span id="cf-percent">0%</span> of <span id="cf-window">{(CONTEXT_MODELS[0]?.contextWindow ?? 0).toLocaleString('en-US')}</span> · <span class="cf-status" id="cf-status">Fits</span></span>
     <span class="cf-warn" id="cf-warn" data-craft="context-estimate-only">An estimate from <span id="cf-chars">0</span> characters, not a tokenizer count.</span>
   </p>
   <p class="cf-over" id="cf-over" hidden>This text may exceed the selected context window.</p>

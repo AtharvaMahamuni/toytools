@@ -1,0 +1,608 @@
+[
+ {
+  "tool": "prompt-packer",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 145,
+   "bottom": 1330,
+   "widgetH": 1185,
+   "pageH": 1868,
+   "outTop": 1117,
+   "outH": 80,
+   "tas": [
+    {
+     "id": "pp-role",
+     "h": 80
+    },
+    {
+     "id": "pp-task",
+     "h": 80
+    },
+    {
+     "id": "pp-context",
+     "h": 80
+    },
+    {
+     "id": "pp-constraints",
+     "h": 80
+    },
+    {
+     "id": "pp-format-field",
+     "h": 80
+    },
+    {
+     "id": "pp-out",
+     "h": 80
+    }
+   ]
+  },
+  "after": {
+   "top": 145,
+   "bottom": 1330,
+   "widgetH": 1185,
+   "pageH": 1868,
+   "outTop": 1117,
+   "outH": 80,
+   "tas": [
+    {
+     "id": "pp-role",
+     "h": 80
+    },
+    {
+     "id": "pp-task",
+     "h": 80
+    },
+    {
+     "id": "pp-context",
+     "h": 80
+    },
+    {
+     "id": "pp-constraints",
+     "h": 80
+    },
+    {
+     "id": "pp-format-field",
+     "h": 80
+    },
+    {
+     "id": "pp-out",
+     "h": 80
+    }
+   ]
+  }
+ },
+ {
+  "tool": "chat-export-cleaner",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 121,
+   "bottom": 1330,
+   "widgetH": 1209,
+   "pageH": 1846,
+   "outTop": 1069,
+   "outH": 128,
+   "tas": [
+    {
+     "id": "cc-in",
+     "h": 128
+    },
+    {
+     "id": "cc-out",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 1330,
+   "widgetH": 1209,
+   "pageH": 1846,
+   "outTop": 1069,
+   "outH": 128,
+   "tas": [
+    {
+     "id": "cc-in",
+     "h": 128
+    },
+    {
+     "id": "cc-out",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "json-to-schema",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 145,
+   "bottom": 1192,
+   "widgetH": 1047,
+   "pageH": 1731,
+   "outTop": 596,
+   "outH": 224,
+   "tas": [
+    {
+     "id": "json-to-schema-input",
+     "h": 295
+    }
+   ]
+  },
+  "after": {
+   "top": 145,
+   "bottom": 1392,
+   "widgetH": 1247,
+   "pageH": 1931,
+   "outTop": 652,
+   "outH": 368,
+   "tas": [
+    {
+     "id": "json-to-schema-input",
+     "h": 295
+    }
+   ]
+  }
+ },
+ {
+  "tool": "json-schema-validator",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 121,
+   "bottom": 770,
+   "widgetH": 649,
+   "pageH": 1309,
+   "outTop": 597,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 770,
+   "widgetH": 649,
+   "pageH": 1309,
+   "outTop": 597,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "json-schema-validator-errors",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 121,
+   "bottom": 770,
+   "widgetH": 649,
+   "pageH": 1309,
+   "outTop": 597,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 998,
+   "widgetH": 877,
+   "pageH": 1537,
+   "outTop": 597,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "context-fit-checker",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 121,
+   "bottom": 728,
+   "widgetH": 607,
+   "pageH": 1297,
+   "outTop": 579,
+   "outH": 24,
+   "tas": [
+    {
+     "id": "cf-text",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 728,
+   "widgetH": 607,
+   "pageH": 1297,
+   "outTop": 579,
+   "outH": 24,
+   "tas": [
+    {
+     "id": "cf-text",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "llms-txt-generator",
+  "vp": "mobile",
+  "vh": 844,
+  "before": {
+   "top": 121,
+   "bottom": 1230,
+   "widgetH": 1109,
+   "pageH": 1769,
+   "outTop": 1002,
+   "outH": 96,
+   "tas": [
+    {
+     "id": "lg-pages",
+     "h": 96
+    },
+    {
+     "id": "lg-out",
+     "h": 96
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 1210,
+   "widgetH": 1089,
+   "pageH": 1748,
+   "outTop": 981,
+   "outH": 96,
+   "tas": [
+    {
+     "id": "lg-pages",
+     "h": 96
+    },
+    {
+     "id": "lg-out",
+     "h": 96
+    }
+   ]
+  }
+ },
+ {
+  "tool": "prompt-packer",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 1250,
+   "widgetH": 1129,
+   "pageH": 1683,
+   "outTop": 1037,
+   "outH": 80,
+   "tas": [
+    {
+     "id": "pp-role",
+     "h": 80
+    },
+    {
+     "id": "pp-task",
+     "h": 80
+    },
+    {
+     "id": "pp-context",
+     "h": 80
+    },
+    {
+     "id": "pp-constraints",
+     "h": 80
+    },
+    {
+     "id": "pp-format-field",
+     "h": 80
+    },
+    {
+     "id": "pp-out",
+     "h": 80
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 1250,
+   "widgetH": 1129,
+   "pageH": 1683,
+   "outTop": 1037,
+   "outH": 80,
+   "tas": [
+    {
+     "id": "pp-role",
+     "h": 80
+    },
+    {
+     "id": "pp-task",
+     "h": 80
+    },
+    {
+     "id": "pp-context",
+     "h": 80
+    },
+    {
+     "id": "pp-constraints",
+     "h": 80
+    },
+    {
+     "id": "pp-format-field",
+     "h": 80
+    },
+    {
+     "id": "pp-out",
+     "h": 80
+    }
+   ]
+  }
+ },
+ {
+  "tool": "chat-export-cleaner",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 1330,
+   "widgetH": 1209,
+   "pageH": 1765,
+   "outTop": 1069,
+   "outH": 128,
+   "tas": [
+    {
+     "id": "cc-in",
+     "h": 128
+    },
+    {
+     "id": "cc-out",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 1330,
+   "widgetH": 1209,
+   "pageH": 1765,
+   "outTop": 1069,
+   "outH": 128,
+   "tas": [
+    {
+     "id": "cc-in",
+     "h": 128
+    },
+    {
+     "id": "cc-out",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "json-to-schema",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 967,
+   "widgetH": 846,
+   "pageH": 1403,
+   "outTop": 197,
+   "outH": 500,
+   "tas": [
+    {
+     "id": "json-to-schema-input",
+     "h": 500
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 967,
+   "widgetH": 846,
+   "pageH": 1403,
+   "outTop": 253,
+   "outH": 444,
+   "tas": [
+    {
+     "id": "json-to-schema-input",
+     "h": 500
+    }
+   ]
+  }
+ },
+ {
+  "tool": "json-schema-validator",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 550,
+   "widgetH": 429,
+   "pageH": 983,
+   "outTop": 397,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 550,
+   "widgetH": 429,
+   "pageH": 983,
+   "outTop": 397,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "json-schema-validator-errors",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 550,
+   "widgetH": 429,
+   "pageH": 983,
+   "outTop": 397,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 778,
+   "widgetH": 657,
+   "pageH": 1211,
+   "outTop": 397,
+   "outH": 20,
+   "tas": [
+    {
+     "id": "sv-schema",
+     "h": 128
+    },
+    {
+     "id": "sv-data",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "context-fit-checker",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 688,
+   "widgetH": 567,
+   "pageH": 1121,
+   "outTop": 579,
+   "outH": 24,
+   "tas": [
+    {
+     "id": "cf-text",
+     "h": 128
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 688,
+   "widgetH": 567,
+   "pageH": 1121,
+   "outTop": 579,
+   "outH": 24,
+   "tas": [
+    {
+     "id": "cf-text",
+     "h": 128
+    }
+   ]
+  }
+ },
+ {
+  "tool": "llms-txt-generator",
+  "vp": "desktop",
+  "vh": 800,
+  "before": {
+   "top": 121,
+   "bottom": 1210,
+   "widgetH": 1089,
+   "pageH": 1645,
+   "outTop": 981,
+   "outH": 96,
+   "tas": [
+    {
+     "id": "lg-pages",
+     "h": 96
+    },
+    {
+     "id": "lg-out",
+     "h": 96
+    }
+   ]
+  },
+  "after": {
+   "top": 121,
+   "bottom": 1210,
+   "widgetH": 1089,
+   "pageH": 1645,
+   "outTop": 981,
+   "outH": 96,
+   "tas": [
+    {
+     "id": "lg-pages",
+     "h": 96
+    },
+    {
+     "id": "lg-out",
+     "h": 96
+    }
+   ]
+  }
+ }
+]
