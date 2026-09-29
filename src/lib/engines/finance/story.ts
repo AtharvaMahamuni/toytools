@@ -3,7 +3,6 @@
 // just compute them. Pure and synchronous; the experience layer renders whatever is returned.
 
 import type { Insight, Milestone, Assumption, Decision } from '@lib/results/types';
-import { toolPath } from '@lib/paths';
 
 let seq = 0;
 const uid = (prefix: string) => `${prefix}-${++seq}`;
@@ -24,10 +23,11 @@ export function decision(label: string, href?: string): Decision {
   return { id: uid('dec'), label, href };
 }
 
-// Cross-tool decision links. Engines name the tool by slug; the URL builder (src/lib/paths.ts)
-// makes the href, so the shape of a tool URL and the base path live in one place. The map holds
-// only what a link needs besides the slug, the tool's URL segment, and the engine href contract
-// test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
+// Cross-tool decision links. Engines name the tool by slug and never write its URL: a decision
+// carries { slug, segment } and the experience renderer makes the href with the URL builder
+// (toolPath in src/lib/paths.ts), so the base path and the URL shape live in one place. The map
+// holds the one thing a link needs besides the slug, the tool's URL segment; the engine href
+// contract test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
 export const FINANCE_LINKED_TOOLS: Record<string, string> = {
   'compound-interest-calculator': 'finance',
   'savings-goal-calculator': 'finance',
@@ -45,5 +45,5 @@ export const FINANCE_LINKED_TOOLS: Record<string, string> = {
 /** A decision that links to another tool by slug (a finance sibling, or tax / tip). */
 export function toolDecision(label: string, slug: string): Decision {
   const segment = FINANCE_LINKED_TOOLS[slug];
-  return decision(label, segment ? toolPath({ slug, segment }) : undefined);
+  return segment ? { ...decision(label), tool: { slug, segment } } : decision(label);
 }

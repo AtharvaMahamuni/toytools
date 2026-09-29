@@ -9,6 +9,8 @@
 // - Additive + stable: most fields are optional. New sections are added as optional members so a
 //   future engine never breaks the API.
 
+import type { ToolRef } from '@lib/paths';
+
 import type { VizSpec } from '../visualization/types';
 
 /**
@@ -93,6 +95,13 @@ export interface Assumption {
 export interface Decision {
   id: string;
   label: string;
+  /**
+   * A link to another ToyTools tool, named by slug (plus the segment its URL needs). Engines never
+   * write a tool URL: the experience renderer turns this into an href with the URL builder
+   * (toolPath in src/lib/paths.ts), so the base path and the URL shape live in one place.
+   */
+  tool?: ToolRef;
+  /** A link that is not a ToyTools tool page. No engine sets one today. */
   href?: string;
 }
 

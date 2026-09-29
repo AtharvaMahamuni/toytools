@@ -1,6 +1,7 @@
 import type { ToolConfig } from './types';
 import { simulationTools } from '@lib/simulation/derived';
 import { toolConfigs } from './registry.generated';
+import { isEmbeddable } from './embeddable';
 
 // A tool exists because its directory conforms to the contract
 // (src/tools/<segment>/<slug>/config.ts) — registration is DERIVED, never hand-edited.
@@ -10,6 +11,15 @@ import { toolConfigs } from './registry.generated';
 export const tools: ToolConfig[] = [...simulationTools, ...toolConfigs];
 
 export const toolsWithGuide = tools.filter(t => t.guide !== undefined);
+
+/**
+ * The derived `embeddable` flag for every tool, by slug (src/data/embeddable.ts). Data only: no
+ * route, layout or widget reads it yet. Kept beside the configs rather than written into them, so
+ * no ToolConfig is edited and nothing that serializes a config changes.
+ */
+export const embeddable: ReadonlyMap<string, boolean> = new Map(
+  tools.map(t => [t.slug, isEmbeddable(t)]),
+);
 
 export function getToolBySlug(slug: string): ToolConfig {
   const tool = tools.find(t => t.slug === slug);

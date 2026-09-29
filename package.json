@@ -13,6 +13,7 @@
     "registries:generate": "npx tsx scripts/generate-registries.ts",
     "icons:generate": "npx tsx scripts/generate-tool-icons.ts",
     "brand:generate": "npx tsx scripts/generate-social-assets.ts",
+    "og:generate": "npx tsx scripts/generate-og-image.ts",
     "x:generate": "npx tsx scripts/generate-x-content.ts",
     "x:cards": "npx tsx scripts/generate-x-cards.ts",
     "check:duplication": "npx tsx scripts/check-duplication.ts",

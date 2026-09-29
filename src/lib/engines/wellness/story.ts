@@ -3,7 +3,6 @@
 // does not just compute them. Pure and synchronous; the experience layer renders whatever is returned.
 
 import type { Insight, Assumption, Decision } from '@lib/results/types';
-import { toolPath } from '@lib/paths';
 
 let seq = 0;
 const uid = (prefix: string) => `${prefix}-${++seq}`;
@@ -16,10 +15,11 @@ export function assumption(label: string, value: string): Assumption {
   return { id: uid('asm'), label, value };
 }
 
-// Cross-tool decision links. Engines name the tool by slug; the URL builder (src/lib/paths.ts)
-// makes the href, so the shape of a tool URL and the base path live in one place. The map holds
-// only what a link needs besides the slug, the tool's URL segment, and the engine href contract
-// test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
+// Cross-tool decision links. Engines name the tool by slug and never write its URL: a decision
+// carries { slug, segment } and the experience renderer makes the href with the URL builder
+// (toolPath in src/lib/paths.ts), so the base path and the URL shape live in one place. The map
+// holds the one thing a link needs besides the slug, the tool's URL segment; the engine href
+// contract test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
 // Only tools that already ship appear here; a decision to a not-yet-built sibling returns null
 // and is filtered out, then lights up once that tool's slug is added in its own PR.
 export const WELLNESS_LINKED_TOOLS: Record<string, string> = {
@@ -42,7 +42,7 @@ export const WELLNESS_LINKED_TOOLS: Record<string, string> = {
 /** A decision linking to a sibling wellness tool, or null when that tool has not shipped yet. */
 export function toolDecision(label: string, slug: string): Decision | null {
   const segment = WELLNESS_LINKED_TOOLS[slug];
-  return segment ? { id: uid('dec'), label, href: toolPath({ slug, segment }) } : null;
+  return segment ? { id: uid('dec'), label, tool: { slug, segment } } : null;
 }
 
 /** Drop the nulls from a decisions list (siblings that have not shipped). */

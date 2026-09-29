@@ -121,6 +121,21 @@ test.describe('information pages', () => {
     expect(joined).toContain('https://www.linkedin.com/in/atharvamahamuni');
   });
 
+  // C3: one branded card for every page, as an absolute URL (scrapers do not resolve relative
+  // og:image values, and none of the big ones accept the SVG favicon that used to sit there).
+  for (const path of ['/', '/tool/text/word-counter/', '/guide/text/how-to-count-words-in-your-writing/', '/category/finance/']) {
+    test(`${path} shares the absolute og.png social card`, async ({ page, request }) => {
+      await page.goto(path);
+      const og = await page.locator('meta[property="og:image"]').getAttribute('content');
+      const tw = await page.locator('meta[name="twitter:image"]').getAttribute('content');
+      expect(og).toMatch(/^https:\/\/[^/]+\/og\.png$/);
+      expect(tw).toBe(og);
+      const res = await request.get(new URL(og!).pathname);
+      expect(res.status()).toBe(200);
+      expect(res.headers()['content-type']).toContain('image/png');
+    });
+  }
+
   test('a tool page names three sibling tools in the open', async ({ page }, testInfo) => {
     // An ungrouped tool, so the three links are not hidden behind a GroupSwitcher.
     await page.goto('/tool/text/reverse-text/');

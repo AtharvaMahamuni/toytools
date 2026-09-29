@@ -16,6 +16,7 @@ import type {
   Decision,
 } from '@lib/results/types';
 import { renderViz } from '@lib/visualization/render';
+import { toolPath } from '@lib/paths';
 
 interface RenderOptions {
   /** Section order; defaults to the shell's data-layout, then DEFAULT_LAYOUT. */
@@ -202,13 +203,15 @@ export function renderExperience(
   // Next questions.
   fillList(root, 'nextQuestions', result.nextQuestions, (q: string) => li(q, 'next-question'));
 
-  // Decisions — render as links when an href is provided, else plain text.
+  // Decisions — render as links when they name a tool (the URL builder makes its href) or carry an
+  // href, else plain text.
   fillList(root, 'decisions', result.decisions, (d: Decision) => {
     const item = document.createElement('li');
     item.className = 'decision';
-    if (d.href) {
+    const href = d.tool ? toolPath(d.tool) : d.href;
+    if (href) {
       const a = document.createElement('a');
-      a.href = d.href;
+      a.href = href;
       a.textContent = d.label;
       item.appendChild(a);
     } else {

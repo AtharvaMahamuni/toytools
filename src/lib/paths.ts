@@ -26,8 +26,10 @@ import { siteUrl } from '@config/site';
 export function withBase(path: string): string {
   // import.meta.env is provided by Vite/Astro; under plain tsx (scripts) it is undefined,
   // so fall back to an empty base — callers there resolve absolute URLs against Astro.site.
+  // The base loses its trailing slash and every path starts with one, so '/' becomes the bare
+  // base plus '/', the same answer the old special case for '/' gave, in fewer shipped bytes.
   const base = (import.meta.env?.BASE_URL ?? '').replace(/\/$/, '');
-  return path === '/' ? `${base}/` : `${base}${path}`;
+  return base + path;
 }
 
 /** What a tool URL is made of: its slug and its category's URL segment. */
