@@ -20,14 +20,28 @@ interface Props {
   structuredId: string;
   config: ToolConfig;
   showOutput?: boolean;
+  /**
+   * Opt-in phone-first layout (beta-v12.1, used only by JSON to JSON Schema). Moves the insight
+   * paragraph and the Technical details rows out of the widget into Zone C's "More about" row
+   * (still in the HTML: see [data-more-about] in KnowledgeDrawers), labels the example button
+   * "Sample" so the four actions fit one row at 390px, and opens the input at about six rows
+   * (.sd-slim in tool-widget.css). Off by default, and off means byte-identical markup to before:
+   * every slim difference is a conditional that renders nothing when the flag is unset.
+   */
+  slim?: boolean;
 }
 
-const { slug, structuredId, config, showOutput = true } = Astro.props;
+const { slug, structuredId, config, showOutput = true, slim = false } = Astro.props;
+// Fragment when not slim, so the default path gains no wrapper element.
+const Root = slim ? 'div' : Fragment;
+const rootProps = slim ? { class: 'sd-slim' } : {};
 
 // Group members share one state envelope so input survives switching modes.
 const stateKey = config?.toolGroup ? `group:${config.toolGroup}` : slug;
 // Reusable educational blocks (same ones the ConverterWidget uses).
 const info = structuredInfo(structuredId);
+const insightLines = info.insight == null ? [] : Array.isArray(info.insight) ? info.insight : [info.insight];
+const technicalRows = info.technical ?? [];
 // A tool whose input is not JSON has no honest repair to offer, and declining must cost
 // nothing on the page: no hidden button, no bytes, no markup.
 const repairable = STRUCTURED_TOOLS[structuredId]?.jsonInput === true;
@@ -37,12 +51,14 @@ const outputId = `${slug}-output`;
 const statusId = `${slug}-status`;
 ---
 
+<Root {...rootProps}>
 <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false}>
   <IoPanel slot="input" label="Input" labelFor={inputId} data-structured={structuredId} data-slug={slug} data-state-key={stateKey} data-sample={info.sample ?? ''}>
     <textarea
       id={inputId}
       aria-label={info.inputLabel ?? 'JSON input'}
       placeholder={info.placeholder ?? 'Paste JSON here'}
+      rows={slim ? '6' : undefined}
       spellcheck="false"
       autocomplete="off"
       autocorrect="off"
@@ -68,13 +84,35 @@ const statusId = `${slug}-status`;
   downloadTarget={showOutput ? outputId : undefined}
   downloadFilename={showOutput ? `${slug}${info.downloadExt ?? '.json'}` : undefined}
 >
-  <ExampleLoader hasSample={!!info.sample} />
+  <ExampleLoader hasSample={!!info.sample} label={slim ? 'Sample' : undefined} />
 </ToolActions>
 
 <slot />
 
-<EducationalInsight insight={info.insight} />
-<TechnicalDetails technical={info.technical} />
+{!slim && <EducationalInsight insight={info.insight} />}
+{!slim && <TechnicalDetails technical={info.technical} />}
+
+{/* slim: the same insight and technical rows, handed to Zone C's "More about" row instead of
+    painted under the actions. One drawer, not a callout plus a drawer. */}
+{slim && (insightLines.length > 0 || technicalRows.length > 0) && (
+  <div class="more-about" data-more-about>
+    <details class="widget-details" id={`${slug}-about`}>
+      <summary><h2>How {config.name} works</h2></summary>
+      {insightLines.map((line) => <p>{line}</p>)}
+      {technicalRows.length > 0 && (
+        <dl class="conv-tech-list">
+          {technicalRows.map((entry) => (
+            <div class="conv-tech-row">
+              <dt>{entry.term}</dt>
+              <dd>{entry.detail}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </details>
+  </div>
+)}
+</Root>
 
 
 <script is:inline>

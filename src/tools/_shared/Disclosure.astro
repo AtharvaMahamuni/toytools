@@ -1,0 +1,152 @@
+---
+// A counted "more" disclosure for a widget's secondary inputs (Prep slimming, beta-v12.1).
+//
+// Why a button and not <details>: the widget has to open it from script when a hidden field
+// already holds text (Sample, a restored form), and a person must never type into, or lose track
+// of, a field they cannot see. A <button aria-expanded aria-controls> plus a [hidden] region is
+// the plain, keyboard-native way to say "this opens" and to be told whether it is open.
+//
+// Behaviour is shared, not per widget: one delegated click handler (installed once per page)
+// toggles any [data-disclosure-toggle], and ToyTools.disclosure.openIfFilled(id) is what a widget
+// calls after it writes values into hidden fields. It only ever OPENS: re-closing on every input
+// would fight a person who collapsed it on purpose.
+//
+// Slots:
+//   default   the fields that live behind the disclosure
+//   actions   controls that share the trigger's row (Sample / Clear), so the row costs one line
+interface Props {
+  /** id of the region; the trigger is `${id}-toggle` */
+  id: string;
+  /** Trigger text. A widget may rewrite [data-disclosure-label] at runtime (a live summary). */
+  label: string;
+  /** How many fields sit behind it, shown as "(n)". Omit for a summary-style trigger. */
+  count?: number;
+  /** Start open (for a region that already holds something the person must see). */
+  open?: boolean;
+}
+
+const { id, label, count, open = false } = Astro.props;
+const hasActions = Astro.slots.has('actions');
+---
+
+<div class="tt-disc" data-disclosure>
+  <div class="tt-disc-row">
+    <button
+      type="button"
+      class="tt-disc-toggle"
+      id={`${id}-toggle`}
+      data-disclosure-toggle
+      aria-expanded={open ? 'true' : 'false'}
+      aria-controls={id}
+    >
+      <span class="tt-disc-caret" aria-hidden="true"></span>
+      <span data-disclosure-label>{label}</span>
+      {count != null && <span class="tt-disc-count">({count})</span>}
+    </button>
+    {hasActions && <div class="tt-disc-actions"><slot name="actions" /></div>}
+  </div>
+  <div class="tt-disc-body" id={id} role="group" aria-labelledby={`${id}-toggle`} hidden={!open}>
+    <slot />
+  </div>
+</div>
+
+<script is:inline>
+  (function (TT) {
+    if (TT.disclosure) return;
+    function toggleFor(id) {
+      return document.querySelector('[data-disclosure-toggle][aria-controls="' + id + '"]');
+    }
+    function set(btn, open) {
+      var body = btn && document.getElementById(btn.getAttribute('aria-controls'));
+      if (!body) return;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      body.hidden = !open;
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest('[data-disclosure-toggle]') : null;
+      if (btn) set(btn, btn.getAttribute('aria-expanded') !== 'true');
+    });
+    TT.disclosure = {
+      set: function (id, open) { set(toggleFor(id), open); },
+      /** Open the region when any text field inside it holds text. Returns whether it did. */
+      openIfFilled: function (id) {
+        var body = document.getElementById(id);
+        if (!body) return false;
+        var fields = body.querySelectorAll('textarea, input:not([type=checkbox]):not([type=radio])');
+        for (var i = 0; i < fields.length; i++) {
+          if (fields[i].value.trim()) { set(toggleFor(id), true); return true; }
+        }
+        return false;
+      },
+    };
+  })(window.ToyTools = window.ToyTools || {});
+</script>
+
+<style>
+  .tt-disc { min-width: 0; }
+  .tt-disc-body[hidden] { display: none; }
+
+  .tt-disc-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  /* A control, so it keeps the 48px target, but it reads as a line of text with a caret: the
+     same caret .widget-details uses, so a page has one way of saying "this opens". */
+  .tt-disc-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    padding: 0 var(--space-2) 0 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+  }
+
+  .tt-disc-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .tt-disc-toggle:active { color: var(--color-accent-strong); }
+
+  .tt-disc-caret {
+    flex: 0 0 auto;
+    width: 0;
+    height: 0;
+    border-left: 5px solid currentColor;
+    border-block: 4px solid transparent;
+    color: var(--color-text-subtle);
+    transition: transform var(--duration-normal) var(--ease-default);
+  }
+
+  .tt-disc-toggle[aria-expanded="true"] .tt-disc-caret { transform: rotate(90deg); }
+
+  .tt-disc-count {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-normal);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tt-disc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tt-disc-body {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+    min-width: 0;
+  }
+</style>

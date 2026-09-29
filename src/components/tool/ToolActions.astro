@@ -15,11 +15,15 @@ interface Props {
   // secret the button is not rendered at all — not disabled, absent.
   shareEngine?: string;
   sharePattern?: string;
+  // Phones only (<640px): the row sticks to the bottom of the screen while its widget is in view,
+  // so Copy stays one tap away under a long result. Opt-in; every existing caller renders exactly
+  // as before. See .tool-actions--sticky in tool-widget.css.
+  sticky?: boolean;
 }
 
 const {
   copyTarget, clearTarget, pasteTarget, downloadFilename, downloadTarget,
-  shareEngine, sharePattern,
+  shareEngine, sharePattern, sticky = false,
 } = Astro.props;
 const resolvedDownloadTarget = downloadTarget || clearTarget;
 const canShare = (shareEngine || sharePattern) ? allowsUrlState(shareEngine, sharePattern) : false;
@@ -27,7 +31,7 @@ const hasAny = copyTarget || clearTarget || pasteTarget || canShare;
 ---
 
 {hasAny && (
-  <div class="tool-actions">
+  <div class:list={['tool-actions', { 'tool-actions--sticky': sticky }]}>
     {pasteTarget && (
       <button
         class="action-btn action-btn--paste"
