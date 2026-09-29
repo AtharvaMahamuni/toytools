@@ -753,8 +753,11 @@ Rules when touching this:
   single source the sitemap derives from; search and related-content can derive from it next.
 - **Search prep** (`src/lib/search/`) — `buildSearchIndex()` produces a serializable index from the
   metadata contract. Architecture only; no UI yet.
-- **Analytics contract** (`src/lib/analytics/events.ts`) — a frozen `AnalyticsEvents` vocabulary so
-  engine interactions share event names instead of fragmenting per tool.
+- **Analytics** (`src/lib/analytics/`): `guard.ts` loads GA only on the production hostnames
+  (`src/config/site.ts`) in the top window; `location.ts` strips the query and hash from
+  `page_location` / `page_referrer`; `history.ts` keeps gtag's history-change page views off
+  `replaceState`. The only custom events are the three `eq_*` ones, pinned by
+  `events-inventory.test.ts`. Details: `docs/analytics.md`.
 
 ## Install & offline (PWA)
 
@@ -776,9 +779,10 @@ no per-tool PWA edits, ever.
   classes, never the `hidden` attribute** — any `display` rule silently overrides `[hidden]`.
 - **Service worker** — `public/sw.js`: `skipWaiting()` + `clients.claim()` so it controls the page on
   the first visit (required for installability), network-first with `no-store` navigations (so
-  deploys show immediately) and a Cache-API offline fallback. Registered for real users only (gated
-  like analytics; skipped under dev/E2E/automation/localhost). Bump `CACHE` when its behaviour
-  changes.
+  deploys show immediately) and a Cache-API offline fallback. Registered for real users only
+  (`serviceWorkerEnabled` in `src/lib/analytics/guard.ts`: skipped under dev/E2E/automation/localhost,
+  and deliberately not narrowed to the analytics hostname allowlist). Bump `CACHE` when its
+  behaviour changes.
 
 The head tags (`<link rel="manifest">`, `apple-touch-icon`, `theme-color`, `apple-mobile-web-app-*`)
 are emitted by `BaseLayout` via `ToolLayout`'s `pwa` prop. Never hand-add them per tool.

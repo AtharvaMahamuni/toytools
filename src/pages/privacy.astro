@@ -14,7 +14,7 @@ import { PRIVACY_LINE } from '@lib/privacy';
 const description =
   `${PRIVACY_LINE} No account, no database, no server sees your input. Analytics is the one exception, named below.`;
 
-const updated = '9 September 2026';
+const updated = '29 September 2026';
 ---
 
 <BaseLayout title={generatePageTitle('privacy')} description={description} maxWidth="tool">
@@ -25,7 +25,7 @@ const updated = '9 September 2026';
 
     <h2>The short version</h2>
     <ul>
-      <li>What you type into a tool is never sent anywhere. There is nothing on the other end to send it to.</li>
+      <li>No tool sends what you type anywhere. There is nothing on the other end to send it to.</li>
       <li>There is no account, no login, and no database. Nothing is stored against your identity because there is no identity to store it against.</li>
       <li>Anything a tool saves for you is saved on your device, and you can export or delete all of it from <a href={withBase('/settings/')}>Settings</a>.</li>
       <li>Google Analytics does load for ordinary visitors. That is the one thing on this site that reports back, and it is described below.</li>
@@ -35,8 +35,8 @@ const updated = '9 September 2026';
     <p>
       ToyTools is a static site. There is no application server. When you open a tool, the page and
       its code are downloaded and everything after that happens on your machine: the text you paste
-      into a word counter, the numbers in a loan calculator, the token in a JWT decoder. None of it
-      is transmitted, because there is nothing on the other end to transmit it to.
+      into a word counter, the numbers in a loan calculator, the token in a JWT decoder. No tool
+      transmits any of it, because there is nothing on the other end to transmit it to.
     </p>
     <p>
       This is also why the tools keep working with no network once you have loaded them, and why
@@ -74,14 +74,27 @@ const updated = '9 September 2026';
       This site loads Google Analytics (measurement ID <code>{GA_MEASUREMENT_ID}</code>) to count
       visits and see which tools get used. It records the usual things a web analytics product
       records: pages viewed, approximate location derived from your IP address, device and browser
-      type, and referrer. It does not receive anything you type into a tool, because no tool ever
-      passes its input to it.
+      type, and referrer. No tool passes what you type to it.
     </p>
     <p>
-      Analytics is deliberately not loaded when the site is running locally, under automated
-      browser testing, or on <code>localhost</code>, so development and test traffic never reaches
-      it. If you use a tracker blocker or browser-level blocking, nothing on the site depends on
-      analytics loading and everything keeps working.
+      Some calculators keep their inputs in the page address (see Links you share below). The site
+      gives Google Analytics that address without the part after the question mark, for the page
+      you are on and for the page you came from, so those inputs are left out. Google Analytics can
+      also count a page view by itself when you return to a page with the Back button, and then it
+      reads the full address from your browser. Site searches are read from the full address too.
+      If any page address on this site has a <code>q</code>, <code>s</code>, <code>search</code>,
+      <code>query</code> or <code>keyword</code> parameter after the question mark, Google
+      Analytics records its value as a search term. That covers the words you type on the search
+      page, and the "Suggest it" links, which open the feedback page at
+      <code>/feedback/?type=new&amp;q=</code> followed by the words you typed.
+    </p>
+    <p>
+      Analytics loads only on <code>toytoolsapp.com</code> (including
+      <code>www.toytoolsapp.com</code>). It is deliberately not loaded on any other address the site
+      is served from, inside a frame on another page, when the site is running locally, or under
+      automated browser testing, so development and test traffic never reaches it. If you use a
+      tracker blocker or browser-level blocking, nothing on the site depends on analytics loading
+      and everything keeps working.
     </p>
 
     <h3>Feedback</h3>
