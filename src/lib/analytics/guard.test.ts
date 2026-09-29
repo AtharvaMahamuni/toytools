@@ -124,15 +124,32 @@ describe('isProductionHostname', () => {
   });
 });
 
-describe('isServiceWorkerEnabled: unchanged by the analytics allowlist', () => {
-  it('registers for a real user on production, top window', () => {
+describe('isServiceWorkerEnabled: follows the site host list (C3)', () => {
+  it('still registers for every visitor it registered for on toytoolsapp.com', () => {
+    // The apex and www in the top window: every browser tab and the installed app (standalone
+    // mode is a top window too). Nobody on the real site loses a worker.
     expect(isServiceWorkerEnabled(realUser)).toBe(true);
+    expect(isServiceWorkerEnabled({ ...realUser, hostname: 'www.toytoolsapp.com' })).toBe(true);
+    for (const host of SITE.productionHostnames) {
+      expect(isServiceWorkerEnabled({ ...realUser, hostname: host })).toBe(true);
+    }
   });
 
-  it('still registers on other hosts and in frames, as it always has', () => {
-    expect(isServiceWorkerEnabled({ ...realUser, hostname: 'atharvamahamuni.github.io' })).toBe(true);
-    expect(isServiceWorkerEnabled({ ...realUser, framed: true })).toBe(true);
-    expect(isServiceWorkerEnabled({ ...realUser, hostname: null })).toBe(true);
+  it('no longer registers on a mirror, a preview deploy or a proxy host', () => {
+    for (const host of [
+      'atharvamahamuni.github.io',
+      'staging.toytoolsapp.com',
+      'toytoolsapp-com.translate.goog',
+      'example.com',
+    ]) {
+      expect(isServiceWorkerEnabled({ ...realUser, hostname: host })).toBe(false);
+    }
+    expect(isServiceWorkerEnabled({ ...realUser, hostname: null })).toBe(false);
+  });
+
+  it('no longer registers inside a frame, even on the production host (a non-page surface)', () => {
+    expect(isServiceWorkerEnabled({ ...realUser, framed: true })).toBe(false);
+    expect(isServiceWorkerEnabled({ ...realUser, hostname: 'www.toytoolsapp.com', framed: true })).toBe(false);
   });
 
   it('never registers under dev, E2E, automation or localhost', () => {
@@ -141,6 +158,18 @@ describe('isServiceWorkerEnabled: unchanged by the analytics allowlist', () => {
     expect(isServiceWorkerEnabled({ ...realUser, webdriver: true })).toBe(false);
     expect(isServiceWorkerEnabled({ ...realUser, hostname: 'localhost' })).toBe(false);
     expect(isServiceWorkerEnabled({ ...realUser, hostname: '127.0.0.1' })).toBe(false);
+  });
+
+  it('agrees with the analytics guard on every combination of signals', () => {
+    const hosts = ['toytoolsapp.com', 'www.toytoolsapp.com', 'example.com', 'localhost', null];
+    for (const dev of [false, true])
+      for (const e2e of [false, true])
+        for (const webdriver of [false, true])
+          for (const framed of [false, true])
+            for (const hostname of hosts) {
+              const signals = { dev, e2e, webdriver, framed, hostname };
+              expect(isServiceWorkerEnabled(signals)).toBe(isAnalyticsEnabled(signals));
+            }
   });
 });
 

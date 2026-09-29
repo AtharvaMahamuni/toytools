@@ -7,7 +7,7 @@
 import type { GetStaticPaths } from 'astro';
 import { categoriesPrefixRedirects } from '@data/tool-redirects';
 import { categories } from '@data/categories';
-import { withBase } from '@lib/paths';
+import { withBase, categoryRoute } from '@lib/paths';
 
 export const getStaticPaths = (() => {
   const seen = new Set<string>();
@@ -18,7 +18,7 @@ export const getStaticPaths = (() => {
     seen.add(redirect.oldSlug);
     const category = categories.find(c => c.slug === redirect.categorySlug);
     if (!category) throw new Error(`categories-prefix-redirects: unknown category "${redirect.categorySlug}"`);
-    const livePath = `/category/${category.slug}/`;
+    const livePath = categoryRoute(category);
     if (`/categories/${redirect.oldSlug}/` === livePath) {
       throw new Error(`categories-prefix-redirects: "${redirect.oldSlug}" is a live category URL`);
     }

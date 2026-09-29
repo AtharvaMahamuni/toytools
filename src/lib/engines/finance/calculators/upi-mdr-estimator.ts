@@ -6,7 +6,7 @@ import type { FinanceCalculator } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { money, roundMoney } from '../format';
-import { insight, milestone, assumption, decision } from '../story';
+import { insight, milestone, assumption, toolDecision } from '../story';
 
 export const MDR_FLOOR = 2000;
 export const MDR_PAGE_CAP = 100_000_000;
@@ -139,7 +139,7 @@ export const upiMdrEstimator: FinanceCalculator = {
         assumption('Kind', KIND_LABEL[kind.value]),
       ],
       decisions: [
-        decision('Open the tax calculator when you have a real rate', '/tool/number/tax-calculator/'),
+        toolDecision('Open the tax calculator when you have a real rate', 'tax-calculator'),
       ],
       meta: { mdr: estimate.mdr, amount: amount.value },
     });

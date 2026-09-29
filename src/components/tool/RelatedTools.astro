@@ -2,7 +2,7 @@
 import type { Tool, Category } from '@data/types';
 import { categories } from '@data/categories';
 import ToolCard from '@components/ToolCard.astro';
-import { withBase } from '@lib/paths';
+import { categoryPath } from '@lib/paths';
 
 interface Props {
   tools: Tool[];
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { tools, category } = Astro.props;
-const categoryHref = category ? withBase(`/category/${category.slug}/`) : null;
+const categoryHref = category ? categoryPath(category) : null;
 ---
 
 {tools.length > 0 && (

@@ -10,9 +10,11 @@
 //
 // Everything is env-driven with safe defaults so the pipeline fails gracefully when disabled.
 
+import { SITE_ORIGIN } from './site';
+
 export const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? '81433a8e29464f45ab05cb1242e6483a';
 
-export const INDEXNOW_HOST = process.env.INDEXNOW_HOST ?? 'toytoolsapp.com';
+export const INDEXNOW_HOST = process.env.INDEXNOW_HOST ?? new URL(SITE_ORIGIN).host;
 
 /** Filename served at the site root, content equal to the key. */
 export const INDEXNOW_KEY_FILENAME = `${INDEXNOW_KEY}.txt`;
@@ -21,7 +23,7 @@ export const INDEXNOW_KEY_FILENAME = `${INDEXNOW_KEY}.txt`;
 export const INDEXNOW_ENABLED = (process.env.INDEXNOW_ENABLED ?? 'true') !== 'false';
 
 /** Canonical absolute site origin (matches astro.config.mjs `site`). */
-export const INDEXNOW_SITE = process.env.ASTRO_SITE ?? 'https://toytoolsapp.com';
+export const INDEXNOW_SITE = process.env.ASTRO_SITE ?? SITE_ORIGIN;
 
 /** IndexNow aggregator endpoint — fans the submission out to all participating engines. */
 export const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/indexnow';

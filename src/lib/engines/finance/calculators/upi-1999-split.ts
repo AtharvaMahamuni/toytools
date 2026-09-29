@@ -6,7 +6,7 @@ import type { FinanceCalculator } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { moneyWhole } from '../format';
-import { insight, milestone, decision } from '../story';
+import { insight, milestone, toolDecision } from '../story';
 
 export const UPI_THRESHOLD = 2000;
 export const UPI_CHUNK = 1999;
@@ -192,7 +192,7 @@ export const upi1999Split: FinanceCalculator = {
           { id: 'chunk', label: 'Chunk', value: '1999, locked' },
         ],
         decisions: [
-          decision('Open the tax calculator when you have a real rate', '/tool/number/tax-calculator/'),
+          toolDecision('Open the tax calculator when you have a real rate', 'tax-calculator'),
         ],
       });
     }
@@ -215,7 +215,7 @@ export const upi1999Split: FinanceCalculator = {
         { id: 'chunk', label: 'Chunk', value: '1999, locked' },
       ],
       decisions: [
-        decision('Open the tax calculator when you have a real rate', '/tool/number/tax-calculator/'),
+        toolDecision('Open the tax calculator when you have a real rate', 'tax-calculator'),
       ],
     });
   },

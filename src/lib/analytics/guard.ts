@@ -1,4 +1,4 @@
-// Single source of truth for whether analytics collection is allowed.
+// Single source of truth for whether analytics collection, and the service worker, are allowed.
 //
 // Google Analytics must reflect REAL user behaviour on the REAL site only. So collection is an
 // allowlist, not a blocklist: it runs only when every one of these holds:
@@ -6,25 +6,23 @@
 //   • not local development      (import.meta.env.DEV)
 //   • not an explicit E2E build   (import.meta.env.PUBLIC_E2E === 'true')
 //   • not browser automation      (navigator.webdriver: Playwright, Selenium, ...)
-//   • the hostname is production  (SITE.productionHostnames in src/config/site.ts)
+//   • the hostname is production  (PRODUCTION_HOSTNAMES in src/config/site.ts)
 //   • the page is the top window  (not framed by anyone, same origin or not)
 //
 // A preview deploy, a mirror, a copy of dist/ on another host, localhost and any iframe all fail
 // the test, so none of them ever loads gtag.js.
 //
-// The service worker keeps its own, older predicate (serviceWorkerEnabled below): tying it to the
-// new allowlist would stop offline support wherever the site is served from a second host or a
-// frame, which is a user-visible change this module is not the place to make.
+// The service worker follows the same rule (C3, beta-v12.1.3). Until then it had its own, older
+// predicate (everything except dev, E2E, automation and localhost, frames included). The reasons
+// for tying it to the production allowlist, and why nobody loses a working worker, are on
+// isServiceWorkerEnabled below.
 //
 // Everything here is defensive: the module is imported in both SSR (build) and browser contexts,
 // so it must never throw when `navigator` / `location` / `window` are undefined.
 
-import { SITE } from '@config/site';
+import { PRODUCTION_HOSTNAMES, GA_MEASUREMENT_ID } from '@config/site';
 
-export const GA_MEASUREMENT_ID = 'G-WHD7CL44MX';
-
-const PRODUCTION_HOSTNAMES: readonly string[] = SITE.productionHostnames;
-const LOCAL_HOSTNAMES: readonly string[] = ['localhost', '127.0.0.1'];
+export { GA_MEASUREMENT_ID };
 
 /** Ambient signals that decide whether a session counts as a real user on the real site. */
 export interface AnalyticsSignals {
@@ -79,12 +77,24 @@ export function isAnalyticsEnabled(signals: AnalyticsSignals): boolean {
 }
 
 /**
- * The service worker's predicate: unchanged from before the analytics allowlist (dev, E2E,
- * automation and localhost are excluded; every other host and frame registers it), so offline
- * support behaves exactly as it did.
+ * The service worker's predicate: the same rule as analytics. A real user, on a production
+ * hostname, in the top window.
+ *
+ * Why the worker follows the site's host list rather than keeping its own, wider rule:
+ *   • A frame is a non-page surface. The Tool Render Unit contract (ARCHITECTURE.md) forbids a
+ *     service worker on any surface that is not a ToyTools page, and a page framed by another
+ *     site is exactly that. A worker registered there is partitioned under the framing site, so
+ *     it gives the visitor nothing on toytoolsapp.com and only spends their storage.
+ *   • Offline on a mirror, a preview deploy or a proxy (a translate or cache host) is not a
+ *     product: those origins are not where anyone installs ToyTools, and a caching worker on a
+ *     preview origin is one more way to be looking at a stale build.
+ *   • Nobody on toytoolsapp.com is affected: the installed app and every top-level visit still
+ *     register exactly as before. Nothing here ever calls unregister(), so a worker already
+ *     installed on another host keeps running and keeps updating; that host simply stops
+ *     installing new ones.
  */
 export function isServiceWorkerEnabled(signals: AnalyticsSignals): boolean {
-  return !isAutomatedOrDev(signals) && !LOCAL_HOSTNAMES.includes(signals.hostname ?? '');
+  return isAnalyticsEnabled(signals);
 }
 
 /** Read ambient signals from the environment, never throwing under SSR. */

@@ -5,7 +5,7 @@
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { getRelatedTools } from '@lib/tools/related';
-import { withBase } from '@lib/paths';
+import { categoryPath, toolPath } from '@lib/paths';
 
 interface Props {
   toolSlug: string;
@@ -20,7 +20,7 @@ const count = category ? tools.filter(t => t.categorySlug === category.slug).len
 // Nearest siblings (already excludes the current tool); cap at 3 for an inline row.
 const siblings = tool ? getRelatedTools(tool, tools, 3) : [];
 
-const categoryHref = category ? withBase(`/category/${category.slug}/`) : null;
+const categoryHref = category ? categoryPath(category) : null;
 const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segment ?? '';
 ---
 
@@ -36,7 +36,7 @@ const segmentOf = (slug: string) => categories.find(c => c.slug === slug)?.segme
         {siblings.map((s, i) => (
           <>
             {i > 0 && <span class="cd-sep" aria-hidden="true">·</span>}
-            <a class="cd-sibling" href={withBase(`/tool/${segmentOf(s.categorySlug)}/${s.slug}/`)}>{s.name}</a>
+            <a class="cd-sibling" href={toolPath({ slug: s.slug, segment: segmentOf(s.categorySlug) })}>{s.name}</a>
           </>
         ))}
       </span>

@@ -10,7 +10,7 @@ import type { GetStaticPaths } from 'astro';
 import { toolsPrefixRedirects } from '@data/tool-redirects';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
-import { withBase } from '@lib/paths';
+import { withBase, toolRoute } from '@lib/paths';
 
 export const getStaticPaths = (() => {
   const seen = new Set<string>();
@@ -23,7 +23,7 @@ export const getStaticPaths = (() => {
     if (!tool) throw new Error(`tools-prefix-redirects: unknown tool slug "${redirect.toolSlug}"`);
     const category = categories.find(c => c.slug === tool.categorySlug);
     if (!category) throw new Error(`tools-prefix-redirects: unresolved category for "${tool.slug}"`);
-    const livePath = `/tool/${category.segment}/${tool.slug}/`;
+    const livePath = toolRoute({ slug: tool.slug, segment: category.segment });
     const stubPath = `/tools/${redirect.oldPath}/`;
     if (stubPath === livePath) {
       throw new Error(`tools-prefix-redirects: "${redirect.oldPath}" is a live tool URL, not a retired one`);

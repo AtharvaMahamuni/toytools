@@ -6,7 +6,7 @@
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { faqsByToolSlug } from '@data/faq-registry';
-import { withBase } from '@lib/paths';
+import { withBase, toolPath, categoryPath, guidePath } from '@lib/paths';
 
 // 'page' covers standalone indexable pages that are not derived from the registry (feedback,
 // about, privacy, changelog). They are listed here rather than in each consumer so the sitemap,
@@ -74,7 +74,7 @@ export function buildContentManifest(): ContentEntry[] {
     entries.push({
       type: 'category',
       slug: c.slug,
-      url: withBase(`/category/${c.slug}/`),
+      url: categoryPath(c),
       categorySlug: c.slug,
       updatedAt: latestUpdatedAt(tools.filter(t => t.categorySlug === c.slug)),
       priority: 0.8,
@@ -88,7 +88,7 @@ export function buildContentManifest(): ContentEntry[] {
     entries.push({
       type: 'tool',
       slug: t.slug,
-      url: withBase(`/tool/${segmentOf(t.categorySlug)}/${t.slug}/`),
+      url: toolPath({ slug: t.slug, segment: segmentOf(t.categorySlug) }),
       categorySlug: t.categorySlug,
       engine: t.engine,
       relatedTools: t.relatedTools ?? [],
@@ -103,7 +103,7 @@ export function buildContentManifest(): ContentEntry[] {
       entries.push({
         type: 'guide',
         slug: t.guide.slug,
-        url: withBase(`/guide/${t.guide.categorySlug}/${t.guide.slug}/`),
+        url: guidePath(t.guide),
         categorySlug: t.categorySlug,
         // Use the tool's machine date (YYYY-MM-DD), not the guide's human display string
         // ("Jul 2026"), so the guide emits a valid <lastmod>. A guide changes with its tool.

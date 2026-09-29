@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { generatePageTitle } from './titles';
+import { generatePageTitle, type PageType } from './titles';
+import { TITLE_SUFFIX, BRAND_NAME } from '@config/site';
 
 describe('generatePageTitle', () => {
   it('home — returns site tagline without a tool name', () => {
@@ -95,5 +96,48 @@ describe('generatePageTitle', () => {
 
   it('exact notFound title format', () => {
     expect(generatePageTitle('notFound')).toBe('Page Not Found ● ToyTools');
+  });
+});
+
+// C3: the suffix now comes from the site identity. Every title text must be byte-for-byte what it
+// was when the 16 suffixes were literals, so no page title changes.
+describe('generatePageTitle: suffix from src/config/site.ts, text unchanged', () => {
+  const pinned: Array<[PageType, string | undefined, string]> = [
+    ['home', undefined, 'Free Online Tools: Convert, Calculate, Encode ● ToyTools'],
+    ['tool', 'Word Counter', 'Word Counter ● ToyTools'],
+    ['guide', 'Word Counter', 'Word Counter ● ToyTools Guide'],
+    ['faq', 'Word Counter', 'Word Counter FAQ ● ToyTools'],
+    ['category', 'Text Utilities', 'Text Utilities ● ToyTools'],
+    ['search', undefined, 'Search ● ToyTools'],
+    ['architecture', undefined, 'Architecture ● ToyTools'],
+    ['platform', undefined, 'The Platform Behind the Tools ● ToyTools'],
+    ['feedback', undefined, 'Suggest a Tool or Report an Issue ● ToyTools'],
+    ['privacy', undefined, 'Privacy ● ToyTools'],
+    ['about', undefined, 'About ● ToyTools'],
+    ['changelog', undefined, 'Changelog ● ToyTools'],
+    ['settings', undefined, 'Settings ● ToyTools'],
+    ['offline', undefined, 'Offline ● ToyTools'],
+    ['notFound', undefined, 'Page Not Found ● ToyTools'],
+  ];
+
+  it.each(pinned)('%s title is exactly as before', (type, name, expected) => {
+    expect(generatePageTitle(type, name)).toBe(expected);
+  });
+
+  it('builds every suffix from TITLE_SUFFIX and BRAND_NAME', () => {
+    expect(TITLE_SUFFIX).toBe(' ● ToyTools');
+    expect(TITLE_SUFFIX).toBe(` ● ${BRAND_NAME}`);
+    for (const [type, name] of pinned) {
+      expect(generatePageTitle(type, name)).toContain(TITLE_SUFFIX);
+    }
+  });
+
+  it('keeps every fixed title within 60 characters and free of "&"', () => {
+    for (const [type, name] of pinned) {
+      if (name) continue;
+      const title = generatePageTitle(type);
+      expect(title.length).toBeLessThanOrEqual(60);
+      expect(title).not.toContain('&');
+    }
   });
 });

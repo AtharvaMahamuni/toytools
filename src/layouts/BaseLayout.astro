@@ -4,6 +4,7 @@ import Footer from '@components/Footer.astro';
 import ToyToolsRuntime from '@components/ToyToolsRuntime.astro';
 import { withBase } from '../lib/paths';
 import { BRAND_X, identityGraph } from '@lib/schema/identity';
+import { SOCIAL_IMAGE_PATH, siteUrl } from '@config/site';
 import '../styles/global.css';
 
 interface PwaMeta {
@@ -45,7 +46,11 @@ const {
 
 const pageTitle = title;
 const canonical = canonicalUrl ?? Astro.url.href;
-const logoUrl = new URL('/favicon-512.png', Astro.site ?? 'https://toytoolsapp.com/').href;
+const site = siteUrl(Astro.site);
+const logoUrl = new URL('/favicon-512.png', site).href;
+// The social card: an absolute URL, because most scrapers do not resolve a relative og:image and
+// none of the big ones accept the SVG favicon that used to sit here.
+const socialImageUrl = new URL(withBase(SOCIAL_IMAGE_PATH), site).href;
 
 const maxWidthVar =
   maxWidth === 'tool' ? 'var(--width-tool)' :
@@ -72,13 +77,13 @@ const maxWidthVar =
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={withBase('/favicon.svg')} />
+    <meta property="og:image" content={socialImageUrl} />
     <meta name="robots" content={robots} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content={BRAND_X.handle} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={withBase('/favicon.svg')} />
+    <meta name="twitter:image" content={socialImageUrl} />
     {/*
       Google picks the favicon it shows in search results from these, and asks for a
       square icon that is a multiple of 48px. favicon.ico is a 32x32 file kept only as

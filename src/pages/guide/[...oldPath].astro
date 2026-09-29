@@ -10,7 +10,7 @@ import type { GetStaticPaths } from 'astro';
 import { guideRedirects } from '@data/guide-redirects';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
-import { withBase } from '@lib/paths';
+import { withBase, toolRoute, guideRoute } from '@lib/paths';
 
 export const getStaticPaths = (() => {
   // getStaticPaths is extracted into its own scope, so this lookup stays inside it.
@@ -18,8 +18,8 @@ export const getStaticPaths = (() => {
     for (const tool of tools) {
       const category = categories.find(c => c.slug === tool.categorySlug);
       if (!category) continue;
-      if (targetPath === `/tool/${category.segment}/${tool.slug}/`) return tool.name;
-      if (tool.guide && targetPath === `/guide/${tool.guide.categorySlug}/${tool.guide.slug}/`) {
+      if (targetPath === toolRoute({ slug: tool.slug, segment: category.segment })) return tool.name;
+      if (tool.guide && targetPath === guideRoute(tool.guide)) {
         return tool.guide.title;
       }
     }

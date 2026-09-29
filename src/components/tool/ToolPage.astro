@@ -17,7 +17,7 @@ import KnowledgeDrawers from '@components/tool/KnowledgeDrawers.astro';
 import ToolSignature from '@components/tool/ToolSignature.astro';
 import GroupSwitcher from '@components/tool/GroupSwitcher.astro';
 import { faqsByToolSlug } from '@data/faq-registry';
-import { withBase } from '@lib/paths';
+import { guidePath } from '@lib/paths';
 import type { Tool, Category } from '@data/types';
 
 interface Props {
@@ -31,7 +31,7 @@ const { tool, category, extraSchemas = [] } = Astro.props;
 
 const faqItems = faqsByToolSlug[tool.slug] ?? [];
 const guideHref = tool.guide
-  ? withBase(`/guide/${tool.guide.categorySlug}/${tool.guide.slug}/`)
+  ? guidePath(tool.guide)
   : null;
 
 const faqSchema = faqItems.length > 0 ? {

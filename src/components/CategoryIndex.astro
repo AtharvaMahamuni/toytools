@@ -9,7 +9,7 @@
 import type { Category, ToolConfig } from '@data/types';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
-import { withBase } from '@lib/paths';
+import { categoryPath } from '@lib/paths';
 import AppTile from '@components/AppTile.astro';
 
 /** Hard cap per shelf — matches category.highlights validation and home HTML budget. */
@@ -46,7 +46,7 @@ function tilesFor(category: Category): ShelfTile[] {
 const shelves = categories.map(category => ({
   slug: category.slug,
   name: category.name,
-  href: withBase(`/category/${category.slug}/`),
+  href: categoryPath(category),
   tagline: labelFor(category),
   count: category.toolCount,
   accent: category.accent,

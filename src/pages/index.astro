@@ -1,4 +1,5 @@
 ---
+import { BRAND_NAME, siteUrl } from '@config/site';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../lib/titles';
 import HeroSearch from '@components/HeroSearch.astro';
@@ -24,6 +25,7 @@ const SITE_DESCRIPTION =
 // how the site is built should stop being made the moment the build stops supporting it.
 const engineCount = engineRegistry.length;
 const patternCount = knownPatterns.size;
+const siteHref = siteUrl(Astro.site).href;
 ---
 
 <BaseLayout
@@ -34,15 +36,15 @@ const patternCount = knownPatterns.size;
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'ToyTools',
-    url: Astro.site?.href ?? 'https://toytoolsapp.com/',
+    name: BRAND_NAME,
+    url: siteHref,
     description: SITE_DESCRIPTION,
     publisher: { '@id': ORG_ID },
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${Astro.site?.href ?? 'https://toytoolsapp.com/'}search?q={search_term_string}`,
+        urlTemplate: `${siteHref}search?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

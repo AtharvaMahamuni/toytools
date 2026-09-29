@@ -12,7 +12,7 @@
 // tools are what the category page is for. It adds one crawlable link per guide from a depth-1
 // hub, which is the entire point, without competing with the rows above it.
 import type { ToolConfig, Category } from '@data/types';
-import { withBase } from '@lib/paths';
+import { guidePath } from '@lib/paths';
 
 interface Props {
   category: Category;
@@ -27,7 +27,7 @@ const guides = categoryTools
     title: t.guide!.title,
     description: t.guide!.description,
     readMinutes: t.guide!.readMinutes,
-    href: withBase(`/guide/${t.guide!.categorySlug}/${t.guide!.slug}/`),
+    href: guidePath(t.guide!),
   }))
   .sort((a, b) => a.title.localeCompare(b.title));
 ---

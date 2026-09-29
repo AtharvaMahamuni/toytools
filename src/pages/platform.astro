@@ -8,7 +8,7 @@
 // against, so it cannot claim a platform the code does not actually have.
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '@lib/titles';
-import { withBase } from '@lib/paths';
+import { withBase, categoryPath } from '@lib/paths';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { engineRegistry, knownPatterns } from '@data/engines';
@@ -165,7 +165,7 @@ const breadcrumbSchema = {
           <p class="engine-name">{engine.name}</p>
           <p class="engine-meta">
             {category ? (
-              <a href={withBase(`/category/${category.slug}/`)}>{category.name}</a>
+              <a href={categoryPath(category)}>{category.name}</a>
             ) : (
               <span>{categoryName(engine.category)}</span>
             )}

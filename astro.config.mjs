@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { SITE_ORIGIN } from './src/config/site.ts';
 
 const base = process.env.ASTRO_BASE_PATH;
 
@@ -46,7 +47,8 @@ export default defineConfig({
     // fetching a sandbox iframe. If GA is ever moved onto a worker, re-add it AND mark the GA
     // script type="text/partytown", or it will be dead weight again.
   ],
-  site: process.env.ASTRO_SITE ?? 'https://toytoolsapp.com',
+  // The production origin lives in the site identity (src/config/site.ts), with every other fallback.
+  site: process.env.ASTRO_SITE ?? SITE_ORIGIN,
   base,
   output: 'static',
   trailingSlash: 'always',

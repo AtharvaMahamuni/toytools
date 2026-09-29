@@ -2,7 +2,7 @@
 // Store-style tool tile for category listings and home shelves.
 // Whole tile is a single crawlable link to the tool page (icon + title/meta).
 // Install lives only on the tool page (InstallButton / ?install=1 deep-link there).
-import { withBase } from '@lib/paths';
+import { withBase, toolPath } from '@lib/paths';
 
 interface Props {
   /** Tool slug — drives icon path and (for groups) the primary member. */
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const { slug, name, tagline, segment, isNew = false } = Astro.props;
-const href = withBase(`/tool/${segment}/${slug}/`);
+const href = toolPath({ slug, segment });
 const iconSrc = withBase(`/icons/tool/${slug}.svg`);
 ---
 

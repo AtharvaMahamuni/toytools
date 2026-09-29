@@ -1,6 +1,6 @@
 ---
 import type { Category } from '@data/types';
-import { withBase } from '../lib/paths';
+import { categoryPath } from '../lib/paths';
 
 interface Props {
   category: Category;
@@ -10,7 +10,7 @@ const { category } = Astro.props;
 ---
 
 <a
-  href={withBase(`/category/${category.slug}/`)}
+  href={categoryPath(category)}
   class="category-card"
   style={category.accent ? `--card-accent: ${category.accent}` : ''}
 >

@@ -4,7 +4,8 @@ import FeedbackForm from '@components/feedback/FeedbackForm.astro';
 import FaqAccordion from '@components/tool/FaqAccordion.astro';
 import { generatePageTitle } from '@lib/titles';
 import { categories } from '@data/categories';
-import { withBase } from '@lib/paths';
+import { withBase, categoryPath } from '@lib/paths';
+import { BRAND_NAME } from '@config/site';
 import type { FAQItem } from '@data/types';
 
 // The visible H1 speaks to the person who is already here; the browser and search-result
@@ -101,7 +102,7 @@ const pageSchema = {
   description,
   url: Astro.url.href,
   inLanguage: 'en',
-  isPartOf: { '@type': 'WebSite', name: 'ToyTools' },
+  isPartOf: { '@type': 'WebSite', name: BRAND_NAME },
 };
 ---
 
@@ -241,7 +242,7 @@ const pageSchema = {
     <ul class="feedback-categories">
       {categories.map(category => (
         <li>
-          <a href={withBase(`/category/${category.slug}/`)}>{category.name}</a>
+          <a href={categoryPath(category)}>{category.name}</a>
         </li>
       ))}
     </ul>
