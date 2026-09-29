@@ -63,12 +63,13 @@ test.describe('resizable textareas', () => {
   });
 
   test('a widget --io-pane-h now sets the textarea height', async ({ page }) => {
-    // Prompt Packer declares --io-pane-h: 4.5rem, which the old 280px panel floor ignored.
-    // Below the 5rem minimum, so the field opens at 5rem (80px).
+    // Prompt Packer declares --io-pane-h: 6.5rem (three prose rows, retuned in beta-v12.1 from
+    // 4.5rem, which sat under the 5rem minimum and opened at 80px). The old 280px panel floor
+    // ignored the variable entirely; now the field opens at exactly 6.5rem (104px).
     await page.goto('/tool/prep/prompt-packer/');
     const task = page.locator('#pp-task');
     await expect(task).toBeVisible();
-    expect(Math.round(await heightOf(task))).toBe(80);
+    expect(Math.round(await heightOf(task))).toBe(104);
     expect(await computed(task, 'resize')).toBe('vertical');
 
     // Chat Export Cleaner declares 8rem (128px).
