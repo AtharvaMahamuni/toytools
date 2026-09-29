@@ -8,6 +8,7 @@ import { writeReports } from '../reporters/index.js';
 import { computeQualityScore } from '../reporters/quality-score.js';
 import { appendPerformanceSnapshot, appendLighthouseHistory } from '../reporters/history-reporter.js';
 import { lastPerformanceSnapshot } from '../validators/performance.js';
+import { selectLighthouseRoutes } from './lighthouse-targets.js';
 import { DIST_DIR, REPORTS_DIR, SITE_URL, ROOT_DIR, LIGHTHOUSE_THRESHOLDS } from '../config/index.js';
 import type { QualityContext, Issue, LighthouseResult, PerformanceSnapshot } from '../types/index.js';
 
@@ -86,17 +87,6 @@ async function runLighthouse(routes: string[]): Promise<LighthouseResult[]> {
   return results;
 }
 
-function selectLighthouseRoutes(manifestRoutes: string[]): string[] {
-  const routes: string[] = ['/'];
-
-  const categories = manifestRoutes.filter(r => r.startsWith('/categories/')).slice(0, 2);
-  const tools = manifestRoutes.filter(r => r.startsWith('/tools/')).slice(0, 2);
-  const guides = manifestRoutes.filter(r => r.startsWith('/guide/')).slice(0, 1);
-  const faqs = manifestRoutes.filter(r => r.startsWith('/faq/')).slice(0, 1);
-
-  return [...routes, ...categories, ...tools, ...guides, ...faqs];
-}
-
 export async function runWeeklyAudit(): Promise<void> {
   console.log('\n🛡️  ToyTools Quality Guardian — Weekly Full Audit\n');
 
@@ -173,7 +163,7 @@ export async function runWeeklyAudit(): Promise<void> {
   let lighthouseResults: LighthouseResult[] = [];
   console.log('\n🔦 Running Lighthouse...\n');
 
-  const previewRoutes = selectLighthouseRoutes(manifestRoutes);
+  const previewRoutes = selectLighthouseRoutes(pages);
   const previewServer = spawn('npm', ['run', 'preview', '--', '--port', String(PREVIEW_PORT)], {
     cwd: ROOT_DIR,
     stdio: 'pipe',

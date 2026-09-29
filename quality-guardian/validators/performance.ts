@@ -2,6 +2,7 @@ import { readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Validator, CrawledPage, QualityContext, ValidatorResult, Issue, PerformanceSnapshot } from '../types/index.js';
 import { PERFORMANCE_BUDGETS } from '../config/index.js';
+import { livePagesOfKind } from '../config/page-kinds.js';
 
 // Exported so weekly workflow can collect it
 export let lastPerformanceSnapshot: PerformanceSnapshot | null = null;
@@ -25,10 +26,17 @@ function getAssetSizes(distDir: string, ext: string): Array<{ file: string; size
   }
 }
 
-function getLargestPageKB(pages: CrawledPage[], prefix: string): number {
-  const matching = pages.filter(p => p.urlPath.startsWith(prefix));
+function getLargestPageKB(matching: readonly CrawledPage[]): number {
   if (matching.length === 0) return 0;
   return Math.max(...matching.map(p => Math.round(p.fileSizeBytes / 1024)));
+}
+
+/**
+ * Real tool pages (`/tool/<segment>/<slug>/`, redirect stubs excluded): the pages the tool page
+ * budget and the largestToolPageKB snapshot measure. Exported for the unit test.
+ */
+export function performanceToolPages(pages: readonly CrawledPage[]): CrawledPage[] {
+  return livePagesOfKind(pages, 'tool');
 }
 
 export const performanceValidator: Validator = {
@@ -89,7 +97,7 @@ export const performanceValidator: Validator = {
     }
 
     // Tool page budgets
-    for (const page of pages.filter(p => p.urlPath.startsWith('/tools/'))) {
+    for (const page of performanceToolPages(pages)) {
       const sizeKB = Math.round(page.fileSizeBytes / 1024);
       if (sizeKB > PERFORMANCE_BUDGETS.toolPageKB) {
         issues.push({
@@ -110,9 +118,11 @@ export const performanceValidator: Validator = {
       homepageHtmlKB,
       totalCssKB,
       totalJsKB,
-      largestToolPageKB: getLargestPageKB(pages, '/tools/'),
-      largestGuidePageKB: getLargestPageKB(pages, '/guide/'),
-      largestFaqPageKB: getLargestPageKB(pages, '/faq/'),
+      largestToolPageKB: getLargestPageKB(performanceToolPages(pages)),
+      largestGuidePageKB: getLargestPageKB(livePagesOfKind(pages, 'guide')),
+      // Every /faq/ URL is a redirect stub since the FAQ moved onto the tool page, so this is 0
+      // unless a real FAQ page returns. Kept so the history file keeps one shape.
+      largestFaqPageKB: getLargestPageKB(livePagesOfKind(pages, 'faq')),
     };
 
     return { issues };

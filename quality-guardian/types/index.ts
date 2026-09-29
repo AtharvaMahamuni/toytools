@@ -22,7 +22,7 @@ export interface Issue {
   id: string;                      // `${category}:${urlPath}:${code}` — deterministic
   severity: Severity;
   category: ValidatorCategory;
-  page: string;                    // URL path e.g. "/tools/text/word-counter/"
+  page: string;                    // URL path e.g. "/tool/text/word-counter/"
   message: string;
   fixable: boolean;                // true only for generated-artifact issues (AUTO_FIX)
   auto_fix_strategy: FixStrategy;
@@ -38,7 +38,7 @@ export interface ParsedJsonLd {
 
 export interface CrawledPage {
   filePath: string;                // absolute path in dist/
-  urlPath: string;                 // e.g. "/tools/text/word-counter/"
+  urlPath: string;                 // e.g. "/tool/text/word-counter/"
   title: string;
   description: string;
   canonical: string;

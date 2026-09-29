@@ -3,7 +3,8 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    include: ['src/**/*.test.ts'],
+    // quality-guardian's tests are pure (no cheerio), so they run here, before its own deps install.
+    include: ['src/**/*.test.ts', 'quality-guardian/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/lib/**/*.ts'],

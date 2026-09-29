@@ -1,5 +1,5 @@
 import type { Validator, CrawledPage, QualityContext, ValidatorResult, Issue } from '../types/index.js';
-import { ORPHAN_EXEMPT_PATHS, LOCALE_PREFIXES } from '../config/index.js';
+import { ORPHAN_EXEMPT_PATHS } from '../config/index.js';
 
 export const orphanPagesValidator: Validator = {
   name: 'orphan-pages',
@@ -35,22 +35,9 @@ export const orphanPagesValidator: Validator = {
 
       if (inboundCount > 0) continue;
 
-      // Locale-stub pages — WARNING instead of BLOCKER
-      const isLocale = LOCALE_PREFIXES.some(prefix => urlPath === prefix || urlPath.startsWith(prefix));
-      if (isLocale) {
-        issues.push({
-          id: `orphan-pages:${urlPath}:locale-orphan`,
-          severity: 'WARNING',
-          category: 'orphan-pages',
-          page: urlPath,
-          message: `Locale page has no inbound links — consider adding a link from homepage navigation`,
-          fixable: false,
-          auto_fix_strategy: 'SUGGESTION',
-        });
-        continue;
-      }
-
-      // All other indexable pages with 0 inbound links — BLOCKER
+      // Every indexable page with 0 inbound links is a BLOCKER. There used to be a WARNING-only
+      // carve-out for /en/, /de/, /fr/ and /ja/ locale stubs; those pages were deleted on
+      // 2026-08-03 (CLAUDE.md), so the exemption was removed with them in beta-v12.1.1.
       issues.push({
         id: `orphan-pages:${urlPath}:orphan`,
         severity: 'BLOCKER',

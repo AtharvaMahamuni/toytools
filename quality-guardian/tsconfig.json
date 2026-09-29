@@ -12,5 +12,5 @@
     "outDir": "dist-ts"
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules", "reports", "dist-ts"]
+  "exclude": ["node_modules", "reports", "dist-ts", "tests"]
 }
