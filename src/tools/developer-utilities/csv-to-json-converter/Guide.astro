@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -158,9 +159,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/json-to-csv-converter/')}>JSON to CSV Converter</a>: Convert the other direction, with column selection and ordering.</li>
-      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Pretty-print and inspect the JSON output.</li>
-      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm the converted JSON is syntactically valid.</li>
+      <li><a href={toolPathBySlug('json-to-csv-converter')}>JSON to CSV Converter</a>: Convert the other direction, with column selection and ordering.</li>
+      <li><a href={toolPathBySlug('json-formatter')}>JSON Formatter</a>: Pretty-print and inspect the JSON output.</li>
+      <li><a href={toolPathBySlug('json-validator')}>JSON Validator</a>: Confirm the converted JSON is syntactically valid.</li>
     </ul>
   </section>
 

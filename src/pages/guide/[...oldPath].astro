@@ -14,13 +14,15 @@ import { withBase, toolRoute, guideRoute } from '@lib/paths';
 
 export const getStaticPaths = (() => {
   // getStaticPaths is extracted into its own scope, so this lookup stays inside it.
-  const labelFor = (targetPath: string): string => {
+  const labelFor = (targetPath: string): { label: string; isGuide: boolean } => {
     for (const tool of tools) {
       const category = categories.find(c => c.slug === tool.categorySlug);
       if (!category) continue;
-      if (targetPath === toolRoute({ slug: tool.slug, segment: category.segment })) return tool.name;
+      if (targetPath === toolRoute({ slug: tool.slug, segment: category.segment })) {
+        return { label: tool.name, isGuide: false };
+      }
       if (tool.guide && targetPath === guideRoute(tool.guide)) {
-        return tool.guide.title;
+        return { label: tool.guide.title, isGuide: true };
       }
     }
     throw new Error(`guide-redirects: "${targetPath}" is not a live tool or guide URL`);
@@ -42,16 +44,16 @@ export const getStaticPaths = (() => {
     }
     return {
       params: { oldPath: redirect.oldPath },
-      props:  { label: labelFor(redirect.targetPath), targetPath: redirect.targetPath },
+      props:  { ...labelFor(redirect.targetPath), targetPath: redirect.targetPath },
     };
   });
 }) satisfies GetStaticPaths;
 
-const { label, targetPath } = Astro.props;
+const { label, isGuide, targetPath } = Astro.props;
 
 const target = withBase(targetPath);
 const canonical = Astro.site ? new URL(withBase(targetPath), Astro.site).href : withBase(targetPath);
-const lead = targetPath.startsWith('/guide/') ? 'This guide has moved.' : 'This page has moved.';
+const lead = isGuide ? 'This guide has moved.' : 'This page has moved.';
 ---
 
 <!doctype html>

@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -144,9 +145,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/number/percentage-calculator/')}>Percentage Calculator</a>: Calculate any percentage, percentage change, or what percentage one number is of another.</li>
-      <li><a href={withBase('/tool/number/tip-calculator/')}>Tip Calculator</a>: Work out a tip and split a bill among several people.</li>
-      <li><a href={withBase('/tool/number/margin-calculator/')}>Margin Calculator</a>: Calculate gross margin and markup from cost and selling price.</li>
+      <li><a href={toolPathBySlug('percentage-calculator')}>Percentage Calculator</a>: Calculate any percentage, percentage change, or what percentage one number is of another.</li>
+      <li><a href={toolPathBySlug('tip-calculator')}>Tip Calculator</a>: Work out a tip and split a bill among several people.</li>
+      <li><a href={toolPathBySlug('margin-calculator')}>Margin Calculator</a>: Calculate gross margin and markup from cost and selling price.</li>
     </ul>
   </section>
 

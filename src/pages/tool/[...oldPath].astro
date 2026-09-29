@@ -23,7 +23,8 @@ export const getStaticPaths = (() => {
     const category = categories.find(c => c.slug === tool.categorySlug);
     if (!category) throw new Error(`tool-redirects: unresolved category for "${tool.slug}"`);
     const livePath = toolRoute({ slug: tool.slug, segment: category.segment });
-    if (`tool/${redirect.oldPath}` === livePath.slice(1).replace(/\/$/, '')) {
+    // oldPath is '<segment>/<slug>' under /tool/, so it is live exactly when it names this pair.
+    if (redirect.oldPath === `${category.segment}/${tool.slug}`) {
       throw new Error(`tool-redirects: "${redirect.oldPath}" is a live tool URL, not a retired one`);
     }
     return {

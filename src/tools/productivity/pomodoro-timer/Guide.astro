@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -371,9 +372,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>Tools that work well alongside the Pomodoro Timer:</p>
     <ul>
-      <li><a href={withBase('/tool/productivity/todo-list/')}>Todo List</a>, Plan your Pomodoro tasks before the session starts.</li>
-      <li><a href={withBase('/tool/productivity/notepad/')}>Notepad</a>, Capture interruption notes during focus sessions to revisit later.</li>
-      <li><a href={withBase('/tool/productivity/keep-screen-awake/')}>Keep Screen Awake</a>, Prevent your screen from sleeping during long sessions.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, Plan your Pomodoro tasks before the session starts.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, Capture interruption notes during focus sessions to revisit later.</li>
+      <li><a href={toolPathBySlug('keep-screen-awake')}>Keep Screen Awake</a>, Prevent your screen from sleeping during long sessions.</li>
     </ul>
   </section>
 

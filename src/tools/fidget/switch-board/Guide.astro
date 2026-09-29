@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -152,11 +153,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       Instead of an ASMR switch video, keep this tab beside a
-      <a href={withBase('/tool/fidget/pop-it/')}>Pop It</a> when you want bubbles instead of latches,
+      <a href={toolPathBySlug('pop-it')}>Pop It</a> when you want bubbles instead of latches,
       or beside a
-      <a href={withBase('/tool/productivity/pomodoro-timer/')}>Pomodoro timer</a> between focus
+      <a href={toolPathBySlug('pomodoro-timer')}>Pomodoro timer</a> between focus
       blocks. More toys live in the
-      <a href={withBase('/category/fidgets/')}>Fidgets</a> category.
+      <a href={categoryPath({ slug: 'fidgets' })}>Fidgets</a> category.
     </p>
     <p>
       Switch board vs alternatives is mostly about whether you can actually flip something. An ASMR

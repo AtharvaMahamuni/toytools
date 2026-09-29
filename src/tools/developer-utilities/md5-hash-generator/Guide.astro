@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -135,7 +136,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       <p>
         MD5 collision attacks let an attacker produce two different files with the same hash.
         If a malicious actor controls both files, they can swap them and the hashes won't help
-        you detect the swap. For integrity checks where tampering is a concern, use <a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256</a>.
+        you detect the swap. For integrity checks where tampering is a concern, use <a href={toolPathBySlug('sha256-hash-generator')}>SHA-256</a>.
       </p>
     </ReferenceBlock>
 
@@ -152,8 +153,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256 Hash Generator</a>: Use this for security applications where collision resistance matters.</li>
-      <li><a href={withBase('/tool/developer-utilities/sha1-hash-generator/')}>SHA-1 Hash Generator</a>: A 160-bit hash, also deprecated for security use.</li>
+      <li><a href={toolPathBySlug('sha256-hash-generator')}>SHA-256 Hash Generator</a>: Use this for security applications where collision resistance matters.</li>
+      <li><a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 Hash Generator</a>: A 160-bit hash, also deprecated for security use.</li>
     </ul>
   </section>
 

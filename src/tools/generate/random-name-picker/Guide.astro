@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -15,7 +16,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -143,8 +144,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       If your names are comma-separated, run them through
-      <a href={withBase('/tool/text/find-replace/')}>find and replace</a> first, or use the
-      <a href={withBase('/tool/generate/random-choice-picker/')}>random choice picker</a>, which
+      <a href={toolPathBySlug('find-replace')}>find and replace</a> first, or use the
+      <a href={toolPathBySlug('random-choice-picker')}>random choice picker</a>, which
       offers to split a single comma-separated line for you.
     </p>
   </section>

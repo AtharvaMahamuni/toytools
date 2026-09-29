@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -123,10 +124,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <p>
       <strong>Related tools:</strong> explore all text utilities in the
-      <a href={withBase(`/category/${category.slug}/`)}>Text Utilities</a> collection,
-      including <a href={withBase(`/tool/${category.segment}/text-compare/`)}>Text Compare</a>,
-      <a href={withBase(`/tool/${category.segment}/remove-extra-spaces/`)}>Remove Extra Spaces</a>,
-      and <a href={withBase(`/tool/${category.segment}/remove-duplicate-lines/`)}>Remove Duplicate Lines</a>.
+      <a href={categoryPath(category)}>Text Utilities</a> collection,
+      including <a href={toolPathBySlug('text-compare')}>Text Compare</a>,
+      <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a>,
+      and <a href={toolPathBySlug('remove-duplicate-lines')}>Remove Duplicate Lines</a>.
     </p>
   </section>
 

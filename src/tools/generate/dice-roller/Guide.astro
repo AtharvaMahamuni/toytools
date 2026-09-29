@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -15,7 +16,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -174,8 +175,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       Instead of a number, you might want a name or a choice. The
-      <a href={withBase('/tool/generate/random-choice-picker/')}>random choice picker</a> handles
-      named options, and the <a href={withBase('/tool/generate/coin-flipper/')}>coin flipper</a>
+      <a href={toolPathBySlug('random-choice-picker')}>random choice picker</a> handles
+      named options, and the <a href={toolPathBySlug('coin-flipper')}>coin flipper</a>
       covers the two-outcome case. Nothing you roll is uploaded or stored.
     </p>
   </section>

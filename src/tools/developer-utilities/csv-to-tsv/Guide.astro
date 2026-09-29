@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -132,7 +133,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <ReferenceBlock type="note" heading="Clean first, then convert">
       <p>
         Delimiter conversion does not remove blank rows or trim whitespace. If the export is
-        messy, run it through the <a href={withBase('/tool/developer-utilities/csv-cleaner/')}>CSV
+        messy, run it through the <a href={toolPathBySlug('csv-cleaner')}>CSV
         cleaner</a> first, then convert the tidy result. Everything runs in your browser, so a
         sensitive export is never uploaded, and the page works offline once loaded.
       </p>

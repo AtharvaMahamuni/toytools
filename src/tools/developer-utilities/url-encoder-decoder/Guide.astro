@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -141,7 +142,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       </li>
       <li>
         <strong>API tokens and keys</strong>: Keys often contain <code>+</code>, <code>=</code>, or
-        <code>/</code> (especially <a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64</a>-encoded ones). Encoding them prevents those characters from
+        <code>/</code> (especially <a href={toolPathBySlug('base64-encoder-decoder')}>Base64</a>-encoded ones). Encoding them prevents those characters from
         being misread as URL syntax.
       </li>
       <li>
@@ -229,8 +230,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/base64-encoder-decoder/')}>Base64 Encoder &amp; Decoder</a>: Encode binary data for transmission through text channels.</li>
-      <li><a href={withBase('/tool/developer-utilities/html-entity-encoder-decoder/')}>HTML Entity Encoder &amp; Decoder</a>: Escape reserved characters for safe use inside HTML.</li>
+      <li><a href={toolPathBySlug('base64-encoder-decoder')}>Base64 Encoder &amp; Decoder</a>: Encode binary data for transmission through text channels.</li>
+      <li><a href={toolPathBySlug('html-entity-encoder-decoder')}>HTML Entity Encoder &amp; Decoder</a>: Escape reserved characters for safe use inside HTML.</li>
     </ul>
   </section>
 

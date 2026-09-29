@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -14,7 +15,7 @@ interface Props {
 }
 const props = Astro.props;
 const category = categories.find((c) => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -171,9 +172,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Read the original line in plain English with the
-      <a href={withBase('/tool/datetime/cron-expression-parser/')}>Cron Expression Parser</a>, and
+      <a href={toolPathBySlug('cron-expression-parser')}>Cron Expression Parser</a>, and
       move a run time between zones with the
-      <a href={withBase('/tool/datetime/timezone-converter/')}>Timezone Converter</a>.
+      <a href={toolPathBySlug('timezone-converter')}>Timezone Converter</a>.
     </p>
   </section>
 </GuideLayout>

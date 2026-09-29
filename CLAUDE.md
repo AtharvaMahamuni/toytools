@@ -366,12 +366,17 @@ Local tools still use the exact privacy line: Runs entirely on your device. Noth
 Tool, category and guide URLs come from the builder in `src/lib/paths.ts` (`toolPath`,
 `categoryPath`, `guidePath`, `urlFor`, `canonicalFor`), which sends every output through
 `withBase()`. Every other internal `href` and form `action` goes through `withBase()` directly.
-Bypassing either breaks deployed links, and `src/lib/url-literals.test.ts` fails on a new raw
-`/tool/` or `/category/` template (existing `Guide.astro` files are allowlisted until C4).
+Bypassing either breaks deployed links, and `src/lib/url-literals.test.ts` fails on a raw
+`/tool/`, `/category/` or `/guide/` path in any quoting, a split prefix, a `.join('/')` or an
+absolute toytoolsapp.com URL, anywhere under `src/` outside the builder and a short allowlist of
+widgets and inline scripts. Guides link to a sibling tool by slug with `toolPathBySlug('slug')`
+from `src/lib/tools/tool-link.ts`, which resolves the segment from the registry and fails the build
+on an unknown slug (frontmatter and markup only, never a client `<script>`).
 
 ```astro
 <a href={categoryPath(category)}>                     {/* correct */}
 <a href={toolPath({ slug: tool.slug, segment })}>     {/* correct */}
+<a href={toolPathBySlug('json-validator')}>           {/* correct, build-time lookup */}
 <a href={withBase(`/category/${category.slug}/`)}>   {/* wrong: fails the URL lint */}
 ```
 

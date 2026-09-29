@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -15,7 +16,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -127,7 +128,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Generating varied filler is a different job with a different tool. Instead of repeating for
       those cases, use the
-      <a href={withBase('/tool/generate/lorem-ipsum-generator/')}>lorem ipsum generator</a>, which
+      <a href={toolPathBySlug('lorem-ipsum-generator')}>lorem ipsum generator</a>, which
       produces sentences that differ from each other. Do not reach for repeated text when the
       variation is the point of the test.
     </p>
@@ -142,11 +143,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       The line under the output gives the character and line counts as you go, because the reason for
       repeating something is frequently a limit. For a fuller breakdown, including counts with and
       without spaces, send it to the
-      <a href={withBase('/tool/text/character-counter/')}>character counter</a>.
+      <a href={toolPathBySlug('character-counter')}>character counter</a>.
     </p>
     <p>
       To edit every copy at once afterwards, the
-      <a href={withBase('/tool/text/find-replace/')}>find and replace tool</a> handles it in one
+      <a href={toolPathBySlug('find-replace')}>find and replace tool</a> handles it in one
       pass. Everything here runs in your browser, nothing is uploaded, and your settings persist on
       this device so the tool opens the way you left it.
     </p>

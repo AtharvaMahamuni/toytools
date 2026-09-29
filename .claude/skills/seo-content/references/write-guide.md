@@ -44,9 +44,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ```
 
 Build every tool, category and guide link with the URL builder in `src/lib/paths.ts`
-(`toolPath`, `categoryPath`, `guidePath`). A NEW `Guide.astro` with a raw
-`` `/tool/${...}/` `` or `` `/category/${...}/` `` template fails `src/lib/url-literals.test.ts`;
-only the guides that predate the builder are allowlisted, until C4 migrates them. Note the URL is
+(`toolPath`, `categoryPath`, `guidePath`). Link to a sibling tool by slug with
+`toolPathBySlug('json-validator')` from `@lib/tools/tool-link` (it finds the segment in the
+registry and fails the build on a typo), and to another category with
+`categoryPath({ slug: 'fidgets' })`. Any raw `/tool/`, `/category/` or `/guide/` path in a guide
+fails `src/lib/url-literals.test.ts`; no guide is allowlisted. Note the URL is
 `/tool/...` (singular). There are no standalone FAQ pages and
 no `faqHref`/`FAQPreview`: the FAQ renders automatically on the tool page once
 registered in `src/data/faq-registry.ts`.
@@ -82,5 +84,5 @@ when the generated barrels are stale.
 
 - Section `id` attributes or `<h2>` text
 - ReferenceBlock `type`/`heading`/structure
-- Astro frontmatter, `{...}` expressions, `withBase()` calls
+- Astro frontmatter, `{...}` expressions, `toolPath()` / `toolPathBySlug()` / `categoryPath()` calls
 - `<code>` content, the CTA href, the `<style>` block

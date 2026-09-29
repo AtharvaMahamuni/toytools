@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -14,7 +15,7 @@ interface Props {
 }
 const props = Astro.props;
 const category = categories.find((c) => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -235,9 +236,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Once the command is correct, <a href={withBase('/tool/developer-utilities/json-escape/')}>JSON Escape</a>
+      Once the command is correct, <a href={toolPathBySlug('json-escape')}>JSON Escape</a>
       prepares it for a CI config or an API payload, and
-      <a href={withBase('/tool/datetime/cron-expression-parser/')}>Cron Expression Parser</a>
+      <a href={toolPathBySlug('cron-expression-parser')}>Cron Expression Parser</a>
       covers the schedule if the command is going to run on a timer.
     </p>
   </section>

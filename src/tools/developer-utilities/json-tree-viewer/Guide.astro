@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -180,7 +181,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
         The tree renders only for valid JSON. Trailing commas, single quotes, unquoted keys,
         or a missing bracket all stop it. When that happens the status line shows the parser
         message and, where it can, the line and column of the error. Fix that spot, or run the
-        text through the <a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a> first.
+        text through the <a href={toolPathBySlug('json-validator')}>JSON Validator</a> first.
       </p>
     </ReferenceBlock>
 
@@ -205,9 +206,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm the syntax is valid before exploring the tree.</li>
-      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Pretty-print the same data as indented text.</li>
-      <li><a href={withBase('/tool/developer-utilities/json-minifier/')}>JSON Minifier</a>: Compact the data for storage or transmission.</li>
+      <li><a href={toolPathBySlug('json-validator')}>JSON Validator</a>: Confirm the syntax is valid before exploring the tree.</li>
+      <li><a href={toolPathBySlug('json-formatter')}>JSON Formatter</a>: Pretty-print the same data as indented text.</li>
+      <li><a href={toolPathBySlug('json-minifier')}>JSON Minifier</a>: Compact the data for storage or transmission.</li>
     </ul>
   </section>
 
