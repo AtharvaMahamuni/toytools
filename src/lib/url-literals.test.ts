@@ -28,7 +28,8 @@
 // OTHER_FILES is the one allowlist: files the builder cannot reach yet, each with its reason. It
 // only shrinks. An allowlisted file that no longer has a hit fails too, so it cannot go stale.
 import { describe, it, expect, beforeAll } from 'vitest';
-// Astro's own compiler, installed with astro (the oracle test below parses with it).
+// Astro's own compiler: a devDependency on astro's range, so npm keeps the one copy the build uses
+// (the oracle test below parses with it and checks that).
 import { parse } from '@astrojs/compiler';
 import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
