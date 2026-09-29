@@ -67,7 +67,8 @@ file is missing / mismatched.
 
 ## 6. GitHub Actions integration
 
-`.github/workflows/deploy.yml` runs three jobs: `build` → `deploy` → `indexnow`. The
+`.github/workflows/deploy.yml` runs `build` and `test` (unit tests) in parallel, then `deploy` →
+`indexnow`. The
 `indexnow` job runs **after** a successful deploy, in isolation:
 
 ```yaml

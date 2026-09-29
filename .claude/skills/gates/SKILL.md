@@ -95,6 +95,9 @@ the 85% floor, after a session that skipped the Stop hook).
 1. `git rebase origin/main` so you are measuring the same tree CI will.
 2. `npm run verify` (not `verify:fast`, not `build` + `test` + `test:e2e`).
 3. Only then `git push`, and only then open or update the PR.
+4. The PR body carries the line `llms files: updated` or `llms files: no change needed`, with one
+   line why, after reading `dist/llms.txt` and `dist/llms-full.txt` from that build. What counts as
+   a change, and which curated parts to update: CLAUDE.md, "Breaking-changes playbook", "LLM files".
 
 Coverage is the check that most often looks green until it is not. v8 reports two decimals, the
 floor in `vitest.config.ts` is 85, and a new engine with untested branches will drop a catalog that

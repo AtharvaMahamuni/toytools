@@ -117,8 +117,8 @@ This creates a GitHub release that can be referenced by users.
 ## CI/CD Integration
 
 The `.github/workflows/deploy.yml` workflow automatically:
-1. Builds the site with the current version
-2. Deploys to GitHub Pages
+1. Builds the site with the current version, while a parallel job runs the unit tests
+2. Deploys to GitHub Pages, only once both have passed
 3. The version is embedded in the built site
 
 No manual deployment is needed — just push to `main` and the workflow runs automatically.

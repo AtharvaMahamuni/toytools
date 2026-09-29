@@ -204,8 +204,16 @@ a validator fails — or, worse, drifts silently.
   URLs.
 - **Change a widget's UI** → verify in a real browser with `npm run test:e2e` (chromium + pixel5).
   Build and unit tests do not catch widget JS errors.
+- **LLM files** (`/llms.txt`, `/llms-full.txt`, rendered by `src/lib/llms/render.ts`) → a PR that
+  adds, renames, removes or materially changes a tool, a category or a platform capability reads both
+  files from the build (`dist/llms.txt`, `dist/llms-full.txt`) and updates the curated parts in the
+  same PR: the category's term in `CATEGORY_SUMMARY_TERMS` (the SUMMARY sentence is generated from
+  it; a category without one fails the build), the DETAIL prose, `CORE_TOOL_SLUGS` /
+  `PREP_HIGHLIGHT_SLUGS`, the tool's `tagline`, and a specific `citation.nonGoal` (a new tool without
+  one fails `validate-registry`; `src/lib/llms/nongoal-backlog.ts` holds the tools that predate the
+  rule and only shrinks).
 - **Ship any of the above** → bump `src/lib/version.ts` and add the `CHANGELOG.md` entry in the same
-  PR.
+  PR. The PR body states `llms files: updated` or `llms files: no change needed`, with one line why.
 
 Two deploy-facing hard rules:
 
@@ -426,7 +434,8 @@ visual, also check a real phone or the installed PWA.
   Setup: `docs/indexing.md`.
 - **Deployment.** Push to `main` triggers `.github/workflows/deploy.yml`, which builds with
   `ASTRO_SITE=https://toytoolsapp.com` (and **no** `ASTRO_BASE_PATH`) and deploys `dist/` to GitHub
-  Pages at `https://toytoolsapp.com/`.
+  Pages at `https://toytoolsapp.com/`. The deploy waits for a `test` job (vitest) that runs beside
+  the build, so a red unit test never ships.
 - **Git workflow.** Always rebase against `origin/main`: `git rebase origin/main`.
 - **SEO writing hard rule: no em-dashes anywhere in authored site content.** The gate fails on any
   occurrence.

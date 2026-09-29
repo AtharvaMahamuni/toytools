@@ -104,8 +104,9 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'my-tool-slug',           // kebab-case, globally unique, matches directory name
   name: 'My Tool Name',
-  seoTitle: 'My Tool — Free Online Tool',  // optional; falls back to name
+  seoTitle: 'My Tool: Free Online Tool',  // optional; falls back to name
   description: 'One sentence describing what the tool does.',
+  tagline: 'The one line under the title, 80 chars max.',  // required in practice (build error above 80)
   categorySlug: 'text-utilities', // must exist in src/data/categories.ts
   tags: ['tag1', 'tag2'],         // SEO keyword array, 5–15 entries
 
@@ -124,11 +125,17 @@ export const config: ToolConfig = {
   relatedTools: ['other-slug'],   // slugs of related tools (all must exist)
   guide: {                        // include only if Guide.astro exists
     slug: 'guide-slug',
-    categorySlug: 'text',
+    categorySlug: 'text',         // URL prefix: the tool's own category slug OR segment (validated)
     title: 'Guide Title',
     description: 'One-sentence guide description.',
     readMinutes: 4,
-    updatedAt: 'Jun 2026',
+    updatedAt: '2026-06-14',      // ISO 8601 (validate-registry)
+  },
+
+  // required for every NEW tool (validate-registry): its "Does not:" line in /llms-full.txt
+  citation: {
+    problem: 'One sentence: the job this tool does.',
+    nonGoal: 'round to the cent or send the input to an AI model.',  // lowercase verb, a real limit
   },
 };
 ```
@@ -318,6 +325,10 @@ See `references/optional-content.md` for FAQ, Guide, and Knowledge file steps.
 npm run build    # TypeScript + registry validation + Astro render
 npm run health   # post-build: sitemap, manifest, knowledge coverage
 ```
+
+Then read the tool's block in `dist/llms-full.txt` (and `dist/llms.txt` if the tool joins a core
+or prep list, or adds a category) and put `llms files: updated / no change needed` in the PR body
+with one line why (CLAUDE.md, "LLM files").
 
 If `validate-registry` fails, the error message names the exact field and file — fix that specific file only. Do not re-run exploration.
 
