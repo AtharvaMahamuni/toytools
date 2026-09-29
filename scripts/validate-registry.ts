@@ -27,6 +27,9 @@ import { NETWORK_CALCULATORS } from '../src/lib/engines/network/registry';
 import { DOMAINS, SIMULATIONS } from '../src/lib/simulation/simulations/registry';
 import { MANIFESTS } from '../src/lib/simulation/manifests';
 import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
+import { guideCategorySlugErrors } from '../src/lib/content/guide-category';
+import { nonGoalRatchetErrors } from '../src/lib/llms/nongoal';
+import { NON_GOAL_BACKLOG } from '../src/lib/llms/nongoal-backlog';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -382,6 +385,19 @@ for (const tool of tools) {
     );
   }
 }
+
+// ── Guide URL prefix ──────────────────────────────────────────────────────────────────────────
+// guide.categorySlug is the first segment of the guide URL (/guide/<categorySlug>/<slug>/) and was
+// free text. It must name the tool's own category, by slug or by URL segment: both vocabularies are
+// live in indexed URLs, so neither is normalised here (that needs a redirect plan). A typo, or a
+// guide filed under another subject, now fails the build instead of shipping a stray URL prefix.
+errors.push(...guideCategorySlugErrors(tools, categories));
+
+// ── llms-full.txt "Does not:" line ────────────────────────────────────────────────────────────
+// Every tool NOT on the frozen backlog (src/lib/llms/nongoal-backlog.ts) must set a specific
+// citation.nonGoal, or llms-full.txt prints the generic "Call an AI model." for it. The backlog is a
+// ratchet: it only shrinks, and a backlog tool that gains a nonGoal must leave it in the same PR.
+errors.push(...nonGoalRatchetErrors(tools, NON_GOAL_BACKLOG));
 
 if (errors.length > 0) {
   console.error('\n[validate-registry] Errors found:\n');
