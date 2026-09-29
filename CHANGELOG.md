@@ -2,6 +2,31 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1.1] - 2026-09-29
+
+### Changed
+
+- **llms.txt names every category.** Its summary sentence is now generated from the category list,
+  so it covers physics, chemistry, applied math, music, fidgets, generators and productivity, which
+  the hand-written version left out. The overview paragraph now names chemistry alongside the
+  physics and applied math simulations. No page, URL or sitemap entry changed.
+- **Deploys wait for the unit tests.** The deploy workflow runs vitest beside the build and only
+  publishes once both pass, so a push to main with a failing test no longer ships.
+
+### Fixed
+
+- **Quality Guardian checks real pages again.** Its tool-page rules (SoftwareApplication schema,
+  the tool page size warning, the FAQ cross-link) and the weekly Lighthouse picks matched the old
+  plural /tools/ and /categories/ addresses, which only hold redirect stubs, so they checked
+  nothing. They now select live /tool/, /category/ and /guide/ pages and skip stubs by structure,
+  and every PR run fails if any of those rules stops reaching a real page. Category pages now get a
+  CollectionPage and BreadcrumbList schema check too. Rerunning every validator against the build
+  found no new failures on live pages.
+- **The registry validator checks two more things.** A guide's URL prefix must be its own tool's
+  category slug or segment (both styles stay, so no guide moved). A new tool must say what it does
+  not do (a specific citation non-goal), which becomes its "Does not:" line in llms-full.txt; the
+  149 tools that predate the rule sit on a frozen list that can only shrink.
+
 ## [beta-v12.1] - 2026-09-29
 
 ### Changed

@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 1,
-  patch: 0,
+  patch: 1,
   status: 'beta',
   releaseDate: '2026-09-29',
-  description: 'Prep tools slimmed for phones',
+  description: 'Quality Guardian and registry checks made real',
 };
 
 export function formatVersion(config: VersionConfig): string {
