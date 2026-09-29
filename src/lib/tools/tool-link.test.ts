@@ -21,6 +21,11 @@ function files(dir: string, re: RegExp): string[] {
 }
 const guides = files(join(ROOT, 'src/tools'), /^Guide\.astro$/);
 
+// A literal slug in any quoting and any spacing: toolPathBySlug("x"), categoryPath({slug: 'x'}).
+const TOOL_SLUG_ARG = /toolPathBySlug\(\s*([`'"])([^`'"]*)\1\s*\)/g;
+const CATEGORY_SLUG_ARG = /categoryPath\(\s*\{\s*slug\s*:\s*([`'"])([^`'"]*)\1\s*,?\s*\}\s*\)/g;
+const slugsIn = (src: string, re: RegExp): string[] => [...src.matchAll(re)].map((m) => m[2]!);
+
 describe('toolPathBySlug', () => {
   it('is toolPath at the registry segment, for every tool', () => {
     for (const t of tools) {
@@ -46,17 +51,31 @@ describe('guide links', () => {
     for (const file of guides) {
       const src = readFileSync(file, 'utf8');
       const rel = relative(ROOT, file);
-      for (const m of src.matchAll(/toolPathBySlug\('([^']*)'\)/g)) {
+      for (const slug of slugsIn(src, TOOL_SLUG_ARG)) {
         links += 1;
-        if (!toolSlugs.has(m[1]!)) bad.push(`${rel}: tool "${m[1]}"`);
+        if (!toolSlugs.has(slug)) bad.push(`${rel}: tool "${slug}"`);
       }
-      for (const m of src.matchAll(/categoryPath\(\{ slug: '([^']*)' \}\)/g)) {
+      for (const slug of slugsIn(src, CATEGORY_SLUG_ARG)) {
         links += 1;
-        if (!categorySlugs.has(m[1]!)) bad.push(`${rel}: category "${m[1]}"`);
+        if (!categorySlugs.has(slug)) bad.push(`${rel}: category "${slug}"`);
       }
     }
     expect(links).toBeGreaterThan(0);
     expect(bad).toEqual([]);
+  });
+
+  it('are read in any quoting and spacing, so no typo hides behind a style change', () => {
+    expect(slugsIn(
+      "toolPathBySlug('a') toolPathBySlug(\"b\") toolPathBySlug( `c` ) toolPathBySlug(\n  'd'\n)",
+      TOOL_SLUG_ARG,
+    )).toEqual(['a', 'b', 'c', 'd']);
+    expect(slugsIn(
+      "categoryPath({ slug: 'a' }) categoryPath({slug: 'money-financ'}) categoryPath({ slug : \"c\", }) categoryPath({\n  slug: `d`\n})",
+      CATEGORY_SLUG_ARG,
+    )).toEqual(['a', 'money-financ', 'c', 'd']);
+    // Not literal slugs: nothing to check statically (the build still resolves them).
+    expect(slugsIn('toolPathBySlug(config.slug) categoryPath(category)', TOOL_SLUG_ARG)).toEqual([]);
+    expect(slugsIn('categoryPath(category) categoryPath({ slug: category.slug })', CATEGORY_SLUG_ARG)).toEqual([]);
   });
 
   it('never call withBase themselves: every guide link goes through the builder', () => {
