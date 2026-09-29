@@ -646,6 +646,9 @@ describe('the .astro context tracker stays in sync with the file', () => {
       "{cond ? `<style>${x}` : '}'}",
       '// <a href="/tool/after/template/">CATCH</a>',
       '<Script>{x}</Script>',
+      '<Script>',
+      '// <a href="/tool/in/component/">CATCH</a>',
+      '</Script>',
       '// <a href="/tool/after/component/">CATCH</a>',
     ]);
   });
