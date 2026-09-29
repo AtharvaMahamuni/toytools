@@ -3,8 +3,9 @@
 // experience renderer builds the href with toolPath(), so this pins three things:
 //   1. every entry in an engine's linked-tool map is a registry tool, with that tool's real segment,
 //      and its built href is exactly the URL the tool page is published at;
-//   2. every toolDecision(...) a calculator makes names a slug its engine can link, so a sibling
-//      that has shipped is never silently rendered as plain text;
+//   2. every toolDecision(...) a calculator makes names a registry tool in its engine's map, so a
+//      typo'd slug or a missing map entry fails here instead of silently rendering as plain text.
+//      A sibling that has not shipped yet has to be named in PENDING_SIBLINGS on purpose;
 //   3. no engine source spells a /tool/ or /category/ URL itself.
 import { describe, it, expect } from 'vitest';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -21,6 +22,16 @@ import { WELLNESS_LINKED_TOOLS, toolDecision as wellnessDecision } from './welln
 import type { Decision } from '@lib/results/types';
 
 const ENGINES_DIR = resolve(__dirname);
+
+/**
+ * Slugs a calculator may name before the tool exists (the engine drops the decision until then).
+ * Empty today: every toolDecision names a live registry tool. An entry here is a deliberate,
+ * reviewed exception, never a way to quiet a typo.
+ */
+const PENDING_SIBLINGS: Record<string, readonly string[]> = {};
+
+/** The one shape the scan reads: toolDecision('label', 'slug'). */
+const TOOL_DECISION_CALL = /toolDecision\(\s*'[^']*'\s*,\s*'([a-z0-9-]+)'\s*\)/g;
 
 const ENGINES: Array<{
   id: string;
@@ -49,9 +60,13 @@ function sourcesUnder(dir: string): string[] {
 }
 
 describe('engine href contract', () => {
-  it('covers the engines that link to other tools (45+ links)', () => {
+  it('covers the engines that link to other tools (42 links)', () => {
     const total = ENGINES.reduce((n, e) => n + Object.keys(e.map).length, 0);
     expect(total).toBeGreaterThanOrEqual(42);
+  });
+
+  it('keeps PENDING_SIBLINGS empty (every sibling a calculator names has shipped)', () => {
+    expect(PENDING_SIBLINGS).toEqual({});
   });
 
   for (const engine of ENGINES) {
@@ -74,19 +89,34 @@ describe('engine href contract', () => {
         }
       });
 
-      it('every toolDecision a calculator makes names a slug this engine can link', () => {
+      it('every toolDecision a calculator makes names a registry tool in this engine\'s map', () => {
         const dir = join(ENGINES_DIR, engine.id);
+        const pending = new Set(PENDING_SIBLINGS[engine.id] ?? []);
+        const problems: string[] = [];
+        let scanned = 0;
         for (const file of sourcesUnder(dir)) {
           const src = readFileSync(file, 'utf8');
-          for (const m of src.matchAll(/toolDecision\(\s*'[^']*'\s*,\s*'([a-z0-9-]+)'\s*\)/g)) {
+          const rel = relative(ENGINES_DIR, file);
+          // Every call site must be in the scanned shape, so none is skipped by accident.
+          src.split('\n').forEach((line, i) => {
+            if (!/\btoolDecision\(/.test(line) || /function toolDecision\(/.test(line)) return;
+            if (!new RegExp(TOOL_DECISION_CALL.source).test(line)) {
+              problems.push(`${rel}:${i + 1}: call not in the form toolDecision('label', 'slug')`);
+            }
+          });
+          for (const m of src.matchAll(TOOL_DECISION_CALL)) {
+            scanned += 1;
             const slug = m[1]!;
-            const where = `${relative(ENGINES_DIR, file)} → ${slug}`;
-            // A registry tool missing from the map would render as plain text: a dead link.
-            if (toolBySlug.has(slug)) expect(engine.map[slug], where).toBeDefined();
-            // A slug that is not a tool yet is only allowed where the engine drops it (null).
-            else expect(engine.decide('x', slug), where).toBeNull();
+            if (pending.has(slug)) {
+              if (toolBySlug.has(slug)) problems.push(`${rel} → ${slug}: shipped, move it from PENDING_SIBLINGS to the map`);
+              continue;
+            }
+            if (!toolBySlug.has(slug)) problems.push(`${rel} → ${slug}: not a registry tool (typo?)`);
+            else if (!engine.map[slug]) problems.push(`${rel} → ${slug}: missing from the ${engine.id} linked-tool map`);
           }
         }
+        expect(scanned, `${engine.id}: no toolDecision calls found`).toBeGreaterThan(0);
+        expect(problems).toEqual([]);
       });
     });
   }
