@@ -63,13 +63,6 @@ describe('guide links', () => {
     const offenders = guides.filter((f) => /\bwithBase\b/.test(readFileSync(f, 'utf8'))).map((f) => relative(ROOT, f));
     expect(offenders).toEqual([]);
   });
-
-  it('link to their own tool with toolPath at the category segment', () => {
-    const missing = guides
-      .filter((f) => !readFileSync(f, 'utf8').includes('toolPath({ slug: config.slug, segment: category.segment })'))
-      .map((f) => relative(ROOT, f));
-    expect(missing).toEqual([]);
-  });
 });
 
 describe('tool-link stays server-side', () => {

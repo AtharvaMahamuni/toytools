@@ -53,9 +53,13 @@ stub pointed at `/sitemap-index.xml`. Deleted locale landings (`/de/`, `/hi/`, a
 `toolRoute` / `categoryRoute` / `guideRoute` are the base-less routes, only for data that stores or
 compares routes (knowledge-graph node urls, redirect tables). `urlFor` and `canonicalFor` are the
 seam for a future second site: today they always return this site's path and absolute URL, and
-there is no multi-domain logic behind them. `src/lib/url-literals.test.ts` fails on any new raw
-`` `/tool/…` `` or `` `/category/…` `` template outside `paths.ts`; the existing `Guide.astro`
-files are allowlisted until they move to the builder (C4). Other internal hrefs (`/settings/`,
+there is no multi-domain logic behind them. Guides link to sibling tools by slug through
+`toolPathBySlug()` (`src/lib/tools/tool-link.ts`), a build-time registry lookup that hands the
+segment to `toolPath()` and throws on an unknown slug. `src/lib/url-literals.test.ts` fails on any
+raw `/tool/`, `/category/` or `/guide/` path outside `paths.ts`: any quoting, split prefixes,
+`.join('/')` arrays and absolute toytoolsapp.com URLs, with comments skipped. Its only allowlist
+is a handful of widgets and inline scripts the builder cannot reach yet, each with its reason.
+Other internal hrefs (`/settings/`,
 `/privacy/`, …) still go through `withBase()` directly.
 
 **Site identity** (`src/config/site.ts`) holds the production origin (the fallback wherever
