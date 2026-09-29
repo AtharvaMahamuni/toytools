@@ -14,7 +14,7 @@ import type { GetStaticPaths } from 'astro';
 import { toolRedirects } from '@data/tool-redirects';
 import { tools }      from '@data/registry';
 import { categories } from '@data/categories';
-import { withBase } from '@lib/paths';
+import { withBase, toolRoute } from '@lib/paths';
 
 export const getStaticPaths = (() => {
   return toolRedirects.map(redirect => {
@@ -22,7 +22,7 @@ export const getStaticPaths = (() => {
     if (!tool) throw new Error(`tool-redirects: unknown tool slug "${redirect.toolSlug}"`);
     const category = categories.find(c => c.slug === tool.categorySlug);
     if (!category) throw new Error(`tool-redirects: unresolved category for "${tool.slug}"`);
-    const livePath = `/tool/${category.segment}/${tool.slug}/`;
+    const livePath = toolRoute({ slug: tool.slug, segment: category.segment });
     if (`tool/${redirect.oldPath}` === livePath.slice(1).replace(/\/$/, '')) {
       throw new Error(`tool-redirects: "${redirect.oldPath}" is a live tool URL, not a retired one`);
     }

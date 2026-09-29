@@ -19,23 +19,27 @@ export function assumption(label: string, value: string): Assumption {
   return { id: uid('as'), label, value };
 }
 
-// Cross-tool decision links. Absolute paths (served from the apex domain; rendered client-side, so
-// withBase does not apply). Only tools that already ship appear here; a decision to a not-yet-built
-// sibling returns null and is filtered out, then lights up once that tool's slug lands in its PR.
-export const MATH_TOOL_PATH: Record<string, string> = {
-  'fraction-calculator': '/tool/math/fraction-calculator/',
-  'combinations-permutations-calculator': '/tool/math/combinations-permutations-calculator/',
-  'prime-factorization-calculator': '/tool/math/prime-factorization-calculator/',
-  'probability-calculator': '/tool/math/probability-calculator/',
-  'unit-circle-calculator': '/tool/math/unit-circle-calculator/',
-  'quadratic-equation-solver': '/tool/math/quadratic-equation-solver/',
-  'statistics-visualizer': '/tool/math/statistics-visualizer/',
+// Cross-tool decision links. Engines name the tool by slug and never write its URL: a decision
+// carries { slug, segment } and the experience renderer makes the href with the URL builder
+// (toolPath in src/lib/paths.ts), so the base path and the URL shape live in one place. The map
+// holds the one thing a link needs besides the slug, the tool's URL segment; the engine href
+// contract test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
+// Only tools that already ship appear here; a decision to a not-yet-built sibling returns null
+// and is filtered out, then lights up once that tool's slug is added in its own PR.
+export const MATH_LINKED_TOOLS: Record<string, string> = {
+  'fraction-calculator': 'math',
+  'combinations-permutations-calculator': 'math',
+  'prime-factorization-calculator': 'math',
+  'probability-calculator': 'math',
+  'unit-circle-calculator': 'math',
+  'quadratic-equation-solver': 'math',
+  'statistics-visualizer': 'math',
 };
 
 /** A decision linking to a sibling math tool, or null when that tool has not shipped yet. */
 export function toolDecision(label: string, slug: string): Decision | null {
-  const href = MATH_TOOL_PATH[slug];
-  return href ? { id: uid('dec'), label, href } : null;
+  const segment = MATH_LINKED_TOOLS[slug];
+  return segment ? { id: uid('dec'), label, tool: { slug, segment } } : null;
 }
 
 /** Drop the nulls from a decisions list (siblings that have not shipped). */

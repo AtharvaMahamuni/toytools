@@ -46,6 +46,10 @@ export default defineConfig({
     // fetching a sandbox iframe. If GA is ever moved onto a worker, re-add it AND mark the GA
     // script type="text/partytown", or it will be dead weight again.
   ],
+  // The one fallback that cannot import SITE_ORIGIN from src/config/site.ts: a TS import here makes
+  // Astro load this file through Vite's module runner, which is closed by the time the
+  // astro:build:done hooks above run their dynamic imports. src/config/site.test.ts pins the two
+  // to the same value instead.
   site: process.env.ASTRO_SITE ?? 'https://toytoolsapp.com',
   base,
   output: 'static',

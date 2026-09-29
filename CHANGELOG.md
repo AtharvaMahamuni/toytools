@@ -2,6 +2,32 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1.3] - 2026-09-29
+
+### Added
+
+- **Shared links show a ToyTools card.** Every page's `og:image` and `twitter:image` now point at
+  one branded 1200x630 PNG, `https://toytoolsapp.com/og.png`: the site mark, the name and the
+  homepage line on the site's paper colour. They used to point at the SVG favicon by a relative
+  path, which most link previews cannot use at all. There are no per-tool images.
+
+### Changed
+
+- **The service worker registers only on toytoolsapp.com, in the top window.** It now follows the
+  same host rule as analytics, so a preview deploy, a mirror, a proxy host or a page framed by
+  another site no longer installs one. Nothing changes for anyone on toytoolsapp.com or
+  www.toytoolsapp.com, including the installed app, and no existing worker is ever removed.
+- **One home for the site's identity, and one URL builder.** The production address, brand name,
+  title suffix, X account and GA id live in `src/config/site.ts`, and the layouts, shared
+  components, engines, sitemaps, llms files, manifests and redirect stubs make their tool,
+  category and guide links with `src/lib/paths.ts`. A few places still spell the path themselves
+  and are listed as known exceptions: the guide pages (moving in C4), the offline page's inline
+  script, the guide redirect table, the search index's link format, the shared text-tool widget,
+  and the pomodoro timer and keep-screen-awake widgets. The calculators that suggest a next tool
+  now name it by slug, and a test checks each one is a real tool page. A new raw `/tool/` or
+  `/category/` path, quoted or as a template, now fails the unit tests. Page titles, links, URLs,
+  sitemaps, llms.txt and llms-full.txt are byte-for-byte what they were.
+
 ## [beta-v12.1.2] - 2026-09-29
 
 ### Changed

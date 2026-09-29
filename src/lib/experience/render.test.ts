@@ -1,5 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach } from 'vitest';
+import { toolPath } from '@lib/paths';
 import { renderExperience } from './render';
 import { successResult, card } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
@@ -41,7 +42,7 @@ const fullResult = (): InteractiveResult =>
     assumptions: [{ id: 'a1', label: 'Rate', value: '7%' }],
     explanation: 'It grows.',
     nextQuestions: ['What about inflation?'],
-    decisions: [{ id: 'd1', label: 'Check inflation', href: '/tool/finance/inflation-calculator/' }, { id: 'd2', label: 'No link' }],
+    decisions: [{ id: 'd1', label: 'Check inflation', tool: { slug: 'inflation-calculator', segment: 'finance' } }, { id: 'd2', label: 'No link' }],
   });
 
 describe('renderExperience', () => {
@@ -92,6 +93,20 @@ describe('renderExperience', () => {
     // explanation + next questions
     expect(root.querySelector('[data-explanation]')!.textContent).toBe('It grows.');
     expect(root.querySelectorAll('[data-section="nextQuestions"] li').length).toBe(1);
+  });
+
+  it('builds a tool decision href with the URL builder, and still honours a plain href', () => {
+    const root = shell();
+    renderExperience(root, {
+      ...fullResult(),
+      decisions: [
+        { id: 't', label: 'Tax', tool: { slug: 'tax-calculator', segment: 'number' } },
+        { id: 'h', label: 'Elsewhere', href: '/privacy/' },
+      ],
+    });
+    const links = [...root.querySelectorAll('[data-section="decisions"] a')].map((a) => a.getAttribute('href'));
+    expect(links).toEqual([toolPath({ slug: 'tax-calculator', segment: 'number' }), '/privacy/']);
+    expect(links[0]).toBe('/tool/number/tax-calculator/');
   });
 
   it('keeps aria-live on the hero only (no spam on metric rebuilds)', () => {

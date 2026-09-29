@@ -7,7 +7,7 @@ import type { ToolConfig } from '@data/types';
 import { getToolGroup } from '@data/tool-groups';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
 
 interface Props {
   tool: ToolConfig;
@@ -22,7 +22,7 @@ const members = (group?.members ?? []).map(member => {
   const segment = categories.find(c => c.slug === memberTool?.categorySlug)?.segment;
   return {
     ...member,
-    href: segment ? withBase(`/tool/${segment}/${member.slug}/`) : null,
+    href: segment ? toolPath({ slug: member.slug, segment }) : null,
     active: member.slug === tool.slug,
   };
 }).filter(m => m.href !== null);

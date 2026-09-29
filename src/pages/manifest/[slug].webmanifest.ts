@@ -2,7 +2,7 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { iconColors } from '@lib/icons/tool-icon';
-import { withBase } from '@lib/paths';
+import { withBase, toolPath } from '@lib/paths';
 
 // One W3C web app manifest per tool, so each tool installs as its own home-screen
 // app. Served at /manifest/<slug>.webmanifest and linked from the tool page head.
@@ -27,7 +27,7 @@ export const GET: APIRoute = ({ params }) => {
 
   const category = categories.find(c => c.slug === tool.categorySlug);
   const segment = category?.segment ?? tool.categorySlug;
-  const toolUrl = withBase(`/tool/${segment}/${tool.slug}/`);
+  const toolUrl = toolPath({ slug: tool.slug, segment });
   const svgUrl = withBase(`/icons/tool/${tool.slug}.svg`);
   const png = (size: number) => withBase(`/icons/tool/${tool.slug}-${size}.png`);
   const { accent, background } = iconColors(tool);

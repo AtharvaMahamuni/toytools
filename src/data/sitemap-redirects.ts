@@ -11,6 +11,7 @@
 // /sitemaps/languages.xml was deleted in 02cf644 (2026-06-25).
 
 import { withBase } from '@lib/paths';
+import { siteUrl } from '@config/site';
 
 export const SITEMAP_STUB_TARGET = '/sitemap-index.xml';
 
@@ -26,11 +27,9 @@ export const sitemapRedirects: SitemapRedirect[] = [
   { oldPath: '/sitemaps/languages.xml', title: 'Language sitemap' },
 ];
 
-const SITE_FALLBACK = 'https://toytoolsapp.com';
-
 /** The same shell as src/pages/tool/[...oldPath].astro, for a non-directory URL. */
 export function sitemapStubHtml(entry: SitemapRedirect, site: URL | undefined): string {
-  const origin = site ?? new URL(SITE_FALLBACK);
+  const origin = siteUrl(site);
   const target = withBase(SITEMAP_STUB_TARGET);
   const canonical = new URL(target, origin).href;
   return `<!doctype html>

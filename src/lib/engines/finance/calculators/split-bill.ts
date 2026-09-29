@@ -5,7 +5,7 @@ import type { FinanceCalculator } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { money } from '../format';
-import { insight, milestone, assumption, decision } from '../story';
+import { insight, milestone, assumption, toolDecision } from '../story';
 
 export const PEOPLE_MIN = 2;
 export const PEOPLE_MAX = 30;
@@ -157,7 +157,7 @@ export const splitBillCalc: FinanceCalculator = {
         assumption('Remainder paise', String(split.remainderPaise)),
       ],
       decisions: [
-        decision('Work out a tip percent on the tip calculator', '/tool/number/tip-calculator/'),
+        toolDecision('Work out a tip percent on the tip calculator', 'tip-calculator'),
       ],
       meta: { total, remainderPaise: split.remainderPaise, people: people.value, each, last },
     });

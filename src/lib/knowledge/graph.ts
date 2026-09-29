@@ -2,12 +2,14 @@
 // as prebuilt adjacency maps for near-O(1) queries. Pure core (buildGraph) takes its inputs
 // so it's testable with fixtures; a default `graph` instance is built over the real registries.
 //
-// Node urls are LOGICAL site-relative paths (no base prefix); Astro components apply withBase().
+// Node urls are LOGICAL site-relative paths (no base prefix), built by the route helpers in
+// src/lib/paths.ts; Astro components apply withBase().
 
 import type { ToolConfig, Category } from '@data/types';
 import { tools as allTools } from '@data/registry';
 import { categories as allCategories } from '@data/categories';
 import { KNOWLEDGE } from './registry';
+import { toolRoute, categoryRoute, guideRoute } from '@lib/paths';
 import { getRelatedTools, getRelatedGuides, relationTier, tierStrength } from '@lib/tools/related';
 import {
   CONTENT_TYPES,
@@ -28,7 +30,7 @@ function segmentOf(categorySlug: string, categories: Category[]): string {
 const nodeId = (type: string, slug: string) => `${type}:${slug}`;
 
 function toolUrl(t: ToolConfig, categories: Category[]): string {
-  return `/tool/${segmentOf(t.categorySlug, categories)}/${t.slug}/`;
+  return toolRoute({ slug: t.slug, segment: segmentOf(t.categorySlug, categories) });
 }
 
 /** Build the full content graph from explicit inputs. Pure — no module-level registry reads. */
@@ -49,7 +51,7 @@ export function buildGraph(
       slug: c.slug,
       title: c.name,
       category: c.slug,
-      url: `/category/${c.slug}/`,
+      url: categoryRoute(c),
     });
   }
 
@@ -71,7 +73,7 @@ export function buildGraph(
         slug: t.slug,
         title: t.guide.title,
         category: t.categorySlug,
-        url: `/guide/${t.guide.categorySlug}/${t.guide.slug}/`,
+        url: guideRoute(t.guide),
       });
     }
   }

@@ -10,7 +10,7 @@ import { engineRegistry } from '@data/engines';
 import { tools } from '@data/registry';
 import { graph } from '@lib/knowledge/graph';
 import { RELATION_TYPES } from '@lib/knowledge/types';
-import { withBase } from '../lib/paths';
+import { withBase, toolPath } from '../lib/paths';
 
 // --- id helpers — mermaid node ids must be hyphen-free, so slugs map to underscores ----------
 const catId = (slug: string) => `cat_${slug.replace(/-/g, '_')}`;
@@ -184,7 +184,7 @@ for (const cat of categories) {
   for (const eng of engineRegistry.filter(e => e.category === cat.slug)) {
     const engTools = tools
       .filter(t => t.engine === eng.id)
-      .map(t => ({ name: t.name, url: withBase(`/tool/${segmentFor(t.categorySlug)}/${t.slug}/`) }));
+      .map(t => ({ name: t.name, url: toolPath({ slug: t.slug, segment: segmentFor(t.categorySlug) }) }));
     const chips = [
       ...eng.patterns.map(p => `pattern: ${p}`),
       ...eng.supportedFamilies.map(f => `family: ${f}`),

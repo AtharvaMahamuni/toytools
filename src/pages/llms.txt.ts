@@ -1,11 +1,10 @@
 import type { APIRoute } from 'astro';
 import { contentByType } from '@lib/content/manifest';
 import { renderLlmsTxt } from '@lib/llms/render';
-
-const SITE_FALLBACK = 'https://toytoolsapp.com';
+import { siteUrl } from '@config/site';
 
 export const GET: APIRoute = ({ site }) => {
-  const base = (site ?? new URL(SITE_FALLBACK)).href;
+  const base = siteUrl(site).href;
   const categoryEntries = contentByType('category');
   const standalone = contentByType('page');
   const feedbackEntry = standalone.find(p => p.slug === 'feedback');

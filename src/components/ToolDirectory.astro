@@ -7,7 +7,7 @@
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
 import { toolGroups } from '@data/tool-groups';
-import { withBase } from '@lib/paths';
+import { categoryPath, toolPath } from '@lib/paths';
 
 interface DirectoryEntry {
   label: string;
@@ -33,14 +33,14 @@ function entriesFor(categorySlug: string, segment: string): DirectoryEntry[] {
       const first = group.members[0]!;
       entries.push({
         label: group.name,
-        href: withBase(`/tool/${segment}/${first.slug}/`),
+        href: toolPath({ slug: first.slug, segment }),
         slug: first.slug,
         groupSlugs: group.members.map(m => m.slug).join(','),
       });
     } else {
       entries.push({
         label: t.name,
-        href: withBase(`/tool/${segment}/${t.slug}/`),
+        href: toolPath({ slug: t.slug, segment }),
         slug: t.slug,
       });
     }
@@ -50,7 +50,7 @@ function entriesFor(categorySlug: string, segment: string): DirectoryEntry[] {
 
 const columns = categories.map(c => ({
   name: c.name,
-  href: withBase(`/category/${c.slug}/`),
+  href: categoryPath(c),
   count: tools.filter(t => t.categorySlug === c.slug).length,
   entries: entriesFor(c.slug, c.segment),
 }));

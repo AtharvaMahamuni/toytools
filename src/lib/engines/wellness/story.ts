@@ -15,31 +15,34 @@ export function assumption(label: string, value: string): Assumption {
   return { id: uid('asm'), label, value };
 }
 
-// Cross-tool decision links. Absolute paths (the site is served from the apex domain with no base
-// path, and these render client-side so the build-time withBase helper does not apply). Only tools
-// that already ship appear here; a decision to a not-yet-built sibling returns null and is filtered
-// out, then lights up once that tool's slug lands.
-export const WELLNESS_TOOL_PATH: Record<string, string> = {
-  'bmi-calculator': '/tool/health/bmi-calculator/',
-  'tdee-calculator': '/tool/health/tdee-calculator/',
-  'body-fat-calculator': '/tool/health/body-fat-calculator/',
-  'macro-calculator': '/tool/health/macro-calculator/',
-  'ideal-weight-calculator': '/tool/health/ideal-weight-calculator/',
-  'heart-rate-zone-calculator': '/tool/health/heart-rate-zone-calculator/',
-  'water-intake-tracker': '/tool/health/water-intake-tracker/',
-  'body-weight-tracker': '/tool/health/body-weight-tracker/',
-  'move-today-tracker': '/tool/health/move-today-tracker/',
-  'bmr-calculator': '/tool/health/bmr-calculator/',
-  'calorie-deficit-calculator': '/tool/health/calorie-deficit-calculator/',
-  'protein-intake-calculator': '/tool/health/protein-intake-calculator/',
-  'one-rep-max-calculator': '/tool/health/one-rep-max-calculator/',
-  'running-pace-calculator': '/tool/health/running-pace-calculator/',
+// Cross-tool decision links. Engines name the tool by slug and never write its URL: a decision
+// carries { slug, segment } and the experience renderer makes the href with the URL builder
+// (toolPath in src/lib/paths.ts), so the base path and the URL shape live in one place. The map
+// holds the one thing a link needs besides the slug, the tool's URL segment; the engine href
+// contract test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
+// Only tools that already ship appear here; a decision to a not-yet-built sibling returns null
+// and is filtered out, then lights up once that tool's slug is added in its own PR.
+export const WELLNESS_LINKED_TOOLS: Record<string, string> = {
+  'bmi-calculator': 'health',
+  'tdee-calculator': 'health',
+  'body-fat-calculator': 'health',
+  'macro-calculator': 'health',
+  'ideal-weight-calculator': 'health',
+  'heart-rate-zone-calculator': 'health',
+  'water-intake-tracker': 'health',
+  'body-weight-tracker': 'health',
+  'move-today-tracker': 'health',
+  'bmr-calculator': 'health',
+  'calorie-deficit-calculator': 'health',
+  'protein-intake-calculator': 'health',
+  'one-rep-max-calculator': 'health',
+  'running-pace-calculator': 'health',
 };
 
 /** A decision linking to a sibling wellness tool, or null when that tool has not shipped yet. */
 export function toolDecision(label: string, slug: string): Decision | null {
-  const href = WELLNESS_TOOL_PATH[slug];
-  return href ? { id: uid('dec'), label, href } : null;
+  const segment = WELLNESS_LINKED_TOOLS[slug];
+  return segment ? { id: uid('dec'), label, tool: { slug, segment } } : null;
 }
 
 /** Drop the nulls from a decisions list (siblings that have not shipped). */

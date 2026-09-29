@@ -1,6 +1,6 @@
 ---
 import type { EcosystemEntry } from '@data/types';
-import { withBase } from '../lib/paths';
+import { guidePath, toolPath } from '../lib/paths';
 
 interface Props {
   currentType: 'tool' | 'guide';
@@ -12,9 +12,9 @@ interface Props {
 
 const { currentType, toolSlug, toolCategorySegment, toolName, entry } = Astro.props;
 
-const toolHref = withBase(`/tool/${toolCategorySegment}/${toolSlug}/`);
+const toolHref = toolPath({ slug: toolSlug, segment: toolCategorySegment });
 const guideHref = entry.guide
-  ? withBase(`/guide/${entry.guide.categorySlug}/${entry.guide.slug}/`)
+  ? guidePath(entry.guide)
   : null;
 
 const links = [

@@ -9,7 +9,7 @@ import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import type { Category, Tool } from '@data/types';
-import { withBase } from '@lib/paths';
+import { withBase, toolPath } from '@lib/paths';
 import { PRIVACY_LINE, privacyStatement } from '@lib/privacy';
 
 /**
@@ -138,7 +138,7 @@ function coreToolLines(site: string): string {
   }
   return CORE_TOOL_SLUGS.map(slug => {
     const tool = bySlug.get(slug)!;
-    const path = withBase(`/tool/${segmentOf(tool.categorySlug)}/${tool.slug}/`);
+    const path = toolPath({ slug: tool.slug, segment: segmentOf(tool.categorySlug) });
     const blurb = tool.tagline ?? tool.description;
     return `- [${tool.name}](${absoluteUrl(path, site)}): ${blurb}`;
   }).join('\n');
@@ -152,7 +152,7 @@ function prepToolLines(site: string): string {
   }
   return PREP_HIGHLIGHT_SLUGS.map(slug => {
     const tool = bySlug.get(slug)!;
-    const path = withBase(`/tool/${segmentOf(tool.categorySlug)}/${tool.slug}/`);
+    const path = toolPath({ slug: tool.slug, segment: segmentOf(tool.categorySlug) });
     const blurb = tool.tagline ?? tool.description;
     return `- [${tool.name}](${absoluteUrl(path, site)}): ${blurb}`;
   }).join('\n');
@@ -237,7 +237,7 @@ export function renderLlmsFull(site: string, catalog: Tool[] = tools): string {
 
   const blocks = sorted.map(tool => {
     const segment = segmentOf(tool.categorySlug);
-    const path = withBase(`/tool/${segment}/${tool.slug}/`);
+    const path = toolPath({ slug: tool.slug, segment });
     return [
       `## ${tool.name}`,
       '',

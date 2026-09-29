@@ -8,7 +8,8 @@ import CategoryGuideList from '@components/CategoryGuideList.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { engineRegistry } from '@data/engines';
-import { withBase } from '../../lib/paths';
+import { withBase, canonicalFor } from '../../lib/paths';
+import { BRAND_NAME } from '@config/site';
 
 export const getStaticPaths = (() => {
   return categories.map(category => {
@@ -48,7 +49,7 @@ const collectionSchema = {
   name: headline,
   description: category.description,
   url: Astro.url.href,
-  isPartOf: { '@type': 'WebSite', name: 'ToyTools', url: abs('/') },
+  isPartOf: { '@type': 'WebSite', name: BRAND_NAME, url: abs('/') },
   mainEntity: {
     '@type': 'ItemList',
     numberOfItems: categoryTools.length,
@@ -56,7 +57,7 @@ const collectionSchema = {
       '@type': 'ListItem',
       position: i + 1,
       name: t.name,
-      url: abs(`/tool/${category.segment}/${t.slug}/`),
+      url: canonicalFor({ kind: 'tool', slug: t.slug, segment: category.segment }, Astro.site),
     })),
   },
 };

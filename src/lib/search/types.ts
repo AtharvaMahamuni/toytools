@@ -4,6 +4,12 @@
 // them from ./index would drag the whole registry (every tool config, every category) into a chunk
 // that is meant to be a few kilobytes. Type-only imports are erased, but entryUrl is real code,
 // so it has to live somewhere with no build-time dependencies.
+//
+// That includes the URL builder: importing src/lib/paths.ts here would make it a chunk shared
+// between the palette and the engine bundles, an extra request on every engine page. So entryUrl
+// spells the tool route itself, and src/lib/search/entry-url.test.ts pins it to toolPath() for
+// every tool in the registry. It is the one allowlisted raw `/tool/` template outside paths.ts
+// (src/lib/url-literals.test.ts).
 
 import type { RankableEntry } from './rank';
 

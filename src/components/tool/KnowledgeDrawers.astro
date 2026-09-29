@@ -39,7 +39,7 @@ import { getKnowledge } from '@lib/knowledge/registry';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { getRelatedTools } from '@lib/tools/related';
-import { withBase } from '@lib/paths';
+import { categoryPath, toolPath } from '@lib/paths';
 import { privacyStatement } from '@lib/privacy';
 import type { FAQItem, Tool } from '@data/types';
 
@@ -149,7 +149,7 @@ function citeSentence(nonGoal: string): string {
                   {i > 0 && <span class="kd-sep" aria-hidden="true">·</span>}
                   <a
                     class="kd-sibling"
-                    href={withBase(`/tool/${cat?.segment ?? r.categorySlug}/${r.slug}/`)}
+                    href={toolPath({ slug: r.slug, segment: cat?.segment ?? r.categorySlug })}
                   >{r.name}</a>
                 </>
               );
@@ -166,7 +166,7 @@ function citeSentence(nonGoal: string): string {
       )}
 
       {category && (
-        <a class="kd-link" href={withBase(`/category/${category.slug}/`)}>
+        <a class="kd-link" href={categoryPath(category)}>
           All {category.name}
           <span class="kd-out" aria-hidden="true">↗</span>
         </a>

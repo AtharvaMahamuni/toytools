@@ -17,7 +17,7 @@ wins. Best teacher: open `src/tools/developer/json-formatter/Guide.astro` and
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -31,7 +31,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout {...props} toolSlug={config.slug} toolName={config.name} toolCategorySlug={config.categorySlug}>
@@ -43,7 +43,11 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 </style>
 ```
 
-Note the URL is `/tool/...` (singular). There are no standalone FAQ pages and
+Build every tool, category and guide link with the URL builder in `src/lib/paths.ts`
+(`toolPath`, `categoryPath`, `guidePath`). A NEW `Guide.astro` with a raw
+`` `/tool/${...}/` `` or `` `/category/${...}/` `` template fails `src/lib/url-literals.test.ts`;
+only the guides that predate the builder are allowlisted, until C4 migrates them. Note the URL is
+`/tool/...` (singular). There are no standalone FAQ pages and
 no `faqHref`/`FAQPreview`: the FAQ renders automatically on the tool page once
 registered in `src/data/faq-registry.ts`.
 

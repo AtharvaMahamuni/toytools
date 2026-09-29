@@ -5,7 +5,7 @@
 import type { ToolConfig, Category } from '@data/types';
 import { sectionsByPattern } from '@data/category-sections';
 import { toolGroups } from '@data/tool-groups';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
 import AppTile from '@components/AppTile.astro';
 
 interface Props {
@@ -36,7 +36,7 @@ interface Section {
 
 const groupById = new Map(toolGroups.map(g => [g.id, g]));
 const toolsBySlug = new Map(categoryTools.map(t => [t.slug, t]));
-const toolHref = (slug: string) => withBase(`/tool/${category.segment}/${slug}/`);
+const toolHref = (slug: string) => toolPath({ slug, segment: category.segment });
 
 const sections = new Map<string, Section>();
 const seenGroups = new Set<string>();

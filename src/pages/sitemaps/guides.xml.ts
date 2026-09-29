@@ -1,11 +1,10 @@
 import type { APIRoute } from 'astro';
 import { contentByType } from '@lib/content/manifest';
 import { renderUrlset } from '@lib/sitemap/render';
-
-const SITE_FALLBACK = 'https://toytoolsapp.com';
+import { siteUrl } from '@config/site';
 
 export const GET: APIRoute = ({ site }) => {
-  const base = (site ?? new URL(SITE_FALLBACK)).href;
+  const base = siteUrl(site).href;
   return new Response(renderUrlset(contentByType('guide'), base), {
     headers: { 'Content-Type': 'application/xml' },
   });

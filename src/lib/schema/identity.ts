@@ -2,9 +2,12 @@
 //
 // Models need a person they can attach to the publisher; humans should not see a byline. The
 // credit stays in the HTML (hidden) and in these nodes. @id values are the production origin on
-// purpose, so a preview build still names the same entities.
+// purpose, so a preview build still names the same entities. The origin, the brand name and the X
+// account come from the site identity (src/config/site.ts); the @id values are unchanged.
 
-export const SITE_ORIGIN = 'https://toytoolsapp.com';
+import { SITE_ORIGIN, BRAND_NAME, BRAND_X_HANDLE, BRAND_X_URL } from '@config/site';
+
+export { SITE_ORIGIN };
 export const ORG_ID = `${SITE_ORIGIN}/#org`;
 export const PERSON_ID = `${SITE_ORIGIN}/#atharva`;
 
@@ -16,8 +19,8 @@ export const AUTHOR = {
 
 /** The site's own X account, signed next to "Powered by ToyTools". */
 export const BRAND_X = {
-  handle: '@ToytoolsApp',
-  url: 'https://x.com/ToytoolsApp',
+  handle: BRAND_X_HANDLE,
+  url: BRAND_X_URL,
 } as const;
 
 export function personNode(): Record<string, unknown> {
@@ -34,7 +37,7 @@ export function organizationNode(logoUrl: string): Record<string, unknown> {
   return {
     '@type': 'Organization',
     '@id': ORG_ID,
-    name: 'ToyTools',
+    name: BRAND_NAME,
     url: `${SITE_ORIGIN}/`,
     logo: logoUrl,
     founder: { '@id': PERSON_ID },

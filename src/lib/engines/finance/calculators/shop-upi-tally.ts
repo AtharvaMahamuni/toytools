@@ -6,7 +6,7 @@ import type { FinanceCalculator } from '../types';
 import { successResult, card, validationError } from '@lib/results/index';
 import type { InteractiveResult } from '@lib/results/types';
 import { money } from '../format';
-import { insight, milestone, assumption, decision } from '../story';
+import { insight, milestone, assumption, toolDecision } from '../story';
 
 export const SHOP_BAND = 100_000;
 export const SHOP_STORE_KEY = 'toytools.shop-upi-tally.v1';
@@ -188,7 +188,7 @@ export const shopUpiTally: FinanceCalculator = {
         assumption('Band', '1,00,000 rupees, a reference line only'),
       ],
       decisions: [
-        decision('Estimate a merchant MDR on a different page', '/tool/finance/upi-mdr-estimator/'),
+        toolDecision('Estimate a merchant MDR on a different page', 'upi-mdr-estimator'),
       ],
       explanation: SHOP_CAUTION,
       meta: {

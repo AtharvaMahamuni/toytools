@@ -1,7 +1,7 @@
 ---
 import type { Tool } from '@data/types';
 import { categories } from '@data/categories';
-import { withBase } from '../lib/paths';
+import { toolPath } from '../lib/paths';
 
 interface Props {
   tool: Tool;
@@ -11,7 +11,7 @@ interface Props {
 
 const { tool, categoryName, categorySegment: segmentProp } = Astro.props;
 const segment = segmentProp ?? categories.find(c => c.slug === tool.categorySlug)?.segment ?? tool.categorySlug;
-const toolHref = withBase(`/tool/${segment}/${tool.slug}/`);
+const toolHref = toolPath({ slug: tool.slug, segment });
 // Tagline is the short on-page line; description is the SEO meta (up to 160 chars). Cards
 // that print the meta blow the /search/ HTML budget as those metas thicken.
 const blurb = tool.tagline || tool.description;

@@ -170,6 +170,11 @@ a validator fails — or, worse, drifts silently.
   `npm run registries:generate` (scaffold does it for you). Registration is **derived** from the
   directory, never hand-edited (`*.generated.ts` barrels; `validate-architecture` fails the build
   when they are stale). A `processorId` must resolve in its engine registry **and** be unique.
+  A **new** widget follows the **Tool Render Unit** contract (`ARCHITECTURE.md`): one
+  `[data-tool=<slug>]` root, slug-prefixed IDs, queries from that root, links through the URL
+  builder (engines return slugs), no page-level shortcuts, and no analytics, service worker,
+  install prompt or feedback capture of its own. Existing widgets are grandfathered, not
+  refactored.
 - **Add a category** → besides `src/data/categories.ts`, run `npm run registries:generate`: tool
   routes are **one generated file per segment** (`src/pages/tool/<segment>/[slug].astro`), so a new
   segment needs its route emitted. There is no catch-all route: a single route globbing
@@ -221,7 +226,10 @@ Two deploy-facing hard rules:
   against a host whose `public/<key>.txt` is not already live (it caches a `403` ownership failure).
   See `docs/indexnow.md`.
 - **Browser titles** come from `generatePageTitle` (`src/lib/titles.ts`) via the layouts. **Never set
-  a title inside a tool file.** A new page *type* adds a case there.
+  a title inside a tool file.** A new page *type* adds a case there, ending in `TITLE_SUFFIX`.
+- **Site identity** (origin, hostnames, brand name, title suffix, X account, GA id, social card)
+  lives in `src/config/site.ts`. Import it; never write `https://toytoolsapp.com` or the brand as
+  a literal.
 
 ## Commands
 
@@ -353,17 +361,22 @@ No empty-state lectures, no settings for a one-job tool, no second copy of the g
 
 Local tools still use the exact privacy line: Runs entirely on your device. Nothing is uploaded.
 
-## Path/URL handling — always use `withBase`
+## Path/URL handling: the URL builder and `withBase`
 
-Every internal `href` and form `action` goes through `src/lib/paths.ts:withBase()`. Bypassing it
-breaks deployed links.
+Tool, category and guide URLs come from the builder in `src/lib/paths.ts` (`toolPath`,
+`categoryPath`, `guidePath`, `urlFor`, `canonicalFor`), which sends every output through
+`withBase()`. Every other internal `href` and form `action` goes through `withBase()` directly.
+Bypassing either breaks deployed links, and `src/lib/url-literals.test.ts` fails on a new raw
+`/tool/` or `/category/` template (existing `Guide.astro` files are allowlisted until C4).
 
 ```astro
-<a href={withBase(`/category/${category.slug}/`)}>   {/* correct */}
-<a href={`/category/${category.slug}/`}>             {/* wrong — breaks on GitHub Pages */}
+<a href={categoryPath(category)}>                     {/* correct */}
+<a href={toolPath({ slug: tool.slug, segment })}>     {/* correct */}
+<a href={withBase(`/category/${category.slug}/`)}>   {/* wrong: fails the URL lint */}
 ```
 
-`withBase` is a build-time server function; **do not call it inside `<script is:inline>`**.
+`withBase` and the builder run at build time in Astro files; **do not call them inside
+`<script is:inline>`**. Bundled client code (engines, the experience renderer) may import them.
 
 URL structure (singular, not plural):
 
@@ -414,8 +427,10 @@ visual, also check a real phone or the installed PWA.
 
 ## Platform notes
 
-- **Analytics.** GA4 (`G-WHD7CL44MX`) is included on every page via `BaseLayout`. New pages inherit
-  it automatically. **Never add a second `gtag` snippet.**
+- **Analytics.** GA4 (`G-WHD7CL44MX`, `GA_MEASUREMENT_ID` in `src/config/site.ts`) is included on
+  every page via `BaseLayout`, and loads only on the production hostnames in the top window; the
+  service worker follows the same rule. New pages inherit it automatically. **Never add a second
+  `gtag` snippet.**
 - **Feedback.** `/feedback/` collects user problems via a `mailto:` URL with **no third party of any
   kind**. **Do not introduce a form endpoint** (Web3Forms, Formspree, Netlify Forms, a serverless
   function): a static page cannot send email, and any "fix" for that is a third-party server, which

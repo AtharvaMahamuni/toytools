@@ -324,15 +324,18 @@ Add these data attributes to the output element for correct CopyButton behaviour
 ```
 
 ### Internal links
-Always wrap in `withBase()`:
+Tool, category and guide links come from the URL builder; everything else goes through
+`withBase()`:
 ```ts
-import { withBase } from '@lib/paths';
+import { toolPath, categoryPath, withBase } from '@lib/paths';
 // correct
-<a href={withBase(`/tools/${category.segment}/${config.slug}/`)}>
-// wrong — breaks on GitHub Pages
-<a href={`/tools/${category.segment}/${config.slug}/`}>
+<a href={toolPath({ slug: config.slug, segment: category.segment })}>
+<a href={categoryPath(category)}>
+<a href={withBase('/settings/')}>
+// wrong: breaks on GitHub Pages, and fails src/lib/url-literals.test.ts
+<a href={`/tool/${category.segment}/${config.slug}/`}>
 ```
-`withBase` is a build-time server function. Do not call it inside `<script is:inline>`.
+Neither runs inside `<script is:inline>` (no imports there).
 
 ---
 

@@ -23,21 +23,27 @@ export function decision(label: string, href?: string): Decision {
   return { id: uid('dec'), label, href };
 }
 
-// Tool URLs for cross-tool decisions. Plain absolute paths: the site is served from the apex domain
-// (no base path) and locally from root, so these resolve in both. Rendered client-side, so withBase
-// (a build-time helper) does not apply here.
-export const FINANCE_TOOL_PATH: Record<string, string> = {
-  'compound-interest-calculator': '/tool/finance/compound-interest-calculator/',
-  'savings-goal-calculator': '/tool/finance/savings-goal-calculator/',
-  'emergency-fund-calculator': '/tool/finance/emergency-fund-calculator/',
-  'inflation-calculator': '/tool/finance/inflation-calculator/',
-  'rule-of-72-calculator': '/tool/finance/rule-of-72-calculator/',
-  'sip-calculator': '/tool/finance/sip-calculator/',
-  'roi-calculator': '/tool/finance/roi-calculator/',
-  'cagr-calculator': '/tool/finance/cagr-calculator/',
+// Cross-tool decision links. Engines name the tool by slug and never write its URL: a decision
+// carries { slug, segment } and the experience renderer makes the href with the URL builder
+// (toolPath in src/lib/paths.ts), so the base path and the URL shape live in one place. The map
+// holds the one thing a link needs besides the slug, the tool's URL segment; the engine href
+// contract test (src/lib/engines/href-contract.test.ts) checks every entry against the registry.
+export const FINANCE_LINKED_TOOLS: Record<string, string> = {
+  'compound-interest-calculator': 'finance',
+  'savings-goal-calculator': 'finance',
+  'emergency-fund-calculator': 'finance',
+  'inflation-calculator': 'finance',
+  'rule-of-72-calculator': 'finance',
+  'sip-calculator': 'finance',
+  'roi-calculator': 'finance',
+  'cagr-calculator': 'finance',
+  'upi-mdr-estimator': 'finance',
+  'tax-calculator': 'number',
+  'tip-calculator': 'number',
 };
 
-/** A decision that links to a sibling finance tool. */
+/** A decision that links to another tool by slug (a finance sibling, or tax / tip). */
 export function toolDecision(label: string, slug: string): Decision {
-  return decision(label, FINANCE_TOOL_PATH[slug]);
+  const segment = FINANCE_LINKED_TOOLS[slug];
+  return segment ? { ...decision(label), tool: { slug, segment } } : decision(label);
 }

@@ -180,7 +180,9 @@ describe('story helpers', () => {
     expect(toolDecision('Nope', 'no-such-tool')).toBeNull();
     const kept = decisions([toolDecision('See the public address', 'what-is-my-ip'), null]);
     expect(kept).toHaveLength(1);
-    expect(kept[0]?.href).toContain('what-is-my-ip');
+    // Engines name the tool; the experience renderer builds the href (render.test.ts).
+    expect(kept[0]?.tool).toEqual({ slug: 'what-is-my-ip', segment: 'developer-utilities' });
+    expect(kept[0]?.href).toBeUndefined();
     expect(insight('A note').tone).toBe('info');
   });
 });
