@@ -27,6 +27,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   policy sit behind "Optional (3)". On desktop the fields and the file sit side by side.
 - **Copy stays in reach on a phone.** Prompt Packer, Chat Export Cleaner and llms.txt Generator
   pin Copy (and Download on llms.txt) to the bottom of the screen while the tool is in view.
+- **The pinned bar never hides the field you are typing in.** Moving focus with Tab scrolls
+  the field clear of the bar, so the focused box always starts above it (WCAG 2.2 Focus Not
+  Obscured).
 - **Box heights retuned.** Inputs open at three to six rows; results open at 12rem on a phone
   (they were 80px to 128px after beta-v12.0.2) and 16 to 20rem on desktop. All still resizable.
 - Moved text is still on the page, under "More about", not deleted.
