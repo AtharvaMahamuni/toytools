@@ -39,8 +39,9 @@
    (Paste, Clear, Download, Sample) on one row at 390px. */
 .sd-slim { --io-pane-h: 10rem; }
 @media (min-width: 1024px) {
-  /* Desktop split: the textarea body plus its header matches the 280px output pane floor. */
-  .sd-slim { --io-pane-h: 14rem; }
+  /* Desktop split: 18rem (288px) body, so the output facing it keeps about 12rem of JSON under
+     its header and status line. */
+  .sd-slim { --io-pane-h: 18rem; }
 }
 .sd-slim .tool-actions {
   flex-wrap: nowrap;
@@ -56,12 +57,15 @@
    KnowledgeDrawers' "More about" row on load. It is never painted inside the widget, before or
    after the move, so the move shifts nothing. */
 .more-about { display: none; }
+/* Closed, it is one more trigger on the drawer row; open, it claims a full row, as .kd does. */
 .knowledge-drawers .more-about,
 .more-about.more-about--inline {
   display: block;
-  flex: 1 0 100%;
-  max-width: 65ch;
+  flex: 0 1 auto;
+  max-width: 100%;
 }
+.knowledge-drawers .more-about:has(details[open]) { flex: 1 0 100%; }
+.more-about details > :not(summary) { max-width: 65ch; }
 .more-about .widget-details { margin-top: 0; }
 .more-about summary h2 {
   margin: 0;

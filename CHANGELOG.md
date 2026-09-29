@@ -2,6 +2,35 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1] - 2026-09-29
+
+### Changed
+
+- **Prep tools are slimmer on a phone.** The six /tool/prep/ pages are built to fit about one
+  390x844 screen, with the result on or near the first screen. Measured widget
+  height on a 390x844 phone, empty page, before and after: Prompt Packer 1.40 to 0.91 screens,
+  Chat Export Cleaner 1.43 to 0.76, JSON to JSON Schema 1.24 to 0.72, JSON Schema Validator 0.77
+  to 0.62, Context Fit Checker 0.72 to 0.45, llms.txt Generator 1.31 to 1.04.
+- **Prompt Packer:** Role and Task stay open; Context, Constraints and Output format sit behind
+  "More fields (3)", which opens itself when any of them holds text. The Markdown / Tags switch
+  moved into the prompt's own header. On desktop the fields and the prompt sit side by side.
+- **Chat Export Cleaner:** the six cleanup switches and four keep modes fold into one line that
+  says what they are set to ("Cleanup: 6 of 6 on · Keep: Everything") and expands on tap. The
+  cleaned text sits directly under the status line.
+- **JSON to JSON Schema:** the explanation card and Technical details moved to "More about";
+  Paste, Clear, Download and Sample share one row. Other JSON tools are unchanged.
+- **JSON Schema Validator:** a Valid / Invalid badge right under the two boxes, the first three
+  problems with "Show all (N)" for the rest, and Paste on the same row as Sample and Clear.
+- **Context Fit Checker:** one result line ("~1,000 tokens · 0.8% of 128,000 · Fits") with the
+  estimate label beside it. The window source and checked date moved to "More about".
+- **llms.txt Generator:** Name, URL, Purpose and Tools stay open; Contact, Usage and Crawler
+  policy sit behind "Optional (3)". On desktop the fields and the file sit side by side.
+- **Copy stays in reach on a phone.** Prompt Packer, Chat Export Cleaner and llms.txt Generator
+  pin Copy (and Download on llms.txt) to the bottom of the screen while the tool is in view.
+- **Box heights retuned.** Inputs open at three to six rows; results open at 12rem on a phone
+  (they were 80px to 128px after beta-v12.0.2) and 16 to 20rem on desktop. All still resizable.
+- Moved text is still on the page, under "More about", not deleted.
+
 ## [beta-v12.0.2] - 2026-09-27
 
 ### Changed
