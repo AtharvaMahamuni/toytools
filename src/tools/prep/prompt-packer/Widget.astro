@@ -5,6 +5,7 @@
 // Phone-first layout (beta-v12.1): Role and Task open, the other three behind a counted
 // disclosure that opens itself when any of them holds text, the Markdown/Tags switch in the
 // output's own header, and a sticky Copy row on phones.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import Disclosure from '@tools/_shared/Disclosure.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
@@ -122,6 +123,10 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var format = 'markdown';
     var clearArmed = false;
     var clearTimer = 0;
+    var more = document.getElementById('pp-more');
+    function syncMore() {
+      if (more) more.dispatchEvent(new CustomEvent('tt:disclosure-sync', { bubbles: true }));
+    }
 
     function fields() {
       return {
@@ -170,7 +175,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       outputFormat.value = 'Use headings and bullet points.';
       disarm();
       paint();
-      if (ToyTools.disclosure) ToyTools.disclosure.openIfFilled('pp-more');
+      syncMore();
     });
     clearBtn.addEventListener('click', function () {
       if (!clearArmed) {
@@ -188,7 +193,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       paint();
     });
     // A browser that restores form values (back/forward) can refill a hidden field.
-    if (ToyTools.disclosure) ToyTools.disclosure.openIfFilled('pp-more');
+    syncMore();
     paint();
   });
 </script>

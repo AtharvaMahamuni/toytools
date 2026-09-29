@@ -664,67 +664,6 @@
   }
 }
 
-/* ToolActions sticky (opt-in, Prep slimming beta-v12.1). On a phone the Copy row pins to the
-   bottom of the screen while its widget is in view, so a long result never puts Copy a scroll
-   away. Sticky, not fixed: it stays in the flow, so it never covers the last thing in the widget
-   (at the end of the widget it simply sits in its own slot) and it cannot follow the reader into
-   Zone C. The top edge is the one line the design rules keep for "this floats" (.tool-action). */
-@media (max-width: 639px) {
-  .tool-actions--sticky {
-    position: sticky;
-    bottom: 0;
-    z-index: var(--z-raised);
-    margin-inline: calc(var(--space-4) * -1);
-    padding: var(--space-3) var(--space-4) max(var(--space-3), env(safe-area-inset-bottom));
-    background: var(--color-bg);
-    border-top: var(--border);
-  }
-}
-
-/* StructuredDataWidget slim={true} (opt-in; JSON to JSON Schema only). Every rule is under
-   .sd-slim, a wrapper rendered only when the flag is set, so the seven other structured-data
-   tools get byte-identical markup and no new styles. Input about six mono rows; the actions
-   (Paste, Clear, Download, Sample) on one row at 390px. */
-.sd-slim { --io-pane-h: 10rem; }
-@media (min-width: 1024px) {
-  /* Desktop split: the textarea body plus its header matches the 280px output pane floor. */
-  .sd-slim { --io-pane-h: 14rem; }
-}
-.sd-slim .tool-actions {
-  flex-wrap: nowrap;
-  gap: var(--space-2);
-}
-.sd-slim .tool-actions .action-btn {
-  padding-inline: var(--space-3);
-  white-space: nowrap;
-}
-
-/* Handed to Zone C. A widget marks explanatory text it does not need on the tool screen with
-   [data-more-about]; KnowledgeDrawers moves the element into its "More about" row on load. The
-   text ships in the HTML (it is indexable and in the DOM), it is just not painted inside the
-   widget, before or after the move. */
-.more-about { display: none; }
-.knowledge-drawers .more-about,
-.more-about.more-about--inline {
-  display: block;
-  flex: 1 0 100%;
-  max-width: 65ch;
-}
-.more-about .widget-details { margin-top: 0; }
-.more-about summary h2 {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-}
-.more-about details[open] summary h2 { color: var(--color-text); }
-.more-about p {
-  margin: 0 0 var(--space-3);
-  font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
-  color: var(--color-text-muted);
-}
-
 /* Focus / takeover mode — shared by notepad, todo-list.
    The live .tool-panel is promoted to a fixed, opaque overlay so the tool
    stays interactive while covering page chrome. Toast (--z-overlay) stays above. */

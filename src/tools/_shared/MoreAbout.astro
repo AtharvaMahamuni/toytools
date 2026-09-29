@@ -1,0 +1,41 @@
+---
+// Explanatory text a widget does not need on the tool screen, handed to Zone C (Prep slimming,
+// beta-v12.1). The markup ships inside the widget, so it is in the HTML and the DOM for search
+// and for readers without JS; a one-line script moves it to the head of KnowledgeDrawers'
+// "More about" row, and .more-about (src/styles/prep-slim.css) never paints it inside the widget,
+// so the move shifts nothing on screen. If the row is absent it stays put and is shown inline.
+//
+// The script is rendered only where this component is, so pages that never use it (every tool
+// outside Prep, and StructuredDataWidget without `slim`) carry no extra bytes.
+interface Props {
+  /** id of the <details>, for deep links */
+  id: string;
+  /** A real <h2> naming the concept, like the drawers beside it. */
+  heading: string;
+}
+const { id, heading } = Astro.props;
+---
+
+<div class="more-about" data-more-about>
+  <details class="widget-details" id={id}>
+    <summary><h2>{heading}</h2></summary>
+    <slot />
+  </details>
+</div>
+
+<script is:inline>
+  (function () {
+    if (window.__ttMoreAbout) return;
+    window.__ttMoreAbout = true;
+    function adopt() {
+      var row = document.querySelector('#kd-more .kd-row');
+      var items = document.querySelectorAll('[data-more-about]');
+      for (var i = items.length - 1; i >= 0; i--) {
+        if (row) row.insertBefore(items[i], row.firstChild);
+        else items[i].classList.add('more-about--inline');
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', adopt);
+    else adopt();
+  })();
+</script>

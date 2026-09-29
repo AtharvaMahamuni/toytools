@@ -4,6 +4,7 @@
 // Phone-first layout (beta-v12.1): Name, URL, Purpose and Tools open; Contact, Usage and
 // Crawler policy behind "Optional (3)", which opens itself when any of them holds text; the
 // file directly under the fields; Copy and Download sticky on phones.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import Disclosure from '@tools/_shared/Disclosure.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
@@ -118,6 +119,10 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var fields = [name, url, purpose, contact, pages, usage, policy];
     var clearArmed = false;
     var clearTimer = 0;
+    var more = document.getElementById('lg-more');
+    function syncMore() {
+      if (more) more.dispatchEvent(new CustomEvent('tt:disclosure-sync', { bubbles: true }));
+    }
 
     function paint() {
       if (!(window.ToyTools && ToyTools.buildLlmsTxt)) return;
@@ -153,7 +158,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       policy.value = 'Public pages may be crawled.';
       disarm();
       paint();
-      if (ToyTools.disclosure) ToyTools.disclosure.openIfFilled('lg-more');
+      syncMore();
     });
     clearBtn.addEventListener('click', function () {
       if (!clearArmed) {
@@ -167,7 +172,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       paint();
     });
     // A browser that restores form values (back/forward) can refill a hidden field.
-    if (ToyTools.disclosure) ToyTools.disclosure.openIfFilled('lg-more');
+    syncMore();
     paint();
   });
 </script>

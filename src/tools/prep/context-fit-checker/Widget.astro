@@ -4,8 +4,10 @@
 //
 // Phone-first layout (beta-v12.1): the result is one line ("~1,234 tokens · 1% of 128,000 ·
 // Fits") with the estimate label inline beside it. The window's source and checked date move
-// to Zone C's "More about" row ([data-more-about]), still in the HTML under #cf-source.
+// to Zone C's "More about" row (MoreAbout.astro), still in the HTML under #cf-source.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import MoreAbout from '@tools/_shared/MoreAbout.astro';
 import { CONTEXT_MODELS } from '@lib/text/contextModels';
 ---
 
@@ -29,12 +31,9 @@ import { CONTEXT_MODELS } from '@lib/text/contextModels';
   </p>
   <p class="cf-over" id="cf-over" hidden>This text may exceed the selected context window.</p>
 
-  <div class="more-about" data-more-about>
-    <details class="widget-details" id="cf-about">
-      <summary><h2>Where the context windows come from</h2></summary>
-      <p class="cf-source" id="cf-source"></p>
-    </details>
-  </div>
+  <MoreAbout id="cf-about" heading="Where the context windows come from">
+    <p class="cf-source" id="cf-source">Window checked {CONTEXT_MODELS[0]?.lastUpdated}. {CONTEXT_MODELS[0]?.sourceNote}</p>
+  </MoreAbout>
 </div>
 
 <style>

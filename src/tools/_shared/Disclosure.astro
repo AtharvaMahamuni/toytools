@@ -7,9 +7,10 @@
 // the plain, keyboard-native way to say "this opens" and to be told whether it is open.
 //
 // Behaviour is shared, not per widget: one delegated click handler (installed once per page)
-// toggles any [data-disclosure-toggle], and ToyTools.disclosure.openIfFilled(id) is what a widget
-// calls after it writes values into hidden fields. It only ever OPENS: re-closing on every input
-// would fight a person who collapsed it on purpose.
+// toggles any [data-disclosure-toggle], and a `tt:disclosure-sync` event dispatched on the region
+// is what a widget sends after it writes values into hidden fields: the region opens if any of
+// its text fields holds text. It only ever OPENS: re-closing on every input would fight a person
+// who collapsed it on purpose.
 //
 // Slots:
 //   default   the fields that live behind the disclosure
@@ -51,35 +52,35 @@ const hasActions = Astro.slots.has('actions');
 </div>
 
 <script is:inline>
-  (function (TT) {
-    if (TT.disclosure) return;
-    function toggleFor(id) {
-      return document.querySelector('[data-disclosure-toggle][aria-controls="' + id + '"]');
-    }
+  (function () {
+    // Once per page, however many disclosures render. Deliberately not a ToyTools.* global:
+    // engine globals are declared per engine, and this is page furniture, not an engine verb.
+    if (window.__ttDisclosure) return;
+    window.__ttDisclosure = true;
     function set(btn, open) {
       var body = btn && document.getElementById(btn.getAttribute('aria-controls'));
       if (!body) return;
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       body.hidden = !open;
     }
+    function filled(body) {
+      var fields = body.querySelectorAll('textarea, input:not([type=checkbox]):not([type=radio])');
+      for (var i = 0; i < fields.length; i++) if (fields[i].value.trim()) return true;
+      return false;
+    }
     document.addEventListener('click', function (e) {
       var btn = e.target && e.target.closest ? e.target.closest('[data-disclosure-toggle]') : null;
       if (btn) set(btn, btn.getAttribute('aria-expanded') !== 'true');
     });
-    TT.disclosure = {
-      set: function (id, open) { set(toggleFor(id), open); },
-      /** Open the region when any text field inside it holds text. Returns whether it did. */
-      openIfFilled: function (id) {
-        var body = document.getElementById(id);
-        if (!body) return false;
-        var fields = body.querySelectorAll('textarea, input:not([type=checkbox]):not([type=radio])');
-        for (var i = 0; i < fields.length; i++) {
-          if (fields[i].value.trim()) { set(toggleFor(id), true); return true; }
-        }
-        return false;
-      },
-    };
-  })(window.ToyTools = window.ToyTools || {});
+    // A widget that writes values into fields the person cannot see dispatches
+    // `tt:disclosure-sync` on the region (Sample, a restored form). It only ever OPENS:
+    // re-closing would fight a person who collapsed it on purpose.
+    document.addEventListener('tt:disclosure-sync', function (e) {
+      var body = e.target;
+      if (!body || !body.id || !filled(body)) return;
+      set(document.querySelector('[data-disclosure-toggle][aria-controls="' + body.id + '"]'), true);
+    });
+  })();
 </script>
 
 <style>

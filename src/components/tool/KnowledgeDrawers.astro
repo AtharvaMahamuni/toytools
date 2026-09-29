@@ -196,18 +196,6 @@ function citeSentence(nonGoal: string): string {
       var more = el.closest && el.closest('details.kd-more');
       if (more) more.open = true;
     }
-    // The one seam from widget to Zone C: explanatory text a widget marks [data-more-about]
-    // (StructuredDataWidget slim, Context Fit's source line) joins the head of this row. It ships
-    // in the widget's HTML and is never painted there, so moving it shifts nothing on screen.
-    function adoptFromWidget() {
-      var row = document.querySelector('#kd-more .kd-row');
-      var items = document.querySelectorAll('[data-more-about]');
-      for (var i = items.length - 1; i >= 0; i--) {
-        if (row) row.insertBefore(items[i], row.firstChild);
-        else items[i].classList.add('more-about--inline');
-      }
-    }
-    adoptFromWidget();
     syncDesktop();
     openFromHash();
     if (mq.addEventListener) mq.addEventListener('change', syncDesktop);
