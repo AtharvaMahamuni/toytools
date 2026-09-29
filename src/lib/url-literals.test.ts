@@ -10,9 +10,15 @@
 //     `${base}/category`) or without its first one ('tool/' + seg, `guide/${slug}`);
 //   • an array join that spells the prefix: ['', 'tool', seg, slug, ''].join('/');
 //   • an absolute ToyTools URL: 'https://toytoolsapp.com/tool/...'.
-// Comments are skipped: whole-line // comments, and /* */, {/* */} and <!-- --> blocks that open
-// at the start of a line, including every line inside them. A line that starts with * is only
-// skipped inside such a block, so a * line of code or prose is scanned like any other.
+// Comments are skipped only where they are comments, by context:
+//   • .ts/.tsx/.js/.mjs files, .astro frontmatter and .astro <script> blocks: whole-line //
+//     comments, and /* */ blocks that open at the start of a line (or right after <script>);
+//   • .astro <style> blocks: /* */ blocks the same way (// is not a CSS comment);
+//   • .astro markup (everything else after the frontmatter): only <!-- --> comments. There,
+//     //, /* */ and {/* */} are not treated as comments: // and /* */ are text that Astro renders
+//     around a live link, and {/* */} is scanned too, so a link can never hide behind any of them.
+// A line that starts with * is only skipped inside a real block comment, so a * line of code or
+// markup is scanned like any other.
 //
 // OTHER_FILES is the one allowlist: files the builder cannot reach yet, each with its reason. It
 // only shrinks. An allowlisted file that no longer has a hit fails too, so it cannot go stale.
@@ -59,35 +65,103 @@ const FORMS: Record<string, RegExp> = {
 };
 const matchesAny = (line: string): boolean => Object.values(FORMS).some((re) => re.test(line));
 
-const BLOCK_OPEN = /^\s*(\/\*|\{\/\*|<!--)/;
-const blockClose = (opener: string): string => (opener === '<!--' ? '-->' : '*/');
+/** An open /* block comment, carried from line to line within one JS or CSS context. */
+interface BlockState {
+  open: boolean;
+}
 
 /**
- * The code on each line with comments removed, as [lineNumber, text] pairs. A block opens only at
- * the start of a line; a block that opens mid-line is not tracked, so its later lines are scanned
- * (a loud false positive, never a silent miss).
+ * The code in one JS/TS (or, with lineComments false, CSS) segment: a /* block that opens at the
+ * start of the segment is dropped up to its close, and so is a // line. A block that opens mid-line
+ * is not tracked, so its later lines are scanned: a false positive at worst, never a skipped line.
  */
-function codeLines(source: string): Array<[number, string]> {
-  const out: Array<[number, string]> = [];
-  let close: string | null = null;
-  source.split('\n').forEach((raw, i) => {
-    let line = raw;
-    for (;;) {
-      if (close) {
-        const end = line.indexOf(close);
-        if (end === -1) return;
-        line = line.slice(end + close.length);
-        close = null;
-      }
-      const open = BLOCK_OPEN.exec(line);
-      if (!open) break;
-      close = blockClose(open[1]!);
-      line = line.slice(open[0].length);
+function stripScript(segment: string, block: BlockState, lineComments = true): string {
+  let s = segment;
+  for (;;) {
+    if (block.open) {
+      const end = s.indexOf('*/');
+      if (end === -1) return '';
+      s = s.slice(end + 2);
+      block.open = false;
     }
-    if (/^\s*\/\//.test(line) || line.trim() === '') return;
-    out.push([i + 1, line]);
-  });
+    const open = /^\s*\/\*/.exec(s);
+    if (!open) break;
+    block.open = true;
+    s = s.slice(open[0].length);
+  }
+  return lineComments && /^\s*\/\//.test(s) ? '' : s;
+}
+
+/** A .ts/.js source: every line is script. */
+function scriptLines(source: string): Array<[number, string]> {
+  const block: BlockState = { open: false };
+  return source.split('\n').map((line, i): [number, string] => [i + 1, stripScript(line, block)]);
+}
+
+const OPENING = /<!--|<(script|style)\b[^>]*>/i;
+const CLOSING = { script: /<\/script\s*>/i, style: /<\/style\s*>/i } as const;
+
+/**
+ * An .astro source, by context: frontmatter is script; after it, markup, where only <!-- --> is a
+ * comment, until a <script> or <style> block, whose body follows its own language's comments.
+ */
+function astroLines(source: string): Array<[number, string]> {
+  const lines = source.split('\n');
+  const out: Array<[number, string]> = [];
+  let i = 0;
+  if (lines[0]?.trim() === '---') {
+    const block: BlockState = { open: false };
+    for (i = 1; i < lines.length && lines[i]!.trim() !== '---'; i++) out.push([i + 1, stripScript(lines[i]!, block)]);
+    i += 1;
+  }
+  let ctx: 'markup' | 'script' | 'style' = 'markup';
+  let inHtmlComment = false;
+  const block: BlockState = { open: false };
+  for (; i < lines.length; i++) {
+    let rest = lines[i]!;
+    let kept = '';
+    while (rest) {
+      if (ctx === 'markup') {
+        if (inHtmlComment) {
+          const end = rest.indexOf('-->');
+          if (end === -1) break;
+          rest = rest.slice(end + 3);
+          inHtmlComment = false;
+          continue;
+        }
+        const m = OPENING.exec(rest);
+        if (!m) {
+          kept += rest;
+          break;
+        }
+        kept += rest.slice(0, m.index);
+        rest = rest.slice(m.index + m[0].length);
+        if (m[0] === '<!--') {
+          inHtmlComment = true;
+        } else {
+          kept += m[0];
+          ctx = m[1]!.toLowerCase() as 'script' | 'style';
+          block.open = false;
+        }
+        continue;
+      }
+      const close = CLOSING[ctx].exec(rest);
+      const body = close ? rest.slice(0, close.index) : rest;
+      kept += stripScript(body, block, ctx === 'script');
+      if (!close) break;
+      kept += ` ${close[0]}`;
+      rest = rest.slice(close.index + close[0].length);
+      ctx = 'markup';
+    }
+    out.push([i + 1, kept]);
+  }
   return out;
+}
+
+/** The code on each line with comments removed, as [lineNumber, text] pairs, blank lines dropped. */
+function codeLines(source: string, file = 'x.ts'): Array<[number, string]> {
+  const lines = file.endsWith('.astro') ? astroLines(source) : scriptLines(source);
+  return lines.filter(([, text]) => text.trim() !== '');
 }
 
 function sourceFiles(dir: string): string[] {
@@ -105,7 +179,7 @@ function rawUrlLiterals(): Map<string, string[]> {
   const hits = new Map<string, string[]>();
   for (const file of sourceFiles(SRC)) {
     const rel = relative(ROOT, file);
-    for (const [n, line] of codeLines(readFileSync(file, 'utf8'))) {
+    for (const [n, line] of codeLines(readFileSync(file, 'utf8'), file)) {
       if (!matchesAny(line)) continue;
       const list = hits.get(rel) ?? [];
       list.push(`${rel}:${n}: ${line.trim()}`);
@@ -191,23 +265,77 @@ describe('the URL lint patterns', () => {
     ]);
   });
 
-  it('scans a * line outside a comment, and skips comments of every kind', () => {
+  // Each sample line that must be reported says CATCH; every other line must be skipped.
+  const reported = (lines: string[], file: string) =>
+    codeLines(lines.join('\n'), file).filter(([, l]) => matchesAny(l)).map(([n]) => n);
+  const expected = (lines: string[]) => lines.flatMap((l, i) => (l.includes('CATCH') ? [i + 1] : []));
+
+  it('in a .ts file: skips // lines and /* */ blocks, scans a * line of code', () => {
     const src = [
       '/**',
       " * JSDoc: '/tool/a/b/' is prose here",
       ' */',
-      "  * '/tool/c/d/' is not in a comment",
+      "  * '/tool/c/d/' CATCH is not in a comment",
       "// const skipped = '/tool/e/f/';",
+      "/* one line */ const kept = '/tool/j/k/'; // CATCH",
+      '/*',
+      "  '/category/x/' inside a block",
+      '*/',
+    ];
+    expect(reported(src, 'a.ts')).toEqual(expected(src));
+  });
+
+  it('in .astro markup: catches the review repro, a raw link between /* and */ lines', () => {
+    const src = ['---', "const toolHref = '';", '---', '/*', '<a href="/tool/finance/x/">x</a> CATCH', '*/', '<a href={toolHref} class="tool-card">'];
+    expect(reported(src, 'ToolCard.astro')).toEqual(expected(src));
+  });
+
+  it('in .astro markup: /* */, /** * */, //, {/* */} and * lines are text, only <!-- --> is a comment', () => {
+    const src = [
+      '---',
+      "// const skipped = '/tool/fm/a/';",
+      "/** '/tool/fm/b/' in frontmatter JSDoc */",
+      "const kept = '/tool/fm/c/'; // CATCH",
+      '---',
+      '/*',
+      '<a href="/tool/finance/x/">x</a> CATCH',
+      '*/',
+      '/**',
+      ' * <a href="/tool/finance/y/">y</a> CATCH',
+      ' */',
+      '// <a href="/tool/finance/z/">z</a> CATCH',
+      '{/* <a href="/category/q/">q</a> CATCH */}',
       '{/*',
-      '  prose "/tool/g/h/" in an Astro comment',
+      '  prose "/tool/g/h/" CATCH',
       '*/}',
+      '<!-- <a href="/category/i/"> -->',
       '<!--',
-      '  <a href="/category/i/">',
+      '  <a href="/category/j/">',
       '-->',
-      "/* one line */ const kept = '/tool/j/k/';",
-    ].join('\n');
-    const scanned = codeLines(src).filter(([, l]) => matchesAny(l)).map(([n]) => n);
-    expect(scanned).toEqual([4, 12]);
+      '<p>after <!-- "/tool/k/l/" --> the comment, "/tool/m/n/" CATCH</p>',
+    ];
+    expect(reported(src, 'x.astro')).toEqual(expected(src));
+  });
+
+  it('in .astro <script> and <style>: follows that language\'s comments', () => {
+    const src = [
+      '<script>',
+      "  // const s = '/tool/s/a/';",
+      "  /* '/tool/s/b/' */",
+      "  const t = '/tool/s/c/'; // CATCH",
+      '</script>',
+      '<style>',
+      "  /* background: url('/tool/css/a/') */",
+      "  // '/tool/css/b/' CATCH is not a CSS comment",
+      '</style>',
+      "<script>const one = '/tool/one/line/'; // CATCH</script>",
+      "<script>// '/tool/one/comment/'</script>",
+      '<script is:inline>',
+      "  /* '/tool/inline/a/' */",
+      '</script>',
+      '<a href="/tool/after/script/">CATCH</a>',
+    ];
+    expect(reported(src, 'x.astro')).toEqual(expected(src));
   });
 
   it('leaves look-alikes alone', () => {
