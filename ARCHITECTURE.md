@@ -90,12 +90,13 @@ Registry (config.ts / simulation manifest, src/data/registry.ts)
 | **DOM** | Everything under **one root** `[data-tool=<slug>]`. IDs prefixed with the slug. Queries run from that root, not from `document` (the `SimulationWidget` pattern). |
 | **Links out** | **Engines return slugs; the builder makes links.** A decision names `{ slug, segment }` and the renderer calls `toolPath()` (`src/lib/paths.ts`). No engine or widget writes a `/tool/` URL (`href-contract.test.ts`, `url-literals.test.ts`). |
 | **Events out** | The only optional outgoing event is resize (`{ type: 'toytools:resize', slug, height, v: 1 }`), never user input. None is emitted today. |
-| **Forbidden off the page** | On any surface that is not a ToyTools page: no analytics, no service worker, no install prompt, no feedback capture, no DOM outside the root, no page-level keyboard shortcuts. (The analytics guard and `serviceWorkerEnabled` already refuse any frame and any non-production host.) |
+| **Forbidden off the page** | On any surface that is not a ToyTools page: no analytics, no service worker, no install prompt, no feedback capture, no DOM outside the root, no page-level keyboard shortcuts. (The analytics guard and `serviceWorkerEnabled` already refuse any frame and any non-production host. One known exception: pomodoro-timer registers the service worker itself, see "Service worker" below.) |
 
 **Embeddable, as data.** `src/data/embeddable.ts` derives an `embeddable` flag for every tool
-(`embeddable` in `src/data/registry.ts`): false for the six heavy-coupling widgets that only work as
-a whole page (pomodoro-timer, todo-list, keep-screen-awake, habit-streak-tracker, book-tracker,
-json-tree-viewer), true for everything else. Nothing consumes it yet; `embeddable.test.ts` pins it.
+(`embeddable` in `src/data/registry.ts`): false for the seven tools that only work as a whole page,
+the whole productivity category (pomodoro-timer, todo-list, keep-screen-awake, habit-streak-tracker,
+book-tracker, notepad, all of which own device APIs or keep the user's data in local storage) plus
+json-tree-viewer, and true for everything else. Nothing consumes it yet; `embeddable.test.ts` pins it.
 
 **For new tools** (the rule is in CLAUDE.md): one root, slug-prefixed IDs, root-scoped queries, no
 own URL literals (link through the builder), no page-level shortcuts, and nothing from the
@@ -836,6 +837,10 @@ no per-tool PWA edits, ever.
   production hostname in the top window, never under dev/E2E/automation, on another host or in a
   frame; nothing ever unregisters an existing worker. Reasoning: `docs/analytics.md`). Bump `CACHE`
   when its behaviour changes.
+  **Known caveat:** `src/tools/productivity/pomodoro-timer/Widget.astro` registers `/sw.js` itself
+  (for its notification clicks), gated only on `!navigator.webdriver`, so it bypasses the guard: on
+  that one page the worker still registers on other hosts and in frames. It is left as is because
+  C3 does not refactor widgets; a later widget PR moves it behind `serviceWorkerEnabled`.
 
 The head tags (`<link rel="manifest">`, `apple-touch-icon`, `theme-color`, `apple-mobile-web-app-*`)
 are emitted by `BaseLayout` via `ToolLayout`'s `pwa` prop. Never hand-add them per tool.
