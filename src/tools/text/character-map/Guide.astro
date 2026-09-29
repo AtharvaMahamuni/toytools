@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -15,7 +16,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -131,7 +132,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <p>
       Avoid picking a character by shape alone. Read the name in the detail line before you copy it,
       and if you are debugging text that already went wrong, the
-      <a href={withBase('/tool/text/invisible-character-detector/')}>invisible character detector</a>
+      <a href={toolPathBySlug('invisible-character-detector')}>invisible character detector</a>
       will name what is actually in there.
     </p>
   </section>
@@ -151,7 +152,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       When you cannot change part of it, paste an escape instead of the glyph, because an escape is
       plain ASCII and survives anything. For converting a whole block of text rather than one
       character, use the
-      <a href={withBase('/tool/developer-utilities/html-entity-encoder-decoder/')}>HTML entity encoder</a>.
+      <a href={toolPathBySlug('html-entity-encoder-decoder')}>HTML entity encoder</a>.
       Everything here runs in your browser and nothing is uploaded.
     </p>
   </section>

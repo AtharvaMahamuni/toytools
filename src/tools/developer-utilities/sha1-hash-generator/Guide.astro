@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -117,7 +118,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <ReferenceBlock type="common-mistake" heading="Using SHA-1 for new digital signatures or certificates">
       <p>
-        Any new code signing, certificate, or document integrity application should use <a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256</a>.
+        Any new code signing, certificate, or document integrity application should use <a href={toolPathBySlug('sha256-hash-generator')}>SHA-256</a>.
         SHA-1's collision vulnerability means an attacker could craft a malicious document that
         shares a hash with a trusted one: exactly the threat model digital signatures exist to prevent.
       </p>
@@ -133,7 +134,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
 
     <ReferenceBlock type="note" heading="SHA-1 and SHA-2 are different families">
       <p>
-        SHA-1 and <a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256</a> are not versions of the same algorithm. SHA-1 is its own design; SHA-2
+        SHA-1 and <a href={toolPathBySlug('sha256-hash-generator')}>SHA-256</a> are not versions of the same algorithm. SHA-1 is its own design; SHA-2
         is a separate family (SHA-224, SHA-256, SHA-384, SHA-512) with a different construction.
         SHA-3 is yet another distinct family. Moving from SHA-1 to SHA-256 is a change of
         algorithm, not an upgrade within the same one.
@@ -144,8 +145,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/sha256-hash-generator/')}>SHA-256 Hash Generator</a>: The current standard for new security applications.</li>
-      <li><a href={withBase('/tool/developer-utilities/md5-hash-generator/')}>MD5 Hash Generator</a>: An older 128-bit digest with similar legacy use cases.</li>
+      <li><a href={toolPathBySlug('sha256-hash-generator')}>SHA-256 Hash Generator</a>: The current standard for new security applications.</li>
+      <li><a href={toolPathBySlug('md5-hash-generator')}>MD5 Hash Generator</a>: An older 128-bit digest with similar legacy use cases.</li>
     </ul>
   </section>
 

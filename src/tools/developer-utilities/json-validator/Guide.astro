@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 
 const codeObjectValid   = '{"key": "value"}';
 const codeObjectUnquoted = '{key: "value"}';
@@ -174,8 +175,8 @@ const codeExampleInvalid = '{"name": "Alice",}';
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/json-formatter/')}>JSON Formatter</a>: Pretty-print valid JSON for easier reading and debugging.</li>
-      <li><a href={withBase('/tool/developer-utilities/json-minifier/')}>JSON Minifier</a>: Compact valid JSON for production use once validation passes.</li>
+      <li><a href={toolPathBySlug('json-formatter')}>JSON Formatter</a>: Pretty-print valid JSON for easier reading and debugging.</li>
+      <li><a href={toolPathBySlug('json-minifier')}>JSON Minifier</a>: Compact valid JSON for production use once validation passes.</li>
     </ul>
   </section>
 

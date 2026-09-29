@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -15,7 +16,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -148,8 +149,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       If you want the same figure as a numeral, the
-      <a href={withBase('/tool/number/roman-numeral-converter/')}>Roman numeral converter</a> handles
-      that, and the <a href={withBase('/tool/number/binary-converter/')}>binary converter</a> handles
+      <a href={toolPathBySlug('roman-numeral-converter')}>Roman numeral converter</a> handles
+      that, and the <a href={toolPathBySlug('binary-converter')}>binary converter</a> handles
       base two. Nothing you type here is uploaded.
     </p>
   </section>

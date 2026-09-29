@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -166,10 +167,10 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       Instead of opening another novelty site with trackers, keep this tab beside a
-      <a href={withBase('/tool/productivity/pomodoro-timer/')}>Pomodoro timer</a> and reset between
+      <a href={toolPathBySlug('pomodoro-timer')}>Pomodoro timer</a> and reset between
       short breaks. A bubble fidget and a focus timer answer different needs, however they sit well
       in the same browser session. More toys live in the
-      <a href={withBase('/category/fidgets/')}>Fidgets</a> category.
+      <a href={categoryPath({ slug: 'fidgets' })}>Fidgets</a> category.
     </p>
     <p>
       Many browser pop-it games put a timer and a best-time board on the same grid. That is a race.

@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -105,7 +106,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       turning the cleaned rows into JSON for an API. The right order is to clean csv first,
       then convert, because a converter inherits every blank row and ragged line you leave
       behind. Clean the file here, then send the output to the
-      <a href={withBase('/tool/developer-utilities/csv-to-json-converter/')}>CSV to JSON
+      <a href={toolPathBySlug('csv-to-json-converter')}>CSV to JSON
       converter</a> when you need a different format.
     </p>
   </section>

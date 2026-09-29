@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 
 const exampleData = { user: { id: 1, name: 'Alice', roles: ['admin', 'editor'], active: true } };
 const compactJsonExample    = JSON.stringify(exampleData);
@@ -116,7 +117,7 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
     <ReferenceBlock type="common-mistake" heading="Trying to format invalid JSON">
       <p>
         A formatter parses the JSON before re-serializing it. If the input has a syntax error (a trailing comma, an unquoted key, a single-quoted string) the parse fails and the
-        formatter can't proceed. Fix the syntax error first. Use the <a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a> to pinpoint exactly
+        formatter can't proceed. Fix the syntax error first. Use the <a href={toolPathBySlug('json-validator')}>JSON Validator</a> to pinpoint exactly
         where the problem is.
       </p>
     </ReferenceBlock>
@@ -141,8 +142,8 @@ const formattedJsonExample  = JSON.stringify(exampleData, null, 2);
   <section id="related-tools">
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><a href={withBase('/tool/developer-utilities/json-minifier/')}>JSON Minifier</a>: Compact formatted JSON for production API responses.</li>
-      <li><a href={withBase('/tool/developer-utilities/json-validator/')}>JSON Validator</a>: Confirm your JSON is syntactically correct before formatting.</li>
+      <li><a href={toolPathBySlug('json-minifier')}>JSON Minifier</a>: Compact formatted JSON for production API responses.</li>
+      <li><a href={toolPathBySlug('json-validator')}>JSON Validator</a>: Confirm your JSON is syntactically correct before formatting.</li>
     </ul>
   </section>
 

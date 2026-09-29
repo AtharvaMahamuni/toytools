@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,11 +17,11 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find((c) => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
-const categoryHref = withBase(`/category/${category.slug}/`);
-const sha256Href = withBase(`/tool/${category.segment}/sha256-hash-generator/`);
-const md5Href = withBase(`/tool/${category.segment}/md5-hash-generator/`);
-const sha1Href = withBase(`/tool/${category.segment}/sha1-hash-generator/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const categoryHref = categoryPath(category);
+const sha256Href = toolPathBySlug('sha256-hash-generator');
+const md5Href = toolPathBySlug('md5-hash-generator');
+const sha1Href = toolPathBySlug('sha1-hash-generator');
 ---
 
 <GuideLayout

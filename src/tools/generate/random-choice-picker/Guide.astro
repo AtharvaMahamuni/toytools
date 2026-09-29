@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -15,7 +16,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -123,7 +124,7 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
       picker that seems to favour one answer. A duplicate that arrived by accident does exactly the
       same thing as one you added on purpose. If the odds look off, check the list for repeats first,
       or run it through the
-      <a href={withBase('/tool/text/remove-duplicate-lines/')}>duplicate line remover</a> and paste
+      <a href={toolPathBySlug('remove-duplicate-lines')}>duplicate line remover</a> and paste
       the clean version back.
     </p>
   </section>
@@ -147,9 +148,9 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     </p>
     <p>
       When the list is down to two, the
-      <a href={withBase('/tool/generate/coin-flipper/')}>coin flipper</a> is quicker. When the list
+      <a href={toolPathBySlug('coin-flipper')}>coin flipper</a> is quicker. When the list
       is people rather than options, use the
-      <a href={withBase('/tool/generate/random-name-picker/')}>random name picker</a>, which warns you
+      <a href={toolPathBySlug('random-name-picker')}>random name picker</a>, which warns you
       about duplicate entries. Nothing you paste here is uploaded or stored off your device.
     </p>
   </section>

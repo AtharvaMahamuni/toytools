@@ -2,7 +2,8 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
-import { withBase } from '@lib/paths';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,7 +17,7 @@ interface Props {
 
 const props = Astro.props;
 const category = categories.find(c => c.slug === config.categorySlug)!;
-const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 ---
 
 <GuideLayout
@@ -194,8 +195,8 @@ const toolHref = withBase(`/tool/${category.segment}/${config.slug}/`);
     <h2>Related Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>Other productivity tools that work well alongside Keep Screen Awake:</p>
     <ul>
-      <li><a href={withBase('/tool/productivity/todo-list/')}>Todo List</a>, Track tasks while keeping your screen on.</li>
-      <li><a href={withBase('/tool/productivity/notepad/')}>Notepad</a>, Take notes during a session without losing your place.</li>
+      <li><a href={toolPathBySlug('todo-list')}>Todo List</a>, Track tasks while keeping your screen on.</li>
+      <li><a href={toolPathBySlug('notepad')}>Notepad</a>, Take notes during a session without losing your place.</li>
     </ul>
   </section>
 
