@@ -31,7 +31,7 @@ the first screen. The shared pieces:
   window source and checked date, JSON to Schema's explanation and technical rows) into Zone C's
   "More about" row. Still in the HTML.
 - `ToolActions sticky`: Copy (and Download on llms.txt) pinned to the bottom of a phone screen
-  while the widget is in view.
+  while the widget is in view. Focus scrolling stops above it, so Tab never lands under it.
 - `src/styles/prep-slim.css`: the CSS for all of the above, imported only by Prep widgets.
 
 Heights are set per widget with `--io-pane-h` (PR #232 textareas stay resizable): inputs open at

@@ -152,6 +152,9 @@ so no other page pays for them. Known platform issue found on the way: `body { o
 in `global.css` makes `<body>` a non-scrolling scroll container, so `position: sticky` is inert
 under it site-wide (ToolBar's `top: 0` included). `prep-slim.css` sets `overflow-x: clip` on a
 body that holds a sticky Prep row, and pins ToolBar to its current non-sticky rendering there.
+While the row floats, `html:has(.tool-actions--sticky) { scroll-padding-bottom: 6rem }` keeps
+focus scrolling clear of it, so a field reached by Tab is never under the bar (WCAG 2.2 SC
+2.4.11, pinned by a Tab-walk test in `tests/e2e/prep-slim.spec.ts`).
 
 CSS tokens: `--color-success(-bg)`, `--color-danger(-bg)`.
 
