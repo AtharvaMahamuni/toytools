@@ -181,9 +181,16 @@ type Mode = 'text' | 'tag' | 'expr' | 'comment' | 'script' | 'style';
  *     component is markup) opens a block that ends at `</script>` or `</style>`, even on the same
  *     line; its body follows that language's comments.
  */
-function astroScan(source: string): { lines: Array<[number, string]>; regions: AstroRegions; endMode: Mode } {
+function astroScan(source: string): {
+  lines: Array<[number, string]>;
+  regions: AstroRegions;
+  /** The context each markup line ends in, by line number. */
+  modes: Map<number, Mode>;
+  endMode: Mode;
+} {
   const lines = source.split('\n');
   const out: Array<[number, string]> = [];
+  const modes = new Map<number, Mode>();
   const regions: AstroRegions = { frontmatter: null, script: [], style: [], comment: [] };
   let i = 0;
   while (i < lines.length && lines[i]!.trim() === '') i += 1;
@@ -327,8 +334,9 @@ function astroScan(source: string): { lines: Array<[number, string]>; regions: A
     if (mode === 'tag' && tag.attr.depth > 0) jsEndOfLine(tag.attr);
     if (mode === 'script' || mode === 'style' || mode === 'comment') buffer += '\n';
     out.push([i + 1, kept]);
+    modes.set(i + 1, mode);
   }
-  return { lines: out, regions, endMode: mode };
+  return { lines: out, regions, modes, endMode: mode };
 }
 
 /** The code on each line with comments removed, as [lineNumber, text] pairs, blank lines dropped. */
@@ -623,6 +631,12 @@ describe('the .astro context tracker stays in sync with the file', () => {
       '// <a href="/tool/after/expr-script/">CATCH</a>',
       "{a<script ? '/tool/compare/x/' : b} CATCH",
       "{ok ? <style is:global /> : null} /* <a href=\"/tool/after/expr-style/\">CATCH</a> */",
+      '{examples.length > 0 && (',
+      '  <script type="application/json" id={`${slug}-examples`} set:html={JSON.stringify(examples)} />',
+      '  /**',
+      '   * <a href="/tool/in/expr/after-selfclose/">CATCH</a>',
+      '   */',
+      ')}',
     ]);
   });
 
@@ -641,10 +655,12 @@ describe('the .astro context tracker stays in sync with the file', () => {
   });
 });
 
-// Generated from the real tree: for every .astro file under src/, a raw link planted at the end of
-// its markup in each comment-looking shape must be reported. So no real file can leave the tracker
-// stuck outside markup (in a script, style, comment, tag or expression) at its end.
-describe('every real .astro file ends in markup, so a planted link is reported', () => {
+// Generated from the real tree: in every .astro file under src/, a raw link planted in markup in each
+// comment-looking shape must be reported. It is planted at the end of the file and right after
+// every markup line where the context changes (a tag that self-closes, a </script>, </style> or -->
+// close, the frontmatter fence), in plain markup or inside a {...} expression: the places a tracker
+// that lost its place would skip it.
+describe('a link planted in the markup of any real .astro file is reported', () => {
   const astroFiles = sourceFiles(SRC).filter((f) => f.endsWith('.astro'));
   const PLANTS: Record<string, string[]> = {
     'slash-star block': ['/*', '<a href="/tool/finance/x/">x</a>', '*/'],
@@ -652,21 +668,38 @@ describe('every real .astro file ends in markup, so a planted link is reported',
     'doc block': ['/**', ' * <a href="/tool/finance/x/">x</a>', ' */'],
     'line comment': ['// <a href="/tool/finance/x/">x</a>'],
   };
+  const TRANSITION = /\/>|<\/script\s*>|<\/style\s*>|-->/;
+  /** Line numbers to plant after: every context change in markup, and the last line. */
+  const plantSites = (source: string): number[] => {
+    const lines = source.split('\n');
+    const { modes } = astroScan(source);
+    const markup = [...modes.keys()];
+    const sites = new Set<number>([lines.length]);
+    if (markup.length > 0 && markup[0]! > 1) sites.add(markup[0]! - 1);
+    for (const [n, mode] of modes) {
+      if ((mode === 'text' || mode === 'expr') && TRANSITION.test(lines[n - 1]!)) sites.add(n);
+    }
+    return [...sites].sort((a, b) => a - b);
+  };
 
-  it('finds the .astro files', () => {
+  it('finds the .astro files and the places to plant', () => {
     expect(astroFiles.length).toBeGreaterThan(300);
+    const sites = astroFiles.reduce((sum, f) => sum + plantSites(readFileSync(f, 'utf8').replace(/\n*$/, '')).length, 0);
+    expect(sites).toBeGreaterThan(astroFiles.length);
   });
 
   for (const [shape, plant] of Object.entries(PLANTS)) {
-    it(`reports a ${shape} link planted at the end of every file`, () => {
+    it(`reports a ${shape} link planted in every file`, () => {
       const missed: string[] = [];
       for (const file of astroFiles) {
-        const source = readFileSync(file, 'utf8').replace(/\n*$/, '\n');
-        const at = source.split('\n').length - 1;
-        const planted = [...source.split('\n').slice(0, at), ...plant, ''].join('\n');
-        const linkLine = at + plant.findIndex((l) => l.includes('href')) + 1;
-        const hit = codeLines(planted, file).some(([n, l]) => n === linkLine && matchesAny(l));
-        if (!hit) missed.push(relative(ROOT, file));
+        const source = readFileSync(file, 'utf8').replace(/\n*$/, '');
+        const lines = source.split('\n');
+        for (const after of plantSites(source)) {
+          const planted = [...lines.slice(0, after), ...plant, ...lines.slice(after)].join('\n');
+          const linkLine = after + plant.findIndex((l) => l.includes('href')) + 1;
+          const hit = codeLines(planted, file).some(([n, l]) => n === linkLine && matchesAny(l));
+          if (!hit) missed.push(`${relative(ROOT, file)}:${after}`);
+        }
       }
       expect(missed).toEqual([]);
     });
