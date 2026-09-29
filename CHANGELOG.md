@@ -13,8 +13,9 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
   excluded as before. The service worker, and so offline support, is unchanged everywhere.
 - **The privacy page says exactly what analytics sees.** It now explains that the site hands
   Google Analytics page addresses without the query, that Google Analytics can still read the full
-  address when it counts a Back-button return on its own, and that searches on the search page are
-  reported as site searches. No other page changed.
+  address when it counts a Back-button return on its own, and that any address carrying a search
+  parameter, such as the search page or a "Suggest it" link, is reported as a site search. It also
+  names www.toytoolsapp.com alongside toytoolsapp.com. No other page changed.
 - **The unused analytics event list and its `trackEvent` helper are gone.** Nothing ever called
   them. The three equalizer events are the only custom events and still fire as before.
 

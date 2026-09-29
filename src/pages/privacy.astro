@@ -81,15 +81,20 @@ const updated = '29 September 2026';
       gives Google Analytics that address without the part after the question mark, for the page
       you are on and for the page you came from, so those inputs are left out. Google Analytics can
       also count a page view by itself when you return to a page with the Back button, and then it
-      reads the full address from your browser. The search page keeps your search words in its
-      address, and Google Analytics reads them as a site search.
+      reads the full address from your browser. Site searches are read from the full address too.
+      If any page address on this site has a <code>q</code>, <code>s</code>, <code>search</code>,
+      <code>query</code> or <code>keyword</code> parameter after the question mark, Google
+      Analytics records its value as a search term. That covers the words you type on the search
+      page, and the "Suggest it" links, which open the feedback page at
+      <code>/feedback/?type=new&amp;q=</code> followed by the words you typed.
     </p>
     <p>
-      Analytics loads only on <code>toytoolsapp.com</code> itself. It is deliberately not loaded on
-      any other address the site is served from, inside a frame on another page, when the site is
-      running locally, or under automated browser testing, so development and test traffic never
-      reaches it. If you use a tracker blocker or browser-level blocking, nothing on the site depends
-      on analytics loading and everything keeps working.
+      Analytics loads only on <code>toytoolsapp.com</code> (including
+      <code>www.toytoolsapp.com</code>). It is deliberately not loaded on any other address the site
+      is served from, inside a frame on another page, when the site is running locally, or under
+      automated browser testing, so development and test traffic never reaches it. If you use a
+      tracker blocker or browser-level blocking, nothing on the site depends on analytics loading
+      and everything keeps working.
     </p>
 
     <h3>Feedback</h3>

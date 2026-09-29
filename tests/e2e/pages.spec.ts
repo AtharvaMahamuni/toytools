@@ -140,6 +140,25 @@ test.describe('information pages', () => {
     await expect(page.getByRole('heading', { name: 'Google Analytics' })).toBeVisible();
     await expect(page.locator('body')).toContainText('G-WHD7CL44MX');
   });
+
+  // The guard closes under E2E (PUBLIC_E2E build, localhost, navigator.webdriver), so a session
+  // must never reach Google. TT.ready flips after attachPlatform has run, which is where gtag.js
+  // would have been appended.
+  test('an E2E session makes zero Google Analytics requests', async ({ page }) => {
+    const ga: string[] = [];
+    page.on('request', (req) => {
+      if (/googletagmanager\.com|google-analytics\.com/.test(req.url())) ga.push(req.url());
+    });
+    await page.goto('/tool/text/reverse-text/');
+    await page.waitForFunction(() => (window as unknown as { ToyTools?: { ready?: boolean } }).ToyTools?.ready === true);
+    const state = await page.evaluate(() => ({
+      dataLayer: 'dataLayer' in window,
+      gtag: 'gtag' in window,
+      script: !!document.querySelector('script[src*="googletagmanager"]'),
+    }));
+    expect(state).toEqual({ dataLayer: false, gtag: false, script: false });
+    expect(ga).toEqual([]);
+  });
 });
 
 test.describe('offline fallback page', () => {

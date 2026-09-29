@@ -99,7 +99,9 @@ setting only ever adds duplicate page views, some of them carrying inputs.
 
 - **Site search** (`view_search_results`) reads the search words from the real address
   (`q`, `s`, `search`, `query`, `keyword`), not from `page_location`, so a load of
-  `/search/?q=...` reports the search term. The privacy page says so. Turning site search off in
+  `/search/?q=...` reports the search term. So does any other page opened with one of those
+  parameters, including the palette's "Suggest it" links (`/feedback/?type=new&q=...`), which
+  carry what the user typed. The privacy page says so. Turning site search off in
   the same Enhanced measurement panel is the only way to stop it.
 - **Form interactions** (`form_start` / `form_submit`) send `form_destination`, the form's
   resolved `action`. The search forms point at `/search/`. The three widgets with an action-less
