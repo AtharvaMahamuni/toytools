@@ -203,7 +203,7 @@ export function renderExperience(
   // Next questions.
   fillList(root, 'nextQuestions', result.nextQuestions, (q: string) => li(q, 'next-question'));
 
-  // Decisions — render as links when they name a tool (the URL builder makes its href) or carry an
+  // Decisions: render as links when they name a tool (the URL builder makes its href) or carry an
   // href, else plain text.
   fillList(root, 'decisions', result.decisions, (d: Decision) => {
     const item = document.createElement('li');

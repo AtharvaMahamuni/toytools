@@ -39,10 +39,15 @@ of `dist/` somewhere else, `localhost`) and any iframe, same origin or not, neve
 The guard is **SSR-safe**: it reads `navigator` / `location` / `window` defensively and never throws
 when they are undefined during the build. With no hostname it resolves to disabled.
 
-The **service worker** has its own predicate in the same file, `serviceWorkerEnabled`, which is the
-old rule (off under dev, E2E, automation and localhost; on everywhere else, frames included). It
-was deliberately not moved onto the analytics allowlist: that would change offline support on any
-second host, which is a behaviour change for users rather than an analytics fix.
+The **service worker** follows the same rule since beta-v12.1.3 (C3): `serviceWorkerEnabled` in the
+same file registers `/sw.js` only for a real user on a production hostname in the top window.
+Before that it kept the older, wider rule (off under dev, E2E, automation and localhost; on
+everywhere else, frames included). Why it moved: a framed page is a non-page surface, which the
+Tool Render Unit contract (`ARCHITECTURE.md`) keeps free of a service worker; offline on a mirror,
+a preview or a proxy host is not a product anyone installs; and nothing changes on
+`toytoolsapp.com`, where every tab and the installed app still register exactly as before.
+Nothing ever calls `unregister()`, so a worker already installed on another host keeps working;
+that host just stops installing new ones. `platform.sw.test.ts` pins the registration itself.
 
 ### Where GA is loaded
 

@@ -47,7 +47,59 @@ sitemap filenames (`/sitemap-0.xml`, `/sitemaps/faqs.xml`, `/sitemaps/languages.
 stub pointed at `/sitemap-index.xml`. Deleted locale landings (`/de/`, `/hi/`, and the rest) stay
 404: they were already noindex.
 
-Always use `withBase()` from `src/lib/paths.ts` for internal hrefs.
+**One URL builder.** Tool, category and guide URLs are made by `src/lib/paths.ts` and nowhere else:
+`toolPath({ slug, segment })`, `categoryPath({ slug })`, `guidePath({ categorySlug, slug })`, plus
+`urlFor(entity)` and `canonicalFor(entity, Astro.site)`. Every href goes through `withBase()`.
+`toolRoute` / `categoryRoute` / `guideRoute` are the base-less routes, only for data that stores or
+compares routes (knowledge-graph node urls, redirect tables). `urlFor` and `canonicalFor` are the
+seam for a future second site: today they always return this site's path and absolute URL, and
+there is no multi-domain logic behind them. `src/lib/url-literals.test.ts` fails on any new raw
+`` `/tool/…` `` or `` `/category/…` `` template outside `paths.ts`; the existing `Guide.astro`
+files are allowlisted until they move to the builder (C4). Other internal hrefs (`/settings/`,
+`/privacy/`, …) still go through `withBase()` directly.
+
+**Site identity** (`src/config/site.ts`) holds the production origin (the fallback wherever
+`Astro.site` is unset), the production hostnames, the brand name, the title suffix, the X account,
+the GA id and the social card path. Import from it; never write the origin or the brand as a
+literal. `astro.config.mjs` is the one copy that cannot import it (a TS import there breaks the
+build hooks), and `site.test.ts` pins it to the same value.
+
+---
+
+## Tool Render Unit (the contract every tool renders under)
+
+A tool is a unit that can render independently of the page shell around it. Today there is exactly
+one surface, the tool page. The contract below writes down what 160 of 166 tools already do, so a
+second surface (an embed) could exist later without editing widgets. **Documentation and a rule for
+new tools, not a refactor:** existing widgets are not rewritten to meet it. Source: the embed
+report, section 2.12.
+
+```
+Registry (config.ts / simulation manifest, src/data/registry.ts)
+   │  tool: ToolConfig + a build-time surface
+   ├──► Page   /tool/<segment>/<slug>/   ToolPage → ToolLayout → BaseLayout     (exists)
+   └──► Embed  (conceptual only: no route, no EmbedLayout, no loader is built)  (not built)
+```
+
+| Part | Contract |
+|---|---|
+| **Inputs** | The tool's config from the registry plus a build-time surface (`page`, and one day `embed`). Never `Astro.url`, page props or a runtime sniff of where it is. |
+| **Engine** | Declared, not discovered: `tool.engine` → one `ENGINE_LOADERS` chunk (`src/lib/runtime/loaders.ts`). |
+| **Runtime** | The `ToyTools` core (`onReady`, `toast`, `copy`, `state`, `storage`) is **required**. URL state, share, `track`, `recordRecent` and install are **optional** hooks a surface may leave out. |
+| **Styles** | `tokens.css` + `tool-widget.css` + the widget's own scoped `<style>`. No reliance on Nav, Footer, `.page-content` or `ToolBar`; `is:global` only under the widget's own root class. |
+| **DOM** | Everything under **one root** `[data-tool=<slug>]`. IDs prefixed with the slug. Queries run from that root, not from `document` (the `SimulationWidget` pattern). |
+| **Links out** | **Engines return slugs; the builder makes links.** A decision names `{ slug, segment }` and the renderer calls `toolPath()` (`src/lib/paths.ts`). No engine or widget writes a `/tool/` URL (`href-contract.test.ts`, `url-literals.test.ts`). |
+| **Events out** | The only optional outgoing event is resize (`{ type: 'toytools:resize', slug, height, v: 1 }`), never user input. None is emitted today. |
+| **Forbidden off the page** | On any surface that is not a ToyTools page: no analytics, no service worker, no install prompt, no feedback capture, no DOM outside the root, no page-level keyboard shortcuts. (The analytics guard and `serviceWorkerEnabled` already refuse any frame and any non-production host.) |
+
+**Embeddable, as data.** `src/data/embeddable.ts` derives an `embeddable` flag for every tool
+(`embeddable` in `src/data/registry.ts`): false for the six heavy-coupling widgets that only work as
+a whole page (pomodoro-timer, todo-list, keep-screen-awake, habit-streak-tracker, book-tracker,
+json-tree-viewer), true for everything else. Nothing consumes it yet; `embeddable.test.ts` pins it.
+
+**For new tools** (the rule is in CLAUDE.md): one root, slug-prefixed IDs, root-scoped queries, no
+own URL literals (link through the builder), no page-level shortcuts, and nothing from the
+forbidden row. Existing widgets that fall short are grandfathered, not refactored.
 
 ---
 
@@ -753,8 +805,8 @@ Rules when touching this:
   single source the sitemap derives from; search and related-content can derive from it next.
 - **Search prep** (`src/lib/search/`) — `buildSearchIndex()` produces a serializable index from the
   metadata contract. Architecture only; no UI yet.
-- **Analytics** (`src/lib/analytics/`): `guard.ts` loads GA only on the production hostnames
-  (`src/config/site.ts`) in the top window; `location.ts` strips the query and hash from
+- **Analytics** (`src/lib/analytics/`): `guard.ts` loads GA (and registers the service worker) only
+  on the production hostnames (`src/config/site.ts`) in the top window; `location.ts` strips the query and hash from
   `page_location` / `page_referrer`; `history.ts` keeps gtag's history-change page views off
   `replaceState`. The only custom events are the three `eq_*` ones, pinned by
   `events-inventory.test.ts`. Details: `docs/analytics.md`.
@@ -780,9 +832,10 @@ no per-tool PWA edits, ever.
 - **Service worker** — `public/sw.js`: `skipWaiting()` + `clients.claim()` so it controls the page on
   the first visit (required for installability), network-first with `no-store` navigations (so
   deploys show immediately) and a Cache-API offline fallback. Registered for real users only
-  (`serviceWorkerEnabled` in `src/lib/analytics/guard.ts`: skipped under dev/E2E/automation/localhost,
-  and deliberately not narrowed to the analytics hostname allowlist). Bump `CACHE` when its
-  behaviour changes.
+  (`serviceWorkerEnabled` in `src/lib/analytics/guard.ts`: the same rule as analytics, so only on a
+  production hostname in the top window, never under dev/E2E/automation, on another host or in a
+  frame; nothing ever unregisters an existing worker. Reasoning: `docs/analytics.md`). Bump `CACHE`
+  when its behaviour changes.
 
 The head tags (`<link rel="manifest">`, `apple-touch-icon`, `theme-color`, `apple-mobile-web-app-*`)
 are emitted by `BaseLayout` via `ToolLayout`'s `pwa` prop. Never hand-add them per tool.
