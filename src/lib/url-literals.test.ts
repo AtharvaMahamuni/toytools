@@ -1,13 +1,15 @@
 // The URL lint (C3, spec item 4): a tool or category URL is built by src/lib/paths.ts and nowhere
-// else. Any NEW raw template literal that starts a `/tool/` or `/category/` path, like
-// `/tool/${segment}/${slug}/` or withBase(`/category/${slug}/`), fails here; call toolPath(),
-// categoryPath(), guidePath() or urlFor() instead.
+// else. Any NEW raw string that starts a `/tool/` or `/category/` path fails here, in any quoting:
+// a template literal like `/tool/${segment}/${slug}/` or withBase(`/category/${slug}/`), a single-
+// or double-quoted string like '/tool/finance/x/' or '/tool/' + seg + '/', and an attribute like
+// href="/tool/finance/x/". Call toolPath(), categoryPath(), guidePath() or urlFor() instead.
 //
 // Two allowlists, both of which only shrink:
 //   • GUIDE_FILES: every Guide.astro that existed when the lint landed. They hold ~200 raw links
 //     and move to the builder in C4, which deletes this list. A new Guide.astro is not on it, so it
 //     has to use the builder from day one.
-//   • OTHER_FILES: files with a reason the builder cannot be imported, each pinned by its own test.
+//   • OTHER_FILES: files the builder cannot reach yet (inline scripts, redirect data, widgets that
+//     C3 does not refactor, a prose comment), each with its reason.
 // An allowlisted file that no longer has a raw literal fails too, so the list cannot go stale.
 import { describe, it, expect } from 'vitest';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -23,6 +25,20 @@ const OTHER_FILES: Record<string, string> = {
   // Client wire format: the palette chunk must not share a module with the engine bundles.
   // entry-url.test.ts pins entryUrl() to toolPath() for every tool.
   'src/lib/search/types.ts': 'palette chunk; pinned by src/lib/search/entry-url.test.ts',
+  // Builds recent-tool links in an is:inline script, where no module can be imported.
+  'src/pages/offline.astro': 'is:inline script builds the link by concatenation; no imports there',
+  // Redirect data: targetPath is the stored destination of a retired guide URL, not a link built
+  // from registry data. Moving it to the builder is a C4 guide-links change.
+  'src/data/guide-redirects.ts': 'redirect table; targetPath is a stored destination, migrated with the guides in C4',
+  // Widgets are out of scope in C3 (spec: do not refactor existing widgets). Each passes its own
+  // fixed tool URL through withBase, so it is base-aware today.
+  'src/tools/productivity/pomodoro-timer/Widget.astro': "widget, not refactored in C3; withBase('/tool/productivity/pomodoro-timer/')",
+  'src/tools/productivity/keep-screen-awake/Widget.astro': "widget, not refactored in C3; withBase('/tool/productivity/keep-screen-awake/')",
+  // Shared text widget: line 45 renders withBase('/tool/text/') into a data attribute, line 85 is
+  // the inline script's fallback for that attribute (inline scripts cannot import).
+  'src/tools/_shared/TextProcessorWidget.astro': 'shared widget, not refactored in C3; sibling prefix for an is:inline script',
+  // Prose: an example misspelt URL inside a {/* ... */} block comment, not code.
+  'src/pages/404.astro': 'example URL in a multi-line {/* */} comment, not a link',
 };
 
 /** Frozen on 2026-09-29 (C3). C4 migrates these guides to the builder and deletes this list. */
@@ -174,8 +190,9 @@ const GUIDE_FILES: readonly string[] = [
   'src/tools/text/word-frequency-counter/Guide.astro',
 ];
 
-// A template literal that begins a /tool/ or /category/ path, optionally after one ${...} (a base).
-const RAW_URL_TEMPLATE = /`(?:\$\{[^}`]*\})?\/(?:tool|category)\//;
+// A string of any quoting (`, ' or ") that begins a /tool/ or /category/ path, optionally after
+// one ${...} (a base) in a template literal. Attribute values are double- or single-quoted strings.
+const RAW_URL_LITERAL = /[`'"](?:\$\{[^}`]*\})?\/(?:tool|category)\//;
 // Whole-line comments: //, /* and * continuation lines, JSX {/* */} and HTML <!-- -->.
 const COMMENT_LINE = /^\s*(?:\/\/|\*|\/\*|\{\/\*|<!--)/;
 
@@ -190,13 +207,13 @@ function sourceFiles(dir: string): string[] {
 }
 
 /** file → offending lines, for every source file under src/. */
-function rawUrlTemplates(): Map<string, string[]> {
+function rawUrlLiterals(): Map<string, string[]> {
   const hits = new Map<string, string[]>();
   for (const file of sourceFiles(SRC)) {
     const rel = relative(ROOT, file);
     const lines = readFileSync(file, 'utf8').split('\n');
     lines.forEach((line, i) => {
-      if (COMMENT_LINE.test(line) || !RAW_URL_TEMPLATE.test(line)) return;
+      if (COMMENT_LINE.test(line) || !RAW_URL_LITERAL.test(line)) return;
       const list = hits.get(rel) ?? [];
       list.push(`${rel}:${i + 1}: ${line.trim()}`);
       hits.set(rel, list);
@@ -205,15 +222,15 @@ function rawUrlTemplates(): Map<string, string[]> {
   return hits;
 }
 
-describe('no raw /tool/ or /category/ URL templates outside the builder', () => {
-  const hits = rawUrlTemplates();
+describe('no raw /tool/ or /category/ URL strings outside the builder', () => {
+  const hits = rawUrlLiterals();
   const allowed = new Set<string>([BUILDER, ...Object.keys(OTHER_FILES), ...GUIDE_FILES]);
 
   it('finds the builder itself (the pattern still matches what it should)', () => {
     expect(hits.has(BUILDER)).toBe(true);
   });
 
-  it('has no raw URL template in any file that is not allowlisted', () => {
+  it('has no raw URL string in any file that is not allowlisted', () => {
     const offenders = [...hits.entries()]
       .filter(([file]) => !allowed.has(file))
       .flatMap(([, lines]) => lines);
@@ -230,16 +247,43 @@ describe('no raw /tool/ or /category/ URL templates outside the builder', () => 
     expect(new Set(GUIDE_FILES).size).toBe(GUIDE_FILES.length);
   });
 
+  it('gives every OTHER_FILES entry a reason', () => {
+    for (const [file, reason] of Object.entries(OTHER_FILES)) expect(reason.length, file).toBeGreaterThan(10);
+  });
+
   it('catches a new raw template, with or without withBase or a base prefix', () => {
     for (const sample of [
       'const a = `/tool/${segment}/${slug}/`;',
       'href={withBase(`/category/${c.slug}/`)}',
       'return `${base}/tool/${seg}/${s}/`;',
     ]) {
-      expect(RAW_URL_TEMPLATE.test(sample), sample).toBe(true);
+      expect(RAW_URL_LITERAL.test(sample), sample).toBe(true);
     }
-    for (const sample of ['`/tools/${old}/`', '`/icons/tool/${slug}.svg`', "'components/tool/ToolBar.astro'"]) {
-      expect(RAW_URL_TEMPLATE.test(sample), sample).toBe(false);
+  });
+
+  it('catches a new raw quoted string, a concatenation and an attribute value', () => {
+    for (const sample of [
+      "const x = '/tool/finance/x/';",
+      'const y = "/category/finance/";',
+      "a.href = '/tool/' + seg + '/';",
+      '<a href="/tool/finance/x/">',
+      "<a href='/category/text/'>",
+      "href={withBase('/tool/text/')}",
+    ]) {
+      expect(RAW_URL_LITERAL.test(sample), sample).toBe(true);
+    }
+  });
+
+  it('leaves other paths alone', () => {
+    for (const sample of [
+      '`/tools/${old}/`',
+      "'/tools/text/'",
+      '`/icons/tool/${slug}.svg`',
+      "'components/tool/ToolBar.astro'",
+      '"/guide/text/x/"',
+      "import X from '@components/tool/ToolPage.astro';",
+    ]) {
+      expect(RAW_URL_LITERAL.test(sample), sample).toBe(false);
     }
   });
 });
