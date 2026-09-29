@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 0,
-  patch: 2,
+  minor: 1,
+  patch: 0,
   status: 'beta',
-  releaseDate: '2026-09-27',
-  description: 'Resizable textareas site-wide',
+  releaseDate: '2026-09-29',
+  description: 'Prep tools slimmed for phones',
 };
 
 export function formatVersion(config: VersionConfig): string {

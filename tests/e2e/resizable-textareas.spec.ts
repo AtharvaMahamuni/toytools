@@ -40,6 +40,8 @@ test.describe('resizable textareas', () => {
     // sized element, at least 5rem, and the panel hugs it.
     const ta = await heightOf(input);
     expect(ta).toBeGreaterThan(80);
+    // The drag floor is 5rem: pinned as the computed value, so no retune can slip under it.
+    expect(await computed(input, 'min-height')).toBe('80px');
     const panel = page.locator('.io-panel', { has: input }).first();
     expect(await computed(panel, 'max-height')).toBe('none');
 
@@ -63,13 +65,16 @@ test.describe('resizable textareas', () => {
   });
 
   test('a widget --io-pane-h now sets the textarea height', async ({ page }) => {
-    // Prompt Packer declares --io-pane-h: 4.5rem, which the old 280px panel floor ignored.
-    // Below the 5rem minimum, so the field opens at 5rem (80px).
+    // Prompt Packer declares --io-pane-h: 6.5rem (three prose rows, retuned in beta-v12.1 from
+    // 4.5rem, which sat under the 5rem minimum and opened at 80px). The old 280px panel floor
+    // ignored the variable entirely; now the field opens at exactly 6.5rem (104px).
     await page.goto('/tool/prep/prompt-packer/');
     const task = page.locator('#pp-task');
     await expect(task).toBeVisible();
-    expect(Math.round(await heightOf(task))).toBe(80);
+    expect(Math.round(await heightOf(task))).toBe(104);
     expect(await computed(task, 'resize')).toBe('vertical');
+    // Retuning a widget's --io-pane-h does not move the 5rem (80px) floor under it.
+    expect(await computed(task, 'min-height')).toBe('80px');
 
     // Chat Export Cleaner declares 8rem (128px).
     await page.goto('/tool/prep/chat-export-cleaner/');

@@ -1,75 +1,112 @@
 ---
 // Bespoke widget. TextProcessorWidget reads one string. This page joins five fields.
 // The assembly lives in src/lib/text/promptPack.ts. This file only renders it.
+//
+// Phone-first layout (beta-v12.1): Role and Task open, the other three behind a counted
+// disclosure that opens itself when any of them holds text, the Markdown/Tags switch in the
+// output's own header, and a sticky Copy row on phones.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import Disclosure from '@tools/_shared/Disclosure.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 ---
 
 <div class="pp">
+  <div class="pp-in">
   <div class="pp-fields">
     <IoPanel label="Role" labelFor="pp-role" variant="prose">
-      <textarea id="pp-role" placeholder="You are a senior Android engineer." spellcheck="true" aria-label="Role"></textarea>
+      <textarea id="pp-role" rows="3" placeholder="You are a senior Android engineer." spellcheck="true" aria-label="Role"></textarea>
     </IoPanel>
     <IoPanel label="Task" labelFor="pp-task" variant="prose">
-      <textarea id="pp-task" placeholder="Explain how Binder IPC works." spellcheck="true" aria-label="Task"></textarea>
+      <textarea id="pp-task" rows="3" placeholder="Explain how Binder IPC works." spellcheck="true" aria-label="Task"></textarea>
     </IoPanel>
+  </div>
+
+  <Disclosure id="pp-more" label="More fields" count={3}>
+    <button slot="actions" class="action-btn action-btn--sample" id="pp-sample" type="button">Sample</button>
+    <button slot="actions" class="action-btn pp-clear" id="pp-clear" type="button">Clear</button>
     <IoPanel label="Context" labelFor="pp-context" variant="prose">
-      <textarea id="pp-context" placeholder="The audience understands Kotlin but is new to Android internals." spellcheck="true" aria-label="Context"></textarea>
+      <textarea id="pp-context" rows="3" placeholder="The audience understands Kotlin but is new to Android internals." spellcheck="true" aria-label="Context"></textarea>
     </IoPanel>
     <IoPanel label="Constraints" labelFor="pp-constraints" variant="prose">
-      <textarea id="pp-constraints" placeholder="Use simple language. Include a concrete example." spellcheck="true" aria-label="Constraints"></textarea>
+      <textarea id="pp-constraints" rows="3" placeholder="Use simple language. Include a concrete example." spellcheck="true" aria-label="Constraints"></textarea>
     </IoPanel>
     <IoPanel label="Output format" labelFor="pp-format-field" variant="prose">
-      <textarea id="pp-format-field" placeholder="Use headings and bullet points." spellcheck="true" aria-label="Output format"></textarea>
+      <textarea id="pp-format-field" rows="3" placeholder="Use headings and bullet points." spellcheck="true" aria-label="Output format"></textarea>
     </IoPanel>
-  </div>
-
-  <div class="pp-format" role="group" aria-label="Output format">
-    <button class="action-btn" id="pp-md" type="button" aria-pressed="true">Markdown</button>
-    <button class="action-btn" id="pp-xml" type="button" aria-pressed="false">Tags</button>
-    <button class="action-btn action-btn--sample" id="pp-sample" type="button">Sample</button>
-    <button class="action-btn" id="pp-clear" type="button">Clear</button>
-  </div>
+  </Disclosure>
 
   <p class="pp-omit" id="pp-omit" data-craft="prompt-omit-empty" role="status" hidden></p>
-  <p class="pp-counts" id="pp-counts" aria-live="polite">0 characters · 0 words</p>
+  <p class="pp-counts"><span id="pp-counts" aria-live="polite">0 characters · 0 words</span>. <span class="pp-note">Assembles the prompt. Does not write it.</span></p>
+  </div>
 
-  <IoPanel label="Assembled prompt" labelFor="pp-out" variant="prose">
-    <textarea id="pp-out" readonly aria-label="Assembled prompt" placeholder="The assembled prompt appears here."></textarea>
-  </IoPanel>
-  <ToolActions copyTarget="pp-out" />
-  <p class="pp-note">Assembles the prompt. Does not write it.</p>
+  <div class="pp-res">
+  <div class="pp-output">
+    <IoPanel label="Assembled prompt" labelFor="pp-out" variant="prose">
+      <div slot="header-end" class="pp-format" role="group" aria-label="Prompt layout">
+        <button class="action-btn" id="pp-md" type="button" aria-pressed="true">Markdown</button>
+        <button class="action-btn" id="pp-xml" type="button" aria-pressed="false">Tags</button>
+      </div>
+      <textarea id="pp-out" readonly aria-label="Assembled prompt" placeholder="The assembled prompt appears here."></textarea>
+    </IoPanel>
+  </div>
+  <ToolActions copyTarget="pp-out" sticky />
+  </div>
 </div>
 
 <style>
-  .pp { min-width: 0; max-width: 100%; --io-pane-h: 4.5rem; }
+  /* Inputs open at three prose rows (3 x 26px + padding); the result at 12rem on a phone and
+     16rem on desktop, both still draggable (PR #232). */
+  .pp { min-width: 0; max-width: 100%; --io-pane-h: 6.5rem; }
+  .pp-output { --io-pane-h: 12rem; margin-top: var(--space-4); }
+  /* Below the split, the result column is not a box: the sticky Copy row then takes the whole
+     widget as its range, so it floats from the first screen, not only once the result is reached. */
+  @media (max-width: 1023px) {
+    .pp-res { display: contents; }
+  }
+
+  /* Desktop: fields left, prompt right, the same split ToolSplit draws, so the result is on the
+     first screen however many fields are open. */
+  @media (min-width: 1024px) {
+    .pp {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-8);
+      align-items: start;
+    }
+    .pp-in, .pp-res { min-width: 0; }
+    .pp-output { --io-pane-h: 20rem; margin-top: 0; }
+  }
   .pp [hidden] { display: none !important; }
 
   .pp-fields {
     display: grid;
     gap: var(--space-4);
     min-width: 0;
+    margin-bottom: var(--space-2);
   }
 
   .pp-format {
     display: flex;
-    flex-wrap: wrap;
     gap: var(--space-2);
-    margin-top: var(--space-4);
   }
 
-  .pp-format .action-btn {
+  .action-btn {
     min-height: var(--touch-target);
   }
 
+  .pp-format .action-btn {
+    padding-inline: var(--space-3);
+  }
+
+  .pp-clear:active,
   .pp-format .action-btn:active,
   .pp-format .action-btn[aria-pressed="true"] {
     background: var(--color-accent-subtle);
   }
 
   .pp-omit,
-  .pp-counts,
-  .pp-note {
+  .pp-counts {
     margin: var(--space-3) 0 0;
     max-width: none;
     font-size: var(--text-sm);
@@ -105,6 +142,10 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var format = 'markdown';
     var clearArmed = false;
     var clearTimer = 0;
+    var more = document.getElementById('pp-more');
+    function syncMore() {
+      if (more) more.dispatchEvent(new CustomEvent('tt:disclosure-sync', { bubbles: true }));
+    }
 
     function fields() {
       return {
@@ -153,6 +194,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       outputFormat.value = 'Use headings and bullet points.';
       disarm();
       paint();
+      syncMore();
     });
     clearBtn.addEventListener('click', function () {
       if (!clearArmed) {
@@ -169,6 +211,8 @@ import ToolActions from '@components/tool/ToolActions.astro';
       disarm();
       paint();
     });
+    // A browser that restores form values (back/forward) can refill a hidden field.
+    syncMore();
     paint();
   });
 </script>

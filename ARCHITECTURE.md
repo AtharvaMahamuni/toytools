@@ -144,6 +144,18 @@ State is communicated only by subtle tints. Button styles are global (`.action-b
 
 No overlays or modals. The original label is stored in `data-label`; timers reset on re-click.
 
+`sticky` (opt-in, beta-v12.1, used by the Prep tools Prompt Packer, Chat Export Cleaner and
+llms.txt Generator) adds `.tool-actions--sticky`: below 640px the row sticks to the bottom of the
+screen while its widget is in view and returns to its slot at the widget's end, so it never covers
+the last thing in the widget. Styles live in `src/styles/prep-slim.css`, not `tool-widget.css`,
+so no other page pays for them. Known platform issue found on the way: `body { overflow-x: hidden }`
+in `global.css` makes `<body>` a non-scrolling scroll container, so `position: sticky` is inert
+under it site-wide (ToolBar's `top: 0` included). `prep-slim.css` sets `overflow-x: clip` on a
+body that holds a sticky Prep row, and pins ToolBar to its current non-sticky rendering there.
+While the row floats, `html:has(.tool-actions--sticky) { scroll-padding-bottom: 6rem }` keeps
+focus scrolling clear of it, so a field reached by Tab is never under the bar (WCAG 2.2 SC
+2.4.11, pinned by a Tab-walk test in `tests/e2e/prep-slim.spec.ts`).
+
 CSS tokens: `--color-success(-bg)`, `--color-danger(-bg)`.
 
 ---
@@ -519,10 +531,20 @@ Each engine has a distinct runtime signature; the widgets stay generic over them
 |--------|-----|----------------|-----------|--------|-------|
 | Encoding | `engines/encoding/` | `ToyTools.runEncoding(id, mode, text)` | → `{ ok, output, error }` (decode can fail) | `ConverterWidget.astro` (reversible: mode/swap/sample) | base64, url, html-entity, hex, binary, punycode |
 | Hashing | `engines/hashing/` | `ToyTools.runHash(id, text)` | → `Promise<string>` (async; SHA via `crypto.subtle`, MD5/CRC32 pure-JS) | `ConverterWidget.astro` (one-way: live digest, awaits) | md5, sha1, sha256, sha512, crc32 |
-| Structured-Data | `engines/structured-data/` | `ToyTools.runStructuredData(id, input)` | → `{ ok, output, error }` (✓/✗ status line) | `StructuredDataWidget.astro` | json-formatter/minifier/validator, JSON↔CSV, JSON↔YAML |
+| Structured-Data | `engines/structured-data/` | `ToyTools.runStructuredData(id, input)` | → `{ ok, output, error }` (✓/✗ status line) | `StructuredDataWidget.astro` | json-formatter/minifier/validator, JSON↔CSV, JSON↔YAML, json-to-schema (`slim`) |
 
 (The engine → shared-widget mapping is data in `src/data/engines.ts` and mirrored into
 `docs/code-map.json`.)
+
+**`StructuredDataWidget` `slim` (opt-in, beta-v12.1).** One tool sets it: JSON to JSON Schema. It
+drops the inline insight card and the Technical details drawer from the widget and hands the same
+text to Zone C's "More about" row through `src/tools/_shared/MoreAbout.astro` (rendered in the
+widget's HTML, moved into `KnowledgeDrawers`' row on load, never painted inside the widget), opens
+the input at about six rows (`.sd-slim { --io-pane-h }`), and labels the example button "Sample"
+so Paste / Clear / Download / Sample fit one row at 390px. Without the flag the component's
+output is byte-identical to before (the built HTML of all seven other structured-data tools was
+diffed against main), and `tests/e2e/prep-slim.spec.ts` pins that they still render the insight,
+the drawer and "Load example".
 
 Every resolver **never throws** on an unknown id (encoding passes input through; hashing returns `''`;
 structured-data returns a result error). Browser-only APIs (`btoa`/`atob`/`crypto.subtle`) stay

@@ -1,6 +1,11 @@
 ---
 // Bespoke widget. StructuredDataWidget reads one string. This page checks a schema against data.
 // The check lives in src/lib/engines/structured-data/schemaValidate.ts.
+//
+// Phone-first layout (beta-v12.1): both panes open at about five rows, the verdict is a badge
+// right under them, the first three problems show with "Show all (N)" for the rest, and Paste
+// shares one row with Sample and Clear.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 ---
@@ -8,24 +13,29 @@ import ToolActions from '@components/tool/ToolActions.astro';
 <div class="sv">
   <div class="sv-panes">
     <IoPanel label="Schema" labelFor="sv-schema">
-      <textarea id="sv-schema" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="JSON Schema" placeholder="Paste a JSON Schema here"></textarea>
+      <textarea id="sv-schema" rows="5" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="JSON Schema" placeholder="Paste a JSON Schema here"></textarea>
     </IoPanel>
     <IoPanel label="Data" labelFor="sv-data">
-      <textarea id="sv-data" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="JSON data" placeholder="Paste JSON data here"></textarea>
+      <textarea id="sv-data" rows="5" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="JSON data" placeholder="Paste JSON data here"></textarea>
     </IoPanel>
   </div>
-  <div class="sv-actions">
-    <button class="action-btn action-btn--sample" id="sv-sample" type="button">Sample</button>
-    <button class="action-btn" id="sv-clear" type="button">Clear both</button>
-  </div>
-  <p class="sv-status" id="sv-status" data-craft="schema-unchecked" role="status">Paste a schema and JSON data.</p>
+
+  <p class="sv-line">
+    <span class="sv-status" id="sv-status" data-craft="schema-unchecked" role="status"><span class="sv-badge" id="sv-badge" hidden></span><span id="sv-msg">Paste a schema and JSON data.</span></span>
+    <span class="sv-note">Checks the keywords this page lists. Does not call a model.</span>
+  </p>
   <ol class="sv-errors" id="sv-errors" hidden></ol>
-  <ToolActions pasteTarget="sv-data" />
-  <p class="sv-note">Checks the keywords this page lists. Does not call a model.</p>
+  <button class="sv-more" id="sv-show-all" type="button" aria-expanded="false" aria-controls="sv-errors" hidden></button>
+
+  <ToolActions pasteTarget="sv-data">
+    <button class="action-btn action-btn--sample" id="sv-sample" type="button">Sample</button>
+    <button class="action-btn sv-clear" id="sv-clear" type="button">Clear both</button>
+  </ToolActions>
 </div>
 
 <style>
-  .sv { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  /* About five mono rows each (5 x 22.75px + padding). */
+  .sv { min-width: 0; max-width: 100%; --io-pane-h: 8.75rem; }
   .sv [hidden] { display: none !important; }
 
   .sv-panes {
@@ -34,29 +44,33 @@ import ToolActions from '@components/tool/ToolActions.astro';
     min-width: 0;
   }
 
-  .sv-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-3);
-  }
-
-  .sv-actions .action-btn {
-    min-height: var(--touch-target);
-  }
-
-  .sv-actions .action-btn:active {
+  .sv-clear:active {
     background: var(--color-accent-subtle);
   }
 
-  .sv-status,
-  .sv-note {
+  .sv-line {
     margin: var(--space-3) 0 0;
     max-width: none;
     font-size: var(--text-sm);
     line-height: 1.45;
     color: var(--color-text-muted);
   }
+
+  .sv-status { color: var(--color-text); }
+
+  /* The verdict. Text plus a glyph, so it never relies on colour alone; a tint, not a card. */
+  .sv-badge {
+    display: inline-block;
+    margin-right: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-sm);
+  }
+
+  .sv-badge[data-verdict="valid"] { background: var(--color-success-bg); color: var(--color-success); }
+  .sv-badge[data-verdict="invalid"],
+  .sv-badge[data-verdict="unreadable"] { background: var(--color-danger-bg); color: var(--color-danger); }
 
   .sv-errors {
     list-style: none;
@@ -74,6 +88,26 @@ import ToolActions from '@components/tool/ToolActions.astro';
     overflow-wrap: anywhere;
   }
 
+  .sv-more {
+    min-height: var(--touch-target);
+    margin-top: var(--space-1);
+    padding: 0 var(--space-2) 0 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-accent-strong);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .sv-more:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   .sv textarea {
     font-size: var(--text-base);
   }
@@ -88,10 +122,37 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var schema = document.getElementById('sv-schema');
     var data = document.getElementById('sv-data');
     var status = document.getElementById('sv-status');
+    var badge = document.getElementById('sv-badge');
+    var msg = document.getElementById('sv-msg');
+    var showAll = document.getElementById('sv-show-all');
     var errors = document.getElementById('sv-errors');
     var sample = document.getElementById('sv-sample');
     var clearBtn = document.getElementById('sv-clear');
-    if (!schema || !data || !status || !errors || !sample || !clearBtn) return;
+    if (!schema || !data || !status || !badge || !msg || !showAll || !errors || !sample || !clearBtn) return;
+
+    // Three problems are enough to start fixing; the rest wait behind one button.
+    var FIRST = 3;
+    var expanded = false;
+
+    function verdict(kind, text) {
+      badge.hidden = !kind;
+      if (kind) badge.setAttribute('data-verdict', kind);
+      else badge.removeAttribute('data-verdict');
+      badge.textContent = text || '';
+    }
+
+    function fold() {
+      var items = errors.children;
+      for (var i = 0; i < items.length; i++) items[i].hidden = !expanded && i >= FIRST;
+      showAll.hidden = items.length <= FIRST;
+      showAll.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      showAll.textContent = expanded ? 'Show first ' + FIRST : 'Show all (' + items.length + ')';
+    }
+
+    showAll.addEventListener('click', function () {
+      expanded = !expanded;
+      fold();
+    });
 
     var SAMPLE_SCHEMA = '{\n  "type": "object",\n  "properties": {\n    "name": { "type": "string" },\n    "age": { "type": "integer" }\n  },\n  "required": ["name"]\n}';
     var SAMPLE_DATA = '{\n  "name": "Atharva",\n  "age": 30\n}';
@@ -114,28 +175,36 @@ import ToolActions from '@components/tool/ToolActions.astro';
         ? ' Not checked: ' + result.unchecked.join(', ') + '.'
         : '';
       if (!schema.value.trim() && !data.value.trim()) {
-        status.textContent = 'Paste a schema and JSON data.';
+        verdict(null);
+        msg.textContent = 'Paste a schema and JSON data.';
         errors.hidden = true;
+        fold();
         return;
       }
       if (result.parseError) {
-        status.textContent = result.parseError;
+        verdict('unreadable', '✗ Cannot check');
+        msg.textContent = result.parseError;
         errors.hidden = true;
+        fold();
         return;
       }
       if (result.ok) {
-        status.textContent = 'Valid.' + unchecked;
+        verdict('valid', '✓ Valid');
+        msg.textContent = unchecked.trim();
         errors.hidden = true;
+        fold();
         return;
       }
       var list = result.errors || [];
-      status.textContent = list.length + (list.length === 1 ? ' problem.' : ' problems.') + unchecked;
+      verdict('invalid', '✗ Invalid');
+      msg.textContent = list.length + (list.length === 1 ? ' problem.' : ' problems.') + unchecked;
       errors.hidden = list.length === 0;
       for (var i = 0; i < list.length; i++) {
         var li = document.createElement('li');
         li.textContent = (list[i].path || '/') + ' ' + list[i].message;
         errors.appendChild(li);
       }
+      fold();
     }
 
     function disarm() {

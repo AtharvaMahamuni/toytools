@@ -1,13 +1,20 @@
 ---
 // Bespoke widget. The estimate lives in src/lib/text/contextFit.ts.
 // Model rows are the sourced table in src/lib/text/contextModels.ts.
+//
+// Phone-first layout (beta-v12.1): the result is one line ("~1,234 tokens · 1% of 128,000 ·
+// Fits") with the estimate label inline beside it. The window's source and checked date move
+// to Zone C's "More about" row (MoreAbout.astro), still in the HTML under #cf-source.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import MoreAbout from '@tools/_shared/MoreAbout.astro';
 import { CONTEXT_MODELS } from '@lib/text/contextModels';
+// The first row is the default <select> option, so the line reads correctly before script runs.
 ---
 
 <div class="cf">
   <IoPanel label="Text" labelFor="cf-text" variant="prose">
-    <textarea id="cf-text" spellcheck="true" aria-label="Text to estimate" placeholder="Paste your prompt or text here."></textarea>
+    <textarea id="cf-text" rows="5" spellcheck="true" aria-label="Text to estimate" placeholder="Paste your prompt or text here."></textarea>
   </IoPanel>
 
   <label class="cf-model" for="cf-model">
@@ -19,23 +26,20 @@ import { CONTEXT_MODELS } from '@lib/text/contextModels';
     </select>
   </label>
 
-  <dl class="cf-results">
-    <div><dt>Characters</dt><dd id="cf-chars">0</dd></div>
-    <div><dt>Estimated tokens</dt><dd id="cf-tokens">0</dd></div>
-    <div><dt>Context window</dt><dd id="cf-window">0</dd></div>
-    <div><dt>Estimated usage</dt><dd id="cf-percent">0%</dd></div>
-    <div><dt>Status</dt><dd id="cf-status">Fits</dd></div>
-  </dl>
-
-  <p class="cf-warn" id="cf-warn" data-craft="context-estimate-only" role="status">
-    This is an estimate, not an official tokenizer count.
+  <p class="cf-line">
+    <span class="cf-result" aria-live="polite"><span id="cf-tokens">0</span> tokens · <span id="cf-percent">0%</span> of <span id="cf-window">{(CONTEXT_MODELS[0]?.contextWindow ?? 0).toLocaleString('en-US')}</span> · <span class="cf-status" id="cf-status">Fits</span></span>
+    <span class="cf-warn" id="cf-warn" data-craft="context-estimate-only">An estimate from <span id="cf-chars">0</span> characters, not a tokenizer count.</span>
   </p>
   <p class="cf-over" id="cf-over" hidden>This text may exceed the selected context window.</p>
-  <p class="cf-source" id="cf-source"></p>
+
+  <MoreAbout id="cf-about" heading="Where the context windows come from">
+    <p class="cf-source" id="cf-source">Window checked {CONTEXT_MODELS[0]?.lastUpdated}. {CONTEXT_MODELS[0]?.sourceNote}</p>
+  </MoreAbout>
 </div>
 
 <style>
-  .cf { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  /* Input about five prose rows (5 x 26px + padding). */
+  .cf { min-width: 0; max-width: 100%; --io-pane-h: 9.5rem; }
   .cf [hidden] { display: none !important; }
 
   .cf-model {
@@ -58,40 +62,30 @@ import { CONTEXT_MODELS } from '@lib/text/contextModels';
     color: var(--color-text);
   }
 
-  .cf-results {
-    display: grid;
-    gap: var(--space-3);
+  .cf-line {
     margin: var(--space-5) 0 0;
+    max-width: none;
+    line-height: 1.5;
   }
 
-  .cf-results div {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-4);
-    min-width: 0;
-  }
-
-  .cf-results dt {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-  }
-
-  .cf-results dd {
-    margin: 0;
+  .cf-result {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
     font-variant-numeric: tabular-nums;
-    font-size: var(--text-base);
     color: var(--color-text);
+    margin-right: var(--space-2);
   }
 
   .cf-warn,
-  .cf-over,
-  .cf-source {
-    margin: var(--space-3) 0 0;
-    max-width: none;
+  .cf-over {
     font-size: var(--text-sm);
     line-height: 1.45;
     color: var(--color-text-muted);
+  }
+
+  .cf-over {
+    margin: var(--space-2) 0 0;
+    max-width: none;
   }
 
   .cf textarea {

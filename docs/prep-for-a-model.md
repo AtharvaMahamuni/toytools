@@ -17,6 +17,28 @@ The category is `/category/prep/`. Tools:
 
 Prompt Packer assembles fields. It does not write the prompt. Context windows in `src/lib/text/contextModels.ts` are copied from the vendor URL on each row. The divisor is 4 characters per estimated token. That is not a tokenizer. JSON Schema validation checks only the keywords named on the validator page. An exact tokenizer is not in this branch: if it is added later, it has to be a lazy chunk on its own route, not a shared dependency.
 
+## Phone-first layout (beta-v12.1)
+
+Each Prep tool is meant to feel like a focused app on a 390px phone, with the result on or near
+the first screen. The shared pieces:
+
+- `src/tools/_shared/Disclosure.astro`: a counted `<button aria-expanded aria-controls>` over a
+  `[hidden]` region ("More fields (3)", "Optional (3)", Chat Export Cleaner's live
+  "Cleanup: 6 of 6 on · Keep: Everything"). A widget that writes into hidden fields (Sample, a
+  restored form) dispatches `tt:disclosure-sync` on the region, which opens it when any field
+  inside holds text. It never re-closes by itself.
+- `src/tools/_shared/MoreAbout.astro`: explanatory text moved out of a widget (Context Fit's
+  window source and checked date, JSON to Schema's explanation and technical rows) into Zone C's
+  "More about" row. Still in the HTML.
+- `ToolActions sticky`: Copy (and Download on llms.txt) pinned to the bottom of a phone screen
+  while the widget is in view. Focus scrolling stops above it, so Tab never lands under it.
+- `src/styles/prep-slim.css`: the CSS for all of the above, imported only by Prep widgets.
+
+Heights are set per widget with `--io-pane-h` (PR #232 textareas stay resizable): inputs open at
+about three to six rows, outputs at 12rem on phones (16 to 20rem on desktop). Craft lines stay on
+the tool screen, never in a drawer: `#pp-omit`, `#cc-status`, `#sv-status`, `#cf-warn`, `#lg-omit`.
+`tests/e2e/prep-slim.spec.ts` pins the layout; `tests/e2e/prep.spec.ts` pins behaviour and privacy.
+
 ## Discovery files
 
 `/llms.txt` is a short overview: what the site is, the privacy line, a fixed list of core tools, and the categories. It links to `/llms-full.txt`.

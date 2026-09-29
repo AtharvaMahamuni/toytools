@@ -1,53 +1,70 @@
 ---
 // Bespoke widget. The rules live in src/lib/text/chatClean.ts. This file only renders them.
+//
+// Phone-first layout (beta-v12.1): the six cleanup switches and four keep modes fold into one
+// summary line ("Cleanup: 6 of 6 on · Keep: Everything") that expands; the cleaned text sits
+// directly under the status line; Copy is sticky on phones.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import Disclosure from '@tools/_shared/Disclosure.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 ---
 
 <div class="cc">
   <IoPanel label="Transcript" labelFor="cc-in" variant="prose">
-    <textarea id="cc-in" spellcheck="false" aria-label="Transcript" placeholder="Paste a copied chat here."></textarea>
+    <div slot="header-end" class="cc-actions">
+      <button class="action-btn action-btn--sample" id="cc-sample" type="button">Sample</button>
+      <button class="action-btn cc-clear" id="cc-clear" type="button">Clear</button>
+    </div>
+    <textarea id="cc-in" rows="4" spellcheck="false" aria-label="Transcript" placeholder="Paste a copied chat here."></textarea>
   </IoPanel>
 
-  <fieldset class="cc-options">
-    <legend>Cleanup</legend>
-    <label><input type="checkbox" id="cc-times" checked /> Remove timestamps</label>
-    <label><input type="checkbox" id="cc-speakers" checked /> Remove speaker labels</label>
-    <label><input type="checkbox" id="cc-blanks" checked /> Normalize blank lines</label>
-    <label><input type="checkbox" id="cc-fences" checked /> Remove empty code fences</label>
-    <label><input type="checkbox" id="cc-space" checked /> Normalize spaces</label>
-    <label><input type="checkbox" id="cc-chips" checked /> Remove citation chips</label>
-  </fieldset>
+  <div class="cc-options-wrap">
+    <Disclosure id="cc-options" label="Cleanup: 6 of 6 on · Keep: Everything">
+      <fieldset class="cc-options">
+        <legend>Cleanup</legend>
+        <label><input type="checkbox" id="cc-times" checked /> Remove timestamps</label>
+        <label><input type="checkbox" id="cc-speakers" checked /> Remove speaker labels</label>
+        <label><input type="checkbox" id="cc-blanks" checked /> Normalize blank lines</label>
+        <label><input type="checkbox" id="cc-fences" checked /> Remove empty code fences</label>
+        <label><input type="checkbox" id="cc-space" checked /> Normalize spaces</label>
+        <label><input type="checkbox" id="cc-chips" checked /> Remove citation chips</label>
+      </fieldset>
 
-  <fieldset class="cc-keep">
-    <legend>Keep</legend>
-    <label><input type="radio" name="cc-keep" id="cc-all" value="all" checked /> Everything</label>
-    <label><input type="radio" name="cc-keep" id="cc-user" value="user" /> User messages</label>
-    <label><input type="radio" name="cc-keep" id="cc-assistant" value="assistant" /> Assistant messages</label>
-    <label><input type="radio" name="cc-keep" id="cc-code" value="code" /> Code blocks</label>
-  </fieldset>
-
-  <p class="cc-status" id="cc-status" data-craft="chat-removed-count" role="status">Paste a transcript.</p>
-
-  <div class="cc-actions">
-    <button class="action-btn action-btn--sample" id="cc-sample" type="button">Sample</button>
-    <button class="action-btn" id="cc-clear" type="button">Clear</button>
+      <fieldset class="cc-keep">
+        <legend>Keep</legend>
+        <label><input type="radio" name="cc-keep" id="cc-all" value="all" checked /> Everything</label>
+        <label><input type="radio" name="cc-keep" id="cc-user" value="user" /> User messages</label>
+        <label><input type="radio" name="cc-keep" id="cc-assistant" value="assistant" /> Assistant messages</label>
+        <label><input type="radio" name="cc-keep" id="cc-code" value="code" /> Code blocks</label>
+      </fieldset>
+    </Disclosure>
   </div>
 
-  <IoPanel label="Cleaned text" labelFor="cc-out" variant="prose">
-    <textarea id="cc-out" readonly aria-label="Cleaned text"></textarea>
-  </IoPanel>
-  <ToolActions copyTarget="cc-out" />
-  <p class="cc-note">Cleans the transcript. Does not rewrite it.</p>
+  <p class="cc-line"><span class="cc-status" id="cc-status" data-craft="chat-removed-count" role="status">Paste a transcript.</span> <span class="cc-note">Cleans the transcript. Does not rewrite it.</span></p>
+
+  <div class="cc-output">
+    <IoPanel label="Cleaned text" labelFor="cc-out" variant="prose">
+      <textarea id="cc-out" readonly aria-label="Cleaned text"></textarea>
+    </IoPanel>
+  </div>
+  <ToolActions copyTarget="cc-out" sticky />
 </div>
 
 <style>
+  /* Input about four prose rows; the result 12rem on a phone, 16rem on desktop. */
   .cc { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  .cc-output { --io-pane-h: 12rem; margin-top: var(--space-3); }
+  @media (min-width: 1024px) {
+    .cc-output { --io-pane-h: 16rem; }
+  }
   .cc [hidden] { display: none !important; }
+
+  .cc-options-wrap { margin-top: var(--space-2); }
 
   .cc-options,
   .cc-keep {
-    margin: var(--space-4) 0 0;
+    margin: 0;
     padding: 0;
     border: 0;
     display: grid;
@@ -73,24 +90,24 @@ import ToolActions from '@components/tool/ToolActions.astro';
     color: var(--color-text);
   }
 
-  .cc-status,
-  .cc-note {
-    margin: var(--space-3) 0 0;
+  .cc-line {
+    margin: var(--space-2) 0 0;
     max-width: none;
     font-size: var(--text-sm);
     line-height: 1.45;
     color: var(--color-text-muted);
   }
 
+  .cc-status { color: var(--color-text); }
+
   .cc-actions {
     display: flex;
-    flex-wrap: wrap;
     gap: var(--space-2);
-    margin-top: var(--space-3);
   }
 
   .cc-actions .action-btn {
     min-height: var(--touch-target);
+    padding-inline: var(--space-3);
   }
 
   .cc-actions .action-btn:active {
@@ -112,7 +129,19 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var ids = ['cc-times', 'cc-speakers', 'cc-blanks', 'cc-fences', 'cc-space', 'cc-chips', 'cc-all', 'cc-user', 'cc-assistant', 'cc-code'];
     var nodes = {};
     for (var i = 0; i < ids.length; i++) nodes[ids[i]] = document.getElementById(ids[i]);
+    var summary = document.querySelector('#cc-options-toggle [data-disclosure-label]');
     if (!input || !output || !status || !sample || !clearBtn) return;
+
+    var KEEP_LABEL = { all: 'Everything', user: 'User messages', assistant: 'Assistant messages', code: 'Code blocks' };
+    var SWITCHES = ['cc-times', 'cc-speakers', 'cc-blanks', 'cc-fences', 'cc-space', 'cc-chips'];
+
+    // The collapsed options still say what they are set to, so nobody has to open them to know.
+    function summarize() {
+      if (!summary) return;
+      var on = 0;
+      for (var s = 0; s < SWITCHES.length; s++) if (nodes[SWITCHES[s]].checked) on++;
+      summary.textContent = 'Cleanup: ' + on + ' of ' + SWITCHES.length + ' on · Keep: ' + KEEP_LABEL[keep()];
+    }
 
     var SAMPLE = '[10:15] User: How do I open a file?\n\nAssistant: Use open().\n\n```\nopen(path)\n```\n\n[10:16] User: Thanks';
     var clearArmed = false;
@@ -136,6 +165,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
         removeCitationChips: nodes['cc-chips'].checked,
         keep: keep(),
       });
+      summarize();
       output.value = result.text;
       if (!input.value.trim()) {
         status.textContent = 'Paste a transcript.';

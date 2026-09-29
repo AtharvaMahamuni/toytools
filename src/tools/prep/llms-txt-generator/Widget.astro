@@ -1,38 +1,72 @@
 ---
 // Bespoke widget. The layout lives in src/lib/text/llmsDraft.ts.
+//
+// Phone-first layout (beta-v12.1): Name, URL, Purpose and Tools open; Contact, Usage and
+// Crawler policy behind "Optional (3)", which opens itself when any of them holds text; the
+// file directly under the fields; Copy and Download sticky on phones.
+import '@styles/prep-slim.css';
 import IoPanel from '@tools/_shared/IoPanel.astro';
+import Disclosure from '@tools/_shared/Disclosure.astro';
 import ToolActions from '@components/tool/ToolActions.astro';
 ---
 
 <div class="lg">
+  <div class="lg-in">
   <div class="lg-fields">
     <label for="lg-name">Site name<input id="lg-name" type="text" autocomplete="organization" /></label>
     <label for="lg-url">Site URL<input id="lg-url" type="url" inputmode="url" placeholder="https://example.com/" autocomplete="url" /></label>
     <label for="lg-purpose">One-line purpose<input id="lg-purpose" type="text" /></label>
-    <label for="lg-contact">Contact<input id="lg-contact" type="text" placeholder="Optional URL or email" /></label>
     <IoPanel label="Tools" labelFor="lg-pages" variant="prose">
-      <textarea id="lg-pages" spellcheck="false" aria-label="Tools, one per line as Name | URL" placeholder="Formatter | /format/"></textarea>
+      <textarea id="lg-pages" rows="4" spellcheck="false" aria-label="Tools, one per line as Name | URL" placeholder="Formatter | /format/"></textarea>
     </IoPanel>
-    <label for="lg-usage">Usage<input id="lg-usage" type="text" placeholder="Optional" /></label>
-    <label for="lg-policy">Crawler policy<input id="lg-policy" type="text" placeholder="Optional" /></label>
   </div>
 
-  <p class="lg-omit" id="lg-omit" data-craft="llms-omit-empty" role="status" hidden></p>
-
-  <div class="lg-actions">
-    <button class="action-btn action-btn--sample" id="lg-sample" type="button">Sample</button>
-    <button class="action-btn" id="lg-clear" type="button">Clear</button>
+  <div class="lg-optional">
+    <Disclosure id="lg-more" label="Optional" count={3}>
+      <button slot="actions" class="action-btn action-btn--sample" id="lg-sample" type="button">Sample</button>
+      <button slot="actions" class="action-btn lg-clear" id="lg-clear" type="button">Clear</button>
+      <div class="lg-fields">
+        <label for="lg-contact">Contact<input id="lg-contact" type="text" placeholder="Optional URL or email" /></label>
+        <label for="lg-usage">Usage<input id="lg-usage" type="text" placeholder="Optional" /></label>
+        <label for="lg-policy">Crawler policy<input id="lg-policy" type="text" placeholder="Optional" /></label>
+      </div>
+    </Disclosure>
   </div>
 
-  <IoPanel label="llms.txt" labelFor="lg-out" variant="prose">
-    <textarea id="lg-out" readonly aria-label="Generated llms.txt"></textarea>
-  </IoPanel>
-  <ToolActions copyTarget="lg-out" downloadTarget="lg-out" downloadFilename="llms.txt" />
-  <p class="lg-note">Generates the description. Does not publish it.</p>
+  <p class="lg-line"><span class="lg-omit" id="lg-omit" data-craft="llms-omit-empty" role="status" hidden></span> <span class="lg-note">Generates the description. Does not publish it.</span></p>
+  </div>
+
+  <div class="lg-res">
+  <div class="lg-output">
+    <IoPanel label="llms.txt" labelFor="lg-out" variant="prose">
+      <textarea id="lg-out" readonly aria-label="Generated llms.txt"></textarea>
+    </IoPanel>
+  </div>
+  <ToolActions copyTarget="lg-out" downloadTarget="lg-out" downloadFilename="llms.txt" sticky />
+  </div>
 </div>
 
 <style>
-  .lg { min-width: 0; max-width: 100%; --io-pane-h: 6rem; }
+  /* Tools about four prose rows; the file 12rem on a phone, 16rem on desktop. */
+  .lg { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
+  .lg-output { --io-pane-h: 12rem; margin-top: var(--space-3); }
+  /* Below the split, the result column is not a box: the sticky Copy row then takes the whole
+     widget as its range, so it floats from the first screen, not only once the result is reached. */
+  @media (max-width: 1023px) {
+    .lg-res { display: contents; }
+  }
+
+  /* Desktop: fields left, the file right, as ToolSplit lays out a converter. */
+  @media (min-width: 1024px) {
+    .lg {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-8);
+      align-items: start;
+    }
+    .lg-in, .lg-res { min-width: 0; }
+    .lg-output { --io-pane-h: 20rem; margin-top: 0; }
+  }
   .lg [hidden] { display: none !important; }
 
   .lg-fields {
@@ -40,6 +74,8 @@ import ToolActions from '@components/tool/ToolActions.astro';
     gap: var(--space-4);
     min-width: 0;
   }
+
+  .lg-optional { margin-top: var(--space-2); }
 
   .lg-fields label {
     display: grid;
@@ -60,27 +96,21 @@ import ToolActions from '@components/tool/ToolActions.astro';
     color: var(--color-text);
   }
 
-  .lg-omit,
-  .lg-note {
-    margin: var(--space-3) 0 0;
+  .lg-line {
+    margin: var(--space-2) 0 0;
     max-width: none;
     font-size: var(--text-sm);
     line-height: 1.45;
     color: var(--color-text-muted);
   }
 
-  .lg-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-3);
-  }
+  .lg-omit { color: var(--color-text); }
 
-  .lg-actions .action-btn {
+  .action-btn {
     min-height: var(--touch-target);
   }
 
-  .lg-actions .action-btn:active {
+  .lg-clear:active {
     background: var(--color-accent-subtle);
   }
 
@@ -107,6 +137,10 @@ import ToolActions from '@components/tool/ToolActions.astro';
     var fields = [name, url, purpose, contact, pages, usage, policy];
     var clearArmed = false;
     var clearTimer = 0;
+    var more = document.getElementById('lg-more');
+    function syncMore() {
+      if (more) more.dispatchEvent(new CustomEvent('tt:disclosure-sync', { bubbles: true }));
+    }
 
     function paint() {
       if (!(window.ToyTools && ToyTools.buildLlmsTxt)) return;
@@ -142,6 +176,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
       policy.value = 'Public pages may be crawled.';
       disarm();
       paint();
+      syncMore();
     });
     clearBtn.addEventListener('click', function () {
       if (!clearArmed) {
@@ -154,6 +189,8 @@ import ToolActions from '@components/tool/ToolActions.astro';
       disarm();
       paint();
     });
+    // A browser that restores form values (back/forward) can refill a hidden field.
+    syncMore();
     paint();
   });
 </script>

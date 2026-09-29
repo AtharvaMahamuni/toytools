@@ -1,0 +1,94 @@
+/* Prep slimming (beta-v12.1): the phone-first layout pieces the Prep widgets share.
+ *
+ * Imported from the Prep widgets' frontmatter, never from global.css. The prep route globs only
+ * its own segment's widgets, so this sheet reaches the six /tool/prep/ pages and nothing else:
+ * the other 150 tool pages (and the seven other StructuredDataWidget tools) do not pay a byte for
+ * it, and every selector below only matches markup that a Prep widget opts into.
+ */
+
+/* ToolActions sticky (opt-in, Prep slimming beta-v12.1). On a phone the Copy row pins to the
+   bottom of the screen while its widget is in view, so a long result never puts Copy a scroll
+   away. Sticky, not fixed: it stays in the flow, so it never covers the last thing in the widget
+   (at the end of the widget it simply sits in its own slot) and it cannot follow the reader into
+   Zone C. The top edge is the one line the design rules keep for "this floats" (.tool-action). */
+/* Why the body rule: global.css gives <body> overflow-x: hidden, which (with <html> also
+   non-visible) makes body a scroll container that never scrolls, so every position: sticky
+   under it silently behaves as static. That is also why ToolBar's sticky top:0 does nothing
+   today, site-wide (a finding for the platform, not fixed here). `clip` clips the same way
+   without creating a scroll container, and only on a page that carries a sticky Prep bar. The
+   ToolBar is pinned back to its current, non-sticky rendering on those pages so the Prep pages
+   do not quietly become the only ones with a sticky header. */
+@media (max-width: 639px) {
+  body:has(.tool-actions--sticky) { overflow-x: clip; }
+  body:has(.tool-actions--sticky) .tool-bar { position: relative; }
+  /* WCAG 2.2 SC 2.4.11 (Focus Not Obscured): the pinned bar covers the bottom ~5rem of the
+     screen, so scrolling a focused field into view must stop above it, not under it. 6rem is the
+     bar (about 81px at 390px) plus a margin. */
+  html:has(.tool-actions--sticky) { scroll-padding-bottom: 6rem; }
+
+  .tool-actions--sticky {
+    position: sticky;
+    bottom: 0;
+    z-index: var(--z-raised);
+    margin-inline: calc(var(--space-4) * -1);
+    padding: var(--space-3) var(--space-4) max(var(--space-3), env(safe-area-inset-bottom));
+    background: var(--color-bg);
+    border-top: var(--border);
+  }
+}
+
+/* StructuredDataWidget slim={true} (opt-in; JSON to JSON Schema only). Every rule is under
+   .sd-slim, a wrapper rendered only when the flag is set, so the seven other structured-data
+   tools get byte-identical markup and no new styles. Input about six mono rows; the actions
+   (Paste, Clear, Download, Sample) on one row at 390px. */
+.sd-slim { --io-pane-h: 10rem; }
+@media (min-width: 1024px) {
+  /* Desktop split: 18rem (288px) body, so the output facing it keeps about 12rem of JSON under
+     its header and status line. */
+  .sd-slim { --io-pane-h: 18rem; }
+}
+.sd-slim .tool-actions {
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+}
+.sd-slim .tool-actions .action-btn {
+  padding-inline: var(--space-3);
+  white-space: nowrap;
+}
+
+/* Handed to Zone C (src/tools/_shared/MoreAbout.astro). Text a Prep widget does not need on the
+   tool screen ships in the widget's HTML (indexable, in the DOM) and is moved to the head of
+   KnowledgeDrawers' "More about" row on load. It is never painted inside the widget, before or
+   after the move, so the move shifts nothing. */
+.more-about { display: none; }
+/* Closed, it is one more trigger on the drawer row; open, it claims a full row, as .kd does. */
+.knowledge-drawers .more-about,
+.more-about.more-about--inline {
+  display: block;
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+.knowledge-drawers .more-about:has(details[open]) { flex: 1 0 100%; }
+.more-about details > :not(summary) { max-width: 65ch; }
+.more-about .widget-details { margin-top: 0; }
+.more-about summary h2 {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+.more-about details[open] summary h2 { color: var(--color-text); }
+.more-about p {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+/* A pane header that holds only its label (no Copy, no mode switch) does not need the 48px
+   control row: the label is not a tap target, the field under it is. Headers with a control
+   keep the full row. Saves about 30px per field on the Prep forms, which is most of what made
+   Prompt Packer two and a half phone screens tall. */
+:is(.pp, .cc, .sv, .cf, .lg, .sd-slim) .io-header:not(:has(button, select, a)) {
+  min-height: 0;
+}
