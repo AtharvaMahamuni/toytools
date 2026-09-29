@@ -288,6 +288,60 @@ test.describe('prep slimming: heights and sticky actions', () => {
     expect(j).toBeGreaterThanOrEqual(150);
   });
 
+  // WCAG 2.2 SC 2.4.11 Focus Not Obscured: the floating bar must never sit on top of the field
+  // the keyboard just moved to. html:has(.tool-actions--sticky) { scroll-padding-bottom } makes
+  // focus scrolling stop above the bar. Runs on pixel5 as the device, and on the chromium
+  // project as the audit's 390x844 phone, so both reported cases (#lg-policy y 796-844,
+  // #pp-format-field y 809-913 under a bar at y 763) are pinned on both.
+  for (const [url, root, sample, named] of [
+    [PP, '.pp', '#pp-sample', '#pp-format-field'],
+    [CC, '.cc', '#cc-sample', null],
+    [LG, '.lg', '#lg-sample', '#lg-policy'],
+  ] as const) {
+    test(`Tab never lands under the sticky bar on a phone: ${url}`, async ({ page, browser }, testInfo) => {
+      let p = page;
+      let ctx;
+      if (testInfo.project.name !== 'pixel5') {
+        ctx = await browser.newContext({
+          viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2,
+        });
+        p = await ctx.newPage();
+      }
+      try {
+        await p.goto(url);
+        await p.locator(sample).click();
+        await p.evaluate(() => window.scrollTo(0, 0));
+        await p.locator(sample).focus();
+        const seen: string[] = [];
+        for (let i = 0; i < 80; i++) {
+          await p.keyboard.press('Tab');
+          const r = await p.evaluate((rootSel) => {
+            const a = document.activeElement as HTMLElement | null;
+            const w = document.querySelector(rootSel);
+            const bar = document.querySelector('.tool-actions--sticky');
+            if (!a || !w || !bar || !w.contains(a)) return null;
+            const ra = a.getBoundingClientRect();
+            return {
+              id: a.id || a.tagName.toLowerCase(),
+              inBar: bar.contains(a),
+              top: ra.top,
+              barTop: bar.getBoundingClientRect().top,
+            };
+          }, root);
+          if (!r) break; // focus left the widget
+          seen.push(r.id);
+          if (r.inBar) continue;
+          expect(r.top, `${url} ${r.id} top vs bar top`).toBeLessThan(r.barTop);
+        }
+        // The walk covered the fields behind the disclosure, not just the first one or two.
+        expect(seen.length, seen.join(',')).toBeGreaterThan(4);
+        if (named) expect(seen, seen.join(',')).toContain(named.slice(1));
+      } finally {
+        await ctx?.close();
+      }
+    });
+  }
+
   for (const [url, hasDownload] of [[PP, false], [CC, false], [LG, true]] as const) {
     test(`sticky Copy${hasDownload ? ' + Download' : ''} on phones only: ${url}`, async ({ page }) => {
       await page.goto(url);

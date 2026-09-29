@@ -21,6 +21,10 @@
 @media (max-width: 639px) {
   body:has(.tool-actions--sticky) { overflow-x: clip; }
   body:has(.tool-actions--sticky) .tool-bar { position: relative; }
+  /* WCAG 2.2 SC 2.4.11 (Focus Not Obscured): the pinned bar covers the bottom ~5rem of the
+     screen, so scrolling a focused field into view must stop above it, not under it. 6rem is the
+     bar (about 81px at 390px) plus a margin. */
+  html:has(.tool-actions--sticky) { scroll-padding-bottom: 6rem; }
 
   .tool-actions--sticky {
     position: sticky;
