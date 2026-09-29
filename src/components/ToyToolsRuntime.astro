@@ -11,7 +11,8 @@
 //    See src/lib/runtime/index.ts for why, and for the readiness contract.
 ---
 
-<!-- Deferred: platform glue (analytics, service worker) + the page's declared engines only -->
+{/* Deferred: platform glue (analytics, service worker) + the page's declared engines only. A JSX
+    comment so it is not shipped in every page's HTML. */}
 <script>
   import '@lib/runtime';
 </script>

@@ -110,13 +110,11 @@ const maxWidthVar =
     {!robots.includes('noindex') && (
       <script type="application/ld+json" set:html={JSON.stringify(identityGraph(logoUrl))} />
     )}
-    <!--
-      Google Analytics is loaded from ToyToolsRuntime (client-side) and ONLY for
-      real users. The analytics guard (src/lib/analytics/guard.ts) excludes dev,
-      E2E (PUBLIC_E2E=true), browser automation, and localhost — so the gtag.js
-      request and every event are suppressed during tests. Do not add a gtag
-      snippet here.
-    -->
+    {/* Google Analytics is loaded from ToyToolsRuntime (client-side) and ONLY for real users on a
+        production hostname in the top window. The analytics guard (src/lib/analytics/guard.ts)
+        excludes dev, E2E (PUBLIC_E2E=true), browser automation, any other host and any iframe, so
+        the gtag.js request and every event are suppressed during tests. Do not add a gtag snippet
+        here. A JSX comment, not an HTML one, so it is not shipped in every page's HTML. */}
   </head>
   <body>
     <ToyToolsRuntime />

@@ -2,6 +2,31 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1.2] - 2026-09-29
+
+### Changed
+
+- **Google Analytics runs on toytoolsapp.com and nowhere else.** It used to load on any address
+  except localhost, so a preview deploy, a mirror, a copy of the site on another host or a page
+  framed by another site would all have reported as real traffic. It now loads only on
+  toytoolsapp.com and www.toytoolsapp.com, in the top window. Local development and E2E runs stay
+  excluded as before. The service worker, and so offline support, is unchanged everywhere.
+- **The privacy page says exactly what analytics sees.** It now explains that the site hands
+  Google Analytics page addresses without the query, that Google Analytics can still read the full
+  address when it counts a Back-button return on its own, and that searches on the search page are
+  reported as site searches. No other page changed.
+- **The unused analytics event list and its `trackEvent` helper are gone.** Nothing ever called
+  them. The three equalizer events are the only custom events and still fire as before.
+
+### Fixed
+
+- **Calculator inputs are kept out of the addresses the site gives Google Analytics.** Tools that
+  keep their inputs in the address sent them to GA with every page view, and again as the referrer
+  on the next page. The site now gives GA the address without the query or hash, for both, and
+  keeps GA's automatic history page views off the address updates those tools make while you type,
+  which had also been counted as extra page views. GA can still count a Back-button return from the
+  full address by itself until that automatic measurement is switched off in GA admin.
+
 ## [beta-v12.1.1] - 2026-09-29
 
 ### Changed

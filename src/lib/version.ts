@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 1,
-  patch: 1,
+  patch: 2,
   status: 'beta',
   releaseDate: '2026-09-29',
-  description: 'Quality Guardian and registry checks made real',
+  description: 'Analytics limited to toytoolsapp.com, and given page addresses without the query',
 };
 
 export function formatVersion(config: VersionConfig): string {
