@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 1,
-  patch: 3,
+  patch: 4,
   status: 'beta',
-  releaseDate: '2026-09-29',
-  description: 'One site identity and URL builder, and a social card for shared links',
+  releaseDate: '2026-09-30',
+  description: 'Guide links built by the one URL builder, and a stricter URL lint',
 };
 
 export function formatVersion(config: VersionConfig): string {

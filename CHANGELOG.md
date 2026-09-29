@@ -2,6 +2,22 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1.4] - 2026-09-30
+
+### Changed
+
+- **Guide links come from the one URL builder.** Every link in the 145 guides, to the guide's own
+  tool, to sibling tools and to categories, is now made by `src/lib/paths.ts` instead of being
+  spelled by hand. A sibling tool is named by slug and its address is looked up in the registry
+  while the site is built, so a typo'd or removed tool fails the build instead of shipping a dead
+  link. The guide redirect table is built the same way. Every page, link, sitemap, llms.txt and
+  llms-full.txt is byte-for-byte what it was.
+- **The URL lint is stricter.** It now covers `/guide/` paths too, and catches a path split across
+  strings, one joined from an array, an absolute toytoolsapp.com address and a path on a line that
+  starts with `*`. No guide is exempt any more. The only exceptions left are the offline page's
+  inline script, the search index's link format, the shared text-tool widget, and the pomodoro
+  timer and keep-screen-awake widgets.
+
 ## [beta-v12.1.3] - 2026-09-29
 
 ### Added
