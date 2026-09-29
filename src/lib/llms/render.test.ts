@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { CORE_TOOL_SLUGS, PREP_HIGHLIGHT_SLUGS, doesNotLine, renderLlmsFull, renderLlmsTxt } from './render';
+import {
+  CATEGORY_SUMMARY_TERMS,
+  CORE_TOOL_SLUGS,
+  PREP_HIGHLIGHT_SLUGS,
+  categorySummaryTerms,
+  doesNotLine,
+  renderDetail,
+  renderLlmsFull,
+  renderLlmsTxt,
+  renderSummary,
+  simulationSubjects,
+} from './render';
 import { tools } from '@data/registry';
+import { categories as allCategories } from '@data/categories';
 import { PRIVACY_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
 
@@ -69,6 +81,73 @@ describe('renderLlmsTxt', () => {
   it('points at the full inventory without inlining it', () => {
     expect(txt).toContain('https://toytoolsapp.com/llms-full.txt');
     expect(txt.indexOf('llms-full.txt')).toBeLessThan(txt.indexOf('## Core tools'));
+  });
+});
+
+// The llms files rule (CLAUDE.md, "LLM files"): the curated prose must not drift from the catalog.
+// Before beta-v12.1.1 the summary named 8 subjects and skipped 7 categories.
+describe('SUMMARY names every category', () => {
+  const summary = renderSummary().toLowerCase();
+
+  it('has exactly one term per category in categories.ts, no strays', () => {
+    expect(Object.keys(CATEGORY_SUMMARY_TERMS).sort()).toEqual(allCategories.map(c => c.slug).sort());
+    const terms = Object.values(CATEGORY_SUMMARY_TERMS);
+    expect(new Set(terms).size).toBe(terms.length);
+  });
+
+  it.each(allCategories.map(c => [c.slug, c] as const))('mentions %s', (_slug, category) => {
+    const term = CATEGORY_SUMMARY_TERMS[category.slug]!;
+    expect(summary).toContain(term);
+    // The term has to be recognisably that category, not any word: its first word shares a stem
+    // with the category's slug, name or URL segment.
+    const stem = term.split(' ')[0]!.slice(0, 4);
+    expect(`${category.slug} ${category.name} ${category.segment}`.toLowerCase()).toContain(stem);
+  });
+
+  it('names the seven categories the hand-written summary left out', () => {
+    for (const term of ['physics', 'chemistry', 'applied math', 'music', 'fidgets', 'generators', 'productivity']) {
+      expect(summary).toContain(term);
+    }
+  });
+
+  it('is the blockquote llms.txt actually prints', () => {
+    const txt = renderLlmsTxt([], undefined, SITE);
+    expect(txt).toContain(`> ${renderSummary()}\n`);
+    expect(txt).toContain(renderDetail());
+  });
+
+  it('fails the build when a category has no summary term', () => {
+    expect(() => categorySummaryTerms([{ slug: 'text-utilities' }, { slug: 'brand-new' }])).toThrow(
+      /no term for category brand-new/,
+    );
+    expect(() => renderSummary([{ slug: 'a-new' }, { slug: 'b-new' }])).toThrow(/categories a-new, b-new/);
+  });
+
+  it('joins one, two and many terms readably', () => {
+    expect(renderSummary([{ slug: 'prep' }])).toContain('tools for prep.');
+    expect(renderSummary([{ slug: 'text-utilities' }, { slug: 'prep' }])).toContain('tools for text and prep.');
+    expect(renderSummary()).toContain(', fidgets, and prep.');
+  });
+
+  it('uses no em dash', () => {
+    expect(renderSummary()).not.toContain('\u2014');
+    expect(renderDetail()).not.toContain('\u2014');
+  });
+});
+
+describe('DETAIL names every simulation subject', () => {
+  it('derives the subjects from the categories that hold a simulation', () => {
+    const withSims = new Set(tools.filter(t => t.pattern === 'simulate').map(t => t.categorySlug));
+    expect(withSims.size).toBeGreaterThanOrEqual(3);
+    const subjects = simulationSubjects();
+    expect(subjects).toHaveLength(withSims.size);
+    for (const subject of subjects) expect(renderDetail()).toContain(subject);
+    expect(renderDetail()).toContain('chemistry');
+  });
+
+  it('follows the catalog it is given', () => {
+    expect(simulationSubjects([{ categorySlug: 'physics', pattern: 'simulate' }])).toEqual(['physics']);
+    expect(simulationSubjects([{ categorySlug: 'physics', pattern: 'text-metric' }])).toEqual([]);
   });
 });
 

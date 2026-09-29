@@ -8,22 +8,81 @@ import type { ContentEntry } from '@lib/content/manifest';
 import { absoluteUrl } from '@lib/sitemap/render';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
-import type { Tool } from '@data/types';
+import type { Category, Tool } from '@data/types';
 import { withBase } from '@lib/paths';
 import { PRIVACY_LINE, privacyStatement } from '@lib/privacy';
 
-const SUMMARY =
-  "ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, " +
-  'dates, money, health, design, code, and prep — prepare text before a model ' +
-  `(ToyTools does not run a model). ${PRIVACY_LINE}`;
+/**
+ * The short noun each category contributes to the SUMMARY sentence, keyed by category slug.
+ *
+ * The SUMMARY used to be hand-written prose that named eight subjects (text, numbers, dates, money,
+ * health, design, code, prep) and silently skipped the seven added after it (physics, chemistry,
+ * applied math, music, fidgets, generators, productivity). The sentence is now generated from
+ * categories.ts, in its order, and a category with no entry here throws at build time, so adding a
+ * category forces this line to be written in the same PR (CLAUDE.md, "LLM files").
+ */
+export const CATEGORY_SUMMARY_TERMS: Readonly<Record<string, string>> = {
+  'text-utilities': 'text',
+  'number-utilities': 'numbers',
+  'developer-utilities': 'developer utilities',
+  productivity: 'productivity',
+  'money-finance': 'money',
+  generate: 'generators',
+  physics: 'physics',
+  'applied-math': 'applied math',
+  chemistry: 'chemistry',
+  'date-time': 'dates',
+  'health-fitness': 'health',
+  'design-tools': 'design',
+  'music-audio': 'music',
+  fidgets: 'fidgets',
+  prep: 'prep',
+};
 
-const DETAIL =
-  'ToyTools is one static platform rather than a collection of separate utilities: the ' +
-  'computation lives in a set of shared, individually tested engines, and the interface, offline ' +
-  'support and privacy contract belong to the platform, so a tool is largely a declaration of ' +
-  'which engine it runs on. What it exposes is single-purpose utilities plus interactive physics ' +
-  'and math simulations, organized into the categories below. Each category page lists its ' +
-  'individual tools.';
+type SummaryCategory = Pick<Category, 'slug'>;
+
+/** Each category's summary term, in categories.ts order. Throws on a category with no term. */
+export function categorySummaryTerms(list: readonly SummaryCategory[] = categories): string[] {
+  const missing = list.filter(c => !CATEGORY_SUMMARY_TERMS[c.slug]).map(c => c.slug);
+  if (missing.length) {
+    throw new Error(
+      `llms.txt SUMMARY has no term for categor${missing.length === 1 ? 'y' : 'ies'} ${missing.join(', ')}. ` +
+        'Add one to CATEGORY_SUMMARY_TERMS in src/lib/llms/render.ts.',
+    );
+  }
+  return list.map(c => CATEGORY_SUMMARY_TERMS[c.slug]!);
+}
+
+/** "a", "a and b", "a, b, and c". */
+function listPhrase(items: readonly string[]): string {
+  if (items.length <= 2) return items.join(' and ');
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+
+/** The llms.txt blockquote: one sentence naming every category, then the prep and privacy lines. */
+export function renderSummary(list: readonly SummaryCategory[] = categories): string {
+  return (
+    `ToyTools is the internet's little toolbox: free, browser-based tools for ${listPhrase(categorySummaryTerms(list))}. ` +
+    `The prep tools prepare text before a model (ToyTools does not run a model). ${PRIVACY_LINE}`
+  );
+}
+
+/** Categories that hold at least one simulation, as summary terms, in categories.ts order. */
+export function simulationSubjects(catalog: readonly Pick<Tool, 'categorySlug' | 'pattern'>[] = tools): string[] {
+  const withSims = new Set(catalog.filter(t => t.pattern === 'simulate').map(t => t.categorySlug));
+  return categorySummaryTerms(categories.filter(c => withSims.has(c.slug)));
+}
+
+export function renderDetail(): string {
+  return (
+    'ToyTools is one static platform rather than a collection of separate utilities: the ' +
+    'computation lives in a set of shared, individually tested engines, and the interface, offline ' +
+    'support and privacy contract belong to the platform, so a tool is largely a declaration of ' +
+    'which engine it runs on. What it exposes is single-purpose utilities plus interactive ' +
+    `${listPhrase(simulationSubjects())} simulations, organized into the categories below. Each ` +
+    'category page lists its individual tools.'
+  );
+}
 
 /**
  * 25 tools an agent should try first. Category highlights plus a few high-intent utilities.
@@ -132,9 +191,9 @@ export function renderLlmsTxt(
 
   return `# ToyTools
 
-> ${SUMMARY}
+> ${renderSummary()}
 
-${DETAIL}
+${renderDetail()}
 
 Every published tool is listed in [llms-full.txt](${fullUrl}).
 

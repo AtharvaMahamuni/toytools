@@ -3,7 +3,8 @@
 //
 // Engines absent from this map have no browser runtime at all and are correct to omit:
 //   productivity              — self-contained bespoke widgets, no ToyTools.* engine surface
-//   physics, math-lab         — SimulationWidget lazy-loads one simulation module per page instead
+//   physics, math-lab,
+//   chemistry-lab             — SimulationWidget lazy-loads one simulation module per page instead
 //
 // `validate-registry` cross-checks this map against src/data/engines.ts and against what every
 // widget actually calls, so an engine cannot lose its runtime silently.

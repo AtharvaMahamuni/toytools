@@ -92,6 +92,7 @@ export function toolConfigFrom(manifest: SimulationManifest, relations: Relation
       readMinutes: manifest.guide.readMinutes,
       updatedAt: manifest.guide.updatedAt,
     },
+    ...(manifest.citation ? { citation: { ...manifest.citation } } : {}),
   };
 }
 
