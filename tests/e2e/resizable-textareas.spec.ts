@@ -40,6 +40,8 @@ test.describe('resizable textareas', () => {
     // sized element, at least 5rem, and the panel hugs it.
     const ta = await heightOf(input);
     expect(ta).toBeGreaterThan(80);
+    // The drag floor is 5rem: pinned as the computed value, so no retune can slip under it.
+    expect(await computed(input, 'min-height')).toBe('80px');
     const panel = page.locator('.io-panel', { has: input }).first();
     expect(await computed(panel, 'max-height')).toBe('none');
 
@@ -71,6 +73,8 @@ test.describe('resizable textareas', () => {
     await expect(task).toBeVisible();
     expect(Math.round(await heightOf(task))).toBe(104);
     expect(await computed(task, 'resize')).toBe('vertical');
+    // Retuning a widget's --io-pane-h does not move the 5rem (80px) floor under it.
+    expect(await computed(task, 'min-height')).toBe('80px');
 
     // Chat Export Cleaner declares 8rem (128px).
     await page.goto('/tool/prep/chat-export-cleaner/');
