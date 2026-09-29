@@ -1,4 +1,13 @@
 import type { Validator, CrawledPage, QualityContext, ValidatorResult, Issue } from '../types/index.js';
+import { livePagesOfKind, toolPathParts } from '../config/page-kinds.js';
+
+/**
+ * Real tool pages the tool-specific rule (the FAQ cross-link) applies to: `/tool/<segment>/<slug>/`,
+ * indexable, redirect stubs excluded. Exported for the unit test.
+ */
+export function contentIntegrityToolPages(pages: readonly CrawledPage[]): CrawledPage[] {
+  return livePagesOfKind(pages, 'tool').filter(p => !p.robots.includes('noindex'));
+}
 
 export const contentIntegrityValidator: Validator = {
   name: 'content-integrity',
@@ -37,28 +46,34 @@ export const contentIntegrityValidator: Validator = {
           detail: `H1s: ${page.h1s.map(h => `"${h}"`).join(', ')}`,
         });
       }
+    }
 
-      // Tool pages: check cross-link to FAQ if FAQ exists in manifest
-      if (page.urlPath.startsWith('/tools/')) {
-        const parts = page.urlPath.split('/').filter(Boolean);
-        // /tools/<segment>/<slug>/ → parts = ['tools', segment, slug]
-        if (parts.length === 3) {
-          const [, segment, slug] = parts;
-          const faqRoute = `/faq/${segment}/${slug}/`;
+    // Tool pages: link to a standalone FAQ page when one exists.
+    //
+    // Only a REAL FAQ page counts. Every /faq/<segment>/<slug>/ URL today is a redirect stub (the
+    // FAQ moved into the tool page's #faq section), and a tool page must not link to its own stub,
+    // so the route manifest alone is the wrong test: it lists stubs too. The FAQ page has to be in
+    // the manifest AND crawled as a non-stub page.
+    const liveFaqRoutes = new Set(
+      livePagesOfKind(pages, 'faq').map(p => p.urlPath).filter(route => manifestSet.has(route)),
+    );
+    for (const page of contentIntegrityToolPages(pages)) {
+      // /tool/<segment>/<slug>/ → { segment, slug }
+      const parts = toolPathParts(page.urlPath);
+      if (!parts) continue;
+      const faqRoute = `/faq/${parts.segment}/${parts.slug}/`;
 
-          if (manifestSet.has(faqRoute) && !page.internalLinks.includes(faqRoute)) {
-            issues.push({
-              id: `content-integrity:${page.urlPath}:missing-faq-link`,
-              severity: 'WARNING',
-              category: 'content-integrity',
-              page: page.urlPath,
-              message: `Tool page doesn't link to its FAQ at ${faqRoute}`,
-              fixable: false,
-              auto_fix_strategy: 'SUGGESTION',
-              detail: `FAQ exists at ${faqRoute} but is not linked from this tool page`,
-            });
-          }
-        }
+      if (liveFaqRoutes.has(faqRoute) && !page.internalLinks.includes(faqRoute)) {
+        issues.push({
+          id: `content-integrity:${page.urlPath}:missing-faq-link`,
+          severity: 'WARNING',
+          category: 'content-integrity',
+          page: page.urlPath,
+          message: `Tool page doesn't link to its FAQ at ${faqRoute}`,
+          fixable: false,
+          auto_fix_strategy: 'SUGGESTION',
+          detail: `FAQ exists at ${faqRoute} but is not linked from this tool page`,
+        });
       }
     }
 

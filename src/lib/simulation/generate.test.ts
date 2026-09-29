@@ -93,6 +93,13 @@ describe('simulator intent derivation', () => {
     }
   });
 
+  it('carries a manifest citation into the ToolConfig, and omits it when absent', () => {
+    expect(toolConfigFrom(projectileManifest, projectileRelations).citation).toBeUndefined();
+    const citation = { problem: 'Range depends on angle.', nonGoal: 'model air resistance.' };
+    const cfg = toolConfigFrom({ ...projectileManifest, citation }, projectileRelations);
+    expect(cfg.citation).toEqual(citation);
+  });
+
   it('does not duplicate a phrase the manifest already lists', () => {
     const tags = toolConfigFrom(projectileManifest, projectileRelations).tags.map((t) => t.toLowerCase());
     expect(tags.filter((t) => t === 'projectile motion simulator')).toHaveLength(1);

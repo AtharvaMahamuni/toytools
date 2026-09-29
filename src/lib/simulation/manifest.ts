@@ -182,6 +182,13 @@ export interface SimulationManifest {
   faq: FaqEntry[];
   guide: GuideManifest;
   relationships?: RelationshipOverlay;
+  /**
+   * Spread into ToolConfig.citation. Same contract as an authored tool: `nonGoal` completes
+   * "It does not ..." and is what llms-full.txt prints as "Does not:". Optional so today's
+   * manifests (all on the nonGoal backlog, src/lib/llms/nongoal-backlog.ts) need no edit; a NEW
+   * simulation must set it or validate-registry fails.
+   */
+  citation?: { problem: string; nonGoal: string };
   // Declarative runtime shape also surfaced to the widget at build time:
   paramBehavior: 'continuous' | 'restart';
   aspect?: number;

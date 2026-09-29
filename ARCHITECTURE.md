@@ -826,7 +826,8 @@ proven `getRelatedTools()` algorithm, not a second system.
   workflow links, and single-family recommendation bubbles (`diversity.ts`).
 - **Diagnostics** — `scripts/knowledge-diagnostics.ts` writes `dist/knowledge-graph.json`
   (nodes/edges/coverage/density/orphans/brokenLinks) after build — "Search Console for the internal
-  graph". `npm run health` prints a knowledge-coverage line.
+  graph". It deploys with the rest of `dist/`, so it is public at `/knowledge-graph.json`, but no
+  page loads or links it. `npm run health` prints a knowledge-coverage line.
 - **Reserved Phase E (Semantic Discovery Engine)** — search suggestions, related searches, Typical
   Workflow blocks, topic hubs, collections, popular paths, and the deferred inline prose auto-linking
   will consume this layer with no schema migration.
@@ -900,7 +901,9 @@ sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/fa
 sitemap automatically — no sitemap edits.
 
 `/llms.txt` and `/llms-full.txt` are the same registry, rendered for an assistant. `llms.txt` is a
-short overview. `llms-full.txt` is one block per published tool. Prep for a model
+short overview. `llms-full.txt` is one block per published tool. Their curated parts (the SUMMARY
+category terms, DETAIL, the core and prep lists, each tool's tagline and `citation.nonGoal`) are a
+ship-checklist item: CLAUDE.md, "Breaking-changes playbook", "LLM files". Prep for a model
 (`/category/prep/`) is a normal category: deterministic browser tools that prepare text before
 someone pastes it into an external model. ToyTools does not run that model. See
 `docs/prep-for-a-model.md`.

@@ -85,6 +85,10 @@ A widget that knows about the catalog, the brand, installation or trust is a lay
 
 - `config.ts` needs a **`tagline`** (max 80 chars, a build error above that): the one line under
   the tool's title. Keep `description` long, it is the meta description and a query-targeting slot.
+- `config.ts` needs a specific **`citation.nonGoal`** (what THIS tool does not do, not the site-wide
+  "call an AI model"): `validate-registry` fails a new tool without one. It is the tool's "Does
+  not:" line in `/llms-full.txt`. Read the tool's block in `dist/llms-full.txt` before shipping and
+  put the `llms files:` line in the PR body (CLAUDE.md, "LLM files").
 - Do not render trust, install, brand or category cross-links from a widget. `ToolSignature` and
   `KnowledgeDrawers` are platform-rendered by `ToolPage`.
 - `knowledge.primaryConcepts[0]` now heads the tool page's H2s, so it is load-bearing for query

@@ -106,9 +106,11 @@ export function generateTrendSummary(reportsDir: string): string {
 
     lines.push('### Lighthouse Trends (week-over-week)');
     lines.push('');
-    // Use homepage for trend comparison
-    const prevHome = prev.results.find(r => r.url.endsWith('/') && !r.url.includes('/tools/'));
-    const currHome = curr.results.find(r => r.url.endsWith('/') && !r.url.includes('/tools/'));
+    // Use homepage for trend comparison. Matched on the URL's own path rather than "ends in a
+    // slash and is not under /tools/": every page ends in a slash, and /tools/ is a stub prefix.
+    const isHome = (r: LighthouseResult) => new URL(r.url).pathname === '/';
+    const prevHome = prev.results.find(isHome);
+    const currHome = curr.results.find(isHome);
     if (prevHome && currHome) {
       const cats: Array<[keyof LighthouseResult, string]> = [
         ['performance', 'Performance'],

@@ -1,7 +1,9 @@
 // Post-build diagnostics writer. Builds the knowledge graph and writes a snapshot to
-// dist/knowledge-graph.json — a build-time health artifact (not shipped to the browser,
-// not linked). Runs after `astro build`. Non-fatal: it reports brokenLinks but does not
-// fail the build (validate-knowledge already gates unresolved references pre-build).
+// dist/knowledge-graph.json, a build-time health artifact. It IS deployed: everything in dist/ is
+// published, so it is live at /knowledge-graph.json. No page loads it and nothing links to it, so
+// it costs visitors nothing, but treat it as public. Runs after `astro build`. Non-fatal: it
+// reports brokenLinks but does not fail the build (validate-knowledge already gates unresolved
+// references pre-build).
 
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { graph } from '../src/lib/knowledge/graph';

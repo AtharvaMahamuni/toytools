@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Validator, CrawledPage, QualityContext, ValidatorResult, Issue } from '../types/index.js';
+import { selectorCoverageIssues } from './selector-coverage.js';
 
 export const buildIntegrityValidator: Validator = {
   name: 'build-integrity',
@@ -74,6 +75,10 @@ export const buildIntegrityValidator: Validator = {
         });
       }
     }
+
+    // Every page-type rule in the other validators must reach at least one real page of its type
+    // and no redirect stub. See selector-coverage.ts for why this is a PR check.
+    issues.push(...selectorCoverageIssues(pages));
 
     return { issues };
   },

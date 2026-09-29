@@ -1,11 +1,22 @@
 import type { Validator, CrawledPage, QualityContext, ValidatorResult, Issue } from '../types/index.js';
+import { pageKind, type PageKind } from '../config/page-kinds.js';
 
-function getPageType(urlPath: string): 'tool' | 'faq' | 'guide' | 'homepage' | 'other' {
-  if (urlPath === '/') return 'homepage';
-  if (urlPath.startsWith('/tools/')) return 'tool';
-  if (urlPath.startsWith('/faq/')) return 'faq';
-  if (urlPath.startsWith('/guide/')) return 'guide';
-  return 'other';
+/**
+ * The pages this validator applies type-specific schema rules to: indexable, not a redirect stub,
+ * classified by the live URL shape (config/page-kinds.ts). Exported so the unit test can prove the
+ * tool, category and guide rules each reach real pages and never a stub.
+ */
+export function structuredDataKind(page: CrawledPage): PageKind | null {
+  if (page.urlPath === '/404.html') return null;
+  if (page.robots.includes('noindex')) return null;
+  // A stub carries noindex today, so the line above already skips it. This keeps the type rules
+  // off stubs even if that ever changes: a meta-refresh has no schema to check.
+  if (page.isRedirectStub) return null;
+  return pageKind(page.urlPath);
+}
+
+export function structuredDataTargets(pages: readonly CrawledPage[], kind: PageKind): CrawledPage[] {
+  return pages.filter(p => structuredDataKind(p) === kind);
 }
 
 export const structuredDataValidator: Validator = {
@@ -15,10 +26,8 @@ export const structuredDataValidator: Validator = {
     const issues: Issue[] = [];
 
     for (const page of pages) {
-      if (page.urlPath === '/404.html') continue;
-      if (page.robots.includes('noindex')) continue;
-
-      const pageType = getPageType(page.urlPath);
+      const pageType = structuredDataKind(page);
+      if (pageType === null) continue;
 
       // Check for JSON-LD parse errors
       for (const block of page.jsonLdBlocks) {
@@ -147,6 +156,22 @@ export const structuredDataValidator: Validator = {
             fixable: false,
             auto_fix_strategy: 'MANUAL',
           });
+        }
+      }
+
+      if (pageType === 'category') {
+        for (const type of ['CollectionPage', 'BreadcrumbList']) {
+          if (!allTypes.includes(type)) {
+            issues.push({
+              id: `structured-data:${page.urlPath}:missing-${type === 'CollectionPage' ? 'collection-page' : 'breadcrumb'}`,
+              severity: 'ERROR',
+              category: 'structured-data',
+              page: page.urlPath,
+              message: `Category page missing ${type} JSON-LD schema`,
+              fixable: false,
+              auto_fix_strategy: 'MANUAL',
+            });
+          }
         }
       }
 

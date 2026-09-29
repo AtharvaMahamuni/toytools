@@ -1,5 +1,6 @@
 // Graph diagnostics — a build-time health snapshot of the knowledge ecosystem, written to
-// dist/knowledge-graph.json (not shipped to the browser). Think "Search Console for the
+// dist/knowledge-graph.json. It is deployed with the rest of dist/ (live at /knowledge-graph.json)
+// but no page loads it or links to it. Think "Search Console for the
 // internal graph": coverage, density, orphans, broken links — trackable over time.
 
 import { CONTENT_TYPES, type KnowledgeGraph } from './types';
