@@ -19,8 +19,9 @@
 //     around a live link, and {/* */} is scanned too, so none of them is skipped as a comment.
 // Which context a line is in comes from astroScan() below, which reads tags, attributes and
 // expressions to their real ends (so a self-closing <script ... /> opens no block). Its self-tests
-// pin each case, the generated test plants a link at the end of every real .astro file, and the
-// oracle test checks its regions against the Astro compiler's own parse of every real file.
+// pin each case, the generated test plants a link at the end of every real .astro file and after
+// every place in it where the context changes, and the oracle test checks its regions against the
+// Astro compiler's own parse of every real file.
 // A line that starts with * is only skipped inside a real block comment, so a * line of code or
 // markup is scanned like any other.
 //
@@ -29,7 +30,9 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 // Astro's own compiler, installed with astro (the oracle test below parses with it).
 import { parse } from '@astrojs/compiler';
+import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { join, relative, resolve } from 'node:path';
 
 const ROOT = resolve(__dirname, '../..');
@@ -178,8 +181,8 @@ type Mode = 'text' | 'tag' | 'expr' | 'comment' | 'script' | 'style';
  *     real element, as the Astro compiler reads it: its block opens, and when it ends the scanner
  *     is back in the expression.
  *   • A non-self-closing `<script ...>` or `<style ...>` element (lowercase, so a <Script>
- *     component is markup) opens a block that ends at `</script>` or `</style>`, even on the same
- *     line; its body follows that language's comments.
+ *     component is markup) opens a block that ends at `</script>` or `</style>` in any case, even
+ *     on the same line; its body follows that language's comments.
  */
 function astroScan(source: string): {
   lines: Array<[number, string]>;
@@ -234,7 +237,7 @@ function astroScan(source: string): {
     let c = 0;
     while (c < line.length) {
       if (mode === 'script' || mode === 'style') {
-        const close = (mode === 'script' ? /<\/script\s*>/ : /<\/style\s*>/).exec(line.slice(c));
+        const close = (mode === 'script' ? /<\/script\s*>/i : /<\/style\s*>/i).exec(line.slice(c));
         const body = close ? line.slice(c, c + close.index) : line.slice(c);
         kept += stripScript(body, block, mode === 'script');
         buffer += body;
@@ -564,6 +567,32 @@ describe('the .astro context tracker stays in sync with the file', () => {
     ]);
   });
 
+  it('a quoted attribute is read to its closing quote: a > or /> inside one does not end the tag', () => {
+    check([
+      '<script type="application/ld+json" data-note="a > b" set:html={x} />',
+      '// <a href="/tool/a/b/">CATCH</a>',
+      '<script data-x="a/>">',
+      "  // const skipped = '/tool/s/a/';",
+      '</script>',
+      '/* <a href="/tool/c/d/">CATCH</a> */',
+      "<style data-x='a > b' />",
+      '/* <a href="/tool/e/f/">CATCH</a> */',
+    ]);
+  });
+
+  it('a </script> or </style> close matches in any case, as the compiler reads it', () => {
+    check([
+      '<script>',
+      "  // const skipped = '/tool/s/a/';",
+      '</SCRIPT>',
+      '// <a href="/tool/after/upper-script/">CATCH</a>',
+      '<style>',
+      '  a { color: red }',
+      '</Style >',
+      '/* <a href="/tool/after/upper-style/">CATCH</a> */',
+    ]);
+  });
+
   it('a self-closing <style /> and a <script> with a > inside its attribute expression', () => {
     check([
       '<style is:global />',
@@ -668,7 +697,7 @@ describe('a link planted in the markup of any real .astro file is reported', () 
     'doc block': ['/**', ' * <a href="/tool/finance/x/">x</a>', ' */'],
     'line comment': ['// <a href="/tool/finance/x/">x</a>'],
   };
-  const TRANSITION = /\/>|<\/script\s*>|<\/style\s*>|-->/;
+  const TRANSITION = /\/>|<\/script\s*>|<\/style\s*>|-->/i;
   /** Line numbers to plant after: every context change in markup, and the last line. */
   const plantSites = (source: string): number[] => {
     const lines = source.split('\n');
@@ -681,18 +710,61 @@ describe('a link planted in the markup of any real .astro file is reported', () 
     }
     return [...sites].sort((a, b) => a - b);
   };
+  /**
+   * The sites a file must have, found without the scanner: the last line, the closing frontmatter
+   * fence, and every later line that holds a one-line self-closing <script>/<style> tag or a
+   * </script>/</style> close. A weakened plantSites() that drops any of them fails by name.
+   */
+  const requiredSites = (source: string): number[] => {
+    const lines = source.split('\n');
+    const required = [lines.length];
+    let from = 0;
+    const first = lines.findIndex((l) => l.trim() !== '');
+    if (first !== -1 && lines[first]!.trim() === '---') {
+      const fence = lines.findIndex((l, n) => n > first && l.trim() === '---');
+      if (fence !== -1) {
+        required.push(fence + 1);
+        from = fence + 1;
+      }
+    }
+    lines.forEach((l, n) => {
+      if (n < from) return;
+      if (/<(?:script|style)\b[^<]*\/>/.test(l) || /<\/(?:script|style)\s*>/i.test(l)) required.push(n + 1);
+    });
+    return [...new Set(required)].sort((a, b) => a - b);
+  };
+  const read = (f: string) => readFileSync(f, 'utf8').replace(/\n*$/, '');
 
-  it('finds the .astro files and the places to plant', () => {
-    expect(astroFiles.length).toBeGreaterThan(300);
-    const sites = astroFiles.reduce((sum, f) => sum + plantSites(readFileSync(f, 'utf8').replace(/\n*$/, '')).length, 0);
-    expect(sites).toBeGreaterThan(astroFiles.length);
+  it('scans every .astro file git knows under src/, tracked or new', () => {
+    const listed = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '--', 'src/*.astro'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+    })
+      .split('\n')
+      .filter(Boolean)
+      .sort();
+    expect(listed.length).toBeGreaterThan(300);
+    expect(astroFiles.map((f) => relative(ROOT, f)).sort()).toEqual(listed);
+  });
+
+  it('plants at every required site in every file', () => {
+    const short: string[] = [];
+    let total = 0;
+    for (const file of astroFiles) {
+      const sites = new Set(plantSites(read(file)));
+      total += sites.size;
+      const missing = requiredSites(read(file)).filter((n) => !sites.has(n));
+      if (missing.length > 0) short.push(`${relative(ROOT, file)}: ${missing.join(', ')}`);
+    }
+    expect(short).toEqual([]);
+    expect(total).toBeGreaterThan(astroFiles.length * 3);
   });
 
   for (const [shape, plant] of Object.entries(PLANTS)) {
     it(`reports a ${shape} link planted in every file`, () => {
       const missed: string[] = [];
       for (const file of astroFiles) {
-        const source = readFileSync(file, 'utf8').replace(/\n*$/, '');
+        const source = read(file);
         const lines = source.split('\n');
         for (const after of plantSites(source)) {
           const planted = [...lines.slice(0, after), ...plant, ...lines.slice(after)].join('\n');
@@ -715,7 +787,10 @@ describe('a link planted in the markup of any real .astro file is reported', () 
 
 // The oracle: Astro's own parser (@astrojs/compiler, the one astro build uses) must find exactly the
 // frontmatter, <script> bodies, <style> bodies and <!-- --> comments the scanner found, in every
-// real .astro file. Any drift between the scanner and the real structure fails here by name.
+// real .astro file. Any drift between the scanner and the real structure fails here by name. It is
+// only an oracle while the build really uses that parser, so the first two tests pin that: the
+// astro config turns on no other compiler (experimental.rustCompiler swaps it for a Rust one), and
+// this test imports the very copy of @astrojs/compiler that astro itself resolves.
 describe('the scanner agrees with the Astro compiler on every real .astro file', () => {
   interface AstNode {
     type: string;
@@ -741,6 +816,22 @@ describe('the scanner agrees with the Astro compiler on every real .astro file',
       walk(ast as unknown as AstNode);
       parsed.set(file, regions);
     }
+  });
+
+  it('checks the parser the build uses: no other compiler is turned on in the astro config', async () => {
+    const { default: config } = (await import('../../astro.config.mjs')) as {
+      default: { experimental?: Record<string, unknown>; compiler?: unknown };
+    };
+    const experimental = config.experimental ?? {};
+    const other = Object.keys(experimental).filter((k) => /compiler/i.test(k) && experimental[k] !== false);
+    expect(other, 'the oracle would check a parser the build no longer uses').toEqual([]);
+    expect(config.compiler, 'the oracle would check a parser the build no longer uses').toBeUndefined();
+  });
+
+  it('checks the parser the build uses: the same @astrojs/compiler copy astro resolves', () => {
+    const fromAstro = createRequire(join(ROOT, 'node_modules/astro/package.json')).resolve('@astrojs/compiler');
+    const fromHere = createRequire(__filename).resolve('@astrojs/compiler');
+    expect(fromHere).toBe(fromAstro);
   });
 
   it('parses every file', () => {

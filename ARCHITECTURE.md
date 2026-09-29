@@ -57,9 +57,10 @@ there is no multi-domain logic behind them. Guides link to sibling tools by slug
 `toolPathBySlug()` (`src/lib/tools/tool-link.ts`), a build-time registry lookup that hands the
 segment to `toolPath()` and throws on an unknown slug. `src/lib/url-literals.test.ts` fails on any
 raw `/tool/`, `/category/` or `/guide/` path outside `paths.ts`: any quoting, split prefixes,
-`.join('/')` arrays and absolute toytoolsapp.com URLs. It skips a comment only where it is one:
-it reads an .astro file's frontmatter, markup, `<script>` and `<style>` the way the Astro compiler
-does (a test checks that on every real file), and in markup only `<!-- -->` counts. Its only
+`.join('/')` arrays and absolute toytoolsapp.com URLs. It treats JS comment syntax as a comment
+only in `.ts` files, frontmatter and `<script>` (and CSS `/* */` only in `<style>`); it reads an
+.astro file's frontmatter, markup, `<script>` and `<style>` the way the Astro compiler does (a
+test checks that on every real file), and in markup only `<!-- -->` counts. Its only
 allowlist is a handful of widgets and inline scripts the builder cannot reach yet, each with its
 reason. Other internal hrefs (`/settings/`, `/privacy/`, …) still go through `withBase()`
 directly.
