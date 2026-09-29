@@ -12,6 +12,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
 ---
 
 <div class="pp">
+  <div class="pp-in">
   <div class="pp-fields">
     <IoPanel label="Role" labelFor="pp-role" variant="prose">
       <textarea id="pp-role" rows="3" placeholder="You are a senior Android engineer." spellcheck="true" aria-label="Role"></textarea>
@@ -37,7 +38,9 @@ import ToolActions from '@components/tool/ToolActions.astro';
 
   <p class="pp-omit" id="pp-omit" data-craft="prompt-omit-empty" role="status" hidden></p>
   <p class="pp-counts"><span id="pp-counts" aria-live="polite">0 characters · 0 words</span>. <span class="pp-note">Assembles the prompt. Does not write it.</span></p>
+  </div>
 
+  <div class="pp-res">
   <div class="pp-output">
     <IoPanel label="Assembled prompt" labelFor="pp-out" variant="prose">
       <div slot="header-end" class="pp-format" role="group" aria-label="Prompt layout">
@@ -48,6 +51,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
     </IoPanel>
   </div>
   <ToolActions copyTarget="pp-out" sticky />
+  </div>
 </div>
 
 <style>
@@ -55,8 +59,23 @@ import ToolActions from '@components/tool/ToolActions.astro';
      16rem on desktop, both still draggable (PR #232). */
   .pp { min-width: 0; max-width: 100%; --io-pane-h: 6.5rem; }
   .pp-output { --io-pane-h: 12rem; margin-top: var(--space-4); }
+  /* Below the split, the result column is not a box: the sticky Copy row then takes the whole
+     widget as its range, so it floats from the first screen, not only once the result is reached. */
+  @media (max-width: 1023px) {
+    .pp-res { display: contents; }
+  }
+
+  /* Desktop: fields left, prompt right, the same split ToolSplit draws, so the result is on the
+     first screen however many fields are open. */
   @media (min-width: 1024px) {
-    .pp-output { --io-pane-h: 16rem; }
+    .pp {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-8);
+      align-items: start;
+    }
+    .pp-in, .pp-res { min-width: 0; }
+    .pp-output { --io-pane-h: 20rem; margin-top: 0; }
   }
   .pp [hidden] { display: none !important; }
 

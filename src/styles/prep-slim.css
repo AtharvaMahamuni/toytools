@@ -11,7 +11,17 @@
    away. Sticky, not fixed: it stays in the flow, so it never covers the last thing in the widget
    (at the end of the widget it simply sits in its own slot) and it cannot follow the reader into
    Zone C. The top edge is the one line the design rules keep for "this floats" (.tool-action). */
+/* Why the body rule: global.css gives <body> overflow-x: hidden, which (with <html> also
+   non-visible) makes body a scroll container that never scrolls, so every position: sticky
+   under it silently behaves as static. That is also why ToolBar's sticky top:0 does nothing
+   today, site-wide (a finding for the platform, not fixed here). `clip` clips the same way
+   without creating a scroll container, and only on a page that carries a sticky Prep bar. The
+   ToolBar is pinned back to its current, non-sticky rendering on those pages so the Prep pages
+   do not quietly become the only ones with a sticky header. */
 @media (max-width: 639px) {
+  body:has(.tool-actions--sticky) { overflow-x: clip; }
+  body:has(.tool-actions--sticky) .tool-bar { position: relative; }
+
   .tool-actions--sticky {
     position: sticky;
     bottom: 0;
@@ -65,4 +75,12 @@
   font-size: var(--text-sm);
   line-height: var(--leading-relaxed);
   color: var(--color-text-muted);
+}
+
+/* A pane header that holds only its label (no Copy, no mode switch) does not need the 48px
+   control row: the label is not a tap target, the field under it is. Headers with a control
+   keep the full row. Saves about 30px per field on the Prep forms, which is most of what made
+   Prompt Packer two and a half phone screens tall. */
+:is(.pp, .cc, .sv, .cf, .lg, .sd-slim) .io-header:not(:has(button, select, a)) {
+  min-height: 0;
 }

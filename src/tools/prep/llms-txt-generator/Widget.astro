@@ -11,6 +11,7 @@ import ToolActions from '@components/tool/ToolActions.astro';
 ---
 
 <div class="lg">
+  <div class="lg-in">
   <div class="lg-fields">
     <label for="lg-name">Site name<input id="lg-name" type="text" autocomplete="organization" /></label>
     <label for="lg-url">Site URL<input id="lg-url" type="url" inputmode="url" placeholder="https://example.com/" autocomplete="url" /></label>
@@ -33,21 +34,38 @@ import ToolActions from '@components/tool/ToolActions.astro';
   </div>
 
   <p class="lg-line"><span class="lg-omit" id="lg-omit" data-craft="llms-omit-empty" role="status" hidden></span> <span class="lg-note">Generates the description. Does not publish it.</span></p>
+  </div>
 
+  <div class="lg-res">
   <div class="lg-output">
     <IoPanel label="llms.txt" labelFor="lg-out" variant="prose">
       <textarea id="lg-out" readonly aria-label="Generated llms.txt"></textarea>
     </IoPanel>
   </div>
   <ToolActions copyTarget="lg-out" downloadTarget="lg-out" downloadFilename="llms.txt" sticky />
+  </div>
 </div>
 
 <style>
   /* Tools about four prose rows; the file 12rem on a phone, 16rem on desktop. */
   .lg { min-width: 0; max-width: 100%; --io-pane-h: 8rem; }
   .lg-output { --io-pane-h: 12rem; margin-top: var(--space-3); }
+  /* Below the split, the result column is not a box: the sticky Copy row then takes the whole
+     widget as its range, so it floats from the first screen, not only once the result is reached. */
+  @media (max-width: 1023px) {
+    .lg-res { display: contents; }
+  }
+
+  /* Desktop: fields left, the file right, as ToolSplit lays out a converter. */
   @media (min-width: 1024px) {
-    .lg-output { --io-pane-h: 16rem; }
+    .lg {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-8);
+      align-items: start;
+    }
+    .lg-in, .lg-res { min-width: 0; }
+    .lg-output { --io-pane-h: 20rem; margin-top: 0; }
   }
   .lg [hidden] { display: none !important; }
 
