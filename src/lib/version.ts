@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 1,
-  patch: 4,
+  patch: 5,
   status: 'beta',
   releaseDate: '2026-09-30',
-  description: 'Guide links built by the one URL builder, and a stricter URL lint',
+  description: 'The llms files read each tool through one facts source, pinned by a golden copy',
 };
 
 export function formatVersion(config: VersionConfig): string {

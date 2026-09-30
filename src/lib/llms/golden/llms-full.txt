@@ -1,0 +1,1165 @@
+# ToyTools tool inventory
+
+> Runs entirely on your device. Nothing is uploaded. ToyTools does not run an AI model.
+
+## Combinations & Permutations Calculator
+
+URL: https://toytoolsapp.com/tool/math/combinations-permutations-calculator/
+Use for: nCr and nPr with the formula expanded step by step.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Fraction Calculator
+
+URL: https://toytoolsapp.com/tool/math/fraction-calculator/
+Use for: Add, subtract, multiply or divide fractions with every step shown.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Prime Factorization Calculator
+
+URL: https://toytoolsapp.com/tool/math/prime-factorization-calculator/
+Use for: Factor a number into primes, with the divisions narrated.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Probability Calculator
+
+URL: https://toytoolsapp.com/tool/math/probability-calculator/
+Use for: Roll thousands of times and watch frequency converge on probability.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Quadratic Equation Solver
+
+URL: https://toytoolsapp.com/tool/math/quadratic-equation-solver/
+Use for: Slide the coefficients and watch the roots move on a live parabola.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Statistics Visualizer
+
+URL: https://toytoolsapp.com/tool/math/statistics-visualizer/
+Use for: Paste numbers.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Interactive Unit Circle Calculator
+
+URL: https://toytoolsapp.com/tool/math/unit-circle-calculator/
+Use for: Interactive unit circle: drag the point and read sin, cos, and tan.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Chemical Bond Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/chemical-bond-calculator/
+Use for: Watch a bond slide from covalent to ionic as you change the atoms.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Crystal Field Splitting Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/crystal-field-splitting-calculator/
+Use for: Watch the electrons pick high spin or low spin for themselves.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Electron Configuration Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/electron-configuration-calculator/
+Use for: Watch the electrons fill in the order they really go in.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Molecular Geometry Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/molecular-geometry-calculator/
+Use for: Watch electron geometry and molecular shape come apart as you add lone pairs.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Newman Projection Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/newman-projection-calculator/
+Use for: Rotate the bond and watch the strain energy curve draw itself.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Reaction Rate Calculator
+
+URL: https://toytoolsapp.com/tool/chemistry/reaction-rate-calculator/
+Use for: Set the barrier and the temperature, then watch the reaction run.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Age Calculator
+
+URL: https://toytoolsapp.com/tool/datetime/age-calculator/
+Use for: Your exact age in years, months and days, plus a birthday countdown.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Cron Expression Parser
+
+URL: https://toytoolsapp.com/tool/datetime/cron-expression-parser/
+Use for: Read a cron expression in plain English, with its next run times.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Date Difference Calculator
+
+URL: https://toytoolsapp.com/tool/datetime/date-difference-calculator/
+Use for: Exact time between two dates, including weekdays only.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Cron to systemd Timer Converter
+
+URL: https://toytoolsapp.com/tool/datetime/systemd-timer-converter/
+Use for: Translate a crontab line, then check it fires when cron did.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Timezone Converter
+
+URL: https://toytoolsapp.com/tool/datetime/timezone-converter/
+Use for: Convert a time between zones, daylight saving handled.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Unix Timestamp Converter
+
+URL: https://toytoolsapp.com/tool/datetime/unix-timestamp-converter/
+Use for: Unix timestamp to a date and back, in seconds or milliseconds.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Aspect Ratio Calculator
+
+URL: https://toytoolsapp.com/tool/design/aspect-ratio-calculator/
+Use for: Lock a ratio like 16:9 and solve the missing width or height.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## WCAG Color Contrast Checker
+
+URL: https://toytoolsapp.com/tool/design/color-contrast-checker/
+Use for: Check text and background against WCAG AA and AAA contrast.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Color Format Converter
+
+URL: https://toytoolsapp.com/tool/design/color-format-converter/
+Use for: HEX, RGB, HSL, HSV, OKLCH and CMYK, on your device.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## PX to DP Converter
+
+URL: https://toytoolsapp.com/tool/design/px-to-dp-converter/
+Use for: Convert px to dp and sp across Android buckets and iOS points.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## PX to REM Converter
+
+URL: https://toytoolsapp.com/tool/design/px-to-rem-converter/
+Use for: px to rem, em and pt, against your root font size.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Base64 Encoder & Decoder
+
+URL: https://toytoolsapp.com/tool/developer-utilities/base64-encoder-decoder/
+Use for: Encode and decode Base64 in your browser.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Binary Text Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/binary-text-converter/
+Use for: Convert text to binary and binary back to text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## CIDR Calculator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/cidr-calculator/
+Use for: Paste a CIDR.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## CRC32 Hash Generator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/crc32-hash-generator/
+Use for: A CRC32 checksum for error detection, not for security.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## CSV Cleaner
+
+URL: https://toytoolsapp.com/tool/developer-utilities/csv-cleaner/
+Use for: Fix empty rows, stray whitespace and ragged rows in one pass.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## CSV Diff
+
+URL: https://toytoolsapp.com/tool/developer-utilities/csv-diff/
+Use for: Compare two CSVs and see which rows changed, with column detail.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## CSV to JSON Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/csv-to-json-converter/
+Use for: Turn CSV into a JSON array of objects, with type detection.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## CSV to TSV Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/csv-to-tsv/
+Use for: Convert comma-separated values to tab-separated, quoting handled.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Encoding Detector
+
+URL: https://toytoolsapp.com/tool/developer-utilities/encoding-detector/
+Use for: Find out what a string is encoded with, and what it decodes to.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Hash Identifier
+
+URL: https://toytoolsapp.com/tool/developer-utilities/hash-identifier/
+Use for: Identify a digest and verify the checksum.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Hex Encoder and Decoder
+
+URL: https://toytoolsapp.com/tool/developer-utilities/hex-encoder-decoder/
+Use for: Encode text to hex and decode hex back to text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## HTML Entity Encoder & Decoder
+
+URL: https://toytoolsapp.com/tool/developer-utilities/html-entity-encoder-decoder/
+Use for: Encode and decode HTML entities in your browser.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JSON Diff
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-diff/
+Use for: See added, removed, and changed JSON paths.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## JSON Escape / Unescape
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-escape/
+Use for: Escape text for a JSON string, or unescape one back to plain text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JSON Formatter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-formatter/
+Use for: Pretty-print JSON with proper indentation.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model or interpret what the data means.
+
+## JSON Minifier
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-minifier/
+Use for: Strip whitespace from JSON to make it smaller.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JSON to CSV Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-to-csv-converter/
+Use for: Turn JSON arrays into CSV, nested objects handled.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JSON to YAML Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-to-yaml-converter/
+Use for: Turn JSON into YAML for Kubernetes, Compose and CI configs.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JSON Tree Viewer
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-tree-viewer/
+Use for: Explore JSON as a collapsible tree, and copy any path or value.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JSON Validator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/json-validator/
+Use for: Check JSON syntax and see exactly where it breaks.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## JWT Decoder
+
+URL: https://toytoolsapp.com/tool/developer-utilities/jwt-decoder/
+Use for: Read a JSON Web Token header, payload and claims.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Verify the signature or send the token to an AI model.
+
+## MD5 Hash Generator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/md5-hash-generator/
+Use for: Generate an MD5 hash from any text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Reverse a hash or send the input to an AI model.
+
+## Punycode Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/punycode-converter/
+Use for: Convert domain names between Unicode and Punycode form.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Regex Tester
+
+URL: https://toytoolsapp.com/tool/developer-utilities/regex-tester/
+Use for: Live regex matcher with capture groups.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## ROT13 Encoder / Decoder
+
+URL: https://toytoolsapp.com/tool/developer-utilities/rot13-encoder-decoder/
+Use for: ROT13 text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## SHA-1 Hash Generator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/sha1-hash-generator/
+Use for: Generate a SHA-1 hash from any text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Reverse a hash or send the input to an AI model.
+
+## SHA-256 Hash Generator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/sha256-hash-generator/
+Use for: Generate a SHA-256 hash from any text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Reverse a hash or send the input to an AI model.
+
+## SHA-512 Hash Generator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/sha512-hash-generator/
+Use for: Generate a SHA-512 hash from any text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Reverse a hash or send the input to an AI model.
+
+## Shell Quote Escalator
+
+URL: https://toytoolsapp.com/tool/developer-utilities/shell-quote-escalator/
+Use for: Escape a command for every shell between you and the far end.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## URL Encoder & Decoder
+
+URL: https://toytoolsapp.com/tool/developer-utilities/url-encoder-decoder/
+Use for: Percent-encode and decode URL components.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## What Is My IP
+
+URL: https://toytoolsapp.com/tool/developer-utilities/what-is-my-ip/
+Use for: See the public IPv4 and IPv6 this connection presents.
+Privacy: Your browser asks an IP echo. ToyTools never sees the reply.
+Does not: Call an AI model.
+
+## YAML to JSON Converter
+
+URL: https://toytoolsapp.com/tool/developer-utilities/yaml-to-json-converter/
+Use for: Turn YAML into JSON, anchors and multi-line strings handled.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Breathing Circle
+
+URL: https://toytoolsapp.com/tool/fidget/breathing-circle/
+Use for: Breathe with a named pattern, not a vague calm.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Gears
+
+URL: https://toytoolsapp.com/tool/fidget/gears/
+Use for: Spin the pair.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Kinetic Sand
+
+URL: https://toytoolsapp.com/tool/fidget/kinetic-sand/
+Use for: Drag or tilt the pile.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Pop It
+
+URL: https://toytoolsapp.com/tool/fidget/pop-it/
+Use for: Tap the bubbles.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Slime
+
+URL: https://toytoolsapp.com/tool/fidget/slime/
+Use for: Poke and pull.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Fidget Spinner
+
+URL: https://toytoolsapp.com/tool/fidget/spinner/
+Use for: Flick it.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Switch Board
+
+URL: https://toytoolsapp.com/tool/fidget/switch-board/
+Use for: Flip the switches.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Coin Flipper
+
+URL: https://toytoolsapp.com/tool/generate/coin-flipper/
+Use for: Flip a coin once, or five hundred times, and see the split.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Dice Roller
+
+URL: https://toytoolsapp.com/tool/generate/dice-roller/
+Use for: Roll any dice by notation, and see how likely the result was.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Lorem Ipsum Generator
+
+URL: https://toytoolsapp.com/tool/generate/lorem-ipsum-generator/
+Use for: Placeholder text by paragraph, sentence or word.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Password Generator
+
+URL: https://toytoolsapp.com/tool/generate/password-generator/
+Use for: Strong random passwords, with a live strength estimate.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Store the password or send it to an AI model.
+
+## QR Code Generator
+
+URL: https://toytoolsapp.com/tool/generate/qr-code-generator/
+Use for: QR codes for a URL, Wi-Fi, contact or plain text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Random Choice Picker
+
+URL: https://toytoolsapp.com/tool/generate/random-choice-picker/
+Use for: Paste the options, let it choose, or shuffle them into an order.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Random Name Picker
+
+URL: https://toytoolsapp.com/tool/generate/random-name-picker/
+Use for: Draw names from a pasted list, with no accidental repeats.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Random String Generator
+
+URL: https://toytoolsapp.com/tool/generate/random-string-generator/
+Use for: Random strings and tokens with a custom alphabet.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## UUID Generator
+
+URL: https://toytoolsapp.com/tool/generate/uuid-generator/
+Use for: Random version 4 UUIDs, one or many at a time.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## UUID Inspector
+
+URL: https://toytoolsapp.com/tool/generate/uuid-inspector/
+Use for: Read the version, variant, and time inside a UUID.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## BMI Calculator
+
+URL: https://toytoolsapp.com/tool/health/bmi-calculator/
+Use for: Your BMI from height and weight, with the healthy range for you.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## BMR Calculator
+
+URL: https://toytoolsapp.com/tool/health/bmr-calculator/
+Use for: Your basal metabolic rate, and what each activity level adds.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Body Fat Calculator
+
+URL: https://toytoolsapp.com/tool/health/body-fat-calculator/
+Use for: Body fat percentage by the Navy tape method, plus fat and lean mass.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Body Weight Tracker
+
+URL: https://toytoolsapp.com/tool/health/body-weight-tracker/
+Use for: Log your weight daily and watch the smoothed trend line.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Calorie Deficit Calculator
+
+URL: https://toytoolsapp.com/tool/health/calorie-deficit-calculator/
+Use for: What to eat daily for a chosen rate of loss, and how long it takes.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Heart Rate Zone Calculator
+
+URL: https://toytoolsapp.com/tool/health/heart-rate-zone-calculator/
+Use for: Your max heart rate and five training zones, from your age.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Ideal Weight Calculator
+
+URL: https://toytoolsapp.com/tool/health/ideal-weight-calculator/
+Use for: Ideal body weight by four formulas, plus the BMI healthy range.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Macro Calculator
+
+URL: https://toytoolsapp.com/tool/health/macro-calculator/
+Use for: Split a calorie target into protein, carbs and fat.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Move Today Tracker
+
+URL: https://toytoolsapp.com/tool/health/move-today-tracker/
+Use for: Tap once a day to log that you moved, and build a streak.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## One Rep Max Calculator
+
+URL: https://toytoolsapp.com/tool/health/one-rep-max-calculator/
+Use for: Your one rep max from a set you lifted, across four formulas.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Protein Intake Calculator
+
+URL: https://toytoolsapp.com/tool/health/protein-intake-calculator/
+Use for: The protein range your weight and training goal support.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Running Pace Calculator
+
+URL: https://toytoolsapp.com/tool/health/running-pace-calculator/
+Use for: Pace per km and per mile, plus predicted race times.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## TDEE Calculator
+
+URL: https://toytoolsapp.com/tool/health/tdee-calculator/
+Use for: Your daily energy expenditure, and calories to lose or gain.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Water Intake Tracker
+
+URL: https://toytoolsapp.com/tool/health/water-intake-tracker/
+Use for: Tap to log glasses of water and build a hydration streak.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## CAGR Calculator
+
+URL: https://toytoolsapp.com/tool/finance/cagr-calculator/
+Use for: Compound annual growth rate, total growth and doubling time.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Compound Interest Calculator
+
+URL: https://toytoolsapp.com/tool/finance/compound-interest-calculator/
+Use for: Watch savings grow, with optional monthly contributions.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Emergency Fund Calculator
+
+URL: https://toytoolsapp.com/tool/finance/emergency-fund-calculator/
+Use for: How much emergency savings you need, and how far along you are.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Inflation Calculator
+
+URL: https://toytoolsapp.com/tool/finance/inflation-calculator/
+Use for: What your money will be worth later, and what it will cost.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## ROI Calculator
+
+URL: https://toytoolsapp.com/tool/finance/roi-calculator/
+Use for: Return on investment, including the annualized return.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Rule of 72 Calculator
+
+URL: https://toytoolsapp.com/tool/finance/rule-of-72-calculator/
+Use for: How long money takes to double at a given rate of return.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Savings Goal Calculator
+
+URL: https://toytoolsapp.com/tool/finance/savings-goal-calculator/
+Use for: How much to save each month to hit a goal by a target date.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Shop UPI Tally
+
+URL: https://toytoolsapp.com/tool/finance/shop-upi-tally/
+Use for: A local monthly tally of your shop UPI receipts.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## SIP Calculator
+
+URL: https://toytoolsapp.com/tool/finance/sip-calculator/
+Use for: Future value of a monthly SIP, and what returns add on top.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Split Bill
+
+URL: https://toytoolsapp.com/tool/finance/split-bill/
+Use for: Split a dinner bill so every share adds up.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## UPI 1999 Split
+
+URL: https://toytoolsapp.com/tool/finance/upi-1999-split/
+Use for: A meme split into 1999 rupee chunks.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Send a payment or call an AI model. It is not tax or payments advice.
+
+## UPI MDR Estimator
+
+URL: https://toytoolsapp.com/tool/finance/upi-mdr-estimator/
+Use for: Estimate merchant MDR in rupees.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Music Equalizer Settings
+
+URL: https://toytoolsapp.com/tool/music/equalizer-settings-generator/
+Use for: Find your sound, then copy the numbers into your own player.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Binary Converter
+
+URL: https://toytoolsapp.com/tool/number/binary-converter/
+Use for: Decimal to binary and back, with hex and octal alongside.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Discount Calculator
+
+URL: https://toytoolsapp.com/tool/number/discount-calculator/
+Use for: Sale price and how much you save, by percentage or amount.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Margin Calculator
+
+URL: https://toytoolsapp.com/tool/number/margin-calculator/
+Use for: Gross margin, gross profit and markup from cost and price.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Markup Calculator
+
+URL: https://toytoolsapp.com/tool/number/markup-calculator/
+Use for: Markup percentage from cost and price, or price from a markup.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Number to Words
+
+URL: https://toytoolsapp.com/tool/number/number-to-words/
+Use for: Spell a number out in English words, or read the words back.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Percentage Calculator
+
+URL: https://toytoolsapp.com/tool/number/percentage-calculator/
+Use for: Percent of a number, or the change between two.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Roman Numeral Converter
+
+URL: https://toytoolsapp.com/tool/number/roman-numeral-converter/
+Use for: Numbers to Roman numerals and back, from I to MMMCMXCIX.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Scientific Calculator
+
+URL: https://toytoolsapp.com/tool/number/scientific-calculator/
+Use for: Trigonometry, logarithms, powers and roots, with a visible history.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Tax Calculator
+
+URL: https://toytoolsapp.com/tool/number/tax-calculator/
+Use for: Add sales tax or VAT, or work backwards from the total.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Tip Calculator
+
+URL: https://toytoolsapp.com/tool/number/tip-calculator/
+Use for: The tip, the total, and the split between any number of people.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Doppler Effect Calculator
+
+URL: https://toytoolsapp.com/tool/physics/doppler-effect-calculator/
+Use for: Move a source and watch its wavefronts bunch up and stretch behind.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Frequency and Period Calculator
+
+URL: https://toytoolsapp.com/tool/physics/frequency-period-calculator/
+Use for: Convert frequency to period online: tap a beat or drag the slider.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Heat Transfer Calculator
+
+URL: https://toytoolsapp.com/tool/physics/heat-transfer-calculator/
+Use for: Watch heat flow between two blocks until they reach equilibrium.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Ideal Gas Law Calculator
+
+URL: https://toytoolsapp.com/tool/physics/ideal-gas-law-calculator/
+Use for: Set temperature, volume and amount, watch pressure respond via PV = nRT.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Inclined Plane Calculator
+
+URL: https://toytoolsapp.com/tool/physics/inclined-plane-calculator/
+Use for: Set angle, mass and friction, and see whether the block slides.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Momentum and Collision Calculator
+
+URL: https://toytoolsapp.com/tool/physics/momentum-collision-calculator/
+Use for: Collide two carts and compare elastic against inelastic, live.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Nuclear Reactor Calculator
+
+URL: https://toytoolsapp.com/tool/physics/nuclear-reactor-calculator/
+Use for: Drag a control rod and watch a chain reaction respond in real time.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Ohm's Law Calculator
+
+URL: https://toytoolsapp.com/tool/physics/ohms-law-calculator/
+Use for: Set voltage and resistance, watch current and power in a live circuit.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Pendulum Period Calculator
+
+URL: https://toytoolsapp.com/tool/physics/pendulum-period-calculator/
+Use for: Drag the bob and watch period, velocity and energy trade off live.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Projectile Motion Calculator
+
+URL: https://toytoolsapp.com/tool/physics/projectile-motion-calculator/
+Use for: Aim a launch and watch the arc.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Simple Harmonic Motion Calculator
+
+URL: https://toytoolsapp.com/tool/physics/simple-harmonic-motion-calculator/
+Use for: Set mass, spring constant and amplitude, watch the oscillation live.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Wave Speed Calculator
+
+URL: https://toytoolsapp.com/tool/physics/wave-speed-calculator/
+Use for: Watch a wave travel and see how frequency and wavelength set its speed.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Chat Export Cleaner
+
+URL: https://toytoolsapp.com/tool/prep/chat-export-cleaner/
+Use for: Clean a copied chat into plain text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Rewrite what was said or send the transcript to an AI model.
+
+## Context Fit Checker
+
+URL: https://toytoolsapp.com/tool/prep/context-fit-checker/
+Use for: An estimate of context use.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Count official tokens or recommend a model.
+
+## JSON Schema Validator
+
+URL: https://toytoolsapp.com/tool/prep/json-schema-validator/
+Use for: Checks the keywords this page lists.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Check every JSON Schema keyword or send the JSON to an AI model.
+
+## JSON to JSON Schema
+
+URL: https://toytoolsapp.com/tool/prep/json-to-schema/
+Use for: Types from this example.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Decide that a field is required or send the JSON to an AI model.
+
+## llms.txt Generator
+
+URL: https://toytoolsapp.com/tool/prep/llms-txt-generator/
+Use for: A short site description.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Publish the file for you or claim the layout is an official standard.
+
+## Prompt Packer
+
+URL: https://toytoolsapp.com/tool/prep/prompt-packer/
+Use for: Assembles a prompt from fields.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Write, score, or rewrite the prompt, or send the text to an AI model.
+
+## Book Tracker
+
+URL: https://toytoolsapp.com/tool/productivity/book-tracker/
+Use for: A private shelf for books you want, are reading, or finished.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Habit Streak Tracker
+
+URL: https://toytoolsapp.com/tool/productivity/habit-streak-tracker/
+Use for: Check habits, keep honest streaks, start again without guilt.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Keep Screen Awake
+
+URL: https://toytoolsapp.com/tool/productivity/keep-screen-awake/
+Use for: Keep the display on in your browser while this tab stays open.
+Privacy: Works offline after the first page load.
+Does not: Call an AI model.
+
+## Notepad
+
+URL: https://toytoolsapp.com/tool/productivity/notepad/
+Use for: Quick notes that save themselves, right in your browser.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Pomodoro Timer
+
+URL: https://toytoolsapp.com/tool/productivity/pomodoro-timer/
+Use for: Stay focused with timed work sessions and breaks.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## Todo List
+
+URL: https://toytoolsapp.com/tool/productivity/todo-list/
+Use for: Tasks and subtasks tracked privately in your browser.
+Privacy: No sync, no cloud. Your data stays on this device.
+Does not: Call an AI model.
+
+## camelCase Converter
+
+URL: https://toytoolsapp.com/tool/text/camel-case-converter/
+Use for: camelCase for variable names.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Character Counter
+
+URL: https://toytoolsapp.com/tool/text/character-counter/
+Use for: Count characters, with and without spaces.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Count model tokens or send the text to an AI model.
+
+## Character Map
+
+URL: https://toytoolsapp.com/tool/text/character-map/
+Use for: Search special characters by name and tap to copy any of them.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Find and Replace
+
+URL: https://toytoolsapp.com/tool/text/find-replace/
+Use for: Search and replace text, with regex and a live match count.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Invisible Character Detector
+
+URL: https://toytoolsapp.com/tool/text/invisible-character-detector/
+Use for: Find the character you cannot see that is breaking your text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## kebab-case Converter
+
+URL: https://toytoolsapp.com/tool/text/kebab-case-converter/
+Use for: Convert text to kebab-case for slugs, classes and IDs.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Letter Counter
+
+URL: https://toytoolsapp.com/tool/text/letter-counter/
+Use for: Count only letters, ignoring digits, spaces and punctuation.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Line Counter
+
+URL: https://toytoolsapp.com/tool/text/line-counter/
+Use for: Count total lines, non-empty lines and paragraphs.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Lowercase Converter
+
+URL: https://toytoolsapp.com/tool/text/lowercase-converter/
+Use for: Convert any text to lowercase, then copy it.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Normalize Whitespace
+
+URL: https://toytoolsapp.com/tool/text/normalize-whitespace/
+Use for: Collapse every run of whitespace into single spaces.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Paragraph Counter
+
+URL: https://toytoolsapp.com/tool/text/paragraph-counter/
+Use for: Count paragraphs split by blank lines.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Reading Time Calculator
+
+URL: https://toytoolsapp.com/tool/text/reading-time-calculator/
+Use for: Minutes to read or speak a text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Accents
+
+URL: https://toytoolsapp.com/tool/text/remove-accents/
+Use for: Strip diacritics to plain ASCII.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Blank Lines
+
+URL: https://toytoolsapp.com/tool/text/remove-blank-lines/
+Use for: Delete empty and whitespace-only lines from text.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Duplicate Lines
+
+URL: https://toytoolsapp.com/tool/text/remove-duplicate-lines/
+Use for: Remove repeated lines, keeping the first of each.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Emoji
+
+URL: https://toytoolsapp.com/tool/text/remove-emoji/
+Use for: Strip every emoji, leaving words and spacing intact.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Extra Spaces
+
+URL: https://toytoolsapp.com/tool/text/remove-extra-spaces/
+Use for: Collapse extra spaces and tabs.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Line Breaks
+
+URL: https://toytoolsapp.com/tool/text/remove-line-breaks/
+Use for: Join wrapped lines back into one paragraph.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Remove Tabs
+
+URL: https://toytoolsapp.com/tool/text/remove-tabs/
+Use for: Replace tab characters with spaces, then copy.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Reverse Text
+
+URL: https://toytoolsapp.com/tool/text/reverse-text/
+Use for: Reverse a string character by character.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Sentence Case Converter
+
+URL: https://toytoolsapp.com/tool/text/sentence-case-converter/
+Use for: Capitalize the first letter of each sentence.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Sentence Counter
+
+URL: https://toytoolsapp.com/tool/text/sentence-counter/
+Use for: Count sentences by their ending punctuation.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Rewrite sentences or send the text to an AI model.
+
+## Slugify Text
+
+URL: https://toytoolsapp.com/tool/text/slugify-text/
+Use for: A clean, lowercase, hyphenated URL slug.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## snake_case Converter
+
+URL: https://toytoolsapp.com/tool/text/snake-case-converter/
+Use for: Convert text to snake_case for variables and columns.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Space Counter
+
+URL: https://toytoolsapp.com/tool/text/space-counter/
+Use for: Count space characters, and characters without them.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Text Compare
+
+URL: https://toytoolsapp.com/tool/text/text-compare/
+Use for: Compare two texts and see exactly which lines changed.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Text Repeater
+
+URL: https://toytoolsapp.com/tool/text/text-repeater/
+Use for: Repeat text as many times as you need, separated how you like.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Title Case Converter
+
+URL: https://toytoolsapp.com/tool/text/title-case-converter/
+Use for: Capitalize the first letter of each word.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Trim Text
+
+URL: https://toytoolsapp.com/tool/text/trim-text/
+Use for: Trim the whitespace at each end of every line.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Uppercase Converter
+
+URL: https://toytoolsapp.com/tool/text/uppercase-converter/
+Use for: Convert any text to UPPERCASE, then copy it.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.
+
+## Word Counter
+
+URL: https://toytoolsapp.com/tool/text/word-counter/
+Use for: Count words as you type, and set a goal to write to.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Rewrite the text or send it to an AI model.
+
+## Word Frequency Counter
+
+URL: https://toytoolsapp.com/tool/text/word-frequency-counter/
+Use for: How many times each word appears, with percentages.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Call an AI model.

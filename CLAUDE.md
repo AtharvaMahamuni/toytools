@@ -216,7 +216,9 @@ a validator fails — or, worse, drifts silently.
   it; a category without one fails the build), the DETAIL prose, `CORE_TOOL_SLUGS` /
   `PREP_HIGHLIGHT_SLUGS`, the tool's `tagline`, and a specific `citation.nonGoal` (a new tool without
   one fails `validate-registry`; `src/lib/llms/nongoal-backlog.ts` holds the tools that predate the
-  rule and only shrinks).
+  rule and only shrinks). Per-tool facts reach both files only through `toolFacts()`
+  (`src/lib/llms/facts.ts`). Both files are pinned to `src/lib/llms/golden/`: after an intended
+  change run `npm run llms:golden` and commit the golden diff with it.
 - **Ship any of the above** → bump `src/lib/version.ts` and add the `CHANGELOG.md` entry in the same
   PR. The PR body states `llms files: updated` or `llms files: no change needed`, with one line why.
 
