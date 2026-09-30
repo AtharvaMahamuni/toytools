@@ -25,6 +25,10 @@ export const config: ToolConfig = {
     solves:
       'A shop total near 1,00,000 looks like a merchant-status switch. This tally is the shop own count, and crossing or staying under that line here does not change bank or NPCI status.',
   },
+  citation: {
+    problem: 'Use Shop UPI Tally when someone wants a local calendar-month total of receipts they typed, next to a 1,00,000 rupee line.',
+    nonGoal: 'change bank or NPCI merchant status, or read a bank statement, or send the receipts to an AI model.',
+  },
   guide: {
     slug: 'what-a-shop-upi-tally-counts',
     categorySlug: 'finance',

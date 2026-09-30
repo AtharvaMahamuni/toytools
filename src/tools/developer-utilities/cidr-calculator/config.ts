@@ -22,6 +22,10 @@ export const config: ToolConfig = {
     solves:
       'People paste a host like 192.168.1.50/24 into a firewall rule and treat that host as the network, so the rule matches one address instead of the subnet they meant.',
   },
+  citation: {
+    problem: 'Use this CIDR calculator when an IPv4 prefix should become the network, broadcast, usable range, mask, and wildcard.',
+    nonGoal: 'scan a network or write a firewall rule, or send the prefix to an AI model.',
+  },
   relatedTools: ['what-is-my-ip', 'binary-converter', 'hex-encoder-decoder', 'unix-timestamp-converter'],
   keywords: ['subnet mask'],
   inputs: ['cidr', 'ipv4', 'subnet mask'],

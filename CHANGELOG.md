@@ -2,6 +2,13 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.2] - 2026-09-30
+
+### Changed
+
+- **Eighteen tools added since mid-August now say what they do not do.** Book Tracker, Breathing Circle, CIDR Calculator, Gears, Habit Streak Tracker, Hash Identifier, JSON Diff, Kinetic Sand, Regex Tester, Shop UPI Tally, Slime, Fidget Spinner, Split Bill, Statistics Visualizer, UPI MDR Estimator, UUID Inspector, What Is My IP, and Molecular Geometry Calculator each set a citation. That sentence is the `abstract` on the tool page structured data, and the "Does not:" line in llms-full.txt. The visible page copy is unchanged. The other 131 tools stay on the backlog.
+- **A new tool declares the job it exists to do.** `job` on the tool config, or on a simulation manifest, records the intent, the user job, and how repeatable, interactive, private, and chat-replaceable the tool is. The 166 tools already in the catalog are on a frozen backlog and are unchanged. Nothing on the page renders the field.
+
 ## [beta-v12.1.6] - 2026-09-30
 
 ### Changed

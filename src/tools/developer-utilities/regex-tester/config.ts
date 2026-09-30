@@ -29,6 +29,10 @@ export const config: ToolConfig = {
     solves:
       'A match count of three looks like success until you notice group 2 is empty on every hit, and the only way to see that was to rebuild the pattern in a debugger.',
   },
+  citation: {
+    problem: 'Use Regex Tester when a pattern, flags, and sample text should show every match, index, and capture group, plus a replace preview.',
+    nonGoal: 'run a pattern that can hang the tab, or send the test text to an AI model.',
+  },
   guide: {
     slug: 'regex-tester',
     categorySlug: 'developer-utilities',

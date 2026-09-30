@@ -41,6 +41,10 @@ export const config: ToolConfig = {
     solves:
       'A version 4 UUID looks fine to a human even when the system that will store it wants version 7, and the only difference is one hex digit nobody reads.',
   },
+  citation: {
+    problem: 'Use UUID Inspector when a pasted UUID should be marked valid or invalid, with its version, variant, and a timestamp when the version has one.',
+    nonGoal: 'mint a new UUID or treat version 4 as version 7, or send the value to an AI model.',
+  },
   guide: {
     slug: 'uuid-inspector',
     categorySlug: 'generate',

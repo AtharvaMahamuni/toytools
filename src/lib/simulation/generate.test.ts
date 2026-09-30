@@ -100,6 +100,21 @@ describe('simulator intent derivation', () => {
     expect(cfg.citation).toEqual(citation);
   });
 
+  it('carries a manifest job into the ToolConfig, and omits it when absent', () => {
+    expect(toolConfigFrom(projectileManifest, projectileRelations).job).toBeUndefined();
+    const job = {
+      intent: 'simulate' as const,
+      userJob: 'See how launch angle changes the range of a projectile on this page.',
+      repeatability: 'high' as const,
+      interactionDepth: 'high' as const,
+      privacyValue: 'low' as const,
+      aiSubstitutability: 'medium' as const,
+      browserOnly: true,
+    };
+    const cfg = toolConfigFrom({ ...projectileManifest, job }, projectileRelations);
+    expect(cfg.job).toEqual(job);
+  });
+
   it('does not duplicate a phrase the manifest already lists', () => {
     const tags = toolConfigFrom(projectileManifest, projectileRelations).tags.map((t) => t.toLowerCase());
     expect(tags.filter((t) => t === 'projectile motion simulator')).toHaveLength(1);

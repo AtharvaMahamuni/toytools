@@ -30,7 +30,7 @@ export interface ToolFacts {
   tagline: string;
   /** knowledge.summary, when the tool has a knowledge file. */
   summary?: string;
-  /** config.citation.problem: the job, in one sentence. */
+  /** config.citation.problem: when to send someone here, in one sentence. */
   problem?: string;
   /** config.citation.nonGoal: completes "It does not ...", as authored. */
   doesNot?: string;

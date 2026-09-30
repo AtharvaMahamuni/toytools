@@ -93,6 +93,7 @@ export function toolConfigFrom(manifest: SimulationManifest, relations: Relation
       updatedAt: manifest.guide.updatedAt,
     },
     ...(manifest.citation ? { citation: { ...manifest.citation } } : {}),
+    ...(manifest.job ? { job: { ...manifest.job } } : {}),
   };
 }
 

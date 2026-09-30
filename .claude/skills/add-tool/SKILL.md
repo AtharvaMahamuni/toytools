@@ -7,6 +7,19 @@ description: Add a new tool or engine to ToyTools. Use when asked to build a new
 
 One contract. Every agent that adds a tool or engine MUST follow it in order.
 
+## Before you scaffold
+
+Read `docs/tool-design.md`. Then, in the tool's own words:
+
+1. `userJob`: one sentence, the job a person is hiring this page to do.
+2. The substitution test on that page. When a chat answer is the whole product, STOP and report that. Do not scaffold.
+3. The engine that already does this job (`docs/code-map.json`, then `references/tool-classification.md`). A new engine is `references/add-engine.md`.
+4. Which existing interaction the job needs (`docs/interaction-patterns.md`). Compose those. A bespoke widget is for a job the shared widgets cannot express.
+
+The config, or the simulation manifest, sets `job` in the same change. `validate-registry` fails a new tool without a usable one. The scaffold writes a `job` stub whose `userJob` is `TODO.`; replace it with the sentence from step 1 before verify. Fields: `ToolJob` in `src/data/types.ts`.
+
+A simulation is one model on the existing simulation engine (`ARCHITECTURE.md` → "Simulation Platform"), registered in the domain plugin for that subject. One conceptual or calculation task.
+
 ## Fastest path: scaffold the tool, then fill it in
 
 For a tool on an existing engine, run the generator. Registration is **derived from the
@@ -63,13 +76,14 @@ write. For "where does X live", read `docs/code-map.json` first.
 ## Decision tree
 
 ```
-Are you adding an interactive SIMULATION (physics playground)?
-├── YES → do NOT use this scaffold or the registry checklist. A sim is manifest-driven:
+Are you adding an interactive SIMULATION?
+├── YES → do NOT use this scaffold. One model on the existing simulation engine
+│         (ARCHITECTURE.md → "Simulation Platform"):
 │         author src/lib/simulation/simulations/<id>.{ts,draw.ts,manifest.ts} (+ <id>.test.ts),
-│         register the model in plugins/physics/index.ts and the manifest in manifests.ts, add the
-│         slug to tests/e2e/physics.spec.ts. Config/knowledge/faq/guide/SEO derive from the manifest;
-│         no registry edits. Gate with `npm run seo:gate:sim -- <slug>`.
-│         See ARCHITECTURE.md → "Simulation Platform".
+│         register the model in the domain plugin (plugins/<domain>/index.ts) and the manifest
+│         in manifests.ts, and add the slug to that domain's e2e spec. Set `job` and `citation`
+│         on the manifest. One conceptual or calculation task (docs/tool-design.md).
+│         Gate with `npm run seo:gate:sim -- <slug>`.
 └── NO ↓
 
 Are you adding a new engine type that doesn't exist yet?

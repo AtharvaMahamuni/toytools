@@ -42,7 +42,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/math/statistics-visualizer/
 Use for: Paste numbers.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Fit a regression or infer a population the paste does not contain, or send the numbers to an AI model.
 
 ## Interactive Unit Circle Calculator
 
@@ -77,7 +77,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/chemistry/molecular-geometry-calculator/
 Use for: Watch electron geometry and molecular shape come apart as you add lone pairs.
 Privacy: Works offline after the first page load.
-Does not: Call an AI model.
+Does not: Run a quantum chemistry calculation or assign hybridization, or send the counts to an AI model.
 
 ## Newman Projection Calculator
 
@@ -189,7 +189,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/developer-utilities/cidr-calculator/
 Use for: Paste a CIDR.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Scan a network or write a firewall rule, or send the prefix to an AI model.
 
 ## CRC32 Hash Generator
 
@@ -238,7 +238,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/developer-utilities/hash-identifier/
 Use for: Identify a digest and verify the checksum.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Crack a hash or reverse it, or send the digest to an AI model.
 
 ## Hex Encoder and Decoder
 
@@ -259,7 +259,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/developer-utilities/json-diff/
 Use for: See added, removed, and changed JSON paths.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Pretty-print JSON or treat 1 and 1.0 as a change, or send the documents to an AI model.
 
 ## JSON Escape / Unescape
 
@@ -336,7 +336,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/developer-utilities/regex-tester/
 Use for: Live regex matcher with capture groups.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Run a pattern that can hang the tab, or send the test text to an AI model.
 
 ## ROT13 Encoder / Decoder
 
@@ -385,7 +385,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/developer-utilities/what-is-my-ip/
 Use for: See the public IPv4 and IPv6 this connection presents.
 Privacy: Your browser asks an IP echo. ToyTools never sees the reply.
-Does not: Call an AI model.
+Does not: Reveal a private LAN address or store the lookup, or send the address to an AI model.
 
 ## YAML to JSON Converter
 
@@ -399,21 +399,21 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/fidget/breathing-circle/
 Use for: Breathe with a named pattern, not a vague calm.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Diagnose a breathing problem or coach a medical routine, or send the session to an AI model.
 
 ## Gears
 
 URL: https://toytoolsapp.com/tool/fidget/gears/
 Use for: Spin the pair.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Design a gearbox or size real teeth, or send the spin to an AI model.
 
 ## Kinetic Sand
 
 URL: https://toytoolsapp.com/tool/fidget/kinetic-sand/
 Use for: Drag or tilt the pile.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Model engineering soil or keep a packed pile without a reset, or send the session to an AI model.
 
 ## Pop It
 
@@ -427,14 +427,14 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/fidget/slime/
 Use for: Poke and pull.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Model real slime chemistry or leave a stuck pointer with no release, or send the session to an AI model.
 
 ## Fidget Spinner
 
 URL: https://toytoolsapp.com/tool/fidget/spinner/
 Use for: Flick it.
 Privacy: Runs entirely on your device. Nothing is uploaded.
-Does not: Call an AI model.
+Does not: Keep spinning after the tab is in the background, or send the session to an AI model.
 
 ## Switch Board
 
@@ -511,7 +511,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/generate/uuid-inspector/
 Use for: Read the version, variant, and time inside a UUID.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Mint a new UUID or treat version 4 as version 7, or send the value to an AI model.
 
 ## BMI Calculator
 
@@ -665,7 +665,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/finance/shop-upi-tally/
 Use for: A local monthly tally of your shop UPI receipts.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Change bank or NPCI merchant status, or read a bank statement, or send the receipts to an AI model.
 
 ## SIP Calculator
 
@@ -679,7 +679,7 @@ Does not: Call an AI model.
 URL: https://toytoolsapp.com/tool/finance/split-bill/
 Use for: Split a dinner bill so every share adds up.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Collect a payment or split the bill by item, or send the total to an AI model.
 
 ## UPI 1999 Split
 
@@ -693,7 +693,7 @@ Does not: Send a payment or call an AI model. It is not tax or payments advice.
 URL: https://toytoolsapp.com/tool/finance/upi-mdr-estimator/
 Use for: Estimate merchant MDR in rupees.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Call that charge a tax the customer owes or decide real small-merchant status, or send the amount to an AI model.
 
 ## Music Equalizer Settings
 
@@ -903,14 +903,14 @@ Does not: Write, score, or rewrite the prompt, or send the text to an AI model.
 URL: https://toytoolsapp.com/tool/productivity/book-tracker/
 Use for: A private shelf for books you want, are reading, or finished.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Sync the shelf to Goodreads or StoryGraph, or send the list to an AI model.
 
 ## Habit Streak Tracker
 
 URL: https://toytoolsapp.com/tool/productivity/habit-streak-tracker/
 Use for: Check habits, keep honest streaks, start again without guilt.
 Privacy: No sync, no cloud. Your data stays on this device.
-Does not: Call an AI model.
+Does not: Sync habits to an account or punish a missed day, or send the checklist to an AI model.
 
 ## Keep Screen Awake
 

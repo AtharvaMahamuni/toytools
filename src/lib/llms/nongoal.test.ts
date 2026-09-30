@@ -34,9 +34,9 @@ describe('nonGoalRatchetErrors', () => {
     expect([...NON_GOAL_BACKLOG].sort()).toEqual(without);
   });
 
-  it('the backlog is frozen at 149 and can only shrink', () => {
+  it('the backlog is frozen at 131 and can only shrink', () => {
     // Raise this number never. Lower it in the same PR that gives a backlog tool its nonGoal.
-    expect(NON_GOAL_BACKLOG.length).toBeLessThanOrEqual(149);
+    expect(NON_GOAL_BACKLOG.length).toBeLessThanOrEqual(131);
     expect(Object.isFrozen(NON_GOAL_BACKLOG)).toBe(true);
   });
 

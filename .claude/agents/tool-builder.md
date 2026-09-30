@@ -22,7 +22,7 @@ read `docs/code-map.json` first for "where does X live", and follow the `add-too
 
 1. `npm install` only if node_modules is missing. Read `docs/code-map.json` and 1-2 sibling tools
    of the same engine before writing anything.
-2. Scaffold: `npm run scaffold:tool -- --slug <slug> ... --faq --guide` (use `--dry-run` first).
+2. Scaffold only after `userJob` passes `docs/tool-design.md` (the `add-tool` skill stops you when a chat answer is the whole product). Then `npm run scaffold:tool -- --slug <slug> ... --faq --guide` (use `--dry-run` first). Replace the generated `job.userJob` of `TODO.` before verify.
    Registration is DERIVED - the scaffold regenerates the `*.generated.ts` barrels; never
    hand-edit `src/data/registry.ts`, `faq-registry.ts`, `guide-registry.ts`,
    `src/lib/knowledge/registry.ts`, any `*.generated.ts`, or the guide route. If you author or

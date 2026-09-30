@@ -132,9 +132,20 @@ export const config: ToolConfig = {
     updatedAt: '2026-06-14',      // ISO 8601 (validate-registry)
   },
 
+  // required for every NEW tool (validate-registry). docs/tool-design.md
+  job: {
+    intent: 'transform',             // ToolIntent in src/data/types.ts
+    userJob: 'Rewrite pasted text into a chosen case without uploading it.',
+    repeatability: 'high',           // low | medium | high
+    interactionDepth: 'low',
+    privacyValue: 'high',
+    aiSubstitutability: 'medium',    // high: a chat answer replaces this page
+    browserOnly: true,
+  },
+
   // required for every NEW tool (validate-registry): its "Does not:" line in /llms-full.txt
   citation: {
-    problem: 'One sentence: the job this tool does.',
+    problem: 'One sentence: when to send someone here. May match job.userJob.',
     nonGoal: 'round to the cent or send the input to an AI model.',  // lowercase verb, a real limit
   },
 };

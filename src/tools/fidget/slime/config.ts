@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     solves:
       'Slime sticks permanently to a finger event that never received pointerup after leaving the canvas, so the blob follows nothing and the session is stuck.',
   },
+  citation: {
+    problem: 'Use Slime when someone wants to poke and stretch a virtual blob, and release it if a pointer sticks.',
+    nonGoal: 'model real slime chemistry or leave a stuck pointer with no release, or send the session to an AI model.',
+  },
   relatedTools: ['kinetic-sand', 'pop-it', 'spinner'],
   keywords: [],
   inputs: [],

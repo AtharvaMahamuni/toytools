@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     solves:
       'People copy the IPv6 address into a v4-only form, or treat a 100.64 CGNAT address as a public IP they can whitelist, and both mistakes look like the lookup was wrong.',
   },
+  citation: {
+    problem: 'Use What Is My IP when this connection should show its public IPv4 and IPv6, with a CGNAT address named as such.',
+    nonGoal: 'reveal a private LAN address or store the lookup, or send the address to an AI model.',
+  },
   relatedTools: ['cidr-calculator', 'binary-converter', 'hex-encoder-decoder'],
   keywords: ['cgnat'],
   inputs: [],

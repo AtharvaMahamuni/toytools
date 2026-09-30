@@ -2,6 +2,8 @@
 
 System-level patterns and conventions. Reference this when adding new tools, widgets, or UI patterns.
 
+Whether a tool deserves a page is decided in `docs/tool-design.md`. This file is how a tool that has earned a page is built.
+
 ---
 
 ## Tool Directory Convention

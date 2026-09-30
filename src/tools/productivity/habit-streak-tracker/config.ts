@@ -26,6 +26,10 @@ export const config: ToolConfig = {
     solves:
       'Incumbent habit apps push signup, cloud sync, and guilt dashboards after a miss. This tool keeps the cue-response-reward loop, honest streaks, and warm never-miss-twice recovery entirely on your device.',
   },
+  citation: {
+    problem: 'Use Habit Streak Tracker when someone wants up to eight daily checks, honest streaks, and a way to start again after a miss.',
+    nonGoal: 'sync habits to an account or punish a missed day, or send the checklist to an AI model.',
+  },
   relatedTools: ['todo-list', 'pomodoro-timer', 'notepad'],
   guide: {
     slug: 'how-to-build-a-habit-loop-that-sticks',

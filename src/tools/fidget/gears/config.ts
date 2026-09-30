@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     solves:
       'Two gears overlap without meshing because tooth count and radius were allowed to disagree, so the pair looks like it drives when it does not.',
   },
+  citation: {
+    problem: 'Use Gears when someone wants to spin a meshed pair and read a ratio that matches the tooth counts.',
+    nonGoal: 'design a gearbox or size real teeth, or send the spin to an AI model.',
+  },
   relatedTools: ['spinner', 'pop-it', 'switch-board'],
   keywords: [],
   inputs: [],

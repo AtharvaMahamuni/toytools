@@ -30,6 +30,8 @@ import { SIMULATION_SCHEMA_VERSION } from '../src/lib/simulation/manifest';
 import { guideCategorySlugErrors } from '../src/lib/content/guide-category';
 import { nonGoalRatchetErrors } from '../src/lib/llms/nongoal';
 import { NON_GOAL_BACKLOG } from '../src/lib/llms/nongoal-backlog';
+import { jobRatchetErrors } from '../src/lib/tools/job';
+import { JOB_BACKLOG } from '../src/lib/tools/job-backlog';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -398,6 +400,12 @@ errors.push(...guideCategorySlugErrors(tools, categories));
 // citation.nonGoal, or llms-full.txt prints the generic "Call an AI model." for it. The backlog is a
 // ratchet: it only shrinks, and a backlog tool that gains a nonGoal must leave it in the same PR.
 errors.push(...nonGoalRatchetErrors(tools, NON_GOAL_BACKLOG));
+
+// ── tool job ──────────────────────────────────────────────────────────────────────────────────
+// Every tool NOT on the frozen backlog (src/lib/tools/job-backlog.ts) must set a usable `job`.
+// The backlog is a ratchet: it only shrinks, and a backlog tool that gains a job must leave it
+// in the same change. The field is not rendered. docs/tool-design.md.
+errors.push(...jobRatchetErrors(tools, JOB_BACKLOG));
 
 if (errors.length > 0) {
   console.error('\n[validate-registry] Errors found:\n');

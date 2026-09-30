@@ -25,6 +25,10 @@ export const config: ToolConfig = {
     solves:
       'A merchant quote can look like a tax the customer must pay. The line names the charge as an ecosystem charge on some merchant payments, not a fee the customer owes, and not a government tax.',
   },
+  citation: {
+    problem: 'Use UPI MDR Estimator when an amount and a payment kind should become a merchant charge in rupees from the 15 Sep 2026 PIB note.',
+    nonGoal: 'call that charge a tax the customer owes or decide real small-merchant status, or send the amount to an AI model.',
+  },
   guide: {
     slug: 'what-upi-mdr-means',
     categorySlug: 'finance',
