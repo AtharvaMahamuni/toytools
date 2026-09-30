@@ -4,15 +4,17 @@ import type { ToolJob } from '@data/types';
 import { JOB_BACKLOG } from './job-backlog';
 import { USER_JOB_MAX, isDeclaredJob, jobProblems, jobRatchetErrors } from './job';
 
-const valid = (): ToolJob => ({
-  intent: 'analyze',
-  userJob: 'Count words in pasted text that never leaves this device.',
-  repeatability: 'high',
-  interactionDepth: 'low',
-  privacyValue: 'high',
-  aiSubstitutability: 'medium',
-  browserOnly: true,
-});
+function valid(): ToolJob {
+  return {
+    intent: 'analyze',
+    userJob: 'Count words in pasted text that never leaves this device.',
+    repeatability: 'high',
+    interactionDepth: 'low',
+    privacyValue: 'high',
+    aiSubstitutability: 'medium',
+    browserOnly: true,
+  };
+}
 
 describe('jobProblems', () => {
   it('accepts a complete job', () => {
@@ -20,39 +22,41 @@ describe('jobProblems', () => {
     expect(isDeclaredJob(valid())).toBe(true);
   });
 
-  it('rejects a missing job', () => {
+  it('treats null and undefined as missing, and any other non-object as the wrong shape', () => {
     expect(jobProblems(undefined)).toEqual(['missing job']);
+    expect(jobProblems(null)).toEqual(['missing job']);
     expect(isDeclaredJob(undefined)).toBe(false);
+    expect(jobProblems('analyze')).toEqual(['job must be an object']);
+    expect(jobProblems([])).toEqual(['job must be an object']);
   });
 
-  it('rejects an intent outside ToolIntent and a non-sentence userJob', () => {
+  it('rejects an intent outside ToolIntent and a userJob that is not one sentence', () => {
     const job = valid();
-    const broken = { ...job, intent: 'seo-page' as ToolJob['intent'], userJob: 'Count words.' };
-    const problems = jobProblems(broken);
+    const problems = jobProblems({ ...job, intent: 'seo-page', userJob: 'Count words.' });
     expect(problems).toContain('intent is not a ToolIntent');
     expect(problems.some(p => p.startsWith('userJob'))).toBe(true);
-    expect(jobProblems({ ...job, intent: 1 as unknown as ToolJob['intent'] })).toContain('intent is not a ToolIntent');
-    expect(jobProblems({ ...job, userJob: undefined as unknown as string }).some(p => p.startsWith('userJob'))).toBe(true);
+    expect(jobProblems({ ...job, intent: 1 })).toContain('intent is not a ToolIntent');
+    expect(jobProblems({ ...job, userJob: undefined }).some(p => p.startsWith('userJob'))).toBe(true);
   });
 
-  it('rejects a userJob that is too long, has no period, or contains an em dash', () => {
+  it('rejects a userJob that is too long, has no period, has two sentences, or contains an em dash', () => {
     expect(jobProblems({ ...valid(), userJob: `${'word '.repeat(80)}.` }).some(p => p.startsWith('userJob'))).toBe(true);
     expect(jobProblems({ ...valid(), userJob: 'Count words in pasted text that never leaves this device' }).some(p => p.startsWith('userJob'))).toBe(true);
+    expect(jobProblems({ ...valid(), userJob: 'Count words in pasted text. Then count them again on this device.' }).some(p => p.startsWith('userJob'))).toBe(true);
     const dashed = `Count words in pasted text that never leaves this device${'\u2014'}locally.`;
     expect(dashed.length).toBeLessThanOrEqual(USER_JOB_MAX);
     expect(jobProblems({ ...valid(), userJob: dashed }).some(p => p.startsWith('userJob'))).toBe(true);
   });
 
   it('rejects a degree outside the scale and a non-boolean browserOnly', () => {
-    const job = {
+    const problems = jobProblems({
       ...valid(),
-      repeatability: 'sometimes' as ToolJob['repeatability'],
-      interactionDepth: 'sometimes' as ToolJob['interactionDepth'],
-      privacyValue: 'sometimes' as ToolJob['privacyValue'],
-      aiSubstitutability: 'sometimes' as ToolJob['aiSubstitutability'],
-      browserOnly: 'yes' as unknown as boolean,
-    };
-    const problems = jobProblems(job);
+      repeatability: 'sometimes',
+      interactionDepth: 'sometimes',
+      privacyValue: 'sometimes',
+      aiSubstitutability: 'sometimes',
+      browserOnly: 'yes',
+    });
     expect(problems).toEqual([
       'repeatability must be low, medium, or high',
       'interactionDepth must be low, medium, or high',
@@ -64,10 +68,13 @@ describe('jobProblems', () => {
 });
 
 describe('jobRatchetErrors', () => {
-  it('passes the registry today, and the backlog is exactly the tools without a job', () => {
+  it('passes the registry today, and the backlog is exactly the tools with no job', () => {
     expect(jobRatchetErrors(tools, JOB_BACKLOG)).toEqual([]);
-    const without = tools.filter(t => !isDeclaredJob(t.job)).map(t => t.slug).sort();
-    expect([...JOB_BACKLOG].sort()).toEqual(without);
+    const absent = tools.filter(t => t.job == null).map(t => t.slug).sort();
+    expect([...JOB_BACKLOG].sort()).toEqual(absent);
+    for (const tool of tools) {
+      if (tool.job != null) expect(isDeclaredJob(tool.job), tool.slug).toBe(true);
+    }
   });
 
   it('the backlog is frozen at 166 and can only shrink', () => {
@@ -88,6 +95,12 @@ describe('jobRatchetErrors', () => {
 
   it('passes a new tool with a job and a backlog tool without one', () => {
     expect(jobRatchetErrors([{ slug: 'new-tool', job: valid() }, { slug: 'old-tool' }], ['old-tool'])).toEqual([]);
+  });
+
+  it('fails a backlog tool whose job is present but unusable', () => {
+    const errors = jobRatchetErrors([{ slug: 'old-tool', job: { ...valid(), userJob: 'TODO.' } }], ['old-tool']);
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toContain('Tool "old-tool" has no usable job');
   });
 
   it('fails a backlog tool that gained a job until it leaves the backlog', () => {

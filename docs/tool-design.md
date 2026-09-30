@@ -18,7 +18,7 @@ Then run the substitution test:
 2. Name the interaction, the local processing, or the artifact that still makes this page worth opening.
 3. When that second sentence is empty, stop. Report that the tool should not be implemented.
 
-The build records the outcome on the tool as `job` (`ToolJob` in `src/data/types.ts`). A new tool sets it on `config.ts`. A new simulation sets it on its manifest. `scripts/validate-registry.ts` fails a tool that is not on `src/lib/tools/job-backlog.ts` without a usable job. The shape check is `isDeclaredJob()` in `src/lib/tools/job.ts`.
+The build records the outcome on the tool as `job` (`ToolJob` in `src/data/types.ts`). A new tool sets it on `config.ts`. A new simulation sets it on its manifest. `scripts/validate-registry.ts` fails a tool that is not on `src/lib/tools/job-backlog.ts` without a usable job. A `job` that is present has to pass the same check even when the slug is still on the backlog. The backlog only excuses a tool that has no `job` yet. The shape check is `isDeclaredJob()` in `src/lib/tools/job.ts`. `userJob` is one sentence: one period, and it is the last character.
 
 `job` is machine-readable and internal. It is not rendered, and it is not a public score.
 

@@ -5,7 +5,8 @@
 // reach yet, and it is a ratchet:
 //   - it only ever SHRINKS. Never add a slug here; give the new tool a job instead.
 //   - a tool on this list that gains a usable job must be removed from it in the same change
-//     (validate-registry fails until it is).
+//     (validate-registry fails until it is). A job object that is present but unusable fails
+//     even while the slug is still listed. The list excuses absence only.
 //   - a slug that leaves the registry (removed or renamed) must be removed from it too. A renamed
 //     tool counts as new, so it needs its own job.
 // Backfilling the field is audit work (the audit-tool skill), one tool at a time. None of these

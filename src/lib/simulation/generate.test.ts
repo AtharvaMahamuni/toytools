@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { ToolJob } from '@data/types';
 import { faqItemsFrom, knowledgeFrom, relatedToolSlugs, simulatorLabel, subjectFromTitle, toolConfigFrom } from './generate';
 import { resolveRelations } from './relations';
 import { MANIFESTS } from './manifests';
@@ -102,13 +103,13 @@ describe('simulator intent derivation', () => {
 
   it('carries a manifest job into the ToolConfig, and omits it when absent', () => {
     expect(toolConfigFrom(projectileManifest, projectileRelations).job).toBeUndefined();
-    const job = {
-      intent: 'simulate' as const,
+    const job: ToolJob = {
+      intent: 'simulate',
       userJob: 'See how launch angle changes the range of a projectile on this page.',
-      repeatability: 'high' as const,
-      interactionDepth: 'high' as const,
-      privacyValue: 'low' as const,
-      aiSubstitutability: 'medium' as const,
+      repeatability: 'high',
+      interactionDepth: 'high',
+      privacyValue: 'low',
+      aiSubstitutability: 'medium',
       browserOnly: true,
     };
     const cfg = toolConfigFrom({ ...projectileManifest, job }, projectileRelations);
