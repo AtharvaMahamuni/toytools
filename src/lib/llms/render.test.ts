@@ -15,6 +15,8 @@ import { tools } from '@data/registry';
 import { categories as allCategories } from '@data/categories';
 import { PRIVACY_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 const SITE = 'https://toytoolsapp.com/';
 
@@ -186,5 +188,27 @@ describe('renderLlmsFull', () => {
   it('capitalises a citation non-goal', () => {
     expect(doesNotLine(undefined)).toBe('Call an AI model.');
     expect(doesNotLine('verify the signature.')).toBe('Verify the signature.');
+  });
+});
+
+// The llms files read a tool only through toolFacts() (src/lib/llms/facts.ts), so every surface
+// states the same facts. The renderer may not reach around it to the raw per-tool sources.
+describe('render.ts reads tools only through toolFacts', () => {
+  const source = readFileSync(join(__dirname, 'render.ts'), 'utf8');
+  const imports = [...source.matchAll(/^import[^;]*?from '([^']+)';/gms)].map(m => m[1]);
+
+  it('imports the facts module', () => {
+    expect(imports).toContain('./facts');
+  });
+
+  it.each(['@data/registry', '@data/faq-registry', '@lib/knowledge/registry', '@lib/knowledge/queries'])(
+    'does not import %s',
+    raw => {
+      expect(imports).not.toContain(raw);
+    },
+  );
+
+  it('does not build a tool URL or privacy line itself', () => {
+    expect(source).not.toMatch(/\btoolPath\(|\bcanonicalFor\(|\bprivacyStatement\(|\.citation\b|\.trustVariant\b/);
   });
 });

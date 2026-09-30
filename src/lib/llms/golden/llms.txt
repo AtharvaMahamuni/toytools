@@ -1,0 +1,66 @@
+# ToyTools
+
+> ToyTools is the internet's little toolbox: free, browser-based tools for text, numbers, developer utilities, productivity, money, generators, physics, applied math, chemistry, dates, health, design, music, fidgets, and prep. The prep tools prepare text before a model (ToyTools does not run a model). Runs entirely on your device. Nothing is uploaded.
+
+ToyTools is one static platform rather than a collection of separate utilities: the computation lives in a set of shared, individually tested engines, and the interface, offline support and privacy contract belong to the platform, so a tool is largely a declaration of which engine it runs on. What it exposes is single-purpose utilities plus interactive physics, applied math, and chemistry simulations, organized into the categories below. Each category page lists its individual tools.
+
+Every published tool is listed in [llms-full.txt](https://toytoolsapp.com/llms-full.txt).
+
+## Core tools
+
+- [Word Counter](https://toytoolsapp.com/tool/text/word-counter/): Count words as you type, and set a goal to write to.
+- [Character Counter](https://toytoolsapp.com/tool/text/character-counter/): Count characters, with and without spaces.
+- [Find and Replace](https://toytoolsapp.com/tool/text/find-replace/): Search and replace text, with regex and a live match count.
+- [Percentage Calculator](https://toytoolsapp.com/tool/number/percentage-calculator/): Percent of a number, or the change between two. On your device.
+- [Discount Calculator](https://toytoolsapp.com/tool/number/discount-calculator/): Sale price and how much you save, by percentage or amount.
+- [JSON Formatter](https://toytoolsapp.com/tool/developer-utilities/json-formatter/): Pretty-print JSON with proper indentation.
+- [Base64 Encoder & Decoder](https://toytoolsapp.com/tool/developer-utilities/base64-encoder-decoder/): Encode and decode Base64 in your browser.
+- [JWT Decoder](https://toytoolsapp.com/tool/developer-utilities/jwt-decoder/): Read a JSON Web Token header, payload and claims. Never uploaded.
+- [Password Generator](https://toytoolsapp.com/tool/generate/password-generator/): Strong random passwords, with a live strength estimate.
+- [UUID Generator](https://toytoolsapp.com/tool/generate/uuid-generator/): Random version 4 UUIDs, one or many at a time.
+- [QR Code Generator](https://toytoolsapp.com/tool/generate/qr-code-generator/): QR codes for a URL, Wi-Fi, contact or plain text. PNG or SVG.
+- [Age Calculator](https://toytoolsapp.com/tool/datetime/age-calculator/): Your exact age in years, months and days, plus a birthday countdown.
+- [Unix Timestamp Converter](https://toytoolsapp.com/tool/datetime/unix-timestamp-converter/): Unix timestamp to a date and back, in seconds or milliseconds.
+- [Timezone Converter](https://toytoolsapp.com/tool/datetime/timezone-converter/): Convert a time between zones, daylight saving handled.
+- [BMI Calculator](https://toytoolsapp.com/tool/health/bmi-calculator/): Your BMI from height and weight, with the healthy range for you.
+- [TDEE Calculator](https://toytoolsapp.com/tool/health/tdee-calculator/): Your daily energy expenditure, and calories to lose or gain.
+- [Compound Interest Calculator](https://toytoolsapp.com/tool/finance/compound-interest-calculator/): Watch savings grow, with optional monthly contributions.
+- [SIP Calculator](https://toytoolsapp.com/tool/finance/sip-calculator/): Future value of a monthly SIP, and what returns add on top.
+- [Tip Calculator](https://toytoolsapp.com/tool/number/tip-calculator/): The tip, the total, and the split between any number of people.
+- [WCAG Color Contrast Checker](https://toytoolsapp.com/tool/design/color-contrast-checker/): Check text and background against WCAG AA and AAA contrast.
+- [Scientific Calculator](https://toytoolsapp.com/tool/number/scientific-calculator/): Trigonometry, logarithms, powers and roots, with a visible history.
+- [Notepad](https://toytoolsapp.com/tool/productivity/notepad/): Quick notes that save themselves, right in your browser.
+- [Pomodoro Timer](https://toytoolsapp.com/tool/productivity/pomodoro-timer/): Stay focused with timed work sessions and breaks.
+- [SHA-256 Hash Generator](https://toytoolsapp.com/tool/developer-utilities/sha256-hash-generator/): Generate a SHA-256 hash from any text.
+- [Lorem Ipsum Generator](https://toytoolsapp.com/tool/generate/lorem-ipsum-generator/): Placeholder text by paragraph, sentence or word.
+
+## Prep tools
+
+Prepare text before a model. ToyTools does not run a model.
+
+- [Prompt Packer](https://toytoolsapp.com/tool/prep/prompt-packer/): Assembles a prompt from fields. Does not write it.
+- [Context Fit Checker](https://toytoolsapp.com/tool/prep/context-fit-checker/): An estimate of context use. Not a tokenizer.
+- [Chat Export Cleaner](https://toytoolsapp.com/tool/prep/chat-export-cleaner/): Clean a copied chat into plain text.
+
+## Categories
+
+- [Text Utilities](https://toytoolsapp.com/category/text-utilities/): Count, transform, clean, and analyze text strings. (32 tools)
+- [Number Utilities](https://toytoolsapp.com/category/number-utilities/): Convert, format, and calculate numeric values quickly. (10 tools)
+- [Developer Utilities](https://toytoolsapp.com/category/developer-utilities/): Encode, decode, format, and inspect data structures. (32 tools)
+- [Productivity](https://toytoolsapp.com/category/productivity/): Simple tools to help you focus, plan, and get things done. (6 tools)
+- [Money & Finance](https://toytoolsapp.com/category/money-finance/): Calculate interest, savings, inflation, and plan smarter money decisions. (12 tools)
+- [Generators](https://toytoolsapp.com/category/generate/): Generate passwords, UUIDs, random strings, placeholder text, and QR codes in your browser. (10 tools)
+- [Physics](https://toytoolsapp.com/category/physics/): Interactive physics simulations you can see, touch, and experiment with. Explore waves, oscillations, and heat right in your browser. (12 tools)
+- [Applied Math](https://toytoolsapp.com/category/applied-math/): Interactive math you can see and touch. Drag angles, morph curves, and watch sin, cos, and the rest come alive in your browser. (7 tools)
+- [Chemistry](https://toytoolsapp.com/category/chemistry/): Interactive chemistry simulations you can turn, tune, and run. Conformers, bonds, molecular shape, crystal field, and reaction rates. (6 tools)
+- [Date & Time](https://toytoolsapp.com/category/date-time/): Calculate ages and durations, convert time zones and timestamps, and work with dates, all in your browser. (6 tools)
+- [Health & Fitness](https://toytoolsapp.com/category/health-fitness/): Calculate fitness metrics, track your health, and build habits that stick, all privately in your browser. (14 tools)
+- [Design & CSS](https://toytoolsapp.com/category/design-tools/): Convert colors, check WCAG contrast, and translate CSS and mobile units, all privately in your browser. (5 tools)
+- [Music & Audio](https://toytoolsapp.com/category/music-audio/): Build, understand and share music equalizer settings, then apply them in your own player. (1 tool)
+- [Fidgets](https://toytoolsapp.com/category/fidgets/): Online virtual fidget toys you tap, flick, or flip in the browser, with optional sound and haptics. Runs entirely on your device. Nothing is uploaded. (7 tools)
+- [Prep for a model](https://toytoolsapp.com/category/prep/): Tools for preparing, cleaning, structuring, and checking text before you send it to an AI model. ToyTools does not run a model. (6 tools)
+
+## Optional
+
+- [Platform](https://toytoolsapp.com/platform/): The engines, shared runtime and guarantees every tool is built on.
+- [Feedback](https://toytoolsapp.com/feedback/): Report a problem or suggest a tool.

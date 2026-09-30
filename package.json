@@ -22,6 +22,7 @@
     "check:craft": "npx tsx scripts/check-craft.ts",
     "check:engines": "npx tsx scripts/check-engines.ts",
     "check:version": "npx tsx scripts/check-version.ts",
+    "llms:golden": "npx tsx scripts/update-llms-golden.ts",
     "scaffold:tool": "npx tsx scripts/scaffold-tool.ts",
     "health": "npx tsx scripts/platform-health.ts",
     "indexnow": "npx tsx scripts/submit-indexnow.ts",
