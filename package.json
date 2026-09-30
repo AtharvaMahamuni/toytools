@@ -85,6 +85,7 @@
     "@playwright/test": "^1.60.0",
     "@types/js-yaml": "^4.0.9",
     "@vitest/coverage-v8": "^4.1.8",
+    "es-module-lexer": "^2.1.0",
     "happy-dom": "^20.10.6",
     "playwright": "^1.60.0",
     "sharp": "^0.35.3",
