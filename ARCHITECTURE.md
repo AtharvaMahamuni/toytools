@@ -976,12 +976,16 @@ config, knowledge, FAQ, guide and citation, with URLs from `canonicalFor()`. The
 of both files is committed in `src/lib/llms/golden/`; `golden.test.ts` calls both endpoints'
 `GET` for the production origin, as the build does, and compares the responses to it byte for
 byte. It also calls both on a second site, where every URL must be on that site.
-`npm run llms:golden` rewrites the copies after an intended change. `render.test.ts` reads the
-imports of `render.ts` with es-module-lexer and checks them against an allowlist of modules and,
-for the content manifest, sitemap, paths and privacy modules, of the exact names each may supply;
-the content manifest may be asked only for pages and categories. It refuses any dynamic
-`import()`, `import.meta`, `require` or `createRequire`, and any call that builds a tool URL or
-privacy line.
+`npm run llms:golden` rewrites the copies after an intended change. `render.test.ts` holds a
+static lint on `render.ts`. es-module-lexer finds the imports and re-exports written in normal
+syntax, and they are checked against an allowlist of modules and, for the content manifest,
+sitemap, paths and privacy modules, of the exact names each may supply. Each spelled-out use of
+`contentByType`, or of an alias given to it in its import, must be a call with the literal
+`'page'` or `'category'`. A written-out dynamic `import()`, `import.meta`, `require`,
+`createRequire`, or call that builds a tool URL or privacy line is reported. The lint catches
+normal imports, re-exports and uses of the forbidden names. It is not proof against deliberately
+obfuscated code, such as TypeScript-syntax tricks that make the lexer read an import as a regex,
+or identifier escapes. Checking the esbuild-transformed output is a tracked follow-up.
 Their curated parts (the SUMMARY
 category terms, DETAIL, the core and prep lists, each tool's tagline and `citation.nonGoal`) are a
 ship-checklist item: CLAUDE.md, "Breaking-changes playbook", "LLM files". Prep for a model

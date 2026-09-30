@@ -238,9 +238,15 @@ describe('highlightLines', () => {
 // The llms files read a tool only through toolFacts() (src/lib/llms/facts.ts), so every surface
 // states the same facts. The renderer may not reach around it to the raw per-tool sources, so its
 // imports are an allowlist of modules and, where a module could hand over per-tool data, of names.
-// A real lexer (es-module-lexer) finds every import and re-export, so a comment or an odd quote
-// cannot hide one; any dynamic import(), import.meta (import.meta.glob), require() or createRequire
-// is refused outright.
+// This is a static lint on the raw source of render.ts. es-module-lexer finds the imports and
+// re-exports written in normal syntax, so a comment or an odd quote inside one does not hide it. A
+// dynamic import(), import.meta (import.meta.glob), require() or createRequire written out in the
+// source is reported. Each occurrence of the name contentByType, or of an alias given to it in its
+// import, spelled out in the source, must be a call whose argument is the literal 'page' or
+// 'category'. The lint catches normal imports, re-exports and uses of the forbidden names. It is
+// not proof against deliberately obfuscated code, such as TypeScript syntax that makes the lexer
+// read an import as a regex, or identifier escapes (contentBy\u0054ype). Checking the
+// esbuild-transformed output is a tracked follow-up.
 const RENDER_IMPORTS: Readonly<Record<string, readonly string[] | null>> = {
   '@lib/content/manifest': ['contentByType', 'ContentEntry'],
   '@lib/sitemap/render': ['absoluteUrl'],
@@ -267,7 +273,7 @@ interface ImportOf {
   end: number;
 }
 
-/** Every module a source imports or re-exports, statically or dynamically, from the lexer. */
+/** The modules a source imports or re-exports, statically or dynamically, as es-module-lexer reports them. */
 function importsOf(source: string): ImportOf[] {
   const [imports] = parse(source);
   return imports.map(i => {
@@ -297,7 +303,7 @@ function importsOf(source: string): ImportOf[] {
   });
 }
 
-/** What breaks the rule in a render.ts source: an import off the allowlist, or per-tool data read around toolFacts(). */
+/** What the lint reports in a render.ts source: an import off the allowlist, or a forbidden name or call written out. */
 function renderGuardViolations(source: string): string[] {
   const problems: string[] = [];
   const imports = importsOf(source);
