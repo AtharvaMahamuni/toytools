@@ -973,8 +973,11 @@ sitemap automatically — no sitemap edits.
 short overview. `llms-full.txt` is one block per published tool. `src/lib/llms/render.ts` reads a
 tool only through `toolFacts()` (`src/lib/llms/facts.ts`), one projection that joins the tool's
 config, knowledge, FAQ, guide and citation, with URLs from `canonicalFor()`. The expected output
-of both files is committed in `src/lib/llms/golden/`; `golden.test.ts` compares the renderer to it
-byte for byte, and `npm run llms:golden` rewrites it after an intended change.
+of both files is committed in `src/lib/llms/golden/`; `golden.test.ts` calls both endpoints'
+`GET` for the production origin, as the build does, and compares the responses to it byte for
+byte; `npm run llms:golden` rewrites the copies after an intended change. `render.test.ts` holds
+`render.ts` to an allowlist of imports, so it cannot read the raw per-tool sources around
+`toolFacts()`.
 Their curated parts (the SUMMARY
 category terms, DETAIL, the core and prep lists, each tool's tagline and `citation.nonGoal`) are a
 ship-checklist item: CLAUDE.md, "Breaking-changes playbook", "LLM files". Prep for a model
