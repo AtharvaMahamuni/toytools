@@ -975,9 +975,13 @@ tool only through `toolFacts()` (`src/lib/llms/facts.ts`), one projection that j
 config, knowledge, FAQ, guide and citation, with URLs from `canonicalFor()`. The expected output
 of both files is committed in `src/lib/llms/golden/`; `golden.test.ts` calls both endpoints'
 `GET` for the production origin, as the build does, and compares the responses to it byte for
-byte; `npm run llms:golden` rewrites the copies after an intended change. `render.test.ts` holds
-`render.ts` to an allowlist of imports, so it cannot read the raw per-tool sources around
-`toolFacts()`.
+byte. It also calls both on a second site, where every URL must be on that site.
+`npm run llms:golden` rewrites the copies after an intended change. `render.test.ts` reads the
+imports of `render.ts` with es-module-lexer and checks them against an allowlist of modules and,
+for the content manifest, sitemap, paths and privacy modules, of the exact names each may supply;
+the content manifest may be asked only for pages and categories. It refuses any dynamic
+`import()`, `import.meta`, `require` or `createRequire`, and any call that builds a tool URL or
+privacy line.
 Their curated parts (the SUMMARY
 category terms, DETAIL, the core and prep lists, each tool's tagline and `citation.nonGoal`) are a
 ship-checklist item: CLAUDE.md, "Breaking-changes playbook", "LLM files". Prep for a model
