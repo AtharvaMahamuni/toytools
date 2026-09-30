@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1.6] - 2026-09-30
+
+### Changed
+
+- **Tool pages drop the "When to send someone here" block.** The 17 tools that set a citation
+  showed a short block above the More about row: what the tool is for, its privacy line and what
+  it does not do. The block is gone from the page on phone and desktop, markup included, not
+  hidden. The same words are now the `abstract` of the tool's SoftwareApplication structured data,
+  and llms.txt and llms-full.txt still carry them, byte-for-byte as before. Those 17 pages are
+  164 bytes smaller, and the stylesheet every tool page loads lost the block's rules. Apart from
+  that, the version number in the site's version badge, the name of one script file the feedback
+  page loads, and this entry, every page, llms.txt and llms-full.txt is byte-for-byte what it was.
+
 ## [beta-v12.1.5] - 2026-09-30
 
 ### Changed

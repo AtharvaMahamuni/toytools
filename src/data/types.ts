@@ -171,9 +171,10 @@ export interface ToolConfig {
   /** The tool's one thoughtful touch. See ToolCraft and docs/analysis/2026-08-11-tool-craft.md. */
   craft?: ToolCraft;
   /**
-   * Quotable "when to send someone here" copy. Rendered once on the tool page, and reused by
-   * llms-full.txt. Omit it and the page stays as it is; llms-full then says the tool does not
-   * call an AI model.
+   * Quotable "when to send someone here" copy. Not shown on the page (the visible block was
+   * removed on 2026-09-30); it is the `abstract` of the tool's SoftwareApplication JSON-LD and
+   * reaches llms-full.txt through toolFacts(). Omit it and the tool has no abstract; llms-full
+   * then says the tool does not call an AI model.
    *
    * `problem` is one sentence: the job, not a slogan.
    * `nonGoal` completes "It does not …". Start with a lowercase verb and end with a period.
