@@ -10,6 +10,8 @@ import type { Tool, Category } from '@data/types';
 import { withBase, canonicalFor } from '../lib/paths';
 import { openingAnswer } from '@lib/privacy';
 import { orgRef, personRef } from '@lib/schema/identity';
+import { toolAbstract } from '@lib/schema/abstract';
+import { toolFacts } from '@lib/llms/facts';
 
 interface Props {
   tool: Tool;
@@ -43,11 +45,15 @@ const breadcrumbSchema = {
 // signal at all. Guides had both. `tool.updatedAt` is already ISO on all 107 configs and was
 // simply unused here. No `aggregateRating`: we have no ratings, and inventing them is fabricated
 // structured data.
+// `abstract` carries the tool's citation copy (its job, its privacy line and what it does not do),
+// which was a visible block until 2026-09-30 (W1). Only tools that set `citation` have one.
+const abstract = toolAbstract(toolFacts(tool, Astro.site));
 const softwareSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: tool.name,
   description: openingAnswer(tool),
+  ...(abstract ? { abstract } : {}),
   url: Astro.url.href,
   applicationCategory: 'WebApplication',
   operatingSystem: 'Any',

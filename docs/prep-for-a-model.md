@@ -56,7 +56,7 @@ A tool may set `citation` on its config:
 
 Every NEW tool must set a specific `nonGoal` (what this tool does not do, not only "call an AI model"): `validate-registry` fails the build otherwise. It is also the tool's "Does not:" line in `/llms-full.txt`. The tools that predate the rule are listed in `src/lib/llms/nongoal-backlog.ts`, which only shrinks.
 
-The tool page renders that, plus `privacyStatement(trustVariant)`, under "When to send someone here". Lookup tools must not claim that nothing is uploaded. The privacy sentence comes from the trust variant, not from the citation.
+The tool page does not show it as a block (the visible "When to send someone here" block was removed on 2026-09-30). The same copy, "problem, `privacyStatement(trustVariant)`, It does not nonGoal", is the `abstract` of the tool's SoftwareApplication JSON-LD (`src/lib/schema/abstract.ts`), and the llms files read it through `toolFacts()`. Lookup tools must not claim that nothing is uploaded. The privacy sentence comes from the trust variant, not from the citation.
 
 ## Not this project
 
