@@ -42,6 +42,21 @@ describe('llms files match their committed golden copy byte for byte', () => {
   }
 });
 
+// The goldens pin one site. The endpoints must also pass the build's site through, so a build on
+// another origin links that origin and never the production one.
+describe('llms endpoints on another site', () => {
+  for (const name of Object.keys(ENDPOINTS) as Array<keyof typeof ENDPOINTS>) {
+    it(`${name} puts every URL on the site it is given`, async () => {
+      const res = await ENDPOINTS[name]({ site: new URL('https://example.test') } as never);
+      const text = Buffer.from(await res.arrayBuffer()).toString('utf8');
+      const urls = [...text.matchAll(/https?:\/\/[^\s)\]>]+/g)].map(m => m[0]);
+      expect(urls.filter(u => u.includes('/tool/')).length).toBeGreaterThan(20);
+      expect(urls.filter(u => !u.startsWith('https://example.test/'))).toEqual([]);
+      expect(text).not.toContain('toytoolsapp.com');
+    });
+  }
+});
+
 describe('firstDifference', () => {
   it('is null for equal texts and names the first differing line otherwise', () => {
     expect(firstDifference('a\nb\n', 'a\nb\n')).toBeNull();

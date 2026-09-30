@@ -2,8 +2,7 @@
 // on the production origin with no base path. They are the bytes the two endpoints' GET handlers
 // return for that site, which is what a production build writes to dist/llms.txt and
 // dist/llms-full.txt. golden.test.ts compares those responses to these copies byte for byte, so any
-// change to either file, in the renderer or in the endpoint, 
-// shows up as a reviewed diff in the PR. After an intended change, rewrite them on purpose with
+// change to either file, in the renderer or in the endpoint, shows up as a reviewed diff in the PR. After an intended change, rewrite them on purpose with
 // `npm run llms:golden` and commit the result.
 
 import { join } from 'node:path';
