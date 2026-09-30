@@ -970,7 +970,12 @@ sitemap validator scans `dist/sitemaps/` for route coverage. New tools/guides/fa
 sitemap automatically — no sitemap edits.
 
 `/llms.txt` and `/llms-full.txt` are the same registry, rendered for an assistant. `llms.txt` is a
-short overview. `llms-full.txt` is one block per published tool. Their curated parts (the SUMMARY
+short overview. `llms-full.txt` is one block per published tool. `src/lib/llms/render.ts` reads a
+tool only through `toolFacts()` (`src/lib/llms/facts.ts`), one projection that joins the tool's
+config, knowledge, FAQ, guide and citation, with URLs from `canonicalFor()`. The expected output
+of both files is committed in `src/lib/llms/golden/`; `golden.test.ts` compares the renderer to it
+byte for byte, and `npm run llms:golden` rewrites it after an intended change.
+Their curated parts (the SUMMARY
 category terms, DETAIL, the core and prep lists, each tool's tagline and `citation.nonGoal`) are a
 ship-checklist item: CLAUDE.md, "Breaking-changes playbook", "LLM files". Prep for a model
 (`/category/prep/`) is a normal category: deterministic browser tools that prepare text before

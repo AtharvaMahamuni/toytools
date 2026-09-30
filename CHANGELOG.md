@@ -2,6 +2,19 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.1.5] - 2026-09-30
+
+### Changed
+
+- **The llms files read each tool from one place.** `llms.txt` and `llms-full.txt` now take every
+  tool's name, blurb, address, privacy line and non-goal from one per-tool summary,
+  `toolFacts()` in `src/lib/llms/facts.ts`. It gathers what the tool's own files already say (its
+  config, knowledge and FAQ, its guide and its citation), with every address made by the URL
+  builder. A committed copy of both files now sits next to the renderer, and a test compares the
+  output to it byte for byte, so any change to either file shows up in the pull request. Apart
+  from the version number in the site's version badge, the name of one script file the feedback
+  page loads, and this entry, every page, llms.txt and llms-full.txt is byte-for-byte what it was.
+
 ## [beta-v12.1.4] - 2026-09-30
 
 ### Changed
