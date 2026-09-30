@@ -64,12 +64,38 @@ describe('allToolFacts', () => {
   });
 });
 
+describe('allToolFacts site and catalog', () => {
+  const fixture: Tool = { slug: 'x-tool', name: 'X Tool', description: 'Does x.', categorySlug: 'text-utilities', tags: [] };
+
+  it('puts every URL, guides included, on the site of each call', () => {
+    const [a, b] = [allToolFacts('https://a.test/'), allToolFacts('https://b.test/')];
+    for (const [facts, origin] of [[a, 'https://a.test/'], [b, 'https://b.test/']] as const) {
+      expect(facts.every(f => f.urls.tool.startsWith(origin))).toBe(true);
+      const guides = facts.flatMap(f => (f.urls.guide ? [f.urls.guide] : []));
+      expect(guides.length).toBeGreaterThan(100);
+      expect(guides.every(g => g.startsWith(origin))).toBe(true);
+    }
+  });
+
+  it('maps only the catalog it is given, and the registry otherwise', () => {
+    expect(allToolFacts(SITE).length).toBe(tools.length);
+    expect(allToolFacts(SITE, [fixture]).map(f => f.slug)).toEqual(['x-tool']);
+    expect(allToolFacts(SITE, []).length).toBe(0);
+    expect(allToolFacts(SITE).map(f => f.slug)).toEqual(tools.map(t => t.slug));
+  });
+});
+
 describe('toolFacts', () => {
   const base: Tool = { slug: 'x-tool', name: 'X Tool', description: 'Does x. Then y.', categorySlug: 'text-utilities', tags: [] };
 
   it('falls back to the description while a tool has no tagline', () => {
     expect(toolFacts(base, SITE).tagline).toBe('Does x. Then y.');
     expect(toolFacts({ ...base, tagline: 'Short x.' }, SITE).tagline).toBe('Short x.');
+  });
+
+  it('reads the tool it is given, not a copy of the registry', () => {
+    const f = toolFacts({ ...tools[0]!, name: 'Changed name', tagline: 'Changed.' }, SITE);
+    expect([f.name, f.tagline]).toEqual(['Changed name', 'Changed.']);
   });
 
   it('puts URLs on the site it is given, and on the production origin by default', () => {

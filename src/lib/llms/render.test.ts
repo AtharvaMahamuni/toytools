@@ -5,6 +5,8 @@ import {
   PREP_HIGHLIGHT_SLUGS,
   categorySummaryTerms,
   doesNotLine,
+  highlightLines,
+  llmsTxtForSite,
   renderDetail,
   renderLlmsFull,
   renderLlmsTxt,
@@ -12,6 +14,8 @@ import {
   simulationSubjects,
 } from './render';
 import { tools } from '@data/registry';
+import type { Tool } from '@data/types';
+import { allToolFacts } from './facts';
 import { categories as allCategories } from '@data/categories';
 import { PRIVACY_LINE } from '@lib/privacy';
 import type { ContentEntry } from '@lib/content/manifest';
@@ -188,6 +192,45 @@ describe('renderLlmsFull', () => {
   it('capitalises a citation non-goal', () => {
     expect(doesNotLine(undefined)).toBe('Call an AI model.');
     expect(doesNotLine('verify the signature.')).toBe('Verify the signature.');
+  });
+});
+
+describe('the llms files on another site', () => {
+  const OTHER = 'https://example.test/';
+
+  it.each([
+    ['llms-full.txt', () => renderLlmsFull(OTHER)],
+    ['llms.txt', () => llmsTxtForSite(OTHER)],
+  ])('%s puts every URL on the site it is given', (_name, render) => {
+    const text = render();
+    const urls = [...text.matchAll(/https?:\/\/[^\s)\]>]+/g)].map(m => m[0]);
+    expect(urls.filter(u => u.includes('/tool/')).length).toBeGreaterThan(20);
+    expect(urls.filter(u => !u.startsWith(OTHER))).toEqual([]);
+    expect(text).not.toContain('toytoolsapp.com/tool/');
+  });
+
+  it('llms-full.txt links every tool on that site', () => {
+    const full = renderLlmsFull(OTHER);
+    for (const tool of tools) expect(full).toMatch(new RegExp(`^URL: https://example\\.test/tool/[a-z-]+/${tool.slug}/$`, 'm'));
+  });
+});
+
+describe('renderLlmsFull catalog', () => {
+  it('renders only the catalog it is given', () => {
+    const fixture: Tool = { slug: 'x-tool', name: 'X Tool', description: 'Does x. Then y.', categorySlug: 'text-utilities', tags: [] };
+    const full = renderLlmsFull(SITE, [fixture]);
+    expect(full).toContain('X Tool');
+    expect(full).toContain('https://toytoolsapp.com/tool/text/x-tool/');
+    for (const tool of tools) expect(full).not.toContain(`/${tool.slug}/`);
+    expect(renderLlmsFull(SITE)).toContain(`/${tools[0]!.slug}/`);
+  });
+});
+
+describe('highlightLines', () => {
+  it('fails loudly on a highlighted slug that is not in the registry', () => {
+    expect(() => highlightLines(['no-such-tool'], allToolFacts(SITE), 'core')).toThrow(
+      'llms.txt core tools missing from the registry: no-such-tool',
+    );
   });
 });
 

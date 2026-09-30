@@ -135,7 +135,7 @@ export const PREP_HIGHLIGHT_SLUGS = [
 ] as const;
 
 /** One "- [Name](url): blurb" line per slug, in list order. Throws on a slug not in the registry. */
-function highlightLines(slugs: readonly string[], facts: readonly ToolFacts[], label: string): string {
+export function highlightLines(slugs: readonly string[], facts: readonly ToolFacts[], label: string): string {
   const bySlug = new Map(facts.map(f => [f.slug, f]));
   const missing = slugs.filter(slug => !bySlug.has(slug));
   if (missing.length) {
