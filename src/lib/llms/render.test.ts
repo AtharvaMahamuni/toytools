@@ -192,23 +192,102 @@ describe('renderLlmsFull', () => {
 });
 
 // The llms files read a tool only through toolFacts() (src/lib/llms/facts.ts), so every surface
-// states the same facts. The renderer may not reach around it to the raw per-tool sources.
+// states the same facts. The renderer may not reach around it to the raw per-tool sources, so its
+// imports are an allowlist: every module it imports or re-exports, statically or with import(), in
+// either quote style, must be one of these, and two of them only for the one name it needs.
+const RENDER_IMPORTS: Readonly<Record<string, readonly string[] | null>> = {
+  '@lib/content/manifest': null,
+  '@lib/sitemap/render': null,
+  '@data/categories': null,
+  '@data/types': null,
+  '@lib/paths': ['withBase'],
+  '@lib/privacy': ['PRIVACY_LINE'],
+  './facts': null,
+};
+/** Any call that builds a tool, category or guide URL, or a tool's privacy line. */
+const BUILDS_URL_OR_PRIVACY = /\b(?:toolRoute|toolPath|urlFor|canonicalFor|guideRoute|guidePath|privacyStatement)\s*\(/;
+
+/** Every module a source imports or re-exports, with the names it takes ('*' for a namespace). */
+function importsOf(source: string): Array<{ specifier: string; names: string[] }> {
+  const found: Array<{ specifier: string; names: string[] }> = [];
+  const names = (clause: string): string[] => {
+    const out: string[] = [];
+    const braces = /\{([^}]*)\}/.exec(clause);
+    if (braces) {
+      for (const part of braces[1]!.split(',')) {
+        const name = part.trim().replace(/^type\s+/, '').split(/\s+as\s+/)[0]!.trim();
+        if (name) out.push(name);
+      }
+    }
+    if (/\*/.test(clause.replace(/\{[^}]*\}/, ''))) out.push('*');
+    const head = clause.replace(/\{[^}]*\}/, '').replace(/^\s*type\s+/, '').replace(/\*\s*as\s+\w+/, '');
+    if (/^\s*[A-Za-z_$][\w$]*\s*(?:,|$)/.test(head)) out.push('default');
+    return out;
+  };
+  for (const m of source.matchAll(/\b(?:import|export)\s+((?:type\s+)?[^'";]*?)\s*\bfrom\s*(['"])([^'"]+)\2/g)) {
+    found.push({ specifier: m[3]!, names: names(m[1]!) });
+  }
+  for (const m of source.matchAll(/\bimport\s*(['"])([^'"]+)\1/g)) found.push({ specifier: m[2]!, names: [] });
+  for (const m of source.matchAll(/\b(?:import|require)\s*\(\s*([^)]*)\)/g)) {
+    const literal = /^(['"`])([^'"`$]+)\1$/.exec(m[1]!.trim());
+    found.push({ specifier: literal ? literal[2]! : `<non-literal ${m[1]!.trim()}>`, names: ['*'] });
+  }
+  return found;
+}
+
+/** What breaks the rule in a render.ts source: imports off the allowlist, or a URL built in place. */
+function renderGuardViolations(source: string): string[] {
+  const problems: string[] = [];
+  for (const { specifier, names } of importsOf(source)) {
+    if (!(specifier in RENDER_IMPORTS)) {
+      problems.push(`imports ${specifier}`);
+      continue;
+    }
+    const allowed = RENDER_IMPORTS[specifier];
+    if (allowed) for (const name of names) if (!allowed.includes(name)) problems.push(`takes ${name} from ${specifier}`);
+  }
+  const call = BUILDS_URL_OR_PRIVACY.exec(source);
+  if (call) problems.push(`calls ${call[0].replace(/\s*\($/, '')}`);
+  if (/\.(?:citation|trustVariant)\b/.test(source)) problems.push('reads a raw tool field');
+  return problems;
+}
+
 describe('render.ts reads tools only through toolFacts', () => {
   const source = readFileSync(join(__dirname, 'render.ts'), 'utf8');
-  const imports = [...source.matchAll(/^import[^;]*?from '([^']+)';/gms)].map(m => m[1]);
 
-  it('imports the facts module', () => {
-    expect(imports).toContain('./facts');
+  it('imports exactly the allowlisted modules, and only withBase and PRIVACY_LINE from paths and privacy', () => {
+    expect(new Set(importsOf(source).map(i => i.specifier))).toEqual(new Set(Object.keys(RENDER_IMPORTS)));
+    expect(renderGuardViolations(source)).toEqual([]);
   });
 
-  it.each(['@data/registry', '@data/faq-registry', '@lib/knowledge/registry', '@lib/knowledge/queries'])(
-    'does not import %s',
-    raw => {
-      expect(imports).not.toContain(raw);
-    },
-  );
+  // The review's bypasses of the old denylist, plus the other shapes the parser must read.
+  it.each([
+    ['a relative path to the registry', "import { tools } from '../../data/registry';"],
+    ['a double-quoted registry import', 'import { tools } from "@data/registry";'],
+    ['the generated registry', "import { toolConfigs } from '@data/registry.generated';"],
+    ['a local module that re-exports the registry', "import { tools } from './raw';"],
+    ['an export-from of the registry', "export { tools } from '@data/registry';"],
+    ['a dynamic import', "const { tools } = await import('@data/registry');"],
+    ['a dynamic import of a computed path', 'const m = await import(`@data/${name}`);'],
+    ['a side-effect import', "import '@data/registry';"],
+    ['another name from @lib/paths', "import { withBase, toolPath } from '@lib/paths';"],
+    ['a namespace import of @lib/privacy', "import * as P from '@lib/privacy';"],
+    ['a tool URL through toolRoute', 'const u = absoluteUrl(withBase(toolRoute({ slug: f.slug, segment: f.category.segment })), site);'],
+    ['a tool URL through urlFor', "const u = absoluteUrl(urlFor({ kind: 'tool', slug: f.slug, segment: f.category.segment }), site);"],
+    ['a guide URL through guidePath', 'const g = guidePath(guide);'],
+    ['a raw citation read', 'const n = tool.citation?.nonGoal;'],
+  ])('reports %s', (_name, sample) => {
+    expect(renderGuardViolations(sample)).not.toEqual([]);
+  });
 
-  it('does not build a tool URL or privacy line itself', () => {
-    expect(source).not.toMatch(/\btoolPath\(|\bcanonicalFor\(|\bprivacyStatement\(|\.citation\b|\.trustVariant\b/);
+  it('reads type-only, aliased and multi-line imports', () => {
+    expect(importsOf("import { contentByType, type ContentEntry } from '@lib/content/manifest';")).toEqual([
+      { specifier: '@lib/content/manifest', names: ['contentByType', 'ContentEntry'] },
+    ]);
+    expect(importsOf("import type { Category,\n  Tool } from '@data/types';")).toEqual([
+      { specifier: '@data/types', names: ['Category', 'Tool'] },
+    ]);
+    expect(importsOf("import { withBase as wb } from '@lib/paths';")).toEqual([{ specifier: '@lib/paths', names: ['withBase'] }]);
+    expect(importsOf("import thing, { a } from 'x';")).toEqual([{ specifier: 'x', names: ['a', 'default'] }]);
   });
 });
