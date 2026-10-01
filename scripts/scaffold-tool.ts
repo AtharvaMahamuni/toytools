@@ -279,6 +279,20 @@ function configSource(): string {
     `  family: '${family}',`,
   ];
   if (REGISTRY_ENGINES.has(engine)) lines.push(`  processorId: '${processorId}',`);
+  // Emitted, not left to the author to remember: validate-registry fails a new tool with no usable
+  // job. 'TODO.' is too short to pass, so the build stays red until the sentence from
+  // docs/tool-design.md replaces it.
+  lines.push(
+    `  job: {`,
+    `    intent: 'calculate', // TODO: ToolIntent in src/data/types.ts`,
+    `    userJob: 'TODO.',`,
+    `    repeatability: 'low', // TODO: low | medium | high`,
+    `    interactionDepth: 'low', // TODO`,
+    `    privacyValue: 'low', // TODO`,
+    `    aiSubstitutability: 'high', // TODO: high means a chat answer replaces this page`,
+    `    browserOnly: true,`,
+    `  },`,
+  );
   if (wantGuide) {
     lines.push(
       `  guide: {`,

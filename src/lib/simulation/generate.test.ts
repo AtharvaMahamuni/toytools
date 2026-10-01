@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { ToolJob } from '@data/types';
 import { faqItemsFrom, knowledgeFrom, relatedToolSlugs, simulatorLabel, subjectFromTitle, toolConfigFrom } from './generate';
 import { resolveRelations } from './relations';
 import { MANIFESTS } from './manifests';
@@ -98,6 +99,21 @@ describe('simulator intent derivation', () => {
     const citation = { problem: 'Range depends on angle.', nonGoal: 'model air resistance.' };
     const cfg = toolConfigFrom({ ...projectileManifest, citation }, projectileRelations);
     expect(cfg.citation).toEqual(citation);
+  });
+
+  it('carries a manifest job into the ToolConfig, and omits it when absent', () => {
+    expect(toolConfigFrom(projectileManifest, projectileRelations).job).toBeUndefined();
+    const job: ToolJob = {
+      intent: 'simulate',
+      userJob: 'See how launch angle changes the range of a projectile on this page.',
+      repeatability: 'high',
+      interactionDepth: 'high',
+      privacyValue: 'low',
+      aiSubstitutability: 'medium',
+      browserOnly: true,
+    };
+    const cfg = toolConfigFrom({ ...projectileManifest, job }, projectileRelations);
+    expect(cfg.job).toEqual(job);
   });
 
   it('does not duplicate a phrase the manifest already lists', () => {

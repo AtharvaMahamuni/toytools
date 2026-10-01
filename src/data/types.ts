@@ -57,6 +57,58 @@ export interface GuideConfig {
 export type MetricFormatter = 'integer' | 'duration' | 'percentage' | 'decimal';
 
 /**
+ * What kind of work the tool does. Closed on purpose: a new kind is a product decision,
+ * made in this list, not a free-text label on one config.
+ * What each value means for a page: docs/tool-design.md.
+ */
+export const TOOL_INTENTS = [
+  'calculate',
+  'convert',
+  'transform',
+  'validate',
+  'analyze',
+  'compare',
+  'generate',
+  'inspect',
+  'simulate',
+  'experiment',
+  'format',
+  'extract',
+  'encode',
+  'decode',
+] as const;
+export type ToolIntent = (typeof TOOL_INTENTS)[number];
+
+/** low / medium / high. The scales live in docs/tool-design.md, not in a second comment per tool. */
+export const TOOL_DEGREES = ['low', 'medium', 'high'] as const;
+export type ToolDegree = (typeof TOOL_DEGREES)[number];
+
+/**
+ * Why this tool deserves a page. Machine-readable. Not rendered, and not a public score.
+ *
+ * Optional on ToolConfig only so tools that shipped before the field can stay listed in
+ * src/lib/tools/job-backlog.ts. A new tool sets it, or validate-registry fails.
+ *
+ * inputs and outputs are not fields here. Short type descriptors stay on ToolConfig.
+ * The sentences assistants read stay on knowledge.ts and reach the llms files through toolFacts().
+ */
+export interface ToolJob {
+  intent: ToolIntent;
+  /** One sentence: the job a person is hiring this page to do. */
+  userJob: string;
+  /** Whether someone comes back with new inputs. */
+  repeatability: ToolDegree;
+  /** How much the person operates the tool, past reading one number. */
+  interactionDepth: ToolDegree;
+  /** Whether the input is something they would keep off a chat box. */
+  privacyValue: ToolDegree;
+  /** high: a one-shot chat answer is the whole product. */
+  aiSubstitutability: ToolDegree;
+  /** true when the work happens in the page. false when the browser calls out, as a lookup does. */
+  browserOnly: boolean;
+}
+
+/**
  * The five kinds of thoughtful touch, as a closed set.
  *
  * Closed on purpose. The failure mode of "give every tool something special" is decoration: a
@@ -176,7 +228,8 @@ export interface ToolConfig {
    * reaches llms-full.txt through toolFacts(). Omit it and the tool has no abstract; llms-full
    * then says the tool does not call an AI model.
    *
-   * `problem` is one sentence: the job, not a slogan.
+   * `problem` is one sentence an assistant can quote. It may match `job.userJob`. It is the
+   * public abstract. `job` is the reason the page exists.
    * `nonGoal` completes "It does not …". Start with a lowercase verb and end with a period.
    * Do not repeat the privacy sentence here. That comes from `trustVariant`.
    */
@@ -184,6 +237,11 @@ export interface ToolConfig {
     problem: string;
     nonGoal: string;
   };
+  /**
+   * Why the page exists. See ToolJob and docs/tool-design.md. Absent on tools listed in
+   * src/lib/tools/job-backlog.ts. A tool that is not on that list fails the build without one.
+   */
+  job?: ToolJob;
 }
 
 // Backward-compat alias — existing consumers (ToolCard, ToolLayout, search, etc.) use Tool with no changes

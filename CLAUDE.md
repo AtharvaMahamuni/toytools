@@ -17,6 +17,10 @@ the signal it belongs somewhere below instead.
 | giving a tool its thoughtful touch | **`tool-craft` skill** |
 | judging whether a tool is actually good to use | **`tool-ux-review` skill** |
 | facing a failing gate, or moving a threshold | **`gates` skill** |
+| deciding whether a tool deserves a page | `docs/tool-design.md` |
+| auditing a shipped tool for that job | **`audit-tool` skill** |
+| turning a thin tool into an instrument | **`improve-tool` skill** |
+| choosing how a tool behaves | `docs/interaction-patterns.md` |
 | looking for system-level structure | `ARCHITECTURE.md` |
 | asking "where does X live?" | `docs/code-map.json` |
 
@@ -112,6 +116,8 @@ Every recommendation states three things, and the `next-tool` skill covers how:
 
 The RIE is on-demand only, **never** in `npm run build`. Full docs: `docs/research-intelligence.md`.
 
+**A page exists because a user job exists.** Before scaffolding, name the job and pass the substitution test in `docs/tool-design.md`. A new tool sets `job` on its config. A new simulation sets `job` on its manifest. Tools that predate the field stay on `src/lib/tools/job-backlog.ts`, which only shrinks. The shift, the families, and the order of the migration: `docs/ai-era-strategy.md`.
+
 ## Versioning & changelog
 
 **Every PR that changes what the site ships bumps the version and adds a CHANGELOG entry, in the
@@ -170,6 +176,8 @@ a validator fails — or, worse, drifts silently.
   `npm run registries:generate` (scaffold does it for you). Registration is **derived** from the
   directory, never hand-edited (`*.generated.ts` barrels; `validate-architecture` fails the build
   when they are stale). A `processorId` must resolve in its engine registry **and** be unique.
+  A new tool sets `job` (`docs/tool-design.md`). Tools that predate the field are on
+  `src/lib/tools/job-backlog.ts`, which only shrinks.
   A **new** widget follows the **Tool Render Unit** contract (`ARCHITECTURE.md`): one
   `[data-tool=<slug>]` root, slug-prefixed IDs, queries from that root, links through the URL
   builder (engines return slugs), no page-level shortcuts, and no analytics, service worker,
@@ -192,7 +200,8 @@ a validator fails — or, worse, drifts silently.
   `src/lib/simulation/manifests.ts`, and add the slug to the domain's e2e spec. Every site surface
   (config/knowledge/faq/guide/SEO) is **derived** from the manifest at build time, so there are **no
   per-sim `config.ts`/`knowledge.ts`/`faq.ts`/`Guide.astro`/`Widget.astro` files** and **no registry
-  edits**. Gate content with `npm run seo:gate:sim -- <slug>`.
+  edits**. Set `job` on the manifest. The simulation is one model on the existing engine and one
+  conceptual or calculation task (`docs/tool-design.md`). Gate content with `npm run seo:gate:sim -- <slug>`.
 - **Rename a category** (slug or segment) → `src/data/categories.ts`, every tool's `categorySlug`,
   and a noindex redirect stub in `src/data/tool-redirects.ts` for the old URL. Never delete the old
   URL silently.
@@ -306,7 +315,7 @@ Tool directory anatomy:
 ```
 src/tools/<segment>/<slug>/
 ├── config.ts        # ToolConfig — slug, name, description, tagline, categorySlug, tags,
-│                    #              craft?, guide?, toolGroup?
+│                    #              craft?, guide?, toolGroup?, job?
 ├── Widget.astro     # required — a 3-line engine-widget wrapper, or self-contained bespoke
 ├── faq.ts           # optional — exports: const items: FAQItem[]
 ├── knowledge.ts     # optional — exports: const knowledge: Knowledge (overlay fields only)

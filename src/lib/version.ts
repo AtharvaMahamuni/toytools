@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 1,
-  patch: 6,
+  minor: 2,
+  patch: 0,
   status: 'beta',
   releaseDate: '2026-09-30',
-  description: 'Tool pages drop the When to send someone here block; its copy is the JSON-LD abstract',
+  description: 'Eighteen recent tools gain a specific does-not line and a JSON-LD abstract',
 };
 
 export function formatVersion(config: VersionConfig): string {

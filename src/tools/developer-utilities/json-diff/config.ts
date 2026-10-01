@@ -25,6 +25,10 @@ export const config: ToolConfig = {
     solves:
       'A line diff treats reordered keys, 1 versus 1.0, and indentation as changes, so a real value edit gets buried and a clean structural match looks broken.',
   },
+  citation: {
+    problem: 'Use JSON Diff when two JSON values should be compared by path, with key order ignored.',
+    nonGoal: 'pretty-print JSON or treat 1 and 1.0 as a change, or send the documents to an AI model.',
+  },
   guide: {
     slug: 'how-to-compare-two-json-documents',
     categorySlug: 'developer-utilities',

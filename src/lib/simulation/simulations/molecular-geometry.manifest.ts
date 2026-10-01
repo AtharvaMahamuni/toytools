@@ -314,6 +314,10 @@ export const manifest: SimulationManifest = {
       },
     ],
   },
+  citation: {
+    problem: 'Use the Molecular Geometry Calculator when bonding pairs and lone pairs should name both the electron geometry and the molecular shape.',
+    nonGoal: 'run a quantum chemistry calculation or assign hybridization, or send the counts to an AI model.',
+  },
   relationships: {
     usedWith: [
       {

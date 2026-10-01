@@ -54,9 +54,11 @@ the `research-intelligence` subagent (`.claude/agents/research-intelligence.md`)
      `userFailures` to the seed record and re-run, or state out loud that the tool ships craftless.
 4. **Confirm scope** with the user if they have not already said "build it" (how many tools, which
    ones from the ranked list).
-5. **Implement** via the **`add-tool`** skill / `npm run scaffold:tool` - the RIE only decides
-   *what* and *why*; `add-tool` owns *how*. Each tool ships config + widget + guide + FAQ + knowledge
-   + registry wiring + tests, then `npm run build` and `npm run test`.
+5. **Implement** via the **`add-tool`** skill / `npm run scaffold:tool`. The RIE decides *what*
+   and *why*; `add-tool` owns *how*. Before scaffolding, the recommendation has to pass the job
+   and substitution test in `docs/tool-design.md`. `add-tool` stops when a chat answer is the
+   whole product. Each tool then ships config (including `job`) + widget + guide + FAQ + knowledge
+   + registry wiring + tests, and `npm run verify` is the done-condition.
 
 ## The craft hypothesis (do not hand a tool over without one)
 

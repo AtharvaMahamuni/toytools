@@ -30,6 +30,10 @@ export const config: ToolConfig = {
     solves:
       'Goodreads and StoryGraph put a reading shelf behind an account wall, so a private list of titles, progress, and ratings never starts. This shelf stays on the device with no signup.',
   },
+  citation: {
+    problem: 'Use Book Tracker when someone wants a private shelf of titles, progress, and ratings without an account.',
+    nonGoal: 'sync the shelf to Goodreads or StoryGraph, or send the list to an AI model.',
+  },
   relatedTools: ['habit-streak-tracker', 'notepad', 'todo-list'],
   guide: {
     slug: 'how-to-keep-a-private-reading-shelf',

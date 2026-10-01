@@ -27,6 +27,10 @@ export const config: ToolConfig = {
     solves:
       'Incumbents dump mean, median, and SD as a table of numbers with no chart, and often upload the paste to a server. The shape of the data (skew, spread, outliers) stays invisible until a histogram and box plot are drawn together on-device.',
   },
+  citation: {
+    problem: 'Use Statistics Visualizer when a pasted list of numbers needs mean, median, spread, a histogram, and a box plot on one scale.',
+    nonGoal: 'fit a regression or infer a population the paste does not contain, or send the numbers to an AI model.',
+  },
   relatedTools: [
     'probability-calculator',
     'combinations-permutations-calculator',

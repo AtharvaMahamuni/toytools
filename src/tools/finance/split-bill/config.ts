@@ -25,6 +25,10 @@ export const config: ToolConfig = {
     solves:
       'Equal shares that round on their own stop adding up to the bill, so the last rupee or paise gets argued over. The last person takes the leftover so the shares still sum to the total.',
   },
+  citation: {
+    problem: 'Use Split Bill when a dinner total, a headcount, and an optional tip need to become shares that still add up.',
+    nonGoal: 'collect a payment or split the bill by item, or send the total to an AI model.',
+  },
   guide: {
     slug: 'how-a-fair-bill-split-works',
     categorySlug: 'finance',

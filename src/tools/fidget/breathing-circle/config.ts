@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     solves:
       'Default timings are labelled calm but run faster than the user\'s preferred box pattern with no preset names, so the circle lies about what it is doing.',
   },
+  citation: {
+    problem: 'Use Breathing Circle when someone wants a named box, 4-7-8, or coherent pattern with a visual timer.',
+    nonGoal: 'diagnose a breathing problem or coach a medical routine, or send the session to an AI model.',
+  },
   relatedTools: ['pop-it', 'spinner', 'switch-board'],
   keywords: [],
   inputs: [],

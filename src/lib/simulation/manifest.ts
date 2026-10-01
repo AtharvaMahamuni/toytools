@@ -24,6 +24,7 @@ import type {
   Viewport,
 } from './types';
 import type { IntentGroups, RelationshipReference, WorkflowStage } from '@lib/knowledge/types';
+import type { ToolJob } from '@data/types';
 
 /** Bump when the manifest shape changes incompatibly; lets V1/V2 manifests coexist mid-migration. */
 export const SIMULATION_SCHEMA_VERSION = 1 as const;
@@ -189,6 +190,12 @@ export interface SimulationManifest {
    * simulation must set it or validate-registry fails.
    */
   citation?: { problem: string; nonGoal: string };
+  /**
+   * Spread into ToolConfig.job. Same contract as an authored tool (docs/tool-design.md).
+   * Optional so today's manifests can stay on src/lib/tools/job-backlog.ts; a new simulation
+   * sets it or validate-registry fails.
+   */
+  job?: ToolJob;
   // Declarative runtime shape also surfaced to the widget at build time:
   paramBehavior: 'continuous' | 'restart';
   aspect?: number;

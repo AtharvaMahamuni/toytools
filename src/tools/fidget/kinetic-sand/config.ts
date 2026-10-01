@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     solves:
       'There is no clear action and the surface packs into a corner with no reset, so people reload the tab and break the fidget loop.',
   },
+  citation: {
+    problem: 'Use Kinetic Sand when someone wants to drag or tilt a virtual pile and reset it after it packs.',
+    nonGoal: 'model engineering soil or keep a packed pile without a reset, or send the session to an AI model.',
+  },
   relatedTools: ['slime', 'pop-it', 'gears'],
   keywords: [],
   inputs: [],

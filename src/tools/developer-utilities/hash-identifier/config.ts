@@ -31,6 +31,10 @@ export const config: ToolConfig = {
     solves:
       'A sha256sum line with a filename stuck on, a SHA-1 digest checked as SHA-256, or a hash that only differs by case all read as a broken file when the bytes were fine.',
   },
+  citation: {
+    problem: 'Use Hash Identifier when a pasted digest needs a length-based name, then a check against text or a local file.',
+    nonGoal: 'crack a hash or reverse it, or send the digest to an AI model.',
+  },
   guide: {
     slug: 'hash-identifier',
     categorySlug: 'developer-utilities',

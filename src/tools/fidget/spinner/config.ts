@@ -21,6 +21,10 @@ export const config: ToolConfig = {
     solves:
       'The spinner never quite stops and drains a phone battery with the tab backgrounded because the loop kept running at a tiny leftover speed.',
   },
+  citation: {
+    problem: 'Use Fidget Spinner when someone wants a flick with momentum that actually comes to rest.',
+    nonGoal: 'keep spinning after the tab is in the background, or send the session to an AI model.',
+  },
   relatedTools: ['pop-it', 'gears', 'switch-board'],
   keywords: [],
   inputs: [],
