@@ -202,7 +202,10 @@ const THRESHOLDS = {
   // 2026-10-02: 0.713 (107/150). Type Scale Generator ships guardrail craft type-scale-bounds.
   //   Caption under 12px and display over 64px are named. A scale that stays inside
   //   that band keeps the note hidden.
-  coverage: 0.713,
+  // 2026-10-02: 0.715 (108/151). Matrix Calculator ships orientation craft matrix-shapes.
+  //   A product of mismatched shapes names both sizes. A legal product stays quiet
+  //   and shows the first dot product as a step.
+  coverage: 0.715,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

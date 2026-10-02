@@ -228,7 +228,6 @@
         "matrix multiplication calculator",
         "determinant calculator",
         "inverse matrix calculator",
-        "rref calculator",
         "matrix calculator with steps"
       ],
       "existingSolutions": [
@@ -241,6 +240,10 @@
         "steps paywalled",
         "ad heavy",
         "painful matrix entry on mobile"
+      ],
+      "userFailures": [
+        "Multiplies two matrices whose inner sizes differ and only says the product is undefined, without naming the shapes.",
+        "Prints 0.30000000000000004 for a sum of tenths that should read 0.3."
       ],
       "relatedProblems": [
         "determinant",

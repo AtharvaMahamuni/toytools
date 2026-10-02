@@ -117,6 +117,24 @@ export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
     expect: { mean: 5, median: 4.5, stdev: 2 },
     narrative: 'A classic teaching set: mean 5, population SD 2, with mode 4.',
   },
+  {
+    id: 'matrix-multiply-2x2',
+    engine: 'math',
+    ref: 'matrix',
+    title: '2 by 2 product',
+    inputs: { operation: 'multiply', a: '1 2\n3 4', b: '5 6\n7 8' },
+    expect: { entry: 19, rows: 2, cols: 2 },
+    narrative: 'Row 1 of A dotted with column 1 of B is 1×5 + 2×7 = 19. The product is 2 by 2.',
+  },
+  {
+    id: 'matrix-det-2x2',
+    engine: 'math',
+    ref: 'matrix',
+    title: '2 by 2 determinant',
+    inputs: { operation: 'determinant', a: '1 2\n3 4', b: '' },
+    expect: { determinant: -2, order: 2 },
+    narrative: '1×4 - 2×3 = -2. The matrix is square, so the determinant exists.',
+  },
 ];
 
 export const MATH_EXAMPLE_MAP = buildExampleRegistry(MATH_EXAMPLES);

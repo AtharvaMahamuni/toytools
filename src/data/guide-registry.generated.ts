@@ -73,6 +73,7 @@ export const authoredGuideSlugs = [
   'macro-calculator',
   'margin-calculator',
   'markup-calculator',
+  'matrix-calculator',
   'md5-hash-generator',
   'move-today-tracker',
   'normalize-whitespace',

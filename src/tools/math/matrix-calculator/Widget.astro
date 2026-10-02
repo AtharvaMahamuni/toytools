@@ -1,0 +1,11 @@
+---
+import MathWidget from '@tools/_shared/MathWidget.astro';
+import { config } from './config';
+---
+
+<MathWidget
+  slug={config.slug}
+  mathId="matrix"
+  config={config}
+  emptyText="Enter matrix A. Add matrix B when the operation needs two matrices."
+/>

@@ -73,6 +73,7 @@ import { config as lowercaseConverter } from '@tools/text/lowercase-converter/co
 import { config as macroCalculator } from '@tools/health/macro-calculator/config';
 import { config as marginCalculator } from '@tools/number/margin-calculator/config';
 import { config as markupCalculator } from '@tools/number/markup-calculator/config';
+import { config as matrixCalculator } from '@tools/math/matrix-calculator/config';
 import { config as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/config';
 import { config as moveTodayTracker } from '@tools/health/move-today-tracker/config';
 import { config as normalizeWhitespace } from '@tools/text/normalize-whitespace/config';
@@ -225,6 +226,7 @@ export const toolConfigs: ToolConfig[] = [
   macroCalculator,
   marginCalculator,
   markupCalculator,
+  matrixCalculator,
   md5HashGenerator,
   moveTodayTracker,
   normalizeWhitespace,

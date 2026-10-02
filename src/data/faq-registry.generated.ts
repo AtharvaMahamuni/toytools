@@ -73,6 +73,7 @@ import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter
 import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
 import { items as marginCalculatorFaqs } from '@tools/number/margin-calculator/faq';
 import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
+import { items as matrixCalculatorFaqs } from '@tools/math/matrix-calculator/faq';
 import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-hash-generator/faq';
 import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
@@ -225,6 +226,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'macro-calculator': macroCalculatorFaqs,
   'margin-calculator': marginCalculatorFaqs,
   'markup-calculator': markupCalculatorFaqs,
+  'matrix-calculator': matrixCalculatorFaqs,
   'md5-hash-generator': md5HashGeneratorFaqs,
   'move-today-tracker': moveTodayTrackerFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
