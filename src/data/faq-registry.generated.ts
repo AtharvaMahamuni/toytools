@@ -139,6 +139,7 @@ import { items as titleCaseConverterFaqs } from '@tools/text/title-case-converte
 import { items as todoListFaqs } from '@tools/productivity/todo-list/faq';
 import { items as triangleSolverFaqs } from '@tools/math/triangle-solver/faq';
 import { items as trimTextFaqs } from '@tools/text/trim-text/faq';
+import { items as typeScaleGeneratorFaqs } from '@tools/design/type-scale-generator/faq';
 import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timestamp-converter/faq';
 import { items as upi1999SplitFaqs } from '@tools/finance/upi-1999-split/faq';
 import { items as upiMdrEstimatorFaqs } from '@tools/finance/upi-mdr-estimator/faq';
@@ -290,6 +291,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'todo-list': todoListFaqs,
   'triangle-solver': triangleSolverFaqs,
   'trim-text': trimTextFaqs,
+  'type-scale-generator': typeScaleGeneratorFaqs,
   'unix-timestamp-converter': unixTimestampConverterFaqs,
   'upi-1999-split': upi1999SplitFaqs,
   'upi-mdr-estimator': upiMdrEstimatorFaqs,

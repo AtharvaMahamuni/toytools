@@ -139,6 +139,7 @@ export const authoredGuideSlugs = [
   'todo-list',
   'triangle-solver',
   'trim-text',
+  'type-scale-generator',
   'unix-timestamp-converter',
   'upi-1999-split',
   'upi-mdr-estimator',

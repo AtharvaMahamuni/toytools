@@ -199,7 +199,10 @@ const THRESHOLDS = {
   // 2026-10-02: 0.711 (106/149). File Hash Verifier ships guardrail craft file-hash-slices.
   //   A 0-byte download still hashes, and the note says that digest is empty. MD5, SHA-1,
   //   and SHA-512 refuse a file over 32 MB instead of loading it in one arrayBuffer.
-  coverage: 0.711,
+  // 2026-10-02: 0.713 (107/150). Type Scale Generator ships guardrail craft type-scale-bounds.
+  //   Caption under 12px and display over 64px are named. A scale that stays inside
+  //   that band keeps the note hidden.
+  coverage: 0.713,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

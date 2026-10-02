@@ -271,6 +271,10 @@
         "limited ratio presets",
         "not mobile-first"
       ],
+      "userFailures": [
+        "A caption step under 12px is printed with no warning that text that small fails on a phone.",
+        "A golden-ratio display step grows past 64px and the page still offers it as a heading."
+      ],
       "relatedProblems": ["px to rem", "aspect ratio"],
       "relatedTools": ["px-to-rem-converter", "aspect-ratio-calculator"],
       "demand": 58,

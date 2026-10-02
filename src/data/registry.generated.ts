@@ -139,6 +139,7 @@ import { config as titleCaseConverter } from '@tools/text/title-case-converter/c
 import { config as todoList } from '@tools/productivity/todo-list/config';
 import { config as triangleSolver } from '@tools/math/triangle-solver/config';
 import { config as trimText } from '@tools/text/trim-text/config';
+import { config as typeScaleGenerator } from '@tools/design/type-scale-generator/config';
 import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/config';
 import { config as upi1999Split } from '@tools/finance/upi-1999-split/config';
 import { config as upiMdrEstimator } from '@tools/finance/upi-mdr-estimator/config';
@@ -290,6 +291,7 @@ export const toolConfigs: ToolConfig[] = [
   todoList,
   triangleSolver,
   trimText,
+  typeScaleGenerator,
   unixTimestampConverter,
   upi1999Split,
   upiMdrEstimator,

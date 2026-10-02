@@ -139,6 +139,7 @@ import { knowledge as titleCaseConverter } from '@tools/text/title-case-converte
 import { knowledge as todoList } from '@tools/productivity/todo-list/knowledge';
 import { knowledge as triangleSolver } from '@tools/math/triangle-solver/knowledge';
 import { knowledge as trimText } from '@tools/text/trim-text/knowledge';
+import { knowledge as typeScaleGenerator } from '@tools/design/type-scale-generator/knowledge';
 import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/knowledge';
 import { knowledge as upi1999Split } from '@tools/finance/upi-1999-split/knowledge';
 import { knowledge as upiMdrEstimator } from '@tools/finance/upi-mdr-estimator/knowledge';
@@ -290,6 +291,7 @@ export const authoredKnowledge: Knowledge[] = [
   todoList,
   triangleSolver,
   trimText,
+  typeScaleGenerator,
   unixTimestampConverter,
   upi1999Split,
   upiMdrEstimator,

@@ -344,9 +344,10 @@
       "sharedWidget": "",
       "supportedFamilies": [
         "aspect",
-        "css-unit"
+        "css-unit",
+        "type-scale"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "audio": {
       "name": "Audio Engine",
@@ -3713,6 +3714,27 @@
       "family": "cleanup",
       "processorId": "trimLines",
       "toolGroup": "text-cleanup",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "type-scale-generator": {
+      "name": "Type Scale Generator",
+      "dir": "src/tools/design/type-scale-generator",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/type-scale-generator/",
+      "engine": "units",
+      "pattern": "unit-convert",
+      "family": "type-scale",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

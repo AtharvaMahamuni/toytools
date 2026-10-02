@@ -3,6 +3,7 @@
 
 import { unitHint, nearestEvenPair } from './hints';
 import { pxToCss, cssToPx, dpToPxBuckets, pxToDp, ptToPxIos, simplifyRatio, solveAspect, DENSITY_BUCKETS } from './convert';
+import { typeScale } from './scale';
 
 export const units = {
   pxToCss,
@@ -15,6 +16,7 @@ export const units = {
   buckets: DENSITY_BUCKETS,
   hint: unitHint,
   evenPair: nearestEvenPair,
+  typeScale,
 };
 
 export type UnitsRuntime = typeof units;
