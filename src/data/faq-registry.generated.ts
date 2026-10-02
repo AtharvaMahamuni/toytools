@@ -134,6 +134,7 @@ import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-convert
 import { items as tipCalculatorFaqs } from '@tools/number/tip-calculator/faq';
 import { items as titleCaseConverterFaqs } from '@tools/text/title-case-converter/faq';
 import { items as todoListFaqs } from '@tools/productivity/todo-list/faq';
+import { items as triangleSolverFaqs } from '@tools/math/triangle-solver/faq';
 import { items as trimTextFaqs } from '@tools/text/trim-text/faq';
 import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timestamp-converter/faq';
 import { items as upi1999SplitFaqs } from '@tools/finance/upi-1999-split/faq';
@@ -281,6 +282,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'tip-calculator': tipCalculatorFaqs,
   'title-case-converter': titleCaseConverterFaqs,
   'todo-list': todoListFaqs,
+  'triangle-solver': triangleSolverFaqs,
   'trim-text': trimTextFaqs,
   'unix-timestamp-converter': unixTimestampConverterFaqs,
   'upi-1999-split': upi1999SplitFaqs,

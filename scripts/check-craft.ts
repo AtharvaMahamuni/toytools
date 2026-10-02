@@ -187,7 +187,10 @@ const THRESHOLDS = {
   //   The percent is characters/4 against a sourced window, and the page says it is an estimate.
   // 2026-09-25: 0.703 (102/145). llms.txt Generator ships guardrail craft llms-omit-empty.
   //   A blank optional section is left out of the file instead of published as an empty heading.
-  coverage: 0.703,
+  // 2026-10-02: 0.705 (103/146). Triangle Solver ships orientation craft triangle-ssa-pair.
+  //   SSA can fit two triangles. The acute answer is drawn solid and the obtuse one dashed,
+  //   and the second line stays quiet when only one triangle exists.
+  coverage: 0.705,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

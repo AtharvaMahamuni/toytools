@@ -134,6 +134,7 @@ import { config as timezoneConverter } from '@tools/datetime/timezone-converter/
 import { config as tipCalculator } from '@tools/number/tip-calculator/config';
 import { config as titleCaseConverter } from '@tools/text/title-case-converter/config';
 import { config as todoList } from '@tools/productivity/todo-list/config';
+import { config as triangleSolver } from '@tools/math/triangle-solver/config';
 import { config as trimText } from '@tools/text/trim-text/config';
 import { config as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/config';
 import { config as upi1999Split } from '@tools/finance/upi-1999-split/config';
@@ -281,6 +282,7 @@ export const toolConfigs: ToolConfig[] = [
   tipCalculator,
   titleCaseConverter,
   todoList,
+  triangleSolver,
   trimText,
   unixTimestampConverter,
   upi1999Split,

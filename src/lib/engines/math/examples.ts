@@ -7,6 +7,24 @@ import type { MathInput } from './types';
 
 export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
   {
+    id: 'triangle-345',
+    engine: 'math',
+    ref: 'triangle',
+    title: '3-4-5 right triangle',
+    inputs: { a: 3, b: 4, c: 5, A: '', B: '', C: '' },
+    expect: { solutions: 1, 'side-a': 3, 'side-b': 4, 'side-c': 5, 'angle-c': 90 },
+    narrative: 'Sides 3, 4 and 5 are a right triangle. The right angle sits opposite the side of length 5.',
+  },
+  {
+    id: 'triangle-ssa-ambiguous',
+    engine: 'math',
+    ref: 'triangle',
+    title: 'Ambiguous SSA case',
+    inputs: { a: 7, b: 10, c: '', A: 30, B: '', C: '' },
+    expect: { solutions: 2 },
+    narrative: 'Angle A 30 degrees, opposite side 7, other side 10. The height is 5, so two triangles fit.',
+  },
+  {
     id: 'fraction-add-lcd',
     engine: 'math',
     ref: 'fraction',

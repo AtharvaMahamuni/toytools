@@ -48,6 +48,34 @@ export function integerField(
   return ok(n);
 }
 
+/** A finite number, or a validation error. Blank is an error: use optionalNumberField to allow it. */
+export function numberField(
+  input: MathInput,
+  key: string,
+  label: string,
+  opts: { min?: number; max?: number } = {},
+): Coerced<number> {
+  const raw = input[key];
+  if (raw === undefined || raw === '' || raw === null) return fail(`Enter ${label} to calculate.`);
+  const n = typeof raw === 'number' ? raw : Number(String(raw).trim());
+  if (!Number.isFinite(n)) return fail(`${label} should be a number.`);
+  if (opts.min != null && n < opts.min) return fail(`${label} should be at least ${opts.min}.`);
+  if (opts.max != null && n > opts.max) return fail(`${label} should be at most ${opts.max}.`);
+  return ok(n);
+}
+
+/** Blank yields null. A present value must be a finite number inside the bounds. */
+export function optionalNumberField(
+  input: MathInput,
+  key: string,
+  label: string,
+  opts: { min?: number; max?: number } = {},
+): Coerced<number | null> {
+  const raw = input[key];
+  if (raw === undefined || raw === '' || raw === null) return ok(null);
+  return numberField(input, key, label, opts);
+}
+
 /** An optional integer: blank yields null; anything present must satisfy the bounds. */
 export function optionalIntegerField(
   input: MathInput,

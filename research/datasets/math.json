@@ -328,6 +328,10 @@
         "unclear which side-angle combinations are valid",
         "no ambiguous case explanation"
       ],
+      "userFailures": [
+        "SSA (two sides and a non-included angle) can fit two triangles, and a solver that prints only the acute one hides the obtuse triangle.",
+        "Three angles are accepted as if they fixed the size, so the page returns a triangle that is only a shape."
+      ],
       "relatedProblems": [
         "law of sines",
         "law of cosines",

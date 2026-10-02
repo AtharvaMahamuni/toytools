@@ -134,6 +134,7 @@ export const authoredGuideSlugs = [
   'tip-calculator',
   'title-case-converter',
   'todo-list',
+  'triangle-solver',
   'trim-text',
   'unix-timestamp-converter',
   'upi-1999-split',

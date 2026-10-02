@@ -170,6 +170,17 @@ describe('renderViz dispatch', () => {
     expect(renderViz(partsSpec([{ id: 'a', label: 'A', value: 1 }], { kind: 'distribution' }))).toContain('viz-part');
     expect(renderViz(partsSpec([{ id: 'a', label: 'A', value: 1 }], { kind: 'bars' }))).toContain('viz-bar');
     expect(renderViz(lineSpec('s', [{ x: 0, y: 1 }, { x: 1, y: 2 }]))).toContain('viz-spark');
+    expect(
+      renderViz({
+        kind: 'polygon',
+        data: {
+          series: [
+            { id: 't', label: 'Triangle', points: [{ x: 0, y: 0, label: 'A' }, { x: 3, y: 0 }, { x: 0, y: 4 }] },
+            { id: 'alt', points: [{ x: 0, y: 0 }, { x: 3, y: 0 }, { x: 1, y: 1 }] },
+          ],
+        },
+      }),
+    ).toContain('viz-poly--alt');
   });
 
   it('returns an empty svg for an unsupported kind or a missing spec', () => {

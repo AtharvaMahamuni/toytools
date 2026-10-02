@@ -1,0 +1,205 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const circleHref = toolPathBySlug('unit-circle-calculator');
+const quadraticHref = toolPathBySlug('quadratic-equation-solver');
+const fractionHref = toolPathBySlug('fraction-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you solve a triangle from three parts? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You need exactly three of the six parts, and they cannot all be angles. Sides are named
+      a, b, and c. The angle opposite each side uses the same letter in capitals. Fill three
+      boxes in the triangle calculator and leave the rest blank. The missing sides and angles
+      come back as cards, and the figure is drawn with the same scale on both axes so a right
+      angle looks square.
+    </p>
+    <p>
+      Three sides is SSS. Two sides and the angle between them is SAS. Two angles and the side
+      between them is ASA. Two angles and a side that is not between them is AAS. Two sides and
+      an angle that is not between them is SSA, and that last pattern can fit two triangles.
+      The page names which pattern it used, so you can match the result to the line on the sheet.
+    </p>
+    <p>
+      A chat reply can quote the formulas. It will not keep both SSA figures on one scale while
+      you change a side and watch the second triangle appear or vanish. That is the job of this
+      page. The arithmetic stays in the browser. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Triangle Solver →</a>
+  </section>
+
+  <section id="cosines">
+    <h2>When do you use the law of cosines? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use the law of cosines when you know all three sides, or two sides and the included angle.
+      For sides a, b, and c, the angle opposite a satisfies
+      cos A = (b² + c² − a²) / (2bc). The same pattern, with the letters rotated, gives B and C.
+      Once one angle is known from three sides, the other two follow, and they must add to 180
+      degrees with the first.
+    </p>
+    <p>
+      SAS is the same identity rearranged. If you know sides a and b and the included angle C,
+      the missing side is c² = a² + b² − 2ab cos C. Try a = 3, b = 4, and C = 90 degrees. Cosine
+      of 90 is 0, so the last term drops out and c is 5. That is the familiar 3-4-5 triangle,
+      reached from two sides and the right angle instead of from three lengths.
+    </p>
+    <p>
+      The law of cosines does not produce a second candidate. Cosine is one-to-one between 0 and
+      180 degrees, so each valid side triple has one angle at each vertex. If the three lengths
+      cannot meet, the formula is never reached. Each side must be shorter than the other two
+      added together. Sides 2, 3, and 6 fail that test, and the page says so instead of printing
+      a nonsense angle.
+    </p>
+  </section>
+
+  <section id="sines">
+    <h2>When do you use the law of sines? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use the law of sines when you already know an angle and the side opposite it, and you need
+      another pair. The rule is a / sin A = b / sin B = c / sin C. ASA and AAS both start by
+      finding the third angle, because the three angles of a triangle add to 180 degrees. With
+      three angles and one side, every other side is a scale factor times the sine of its angle.
+    </p>
+    <p>
+      Try angles A = 40 degrees and B = 60 degrees, with side c = 10 between them. That is ASA.
+      Angle C is 80 degrees. Side a is then 10 times sin 40 / sin 80, and side b is 10 times
+      sin 60 / sin 80. If the known side had been a instead of c, the same angles would be AAS:
+      the known side sits opposite a known angle, not between the two known angles. The numbers
+      change. The method does not.
+    </p>
+    <p>
+      Two angles that already add to 180 degrees or more leave no room for the third. The page
+      stops there. It will not invent a negative angle or a side of length zero to force a
+      picture onto the screen.
+    </p>
+  </section>
+
+  <section id="ambiguous">
+    <h2>What is the ambiguous SSA case? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SSA means two sides and an angle that is not sandwiched between them. Sine of an acute
+      angle equals sine of its supplement, so the law of sines can return two legal angles.
+      Drop a perpendicular from the third vertex to the side of the given angle. Call that
+      height h. If the opposite side is shorter than h, it never reaches, and there is no
+      triangle. If it equals h, there is one right triangle. If it is longer than the other
+      given side, there is one triangle. Between those, there are two.
+    </p>
+    <p>
+      The standard classroom numbers are angle A = 30 degrees, opposite side a = 7, and other
+      side b = 10. The height is b times sin 30, which is 5. Side a is longer than 5 and shorter
+      than 10, so both answers survive. One angle B is about 45.58 degrees. The other is about
+      134.42 degrees. The two angle C values add to 120 degrees, because each is what remains
+      after 30 degrees and its own angle B. Both figures share side a and side b. Side c differs.
+    </p>
+    <p>
+      A solver that prints only the acute angle is the failure this page is built to show. The
+      second triangle is named in a caution line, and it is drawn dashed on the same axes. When
+      the inputs allow only one triangle, that line stays quiet. An obtuse given angle cannot
+      be ambiguous: the opposite side has to be the longest side, or there is no triangle at all.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Both triangles, or neither">
+      <p>
+        If the height test says two triangles fit, both belong in the answer. Hiding the obtuse
+        one is how a correct-looking decimal still fails the homework.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="pythagorean">
+    <h2>When does the Pythagorean theorem apply? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The Pythagorean theorem applies only when one angle is 90 degrees. Then the square of the
+      hypotenuse equals the squares of the other two sides. Sides 3, 4, and 5 satisfy it, and so
+      do 5, 12, and 13, and 8, 15, and 17. The right angle sits opposite the longest side. Enter
+      3, 4, and 5 with the angles blank and the card for the angle opposite 5 reads 90 degrees.
+    </p>
+    <p>
+      A near miss is not a right triangle. Sides 3, 4, and 6 form a triangle, because each side
+      is shorter than the other two combined, but 9 + 16 is not 36. The angle opposite 6 is
+      obtuse. The law of cosines still solves it. The Pythagorean theorem does not, and the page
+      will not label that figure as right.
+    </p>
+    <p>
+      If you know the right angle and one side, you still need a second side or a second angle
+      before the third part is determined. A lone hypotenuse is a family of right triangles, not
+      one of them. Add the other leg, or add an acute angle, and the rest follows.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Three angles and no side">
+      <p>
+        A 30-60-90 triangle can be any size. The angles match a tiny one and a huge one. Clear
+        one angle, type a side, and the scale is fixed. Until then the page refuses, on purpose.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Keeping only the acute SSA answer">
+      <p>
+        Angle A = 30, side a = 7, side b = 10 has two triangles. Copy both angle sets onto the
+        sheet. The dashed figure is the one a single arcsin call drops.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Swapping opposite pairs">
+      <p>
+        Side a is opposite angle A, not "the first side I measured." If the diagram uses different
+        letters, translate the opposite pairs before you type. The solver trusts the labels.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Degrees, not radians">
+      <p>
+        Every angle box is degrees. A right angle is 90. If the notes say pi/6, that is 30 degrees.
+        The <a href={circleHref}>unit circle</a> will plot the converted angle if you want a check.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next">
+    <h2>What should you open next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      After the triangle is solved, an angle in radians is easier to trust on the
+      <a href={circleHref}>unit circle</a>. A quadratic that showed up in the same problem set
+      belongs in the <a href={quadraticHref}>quadratic equation solver</a>. A side ratio you want
+      to keep exact, such as 3/5 instead of 0.6, belongs in the
+      <a href={fractionHref}>fraction calculator</a>.
+    </p>
+    <p>
+      This page does not compute area, and it does not accept a triangle that is only a shape.
+      Bring three parts that fix the size, read both answers when SSA is ambiguous, and leave
+      the fourth box empty.
+    </p>
+    <a href={toolHref} class="cta-link">Solve a 3-4-5 triangle →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>
