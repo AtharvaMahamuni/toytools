@@ -23,6 +23,7 @@ export const authoredGuideSlugs = [
   'coin-flipper',
   'color-contrast-checker',
   'color-format-converter',
+  'color-shades-generator',
   'combinations-permutations-calculator',
   'compound-interest-calculator',
   'context-fit-checker',

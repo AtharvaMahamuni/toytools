@@ -1,0 +1,183 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const contrastHref = toolPathBySlug('color-contrast-checker');
+const formatHref = toolPathBySlug('color-format-converter');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you build a color scale from one hex? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Paste one color. The page returns eleven stops, numbered 50, 100, 200, 300, 400, 500, 600,
+      700, 800, 900, and 950. Hue stays the hue you typed. Lightness walks from a near-white tint
+      down to a near-black shade. Chroma, the amount of color, is kept when the screen can show
+      it and reduced when it cannot. Under the row is a :root block of CSS variables, from
+      --shade-50 to --shade-950.
+    </p>
+    <p>
+      That block is the thing you came for. Copy CSS takes all of it. Tap a single swatch to copy
+      only that hex. #3b82f6, rgb(59, 130, 246), hsl(217, 91%, 60%), and a name like teal all
+      count as input. The arithmetic stays in the browser. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Color Shades Generator →</a>
+  </section>
+
+  <section id="tints">
+    <h2>What is the difference between tints and shades? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A tint moves a color toward white. A shade moves it toward black. On this ramp the light
+      stops are the tints and the dark stops are the shades. Stop 500 is the step whose lightness
+      is closest to the color you typed, so a mid blue lands near 500 and a pale yellow lands
+      nearer 100 or 50. The number is a label for a lightness target, not a promise that 500
+      equals your hex.
+    </p>
+    <p>
+      People search this as a color shades generator, a tints and shades tool, and a 50 to 900
+      color palette. The stops use those names because stylesheets already do. A token called
+      --shade-700 reads as the dark step of the same family. You still have to look at the hex.
+      Two different brands with the same stop number are not the same color.
+    </p>
+    <p>
+      The row is a grid that fills the width you have. On a phone the stops wrap. On a wide
+      window they share one line of swatches instead of leaving a blank band beside three tiles.
+      Each swatch is a button. The pressed state is the feedback, because a phone has no hover.
+    </p>
+    <p>
+      A useful check is to type the same hue twice, once dark and once light. The dark one should
+      put the brand stop lower on the ramp, closer to 800 or 900. The light one should put it
+      up near 50 or 100. If both land on 500, the lightness walk is ignoring the color you typed.
+      Here the nearest stop moves with the source, and the CSS names stay put so a stylesheet
+      can keep referring to --shade-500 while you try another brand.
+    </p>
+  </section>
+
+  <section id="oklch">
+    <h2>Why build the ramp in OKLCH? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      HSL calls yellow and blue the same lightness when one looks much lighter than the other.
+      A ramp that steps HSL lightness by equal numbers goes dull in the middle and jumps at the
+      ends. OKLCH, from Bjorn Ottosson's OKLab, steps lightness in a space where those steps look
+      closer to even. Hue is an angle. Chroma is a distance from gray. The page holds the angle
+      and walks the lightness.
+    </p>
+    <p>
+      Chroma is the part that breaks first. A lightness of 0.97 cannot carry the chroma of a
+      strong blue and still land inside sRGB. The hex would have to clip a channel to 0 or 255,
+      and the hue would drift. The page searches, by halves, for the largest chroma at that
+      lightness that still fits. The stop gets duller. It does not change family. A gray input
+      has chroma zero, so every stop stays gray and only lightness moves.
+    </p>
+    <p>
+      This is a color scale generator, not a clone of a published palette. Tailwind's stop names
+      are the vocabulary. Tailwind's hex values are a hand-tuned set that changes between
+      versions. Deriving eleven stops from your one color will not reproduce blue-500 from a
+      docs page, and it should not. If you need the exact hex from a file, copy it from the file.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Hold hue, spend chroma">
+      <p>
+        Lightness is the ramp. Hue is the brand. Chroma is what you give up so the hex still
+        means the color you see.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="contrast">
+    <h2>When does the brand stop fail on white? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The stop nearest your color is checked as text on white. WCAG asks for 4.5:1 for body text.
+      If the ratio is under that, a line under the row names the stop and the ratio. If the stop
+      already clears 4.5, the line stays hidden. #3b82f6 is a useful demo: the stop near it fails,
+      so the note appears. A deep navy such as #1e3a8a usually passes, and the note does not.
+    </p>
+    <p>
+      The failure mode is a swatch that looks fine in a row of its siblings. The row is not white
+      body copy. Shipping --shade-500 as a text color because the tile was pretty is how a brand
+      color becomes unreadable. The note is one sentence, and it is absent when there is nothing
+      to warn about. It does not score stop 50, and it does not score colored backgrounds.
+    </p>
+    <p>
+      For any other pair, open the <a href={contrastHref}>contrast checker</a> and type the two
+      hex values. For the same color in HEX, RGB, HSL, and OKLCH at once, open the
+      <a href={formatHref}>color format converter</a>. This page builds the ramp. Those pages
+      answer a different question about one color.
+    </p>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>Common mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
+    <ReferenceBlock type="common-mistake" heading="Expecting a Tailwind match">
+      <p>
+        Stop 500 from this page is your color's neighbor, not Tailwind's blue-500. The names
+        line up. The hex values do not, and they are not supposed to.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Trusting a light brand for body text">
+      <p>
+        If the note names a ratio under 4.5, do not set that stop as text on white. Use a darker
+        stop from the same ramp, then confirm the pair in the contrast checker.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="common-mistake" heading="Keeping chroma that the screen cannot show">
+      <p>
+        A pale stop that "keeps" a vivid chroma is clipping. The duller hex is the one that
+        matches the swatch. Copy that one.
+      </p>
+    </ReferenceBlock>
+    <ReferenceBlock type="note" heading="Opaque tokens only">
+      <p>
+        Alpha is dropped. A shade ramp is a set of solid colors. If you need a translucent
+        overlay, add the alpha in CSS after you paste the variable. A later color-mix()
+        can tint one stop. The ramp itself stays eleven opaque hex colors, because a token
+        file that hides alpha inside every step is harder to read than a solid scale plus
+        one overlay where you use it.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="next">
+    <h2>What should you open next? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Paste the variables, then check the pair you will actually ship in the
+      <a href={contrastHref}>contrast checker</a>. If a teammate hands you hsl() and you want the
+      hex before you build a ramp, start in the <a href={formatHref}>color format converter</a>
+      and come back with one color.
+    </p>
+    <p>
+      Rename --shade-500 if the project already uses that name. The later rule in the cascade
+      wins, and a quiet overwrite is worse than a longer name. The ramp is a starting set of
+      tokens, computed on your device, from the single color you typed.
+    </p>
+    <a href={toolHref} class="cta-link">Build a scale from #3b82f6 →</a>
+  </section>
+</GuideLayout>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

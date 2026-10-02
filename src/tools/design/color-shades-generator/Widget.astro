@@ -1,0 +1,192 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div class="calc-ledger" data-tool="color-shades-generator">
+  <ToolSplit ratio="1-1" stackOrder="output-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="input" label="Color" variant="prose" bare>
+      <div class="io-body">
+        <label class="widget-label" for="color-shades-generator-input">Base color</label>
+        <div class="csg-row">
+          <input
+            id="color-shades-generator-input"
+            class="widget-input"
+            type="text"
+            inputmode="text"
+            enterkeyhint="done"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            autocomplete="off"
+            value="#3b82f6"
+            placeholder="#3b82f6"
+          />
+          <input id="color-shades-generator-picker" class="csg-picker" type="color" value="#3b82f6" aria-label="Pick a base color" />
+        </div>
+        <p class="csg-help">HEX, RGB, HSL, or a CSS color name. Hue is held. Lightness walks 50 to 950.</p>
+        <p class="csg-error" id="color-shades-generator-error" hidden></p>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="output" label="Scale" variant="mono" result bare>
+      <div class="io-body">
+        <div class="csg-scale" id="color-shades-generator-scale"></div>
+        <CraftNote id="color-shades-generator-note" craftId="shade-on-white" />
+        <pre class="csg-css" id="color-shades-generator-css"></pre>
+      </div>
+    </IoPanel>
+  </ToolSplit>
+</div>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="color-shades-generator-copy" data-label="Copy CSS" type="button">Copy CSS</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var textEl = document.getElementById('color-shades-generator-input');
+    var pickerEl = document.getElementById('color-shades-generator-picker');
+    var scaleEl = document.getElementById('color-shades-generator-scale');
+    var cssEl = document.getElementById('color-shades-generator-css');
+    var errEl = document.getElementById('color-shades-generator-error');
+    var noteEl = document.getElementById('color-shades-generator-note');
+    var noteTxt = document.getElementById('color-shades-generator-note-text');
+    var copyBtn = document.getElementById('color-shades-generator-copy');
+    if (!textEl || !scaleEl || !cssEl) return;
+
+    var css = '';
+
+    function ink(hex) {
+      var n = parseInt(hex.slice(1, 7), 16);
+      var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+      var l = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+      return l > 0.62 ? '#1a1a1a' : '#ffffff';
+    }
+
+    function showNote(message) {
+      if (!noteEl || !noteTxt) return;
+      if (!message) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = message;
+      noteEl.hidden = false;
+    }
+
+    function render() {
+      var TT = window.ToyTools;
+      var value = textEl.value.trim();
+      if (!TT || !TT.color || !TT.color.shadeScale) return;
+      var result = TT.color.shadeScale(value);
+      if (!result.ok) {
+        errEl.hidden = false;
+        errEl.textContent = result.error || 'That is not a color.';
+        return;
+      }
+      errEl.hidden = true;
+      errEl.textContent = '';
+      var scale = result.scale;
+      css = scale.css;
+      cssEl.textContent = css;
+      showNote(scale.onWhiteNote);
+      scaleEl.replaceChildren();
+      scale.stops.forEach(function (stop) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'csg-stop';
+        btn.style.backgroundColor = stop.hex;
+        btn.style.color = ink(stop.hex);
+        btn.setAttribute('data-hex', stop.hex);
+        var name = document.createElement('span');
+        name.className = 'csg-stop-name';
+        name.textContent = String(stop.stop);
+        var hex = document.createElement('span');
+        hex.className = 'csg-stop-hex';
+        hex.textContent = stop.hex;
+        btn.appendChild(name);
+        btn.appendChild(hex);
+        btn.addEventListener('click', function () {
+          if (TT.copy) TT.copy(stop.hex);
+        });
+        scaleEl.appendChild(btn);
+      });
+      var parsed = TT.color.parse(value);
+      if (pickerEl && parsed.ok && parsed.rgb) {
+        var h = TT.color.hex(parsed.rgb);
+        if (/^#[0-9a-f]{6}$/i.test(h)) pickerEl.value = h;
+      }
+      try { TT.storage && TT.storage.set('toytools.color-shades-generator.color', value); } catch (_) {}
+    }
+
+    textEl.addEventListener('input', render);
+    if (pickerEl) pickerEl.addEventListener('input', function () {
+      textEl.value = pickerEl.value;
+      render();
+    });
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var TT = window.ToyTools;
+      if (css && TT && TT.copy) TT.copy(css);
+    });
+
+    function boot() {
+      var TT = window.ToyTools;
+      try {
+        var saved = TT && TT.storage && TT.storage.get('toytools.color-shades-generator.color');
+        if (saved) textEl.value = saved;
+      } catch (_) {}
+      render();
+    }
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .csg-row { display: flex; gap: var(--space-2); align-items: stretch; }
+  .csg-row .widget-input { flex: 1 1 auto; min-width: 0; }
+  .csg-picker {
+    flex: 0 0 auto;
+    inline-size: var(--touch-target);
+    block-size: var(--touch-target);
+    padding: 0;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: none;
+    cursor: pointer;
+  }
+  .csg-help { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .csg-error { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-danger); }
+  .csg-error[hidden] { display: none; }
+  .csg-scale {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(4.75rem, 1fr));
+    gap: var(--space-2);
+  }
+  .csg-scale :global(.csg-stop) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-block-size: 5.5rem;
+    padding: var(--space-2);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .csg-scale :global(.csg-stop:active) { transform: translateY(1px); }
+  .csg-scale :global(.csg-stop-name) { font-size: var(--text-sm); font-weight: var(--font-weight-medium); }
+  .csg-scale :global(.csg-stop-hex) {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-variant-numeric: tabular-nums;
+  }
+  .csg-css {
+    margin: var(--space-3) 0 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+    white-space: pre;
+  }
+</style>

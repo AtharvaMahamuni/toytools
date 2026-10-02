@@ -5,6 +5,7 @@
 import { parseColor, toAllFormats, rgbToHex } from './convert';
 import { hexByteOrder } from './hints';
 import { contrastRatio, wcagLevels, luminance, suggestAccessible } from './contrast';
+import { oklchToRgb, shadeScale } from './shades';
 import type { RGB } from './types';
 
 export const color = {
@@ -19,6 +20,8 @@ export const color = {
   luminance,
   suggest: suggestAccessible,
   byteOrder: hexByteOrder,
+  oklchToRgb,
+  shadeScale,
   /** Parse two colors and return the full WCAG verdict, or an error. */
   check: (fg: string, bg: string) => {
     const f = parseColor(fg), b = parseColor(bg);

@@ -23,6 +23,7 @@ import { config as cidrCalculator } from '@tools/developer-utilities/cidr-calcul
 import { config as coinFlipper } from '@tools/generate/coin-flipper/config';
 import { config as colorContrastChecker } from '@tools/design/color-contrast-checker/config';
 import { config as colorFormatConverter } from '@tools/design/color-format-converter/config';
+import { config as colorShadesGenerator } from '@tools/design/color-shades-generator/config';
 import { config as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/config';
 import { config as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/config';
 import { config as contextFitChecker } from '@tools/prep/context-fit-checker/config';
@@ -172,6 +173,7 @@ export const toolConfigs: ToolConfig[] = [
   coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
+  colorShadesGenerator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   contextFitChecker,

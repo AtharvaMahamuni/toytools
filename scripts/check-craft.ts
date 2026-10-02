@@ -193,7 +193,10 @@ const THRESHOLDS = {
   // 2026-10-02: 0.707 (104/147). Sleep Cycle Calculator ships guardrail craft sleep-latency.
   //   A cycle counted from lights-out ignores the minutes it takes to fall asleep.
   //   Zero latency says the list assumes instant sleep, and a non-zero latency stays quiet.
-  coverage: 0.707,
+  // 2026-10-02: 0.709 (105/148). Color Shades Generator ships guardrail craft shade-on-white.
+  //   The stop nearest the source color is checked as text on white. The note names the
+  //   ratio when it misses 4.5, and it stays hidden when that stop already passes.
+  coverage: 0.709,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

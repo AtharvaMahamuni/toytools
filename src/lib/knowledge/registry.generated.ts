@@ -23,6 +23,7 @@ import { knowledge as cidrCalculator } from '@tools/developer-utilities/cidr-cal
 import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
 import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
+import { knowledge as colorShadesGenerator } from '@tools/design/color-shades-generator/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
 import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/knowledge';
@@ -172,6 +173,7 @@ export const authoredKnowledge: Knowledge[] = [
   coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
+  colorShadesGenerator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   contextFitChecker,

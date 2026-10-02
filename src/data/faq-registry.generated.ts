@@ -23,6 +23,7 @@ import { items as cidrCalculatorFaqs } from '@tools/developer-utilities/cidr-cal
 import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
+import { items as colorShadesGeneratorFaqs } from '@tools/design/color-shades-generator/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
 import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
@@ -172,6 +173,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
   'color-format-converter': colorFormatConverterFaqs,
+  'color-shades-generator': colorShadesGeneratorFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
   'context-fit-checker': contextFitCheckerFaqs,
