@@ -16,6 +16,13 @@ Use for: Add, subtract, multiply or divide fractions with every step shown.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Matrix Calculator
+
+URL: https://toytoolsapp.com/tool/math/matrix-calculator/
+Use for: Multiply two matrices and read the first step.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Row-reduce to rref, solve a linear system, or send the entries to an AI model.
+
 ## Prime Factorization Calculator
 
 URL: https://toytoolsapp.com/tool/math/prime-factorization-calculator/
@@ -43,6 +50,13 @@ URL: https://toytoolsapp.com/tool/math/statistics-visualizer/
 Use for: Paste numbers.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Fit a regression or infer a population the paste does not contain, or send the numbers to an AI model.
+
+## Triangle Solver
+
+URL: https://toytoolsapp.com/tool/math/triangle-solver/
+Use for: Enter any three parts and see the triangle drawn to scale.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Treat three angles as a sized triangle, hide the second SSA solution, or send the measurements to an AI model.
 
 ## Interactive Unit Circle Calculator
 
@@ -114,6 +128,13 @@ Use for: Exact time between two dates, including weekdays only.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Sleep Cycle Calculator
+
+URL: https://toytoolsapp.com/tool/datetime/sleep-cycle-calculator/
+Use for: Bedtimes in 90 minute cycles, plus time to fall asleep.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Prescribe a cycle length, diagnose a sleep disorder, or send your bedtimes to an AI model.
+
 ## Cron to systemd Timer Converter
 
 URL: https://toytoolsapp.com/tool/datetime/systemd-timer-converter/
@@ -156,6 +177,13 @@ Use for: HEX, RGB, HSL, HSV, OKLCH and CMYK, on your device.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
 
+## Color Shades Generator
+
+URL: https://toytoolsapp.com/tool/design/color-shades-generator/
+Use for: A 50 to 950 OKLCH scale, copied as CSS variables.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Match a published Tailwind build byte for byte, score contrast on every background, or send the color to an AI model.
+
 ## PX to DP Converter
 
 URL: https://toytoolsapp.com/tool/design/px-to-dp-converter/
@@ -169,6 +197,13 @@ URL: https://toytoolsapp.com/tool/design/px-to-rem-converter/
 Use for: px to rem, em and pt, against your root font size.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## Type Scale Generator
+
+URL: https://toytoolsapp.com/tool/design/type-scale-generator/
+Use for: Font sizes from a ratio, in rem and CSS variables.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Match a published design-system ramp, pick a font family, or send the sizes to an AI model.
 
 ## Base64 Encoder & Decoder
 
@@ -232,6 +267,13 @@ URL: https://toytoolsapp.com/tool/developer-utilities/encoding-detector/
 Use for: Find out what a string is encoded with, and what it decodes to.
 Privacy: Runs entirely on your device. Nothing is uploaded.
 Does not: Call an AI model.
+
+## File Hash Verifier
+
+URL: https://toytoolsapp.com/tool/developer-utilities/file-hash-verifier/
+Use for: SHA256 checksum of a local file, compared with the published digest.
+Privacy: Runs entirely on your device. Nothing is uploaded.
+Does not: Upload the file to a server, treat an empty download as a finished ISO, or send the bytes to an AI model.
 
 ## Hash Identifier
 

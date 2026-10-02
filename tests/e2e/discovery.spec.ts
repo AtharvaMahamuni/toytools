@@ -151,7 +151,9 @@ test.describe('homepage index', () => {
     // Regex Tester (beta-v11.16) is ungrouped: text-interactive peer of find-replace, but
     // debugging a pattern is not a mode of document replace, so a group switcher would swap the task.
     // Prep for a model (beta-v12.0) adds six ungrouped tools. They share a category, not a switcher.
-    await expect(directory.locator('.dir-link')).toHaveCount(105);
+    // Triangle Solver, Sleep Cycle Calculator, Color Shades Generator, File Hash Verifier,
+    // Type Scale Generator, and Matrix Calculator (beta-v12.3) are ungrouped too.
+    await expect(directory.locator('.dir-link')).toHaveCount(111);
   });
 
   test('recent chips appear after visiting a tool', async ({ page }) => {

@@ -2,6 +2,21 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.3] - 2026-10-02
+
+### Added
+
+- **Triangle Solver** (`/tool/math/triangle-solver/`). Enter any three parts and see the other sides and angles, including both SSA answers, drawn to scale.
+- **Sleep Cycle Calculator** (`/tool/datetime/sleep-cycle-calculator/`). Bedtimes and wake times in 90 minute cycles, counting the minutes it takes to fall asleep.
+- **Color Shades Generator** (`/tool/design/color-shades-generator/`). A 50 to 950 tint and shade scale from one color, in OKLCH, copied as CSS, with a note when a step fails contrast on white.
+- **File Hash Verifier** (`/tool/developer-utilities/file-hash-verifier/`). A local file hash, compared with a published digest. Large files are sliced. Nothing is uploaded.
+- **Type Scale Generator** (`/tool/design/type-scale-generator/`). A modular type scale from a base size and a ratio, as rem values and CSS variables, with a warning when a step falls outside a readable band.
+- **Matrix Calculator** (`/tool/math/matrix-calculator/`). Add, subtract, multiply, transpose, or invert a matrix. A product of mismatched shapes names both sizes, and the first legal product shows its first step.
+
+### Changed
+
+- **The home page fills the desktop row.** Category shelves are three equal tiles from 1024px wide, and See all sits next to the category name. Tools added in the last five days appear in a wide row that advances every few seconds and pauses while the pointer or keyboard is on it. The New badge leaves after five days, on the next visit as well as the next build.
+
 ## [beta-v12.2] - 2026-09-30
 
 ### Changed
