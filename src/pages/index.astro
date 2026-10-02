@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { generatePageTitle } from '../lib/titles';
 import HeroSearch from '@components/HeroSearch.astro';
 import CategoryIndex from '@components/CategoryIndex.astro';
+import FeaturedRow from '@components/FeaturedRow.astro';
 import ToolDirectory from '@components/ToolDirectory.astro';
 import { tools } from '@data/registry';
 import { engineRegistry, knownPatterns } from '@data/engines';
@@ -31,7 +32,7 @@ const siteHref = siteUrl(Astro.site).href;
 <BaseLayout
   title={generatePageTitle('home')}
   description={SITE_DESCRIPTION}
-  maxWidth="content"
+  maxWidth="shell"
 >
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
@@ -97,6 +98,8 @@ const siteHref = siteUrl(Astro.site).href;
     <span class="recent-label">Recent:</span>
     <span id="recent-chips"></span>
   </p>
+
+  <FeaturedRow />
 
   <section class="section">
     <CategoryIndex />

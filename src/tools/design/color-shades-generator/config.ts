@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   categorySlug: 'design-tools',
   tags: ['color shades generator', 'tints and shades', 'tailwind color shades', 'oklch palette'],
   updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'color',
   pattern: 'color-convert',

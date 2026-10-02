@@ -138,5 +138,15 @@ const maxWidthVar =
       </div>
     </main>
     <Footer feedbackTool={feedbackTool} credit={!robots.includes('noindex')} />
+    <script is:inline>
+      (function () {
+        var now = Date.now();
+        var nodes = document.querySelectorAll('[data-new-until]');
+        for (var i = 0; i < nodes.length; i++) {
+          var until = Date.parse(nodes[i].getAttribute('data-new-until') || '');
+          if (!isNaN(until) && now >= until) nodes[i].parentNode.removeChild(nodes[i]);
+        }
+      })();
+    </script>
   </body>
 </html>

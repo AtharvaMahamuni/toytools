@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   categorySlug: 'applied-math',
   tags: ['multiplication', 'determinant', 'inverse', 'steps'],
   updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'math',
   pattern: 'math-calculate',

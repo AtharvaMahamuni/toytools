@@ -2,6 +2,7 @@
 import type { Tool } from '@data/types';
 import { categories } from '@data/categories';
 import { toolPath } from '../lib/paths';
+import { freshUntil } from '@lib/tools/freshness';
 
 interface Props {
   tool: Tool;
@@ -15,12 +16,13 @@ const toolHref = toolPath({ slug: tool.slug, segment });
 // Tagline is the short on-page line; description is the SEO meta (up to 160 chars). Cards
 // that print the meta blow the /search/ HTML budget as those metas thicken.
 const blurb = tool.tagline || tool.description;
+const newUntil = freshUntil(tool.addedOn);
 ---
 
 <a href={toolHref} class="tool-card" data-slug={tool.slug}>
   <div class="tool-header">
     <span class="tool-name">{tool.name}</span>
-    {tool.isNew && <span class="tool-badge">New</span>}
+    {newUntil && <span class="tool-badge" data-new-until={newUntil}>New</span>}
   </div>
   <span class="tool-description">{blurb}</span>
   {categoryName && <span class="tool-category">{categoryName}</span>}

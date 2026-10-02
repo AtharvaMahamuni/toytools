@@ -16,6 +16,7 @@ export const config: ToolConfig = {
     'ambiguous case',
   ],
   updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'math',
   pattern: 'math-calculate',

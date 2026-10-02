@@ -31,6 +31,36 @@ test.describe('homepage index', () => {
     // Highlights name tools the collapsed directory hides behind a group entry.
     const health = shelves.locator('.shelf').filter({ hasText: 'Health & Fitness' });
     await expect(health.locator('.app-tile-main[data-slug="bmi-calculator"]')).toBeVisible();
+
+    // See all sits in the title cluster. A link parked at the far edge of the row fails this.
+    const head = text.locator('.shelf-head');
+    const nameBox = await head.getByRole('link', { name: 'Text Utilities' }).boundingBox();
+    const seeBox = await head.getByRole('link', { name: 'See all' }).boundingBox();
+    if (!nameBox || !seeBox) throw new Error('See all left the title row');
+    expect(seeBox.x).toBeLessThan(nameBox.x + nameBox.width + 80);
+    expect(seeBox.x).toBeGreaterThanOrEqual(nameBox.x);
+  });
+
+  test('New badges follow the five-day window and stay off older shelves', async ({ page }) => {
+    await page.goto('/');
+    // A permanent isNew flag does not paint a badge on a highlight.
+    await expect(page.locator('.category-shelves .app-tile-badge')).toHaveCount(0);
+    await expect(page.locator('.category-shelves').getByRole('heading', { level: 2 })).toHaveCount(15);
+
+    // Same window as src/lib/tools/freshness.ts. After the sixth UTC day the row is gone.
+    const added = Date.UTC(2026, 9, 2);
+    const today = new Date();
+    const day = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+    const delta = Math.round((day - added) / 86_400_000);
+    const featured = page.locator('[data-featured]');
+    if (delta >= 0 && delta <= 5) {
+      await expect(featured.getByRole('heading', { level: 2, name: 'New tools' })).toBeVisible();
+      await expect(featured.locator('.featured-card')).toHaveCount(6);
+      await expect(featured.locator('.featured-badge')).toHaveCount(6);
+      await expect(featured.locator('.featured-card[data-slug="matrix-calculator"]')).toHaveCount(1);
+    } else {
+      await expect(featured).toHaveCount(0);
+    }
   });
 
   test('the full directory ships closed but present', async ({ page }) => {

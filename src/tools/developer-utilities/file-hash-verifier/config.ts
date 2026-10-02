@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['sha256', 'checksum', 'download', 'browser', 'md5', 'uploaded', 'file checksum', 'verify download'],
   updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'hashing',
   pattern: 'hash',

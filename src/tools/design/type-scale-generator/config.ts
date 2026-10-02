@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   categorySlug: 'design-tools',
   tags: ['modular', 'font', 'size', 'golden', 'ratio', 'typography', 'css', 'rem'],
   updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'units',
   pattern: 'unit-convert',

@@ -176,6 +176,12 @@ export interface ToolConfig {
   categorySlug: string;
   tags: string[];
   isNew?: boolean;
+  /**
+   * Calendar day the tool was added, `YYYY-MM-DD` in UTC. The New badge renders only while this
+   * day is at most five whole UTC days ago. `isNew` does not drive the badge, and neither does
+   * `updatedAt`.
+   */
+  addedOn?: string;
   updatedAt?: string;
   /**
    * The named, published method this tool's engine implements.

@@ -10,6 +10,7 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['sleep calculator', 'bedtime calculator', '90 minute sleep cycles', 'wake time'],
   updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-calculate',
