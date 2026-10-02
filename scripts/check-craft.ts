@@ -196,7 +196,10 @@ const THRESHOLDS = {
   // 2026-10-02: 0.709 (105/148). Color Shades Generator ships guardrail craft shade-on-white.
   //   The stop nearest the source color is checked as text on white. The note names the
   //   ratio when it misses 4.5, and it stays hidden when that stop already passes.
-  coverage: 0.709,
+  // 2026-10-02: 0.711 (106/149). File Hash Verifier ships guardrail craft file-hash-slices.
+  //   A 0-byte download still hashes, and the note says that digest is empty. MD5, SHA-1,
+  //   and SHA-512 refuse a file over 32 MB instead of loading it in one arrayBuffer.
+  coverage: 0.711,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

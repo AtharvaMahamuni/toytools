@@ -39,6 +39,7 @@ import { knowledge as discountCalculator } from '@tools/number/discount-calculat
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
 import { knowledge as encodingDetector } from '@tools/developer-utilities/encoding-detector/knowledge';
 import { knowledge as equalizerSettingsGenerator } from '@tools/music/equalizer-settings-generator/knowledge';
+import { knowledge as fileHashVerifier } from '@tools/developer-utilities/file-hash-verifier/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as gears } from '@tools/fidget/gears/knowledge';
@@ -189,6 +190,7 @@ export const authoredKnowledge: Knowledge[] = [
   emergencyFundCalculator,
   encodingDetector,
   equalizerSettingsGenerator,
+  fileHashVerifier,
   findReplace,
   fractionCalculator,
   gears,

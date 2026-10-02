@@ -39,6 +39,7 @@ export const authoredGuideSlugs = [
   'emergency-fund-calculator',
   'encoding-detector',
   'equalizer-settings-generator',
+  'file-hash-verifier',
   'find-replace',
   'fraction-calculator',
   'gears',

@@ -1,0 +1,235 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div data-tool="file-hash-verifier">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="input" label="File" variant="prose" bare>
+      <div class="io-body">
+        <label class="widget-label" for="file-hash-verifier-file">Local file</label>
+        <input id="file-hash-verifier-file" class="fh-file" type="file" />
+        <label class="widget-label" for="file-hash-verifier-algo">Algorithm</label>
+        <select id="file-hash-verifier-algo" class="widget-input">
+          <option value="sha256" selected>SHA-256</option>
+          <option value="sha512">SHA-512</option>
+          <option value="sha1">SHA-1</option>
+          <option value="md5">MD5</option>
+          <option value="crc32">CRC32</option>
+        </select>
+        <label class="widget-label" for="file-hash-verifier-expected">Expected digest</label>
+        <input
+          id="file-hash-verifier-expected"
+          class="widget-input"
+          type="text"
+          inputmode="text"
+          enterkeyhint="done"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Paste a digest or a sha256sum line"
+        />
+        <p class="fh-help">Runs entirely on your device. Nothing is uploaded.</p>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="output" label="Digest" variant="mono" result bare>
+      <div class="io-body">
+        <p class="fh-meta" id="file-hash-verifier-meta"></p>
+        <p class="fh-digest" id="file-hash-verifier-digest"></p>
+        <p class="fh-progress" id="file-hash-verifier-progress" hidden></p>
+        <p class="fh-compare" id="file-hash-verifier-compare" hidden></p>
+        <CraftNote id="file-hash-verifier-note" craftId="file-hash-slices" action />
+      </div>
+    </IoPanel>
+  </ToolSplit>
+</div>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="file-hash-verifier-copy" data-label="Copy digest" type="button">Copy digest</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var fileEl = document.getElementById('file-hash-verifier-file');
+    var algoEl = document.getElementById('file-hash-verifier-algo');
+    var expectedEl = document.getElementById('file-hash-verifier-expected');
+    var metaEl = document.getElementById('file-hash-verifier-meta');
+    var digestEl = document.getElementById('file-hash-verifier-digest');
+    var progressEl = document.getElementById('file-hash-verifier-progress');
+    var compareEl = document.getElementById('file-hash-verifier-compare');
+    var noteEl = document.getElementById('file-hash-verifier-note');
+    var noteTxt = document.getElementById('file-hash-verifier-note-text');
+    var actionEl = document.getElementById('file-hash-verifier-note-action');
+    var copyBtn = document.getElementById('file-hash-verifier-copy');
+    if (!fileEl || !algoEl || !digestEl) return;
+
+    var ALGO_KEY = 'toytools.file-hash-verifier.algorithm';
+    var EXPECT_KEY = 'toytools.file-hash-verifier.expected';
+    var SLICE = 1024 * 1024;
+    var current = null;
+    var hex = '';
+    var token = 0;
+
+    function showNote(message, actionLabel) {
+      if (!noteEl || !noteTxt) return;
+      if (!message) {
+        noteEl.hidden = true;
+        noteTxt.textContent = '';
+        if (actionEl) actionEl.hidden = true;
+        return;
+      }
+      noteTxt.textContent = message;
+      noteEl.hidden = false;
+      if (actionEl) {
+        if (actionLabel) {
+          actionEl.textContent = actionLabel;
+          actionEl.hidden = false;
+        } else {
+          actionEl.hidden = true;
+        }
+      }
+    }
+
+    function formatBytes(n) {
+      if (n < 1024) return n.toLocaleString() + ' bytes';
+      var units = ['KB', 'MB', 'GB'];
+      var v = n / 1024;
+      var i = 0;
+      while (v >= 1024 && i < units.length - 1) { v /= 1024; i++; }
+      var shown = v >= 10 ? v.toFixed(0) : v.toFixed(1);
+      return n.toLocaleString() + ' bytes (' + shown + ' ' + units[i] + ')';
+    }
+
+    function setCompare(result) {
+      if (!compareEl) return;
+      if (!result) {
+        compareEl.hidden = true;
+        compareEl.textContent = '';
+        compareEl.removeAttribute('data-state');
+        return;
+      }
+      compareEl.hidden = false;
+      compareEl.dataset.state = result.state;
+      compareEl.textContent = result.message;
+    }
+
+    function hashCurrent() {
+      var TT = window.ToyTools;
+      var mine = ++token;
+      hex = '';
+      setCompare(null);
+      if (!current) {
+        if (metaEl) metaEl.textContent = '';
+        digestEl.textContent = '';
+        if (progressEl) { progressEl.hidden = true; progressEl.textContent = ''; }
+        showNote('');
+        return;
+      }
+      if (!TT || !TT.hashBlob) return;
+      var id = algoEl.value || 'sha256';
+      if (metaEl) metaEl.textContent = current.name + ' · ' + formatBytes(current.size);
+      digestEl.textContent = '';
+      if (progressEl) { progressEl.hidden = true; progressEl.textContent = ''; }
+      showNote('');
+      TT.hashBlob(current, id, function (done, total) {
+        if (mine !== token || !progressEl || total <= SLICE) return;
+        progressEl.hidden = false;
+        progressEl.textContent = 'Hashing ' + formatBytes(done) + ' of ' + formatBytes(total) + '.';
+      }).then(function (result) {
+        if (mine !== token) return;
+        if (progressEl) { progressEl.hidden = true; progressEl.textContent = ''; }
+        if (!result.ok) {
+          digestEl.textContent = '';
+          if (result.reason === 'too-large') {
+            showNote(
+              'This file is over 32 MB. MD5, SHA-1, and SHA-512 load the whole file at once. SHA-256 hashes it in 1 MB slices.',
+              'Use SHA-256'
+            );
+          } else {
+            showNote('That algorithm is not available for this file.');
+          }
+          return;
+        }
+        hex = result.hex;
+        digestEl.textContent = result.hex;
+        if (result.empty) {
+          showNote('This file is 0 bytes. A partial download arrives empty, so this digest is the hash of nothing, not of a finished ISO.');
+        }
+        var expected = expectedEl ? expectedEl.value : '';
+        if (expected && TT.compareFileDigest) setCompare(TT.compareFileDigest(id, expected, result.hex));
+      });
+    }
+
+    fileEl.addEventListener('change', function () {
+      current = fileEl.files && fileEl.files[0] ? fileEl.files[0] : null;
+      hashCurrent();
+    });
+    algoEl.addEventListener('change', function () {
+      var TT = window.ToyTools;
+      try { if (TT && TT.storage) TT.storage.set(ALGO_KEY, algoEl.value); } catch (_) {}
+      hashCurrent();
+    });
+    if (expectedEl) expectedEl.addEventListener('input', function () {
+      var TT = window.ToyTools;
+      try { if (TT && TT.storage) TT.storage.set(EXPECT_KEY, expectedEl.value); } catch (_) {}
+      if (!hex || !TT || !TT.compareFileDigest) { setCompare(null); return; }
+      setCompare(TT.compareFileDigest(algoEl.value || 'sha256', expectedEl.value, hex));
+    });
+    if (actionEl) actionEl.addEventListener('click', function () {
+      algoEl.value = 'sha256';
+      algoEl.dispatchEvent(new Event('change'));
+    });
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var TT = window.ToyTools;
+      if (hex && TT && TT.copy) TT.copy(hex);
+    });
+
+    function boot() {
+      var TT = window.ToyTools;
+      try {
+        var savedAlgo = TT && TT.storage && TT.storage.get(ALGO_KEY);
+        if (savedAlgo) algoEl.value = savedAlgo;
+        var savedExpected = TT && TT.storage && TT.storage.get(EXPECT_KEY);
+        if (expectedEl && savedExpected) expectedEl.value = savedExpected;
+      } catch (_) {}
+      if (current) hashCurrent();
+    }
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .fh-file {
+    display: block;
+    inline-size: 100%;
+    min-block-size: var(--touch-target);
+    margin-bottom: var(--space-3);
+    font-size: 1rem;
+  }
+  .widget-label { display: block; margin-bottom: var(--space-1); }
+  #file-hash-verifier-algo,
+  #file-hash-verifier-expected { margin-bottom: var(--space-3); }
+  .fh-help { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .fh-meta { margin: 0 0 var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .fh-digest {
+    margin: 0;
+    min-block-size: 1.5em;
+    overflow-wrap: anywhere;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+  .fh-progress,
+  .fh-compare { margin: var(--space-3) 0 0; font-size: var(--text-sm); }
+  .fh-progress[hidden],
+  .fh-compare[hidden] { display: none; }
+  .fh-compare[data-state="match"] { color: var(--color-accent); }
+  .fh-compare[data-state="mismatch"],
+  .fh-compare[data-state="wrong-length"],
+  .fh-compare[data-state="unreadable"] { color: var(--color-danger); }
+</style>

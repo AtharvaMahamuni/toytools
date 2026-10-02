@@ -61,10 +61,11 @@
       "sharedWidget": "src/tools/_shared/ConverterWidget.astro",
       "supportedFamilies": [
         "checksum",
+        "file-hash",
         "identify",
         "cryptographic"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "structured-data": {
       "name": "Structured Data Engine",
@@ -1611,6 +1612,27 @@
       "pattern": "eq-design",
       "family": "equalizer",
       "processorId": "music-eq-7",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "file-hash-verifier": {
+      "name": "File Hash Verifier",
+      "dir": "src/tools/developer-utilities/file-hash-verifier",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/file-hash-verifier/",
+      "engine": "hashing",
+      "pattern": "hash",
+      "family": "file-hash",
+      "processorId": "file-hash",
       "toolGroup": "",
       "files": [
         "Guide.astro",

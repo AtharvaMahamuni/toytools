@@ -17,6 +17,7 @@ import type {
 import { md5, md5hexBytes } from './md5';
 import { sha1, sha256, sha512, shaBytes } from './sha';
 import { crc32, crc32hexBytes } from './crc32';
+import { fileHash } from './file';
 import { compareDigest } from './compare';
 import { identifyHash, verifyHash } from './identify';
 
@@ -27,6 +28,7 @@ export const HASHERS: Record<string, HashTool> = {
   sha256,
   sha512,
   crc32,
+  'file-hash': fileHash,
 };
 
 /**

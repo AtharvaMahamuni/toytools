@@ -39,6 +39,7 @@ import { items as discountCalculatorFaqs } from '@tools/number/discount-calculat
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as encodingDetectorFaqs } from '@tools/developer-utilities/encoding-detector/faq';
 import { items as equalizerSettingsGeneratorFaqs } from '@tools/music/equalizer-settings-generator/faq';
+import { items as fileHashVerifierFaqs } from '@tools/developer-utilities/file-hash-verifier/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as gearsFaqs } from '@tools/fidget/gears/faq';
@@ -189,6 +190,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'encoding-detector': encodingDetectorFaqs,
   'equalizer-settings-generator': equalizerSettingsGeneratorFaqs,
+  'file-hash-verifier': fileHashVerifierFaqs,
   'find-replace': findReplaceFaqs,
   'fraction-calculator': fractionCalculatorFaqs,
   'gears': gearsFaqs,

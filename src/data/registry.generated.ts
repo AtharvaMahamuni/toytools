@@ -39,6 +39,7 @@ import { config as discountCalculator } from '@tools/number/discount-calculator/
 import { config as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/config';
 import { config as encodingDetector } from '@tools/developer-utilities/encoding-detector/config';
 import { config as equalizerSettingsGenerator } from '@tools/music/equalizer-settings-generator/config';
+import { config as fileHashVerifier } from '@tools/developer-utilities/file-hash-verifier/config';
 import { config as findReplace } from '@tools/text/find-replace/config';
 import { config as fractionCalculator } from '@tools/math/fraction-calculator/config';
 import { config as gears } from '@tools/fidget/gears/config';
@@ -189,6 +190,7 @@ export const toolConfigs: ToolConfig[] = [
   emergencyFundCalculator,
   encodingDetector,
   equalizerSettingsGenerator,
+  fileHashVerifier,
   findReplace,
   fractionCalculator,
   gears,
