@@ -17,6 +17,12 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 
 - **The home page fills the desktop row.** Category shelves are three equal tiles from 1024px wide, and See all sits next to the category name. Tools added in the last five days appear in a wide row that advances every few seconds and pauses while the pointer or keyboard is on it. The New badge leaves after five days, on the next visit as well as the next build.
 
+### Fixed
+
+- **The six new tools have their own install icons.** Triangle, sleep, shades, file hash, type scale, and matrix no longer share the generic spark.
+- **Search keeps alias matches without growing the first download.** The name catalog is what a search fetches first. Tag and alias lists load only when the query is not already a tool name.
+- **Each of the six new guides walks one example.** Triangle checks 3-4-5, sleep shows 11:15 pm, shades show the #3b82f6 contrast note, file hash shows the empty-file digest, type scale shows a 16px base at 1.25, and matrix shows the default product.
+
 ## [beta-v12.2] - 2026-09-30
 
 ### Changed

@@ -72,6 +72,16 @@ const formatHref = toolPathBySlug('color-format-converter');
       Here the nearest stop moves with the source, and the CSS names stay put so a stylesheet
       can keep referring to --shade-500 while you try another brand.
     </p>
+    <p>
+      A 50 to 900 color palette contains the eleven named stops. Which stop is the brand stop
+      is the step whose lightness sits closest to the color you typed. Tints versus shades
+      split that ramp into a light half and a dark half. OKLCH ramps stay more even than HSL
+      steps of the same size. OKLCH lightness versus HSL lightness is the step this ramp walks.
+      This OKLCH palette generator builds a shade scale with the stop names of a
+      Tailwind color scale. The note under the row is WCAG contrast on white. For example,
+      try a familiar blue. Input: #3b82f6. Output: stop 500 on white is 4.03:1, and body
+      text needs 4.5.
+    </p>
   </section>
 
   <section id="oklch">

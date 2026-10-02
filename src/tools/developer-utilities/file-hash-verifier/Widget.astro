@@ -8,9 +8,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
     <IoPanel slot="input" label="File" variant="prose" bare>
       <div class="io-body">
-        <label class="widget-label" for="file-hash-verifier-file">Local file</label>
+        <label class="fh-label" for="file-hash-verifier-file">Local file</label>
         <input id="file-hash-verifier-file" class="fh-file" type="file" />
-        <label class="widget-label" for="file-hash-verifier-algo">Algorithm</label>
+        <label class="fh-label" for="file-hash-verifier-algo">Algorithm</label>
         <select id="file-hash-verifier-algo" class="widget-input">
           <option value="sha256" selected>SHA-256</option>
           <option value="sha512">SHA-512</option>
@@ -18,7 +18,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
           <option value="md5">MD5</option>
           <option value="crc32">CRC32</option>
         </select>
-        <label class="widget-label" for="file-hash-verifier-expected">Expected digest</label>
+        <label class="fh-label" for="file-hash-verifier-expected">Expected digest</label>
         <input
           id="file-hash-verifier-expected"
           class="widget-input"
@@ -202,7 +202,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   })();
 </script>
 
-<style>
+<style is:inline>
   .fh-file {
     display: block;
     inline-size: 100%;
@@ -210,7 +210,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     margin-bottom: var(--space-3);
     font-size: 1rem;
   }
-  .widget-label { display: block; margin-bottom: var(--space-1); }
+  .fh-label { display: block; margin-bottom: var(--space-1); }
   #file-hash-verifier-algo,
   #file-hash-verifier-expected { margin-bottom: var(--space-3); }
   .fh-help { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }

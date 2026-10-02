@@ -96,10 +96,22 @@ const INTERACTION_ASSETS: { label: string; match: RegExp | string; maxKb: number
     // half (slug + name + interned ids, measured 2.3K at 132 tools) from the term arrays (7.4K)
     // and fetch the second only when the first does not answer the query. src/lib/search/
     // corpus.test.ts pins real query -> real tool so that restructure can be proven safe.
+    // 2026-10-02: the full catalog tripped this at 172 tools (12.1KB gz), which is the window
+    // the paragraph above predicted. Terms moved to search-terms.json. This file is now the
+    // always-fetched half (slug, name, interned ids). Do not put `k` back in it.
     label: 'search index',
     match: 'search-index.json',
     maxKb: 12,
-    why: 'the catalog the palette, /search/ and /404/ fetch on first use',
+    why: 'slug and name catalog the palette, /search/ and /404/ fetch on first use',
+  },
+  {
+    // Fetched only when the query is not already a tool name. Measured 9.2KB gz on 2026-10-02
+    // with the six beta-v12.3 tools in the catalog. The cap is the term payload, not a second
+    // copy of the name catalog.
+    label: 'search terms',
+    match: 'search-terms.json',
+    maxKb: 10,
+    why: 'alias and tag lists fetched when names do not answer the query',
   },
   {
     // The modal primitive, command palette and shortcut help. Imported on the first "/", Ctrl+K,

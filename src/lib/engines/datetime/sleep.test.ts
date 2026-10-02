@@ -10,6 +10,10 @@ describe('parseClock', () => {
     expect(parseClock('7:00 pm')).toBe(19 * 60);
     expect(parseClock('12:00 am')).toBe(0);
     expect(parseClock('12:30 pm')).toBe(12 * 60 + 30);
+    expect(parseClock('24:00')).toBe(0);
+    expect(parseClock('24:01')).toBeNull();
+    expect(parseClock('7:60')).toBeNull();
+    expect(parseClock('13:00 pm')).toBeNull();
     expect(parseClock('nope')).toBeNull();
   });
 

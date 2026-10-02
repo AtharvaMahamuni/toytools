@@ -57,6 +57,54 @@ describe('matrix arithmetic', () => {
 });
 
 describe('matrix calculator', () => {
+  it('adds, subtracts, transposes, and inverts through the operation menu', () => {
+    const add = runMath('matrix', { operation: 'add', a: '1 2\n3 4', b: '5 6\n7 8' }, {});
+    expect(add.ok).toBe(true);
+    expect(add.insights?.[0]?.text).toContain('1 + 5 = 6');
+
+    const sub = runMath('matrix', { operation: 'subtract', a: '5 6\n7 8', b: '1 2\n3 4' }, {});
+    expect(sub.ok).toBe(true);
+    expect(sub.insights?.[0]?.text).toContain('5 - 1 = 4');
+
+    const flip = runMath('matrix', { operation: 'transpose', a: '1 2 3\n4 5 6', b: '' }, {});
+    expect(flip.ok).toBe(true);
+    expect(flip.hero?.raw).toBe(1);
+
+    const det = runMath('matrix', { operation: 'determinant', a: '1 2\n3 4', b: '' }, {});
+    expect(det.hero?.raw).toBe(-2);
+
+    const inv = runMath('matrix', { operation: 'inverse', a: '1 2\n3 4', b: '' }, {});
+    expect(inv.ok).toBe(true);
+    expect(inv.hero?.raw).toBe(-2);
+  });
+
+  it('names a shape mismatch and a bad paste', () => {
+    const mismatch = runMath('matrix', { operation: 'add', a: '1 2\n3 4', b: '1 2 3' }, {});
+    expect(mismatch.ok).toBe(false);
+    if (mismatch.ok) return;
+    expect(mismatch.error).toContain('same shape');
+
+    const bigDet = runMath('matrix', { operation: 'determinant', a: '1 2 3\n0 1 4\n5 6 0', b: '' }, {});
+    expect(bigDet.ok).toBe(true);
+    const swapped = parseMatrix('0 1\n1 0', 'A');
+    if (swapped.ok) expect(determinant(swapped.matrix)).toBe(-1);
+
+    const ragged = parseMatrix('1 2\n3', 'A');
+    expect(ragged.ok).toBe(false);
+    const word = parseMatrix('1 x', 'A');
+    expect(word.ok).toBe(false);
+    const empty = parseMatrix('   ', 'B');
+    expect(empty.ok).toBe(false);
+    const wide = parseMatrix('1 2 3 4 5 6 7 8 9', 'A');
+    expect(wide.ok).toBe(false);
+    const flat = parseMatrix('1 2 3', 'A');
+    expect(flat.ok).toBe(true);
+    if (flat.ok) {
+      expect(determinant(flat.matrix)).toMatch(/square/);
+      expect(inverse(flat.matrix)).toMatch(/square/);
+    }
+  });
+
   it('returns the product and a worked first step', () => {
     const res = runMath('matrix', {
       operation: 'multiply',

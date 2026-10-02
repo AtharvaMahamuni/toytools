@@ -40,6 +40,28 @@ describe('solveTriangle', () => {
     expect(first.C + second.C).toBeCloseTo(120, 4);
   });
 
+  it('solves SAS from either included angle', () => {
+    const fromA = solveTriangle({ ...blank, b: 3, c: 4, A: 90 });
+    const fromB = solveTriangle({ ...blank, a: 3, c: 4, B: 90 });
+    expect('error' in fromA || 'error' in fromB).toBe(false);
+    if ('error' in fromA || 'error' in fromB) return;
+    expect(fromA.kind).toBe('SAS');
+    expect(fromB.kind).toBe('SAS');
+    expect(fromA.solutions[0].a).toBeCloseTo(5, 6);
+    expect(fromB.solutions[0].b).toBeCloseTo(5, 6);
+  });
+
+  it('solves ASA and AAS from two angles and one side', () => {
+    const asa = solveTriangle({ ...blank, A: 40, B: 60, c: 10 });
+    const aas = solveTriangle({ ...blank, A: 40, B: 60, a: 10 });
+    expect('error' in asa || 'error' in aas).toBe(false);
+    if ('error' in asa || 'error' in aas) return;
+    expect(asa.kind).toBe('ASA');
+    expect(aas.kind).toBe('AAS');
+    expect(asa.solutions[0].C).toBeCloseTo(80, 6);
+    expect(aas.solutions[0].C).toBeCloseTo(80, 6);
+  });
+
   it('rejects three angles, a short SSA side, and the wrong number of parts', () => {
     expect(solveTriangle({ ...blank, A: 60, B: 60, C: 60 })).toEqual({
       error: 'Three angles fix the shape, not the size. Add a side, or clear one angle.',
@@ -48,6 +70,10 @@ describe('solveTriangle', () => {
     expect('error' in miss && miss.error.startsWith('No triangle')).toBe(true);
     expect(solveTriangle({ ...blank, a: 3, b: 4 }).error).toMatch(/any three parts/);
     expect(solveTriangle({ ...blank, a: 3, b: 4, c: 5, C: 90 }).error).toMatch(/exactly three parts/);
+    expect(solveTriangle({ ...blank, a: 2, b: 3, c: 6 }).error).toMatch(/cannot form a triangle/);
+    expect(solveTriangle({ ...blank, A: 100, B: 90, c: 5 }).error).toMatch(/180 degrees or more/);
+    expect(solveTriangle({ ...blank, a: 3, b: 4, C: 180 }).error).toMatch(/between 0 and 180/);
+    expect(solveTriangle({ ...blank, A: 120, a: 9, b: 10 }).error).toMatch(/longest side/);
   });
 });
 

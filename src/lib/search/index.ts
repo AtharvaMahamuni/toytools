@@ -2,8 +2,11 @@
 //
 //   buildSearchIndex()  — the full architectural document set (every field, human sized names).
 //                         Consumed by scripts/platform-health.ts for coverage reporting.
-//   buildClientIndex()  — the compact wire format served as dist/search-index.json and consumed
-//                         by the nav palette, /search/ and /404/.
+//   buildClientIndex()  — the full compact catalog, including per-tool terms. Tests and the
+//                         in-process ranker use this. It is not what the browser fetches.
+//   buildCatalogWire()  — slug, name, and interned ids only. Served as dist/search-index.json.
+//   buildSearchTerms()  — the term lists, one array per catalog entry, same order. Served as
+//                         dist/search-terms.json and fetched only when names do not answer.
 //
 // Both are derived from the registry, so neither can drift from the catalog.
 
@@ -101,4 +104,26 @@ export function buildClientIndex(): ClientIndex {
   // withBase('/') is '/' locally and '/toytools/' under a base path; the client wants the prefix
   // with no trailing slash so it can concatenate directly.
   return { b: withBase('/').replace(/\/$/, ''), g: segments, c: categoryNames, t: entries };
+}
+
+/**
+ * The always-fetched half of the catalog. Terms are the part that grows with every alias, so
+ * they ride in buildSearchTerms() and the browser fetches them only when a query is not already
+ * a tool name. Omitting `k` here (rather than sending empty arrays) is the whole saving.
+ */
+export function buildCatalogWire(): Omit<ClientIndex, 't'> & {
+  t: { s: string; n: string; g: number; c: number }[];
+} {
+  const full = buildClientIndex();
+  return {
+    b: full.b,
+    g: full.g,
+    c: full.c,
+    t: full.t.map(({ s, n, g, c }) => ({ s, n, g, c })),
+  };
+}
+
+/** Term lists aligned with buildCatalogWire().t. An empty list is a tool whose name is enough. */
+export function buildSearchTerms(): string[][] {
+  return buildClientIndex().t.map((entry) => entry.k);
 }

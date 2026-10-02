@@ -253,6 +253,17 @@ const idHref = toolPathBySlug('hash-identifier');
       line on a large SHA-256 run is there so you can see the read finish
       before you read the hex.
     </p>
+    <p>
+      A sha256sum line is shaped as the digest, then spaces, then a filename. MD5 versus
+      SHA-256 for a download starts as 32 hex characters versus 64. CRC32 versus a
+      cryptographic hash is a bit-flip check beside a collision-resistant one. File checksums
+      are those published lines. You hash a file online in this tab, and the bytes stay here.
+      The job is to verify download checksum text against the saved bytes. An md5 file hash
+      browser case is the 32-character line. A checksum uploaded file would leave the machine,
+      and this page keeps the bytes local. Download verification is the Matches line. For
+      example, hash an empty file. Input: 0 bytes. Output:
+      e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 for SHA-256.
+    </p>
     <ReferenceBlock type="common-mistake" heading="Calling a short file a bad mirror">
       <p>
         Compare the byte count with the size the publisher printed. A mismatch

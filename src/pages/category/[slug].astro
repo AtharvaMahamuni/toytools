@@ -5,6 +5,7 @@ import { generatePageTitle } from '../../lib/titles';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import CategoryToolList from '@components/CategoryToolList.astro';
 import CategoryGuideList from '@components/CategoryGuideList.astro';
+import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { engineRegistry } from '@data/engines';
@@ -117,6 +118,7 @@ const breadcrumbSchema = {
     </section>
   )}
   <CategoryGuideList category={category} tools={categoryTools} />
+  <NewBadgeExpiry />
 </BaseLayout>
 
 <style>

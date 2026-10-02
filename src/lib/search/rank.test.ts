@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { boundedDistance, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
-import { buildClientIndex, entryUrl } from './index';
+import { boundedDistance, namesAnswer, normalizeQuery, queryWords, scoreEntry, rankEntries } from './rank';
+import { buildCatalogWire, buildClientIndex, buildSearchTerms, entryUrl } from './index';
 import { searchAliases } from '@data/search-aliases';
 
 const entry = (n: string, k: string[] = []) => ({ n, k });
@@ -217,7 +217,6 @@ describe('buildClientIndex', () => {
   });
 
   it('stays small enough to fetch on an interaction', () => {
-    const bytes = Buffer.byteLength(JSON.stringify(index), 'utf8');
     // 2026-09-08: 40_000 → 41_000. A new client-index entry is ~170 bytes even with a thin
     // keyword list (slug, name, interned category, family). Switch Board is the 121st
     // widget-backed tool and the previous slack is gone. Trim k terms first; do not raise
@@ -247,6 +246,23 @@ describe('buildClientIndex', () => {
     // ~43_3xx after trim. Catalog growth, not alias bloat.
     // 2026-09-25: 43_400 → 44_700. Six Prep for a model tools. Measured 44_482.
     // Catalog growth, not alias bloat.
-    expect(bytes).toBeLessThan(44_700);
+    // 2026-10-02: six more tools put the full catalog at 45_508 raw and 12.1KB gzip, past both
+    // ceilings. The terms moved to search-terms.json instead of another raise. This assertion
+    // is now the always-fetched half (slug, name, interned ids), which is what a search fetches
+    // before it knows the query needs aliases.
+    // Measured 11_811 raw bytes (2.99KB gzip) on 2026-10-02.
+    const wire = Buffer.byteLength(JSON.stringify(buildCatalogWire()), 'utf8');
+    expect(wire).toBeLessThan(13_000);
+    expect(JSON.stringify(buildCatalogWire())).not.toContain('"k"');
+  });
+
+  it('keeps search terms aligned with the catalog and out of the name file', () => {
+    const wire = buildCatalogWire();
+    const terms = buildSearchTerms();
+    expect(terms).toHaveLength(wire.t.length);
+    const merged = wire.t.map((entry, i) => ({ ...entry, k: terms[i]! }));
+    expect(namesAnswer(merged, 'Word Counter')).toBe(true);
+    expect(namesAnswer(merged, 'law of sines')).toBe(false);
+    expect(rankEntries(merged, 'law of sines', 1)[0]?.s).toBe('triangle-solver');
   });
 });

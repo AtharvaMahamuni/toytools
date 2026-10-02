@@ -11,13 +11,13 @@
  * Nothing here may import the registry: see src/lib/search/types.ts.
  */
 
-import { rankEntries } from './search/rank';
+import { namesAnswer, rankEntries } from './search/rank';
 import { entryUrl, entryCategory, type ClientIndex, type SearchEntry } from './search/types';
 
 // /search/ and /404/ import these from here rather than from ./search/rank directly. That keeps
 // every consumer on ONE chunk, so the ceiling in check-budget measures all of this code instead of
 // whichever slice Rollup happened to leave behind after splitting.
-export { rankEntries } from './search/rank';
+export { namesAnswer, rankEntries } from './search/rank';
 export { entryUrl, entryCategory } from './search/types';
 
 const MAX_RESULTS = 8;
@@ -110,16 +110,64 @@ export function closeSheet(): void {
 
 let indexPromise: Promise<ClientIndex | null> | null = null;
 
+function catalogBase(): string {
+  // A bundled module, so Vite inlines BASE_URL at build time (empty locally, "/toytools/" under
+  // a base path). withBase() is a server function and must not be called from here.
+  return (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+}
+
 export function loadIndex(): Promise<ClientIndex | null> {
   if (!indexPromise) {
-    // A bundled module, so Vite inlines BASE_URL at build time (empty locally, "/toytools/" under
-    // a base path). withBase() is a server function and must not be called from here.
-    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-    indexPromise = fetch(`${base}/search-index.json`)
+    indexPromise = fetch(`${catalogBase()}/search-index.json`)
       .then((r) => (r.ok ? (r.json() as Promise<ClientIndex>) : null))
+      .then((raw) => {
+        if (!raw?.t) return null;
+        // The wire catalog omits k. Ranking reads k, so an absent list is an empty one
+        // until rankCatalog fills it from search-terms.json.
+        for (const entry of raw.t) if (!entry.k) entry.k = [];
+        return raw;
+      })
       .catch(() => null);
   }
   return indexPromise;
+}
+
+let termsPromise: Promise<void> | null = null;
+
+function attachTerms(index: ClientIndex): Promise<void> {
+  if (index.t.some((entry) => entry.k.length > 0)) return Promise.resolve();
+  if (!termsPromise) {
+    termsPromise = fetch(`${catalogBase()}/search-terms.json`)
+      .then((r) => (r.ok ? (r.json() as Promise<string[][]>) : null))
+      .then((terms) => {
+        if (!Array.isArray(terms) || terms.length !== index.t.length) return;
+        for (let i = 0; i < index.t.length; i++) {
+          const row = terms[i];
+          const entry = index.t[i];
+          if (entry && Array.isArray(row)) entry.k = row;
+        }
+      })
+      .catch(() => undefined);
+  }
+  return termsPromise;
+}
+
+/**
+ * Rank a loaded catalog. Names travel with the first fetch. Terms are a second fetch, and only
+ * when the query is not already a tool's name: an alias such as "law of sines" cannot win on
+ * the name alone, and a query that is exactly "Word Counter" can.
+ */
+export async function rankCatalog(
+  index: ClientIndex,
+  query: string,
+  limit?: number,
+): Promise<SearchEntry[]> {
+  const trimmed = query.trim();
+  if (!trimmed) return [];
+  if (index.t.every((entry) => entry.k.length === 0) && !namesAnswer(index.t, trimmed)) {
+    await attachTerms(index);
+  }
+  return rankEntries(index.t, trimmed, limit);
 }
 
 // ── Recents and favourites, read straight from storage ─────────────────────────────────────────
@@ -259,7 +307,7 @@ async function render(query: string): Promise<void> {
   const trimmed = query.trim();
   let hints: string[] = [];
   if (trimmed) {
-    rendered = rankEntries(index.t, trimmed, MAX_RESULTS);
+    rendered = await rankCatalog(index, trimmed, MAX_RESULTS);
     hints = rendered.map((e) => entryCategory(index, e));
   } else {
     const picks = suggestions(index);
