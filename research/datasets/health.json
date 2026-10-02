@@ -201,6 +201,10 @@
       "searchQueries": ["sleep calculator", "sleep cycle calculator", "what time should i go to bed", "bedtime calculator", "90 minute sleep cycles"],
       "existingSolutions": ["sleepfoundation.org", "sleepyti.me", "calculator.net"],
       "solutionWeaknesses": ["ad heavy", "no wake-time and bed-time in one view", "ignores time to fall asleep"],
+      "userFailures": [
+        "A 90 minute cycle counted backward from the alarm ignores the 15 minutes it takes to fall asleep, so the alarm lands mid-cycle.",
+        "Latency left at zero is treated as a real plan, and the list never says it assumes instant sleep."
+      ],
       "relatedProblems": ["sleep latency allowance", "nap length", "wake window planning"],
       "relatedTools": ["move-today-tracker"],
       "demand": 78,

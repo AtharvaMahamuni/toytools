@@ -190,7 +190,10 @@ const THRESHOLDS = {
   // 2026-10-02: 0.705 (103/146). Triangle Solver ships orientation craft triangle-ssa-pair.
   //   SSA can fit two triangles. The acute answer is drawn solid and the obtuse one dashed,
   //   and the second line stays quiet when only one triangle exists.
-  coverage: 0.705,
+  // 2026-10-02: 0.707 (104/147). Sleep Cycle Calculator ships guardrail craft sleep-latency.
+  //   A cycle counted from lights-out ignores the minutes it takes to fall asleep.
+  //   Zero latency says the list assumes instant sleep, and a non-zero latency stays quiet.
+  coverage: 0.707,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

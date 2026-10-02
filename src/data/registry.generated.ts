@@ -117,6 +117,7 @@ import { config as sha512HashGenerator } from '@tools/developer-utilities/sha512
 import { config as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/config';
 import { config as shopUpiTally } from '@tools/finance/shop-upi-tally/config';
 import { config as sipCalculator } from '@tools/finance/sip-calculator/config';
+import { config as sleepCycleCalculator } from '@tools/datetime/sleep-cycle-calculator/config';
 import { config as slime } from '@tools/fidget/slime/config';
 import { config as slugifyText } from '@tools/text/slugify-text/config';
 import { config as snakeCaseConverter } from '@tools/text/snake-case-converter/config';
@@ -265,6 +266,7 @@ export const toolConfigs: ToolConfig[] = [
   shellQuoteEscalator,
   shopUpiTally,
   sipCalculator,
+  sleepCycleCalculator,
   slime,
   slugifyText,
   snakeCaseConverter,

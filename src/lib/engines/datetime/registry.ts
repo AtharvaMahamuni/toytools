@@ -12,6 +12,7 @@ import { timezoneConverter } from './calculators/timezone';
 import { unixTimestampConverter } from './calculators/unix-timestamp';
 import { cronExpressionParser } from './calculators/cron';
 import { systemdTimerConverter } from './calculators/systemd-timer';
+import { sleepCalculator } from './calculators/sleep';
 
 export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'age': ageCalculator,
@@ -20,6 +21,7 @@ export const DATETIME_TOOLS: Record<string, DateTimeTool> = {
   'unix-timestamp': unixTimestampConverter,
   'cron': cronExpressionParser,
   'systemd-timer': systemdTimerConverter,
+  'sleep': sleepCalculator,
 };
 
 /**

@@ -117,6 +117,7 @@ import { items as sha512HashGeneratorFaqs } from '@tools/developer-utilities/sha
 import { items as shellQuoteEscalatorFaqs } from '@tools/developer-utilities/shell-quote-escalator/faq';
 import { items as shopUpiTallyFaqs } from '@tools/finance/shop-upi-tally/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
+import { items as sleepCycleCalculatorFaqs } from '@tools/datetime/sleep-cycle-calculator/faq';
 import { items as slimeFaqs } from '@tools/fidget/slime/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
@@ -265,6 +266,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'shell-quote-escalator': shellQuoteEscalatorFaqs,
   'shop-upi-tally': shopUpiTallyFaqs,
   'sip-calculator': sipCalculatorFaqs,
+  'sleep-cycle-calculator': sleepCycleCalculatorFaqs,
   'slime': slimeFaqs,
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,

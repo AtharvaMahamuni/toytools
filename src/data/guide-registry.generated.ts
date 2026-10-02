@@ -117,6 +117,7 @@ export const authoredGuideSlugs = [
   'shell-quote-escalator',
   'shop-upi-tally',
   'sip-calculator',
+  'sleep-cycle-calculator',
   'slime',
   'slugify-text',
   'snake-case-converter',

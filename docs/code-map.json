@@ -231,10 +231,11 @@
         "age",
         "schedule",
         "duration",
+        "sleep",
         "timezone",
         "timestamp"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "math-lab": {
       "name": "Math Lab Engine",
@@ -3248,6 +3249,27 @@
       "family": "savings",
       "processorId": "sip",
       "toolGroup": "growth-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "sleep-cycle-calculator": {
+      "name": "Sleep Cycle Calculator",
+      "dir": "src/tools/datetime/sleep-cycle-calculator",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/sleep-cycle-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "sleep",
+      "processorId": "sleep",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

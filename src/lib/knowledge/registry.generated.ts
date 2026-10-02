@@ -117,6 +117,7 @@ import { knowledge as sha512HashGenerator } from '@tools/developer-utilities/sha
 import { knowledge as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/knowledge';
 import { knowledge as shopUpiTally } from '@tools/finance/shop-upi-tally/knowledge';
 import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowledge';
+import { knowledge as sleepCycleCalculator } from '@tools/datetime/sleep-cycle-calculator/knowledge';
 import { knowledge as slime } from '@tools/fidget/slime/knowledge';
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
@@ -265,6 +266,7 @@ export const authoredKnowledge: Knowledge[] = [
   shellQuoteEscalator,
   shopUpiTally,
   sipCalculator,
+  sleepCycleCalculator,
   slime,
   slugifyText,
   snakeCaseConverter,

@@ -7,6 +7,24 @@ import type { DateTimeInput } from './types';
 
 export const DATETIME_EXAMPLES: WorkedExample<DateTimeInput>[] = [
   {
+    id: 'sleep-wake-7am',
+    engine: 'datetime',
+    ref: 'sleep',
+    title: 'Wake at 7:00 am',
+    inputs: { direction: 'wake', time: '07:00', latency: 15, cycle: 90 },
+    expect: { recommended: 23 * 60 + 15, 'cycle-6': 21 * 60 + 45, 'cycle-4': 45, 'cycle-3': 2 * 60 + 15 },
+    narrative: 'Waking at 7:00 with 15 minutes to fall asleep and 90 minute cycles puts a 5-cycle bedtime at 11:15 pm.',
+  },
+  {
+    id: 'sleep-bed-1030',
+    engine: 'datetime',
+    ref: 'sleep',
+    title: 'Into bed at 10:30 pm',
+    inputs: { direction: 'sleep', time: '10:30 pm', latency: 15, cycle: 90 },
+    expect: { recommended: 6 * 60 + 15 },
+    narrative: 'Getting into bed at 10:30 pm, then 15 minutes to fall asleep and five 90 minute cycles, wakes you at 6:15 am.',
+  },
+  {
     id: 'age-basic',
     engine: 'datetime',
     ref: 'age',
