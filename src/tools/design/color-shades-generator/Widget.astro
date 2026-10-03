@@ -80,6 +80,10 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       if (!result.ok) {
         errEl.hidden = false;
         errEl.textContent = result.error || 'That is not a color.';
+        css = '';
+        cssEl.textContent = '';
+        showNote('');
+        scaleEl.replaceChildren();
         return;
       }
       errEl.hidden = true;

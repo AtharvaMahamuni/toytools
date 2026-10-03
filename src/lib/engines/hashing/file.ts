@@ -44,7 +44,7 @@ export interface FileHashResult {
 
 export interface FileHashLimited {
   ok: false;
-  reason: 'too-large' | 'unsupported';
+  reason: 'too-large' | 'unsupported' | 'unreadable';
   id: string;
   bytes: number;
 }
@@ -60,6 +60,19 @@ export async function hashBlob(
   if (!SLICED.has(id) && total > FILE_ONESHOT_LIMIT) {
     return { ok: false, reason: 'too-large', id, bytes: total };
   }
+  try {
+    return await readBlob(blob, id, total, onProgress);
+  } catch {
+    return { ok: false, reason: 'unreadable', id, bytes: total };
+  }
+}
+
+async function readBlob(
+  blob: Blob,
+  id: string,
+  total: number,
+  onProgress?: (done: number, total: number) => void,
+): Promise<FileHashOutcome> {
   if (id === 'sha256' || id === 'crc32') {
     const sha = id === 'sha256' ? createSha256() : null;
     let crc = crc32Start();

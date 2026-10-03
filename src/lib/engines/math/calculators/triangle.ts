@@ -81,8 +81,16 @@ function solveSSS(a: number, b: number, c: number): SolvedTriangle | string {
   }
   const A = angleByCosine(b, c, a);
   const B = angleByCosine(a, c, b);
-  const C = tidy(180 - A - B);
+  const C = 180 - A - B;
   return { a, b, c, A, B, C };
+}
+
+/** Round A and B the way the page prints them, then make C the remainder so the three add to 180. */
+function present(t: SolvedTriangle): SolvedTriangle {
+  const A = tidy(t.A);
+  const B = tidy(t.B);
+  const C = tidy(180 - A - B);
+  return { ...t, A, B, C };
 }
 
 /** Angle X, opposite side x, other side y. Returns one or two triangles in the a/b/c frame. */
@@ -254,11 +262,12 @@ export const triangleCalculator: MathCalculator = {
     const solved = solveTriangle(parsed);
     if ('error' in solved) return validationError(solved.error);
 
-    const primary = solved.solutions[0];
-    const ambiguous = solved.solutions.length === 2;
+    const solutions = solved.solutions.map(present);
+    const primary = solutions[0];
+    const ambiguous = solutions.length === 2;
     const right = [primary.A, primary.B, primary.C].some((d) => Math.abs(tidy(d) - 90) < 0.05);
     const hero = card('solutions', ambiguous ? 'Two triangles' : right ? 'Right triangle' : `${solved.kind} triangle`, ambiguous ? '2' : '1', {
-      raw: solved.solutions.length,
+      raw: solutions.length,
       emphasis: 'hero',
       note: ambiguous
         ? 'SSA fits two shapes. The dashed figure is the second one.'
@@ -269,7 +278,7 @@ export const triangleCalculator: MathCalculator = {
       insight(`${solved.kind}: side a ${fmt(primary.a)}, b ${fmt(primary.b)}, c ${fmt(primary.c)}.`),
     ];
     if (ambiguous) {
-      const alt = solved.solutions[1];
+      const alt = solutions[1];
       insights.push(
         insight(
           `The same two sides and non-included angle also fit a second triangle: A ${fmt(alt.A)}°, B ${fmt(alt.B)}°, C ${fmt(alt.C)}°, sides ${fmt(alt.a)}, ${fmt(alt.b)}, ${fmt(alt.c)}. A solver that prints only the first set hides this one.`,
@@ -282,7 +291,7 @@ export const triangleCalculator: MathCalculator = {
       hero,
       metrics: partCards(primary),
       insights,
-      visualization: figure(solved.solutions, solved.kind),
+      visualization: figure(solutions, solved.kind),
       assumptions: [
         assumption('Angle unit', 'degrees'),
         assumption('Side names', 'a opposite A, b opposite B, c opposite C'),

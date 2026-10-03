@@ -116,15 +116,25 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       compareEl.textContent = result.message;
     }
 
+    function clearRead() {
+      hex = '';
+      digestEl.textContent = '';
+      if (metaEl) metaEl.textContent = '';
+      if (progressEl) { progressEl.hidden = true; progressEl.textContent = ''; }
+    }
+
+    function showUnreadable() {
+      clearRead();
+      showNote('That file could not be read. Pick it again if it moved or the browser blocked it.');
+    }
+
     function hashCurrent() {
       var TT = window.ToyTools;
       var mine = ++token;
       hex = '';
       setCompare(null);
       if (!current) {
-        if (metaEl) metaEl.textContent = '';
-        digestEl.textContent = '';
-        if (progressEl) { progressEl.hidden = true; progressEl.textContent = ''; }
+        clearRead();
         showNote('');
         return;
       }
@@ -143,7 +153,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         if (progressEl) { progressEl.hidden = true; progressEl.textContent = ''; }
         if (!result.ok) {
           digestEl.textContent = '';
-          if (result.reason === 'too-large') {
+          if (result.reason === 'unreadable') {
+            showUnreadable();
+          } else if (result.reason === 'too-large') {
             showNote(
               'This file is over 32 MB. MD5, SHA-1, and SHA-512 load the whole file at once. SHA-256 hashes it in 1 MB slices.',
               'Use SHA-256'
@@ -160,6 +172,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         }
         var expected = expectedEl ? expectedEl.value : '';
         if (expected && TT.compareFileDigest) setCompare(TT.compareFileDigest(id, expected, result.hex));
+      }).catch(function () {
+        if (mine !== token) return;
+        showUnreadable();
       });
     }
 

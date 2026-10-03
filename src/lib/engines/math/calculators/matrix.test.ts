@@ -22,6 +22,17 @@ describe('matrix arithmetic', () => {
     expect(message).toBe('A is 2×3 and B is 2×3. Multiply needs the inner sizes to match.');
   });
 
+  it('keeps a tiny typed entry instead of snapping it to zero', () => {
+    const parsed = parseMatrix('1e-9 0\n0 1', 'A');
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    expect(parsed.matrix[0][0]).toBe(1e-9);
+    expect(determinant(parsed.matrix)).not.toBe(0);
+    expect(tidy(1e-9)).toBe(1e-9);
+    expect(tidy(0.1 + 0.2)).toBe(0.3);
+    expect(tidy(1.000000001)).toBe(1);
+  });
+
   it('tidies 0.1 + 0.2', () => {
     const a = parseMatrix('0.1 0.2', 'A');
     const b = parseMatrix('1\n1', 'B');

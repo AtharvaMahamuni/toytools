@@ -15,11 +15,13 @@ const EPS = 1e-10;
 
 export type Matrix = number[][];
 
+/** Drop binary noise around an integer. A value already near zero stays, so 1e-9 is not rewritten to 0. */
 export function tidy(n: number): number {
   if (!Number.isFinite(n)) return n;
-  const rounded = Math.round(n * 1e10) / 1e10;
+  const rounded = Math.round(n * 1e12) / 1e12;
   const nearest = Math.round(rounded);
-  if (Math.abs(rounded - nearest) < 1e-8) return nearest;
+  if (nearest === 0) return Math.abs(rounded) < 1e-12 ? 0 : rounded;
+  if (Math.abs(rounded - nearest) < 1e-8 * Math.abs(nearest)) return nearest;
   return Math.round(rounded * 1e8) / 1e8;
 }
 
@@ -59,7 +61,7 @@ export function parseMatrix(raw: string, name: string): { ok: true; matrix: Matr
   if (rows.length > MAX || width > MAX) {
     return { ok: false, error: `${name} is ${rows.length}×${width}. Keep each matrix at 8 by 8 or smaller.` };
   }
-  return { ok: true, matrix: rows.map((row) => row.map(tidy)) };
+  return { ok: true, matrix: rows };
 }
 
 export function multiply(a: Matrix, b: Matrix): Matrix | string {

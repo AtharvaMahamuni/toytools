@@ -78,6 +78,18 @@ describe('solveTriangle', () => {
 });
 
 describe('triangle calculator', () => {
+  it('prints angles that add to 180 after rounding', () => {
+    const res = runMath('triangle', { a: 1, b: 3, c: 3, A: '', B: '', C: '' }, {});
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    const note = res.hero?.note ?? '';
+    const shown = [...note.matchAll(/(\d+(?:\.\d+)?)°/g)].map((match) => Number(match[1]));
+    expect(shown).toEqual([19.19, 80.41, 80.4]);
+    expect(shown.reduce((sum, angle) => sum + angle, 0)).toBeCloseTo(180, 8);
+    const raw = res.metrics.filter((metric) => metric.id.startsWith('angle-')).map((metric) => metric.raw);
+    expect(raw).toEqual(shown);
+  });
+
   it('names the second triangle in the result when SSA is ambiguous', () => {
     const res = runMath('triangle', { a: 7, b: 10, c: '', A: 30, B: '', C: '' }, {});
     expect(res.uiState).toBe('success');

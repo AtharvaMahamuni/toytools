@@ -22,6 +22,10 @@ All notable changes to ToyTools are documented here. The format is based on [Kee
 - **The six new tools have their own install icons.** Triangle, sleep, shades, file hash, type scale, and matrix no longer share the generic spark.
 - **Search keeps alias matches without growing the first download.** The name catalog is what a search fetches first. Tag and alias lists load only when the query is not already a tool name.
 - **Each of the six new guides walks one example.** Triangle checks 3-4-5, sleep shows 11:15 pm, shades show the #3b82f6 contrast note, file hash shows the empty-file digest, type scale shows a 16px base at 1.25, and matrix shows the default product.
+- **Triangle Solver angles add to 180.** Rounding no longer leaves a 1-3-3 triangle at 180.01°.
+- **File Hash Verifier reports a file it cannot read.** The page no longer keeps the filename beside a blank digest.
+- **Matrix Calculator keeps a very small typed entry.** A value such as 1e-9 is not rewritten to 0 before the arithmetic.
+- **A bad color or type scale clears the previous result.** Copy CSS no longer copies a ramp that does not match the field.
 
 ## [beta-v12.2] - 2026-09-30
 

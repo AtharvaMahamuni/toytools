@@ -19,8 +19,10 @@ interface Props {
   emptyText: string;
   layout?: SectionId[];
   capabilities?: Partial<Capabilities>;
-  /** Optional tool craft id, attached to the visualization section when present. */
+  /** Optional tool craft id. `craftOn` chooses which shell node carries it. */
   craftId?: string;
+  /** Chart, the sentence under the hero, or the empty/error line. One node only. */
+  craftOn?: 'visualization' | 'hero-note' | 'empty';
   /**
    * `ledger` is the calculator statement (platform default): the number, a few
    * rows and one insight stay open; workings fold into one disclosure.
@@ -35,8 +37,11 @@ const {
   layout = DEFAULT_LAYOUT,
   capabilities = {},
   craftId,
+  craftOn = 'visualization',
   density = 'ledger',
 } = Astro.props;
+const craftFor = (slot: 'visualization' | 'hero-note' | 'empty') =>
+  craftId && craftOn === slot ? craftId : undefined;
 const caps: Capabilities = { ...DEFAULT_CAPABILITIES, ...capabilities };
 const heroId = `${idPrefix}-hero`;
 const ledger = density === 'ledger';
@@ -54,13 +59,13 @@ const ledger = density === 'ledger';
     data-cap-comparison={String(caps.comparison)}
     data-cap-visualization={String(caps.visualization)}
   >
-    <p class="experience-empty empty-hint" data-experience-empty role="status" aria-live="polite">{emptyText}</p>
+    <p class="experience-empty empty-hint" data-experience-empty data-craft={craftFor('empty')} role="status" aria-live="polite">{emptyText}</p>
 
     <div class="experience-sections" data-experience-sections hidden>
       <div class="tm-hero experience-section" data-section="hero" role="status" aria-live="polite" aria-atomic="true" hidden>
         <span class="hero-value" id={heroId} data-hero-value>0</span>
         <span class="hero-label" data-hero-label></span>
-        <p class="hero-note" data-hero-note hidden></p>
+        <p class="hero-note" data-hero-note data-craft={craftFor('hero-note')} hidden></p>
         <p class="hero-delta" id={`${idPrefix}-delta`} hidden></p>
         <div class="hero-spark" id={`${idPrefix}-spark`} hidden></div>
       </div>
@@ -69,7 +74,7 @@ const ledger = density === 'ledger';
         <dl class="tm-stats tm-secondary" aria-live="off"></dl>
       </div>
 
-      <div class="experience-section experience-viz" data-section="visualization" data-craft={craftId} hidden>
+      <div class="experience-section experience-viz" data-section="visualization" data-craft={craftFor('visualization')} hidden>
         <div class="viz-mount" data-viz></div>
         <p class="viz-caption" data-viz-caption hidden></p>
       </div>

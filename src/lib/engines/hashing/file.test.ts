@@ -69,6 +69,26 @@ describe('hashBlob', () => {
     expect(out).toEqual({ ok: false, reason: 'too-large', id: 'md5', bytes: FILE_ONESHOT_LIMIT + 1 });
   });
 
+  it('returns unreadable when a slice cannot be read', async () => {
+    const fake = {
+      size: 4,
+      slice: () => ({ arrayBuffer: () => Promise.reject(new Error('NotReadableError')) }),
+      arrayBuffer: () => Promise.reject(new Error('NotReadableError')),
+    } as unknown as Blob;
+    await expect(hashBlob(fake, 'sha256')).resolves.toEqual({
+      ok: false,
+      reason: 'unreadable',
+      id: 'sha256',
+      bytes: 4,
+    });
+    await expect(hashBlob(fake, 'md5')).resolves.toEqual({
+      ok: false,
+      reason: 'unreadable',
+      id: 'md5',
+      bytes: 4,
+    });
+  });
+
   it('reports progress across slices', async () => {
     const calls: number[] = [];
     const blob = new Blob([enc('abc')]);

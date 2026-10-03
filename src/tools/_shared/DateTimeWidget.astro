@@ -22,13 +22,13 @@ interface Props {
   config: ToolConfig;
   emptyText?: string;
   /**
-   * Attach the tool's craft id to the result chart. Leave this off when the
-   * widget draws its own data-craft element, or the page carries two.
+   * Where the craft id sits. Leave this off when the widget draws its own
+   * data-craft element, or the page carries two.
    */
-  craftOnViz?: boolean;
+  craftOn?: 'visualization' | 'hero-note';
 }
 
-const { slug, dateTimeId, config, emptyText, craftOnViz = false } = Astro.props;
+const { slug, dateTimeId, config, emptyText, craftOn } = Astro.props;
 
 // Shareable-link mode, decided at build time from the registry (src/lib/url-state.ts).
 // "auto" syncs the address bar as you type; "manual" only builds a link when asked.
@@ -65,7 +65,8 @@ const resolvedEmpty = emptyText ?? 'Enter your dates to calculate.';
       emptyText={resolvedEmpty}
       layout={tool?.layout}
       capabilities={caps}
-      craftId={craftOnViz ? config.craft?.id : undefined}
+      craftId={craftOn ? config.craft?.id : undefined}
+      craftOn={craftOn}
     />
   </ToolSplit>
 </div>

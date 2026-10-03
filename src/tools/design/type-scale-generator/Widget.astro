@@ -81,6 +81,9 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         errEl.hidden = false;
         errEl.textContent = result.error || 'Enter a base size.';
         css = '';
+        cssEl.textContent = '';
+        showNote('');
+        scaleEl.replaceChildren();
         return;
       }
       errEl.hidden = true;
