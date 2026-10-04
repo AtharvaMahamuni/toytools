@@ -28,8 +28,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'what-is-sha256',
     categorySlug: 'developer-utilities',
-    title: 'What Is SHA-256?',
-    description: 'Understand how SHA-256 works, why it\'s considered secure, and where it\'s used — from TLS certificates to Bitcoin to HMAC API authentication.',
-    readMinutes: 5,
-    updatedAt: '2026-06-09',
+    title: 'What Is SHA-256? Checksums and Real Uses',
+    description: 'What SHA-256 is, how to check a SHA-256 checksum on Windows, macOS and Linux, and why the same text can hash differently. Used in TLS and Bitcoin.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },};

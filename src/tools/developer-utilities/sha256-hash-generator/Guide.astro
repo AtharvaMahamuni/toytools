@@ -124,6 +124,48 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </ul>
   </section>
 
+  <section id="check-a-checksum">
+    <h2>How Do You Check a SHA-256 Checksum? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Download pages often publish a SHA-256 checksum next to the file. Hash your copy and compare
+      the two strings; if a single character differs, the file is not the one the publisher signed
+      off. Every major operating system has a command for it:
+    </p>
+    <ul>
+      <li><strong>Windows:</strong> <code>certutil -hashfile installer.exe SHA256</code> in Command Prompt, or <code>Get-FileHash installer.exe</code> in PowerShell, which uses SHA-256 by default.</li>
+      <li><strong>macOS:</strong> <code>shasum -a 256 installer.dmg</code> in Terminal.</li>
+      <li><strong>Linux:</strong> <code>sha256sum installer.iso</code>.</li>
+    </ul>
+    <p>
+      If you would rather not open a terminal, the <a href={toolPathBySlug('file-hash-verifier')}>File Hash Verifier</a>
+      hashes a local file in the browser and compares it with the digest you paste. This page's
+      generator hashes text, not files.
+    </p>
+  </section>
+
+  <section id="same-text-different-hash">
+    <h2>Why Does the Same Text Give a Different Hash? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The same input always gives the same hash: SHA-256 is deterministic, so two different
+      results mean two different inputs. It hashes bytes, not the letters you see, and anything that
+      changes the bytes changes the sha256 hash. The most common culprit is a trailing newline. "hello" hashes to
+      <code>2cf24dba…938b9824</code>, while "hello" plus a newline hashes to
+      <code>5891b5b5…46f6be03</code>. That is why <code>echo hello | sha256sum</code> on Linux does
+      not match a web generator: echo adds the newline.
+    </p>
+    <p>
+      Text encoding is the other trap. "café" is 5 bytes in UTF-8 and 4 bytes in Latin-1, so the
+      two encodings give different digests for the same word. This sha256 generator always hashes UTF-8
+      and shows the input byte count, which makes a stray newline easy to spot.
+    </p>
+    <ReferenceBlock type="note" heading="Use printf, not echo">
+      <p>
+        On macOS or Linux, <code>printf 'hello' | sha256sum</code> hashes the text without adding a
+        newline, so it matches what you see here.
+      </p>
+    </ReferenceBlock>
+  </section>
+
   <section id="common-mistakes">
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
 
