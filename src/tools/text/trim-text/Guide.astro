@@ -80,6 +80,57 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="in-code">
+    <h2>How Do You Trim Whitespace in Code? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Most languages ship a trim built in. JavaScript has <code>trim()</code> for both ends, plus
+      <code>trimStart()</code> and <code>trimEnd()</code>. Python has <code>strip()</code>,
+      <code>lstrip()</code> and <code>rstrip()</code>. SQL has <code>TRIM()</code>, and most
+      databases also offer <code>LTRIM()</code> and <code>RTRIM()</code>.
+    </p>
+    <p>
+      Those functions trim one string. To trim every line, as this tool does, split first:
+      <code>text.split('\n').map(line =&gt; line.trim()).join('\n')</code> in JavaScript, or
+      <code>'\n'.join(line.strip() for line in text.splitlines())</code> in Python. Note that SQL's
+      plain <code>TRIM()</code> usually removes spaces only, so a trailing tab can survive it.
+    </p>
+  </section>
+
+  <section id="excel-trim">
+    <h2>How Is Excel TRIM Different From This Tool? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Excel's TRIM removes leading and trailing spaces, and it also squeezes runs of spaces inside
+      the cell down to one. <code>=TRIM("  A&nbsp;&nbsp;1  ")</code> returns "A 1", not "A&nbsp;&nbsp;1". This tool
+      leaves the inside of each line alone and only cleans the edges.
+    </p>
+    <p>
+      That difference matters when inner spacing carries meaning, such as aligned codes or
+      fixed-width columns. TRIM also ignores the non-breaking space (character 160) that web pages
+      leave behind, so a cell can still look padded after TRIM runs.
+    </p>
+  </section>
+
+  <section id="trailing-space-bugs">
+    <h2>Why Does a Trailing Space Break a Match? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A trailing space makes two values look equal when they are not. In JavaScript,
+      <code>"SAVE20 " === "SAVE20"</code> is false. In Excel, a lookup for "SAVE20" returns
+      #N/A when the table holds "SAVE20 " with a space at the end. Nothing on screen shows the
+      difference.
+    </p>
+    <p>
+      In source code, trailing spaces add noise to version control. A line that differs only by a
+      trailing space still shows up as changed, and <code>git diff --check</code> reports it as a
+      whitespace error. Trimming line ends before you commit keeps diffs about real changes.
+    </p>
+    <ReferenceBlock type="note" heading="Find the invisible space">
+      <p>
+        If two values refuse to match, compare their lengths. "SAVE20" has 6 characters and
+        "SAVE20 " has 7, and that one extra character is the bug.
+      </p>
+    </ReferenceBlock>
+  </section>
+
   <section id="common-mistakes">
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Trim does not collapse interior spaces">

@@ -22,8 +22,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-trim-whitespace-from-text',
     categorySlug: 'text',
-    title: 'How To Trim Whitespace From Text',
-    description: 'Learn what trimming does, why trailing spaces cause bugs, and how to clean the start and end of every line at once.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Trim Whitespace in Excel and Code',
+    description: 'Trim leading and trailing spaces with Excel TRIM, JavaScript trim(), Python strip() and SQL TRIM, and find the trailing spaces that break matches.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },};
