@@ -40,6 +40,10 @@ const featured = tools
         <button type="button" class="featured-btn" data-featured-next aria-label="Next new tool">
           <span aria-hidden="true">›</span>
         </button>
+        <button type="button" class="featured-btn featured-toggle" data-featured-toggle aria-pressed="false">
+          <span class="featured-toggle-icon" aria-hidden="true" data-featured-toggle-icon>❚❚</span>
+          <span>Pause</span>
+        </button>
       </div>
     </div>
     <ul class="featured-track" data-featured-track>
@@ -86,9 +90,14 @@ const featured = tools
         }
 
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggle = root.querySelector('[data-featured-toggle]');
+        var toggleIcon = root.querySelector('[data-featured-toggle-icon]');
         var hover = false;
         var focus = false;
+        var paused = false;
         var timer = 0;
+        var autoUntil = 0;
+        if (reduce && toggle) toggle.setAttribute('hidden', '');
 
         function gap() {
           var styles = window.getComputedStyle(track);
@@ -103,6 +112,7 @@ const featured = tools
           var left = track.scrollLeft + dir * delta;
           if (dir > 0 && track.scrollLeft >= max) left = 0;
           if (dir < 0 && track.scrollLeft <= 1) left = max;
+          autoUntil = Date.now() + 1200;
           track.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
         }
 
@@ -111,8 +121,15 @@ const featured = tools
           timer = 0;
         }
 
+        function setPaused(value) {
+          paused = value;
+          if (toggle) toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+          if (toggleIcon) toggleIcon.textContent = paused ? '▶' : '❚❚';
+          sync();
+        }
+
         function sync() {
-          if (reduce || hover || focus) stop();
+          if (reduce || paused || hover || focus) stop();
           else {
             stop();
             timer = window.setInterval(function () { step(1); }, 5000);
@@ -121,7 +138,28 @@ const featured = tools
 
         root.addEventListener('mouseenter', function () { hover = true; sync(); });
         root.addEventListener('mouseleave', function () { hover = false; sync(); });
-        root.addEventListener('focusin', function () { focus = true; sync(); });
+        // Any hand on the row stops autoplay for good. Play on the toggle is the only way back.
+        function takeOver(event) {
+          if (toggle && toggle.contains(event.target)) return;
+          if (!paused) setPaused(true);
+        }
+        root.addEventListener('pointerdown', takeOver, { passive: true });
+        root.addEventListener('touchstart', takeOver, { passive: true });
+        root.addEventListener('wheel', takeOver, { passive: true });
+        root.addEventListener('keydown', function (event) {
+          if (event.key === 'Tab' || event.key === 'Shift') return;
+          takeOver(event);
+        });
+        track.addEventListener('scroll', function (event) {
+          if (Date.now() > autoUntil) takeOver(event);
+        }, { passive: true });
+        if (toggle) toggle.addEventListener('click', function () { setPaused(!paused); });
+
+        root.addEventListener('focusin', function (event) {
+          if (toggle && toggle.contains(event.target)) return;
+          focus = true;
+          sync();
+        });
         root.addEventListener('focusout', function (event) {
           if (root.contains(event.relatedTarget)) return;
           focus = false;
@@ -165,8 +203,25 @@ const featured = tools
     gap: var(--space-2);
   }
 
-  .featured-nav[hidden] {
+  .featured-nav[hidden],
+  .featured-toggle[hidden] {
     display: none;
+  }
+
+  .featured-toggle {
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .featured-toggle[aria-pressed='true'] {
+    background-color: var(--color-accent-subtle);
+    border-color: var(--color-border-strong);
+  }
+
+  .featured-toggle-icon {
+    font-size: var(--text-xs);
   }
 
   .featured-btn {

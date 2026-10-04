@@ -2,6 +2,7 @@
 // category pages. These specs pin the store-style structure: category AppTile shelves on home,
 // full tool coverage still in the HTML, recent-tools chips, and pattern-based category sections.
 import { test, expect } from '@playwright/test';
+import { newUntilIso } from '../../src/lib/tools/freshness';
 
 test.describe('homepage index', () => {
   test('leads with fifteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
@@ -46,21 +47,63 @@ test.describe('homepage index', () => {
     // A permanent isNew flag does not paint a badge on a highlight.
     await expect(page.locator('.category-shelves .app-tile-badge')).toHaveCount(0);
     await expect(page.locator('.category-shelves').getByRole('heading', { level: 2 })).toHaveCount(15);
+  });
 
-    // Same window as src/lib/tools/freshness.ts. After the sixth UTC day the row is gone.
-    const added = Date.UTC(2026, 9, 2);
-    const today = new Date();
-    const day = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
-    const delta = Math.round((day - added) / 86_400_000);
+  // The six tools added on this fixture day carry the same leave instant as freshness.ts computes.
+  // The browser clock is pinned either side of it, so the runtime expiry is tested on any date
+  // the build happened inside the window, not only on the days a test run lands in it.
+  test('the featured row and its badges leave the page at newUntil, at runtime', async ({ page }) => {
+    const fixtureAddedOn = '2026-10-02';
+    const until = newUntilIso(fixtureAddedOn)!;
+    const untilMs = Date.parse(until);
+
+    await page.clock.setFixedTime(untilMs - 60_000);
+    await page.goto('/');
     const featured = page.locator('[data-featured]');
-    if (delta >= 0 && delta <= 5) {
-      await expect(featured.getByRole('heading', { level: 2, name: 'New tools' })).toBeVisible();
-      await expect(featured.locator('.featured-card')).toHaveCount(6);
-      await expect(featured.locator('.featured-badge')).toHaveCount(6);
-      await expect(featured.locator('.featured-card[data-slug="matrix-calculator"]')).toHaveCount(1);
-    } else {
-      await expect(featured).toHaveCount(0);
-    }
+    const builtInWindow = (await page.locator(`[data-featured-until="${until}"]`).count()) > 0;
+    test.skip(!builtInWindow, `This build ran after ${until}, so it carries no New row to expire.`);
+
+    await expect(featured.getByRole('heading', { level: 2, name: 'New tools' })).toBeVisible();
+    await expect(featured.locator('.featured-card')).toHaveCount(6);
+    await expect(featured.locator('.featured-badge')).toHaveCount(6);
+    await expect(featured.locator('.featured-card[data-slug="matrix-calculator"]')).toHaveCount(1);
+
+    await page.clock.setFixedTime(untilMs);
+    await page.reload();
+    await expect(page.locator('[data-featured]')).toHaveCount(0);
+    await expect(page.locator(`[data-new-until="${until}"]`)).toHaveCount(0);
+  });
+
+  test('the featured row stops advancing once a person touches it, and has a Pause button', async ({ page }) => {
+    await page.clock.install();
+    await page.goto('/');
+    const featured = page.locator('[data-featured]');
+    test.skip((await featured.count()) === 0, 'No New row in this build.');
+
+    const toggle = featured.getByRole('button', { name: 'Pause' });
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    const box = await toggle.boundingBox();
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(48);
+
+    const track = featured.locator('[data-featured-track]');
+    await track.dispatchEvent('wheel');
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    const left = await track.evaluate((el) => el.scrollLeft);
+    await page.clock.runFor(16_000);
+    expect(await track.evaluate((el) => el.scrollLeft)).toBe(left);
+
+    // Play hands control back to the timer.
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('reduced motion hides the Pause button because nothing moves', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const featured = page.locator('[data-featured]');
+    test.skip((await featured.count()) === 0, 'No New row in this build.');
+    await expect(featured.locator('[data-featured-toggle]')).toBeHidden();
   });
 
   test('the full directory ships closed but present', async ({ page }) => {
