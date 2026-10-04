@@ -11,7 +11,7 @@ export const knowledge: Knowledge = {
   secondaryConcepts: ['OKLCH', 'Tailwind color scale', 'CSS custom properties', 'WCAG contrast on white'],
   intentGroups: {
     informational: [
-      'what a 50 to 900 color palette contains',
+      'what a 50 to 950 color palette contains',
       'why OKLCH ramps stay more even than HSL',
       'which stop is the brand stop',
     ],
@@ -44,7 +44,7 @@ export const knowledge: Knowledge = {
     'Keeping full chroma at stop 50 and clipping the hex outside sRGB.',
   ],
   commonQuestions: [
-    'How do I generate a 50 to 900 color palette from one hex?',
+    'How do I generate a 50 to 950 color palette from one hex?',
     'What is the difference between tints and shades?',
     'Why is the scale in OKLCH instead of HSL?',
     'When does the note about contrast on white appear?',
@@ -62,7 +62,7 @@ export const knowledge: Knowledge = {
     'tints and shades',
     'color scale generator',
     'tailwind color shades',
-    '50 to 900 color palette',
+    '50 to 950 color palette',
   ],
   entityAliases: ['OKLCH palette generator', 'shade scale'],
   inputs: ['text'],
