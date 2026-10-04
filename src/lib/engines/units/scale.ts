@@ -57,7 +57,7 @@ function pxOf(base: number, ratio: number, power: number): number {
 }
 
 export function typeScale(basePx: number, ratio: number): TypeScaleOk | TypeScaleBad {
-  if (!Number.isFinite(basePx) || basePx <= 0 || basePx > 200) {
+  if (!Number.isFinite(basePx) || basePx < 1 || basePx > 200) {
     return { ok: false, error: 'Enter a base size between 1 and 200 pixels.' };
   }
   if (!Number.isFinite(ratio) || ratio <= 1 || ratio > 2) {

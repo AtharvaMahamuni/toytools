@@ -144,9 +144,12 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
   .ts-scale { display: flex; flex-direction: column; gap: var(--space-3); }
   .ts-scale :global(.ts-row) { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
   .ts-scale :global(.ts-sample) {
-    overflow: auto;
+    /* Clip, not scroll: a 1.25 line box holds the descender of g, so ordinary sizes show whole,
+       and a huge Display sample is cropped instead of becoming a scroll trap. */
+    overflow: clip;
     max-block-size: 6rem;
-    line-height: 1.1;
+    line-height: 1.25;
+    white-space: nowrap;
     font-variant-numeric: tabular-nums;
   }
   .ts-scale :global(.ts-meta) {
