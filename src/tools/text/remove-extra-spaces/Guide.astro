@@ -112,7 +112,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>Why Does Excel TRIM Also Squeeze Inner Spaces? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Excel's TRIM function removes spaces at both ends of a cell and also squeezes every run
-      inside it down to one space. <code>=TRIM("  Acme   Corp  ")</code> returns "Acme Corp".
+      inside it down to one space. <code class="ws">=TRIM("  Acme   Corp  ")</code> returns "Acme Corp".
       This tool only does the squeezing part: it keeps one leading or trailing space per line, and
       Trim Text is the step that removes the edges.
     </p>
@@ -136,7 +136,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       Text copied from a justified PDF often carries runs of spaces where the layout stretched a
       line. A pasted sentence like this one:
     </p>
-    <p><code>Quarterly&nbsp;&nbsp;revenue&nbsp;&nbsp;&nbsp;rose&nbsp;&nbsp;12%&nbsp;&nbsp;in&nbsp;&nbsp;March.</code></p>
+    <p><code class="ws">Quarterly  revenue   rose  12%  in  March.</code></p>
     <p>
       comes out as <code>Quarterly revenue rose 12% in March.</code> after one pass. The words, the
       number and the line break after the sentence all stay exactly where they were.
@@ -185,6 +185,10 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 </GuideLayout>
 
 <style>
+  .ws {
+    white-space: pre-wrap;
+  }
+
   .cta-link {
     display: inline-flex;
     align-items: center;
