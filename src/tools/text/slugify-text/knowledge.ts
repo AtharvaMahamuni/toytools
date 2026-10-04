@@ -31,6 +31,7 @@ export const knowledge: Knowledge = {
     'Why does slugify make everything lowercase?',
   ],
   usedWith: [
+    { slug: 'invisible-character-detector', reason: 'Find zero-width or non-breaking characters before they reach a slug', strength: 0.75 },
     { slug: 'remove-accents', reason: 'Preview the accent-stripping step on its own', strength: 0.7 },
     { slug: 'lowercase-converter', reason: 'Lowercase text before or after slugifying', strength: 0.5 },
   ],

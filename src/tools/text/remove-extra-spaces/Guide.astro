@@ -63,7 +63,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       The tool scans your text and replaces every sequence of consecutive spaces and tabs with a
       single space, leaving newlines and all other characters untouched. It collapses internal runs,
       not leading or trailing edges only, so this space normalization reaches spaces in the middle of
-      a line as well as the ends. For example, "hello&nbsp;&nbsp;&nbsp;world" becomes "hello world":
+      a line as well as the ends. For example, "<span class="ws">hello   world</span>" becomes "hello world":
       the extra spaces collapse, but the line break between paragraphs stays.
     </p>
     <p>
@@ -74,11 +74,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="examples">
     <h2>Examples <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      <strong>Double spaces after periods.</strong> For example, "Done.&nbsp;&nbsp;Next." becomes
+      <strong>Double spaces after periods.</strong> For example, "<span class="ws">Done.  Next.</span>" becomes
       "Done. Next.", so this is how to remove double spaces left by the two-space habit.
     </p>
     <p>
-      <strong>Interior runs, not just edges.</strong> For example, "a&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;c"
+      <strong>Interior runs, not just edges.</strong> For example, "<span class="ws">a   b  c</span>"
       becomes "a b c". It collapses internal runs, not leading/trailing edges only, so gaps in the
       middle of a line are fixed too.
     </p>

@@ -31,6 +31,7 @@ export const knowledge: Knowledge = {
     'Are my CSV files uploaded to a server?',
   ],
   usedWith: [
+    { slug: 'json-diff', reason: 'Compare two JSON documents key by key instead of row by row', strength: 0.75 },
     { slug: 'csv-cleaner', reason: 'Normalize whitespace and blank rows before comparing', strength: 0.8 },
     { slug: 'csv-to-json-converter', reason: 'Inspect one side as structured data', strength: 0.6 },
   ],

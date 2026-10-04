@@ -31,6 +31,7 @@ export const knowledge: Knowledge = {
     'Why did some characters not change when I converted to lowercase?',
   ],
   usedWith: [
+    { slug: 'remove-accents', reason: 'Strip accents as well when the lowercase text becomes a search key', strength: 0.75 },
     { slug: 'uppercase-converter', reason: 'Switch to uppercase when needed', strength: 0.6 },
     { slug: 'kebab-case-converter', reason: 'Lowercase first, then build a URL slug', strength: 0.5 },
   ],

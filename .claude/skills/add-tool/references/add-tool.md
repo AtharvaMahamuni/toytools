@@ -322,6 +322,17 @@ Only required when adding a brand-new engine type — rare. See `references/add-
 ```
 All group members must share the same `engine` + `pattern`. The validator enforces this.
 
+### `src/data/guide-published.ts` (every tool with a guide)
+
+The guide's Article `datePublished`. `scaffold:tool` writes today's date for you; add it by hand
+only if you create the guide without the scaffold. Use the ship day, never change it afterwards,
+and keep it on or before `guide.updatedAt`, which stays `dateModified`. validate-registry fails a
+guide without an entry.
+
+```ts
+'my-tool-slug': '2026-06-14',
+```
+
 ---
 
 ## Phase 4 — Optional content

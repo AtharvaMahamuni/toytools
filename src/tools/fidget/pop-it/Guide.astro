@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -61,7 +61,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       However, the useful part is not the picture of silicone. It is that a browser tab needs no
       install, no account, and no ad-heavy clone that autoplays audio. Preferences for sound and
-      vibration live under Settings → Feel and apply to every fidget on ToyTools.
+      vibration live under Settings → Feel and apply to every fidget on ToyTools. If you prefer a
+      click to a pop, the <a href={guidePathBySlug('switch-board')}>switch board guide</a> covers
+      toggles and sound.
     </p>
     <p>
       People search for a pop it sensory toy when they want something to do with their hands while

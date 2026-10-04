@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'What your money will be worth later, and what it will cost.',
   categorySlug: 'money-finance',
   tags: ['inflation calculator', 'purchasing power', 'future value of money', 'inflation impact', 'cost of living calculator', 'real value', 'money worth over time', 'how inflation affects savings'],
-  updatedAt: '2026-10-05',
+  updatedAt: '2026-06-29',
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

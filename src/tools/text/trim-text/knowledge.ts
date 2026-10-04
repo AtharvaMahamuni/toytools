@@ -31,6 +31,7 @@ export const knowledge: Knowledge = {
     'Why are there still spaces between words after trimming?',
   ],
   usedWith: [
+    { slug: 'uppercase-converter', reason: 'Change the case once the stray whitespace is gone', strength: 0.75 },
     { slug: 'remove-extra-spaces', reason: 'Collapse internal runs after trimming the edges', strength: 0.7 },
     { slug: 'remove-duplicate-lines', reason: 'Trim first so duplicates match exactly', strength: 0.6 },
   ],

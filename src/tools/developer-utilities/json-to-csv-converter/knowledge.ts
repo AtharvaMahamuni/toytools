@@ -32,6 +32,7 @@ export const knowledge: Knowledge = {
     'Can I choose which columns to include?',
   ],
   usedWith: [
+    { slug: 'yaml-to-json-converter', reason: 'Turn YAML into JSON first, then flatten it to CSV', strength: 0.75 },
     { slug: 'json-formatter', reason: 'Format and inspect JSON before converting', strength: 0.7 },
     { slug: 'json-validator', reason: 'Validate JSON syntax before converting', strength: 0.9 },
   ],

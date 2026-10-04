@@ -4,6 +4,7 @@ import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
 import { categories } from '@data/categories';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import type { EcosystemEntry } from '@data/types';
 
 interface Props {
@@ -84,7 +85,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>Characters vs Words vs Bytes <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       <strong>Character count</strong> counts every individual symbol including spaces. It is
-      the right metric for platform character limits and database field lengths.
+      the right metric for platform character limits and database field lengths. Spaces and
+      sentences have their own counters: the <a href={guidePathBySlug('space-counter')}>space counter
+      guide</a> and the <a href={guidePathBySlug('sentence-counter')}>sentence counter guide</a>.
     </p>
     <p>
       <strong>Word count</strong> counts discrete words separated by whitespace. It is the

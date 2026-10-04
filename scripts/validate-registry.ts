@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { getToolMetadata } from '../src/data/metadata';
 import { isIsoDate } from '../src/lib/dates';
 import { parseAddedOn } from '../src/lib/tools/freshness';
+import { guidePublishedAt } from '../src/data/guide-published';
 import { registeredGuideSlugSet } from '../src/data/guide-registry';
 import { toolGroups, getToolGroup } from '../src/data/tool-groups';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
@@ -62,6 +63,10 @@ const ENGINE_REGISTRIES: Record<string, Record<string, unknown>> = {
 
 const categorySlugSet = new Set(categories.map(c => c.slug));
 const allSlugs = new Set(tools.map(t => t.slug));
+// Dead first-published entries (a removed tool or a dropped guide) are errors too, so the map
+// stays a list of real guides.
+const guideToolSlugs = new Set(tools.filter(t => t.guide).map(t => t.slug));
+const stalePublished = Object.keys(guidePublishedAt).filter(slug => !guideToolSlugs.has(slug));
 const segmentOf = (categorySlug: string) =>
   categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
 
@@ -156,6 +161,19 @@ for (const tool of tools) {
   // guide.updatedAt is the Article schema's datePublished/dateModified, so it must be ISO 8601.
   // It held a display string ("Jul 2026") until 2026-08-17, which made Google drop the dates on
   // 102 of 121 guides. Nothing caught it, because a wrong-but-present string renders fine.
+  // The Article datePublished comes from src/data/guide-published.ts, not from updatedAt, so a
+  // rewrite does not claim the guide is new. Every guide needs its first-published day there.
+  if (tool.guide) {
+    const published = guidePublishedAt[m.slug];
+    if (published === undefined) {
+      errors.push(`Tool "${m.slug}" has a guide but no first-published date in src/data/guide-published.ts. Add '${m.slug}': 'YYYY-MM-DD' (the day it ships).`);
+    } else if (!isIsoDate(published)) {
+      errors.push(`Tool "${m.slug}" guide-published date must be YYYY-MM-DD, got "${published}".`);
+    } else if (isIsoDate(tool.guide.updatedAt) && published > tool.guide.updatedAt) {
+      errors.push(`Tool "${m.slug}" guide was first published ${published}, after its guide.updatedAt ${tool.guide.updatedAt}.`);
+    }
+  }
+
   if (tool.guide && !isIsoDate(tool.guide.updatedAt)) {
     errors.push(`Tool "${m.slug}" guide.updatedAt must be an ISO 8601 date (YYYY-MM-DD), got "${tool.guide.updatedAt}". It is the Article schema date; the visible "Updated Jun 2026" line is derived from it by formatMonthYear.`);
   }
@@ -422,6 +440,10 @@ errors.push(...nonGoalRatchetErrors(tools, NON_GOAL_BACKLOG));
 // The backlog is a ratchet: it only shrinks, and a backlog tool that gains a job must leave it
 // in the same change. The field is not rendered. docs/tool-design.md.
 errors.push(...jobRatchetErrors(tools, JOB_BACKLOG));
+
+for (const slug of stalePublished) {
+  errors.push(`src/data/guide-published.ts has '${slug}', which is not a tool with a guide. Remove the entry.`);
+}
 
 if (errors.length > 0) {
   console.error('\n[validate-registry] Errors found:\n');

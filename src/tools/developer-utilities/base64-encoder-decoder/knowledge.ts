@@ -31,6 +31,8 @@ export const knowledge: Knowledge = {
     'Can Base64 be reversed?',
   ],
   usedWith: [
+    { slug: 'jwt-decoder', reason: 'Decode a whole JWT, header and payload, instead of one Base64url part', strength: 0.75 },
+    { slug: 'encoding-detector', reason: 'Name the encoding first when you are not sure the text is Base64', strength: 0.75 },
     { slug: 'json-formatter', reason: 'Format JSON payloads after decoding', strength: 0.8 },
     { slug: 'url-encoder-decoder', reason: 'Make Base64 safe for URLs', strength: 0.6 },
   ],

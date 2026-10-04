@@ -35,6 +35,7 @@ export const knowledge: Knowledge = {
     'Can I convert the JSON back to CSV?',
   ],
   usedWith: [
+    { slug: 'csv-cleaner', reason: 'Remove empty rows and square ragged rows before converting', strength: 0.75 },
     { slug: 'json-formatter', reason: 'Format and inspect the JSON output', strength: 0.8 },
     { slug: 'json-validator', reason: 'Validate the resulting JSON syntax', strength: 0.8 },
   ],

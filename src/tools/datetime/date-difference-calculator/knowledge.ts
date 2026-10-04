@@ -44,6 +44,7 @@ export const knowledge: Knowledge = {
     'How many weeks and months is that span?',
   ],
   usedWith: [
+    { slug: 'unix-timestamp-converter', reason: 'Turn an epoch timestamp into a date before counting the days', strength: 0.75 },
     { slug: 'age-calculator', reason: 'Measure the same span from a birthdate instead', strength: 0.8 },
   ],
   alternatives: [],
