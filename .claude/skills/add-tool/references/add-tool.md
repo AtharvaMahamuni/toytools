@@ -326,8 +326,9 @@ All group members must share the same `engine` + `pattern`. The validator enforc
 
 The guide's Article `datePublished`. `scaffold:tool` writes today's date for you; add it by hand
 only if you create the guide without the scaffold. Use the ship day, never change it afterwards,
-and keep it on or before `guide.updatedAt`, which stays `dateModified`. validate-registry fails a
-guide without an entry.
+and keep it on or before `guide.updatedAt`, which stays `dateModified`. The ship day is the India-time
+day the guide lands on main. validate-registry fails a guide without an entry, with an entry after
+`guide.updatedAt`, or with a date before the first commit (2026-06-02).
 
 ```ts
 'my-tool-slug': '2026-06-14',

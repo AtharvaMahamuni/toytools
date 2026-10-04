@@ -21,5 +21,5 @@ export const config: ToolConfig = {
     title: 'How To Convert Text To Uppercase',
     description: 'Learn what uppercase means, when all-caps text is appropriate, and how to convert text to uppercase without retyping it.',
     readMinutes: 3,
-    updatedAt: '2026-06-01',
+    updatedAt: '2026-06-07',
   },};

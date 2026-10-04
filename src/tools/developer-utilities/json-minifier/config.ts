@@ -26,5 +26,5 @@ export const config: ToolConfig = {
     title: 'What Is JSON Minification?',
     description: 'Understand how JSON minification reduces payload size, when to minify vs format, and how minification stacks with gzip compression.',
     readMinutes: 4,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-06-10',
   },};

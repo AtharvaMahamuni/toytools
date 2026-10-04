@@ -36,6 +36,6 @@ export const config: ToolConfig = {
     description:
       'What CIDR notation means, how a subnet mask carves a network from an IPv4 address, and why /31 and /32 do not use the minus-two host rule.',
     readMinutes: 6,
-    updatedAt: '2026-09-10',
+    updatedAt: '2026-09-11',
   },
 };

@@ -23,7 +23,7 @@ export const config: ToolConfig = {
     title: 'How To Use A Todo List',
     description: 'Learn how simple task lists reduce mental load, improve focus, and help you finish work more consistently.',
     readMinutes: 5,
-    updatedAt: '2026-06-01',
+    updatedAt: '2026-06-04',
   },
   trustVariant: 'local',
 };

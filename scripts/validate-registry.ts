@@ -66,6 +66,8 @@ const allSlugs = new Set(tools.map(t => t.slug));
 // Dead first-published entries (a removed tool or a dropped guide) are errors too, so the map
 // stays a list of real guides.
 const guideToolSlugs = new Set(tools.filter(t => t.guide).map(t => t.slug));
+// The repository's first commit, 2026-06-02 19:33 IST. No guide can have been published before it.
+const FIRST_COMMIT_DAY = '2026-06-02';
 const stalePublished = Object.keys(guidePublishedAt).filter(slug => !guideToolSlugs.has(slug));
 const segmentOf = (categorySlug: string) =>
   categories.find(c => c.slug === categorySlug)?.segment ?? categorySlug;
@@ -169,6 +171,8 @@ for (const tool of tools) {
       errors.push(`Tool "${m.slug}" has a guide but no first-published date in src/data/guide-published.ts. Add '${m.slug}': 'YYYY-MM-DD' (the day it ships).`);
     } else if (!isIsoDate(published)) {
       errors.push(`Tool "${m.slug}" guide-published date must be YYYY-MM-DD, got "${published}".`);
+    } else if (published < FIRST_COMMIT_DAY) {
+      errors.push(`Tool "${m.slug}" guide-published date ${published} is before the repository's first commit (${FIRST_COMMIT_DAY}). Use the day its guide first landed on main.`);
     } else if (isIsoDate(tool.guide.updatedAt) && published > tool.guide.updatedAt) {
       errors.push(`Tool "${m.slug}" guide was first published ${published}, after its guide.updatedAt ${tool.guide.updatedAt}.`);
     }

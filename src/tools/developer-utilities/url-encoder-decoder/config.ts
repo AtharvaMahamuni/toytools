@@ -26,5 +26,5 @@ export const config: ToolConfig = {
     title: 'What Is URL Encoding?',
     description: 'Understand how percent-encoding works, why URLs need it, what characters get encoded, and the mistakes that cause silent bugs.',
     readMinutes: 5,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-06-10',
   },};

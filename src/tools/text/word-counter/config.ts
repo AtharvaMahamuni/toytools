@@ -38,5 +38,5 @@ export const config: ToolConfig = {
     title: 'How to Count Words in Your Writing',
     description: 'How word count works, why tools disagree, and how to write to a limit. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 4,
-    updatedAt: '2026-06-02',
+    updatedAt: '2026-06-05',
   },};
