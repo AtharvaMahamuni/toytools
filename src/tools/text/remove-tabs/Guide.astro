@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -79,6 +80,57 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="excel-sheets">
+    <h2>How Do You Remove Tabs in Excel or Google Sheets? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In Excel or Google Sheets, wrap the cell in SUBSTITUTE and swap character 9 for a space:
+      <code>=SUBSTITUTE(A1,CHAR(9)," ")</code>. CHAR(9) is the tab character, so the formula
+      replaces every tab in A1 and leaves the rest of the text alone. Fill it down the column,
+      then paste the results back as values.
+    </p>
+    <p>
+      TRIM will not do this job. It only removes the ordinary space character, so a tab inside a
+      cell survives it. CLEAN does delete tabs, but it deletes them outright:
+      "Name[tab]Email" becomes "NameEmail", with the two words glued together. That is why
+      SUBSTITUTE with a space is the safer default.
+    </p>
+  </section>
+
+  <section id="word">
+    <h2>How Do You Remove Tabs in Word? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In Word, open Replace with Ctrl+H, type <code>^t</code> in Find what, and type a single
+      space in Replace with. <code>^t</code> is Word's code for a tab character. Click Replace All
+      and every tab in the document becomes one space.
+    </p>
+    <p>
+      If you forget the code, expand the dialog and pick Tab Character from the Special menu.
+      This removes tab characters only. Tab stops set on the ruler stay in place, so any tabs you
+      type later still jump to them.
+    </p>
+  </section>
+
+  <section id="code-regex">
+    <h2>How Do You Remove Tabs in Code or a Regex Editor? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In code, a tab is <code>\t</code>. In JavaScript, <code>text.replace(/\t/g, ' ')</code>
+      swaps each one for a space. In Python, <code>text.replace('\t', ' ')</code> does the same.
+      Any regex-aware editor accepts <code>\t</code> in its search box with regex mode on.
+    </p>
+    <p>
+      For indentation, use the editor's own command instead, such as VS Code's "Convert
+      Indentation to Spaces". It knows your tab width. That matters because a tab is not four
+      spaces: it moves the cursor to the next tab stop. In Python, <code>"a\tb".expandtabs(4)</code>
+      gives "a" plus three spaces plus "b", because the "a" already filled one column of four.
+    </p>
+    <ReferenceBlock type="key-idea" heading="A tab is a jump, not a width">
+      <p>
+        A tab means "go to the next stop". The same tab can stand for one space or eight, which is
+        why a blind swap for four spaces breaks alignment.
+      </p>
+    </ReferenceBlock>
+  </section>
+
   <section id="common-mistakes">
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Collapsing TSV data into unreadable output">
@@ -101,14 +153,10 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="remove-tabs-vs-alternatives">
     <h2>Remove Tabs vs Other Whitespace Tools <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Remove Tabs converts tab characters to spaces but does not collapse runs of spaces or remove
-      line breaks. Removing tabs vs normalizing all whitespace is the key distinction: this tool
-      touches only tabs. The natural follow-up is <strong>Remove Extra Spaces</strong>, which
-      collapses any runs of spaces created by the tab replacement. <strong>Normalize Whitespace</strong>
-      is a more aggressive alternative: it removes tabs, extra spaces, and line breaks all in one pass.
-      <strong>Trim Text</strong> strips leading and trailing whitespace from each line, which helps
-      clean up any tab-indented lines after the tabs have been replaced with spaces. Use your editor's
-      built-in indent conversion when you need tabs replaced with a specific number of spaces.
+      Remove Tabs only swaps tabs for spaces: <a href={toolPathBySlug('remove-extra-spaces')}>Remove Extra Spaces</a>
+      then collapses the runs it leaves, and <a href={toolPathBySlug('normalize-whitespace')}>Normalize Whitespace</a>
+      handles tabs, spaces and line breaks in one pass. For indented code, use your editor's
+      conversion so each tab becomes the right number of spaces.
     </p>
   </section>
 

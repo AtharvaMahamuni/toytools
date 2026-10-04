@@ -22,8 +22,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-remove-tabs-from-text',
     categorySlug: 'text',
-    title: 'How To Remove Tabs From Text',
-    description: 'Learn why tab characters cause alignment and paste problems, and how to replace them with spaces in one step.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Remove Tabs in Excel, Word and Code',
+    description: 'Remove tab characters in Excel with SUBSTITUTE and CHAR(9), in Word with ^t, or in code with \\t. See why a tab is not four spaces, with examples.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },};
