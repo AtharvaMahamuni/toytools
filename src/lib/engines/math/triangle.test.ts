@@ -78,16 +78,66 @@ describe('solveTriangle', () => {
 });
 
 describe('triangle calculator', () => {
-  it('prints angles that add to 180 after rounding', () => {
-    const res = runMath('triangle', { a: 1, b: 3, c: 3, A: '', B: '', C: '' }, {});
+  const shownAngles = (note: string) => [...note.matchAll(/(\d+(?:\.\d+)?)°/g)].map((match) => Number(match[1]));
+  const exactAngles = (a: number, b: number, c: number) => {
+    const A = (Math.acos((b * b + c * c - a * a) / (2 * b * c)) * 180) / Math.PI;
+    const B = (Math.acos((a * a + c * c - b * b) / (2 * a * c)) * 180) / Math.PI;
+    return [A, B, 180 - A - B];
+  };
+
+  it.each([
+    [1, 3, 3],
+    [2, 5, 5],
+  ])('shows equal base angles for the isosceles triangle %s, %s, %s, each within 0.005 of exact', (a, b, c) => {
+    const res = runMath('triangle', { a, b, c, A: '', B: '', C: '' }, {});
     expect(res.ok).toBe(true);
     if (!res.ok) return;
-    const note = res.hero?.note ?? '';
-    const shown = [...note.matchAll(/(\d+(?:\.\d+)?)°/g)].map((match) => Number(match[1]));
-    expect(shown).toEqual([19.19, 80.41, 80.4]);
-    expect(shown.reduce((sum, angle) => sum + angle, 0)).toBeCloseTo(180, 8);
+    const shown = shownAngles(res.hero?.note ?? '');
+    expect(shown).toHaveLength(3);
+    expect(shown[1]).toBe(shown[2]);
+    exactAngles(a, b, c).forEach((exact, i) => expect(Math.abs(shown[i] - exact)).toBeLessThan(0.005));
     const raw = res.metrics.filter((metric) => metric.id.startsWith('angle-')).map((metric) => metric.raw);
     expect(raw).toEqual(shown);
+    expect(res.assumptions.some((item) => item.value.includes('180.01'))).toBe(true);
+  });
+
+  it('solves a 0.003, 0.004, 0.005 right triangle and prints the real sides', () => {
+    const res = runMath('triangle', { a: 0.003, b: 0.004, c: 0.005, A: '', B: '', C: '' }, {});
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    expect(res.hero?.label).toBe('Right triangle');
+    const sides = res.metrics.filter((metric) => metric.id.startsWith('side-')).map((metric) => metric.value);
+    expect(sides).toEqual(['0.003', '0.004', '0.005']);
+    expect(res.insights[0].text).toContain('side a 0.003, b 0.004, c 0.005');
+  });
+
+  it('does not call a 0.004 degree SAS triangle right just because B and C round toward 90', () => {
+    const res = runMath('triangle', { a: '', b: 1, c: 1, A: 0.004, B: '', C: '' }, {});
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    expect(res.hero?.label).toBe('SAS triangle');
+    expect(res.metrics.find((metric) => metric.id === 'angle-b')?.value).toBe('89.998°');
+    expect(res.metrics.find((metric) => metric.id === 'angle-a')?.value).toBe('0.004°');
+  });
+
+  it('solves a thin 179.97 degree SAS triangle instead of calling it impossible', () => {
+    const res = runMath('triangle', { a: '', b: 1, c: 1, A: 179.97, B: '', C: '' }, {});
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    expect(Number(res.metrics.find((metric) => metric.id === 'side-a')?.raw)).toBeCloseTo(2, 6);
+    expect(res.metrics.find((metric) => metric.id === 'angle-b')?.value).toBe('0.015°');
+  });
+
+  it('still rejects lengths that lie on a straight line, at any scale', () => {
+    expect(solveTriangle({ ...blank, a: 1, b: 2, c: 3 }).error).toMatch(/cannot form a triangle/);
+    expect(solveTriangle({ ...blank, a: 0.001, b: 0.002, c: 0.003 }).error).toMatch(/cannot form a triangle/);
+    expect(solveTriangle({ ...blank, a: 1e6, b: 2e6, c: 3e6 }).error).toMatch(/cannot form a triangle/);
+  });
+
+  it('keeps the 3-4-5 right angle exact', () => {
+    const res = runMath('triangle', { a: 3, b: 4, c: 5, A: '', B: '', C: '' }, {});
+    expect(res.hero?.label).toBe('Right triangle');
+    expect(res.hero?.note).toBe('Angle A 36.87°, B 53.13°, C 90°.');
   });
 
   it('names the second triangle in the result when SSA is ambiguous', () => {

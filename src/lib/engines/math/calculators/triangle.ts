@@ -10,6 +10,10 @@ import { optionalNumberField } from '../validation';
 import { assumption, decisions, insight, toolDecision } from '../story';
 
 const EPS = 1e-7;
+/** Relative tolerance for "these lengths lie on a line": scale-free, so 0.003-0.004-0.005 and a thin 179.97° triangle both solve. */
+const FLAT = 1e-12;
+/** A right angle is reported only when the unrounded angle is this close to 90. */
+const RIGHT_TOL = 1e-9;
 
 export interface SolvedTriangle {
   a: number;
@@ -38,18 +42,28 @@ function clamp(n: number, lo: number, hi: number): number {
   return Math.min(hi, Math.max(lo, n));
 }
 
-/** Trim binary noise so a right angle prints as 90, not 89.999999. */
-export function tidy(n: number): number {
-  const rounded = Math.round(n * 1e8) / 1e8;
-  const nearest = Math.round(rounded);
-  if (Math.abs(rounded - nearest) < 1e-6) return nearest;
-  return Math.round(rounded * 100) / 100;
+/**
+ * Trim binary noise to significant figures, so a right angle prints as 90, not 89.999999, and a
+ * 0.003 side prints as 0.003 instead of 0. Each value is rounded on its own.
+ */
+export function tidy(n: number, digits = 6): number {
+  if (!Number.isFinite(n)) return n;
+  const nearest = Math.round(n);
+  if (nearest !== 0 && Math.abs(n - nearest) <= 1e-9 * Math.max(1, Math.abs(n))) return nearest;
+  return Number(n.toPrecision(digits));
+}
+
+/** Angles show five significant figures: 80.406, 19.188, 89.998, 0.004. */
+export function tidyAngle(n: number): number {
+  return tidy(n, 5);
 }
 
 function fmt(n: number): string {
-  const t = tidy(n);
-  if (Number.isInteger(t)) return String(t);
-  return t.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+  return String(tidy(n));
+}
+
+function fmtAngle(n: number): string {
+  return String(tidyAngle(n));
 }
 
 function sideByCosine(x: number, y: number, includedDeg: number): number {
@@ -75,8 +89,13 @@ function finishFromAngles(angles: Record<AngleName, number>, knownSide: SideName
   return { ...sides, A: angles.A, B: angles.B, C: angles.C };
 }
 
+function isFlat(a: number, b: number, c: number): boolean {
+  const tol = FLAT * Math.max(a, b, c);
+  return a + b <= c + tol || a + c <= b + tol || b + c <= a + tol;
+}
+
 function solveSSS(a: number, b: number, c: number): SolvedTriangle | string {
-  if (a + b <= c + EPS || a + c <= b + EPS || b + c <= a + EPS) {
+  if (isFlat(a, b, c)) {
     return 'Those three lengths cannot form a triangle. Each side has to be shorter than the other two added together.';
   }
   const A = angleByCosine(b, c, a);
@@ -85,12 +104,9 @@ function solveSSS(a: number, b: number, c: number): SolvedTriangle | string {
   return { a, b, c, A, B, C };
 }
 
-/** Round A and B the way the page prints them, then make C the remainder so the three add to 180. */
+/** Round each angle on its own, so an isosceles triangle shows equal base angles. */
 function present(t: SolvedTriangle): SolvedTriangle {
-  const A = tidy(t.A);
-  const B = tidy(t.B);
-  const C = tidy(180 - A - B);
-  return { ...t, A, B, C };
+  return { ...t, A: tidyAngle(t.A), B: tidyAngle(t.B), C: tidyAngle(t.C) };
 }
 
 /** Angle X, opposite side x, other side y. Returns one or two triangles in the a/b/c frame. */
@@ -108,8 +124,9 @@ function solveSSA(
   }
   const acute = deg(Math.asin(clamp(ratio, -1, 1)));
   const candidates = ratio >= 1 - 1e-8 ? [90] : [acute];
-  if (angle < 90 - 1e-8 && opposite < other - EPS && ratio < 1 - 1e-8) candidates.push(180 - acute);
-  if (angle >= 90 - 1e-8 && opposite <= other + EPS) {
+  const sideTol = EPS * Math.max(opposite, other);
+  if (angle < 90 - 1e-8 && opposite < other - sideTol && ratio < 1 - 1e-8) candidates.push(180 - acute);
+  if (angle >= 90 - 1e-8 && opposite <= other + sideTol) {
     return 'No triangle: an obtuse or right angle needs the opposite side to be the longest side.';
   }
 
@@ -178,6 +195,9 @@ export function solveTriangle(parts: Record<SideName | AngleName, number | null>
         c = parts.c as number;
         b = sideByCosine(a, c, included);
       }
+      if (isFlat(a, b, c)) {
+        return { error: 'Those two sides and the angle between them lie too close to a straight line to draw a triangle.' };
+      }
       const solved = solveSSS(a, b, c);
       if (typeof solved === 'string') return { error: solved };
       return { solutions: [solved], kind: 'SAS' };
@@ -206,9 +226,9 @@ export function solveTriangle(parts: Record<SideName | AngleName, number | null>
 function place(t: SolvedTriangle): { x: number; y: number; label: string }[] {
   const A = rad(t.A);
   return [
-    { x: 0, y: 0, label: `A ${fmt(t.A)}°` },
-    { x: t.c, y: 0, label: `B ${fmt(t.B)}°` },
-    { x: t.b * Math.cos(A), y: t.b * Math.sin(A), label: `C ${fmt(t.C)}°` },
+    { x: 0, y: 0, label: `A ${fmtAngle(t.A)}°` },
+    { x: t.c, y: 0, label: `B ${fmtAngle(t.B)}°` },
+    { x: t.b * Math.cos(A), y: t.b * Math.sin(A), label: `C ${fmtAngle(t.C)}°` },
   ];
 }
 
@@ -232,9 +252,9 @@ function partCards(t: SolvedTriangle): ResultCard[] {
     card('side-a', 'Side a', fmt(t.a), { raw: tidy(t.a), emphasis: 'primary' }),
     card('side-b', 'Side b', fmt(t.b), { raw: tidy(t.b) }),
     card('side-c', 'Side c', fmt(t.c), { raw: tidy(t.c) }),
-    card('angle-a', 'Angle A', `${fmt(t.A)}°`, { raw: tidy(t.A) }),
-    card('angle-b', 'Angle B', `${fmt(t.B)}°`, { raw: tidy(t.B) }),
-    card('angle-c', 'Angle C', `${fmt(t.C)}°`, { raw: tidy(t.C) }),
+    card('angle-a', 'Angle A', `${fmtAngle(t.A)}°`, { raw: tidyAngle(t.A) }),
+    card('angle-b', 'Angle B', `${fmtAngle(t.B)}°`, { raw: tidyAngle(t.B) }),
+    card('angle-c', 'Angle C', `${fmtAngle(t.C)}°`, { raw: tidyAngle(t.C) }),
   ];
 }
 
@@ -265,13 +285,14 @@ export const triangleCalculator: MathCalculator = {
     const solutions = solved.solutions.map(present);
     const primary = solutions[0];
     const ambiguous = solutions.length === 2;
-    const right = [primary.A, primary.B, primary.C].some((d) => Math.abs(tidy(d) - 90) < 0.05);
+    const exact = solved.solutions[0];
+    const right = [exact.A, exact.B, exact.C].some((d) => Math.abs(d - 90) <= RIGHT_TOL);
     const hero = card('solutions', ambiguous ? 'Two triangles' : right ? 'Right triangle' : `${solved.kind} triangle`, ambiguous ? '2' : '1', {
       raw: solutions.length,
       emphasis: 'hero',
       note: ambiguous
         ? 'SSA fits two shapes. The dashed figure is the second one.'
-        : `Angle A ${fmt(primary.A)}°, B ${fmt(primary.B)}°, C ${fmt(primary.C)}°.`,
+        : `Angle A ${fmtAngle(primary.A)}°, B ${fmtAngle(primary.B)}°, C ${fmtAngle(primary.C)}°.`,
     });
 
     const insights = [
@@ -281,7 +302,7 @@ export const triangleCalculator: MathCalculator = {
       const alt = solutions[1];
       insights.push(
         insight(
-          `The same two sides and non-included angle also fit a second triangle: A ${fmt(alt.A)}°, B ${fmt(alt.B)}°, C ${fmt(alt.C)}°, sides ${fmt(alt.a)}, ${fmt(alt.b)}, ${fmt(alt.c)}. A solver that prints only the first set hides this one.`,
+          `The same two sides and non-included angle also fit a second triangle: A ${fmtAngle(alt.A)}°, B ${fmtAngle(alt.B)}°, C ${fmtAngle(alt.C)}°, sides ${fmt(alt.a)}, ${fmt(alt.b)}, ${fmt(alt.c)}. A solver that prints only the first set hides this one.`,
           'caution',
         ),
       );
@@ -295,6 +316,7 @@ export const triangleCalculator: MathCalculator = {
       assumptions: [
         assumption('Angle unit', 'degrees'),
         assumption('Side names', 'a opposite A, b opposite B, c opposite C'),
+        assumption('Rounding', 'Each angle is rounded on its own, so the three shown can add to 179.99 or 180.01.'),
       ],
       decisions: decisions([toolDecision('Plot the angles on a unit circle', 'unit-circle-calculator')]),
     });
