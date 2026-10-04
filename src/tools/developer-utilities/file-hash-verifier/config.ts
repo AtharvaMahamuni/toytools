@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'File Hash Verifier',
   seoTitle: 'File Hash Verifier: Check a SHA256 Checksum',
   description:
-    'Verify a download in your browser: check an ISO or any file against its SHA-256 or MD5 checksum. Runs entirely on your device. Nothing is uploaded.',
+    'Verify a download in your browser: check an ISO by SHA-256, or a file up to 32 MB by MD5 checksum. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Hash a local file and compare it with the published checksum.',
   categorySlug: 'developer-utilities',
   tags: ['sha256', 'checksum', 'md5', 'file checksum', 'verify download'],
