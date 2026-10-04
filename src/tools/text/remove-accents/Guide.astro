@@ -86,6 +86,45 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="in-code">
+    <h2>How Do You Remove Accents in Code? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In JavaScript, decompose the text and delete the combining marks:
+      <code>str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')</code>. That is the exact method
+      this tool uses. "Crème Brûlée, Søren Åberg" becomes "Creme Brulee, Søren Aberg".
+    </p>
+    <p>
+      In Python, the same idea uses the standard library:
+      <code>''.join(c for c in unicodedata.normalize('NFD', s) if not unicodedata.combining(c))</code>.
+      It gives the same output, including the ø that stays put.
+    </p>
+  </section>
+
+  <section id="why-some-letters-stay">
+    <h2>Why Do ß, ø, æ and ł Not Decompose? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Unicode records a decomposition for é: the letter e followed by a combining acute accent,
+      code point U+0301. NFD splits it into those two parts, and the mark is easy to drop. The
+      letters ß, ø, æ and ł have no decomposition at all. Unicode treats each one as a letter in
+      its own right.
+    </p>
+    <p>
+      The reasons are historical. ß grew out of a ligature of a long s with a z or a second s, and æ out of a ligature of a
+      and e. The stroke through ø and ł is drawn as part of the letter, not as a separate mark sitting
+      on top. To get pure ASCII you have to map them by rule: ß to ss, æ to ae, ø to o, ł to l. Those
+      rules depend on the language, which is why no normalization form can do it for you.
+    </p>
+  </section>
+
+  <section id="excel">
+    <h2>Can Excel Remove Accents? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Excel has no built-in function that strips accents. The usual workaround is a chain of
+      SUBSTITUTE calls, one for each accented letter you expect. It works until the first letter you
+      did not list. For a one-off column, paste it here, copy the result, and paste it back.
+    </p>
+  </section>
+
   <section id="vs-alternatives">
     <h2>Removing Accents vs Transliteration vs Slugifying <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>

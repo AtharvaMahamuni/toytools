@@ -23,8 +23,8 @@ export const config: ToolConfig = {
     slug: 'how-to-remove-accents',
     categorySlug: 'text',
     title: 'How To Remove Accents',
-    description: 'Learn what diacritics are, why some systems need plain ASCII, and how to strip accent marks while keeping the letters.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    description: 'Strip accents from text for CSV imports, URLs and search. See why é becomes e but ß and ø do not, and how Unicode NFD does it in code.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },
 };
