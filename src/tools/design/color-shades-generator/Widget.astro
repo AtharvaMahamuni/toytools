@@ -58,13 +58,6 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
     var css = '';
 
-    function ink(hex) {
-      var n = parseInt(hex.slice(1, 7), 16);
-      var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
-      var l = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-      return l > 0.62 ? '#1a1a1a' : '#ffffff';
-    }
-
     function showNote(message) {
       if (!noteEl || !noteTxt) return;
       if (!message) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
@@ -98,7 +91,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
         btn.type = 'button';
         btn.className = 'csg-stop';
         btn.style.backgroundColor = stop.hex;
-        btn.style.color = ink(stop.hex);
+        btn.style.color = stop.ink;
         btn.setAttribute('data-hex', stop.hex);
         var name = document.createElement('span');
         name.className = 'csg-stop-name';
