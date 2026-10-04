@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['reading time calculator', 'read time estimator', 'how long to read', 'reading time', 'speaking time', 'presentation timer', 'blog post reading time', 'article reading time', 'minutes to read'],
   isNew: true,
-  updatedAt: '2026-07-10',
+  updatedAt: '2026-10-05',
   engine: 'text-analysis',
   craft: {
     id: 'read-assumption',
@@ -19,10 +19,10 @@ export const config: ToolConfig = {
   guide: {
     slug: 'reading-time-calculator',
     categorySlug: 'text-utilities',
-    title: 'Reading Time Calculator: How Read Time Is Estimated',
-    description: 'Learn how reading time is calculated, what research says about average reading speed, and when to use reading time vs word count or character count.',
-    readMinutes: 4,
-    updatedAt: '2026-06-07',
+    title: 'How Reading Time Is Calculated',
+    description: 'Reading time is word count divided by words per minute. See the 200 WPM average, speaking time for talks, and why calculators differ.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },  pattern: 'text-metric',
   toolGroup: 'text-counters',
   family: 'text-counting',

@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { toolPathBySlug, guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -50,6 +50,10 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <li><strong>"Hello\n\nWorld"</strong>: 3 lines (one blank line between)</li>
       <li><strong>"Hello\nWorld\n"</strong>: 2 lines (a trailing newline can add or remove a line, and here it does not add an extra line)</li>
     </ul>
+    <p>
+      If those breaks are the problem rather than the thing you want counted, here is
+      <a href={guidePathBySlug('remove-line-breaks')}>how to remove line breaks</a> and join the text into one paragraph.
+    </p>
     <ReferenceBlock type="note" heading="This tool runs entirely in your browser">
       <p>
         No text is sent to a server. All processing happens locally in your browser, so your
@@ -86,7 +90,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       Lines and paragraphs measure different things. A <strong>line</strong> ends at every
       newline character. A <strong>paragraph</strong> is a block of text separated by one or
       more blank lines (a double newline). A single paragraph can contain many lines if it is
-      long and has manual line breaks inside it.
+      long and has manual line breaks inside it. Neither count measures length in words; for that,
+      see <a href={guidePathBySlug('word-counter')}>how word count works</a>.
     </p>
   </section>
 

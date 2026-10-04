@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -54,6 +55,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <strong>Writing style targets.</strong> Most style guides recommend 15 to 20 words per
       sentence for general prose. Sentence count combined with word count gives average sentence
       length: the most actionable readability metric available without a full formula calculation.
+      For the word side of that division, see how tools <a href={guidePathBySlug('word-counter')}>count words</a>.
     </p>
   </section>
 

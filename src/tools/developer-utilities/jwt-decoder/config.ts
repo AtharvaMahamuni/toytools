@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['jwt', 'json web token', 'jwt decoder', 'decode jwt', 'jwt decode', 'jwt parser', 'jwt viewer', 'jwt claims', 'jwt payload', 'jwt header', 'developer', 'auth', 'token decoder', 'online jwt decoder'],
   isNew: true,
-  updatedAt: '2026-06-25',
+  updatedAt: '2026-10-05',
   engine: 'jwt',
   pattern: 'token-decode',
   family: 'token',
@@ -27,9 +27,9 @@ export const config: ToolConfig = {
   guide: {
     slug: 'what-is-a-jwt',
     categorySlug: 'developer-utilities',
-    title: 'What Is a JWT?',
-    description: 'Understand how JSON Web Tokens work, what the header, payload, and signature contain, and why decoding is not the same as verifying.',
-    readMinutes: 7,
-    updatedAt: '2026-06-25',
+    title: 'What Is a JWT? Header, Payload and Claims',
+    description: 'What JWT stands for, what the three dot-separated parts hold, how exp and iat work as Unix timestamps, and why decoding a token is not verifying it.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },
 };

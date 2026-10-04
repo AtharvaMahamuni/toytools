@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Capitalize the first letter of each sentence.',
   categorySlug: 'text-utilities',
   tags: ['sentence case', 'sentence case converter', 'capitalize first letter', 'capitalize sentences', 'fix capitalization', 'sentence case text', 'capitalize first letter of sentence'],
-  updatedAt: '2026-07-09',
+  updatedAt: '2026-10-05',
   engine: 'text-processor',
   pattern: 'text-transform',
   family: 'transform',
@@ -22,8 +22,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-convert-text-to-sentence-case',
     categorySlug: 'text',
-    title: 'How To Convert Text To Sentence Case',
-    description: 'Learn what sentence case is, why it is the default for body text, and how to fix inconsistent capitalization quickly.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Change Text to Sentence Case',
+    description: 'Sentence case with Word\'s Change Case menu, a Google Docs workaround, and code, plus the proper noun and abbreviation rules converters get wrong.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },};

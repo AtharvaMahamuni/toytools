@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Join wrapped lines back into one paragraph.',
   categorySlug: 'text-utilities',
   tags: ['remove line breaks', 'delete line breaks', 'strip newlines', 'join lines', 'remove hard returns', 'unwrap text', 'remove line breaks online'],
-  updatedAt: '2026-07-09',
+  updatedAt: '2026-10-05',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
@@ -22,9 +22,9 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-remove-line-breaks',
     categorySlug: 'text',
-    title: 'How To Remove Line Breaks',
-    description: 'Learn why pasted text gets broken across lines and how to join it back into one clean, continuous paragraph.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Remove Line Breaks From Copied Text',
+    description: 'Join text copied from a PDF or email into one paragraph. Excel CHAR(10), Word ^p, and regex \\r?\\n, plus how to keep real paragraph breaks.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },
 };

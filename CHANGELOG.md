@@ -2,6 +2,21 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.3.1] - 2026-10-05
+
+### Changed
+
+- **Fifteen guides answer the question people search for.** Remove Tabs covers Excel, Word and code. Remove Extra Spaces covers Word, Google Docs, Excel TRIM and text pasted from a PDF. Remove Line Breaks covers LF and CR, Excel, Word and regex. Trim Text covers Excel TRIM and trim() in code. Remove Accents covers code and the letters NFD cannot split. Sentence Case covers Word, Google Docs and code. SHA-256 shows how to check a checksum on Windows, macOS and Linux and why the same text can hash differently. Base64 walks "Man" to TWFu, explains the 33% overhead, and compares Base64URL. HTML Entities lists the five characters and how escaping changes by context. JWT decodes a real header and reads exp and iat as Unix seconds. Tip covers tipping by service and abroad. Reading Time gives a words-to-minutes list and why calculators differ. Percentages works one set of numbers through every formula. Inflation shows ₹1,00,000 after 10 years at 3, 5 and 7%, the real return, and the rule of 72. The notepad guide is now about temporary notes: what survives a restart or cleared data, and how to back up.
+- **Six tool pages have clearer titles and descriptions.** Trim Text, Remove Blank Lines, SHA-1, URL Encoder, Tip Calculator, and Pomodoro Timer. Pomodoro Timer no longer repeats the brand in its title, and its first search concept is now "pomodoro timer".
+- **Twenty guides link to the page that answers the next question.** 26 links in total, built with a new `guidePathBySlug` helper, so a link to a tool without a guide fails the build instead of shipping a dead link.
+- **The number shelf on the home page shows Tip Calculator in place of Scientific Calculator.**
+
+### Fixed
+
+- **The Remove Blank Lines guide no longer says lines of spaces need Trim Text first.** The tool already removes them.
+- **The Sentence Case guide no longer says the rest of each word keeps its case.** The converter lowercases everything first.
+- **Titles that ran past 60 characters, repeated the brand, or used an em dash are shortened.**
+
 ## [beta-v12.3] - 2026-10-02
 
 ### Added

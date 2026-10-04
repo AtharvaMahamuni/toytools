@@ -27,7 +27,7 @@ const categoryDefs: Omit<Category, 'toolCount' | 'engines'>[] = [
     name: 'Number Utilities',
     description: 'Convert, format, and calculate numeric values quickly.',
     tagline: 'Percentages, discounts, tips and everyday math.',
-    highlights: ['percentage-calculator', 'discount-calculator', 'scientific-calculator'],
+    highlights: ['percentage-calculator', 'discount-calculator', 'tip-calculator'],
     accent: '#765B22',
     segment: 'number',
     intro: [

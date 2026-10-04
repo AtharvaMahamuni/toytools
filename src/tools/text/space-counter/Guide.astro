@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { toolPathBySlug, guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -78,6 +78,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <li><strong>"Hello  World"</strong> (double space): 2 spaces, 12 characters total</li>
       <li><strong>"NoSpacesHere"</strong>: 0 spaces, 12 characters total</li>
     </ul>
+    <p>A count higher than the gaps between your words usually means doubled spaces, so here is how to <a href={guidePathBySlug('remove-extra-spaces')}>remove extra spaces</a>.</p>
   </section>
 
   <section id="spaces-vs-whitespace">

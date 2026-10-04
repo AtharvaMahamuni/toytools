@@ -81,6 +81,29 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="words-to-minutes">
+    <h2>How Long Does It Take to Read 1,000 Words? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      About 5 minutes. Reading time is the word count divided by words per minute, and at the
+      200 WPM average the common lengths work out like this:
+    </p>
+    <ul>
+      <li><strong>500 words:</strong> 2.5 minutes to read, about 3.8 minutes to say aloud.</li>
+      <li><strong>1,000 words:</strong> 5 minutes to read, about 7.7 minutes aloud.</li>
+      <li><strong>1,500 words:</strong> 7.5 minutes to read, about 11.5 minutes aloud.</li>
+      <li><strong>2,000 words:</strong> 10 minutes to read, about 15.4 minutes aloud.</li>
+    </ul>
+    <p>
+      The speaking figures use 130 words per minute, a steady presentation pace. So for a 10-minute
+      talk, you need a script of about 1,300 words.
+    </p>
+    <p>
+      This tool rounds both estimates to the nearest whole minute and never shows less than 1 minute.
+      For example, 500 words reads as 3 min and speaks as 4 min. That is the same convention as the "5 min read"
+      labels on blogs.
+    </p>
+  </section>
+
   <section id="reading-speed-research">
     <h2>What Research Says About Reading Speed <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
@@ -124,15 +147,21 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </ReferenceBlock>
   </section>
 
-  <section id="reading-time-vs-alternatives">
-    <h2>Reading Time vs Other Content Metrics <span class="gold-dot" aria-hidden="true"></span></h2>
+  <section id="why-calculators-differ">
+    <h2>Why Do Reading Time Calculators Differ? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Reading time is one of several alternatives for measuring content. A <strong>word
-      counter</strong> is better when your constraint is an explicit word limit: academic
-      submissions, journalism briefs. A <strong>character counter</strong> is better for
-      social media posts where platform limits are in characters, not words. A <strong>sentence
-      counter</strong> and <strong>paragraph counter</strong> are better for structural editing: checking density and paragraph balance. Use reading time when the constraint is audience
-      attention, not a specific platform limit.
+      Paste the same article into three calculators and you can get three answers. The arithmetic is
+      identical. However, the assumptions are not:
+    </p>
+    <ul>
+      <li><strong>Words per minute:</strong> some tools use 200, others 238 or 250. Medium has said it uses 265 and adds time for each image.</li>
+      <li><strong>What counts as a word:</strong> hyphenated terms, numbers, URLs and code can count as one word, several, or none.</li>
+      <li><strong>Rounding:</strong> nearest minute, always up, or seconds shown in full. A 2.4-minute post can read as 2, 3, or 2 min 24 s.</li>
+    </ul>
+    <p>
+      None of them is wrong, so pick one calculator and use it consistently. If your real limit is a
+      number of words or characters rather than reader attention, a word counter or character counter
+      is the better tool.
     </p>
   </section>
 

@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['html entity', 'html encode', 'html decode', 'html entities', 'escape html', 'unescape html', 'html entity encoder', 'html entity decoder', 'encode html online', 'developer'],
   isNew: true,
-  updatedAt: '2026-06-09',
+  updatedAt: '2026-10-05',
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'web',
@@ -19,8 +19,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'what-is-html-entity-encoding',
     categorySlug: 'developer-utilities',
-    title: 'What Is HTML Entity Encoding?',
-    description: 'Understand what HTML entities are, which characters must be escaped, when entities are still necessary in a UTF-8 world, and how to avoid XSS.',
-    readMinutes: 5,
-    updatedAt: '2026-06-09',
+    title: 'HTML Entities: What to Escape and Why',
+    description: 'The five characters to escape in HTML, why the ampersand comes first, when UTF-8 makes entities unnecessary, and how escaping stops XSS in text and attributes.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },};

@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['base64', 'encode', 'decode', 'developer', 'base64 encoder', 'base64 decoder', 'base64 converter', 'online base64', 'base64 to text', 'text to base64', 'decode base64 string', 'base64 converter online', 'base64 encode decode'],
   isNew: true,
-  updatedAt: '2026-06-02',
+  updatedAt: '2026-10-05',
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'binary-text',
@@ -24,8 +24,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'what-is-base64',
     categorySlug: 'developer-utilities',
-    title: 'What Is Base64?',
-    description: 'Understand how Base64 encoding works, why it exists, where it is used, and common mistakes developers make.',
+    title: 'What Is Base64 and Why Is It Bigger?',
+    description: 'Why Base64 output is about 33% larger, what the = padding means, and when JWTs and URLs need Base64URL instead of standard Base64.',
     readMinutes: 6,
-    updatedAt: '2026-06-02',
+    updatedAt: '2026-10-05',
   },};

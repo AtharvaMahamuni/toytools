@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { toolPathBySlug, guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -46,7 +46,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       appear inside real data, TSV sidesteps most of the quoting rules that CSV needs. That is
       why command-line tools like <code>cut</code> and <code>awk</code>, database bulk loaders,
       and clipboard pastes into Excel or Google Sheets all favour it. When you copy a range
-      from a spreadsheet, what lands on your clipboard is already TSV.
+      from a spreadsheet, what lands on your clipboard is already TSV. Tools like <code>cut</code>
+      ignore quotes, though, so a tab inside a cell still splits it: <a href={guidePathBySlug('remove-tabs')}>remove stray tabs</a>
+      from free text first.
     </p>
     <p>
       When is TSV better than CSV? Use it whenever the target expects tab-delimited input or

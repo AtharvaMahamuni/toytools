@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { toolPathBySlug, guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -61,7 +61,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       parsed rows. Any row where every cell is blank is dropped, which removes the separator
       rows that reporting tools and spreadsheet exports insert. Every remaining cell
       has leading and trailing whitespace stripped, so <code>" Paris "</code> becomes
-      <code>Paris</code>. Trailing empty cells, the artifact of a stray comma at the end of a
+      <code>Paris</code>. To clear <a href={guidePathBySlug('trim-text')}>trailing spaces in cells</a> without exporting a CSV,
+      Excel's TRIM (which also squeezes runs of spaces inside the cell) or a one-line <code>trim()</code> clears the edges the same way. Trailing empty cells, the artifact of a stray comma at the end of a
       line, are removed rather than kept as empty columns.
     </p>
     <p>

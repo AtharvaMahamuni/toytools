@@ -12,10 +12,10 @@ export interface VersionConfig {
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
   minor: 3,
-  patch: 0,
+  patch: 1,
   status: 'beta',
-  releaseDate: '2026-10-02',
-  description: 'Six calculators and a home page that features tools from the last five days',
+  releaseDate: '2026-10-05',
+  description: 'GSC crawled not indexed PR 1: sharper guides, titles and metas, 26 internal links, tip calculator on the home shelf',
 };
 
 export function formatVersion(config: VersionConfig): string {

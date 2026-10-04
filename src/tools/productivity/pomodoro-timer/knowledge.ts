@@ -6,7 +6,7 @@ export const knowledge: Knowledge = {
   title: 'Pomodoro Timer',
   category: 'productivity',
   summary: 'Run 25/5 Pomodoro focus cycles in the browser: custom durations, session tracking, and notifications. No account, nothing leaves your device.',
-  primaryConcepts: ['pomodoro technique', 'focus timer'],
+  primaryConcepts: ['pomodoro timer', 'pomodoro technique', 'focus timer'],
   secondaryConcepts: ['time management', 'work intervals', 'study sessions', 'deep work'],
   intentGroups: {
     informational: ['What is the Pomodoro Technique?', 'Why is it called Pomodoro?'],

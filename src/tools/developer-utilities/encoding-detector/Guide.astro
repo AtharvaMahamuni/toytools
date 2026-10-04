@@ -2,6 +2,7 @@
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -51,7 +52,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       filter. Hex uses only <code>0-9</code> and <code>a-f</code>. Binary uses only <code>0</code>
       and <code>1</code>. Percent-encoding is ordinary text sprinkled with <code>%</code> followed
       by two hex digits. Base64 draws on <code>A-Z</code>, <code>a-z</code>, <code>0-9</code> plus
-      <code>+</code> and <code>/</code>, with <code>=</code> padding the end.
+      <code>+</code> and <code>/</code>, with <code>=</code> padding the end. Text dotted with
+      <code>&amp;amp;</code> or <code>&amp;lt;</code> points at <a href={guidePathBySlug('html-entity-encoder-decoder')}>HTML entities</a>,
+      which the detector also recognises and decodes.
     </p>
     <p>
       So a single uppercase letter rules out hex, and a <code>+</code> or a trailing <code>=</code>
@@ -88,7 +91,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       This is the answer to <strong>why does my base64 decode to gibberish</strong>, which is the
       single most common reason a valid string appears to be broken. A standard decoder handed a
       Base64URL value either refuses it outright or, worse, produces the wrong bytes quietly. JWTs,
-      OAuth tokens and signed URLs all use the URL-safe alphabet, so anything copied out of a
+      OAuth tokens and signed URLs all use the URL-safe alphabet (three Base64URL chunks joined
+      by two dots is almost always <a href={guidePathBySlug('jwt-decoder')}>a JWT</a>), so anything copied out of a
       browser address bar is a strong candidate. So when you are asking <strong>is this
       base64url</strong>, the test is simple: if the string contains <code>-</code> or
       <code>_</code> but never <code>+</code> or <code>/</code>, read it as Base64URL first.
@@ -152,7 +156,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       Three things get mistaken for encodings, and none of them decodes. A hash digest is one-way,
       so there is nothing to recover; digests also have fixed lengths, which is why a 64-character
-      hex string is more likely to be SHA-256 output than a message. Encrypted data needs a key, and
+      hex string is more likely to be SHA-256 output than a message, and a 40-character one is
+      usually SHA-1, which the <a href={toolPathBySlug('sha1-hash-generator')}>SHA-1 hash generator</a> reproduces if you have the
+      original text. Encrypted data needs a key, and
       without it the bytes are noise whichever decoder you try. Compressed or binary payloads
       decode structurally while producing output no person can read, so a successful decode is not
       by itself proof you found the answer. For example, an attempt to decode unknown string data

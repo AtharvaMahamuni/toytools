@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -84,7 +85,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       <strong>A social caption.</strong> "Launch day 🎉🚀 so proud of the team 💪🏽" becomes
       "Launch day  so proud of the team ". The words survive; a follow-up pass with the Extra
-      Spaces tool collapses the leftover gaps.
+      Spaces tool collapses the leftover gaps. In Word or Excel, the same fix will
+      <a href={guidePathBySlug('remove-extra-spaces')}>collapse the extra spaces left behind</a>.
     </p>
     <p>
       <strong>A support ticket export.</strong> Flags and joined family emoji disappear as

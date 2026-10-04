@@ -10,7 +10,8 @@
 
 import { getToolBySlug } from '@data/registry';
 import { categories } from '@data/categories';
-import { toolPath } from '@lib/paths';
+import { toolPath, guidePath } from '@lib/paths';
+import type { ToolConfig } from '@data/types';
 
 /** The href of the tool with this slug, at its registry category's segment. */
 export function toolPathBySlug(slug: string): string {
@@ -18,4 +19,19 @@ export function toolPathBySlug(slug: string): string {
   const category = categories.find((c) => c.slug === tool.categorySlug);
   if (!category) throw new Error(`[tool-link] Tool "${slug}" has unknown category "${tool.categorySlug}"`);
   return toolPath({ slug, segment: category.segment });
+}
+
+/**
+ * The href of the guide that belongs to the tool with this slug. Guides link to each other by the
+ * tool's slug, so a guide that is retired (its `guide:` removed from the tool's config) fails the
+ * build here instead of leaving a dead link in every guide that pointed at it.
+ */
+export function guidePathBySlug(toolSlug: string): string {
+  return guidePathOf(getToolBySlug(toolSlug));
+}
+
+/** The href of this tool's guide; throws when the tool has none. */
+export function guidePathOf(tool: Pick<ToolConfig, 'slug' | 'guide'>): string {
+  if (!tool.guide) throw new Error(`[tool-link] Tool "${tool.slug}" has no guide to link to`);
+  return guidePath({ categorySlug: tool.guide.categorySlug, slug: tool.guide.slug });
 }

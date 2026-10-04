@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Replace tab characters with spaces, then copy.',
   categorySlug: 'text-utilities',
   tags: ['remove tabs', 'convert tabs to spaces', 'replace tabs', 'tabs to spaces', 'delete tabs', 'strip tabs', 'detab text'],
-  updatedAt: '2026-07-10',
+  updatedAt: '2026-10-05',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',
@@ -22,8 +22,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-remove-tabs-from-text',
     categorySlug: 'text',
-    title: 'How To Remove Tabs From Text',
-    description: 'Learn why tab characters cause alignment and paste problems, and how to replace them with spaces in one step.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Remove Tabs in Excel, Word and Code',
+    description: 'Remove tab characters in Excel with SUBSTITUTE and CHAR(9), in Word with ^t, or in code with \\t. See why a tab is not four spaces, with examples.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },};

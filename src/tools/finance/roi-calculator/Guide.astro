@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -60,7 +61,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="reading-the-result">
     <h2>Reading the Result <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      The headline number is the ROI percentage over the whole holding period. Net gain restates
+      The headline number is the ROI percentage over the whole holding period. It is a percent
+      change, the third of <a href={guidePathBySlug('percentage-calculator')}>the three percentage formulas</a>. Net gain restates
       it in money, which keeps large percentages honest: 50% on $1,000 is $500, not a life
       event. The annualized return is the figure to judge investment performance with. Broad stock index
       funds have averaged roughly 7 to 10% a year over long stretches, so an annualized return

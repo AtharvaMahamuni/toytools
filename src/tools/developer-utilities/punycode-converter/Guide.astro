@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -56,7 +57,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <code>café</code> needs encoding, so the result is <code>xn--caf-dma.example.com</code>. The
       <code>example</code> and <code>com</code> labels are already ASCII and pass through untouched.
       Run unicode to punycode in one direction, or punycode to unicode to decode, and the tool
-      handles each label independently.
+      handles each label independently. When a name never has to keep its accents, such as a
+      username or a filename, you can <a href={guidePathBySlug('remove-accents')}>strip accents instead</a> and skip Punycode.
     </p>
   </section>
 

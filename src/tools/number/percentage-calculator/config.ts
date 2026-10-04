@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Percent of a number, or the change between two. On your device.',
   categorySlug: 'number-utilities',
   tags: ['numbers', 'percentage', 'math', 'calculate', 'calculate percentage online', 'percent calculator', 'percentage of a number', 'percentage increase calculator', 'how to calculate percentage', 'online percent calculator', 'percentage change', 'discount calculator'],
-  updatedAt: '2026-09-08',
+  updatedAt: '2026-10-05',
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',
@@ -21,8 +21,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-calculate-percentages',
     categorySlug: 'number',
-    title: 'How To Calculate Percentages',
-    description: 'Understand what percentages mean, how the three core percentage formulas work, and where percentages come up in everyday life.',
-    readMinutes: 5,
-    updatedAt: '2026-06-02',
+    title: 'How to Calculate Percentages: 3 Formulas',
+    description: 'The three percentage formulas with worked examples: X% of Y, X is what percent of Y, and percent change, plus percentage points vs percent.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },};

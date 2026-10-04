@@ -94,6 +94,42 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="five-characters">
+    <h2>Which Characters Must You Escape in HTML? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>Five characters carry meaning in HTML markup. This tool escapes exactly these five:</p>
+    <ul>
+      <li><code>&amp;</code> becomes <code>&amp;amp;</code>, because it starts every entity.</li>
+      <li><code>&lt;</code> becomes <code>&amp;lt;</code>, because it opens a tag.</li>
+      <li><code>&gt;</code> becomes <code>&amp;gt;</code>, which is not strictly required in text but keeps the output symmetrical.</li>
+      <li><code>"</code> becomes <code>&amp;quot;</code>, which matters inside double-quoted attributes.</li>
+      <li><code>'</code> becomes <code>&amp;#39;</code>, which matters inside single-quoted attributes.</li>
+    </ul>
+    <p>
+      The ampersand has to go first. Escape <code>&lt;</code> first and you get <code>&amp;lt;</code>;
+      then the ampersand pass turns that into <code>&amp;amp;lt;</code>, and the page shows the
+      literal text <code>&amp;lt;</code> instead of a bracket. Everything else, from é to €, can stay
+      as it is in a UTF-8 page.
+    </p>
+  </section>
+
+  <section id="escaping-by-context">
+    <h2>Does Escaping Depend on Where the Text Goes? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Yes. Entity escaping is the right defence against XSS in two places and the wrong one in two
+      others:
+    </p>
+    <ul>
+      <li><strong>Text between tags:</strong> escape <code>&amp;</code> and <code>&lt;</code> at minimum. Entities are exactly right here.</li>
+      <li><strong>Attribute values:</strong> always quote the attribute, then escape the quote character as well. An unquoted attribute can be broken out of with a single space.</li>
+      <li><strong>URLs in href or src:</strong> percent-encode the parts with the <a href={toolPathBySlug('url-encoder-decoder')}>URL Encoder</a>, and refuse <code>javascript:</code> links. Entities alone do not make a URL safe.</li>
+      <li><strong>Inside a &lt;script&gt; element:</strong> the browser does not decode entities there, so <code>&amp;lt;</code> stays as four literal characters. Build the value with JSON encoding instead, using the <a href={toolPathBySlug('json-escape')}>JSON Escape</a> tool, and make sure the text cannot contain <code>&lt;/script&gt;</code>.</li>
+    </ul>
+    <p>
+      Most template engines escape text and attributes for you. The bugs come from the places they
+      cannot see: hand-built strings, <code>innerHTML</code>, and values dropped into scripts.
+    </p>
+  </section>
+
   <section id="real-world-uses">
     <h2>When to Use HTML Entities <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>HTML entities show up in a handful of specific situations. For example:</p>

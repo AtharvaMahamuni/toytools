@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -84,6 +85,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       universally known, so decoding requires no knowledge beyond recognizing the cipher.
       Treat it as a curtain, not a lock: perfect for spoilers, useless for secrets. Anything
       that genuinely needs protecting belongs in real cryptography, not a letter rotation.
+      Encodings are not locks either: <a href={guidePathBySlug('html-entity-encoder-decoder')}>escaping HTML</a> or running text through a
+      <a href={toolPathBySlug('url-encoder-decoder')}>URL encode and decode</a> tool changes how it is written, not who can read it.
     </p>
     <ReferenceBlock type="key-idea" heading="Obfuscation, not security">
       <p>ROT13's value is exactly that it is trivial to undo. It signals "read this only if you choose to", which no password or key exchange can do as cheaply.</p>
