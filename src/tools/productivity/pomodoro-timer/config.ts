@@ -3,8 +3,8 @@ import type { ToolConfig } from '@data/types';
 export const config: ToolConfig = {
   slug: 'pomodoro-timer',
   name: 'Pomodoro Timer',
-  seoTitle: 'Pomodoro Timer – Free Online Focus Timer | ToyTools',
-  description: 'Use the Pomodoro Technique to stay focused: a 25 minute timer for work, then a break.',
+  seoTitle: 'Pomodoro Timer Online: 25 Minute Focus Timer',
+  description: 'A free Pomodoro timer online: 25 minutes of focus, then a 5 minute break, with 50/10 and custom lengths. Use the Pomodoro Technique in any tab.',
   tagline: 'Stay focused with timed work sessions and breaks.',
   categorySlug: 'productivity',
   tags: [
@@ -14,7 +14,7 @@ export const config: ToolConfig = {
     'pomodoro clock', 'focus session', 'work timer', 'tomato timer',
   ],
   isNew: true,
-  updatedAt: '2026-06-05',
+  updatedAt: '2026-10-05',
   engine: 'productivity',
   pattern: 'stateful',
   family: 'timer',
