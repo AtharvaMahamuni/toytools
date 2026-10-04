@@ -111,8 +111,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       The middle part decodes the same way. The segment
       <code>eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjE3NjcyMjkyMDB9</code> becomes
-      <code>&#123;"sub":"1234567890","iat":1767225600,"exp":1767229200&#125;</code>: three JWT claims:
-      a user id, an issued-at time and an expiry. The third part, the signature, is binary and decodes to nothing
+      <code>&#123;"sub":"1234567890","iat":1767225600,"exp":1767229200&#125;</code>, which holds three JWT
+      claims: a user id, an issued-at time and an expiry. The third part, the signature, is binary and decodes to nothing
       readable. A JWT parser like this tool does all three splits for you.
     </p>
   </section>

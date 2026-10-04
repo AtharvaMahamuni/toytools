@@ -122,7 +122,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <li><strong>Text between tags:</strong> escape <code>&amp;</code> and <code>&lt;</code> at minimum. Entities are exactly right here.</li>
       <li><strong>Attribute values:</strong> always quote the attribute, then escape the quote character as well. An unquoted attribute can be broken out of with a single space.</li>
       <li><strong>URLs in href or src:</strong> percent-encode the parts with the <a href={toolPathBySlug('url-encoder-decoder')}>URL Encoder</a>, and refuse <code>javascript:</code> links. Entities alone do not make a URL safe.</li>
-      <li><strong>Inside a &lt;script&gt; element:</strong> the browser does not decode entities there, so <code>&amp;lt;</code> stays as five characters. Build the value with JSON encoding instead, using the <a href={toolPathBySlug('json-escape')}>JSON Escape</a> tool, and make sure the text cannot contain <code>&lt;/script&gt;</code>.</li>
+      <li><strong>Inside a &lt;script&gt; element:</strong> the browser does not decode entities there, so <code>&amp;lt;</code> stays as four literal characters. Build the value with JSON encoding instead, using the <a href={toolPathBySlug('json-escape')}>JSON Escape</a> tool, and make sure the text cannot contain <code>&lt;/script&gt;</code>.</li>
     </ul>
     <p>
       Most template engines escape text and attributes for you. The bugs come from the places they
