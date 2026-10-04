@@ -23,9 +23,9 @@ export const config: ToolConfig = {
   guide: {
     slug: 'tip-calculator',
     categorySlug: 'number-utilities',
-    title: 'Tip Calculator: Complete Guide',
-    description: 'Learn how much to tip, how to calculate a tip by hand, how to split a bill, and common tipping mistakes. Covers US norms and international customs.',
-    readMinutes: 4,
-    updatedAt: '2026-06-15',
+    title: 'How Much to Tip, and How to Split a Bill',
+    description: 'How much to tip in the US for restaurants, delivery and bars, tipping norms abroad, and how to work out 15, 18 or 20 percent in your head.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },
 };

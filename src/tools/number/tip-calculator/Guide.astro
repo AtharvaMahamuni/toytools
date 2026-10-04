@@ -41,32 +41,46 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="how-much-to-tip">
     <h2>How Much Should You Tip? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      In the United States, standard restaurant tips are 15-20% for good service. Excellent
-      service warrants 20-25%. Counter service and takeout orders receive 10-15%.
-      Delivery drivers get 15-20% on the food subtotal, with a minimum of $3-5 for small
-      orders since the fixed cost of a trip does not scale with order size.
+      In the United States, these are the usual tips by service. They are conventions, not laws, so
+      adjust them for the service you actually got:
     </p>
+    <ul>
+      <li><strong>Sit-down restaurant:</strong> 15-20% of the pre-tax bill, 20-25% for excellent service.</li>
+      <li><strong>Counter service and takeout:</strong> 10-15%, often optional.</li>
+      <li><strong>Food delivery:</strong> 15-20% of the food subtotal, with a minimum of $3-5 on small orders, since the cost of the trip does not shrink with the order.</li>
+      <li><strong>Bar:</strong> $1-2 per drink, or 15-20% of the tab.</li>
+      <li><strong>Hair and nail salons:</strong> 15-20%.</li>
+      <li><strong>Taxi and rideshare:</strong> 15-20% of the fare.</li>
+      <li><strong>Hotel housekeeping:</strong> $2-5 per night, left daily.</li>
+      <li><strong>Movers:</strong> 5-10% of the total bill. <strong>Tour guides:</strong> $5-15 per person.</li>
+    </ul>
     <p>
       For a sit-down restaurant: a $45 bill at 20% tip = $9 tip, $54 total. For a $120
       group dinner at 18% = $21.60 tip, $141.60 total. At a coffee counter for a $6 drink:
       $0.60-$0.90 at 10-15%. The calculation is the same at every price point.
     </p>
-    <p>
-      Other services where tipping is standard in the US: hair and nail salons (15-20%),
-      taxi and rideshare (15-20%), hotel housekeeping ($2-5 per night), movers (5-10% of the
-      total bill), tour guides ($5-15 per person). These are conventions, not laws; adjust
-      based on service quality.
-    </p>
-    <p>
-      Tipping customs differ significantly outside the US. Japan: tipping is not customary and
-      can be considered rude. Most of Europe: a small tip or rounding up is appreciated but
-      not required, and service charges appear on many bills automatically. Australia and New
-      Zealand: tipping is not expected but welcomed. Always check local customs before
-      traveling to avoid awkward exchanges.
-    </p>
     <ReferenceBlock type="note" heading="Check for automatic gratuity on the bill">
       <p>Many restaurants add an automatic gratuity of 18-20% for parties of 6 or more. If a service charge already appears on your bill, you do not need to add a further tip. Adding a second tip on top of automatic gratuity is a common and expensive mistake.</p>
     </ReferenceBlock>
+  </section>
+
+  <section id="tipping-abroad">
+    <h2>How Much Do You Tip in Other Countries? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      US tipping norms do not travel well. Outside North America, a tip is usually smaller, and often
+      already on the bill:
+    </p>
+    <ul>
+      <li><strong>Canada:</strong> close to the US, 15-20% at restaurants.</li>
+      <li><strong>United Kingdom:</strong> a discretionary service charge of 10-12.5% is often added. If it is not, 10% is normal.</li>
+      <li><strong>Most of Europe:</strong> service is usually included. Rounding up or leaving 5-10% for good service is appreciated, not expected.</li>
+      <li><strong>Japan:</strong> tipping is not customary and can cause confusion. Good service is part of the price.</li>
+      <li><strong>Australia and New Zealand:</strong> not expected, though rounding up is welcome.</li>
+      <li><strong>India:</strong> 5-10% is common at sit-down restaurants. A service charge cannot be made compulsory, so check the bill before adding a tip on top.</li>
+    </ul>
+    <p>
+      When in doubt, look for a service charge line first, then ask what locals leave.
+    </p>
   </section>
 
   <section id="how-it-works">
@@ -86,6 +100,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       For 15%: find 10% and add half. On a $47 bill: 10% = $4.70; half of that is $2.35;
       15% = $7.05. Round to $7.
+    </p>
+    <p>
+      For 18%: work out 20%, then take away a tenth of it. On a $47 bill: 20% = $9.40; a tenth of
+      that is $0.94; 18% = $8.46. When you want the exact figure, the calculator has 15, 18, 20 and
+      25% presets and splits the total between any number of people.
     </p>
   </section>
 
