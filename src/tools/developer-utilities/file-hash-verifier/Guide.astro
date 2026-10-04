@@ -91,7 +91,7 @@ const idHref = toolPathBySlug('hash-identifier');
       same length, it says the file or the expected line is not what you think.
     </p>
     <p>
-      A sha256sum line looks like the digest, two spaces, then a filename.
+      A sha256sum line is shaped like this: the digest, two spaces, then a filename.
       d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592  archive.bin
       is one line, not a longer hash. The page keeps the hex and drops archive.bin.
       Gluing the filename onto the digest is a false mismatch. The strip is the fix.
@@ -178,6 +178,7 @@ const idHref = toolPathBySlug('hash-identifier');
   <section id="which">
     <h2>Should you use MD5 or SHA-256 for a download? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
+      MD5 versus SHA-256 for a download is the publisher's choice, not yours.
       Use the algorithm printed next to the file. A 64-character line is SHA-256.
       A 32-character line is MD5. Guessing from habit is how a good download gets
       called corrupt. The menu on this page starts at SHA-256 because that is
@@ -196,8 +197,8 @@ const idHref = toolPathBySlug('hash-identifier');
       still publish it. Match the length, then decide whether you trust the
       publisher. SHA-512 is 128 hex characters. Use it when that is the printed
       line. The <a href={guidePathBySlug('sha512-hash-generator')}>SHA-512 guide</a> covers where
-      that 128-character digest is still published. CRC32 is the 8-character checksum inside zip tools. It finds accidents.
-      It does not stand in for SHA-256.
+      that 128-character digest is still published. CRC32 versus a cryptographic hash is accidents versus tampering.
+      CRC32, the 8-character checksum inside zip tools, finds accidents. It does not stand in for SHA-256.
     </p>
     <p>
       Unsure which line you copied? Open the <a href={idHref}>hash identifier</a>.

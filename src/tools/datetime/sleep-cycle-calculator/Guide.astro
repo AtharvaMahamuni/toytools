@@ -81,7 +81,8 @@ const ageHref = toolPathBySlug('age-calculator');
   <section id="latency">
     <h2>Why is time to fall asleep outside the cycle? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Getting into bed is not the start of cycle one. Most people lie there for a while. If you
+      The time to fall asleep, called sleep latency, is not part of the cycle. Getting into
+      bed is not the start of cycle one. Most people lie there for a while. If you
       subtract only multiples of 90 from a 7:00 am alarm, you are planning to be asleep at 10:00
       pm for six cycles, or at 11:30 pm for five. You are not planning the moment you turn the
       light off. Sleep then starts about 15 minutes late, so the alarm rings about 15 minutes before the last
@@ -112,8 +113,9 @@ const ageHref = toolPathBySlug('age-calculator');
     <p>
       "When I wake" counts backward. You type the alarm. The results are bedtimes: when to get
       into bed so that sleep, after the gap, contains a whole number of cycles. "When I go to
-      bed" counts forward. You type when you get into bed. The results are wake times. Same
-      formula, opposite direction.
+      bed" counts forward. You type when you get into bed. The results are wake times, so the
+      page works as a wake time calculator. Bedtime from a wake time versus wake time from a
+      bedtime is the same formula in the opposite direction.
     </p>
     <p>
       Try 10:30 pm, 15 minutes to fall asleep, and 90 minute cycles. Five cycles wake you at
@@ -149,7 +151,7 @@ const ageHref = toolPathBySlug('age-calculator');
     </ReferenceBlock>
     <ReferenceBlock type="common-mistake" heading="Treating five cycles as a prescription">
       <p>
-        7.5 hours is one row on the list. If you need to be up for a shift, four cycles may be
+        Six cycles versus five is 9 hours of sleep versus 7.5, and 7.5 hours is one row on the list. If you need to be up for a shift, four cycles may be
         the time you can keep. The page shows the clock. It does not rank your health.
       </p>
     </ReferenceBlock>

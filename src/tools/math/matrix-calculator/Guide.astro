@@ -142,7 +142,9 @@ const fractionHref = toolPathBySlug('fraction-calculator');
       The determinant is one number. The inverse is another matrix. Both
       need a square A. A 2×3 has neither. The message names that shape and
       stops. For a 2×2, determinant is a×d - b×c. The default gives -2,
-      which is not zero, so the inverse exists.
+      which is not zero, so the inverse exists. To compute a 2 by 2 inverse
+      by hand, swap a and d, negate b and c, and divide every entry by the
+      determinant.
     </p>
     <p>
       The inverse of 1 2 / 3 4 has top-left entry -2, then 1 on the rest
@@ -192,7 +194,8 @@ const fractionHref = toolPathBySlug('fraction-calculator');
     <p>
       Multiply when a textbook says product or composition. Add when it
       says sum. Subtract when it says difference. Transpose when it says
-      flip the rows into columns. Determinant when it asks for one number
+      flip the rows into columns, because a transpose swaps rows and columns.
+      Determinant when it asks for one number
       from a square matrix. Inverse when it asks for the matrix that
       multiplies back to the identity.
     </p>
