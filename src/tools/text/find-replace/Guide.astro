@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { toolPathBySlug, guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -63,6 +63,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       expression. This enables powerful patterns like <code>\d+</code> for numbers,
       <code>\s+</code> for whitespace, and <code>^</code> / <code>$</code> for line
       boundaries. Regex mode is how you match all occurrences of a variable pattern in one pass.
+      A tab is <code>\t</code> here, and other apps have their own codes when you need to
+      <a href={guidePathBySlug('remove-tabs')}>remove tabs in Excel or Word</a>.
     </p>
     <p>
       <strong>\b Whole Word.</strong> When enabled, the search only matches when the term
@@ -75,7 +77,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="regex-examples">
     <h2>Useful Regex Examples <span class="gold-dot" aria-hidden="true"></span></h2>
     <ul>
-      <li><strong>Remove extra spaces:</strong> Find <code>\s+</code> → Replace <code> </code> (single space)</li>
+      <li><strong>Remove extra spaces:</strong> Find <code>\s+</code> → Replace <code> </code> (single space). To <a href={guidePathBySlug('remove-extra-spaces')}>remove double spaces</a> in Word or Excel, the codes differ.</li>
       <li><strong>Remove blank lines:</strong> Find <code>^\s*\n</code> → Replace (empty)</li>
       <li><strong>Swap two words:</strong> Find <code>(\w+)\s(\w+)</code> → Replace <code>$2 $1</code></li>
       <li><strong>Add line numbers:</strong> Find <code>^</code> → Replace <code>• </code></li>

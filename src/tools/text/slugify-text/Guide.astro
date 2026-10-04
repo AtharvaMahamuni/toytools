@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -58,7 +59,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       For each line the tool decomposes accented letters and removes the accent marks, lowercases the
       result, replaces every run of non-alphanumeric characters with one hyphen, and trims any
-      hyphens from the ends. "Crème Brûlée Recipe" becomes "creme-brulee-recipe".
+      hyphens from the ends. "Crème Brûlée Recipe" becomes "creme-brulee-recipe". The accent step is
+      the same Unicode decomposition you can run on its own to <a href={guidePathBySlug('remove-accents')}>remove accents first</a>,
+      keeping the original case and spacing.
     </p>
     <p>
       This tool is free and runs online entirely in your browser. Your text stays on your device,

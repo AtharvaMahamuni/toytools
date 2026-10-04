@@ -4,8 +4,8 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { tools } from '@data/registry';
 import { categories } from '@data/categories';
-import { toolPath } from '@lib/paths';
-import { toolPathBySlug } from './tool-link';
+import { toolPath, guidePath } from '@lib/paths';
+import { toolPathBySlug, guidePathBySlug, guidePathOf } from './tool-link';
 
 const ROOT = resolve(__dirname, '../../..');
 const segmentOf = (categorySlug: string) => categories.find((c) => c.slug === categorySlug)!.segment;
@@ -22,6 +22,7 @@ function files(dir: string, re: RegExp): string[] {
 const guides = files(join(ROOT, 'src/tools'), /^Guide\.astro$/);
 
 // A literal slug in any quoting and any spacing: toolPathBySlug("x"), categoryPath({slug: 'x'}).
+const GUIDE_SLUG_ARG = /guidePathBySlug\(\s*([`'"])([^`'"]*)\1\s*\)/g;
 const TOOL_SLUG_ARG = /toolPathBySlug\(\s*([`'"])([^`'"]*)\1\s*\)/g;
 const CATEGORY_SLUG_ARG = /categoryPath\(\s*\{\s*slug\s*:\s*([`'"])([^`'"]*)\1\s*,?\s*\}\s*\)/g;
 const slugsIn = (src: string, re: RegExp): string[] => [...src.matchAll(re)].map((m) => m[2]!);
@@ -38,6 +39,26 @@ describe('toolPathBySlug', () => {
   });
 });
 
+describe('guidePathBySlug', () => {
+  it('is guidePath of the tool\'s own guide, for every tool that has one', () => {
+    let n = 0;
+    for (const t of tools) {
+      if (!t.guide) continue;
+      n += 1;
+      expect(guidePathBySlug(t.slug), t.slug).toBe(guidePath({ categorySlug: t.guide.categorySlug, slug: t.guide.slug }));
+    }
+    expect(n).toBeGreaterThan(100);
+  });
+
+  it('throws on a slug that is not a tool', () => {
+    expect(() => guidePathBySlug('remove-tab')).toThrow(/remove-tab/);
+  });
+
+  it('throws for a tool whose guide was retired, so links to it fail the build', () => {
+    expect(() => guidePathOf({ slug: 'kebab-case-converter' })).toThrow(/kebab-case-converter.*no guide/);
+  });
+});
+
 describe('guide links', () => {
   it('finds the guides', () => {
     expect(guides.length).toBeGreaterThanOrEqual(145);
@@ -46,6 +67,7 @@ describe('guide links', () => {
   it('name only real tools and categories', () => {
     const toolSlugs = new Set(tools.map((t) => t.slug));
     const categorySlugs = new Set(categories.map((c) => c.slug));
+    const guided = new Set(tools.filter((t) => t.guide).map((t) => t.slug));
     const bad: string[] = [];
     let links = 0;
     for (const file of guides) {
@@ -54,6 +76,10 @@ describe('guide links', () => {
       for (const slug of slugsIn(src, TOOL_SLUG_ARG)) {
         links += 1;
         if (!toolSlugs.has(slug)) bad.push(`${rel}: tool "${slug}"`);
+      }
+      for (const slug of slugsIn(src, GUIDE_SLUG_ARG)) {
+        links += 1;
+        if (!guided.has(slug)) bad.push(`${rel}: guide of "${slug}"`);
       }
       for (const slug of slugsIn(src, CATEGORY_SLUG_ARG)) {
         links += 1;
@@ -74,6 +100,7 @@ describe('guide links', () => {
       CATEGORY_SLUG_ARG,
     )).toEqual(['a', 'money-financ', 'c', 'd']);
     // Not literal slugs: nothing to check statically (the build still resolves them).
+    expect(slugsIn("guidePathBySlug('a') guidePathBySlug( \"b\" )", GUIDE_SLUG_ARG)).toEqual(['a', 'b']);
     expect(slugsIn('toolPathBySlug(config.slug) categoryPath(category)', TOOL_SLUG_ARG)).toEqual([]);
     expect(slugsIn('categoryPath(category) categoryPath({ slug: category.slug })', CATEGORY_SLUG_ARG)).toEqual([]);
   });

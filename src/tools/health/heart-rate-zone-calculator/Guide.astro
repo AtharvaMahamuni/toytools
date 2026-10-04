@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -50,6 +51,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       steady effort. Zone 4, 80 to 90 percent, is hard work near your lactate threshold that raises your
       ceiling. Zone 5, 90 to 100 percent, is maximal effort you can only hold for short bursts, used
       sparingly in intervals. Use these bands to find the fat-burning or aerobic zone at a glance.
+      Zones set effort rather than speed; to turn a recent race into target paces, see how
+      <a href={guidePathBySlug('running-pace-calculator')}>race pace predictions</a> work.
     </p>
   </section>
 

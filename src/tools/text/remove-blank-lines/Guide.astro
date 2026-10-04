@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -104,10 +105,11 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       The closest alternatives are <strong>Remove Duplicate Lines</strong>, which removes
       repeated lines (including repeated blank lines) while keeping unique ones, and
       <strong>Trim Text</strong>, which strips leading and trailing whitespace from each line.
-      Running Trim Text first can convert near-blank lines (those with only spaces) into truly
-      blank ones, making them eligible for removal. <strong>Normalize Whitespace</strong> is a
-      more aggressive alternative that also removes all line breaks, merging the text into a
-      single line.
+      Lines that hold only spaces are already removed here, so reach for Trim Text when lines keep
+      their content but carry stray edges, and see how to <a href={guidePathBySlug('trim-text')}>trim whitespace</a> in Excel
+      and code. <strong>Normalize Whitespace</strong> is a more aggressive alternative that also
+      removes all line breaks, merging the text into a single line. If joining every line is what
+      you want, you are after <a href={guidePathBySlug('remove-line-breaks')}>removing line breaks instead</a>.
     </p>
   </section>
 

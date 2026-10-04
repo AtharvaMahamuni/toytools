@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -99,7 +100,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       (ALL CAPS) is for acronyms, constants, and short labels. <strong>Lowercase</strong> is used
       for URL slugs and normalisation. Title Case sits between sentence case and uppercase: it adds
       more visual weight than sentence case but is more readable than all-caps for multi-word titles.
-      Most major publications use Title Case for article headlines and book titles.
+      Most major publications use Title Case for article headlines and book titles. To fix existing
+      text, here is how to get <a href={guidePathBySlug('sentence-case-converter')}>sentence case in Word and Docs</a>.
     </p>
   </section>
 

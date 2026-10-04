@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -44,7 +45,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       The word "binary" just means "base two", the same way "decimal" means base ten. Where decimal
       counts with ten digits (0–9), binary counts with two (0 and 1), so numbers get longer but the
-      alphabet of digits is as small as it can be.
+      alphabet of digits is as small as it can be. Networks lean on it too: the mask
+      <code>255.255.255.0</code> is 24 ones then 8 zeros, which is how
+      <a href={guidePathBySlug('cidr-calculator')}>subnet masks in binary</a> turn into CIDR notation like <code>/24</code>.
     </p>
     <ReferenceBlock type="key-idea" heading="One byte, eight bits">
       <p>Each byte is always eight bits, so every standard character lines up as a neat group of eight 0s and 1s.</p>

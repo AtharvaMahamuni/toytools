@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -91,6 +92,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       out the net. Sales tax vs VAT is mostly a matter of where the tax sits in the chain: US sales
       tax is added once at the till, while VAT and GST are collected at each stage, but the arithmetic
       a vat calculator uses is identical. The tax rate applies to the net figure in every case.
+      The same question comes up at restaurants, where people ask
+      <a href={guidePathBySlug('tip-calculator')}>whether to tip before or after tax</a>.
     </p>
   </section>
 

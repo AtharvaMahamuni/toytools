@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath, categoryPath } from '@lib/paths';
+import { guidePathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -49,7 +50,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       <strong>Assignment compliance.</strong> Some academic assignments specify a minimum or maximum
       paragraph count alongside a word limit. A five-paragraph essay (introduction, three body paragraphs, conclusion) is a common format in secondary and tertiary education. Paragraph
-      count verification prevents submission errors.
+      count verification prevents submission errors. The other half of the brief is covered in
+      how to <a href={guidePathBySlug('word-counter')}>write to a word limit</a>.
     </p>
     <p>
       <strong>Document validation.</strong> In automated content pipelines, paragraph count is a
