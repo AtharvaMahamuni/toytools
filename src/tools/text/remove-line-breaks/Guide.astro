@@ -132,8 +132,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>How Do You Join Lines With a Regex? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       In a regex, <code>\r?\n</code> matches a line break in either Windows or Unix form. In
-      JavaScript, <code>text.replace(/\r?\n/g, ' ')</code> joins every line, which is what this
-      tool does.
+      JavaScript, <code>text.replace(/[ \t]*(?:\r\n?|\n)+[ \t]*/g, ' ').trim()</code> joins every
+      line, which is what this tool does: it also catches a lone CR, folds blank lines into the same
+      single space, and trims the ends.
     </p>
     <p>
       To join lines but keep paragraphs, split on blank lines first and join inside each block:
