@@ -25,8 +25,8 @@ export const config: ToolConfig = {
     slug: 'how-inflation-affects-money',
     categorySlug: 'finance',
     title: 'How Inflation Affects Your Money',
-    description: 'Understand how inflation erodes purchasing power over time, how to read real vs nominal value, and the formula behind it.',
-    readMinutes: 5,
-    updatedAt: '2026-06-29',
+    description: 'How inflation erodes purchasing power, with worked examples at 3%, 5% and 7%, real vs nominal returns, and the rule of 72 for halving value.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },
 };

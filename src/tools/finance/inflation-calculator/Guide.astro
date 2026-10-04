@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -28,8 +29,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Inflation is the steady rise in the cost of living over time, which means a fixed amount of
-      money buys less each year. To find the future value of money in today terms, divide the
+      Inflation makes money worth less. Prices rise steadily over time, so a fixed amount of money
+      buys less each year. To find the future value of money in today terms, divide the
       amount by (1 + inflation rate) raised to the number of years. For example, at 3% inflation,
       $100,000 will buy what about $47,761 buys today after 25 years.
     </p>
@@ -73,6 +74,50 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <ReferenceBlock type="key-idea" heading="Real versus nominal">
       <p>Nominal is the face value, the number of dollars. Real is that value adjusted for inflation. A salary can rise in nominal terms yet fall in real terms if prices rise faster.</p>
     </ReferenceBlock>
+  </section>
+
+  <section id="ten-year-table">
+    <h2>How Much Is ₹1,00,000 Worth After 10 Years? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      It depends on the inflation rate, and the gap between rates grows fast. Here is what
+      ₹1,00,000 kept in cash will buy after 10 years, in today's money:
+    </p>
+    <ul>
+      <li><strong>At 3% inflation:</strong> ₹74,409, a loss of about a quarter.</li>
+      <li><strong>At 5% inflation:</strong> ₹61,391, a loss of almost 40%.</li>
+      <li><strong>At 7% inflation:</strong> ₹50,835, close to half gone.</li>
+    </ul>
+    <p>
+      Each figure is 1,00,000 ÷ (1 + rate)^10. The calculator works in rupees with Indian digit
+      grouping, or in other currencies, so you can run the same check on your own savings.
+    </p>
+  </section>
+
+  <section id="real-return">
+    <h2>What Is a Real Return? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A real return is what an investment earns after inflation. The exact formula is
+      (1 + nominal return) ÷ (1 + inflation) − 1. A fixed deposit paying 7% while inflation runs at
+      5% gives 1.07 ÷ 1.05 − 1 = 1.9%, slightly less than the 2% you get by subtracting.
+    </p>
+    <p>
+      The shortcut of subtracting is fine for small rates. However, at high inflation the gap widens,
+      and tax on the interest can push a real return below zero even when the nominal number looks
+      healthy.
+    </p>
+  </section>
+
+  <section id="rule-of-72">
+    <h2>How Fast Does Inflation Halve Your Money? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Divide 72 by the inflation rate. At 6% inflation, money loses half its purchasing power in about
+      72 ÷ 6 = 12 years. At 4%, it takes about 18 years; at 8%, about 9.
+    </p>
+    <p>
+      The same rule tells you how long an investment takes to double, which is why it works both
+      ways. The <a href={toolPathBySlug('rule-of-72-calculator')}>Rule of 72 Calculator</a> compares
+      the estimate with the exact answer.
+    </p>
   </section>
 
   <section id="common-mistakes">
