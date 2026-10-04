@@ -316,7 +316,7 @@ export const triangleCalculator: MathCalculator = {
       assumptions: [
         assumption('Angle unit', 'degrees'),
         assumption('Side names', 'a opposite A, b opposite B, c opposite C'),
-        assumption('Rounding', 'Each angle is rounded on its own, so the three shown can add to 179.99 or 180.01.'),
+        assumption('Rounding', 'Each angle is shown to five significant figures and rounded on its own, so the three shown can add to anything from 179.994 to 180.006.'),
       ],
       decisions: decisions([toolDecision('Plot the angles on a unit circle', 'unit-circle-calculator')]),
     });

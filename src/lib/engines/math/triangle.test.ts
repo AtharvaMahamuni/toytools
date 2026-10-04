@@ -98,7 +98,28 @@ describe('triangle calculator', () => {
     exactAngles(a, b, c).forEach((exact, i) => expect(Math.abs(shown[i] - exact)).toBeLessThan(0.005));
     const raw = res.metrics.filter((metric) => metric.id.startsWith('angle-')).map((metric) => metric.raw);
     expect(raw).toEqual(shown);
-    expect(res.assumptions.some((item) => item.value.includes('180.01'))).toBe(true);
+    expect(res.assumptions.some((item) => item.value.includes('179.994 to 180.006'))).toBe(true);
+  });
+
+  // The Rounding note states a bound, so the bound has to hold. Five significant figures leave at
+  // most 0.005 on an angle of 100 degrees or more and 0.0005 on each of the other two.
+  it('keeps the shown angle sum within the 179.994 to 180.006 the note promises', () => {
+    let worst = 0;
+    let seed = 7;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    for (let i = 0; i < 3000; i++) {
+      const a = 1 + rand() * 99;
+      const b = 1 + rand() * 99;
+      const lo = Math.abs(a - b) + 1e-3;
+      const c = lo + rand() * (a + b - lo - 1e-3);
+      const res = runMath('triangle', { a, b, c, A: '', B: '', C: '' }, {});
+      if (!res.ok) continue;
+      const shown = shownAngles(res.hero?.note ?? '');
+      if (shown.length !== 3) continue;
+      worst = Math.max(worst, Math.abs(shown[0] + shown[1] + shown[2] - 180));
+    }
+    expect(worst).toBeGreaterThan(0);
+    expect(worst).toBeLessThanOrEqual(0.006 + 1e-9);
   });
 
   it('solves a 0.003, 0.004, 0.005 right triangle and prints the real sides', () => {
