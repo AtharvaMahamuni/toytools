@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Color Shades Generator',
   seoTitle: 'Color Shades Generator: Tailwind 50 to 950 Scale',
   description:
-    'Turn one color into a 50 to 950 OKLCH scale of tints and shades, copied as CSS variables. Runs entirely on your device. Nothing is uploaded.',
+    'Turn one color into a 50 to 950 palette of OKLCH tints and shades, with 100 to 900 between, as CSS variables. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'A 50 to 950 OKLCH scale, copied as CSS variables.',
   categorySlug: 'design-tools',
   tags: ['color shades generator', 'tints and shades', 'tailwind color shades', 'oklch palette'],

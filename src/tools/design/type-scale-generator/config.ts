@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Type Scale Generator',
   seoTitle: 'Type Scale Generator: Modular Font Sizes in rem',
   description:
-    'A modular type scale from a base size and a ratio, golden ratio included, in px and rem, as CSS variables. Runs entirely on your device. Nothing is uploaded.',
+    'A CSS type ramp for typography: modular font sizes from a base and a ratio, golden ratio included, in rem. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Font sizes from a ratio, in rem and CSS variables.',
   categorySlug: 'design-tools',
   tags: ['type scale generator', 'modular scale', 'font size scale', 'golden ratio typography', 'css type scale', 'rem'],

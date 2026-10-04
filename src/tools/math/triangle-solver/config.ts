@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Triangle Solver',
   seoTitle: 'Triangle Calculator: Law of Sines and Cosines',
   description:
-    'Solve a triangle from any three parts with the law of sines, the law of cosines, and the Pythagorean theorem. Both SSA triangles are drawn.',
+    'Solve SSS, SAS, ASA, AAS or SSA triangles with trig: the law of sines, cosines, or the Pythagorean theorem. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Enter any three parts and see the triangle drawn to scale.',
   categorySlug: 'applied-math',
   tags: [

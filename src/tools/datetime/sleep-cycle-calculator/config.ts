@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Sleep Cycle Calculator',
   seoTitle: 'Sleep Cycle Calculator: 90 Minute Bedtime',
   description:
-    'What time should you go to bed? Bedtimes in 90 minute sleep cycles, plus the minutes it takes to fall asleep. Runs entirely on your device. Nothing is uploaded.',
+    'What time should you go to bed or wake up? Bed and wake times in 90 minute cycles, plus time to fall asleep. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Bedtimes in 90 minute cycles, plus time to fall asleep.',
   categorySlug: 'date-time',
   tags: ['sleep calculator', 'bedtime calculator', '90 minute sleep cycles', 'wake time'],

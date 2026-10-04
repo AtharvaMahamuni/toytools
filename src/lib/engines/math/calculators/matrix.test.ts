@@ -30,7 +30,10 @@ describe('matrix arithmetic', () => {
     expect(determinant(parsed.matrix)).not.toBe(0);
     expect(tidy(1e-9)).toBe(1e-9);
     expect(tidy(0.1 + 0.2)).toBe(0.3);
-    expect(tidy(1.000000001)).toBe(1);
+    // A typed 1.000000001 is a real value, not float noise (audit #4): it is kept, while
+    // binary noise one ulp from an integer still snaps.
+    expect(tidy(1.000000001)).toBe(1.000000001);
+    expect(tidy(1 + Number.EPSILON)).toBe(1);
   });
 
   it('tidies 0.1 + 0.2', () => {

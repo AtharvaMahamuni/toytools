@@ -5,7 +5,7 @@ export const config: ToolConfig = {
   name: 'Matrix Calculator',
   seoTitle: 'Matrix Calculator: Multiply, Determinant, Inverse',
   description:
-    'Add, subtract, multiply, transpose or invert matrices up to 8 by 8, with the determinant and the first step. Runs entirely on your device. Nothing is uploaded.',
+    'Add, subtract, multiply, transpose or invert matrices up to 8 by 8, with the first of the steps worked out. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Add, multiply, transpose or invert matrices, with the first step shown.',
   categorySlug: 'applied-math',
   tags: ['matrix multiplication', 'determinant', 'inverse matrix', 'transpose', 'matrix calculator with steps'],
