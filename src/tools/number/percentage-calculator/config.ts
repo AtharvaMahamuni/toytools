@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Percent of a number, or the change between two. On your device.',
   categorySlug: 'number-utilities',
   tags: ['numbers', 'percentage', 'math', 'calculate', 'calculate percentage online', 'percent calculator', 'percentage of a number', 'percentage increase calculator', 'how to calculate percentage', 'online percent calculator', 'percentage change', 'discount calculator'],
-  updatedAt: '2026-09-08',
+  updatedAt: '2026-10-05',
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',

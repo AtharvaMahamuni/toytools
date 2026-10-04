@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['base64', 'encode', 'decode', 'developer', 'base64 encoder', 'base64 decoder', 'base64 converter', 'online base64', 'base64 to text', 'text to base64', 'decode base64 string', 'base64 converter online', 'base64 encode decode'],
   isNew: true,
-  updatedAt: '2026-06-02',
+  updatedAt: '2026-10-05',
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'binary-text',

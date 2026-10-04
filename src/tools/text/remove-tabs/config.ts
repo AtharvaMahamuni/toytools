@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Replace tab characters with spaces, then copy.',
   categorySlug: 'text-utilities',
   tags: ['remove tabs', 'convert tabs to spaces', 'replace tabs', 'tabs to spaces', 'delete tabs', 'strip tabs', 'detab text'],
-  updatedAt: '2026-07-10',
+  updatedAt: '2026-10-05',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

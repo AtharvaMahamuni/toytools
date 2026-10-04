@@ -8,7 +8,7 @@ export const config: ToolConfig = {
   tagline: 'Collapse extra spaces and tabs. Nothing is uploaded.',
   categorySlug: 'text-utilities',
   tags: ['remove extra spaces', 'remove double spaces', 'delete extra spaces', 'collapse spaces', 'clean up spaces', 'remove multiple spaces', 'fix spacing'],
-  updatedAt: '2026-07-09',
+  updatedAt: '2026-10-05',
   engine: 'text-processor',
   pattern: 'text-cleanup',
   family: 'cleanup',

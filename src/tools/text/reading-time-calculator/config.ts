@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['reading time calculator', 'read time estimator', 'how long to read', 'reading time', 'speaking time', 'presentation timer', 'blog post reading time', 'article reading time', 'minutes to read'],
   isNew: true,
-  updatedAt: '2026-07-10',
+  updatedAt: '2026-10-05',
   engine: 'text-analysis',
   craft: {
     id: 'read-assumption',

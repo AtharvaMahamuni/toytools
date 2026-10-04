@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['jwt', 'json web token', 'jwt decoder', 'decode jwt', 'jwt decode', 'jwt parser', 'jwt viewer', 'jwt claims', 'jwt payload', 'jwt header', 'developer', 'auth', 'token decoder', 'online jwt decoder'],
   isNew: true,
-  updatedAt: '2026-06-25',
+  updatedAt: '2026-10-05',
   engine: 'jwt',
   pattern: 'token-decode',
   family: 'token',

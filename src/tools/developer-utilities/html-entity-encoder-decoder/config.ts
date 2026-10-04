@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['html entity', 'html encode', 'html decode', 'html entities', 'escape html', 'unescape html', 'html entity encoder', 'html entity decoder', 'encode html online', 'developer'],
   isNew: true,
-  updatedAt: '2026-06-09',
+  updatedAt: '2026-10-05',
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'web',
