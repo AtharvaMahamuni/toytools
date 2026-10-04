@@ -7,6 +7,24 @@ import type { MathInput } from './types';
 
 export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
   {
+    id: 'triangle-345',
+    engine: 'math',
+    ref: 'triangle',
+    title: '3-4-5 right triangle',
+    inputs: { a: 3, b: 4, c: 5, A: '', B: '', C: '' },
+    expect: { solutions: 1, 'side-a': 3, 'side-b': 4, 'side-c': 5, 'angle-c': 90 },
+    narrative: 'Sides 3, 4 and 5 are a right triangle. The right angle sits opposite the side of length 5.',
+  },
+  {
+    id: 'triangle-ssa-ambiguous',
+    engine: 'math',
+    ref: 'triangle',
+    title: 'Ambiguous SSA case',
+    inputs: { a: 7, b: 10, c: '', A: 30, B: '', C: '' },
+    expect: { solutions: 2 },
+    narrative: 'Angle A 30 degrees, opposite side 7, other side 10. The height is 5, so two triangles fit.',
+  },
+  {
     id: 'fraction-add-lcd',
     engine: 'math',
     ref: 'fraction',
@@ -98,6 +116,24 @@ export const MATH_EXAMPLES: WorkedExample<MathInput>[] = [
     inputs: { values: '2, 4, 4, 4, 5, 5, 7, 9', stdevMode: 'population' },
     expect: { mean: 5, median: 4.5, stdev: 2 },
     narrative: 'A classic teaching set: mean 5, population SD 2, with mode 4.',
+  },
+  {
+    id: 'matrix-multiply-2x2',
+    engine: 'math',
+    ref: 'matrix',
+    title: '2 by 2 product',
+    inputs: { operation: 'multiply', a: '1 2\n3 4', b: '5 6\n7 8' },
+    expect: { entry: 19, rows: 2, cols: 2 },
+    narrative: 'Row 1 of A dotted with column 1 of B is 1×5 + 2×7 = 19. The product is 2 by 2.',
+  },
+  {
+    id: 'matrix-det-2x2',
+    engine: 'math',
+    ref: 'matrix',
+    title: '2 by 2 determinant',
+    inputs: { operation: 'determinant', a: '1 2\n3 4', b: '' },
+    expect: { determinant: -2, order: 2 },
+    narrative: '1×4 - 2×3 = -2. The matrix is square, so the determinant exists.',
   },
 ];
 

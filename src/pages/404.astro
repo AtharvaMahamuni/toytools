@@ -180,7 +180,7 @@ const feedbackUrl = withBase('/feedback/');
   same index and scoring as the palette.
 */}
 <script>
-  import { loadIndex, rankEntries, entryUrl } from '@lib/palette';
+  import { loadIndex, rankCatalog, entryUrl } from '@lib/palette';
 
   const section = document.getElementById('nf-suggestions');
   const list = document.getElementById('nf-suggestion-list');
@@ -191,9 +191,9 @@ const feedbackUrl = withBase('/feedback/');
     const guess = (parts[parts.length - 1] ?? '').replace(/\.[a-z]+$/i, '').replace(/-/g, ' ');
 
     if (guess) {
-      void loadIndex().then((index) => {
+      void loadIndex().then(async (index) => {
         if (!index) return;
-        const hits = rankEntries(index.t, guess, 3);
+        const hits = await rankCatalog(index, guess, 3);
         if (!hits.length) return;
 
         list.innerHTML = hits

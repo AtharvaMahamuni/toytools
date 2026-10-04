@@ -23,6 +23,7 @@ import { items as cidrCalculatorFaqs } from '@tools/developer-utilities/cidr-cal
 import { items as coinFlipperFaqs } from '@tools/generate/coin-flipper/faq';
 import { items as colorContrastCheckerFaqs } from '@tools/design/color-contrast-checker/faq';
 import { items as colorFormatConverterFaqs } from '@tools/design/color-format-converter/faq';
+import { items as colorShadesGeneratorFaqs } from '@tools/design/color-shades-generator/faq';
 import { items as combinationsPermutationsCalculatorFaqs } from '@tools/math/combinations-permutations-calculator/faq';
 import { items as compoundInterestCalculatorFaqs } from '@tools/finance/compound-interest-calculator/faq';
 import { items as contextFitCheckerFaqs } from '@tools/prep/context-fit-checker/faq';
@@ -38,6 +39,7 @@ import { items as discountCalculatorFaqs } from '@tools/number/discount-calculat
 import { items as emergencyFundCalculatorFaqs } from '@tools/finance/emergency-fund-calculator/faq';
 import { items as encodingDetectorFaqs } from '@tools/developer-utilities/encoding-detector/faq';
 import { items as equalizerSettingsGeneratorFaqs } from '@tools/music/equalizer-settings-generator/faq';
+import { items as fileHashVerifierFaqs } from '@tools/developer-utilities/file-hash-verifier/faq';
 import { items as findReplaceFaqs } from '@tools/text/find-replace/faq';
 import { items as fractionCalculatorFaqs } from '@tools/math/fraction-calculator/faq';
 import { items as gearsFaqs } from '@tools/fidget/gears/faq';
@@ -71,6 +73,7 @@ import { items as lowercaseConverterFaqs } from '@tools/text/lowercase-converter
 import { items as macroCalculatorFaqs } from '@tools/health/macro-calculator/faq';
 import { items as marginCalculatorFaqs } from '@tools/number/margin-calculator/faq';
 import { items as markupCalculatorFaqs } from '@tools/number/markup-calculator/faq';
+import { items as matrixCalculatorFaqs } from '@tools/math/matrix-calculator/faq';
 import { items as md5HashGeneratorFaqs } from '@tools/developer-utilities/md5-hash-generator/faq';
 import { items as moveTodayTrackerFaqs } from '@tools/health/move-today-tracker/faq';
 import { items as normalizeWhitespaceFaqs } from '@tools/text/normalize-whitespace/faq';
@@ -117,6 +120,7 @@ import { items as sha512HashGeneratorFaqs } from '@tools/developer-utilities/sha
 import { items as shellQuoteEscalatorFaqs } from '@tools/developer-utilities/shell-quote-escalator/faq';
 import { items as shopUpiTallyFaqs } from '@tools/finance/shop-upi-tally/faq';
 import { items as sipCalculatorFaqs } from '@tools/finance/sip-calculator/faq';
+import { items as sleepCycleCalculatorFaqs } from '@tools/datetime/sleep-cycle-calculator/faq';
 import { items as slimeFaqs } from '@tools/fidget/slime/faq';
 import { items as slugifyTextFaqs } from '@tools/text/slugify-text/faq';
 import { items as snakeCaseConverterFaqs } from '@tools/text/snake-case-converter/faq';
@@ -134,7 +138,9 @@ import { items as timezoneConverterFaqs } from '@tools/datetime/timezone-convert
 import { items as tipCalculatorFaqs } from '@tools/number/tip-calculator/faq';
 import { items as titleCaseConverterFaqs } from '@tools/text/title-case-converter/faq';
 import { items as todoListFaqs } from '@tools/productivity/todo-list/faq';
+import { items as triangleSolverFaqs } from '@tools/math/triangle-solver/faq';
 import { items as trimTextFaqs } from '@tools/text/trim-text/faq';
+import { items as typeScaleGeneratorFaqs } from '@tools/design/type-scale-generator/faq';
 import { items as unixTimestampConverterFaqs } from '@tools/datetime/unix-timestamp-converter/faq';
 import { items as upi1999SplitFaqs } from '@tools/finance/upi-1999-split/faq';
 import { items as upiMdrEstimatorFaqs } from '@tools/finance/upi-mdr-estimator/faq';
@@ -170,6 +176,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'coin-flipper': coinFlipperFaqs,
   'color-contrast-checker': colorContrastCheckerFaqs,
   'color-format-converter': colorFormatConverterFaqs,
+  'color-shades-generator': colorShadesGeneratorFaqs,
   'combinations-permutations-calculator': combinationsPermutationsCalculatorFaqs,
   'compound-interest-calculator': compoundInterestCalculatorFaqs,
   'context-fit-checker': contextFitCheckerFaqs,
@@ -185,6 +192,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'emergency-fund-calculator': emergencyFundCalculatorFaqs,
   'encoding-detector': encodingDetectorFaqs,
   'equalizer-settings-generator': equalizerSettingsGeneratorFaqs,
+  'file-hash-verifier': fileHashVerifierFaqs,
   'find-replace': findReplaceFaqs,
   'fraction-calculator': fractionCalculatorFaqs,
   'gears': gearsFaqs,
@@ -218,6 +226,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'macro-calculator': macroCalculatorFaqs,
   'margin-calculator': marginCalculatorFaqs,
   'markup-calculator': markupCalculatorFaqs,
+  'matrix-calculator': matrixCalculatorFaqs,
   'md5-hash-generator': md5HashGeneratorFaqs,
   'move-today-tracker': moveTodayTrackerFaqs,
   'normalize-whitespace': normalizeWhitespaceFaqs,
@@ -264,6 +273,7 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'shell-quote-escalator': shellQuoteEscalatorFaqs,
   'shop-upi-tally': shopUpiTallyFaqs,
   'sip-calculator': sipCalculatorFaqs,
+  'sleep-cycle-calculator': sleepCycleCalculatorFaqs,
   'slime': slimeFaqs,
   'slugify-text': slugifyTextFaqs,
   'snake-case-converter': snakeCaseConverterFaqs,
@@ -281,7 +291,9 @@ export const authoredFaqsBySlug: Record<string, FAQItem[]> = {
   'tip-calculator': tipCalculatorFaqs,
   'title-case-converter': titleCaseConverterFaqs,
   'todo-list': todoListFaqs,
+  'triangle-solver': triangleSolverFaqs,
   'trim-text': trimTextFaqs,
+  'type-scale-generator': typeScaleGeneratorFaqs,
   'unix-timestamp-converter': unixTimestampConverterFaqs,
   'upi-1999-split': upi1999SplitFaqs,
   'upi-mdr-estimator': upiMdrEstimatorFaqs,

@@ -1,0 +1,56 @@
+import type { ToolConfig } from '@data/types';
+
+export const config: ToolConfig = {
+  slug: 'triangle-solver',
+  name: 'Triangle Solver',
+  seoTitle: 'Triangle Calculator: Law of Sines and Cosines',
+  description:
+    'Solve a triangle from any three parts with the law of sines, the law of cosines, and the Pythagorean theorem. Both SSA triangles are drawn.',
+  tagline: 'Enter any three parts and see the triangle drawn to scale.',
+  categorySlug: 'applied-math',
+  tags: [
+    'triangle calculator',
+    'law of sines',
+    'law of cosines',
+    'pythagorean theorem',
+    'ambiguous case',
+  ],
+  updatedAt: '2026-10-02',
+  addedOn: '2026-10-02',
+  trustVariant: 'private',
+  engine: 'math',
+  pattern: 'math-calculate',
+  family: 'triangles',
+  processorId: 'triangle',
+  inputs: ['number'],
+  outputs: ['metric'],
+  craft: {
+    id: 'triangle-ssa-pair',
+    kind: 'orientation',
+    solves:
+      'Two sides and a non-included angle can fit two triangles, and a solver that prints only the acute one hides the obtuse triangle.',
+  },
+  citation: {
+    problem: 'Use Triangle Solver when three sides or angles should produce the missing parts on a figure drawn to scale.',
+    nonGoal: 'treat three angles as a sized triangle, hide the second SSA solution, or send the measurements to an AI model.',
+  },
+  job: {
+    intent: 'calculate',
+    userJob: 'Enter any three parts of a triangle and see the other sides and angles drawn to scale.',
+    repeatability: 'medium',
+    interactionDepth: 'medium',
+    privacyValue: 'low',
+    aiSubstitutability: 'medium',
+    browserOnly: true,
+  },
+  relatedTools: ['unit-circle-calculator', 'quadratic-equation-solver', 'fraction-calculator'],
+  guide: {
+    slug: 'triangle-solver',
+    categorySlug: 'applied-math',
+    title: 'How to Solve a Triangle from Three Parts',
+    description:
+      'Which three parts determine a triangle, how the law of sines and the law of cosines are used, and why SSA can return two answers.',
+    readMinutes: 7,
+    updatedAt: '2026-10-02',
+  },
+};

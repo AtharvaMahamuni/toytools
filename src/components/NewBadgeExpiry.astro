@@ -1,0 +1,14 @@
+<!-- Drops a New badge once its data-new-until instant has passed, so a page built inside the
+     five-day window does not keep the badge after the window closes. Included only on pages
+     that actually render a badge: a sitewide copy was enough to push the heaviest tool page
+     over its byte budget. -->
+<script is:inline>
+  (function () {
+    var now = Date.now();
+    var nodes = document.querySelectorAll('[data-new-until]');
+    for (var i = 0; i < nodes.length; i++) {
+      var until = Date.parse(nodes[i].getAttribute('data-new-until') || '');
+      if (!isNaN(until) && now >= until) nodes[i].parentNode.removeChild(nodes[i]);
+    }
+  })();
+</script>

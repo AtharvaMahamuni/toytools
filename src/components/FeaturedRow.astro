@@ -1,0 +1,305 @@
+---
+// Wide snap row of tools added in the last five days. Sits outside `.category-shelves`
+// so the homepage outline stays one heading per category.
+import { categories } from '@data/categories';
+import { tools } from '@data/registry';
+import { toolPath, withBase } from '@lib/paths';
+import { freshUntil } from '@lib/tools/freshness';
+
+const bySlug = new Map(categories.map(category => [category.slug, category]));
+const now = new Date();
+
+const featured = tools
+  .flatMap(tool => {
+    const until = freshUntil(tool.addedOn, now);
+    const category = bySlug.get(tool.categorySlug);
+    if (!until || !tool.addedOn || !category) return [];
+    return [{
+      slug: tool.slug,
+      name: tool.name,
+      tagline: tool.tagline || tool.description,
+      category: category.name,
+      accent: category.accent,
+      addedOn: tool.addedOn,
+      href: toolPath({ slug: tool.slug, segment: category.segment }),
+      icon: withBase(`/icons/tool/${tool.slug}.svg`),
+      newUntil: until,
+    }];
+  })
+  .sort((a, b) => (a.addedOn < b.addedOn ? 1 : a.addedOn > b.addedOn ? -1 : a.name.localeCompare(b.name)));
+---
+
+{featured.length > 0 && (
+  <section class="featured" data-featured aria-labelledby="featured-heading">
+    <div class="featured-head">
+      <h2 id="featured-heading">New tools</h2>
+      <div class="featured-nav" data-featured-nav>
+        <button type="button" class="featured-btn" data-featured-prev aria-label="Previous new tool">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <button type="button" class="featured-btn" data-featured-next aria-label="Next new tool">
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+    </div>
+    <ul class="featured-track" data-featured-track>
+      {featured.map(card => (
+        <li class="featured-item" data-featured-until={card.newUntil} style={card.accent ? `--cat-accent: ${card.accent}` : ''}>
+          <a class="featured-card" href={card.href} data-slug={card.slug}>
+            <img class="featured-icon" src={card.icon} width="64" height="64" alt="" loading="lazy" decoding="async" />
+            <span class="featured-copy">
+              <span class="featured-name">
+                {card.name}
+                <span class="featured-badge" data-new-until={card.newUntil}>New</span>
+              </span>
+              <span class="featured-tagline">{card.tagline}</span>
+              <span class="featured-cat">
+                <span class="featured-dot" aria-hidden="true"></span>
+                {card.category}
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <script is:inline>
+      (function () {
+        var root = document.querySelector('[data-featured]');
+        if (!root) return;
+        var track = root.querySelector('[data-featured-track]');
+        if (!track) return;
+        var now = Date.now();
+        var cards = track.querySelectorAll('[data-featured-until]');
+        for (var i = 0; i < cards.length; i++) {
+          var until = Date.parse(cards[i].getAttribute('data-featured-until') || '');
+          if (!isNaN(until) && now >= until) cards[i].parentNode.removeChild(cards[i]);
+        }
+        var live = track.querySelectorAll('[data-featured-until]');
+        if (!live.length) {
+          root.parentNode.removeChild(root);
+          return;
+        }
+        if (live.length < 2) {
+          var nav = root.querySelector('[data-featured-nav]');
+          if (nav) nav.setAttribute('hidden', '');
+          return;
+        }
+
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var hover = false;
+        var focus = false;
+        var timer = 0;
+
+        function gap() {
+          var styles = window.getComputedStyle(track);
+          return parseFloat(styles.columnGap || styles.gap || '0') || 0;
+        }
+
+        function step(dir) {
+          var card = track.querySelector('[data-featured-until]');
+          if (!card) return;
+          var delta = card.getBoundingClientRect().width + gap();
+          var max = track.scrollWidth - track.clientWidth - 1;
+          var left = track.scrollLeft + dir * delta;
+          if (dir > 0 && track.scrollLeft >= max) left = 0;
+          if (dir < 0 && track.scrollLeft <= 1) left = max;
+          track.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
+        }
+
+        function stop() {
+          if (timer) window.clearInterval(timer);
+          timer = 0;
+        }
+
+        function sync() {
+          if (reduce || hover || focus) stop();
+          else {
+            stop();
+            timer = window.setInterval(function () { step(1); }, 5000);
+          }
+        }
+
+        root.addEventListener('mouseenter', function () { hover = true; sync(); });
+        root.addEventListener('mouseleave', function () { hover = false; sync(); });
+        root.addEventListener('focusin', function () { focus = true; sync(); });
+        root.addEventListener('focusout', function (event) {
+          if (root.contains(event.relatedTarget)) return;
+          focus = false;
+          sync();
+        });
+
+        var prev = root.querySelector('[data-featured-prev]');
+        var next = root.querySelector('[data-featured-next]');
+        if (prev) prev.addEventListener('click', function () { step(-1); sync(); });
+        if (next) next.addEventListener('click', function () { step(1); sync(); });
+
+        sync();
+      })();
+    </script>
+  </section>
+)}
+
+<style>
+  .featured {
+    margin: 0 0 var(--space-10);
+  }
+
+  .featured-head {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .featured-head h2 {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .featured-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .featured-nav[hidden] {
+    display: none;
+  }
+
+  .featured-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--touch-target);
+    min-height: var(--touch-target);
+    padding: 0;
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-xl);
+    line-height: 1;
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .featured-btn:hover,
+  .featured-btn:active {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+  }
+
+  .featured-track {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--space-2);
+    display: flex;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .featured-item {
+    flex: 0 0 86%;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+
+  .featured-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: 100%;
+    min-height: var(--touch-target);
+    padding: var(--space-5);
+    border: var(--border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: var(--transition-color);
+  }
+
+  .featured-card:hover,
+  .featured-card:active {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .featured-icon {
+    width: calc(var(--touch-target) + var(--space-4));
+    height: calc(var(--touch-target) + var(--space-4));
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+  }
+
+  .featured-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .featured-name {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+  }
+
+  .featured-badge {
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-strong);
+  }
+
+  .featured-tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .featured-cat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+  }
+
+  .featured-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cat-accent, var(--color-accent));
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .featured-item {
+      flex-basis: 46%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .featured-track {
+      scroll-behavior: auto;
+    }
+  }
+</style>

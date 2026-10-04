@@ -1080,6 +1080,14 @@ body.tt-focus-lock {
   font-size: 9px;
   font-family: var(--font-sans);
 }
+.viz-poly { fill: var(--color-accent-subtle); stroke: var(--color-accent); stroke-width: 2; stroke-linejoin: round; }
+.viz-poly--alt { fill: transparent; stroke: var(--color-text-muted); stroke-dasharray: 5 3; }
+.viz-poly-label {
+  fill: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  text-anchor: middle;
+}
 .viz-marker { fill: var(--color-accent); }
 .viz-marker-rule { stroke: var(--color-accent); stroke-width: 2; }
 .viz-marker-label {

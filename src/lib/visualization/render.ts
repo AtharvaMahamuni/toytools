@@ -7,7 +7,7 @@
 // The engine layer never calls these functions directly. An engine returns a VizSpec on its
 // InteractiveResult; the experience renderer picks it up and injects the markup.
 
-import type { VizSpec, VizPart, VizBand, VizBox } from './types';
+import type { VizSpec, VizPart, VizBand, VizBox, VizSeries } from './types';
 
 /** Drawing surface width shared by every kind; heights vary per kind. */
 const W = 320;
@@ -328,6 +328,63 @@ export function histogramSvg(
   return svg(height, opts.title ?? 'Histogram and box plot', bars + labels + boxMark);
 }
 
+// ── polygon ─────────────────────────────────────────────────────────────────────────────────────
+// A closed shape on equal x/y scale. A triangle drawn in a chart that stretches to fit the panel
+// is not the triangle the sides describe.
+
+const POLY_H = 200;
+const POLY_PAD = 36;
+
+function polygonSvg(series: VizSeries[], title?: string): string {
+  const polys = series.filter((s) => s.points.length >= 3);
+  if (polys.length === 0) return emptySvg();
+  const all = polys.flatMap((s) => s.points);
+  if (!all.every((p) => finite(Number(p.x), p.y))) return emptySvg();
+
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (const p of all) {
+    const x = Number(p.x);
+    const y = p.y;
+    minX = Math.min(minX, x);
+    maxX = Math.max(maxX, x);
+    minY = Math.min(minY, y);
+    maxY = Math.max(maxY, y);
+  }
+  const spanX = Math.max(maxX - minX, 1e-9);
+  const spanY = Math.max(maxY - minY, 1e-9);
+  const plotW = W - POLY_PAD * 2;
+  const plotH = POLY_H - POLY_PAD * 2;
+  const scale = Math.min(plotW / spanX, plotH / spanY);
+  const usedW = spanX * scale;
+  const usedH = spanY * scale;
+  const ox = POLY_PAD + (plotW - usedW) / 2;
+  const oy = POLY_PAD + (plotH - usedH) / 2;
+  const mapX = (x: number) => ox + (x - minX) * scale;
+  const mapY = (y: number) => oy + (maxY - y) * scale;
+
+  const body = polys
+    .map((s, i) => {
+      const pts = s.points.map((p) => `${n(mapX(Number(p.x)))},${n(mapY(p.y))}`).join(' ');
+      const cls = i === 0 ? 'viz-poly' : 'viz-poly viz-poly--alt';
+      const labels = s.points
+        .map((p) => {
+          if (!p.label) return '';
+          return (
+            `<text class="viz-poly-label" x="${n(mapX(Number(p.x)))}" y="${n(mapY(p.y) - 8)}">` +
+            `${esc(p.label)}</text>`
+          );
+        })
+        .join('');
+      return `<polygon class="${cls}" points="${pts}"><title>${esc(s.label ?? 'Shape')}</title></polygon>${labels}`;
+    })
+    .join('');
+
+  return svg(POLY_H, title ?? 'Shape drawn to scale', body);
+}
+
 // ── dispatch ────────────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -355,6 +412,8 @@ export function renderViz(spec: VizSpec | undefined): string {
     case 'line':
     case 'area':
       return sparklineSvg((data.series?.[0]?.points ?? []).map((p) => p.y), { title });
+    case 'polygon':
+      return polygonSvg(data.series ?? [], title);
     default:
       return emptySvg();
   }

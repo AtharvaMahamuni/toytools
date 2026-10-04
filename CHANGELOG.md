@@ -2,6 +2,31 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.3] - 2026-10-02
+
+### Added
+
+- **Triangle Solver** (`/tool/math/triangle-solver/`). Enter any three parts and see the other sides and angles, including both SSA answers, drawn to scale.
+- **Sleep Cycle Calculator** (`/tool/datetime/sleep-cycle-calculator/`). Bedtimes and wake times in 90 minute cycles, counting the minutes it takes to fall asleep.
+- **Color Shades Generator** (`/tool/design/color-shades-generator/`). A 50 to 950 tint and shade scale from one color, in OKLCH, copied as CSS, with a note when a step fails contrast on white.
+- **File Hash Verifier** (`/tool/developer-utilities/file-hash-verifier/`). A local file hash, compared with a published digest. Large files are sliced. Nothing is uploaded.
+- **Type Scale Generator** (`/tool/design/type-scale-generator/`). A modular type scale from a base size and a ratio, as rem values and CSS variables, with a warning when a step falls outside a readable band.
+- **Matrix Calculator** (`/tool/math/matrix-calculator/`). Add, subtract, multiply, transpose, or invert a matrix. A product of mismatched shapes names both sizes, and the first legal product shows its first step.
+
+### Changed
+
+- **The home page fills the desktop row.** Category shelves are three equal tiles from 1024px wide, and See all sits next to the category name. Tools added in the last five days appear in a wide row that advances every few seconds and pauses while the pointer or keyboard is on it. The New badge leaves after five days, on the next visit as well as the next build.
+
+### Fixed
+
+- **The six new tools have their own install icons.** Triangle, sleep, shades, file hash, type scale, and matrix no longer share the generic spark.
+- **Search keeps alias matches without growing the first download.** The name catalog is what a search fetches first. Tag and alias lists load only when the query is not already a tool name.
+- **Each of the six new guides walks one example.** Triangle checks 3-4-5, sleep shows 11:15 pm, shades show the #3b82f6 contrast note, file hash shows the empty-file digest, type scale shows a 16px base at 1.25, and matrix shows the default product.
+- **Triangle Solver angles add to 180.** Rounding no longer leaves a 1-3-3 triangle at 180.01°.
+- **File Hash Verifier reports a file it cannot read.** The page no longer keeps the filename beside a blank digest.
+- **Matrix Calculator keeps a very small typed entry.** A value such as 1e-9 is not rewritten to 0 before the arithmetic.
+- **A bad color or type scale clears the previous result.** Copy CSS no longer copies a ramp that does not match the field.
+
 ## [beta-v12.2] - 2026-09-30
 
 ### Changed

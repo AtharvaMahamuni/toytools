@@ -10,12 +10,16 @@ import { fractionCalculator } from './calculators/fraction';
 import { combinationsCalculator } from './calculators/combinations';
 import { primeFactorizationCalculator } from './calculators/prime-factorization';
 import { statisticsCalculator } from './calculators/statistics';
+import { triangleCalculator } from './calculators/triangle';
+import { matrixCalculator } from './calculators/matrix';
 
 export const MATH_CALCULATORS: Record<string, MathCalculator> = {
   fraction: fractionCalculator,
   combinations: combinationsCalculator,
   'prime-factorization': primeFactorizationCalculator,
   statistics: statisticsCalculator,
+  triangle: triangleCalculator,
+  matrix: matrixCalculator,
 };
 
 /**

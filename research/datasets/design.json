@@ -147,6 +147,10 @@
         "no copyable CSS custom properties",
         "no perceptual (OKLCH) spacing"
       ],
+      "userFailures": [
+        "The stop nearest the brand color is never checked as text on white, so a 500 that looks fine in the row fails WCAG 4.5.",
+        "Light and dark stops keep the source chroma, fall outside sRGB, and the copied hex is a clipped color."
+      ],
       "relatedProblems": ["color conversion", "perceptual gradient"],
       "relatedTools": ["color-format-converter", "css-gradient-generator"],
       "demand": 64,
@@ -266,6 +270,10 @@
         "no copyable CSS custom properties",
         "limited ratio presets",
         "not mobile-first"
+      ],
+      "userFailures": [
+        "A caption step under 12px is printed with no warning that text that small fails on a phone.",
+        "A golden-ratio display step grows past 64px and the page still offers it as a heading."
       ],
       "relatedProblems": ["px to rem", "aspect ratio"],
       "relatedTools": ["px-to-rem-converter", "aspect-ratio-calculator"],

@@ -293,6 +293,18 @@ export const GLYPHS: Record<string, string> = {
   ipAddress: S + '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.6 2.5 2.6 14.5 0 17"/><path d="M8 8h.01M16 8h.01M8 16h.01M16 16h.01"/>' + E,
   // UUID inspector
   uuidInspect: S + '<path d="M8 5a5 5 0 0 1 5 5v1"/><path d="M5 11v-1a5 5 0 0 1 2.8-4.5"/><path d="M9.5 10a2.5 2.5 0 0 1 5 0v2.5"/><circle cx="16.5" cy="16.5" r="4"/><path d="M19.3 19.3 21.5 21.5"/>' + E,
+  // Triangle solver
+  triangle: S + '<path d="M12 3.5 21 20.5H3Z"/>' + E,
+  // Sleep cycle
+  moon: S + '<path d="M16 3.2A7.2 7.2 0 1 0 20.8 14 8.4 8.4 0 1 1 16 3.2Z"/>' + E,
+  // Tint and shade scale
+  shadeStack: S + '<rect x="3" y="4" width="18" height="4" rx="1"/><rect x="5.5" y="10" width="13" height="4" rx="1"/><rect x="8" y="16" width="8" height="4" rx="1"/>' + E,
+  // Local file hash
+  fileHash: S + '<path d="M6 3.5h7.2L19 9.2V20.5H6Z"/><path d="M13 3.5V9h6"/><path d="M9 13h6M9 16.5h6M11 11.2 10 18M14.2 11.2 13.2 18"/>' + E,
+  // Modular type scale
+  typeRamp: S + '<path d="M3 19h18"/><path d="M6 19V10M10.5 19V6M15.5 19v-5M19.5 19V9"/>' + E,
+  // Matrix calculator
+  matrixGrid: S + '<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M12 3.5v17M3.5 12h17"/>' + E,
 
   // ── generic fallback (never blank) ────────────────────────────────────
   spark: S + '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6Z"/>' + E,

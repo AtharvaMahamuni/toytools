@@ -18,7 +18,10 @@ export type VizKind =
   | 'histogram'
   // A value marker positioned on a segmented scale (BMI bands, body-fat categories). The answer is
   // a POSITION, not a number, so the chart carries the meaning the label alone cannot.
-  | 'band';
+  | 'band'
+  // A closed shape in the plane, drawn with equal scale on both axes (a triangle to scale).
+  // `data.series[0]` is the primary polygon. A second series is an alternate that shares the frame.
+  | 'polygon';
 
 /** Semantic weight for a band segment. Drives a CSS class, never a hard-coded fill. */
 export type VizTone = 'low' | 'good' | 'warn' | 'high' | 'neutral';

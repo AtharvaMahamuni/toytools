@@ -23,6 +23,7 @@ import { knowledge as cidrCalculator } from '@tools/developer-utilities/cidr-cal
 import { knowledge as coinFlipper } from '@tools/generate/coin-flipper/knowledge';
 import { knowledge as colorContrastChecker } from '@tools/design/color-contrast-checker/knowledge';
 import { knowledge as colorFormatConverter } from '@tools/design/color-format-converter/knowledge';
+import { knowledge as colorShadesGenerator } from '@tools/design/color-shades-generator/knowledge';
 import { knowledge as combinationsPermutationsCalculator } from '@tools/math/combinations-permutations-calculator/knowledge';
 import { knowledge as compoundInterestCalculator } from '@tools/finance/compound-interest-calculator/knowledge';
 import { knowledge as contextFitChecker } from '@tools/prep/context-fit-checker/knowledge';
@@ -38,6 +39,7 @@ import { knowledge as discountCalculator } from '@tools/number/discount-calculat
 import { knowledge as emergencyFundCalculator } from '@tools/finance/emergency-fund-calculator/knowledge';
 import { knowledge as encodingDetector } from '@tools/developer-utilities/encoding-detector/knowledge';
 import { knowledge as equalizerSettingsGenerator } from '@tools/music/equalizer-settings-generator/knowledge';
+import { knowledge as fileHashVerifier } from '@tools/developer-utilities/file-hash-verifier/knowledge';
 import { knowledge as findReplace } from '@tools/text/find-replace/knowledge';
 import { knowledge as fractionCalculator } from '@tools/math/fraction-calculator/knowledge';
 import { knowledge as gears } from '@tools/fidget/gears/knowledge';
@@ -71,6 +73,7 @@ import { knowledge as lowercaseConverter } from '@tools/text/lowercase-converter
 import { knowledge as macroCalculator } from '@tools/health/macro-calculator/knowledge';
 import { knowledge as marginCalculator } from '@tools/number/margin-calculator/knowledge';
 import { knowledge as markupCalculator } from '@tools/number/markup-calculator/knowledge';
+import { knowledge as matrixCalculator } from '@tools/math/matrix-calculator/knowledge';
 import { knowledge as md5HashGenerator } from '@tools/developer-utilities/md5-hash-generator/knowledge';
 import { knowledge as moveTodayTracker } from '@tools/health/move-today-tracker/knowledge';
 import { knowledge as normalizeWhitespace } from '@tools/text/normalize-whitespace/knowledge';
@@ -117,6 +120,7 @@ import { knowledge as sha512HashGenerator } from '@tools/developer-utilities/sha
 import { knowledge as shellQuoteEscalator } from '@tools/developer-utilities/shell-quote-escalator/knowledge';
 import { knowledge as shopUpiTally } from '@tools/finance/shop-upi-tally/knowledge';
 import { knowledge as sipCalculator } from '@tools/finance/sip-calculator/knowledge';
+import { knowledge as sleepCycleCalculator } from '@tools/datetime/sleep-cycle-calculator/knowledge';
 import { knowledge as slime } from '@tools/fidget/slime/knowledge';
 import { knowledge as slugifyText } from '@tools/text/slugify-text/knowledge';
 import { knowledge as snakeCaseConverter } from '@tools/text/snake-case-converter/knowledge';
@@ -134,7 +138,9 @@ import { knowledge as timezoneConverter } from '@tools/datetime/timezone-convert
 import { knowledge as tipCalculator } from '@tools/number/tip-calculator/knowledge';
 import { knowledge as titleCaseConverter } from '@tools/text/title-case-converter/knowledge';
 import { knowledge as todoList } from '@tools/productivity/todo-list/knowledge';
+import { knowledge as triangleSolver } from '@tools/math/triangle-solver/knowledge';
 import { knowledge as trimText } from '@tools/text/trim-text/knowledge';
+import { knowledge as typeScaleGenerator } from '@tools/design/type-scale-generator/knowledge';
 import { knowledge as unixTimestampConverter } from '@tools/datetime/unix-timestamp-converter/knowledge';
 import { knowledge as upi1999Split } from '@tools/finance/upi-1999-split/knowledge';
 import { knowledge as upiMdrEstimator } from '@tools/finance/upi-mdr-estimator/knowledge';
@@ -170,6 +176,7 @@ export const authoredKnowledge: Knowledge[] = [
   coinFlipper,
   colorContrastChecker,
   colorFormatConverter,
+  colorShadesGenerator,
   combinationsPermutationsCalculator,
   compoundInterestCalculator,
   contextFitChecker,
@@ -185,6 +192,7 @@ export const authoredKnowledge: Knowledge[] = [
   emergencyFundCalculator,
   encodingDetector,
   equalizerSettingsGenerator,
+  fileHashVerifier,
   findReplace,
   fractionCalculator,
   gears,
@@ -218,6 +226,7 @@ export const authoredKnowledge: Knowledge[] = [
   macroCalculator,
   marginCalculator,
   markupCalculator,
+  matrixCalculator,
   md5HashGenerator,
   moveTodayTracker,
   normalizeWhitespace,
@@ -264,6 +273,7 @@ export const authoredKnowledge: Knowledge[] = [
   shellQuoteEscalator,
   shopUpiTally,
   sipCalculator,
+  sleepCycleCalculator,
   slime,
   slugifyText,
   snakeCaseConverter,
@@ -281,7 +291,9 @@ export const authoredKnowledge: Knowledge[] = [
   tipCalculator,
   titleCaseConverter,
   todoList,
+  triangleSolver,
   trimText,
+  typeScaleGenerator,
   unixTimestampConverter,
   upi1999Split,
   upiMdrEstimator,

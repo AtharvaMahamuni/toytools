@@ -15,13 +15,25 @@ const TABLE: number[] = (() => {
   return t;
 })();
 
-export function crc32hexBytes(bytes: Uint8Array): string {
-  let crc = 0xffffffff;
+export function crc32Start(): number {
+  return 0xffffffff;
+}
+
+/** Fold one chunk into a running CRC. Pass the value from crc32Start or the previous update. */
+export function crc32Update(crc: number, bytes: Uint8Array): number {
+  let next = crc;
   for (let i = 0; i < bytes.length; i++) {
-    crc = TABLE[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
+    next = TABLE[(next ^ bytes[i]) & 0xff] ^ (next >>> 8);
   }
-  crc = (crc ^ 0xffffffff) >>> 0;
-  return crc.toString(16).padStart(8, '0');
+  return next >>> 0;
+}
+
+export function crc32Finish(crc: number): string {
+  return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, '0');
+}
+
+export function crc32hexBytes(bytes: Uint8Array): string {
+  return crc32Finish(crc32Update(crc32Start(), bytes));
 }
 
 export function crc32hex(input: string): string {

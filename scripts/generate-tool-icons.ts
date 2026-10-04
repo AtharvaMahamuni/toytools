@@ -34,8 +34,11 @@ async function main() {
   const browser = await chromium.launch(exe ? { executablePath: exe } : {});
   const page = await browser.newPage({ viewport: { width: RENDER, height: RENDER } });
 
+  const only = new Set(
+    (process.env.ICON_SLUGS ?? '').split(',').map((slug) => slug.trim()).filter(Boolean),
+  );
   let count = 0;
-  for (const tool of tools) {
+  for (const tool of only.size ? tools.filter((tool) => only.has(tool.slug)) : tools) {
     const svg = toolIconSvg(tool, RENDER);
     await page.setContent(
       `<!doctype html><html><head><meta charset="utf-8"></head>` +
@@ -52,6 +55,12 @@ async function main() {
         .toFile(path.join(OUT, `${tool.slug}-${size}.png`));
       count++;
     }
+  }
+
+  if (only.size) {
+    await browser.close();
+    console.log(`[icons] updated ${count} pngs for ${only.size} tools`);
+    return;
   }
 
   // ── the site mark ────────────────────────────────────────────────────────

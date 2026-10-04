@@ -2,7 +2,9 @@
 import type { Tool, Category } from '@data/types';
 import { categories } from '@data/categories';
 import ToolCard from '@components/ToolCard.astro';
+import NewBadgeExpiry from '@components/NewBadgeExpiry.astro';
 import { categoryPath } from '@lib/paths';
+import { freshUntil } from '@lib/tools/freshness';
 
 interface Props {
   tools: Tool[];
@@ -11,6 +13,7 @@ interface Props {
 
 const { tools, category } = Astro.props;
 const categoryHref = category ? categoryPath(category) : null;
+const showExpiry = tools.some((tool) => freshUntil(tool.addedOn));
 ---
 
 {tools.length > 0 && (
@@ -25,6 +28,7 @@ const categoryHref = category ? categoryPath(category) : null;
         return <ToolCard tool={t} categoryName={cat.name} categorySegment={cat.segment} />;
       })}
     </div>
+    {showExpiry && <NewBadgeExpiry />}
   </section>
 )}
 

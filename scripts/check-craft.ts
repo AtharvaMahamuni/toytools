@@ -187,7 +187,25 @@ const THRESHOLDS = {
   //   The percent is characters/4 against a sourced window, and the page says it is an estimate.
   // 2026-09-25: 0.703 (102/145). llms.txt Generator ships guardrail craft llms-omit-empty.
   //   A blank optional section is left out of the file instead of published as an empty heading.
-  coverage: 0.703,
+  // 2026-10-02: 0.705 (103/146). Triangle Solver ships orientation craft triangle-ssa-pair.
+  //   SSA can fit two triangles. The acute answer is drawn solid and the obtuse one dashed,
+  //   and the second line stays quiet when only one triangle exists.
+  // 2026-10-02: 0.707 (104/147). Sleep Cycle Calculator ships guardrail craft sleep-latency.
+  //   A cycle counted from lights-out ignores the minutes it takes to fall asleep.
+  //   Zero latency says the list assumes instant sleep, and a non-zero latency stays quiet.
+  // 2026-10-02: 0.709 (105/148). Color Shades Generator ships guardrail craft shade-on-white.
+  //   The stop nearest the source color is checked as text on white. The note names the
+  //   ratio when it misses 4.5, and it stays hidden when that stop already passes.
+  // 2026-10-02: 0.711 (106/149). File Hash Verifier ships guardrail craft file-hash-slices.
+  //   A 0-byte download still hashes, and the note says that digest is empty. MD5, SHA-1,
+  //   and SHA-512 refuse a file over 32 MB instead of loading it in one arrayBuffer.
+  // 2026-10-02: 0.713 (107/150). Type Scale Generator ships guardrail craft type-scale-bounds.
+  //   Caption under 12px and display over 64px are named. A scale that stays inside
+  //   that band keeps the note hidden.
+  // 2026-10-02: 0.715 (108/151). Matrix Calculator ships orientation craft matrix-shapes.
+  //   A product of mismatched shapes names both sizes. A legal product stays quiet
+  //   and shows the first dot product as a step.
+  coverage: 0.715,
   boxesPerTool: 4,
   /** border-top/bottom inside a widget. Zero: space separates, lines do not. */
   dividers: 0,

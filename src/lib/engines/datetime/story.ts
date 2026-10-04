@@ -1,7 +1,7 @@
 // Engine-owned storytelling for the Date & Time engine — small constructors so every tool builds
 // insights, milestones, and next-step decisions in the same shape. Pure and synchronous.
 
-import type { Insight, Milestone, Decision } from '@lib/results/types';
+import type { Assumption, Insight, Milestone, Decision } from '@lib/results/types';
 
 let seq = 0;
 const uid = (prefix: string) => `${prefix}-${++seq}`;
@@ -12,6 +12,10 @@ export function insight(text: string, tone: Insight['tone'] = 'info'): Insight {
 
 export function milestone(label: string, reached: boolean): Milestone {
   return { id: uid('ms'), label, reached };
+}
+
+export function assumption(label: string, value: string): Assumption {
+  return { id: uid('as'), label, value };
 }
 
 // Cross-tool decision links. Engines name the tool by slug and never write its URL: a decision

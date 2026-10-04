@@ -11,10 +11,11 @@ interface Props {
   tagline: string;
   /** Category URL segment, e.g. "text". */
   segment: string;
-  isNew?: boolean;
+  /** ISO instant when the New badge expires. Omit to show no badge. */
+  newUntil?: string;
 }
 
-const { slug, name, tagline, segment, isNew = false } = Astro.props;
+const { slug, name, tagline, segment, newUntil } = Astro.props;
 const href = toolPath({ slug, segment });
 const iconSrc = withBase(`/icons/tool/${slug}.svg`);
 ---
@@ -24,7 +25,7 @@ const iconSrc = withBase(`/icons/tool/${slug}.svg`);
     <img class="app-tile-icon" src={iconSrc} width="56" height="56" alt="" loading="lazy" decoding="async" />
     <span class="app-tile-name">
       {name}
-      {isNew && <span class="app-tile-badge">New</span>}
+      {newUntil && <span class="app-tile-badge" data-new-until={newUntil}>New</span>}
     </span>
     <span class="app-tile-tagline">{tagline}</span>
   </a>

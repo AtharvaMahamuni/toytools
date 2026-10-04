@@ -1,0 +1,221 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const fractionHref = toolPathBySlug('fraction-calculator');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you multiply two matrices? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Leave the operation on Multiply and fill both boxes. One row goes on
+      each line. Numbers on a row are separated by spaces or commas. The
+      default pair is 1 2 / 3 4 times 5 6 / 7 8. The product is 19 22 on
+      the first row and 43 50 on the second.
+    </p>
+    <p>
+      The headline is the top-left entry, 19. Step 1 shows where it came
+      from: row 1 of A dotted with column 1 of B, written 1×5 + 2×7 = 19.
+      The other entries are listed as rows under that step. You get one
+      worked step, then the whole matrix, not a locked expansion.
+    </p>
+    <p>
+      Columns of A must equal rows of B. A 2×3 times a 2×3 fails. The
+      message names both shapes. It does not say only that the product is
+      undefined. The arithmetic stays in the browser. Nothing is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Matrix Calculator →</a>
+  </section>
+
+  <section id="enter">
+    <h2>How do you enter a matrix? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each line is a row. 1 2 3 and then 4 5 6 is a 2×3 matrix. Commas work
+      the same way, so 1, 2, 3 is one row of three. A semicolon starts a
+      row too. 1, 2; 3, 4 is the 2×2 default written on one line. Blank
+      lines are dropped.
+    </p>
+    <p>
+      Every row needs the same count of numbers. If row 2 has two numbers
+      and row 1 has three, the page says so and stops. A value that is not
+      a number is named by its row. The largest grid is 8 by 8. A wider
+      paste is refused before multiply or add runs.
+    </p>
+    <p>
+      Matrix B is required for add, subtract, and multiply. Transpose,
+      determinant, and inverse read A only. You can leave B as it is. Those
+      three operations ignore it. Clearing B matters only when you switch
+      back to an operation that needs two matrices.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Pasting the whole grid onto one line">
+      <p>
+        A single line is one row. Break rows with a new line or a semicolon,
+        or every number lands in row 1 and the shape is wrong.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="shapes">
+    <h2>When do the shapes have to match? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Add and subtract need the same shape on both sides. A 2×3 plus a 2×2
+      is refused, and the message reads A is 2×3 and B is 2×2. Multiply is
+      stricter about a different pair of numbers. The columns of A must
+      equal the rows of B. The result then has the rows of A and the
+      columns of B.
+    </p>
+    <p>
+      So a 2×3 times a 3×2 is a 2×2. A 2×3 times a 2×3 is not a product.
+      The inner 3 and 2 disagree. People meet this when both matrices were
+      typed in the same orientation. Transpose one of them and try again.
+      The error is the orientation, not a broken formula.
+    </p>
+    <p>
+      The check runs before any dot product. You do not get a partial
+      matrix with a hole where the sizes failed. Either the shapes are
+      legal and every entry is filled, or you get the sentence that names
+      both shapes. That sentence is the whole diagnosis.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Name the shapes">
+      <p>
+        A is 2×3 and B is 2×3. Multiply needs the inner sizes to match.
+        Once you can see both shapes, the fix is usually to flip one matrix.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="steps">
+    <h2>What do the first steps show? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The first step is one entry, written out. For a product it is the
+      first dot product. For a sum it is the first pair added, such as
+      1 + 5 = 6 if you switch the default matrices to Add. For a difference
+      it is the same pair subtracted. You can check that line by hand, then
+      trust the remaining rows.
+    </p>
+    <p>
+      A 2 by 2 determinant shows the textbook line. 1×4 - 2×3 = -2 for the
+      default matrix. Larger square matrices report the value from
+      elimination instead of a wall of minors. An inverse reports the
+      top-left entry after Gauss-Jordan on the augmented matrix. The row
+      list is the rest of the inverse.
+    </p>
+    <p>
+      This is not a full tableau and not reduced row echelon form. There
+      is no RREF operation. If a course asks you to show every row operation,
+      write those lines yourself from the one step and the finished matrix.
+      The page will not pretend a single dot product is the entire proof.
+    </p>
+    <ReferenceBlock type="note" heading="One step, then the matrix">
+      <p>
+        The step is the check you can do in your head. The rows under it
+        are the rest of the answer. Both stay on the page.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="det">
+    <h2>How do determinant and inverse differ? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      The determinant is one number. The inverse is another matrix. Both
+      need a square A. A 2×3 has neither. The message names that shape and
+      stops. For a 2×2, determinant is a×d - b×c. The default gives -2,
+      which is not zero, so the inverse exists.
+    </p>
+    <p>
+      The inverse of 1 2 / 3 4 has top-left entry -2, then 1 on the rest
+      of the first row, and 1.5 and -0.5 on the second. Multiply that
+      inverse by the original and you should get the identity, 1 0 / 0 1.
+      Switch back to Multiply and paste the inverse into B if you want to
+      see that product.
+    </p>
+    <p>
+      Determinant 0 means no inverse. 1 2 / 2 4 is the example: the second
+      row is twice the first, and the page says the determinant is 0, so
+      this matrix has no inverse. It does not print a matrix of zeros or
+      of infinities. Zero determinant is a stop, not a result grid.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Inverting a singular matrix">
+      <p>
+        If the rows are multiples of each other, stop. There is no inverse
+        to copy into the next line of a solution.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="rounding">
+    <h2>Why does 0.1 plus 0.2 print as 0.3? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Binary floating point cannot store 0.1 exactly. Adding 0.1 and 0.2
+      produces a value that prints as 0.30000000000000004 if you show every
+      bit. A matrix of tenths would then look unequal to the pencil answer
+      even when the arithmetic is right. This page tidies each entry.
+    </p>
+    <p>
+      A value that is within a hair of a whole number prints as that whole
+      number. A tenth prints as 0.3, not as a long tail. The assumption
+      under the result says this in one line. The tidy step does not change
+      a real difference, such as 19 versus 19.5. It only removes noise.
+    </p>
+    <p>
+      Fractions you want to keep exact, such as 1/3, should be entered as
+      a decimal you accept, or reduced on the <a href={fractionHref}>fraction
+      calculator</a> first. This page does not do fraction arithmetic. It
+      multiplies the decimals you typed, then tidies the printout.
+    </p>
+  </section>
+
+  <section id="choose">
+    <h2>Which operation should you pick? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Multiply when a textbook says product or composition. Add when it
+      says sum. Subtract when it says difference. Transpose when it says
+      flip the rows into columns. Determinant when it asks for one number
+      from a square matrix. Inverse when it asks for the matrix that
+      multiplies back to the identity.
+    </p>
+    <p>
+      Read the shape note on the result. A 2×2 result from a 2×3 times a
+      3×2 is the legal size. If you expected a 2×3, the operation or the
+      orientation is wrong, even when no error appeared. The rows under
+      the headline are the check. Count them.
+    </p>
+    <p>
+      Then change one entry and look again. The step and the rows update
+      together. That loop is the reason to use the page instead of a single
+      chat reply: the grid stays put, and the shape sentence appears only
+      when the sizes actually disagree. Runs entirely on your device.
+    </p>
+    <p>
+      A transpose swaps rows and columns. Compute a 2 by 2 inverse of 1 2 / 3 4 and the
+      top-left entry is -2. Matrix multiplication is the default operation. A matrix
+      multiplication calculator should name both matrix shapes when the inner sizes disagree.
+      A determinant calculator returns one number. An inverse matrix calculator returns an
+      inverse matrix. This matrix calculator with steps shows the first entry, then the rows.
+      For example, multiply the defaults. Input: 1 2 / 3 4 times 5 6 / 7 8. Output: 19 22
+      on the first row and 43 50 on the second.
+    </p>
+  </section>
+</GuideLayout>

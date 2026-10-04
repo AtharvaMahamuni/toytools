@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 2,
+  minor: 3,
   patch: 0,
   status: 'beta',
-  releaseDate: '2026-09-30',
-  description: 'Eighteen recent tools gain a specific does-not line and a JSON-LD abstract',
+  releaseDate: '2026-10-02',
+  description: 'Six calculators and a home page that features tools from the last five days',
 };
 
 export function formatVersion(config: VersionConfig): string {

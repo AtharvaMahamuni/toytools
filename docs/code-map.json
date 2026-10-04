@@ -61,10 +61,11 @@
       "sharedWidget": "src/tools/_shared/ConverterWidget.astro",
       "supportedFamilies": [
         "checksum",
+        "file-hash",
         "identify",
         "cryptographic"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "structured-data": {
       "name": "Structured Data Engine",
@@ -231,10 +232,11 @@
         "age",
         "schedule",
         "duration",
+        "sleep",
         "timezone",
         "timestamp"
       ],
-      "toolCount": 6
+      "toolCount": 7
     },
     "math-lab": {
       "name": "Math Lab Engine",
@@ -262,10 +264,12 @@
       "supportedFamilies": [
         "combinatorics",
         "fractions",
+        "matrices",
         "number-theory",
-        "statistics"
+        "statistics",
+        "triangles"
       ],
-      "toolCount": 4
+      "toolCount": 6
     },
     "chemistry-lab": {
       "name": "Chemistry Lab Engine",
@@ -325,9 +329,10 @@
       "runtimeGlobal": "color",
       "sharedWidget": "",
       "supportedFamilies": [
-        "color"
+        "color",
+        "color-scale"
       ],
-      "toolCount": 2
+      "toolCount": 3
     },
     "units": {
       "name": "CSS Unit Engine",
@@ -340,9 +345,10 @@
       "sharedWidget": "",
       "supportedFamilies": [
         "aspect",
-        "css-unit"
+        "css-unit",
+        "type-scale"
       ],
-      "toolCount": 3
+      "toolCount": 4
     },
     "audio": {
       "name": "Audio Engine",
@@ -1284,6 +1290,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "color-shades-generator": {
+      "name": "Color Shades Generator",
+      "dir": "src/tools/design/color-shades-generator",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/color-shades-generator/",
+      "engine": "color",
+      "pattern": "color-convert",
+      "family": "color-scale",
+      "processorId": "",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "combinations-permutations-calculator": {
       "name": "Combinations & Permutations Calculator",
       "dir": "src/tools/math/combinations-permutations-calculator",
@@ -1587,6 +1614,27 @@
       "pattern": "eq-design",
       "family": "equalizer",
       "processorId": "music-eq-7",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "file-hash-verifier": {
+      "name": "File Hash Verifier",
+      "dir": "src/tools/developer-utilities/file-hash-verifier",
+      "categorySlug": "developer-utilities",
+      "url": "/tool/developer-utilities/file-hash-verifier/",
+      "engine": "hashing",
+      "pattern": "hash",
+      "family": "file-hash",
+      "processorId": "file-hash",
       "toolGroup": "",
       "files": [
         "Guide.astro",
@@ -2281,6 +2329,27 @@
       "family": "arithmetic",
       "processorId": "",
       "toolGroup": "everyday-calculators",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "matrix-calculator": {
+      "name": "Matrix Calculator",
+      "dir": "src/tools/math/matrix-calculator",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/matrix-calculator/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "matrices",
+      "processorId": "matrix",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",
@@ -3258,6 +3327,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "sleep-cycle-calculator": {
+      "name": "Sleep Cycle Calculator",
+      "dir": "src/tools/datetime/sleep-cycle-calculator",
+      "categorySlug": "date-time",
+      "url": "/tool/datetime/sleep-cycle-calculator/",
+      "engine": "datetime",
+      "pattern": "datetime-calculate",
+      "family": "sleep",
+      "processorId": "sleep",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "slime": {
       "name": "Slime",
       "dir": "src/tools/fidget/slime",
@@ -3615,6 +3705,27 @@
       "faqRegistered": true,
       "knowledgeRegistered": true
     },
+    "triangle-solver": {
+      "name": "Triangle Solver",
+      "dir": "src/tools/math/triangle-solver",
+      "categorySlug": "applied-math",
+      "url": "/tool/math/triangle-solver/",
+      "engine": "math",
+      "pattern": "math-calculate",
+      "family": "triangles",
+      "processorId": "triangle",
+      "toolGroup": "",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
     "trim-text": {
       "name": "Trim Text",
       "dir": "src/tools/text/trim-text",
@@ -3625,6 +3736,27 @@
       "family": "cleanup",
       "processorId": "trimLines",
       "toolGroup": "text-cleanup",
+      "files": [
+        "Guide.astro",
+        "Widget.astro",
+        "config.ts",
+        "faq.ts",
+        "knowledge.ts"
+      ],
+      "guideRegistered": true,
+      "faqRegistered": true,
+      "knowledgeRegistered": true
+    },
+    "type-scale-generator": {
+      "name": "Type Scale Generator",
+      "dir": "src/tools/design/type-scale-generator",
+      "categorySlug": "design-tools",
+      "url": "/tool/design/type-scale-generator/",
+      "engine": "units",
+      "pattern": "unit-convert",
+      "family": "type-scale",
+      "processorId": "",
+      "toolGroup": "",
       "files": [
         "Guide.astro",
         "Widget.astro",

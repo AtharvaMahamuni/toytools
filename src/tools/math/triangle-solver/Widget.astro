@@ -1,0 +1,13 @@
+---
+// Triangle Solver — thin MathWidget wrapper. The solver and the scale drawing live in
+// src/lib/engines/math/calculators/triangle.ts.
+import MathWidget from '@tools/_shared/MathWidget.astro';
+import { config } from './config';
+---
+
+<MathWidget
+  slug={config.slug}
+  mathId="triangle"
+  config={config}
+  emptyText="Enter any three parts. Leave the other three blank."
+/>

@@ -1,0 +1,232 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const remHref = toolPathBySlug('px-to-rem-converter');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you build a modular type scale? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Enter a base size and pick a ratio. The page returns eight steps, from caption
+      up to display, each in pixels and in rem. Body is the size you typed. Every
+      step above body multiplies by the ratio. Every step below divides by it.
+      Copy CSS takes the :root block.
+    </p>
+    <p>
+      The variables are --type-caption, --type-small, --type-body, --type-lead,
+      --type-h3, --type-h2, --type-h1, and --type-display. A 16px base makes
+      --type-body equal 1rem, because rem is computed against a 16px root.
+      The pixel column is the size you will see at that default root.
+    </p>
+    <p>
+      The sample word on each row is Ag, set at the real pixel size, inside a
+      box that scrolls. A 177px display step does not stretch the whole page.
+      You still see the number. The arithmetic stays in the browser. Nothing
+      is uploaded.
+    </p>
+    <a href={toolHref} class="cta-link">Open the Type Scale Generator →</a>
+  </section>
+
+  <section id="ratio">
+    <h2>Which ratio should a font scale use? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start with 1.25, the major third. From a 16px body the steps stay close
+      enough for an interface, and display lands under 50px. Use 1.125, the
+      major second, when captions and headings should barely move apart.
+      Use 1.2, the minor third, when you want a little more air than 1.125
+      and less jump than 1.25.
+    </p>
+    <p>
+      1.333 is the perfect fourth, rounded from 4/3. 1.5 is the perfect fifth.
+      Both are musical names for a multiplier, not a claim about music on the
+      page. They suit posters and marketing pages more than a settings screen.
+      The golden ratio, 1.618, is the largest preset. It is the right choice
+      when display type should feel like a poster.
+    </p>
+    <p>
+      The names help you remember the number. They do not change the math.
+      Two teams can both say "major third" and mean 1.25. If a spec writes
+      1.250, that is the same preset. There is no custom field, because an
+      unnamed ratio is hard to repeat later. Pick one of the six and keep
+      the name next to the CSS.
+    </p>
+    <p>
+      Which musical ratio maps to 1.25 is the major third. Major third versus golden ratio
+      is 1.25 versus 1.618. Px sizes versus rem sizes match when the root is 16px. Modular
+      type scales apply one ratio up and down from the base. A font size scale calculator
+      is this page. Golden ratio typography is the 1.618 preset. A css type scale is the
+      copied block. The type ramp runs from caption to display. Rem font sizes follow the
+      root. CSS custom properties are the --type names in that block. For example, start
+      from a 16px body. Input: base 16 and ratio 1.25. Output: body is 16px and 1rem, and
+      caption is about 10.24px.
+    </p>
+    <ReferenceBlock type="key-idea" heading="One ratio, every step">
+      <p>
+        Body times the ratio, repeated, is the whole scale. Change the ratio
+        and every heading moves together. You do not nudge h1 by two pixels
+        and leave h2 behind.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="bounds">
+    <h2>When is a step too small or too large? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Caption under 12px is too small to read as text on a phone. Display over
+      64px overflows a phone before the sentence does. The note names those
+      ends and stays hidden when both sit inside the band. The steps are still
+      printed either way. The note is a warning, not a block.
+    </p>
+    <p>
+      A 16px base and a 1.125 ratio is the quiet case. Caption stays at or
+      above 12px, and display stays at or below 64px, so you see sizes and
+      CSS and no warning. Switch to 1.25 and caption falls to about 10.24px.
+      The note names caption and the 12px floor. Display at that ratio is
+      still a normal heading.
+    </p>
+    <p>
+      The golden ratio on a 16px base fails both tests. Caption is near 6px.
+      Display is near 177px. The note names both. That scale can still be
+      what you want for a hero on a wide screen. It is a poor default for
+      a phone UI. Raise the base if you need the small steps to clear 12px,
+      or drop display and use h2 for the largest phone heading.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Trusting an elegant ratio on a phone">
+      <p>
+        A golden ratio looks even in a diagram and harsh in a 390px column.
+        Read the pixel numbers, not only the sample on a wide monitor.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="rem">
+    <h2>Why are the CSS variables in rem? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Rem follows the root font size, so a reader who enlarges text gets a
+      larger scale. Pixels would freeze the ramp at the size you copied.
+      The page assumes the root is 16px, which is the browser default and
+      the default on the <a href={remHref}>px to rem converter</a>. --type-body
+      is then base divided by 16.
+    </p>
+    <p>
+      If html sets font-size to 18px, every rem on this list renders larger
+      than the pixel column. The pixel column did not lie. It described a
+      16px root. Convert a single step on the px to rem page when your root
+      is different, or divide by your root yourself. This scale will not
+      guess a root you have not typed.
+    </p>
+    <p>
+      Line height is not in the block. A useful companion is a unitless line
+      height near 1.4 for body and closer to 1.1 for display. Put that next
+      to the variables in your stylesheet. The generator keeps the file to
+      sizes, because a line-height preset would pretend to know the font.
+    </p>
+    <ReferenceBlock type="note" heading="Root and base are different knobs">
+      <p>
+        Base is the body step you want. Root is what 1rem means in the browser.
+        They match only when both are 16px. Set them on purpose.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="names">
+    <h2>How should the step names be used? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Caption and small are for labels, meta text, and legal lines. Body is
+      the paragraph. Lead is the sentence under a title. Then h3, h2, h1,
+      and display. Use the name that matches the job, not the HTML tag you
+      happened to pick. A page can have one h1 and still set it in --type-h2
+      if h1 is too loud.
+    </p>
+    <p>
+      The powers are fixed. Caption is body divided by the ratio twice.
+      Display is body multiplied five times. There is no ninth step. If you
+      need a size between h2 and h1, you want a smaller ratio, not a new
+      name. Adding a one-off pixel value breaks the scale the next time
+      someone changes the base.
+    </p>
+    <p>
+      Keep the token names when you change the ratio. A component that
+      reads --type-h2 should not be edited because you tried 1.333 instead
+      of 1.25. The value moves. The name stays. That is the point of a
+      variable. The copied block is the whole contract.
+    </p>
+  </section>
+
+  <section id="preview">
+    <h2>What does the sample row show? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Each row sets the word Ag at that step's pixel size. Ag shows an
+      ascender and a descender, so you can see the body of the letter and
+      not only a capital height. The font is whatever the page is using.
+      This tool does not load a family, a weight, or a tracking value.
+    </p>
+    <p>
+      The sample sits in a box with a maximum height. A display step larger
+      than that box scrolls inside the row. The meta line under it always
+      shows the label, the pixels, and the rem, so you do not have to scroll
+      the sample to know the number. Copy CSS does not include the word Ag.
+      It includes only the variables.
+    </p>
+    <p>
+      On a phone the rows stack in one column. The base field and the ratio
+      menu come first, so the controls sit in the first screen. The steps
+      follow. Wide windows put the controls and the steps side by side.
+      Nothing on the page needs a horizontal scroll of the whole window.
+    </p>
+  </section>
+
+  <section id="choose">
+    <h2>How do you choose a scale for a real page? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Write down the smallest text you will actually ship and the largest
+      heading you will put on a phone. Set the base to the paragraph size.
+      Move the ratio until caption clears 12px and display stays near the
+      largest heading you can accept. If display is the thing that breaks,
+      keep the ratio and use a lower step for that heading.
+    </p>
+    <p>
+      Check both ends after you change the base. A larger base lifts caption
+      over the floor and also inflates display. A smaller base does the
+      reverse. The note is the checklist. When it disappears, both ends are
+      inside the band. When it names one end, fix that end before you paste
+      the CSS into a production stylesheet.
+    </p>
+    <p>
+      Then paste the block into :root and point body at --type-body. Point
+      the title at the step you chose. Leave the unused variables in the
+      file. They cost nothing, and the next screen may need caption. Revisit
+      the ratio when the font changes, because a wide face at 16px feels
+      larger than a narrow one at the same number.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Deleting the steps you are not using yet">
+      <p>
+        A scale with holes gets refilled with one-off pixels. Keep the eight
+        variables, and simply do not reference the ones this screen skips.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

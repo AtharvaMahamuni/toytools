@@ -1,0 +1,275 @@
+---
+import GuideLayout from '@layouts/GuideLayout.astro';
+import ReferenceBlock from '@components/ReferenceBlock.astro';
+import { config } from './config';
+import { toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
+import { categories } from '@data/categories';
+import type { EcosystemEntry } from '@data/types';
+
+interface Props {
+  title: string;
+  description: string;
+  readMinutes: number;
+  updatedAt: string;
+  entry: EcosystemEntry;
+}
+
+const props = Astro.props;
+const category = categories.find(c => c.slug === config.categorySlug)!;
+const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const shaHref = toolPathBySlug('sha256-hash-generator');
+const md5Href = toolPathBySlug('md5-hash-generator');
+const idHref = toolPathBySlug('hash-identifier');
+---
+
+<GuideLayout
+  {...props}
+  toolSlug={config.slug}
+  toolName={config.name}
+  toolCategorySlug={config.categorySlug}
+>
+  <section id="quick-answer">
+    <h2>How do you hash a file in the browser? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Choose the file, leave SHA-256 selected, and read the hex under the file name.
+      The page hashes the bytes you picked. It does not read the file as text.
+      A picture, a zip, and an ISO all stay binary. Runs entirely on your device.
+      Nothing is uploaded.
+    </p>
+    <p>
+      SHA-256 is the default because that is the checksum most download pages print.
+      MD5, SHA-1, SHA-512, and CRC32 sit in the same menu for the other lines.
+      Change the menu and the same file is hashed again. You do not pick it twice.
+      Copy puts the hex on the clipboard.
+    </p>
+    <p>
+      Paste the published line into Expected digest. A match means those bytes
+      are the bytes they hashed. A length mismatch names the other algorithm.
+      The file is not called corrupt just because you pasted SHA-1 into the
+      SHA-256 check. The size in bytes sits next to the name so you can see
+      what was actually hashed.
+    </p>
+    <a href={toolHref} class="cta-link">Open the File Hash Verifier →</a>
+  </section>
+
+  <section id="sha256">
+    <h2>What is a SHA256 file checksum? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A SHA256 file checksum is 64 hex characters computed from every byte in the file.
+      Change one bit and the string changes all the way through. Two files with the
+      same digest are the same bytes for any download you will meet in practice.
+      The spelling sha256, without a hyphen, is the name people type into search.
+    </p>
+    <p>
+      The empty file has a published digest. SHA-256 of zero bytes is
+      e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.
+      The three letters abc hash to
+      ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad.
+      Those two strings are how you check that a tool is hashing bytes and not a story.
+    </p>
+    <p>
+      sha256sum on Linux prints the same hex for the same file. So does shasum -a 256
+      on a Mac. Windows certutil prints the same digits in uppercase. This page
+      folds case, so a match does not depend on which machine published the line.
+      The algorithm is the SHA-256 from FIPS 180-4, read in 1 MB slices.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Same bytes, same digest">
+      <p>
+        The checksum belongs to the bytes, not to the filename. Rename the ISO
+        and the digest stays put. Edit one byte inside it and the digest moves.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="verify">
+    <h2>How do you verify a download checksum? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Copy the line from the download page into Expected digest, then choose the file
+      you saved. The page compares its digest with the first hex token of that line.
+      When both strings are equal, the status says Matches. When they differ at the
+      same length, it says the file or the expected line is not what you think.
+    </p>
+    <p>
+      A sha256sum line looks like the digest, two spaces, then a filename.
+      d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592  archive.bin
+      is one line, not a longer hash. The page keeps the hex and drops archive.bin.
+      Gluing the filename onto the digest is a false mismatch. The strip is the fix.
+    </p>
+    <p>
+      A Docker-style prefix works the same way. sha256: followed by 64 hex characters
+      keeps the hex after the colon. Uppercase from certutil is lowercased before
+      the compare. Whitespace around the line is ignored. What must stay is the hex
+      itself. A sentence around the digest will not compare.
+    </p>
+    <p>
+      Length is the other half of the check. MD5 is 32 hex characters. SHA-1 is 40.
+      SHA-256 is 64. SHA-512 is 128. CRC32 is 8. Paste a 40-character line into a
+      SHA-256 check and the page names SHA-1. Nothing is wrong with the file.
+      You compared it with a different algorithm. Switch the menu and hash again.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Reading the filename as part of the digest">
+      <p>
+        The sidecar file.sha256 is a text line, not 64 extra characters of hash.
+        Paste the line whole. The filename after the spaces is removed before compare.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="empty">
+    <h2>Why does a 0 byte file still produce a digest? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Zero bytes is a legal file, and every hash of it is defined. The note appears
+      because that digest is the hash of nothing. A partial download is the usual
+      way a person ends up with 0 bytes and a confident checksum. The mirror is
+      not corrupt. The transfer never wrote the ISO.
+    </p>
+    <p>
+      Look at the size before you look at the hex. The page prints the byte count
+      next to the name. 0 bytes, then a digest, means stop. Do not install that
+      file. Do not write it to a USB stick. Download it again and wait until the
+      browser says the save finished. Then hash the new file.
+    </p>
+    <p>
+      CRC32 of the empty file is 00000000. That string is easy to mistake for
+      "no result". It is a result. Eight zeros is the checksum of nothing, the
+      same way the long SHA-256 string above is. The note stays up for both
+      algorithms. A non-empty file hides the note, because the warning was about
+      the empty download and not about hashing in general.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Trusting the digest of an empty download">
+      <p>
+        A match against the empty-file digest means you hashed nothing. It does
+        not mean the publisher shipped an empty ISO. Check the byte count first.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="large">
+    <h2>What happens when the file is larger than 32 MB? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      SHA-256 and CRC32 keep reading. Each slice is 1 MB. The running digest folds
+      that slice and drops it. A 4 GB ISO never has to sit in one arrayBuffer.
+      Progress text shows how many bytes are done, once the file is past a single
+      slice. Small files finish before that line would help, so it stays hidden.
+    </p>
+    <p>
+      MD5, SHA-1, and SHA-512 still hash in one shot. crypto.subtle.digest takes
+      one buffer, and the MD5 code here does the same. Above 32 MB those three
+      refuse the file. The note says so, and the button says Use SHA-256. The
+      button switches the menu and hashes the file you already chose, in slices.
+    </p>
+    <p>
+      The limit is a guard, not a claim that 32 MB is a large download. A phone
+      tab dies when a script asks for a multi-gigabyte array, and the person
+      sees a blank page instead of a digest. Refusing the one-shot algorithms
+      is the honest path. Sliced SHA-256 is the checksum the download page
+      wanted in almost every case.
+    </p>
+    <ReferenceBlock type="note" heading="One-shot algorithms stop on purpose">
+      <p>
+        If the publisher printed MD5 for a huge file, hash it with a desktop
+        md5sum. This page will not load that file whole just to print 32 hex
+        characters. SHA-256 in slices is the check it will run.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="which">
+    <h2>Should you use MD5 or SHA-256 for a download? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use the algorithm printed next to the file. A 64-character line is SHA-256.
+      A 32-character line is MD5. Guessing from habit is how a good download gets
+      called corrupt. The menu on this page starts at SHA-256 because that is
+      the line current release pages print. MD5 is one click away when the
+      publisher still prints it.
+    </p>
+    <p>
+      MD5 catches a short download and a bit flip. It does not hold up as a
+      security check, because people have built two different files with one
+      MD5. For an ISO you will boot, prefer the SHA-256 line when both exist.
+      The <a href={md5Href}>MD5 hash generator</a> is the text version of that
+      older checksum. It hashes what you paste, not a file.
+    </p>
+    <p>
+      SHA-1 is 40 hex characters and is retired for signatures. Some old archives
+      still publish it. Match the length, then decide whether you trust the
+      publisher. SHA-512 is 128 hex characters. Use it when that is the printed
+      line. CRC32 is the 8-character checksum inside zip tools. It finds accidents.
+      It does not stand in for SHA-256.
+    </p>
+    <p>
+      Unsure which line you copied? Open the <a href={idHref}>hash identifier</a>.
+      It reads the length and names the algorithm. Then come back here, set that
+      algorithm, and choose the file. The identifier does not hash the file.
+      This page does. The two jobs stay separate so neither one pretends.
+    </p>
+  </section>
+
+  <section id="upload">
+    <h2>Is the file uploaded? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. The bytes stay in the tab that hashed them. There is no upload field
+      that posts to a server, and there is no account. Closing the tab drops
+      the file. The sentence under the file control is the whole privacy policy
+      for this tool: runs entirely on your device, nothing is uploaded.
+    </p>
+    <p>
+      That is why a chat window is the wrong place for this job. A model cannot
+      see a file on your disk unless you send the file. Sending it is an upload.
+      The digest is also not a secret about you, but the ISO might be a private
+      build, a disk image, or a contract. Hash it here and paste only the hex
+      if you need to show someone the checksum.
+    </p>
+    <p>
+      Text is a different job. The <a href={shaHref}>SHA-256 hash generator</a>
+      hashes the characters you type, including a trailing newline if you leave
+      one. A file hash will not match that text hash unless the file is those
+      exact bytes. Save the sentence, then hash the saved file, and you are
+      comparing the file. Paste the sentence, and you are comparing the text.
+    </p>
+  </section>
+
+  <section id="read-a-line">
+    <h2>How do you read a published checksum line? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Start at the left. The first run of hex is the digest. Anything after a
+      space is a filename, a star, or a label. BSD shasum lines put the algorithm
+      in parentheses and the hex after the equals sign. This page takes the hex
+      after the last colon, then the first token of what remains. That covers
+      the shapes download pages actually ship.
+    </p>
+    <p>
+      Count characters only when the compare says the length is wrong. 8 is
+      CRC32. 32 is MD5. 40 is SHA-1. 64 is SHA-256. 128 is SHA-512. A count that
+      matches none of those is a truncated paste or a line that still contains
+      a word. Copy the line again from the publisher, not from a forum post
+      that wrapped the hex in the middle of a sentence.
+    </p>
+    <p>
+      Then look at your own size. A 900 MB ISO that hashed as 200 MB was cut
+      off. The digest of the short file will not match, and it should not.
+      The mismatch is true. Download the rest, then hash once. The progress
+      line on a large SHA-256 run is there so you can see the read finish
+      before you read the hex.
+    </p>
+    <p>
+      A sha256sum line is shaped as the digest, then spaces, then a filename. MD5 versus
+      SHA-256 for a download starts as 32 hex characters versus 64. CRC32 versus a
+      cryptographic hash is a bit-flip check beside a collision-resistant one. File checksums
+      are those published lines. You hash a file online in this tab, and the bytes stay here.
+      The job is to verify download checksum text against the saved bytes. An md5 file hash
+      browser case is the 32-character line. A checksum uploaded file would leave the machine,
+      and this page keeps the bytes local. Download verification is the Matches line. For
+      example, hash an empty file. Input: 0 bytes. Output:
+      e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 for SHA-256.
+    </p>
+    <ReferenceBlock type="common-mistake" heading="Calling a short file a bad mirror">
+      <p>
+        Compare the byte count with the size the publisher printed. A mismatch
+        on a short file means the download stopped. It does not mean the
+        checksum on the website was wrong.
+      </p>
+    </ReferenceBlock>
+  </section>
+</GuideLayout>

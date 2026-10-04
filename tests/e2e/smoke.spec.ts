@@ -122,7 +122,10 @@ for (const path of toolPaths()) {
     expect(unnamedFields, `visible fields missing an accessible name: ${unnamedFields.join(', ')}`).toEqual([]);
 
     // --- Interaction: exercise the first editable control, confirm it sticks ---
-    const editable = fields.first();
+    // A file picker cannot be filled with text. Type into the next real field.
+    const editable = main.locator(
+      'textarea, [contenteditable="true"], input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="file"])'
+    ).first();
     const isReadonly =
       (await editable.count()) > 0 &&
       (await editable.evaluate((el) => (el as HTMLInputElement).readOnly === true));

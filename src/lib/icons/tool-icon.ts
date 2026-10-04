@@ -28,6 +28,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   'binary-text': 'swap',
   checksum: 'shield',
   cryptographic: 'hash',
+  'file-hash': 'fileHash',
   json: 'braces',
   token: 'jwt',
   web: 'link',
@@ -67,6 +68,7 @@ const FAMILY_GLYPH: Record<string, string> = {
   schedule: 'cron',
   timestamp: 'clock',
   timezone: 'globe',
+  sleep: 'moon',
   // generate
   code: 'qr',
   credential: 'key',
@@ -99,10 +101,14 @@ const FAMILY_GLYPH: Record<string, string> = {
   fractions: 'frac',
   'number-theory': 'primeX',
   statistics: 'chartBar',
+  triangles: 'triangle',
+  matrices: 'matrixGrid',
   // design & CSS
   color: 'swatch',
+  'color-scale': 'shadeStack',
   'css-unit': 'ruler',
   aspect: 'aspectFrame',
+  'type-scale': 'typeRamp',
   // music & audio
   equalizer: 'equalizer',
   // fidgets

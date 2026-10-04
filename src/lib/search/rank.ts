@@ -307,6 +307,20 @@ export function scoreEntry(entry: RankableEntry, query: string): number {
   return best - lengthPenalty(entry.n);
 }
 
+/**
+ * True when the query already is a tool name, so an alias term cannot outrank it.
+ * The browser uses this to skip dist/search-terms.json. Anything weaker than an exact name
+ * (a prefix, a substring, an alias) returns false: the terms file can still change the winner.
+ */
+export function namesAnswer(entries: RankableEntry[], query: string): boolean {
+  let best = 0;
+  for (const entry of entries) {
+    const score = scoreEntry({ n: entry.n, k: [] }, query);
+    if (score > best) best = score;
+  }
+  return best >= TIER.exactName;
+}
+
 /** Rank entries best-first, dropping non-matches. Stable and alphabetical within equal scores. */
 export function rankEntries<T extends RankableEntry>(entries: T[], query: string, limit?: number): T[] {
   const scored: RankedEntry<T>[] = [];

@@ -49,6 +49,71 @@ function paletteEls() {
   };
 }
 
+describe('rankCatalog terms fetch', () => {
+  it('fetches terms only when the name catalog cannot answer', async () => {
+    const wire = structuredClone(INDEX);
+    for (const entry of wire.t) entry.k = [];
+    const terms = INDEX.t.map((entry) => entry.k);
+    const fetchImpl = vi.fn(async (url: string) => {
+      if (String(url).includes('search-terms')) {
+        return { ok: true, json: () => Promise.resolve(terms) };
+      }
+      return { ok: true, json: () => Promise.resolve(structuredClone(wire)) };
+    });
+    const loaded = await load(fetchImpl);
+    const index = await loaded.loadIndex();
+    expect(index).not.toBeNull();
+    if (!index) return;
+    expect(await loaded.rankCatalog(index, '   ')).toEqual([]);
+    expect((await loaded.rankCatalog(index, 'Word Counter', 3))[0]?.s).toBe('word-counter');
+    expect(fetchImpl.mock.calls.some((call) => String(call[0]).includes('search-terms'))).toBe(false);
+    expect((await loaded.rankCatalog(index, 'escape', 3))[0]?.s).toBe('ampersand');
+    expect(fetchImpl.mock.calls.some((call) => String(call[0]).includes('search-terms'))).toBe(true);
+  });
+
+  it('ignores a terms file that does not line up, and a failed fetch', async () => {
+    const wire = structuredClone(INDEX);
+    for (const entry of wire.t) entry.k = [];
+    const fetchImpl = vi.fn(async (url: string) => {
+      if (String(url).includes('search-terms')) return { ok: false, json: () => Promise.resolve(null) };
+      return { ok: true, json: () => Promise.resolve(structuredClone(wire)) };
+    });
+    const loaded = await load(fetchImpl);
+    const index = await loaded.loadIndex();
+    if (!index) throw new Error('index');
+    expect(await loaded.rankCatalog(index, 'escape', 3)).toEqual([]);
+
+    vi.resetModules();
+    const rejectFetch = vi.fn(async (url: string) => {
+      if (String(url).includes('search-terms')) throw new Error('offline');
+      return { ok: true, json: () => Promise.resolve(structuredClone(wire)) };
+    });
+    vi.stubGlobal('fetch', rejectFetch);
+    const again = await import('./palette');
+    const fresh = await again.loadIndex();
+    if (!fresh) throw new Error('index');
+    expect(await again.rankCatalog(fresh, 'escape', 3)).toEqual([]);
+
+    const shortFetch = vi.fn(async (url: string) => {
+      if (String(url).includes('search-terms')) return { ok: true, json: () => Promise.resolve([['nope']]) };
+      return { ok: true, json: () => Promise.resolve(structuredClone(wire)) };
+    });
+    vi.resetModules();
+    vi.stubGlobal('fetch', shortFetch);
+    const third = await import('./palette');
+    const shortIndex = await third.loadIndex();
+    if (!shortIndex) throw new Error('index');
+    expect(await third.rankCatalog(shortIndex, 'escape', 3)).toEqual([]);
+  });
+
+  it('does not fetch terms when the catalog already carries them', async () => {
+    const fetchImpl = vi.fn();
+    const loaded = await load(fetchImpl);
+    expect((await loaded.rankCatalog(INDEX, 'words', 3))[0]?.s).toBe('word-counter');
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+});
+
 function type(input: HTMLInputElement, value: string): void {
   input.value = value;
   input.dispatchEvent(new Event('input', { bubbles: true }));

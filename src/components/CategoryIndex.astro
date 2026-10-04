@@ -10,6 +10,7 @@ import type { Category, ToolConfig } from '@data/types';
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { categoryPath } from '@lib/paths';
+import { freshUntil } from '@lib/tools/freshness';
 import AppTile from '@components/AppTile.astro';
 
 /** Hard cap per shelf — matches category.highlights validation and home HTML budget. */
@@ -19,7 +20,7 @@ interface ShelfTile {
   slug: string;
   name: string;
   tagline: string;
-  isNew: boolean;
+  newUntil?: string;
 }
 
 function labelFor(category: Category): string {
@@ -39,7 +40,7 @@ function tilesFor(category: Category): ShelfTile[] {
     slug: t.slug,
     name: t.name,
     tagline: t.tagline || t.description,
-    isNew: Boolean(t.isNew),
+    newUntil: freshUntil(t.addedOn),
   }));
 }
 
@@ -81,7 +82,7 @@ const shelves = categories.map(category => ({
               name={tile.name}
               tagline={tile.tagline}
               segment={shelf.segment}
-              isNew={tile.isNew}
+              newUntil={tile.newUntil}
             />
           </li>
         ))}
@@ -104,8 +105,9 @@ const shelves = categories.map(category => ({
   .shelf-head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
   }
 
   .shelf-title {
@@ -143,7 +145,7 @@ const shelves = categories.map(category => ({
   }
 
   .shelf-name-text {
-    flex: 1;
+    flex: 0 1 auto;
     min-width: 0;
   }
 
@@ -205,6 +207,21 @@ const shelves = categories.map(category => ({
   @media (max-width: 480px) {
     .shelf-item {
       width: 148px;
+    }
+  }
+
+  /* Desktop fills the row. Three equal tiles, no sliced edge, no empty track. */
+  @media (min-width: 1024px) {
+    .shelf-track {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      overflow: visible;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .shelf-item {
+      width: auto;
     }
   }
 </style>

@@ -1,0 +1,166 @@
+---
+import ToolSplit from '@tools/_shared/ToolSplit.astro';
+import IoPanel from '@tools/_shared/IoPanel.astro';
+import CraftNote from '@tools/_shared/CraftNote.astro';
+---
+
+<div class="calc-ledger" data-tool="type-scale-generator">
+  <ToolSplit ratio="1-1" stackOrder="input-first" stickyOutput={false} equalHeight={false}>
+    <IoPanel slot="input" label="Scale" variant="prose" bare>
+      <div class="io-body">
+        <label class="widget-label" for="type-scale-generator-base">Base size (px)</label>
+        <input
+          id="type-scale-generator-base"
+          class="widget-input"
+          type="number"
+          inputmode="decimal"
+          enterkeyhint="done"
+          min="1"
+          max="200"
+          step="any"
+          value="16"
+        />
+        <label class="widget-label" for="type-scale-generator-ratio">Ratio</label>
+        <select id="type-scale-generator-ratio" class="widget-input">
+          <option value="1.125">1.125 major second</option>
+          <option value="1.2">1.2 minor third</option>
+          <option value="1.25" selected>1.25 major third</option>
+          <option value="1.333">1.333 perfect fourth</option>
+          <option value="1.5">1.5 perfect fifth</option>
+          <option value="1.618">1.618 golden ratio</option>
+        </select>
+        <p class="ts-help">Body is the base. Rem assumes a 16px root. Each step multiplies by the ratio.</p>
+        <p class="ts-error" id="type-scale-generator-error" hidden></p>
+      </div>
+    </IoPanel>
+
+    <IoPanel slot="output" label="Steps" variant="mono" result bare>
+      <div class="io-body">
+        <div class="ts-scale" id="type-scale-generator-scale"></div>
+        <CraftNote id="type-scale-generator-note" craftId="type-scale-bounds" />
+        <pre class="ts-css" id="type-scale-generator-css"></pre>
+      </div>
+    </IoPanel>
+  </ToolSplit>
+</div>
+
+<div class="tool-actions">
+  <button class="action-btn action-btn--copy" id="type-scale-generator-copy" data-label="Copy CSS" type="button">Copy CSS</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var baseEl = document.getElementById('type-scale-generator-base');
+    var ratioEl = document.getElementById('type-scale-generator-ratio');
+    var scaleEl = document.getElementById('type-scale-generator-scale');
+    var cssEl = document.getElementById('type-scale-generator-css');
+    var errEl = document.getElementById('type-scale-generator-error');
+    var noteEl = document.getElementById('type-scale-generator-note');
+    var noteTxt = document.getElementById('type-scale-generator-note-text');
+    var copyBtn = document.getElementById('type-scale-generator-copy');
+    if (!baseEl || !ratioEl || !scaleEl || !cssEl) return;
+
+    var BASE_KEY = 'toytools.type-scale-generator.base';
+    var RATIO_KEY = 'toytools.type-scale-generator.ratio';
+    var css = '';
+
+    function showNote(message) {
+      if (!noteEl || !noteTxt) return;
+      if (!message) { noteEl.hidden = true; noteTxt.textContent = ''; return; }
+      noteTxt.textContent = message;
+      noteEl.hidden = false;
+    }
+
+    function render() {
+      var TT = window.ToyTools;
+      if (!TT || !TT.units || !TT.units.typeScale) return;
+      var base = parseFloat(baseEl.value);
+      var ratio = parseFloat(ratioEl.value);
+      var result = TT.units.typeScale(base, ratio);
+      if (!result.ok) {
+        errEl.hidden = false;
+        errEl.textContent = result.error || 'Enter a base size.';
+        css = '';
+        cssEl.textContent = '';
+        showNote('');
+        scaleEl.replaceChildren();
+        return;
+      }
+      errEl.hidden = true;
+      errEl.textContent = '';
+      css = result.css;
+      cssEl.textContent = css;
+      showNote(result.note);
+      scaleEl.replaceChildren();
+      result.steps.forEach(function (step) {
+        var row = document.createElement('div');
+        row.className = 'ts-row';
+        var sample = document.createElement('div');
+        sample.className = 'ts-sample';
+        sample.style.fontSize = step.px + 'px';
+        sample.textContent = 'Ag';
+        var meta = document.createElement('p');
+        meta.className = 'ts-meta';
+        meta.textContent = step.label + ' · ' + step.px + 'px · ' + step.rem + 'rem';
+        row.appendChild(sample);
+        row.appendChild(meta);
+        scaleEl.appendChild(row);
+      });
+      try {
+        TT.storage && TT.storage.set(BASE_KEY, baseEl.value);
+        TT.storage && TT.storage.set(RATIO_KEY, ratioEl.value);
+      } catch (_) {}
+    }
+
+    baseEl.addEventListener('input', render);
+    ratioEl.addEventListener('change', render);
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var TT = window.ToyTools;
+      if (css && TT && TT.copy) TT.copy(css);
+    });
+
+    function boot() {
+      var TT = window.ToyTools;
+      try {
+        var savedBase = TT && TT.storage && TT.storage.get(BASE_KEY);
+        var savedRatio = TT && TT.storage && TT.storage.get(RATIO_KEY);
+        if (savedBase) baseEl.value = savedBase;
+        if (savedRatio) ratioEl.value = savedRatio;
+      } catch (_) {}
+      render();
+    }
+    var TT = window.ToyTools;
+    if (TT && TT.onReady) TT.onReady(boot); else boot();
+  })();
+</script>
+
+<style>
+  .widget-label { display: block; margin-bottom: var(--space-1); }
+  #type-scale-generator-base,
+  #type-scale-generator-ratio { margin-bottom: var(--space-3); }
+  .ts-help { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .ts-error { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-danger); }
+  .ts-error[hidden] { display: none; }
+  .ts-scale { display: flex; flex-direction: column; gap: var(--space-3); }
+  .ts-scale :global(.ts-row) { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+  .ts-scale :global(.ts-sample) {
+    overflow: auto;
+    max-block-size: 6rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .ts-scale :global(.ts-meta) {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .ts-css {
+    margin: var(--space-3) 0 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    white-space: pre;
+  }
+</style>
