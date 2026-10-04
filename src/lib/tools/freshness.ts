@@ -24,8 +24,23 @@ function utcToday(now: Date): number {
   return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 }
 
+/**
+ * The clock New badges are rendered against at build time. The e2e build pins it with
+ * E2E_BUILD_NOW (playwright.config.ts) so the New row and its expiry tests never depend on the
+ * day the tests run; the browser side is pinned with page.clock. Every other build reads the real
+ * clock. Build time only: no client bundle imports this module.
+ */
+export function buildNow(): Date {
+  const pinned = typeof process !== 'undefined' ? process.env.E2E_BUILD_NOW : undefined;
+  if (pinned) {
+    const at = Date.parse(pinned);
+    if (!Number.isNaN(at)) return new Date(at);
+  }
+  return new Date();
+}
+
 /** True on the added day and the four UTC days after it: five whole days in all. */
-export function isFresh(addedOn: string | undefined, now: Date = new Date()): boolean {
+export function isFresh(addedOn: string | undefined, now: Date = buildNow()): boolean {
   const start = parseAddedOn(addedOn);
   if (start === null) return false;
   const delta = Math.round((utcToday(now) - start) / DAY_MS);
@@ -40,7 +55,7 @@ export function newUntilIso(addedOn: string | undefined): string | null {
 }
 
 /** ISO instant for a badge that should render now, or undefined when the window has closed. */
-export function freshUntil(addedOn: string | undefined, now: Date = new Date()): string | undefined {
+export function freshUntil(addedOn: string | undefined, now: Date = buildNow()): string | undefined {
   if (!isFresh(addedOn, now)) return undefined;
   return newUntilIso(addedOn) ?? undefined;
 }

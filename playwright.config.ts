@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { E2E_BUILD_NOW } from './tests/e2e/fixture-clock';
 
 // Unified E2E config for the whole platform. The developer tools are the pilot
 // deep suite; every tool gets generic smoke coverage for free (see tests/e2e/).
@@ -38,7 +39,8 @@ export default defineConfig({
     // PUBLIC_E2E=true bakes the analytics opt-out into the build so Google
     // Analytics never loads during E2E (the runtime guard also excludes the
     // localhost host + navigator.webdriver, but this is the explicit signal).
-    command: `PUBLIC_E2E=true npm run build && npm run preview -- --port ${PORT}`,
+    // E2E_BUILD_NOW pins the build-time clock for New badges (tests/e2e/fixture-clock.ts).
+    command: `PUBLIC_E2E=true E2E_BUILD_NOW=${E2E_BUILD_NOW} npm run build && npm run preview -- --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

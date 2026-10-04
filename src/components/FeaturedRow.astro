@@ -4,10 +4,10 @@
 import { categories } from '@data/categories';
 import { tools } from '@data/registry';
 import { toolPath, withBase } from '@lib/paths';
-import { freshUntil } from '@lib/tools/freshness';
+import { buildNow, freshUntil } from '@lib/tools/freshness';
 
 const bySlug = new Map(categories.map(category => [category.slug, category]));
-const now = new Date();
+const now = buildNow();
 
 const featured = tools
   .flatMap(tool => {
@@ -40,9 +40,9 @@ const featured = tools
         <button type="button" class="featured-btn" data-featured-next aria-label="Next new tool">
           <span aria-hidden="true">›</span>
         </button>
-        <button type="button" class="featured-btn featured-toggle" data-featured-toggle aria-pressed="false">
+        <button type="button" class="featured-btn featured-toggle" data-featured-toggle data-paused="false">
           <span class="featured-toggle-icon" aria-hidden="true" data-featured-toggle-icon>❚❚</span>
-          <span>Pause</span>
+          <span data-featured-toggle-label>Pause</span>
         </button>
       </div>
     </div>
@@ -92,6 +92,7 @@ const featured = tools
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var toggle = root.querySelector('[data-featured-toggle]');
         var toggleIcon = root.querySelector('[data-featured-toggle-icon]');
+        var toggleLabel = root.querySelector('[data-featured-toggle-label]');
         var hover = false;
         var focus = false;
         var paused = false;
@@ -121,10 +122,13 @@ const featured = tools
           timer = 0;
         }
 
+        // The label names the action, Pause or Play (the WAI-ARIA carousel pattern), so the
+        // button carries no aria-pressed: a pressed state on a label that flips reads twice.
         function setPaused(value) {
           paused = value;
-          if (toggle) toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+          if (toggle) toggle.setAttribute('data-paused', paused ? 'true' : 'false');
           if (toggleIcon) toggleIcon.textContent = paused ? '▶' : '❚❚';
+          if (toggleLabel) toggleLabel.textContent = paused ? 'Play' : 'Pause';
           sync();
         }
 
@@ -136,8 +140,18 @@ const featured = tools
           }
         }
 
-        root.addEventListener('mouseenter', function () { hover = true; sync(); });
-        root.addEventListener('mouseleave', function () { hover = false; sync(); });
+        // Hover pauses only for a real mouse. A tap on a phone fires mouseenter and never
+        // mouseleave, so counting it left the row paused forever after Play.
+        root.addEventListener('pointerenter', function (event) {
+          if (event.pointerType !== 'mouse') return;
+          hover = true;
+          sync();
+        });
+        root.addEventListener('pointerleave', function (event) {
+          if (event.pointerType !== 'mouse') return;
+          hover = false;
+          sync();
+        });
         // Any hand on the row stops autoplay for good. Play on the toggle is the only way back.
         function takeOver(event) {
           if (toggle && toggle.contains(event.target)) return;
@@ -215,7 +229,7 @@ const featured = tools
     font-weight: var(--font-weight-medium);
   }
 
-  .featured-toggle[aria-pressed='true'] {
+  .featured-toggle[data-paused='true'] {
     background-color: var(--color-accent-subtle);
     border-color: var(--color-border-strong);
   }

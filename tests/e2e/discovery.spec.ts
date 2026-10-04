@@ -3,6 +3,7 @@
 // full tool coverage still in the HTML, recent-tools chips, and pattern-based category sections.
 import { test, expect } from '@playwright/test';
 import { newUntilIso } from '../../src/lib/tools/freshness';
+import { E2E_BUILD_NOW, FIXTURE_ADDED_ON } from './fixture-clock';
 
 test.describe('homepage index', () => {
   test('leads with fifteen category AppTile shelves, not a wall of tool names', async ({ page }) => {
@@ -49,25 +50,23 @@ test.describe('homepage index', () => {
     await expect(page.locator('.category-shelves').getByRole('heading', { level: 2 })).toHaveCount(15);
   });
 
-  // The six tools added on this fixture day carry the same leave instant as freshness.ts computes.
-  // The browser clock is pinned either side of it, so the runtime expiry is tested on any date
-  // the build happened inside the window, not only on the days a test run lands in it.
-  test('the featured row and its badges leave the page at newUntil, at runtime', async ({ page }) => {
-    const fixtureAddedOn = '2026-10-02';
-    const until = newUntilIso(fixtureAddedOn)!;
-    const untilMs = Date.parse(until);
+  // The e2e build is rendered at E2E_BUILD_NOW, inside the five-day window of FIXTURE_ADDED_ON,
+  // and the browser clock is pinned with page.clock. Nothing here reads the real date, so these
+  // run, and fail when broken, on any day (they used to skip after 2026-10-07).
+  const until = newUntilIso(FIXTURE_ADDED_ON)!;
+  const untilMs = Date.parse(until);
+  const inWindowMs = Date.parse(E2E_BUILD_NOW);
 
+  test('the featured row and its badges leave the page at newUntil, at runtime', async ({ page }) => {
     await page.clock.setFixedTime(untilMs - 60_000);
     await page.goto('/');
     const featured = page.locator('[data-featured]');
-    const builtInWindow = (await page.locator(`[data-featured-until="${until}"]`).count()) > 0;
-    test.skip(!builtInWindow, `This build ran after ${until}, so it carries no New row to expire.`);
-
     await expect(featured.getByRole('heading', { level: 2, name: 'New tools' })).toBeVisible();
-    await expect(featured.locator('.featured-card')).toHaveCount(6);
+    await expect(featured.locator(`[data-featured-until="${until}"]`)).toHaveCount(6);
     await expect(featured.locator('.featured-badge')).toHaveCount(6);
     await expect(featured.locator('.featured-card[data-slug="matrix-calculator"]')).toHaveCount(1);
 
+    // The same build, opened at the leave instant: the runtime removes the row and its badges.
     await page.clock.setFixedTime(untilMs);
     await page.reload();
     await expect(page.locator('[data-featured]')).toHaveCount(0);
@@ -75,34 +74,62 @@ test.describe('homepage index', () => {
   });
 
   test('the featured row stops advancing once a person touches it, and has a Pause button', async ({ page }) => {
-    await page.clock.install();
+    await page.clock.install({ time: inWindowMs });
     await page.goto('/');
     const featured = page.locator('[data-featured]');
-    test.skip((await featured.count()) === 0, 'No New row in this build.');
+    await expect(featured).toHaveCount(1);
 
-    const toggle = featured.getByRole('button', { name: 'Pause' });
+    const toggle = featured.locator('[data-featured-toggle]');
     await expect(toggle).toBeVisible();
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await expect(toggle).toHaveAccessibleName('Pause');
+    await expect(toggle).toHaveAttribute('data-paused', 'false');
     const box = await toggle.boundingBox();
     expect(box?.height ?? 0).toBeGreaterThanOrEqual(48);
 
     const track = featured.locator('[data-featured-track]');
     await track.dispatchEvent('wheel');
-    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(toggle).toHaveAttribute('data-paused', 'true');
+    // The label names what the button does next.
+    await expect(toggle).toHaveAccessibleName('Play');
     const left = await track.evaluate((el) => el.scrollLeft);
     await page.clock.runFor(16_000);
     expect(await track.evaluate((el) => el.scrollLeft)).toBe(left);
 
     // Play hands control back to the timer.
     await toggle.click();
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await expect(toggle).toHaveAttribute('data-paused', 'false');
+    await expect(toggle).toHaveAccessibleName('Pause');
+  });
+
+  // On a phone a tap fires mouseenter and never mouseleave. Counting that as hover kept the row
+  // paused for good after Play (PR #243 review), so this taps Pause, then Play, then waits.
+  test('on a phone, Play after Pause starts the row advancing again', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'Touch only: the Pixel 5 project runs this.');
+    await page.clock.install({ time: inWindowMs });
+    await page.goto('/');
+    const featured = page.locator('[data-featured]');
+    const toggle = featured.locator('[data-featured-toggle]');
+    const track = featured.locator('[data-featured-track]');
+    await expect(toggle).toHaveAccessibleName('Pause');
+
+    await toggle.tap();
+    await expect(toggle).toHaveAccessibleName('Play');
+    await expect(toggle).toHaveAttribute('data-paused', 'true');
+    const left = await track.evaluate((el) => el.scrollLeft);
+
+    await toggle.tap();
+    await expect(toggle).toHaveAccessibleName('Pause');
+    await expect(toggle).toHaveAttribute('data-paused', 'false');
+    await page.clock.runFor(5_100);
+    await expect.poll(() => track.evaluate((el) => el.scrollLeft)).toBeGreaterThan(left);
   });
 
   test('reduced motion hides the Pause button because nothing moves', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.clock.setFixedTime(inWindowMs);
     await page.goto('/');
     const featured = page.locator('[data-featured]');
-    test.skip((await featured.count()) === 0, 'No New row in this build.');
+    await expect(featured).toHaveCount(1);
     await expect(featured.locator('[data-featured-toggle]')).toBeHidden();
   });
 
