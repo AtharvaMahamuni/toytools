@@ -4,7 +4,7 @@ export const config: ToolConfig = {
   slug: 'trim-text',
   name: 'Trim Text',
   seoTitle: 'Trim Leading and Trailing Spaces Online',
-  description: 'Trim leading and trailing spaces and tabs from every line, without touching the words between. Runs entirely on your device. Nothing is uploaded.',
+  description: 'Trim or strip leading and trailing spaces and tabs from every line, without touching the words between. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Trim the whitespace at each end of every line.',
   categorySlug: 'text-utilities',
   tags: ['trim text', 'trim whitespace', 'remove leading spaces', 'remove trailing spaces', 'strip whitespace', 'trim lines', 'remove spaces from start and end'],
