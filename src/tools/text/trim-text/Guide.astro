@@ -100,7 +100,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <h2>How Is Excel TRIM Different From This Tool? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Excel's TRIM removes leading and trailing spaces, and it also squeezes runs of spaces inside
-      the cell down to one. <code>=TRIM("  A&nbsp;&nbsp;1  ")</code> returns "A 1", not "A&nbsp;&nbsp;1". This tool
+      the cell down to one. <code class="ws">=TRIM("  A  1  ")</code> returns "A 1", not <code class="ws">"A  1"</code>. This tool
       leaves the inside of each line alone and only cleans the edges.
     </p>
     <p>
@@ -172,6 +172,10 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 </GuideLayout>
 
 <style>
+  .ws {
+    white-space: pre-wrap;
+  }
+
   .cta-link {
     display: inline-flex;
     align-items: center;
