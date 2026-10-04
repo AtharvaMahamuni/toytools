@@ -21,8 +21,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-calculate-percentages',
     categorySlug: 'number',
-    title: 'How To Calculate Percentages',
-    description: 'Understand what percentages mean, how the three core percentage formulas work, and where percentages come up in everyday life.',
-    readMinutes: 5,
-    updatedAt: '2026-06-02',
+    title: 'How to Calculate Percentages: 3 Formulas',
+    description: 'The three percentage formulas with worked examples: X% of Y, X is what percent of Y, and percent change, plus percentage points vs percent.',
+    readMinutes: 6,
+    updatedAt: '2026-10-05',
   },};
