@@ -30,7 +30,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      A JWT (JSON Web Token) is a compact, signed token that carries information as JSON. It has
+      JWT stands for JSON Web Token: a compact, signed token that carries information as JSON. It has
       three parts separated by dots: a header, a payload, and a signature. The header and payload
       are only encoded, not encrypted, so anyone can decode and read them.
     </p>
@@ -95,6 +95,28 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="worked-decode">
+    <h2>What Does a Decoded JWT Look Like? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      You can decode JWT segments by hand, because each one is just Base64URL. Here is the header
+      of a typical token, as it appears before the first dot:
+    </p>
+    <p><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</code></p>
+    <p>
+      Base64URL-decode it and you get plain JSON: <code>&#123;"alg":"HS256","typ":"JWT"&#125;</code>.
+      That says the token is a JWT signed with HMAC SHA-256. Because every header and payload is a
+      JSON object starting with <code>&#123;"</code>, almost every JWT you meet starts with the
+      same three characters, <code>eyJ</code>.
+    </p>
+    <p>
+      The middle part decodes the same way. The segment
+      <code>eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjE3NjcyMjkyMDB9</code> becomes
+      <code>&#123;"sub":"1234567890","iat":1767225600,"exp":1767229200&#125;</code>: three JWT claims:
+      a user id, an issued-at time and an expiry. The third part, the signature, is binary and decodes to nothing
+      readable. A JWT parser like this tool does all three splits for you.
+    </p>
+  </section>
+
   <section id="registered-claims">
     <h2>Common Registered Claims <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
@@ -112,7 +134,10 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </ul>
     <p>
       The time claims (<code>exp</code>, <code>nbf</code>, <code>iat</code>) are Unix timestamps
-      measured in seconds. The decoder converts each one to a human-readable date and a relative time,
+      measured in seconds, not milliseconds. <code>"iat": 1767225600</code> is 1 January 2026 at
+      00:00 UTC, and an <code>exp</code> of <code>1767229200</code> is exactly 3,600 seconds, one
+      hour, later. You can check any of these values in the
+      <a href={toolPathBySlug('unix-timestamp-converter')}>Unix Timestamp Converter</a>. The decoder converts each one to a human-readable date and a relative time,
       and it marks the token as expired when <code>exp</code> is in the past.
     </p>
   </section>
