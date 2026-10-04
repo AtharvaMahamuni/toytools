@@ -19,11 +19,21 @@ const PAGES: [string, string][] = [
   ['settings', '/settings/'],
   ['privacy', '/privacy/'],
   ['404', '/tool/text/does-not-exist/'],
+  // The six beta-v12.3 tools: two math-engine widgets, a date-time widget and three hand-built
+  // widgets. Type scale failed scrollable-region-focusable (8 nodes) before beta-v12.4.0.
+  ['triangle solver', '/tool/math/triangle-solver/'],
+  ['matrix calculator', '/tool/math/matrix-calculator/'],
+  ['sleep cycle calculator', '/tool/datetime/sleep-cycle-calculator/'],
+  ['color shades generator', '/tool/design/color-shades-generator/'],
+  ['type scale generator', '/tool/design/type-scale-generator/'],
+  ['file hash verifier', '/tool/developer-utilities/file-hash-verifier/'],
 ];
 
 for (const [name, path] of PAGES) {
   test(`${name} has no serious accessibility violations`, async ({ page }) => {
     await page.goto(path);
+    // Hand-built widgets render their output after the runtime is ready; scan that state.
+    await page.waitForLoadState('networkidle');
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .analyze();
