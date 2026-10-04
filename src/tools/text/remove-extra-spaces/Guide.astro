@@ -84,6 +84,65 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="word">
+    <h2>How Do You Remove Double Spaces in Word? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In Word, press Ctrl+H, type two spaces in Find what and one space in Replace with, then
+      click Replace All. Run it again until Word reports zero replacements. One pass turns three
+      spaces into two, so a long run needs a few rounds.
+    </p>
+    <p>
+      To finish in one pass, expand the dialog and tick Use wildcards. Then type a space followed by
+      <code>&#123;2,&#125;</code> in Find what, which means "two or more spaces", and replace with a single
+      space. Untick wildcards afterwards, or your next ordinary search will behave strangely.
+    </p>
+  </section>
+
+  <section id="google-docs">
+    <h2>How Do You Fix Double Spaces in Google Docs? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In Google Docs, open Edit, then Find and replace. Type a space followed by
+      <code>&#123;2,&#125;</code> in Find, tick "Match using regular expressions", put one space in Replace
+      with, and click Replace all. The pattern catches every run of two or more ordinary spaces in
+      the document at once.
+    </p>
+  </section>
+
+  <section id="excel-trim">
+    <h2>Why Does Excel TRIM Also Squeeze Inner Spaces? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Excel's TRIM function removes spaces at both ends of a cell and also squeezes every run
+      inside it down to one space. <code>=TRIM("  Acme   Corp  ")</code> returns "Acme Corp".
+      This tool only does the squeezing part: it keeps one leading or trailing space per line, and
+      Trim Text is the step that removes the edges.
+    </p>
+    <p>
+      Neither TRIM nor this tool touches the non-breaking space, character 160, which web pages and
+      PDFs often leave behind. In Excel, swap it out first with
+      <code>=TRIM(SUBSTITUTE(A1,CHAR(160)," "))</code>. Here, Normalize Whitespace treats it as a
+      space, though it also joins your lines into one.
+    </p>
+    <ReferenceBlock type="note" heading="When TRIM seems to do nothing">
+      <p>
+        If TRIM leaves a gap behind, the gap is probably a non-breaking space or a tab. TRIM only
+        removes the ordinary space character.
+      </p>
+    </ReferenceBlock>
+  </section>
+
+  <section id="pdf-example">
+    <h2>Before and After: A PDF Paste <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Text copied from a justified PDF often carries runs of spaces where the layout stretched a
+      line. A pasted sentence like this one:
+    </p>
+    <p><code>Quarterly&nbsp;&nbsp;revenue&nbsp;&nbsp;&nbsp;rose&nbsp;&nbsp;12%&nbsp;&nbsp;in&nbsp;&nbsp;March.</code></p>
+    <p>
+      comes out as <code>Quarterly revenue rose 12% in March.</code> after one pass. The words, the
+      number and the line break after the sentence all stay exactly where they were.
+    </p>
+  </section>
+
   <section id="common-mistakes">
     <h2>Common Mistakes <span class="gold-dot" aria-hidden="true"></span></h2>
     <ReferenceBlock type="common-mistake" heading="Expecting it to remove blank lines">

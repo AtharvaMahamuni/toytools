@@ -22,8 +22,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-remove-extra-spaces',
     categorySlug: 'text',
-    title: 'How To Remove Extra Spaces From Text',
-    description: 'Learn why double spaces creep into text, when extra spaces cause problems, and how to collapse them in one step.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Remove Double Spaces in Word, Excel',
+    description: 'Collapse double spaces in Word, Google Docs, and Excel, and see why Excel TRIM also squeezes inner spaces. Worked before and after examples.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },};
