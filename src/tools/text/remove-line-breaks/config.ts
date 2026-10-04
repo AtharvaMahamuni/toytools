@@ -22,9 +22,9 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-remove-line-breaks',
     categorySlug: 'text',
-    title: 'How To Remove Line Breaks',
-    description: 'Learn why pasted text gets broken across lines and how to join it back into one clean, continuous paragraph.',
-    readMinutes: 3,
-    updatedAt: '2026-06-01',
+    title: 'How to Remove Line Breaks From Copied Text',
+    description: 'Join text copied from a PDF or email into one paragraph. Excel CHAR(10), Word ^p, and regex \\r?\\n, plus how to keep real paragraph breaks.',
+    readMinutes: 5,
+    updatedAt: '2026-10-05',
   },
 };

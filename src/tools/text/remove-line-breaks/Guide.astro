@@ -85,6 +85,69 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="lf-cr">
+    <h2>What Are Line Feed (LF) and Carriage Return (CR)? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A line break is stored as one or two invisible characters. A line feed (LF, character 10,
+      written <code>\n</code>) ends lines on macOS, Linux and the web. Windows files end each line
+      with a carriage return (CR, character 13, <code>\r</code>) followed by a line feed. So
+      "remove line feed" and "remove line breaks" usually describe the same job.
+    </p>
+    <p>
+      This tool treats CRLF, a lone LF and a lone CR as one break each. A pasted Windows file
+      therefore joins cleanly, with no stray carriage returns left inside the result.
+    </p>
+  </section>
+
+  <section id="excel-sheets">
+    <h2>How Do You Remove Line Breaks in Excel or Google Sheets? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      A line break inside a spreadsheet cell, the kind Alt+Enter makes, is character 10. Replace it
+      with a space using <code>=SUBSTITUTE(A1,CHAR(10)," ")</code>. If the text came from a
+      Windows file, remove the carriage returns as well:
+      <code>=SUBSTITUTE(SUBSTITUTE(A1,CHAR(13),""),CHAR(10)," ")</code>.
+    </p>
+    <p>
+      CLEAN also deletes line feeds, but it puts nothing in their place. "end of line[break]next
+      line" becomes "end of linenext line", which is harder to spot than the original problem.
+    </p>
+  </section>
+
+  <section id="word">
+    <h2>How Do You Remove Line Breaks in Word? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Word marks the end of a paragraph with <code>^p</code> and a manual line break (Shift+Enter)
+      with <code>^l</code>. Text pasted from a PDF often arrives with a paragraph mark at the end
+      of every visual line, so open Replace with Ctrl+H, find <code>^p</code>, replace it with a
+      space, and click Replace All.
+    </p>
+    <p>
+      To keep the real paragraphs, protect them first. Replace <code>^p^p</code> with a placeholder
+      that never appears in your text, such as <code>###</code>. Then replace <code>^p</code> with a
+      space, and finally replace <code>###</code> with <code>^p</code>.
+    </p>
+  </section>
+
+  <section id="regex">
+    <h2>How Do You Join Lines With a Regex? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In a regex, <code>\r?\n</code> matches a line break in either Windows or Unix form. In
+      JavaScript, <code>text.replace(/\r?\n/g, ' ')</code> joins every line, which is what this
+      tool does.
+    </p>
+    <p>
+      To join lines but keep paragraphs, split on blank lines first and join inside each block:
+      <code>text.split(/\r?\n\s*\r?\n/).map(p =&gt; p.replace(/\s*\r?\n\s*/g, ' ')).join('\n\n')</code>.
+      Two paragraphs of wrapped lines come out as two clean paragraphs.
+    </p>
+    <ReferenceBlock type="note" heading="Keep paragraphs, join lines">
+      <p>
+        A single newline inside a paragraph is usually wrapping. A blank line between blocks is
+        usually a real paragraph break. Treat the two differently and the text keeps its shape.
+      </p>
+    </ReferenceBlock>
+  </section>
+
   <section id="vs-alternatives">
     <h2>Removing Line Breaks vs Removing Blank Lines <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
