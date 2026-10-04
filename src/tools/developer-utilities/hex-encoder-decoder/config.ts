@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'Hex Encoder and Decoder: Complete Guide',
     description: 'How hex encoding works, when to use it, and how it compares to Base64. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 5,
-    updatedAt: '2026-09-25',
+    updatedAt: '2026-10-05',
   },
 };

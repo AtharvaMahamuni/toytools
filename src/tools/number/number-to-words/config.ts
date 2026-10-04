@@ -30,6 +30,6 @@ export const config: ToolConfig = {
     title: 'Writing Numbers Out in Words',
     description: 'Where the hyphen goes, why American English drops the and, how decimals are read aloud, and what a cheque amount line has to contain.',
     readMinutes: 5,
-    updatedAt: '2026-08-22',
+    updatedAt: '2026-10-05',
   },
 };

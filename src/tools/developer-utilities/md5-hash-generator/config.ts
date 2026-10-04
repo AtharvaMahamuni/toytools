@@ -30,5 +30,5 @@ export const config: ToolConfig = {
     title: 'What Is MD5?',
     description: 'Understand how MD5 hashing works, what a 32-character digest means, why MD5 is broken for security, and what it\'s still safe for.',
     readMinutes: 5,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-10-05',
   },};

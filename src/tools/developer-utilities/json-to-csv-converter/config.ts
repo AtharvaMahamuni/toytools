@@ -26,6 +26,6 @@ export const config: ToolConfig = {
     title: 'JSON to CSV Converter: Complete Guide',
     description: 'Learn how JSON to CSV conversion works, how nested objects are handled, and when to use each format. Includes examples and common mistakes.',
     readMinutes: 5,
-    updatedAt: '2026-06-15',
+    updatedAt: '2026-10-05',
   },
 };

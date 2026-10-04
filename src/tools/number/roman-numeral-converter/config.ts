@@ -30,6 +30,6 @@ export const config: ToolConfig = {
     title: 'Reading and Writing Roman Numerals Without Guessing',
     description: 'The six subtractive pairs, why IIII appears on clock faces, why the system stops at 3999, and how to read a copyright date off a film credit.',
     readMinutes: 5,
-    updatedAt: '2026-08-22',
+    updatedAt: '2026-10-05',
   },
 };

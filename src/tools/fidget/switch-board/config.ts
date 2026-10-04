@@ -36,6 +36,6 @@ export const config: ToolConfig = {
     description:
       'How a browser switch board works, why sound and haptics stay separate, and how All off continues the fidget without a reload.',
     readMinutes: 5,
-    updatedAt: '2026-09-08',
+    updatedAt: '2026-10-05',
   },
 };

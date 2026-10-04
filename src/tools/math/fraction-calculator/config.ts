@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'How Fraction Arithmetic Works, Step by Step',
     description: 'How to add, subtract, multiply, and divide fractions and mixed numbers: the LCD, the flip-and-multiply rule, and simplifying by the greatest common factor.',
     readMinutes: 5,
-    updatedAt: '2026-07-16',
+    updatedAt: '2026-10-05',
   },
 };

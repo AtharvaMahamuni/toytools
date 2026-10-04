@@ -25,5 +25,5 @@ export const config: ToolConfig = {
     title: 'How to Validate JSON',
     description: 'Understand JSON syntax rules, the most common errors like trailing commas and single quotes, and the difference between syntax validation and JSON Schema.',
     readMinutes: 5,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-10-05',
   },};

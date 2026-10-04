@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'How To Escape A JSON String',
     description: 'Learn which characters JSON strings cannot contain, how backslash escape sequences work, and how to escape and unescape text safely.',
     readMinutes: 4,
-    updatedAt: '2026-07-02',
+    updatedAt: '2026-10-05',
   },
 };

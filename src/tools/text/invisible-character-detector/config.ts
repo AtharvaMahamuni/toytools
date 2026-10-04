@@ -26,6 +26,6 @@ export const config: ToolConfig = {
     title: 'How to Find Invisible Characters in Text',
     description: 'Why two identical-looking strings fail an exact-match comparison, which invisible characters cause it, and how to spot a lookalike letter before you approve it.',
     readMinutes: 5,
-    updatedAt: '2026-08-21',
+    updatedAt: '2026-10-05',
   },
 };

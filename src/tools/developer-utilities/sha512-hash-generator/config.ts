@@ -30,6 +30,6 @@ export const config: ToolConfig = {
     title: 'SHA-512 Hash Generator: Complete Guide',
     description: 'Learn what SHA-512 is, how it compares to SHA-256, and when to use it. Includes real-world uses, common mistakes, and examples.',
     readMinutes: 5,
-    updatedAt: '2026-06-15',
+    updatedAt: '2026-10-05',
   },
 };

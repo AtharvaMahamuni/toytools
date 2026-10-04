@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'CSV to JSON Converter: Complete Guide',
     description: 'Learn how CSV to JSON conversion works, how type detection and quoting are handled, and when to use each format. Includes examples and common pitfalls.',
     readMinutes: 5,
-    updatedAt: '2026-07-10',
+    updatedAt: '2026-10-05',
   },
 };

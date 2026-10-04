@@ -25,6 +25,6 @@ export const config: ToolConfig = {
     title: 'How to Reach a Savings Goal',
     description: 'Work out the monthly saving needed to reach a goal by a date. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 5,
-    updatedAt: '2026-09-25',
+    updatedAt: '2026-10-05',
   },
 };

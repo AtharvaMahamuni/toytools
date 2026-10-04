@@ -25,7 +25,7 @@ export const config: ToolConfig = {
     title: 'How to Count Characters in Text',
     description: 'Learn characters with vs without spaces, and why platform limits differ. Runs entirely on your device. Nothing is uploaded.',
     readMinutes: 4,
-    updatedAt: '2026-09-25',
+    updatedAt: '2026-10-05',
   },  pattern: 'text-metric',
   toolGroup: 'text-counters',
   family: 'text-counting',

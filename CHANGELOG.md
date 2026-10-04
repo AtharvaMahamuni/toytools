@@ -2,6 +2,30 @@
 
 All notable changes to ToyTools are documented here. The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [beta-v12.4] - 2026-10-05
+
+### Fixed
+
+- **Color Shades Generator checks the color you typed.** The contrast note names your hex and the stop that holds it (#3b82f6 at stop 500 is 3.68:1 on white), that stop keeps your exact hex, and swatch text is picked by WCAG contrast instead of lightness, so every label reaches 4.5:1.
+- **Matrix Calculator agrees with itself on singular matrices.** Determinant and Inverse use one test scaled to the entries, so a singular matrix of 100000s is singular in both, diag(1e-9) keeps its 1e-18 determinant, and tidying no longer rounds real values such as 12345.0001, 1e-13 or 1e297.
+- **Triangle Solver rounds each angle on its own.** An isosceles 1, 3, 3 triangle shows 80.406° twice instead of 80.41° and 80.4°. Values show significant figures, so a 0.003 side is not printed as 0, "Right triangle" needs a real 90°, and a thin 179.97° triangle solves. The three rounded angles can add to 179.99 or 180.01, and the result says so. This replaces the beta-v12.3 sum fix.
+- **The New badge lasts five days, as documented.** It lasted six. The six beta-v12.3 tools lose it on 7 October at 05:30 IST.
+- **The New tools row can be stopped.** A 48px Pause button, and any touch, wheel, key or scroll on the row, stop it for good. Reduced motion still never starts it.
+- **Type Scale samples are no longer scroll traps.** A 1.3 line box holds the descender of g, and a base under 1px is rejected, as the message always said.
+- **File Hash Verifier no longer judges a new file against an old checksum.** The expected digest is not saved between visits any more, and a Clear button empties the page.
+- **Sleep Cycle Calculator arithmetic in the FAQ and guide.** Skipping the minutes to fall asleep makes the alarm ring about 15 minutes before the last cycle ends, not after it. With zero minutes, bedtimes move later and wake times earlier.
+- **Guides carry their real publish date.** The Article datePublished is the day each guide first shipped, not its last update, and a guide's sitemap lastmod follows the guide's own date, so rewriting a guide no longer moves its tool's date.
+- **Remove Extra Spaces examples use ordinary spaces.** The tool collapses spaces and tabs, not the non-breaking spaces the examples used.
+
+### Changed
+
+- **Shorter titles and fuller descriptions for the new tools.** Matrix, Type Scale, File Hash and Color Shades titles fit 60 characters, the matrix and file hash guide titles are shorter, and the six new tools and Pomodoro Timer end their descriptions with "Runs entirely on your device. Nothing is uploaded."
+- **Applied Math is titled Math Calculators and Simulations.** The Applied Math, Design and Date and Time descriptions now name the triangle, matrix, shade scale, type scale and sleep tools.
+- **The six new guides lost their keyword lists.** Each keeps one worked example, the sleep guide hedges its one sleep-stage claim, and a competitor name is gone.
+- **More guides link where readers go next.** 22 guides now link back to a tool whose guide links them, 8 guides that no other page linked get a link, and the scientific calculator guide points to the triangle solver.
+- **Search understands more phrasings** for the six new tools, such as "what time should i go to bed", "inverse matrix" and "sha256sum".
+- **New tools are marked with `addedOn` only.** The unused `isNew` flag is gone from every tool, the add-tool skill and the scaffold, and the registry check rejects a missing, impossible or future `addedOn`.
+
 ## [beta-v12.3.1] - 2026-10-05
 
 ### Changed

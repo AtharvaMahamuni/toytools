@@ -30,5 +30,5 @@ export const config: ToolConfig = {
     title: 'What Is SHA-1?',
     description: 'Understand what SHA-1 is, why it was deprecated after the SHAttered collision attack in 2017, and where it still appears today.',
     readMinutes: 5,
-    updatedAt: '2026-06-09',
+    updatedAt: '2026-10-05',
   },};

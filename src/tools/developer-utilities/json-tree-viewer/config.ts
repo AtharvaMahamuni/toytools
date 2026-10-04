@@ -21,6 +21,6 @@ export const config: ToolConfig = {
     title: 'JSON Tree Viewer: Explore JSON Visually',
     description: 'Learn how a tree viewer reveals JSON structure, how to search nested data, and how to copy the dot path or JSONPath of any value.',
     readMinutes: 5,
-    updatedAt: '2026-06-17',
+    updatedAt: '2026-10-05',
   },
 };

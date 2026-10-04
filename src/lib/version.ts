@@ -11,11 +11,11 @@ export interface VersionConfig {
 
 export const VERSION_CONFIG: VersionConfig = {
   major: 12,
-  minor: 3,
-  patch: 1,
+  minor: 4,
+  patch: 0,
   status: 'beta',
   releaseDate: '2026-10-05',
-  description: 'GSC crawled not indexed PR 1: sharper guides, titles and metas, 26 internal links, tip calculator on the home shelf',
+  description: 'Six tool fixes from the post-merge audit, SEO and GEO copy fixes, real guide publish dates',
 };
 
 export function formatVersion(config: VersionConfig): string {
