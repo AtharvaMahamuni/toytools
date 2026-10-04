@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['subnet calculator', 'cidr to ip range', 'wildcard mask', 'network address', 'cidr notation'],
   updatedAt: '2026-09-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'network',
   pattern: 'network-calculate',

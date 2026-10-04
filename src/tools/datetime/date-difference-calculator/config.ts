@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['date difference calculator', 'days between two dates', 'how many days between dates', 'business days calculator', 'weeks between dates', 'duration between dates', 'date duration', 'days calculator'],
   updatedAt: '2026-07-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-calculate',

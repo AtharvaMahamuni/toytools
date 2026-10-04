@@ -110,9 +110,9 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities', // must exist in src/data/categories.ts
   tags: ['tag1', 'tag2'],         // SEO keyword array, 5–15 entries
 
-  // optional temporal fields
-  isNew: true,
-  updatedAt: '2026-06-14',
+  // temporal fields
+  addedOn: '2026-06-14',          // ship day, UTC. Drives the New badge and featured row for 5 days
+  updatedAt: '2026-06-14',        // last visible change; never bump it for an invisible edit
 
   // engine wiring — all four required
   engine: 'text-processor',       // must be registered in src/data/engines.ts

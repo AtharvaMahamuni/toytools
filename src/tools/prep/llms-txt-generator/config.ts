@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'prep',
   tags: ['llms.txt', 'llms txt', 'site description', 'crawler file'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-processor',
   pattern: 'text-assemble',

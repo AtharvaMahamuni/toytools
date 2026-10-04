@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['inflation calculator', 'purchasing power', 'future value of money', 'inflation impact', 'cost of living calculator', 'real value', 'money worth over time', 'how inflation affects savings'],
   updatedAt: '2026-10-05',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

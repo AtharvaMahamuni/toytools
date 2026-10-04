@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Count sentences by their ending punctuation.',
   categorySlug: 'text-utilities',
   tags: ['sentence counter', 'count sentences', 'sentence count', 'number of sentences', 'sentence detection', 'text analysis', 'average sentence length', 'sentences in text'],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-analysis',
   citation: {

@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'applied-math',
   tags: ['fraction calculator', 'adding fractions', 'simplify fractions', 'mixed number calculator', 'fraction to decimal', 'least common denominator', 'multiplying fractions', 'dividing fractions'],
   updatedAt: '2026-07-16',
-  isNew: true,
   trustVariant: 'private',
   engine: 'math',
   pattern: 'math-calculate',

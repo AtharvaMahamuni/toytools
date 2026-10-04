@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'prep',
   tags: ['prompt', 'prompt packer', 'structured prompt', 'prompt template', 'prompt fields'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-processor',
   pattern: 'text-assemble',

@@ -21,7 +21,6 @@ export const config: ToolConfig = {
     'graphic eq',
     'eq curve',
   ],
-  isNew: true,
   updatedAt: '2026-09-24',
   engine: 'audio',
   pattern: 'eq-design',

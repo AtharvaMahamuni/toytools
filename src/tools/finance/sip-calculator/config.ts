@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['sip calculator', 'systematic investment plan', 'monthly investment calculator', 'sip return calculator', 'mutual fund sip', 'sip maturity value', 'monthly sip returns', 'investment growth'],
   updatedAt: '2026-07-02',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

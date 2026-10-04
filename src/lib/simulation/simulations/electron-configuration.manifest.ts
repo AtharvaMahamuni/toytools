@@ -98,7 +98,6 @@ export const manifest: SimulationManifest = {
     // seo.keywords does NOT reach the index, so a phrase needed for retrieval is repeated here.
     tags: ['electron configuration calculator', 'electron configuration', 'electron configuration of an element', 'orbital diagram', 'aufbau principle', 'madelung rule', 'valence electrons', 'valence electrons calculator', 'noble gas configuration', 'electron shells', 'electron configuration of ions', 'atomic structure', 'unpaired electrons'],
     updatedAt: '2026-08-29',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

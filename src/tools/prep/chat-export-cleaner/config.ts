@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'prep',
   tags: ['chat export', 'transcript cleaner', 'conversation cleaner', 'remove timestamps'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-processor',
   pattern: 'text-assemble',

@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'daily task list', 'subtasks', 'organize tasks', 'productivity',
     'free todo list online', 'to-do list online', 'task list browser', 'checklist online free', 'simple task manager',
   ],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'productivity',
   pattern: 'stateful',

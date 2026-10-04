@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'fidgets',
   tags: ['kinetic sand', 'virtual sand', 'sand fidget', 'squish sand', 'sand pile'],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

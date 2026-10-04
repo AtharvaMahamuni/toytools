@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'applied-math',
   tags: ['combination calculator', 'permutation calculator', 'ncr calculator', 'npr calculator', 'how many combinations', 'combinations and permutations', 'stars and bars', 'factorial'],
   updatedAt: '2026-07-16',
-  isNew: true,
   trustVariant: 'private',
   engine: 'math',
   pattern: 'math-calculate',

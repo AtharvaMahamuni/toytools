@@ -274,6 +274,8 @@ function configSource(): string {
     `  categorySlug: '${category}',`,
     `  tags: ['${slug.replace(/-/g, ' ')}'], // TODO: add search keywords`,
     `  updatedAt: '${today}',`,
+    // addedOn, not a permanent flag, gives the tool its New badge for five UTC days.
+    `  addedOn: '${today}',`,
     `  engine: '${engine}',`,
     `  pattern: '${pattern}',`,
     `  family: '${family}',`,

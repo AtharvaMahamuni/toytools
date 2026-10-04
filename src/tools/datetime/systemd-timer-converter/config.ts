@@ -18,7 +18,6 @@ export const config: ToolConfig = {
     'systemd timer unit file',
     'cron vs systemd timer',
   ],
-  isNew: true,
   updatedAt: '2026-08-16',
   engine: 'datetime',
   pattern: 'datetime-schedule',

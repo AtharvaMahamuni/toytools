@@ -15,7 +15,6 @@ export const config: ToolConfig = {
     'prevent screen lock', 'keep display on', 'keep screen on browser',
     'screen wake lock', 'stop screen from turning off',
   ],
-  isNew: true,
   updatedAt: '2026-09-23',
   engine: 'productivity',
   pattern: 'stateful',

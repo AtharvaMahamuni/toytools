@@ -95,7 +95,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['quadratic equation', 'quadratic formula', 'quadratic equation solver', 'discriminant', 'parabola', 'vertex form', 'axis of symmetry', 'roots of a quadratic'],
     updatedAt: '2026-07-16',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

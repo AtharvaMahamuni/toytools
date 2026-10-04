@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'fidgets',
   tags: ['virtual slime', 'slime fidget', 'stretch slime', 'slime toy', 'goo fidget'],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

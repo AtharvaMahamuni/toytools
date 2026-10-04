@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'number-utilities',
   tags: ['roman numeral converter', 'roman numerals', 'convert roman numerals', 'number to roman numeral', 'roman numeral translator', 'roman numeral date', 'what year is MCMXCIX'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'encoding',
   pattern: 'encode-decode',

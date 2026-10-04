@@ -95,7 +95,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['simple harmonic motion calculator', 'simple harmonic motion', 'mass on a spring', 'spring constant', 'oscillation', 'period', 'SHM simulator', 'Hooke\'s law', 'physics'],
     updatedAt: '2026-07-12',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

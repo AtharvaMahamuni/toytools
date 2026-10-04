@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Turn JSON arrays into CSV, nested objects handled.',
   categorySlug: 'developer-utilities',
   tags: ['json to csv', 'convert json to csv', 'json csv converter', 'export json', 'json to spreadsheet', 'developer', 'data conversion'],
-  isNew: true,
   updatedAt: '2026-06-14',
   engine: 'structured-data',
   pattern: 'structured-transform',

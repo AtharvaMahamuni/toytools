@@ -86,7 +86,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['projectile motion simulator', 'projectile motion calculator', 'trajectory calculator', 'range of a projectile', 'launch angle', 'projectile physics', 'kinematics', 'interactive projectile'],
     updatedAt: '2026-07-11',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

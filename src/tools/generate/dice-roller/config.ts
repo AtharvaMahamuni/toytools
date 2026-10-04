@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'generate',
   tags: ['dice roller', 'roll a dice', 'd20 roller', 'roll 2d6', 'virtual dice', 'online dice', 'dnd dice roller', 'random dice'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-chance',

@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'generate',
   tags: ['random name picker', 'name picker', 'random name generator from list', 'raffle picker', 'wheel of names alternative', 'pick a random name', 'classroom name picker'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'generation',
   pattern: 'generate-chance',

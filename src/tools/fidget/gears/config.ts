@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'fidgets',
   tags: ['gear ratio', 'meshing gears', 'spin gears', 'gear toy', 'interactive gears'],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

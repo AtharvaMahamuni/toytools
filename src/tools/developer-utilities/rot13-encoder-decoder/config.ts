@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['rot13', 'rot13 decoder', 'rot13 encoder', 'rot13 translator', 'rot13 cipher', 'decode rot13 online', 'caesar cipher 13', 'rot13 converter'],
   updatedAt: '2026-07-02',
-  isNew: true,
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'binary-text',

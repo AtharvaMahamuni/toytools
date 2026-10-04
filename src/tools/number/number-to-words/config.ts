@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'number-utilities',
   tags: ['number to words', 'number to words converter', 'spell out numbers', 'write numbers in words', 'amount in words', 'words to number', 'number spelling'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'encoding',
   pattern: 'encode-decode',

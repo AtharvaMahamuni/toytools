@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   tagline: 'Identify a digest and verify the checksum.',
   categorySlug: 'developer-utilities',
   tags: ['hash identifier', 'identify hash', 'checksum verifier', 'digest length'],
-  isNew: true,
   updatedAt: '2026-09-18',
   trustVariant: 'local',
   engine: 'hashing',

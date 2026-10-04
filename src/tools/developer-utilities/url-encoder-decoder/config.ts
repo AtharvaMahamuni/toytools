@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Percent-encode and decode URL components.',
   categorySlug: 'developer-utilities',
   tags: ['url encode', 'url decode', 'percent encoding', 'uri encode', 'uri decode', 'url encoder', 'url decoder', 'encode url online', 'decode url online', 'developer'],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'encoding',
   pattern: 'encode-decode',

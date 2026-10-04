@@ -14,7 +14,6 @@ export const config: ToolConfig = {
     'lightweight notes', 'online notebook',
     'temporary notepad online', 'quick notes online', 'notepad no login', 'online text editor free',
   ],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'productivity',
   pattern: 'stateful',

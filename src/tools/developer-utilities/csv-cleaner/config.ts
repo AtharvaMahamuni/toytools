@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['csv cleaner', 'clean csv online', 'remove empty rows csv', 'fix messy csv', 'csv whitespace trimmer', 'csv formatter', 'normalize csv', 'csv import errors'],
   updatedAt: '2026-07-09',
-  isNew: true,
   trustVariant: 'private',
   engine: 'csv',
   pattern: 'csv-transform',

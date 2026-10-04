@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['savings goal calculator', 'how much to save', 'monthly savings calculator', 'savings target', 'save for a goal', 'savings plan', 'how much to save per month', 'goal based saving'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-planning',

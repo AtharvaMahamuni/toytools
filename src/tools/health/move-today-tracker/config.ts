@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'move every day', 'fitness habit tracker', 'simple habit tracker',
     'free habit tracker', 'online streak tracker', 'daily exercise log',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'local',
   engine: 'tracker',

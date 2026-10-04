@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['compound interest', 'compound interest calculator', 'investment calculator', 'savings growth', 'interest calculator', 'future value calculator', 'how to calculate compound interest', 'compounding', 'monthly contribution calculator'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

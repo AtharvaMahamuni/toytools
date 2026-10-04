@@ -9,6 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getToolMetadata } from '../src/data/metadata';
 import { isIsoDate } from '../src/lib/dates';
+import { parseAddedOn } from '../src/lib/tools/freshness';
 import { registeredGuideSlugSet } from '../src/data/guide-registry';
 import { toolGroups, getToolGroup } from '../src/data/tool-groups';
 import { PROCESSORS } from '../src/lib/text/processors/registry';
@@ -135,6 +136,21 @@ for (const tool of tools) {
   // Same contract on the tool's own date: it is SoftwareApplication.dateModified on the tool page.
   if (tool.updatedAt !== undefined && !isIsoDate(tool.updatedAt)) {
     errors.push(`Tool "${m.slug}" updatedAt must be an ISO 8601 date (YYYY-MM-DD), got "${tool.updatedAt}". It is the SoftwareApplication schema's dateModified.`);
+  }
+
+  // addedOn drives the New badge and the featured row (src/lib/tools/freshness.ts). A typo or an
+  // impossible date silently means no badge, so it is checked here. "Future" allows one day of
+  // slack, because a tool added in the early IST morning is still yesterday in UTC.
+  if (tool.addedOn !== undefined) {
+    const added = parseAddedOn(tool.addedOn);
+    if (added === null) {
+      errors.push(`Tool "${m.slug}" addedOn must be a real calendar date (YYYY-MM-DD), got "${tool.addedOn}". It drives the New badge.`);
+    } else if (added > Date.now() + 86_400_000) {
+      errors.push(`Tool "${m.slug}" addedOn "${tool.addedOn}" is in the future. Use the day the tool ships.`);
+    }
+  }
+  if ('isNew' in (tool as object)) {
+    errors.push(`Tool "${m.slug}" still sets isNew, which no longer exists. Set addedOn: 'YYYY-MM-DD' instead.`);
   }
 
   // guide.updatedAt is the Article schema's datePublished/dateModified, so it must be ISO 8601.

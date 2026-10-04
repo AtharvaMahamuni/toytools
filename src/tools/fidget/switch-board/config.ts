@@ -15,7 +15,6 @@ export const config: ToolConfig = {
     'button fidget web',
   ],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

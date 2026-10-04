@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'prep',
   tags: ['json schema', 'json to schema', 'schema from json', 'infer schema'],
   updatedAt: '2026-09-25',
-  isNew: true,
   trustVariant: 'private',
   engine: 'structured-data',
   pattern: 'structured-transform',

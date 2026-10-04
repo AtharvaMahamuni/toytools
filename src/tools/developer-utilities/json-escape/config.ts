@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['json escape', 'json unescape', 'escape json string', 'json string escaper', 'unescape json online', 'escape quotes for json', 'json escape characters', 'json stringify text'],
   updatedAt: '2026-07-02',
-  isNew: true,
   engine: 'encoding',
   pattern: 'encode-decode',
   family: 'web',

@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'number-utilities',
   tags: ['binary converter', 'decimal to binary', 'binary to decimal', 'number to binary', 'binary calculator', 'base converter', 'hex and binary'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'encoding',
   pattern: 'encode-decode',

@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'protein for muscle gain', 'protein while cutting', 'protein requirements',
     'protein per meal', 'free protein calculator',
   ],
-  isNew: true,
   updatedAt: '2026-08-04',
   trustVariant: 'private',
   engine: 'wellness',

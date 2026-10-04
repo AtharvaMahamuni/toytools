@@ -83,7 +83,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['heat transfer calculator', 'heat transfer', 'thermal equilibrium', 'conduction', 'heat flow', 'temperature', 'thermodynamics', 'newton cooling', 'heat simulator'],
     updatedAt: '2026-07-09',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

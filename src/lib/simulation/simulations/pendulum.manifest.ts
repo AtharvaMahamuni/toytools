@@ -83,7 +83,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['pendulum period calculator', 'pendulum', 'pendulum simulator', 'pendulum period', 'simple harmonic motion', 'potential and kinetic energy', 'gravity', 'oscillation', 'T = 2 pi sqrt L over g'],
     updatedAt: '2026-07-09',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

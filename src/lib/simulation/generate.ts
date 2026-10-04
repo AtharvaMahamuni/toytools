@@ -77,7 +77,6 @@ export function toolConfigFrom(manifest: SimulationManifest, relations: Relation
     categorySlug: m.category,
     tags: [...manifest.presentation.tags, ...simulatorTags(manifest)],
     updatedAt: manifest.presentation.updatedAt,
-    isNew: manifest.presentation.isNew,
     trustVariant: manifest.presentation.trustVariant,
     engine: m.domain as EngineId,
     pattern: 'simulate' as PatternId,

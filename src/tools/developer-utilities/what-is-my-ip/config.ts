@@ -10,7 +10,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['public ip address', 'whats my ip', 'show my ip', 'ipv4', 'ipv6'],
   updatedAt: '2026-09-10',
-  isNew: true,
   trustVariant: 'lookup',
   engine: 'network',
   pattern: 'network-lookup',

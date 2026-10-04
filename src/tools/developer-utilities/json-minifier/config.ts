@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Strip whitespace from JSON to make it smaller.',
   categorySlug: 'developer-utilities',
   tags: ['json minifier', 'minify json', 'compress json', 'json compact', 'json minify online', 'shrink json', 'json compressor', 'developer'],
-  isNew: true,
   updatedAt: '2026-06-09',
   engine: 'structured-data',
   pattern: 'structured-transform',

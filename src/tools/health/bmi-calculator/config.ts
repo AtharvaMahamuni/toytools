@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'am i overweight', 'ideal weight range', 'calculate bmi', 'bmi formula',
     'free bmi calculator', 'online bmi calculator', 'bmi for adults',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'private',
   engine: 'wellness',

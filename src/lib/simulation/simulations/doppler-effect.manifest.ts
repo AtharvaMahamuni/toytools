@@ -85,7 +85,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['doppler effect calculator', 'Doppler effect', 'Doppler shift', 'wavefront', 'frequency', 'pitch', 'sound waves', 'waves', 'physics simulator'],
     updatedAt: '2026-07-12',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['invisible character detector', 'zero width space', 'find invisible characters', 'why does my string not match', 'non breaking space', 'detect homoglyph', 'hidden characters in text', 'remove zero width space'],
   updatedAt: '2026-08-21',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-processor',
   pattern: 'text-inspect',

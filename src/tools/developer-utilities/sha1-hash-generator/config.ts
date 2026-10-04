@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Generate a SHA-1 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha1', 'sha-1', 'sha1 hash', 'sha1 generator', 'hash generator', 'checksum', 'sha1 online', 'generate sha1', 'developer'],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'hashing',
   pattern: 'hash',

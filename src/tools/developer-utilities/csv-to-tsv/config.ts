@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['csv to tsv', 'csv to tsv converter', 'convert csv to tab separated', 'csv tsv online', 'tab delimited converter', 'change csv delimiter', 'csv to tab file'],
   updatedAt: '2026-07-09',
-  isNew: true,
   trustVariant: 'private',
   engine: 'csv',
   pattern: 'csv-transform',

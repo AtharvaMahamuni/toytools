@@ -49,6 +49,7 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
 
 <div class="tool-actions">
   <button class="action-btn action-btn--copy" id="file-hash-verifier-copy" data-label="Copy digest" type="button">Copy digest</button>
+  <button class="action-btn" id="file-hash-verifier-clear" type="button">Clear</button>
 </div>
 
 <script is:inline>
@@ -64,10 +65,13 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     var noteTxt = document.getElementById('file-hash-verifier-note-text');
     var actionEl = document.getElementById('file-hash-verifier-note-action');
     var copyBtn = document.getElementById('file-hash-verifier-copy');
+    var clearBtn = document.getElementById('file-hash-verifier-clear');
     if (!fileEl || !algoEl || !digestEl) return;
 
     var ALGO_KEY = 'toytools.file-hash-verifier.algorithm';
-    var EXPECT_KEY = 'toytools.file-hash-verifier.expected';
+    // The expected digest is not stored: one restored from an earlier session would judge the
+    // next file against the wrong checksum. Older builds saved it under this key.
+    var LEGACY_EXPECT_KEY = 'toytools.file-hash-verifier.expected';
     var SLICE = 1024 * 1024;
     var current = null;
     var hex = '';
@@ -189,13 +193,22 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
     });
     if (expectedEl) expectedEl.addEventListener('input', function () {
       var TT = window.ToyTools;
-      try { if (TT && TT.storage) TT.storage.set(EXPECT_KEY, expectedEl.value); } catch (_) {}
       if (!hex || !TT || !TT.compareFileDigest) { setCompare(null); return; }
       setCompare(TT.compareFileDigest(algoEl.value || 'sha256', expectedEl.value, hex));
     });
     if (actionEl) actionEl.addEventListener('click', function () {
       algoEl.value = 'sha256';
       algoEl.dispatchEvent(new Event('change'));
+    });
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      token++;
+      current = null;
+      try { fileEl.value = ''; } catch (_) {}
+      if (expectedEl) expectedEl.value = '';
+      clearRead();
+      setCompare(null);
+      showNote('');
+      fileEl.focus();
     });
     if (copyBtn) copyBtn.addEventListener('click', function () {
       var TT = window.ToyTools;
@@ -206,9 +219,8 @@ import CraftNote from '@tools/_shared/CraftNote.astro';
       var TT = window.ToyTools;
       try {
         var savedAlgo = TT && TT.storage && TT.storage.get(ALGO_KEY);
-        if (savedAlgo) algoEl.value = savedAlgo;
-        var savedExpected = TT && TT.storage && TT.storage.get(EXPECT_KEY);
-        if (expectedEl && savedExpected) expectedEl.value = savedExpected;
+        if (savedAlgo && algoEl.querySelector('option[value="' + savedAlgo + '"]')) algoEl.value = savedAlgo;
+        if (TT && TT.storage) TT.storage.clear(LEGACY_EXPECT_KEY);
       } catch (_) {}
       if (current) hashCurrent();
     }

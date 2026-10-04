@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Generate a SHA-512 hash from any text.',
   categorySlug: 'developer-utilities',
   tags: ['sha512', 'sha-512', 'sha512 hash', 'sha512 generator', 'hash generator', 'checksum', 'sha512 online', 'generate sha512', 'developer'],
-  isNew: true,
   updatedAt: '2026-06-14',
   engine: 'hashing',
   pattern: 'hash',

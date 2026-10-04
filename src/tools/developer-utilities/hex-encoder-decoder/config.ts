@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Encode text to hex and decode hex back to text.',
   categorySlug: 'developer-utilities',
   tags: ['hex encoder', 'hex decoder', 'hexadecimal', 'hex to text', 'text to hex', 'hex converter', 'hex encoding', 'decode hex', 'encode hex', 'developer'],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'encoding',
   pattern: 'encode-decode',

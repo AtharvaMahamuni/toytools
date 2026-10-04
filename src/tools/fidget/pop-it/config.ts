@@ -17,7 +17,6 @@ export const config: ToolConfig = {
     'digital pop it',
   ],
   updatedAt: '2026-09-24',
-  isNew: true,
   trustVariant: 'private',
   engine: 'feel',
   pattern: 'fidget-interact',

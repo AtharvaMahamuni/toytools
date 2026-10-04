@@ -84,7 +84,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['inclined plane', 'ramp', 'friction', 'normal force', 'components of gravity', 'forces', 'mechanics', 'physics simulator'],
     updatedAt: '2026-07-12',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

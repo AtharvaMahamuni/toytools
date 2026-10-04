@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['unix timestamp converter', 'epoch converter', 'unix time to date', 'timestamp to date', 'date to unix timestamp', 'epoch time', 'unix time', 'milliseconds to date'],
   updatedAt: '2026-07-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-convert',

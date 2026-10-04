@@ -83,7 +83,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['wave speed', 'wave speed calculator', 'v = f lambda', 'frequency and wavelength', 'wave simulation', 'travelling wave', 'wave physics', 'interactive wave'],
     updatedAt: '2026-07-10',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

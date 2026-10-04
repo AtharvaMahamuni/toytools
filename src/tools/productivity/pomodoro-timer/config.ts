@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'break timer', 'concentration', 'deep work', 'productivity timer',
     'pomodoro clock', 'focus session', 'work timer', 'tomato timer',
   ],
-  isNew: true,
   updatedAt: '2026-10-05',
   engine: 'productivity',
   pattern: 'stateful',

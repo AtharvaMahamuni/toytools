@@ -100,7 +100,6 @@ export const manifest: SimulationManifest = {
     // needed for retrieval is repeated here on purpose.
     tags: ['crystal field splitting calculator', 'crystal field splitting', 'crystal field theory', 'ligand field', 'CFSE', 'CFSE calculator', 'high spin', 'low spin', 'high spin vs low spin', 'delta octahedral', 'octahedral vs tetrahedral', 'd orbital splitting', 'd orbital splitting diagram', 'pairing energy', 'magnetic moment', 'spin only magnetic moment', 'coordination chemistry', 'inorganic chemistry'],
     updatedAt: '2026-09-24',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

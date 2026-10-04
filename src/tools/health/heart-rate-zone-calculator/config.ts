@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'cardio zones', 'running heart rate zones', 'hr zones',
     'free heart rate zone calculator', 'online heart rate calculator',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'private',
   engine: 'wellness',

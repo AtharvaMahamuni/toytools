@@ -86,7 +86,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['momentum calculator', 'conservation of momentum', 'elastic collision', 'inelastic collision', 'momentum', 'kinetic energy', 'restitution', 'collision simulator', 'mechanics'],
     updatedAt: '2026-07-12',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

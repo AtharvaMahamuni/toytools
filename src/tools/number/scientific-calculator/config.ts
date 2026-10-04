@@ -18,7 +18,6 @@ export const config: ToolConfig = {
     'order of operations calculator',
   ],
   updatedAt: '2026-07-09',
-  isNew: true,
   engine: 'calculator',
   pattern: 'calculate',
   family: 'arithmetic',

@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Gross margin, gross profit and markup from cost and price.',
   categorySlug: 'number-utilities',
   tags: ['margin calculator', 'gross margin', 'profit margin calculator', 'markup calculator', 'gross profit', 'margin vs markup', 'profit percentage', 'numbers', 'math'],
-  isNew: true,
   updatedAt: '2026-09-08',
   engine: 'calculator',
   pattern: 'calculate',

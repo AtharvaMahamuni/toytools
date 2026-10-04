@@ -16,7 +16,6 @@ export const config: ToolConfig = {
     'unique identifier',
     'bulk uuid',
   ],
-  isNew: true,
   updatedAt: '2026-07-10',
   trustVariant: 'private',
   engine: 'generation',

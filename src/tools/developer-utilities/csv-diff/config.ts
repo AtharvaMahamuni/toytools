@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'developer-utilities',
   tags: ['csv diff', 'compare csv files', 'csv compare online', 'diff two csv', 'csv difference checker', 'compare spreadsheets', 'csv comparison tool', 'find changed rows csv'],
   updatedAt: '2026-07-04',
-  isNew: true,
   trustVariant: 'private',
   engine: 'csv',
   pattern: 'csv-transform',

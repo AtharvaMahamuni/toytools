@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'date-time',
   tags: ['timezone converter', 'time zone converter', 'convert time between time zones', 'utc converter', 'time difference between cities', 'gmt converter', 'world clock converter', 'time conversion'],
   updatedAt: '2026-07-10',
-  isNew: true,
   trustVariant: 'private',
   engine: 'datetime',
   pattern: 'datetime-convert',

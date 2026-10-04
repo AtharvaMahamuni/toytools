@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Count only letters, ignoring digits, spaces and punctuation.',
   categorySlug: 'text-utilities',
   tags: ['letter counter', 'count letters', 'letter count', 'alphabetic characters', 'letters only', 'count alphabetic', 'letter frequency'],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-analysis',
   pattern: 'text-metric',

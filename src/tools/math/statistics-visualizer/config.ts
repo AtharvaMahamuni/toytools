@@ -15,7 +15,6 @@ export const config: ToolConfig = {
     'box plot generator',
   ],
   updatedAt: '2026-09-15',
-  isNew: true,
   trustVariant: 'private',
   engine: 'math',
   pattern: 'math-calculate',

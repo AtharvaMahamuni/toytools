@@ -85,7 +85,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['ideal gas law calculator', 'ideal gas law', 'PV = nRT', 'gas pressure', 'volume', 'temperature', 'Boyle\'s law', 'thermodynamics', 'gas simulator'],
     updatedAt: '2026-07-12',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

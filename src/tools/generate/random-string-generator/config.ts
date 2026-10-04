@@ -15,7 +15,6 @@ export const config: ToolConfig = {
     'random characters',
     'custom alphabet',
   ],
-  isNew: true,
   updatedAt: '2026-09-25',
   trustVariant: 'private',
   engine: 'generation',

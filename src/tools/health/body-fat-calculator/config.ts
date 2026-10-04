@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'body composition', 'how to measure body fat', 'body fat formula',
     'free body fat calculator', 'online body fat calculator', 'estimate body fat',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'private',
   engine: 'wellness',

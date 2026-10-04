@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'text-utilities',
   tags: ['text repeater', 'repeat text', 'repeat text online', 'repeat a word', 'duplicate text', 'repeat line', 'text multiplier'],
   updatedAt: '2026-08-22',
-  isNew: true,
   trustVariant: 'private',
   engine: 'text-interactive',
   pattern: 'text-interactive',

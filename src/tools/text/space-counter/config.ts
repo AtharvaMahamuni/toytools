@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Count space characters, and characters without them.',
   categorySlug: 'text-utilities',
   tags: ['space counter', 'count spaces', 'space count', 'count whitespace', 'spaces in text', 'number of spaces'],
-  isNew: true,
   updatedAt: '2026-07-09',
   engine: 'text-analysis',
   pattern: 'text-metric',

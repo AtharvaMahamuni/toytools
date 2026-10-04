@@ -18,7 +18,6 @@ export const config: ToolConfig = {
     'no account',
     'goodreads alternative',
   ],
-  isNew: true,
   updatedAt: '2026-09-18',
   engine: 'productivity',
   pattern: 'stateful',

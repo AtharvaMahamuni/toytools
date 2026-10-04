@@ -105,7 +105,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['unit circle', 'unit circle calculator', 'sin cos tan', 'radians and degrees', 'reference angle', 'special angles', 'trigonometry'],
     updatedAt: '2026-09-24',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

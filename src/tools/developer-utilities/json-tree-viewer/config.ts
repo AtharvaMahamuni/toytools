@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Explore JSON as a collapsible tree, and copy any path or value.',
   categorySlug: 'developer-utilities',
   tags: ['json tree viewer', 'json viewer', 'json visualizer', 'view json', 'json explorer', 'json tree', 'collapsible json', 'developer'],
-  isNew: true,
   updatedAt: '2026-06-17',
   engine: 'structured-data',
   pattern: 'structured-transform',

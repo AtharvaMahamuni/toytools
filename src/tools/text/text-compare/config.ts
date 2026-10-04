@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Compare two texts and see exactly which lines changed.',
   categorySlug: 'text-utilities',
   tags: ['text compare', 'text diff', 'compare text', 'diff two texts', 'text difference', 'find differences', 'online diff tool'],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-interactive',
   pattern: 'text-interactive',

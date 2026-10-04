@@ -83,7 +83,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['nuclear reactor calculator', 'nuclear reactor', 'reactivity', 'point kinetics', 'control rod', 'prompt critical', 'chain reaction', 'reactor trip', 'nuclear physics'],
     updatedAt: '2026-08-23',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

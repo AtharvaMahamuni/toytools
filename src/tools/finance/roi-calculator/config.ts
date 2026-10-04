@@ -9,7 +9,6 @@ export const config: ToolConfig = {
   categorySlug: 'money-finance',
   tags: ['roi calculator', 'return on investment calculator', 'investment return calculator', 'roi formula', 'annualized return calculator', 'investment gain calculator', 'roi percentage', 'stock return calculator'],
   updatedAt: '2026-07-04',
-  isNew: true,
   trustVariant: 'private',
   engine: 'finance',
   pattern: 'finance-growth',

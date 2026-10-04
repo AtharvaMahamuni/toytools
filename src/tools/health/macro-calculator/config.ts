@@ -13,7 +13,6 @@ export const config: ToolConfig = {
     'daily macros', 'macro split', 'grams of protein carbs fat',
     'free macro calculator', 'online macro calculator', 'diet macro calculator',
   ],
-  isNew: true,
   updatedAt: '2026-07-23',
   trustVariant: 'private',
   engine: 'wellness',

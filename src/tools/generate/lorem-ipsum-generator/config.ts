@@ -16,7 +16,6 @@ export const config: ToolConfig = {
     'lorem ipsum',
     'sample text',
   ],
-  isNew: true,
   updatedAt: '2026-07-10',
   trustVariant: 'private',
   engine: 'generation',

@@ -166,7 +166,8 @@ export interface RelationshipOverlay {
 export interface PresentationMeta {
   tags: string[];
   updatedAt: string;
-  isNew?: boolean;
+  /** Removed. Freshness comes from `addedOn` on the tool config; `isNew: true` is a type error. */
+  isNew?: never;
   trustVariant?: 'private' | 'offline' | 'local' | 'lookup';
 }
 

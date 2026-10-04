@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Turn CSV into a JSON array of objects, with type detection.',
   categorySlug: 'developer-utilities',
   tags: ['csv to json', 'csv json converter', 'convert csv to json', 'csv to array', 'import csv', 'developer', 'data conversion'],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'structured-data',
   pattern: 'structured-transform',

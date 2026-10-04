@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Count total lines, non-empty lines and paragraphs.',
   categorySlug: 'text-utilities',
   tags: ['line counter', 'count lines', 'line count', 'number of lines', 'count rows', 'newline counter', 'count newlines'],
-  isNew: true,
   updatedAt: '2026-07-10',
   engine: 'text-analysis',
   pattern: 'text-metric',

@@ -92,7 +92,6 @@ export const manifest: SimulationManifest = {
   presentation: {
     tags: ['probability calculator', 'probability', 'coin flip simulator', 'dice roll simulator', 'law of large numbers', 'empirical probability', 'theoretical probability', 'probability experiment', 'sample size'],
     updatedAt: '2026-07-16',
-    isNew: true,
     trustVariant: 'offline',
   },
   examples: [

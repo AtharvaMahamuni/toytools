@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Pretty-print JSON with proper indentation.',
   categorySlug: 'developer-utilities',
   tags: ['json formatter', 'json beautifier', 'format json', 'pretty print json', 'json pretty', 'json indent', 'beautify json', 'json online', 'developer'],
-  isNew: true,
   updatedAt: '2026-09-24',
   engine: 'structured-data',
   pattern: 'structured-transform',

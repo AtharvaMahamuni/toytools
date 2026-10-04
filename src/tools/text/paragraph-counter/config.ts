@@ -8,7 +8,6 @@ export const config: ToolConfig = {
   tagline: 'Count paragraphs split by blank lines. On your device.',
   categorySlug: 'text-utilities',
   tags: ['paragraph counter', 'count paragraphs', 'paragraph count', 'number of paragraphs', 'paragraphs in text', 'text structure', 'essay paragraph counter', 'article structure'],
-  isNew: true,
   updatedAt: '2026-09-25',
   engine: 'text-analysis',
   craft: {
