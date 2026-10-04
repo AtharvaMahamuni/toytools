@@ -22,10 +22,10 @@ export const config: ToolConfig = {
   guide: {
     slug: 'how-to-take-better-notes',
     categorySlug: 'productivity',
-    title: 'How To Take Better Notes',
-    description: 'Learn why writing things down improves memory, reduces mental load, and helps organize information more effectively.',
+    title: 'Temporary Notes Online Without an Account',
+    description: 'When a browser scratchpad beats a notes app, what survives a restart or cleared data, and how to back up notes you cannot afford to lose.',
     readMinutes: 5,
-    updatedAt: '2026-06-04',
+    updatedAt: '2026-10-05',
   },
   trustVariant: 'local',
   relatedTools: ['todo-list', 'pomodoro-timer'],

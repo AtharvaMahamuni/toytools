@@ -29,15 +29,55 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
   <section id="quick-answer">
     <h2>Quick Answer <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
-      Taking notes means moving information out of your head and into a reliable place.
-      Once something is written down, you no longer need to remember it: your brain can focus on
-      thinking instead of storing.
+      For a temporary note, open the notepad and start typing. There is no account and no sign-up.
+      The text auto-saves in your browser on this device, so it is still there after you close the tab
+      or restart the computer.
     </p>
     <p>
-      The best notes are captured quickly, kept concise, and reviewed occasionally.
-      A simple system you actually use beats an elaborate one you abandon.
+      It does not survive clearing your browser's site data, and it does not sync to other devices.
+      Export anything you cannot afford to lose.
     </p>
     <a href={toolHref} class="cta-link">Try The Notepad →</a>
+  </section>
+
+  <section id="scratchpad-vs-notes-app">
+    <h2>When Does a Browser Scratchpad Beat a Notes App? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      When the note is short-lived. A scratchpad is the right place for a phone number you need for
+      the next ten minutes, a draft reply you want to rework before sending, text you are cleaning up
+      between two apps, or a list for today only.
+    </p>
+    <p>
+      A notes app wins when you need search across hundreds of notes, sync between your phone and
+      laptop, or sharing. The scratchpad trades those features for speed: one page, one note, nothing
+      to sign in to.
+    </p>
+  </section>
+
+  <section id="what-survives">
+    <h2>What Survives a Restart or Cleared Data? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>The note lives in your browser's local storage, which sets the rules:</p>
+    <ul>
+      <li><strong>Closing the tab or the browser:</strong> the note survives.</li>
+      <li><strong>Restarting the computer:</strong> the note survives.</li>
+      <li><strong>Clearing cookies and site data:</strong> the note is deleted.</li>
+      <li><strong>A private or incognito window:</strong> the note is deleted when the window closes.</li>
+      <li><strong>Another browser or device:</strong> the note is not there. Storage belongs to one browser on one device.</li>
+      <li><strong>Very long notes:</strong> auto-save stops at 50,000 characters. Beyond that, the saved copy stays at the last shorter version, so download or export long text.</li>
+    </ul>
+  </section>
+
+  <section id="back-up-notes">
+    <h2>How Do You Back Up Notes You Cannot Afford to Lose? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Use the buttons on the tool screen. <strong>Export JSON</strong> saves a backup file that
+      <strong>Import JSON</strong> can restore later, either by pasting it in or by choosing the file.
+      <strong>Download TXT</strong> saves the plain text, and Ctrl+S (Cmd+S on a Mac) does the same.
+    </p>
+    <p>
+      Make a backup before clearing browser data, switching computers, or leaving a note for more
+      than a few days. Once a note matters, move it somewhere permanent.
+    </p>
   </section>
 
   <section id="why-notes-matter">
@@ -64,58 +104,22 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
 
   <section id="benefits">
     <h2>Benefits <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p>
-      <strong>Reduced mental load.</strong> Once something is written, your brain stops working to
-      retain it. This removes a low-level background anxiety that most people do not notice until
-      it is gone.
-    </p>
-    <p>
-      <strong>Better recall.</strong> Information that is written down is more likely to be
-      remembered, even if you never re-read it. The act of writing reinforces encoding.
-      And if you do forget, the note is there.
-    </p>
-    <p>
-      <strong>Improved focus.</strong> With distracting thoughts captured, you can give your full
-      attention to whatever you are working on. You know the other things are safe somewhere and
-      will not be lost.
-    </p>
-    <p>
-      <strong>Easier planning.</strong> Written notes make it simple to review what you know,
-      what you need to do, and what questions remain. Planning becomes a reading task, not a
-      memory task.
-    </p>
-    <p>
-      <strong>Clearer thinking.</strong> Writing forces ideas into words. Vague thoughts that feel
-      understood turn out to be unclear once put on paper. The friction of writing reveals
-      gaps in your thinking.
-    </p>
+    <ul>
+      <li><strong>Reduced mental load:</strong> once something is written, your brain stops working to hold it.</li>
+      <li><strong>Better recall:</strong> writing reinforces memory, and the note is there if you forget.</li>
+      <li><strong>Improved focus:</strong> with stray thoughts captured, you can give one task your full attention.</li>
+      <li><strong>Clearer thinking:</strong> putting an idea into words shows where it is still vague.</li>
+    </ul>
   </section>
 
   <section id="how-to-take-better-notes">
     <h2>How To Take Better Notes <span class="gold-dot" aria-hidden="true"></span></h2>
-    <p>
-      <strong>Capture immediately.</strong> Write things down as soon as you think of them.
-      The longer you wait, the higher the chance of forgetting. Speed matters more than polish
-      at the capture stage.
-    </p>
-    <p>
-      <strong>Keep it concise.</strong> Notes are reminders, not essays. A few words are enough
-      to reconstruct the idea later: "check router config Thursday" captures more than a full
-      sentence. Long notes take longer to write and longer to read.
-    </p>
-    <p>
-      <strong>Write for your future self.</strong> Use enough context that you will understand
-      the note tomorrow or next week. Abbreviations that make sense now may be cryptic later.
-    </p>
-    <p>
-      <strong>Review occasionally.</strong> A note that is never read again is just noise.
-      A brief review (daily or weekly) turns captured information into something you actually use.
-    </p>
-    <p>
-      <strong>Avoid over-organizing.</strong> The temptation to file, tag, and categorize every
-      note before moving on is a trap. Organize only when you have something worth organizing.
-      Most notes do not need a folder.
-    </p>
+    <ul>
+      <li><strong>Capture immediately.</strong> Speed matters more than polish at the capture stage.</li>
+      <li><strong>Keep it concise.</strong> "Check router config Thursday" is a better note than a paragraph.</li>
+      <li><strong>Write for your future self.</strong> Add enough context to understand it next week.</li>
+      <li><strong>Review occasionally.</strong> A quick daily or weekly scan turns notes into action.</li>
+    </ul>
   </section>
 
   <section id="common-mistakes">
