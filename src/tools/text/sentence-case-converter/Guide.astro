@@ -31,8 +31,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       Sentence case is a simple way to capitalize sentences. This first-letter capitalization applies
       sentence capitalization at each sentence boundary, exactly like ordinary writing. "the quick
       brown fox" becomes "The quick brown fox". To produce sentence case text, paste and convert. It
-      is not the same as lowercasing everything: only the sentence starts change, so the rest of each
-      word keeps its case. It is the default ui copy case for body text, UI labels, and button copy,
+      is not the same as lowercasing everything: the text is lowercased, then every sentence start is
+      capitalized again. It is the default ui copy case for body text, UI labels, and button copy,
       and the fastest way to fix all caps or random capitalization.
     </p>
     <a href={toolHref} class="cta-link">Try The Sentence Case Converter →</a>
@@ -80,6 +80,52 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       <strong>Two sentences.</strong> For example, "hello there. how are you?" becomes "Hello there.
       How are you?", capitalizing the start of each sentence.
     </p>
+  </section>
+
+  <section id="word">
+    <h2>How Do You Change Text to Sentence Case in Word? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In Word, select the text, go to the Home tab, open the Change Case button (the Aa icon), and
+      choose Sentence case. Word capitalizes the first letter of each sentence and lowercases the
+      rest. Microsoft's help notes that Word for the web cannot change case, so use the desktop app
+      or paste the text through a converter.
+    </p>
+  </section>
+
+  <section id="google-docs">
+    <h2>Does Google Docs Have Sentence Case? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      No. In Google Docs, Format, then Text, then Capitalization offers lowercase, UPPERCASE and
+      Title Case, plus small caps, but no sentence case. The workaround is to copy the text, convert
+      it here, and paste it back over the original.
+    </p>
+    <p>
+      Docs' own Title Case also capitalizes every word, including "of" and "the", so it is not a
+      shortcut to sentence case either. If you write in Docs often, an add-on or an Apps Script menu
+      item can add a sentence case command.
+    </p>
+  </section>
+
+  <section id="in-code">
+    <h2>How Do You Make Sentence Case in Code? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      In code, lowercase the whole string, then capitalize the first letter of the text and the first
+      letter after each <code>.</code>, <code>!</code> or <code>?</code>. In JavaScript:
+      <code>text.toLowerCase().replace(/(^\s*\p&#123;L&#125;|[.!?]\s+\p&#123;L&#125;)/gu, m =&gt; m.toUpperCase())</code>.
+      That is the rule this tool runs, and <code>\p&#123;L&#125;</code> means any letter, so an accented
+      sentence start is capitalized too.
+    </p>
+    <p>
+      The same rule shows what every converter gets wrong. "i went to paris with anna." becomes
+      "I went to paris with anna." No converter can know that Paris and Anna are names. "yesterday
+      i left." becomes "Yesterday i left.", because the pronoun I is not a sentence start.
+    </p>
+    <ReferenceBlock type="key-idea" heading="Rules first, then a human pass">
+      <p>
+        A converter applies a rule. Names, the pronoun I, and abbreviations like "Dr." need a
+        person to read the result and fix them.
+      </p>
+    </ReferenceBlock>
   </section>
 
   <section id="common-mistakes">
