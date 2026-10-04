@@ -59,8 +59,8 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     <p>
       For each line the tool decomposes accented letters and removes the accent marks, lowercases the
       result, replaces every run of non-alphanumeric characters with one hyphen, and trims any
-      hyphens from the ends. "Crème Brûlée Recipe" becomes "creme-brulee-recipe". The accent step is
-      the same Unicode decomposition you can run on its own to <a href={guidePathBySlug('remove-accents')}>remove accents first</a>,
+      hyphens from the ends. "Crème Brûlée Recipe" becomes "creme-brulee-recipe". The accent step drops
+      the same combining marks you can strip on their own to <a href={guidePathBySlug('remove-accents')}>remove accents first</a>,
       keeping the original case and spacing.
     </p>
     <p>
