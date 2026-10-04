@@ -114,6 +114,53 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
     </p>
   </section>
 
+  <section id="worked-example">
+    <h2>How Does "Man" Become TWFu? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Take the three letters "Man". In ASCII they are the bytes 77, 97 and 110, or
+      <code>01001101 01100001 01101110</code> in binary. Base64 reads those 24 bits as four groups of
+      six: <code>010011 010110 000101 101110</code>.
+    </p>
+    <p>
+      Those groups are the numbers 19, 22, 5 and 46. In the Base64 alphabet, 19 is T, 22 is W, 5 is
+      F and 46 is u, so "Man" becomes <code>TWFu</code>. Two letters, "Ma", leave the last group
+      short, so the output is <code>TWE=</code> with one padding sign. One letter, "M", gives
+      <code>TQ==</code> with two.
+    </p>
+  </section>
+
+  <section id="why-bigger">
+    <h2>Why Is Base64 About 33% Bigger? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Every 3 bytes of input become 4 characters of output, so Base64 is 4/3 the size of the
+      original, about 33% larger. A 30 KB image becomes roughly 40 KB of text once you embed it as a
+      data URI, before the <code>data:image/png;base64,</code> prefix is even counted. Email adds a
+      little more, because MIME wraps Base64 into lines of 76 characters.
+    </p>
+    <p>
+      That cost is why data URIs suit small icons and not photos. This tool shows the expansion
+      ratio next to the output. Short inputs read higher because of padding, and the figure settles
+      near 1.33× as the input grows.
+    </p>
+  </section>
+
+  <section id="base64url">
+    <h2>What Is the Difference Between Base64 and Base64URL? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <p>
+      Base64URL is the same encoding with two characters swapped, so the output is safe inside a URL
+      or a filename:
+    </p>
+    <ul>
+      <li><strong>Characters 62 and 63:</strong> standard Base64 uses <code>+</code> and <code>/</code>; Base64URL uses <code>-</code> and <code>_</code>. The bytes FB FF encode as <code>+/8=</code> in one and <code>-_8=</code> in the other.</li>
+      <li><strong>Padding:</strong> standard Base64 keeps the <code>=</code> signs; Base64URL usually drops them, because <code>=</code> also has a meaning in query strings.</li>
+      <li><strong>Where you see it:</strong> standard Base64 in email attachments, data URIs and HTTP Basic auth; Base64URL in JWTs, OAuth tokens and signed URLs.</li>
+    </ul>
+    <p>
+      This tool encodes standard Base64. When you paste a Base64URL string to decode, it notices the
+      <code>-</code> or <code>_</code> and offers to decode it as Base64URL instead of failing.
+    </p>
+  </section>
+
   <section id="real-world-uses">
     <h2>Real-World Uses <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>Base64 appears constantly in modern software:</p>

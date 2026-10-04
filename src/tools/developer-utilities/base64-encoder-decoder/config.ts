@@ -24,8 +24,8 @@ export const config: ToolConfig = {
   guide: {
     slug: 'what-is-base64',
     categorySlug: 'developer-utilities',
-    title: 'What Is Base64?',
-    description: 'Understand how Base64 encoding works, why it exists, where it is used, and common mistakes developers make.',
+    title: 'What Is Base64 and Why Is It Bigger?',
+    description: 'Why Base64 output is about 33% larger, what the = padding means, and when JWTs and URLs need Base64URL instead of standard Base64.',
     readMinutes: 6,
-    updatedAt: '2026-06-02',
+    updatedAt: '2026-10-05',
   },};
