@@ -62,7 +62,7 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       rows that reporting tools and spreadsheet exports insert. Every remaining cell
       has leading and trailing whitespace stripped, so <code>" Paris "</code> becomes
       <code>Paris</code>. To clear <a href={guidePathBySlug('trim-text')}>trailing spaces in cells</a> without exporting a CSV,
-      Excel's TRIM or a one-line <code>trim()</code> does the same job. Trailing empty cells, the artifact of a stray comma at the end of a
+      Excel's TRIM (which also squeezes runs of spaces inside the cell) or a one-line <code>trim()</code> clears the edges the same way. Trailing empty cells, the artifact of a stray comma at the end of a
       line, are removed rather than kept as empty columns.
     </p>
     <p>
