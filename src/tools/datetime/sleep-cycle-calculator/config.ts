@@ -5,11 +5,11 @@ export const config: ToolConfig = {
   name: 'Sleep Cycle Calculator',
   seoTitle: 'Sleep Cycle Calculator: 90 Minute Bedtime',
   description:
-    'What time should you go to bed? Counts 90 minute sleep cycles and the minutes it takes to fall asleep.',
+    'What time should you go to bed? Bedtimes in 90 minute sleep cycles, plus the minutes it takes to fall asleep. Runs entirely on your device. Nothing is uploaded.',
   tagline: 'Bedtimes in 90 minute cycles, plus time to fall asleep.',
   categorySlug: 'date-time',
   tags: ['sleep calculator', 'bedtime calculator', '90 minute sleep cycles', 'wake time'],
-  updatedAt: '2026-10-02',
+  updatedAt: '2026-10-05',
   addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'datetime',
@@ -45,6 +45,6 @@ export const config: ToolConfig = {
     description:
       'How a 90 minute sleep cycle is counted, why the minutes to fall asleep sit outside the cycles, and how to read a bedtime or a wake time.',
     readMinutes: 6,
-    updatedAt: '2026-10-02',
+    updatedAt: '2026-10-05',
   },
 };

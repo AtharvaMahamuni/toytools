@@ -32,6 +32,7 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'color-format-converter', reason: 'Convert a passing color into the format your CSS needs', strength: 0.7 },
+    { slug: 'color-shades-generator', reason: 'Pick a darker stop from the same ramp when a pair fails', strength: 0.6 },
   ],
   alternatives: [
     { slug: 'color-format-converter', reason: 'When the goal is format conversion rather than contrast' },

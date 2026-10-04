@@ -11,7 +11,7 @@ export const items: FAQItem[] = [
     id: 'sleep-cycle-calculator-faq-2',
     question: 'Why does the list start 15 minutes before the first cycle?',
     answer:
-      'Those 15 minutes are time in bed before sleep starts. A cycle is sleep, not the gap between the pillow and sleep. If you count 90 minutes backward from the alarm and skip that gap, the alarm rings about 15 minutes into a cycle. Set the field to your own number. Zero is allowed, and the page then says the list assumes instant sleep.',
+      'Those 15 minutes are time in bed before sleep starts. A cycle is sleep, not the gap between the pillow and sleep. If you count 90 minutes backward from the alarm and skip that gap, sleep starts 15 minutes late, so the alarm rings about 15 minutes before the last cycle ends. Set the field to your own number. Zero is allowed, and the page then says the list assumes instant sleep.',
   },
   {
     id: 'sleep-cycle-calculator-faq-3',
@@ -35,13 +35,13 @@ export const items: FAQItem[] = [
     id: 'sleep-cycle-calculator-faq-6',
     question: 'What happens if I leave minutes to fall asleep at zero?',
     answer:
-      'The times shift earlier by whatever you removed, and a caution says the list assumes instant sleep. That is the failure a lights-out countdown makes: it treats getting into bed as the start of cycle one. Put back a realistic number, often around 15, and the caution goes away. The four clock times stay. Only the warning is conditional.',
+      'With "When I wake", every bedtime moves later by the minutes you removed. With "When I go to bed", every wake time moves earlier. Either way, a caution says the list assumes instant sleep. That is the mistake a lights-out countdown makes: it treats getting into bed as the start of cycle one. Put back a realistic number, often around 15, and the caution goes away.',
   },
   {
     id: 'sleep-cycle-calculator-faq-7',
     question: 'Does this sleep calculator upload my schedule?',
     answer:
-      'No. The wake time, the bedtime, and the cycle length are handled in the browser after the page loads. Nothing is uploaded, and there is no account. A work alarm can stay on the device. Once the page is open it keeps working offline, which is the same rule as the other date and time tools here.',
+      'No. The wake time, the bedtime, and the cycle length are handled in the browser after the page loads. There is no account, and a work alarm can stay on the device. Once the page is open, it keeps working offline, like the other date and time tools here. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'sleep-cycle-calculator-faq-8',

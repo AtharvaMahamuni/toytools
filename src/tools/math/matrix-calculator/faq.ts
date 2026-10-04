@@ -59,6 +59,6 @@ export const items: FAQItem[] = [
     id: 'matrix-calculator-faq-10',
     question: 'Does the matrix leave my device?',
     answer:
-      'No. The entries stay in the browser tab. There is no upload and no account. Runs entirely on your device. Nothing is uploaded. A chat can multiply a small matrix if you paste it, and this page is the place to change one entry and see the shape error or the first step update without sending the grid anywhere.',
+      'No. The entries stay in the browser tab. There is no upload and no account. A chat can multiply a small matrix if you paste it. This page lets you change one entry and watch the shape note or the first step update without sending the grid anywhere. Runs entirely on your device. Nothing is uploaded.',
   },
 ];

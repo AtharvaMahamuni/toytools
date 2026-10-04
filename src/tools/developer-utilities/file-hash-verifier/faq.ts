@@ -41,7 +41,7 @@ export const items: FAQItem[] = [
     id: 'file-hash-verifier-faq-7',
     question: 'Does this upload my file?',
     answer:
-      'No. The hash runs in the browser on the bytes you chose. There is no form post and no hash server. Closing the tab drops the file from memory. The line under the file control says the same thing: nothing is uploaded. A chat box cannot do this job, because sending the file to a model would be an upload. Keep the ISO here.',
+      'No. The hash runs in the browser on the bytes you chose. There is no form post and no hash server, and closing the tab drops the file from memory. Only the algorithm you picked is remembered, in this browser. The expected digest is not saved, so the next file is never judged against an old checksum. Sending the file to a chat model would be an upload. Runs entirely on your device. Nothing is uploaded.',
   },
   {
     id: 'file-hash-verifier-faq-8',

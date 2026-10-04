@@ -32,6 +32,7 @@ export const knowledge: Knowledge = {
   ],
   usedWith: [
     { slug: 'px-to-dp-converter', reason: 'Convert the same pixel values into Android dp and sp', strength: 0.6 },
+    { slug: 'type-scale-generator', reason: 'Generate every heading size from one base and a ratio', strength: 0.7 },
   ],
   alternatives: [
     { slug: 'px-to-dp-converter', reason: 'When the target is native mobile units, not CSS' },

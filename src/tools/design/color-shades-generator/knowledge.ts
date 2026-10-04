@@ -55,6 +55,7 @@ export const knowledge: Knowledge = {
   alternatives: [],
   nextSteps: [
     { slug: 'color-format-converter', reason: 'Read the same color as HEX, RGB, HSL, or OKLCH', strength: 0.7 },
+    { slug: 'type-scale-generator', reason: 'Set the font size ramp next to the color tokens', strength: 0.4 },
   ],
   workflowStage: ['transform'],
   keywords: [

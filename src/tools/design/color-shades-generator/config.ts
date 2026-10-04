@@ -9,7 +9,7 @@ export const config: ToolConfig = {
   tagline: 'A 50 to 950 OKLCH scale, copied as CSS variables.',
   categorySlug: 'design-tools',
   tags: ['color shades generator', 'tints and shades', 'tailwind color shades', 'oklch palette'],
-  updatedAt: '2026-10-02',
+  updatedAt: '2026-10-05',
   addedOn: '2026-10-02',
   trustVariant: 'private',
   engine: 'color',
@@ -44,6 +44,6 @@ export const config: ToolConfig = {
     description:
       'How a tint and shade scale holds hue in OKLCH, why chroma drops at the ends, and when the brand stop fails on white.',
     readMinutes: 6,
-    updatedAt: '2026-10-02',
+    updatedAt: '2026-10-05',
   },
 };

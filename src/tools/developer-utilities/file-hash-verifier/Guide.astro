@@ -3,7 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import ReferenceBlock from '@components/ReferenceBlock.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
-import { toolPathBySlug } from '@lib/tools/tool-link';
+import { guidePathBySlug, toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -30,7 +30,7 @@ const idHref = toolPathBySlug('hash-identifier');
   toolCategorySlug={config.categorySlug}
 >
   <section id="quick-answer">
-    <h2>How do you hash a file in the browser? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How does browser file hashing work? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Choose the file, leave SHA-256 selected, and read the hex under the file name.
       The page hashes the bytes you picked. It does not read the file as text.
@@ -54,7 +54,7 @@ const idHref = toolPathBySlug('hash-identifier');
   </section>
 
   <section id="sha256">
-    <h2>What is a SHA256 file checksum? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>What does a SHA256 checksum prove? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       A SHA256 file checksum is 64 hex characters computed from every byte in the file.
       Change one bit and the string changes all the way through. Two files with the
@@ -83,7 +83,7 @@ const idHref = toolPathBySlug('hash-identifier');
   </section>
 
   <section id="verify">
-    <h2>How do you verify a download checksum? <span class="gold-dot" aria-hidden="true"></span></h2>
+    <h2>How do you compare a download with its checksum? <span class="gold-dot" aria-hidden="true"></span></h2>
     <p>
       Copy the line from the download page into Expected digest, then choose the file
       you saved. The page compares its digest with the first hex token of that line.
@@ -195,14 +195,17 @@ const idHref = toolPathBySlug('hash-identifier');
       SHA-1 is 40 hex characters and is retired for signatures. Some old archives
       still publish it. Match the length, then decide whether you trust the
       publisher. SHA-512 is 128 hex characters. Use it when that is the printed
-      line. CRC32 is the 8-character checksum inside zip tools. It finds accidents.
+      line. The <a href={guidePathBySlug('sha512-hash-generator')}>SHA-512 guide</a> covers where
+      that 128-character digest is still published. CRC32 is the 8-character checksum inside zip tools. It finds accidents.
       It does not stand in for SHA-256.
     </p>
     <p>
       Unsure which line you copied? Open the <a href={idHref}>hash identifier</a>.
       It reads the length and names the algorithm. Then come back here, set that
       algorithm, and choose the file. The identifier does not hash the file.
-      This page does. The two jobs stay separate so neither one pretends.
+      This page does. The two jobs stay separate so neither one pretends. The
+      <a href={guidePathBySlug('hash-identifier')}>hash identifier guide</a> explains how each
+      digest length maps to an algorithm.
     </p>
   </section>
 
@@ -212,7 +215,7 @@ const idHref = toolPathBySlug('hash-identifier');
       No. The bytes stay in the tab that hashed them. There is no upload field
       that posts to a server, and there is no account. Closing the tab drops
       the file. The sentence under the file control is the whole privacy policy
-      for this tool: runs entirely on your device, nothing is uploaded.
+      for this tool: Runs entirely on your device. Nothing is uploaded.
     </p>
     <p>
       That is why a chat window is the wrong place for this job. A model cannot
@@ -235,9 +238,9 @@ const idHref = toolPathBySlug('hash-identifier');
     <p>
       Start at the left. The first run of hex is the digest. Anything after a
       space is a filename, a star, or a label. BSD shasum lines put the algorithm
-      in parentheses and the hex after the equals sign. This page takes the hex
-      after the last colon, then the first token of what remains. That covers
-      the shapes download pages actually ship.
+      in parentheses and the hex after the equals sign, so paste only the hex from those. This
+      page takes the hex after the last colon, then the first token of what remains, which
+      covers a bare digest, a sha256sum line, and an algo:hex label.
     </p>
     <p>
       Count characters only when the compare says the length is wrong. 8 is
@@ -254,15 +257,9 @@ const idHref = toolPathBySlug('hash-identifier');
       before you read the hex.
     </p>
     <p>
-      A sha256sum line is shaped as the digest, then spaces, then a filename. MD5 versus
-      SHA-256 for a download starts as 32 hex characters versus 64. CRC32 versus a
-      cryptographic hash is a bit-flip check beside a collision-resistant one. File checksums
-      are those published lines. You hash a file online in this tab, and the bytes stay here.
-      The job is to verify download checksum text against the saved bytes. An md5 file hash
-      browser case is the 32-character line. A checksum uploaded file would leave the machine,
-      and this page keeps the bytes local. Download verification is the Matches line. For
-      example, hash an empty file. Input: 0 bytes. Output:
-      e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 for SHA-256.
+      For example, hash an empty file. Input: 0 bytes. Output:
+      e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 for SHA-256. If your ISO
+      hashes to that value, the download never arrived.
     </p>
     <ReferenceBlock type="common-mistake" heading="Calling a short file a bad mirror">
       <p>

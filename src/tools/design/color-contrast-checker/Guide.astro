@@ -3,6 +3,7 @@ import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
 import { toolPath } from '@lib/paths';
 import { categories } from '@data/categories';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import type { EcosystemEntry } from '@data/types';
 
 interface Props {
@@ -66,7 +67,9 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       checker reports 4.54 to 1, which just passes AA for normal text but fails AAA. As another example,
       #999999 on white gives 2.85 to 1 and fails AA outright; press Suggest an accessible text color and
       it darkens to about #767676 to reach the 4.5 to 1 bar while keeping the same neutral hue. Pure
-      black on white is the maximum, 21 to 1.
+      black on white is the maximum, 21 to 1. If your brand color fails as text, build a
+      <a href={toolPathBySlug('color-shades-generator')}>50 to 950 shade scale</a> from it and test a
+      darker stop from the same hue.
     </p>
   </section>
 

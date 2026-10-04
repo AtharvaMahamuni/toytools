@@ -1,7 +1,8 @@
 ---
 import GuideLayout from '@layouts/GuideLayout.astro';
 import { config } from './config';
-import { toolPath } from '@lib/paths';
+import { guidePath, toolPath } from '@lib/paths';
+import { toolPathBySlug } from '@lib/tools/tool-link';
 import { categories } from '@data/categories';
 import type { EcosystemEntry } from '@data/types';
 
@@ -16,6 +17,8 @@ interface Props {
 const props = Astro.props;
 const category = categories.find((c) => c.slug === config.categorySlug)!;
 const toolHref = toolPath({ slug: config.slug, segment: category.segment });
+const triangleHref = toolPathBySlug('triangle-solver');
+const triangleGuideHref = guidePath({ categorySlug: 'applied-math', slug: 'triangle-solver' });
 ---
 
 <GuideLayout
@@ -70,6 +73,13 @@ const toolHref = toolPath({ slug: config.slug, segment: category.segment });
       Most school and exam questions are in degrees, so if a trig answer looks wrong, the first
       thing to check is the mode. Inverse functions such as asin return their answer in the unit
       you have selected.
+    </p>
+    <p>
+      To solve a whole triangle from three sides or angles, use the
+      <a href={triangleHref}>triangle solver</a>, which works in degrees and draws both answers
+      when two sides and an angle fit two triangles. The guide on
+      <a href={triangleGuideHref}>how to solve a triangle from three parts</a> walks through each
+      case.
     </p>
   </section>
 

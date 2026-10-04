@@ -37,7 +37,9 @@ export const knowledge: Knowledge = {
     { slug: 'md5-hash-generator', reason: 'Faster but broken for security' },
     { slug: 'sha1-hash-generator', reason: 'Deprecated predecessor' },
   ],
-  nextSteps: [],
+  nextSteps: [
+    { slug: 'file-hash-verifier', reason: 'Hash a downloaded file instead of typed text', strength: 0.6 },
+  ],
   workflowStage: ['transform', 'validate'],
   keywords: ['sha256', 'sha-256', 'sha256 hash', 'sha256 generator', 'checksum'],
   entityAliases: ['secure hash algorithm 256', 'sha2'],
