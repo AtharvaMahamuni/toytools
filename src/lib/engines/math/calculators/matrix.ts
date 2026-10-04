@@ -42,9 +42,16 @@ function maxAbs(m: Matrix): number {
 /**
  * One singularity test for determinant and inverse, relative to the size of the entries, so a
  * matrix scaled by 1e5 is judged the same as the unscaled one and diag(1e-9) is not called singular.
+ * `scale` is the largest entry of the pivot's own row as typed (a scaled pivot), so a row of small
+ * entries is not judged against a large row: diag(1e160, 1) and diag(1, 1e-15) are invertible,
+ * the same way diag(1e-9) is.
  */
 function isSingularPivot(pivot: number, n: number, scale: number): boolean {
   return Math.abs(pivot) <= n * Number.EPSILON * scale * 16;
+}
+
+function rowScales(m: Matrix): number[] {
+  return m.map((row) => row.reduce((max, v) => Math.max(max, Math.abs(v)), 0));
 }
 
 export function shapeOf(m: Matrix): string {
@@ -107,17 +114,19 @@ export function determinant(m: Matrix): number | string {
   const scale = maxAbs(m);
   if (scale === 0) return 0;
   const a = m.map((row) => row.slice());
+  const rows = rowScales(m);
   let det = 1;
   for (let col = 0; col < n; col++) {
     let pivot = col;
     for (let r = col + 1; r < n; r++) {
       if (Math.abs(a[r][col]) > Math.abs(a[pivot][col])) pivot = r;
     }
-    if (isSingularPivot(a[pivot][col], n, scale)) return 0;
+    if (isSingularPivot(a[pivot][col], n, rows[pivot])) return 0;
     if (pivot !== col) {
       const swap = a[col];
       a[col] = a[pivot];
       a[pivot] = swap;
+      [rows[col], rows[pivot]] = [rows[pivot], rows[col]];
       det = -det;
     }
     det *= a[col][col];
@@ -126,9 +135,12 @@ export function determinant(m: Matrix): number | string {
       for (let c = col; c < n; c++) a[r][c] -= factor * a[col][c];
     }
   }
-  // Snap to 0 only against the size a determinant of these entries could have, so diag(1e-9)
-  // keeps its 1e-18 instead of being tidied away.
-  return tidy(det, Math.pow(scale, n));
+  // Snap to 0 only against the size a determinant of these rows could have (the product of the
+  // row sizes), so diag(1e-9) keeps its 1e-18 and diag(1, 1e-15) keeps its 1e-15. That product
+  // overflows to Infinity for large entries ([[1e160, 0], [0, 1]]), and an infinite scale would
+  // tidy every determinant to 0, so the snap is skipped when it cannot be computed.
+  const s = rowScales(m).reduce((product, v) => product * v, 1);
+  return tidy(det, Number.isFinite(s) ? s : 0);
 }
 
 export function inverse(m: Matrix): Matrix | string {
@@ -137,7 +149,7 @@ export function inverse(m: Matrix): Matrix | string {
   // Inverse and Determinant must never disagree, so the determinant decides first.
   if (determinant(m) === 0) return SINGULAR;
   const n = m.length;
-  const scale = maxAbs(m);
+  const rows = rowScales(m);
   const a = m.map((row, i) => {
     const aug = row.slice();
     for (let j = 0; j < n; j++) aug.push(i === j ? 1 : 0);
@@ -148,11 +160,12 @@ export function inverse(m: Matrix): Matrix | string {
     for (let r = col + 1; r < n; r++) {
       if (Math.abs(a[r][col]) > Math.abs(a[pivot][col])) pivot = r;
     }
-    if (isSingularPivot(a[pivot][col], n, scale)) return SINGULAR;
+    if (isSingularPivot(a[pivot][col], n, rows[pivot])) return SINGULAR;
     if (pivot !== col) {
       const swap = a[col];
       a[col] = a[pivot];
       a[pivot] = swap;
+      [rows[col], rows[pivot]] = [rows[pivot], rows[col]];
     }
     const div = a[col][col];
     for (let c = 0; c < n * 2; c++) a[col][c] /= div;
@@ -162,9 +175,13 @@ export function inverse(m: Matrix): Matrix | string {
       for (let c = 0; c < n * 2; c++) a[r][c] -= factor * a[col][c];
     }
   }
+  // Tidy each entry against its own row of the inverse, so the 1e-160 in the inverse of
+  // diag(1e160, 1) is not snapped to 0 by the 1 in the other row.
   const inv = a.map((row) => row.slice(n));
-  const invScale = maxAbs(inv);
-  return inv.map((row) => row.map((v) => tidy(v, invScale)));
+  return inv.map((row) => {
+    const rowScale = row.reduce((max, v) => Math.max(max, Math.abs(v)), 0);
+    return row.map((v) => tidy(v, rowScale));
+  });
 }
 
 function sameShape(a: Matrix, b: Matrix, verb: string): string | null {
@@ -195,7 +212,14 @@ function firstStep(op: Op, a: Matrix, b: Matrix | null, result: Matrix | number)
   }
   if (op === 'transpose') return 'Row 1 of A becomes column 1 of the result.';
   if (op === 'determinant' && a.length === 2) {
-    return `${fmt(a[0][0])}×${fmt(a[1][1])} - ${fmt(a[0][1])}×${fmt(a[1][0])} = ${fmt(result as number)}.`;
+    const line = `${fmt(a[0][0])}×${fmt(a[1][1])} - ${fmt(a[0][1])}×${fmt(a[1][0])}`;
+    const raw = a[0][0] * a[1][1] - a[0][1] * a[1][0];
+    // The singularity test can call a rounding-sized ad - bc zero. Printing "= 0" then would be a
+    // false equation, so the step says what happened instead.
+    if (result === 0 && raw !== 0) {
+      return `${line} ≈ 0. That is rounding error for entries this size, so the matrix is treated as singular.`;
+    }
+    return `${line} = ${fmt(result as number)}.`;
   }
   if (op === 'determinant') return `Elimination on this ${shapeOf(a)} matrix gives ${fmt(result as number)}.`;
   return `Gauss-Jordan on the augmented matrix puts ${fmt((result as Matrix)[0][0])} in the top-left of the inverse.`;

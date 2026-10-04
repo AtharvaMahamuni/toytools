@@ -28,6 +28,33 @@ describe('matrix singularity', () => {
     expect(r.explanation).toContain('= 1e-18.');
   });
 
+  it('keeps a huge determinant when the size of its rows overflows (fix round 1)', () => {
+    // The product of the row sizes, 1e160 * 1, is fine here, but (max entry)^n = 1e320 is not:
+    // an Infinity snap scale used to tidy every determinant to 0 and refuse the inverse.
+    const m = [[1e160, 0], [0, 1]];
+    expect(determinant(m)).toBe(1e160);
+    expect(inverse(m)).toEqual([[1e-160, 0], [0, 1]]);
+    const big = [[1e110, 0, 0], [0, 1e110, 0], [0, 0, 1]];
+    expect(determinant(big)).toBe(1e220);
+    expect(Array.isArray(inverse(big))).toBe(true);
+  });
+
+  it('judges each pivot against its own row, so a scaled diagonal stays invertible', () => {
+    // diag(1, 1e-15) is diag(1e15, 1) divided by 1e15. Both are invertible.
+    expect(determinant([[1, 0], [0, 1e-15]])).toBe(1e-15);
+    expect(inverse([[1, 0], [0, 1e-15]])).toEqual([[1, 0], [0, 1e15]]);
+    expect(determinant([[1e15, 0], [0, 1]])).toBe(1e15);
+  });
+
+  it('prints a true step when rounding-sized ad - bc is treated as singular', () => {
+    const r = runMath('matrix', { operation: 'determinant', a: '1 2\n2 4.000000000000001' });
+    expect(r.ok).toBe(true);
+    expect(r.hero?.value).toBe('0');
+    expect(r.explanation).not.toContain('= 0.');
+    expect(r.explanation).toContain('≈ 0');
+    expect(r.explanation).toContain('treated as singular');
+  });
+
   it('agrees on an ordinary invertible matrix', () => {
     expect(determinant([[1, 2], [3, 4]])).toBe(-2);
     expect(inverse([[1, 2], [3, 4]])).toEqual([[-2, 1], [1.5, -0.5]]);
