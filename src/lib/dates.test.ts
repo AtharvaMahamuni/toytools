@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { formatMonthYear, isIsoDate } from './dates';
+import { readFileSync } from 'node:fs';
+import { formatMonthYear, indiaDay, isIsoDate } from './dates';
 
 // These two functions carry the guide date contract: isIsoDate is what validate-registry fails the
 // build on, and formatMonthYear is what a visitor reads. They shipped without tests, which is how a
@@ -63,5 +64,33 @@ describe('formatMonthYear', () => {
   it('does not invent a month for an out-of-range number', () => {
     expect(formatMonthYear('2026-13-01')).toBe('2026-13-01');
     expect(formatMonthYear('2026-00-01')).toBe('2026-00-01');
+  });
+});
+
+describe('indiaDay', () => {
+  it('rolls over at 05:30 IST, which is 00:00 IST, not at UTC midnight', () => {
+    expect(indiaDay(new Date('2026-10-04T18:29:59.999Z'))).toBe('2026-10-04'); // 23:59:59 IST
+    expect(indiaDay(new Date('2026-10-04T18:30:00.000Z'))).toBe('2026-10-05'); // 00:00 IST
+  });
+
+  it('is already the next day while UTC is still on the previous one (00:00 to 05:30 IST)', () => {
+    const early = new Date('2026-10-04T23:59:00Z'); // 05:29 IST on Oct 5
+    expect(early.toISOString().slice(0, 10)).toBe('2026-10-04');
+    expect(indiaDay(early)).toBe('2026-10-05');
+  });
+
+  it('crosses month and year ends on the India day', () => {
+    expect(indiaDay(new Date('2026-12-31T18:30:00Z'))).toBe('2027-01-01');
+    expect(indiaDay(new Date('2026-02-28T18:45:00Z'))).toBe('2026-03-01');
+  });
+
+  it('always returns a stored-contract ISO date', () => {
+    expect(isIsoDate(indiaDay())).toBe(true);
+  });
+
+  it('is what the add-tool scaffold dates new tools and guides with', () => {
+    const src = readFileSync(new URL('../../scripts/scaffold-tool.ts', import.meta.url), 'utf8');
+    expect(src).toMatch(/const today = indiaDay\(\);/);
+    expect(src).not.toMatch(/toISOString\(\)\.slice\(0, 10\)/);
   });
 });
